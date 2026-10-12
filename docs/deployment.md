@@ -22,7 +22,7 @@ Docker 的 `scratch-builder` 只接收 Scratch 子包与依赖输入；主站调
 
 ## 切换与恢复
 
-部署先拉取精确镜像，再备份并安装候选 Compose、Nginx 配置及启用链接；Nginx 语法通过后启动主站和后台 worker，等待健康检查，最后 reload Nginx。全部成功后将版本写入 `/opt/steam-app/.env` 的 `STEAM_APP_IMAGE`，保留其他配置，普通 `docker compose up -d` 会继续使用这个版本。
+部署先拉取精确镜像，用生产运行配置启动不发布端口、不运行 worker 的候选容器，检查 `/api/health` 后移除候选容器。此步骤只检查进程启动，不验证真实用户计费、ASR 或数据库业务。随后备份并安装候选 Compose、Nginx 配置及启用链接；Nginx 语法通过、下述受限数据库迁移成功后，启动主站和后台 worker，等待健康检查，最后 reload Nginx。全部成功后将版本写入 `/opt/steam-app/.env` 的 `STEAM_APP_IMAGE`，保留其他配置，普通 `docker compose up -d` 会继续使用这个版本。
 
 配置安装/校验、健康检查或 Nginx reload 失败时，脚本恢复原配置；若已尝试切换容器，再用部署前运行容器的本地镜像和原 Compose 恢复两个服务，并让 Actions 标记失败。镜像拉取失败不会改动线上配置。若配置恢复失败，日志会打印保留的备份目录，需先恢复配置；若容器恢复失败，需查看服务器容器日志。发布不自动清理镜像，以保留恢复所需的层；后续按磁盘使用情况清理更早的版本。
 
@@ -46,3 +46,26 @@ docker inspect --format '{{.Config.Image}}' steam-app
 仅修改独立 `ops-*` 工作流或手机号运维脚本不再触发镜像构建；混合应用变更、Release 配置变更、标签和手动发布仍构建。
 
 手机号运维任务可选择 `legacy` 或 `supabase`，只重建主站并保持其实际运行镜像；失败恢复原 `.env.production` 和服务，恢复失败保留备份路径。选择 Supabase 需确认真实短信、老账号登录与新注册验收已通过；任务的健康检查只证明容器运行，不验证短信送达。
+
+## 本次计费迁移与发布顺序
+
+2026-10-12 的 #62 / #63 / #65 / #66 通过一个整合 PR 发布，#57 模型开发稿不在范围内。Release 的 `MIGRATION_ALLOWLIST` 只批准以下三个文件，顺序由文件名确定：
+
+1. `20261012160000_tutor_total_usage_billing.sql`
+2. `20261012170000_ai_credit_grants.sql`
+3. `20261012171000_tutor_daily_credit_billing.sql`
+
+部署包保留完整 `supabase/migrations/`，不能只放这三条来隐藏其他待执行迁移。`scripts/db-push.mjs push --only=...` 先用 SELECT 检查现有追踪表与全部本地迁移状态；追踪表缺失、名单无效或存在名单外待执行迁移时，在数据库写入前失败。它不会自动 baseline。已经执行的批准迁移会跳过；本次仍需执行的 SQL 与对应追踪记录在同一个事务提交。事务失败则整批回滚，并阻止新镜像切换。后续包含新迁移的发布必须审查并更新允许名单，不能取消范围检查来放行。
+
+人工操作继续使用项目规定的命令：
+
+```sh
+pnpm db:push -- --only=20261012160000_tutor_total_usage_billing.sql,20261012170000_ai_credit_grants.sql,20261012171000_tutor_daily_credit_billing.sql --dry-run
+pnpm db:push -- --only=20261012160000_tutor_total_usage_billing.sql,20261012170000_ai_credit_grants.sql,20261012171000_tutor_daily_credit_billing.sql
+```
+
+限定模式的 `--dry-run` 是只读检查；未指定 `--only` 的旧 `status` / `push --dry-run` 仍会尝试初始化追踪表。生产精简镜像没有包管理器，Release 直接用同一镜像的 Node 执行 `pnpm db:push` 对应的自定义脚本，不下载依赖，不使用官方 Supabase CLI，不新增凭据。Supabase 环境由服务器现有 `.env.production` 提供；候选与迁移均使用 `docker compose run --no-deps`，固定生产项目目录，保留与正式服务相同的引号和变量插值语义。脚本和全部 SQL 以只读目录挂载。
+
+三条迁移不补发测试会员的历史额度，也不覆盖历史钱包。旧输出计费凭证可以收尾结算，但迁移完成后旧应用不能新建旧计费请求。因此迁移提交到新应用切换之间，小迪新请求可能短暂失败。若迁移已经提交、之后应用切换失败，部署会恢复旧镜像和配置并标记失败，但不会反向修改计费账本；旧镜像恢复不代表小迪业务恢复。应修复失败原因并重新发布兼容这三个迁移的镜像，不能将迁移标记伪装为未执行或直接删减用户账本。
+
+候选容器预检默认最多 20 次、间隔 2 秒，每次 HTTP 请求最多 4 秒；`PREFLIGHT_ATTEMPTS` / `PREFLIGHT_INTERVAL_SECONDS` 可调整。预检或 Nginx 校验失败不会执行迁移。原有服务器发布锁覆盖预检、迁移和正式切换。

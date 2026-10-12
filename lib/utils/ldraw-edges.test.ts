@@ -6,15 +6,28 @@ import { createLdrawEdgeRenderer, ldrawEdgeColor } from './ldraw-edges'
 describe('render-only LDraw edges', () => {
   it.each([
     ['0', '#1b2a34'], ['8', '#545955'], ['72', '#646464'], ['308', '#352100'],
-  ])('gives near-black colour %s a 50%% lightened face tint', (code, color) => {
+  ])('keeps dark colour %s edges in the display-gray band', (code, color) => {
     const face = new Color(color)
     const before = face.clone()
-    const edge = new Color(ldrawEdgeColor(face, undefined, code)).convertLinearToSRGB()
-    const display = face.clone().convertLinearToSRGB()
-    for (const channel of ['r', 'g', 'b'] as const) {
-      expect(edge[channel]).toBeCloseTo((display[channel] + 1) / 2, 2)
-    }
+    expect(ldrawEdgeColor(face, undefined, code)).toBe('#808080')
     expect(face).toEqual(before)
+    const faceMaterial = new MeshStandardMaterial({ color })
+    const source = new LineBasicMaterial({ color: '#333333' })
+    source.userData.code = code
+    const root = new Group()
+    const conditional = new LineSegments(new BoxGeometry(), new LDrawConditionalLineMaterial())
+    conditional.material.userData.code = code
+    Object.assign(conditional, { isConditionalLine: true })
+    root.add(new LineSegments(new BoxGeometry(), source), conditional)
+    const renderer = createLdrawEdgeRenderer(() => faceMaterial)
+    renderer.prepare(root)
+    for (const line of root.children as LineSegments[]) {
+      const material = line.material as LineBasicMaterial
+      expect(material.color.getHexString()).toBe('808080')
+      expect(material.toneMapped).toBe(false)
+    }
+    expect(faceMaterial.color).toEqual(before)
+    renderer.dispose()
   })
   it('uses the linear luminance threshold for unlisted colours', () => {
     expect(ldrawEdgeColor(new Color(0.059, 0.059, 0.059), new Color('#123456'))).not.toBe('#123456')
@@ -61,8 +74,8 @@ describe('render-only LDraw edges', () => {
     expect(lines.map((line) => line.material)).toContain(source)
     expect(conditional.material).toBe(source)
     const brickEdge = lines.find((line) => line.material !== source)!.material as LineBasicMaterial
-    expect(brickEdge.color.getHexString()).toBe(ldrawEdgeColor(face.color).slice(1))
-    expect(brickEdge.opacity).toBe(0.7)
+    expect(brickEdge.color.getHexString()).toBe(ldrawEdgeColor(face.color, undefined, '0').slice(1))
+    expect(brickEdge.opacity).toBe(1)
     renderer.dispose()
   })
   it.each([[160, false], [180, true]])('applies the >64-stud footprint rule to unlisted plates of width %s', (width, native) => {

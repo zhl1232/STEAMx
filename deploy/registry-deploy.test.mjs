@@ -37,6 +37,11 @@ if [[ "$1" == tag ]]; then
   printf 'TAG %s\\n' "$*" >> "$FAKE_LOG"
   exit 0
 fi
+if [[ "$1" == exec ]]; then
+  [[ "\${FAKE_PREFLIGHT_HEALTH_FAIL-}" != 1 ]]
+  exit $?
+fi
+if [[ "$1" == rm ]]; then exit 0; fi
 if [[ "$1" == compose ]]; then
   env_file=''
   args="$*"
@@ -48,6 +53,15 @@ if [[ "$1" == compose ]]; then
     { printf 'ENV_FILE_BEGIN\\n'; cat "$env_file"; printf 'ENV_FILE_END\\n'; } >> "$FAKE_LOG"
   fi
   if [[ -n "\${FAKE_COMPOSE_PATH-}" ]]; then printf 'COMPOSE_CONTENT_BEGIN\\n'; cat "$FAKE_COMPOSE_PATH"; printf 'COMPOSE_CONTENT_END\\n'; fi >> "$FAKE_LOG"
+  if [[ "$args" == *' run '* ]]; then
+    if [[ "$args" == *'scripts/db-push.mjs push --only='* ]]; then
+      [[ "\${FAKE_MIGRATION_FAIL-}" != 1 ]]
+      exit $?
+    fi
+    [[ "\${FAKE_PREFLIGHT_START_FAIL-}" != 1 ]] || exit 1
+    printf 'candidate-container\\n'
+    exit 0
+  fi
   count_file="$FAKE_COUNT"
   count=0
   [[ -f "$count_file" ]] && count=$(<"$count_file")
@@ -105,6 +119,22 @@ function run(env) {
 
 async function text(file) {
   try { return await readFile(file, 'utf8') } catch { return '' }
+}
+
+async function migrationCandidate(fixture) {
+  const dir = path.join(fixture.root, 'migration-bundle')
+  const { mkdir } = await import('node:fs/promises')
+  await mkdir(path.join(dir, 'scripts'), { recursive: true })
+  await mkdir(path.join(dir, 'supabase', 'migrations'), { recursive: true })
+  await writeFile(path.join(dir, 'scripts', 'db-push.mjs'), '// mock runner\n')
+  await writeFile(path.join(fixture.app, '.env.production'), 'SUPABASE_SERVICE_ROLE_KEY=test-only\n')
+  Object.assign(fixture.env, {
+    CANDIDATE_MIGRATION_DIR: dir,
+    MIGRATION_ALLOWLIST: '20261012160000_tutor_total_usage_billing.sql,20261012170000_ai_credit_grants.sql,20261012171000_tutor_daily_credit_billing.sql',
+    PREFLIGHT_ATTEMPTS: '2',
+    PREFLIGHT_INTERVAL_SECONDS: '0',
+  })
+  return dir
 }
 
 async function configCandidates(fixture) {
@@ -357,4 +387,93 @@ test('a held server deployment lock rejects release before pulling or changing c
   assert.match(result.stderr, /Another deployment is active/)
   assert.equal(await text(fixture.log), '')
   assert.equal(await text(path.join(fixture.app, '.env')), 'STEAM_APP_IMAGE=old\n')
+})
+
+test('scoped release checks the candidate, migrates, then switches using the same digest', async (t) => {
+  const fixture = await setup({ envFile: 'STEAM_APP_IMAGE=old\n' })
+  t.after(fixture.cleanup)
+  const bundle = await migrationCandidate(fixture)
+  const result = run(fixture.env)
+  assert.equal(result.status, 0, result.stderr)
+  const log = await text(fixture.log)
+  const healthAt = log.indexOf('ARGS=exec steam-release-check-')
+  const migrateAt = log.indexOf('scripts/db-push.mjs push --only=')
+  const switchAt = log.indexOf('ARGS=compose --env-file ')
+  assert.ok(healthAt >= 0 && healthAt < migrateAt && migrateAt < switchAt, log)
+  const runs = log.split('\n').filter(line => line.includes('ARGS=compose ') && line.includes(' run '))
+  assert.equal(runs.length, 2)
+  assert.ok(runs.every(line => line.includes('--project-directory ') && line.includes('--no-deps --pull never')))
+  const selectedImages = log.match(/STEAM_APP_IMAGE=ghcr.io\/acme\/steam@sha256:new/g)
+  assert.equal(selectedImages?.length, 3)
+  assert.ok(runs[1].includes(`--volume ${bundle}:/migration:ro`))
+  assert.ok(runs[1].includes(fixture.env.MIGRATION_ALLOWLIST))
+  assert.doesNotMatch(runs[0], /(?:--publish|--service-ports|\s-p\s)/)
+  assert.doesNotMatch(log, /test-only|secret-token/)
+  assert.match(log, /ARGS=rm -f steam-release-check-/)
+})
+
+test('scoped migration failure restores candidate config and never switches the app', async (t) => {
+  const fixture = await setup({ envFile: 'STEAM_APP_IMAGE=old\n', env: { FAKE_MIGRATION_FAIL: '1' } })
+  t.after(fixture.cleanup)
+  await migrationCandidate(fixture)
+  const configs = await configCandidates(fixture)
+  const result = run(fixture.env)
+  assert.notEqual(result.status, 0)
+  assert.equal(await text(path.join(fixture.app, '.env')), 'STEAM_APP_IMAGE=old\n')
+  assert.equal(await text(path.join(fixture.app, 'docker-compose.yml')), 'old-compose\n')
+  assert.equal(await text(configs.nginxPath), 'old-nginx\n')
+  assert.doesNotMatch(await text(fixture.log), /ARGS=compose --env-file /)
+  assert.doesNotMatch(result.stderr, /Database migration phase completed/)
+})
+
+test('candidate startup health failure performs no migration or config switch', async (t) => {
+  const fixture = await setup({ envFile: 'STEAM_APP_IMAGE=old\n', env: { FAKE_PREFLIGHT_HEALTH_FAIL: '1' } })
+  t.after(fixture.cleanup)
+  await migrationCandidate(fixture)
+  const configs = await configCandidates(fixture)
+  const result = run(fixture.env)
+  assert.notEqual(result.status, 0)
+  assert.match(result.stderr, /Candidate application startup check failed/)
+  assert.equal(await text(configs.nginxPath), 'old-nginx\n')
+  const log = await text(fixture.log)
+  assert.doesNotMatch(log, /scripts\/db-push|ARGS=compose --env-file /)
+  assert.match(log, /ARGS=rm -f steam-release-check-/)
+})
+
+test('scoped release rejects a missing allowlist before pulling or changing configuration', async (t) => {
+  const fixture = await setup({ envFile: 'STEAM_APP_IMAGE=old\n' })
+  t.after(fixture.cleanup)
+  await migrationCandidate(fixture)
+  delete fixture.env.MIGRATION_ALLOWLIST
+  const result = run(fixture.env)
+  assert.notEqual(result.status, 0)
+  assert.match(result.stderr, /explicit allowlist/)
+  assert.doesNotMatch(await text(fixture.log), /ARGS=pull|scripts\/db-push|ARGS=compose --env-file /)
+  assert.equal(await text(path.join(fixture.app, '.env')), 'STEAM_APP_IMAGE=old\n')
+})
+
+test('invalid candidate nginx prevents scoped database changes', async (t) => {
+  const fixture = await setup({ env: { FAKE_NGINX_FAIL: '1' } })
+  t.after(fixture.cleanup)
+  await migrationCandidate(fixture)
+  const configs = await configCandidates(fixture)
+  const result = run(fixture.env)
+  assert.notEqual(result.status, 0)
+  assert.equal(await text(configs.nginxPath), 'old-nginx\n')
+  assert.doesNotMatch(await text(fixture.log), /scripts\/db-push/)
+})
+
+test('a switch failure after migration restores the image and reports the schema boundary', async (t) => {
+  const fixture = await setup({
+    envFile: 'STEAM_APP_IMAGE=old\n',
+    env: { FAKE_RUNNING_IMAGE_ID: 'sha256:old', FAKE_COMPOSE_FAIL_AT: '1' },
+  })
+  t.after(fixture.cleanup)
+  await migrationCandidate(fixture)
+  const result = run(fixture.env)
+  assert.notEqual(result.status, 0)
+  assert.match(await text(path.join(fixture.app, '.env')), /STEAM_APP_IMAGE=steam-app:rollback/)
+  assert.match(result.stderr, /Database migration phase completed/)
+  assert.match(result.stderr, /older Tutor callers may reject new requests/)
+  assert.equal((await text(fixture.log)).match(/scripts\/db-push.mjs push --only=/g)?.length, 1)
 })

@@ -27,10 +27,17 @@ rollback_env="$(mktemp "${image_env_file}.rollback.XXXXXX")"
 backup_dir="$(mktemp -d)"
 candidate_compose="${CANDIDATE_COMPOSE_FILE:-}"
 candidate_nginx="${CANDIDATE_NGINX_FILE:-}"
+candidate_migrations="${CANDIDATE_MIGRATION_DIR:-}"
+migration_allowlist="${MIGRATION_ALLOWLIST:-}"
+preflight_container=""
+migration_phase_completed=0
 nginx_site_path="${NGINX_SITE_PATH:-/etc/nginx/sites-available/steam-app}"
 nginx_site_enabled_path="${NGINX_SITE_ENABLED_PATH:-/etc/nginx/sites-enabled/steam-app}"
 config_changed=0
 cleanup() {
+  if [ -n "$preflight_container" ]; then
+    docker rm -f "$preflight_container" >/dev/null 2>&1 || true
+  fi
   rm -rf "$login_config" "$candidate_env" "$rollback_env"
   if [ "$config_changed" -eq 0 ]; then rm -rf "$backup_dir"; fi
 }
@@ -41,6 +48,9 @@ on_exit() {
       echo "Configuration restore failed; backups retained at $backup_dir" >&2
     fi
   fi
+  if [ "$status" -ne 0 ] && [ "$migration_phase_completed" -eq 1 ]; then
+    echo 'Database migration phase completed. Restoring an older image does not undo the credit schema: older Tutor callers may reject new requests. Fix and redeploy a compatible image; do not baseline or reverse the credit ledger.' >&2
+  fi
   cleanup
   return "$status"
 }
@@ -49,6 +59,16 @@ export DOCKER_CONFIG="$login_config"
 unset STEAM_APP_IMAGE # The selected env file must win over an inherited override.
 
 cd "$app_dir"
+
+if [ -n "$candidate_migrations$migration_allowlist" ]; then
+  if [ -z "$candidate_migrations" ] || [ -z "$migration_allowlist" ] ||
+     [ ! -f "$candidate_migrations/scripts/db-push.mjs" ] ||
+     [ ! -d "$candidate_migrations/supabase/migrations" ] ||
+     [ ! -f "$app_dir/.env.production" ]; then
+    echo 'Scoped migration bundle, explicit allowlist, and runtime environment are required together.' >&2
+    exit 1
+  fi
+fi
 
 compose_help="$(docker compose up --help 2>&1)"
 if ! grep -q -- '--wait' <<<"$compose_help" || ! grep -q -- '--wait-timeout' <<<"$compose_help"; then
@@ -74,6 +94,7 @@ if [ "$pulled" -ne 1 ]; then
   exit 1
 fi
 
+
 # Compose's implicit .env is also used for interpolation. Copy it into the
 # candidate env file so --env-file preserves the existing interpolation settings.
 if [ -f .env ]; then
@@ -82,6 +103,38 @@ else
   : >"$candidate_env"
 fi
 printf 'STEAM_APP_IMAGE=%s\n' "$image_ref" >>"$candidate_env"
+
+if [ -n "$candidate_migrations" ]; then
+  # Start only the candidate application, without a published port or workers.
+  # This checks process startup before any schema/configuration changes, not a
+  # real user's billing or voice experience.
+  preflight_attempts="${PREFLIGHT_ATTEMPTS:-20}"
+  preflight_interval="${PREFLIGHT_INTERVAL_SECONDS:-2}"
+  [[ "$preflight_attempts" =~ ^[1-9][0-9]*$ ]] && [[ "$preflight_interval" =~ ^[0-9]+$ ]] || {
+    echo 'Preflight attempts must be positive and interval must be nonnegative.' >&2
+    exit 1
+  }
+  preflight_container="steam-release-check-$(basename "$backup_dir")"
+  docker compose --project-directory "$app_dir" --env-file "$candidate_env" \
+    -f "${candidate_compose:-$compose_file}" run --detach --no-deps --pull never \
+    --name "$preflight_container" --env NODE_OPTIONS=--max-old-space-size=384 \
+    steam-app >/dev/null
+  preflight_healthy=0
+  for ((attempt=1; attempt<=preflight_attempts; attempt++)); do
+    if docker exec "$preflight_container" node -e \
+      "fetch('http://127.0.0.1:3000/api/health', {signal: AbortSignal.timeout(4000)}).then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))" >/dev/null 2>&1; then
+      preflight_healthy=1
+      break
+    fi
+    if [ "$attempt" -lt "$preflight_attempts" ]; then sleep "$preflight_interval"; fi
+  done
+  docker rm -f "$preflight_container" >/dev/null
+  preflight_container=""
+  if [ "$preflight_healthy" -ne 1 ]; then
+    echo 'Candidate application startup check failed; database and running service were not changed.' >&2
+    exit 1
+  fi
+fi
 
 previous_image=""
 if previous_image_id="$(docker inspect -f '{{if .State.Running}}{{.Image}}{{end}}' steam-app 2>/dev/null)" && [ -n "$previous_image_id" ]; then
@@ -190,6 +243,18 @@ if [ -n "$candidate_compose$candidate_nginx" ]; then
     echo 'Deployment failed; nginx configuration validation failed.' >&2
     exit 1
   fi
+fi
+
+if [ -n "$candidate_migrations" ]; then
+  echo 'Applying the approved credit migrations atomically before switching the application.'
+  # Execute the same custom runner used by pnpm db:push. The production image
+  # supplies Node; no package manager, extra credentials, or dependency download
+  # is needed on the server. Never use the official Supabase CLI here.
+  docker compose --project-directory "$app_dir" --env-file "$candidate_env" \
+    -f "$compose_file" run --rm --no-deps --pull never \
+    --volume "$candidate_migrations:/migration:ro" --workdir /migration \
+    --entrypoint node steam-app scripts/db-push.mjs push "--only=$migration_allowlist"
+  migration_phase_completed=1
 fi
 
 if compose "$candidate_env" up -d --force-recreate --no-build --pull never --wait --wait-timeout "$wait_timeout"; then

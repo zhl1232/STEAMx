@@ -37,7 +37,7 @@ export function CourseLessonCatalog({
   lessons: LessonCatalogItem[];
   /** 未登录用户没有完成态，只显示「全部 / 有 3D 分步」 */
   showProgressFilters: boolean;
-  /** 大颗粒积木目录在桌面使用成品图卡，其它大目录保留紧凑列表。 */
+  /** 大颗粒积木目录使用成品图卡，手机两列；其它大目录保留紧凑列表。 */
   desktopCards?: boolean;
   groupByStage?: boolean;
 }) {
@@ -55,7 +55,7 @@ export function CourseLessonCatalog({
     () => groupByStage ? groupLessonCatalogByStage(visible) : groupLessonCatalog(visible),
     [visible, groupByStage],
   );
-  const desktopItems = useMemo(() => groups.flatMap((group) => group.items), [groups]);
+  const cardItems = useMemo(() => groups.flatMap((group) => group.items), [groups]);
   const initials = useMemo(() => groupByStage ? groups.map((group) => group.initial) : collectLessonInitials(visible), [visible, groups, groupByStage]);
 
   const options = (
@@ -145,15 +145,15 @@ export function CourseLessonCatalog({
       ) : (
         <div className="mt-4 flex gap-4">
           {desktopCards ? (
-            <ul className="hidden min-w-0 flex-1 grid-cols-2 gap-3 lg:grid xl:grid-cols-3 2xl:grid-cols-4">
-              {desktopItems.map((lesson, index) => {
-                const previous = desktopItems[index - 1];
+            <ul className="grid min-w-0 flex-1 grid-cols-2 gap-2.5 sm:gap-3 xl:grid-cols-3 2xl:grid-cols-4">
+              {cardItems.map((lesson, index) => {
+                const previous = cardItems[index - 1];
                 const startsGroup = !previous || previous.initial !== lesson.initial;
                 return (
                   <li
                     key={lesson.id}
                     id={startsGroup ? `${letterAnchorId(courseId, lesson.initial)}-desktop` : undefined}
-                    className={startsGroup ? "scroll-mt-24" : undefined}
+                    className={cn("min-w-0", startsGroup && "scroll-mt-24")}
                   >
                     {startsGroup ? <h3 className="sr-only">{lesson.initial}</h3> : null}
                     <LessonCard courseId={courseId} lesson={lesson} />
@@ -161,31 +161,32 @@ export function CourseLessonCatalog({
                 );
               })}
             </ul>
-          ) : null}
-          <div className={cn("min-w-0 flex-1 space-y-5", desktopCards && "lg:hidden")}>
-            {groups.map((group) => (
-              <section
-                key={group.initial}
-                id={letterAnchorId(courseId, group.initial)}
-                className="scroll-mt-20"
-                aria-labelledby={`${letterAnchorId(courseId, group.initial)}-heading`}
-              >
-                <h3
-                  id={`${letterAnchorId(courseId, group.initial)}-heading`}
-                  className="mb-2 text-xs font-black uppercase tracking-widest text-muted-foreground"
+          ) : (
+            <div className="min-w-0 flex-1 space-y-5">
+              {groups.map((group) => (
+                <section
+                  key={group.initial}
+                  id={letterAnchorId(courseId, group.initial)}
+                  className="scroll-mt-20"
+                  aria-labelledby={`${letterAnchorId(courseId, group.initial)}-heading`}
                 >
-                  {groupByStage ? `第 ${group.initial} 阶段 · ${group.items[0]?.stageTitle ?? "学习与创作"}` : group.initial}
-                </h3>
-                <ul className="space-y-2">
-                  {group.items.map((lesson) => (
-                    <li key={lesson.id}>
-                      <LessonRow courseId={courseId} lesson={lesson} />
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            ))}
-          </div>
+                  <h3
+                    id={`${letterAnchorId(courseId, group.initial)}-heading`}
+                    className="mb-2 text-xs font-black uppercase tracking-widest text-muted-foreground"
+                  >
+                    {groupByStage ? `第 ${group.initial} 阶段 · ${group.items[0]?.stageTitle ?? "学习与创作"}` : group.initial}
+                  </h3>
+                  <ul className="space-y-2">
+                    {group.items.map((lesson) => (
+                      <li key={lesson.id}>
+                        <LessonRow courseId={courseId} lesson={lesson} />
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ))}
+            </div>
+          )}
 
           <nav
             aria-label={groupByStage ? "按学习阶段跳转" : "按名称首字母跳转"}
@@ -252,7 +253,7 @@ function LessonCard({ courseId, lesson }: { courseId: number; lesson: LessonCata
       prefetch={false}
       className="surface-card surface-card-interactive group flex h-full min-w-0 flex-col overflow-hidden rounded-xl transition-all hover:border-[hsl(var(--brand-blue)/0.4)] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue)/0.45)]"
     >
-      <div className={cn("relative w-full overflow-hidden bg-[hsl(var(--surface-muted))]", hasImage ? "aspect-[4/3]" : "min-h-14")}>
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[hsl(var(--surface-muted))]">
         {hasImage ? (
           <OptimizedImage
             src={lesson.finishedImageUrl as string}
@@ -264,21 +265,21 @@ function LessonCard({ courseId, lesson }: { courseId: number; lesson: LessonCata
             onError={() => setImageFailed(true)}
           />
         ) : (
-          <div className="grid min-h-14 place-items-center px-5 py-3 text-center text-sm font-semibold text-muted-foreground">
+          <div className="absolute inset-0 grid place-items-center px-3 py-3 text-center text-xs font-semibold text-muted-foreground sm:text-sm">
             {imageFailed ? "图片暂时无法显示" : "暂无成品图"}
           </div>
         )}
       </div>
-      <div className="flex min-w-0 flex-1 flex-col gap-2 p-3.5">
+      <div className="flex min-w-0 flex-1 flex-col gap-2 p-2.5 sm:p-3.5">
         <div className="flex min-w-0 items-start justify-between gap-2">
-          <h4 className="min-w-0 break-words text-[15px] font-bold leading-snug text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))]">
+          <h4 className="min-w-0 break-words text-sm font-bold leading-snug text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))] sm:text-[15px]">
             {lesson.title}
           </h4>
           {lesson.isCompleted ? (
             <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[hsl(var(--status-success))]" aria-label="已完成" />
           ) : null}
         </div>
-        <div className="mt-auto flex min-h-5 flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+        <div className="mt-auto flex min-h-5 flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground sm:text-xs">
           {lesson.durationMinutes ? (
             <span className="inline-flex items-center gap-1 tabular-nums">
               <Clock className="h-3 w-3" aria-hidden />

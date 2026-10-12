@@ -30,6 +30,8 @@ import {
   type ScratchBlockHintItem,
 } from '@/lib/courses/scratch-hints'
 import type { ScratchEditorContext } from '@/lib/courses/scratch-messages'
+import { buildBuildingLessonDisplaySteps } from '@/lib/courses/building-lesson-flow'
+import { getLessonTypeDefinition } from '@/lib/courses/lesson-types'
 import {
   filterScratchBlockItemsByExistingBlocks,
   getSelectedScratchBlockTypes,
@@ -145,10 +147,6 @@ function formatScratchEditorContext(context?: ScratchEditorContext) {
   ]
     .filter(Boolean)
     .join('\n')
-}
-
-function compactLines(lines: Array<string | null | undefined>) {
-  return lines.filter(Boolean).join('\n')
 }
 
 function resolveDefaultSceneCapabilities(input: {
@@ -867,7 +865,7 @@ async function buildCourseContext(
     typeof lessonId === 'number'
       ? supabase
           .from('course_lessons')
-          .select('id, title, content, steps')
+          .select('id, title, lesson_type, content, steps')
           .eq('id', lessonId)
           .eq('course_id', courseId)
           .maybeSingle()
@@ -886,10 +884,19 @@ async function buildCourseContext(
     })
     .join('\n')
 
-  // 课时学习页：注入当前课时目标与步骤，让小迪能按步骤点拨 Scratch 操作
+  // 复用课时页面的展示顺序；积木课的旧 steps 与课件/3D 混排后的页码不一致。
   const currentLesson = course ? currentLessonResult?.data as
-    | { id: number; title: string; content: LessonContent | null; steps: unknown }
+    | { id: number; title: string; lesson_type: string | null; content: LessonContent | null; steps: unknown }
     | null : null
+  const lessonWorkspace = getLessonTypeDefinition(currentLesson?.lesson_type).workspace
+  const workspaceDescription = {
+    scratch: '当前课时提供 Scratch 工作区和课时步骤；完整编辑器需在平板或电脑上使用。讲操作时让学生对照页面里的步骤标题和编辑器。',
+    building_3d: '当前是实体积木搭建课，页面按课程流展示已有课件、动画或 3D 搭建步骤。这份课时上下文仅含标题和文字说明，没有读取课件图片、视频画面或模型连接几何；未由文字或本轮图片确认的颜色、零件数量与连接位置不可推断。需要判断时请学生描述或发送照片。',
+    playground: '当前课时提供游乐场实训工作区和课时步骤，按课程导学进入对应游戏练习。',
+    unsupported: '这个课时类型尚未接入学习工作区；只能依据已有课时文字说明，不要声称存在编辑器或搭建模型。',
+  }[lessonWorkspace]
+  const currentScratchEditorContext = lessonWorkspace === 'scratch' ? scratchEditorContext : undefined
+  let currentLessonStepCount = 0
   let currentLessonText = ''
   let scratchBlockKeywords: string[] = []
   let scratchBlockItems: ScratchBlockHintItem[] = []
@@ -899,18 +906,31 @@ async function buildCourseContext(
   let scratchBlockCategory: ReturnType<typeof resolveScratchBlockCategory> = undefined
   if (currentLesson) {
     const lessonContent = (currentLesson.content ?? {}) as LessonContent
-    const steps = (Array.isArray(currentLesson.steps) ? currentLesson.steps : []) as CourseLessonStep[]
-    const currentStep =
-      typeof lessonStepIndex === 'number' && steps[lessonStepIndex]
-        ? steps[lessonStepIndex]
-        : null
-    const currentStepNumber = typeof lessonStepIndex === 'number' ? lessonStepIndex + 1 : null
-    const allScratchBlockItems = buildScratchBlockHintItems({
+    const steps = lessonWorkspace === 'building_3d'
+      ? buildBuildingLessonDisplaySteps({
+          lessonTitle: currentLesson.title,
+          content: lessonContent.building3d,
+        })
+      : (Array.isArray(currentLesson.steps) ? currentLesson.steps : []) as CourseLessonStep[]
+    currentLessonStepCount = steps.length
+    // 页面发送的是夹紧后的零基索引；非法请求不能据此编造学生的当前位置。
+    const currentStepIndex = typeof lessonStepIndex === 'number'
+      && Number.isInteger(lessonStepIndex)
+      && lessonStepIndex >= 0
+      && lessonStepIndex < steps.length
+      ? lessonStepIndex
+      : undefined
+    const currentStep = typeof currentStepIndex === 'number' ? steps[currentStepIndex] : null
+    const currentStepNumber = typeof currentStepIndex === 'number' ? currentStepIndex + 1 : null
+    const isBuildingLesson = lessonWorkspace === 'building_3d'
+    const stepUnit = isBuildingLesson ? '页' : '步'
+    const formatStepDescription = lessonWorkspace === 'scratch' ? compactScratchStepText : compactLessonText
+    const allScratchBlockItems = lessonWorkspace === 'scratch' ? buildScratchBlockHintItems({
       step: currentStep,
       lessonContent,
-    })
+    }) : []
     allScratchBlockItemCount = allScratchBlockItems.length
-    const filteredScratchBlocks = filterScratchBlockItemsByExistingBlocks(allScratchBlockItems, scratchEditorContext)
+    const filteredScratchBlocks = filterScratchBlockItemsByExistingBlocks(allScratchBlockItems, currentScratchEditorContext)
     scratchBlockItems = filteredScratchBlocks.pendingItems
     existingScratchBlockItems = filteredScratchBlocks.existingItems
     scratchBlockKeywords = [...new Set(scratchBlockItems.map((item) => item.findLabel).filter(Boolean))]
@@ -921,39 +941,60 @@ async function buildCourseContext(
       pendingOriginalIndexes: filteredScratchBlocks.pendingOriginalIndexes,
     })
     const scratchBlockReferenceLines = formatScratchBlockReferenceItems(scratchBlockItems, targetScratchBlockIndex)
+    const stepWindowStart = typeof currentStepIndex === 'number'
+      ? Math.max(0, Math.min(currentStepIndex - 3, steps.length - 8))
+      : 0
+    const stepWindowNote = steps.length > 8
+      ? typeof currentStepIndex === 'number' ? '，仅列当前位置附近的一部分' : '，仅列开头的一部分'
+      : ''
     const stepLines = steps
-      .slice(0, 8)
-      .map((step, i) => `第${i + 1}步「${compactLessonText(step.title, 40)}」：${compactScratchStepText(step.description, 160)}`)
+      .slice(stepWindowStart, stepWindowStart + 8)
+      .map((step, i) => `第${stepWindowStart + i + 1}${stepUnit}「${compactLessonText(step.title, 40)}」`)
       .join('\n')
+    const adjacentStepLines = typeof currentStepIndex === 'number'
+      ? [currentStepIndex - 1, currentStepIndex + 1]
+          .filter((index) => index >= 0 && index < steps.length)
+          .map((index) => `${index < currentStepIndex ? '上一' : '下一'}${stepUnit}：第${index + 1}${stepUnit}「${compactLessonText(steps[index].title, 40)}」：${formatStepDescription(steps[index].description, 160)}`)
+          .join('\n')
+      : ''
     currentLessonText = [
       `当前课时：${compactLessonText(currentLesson.title, 80)}`,
+      workspaceDescription,
+      buildStepReferenceInstruction(isBuildingLesson ? '课时页面' : '课时步骤'),
+      isBuildingLesson ? '课时页码按页面展示顺序编号，不能当作 3D 模型的搭建步号。' : '',
+      currentStep && currentStepNumber != null
+        ? `学生当前停在第${currentStepNumber}${stepUnit}「${compactLessonText(currentStep.title, 40)}」（共 ${steps.length} ${stepUnit}）。他问下一步或卡住时，优先围绕这一当前${isBuildingLesson ? '页面' : '步骤'}，不要跳回第1${stepUnit}。`
+        : steps.length > 0
+          ? `课时共 ${steps.length} ${stepUnit}，未收到有效的当前位置；不要推断学生停在哪一${stepUnit}。`
+          : '当前课时没有可导航的展示步骤，不要虚构步骤或页码。',
+      currentStep?.description
+        ? `当前${isBuildingLesson ? '页面' : '步骤'}说明：${formatStepDescription(currentStep.description, 320)}`
+        : '',
+      adjacentStepLines,
       typeof lessonContent.summary === 'string' && lessonContent.summary
         ? `课时目标：${compactLessonText(lessonContent.summary, 200)}`
         : '',
       allScratchBlockItemCount > scratchBlockItems.length && scratchBlockItems.length > 0
         ? `当前步骤原本有 ${allScratchBlockItemCount} 个 Scratch 动作；其中 ${allScratchBlockItemCount - scratchBlockItems.length} 个已经出现在当前角色上，页面现在只提示剩下的 ${scratchBlockItems.length} 个。`
         : '',
-      currentStep && currentStepNumber != null
-        ? `学生当前停在第${currentStepNumber}步「${compactLessonText(currentStep.title, 40)}」。他问下一步或卡住时，优先围绕这一当前步骤，不要跳回第1步。`
-        : '',
       typeof targetScratchBlockIndex === 'number' && scratchBlockItems.length > 1
         ? `当前步骤含 ${scratchBlockItems.length} 个 Scratch 动作，页面正提示第 ${targetScratchBlockIndex + 1} 个；本次回复先讲标成“当前要做”的动作，不要直接跳到下一课时步骤。`
         : '',
-      formatScratchEditorContext(scratchEditorContext),
+      formatScratchEditorContext(currentScratchEditorContext),
       existingScratchBlockItems.length > 0
         ? `当前选中对象已经有这些本步骤相关积木：${existingScratchBlockItems.map((item) => item.findLabel).join('、')}；页面工具只提示还没看到的积木。`
         : '',
       scratchBlockReferenceLines
         ? `当前步骤可直接引用的 Scratch 积木标记（回答时优先照抄标记，不要手写颜色）：\n${scratchBlockReferenceLines}`
         : '',
-      stepLines ? `课时步骤（编号和标题必须照抄）：\n${stepLines}` : '',
+      stepLines ? `课时${isBuildingLesson ? '页面' : '步骤'}目录（编号和标题必须照抄${stepWindowNote}）：\n${stepLines}` : '',
     ]
       .filter(Boolean)
       .join('\n')
   }
 
   const lessonGameKey =
-    currentLesson && typeof (currentLesson.content as LessonContent | null)?.playground?.gameKey === 'string'
+    lessonWorkspace === 'playground' && currentLesson && typeof (currentLesson.content as LessonContent | null)?.playground?.gameKey === 'string'
       ? (currentLesson.content as LessonContent).playground?.gameKey
       : null
 
@@ -977,12 +1018,7 @@ async function buildCourseContext(
       : '',
     currentLessonText,
     lessonLines ? `进度：\n${lessonLines}` : '',
-    compactLines([
-      '【学生页面上有】技能课程课表和学习进度。',
-      currentLesson
-        ? `当前课时页面还有 Scratch 工作区和课时步骤；${buildStepReferenceInstruction('课时步骤')}讲操作时让学生对照页面里的步骤标题和编辑器。`
-        : null,
-    ]),
+    '【学生页面上有】技能课程课表和学习进度。',
   ]
     .filter(Boolean)
     .join('\n')
@@ -997,7 +1033,10 @@ async function buildCourseContext(
     scratchBlockCategory,
     scratchBlockTargetItemIndex: targetScratchBlockIndex,
     scratchBlockStepItemCount: allScratchBlockItemCount,
-    scratchEditorContext,
-    sceneCapabilities: resolveDefaultSceneCapabilities({ contextType: 'course', lessonId }),
+    scratchEditorContext: currentScratchEditorContext,
+    sceneCapabilities: resolveDefaultSceneCapabilities({
+      contextType: 'course',
+      lessonId: currentLessonStepCount > 0 ? currentLesson?.id : undefined,
+    }),
   }
 }

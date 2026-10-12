@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { generateChallengeSubmissionDraft, getStageCoachUserMessage } from '@/lib/ai/pbl-stage-coach'
 import { consumeAiCredit, refundAiCredit } from '@/lib/api/ai-credits'
+import { TUTOR_CREDIT_EXHAUSTED_MESSAGE } from '@/lib/ai/tutor/billing'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { getStageProgressByUser } from '@/lib/api/challenge-stage-progress'
@@ -119,7 +120,7 @@ export async function POST(
     if (!creditResult.ok) {
       return NextResponse.json(
         {
-          error: '今日免费次数或本月代币已用完',
+          error: TUTOR_CREDIT_EXHAUSTED_MESSAGE,
           code: 'quota_exceeded',
           resetAt: creditResult.resetAt,
           membership: getMembershipSummary(profile),

@@ -21,13 +21,19 @@ export type MembershipSummary = {
   expiresAt: string | null
 }
 
-/** 非会员每日免费 AI 对话次数 */
+/** 每个账号每日赠送的 AI 代币；北京时间当日有效，不累计。 */
+export const FREE_AI_DAILY_CREDITS = 300
+/** 小迪使用日赠代币时，单轮最多扣减的代币。 */
+export const FREE_AI_PER_REQUEST_CREDIT_CAP = 100
+/** @deprecated 仅供历史按次凭证兼容；当前权益使用 FREE_AI_DAILY_CREDITS。 */
 export const FREE_AI_DAILY_QUOTA = 5
-/** @deprecated 使用 FREE_AI_DAILY_QUOTA；保留兼容旧引用 */
+/** @deprecated 仅供历史引用兼容；当前权益统一使用代币。 */
 export const MEMBER_AI_DAILY_QUOTA = 100
 
-/** 会员每月发放 AI 代币 */
-export const MEMBER_AI_MONTHLY_CREDITS = 1500
+/** 普通会员每自然月发放的 AI 代币。 */
+export const MEMBER_AI_MONTHLY_CREDITS = 15_000
+/** 创始会员每自然月发放的 AI 代币。 */
+export const FOUNDER_AI_MONTHLY_CREDITS = 20_000
 /** 纯文本对话消耗代币 */
 export const AI_CREDIT_COST_TEXT = 1
 /** 带图片对话消耗代币 */
@@ -81,7 +87,9 @@ export function getMembershipSummary(
     period: effectivePeriod,
     isActive,
     label: membershipPeriodLabels[effectivePeriod],
-    quota: isActive ? MEMBER_AI_MONTHLY_CREDITS : FREE_AI_DAILY_QUOTA,
+    quota: isActive
+      ? tier === 'founder' ? FOUNDER_AI_MONTHLY_CREDITS : MEMBER_AI_MONTHLY_CREDITS
+      : FREE_AI_DAILY_CREDITS,
     startedAt: profile?.membership_started_at ?? null,
     expiresAt: isActive ? profile?.membership_expires_at ?? null : null,
   }
