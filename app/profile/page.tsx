@@ -1118,18 +1118,19 @@ function ProfileHero({
           </div>
         ) : null}
 
-        <nav aria-label="个人中心常用入口" className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-border/40 pt-2">
-          {[
-            { href: '/profile/library', label: '内容库', icon: FolderOpen },
-            { href: '/settings/profile', label: '编辑资料', icon: Edit3 },
-            { href: '/leaderboard', label: '排行榜', icon: Trophy },
-          ].map(({ href, label, icon: Icon }) => (
-            <Link key={href} href={href} className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground">
-              <Icon className="h-4 w-4" aria-hidden="true" />
-              {label}
-            </Link>
-          ))}
-        </nav>
+        {!compact ? (
+          <nav aria-label="个人中心常用入口" className="mt-4 hidden md:flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-border/40 pt-2">
+            {[
+              { href: '/profile/library', label: '内容库', icon: FolderOpen },
+              { href: '/leaderboard', label: '排行榜', icon: Trophy },
+            ].map(({ href, label, icon: Icon }) => (
+              <Link key={href} href={href} className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground">
+                <Icon className="h-4 w-4" aria-hidden="true" />
+                {label}
+              </Link>
+            ))}
+          </nav>
+        ) : null}
 
         {/* 移动端：将 4 个高频快捷入口无缝收纳在 Hero 底部 */}
         {compact ? (
