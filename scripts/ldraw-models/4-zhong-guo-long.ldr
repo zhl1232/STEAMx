@@ -2,6 +2,7 @@
 0 Name: 4-zhong-guo-long.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
+0 // BATCH4 source p5/p10 rechecked: blue Toolo head wings/tail and two orange toothed front blades remain omitted. Candidate catalog IDs are not confirmed placements; no matching usable geometry established. NOT FIXED.
 0 // BATCH3 2026-10-12: P5 shows blue Toolo head wings, NOT a rider. Unsupported blue wings remain explicitly omitted. P11-12 orange decorations are square 2x2 bricks; dark-gray structural bodies retained as source gray, light-gray eyes face the front jaw screw plane. Eye screw seating remains approximate.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source PDF SHA256 de176ffaf6642f30107e5511bc9a7dd9a77c3d1bb0ba8e66cd8e63c658a30bb3; all source pages actually viewed. Existing approved Toolo approximations only; no physical validation.

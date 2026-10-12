@@ -40,18 +40,18 @@
       "class": "clearly_wrong",
       "reason": "拖车围栏整块缺失，驾驶室颜色/细节也与课件不符",
       "uncertain": null,
-      "fixStatus": "unfixed-batch2",
+      "fixStatus": "unfixed-batch4",
       "returnedToPending": false,
-      "unfixedReason": "后墙五块侧装砖支撑网格未解；围栏本就有"
+      "unfixedReason": "后墙与侧柱接合未解；围栏本已存在，驾驶室排气/人仔仍缺"
     },
     {
       "slug": "4-wa-li",
       "class": "clearly_wrong",
       "reason": "胸前蓝色圆件缺失；橙色手爪件型不对（扁片而非挖斗）",
       "uncertain": null,
-      "fixStatus": "unfixed-batch1",
+      "fixStatus": "unfixed-batch4",
       "returnedToPending": false,
-      "unfixedReason": "蓝门已补（本地31193），挖斗形状仍不对；未放回待确认"
+      "unfixedReason": "挖斗无匹配几何；已移除错误弧壳替代；蓝圆门本已存在"
     },
     {
       "slug": "4-xiang-wei-she",
@@ -66,9 +66,9 @@
       "class": "clearly_wrong",
       "reason": "前端蓝色滚筒总成整段缺失",
       "uncertain": null,
-      "fixStatus": "unfixed-batch1",
+      "fixStatus": "unfixed-batch4",
       "returnedToPending": false,
-      "unfixedReason": "蓝色滚筒仍缺确认件号/几何；未放回待确认"
+      "unfixedReason": "蓝色滚筒无确认件号/几何"
     },
     {
       "slug": "4-yi-long",
@@ -99,9 +99,9 @@
       "class": "clearly_wrong",
       "reason": "几乎整模发灰/缺色，骑手人仔缺失（含已知省略翼件）",
       "uncertain": null,
-      "fixStatus": "unfixed-batch3",
+      "fixStatus": "unfixed-batch4",
       "returnedToPending": false,
-      "unfixedReason": "缺蓝色 Toolo 头翼与前脚两片齿刃；颜色已纠正但关键装饰仍缺可靠件号"
+      "unfixedReason": "蓝色 Toolo 头翼与前脚齿刃仍无可靠几何"
     },
     {
       "slug": "5-ce-feng-yi",
@@ -160,9 +160,9 @@
       "class": "clearly_wrong",
       "reason": "整机竖放而非平放，螺旋桨叶片尺寸/颜色也明显不对",
       "uncertain": null,
-      "fixStatus": "unfixed-batch1",
+      "fixStatus": "unfixed-batch4",
       "returnedToPending": false,
-      "unfixedReason": "课件细长旋翼无匹配几何，已省略并注释；未放回待确认"
+      "unfixedReason": "细长旋翼无匹配几何；底盘本水平，视角已调整"
     },
     {
       "slug": "5-tui-tu-ji",
@@ -236,25 +236,37 @@
       "slug": "4-diao-che",
       "class": "minor",
       "reason": "吊臂姿态/路障细节与课件略有差别",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "unfixed-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "路障接缝已改但吊臂姿态/吊钩仍未证实"
     },
     {
       "slug": "4-du-jiao-xian",
       "class": "minor",
       "reason": "翅膀偏小，整体比例略缩",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "4-kuai-ting",
       "class": "minor",
       "reason": "水面底板尺寸与花纹不同",
-      "uncertain": null
+      "uncertain": null,
+      "fixStatus": "fixed-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
     },
     {
       "slug": "4-mo-tian-lun",
       "class": "minor",
       "reason": "吊厢缺白窗格等细节，整体偏暗",
-      "uncertain": "主要是吊厢细节，整体轮廓接近"
+      "uncertain": "主要是吊厢细节，整体轮廓接近",
+      "fixStatus": "unfixed-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "吊厢仅一半窗框；第二组座位朝向无法可靠确定"
     },
     {
       "slug": "4-shou-ge-ji",

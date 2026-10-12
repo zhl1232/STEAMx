@@ -2,6 +2,7 @@
 0 Name: 4-ya-lu-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
+0 // BATCH4 source p10-12 rechecked: two smooth blue drums enclose the red/yellow cross-member. No confirmed matching geometry found locally; omitted, NOT FIXED. Do not substitute studded round bricks or scale wheel parts.
 0 // 2026-10-12 local source review: p13 front presentation rotated 180 degrees around Y. NOT FIXED: p12 two plain blue drums still have no confirmed part ID/usable geometry; do not substitute studded cylinders. p7 exhaust remains omitted.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // INCOMPLETE: 4433c01 exhaust x1 missing geometry; blue roller cylinders x2 identity/geometry unresolved and omitted. Front roller frame joints provisional.

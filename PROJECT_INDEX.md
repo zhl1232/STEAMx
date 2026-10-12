@@ -863,3 +863,5 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `/coins` 已有「去兑换装扮」按钮（所有尺寸）与 xl 侧栏「去商店看看」，均进入 `/shop`，保留复用；消息页由桌面现有铃铛、手机全局铃铛/个人页「消息中心」进入，复用未读通知与私信合计数。
 - 回归测试：`project-records-client.test.tsx` 用真实分组卡验证组内非代表步骤滚动、高亮消退和无效目标；`user-button.test.tsx` 覆盖桌面/compact 菜单、权限、会员、退出及铃铛；首页、钱包和个人页测试验证入口与空状态。无数据库或迁移变更，不推送。
 > LDraw 线上保护：`scripts/ldraw-production-protected.json` 列出的 63 个 slug 在预览中有确认记录时保持 confirmed，即使新打包哈希不同；标记「已确认（线上版本，受保护）」；冻结 MPD 匹配记录时仍展示冻结内容。`scripts/publish-ldraw-assets.mjs` 对所有选择模式（含 `--only` / `--prefix`）在资产校验与上传前跳过保护名单，输出「跳过（线上已确认，受保护）」。
+
+- 2026-10-12 batch4 九课局部复核：仅处理 `4-tuo-gua-che / 4-wa-li / 4-ya-lu-ji / 4-zhong-guo-long / 5-shou-tui-fei-ji / 4-diao-che / 4-du-jiao-xian / 4-kuai-ting / 4-mo-tian-lun`。独角仙两组翼板/铰接顶块绕原轴反转倾斜方向，保留四块 4×8 板与尺寸；快艇保留 24×24 水面及 36+36 交错铺板，仅把浅色改为源图青蓝色；吊车路障上层改为错缝搭接；瓦力省略不符源挖斗侧壁的两片薄壳。其余缺件/装配不明项仅补明确未修好注释，保留步骤边界。报告 `/workspace/pending-fix-20261012/batch4-report.md` 与 `batch4-checks/` 记录分步页码映射、渲染及校验；仅独角仙/快艇的本轮指控点标为修好，不表示整课验收。未改公开 MPD、确认状态、保护名单或批次外模型；未提交或推送。

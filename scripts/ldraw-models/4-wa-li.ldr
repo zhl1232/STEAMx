@@ -2,7 +2,7 @@
 0 Name: 4-wa-li.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
-0 // 2026-10-12 local source review: p3 blue 31193 restored as existing local-only geometry, provisional closed pose. p12 exact scoop side walls/teeth unresolved; INCOMPLETE, not cleared for publication.
+0 // 2026-10-12 local source review: p3 blue 31193 restored as existing local-only geometry, provisional closed pose. p12 scoop side walls/teeth unresolved; batch4 omits the thin-shell placeholders. INCOMPLETE, not cleared for publication.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
 0 // No human acceptance, physical validation, or production publication is claimed.
@@ -68,9 +68,7 @@
 1 72 248 -264 321 0 -1 0 0 0 1 -1 0 0 dev-129/28334.dat
 0 STEP
 0 // Source page 12: two orange scoop hands
-0 // NOT FIXED: existing approved dev-129/6294 approximation lacks the source scoop side walls/teeth. No new geometry authorized; retained as an explicitly approximate candidate, not an exact scoop.
-1 25 248 -264 -321 0 1 0 1 0 0 0 0 -1 dev-129/6294.dat
-1 25 248 -264 321 0 1 0 -1 0 0 0 0 1 dev-129/6294.dat
+0 // NOT FIXED: existing approved dev-129/6294 approximation lacks the source scoop side walls/teeth. BATCH4: omitted both thin-shell placeholders. Source requires enclosed orange scoop hands with teeth; no matching usable geometry established. Blue31193 retained; front-view render required.
 0 STEP
 0 // Source page 13: two upright neckfork bases
 1 72 0 -336 -40 0 0 1 0 1 0 -1 0 0 28336.dat

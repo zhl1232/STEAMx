@@ -2,6 +2,7 @@
 0 Name: 4-mo-tian-lun.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
+0 // BATCH4 source original12 (extracted page-04) requires8 red frames +8 white panes. Existing4 white90265 panes use documented closed-frame hinge offsets and are retained; second4 frame seating unresolved, NOT FIXED. Black tower matches source; do not recolor black bricks to disguise preview lighting.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // All13 source pages actually viewed. No physical verification or user acceptance.
 0 // INCOMPLETE: p12 four 61649+90265 window assemblies placed; four more known assemblies omitted pending seating/orientation evidence. Source radial forks andturntables use approved approximations; attachment fit and bearing retention unverified.
