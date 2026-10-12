@@ -1,0 +1,136 @@
+{
+  "scope": "Read-only sourcep3/4/5/6 identification; no LDR changes or assembly acceptance",
+  "sourceImages": [
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-03.jpg",
+      "sha256": "46a9507b62c73f9e46c42c883a555b371c4ca43d2c3b01ada99cd0bd922f0d3b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-04.jpg",
+      "sha256": "e48aaec846a8b03163f886a312b737342972bdaa6fdd7abd5f2b50a38132eca2",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-05.jpg",
+      "sha256": "8a51d9628d49ea9dfc466d7cd40a400a82b2e1b10e56611952a813771841d277",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-tuo-gua-che\\page-06.jpg",
+      "sha256": "73afa34dfb7c88b3fbb23e6dbcdd42dc862f51418797166ee00303800b067c7c",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "inventoryEvidence": {
+    "file": "inputs/inventory-evidence.json",
+    "sha256": "a6e4d1ab4f29a0462f03047a4d7cf66bb278890505b4900f49afba914140304d"
+  },
+  "identifications": [
+    {
+      "sourcePage": 4,
+      "partId": "74957",
+      "quantity": 2,
+      "basis": "Inset two2x2blocks with bottom clip;45002 row identifies2x2holes+clipbottom, stock2. Source shown body/clip style matches approved local74957.",
+      "geometry": "Local approved approximation, NOT official exact mesh. DirectmeshY[-11,70]; body0..48, bottom clip48..70. height70 is totalbody+clip, never70standardbrick height.",
+      "limit": "Hidden clip engagement/rotated attachment unmeasured; do not usebbox as precise mechanical fit."
+    },
+    {
+      "sourcePage": 4,
+      "partId": "28336",
+      "catalogAlias": "45202",
+      "quantity": 2,
+      "basis": "Inset twin inclined fork2x2base matches45002 row45202, verifiedinventory mapping28336, stock4. Source gray body is side-on/rotated with forks extending forward.",
+      "geometry": "Approvedlocalbase80x80x48; meshY[-85,48],Z[-40,68], pivotlocal(0,-65,48) estimated. Side-on base can present80high rectangle, unlike an upright48heightbrick.",
+      "limit": "Specific rotatedaxis/translation requires interface constraints, not inferredfrom80/70bbox alone."
+    },
+    {
+      "sourcePage": 4,
+      "partId": "4433c01",
+      "quantity": 1,
+      "basis": "Source inset1x and main vertical exhaust-shaped cylindrical tool with perforatedbarrel, narrowblacktip, perpendicularend. Comparedactual earliercatalogphoto preparation/missing-parts/steamx-4433c01.png.",
+      "photoSha256": "f79300361217c640ea8f333e8e6a95bacaa42886c1bd57faa44da156a0389a36",
+      "geometry": "Confirmedidentity, geometrymissing per official endpoint audit; do notreplace withgeneric screwdriver."
+    }
+  ],
+  "heightDiagnostic": {
+    "sourcePage": [
+      5,
+      6
+    ],
+    "sourceObserved": "P5 lime2x4brick length axis vertical; p6 rear horizontally stacked ordinarybricks and blackroof.",
+    "knownDimensions": {
+      "3011LongLengthLdu": 160,
+      "ordinaryDuploBrickHeightLdu": 48,
+      "plateHeightLdu": 24,
+      "studHeightLdu": 11,
+      "74957BodyHeight": 48,
+      "74957ClipBeyondBody": 22
+    },
+    "excludedFixes": [
+      "No sourcebasis for52LDUbrickheight.",
+      "No sourcebasis for16LDUshim, scaling or stretchedbrick.",
+      "Do not conflate74957total70 withbodyheight or useprovisional28336pivot asmeasuredaxis."
+    ],
+    "status": "16LDU height mismatch not yet mechanically closed; requestedowner transforms/height equations. Most likely must resolve rotated mount origin/interface, not alter officialbrick dimensions; this is a hypothesis, not prescribedtranslation.",
+    "ownerCandidateEquation": {
+      "rearBaseTopY": -130,
+      "threeHorizontal48BrickTopY": -274,
+      "vertical3011BottomY": -130,
+      "vertical3011TopY": -290,
+      "differenceLdu": 16,
+      "status": "not closed; p6 parts total3green/2yellow, obscured layout not uniquely identified; do not assume all five in one stack."
+    },
+    "ownerMountCandidate": {
+      "74957Origin": [
+        -160,
+        -170,
+        "+/-40"
+      ],
+      "74957R": [
+        0,
+        1,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "74957EstimatedClipAxis": [
+        -100,
+        -170,
+        "+/-40"
+      ],
+      "28336Origin": [
+        -42,
+        -170,
+        "+/-40"
+      ],
+      "28336R": [
+        0,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        -1,
+        0,
+        0
+      ],
+      "28336EstimatedForkAxis": [
+        23,
+        -122,
+        "+/-40"
+      ],
+      "limitation": "These are owner candidate transforms, not installed/accepted placements. Base bottomX=-90 coinciding with74957 clipbbox extent does not establish attachment. No assumption that forkaxis is the intended baseclip connection."
+    }
+  },
+  "accepted": false,
+  "physicalValidation": false
+}

@@ -1,0 +1,79 @@
+{
+  "at": "2026-10-11T12:45:18.823761+00:00",
+  "method": "Coordinator actually viewed all ten final source pages in overview-1, overview-5 and overview-9 through image viewing tool. This is shape/scope screening only, not a full-page BOM review or acceptance. Owners separately inspect every source page.",
+  "observations": "Final views show geared tricycle, two-tier elevator with windows/figures/ropes, geared double door, balance figure, geared push propeller, hovercraft, geared sweeper, suspended balloon basket, geared spinner and swing linkage. Special-part identity and mechanical fit require per-course evidence.",
+  "pages": [
+    {
+      "slug": "5-san-lun-che",
+      "sourcePdfSha256": "191ab51508d0e9eda1faf17c9624eead826183c9db8ae287645fbe66310a2069",
+      "page": 11,
+      "imageSha256": "93dc60617fcb80b67f9ef8f3dddde1ab780cc7be2fc3a9ccbc27db02e38d90ea",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-sheng-jiang-dian-ti",
+      "sourcePdfSha256": "42aa622e8d63164fddd755d898c0c228c5d5d6e615368361ef2491a708084c94",
+      "page": 14,
+      "imageSha256": "0d3cdd07f8b50b7db2aae2d8f26b74be7f422c39faa91bfdc2a58c8c523172fc",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-shuang-kai-da-men",
+      "sourcePdfSha256": "7727afa50db40d36ad32201cbbc4b50c28ae4f25301e20554710e5a742f28b79",
+      "page": 9,
+      "imageSha256": "a17d7ae29ac713fdb5972f6e43389e603f130ee83f4a55ad258a327f19c72ed4",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-ping-heng-da-shi",
+      "sourcePdfSha256": "1c2cfd2e71227ba45ff67fdcbe1283ea2dbb225f48bc9088eea7130880d91809",
+      "page": 11,
+      "imageSha256": "e098eb6428b2e10417bb826419d51654e3b29ddde21f00c01b02eee51a9e41d3",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-shou-tui-fei-ji",
+      "sourcePdfSha256": "1ed75b42afd9c90c9387e1548576615a53186706ab44c2e0d2a3cd461dd1c4ee",
+      "page": 11,
+      "imageSha256": "6f08d33c4a1dee0f074b41e1606e6baf8a89404f31fcb67efdaffb990e531ecb",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-qi-dian-chuan",
+      "sourcePdfSha256": "abe42b8e0fadf121cf46fab360cfea8b5d9d36454fce9967bbcdd3afd0994e55",
+      "page": 8,
+      "imageSha256": "7b4885ef89e30cf9ea425b01db23e4a21749d27d5cc007dec3d7da91a9084fa0",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-qing-sao-che",
+      "sourcePdfSha256": "27d635c5e6e0ae4b163acbeca535add8c0cb8d110f6abfaa58ff909a1e33fcc6",
+      "page": 12,
+      "imageSha256": "4ad77bc8708d7f287af2cff5c7f1c92b0755e1b6b3351542ca0c0df0399111fa",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-re-qi-qiu",
+      "sourcePdfSha256": "ed15d42c3d50d15447a3dbb0ec55f7fc582ef59b4cbf77581bfefc628bcbb906",
+      "page": 13,
+      "imageSha256": "c22d1327bb377cb944abc2db912e5b9a6c1427b8e6d5f37050bbd63158276f72",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-shuai-gan-ji",
+      "sourcePdfSha256": "7184a89bc3f0fc94af200f6dbd128636e36244b3d5a538ff56b1f10297341f73",
+      "page": 9,
+      "imageSha256": "e37797290703589b3d009c73a67b1a6263004e4c7d423576ffb0d09da7f8dd89",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-qiu-qian",
+      "sourcePdfSha256": "af89034f7df63445af95fd5b01787dacdf309915e3e730d98b5ad8705d3bf661",
+      "page": 9,
+      "imageSha256": "506929dd0a3a8f828c189146d7d6ffb578cd46f361a8b750ad42a99e93c57efa",
+      "actuallyViewed": true
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

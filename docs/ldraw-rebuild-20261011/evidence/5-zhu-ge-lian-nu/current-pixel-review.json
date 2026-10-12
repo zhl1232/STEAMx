@@ -1,0 +1,60 @@
+{
+  "sourceSha256": "a81c9953645da562b849c2fe373e7c309d7e6f0948d11cfba97924c4441be108",
+  "revision": "24e1c706fb347fd97403ed176b90f627a3e19bb669d40f51c5a4d4c0f69cfec5",
+  "reviewedAt": "2026-10-11T14:45:44.488418+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-zhu-ge-lian-nu",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "fdf6105524c1a35f7948206abd31fdebca77d07054ecf4f3380e7a5c99b88daf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "59b8b11fcbe1e20f0b70707dbc5f4724142946929e8f777f34492590c2b0e1c4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "d3ecc5e67be598199157fc3fcf2d4c88fe116f4bc8e7705c0848f595395bed2a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "337dbf4cc112f41ffef84f5b9ba3e6b67e9a62307e30bfddfc4e45a0e3a9ef74",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "1de9965baf7bc4c6c8986f5373057f1f6d84145f26dc52dd04c440ed8ee6f0eb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "3f46161ea39ab1dc19ded20763359f1e15a32b8b4cac4f06d158325c83c8a2fe",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "a739fc2163ae96a1de27d186bcc8e1e71203335e6e4f18c751855adf87725fe6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "9f05511890bec95092f2aefff27ca5df3f9a858210828a7a907dea4ca121944e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "fdf6105524c1a35f7948206abd31fdebca77d07054ecf4f3380e7a5c99b88daf",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed all three final original PNGs and all six cumulative step frames; revisited source p4/p6/p7 against construction. Mirrored L bases, ten yellow underside plates, upright blue axle/pulley stacks, paired inner beams, six blue bricks and four alternating hollow box layers correspond. Third beam visibly extends forward through central channel as source static pose; resting/contact/retention not verified. Hidden brick seam allocation and exact axial stack are recorded inferences. Existing strict shaft/brick/beam/crank and blue shaft/hub mesh crossings retained; visual correspondence is not mechanical acceptance or performance validation."
+}

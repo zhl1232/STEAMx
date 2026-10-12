@@ -1,0 +1,124 @@
+{
+  "slug": "5-dan-che",
+  "sourceSha256": "0f116666bd03476db674134bc0cb580b80dcd09a38eb96af9890ba0268160801",
+  "rawCheckerExit": 2,
+  "rawCheckerOutput": "\nFAIL [5-dan-che.ldr] 4 error(s), 44 placement(s):\n  - step 2: 5-dan-che_l21 overlaps 5-dan-che_l18\n  - step 2: 5-dan-che_l22 overlaps 5-dan-che_l19\n  - step 4: 5-dan-che_l38 overlaps 5-dan-che_l35\n  - step 4: 5-dan-che_l39 overlaps 5-dan-che_l36\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "rawAlarms": [
+    {
+      "step": 2,
+      "lines": [
+        21,
+        18
+      ],
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "classification": "false_positive_aabb",
+      "evidence": "Recursive official6527 radial envelope separates this pair; see pulley-radial-evidence.json. Does not exempt source joint mismatch."
+    },
+    {
+      "step": 2,
+      "lines": [
+        22,
+        19
+      ],
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "classification": "false_positive_aabb",
+      "evidence": "Recursive official6527 radial envelope separates this pair; see pulley-radial-evidence.json. Does not exempt source joint mismatch."
+    },
+    {
+      "step": 4,
+      "lines": [
+        38,
+        35
+      ],
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "classification": "false_positive_aabb",
+      "evidence": "Recursive official6527 radial envelope separates this pair; see pulley-radial-evidence.json. Does not exempt source joint mismatch."
+    },
+    {
+      "step": 4,
+      "lines": [
+        39,
+        36
+      ],
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "classification": "false_positive_aabb",
+      "evidence": "Recursive official6527 radial envelope separates this pair; see pulley-radial-evidence.json. Does not exempt source joint mismatch."
+    }
+  ],
+  "alarms": [
+    {
+      "step": 2,
+      "lines": [
+        21,
+        18
+      ],
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "classification": "false_positive_aabb",
+      "evidence": "Recursive official6527 radial envelope separates this pair; see pulley-radial-evidence.json. Does not exempt source joint mismatch."
+    },
+    {
+      "step": 2,
+      "lines": [
+        22,
+        19
+      ],
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "classification": "false_positive_aabb",
+      "evidence": "Recursive official6527 radial envelope separates this pair; see pulley-radial-evidence.json. Does not exempt source joint mismatch."
+    },
+    {
+      "step": 4,
+      "lines": [
+        38,
+        35
+      ],
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "classification": "false_positive_aabb",
+      "evidence": "Recursive official6527 radial envelope separates this pair; see pulley-radial-evidence.json. Does not exempt source joint mismatch."
+    },
+    {
+      "step": 4,
+      "lines": [
+        39,
+        36
+      ],
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "classification": "false_positive_aabb",
+      "evidence": "Recursive official6527 radial envelope separates this pair; see pulley-radial-evidence.json. Does not exempt source joint mismatch."
+    }
+  ],
+  "alarmCount": 4,
+  "remainingNonAlarmLimitations": [
+    "All9 source pages viewed. Page8 totalBOM and page9 alternate pose are not counted as added parts. Four paired40T gears are the wheels; no tyres substituted.",
+    "Official75349 and75350 share6517s01 circular brick bore localY24. Source-selected top/lower axes are(±120,-144)/(±160,-72), distance82.365041; beam hole centers two40 pitches apart, so lower axle is2.365041 eccentric to its15LDU-radius beam bore. Recursive6522 shaft radial envelope9.000237 leaves conservative3.634722 radial clearance. This is a nominal clearance fit, not forced rigid deformation, exact concentricity or physical retention certification.",
+    "Handle/pedal integral crank pins and axial retention are manual; no dynamic or physical verification. Handle/pedal8L identification is based stack extent, source finalBOM groups8shafts without separate lengths; exact lengths require inventory/measurement confirmation."
+  ],
+  "matrixInvalid": [],
+  "pixelReview": "Current corrected source0f116666 final3 and all7 cumulative frames actually reviewed, original step6 inspected. See current-pixel-review.json. Four raw proxy alarm classifications unchanged; eccentric-fit and stability limits remain.",
+  "accepted": false,
+  "physicalValidation": false
+}

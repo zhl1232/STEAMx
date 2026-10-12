@@ -1,0 +1,114 @@
+0 5+ Mixer - source reconstruction draft
+0 Name: 5-jiao-ban-qi.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // DEV-ONLY source-based reconstruction; 11 PDF pages visually inspected; page11 is final view.
+0 // Mechanical IDs corroborated by official9656 survey and official LDraw catalog.
+0 // Raised head pose ~35 degrees inferred from source; manual joint/gear checks; no physical test.
+0 // Source page 1: 24x24 green base; alternating eight-layer 6x4 tower, 12 yellow and 12 blue bricks.
+1 2 0 -24 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 14 -440 -72 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -320 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -120 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -400 -120 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -168 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -320 -168 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -216 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -400 -216 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -264 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -320 -264 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -264 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -312 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -400 -312 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -312 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -360 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -320 -360 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -360 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -408 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -400 -408 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -408 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 2: red2x10 holed cantilever; lower pivot is X=-160, Y=-432, Z=-80.
+1 4 -280 -456 -80 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // Source page 3: four blue2x4 bricks lock the cantilever; front/back lower bricks overhang one stud.
+1 1 -400 -456 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -456 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -504 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -504 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 4: two11-hole beams flank fixed brick, with axle6 and two pulleys.
+1 14 3.830409 -546.715287 -20 0.573576 0 0.819152 0.819152 0 -0.573576 0 1 0 6525.dat
+1 14 3.830409 -546.715287 -140 0.573576 0 0.819152 0.819152 0 -0.573576 0 1 0 6525.dat
+1 71 -160 -432 -80 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -160 -432 20 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 -432 -180 -1 0 0 0 1 0 0 0 -1 6527.dat
+0 STEP
+0 // Source page 5: upper red2x10 hole brick, connected to beam holes at160 and240; gear top-bores at280 and440 remain unobstructed.
+1 4 55.596738 -612.261051 -80 0.819152 0.573576 0 -0.573576 0.819152 0 0 0 1 75350.dat
+1 71 -28.935673 -523.77223 -80 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -28.935673 -523.77223 20 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -28.935673 -523.77223 -180 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 71 36.596491 -569.658345 -80 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 36.596491 -569.658345 40 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 36.596491 -569.658345 -200 -1 0 0 0 1 0 0 0 -1 6527.dat
+0 // p5 inner/outer wheel pair80LDU apart: outer pair slid20LDU out on same shafts for flange clearance; inferred depth, not measured from source.
+0 STEP
+0 // Source page 6: yellow40-tooth input gear, axle6 through TOP bore, two pulleys and crank.
+1 71 55.596738 -612.261051 -80 0.573576 -0.819152 0 0.819152 0.573576 0 0 0 1 6522.dat
+1 14 44.125209 -628.644092 -80 0.819152 0 0.573576 -0.573576 0 0.819152 0 -1 0 6530.dat
+1 14 21.182152 -661.410174 -80 0.819152 0 0.573576 -0.573576 0 0.819152 0 -1 0 6527.dat
+1 14 94.599936 -556.558712 -80 0.819152 0 0.573576 -0.573576 0 0.819152 0 -1 0 6527.dat
+1 14 -1.760906 -694.176256 -80 0 -0.573576 -0.819152 0 -0.819152 0.573576 -1 0 0 6526.dat
+0 STEP
+0 // Source page 7: red24-tooth output gear160LDU from40-tooth input; greenAxle8 and lower pulley.
+1 4 175.189536 -720.416322 -80 0.812144 -0.106921 0.573576 -0.568669 0.074867 0.819152 -0.130526 -0.991445 0 6529.dat
+1 2 255.490237 -605.735036 -80 0.573576 -0.819152 0 0.819152 0.573576 0 0 0 1 6521.dat
+1 14 225.664263 -648.330942 -80 0.819152 0 0.573576 -0.573576 0 0.819152 0 -1 0 6527.dat
+0 STEP
+0 // Source page 8: two stacked opposed crank blades on output axle; integral pins retained.
+1 14 312.847881 -523.819831 -80 0 0.573576 0.819152 0 0.819152 -0.573576 -1 0 0 6526.dat
+1 14 335.790938 -491.05375 -80 0 0.573576 -0.819152 0 0.819152 0.573576 1 0 0 6526.dat
+0 STEP
+0 // Source page 9: 8x8 grey floor plate with10x10 hollow ring; one-stud overhang on all four sides; eight blue then eight yellow bricks.
+1 7 240 -48 120 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 120 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -96 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 360 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -96 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 200 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -96 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -144 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -144 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 360 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -144 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -144 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -144 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 10: second blue/yellow pair of hollow ring layers; finished page11 adds no parts.
+1 1 120 -192 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -192 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 360 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -192 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -192 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 200 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -192 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -240 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -240 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 360 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -240 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -240 280 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -240 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Pending final source-view rendering, gear/contact review and user confirmation.

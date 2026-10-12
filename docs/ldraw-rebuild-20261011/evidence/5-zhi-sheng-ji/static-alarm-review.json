@@ -1,0 +1,135 @@
+{
+  "slug": "5-zhi-sheng-ji",
+  "sourceSha256": "9df10d986740a29bcbd605a81b13336e11fb06cc21987a7ab8570c0febaf947a",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 2,
+  "rawOutput": "\nFAIL [5-zhi-sheng-ji.ldr] 1 error(s), 43 placement(s):\n  - step 2: 5-zhi-sheng-ji_l19 overlaps 5-zhi-sheng-ji_l18\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "alarms": [
+    {
+      "step": 2,
+      "lines": [
+        19,
+        18
+      ],
+      "classification": "real_risk",
+      "raw": "  - step 2: 5-zhi-sheng-ji_l19 overlaps 5-zhi-sheng-ji_l18",
+      "evidence": "Actual recursive DAT triangle test on LDR18/19: 4 strict crossing triangle pairs in approximate cockpit/canopy lower rim; see mesh-alarm-diagnostic.json for coordinates and provenance. Not waived as metadata AABB. Source p2 supports intended canopy, but prior-approved approximate cab retention shape does not prove fit; do not move it only to clear alarm."
+    }
+  ],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "Two flexible runs from p12 right2x omitted; stock thumbnail1x not treated as total. Candidate71059 is inventory only, not confirmed ID. p13/p14 route behind tail-to-aft pulley and aft-to-forward pulley is partly occluded; crossing/return segments and material unknown. No fabricated flexible geometry.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Cab31196c01 is prior-approved approximate geometry, including threaded sockets and canopy seat; official6345 does not make assembly exact. Cockpit stud clutch and canopy retention require verification.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "40T and24T gear axes160LDU apart nominally; crown centre offsets100Y/80Z nominal orthogonal mesh. Tooth phase/depth, friction and shaft retention unverified.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Main and tail blades use40LDU thick beam stack and opposed crank pins at80LDU eccentricity. Exact hole/pin fit and full sweep need mechanical verification.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Tail boom hidden bond/overhang and rotor static orientation inferred from source images; no scale transforms.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "physicalValidation": false,
+  "overallAcceptance": false,
+  "meshEvidence": "mesh-alarm-diagnostic.json",
+  "additionalMeshChecks": [
+    {
+      "lines": [
+        16,
+        18
+      ],
+      "parts": [
+        "75350.dat",
+        "31196c01.dat"
+      ],
+      "triangles": [
+        12600,
+        20716
+      ],
+      "bboxCandidates": 692,
+      "strictCrossingPairs": 0,
+      "samples": [],
+      "interpretation": "Zero strict crossings against supporting red rail; coplanar contacts/endpoints excluded, not clutch or support validation."
+    },
+    {
+      "lines": [
+        17,
+        18
+      ],
+      "parts": [
+        "75350.dat",
+        "31196c01.dat"
+      ],
+      "triangles": [
+        12600,
+        20716
+      ],
+      "bboxCandidates": 317,
+      "strictCrossingPairs": 0,
+      "samples": [],
+      "interpretation": "Zero strict crossings against supporting red rail; coplanar contacts/endpoints excluded, not clutch or support validation."
+    }
+  ],
+  "recursiveResolution": {
+    "allLocal": true,
+    "files": 129,
+    "missing": [],
+    "method": "Recursive type3/4 vertices: local DAT first, then exact-name blocks from existing published MPDs; each resolved source is recorded in provenance. No basenamefallback. Origins/bounds only, not meshpair or physicalvalidation."
+  },
+  "pixelObservation": {
+    "file": "current-pixel-review.json",
+    "sourceSha256": "9df10d986740a29bcbd605a81b13336e11fb06cc21987a7ab8570c0febaf947a",
+    "revision": "ee69bd1547c4ddbecde7f42c5eaaf23b3e0191539b92dd17871e4d664f989c29",
+    "finalOriginalPngsViewed": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "stepOriginalPngsViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "sourcePagesReopened": [
+      2,
+      5,
+      9,
+      11,
+      14
+    ],
+    "newDefiniteVisualErrors": [],
+    "observations": [
+      "Cockpit canopy faces away from tail, corresponding to source p2/p14; approximate lower rim intersections remain.",
+      "Main 11-hole crossed beams and tail 7-hole crossed beams visibly retain separate stack layers; opposed crank fixation and dynamic clearance are not certified.",
+      "Tail stair offsets and 4x4 cap correspond to source p5 silhouette; hidden bond/overhang remains inferred.",
+      "Steps12/13 repeat11 intentionally because two source p12 flexible runs are omitted; source quantity remains2, with ID/material/route unresolved."
+    ],
+    "accepted": false,
+    "physicalValidation": false
+  }
+}

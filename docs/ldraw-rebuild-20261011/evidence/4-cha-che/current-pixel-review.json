@@ -1,0 +1,100 @@
+{
+  "sourceSha256": "f4d5fccdd0d5e288d8819f5645a76c106b8d3826d2175667e747a05ab89c7c0c",
+  "revision": "c6c622610201750a3019ba234ff58174631d1cf6ac56877a22e4fee26c4d4b89",
+  "reviewedAt": "2026-10-11T05:42:01.817844+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-cha-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "ea2a93200fbb225402b3b470d42bf82ccda4b229bda02f8d90bd5131bbff85dc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "27183e8e20ca111b38ea6db00f691ecf292b7a86d70491bcc8448f2d59c6e4f3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "a700cffb69acde2ec862ac062cd9b52ab295dec2f64ee40f18b574555915bf1a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "60ebf3b97f7340cf9eb79b25fcb9a5edb73e57b62d06df5dfd0ebe1ad6b355a2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "16e7b354586c4928a646a7a036f649a3ab1a7617f362fdb28f50ab6427e0389b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "07a1c8d2857e4a0054d77d7530a6cc05659bf4b2c94cb3ac43b472f0329213e2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "79eabeb6e6cbbd636cededffaa17f955df245032c078bd0086d03ea8fc23a2e4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "eebaa5ec6ab8e9995a1c962623876c60268a9dc877f7b687c12987a4bd432a36",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "7943ef0a28a56c3b6a60c1e52f0c744e743c0222ce29ec6df8f7b1934fcb9ad2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "0522c518333520689389a95d73f75e57c8133573d8d0b8d6a935772c59a397b4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "a0d2904cc6626609a5e2b1a53307aea39e02f409d1c9d3b5ab5f419fc9a16f8f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "ec0eb9ec9ff4e415c48e3577c9af1d6d834a0640ca7ac72f2f5712c6ae4b5665",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "099e5e9f8ba2a4f26e71a63cdd65f0bc7557c5d851fac4c9419b9a75463d95d7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "1fb0202eca7a5846d0878151fb351914a6bc6bc1e3253676b72bb1d1ec455f1a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "a9b35a431f0ed2387a31437b29f381e99759edbebe89908a97a5769fb1c9bf78",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "0621a1286393405bc7cb190128b9cc9a674509f7e64bcce1a667db74ddf6015a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "ea2a93200fbb225402b3b470d42bf82ccda4b229bda02f8d90bd5131bbff85dc",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "All14 cumulative frames and final3 inspected in unclipped sheets; step5,8,13 original-resolution details checked. Two4433c01 fork pipes omitted; pallet separate; Toolo mating and physical support unresolved. Remains INCOMPLETE."
+}

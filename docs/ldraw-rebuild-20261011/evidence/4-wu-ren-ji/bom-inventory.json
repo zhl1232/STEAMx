@@ -1,0 +1,112 @@
+[
+  {
+    "id": "76395.dat",
+    "color": 0,
+    "colorName": "Black",
+    "required": 9,
+    "catalog": "86599",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "86599",
+        "name": "Duplo Toolo Brick 4 x 6 with Holes on Sides and Top and 3 Screws in Top",
+        "color": "Black",
+        "quantity": 7,
+        "part_url": "https://rebrickable.com/parts/86599/duplo-toolo-brick-4-x-6-with-holes-on-sides-and-top-and-3-screws-in-top/",
+        "raw_description": "86599 Duplo Toolo Brick 4 x 6 with Holes on Sides and Top and 3 Screws in Top in Black Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 2,
+    "quantityStatus": "matched exact colour rows"
+  },
+  {
+    "id": "28336.dat",
+    "color": 72,
+    "colorName": "Dark Bluish Gray",
+    "required": 5,
+    "catalog": "45202",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "45202",
+        "name": "Duplo Toolo Brick 2 x 2 with Angled Bracket with Forks and Two Screws, Holes at Side",
+        "color": "Dark Bluish Gray",
+        "quantity": 4,
+        "part_url": "https://rebrickable.com/parts/45202/duplo-toolo-brick-2-x-2-with-angled-bracket-with-forks-and-two-screws-holes-at-side/",
+        "raw_description": "45202 Duplo Toolo Brick 2 x 2 with Angled Bracket with Forks and Two Screws, Holes at Side in Dark Bluish Gray Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 1,
+    "quantityStatus": "matched exact colour rows"
+  },
+  {
+    "id": "dev-129/28331.dat",
+    "color": 72,
+    "colorName": "Dark Bluish Gray",
+    "required": 4,
+    "catalog": "74844",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "74844",
+        "name": "Duplo Toolo Arm 2 x 11 with Triangular Set Screw End",
+        "color": "Dark Bluish Gray",
+        "quantity": 2,
+        "part_url": "https://rebrickable.com/parts/74844/duplo-toolo-arm-2-x-11-with-triangular-set-screw-end/",
+        "raw_description": "74844 Duplo Toolo Arm 2 x 11 with Triangular Set Screw End in Dark Bluish Gray Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 2,
+    "quantityStatus": "matched exact colour rows"
+  },
+  {
+    "id": "74957.dat",
+    "color": 72,
+    "colorName": "Dark Bluish Gray",
+    "required": 5,
+    "catalog": "74957",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "74957",
+        "name": "Duplo Toolo Brick 2 x 2 with Holes and Clip on Bottom",
+        "color": "Dark Bluish Gray",
+        "quantity": 2,
+        "part_url": "https://rebrickable.com/parts/74957/duplo-toolo-brick-2-x-2-with-holes-and-clip-on-bottom/",
+        "raw_description": "74957 Duplo Toolo Brick 2 x 2 with Holes and Clip on Bottom in Dark Bluish Gray Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 3,
+    "quantityStatus": "matched exact colour rows"
+  },
+  {
+    "id": "76057.dat",
+    "color": 4,
+    "colorName": "Red",
+    "required": 8,
+    "catalog": "31184c01",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "31184c01",
+        "name": "Duplo Toolo Brick 2 x 4 with Holes on Sides and Top and 1 Screw in Top",
+        "color": "Red",
+        "quantity": 1,
+        "part_url": "https://rebrickable.com/parts/31184c01/duplo-toolo-brick-2-x-4-with-holes-on-sides-and-top-and-1-screw-in-top/",
+        "raw_description": "31184c01 Duplo Toolo Brick 2 x 4 with Holes on Sides and Top and 1 Screw in Top in Red Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 7,
+    "quantityStatus": "matched exact colour rows"
+  },
+  {
+    "id": "99565.dat",
+    "color": 71,
+    "colorName": "Light Bluish Gray",
+    "required": 1,
+    "catalog": "99565",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown; absent row is not zero"
+  }
+]

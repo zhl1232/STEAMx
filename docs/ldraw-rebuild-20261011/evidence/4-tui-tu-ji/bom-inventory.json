@@ -1,0 +1,198 @@
+[
+  {
+    "id": "76395.dat",
+    "color": 0,
+    "colorName": "Black",
+    "required": 7,
+    "catalog": "86599",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "86599",
+        "name": "Duplo Toolo Brick 4 x 6 with Holes on Sides and Top and 3 Screws in Top",
+        "color": "Black",
+        "quantity": 7,
+        "part_url": "https://rebrickable.com/parts/86599/duplo-toolo-brick-4-x-6-with-holes-on-sides-and-top-and-3-screws-in-top/",
+        "raw_description": "86599 Duplo Toolo Brick 4 x 6 with Holes on Sides and Top and 3 Screws in Top in Black Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 0,
+    "quantityStatus": "matched exact colour rows"
+  },
+  {
+    "id": "3011.dat",
+    "color": 4,
+    "colorName": "Red",
+    "required": 10,
+    "catalog": "3011",
+    "inventoryRows": [
+      {
+        "set": "9090-2",
+        "part_num": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "color": "Red",
+        "quantity": 20,
+        "part_url": "https://rebrickable.com/parts/3011/duplo-brick-2-x-4/",
+        "raw_description": "3011 Duplo Brick 2 x 4 in Red Duplo, Quatro and Primo"
+      },
+      {
+        "set": "9656-1",
+        "part_num": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "color": "Red",
+        "quantity": 4,
+        "part_url": "https://rebrickable.com/parts/3011/duplo-brick-2-x-4/",
+        "raw_description": "3011 Duplo Brick 2 x 4 in Red Duplo, Quatro and Primo"
+      },
+      {
+        "set": "9076-1",
+        "part_num": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "color": "Red",
+        "quantity": 4,
+        "part_url": "https://rebrickable.com/parts/3011/duplo-brick-2-x-4/",
+        "raw_description": "3011 Duplo Brick 2 x 4 in Red Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": "unknown",
+    "quantityStatus": "matched exact colour rows"
+  },
+  {
+    "id": "3437.dat",
+    "color": 4,
+    "colorName": "Red",
+    "required": 4,
+    "catalog": "3437",
+    "inventoryRows": [
+      {
+        "set": "9090-2",
+        "part_num": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "color": "Red",
+        "quantity": 40,
+        "part_url": "https://rebrickable.com/parts/3437/duplo-brick-2-x-2/",
+        "raw_description": "3437 Duplo Brick 2 x 2 in Red Duplo, Quatro and Primo"
+      },
+      {
+        "set": "9656-1",
+        "part_num": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "color": "Red",
+        "quantity": 2,
+        "part_url": "https://rebrickable.com/parts/3437/duplo-brick-2-x-2/",
+        "raw_description": "3437 Duplo Brick 2 x 2 in Red Duplo, Quatro and Primo"
+      },
+      {
+        "set": "9076-1",
+        "part_num": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "color": "Red",
+        "quantity": 8,
+        "part_url": "https://rebrickable.com/parts/3437/duplo-brick-2-x-2/",
+        "raw_description": "3437 Duplo Brick 2 x 2 in Red Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": "unknown",
+    "quantityStatus": "matched exact colour rows"
+  },
+  {
+    "id": "99565.dat",
+    "color": 71,
+    "colorName": "Light Bluish Gray",
+    "required": 8,
+    "catalog": "99565",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown, no inferred zero"
+  },
+  {
+    "id": "28336.dat",
+    "color": 72,
+    "colorName": "Dark Bluish Gray",
+    "required": 1,
+    "catalog": "45202",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "45202",
+        "name": "Duplo Toolo Brick 2 x 2 with Angled Bracket with Forks and Two Screws, Holes at Side",
+        "color": "Dark Bluish Gray",
+        "quantity": 4,
+        "part_url": "https://rebrickable.com/parts/45202/duplo-toolo-brick-2-x-2-with-angled-bracket-with-forks-and-two-screws-holes-at-side/",
+        "raw_description": "45202 Duplo Toolo Brick 2 x 2 with Angled Bracket with Forks and Two Screws, Holes at Side in Dark Bluish Gray Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 0,
+    "quantityStatus": "matched exact colour rows"
+  },
+  {
+    "id": "4198.dat",
+    "color": 4,
+    "colorName": "Red",
+    "required": 3,
+    "catalog": "4198",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown, no inferred zero"
+  },
+  {
+    "id": "61649.dat",
+    "color": 4,
+    "colorName": "Red",
+    "required": 4,
+    "catalog": "61649",
+    "inventoryRows": [
+      {
+        "set": "9090-2",
+        "part_num": "61649",
+        "name": "Duplo Door / Window Frame Flat Front Surface, Completely Open Back",
+        "color": "Red",
+        "quantity": 6,
+        "part_url": "https://rebrickable.com/parts/61649/duplo-door-window-frame-flat-front-surface-completely-open-back/",
+        "raw_description": "61649 Duplo Door / Window Frame Flat Front Surface, Completely Open Back in Red Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": "unknown",
+    "quantityStatus": "matched exact colour rows"
+  },
+  {
+    "id": "90265.dat",
+    "color": 15,
+    "colorName": "White",
+    "required": 4,
+    "catalog": "90265",
+    "inventoryRows": [
+      {
+        "set": "9090-2",
+        "part_num": "90265",
+        "name": "Duplo Door / Window with Four Equal Square Cornered Panes",
+        "color": "White",
+        "quantity": 6,
+        "part_url": "https://rebrickable.com/parts/90265/duplo-door-window-with-four-equal-square-cornered-panes/",
+        "raw_description": "90265 Duplo Door / Window with Four Equal Square Cornered Panes in White Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": "unknown",
+    "quantityStatus": "matched exact colour rows"
+  },
+  {
+    "id": "40666.dat",
+    "color": 14,
+    "colorName": "Yellow",
+    "required": 6,
+    "catalog": "40666",
+    "inventoryRows": [
+      {
+        "set": "9656-1",
+        "part_num": "40666",
+        "name": "Duplo Plate 2 x 4",
+        "color": "Yellow",
+        "quantity": 2,
+        "part_url": "https://rebrickable.com/parts/40666/duplo-plate-2-x-4/",
+        "raw_description": "40666 Duplo Plate 2 x 4 in Yellow Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": "unknown",
+    "quantityStatus": "matched exact colour rows"
+  }
+]

@@ -1,0 +1,422 @@
+{
+  "slug": "5-qing-ting",
+  "sourceSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
+  "checkpointSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
+  "reviewedAt": "2026-10-11T07:19:33.055933+00:00",
+  "rawExit": 2,
+  "rawOutput": "\nFAIL [5-qing-ting.ldr] 5 error(s), 62 placement(s):\n  - step 3: 5-qing-ting_l35 overlaps 5-qing-ting_l17; 5-qing-ting_l35 overlaps 5-qing-ting_l20\n  - step 5: 5-qing-ting_l50 overlaps 5-qing-ting_l47\n  - step 5: 5-qing-ting_l51 overlaps 5-qing-ting_l11; 5-qing-ting_l51 overlaps 5-qing-ting_l48\n  - step 7: 5-qing-ting_l71 overlaps 5-qing-ting_l69; 5-qing-ting_l71 overlaps 5-qing-ting_l70\n  - step 7: 5-qing-ting_l74 overlaps 5-qing-ting_l72; 5-qing-ting_l74 overlaps 5-qing-ting_l73\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "alarmPairCount": 9,
+  "classificationCounts": {
+    "false_positive": 2,
+    "real_risk": 5,
+    "insufficient_evidence": 2
+  },
+  "alarms": [
+    {
+      "lines": [
+        35,
+        17
+      ],
+      "placements": [
+        "1 4 80 -48 0 0 0 -1 0 1 0 1 0 0 75350.dat",
+        "1 14 160 24 -60 -1 0 0 0 1 0 0 0 -1 6527.dat"
+      ],
+      "classification": "false_positive",
+      "reason": "Rotated transverse brick rectangular cross-section stays outside actual circular flange, despite box corner overlap.",
+      "geometry": {
+        "closestCrossSectionCornerOffsetsLdu": [
+          40,
+          24
+        ],
+        "closestRadialDistanceLdu": 46.647615158762406,
+        "pulleyFlangeRadiusLdu": 41,
+        "minimumRadialClearanceLdu": 5.647615158762406
+      },
+      "evidence": [
+        "sourcep3",
+        "current LDR placement dimensions of75350 and6527"
+      ],
+      "action": "Dismiss only this pair collision; no general support approval."
+    },
+    {
+      "lines": [
+        35,
+        20
+      ],
+      "placements": [
+        "1 4 80 -48 0 0 0 -1 0 1 0 1 0 0 75350.dat",
+        "1 14 160 24 60 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "false_positive",
+      "reason": "Rotated transverse brick rectangular cross-section stays outside actual circular flange, despite box corner overlap.",
+      "geometry": {
+        "closestCrossSectionCornerOffsetsLdu": [
+          40,
+          24
+        ],
+        "closestRadialDistanceLdu": 46.647615158762406,
+        "pulleyFlangeRadiusLdu": 41,
+        "minimumRadialClearanceLdu": 5.647615158762406
+      },
+      "evidence": [
+        "sourcep3",
+        "current LDR placement dimensions of75350 and6527"
+      ],
+      "action": "Dismiss only this pair collision; no general support approval."
+    },
+    {
+      "lines": [
+        50,
+        47
+      ],
+      "placements": [
+        "1 14 -240 -128 0 1 0 0 0 0 -1 0 1 0 6527.dat",
+        "1 14 -320 -128 0 1 0 0 0 0 -1 0 1 0 6527.dat"
+      ],
+      "classification": "real_risk",
+      "reason": "Source-selected neighbouring tail holes80LDU apart place coplanar82LDU flange diameters in potential2LDU interference.",
+      "geometry": {
+        "centresLdu": 80,
+        "twoFlangeRadiiLdu": [
+          41,
+          41
+        ],
+        "radialOverlapLdu": 2
+      },
+      "evidence": [
+        "sourcep5",
+        "current LDR and official6527 flange dimensions"
+      ],
+      "action": "Keep unresolved. No silent axis shift away from source; require source/interface review or physical evidence."
+    },
+    {
+      "lines": [
+        51,
+        11
+      ],
+      "placements": [
+        "1 14 -240 20 0 1 0 0 0 0 1 0 -1 0 6527.dat",
+        "1 4 0 0 0 1 0 0 0 1 0 0 0 1 75350.dat"
+      ],
+      "classification": "real_risk",
+      "reason": "Lower tail pulley reaches body-end plane by1LDU; no mesh clearance evidence removes this risk.",
+      "geometry": {
+        "bodyEndX": -200,
+        "pulleyCentreX": -240,
+        "pulleyRadius": 41,
+        "potentialEdgePenetrationLdu": 1
+      },
+      "evidence": [
+        "sourcep5",
+        "current LDR and official6527 flange dimensions"
+      ],
+      "action": "Keep unresolved. No silent axis shift away from source; require source/interface review or physical evidence."
+    },
+    {
+      "lines": [
+        51,
+        48
+      ],
+      "placements": [
+        "1 14 -240 20 0 1 0 0 0 0 1 0 -1 0 6527.dat",
+        "1 14 -320 20 0 1 0 0 0 0 1 0 -1 0 6527.dat"
+      ],
+      "classification": "real_risk",
+      "reason": "Source-selected neighbouring tail holes80LDU apart place coplanar82LDU flange diameters in potential2LDU interference.",
+      "geometry": {
+        "centresLdu": 80,
+        "twoFlangeRadiiLdu": [
+          41,
+          41
+        ],
+        "radialOverlapLdu": 2
+      },
+      "evidence": [
+        "sourcep5",
+        "current LDR and official6527 flange dimensions"
+      ],
+      "action": "Keep unresolved. No silent axis shift away from source; require source/interface review or physical evidence."
+    },
+    {
+      "lines": [
+        71,
+        69
+      ],
+      "placements": [
+        "1 0 320 -24 -90 -1 0 0 0 1 0 0 0 -1 6292.dat",
+        "1 14 320 -24 -60 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real_risk",
+      "reason": "Actual official transformed surfaces intersect:197 strict segment/interior-triangle crossing pairs, with saved intersection points and triangle coordinates. Thus this pair is not a bounding-box false positive.",
+      "geometry": {
+        "negativeHalfNominalInnerRadiusLdu": 24,
+        "positiveHalfNominalInnerRadiusLdu": 41,
+        "pulleyMaximumRadiusLdu": 41,
+        "axes": "coaxial worldZ; tyre and both6527 rim centres share worldX/Y",
+        "positiveSideAxialRanges": {
+          "tyre": [
+            59,
+            121
+          ],
+          "innerFlange": [
+            42,
+            60
+          ],
+          "innerHub": [
+            60,
+            80
+          ],
+          "outerFlange": [
+            120,
+            138
+          ],
+          "outerHub": [
+            100,
+            120
+          ]
+        },
+        "negativeSide": "same ranges reflected acrossZ=0"
+      },
+      "evidence": [
+        "5-yu-er-de-wei-ba/tyre-profile-audit.json newly established axial cavity sections",
+        "official6527 radius and current placement transforms"
+      ],
+      "action": "Do not approve existing geometry. Scratch40LDU back-to-back candidate reduces but does not eliminate crossings (52 remain), so candidate not applied to source.",
+      "axialSectionCountercheck": {
+        "tyreLine": 71,
+        "wheelLine": 69,
+        "relativeCenter": [
+          0,
+          0,
+          -30
+        ],
+        "worst": {
+          "z": -30.037699999999987,
+          "inner": 28.40622681506566,
+          "outer": 41.00248042496942,
+          "gap": -12.596253609903759
+        }
+      },
+      "sectionMethodLimit": "Face-edge endpoint radial-envelope audit; misses interior closest point and angle correlation. Large negative gap is an interference risk; small negative gap cannot be dismissed as mere rounding. See independent-qa/tyre-profile-independent.json.",
+      "strictTriangleSurfaceCrossings": 197,
+      "triangleEvidenceFile": "tyre-current-triangles.json"
+    },
+    {
+      "lines": [
+        71,
+        70
+      ],
+      "placements": [
+        "1 0 320 -24 -90 -1 0 0 0 1 0 0 0 -1 6292.dat",
+        "1 14 320 -24 -120 -1 0 0 0 1 0 0 0 -1 6527.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "REVOKED previous uniform42.183LDU cavity-radius exemption: official6292 cavity is axially asymmetric. Pair-specific tyre-local radial sections must be audited.",
+      "geometry": {
+        "negativeHalfNominalInnerRadiusLdu": 24,
+        "positiveHalfNominalInnerRadiusLdu": 41,
+        "pulleyMaximumRadiusLdu": 41,
+        "axes": "coaxial worldZ; tyre and both6527 rim centres share worldX/Y",
+        "positiveSideAxialRanges": {
+          "tyre": [
+            59,
+            121
+          ],
+          "innerFlange": [
+            42,
+            60
+          ],
+          "innerHub": [
+            60,
+            80
+          ],
+          "outerFlange": [
+            120,
+            138
+          ],
+          "outerHub": [
+            100,
+            120
+          ]
+        },
+        "negativeSide": "same ranges reflected acrossZ=0"
+      },
+      "evidence": [
+        "5-yu-er-de-wei-ba/tyre-profile-audit.json newly established axial cavity sections",
+        "official6527 radius and current placement transforms"
+      ],
+      "action": "No strict crossings found by this test, but coplanar contact and containment are not tested; cannot certify false positive or physical fit.",
+      "axialSectionCountercheck": {
+        "tyreLine": 71,
+        "wheelLine": 70,
+        "relativeCenter": [
+          0,
+          0,
+          30
+        ],
+        "worst": {
+          "z": 30.012300000000597,
+          "inner": 40.99803625797216,
+          "outer": 41.00248042496942,
+          "gap": -0.004444166997259913
+        }
+      },
+      "sectionMethodLimit": "Face-edge endpoint radial-envelope audit; misses interior closest point and angle correlation. Large negative gap is an interference risk; small negative gap cannot be dismissed as mere rounding. See independent-qa/tyre-profile-independent.json.",
+      "strictTriangleSurfaceCrossings": 0,
+      "triangleEvidenceFile": "tyre-current-triangles.json"
+    },
+    {
+      "lines": [
+        74,
+        72
+      ],
+      "placements": [
+        "1 0 320 -24 90 1 0 0 0 1 0 0 0 1 6292.dat",
+        "1 14 320 -24 60 -1 0 0 0 1 0 0 0 -1 6527.dat"
+      ],
+      "classification": "real_risk",
+      "reason": "Actual official transformed surfaces intersect:197 strict segment/interior-triangle crossing pairs, with saved intersection points and triangle coordinates. Thus this pair is not a bounding-box false positive.",
+      "geometry": {
+        "negativeHalfNominalInnerRadiusLdu": 24,
+        "positiveHalfNominalInnerRadiusLdu": 41,
+        "pulleyMaximumRadiusLdu": 41,
+        "axes": "coaxial worldZ; tyre and both6527 rim centres share worldX/Y",
+        "positiveSideAxialRanges": {
+          "tyre": [
+            59,
+            121
+          ],
+          "innerFlange": [
+            42,
+            60
+          ],
+          "innerHub": [
+            60,
+            80
+          ],
+          "outerFlange": [
+            120,
+            138
+          ],
+          "outerHub": [
+            100,
+            120
+          ]
+        },
+        "negativeSide": "same ranges reflected acrossZ=0"
+      },
+      "evidence": [
+        "5-yu-er-de-wei-ba/tyre-profile-audit.json newly established axial cavity sections",
+        "official6527 radius and current placement transforms"
+      ],
+      "action": "Do not approve existing geometry. Scratch40LDU back-to-back candidate reduces but does not eliminate crossings (52 remain), so candidate not applied to source.",
+      "axialSectionCountercheck": {
+        "tyreLine": 74,
+        "wheelLine": 72,
+        "relativeCenter": [
+          0,
+          0,
+          -30
+        ],
+        "worst": {
+          "z": -30.037699999999987,
+          "inner": 28.40622681506566,
+          "outer": 41.00248042496942,
+          "gap": -12.596253609903759
+        }
+      },
+      "sectionMethodLimit": "Face-edge endpoint radial-envelope audit; misses interior closest point and angle correlation. Large negative gap is an interference risk; small negative gap cannot be dismissed as mere rounding. See independent-qa/tyre-profile-independent.json.",
+      "strictTriangleSurfaceCrossings": 197,
+      "triangleEvidenceFile": "tyre-current-triangles.json"
+    },
+    {
+      "lines": [
+        74,
+        73
+      ],
+      "placements": [
+        "1 0 320 -24 90 1 0 0 0 1 0 0 0 1 6292.dat",
+        "1 14 320 -24 120 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "REVOKED previous uniform42.183LDU cavity-radius exemption: official6292 cavity is axially asymmetric. Pair-specific tyre-local radial sections must be audited.",
+      "geometry": {
+        "negativeHalfNominalInnerRadiusLdu": 24,
+        "positiveHalfNominalInnerRadiusLdu": 41,
+        "pulleyMaximumRadiusLdu": 41,
+        "axes": "coaxial worldZ; tyre and both6527 rim centres share worldX/Y",
+        "positiveSideAxialRanges": {
+          "tyre": [
+            59,
+            121
+          ],
+          "innerFlange": [
+            42,
+            60
+          ],
+          "innerHub": [
+            60,
+            80
+          ],
+          "outerFlange": [
+            120,
+            138
+          ],
+          "outerHub": [
+            100,
+            120
+          ]
+        },
+        "negativeSide": "same ranges reflected acrossZ=0"
+      },
+      "evidence": [
+        "5-yu-er-de-wei-ba/tyre-profile-audit.json newly established axial cavity sections",
+        "official6527 radius and current placement transforms"
+      ],
+      "action": "No strict crossings found by this test, but coplanar contact and containment are not tested; cannot certify false positive or physical fit.",
+      "axialSectionCountercheck": {
+        "tyreLine": 74,
+        "wheelLine": 73,
+        "relativeCenter": [
+          0,
+          0,
+          30
+        ],
+        "worst": {
+          "z": 30.012300000000597,
+          "inner": 40.99803625797216,
+          "outer": 41.00248042496942,
+          "gap": -0.004444166997259913
+        }
+      },
+      "sectionMethodLimit": "Face-edge endpoint radial-envelope audit; misses interior closest point and angle correlation. Large negative gap is an interference risk; small negative gap cannot be dismissed as mere rounding. See independent-qa/tyre-profile-independent.json.",
+      "strictTriangleSurfaceCrossings": 0,
+      "triangleEvidenceFile": "tyre-current-triangles.json"
+    }
+  ],
+  "directPartFileSha256": {
+    "6292.dat": "cde0daf6b533785bda13a5091830d59a3b0e828b69a2c7c7baeba5d2f076995e",
+    "6527.dat": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b",
+    "75350.dat": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53"
+  },
+  "noRawAlarmsMeaning": "No raw bounding-box alarms is not proof of source fidelity, support closure, dynamic operation or physical fit.",
+  "remainingSourceLimitations": [
+    {
+      "page": "5-8",
+      "part": "mechanical axle/wing connections",
+      "missing": "manual angular pose and hidden retention; static source reconstruction only"
+    },
+    {
+      "page": 5,
+      "part": "adjacent tail pulley flanges",
+      "missing": "source80LDU hole pitch versus official82LDU flange diameter leaves2LDU potential clash; source faithfully retained for review"
+    },
+    {
+      "page": 7,
+      "part": "6292 tyre / two6527 pulley wheel axial stack",
+      "missing": "Current inner rim has197 strict triangle crossings per wheel; source hidden axial seat depth unresolved. Candidate remains intersecting and unapplied. Previous uniform-radius exemption invalid."
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

@@ -1,0 +1,70 @@
+{
+  "sourceSha256": "3005a9dc87d03999a03330fa425d14fdee206ebb3c204365efe897552705c1f5",
+  "revision": "5dece041e340ba1737acb2efebc2c49f48a60f9864651c4d0c72147fcced6ebe",
+  "reviewedAt": "2026-10-11T12:55:09.885996+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-shuang-kai-da-men",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "6e43c5018a0dffbabe0c79d2eb9b822a67832cf6a11e41047d24cbb333d92046",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "36d0dc5f682138b5910639de901690c2483869900f748234727c1f2131f39d59",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "22fb965c3e2ca0ff48dd1d193606257352eb330b77391e30ad723bffc779a557",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "e0caf3f3b07412870f384a6a845078c61a8b44e3742226938a3c842e00040127",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "6e801009a1e8740297092278b338307f9932d675159917f988a1847001b24970",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "196d7cfdc19ef5e906aa175b9522494e3b35505e3bdc56a2a26f068de369ac8d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "4e3b5dfb20d40b4ccbeb8f149032883215d9618c8880e5ea97102a212dcb1efc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "26fdeb7fb70de414bd1da9459bb38b2987117d83fa1314f97aaf9e735629271a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "4c4f1b45dc4bf868e6286f4d89b838c2fefddd6e2fb6fc6b8da8e4651a665b43",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "613cf44f3f3585df8c8c610e8ae651a7d721adfd007c46a3fba81a102396683f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "6e43c5018a0dffbabe0c79d2eb9b822a67832cf6a11e41047d24cbb333d92046",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual final3/all8 cumulative frames and originaliso-rear viewed against originalpages1-9, finalp9 re-viewed. Tower count, paired6x12leaves, hinges and uppergear layout visible; no additional definite source correction established. Uppergreen shafts visibly protrude abovegear; exact8L axialstack/sourceprotrusion unresolved. Latchshortshaft entersleftbrick only, rightlocking notclaimed. Orthogonalgearphase/depth, hinge retention/opening sweep and inferredhiddenbond remain pending; rawPASS not acceptance."
+}

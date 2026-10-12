@@ -1,0 +1,65 @@
+{
+  "name": "5+测风仪搭建说明.pdf",
+  "relative_path": "5+/5+测风仪搭建说明.pdf",
+  "pages": 7,
+  "bytes": 982699,
+  "sha256": "7e4c23d30090f789ac7ee1533121fa7c4f4c88223d4966d0214736869dce1fa0",
+  "source_url": "https://pan.quark.cn/list#/docpdf/6e8b6566c5f14470b761bdb2e5b0be85",
+  "slug": "5-ce-feng-yi",
+  "lesson_id": 235,
+  "course_id": 7,
+  "localPdf": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5+\\5+测风仪搭建说明.pdf",
+  "pagesDecoded": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-1.jpg",
+      "sha256": "c585f2ad4f60e24a4b8d5b2e7aff1581e87361c1a1a09a6d81c297bb2e9bf257",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-2.jpg",
+      "sha256": "832c322e9dbb773fb9f277d079d3bd5de614dabc35df01948df5e795297977e0",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-3.jpg",
+      "sha256": "33abb7b5b0b246b7819c7c87608dc744a7b4aa8470bb15b25434b0ffda5b312e",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-4.jpg",
+      "sha256": "d15d1c57f3da70e00b24cd33e4f8941aa36dec685733cbdab51422c22817b409",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-5.jpg",
+      "sha256": "b8b387eae834891dc7066d0bb15afe41d3f7ae771a96804f263876d510d4fb40",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-6.jpg",
+      "sha256": "012799d2e6923bfae7cacb0ee5750d47c419c9f182598bbdddd4041bb9f8da99",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-7.jpg",
+      "sha256": "01d707e5de6a6351b83879a46daa5dd3d51ba7c3f928b91b18fa3236ad07edba",
+      "width": 1500,
+      "height": 1062
+    }
+  ],
+  "localBytesVerified": true,
+  "libraryFileId": "libfile_a51226cb6bb481919c9fca3ca46c74f4"
+}

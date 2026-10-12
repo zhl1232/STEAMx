@@ -1,0 +1,83 @@
+{
+  "manifest": {
+    "name": "5+手推飞机搭建说明.pdf",
+    "relative_path": "5+/5+手推飞机搭建说明.pdf",
+    "pages": 11,
+    "bytes": 1441582,
+    "sha256": "1ed75b42afd9c90c9387e1548576615a53186706ab44c2e0d2a3cd461dd1c4ee",
+    "source_url": "https://pan.quark.cn/list#/docpdf/306d8f33e3784ae1b19e2f37963a0aeb",
+    "slug": "5-shou-tui-fei-ji",
+    "lesson_id": 285,
+    "course_id": 7
+  },
+  "hashVerified": true,
+  "currentModelSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-01.jpg",
+      "sha256": "784b97874358a60d8e3f544dc3f307779924b5df48beeaec59ed9ac9660ac315",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-02.jpg",
+      "sha256": "286e90c8d851c4cdfa22db784bde8f7d1e8cc6096bce3bcff9d29ea3f7ac8ed4",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-03.jpg",
+      "sha256": "41dcdb84114215f93c71b5fabb1bda9e6be7fee8ccb2980f9c245d81646c6c00",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-04.jpg",
+      "sha256": "6fdf7ebf66a762f25f13a9e4466b0a74f4e9bc33b9cfe801ddcb181a1d92c506",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-05.jpg",
+      "sha256": "fc4e3cac01ddd7ea19e7fe508ab2ebc4f52d21719cc4161685f06d28a3a605da",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-06.jpg",
+      "sha256": "97d301d834916cd7e37a5f65b1ff59808db0d3c91560b624f63df155d24d10bf",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-07.jpg",
+      "sha256": "af0c1b64395f57ac7744df5bfc24e4f3c1cef23481d8bfa75a717c0068660b9a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-08.jpg",
+      "sha256": "ac8f905ee4411a1cc43ac50ff0376e2ecd4212cb03da0f2e5cca3b3247ed81ce",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-09.jpg",
+      "sha256": "d72fcf4dec54fcc609471952f21f3120f70a08c38f7858864c5530b74df86e32",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-10.jpg",
+      "sha256": "b4bd18c36c96270a9378acecaa26e4dee9e8baaecb049e748e1ee615cdb61718",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-11.jpg",
+      "sha256": "6f08d33c4a1dee0f074b41e1606e6baf8a89404f31fcb67efdaffb990e531ecb",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

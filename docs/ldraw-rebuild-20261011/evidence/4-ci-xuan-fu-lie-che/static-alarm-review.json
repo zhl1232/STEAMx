@@ -1,0 +1,114 @@
+{
+  "slug": "4-ci-xuan-fu-lie-che",
+  "sourceSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
+  "checkpointSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
+  "stableSinceCheckpoint": true,
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 2,
+  "rawOutput": "\nFAIL [4-ci-xuan-fu-lie-che.ldr] 2 error(s), 92 placement(s):\n  - step 9: 4-ci-xuan-fu-lie-che_l88 overlaps 4-ci-xuan-fu-lie-che_l87\n  - step 9: 4-ci-xuan-fu-lie-che_l90 overlaps 4-ci-xuan-fu-lie-che_l89\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "alarms": [
+    {
+      "step": 9,
+      "lines": [
+        87,
+        88
+      ],
+      "parts": [
+        "31196c01.dat",
+        "6345.dat"
+      ],
+      "classification": "real_risk",
+      "scope": "Small actual rendered-mesh seat-rim crossing; not a claim of physical part collision",
+      "resolution": "unresolved_keep_alarm",
+      "sourceEvidence": {
+        "page": 9,
+        "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-09.jpg",
+        "pixelsActuallyViewed": true,
+        "conclusion": "Two pale-yellow canopies seated on red cockpit noses; does not justify separating parts to hide warning."
+      },
+      "geometryEvidence": {
+        "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\mesh-alarm-diagnostic.json",
+        "recursiveTriangles": [
+          20716,
+          1000
+        ],
+        "strictCrossingPairs": 4,
+        "representativeWorldPoint": [
+          484.18777933666263,
+          -427.1811028647631,
+          44.071947550742536
+        ],
+        "representativeCockpitLocalPoint": [
+          -44.07195,
+          -52.1811,
+          -155.81222
+        ],
+        "crossingSidePlaneDistancesLdu": [
+          0.039193542,
+          0.059113452
+        ],
+        "note": "Shared seating-rim boundary and triangulated sloped panels have very small crossing. Older metadata notes prove only subsets/contact poses; fresh full-mesh diagnostics do not justify a blanket AABB false-positive classification."
+      },
+      "confidence": "High for existence of saved-mesh surface crossing; low for physical implication because cockpit is unmeasured approximation and contact magnitude is tiny.",
+      "action": "Retain visible pose and raw warning. Any seat-rim fix needs isolated dev geometry and updated contact/full-angle review; sharedDAT not modified."
+    },
+    {
+      "step": 9,
+      "lines": [
+        89,
+        90
+      ],
+      "parts": [
+        "31196c01.dat",
+        "6345.dat"
+      ],
+      "classification": "real_risk",
+      "scope": "Small actual rendered-mesh seat-rim crossing; not a claim of physical part collision",
+      "resolution": "unresolved_keep_alarm",
+      "sourceEvidence": {
+        "page": 9,
+        "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-09.jpg",
+        "pixelsActuallyViewed": true,
+        "conclusion": "Two pale-yellow canopies seated on red cockpit noses; does not justify separating parts to hide warning."
+      },
+      "geometryEvidence": {
+        "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\mesh-alarm-diagnostic.json",
+        "recursiveTriangles": [
+          20716,
+          1000
+        ],
+        "strictCrossingPairs": 4,
+        "representativeWorldPoint": [
+          1595.8122206633375,
+          -427.1811028647631,
+          -44.071947550742536
+        ],
+        "representativeCockpitLocalPoint": [
+          -44.07195,
+          -52.1811,
+          -155.81222
+        ],
+        "crossingSidePlaneDistancesLdu": [
+          0.039193542,
+          0.059113452
+        ],
+        "note": "Shared seating-rim boundary and triangulated sloped panels have very small crossing. Older metadata notes prove only subsets/contact poses; fresh full-mesh diagnostics do not justify a blanket AABB false-positive classification."
+      },
+      "confidence": "High for existence of saved-mesh surface crossing; low for physical implication because cockpit is unmeasured approximation and contact magnitude is tiny.",
+      "action": "Retain visible pose and raw warning. Any seat-rim fix needs isolated dev geometry and updated contact/full-angle review; sharedDAT not modified."
+    }
+  ],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "Track carriage guidance, inverted-brick attachment and magnetic/sliding behaviour unverified; no exemption or physical acceptance.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "sourceModified": false,
+  "physicalValidation": false,
+  "overallAcceptance": false,
+  "method": "Each actual raw alarm reviewed against source image and real DAT geometry. No alarm is inferred for manual-policy parts; rawPASS is not structural/physical acceptance.",
+  "limitations": "Strict edge/triangle test excludes coplanar and endpoint contacts and is not a complete volumetric penetration solver. A zero test would not establish physical fit; positive samples establish these local surface crossings."
+}

@@ -1,0 +1,1865 @@
+{
+  "slug": "4-zuan-tu-che",
+  "source": {
+    "name": "4+钻土车搭建说明.pdf",
+    "relative_path": "4+/4+钻土车搭建说明.pdf",
+    "pages": 12,
+    "bytes": 2128448,
+    "sha256": "f23f52f7f36818dc30538a7ad59028388153894e0b5dc6dfabcc11e95a6b3e35",
+    "source_url": "https://pan.quark.cn/list#/docpdf/54b56976fb1f4910a2a73bc79c2e5106",
+    "slug": "4-zuan-tu-che",
+    "lesson_id": 229,
+    "course_id": 6
+  },
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "sourceImages": [
+    {
+      "page": 1,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-zuan-tu-che/page-01.jpg",
+      "sha256": "436913efeb61cd523f5bbbe75493ad89ee314fee942d02f51ebe6a389f75efb3",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-zuan-tu-che/page-02.jpg",
+      "sha256": "dff611e302120e66446fc7f2882e7682515f3befdf50038c2b283b5c7752d642",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-zuan-tu-che/page-03.jpg",
+      "sha256": "729ad2b5bfee5374c0765d068c466c5ee0e910996df08f2b3be16079c25fa348",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-zuan-tu-che/page-04.jpg",
+      "sha256": "6d660b4e089490141c4c16c0b537eecd900fb3ea047cf0ee50523221427c9ada",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-zuan-tu-che/page-05.jpg",
+      "sha256": "e36f4a15c083a418fcbe277924a71b36498775b08663739b18e0e7113e9ac10d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-zuan-tu-che/page-06.jpg",
+      "sha256": "e4510728b096569629d218220d0f01ba3813750d4505f789bee2e2951df2bb8c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-zuan-tu-che/page-07.jpg",
+      "sha256": "a85d9b60a58b1c76c8dab3971f34f3539e5378a0c2469a49ad7228ff223290e7",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-zuan-tu-che/page-08.jpg",
+      "sha256": "5b1964e13bb0c9f1c0250d0ae16bb3c861b69bc9427f636cc864980e1548110e",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-zuan-tu-che/page-09.jpg",
+      "sha256": "e886ff144b812628b993b5fa664188d6b9c14be336153c74cdd56dcd463210bd",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-zuan-tu-che/page-10.jpg",
+      "sha256": "d739917cc477df36c592ff1d0cf81db1de52d4017d24c403e662a7e7fd12b286",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-zuan-tu-che/page-11.jpg",
+      "sha256": "d405235481e732694b5a1db722babae063766fba95d83c35f63e7530ae069b22",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-zuan-tu-che/page-12.jpg",
+      "sha256": "13b2a459cc7098275be9a14d61ee8fcb3a05d4f07e3349b1fe38c46ba8d47f80",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "modelSha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
+  "status": "incomplete-dev-draft",
+  "accepted": false,
+  "userConfirmed": false,
+  "physicalVerified": false,
+  "steps": [
+    {
+      "page": 1,
+      "note": "Five lower and three overlapping upper Toolo chassis bricks",
+      "start": 8,
+      "placements": 8,
+      "pageBOM": [
+        {
+          "id": "76395.dat",
+          "color": 0
+        },
+        {
+          "id": "76395.dat",
+          "color": 0
+        },
+        {
+          "id": "76395.dat",
+          "color": 0
+        },
+        {
+          "id": "76395.dat",
+          "color": 0
+        },
+        {
+          "id": "76395.dat",
+          "color": 0
+        },
+        {
+          "id": "76395.dat",
+          "color": 0
+        },
+        {
+          "id": "76395.dat",
+          "color": 0
+        },
+        {
+          "id": "76395.dat",
+          "color": 0
+        }
+      ],
+      "support": [
+        "Wheel-supported chassis; lower top plane, width6studs",
+        "Wheel-supported chassis; lower top plane, width6studs",
+        "Wheel-supported chassis; lower top plane, width6studs",
+        "Wheel-supported chassis; lower top plane, width6studs",
+        "Wheel-supported chassis; lower top plane, width6studs",
+        "Upper spans adjacent lower blocks with40LDU row pitch",
+        "Upper spans adjacent lower blocks with40LDU row pitch",
+        "Upper spans adjacent lower blocks with40LDU row pitch"
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 9,
+          "id": "76395.dat",
+          "color": 0,
+          "position": [
+            -320,
+            -81.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "line": 10,
+          "id": "76395.dat",
+          "color": 0,
+          "position": [
+            -160,
+            -81.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "line": 11,
+          "id": "76395.dat",
+          "color": 0,
+          "position": [
+            0,
+            -81.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "line": 12,
+          "id": "76395.dat",
+          "color": 0,
+          "position": [
+            160,
+            -81.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "line": 13,
+          "id": "76395.dat",
+          "color": 0,
+          "position": [
+            320,
+            -81.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "line": 14,
+          "id": "76395.dat",
+          "color": 0,
+          "position": [
+            -240,
+            -129.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "line": 15,
+          "id": "76395.dat",
+          "color": 0,
+          "position": [
+            -80,
+            -129.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "line": 16,
+          "id": "76395.dat",
+          "color": 0,
+          "position": [
+            80,
+            -129.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 2,
+      "note": "Rear red2x2+2x4 and red Toolo cockpit with pale yellow hood",
+      "start": 18,
+      "placements": 4,
+      "pageBOM": [
+        {
+          "id": "3437.dat",
+          "color": 4
+        },
+        {
+          "id": "3011.dat",
+          "color": 4
+        },
+        {
+          "id": "31196c01.dat",
+          "color": 4
+        },
+        {
+          "id": "6345.dat",
+          "color": 226
+        }
+      ],
+      "support": [
+        "source stud stack; exact retention unverified",
+        "source stud stack; exact retention unverified",
+        "Approved approximate cockpit bottom y+24 on chassis top; exact mold fit remains provisional",
+        "Existing verified cockpit-relative hood transform composed with Y-90; physical hinge unverified"
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 19,
+          "id": "3437.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -129.378574,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 20,
+          "id": "3011.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -129.378574,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "line": 21,
+          "id": "31196c01.dat",
+          "color": 4,
+          "position": [
+            240,
+            -105.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "line": 22,
+          "id": "6345.dat",
+          "color": 226,
+          "position": [
+            388,
+            -139.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 3,
+      "note": "Four rim/tyre pairs on chassis side",
+      "start": 24,
+      "placements": 8,
+      "pageBOM": [
+        {
+          "id": "99565.dat",
+          "color": 71
+        },
+        {
+          "id": "44970.dat",
+          "color": 0
+        },
+        {
+          "id": "99565.dat",
+          "color": 71
+        },
+        {
+          "id": "44970.dat",
+          "color": 0
+        },
+        {
+          "id": "99565.dat",
+          "color": 71
+        },
+        {
+          "id": "44970.dat",
+          "color": 0
+        },
+        {
+          "id": "99565.dat",
+          "color": 71
+        },
+        {
+          "id": "44970.dat",
+          "color": 0
+        }
+      ],
+      "support": [
+        "Wheel axle matches chassis side bore; approximate thread/capture",
+        "Approved approximate tyre/rim pair, not physical elasticity proof",
+        "Wheel axle matches chassis side bore; approximate thread/capture",
+        "Approved approximate tyre/rim pair, not physical elasticity proof",
+        "Wheel axle matches chassis side bore; approximate thread/capture",
+        "Approved approximate tyre/rim pair, not physical elasticity proof",
+        "Wheel axle matches chassis side bore; approximate thread/capture",
+        "Approved approximate tyre/rim pair, not physical elasticity proof"
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 25,
+          "id": "99565.dat",
+          "color": 71,
+          "position": [
+            -320,
+            -57.378574,
+            -145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "line": 26,
+          "id": "44970.dat",
+          "color": 0,
+          "position": [
+            -320,
+            -57.378574,
+            -145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "line": 27,
+          "id": "99565.dat",
+          "color": 71,
+          "position": [
+            -160,
+            -57.378574,
+            -145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "line": 28,
+          "id": "44970.dat",
+          "color": 0,
+          "position": [
+            -160,
+            -57.378574,
+            -145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "line": 29,
+          "id": "99565.dat",
+          "color": 71,
+          "position": [
+            160,
+            -57.378574,
+            -145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "line": 30,
+          "id": "44970.dat",
+          "color": 0,
+          "position": [
+            160,
+            -57.378574,
+            -145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "line": 31,
+          "id": "99565.dat",
+          "color": 71,
+          "position": [
+            320,
+            -57.378574,
+            -145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "line": 32,
+          "id": "44970.dat",
+          "color": 0,
+          "position": [
+            320,
+            -57.378574,
+            -145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 4,
+      "note": "Four rim/tyre pairs on chassis side",
+      "start": 34,
+      "placements": 8,
+      "pageBOM": [
+        {
+          "id": "99565.dat",
+          "color": 71
+        },
+        {
+          "id": "44970.dat",
+          "color": 0
+        },
+        {
+          "id": "99565.dat",
+          "color": 71
+        },
+        {
+          "id": "44970.dat",
+          "color": 0
+        },
+        {
+          "id": "99565.dat",
+          "color": 71
+        },
+        {
+          "id": "44970.dat",
+          "color": 0
+        },
+        {
+          "id": "99565.dat",
+          "color": 71
+        },
+        {
+          "id": "44970.dat",
+          "color": 0
+        }
+      ],
+      "support": [
+        "Wheel axle matches chassis side bore; approximate thread/capture",
+        "Approved approximate tyre/rim pair, not physical elasticity proof",
+        "Wheel axle matches chassis side bore; approximate thread/capture",
+        "Approved approximate tyre/rim pair, not physical elasticity proof",
+        "Wheel axle matches chassis side bore; approximate thread/capture",
+        "Approved approximate tyre/rim pair, not physical elasticity proof",
+        "Wheel axle matches chassis side bore; approximate thread/capture",
+        "Approved approximate tyre/rim pair, not physical elasticity proof"
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 35,
+          "id": "99565.dat",
+          "color": 71,
+          "position": [
+            -320,
+            -57.378574,
+            145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "line": 36,
+          "id": "44970.dat",
+          "color": 0,
+          "position": [
+            -320,
+            -57.378574,
+            145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "line": 37,
+          "id": "99565.dat",
+          "color": 71,
+          "position": [
+            -160,
+            -57.378574,
+            145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "line": 38,
+          "id": "44970.dat",
+          "color": 0,
+          "position": [
+            -160,
+            -57.378574,
+            145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "line": 39,
+          "id": "99565.dat",
+          "color": 71,
+          "position": [
+            160,
+            -57.378574,
+            145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "line": 40,
+          "id": "44970.dat",
+          "color": 0,
+          "position": [
+            160,
+            -57.378574,
+            145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "line": 41,
+          "id": "99565.dat",
+          "color": 71,
+          "position": [
+            320,
+            -57.378574,
+            145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "line": 42,
+          "id": "44970.dat",
+          "color": 0,
+          "position": [
+            320,
+            -57.378574,
+            145
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 5,
+      "note": "Six red/white windows and6x12 roof",
+      "start": 44,
+      "placements": 13,
+      "pageBOM": [
+        {
+          "id": "61649.dat",
+          "color": 4
+        },
+        {
+          "id": "90265.dat",
+          "color": 15
+        },
+        {
+          "id": "61649.dat",
+          "color": 4
+        },
+        {
+          "id": "90265.dat",
+          "color": 15
+        },
+        {
+          "id": "61649.dat",
+          "color": 4
+        },
+        {
+          "id": "90265.dat",
+          "color": 15
+        },
+        {
+          "id": "61649.dat",
+          "color": 4
+        },
+        {
+          "id": "90265.dat",
+          "color": 15
+        },
+        {
+          "id": "61649.dat",
+          "color": 4
+        },
+        {
+          "id": "90265.dat",
+          "color": 15
+        },
+        {
+          "id": "61649.dat",
+          "color": 4
+        },
+        {
+          "id": "90265.dat",
+          "color": 15
+        },
+        {
+          "id": "4196.dat",
+          "color": 4
+        }
+      ],
+      "support": [
+        "Frame bottom y+144 on upper chassis top y-48; 2x4 grid",
+        "Official closed hinge offset(65.5,72,-40) in frame-local coordinates",
+        "Frame bottom y+144 on upper chassis top y-48; 2x4 grid",
+        "Official closed hinge offset(65.5,72,-40) in frame-local coordinates",
+        "Frame bottom y+144 on upper chassis top y-48; 2x4 grid",
+        "Official closed hinge offset(65.5,72,-40) in frame-local coordinates",
+        "Frame bottom y+144 on upper chassis top y-48; 2x4 grid",
+        "Official closed hinge offset(65.5,72,-40) in frame-local coordinates",
+        "Frame bottom y+144 on upper chassis top y-48; 2x4 grid",
+        "Official closed hinge offset(65.5,72,-40) in frame-local coordinates",
+        "Frame bottom y+144 on upper chassis top y-48; 2x4 grid",
+        "Official closed hinge offset(65.5,72,-40) in frame-local coordinates",
+        "Roof bottom y-192 on six frame tops"
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 45,
+          "id": "61649.dat",
+          "color": 4,
+          "position": [
+            -240,
+            -273.378574,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 46,
+          "id": "90265.dat",
+          "color": 15,
+          "position": [
+            -174.5,
+            -201.378574,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 47,
+          "id": "61649.dat",
+          "color": 4,
+          "position": [
+            -240,
+            -273.378574,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "line": 48,
+          "id": "90265.dat",
+          "color": 15,
+          "position": [
+            -305.5,
+            -201.378574,
+            120
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "line": 49,
+          "id": "61649.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -273.378574,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 50,
+          "id": "90265.dat",
+          "color": 15,
+          "position": [
+            -14.5,
+            -201.378574,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 51,
+          "id": "61649.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -273.378574,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "line": 52,
+          "id": "90265.dat",
+          "color": 15,
+          "position": [
+            -145.5,
+            -201.378574,
+            120
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "line": 53,
+          "id": "61649.dat",
+          "color": 4,
+          "position": [
+            80,
+            -273.378574,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 54,
+          "id": "90265.dat",
+          "color": 15,
+          "position": [
+            145.5,
+            -201.378574,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 55,
+          "id": "61649.dat",
+          "color": 4,
+          "position": [
+            80,
+            -273.378574,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "line": 56,
+          "id": "90265.dat",
+          "color": 15,
+          "position": [
+            14.5,
+            -201.378574,
+            120
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "line": 57,
+          "id": "4196.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -297.378574,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "page": 6,
+      "note": "Front sideways Toolo mounting brick",
+      "start": 59,
+      "placements": 1,
+      "pageBOM": [
+        {
+          "id": "76395.dat",
+          "color": 0
+        }
+      ],
+      "support": [
+        "Front face screw attachment approximate; no exact thread retention"
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 60,
+          "id": "76395.dat",
+          "color": 0,
+          "position": [
+            448,
+            -105.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "note": "Front turntable",
+      "start": 62,
+      "placements": 1,
+      "pageBOM": [
+        {
+          "id": "60535.dat",
+          "color": 0
+        }
+      ],
+      "support": [
+        "Bottom boss aligned front block; manual source screw interface"
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 63,
+          "id": "60535.dat",
+          "color": 0,
+          "position": [
+            488,
+            -105.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 8,
+      "note": "Twin Toolo forks and yellow2x2 center",
+      "start": 65,
+      "placements": 3,
+      "pageBOM": [
+        {
+          "id": "28336.dat",
+          "color": 71
+        },
+        {
+          "id": "28336.dat",
+          "color": 71
+        },
+        {
+          "id": "3437.dat",
+          "color": 14
+        }
+      ],
+      "support": [
+        "Fork placements unchanged; root yellow pin axes verticalY atX601/Z+-88; previous support text axisZ is historical and corrected."
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 66,
+          "id": "28336.dat",
+          "color": 71,
+          "position": [
+            536,
+            -105.378574,
+            -40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "line": 67,
+          "id": "28336.dat",
+          "color": 71,
+          "position": [
+            536,
+            -105.378574,
+            40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "line": 68,
+          "id": "3437.dat",
+          "color": 14,
+          "position": [
+            584,
+            -105.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 9,
+      "note": "Two long2x11 Toolo arms",
+      "start": 70,
+      "placements": 2,
+      "pageBOM": [
+        {
+          "id": "dev-129/28331.dat",
+          "color": 71
+        },
+        {
+          "id": "dev-129/28331.dat",
+          "color": 71
+        }
+      ],
+      "support": [
+        "Unchanged vertical root axes;400LDU arms yaw6.892degrees inward. Nominal fit only; actual mesh crossing evidence retained."
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 71,
+          "id": "dev-129/28331.dat",
+          "color": 71,
+          "position": [
+            998.1095566717074,
+            -105.378574,
+            -40
+          ],
+          "matrix": [
+            0.12,
+            -0.9927738916792685,
+            0,
+            0,
+            0,
+            1,
+            -0.9927738916792685,
+            -0.12,
+            0
+          ]
+        },
+        {
+          "line": 72,
+          "id": "dev-129/28331.dat",
+          "color": 71,
+          "position": [
+            998.1095566717074,
+            -105.378574,
+            40
+          ],
+          "matrix": [
+            -0.12,
+            -0.9927738916792685,
+            0,
+            0,
+            0,
+            1,
+            -0.9927738916792685,
+            0.12,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 10,
+      "note": "Two end clutch blocks",
+      "start": 74,
+      "placements": 2,
+      "pageBOM": [
+        {
+          "id": "74957.dat",
+          "color": 71
+        },
+        {
+          "id": "74957.dat",
+          "color": 71
+        }
+      ],
+      "support": [
+        "End boxes counterrotated parallel and shifted toZ+-40, adjacent80LDU body widths. Tongue/capture provisional with positive mesh intersections."
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 75,
+          "id": "74957.dat",
+          "color": 71,
+          "position": [
+            1068.1095566717074,
+            -105.378574,
+            -40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "line": 76,
+          "id": "74957.dat",
+          "color": 71,
+          "position": [
+            1068.1095566717074,
+            -105.378574,
+            40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "page": 11,
+      "note": "Yellow end2x4 then2x2 striking pads",
+      "start": 78,
+      "placements": 2,
+      "pageBOM": [
+        {
+          "id": "3011.dat",
+          "color": 14
+        },
+        {
+          "id": "3437.dat",
+          "color": 14
+        }
+      ],
+      "support": [
+        "Yellow3011 nominal underside meets both adjacent clutch stud faces at fourZcolumns -60,-20,20,60; no residual8LDU grid error. Local simplified clutch stud geometry/retention not physically validated."
+      ],
+      "omitted": [],
+      "actualPlacements": [
+        {
+          "line": 79,
+          "id": "3011.dat",
+          "color": 14,
+          "position": [
+            1116.1095566717074,
+            -105.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "line": 80,
+          "id": "3437.dat",
+          "color": 14,
+          "position": [
+            1164.1095566717074,
+            -105.378574,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "finalOverviewPage": 12,
+  "placements": 52,
+  "bom": [
+    {
+      "id": "76395.dat",
+      "color": 0,
+      "quantity": 9,
+      "name": "Toolo 4 x 6 x 1 with thread and screws",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "3437.dat",
+      "color": 4,
+      "quantity": 1,
+      "name": "Duplo Brick 2 x 2",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "3011.dat",
+      "color": 4,
+      "quantity": 1,
+      "name": "Duplo Brick 2 x 4",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "31196c01.dat",
+      "color": 4,
+      "quantity": 1,
+      "name": "Duplo Toolo Cockpit 4 x 6 (local simplified)",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "6345.dat",
+      "color": 226,
+      "quantity": 1,
+      "name": "Duplo Windscreen  4 x  4 x  2 Curved",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "99565.dat",
+      "color": 71,
+      "quantity": 8,
+      "name": "Duplo rim with screw",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "44970.dat",
+      "color": 0,
+      "quantity": 8,
+      "name": "Duplo off-road tyre diameter46",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "61649.dat",
+      "color": 4,
+      "quantity": 6,
+      "name": "Duplo Door Frame  2 x  4 x  3 with Completely Open Back",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "90265.dat",
+      "color": 15,
+      "quantity": 6,
+      "name": "Duplo Window  1 x  4 x  3 with Flat Top with 4 Same Size Panes",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "4196.dat",
+      "color": 4,
+      "quantity": 1,
+      "name": "Duplo Plate 6 x 12",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "60535.dat",
+      "color": 0,
+      "quantity": 1,
+      "name": "Duplo turntable with screw",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "28336.dat",
+      "color": 71,
+      "quantity": 2,
+      "name": "Duplo 2x2 with arm thread screws",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "3437.dat",
+      "color": 14,
+      "quantity": 2,
+      "name": "Duplo Brick 2 x 2",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "dev-129/28331.dat",
+      "color": 71,
+      "quantity": 2,
+      "name": "Duplo Toolo fork arm 28331 (dev-129 length correction)",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "74957.dat",
+      "color": 71,
+      "quantity": 2,
+      "name": "Duplo clutch element with thread",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "3011.dat",
+      "color": 14,
+      "quantity": 1,
+      "name": "Duplo Brick 2 x 4",
+      "geometryStatus": "Official"
+    }
+  ],
+  "unknown": [],
+  "knownApproximations": [
+    {
+      "id": "76395.dat",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182798.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "31196c01.dat",
+      "notes": [
+        "User confirmed 31196c01 and authorized local modelling/import on 2026-09-10; supplied eight photos and requested refinement on 2026-09-11.",
+        "Original local simplified geometry, CC BY 4.0; not official or dimensionally certified. Primary references are supplied red/orange/blue views, green views supplement nose shape. Photo hashes in .tmp/cockpit-photo-review-0911/source-hashes.json.",
+        "Collision regions follow shell/floor strips and preserve bore openings; adjacent regions are conservative approximations. No automatic collision exemption added.",
+        "2026-09-11 second revision after user rejected tall silhouette: overall height 120 LDU, rear deck thickness 48 LDU, continuous low arched panel with rear-facing ribs. Catalog dimensions 7.19 x 9.56 x 4.79 cm guide proportions only; not measured CAD.",
+        "Previous (0,-132,0) hinge datum withdrawn. Official canopy visual placement is provisional and mechanical fit unresolved. Underside sockets and exact snap geometry remain omitted.",
+        "2026-09-11 detail revision from tmp9697.png and tmpB28B.png: hollow rear shell with lateral circular bores, three interstitial deck holes, one rear yellow Toolo insert and one cockpit insert with triangular recesses. Insert positions follow top photo; photographs may show different movable screw placements. Wing undersides now taper toward nose. Interior threads and mechanical geometry remain approximate.",
+        "Both yellow captive screw heads reference the same original local subpart s/31196c01-local-screw.dat. This name is a project subpart identifier, not a confirmed standalone LEGO design ID. Toolo catalog assemblies include screws with their host; no verified downloadable screw geometry found.",
+        "Green side reference tmp9191.png: rounded D-section side housings with inset horizontal front grilles, scalloped lower edges and swept rear supports. Hole thread form/pitch not visible or verified; smooth bores do not assert that physical Toolo mating holes lack threads.",
+        "Supersedes prior smooth mating bores: user confirmed internal threads from tmp6659.png. Added approximate helical ridges in three rear interstitial holes, both side holes and central cockpit socket. Pitch5 LDU, crest1.2 LDU and sleeve depth are illustrative only; no physical mating certification. Hollow stud bores unchanged. Added two rectangular deck slots above side ports (X66..74 and -74..-66,Z32..48).",
+        "User frontal photo tmp2FA5.png: raised central recessed front console, folded bumper, twin stepped cockpit pegs and shoulder blocks. All internal threaded ports now use two helical turns as requested; pitch varies by illustrative socket depth and remains unmeasured.",
+        "2026-09-11 assembly correction: side housings and nose external width reduced from192 to160 LDU to fit source four-stud central bay; rear deck/stud pitch and120 LDU height unchanged. This supersedes earlier overhang dimensions and requires review of revised appearance.",
+        "Rear hollow studs y=-35..-24 are connection geometry and excluded from rigid collision regions, consistent with official stacking-brick metadata. Deck shell, threaded ports and all other solids remain checked.",
+        "Backrest assembly shifted4LDU toward nose so rear flutes end at deck boundaryz0, enabling adjacent source stacking; small fit correction requires updated appearance review.",
+        "Rear head above-deck3LDU is connection geometry: at submarine cockpitX=-240 it lies in3011 local(X40,Z0),Y45..48, below stud8 tube endY44; radius12 fits minimum bore13.73. Prior X=-280 sidewall-intersection pose rejected. Bus/ambulance had no head overlaps before this exclusion.",
+        "2026-09-11 user rejected floating canopy: added continuous seating sills from official6345 lower rim, front transition and rounded rear ends, following tmp3A6A.png/tmp20D2.png. Contact tops are mesh-derived; surrounding moulding remains approximate. Source references and contact proof in .tmp/cockpit-seat-0911. Previously certified only central contact was insufficient.",
+        "2026-09-11 assembled blue photo tmpC02A: replaced high infill walls with lower sills atY=-48; low console topY=-20.41158; flared nose up to192LDU wide only ahead ofZ=-120, rear4-stud deck unchanged. Shape remains photo approximation. Convex mesh check100 added solids vs700 canopy faces zero intersections; swept rear support bounding boxes are conservative. See .tmp/cockpit-low-0911."
+      ]
+    },
+    {
+      "id": "99565.dat",
+      "notes": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for99565.",
+        "BarrelR38 paired with44970 innerR38; front and rear flangeR42 outside tire width. Yellow serrated screw collar simplified as24 teeth and round bore.",
+        "Bore/thread shape, rim width and dimensions image estimates; not a physical fit certification.",
+        "Locally authored CC BY4.0; geometry simplified, all interfaces manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6043041.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "44970.dat",
+      "notes": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for44970.",
+        "Outer tread diameter115LDU from46mm inventory name; inner diameter76 and width36 estimated.",
+        "Continuous rounded tire body with48 solid staggered tread blocks; not rubber deformation or molded exact pattern.",
+        "Locally authored CC BY4.0; geometry simplified, all interfaces manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/4186713.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "60535.dat",
+      "notes": [
+        "User approved local simplified modelling 2026-09-12.",
+        "Reference https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182698.jpg retrieved2026-09-12.",
+        "CC BY 4.0 local geometry, no official mesh used.",
+        "Twelve yellow hollow studs on40LDU grid. Yellow rotating disk on square base, rear mounting boss estimated from image.",
+        "Disk/base/boss thicknesses12/12/16LDU and mechanism dimensions estimated. Rotation bearing/thread/retention not exact; physical fit requires manual review.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182698.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "28336.dat",
+      "notes": [
+        "User-approved local simplification2026-09-12; official LEGO element6162848 image.",
+        "Base80x80x48 LDU; inclined fork and pivot y=-65,z=48 are unmeasured image estimates.",
+        "Local CC BY4.0 mesh; circular base side openings and four studs; twin cheeks with yellow transverse screw.",
+        "Threads, molded underside and tolerances not reproduced.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162848.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "dev-129/28331.dat",
+      "notes": [
+        "User-approved simplified model2026-09-12. Source official45002 element photo design28331.",
+        "40LDU stud grid only establishes reference scale; overall lengths, plate spacing48 and long-arm axle spacing100 are image estimates.",
+        "Two separated extruded cheek plates with actual open lower fork, yellow shafts and triangular screw indicators. Decorative relief and threads omitted.",
+        "Local authored CC BY4.0. Hidden fit and source-specific joint angles remain manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162831.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "2026-10-11 dev-only: inventory confirmed 74844 Arm 2 x 11; total span 440LDU, pivots 0/220/open end400. Reuses approved approximate cheek mesh with remapped axial intervals, not an official mesh. Hole centers and mating fit still manual. No shared original DAT changed."
+      ]
+    },
+    {
+      "id": "74957.dat",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6139202.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "Central roof bore radius10LDU restored; bottom tongues join the sidewalls via estimated internal bridges. No yellow screw insert assumed for this part."
+      ]
+    }
+  ],
+  "limitations": [
+    "p1 longitudinal stagger and source screw interfaces inferred from visible stud rows; source matching awaits render.",
+    "p2 approved cockpit approximation retained; exact hidden mold/hinge fit unverified.",
+    "p3/4 approximate99565+44970 tire/rim geometry, axle depth and tire compression not certified.",
+    "p6-11 cantilever screw/turntable/fork/clutch capture provisional; no motion/load acceptance.",
+    "P9 two rigid400LDU arms yaw inward6.892102579deg about unchanged roots(601,-105.378574,+/-88). End axes(998.109556672,-105.378574,+/-40); p10 clutch bodies now adjacent with full4-column stud grid matching p11 yellow3011. This is source-supported nominal pose adjustment, not verified fit. Recursive strict surface crossings persist at root/arm428,426 and arm/clutch90,92 triangle pairs; old values430/430/88/88. Double-arm crossing0 does not prove clear fit. Approximate74957 tongue/28331 tip retention and counterrotation remain unresolved."
+  ],
+  "validation": {
+    "rawCollisionExit": 2,
+    "rawCollision": "\nFAIL [4-zuan-tu-che.ldr] 1 error(s), 52 placement(s):\n  - step 2: 4-zuan-tu-che_l22 overlaps 4-zuan-tu-che_l21\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+    "closure": "pending parent repack",
+    "pixels": "Actual current final3 original PNG and all11 steps current contact sheet inspected; original step9/10/11 enlarged, sourcep9-12 compared andp11 rechecked. Inward6.892degree arms retain root axes and now yield adjacent end boxes/full four-column yellow bridge. Old96LDU body gap and8LDU inner-column mismatch corrected nominally. Existing positive strict mesh crossings root/arm428,426 and arm/clutch90,92 remain unresolved; no verified capture/counterrotation/physical support. Raw cabhood overlap and approved approximate wheels/cab/arms retained. No clipping seen; pixel review is not physical or user acceptance.",
+    "matrixInvalid": []
+  },
+  "verificationLevel": "structurally checked only",
+  "inventoryExtraNeeded": [
+    {
+      "id": "76395.dat",
+      "verifiedAlias": "86599",
+      "set": "45002-1",
+      "required": 9,
+      "verifiedSingleSet": 7,
+      "extra": 2
+    }
+  ],
+  "inventoryCaveat": "Reference single-set stock only; actual user stock unknown. Source colors preserved. No unrelated replacement parts introduced.",
+  "currentPixelEvidence": {
+    "sourceSha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
+    "revision": "dfdf0d8b7dac8648114e4591bb149f42bb6d4f865cd98be241f15e22ddc25035",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "evidence": "current-pixel-review.json",
+    "accepted": false,
+    "physicalValidation": false
+  },
+  "currentPixels": {
+    "sourceSha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
+    "revision": "dfdf0d8b7dac8648114e4591bb149f42bb6d4f865cd98be241f15e22ddc25035",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "evidence": "current-pixel-review.json",
+    "accepted": false,
+    "physicalValidation": false
+  }
+}

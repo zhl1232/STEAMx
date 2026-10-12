@@ -1,0 +1,228 @@
+{
+  "at": "2026-10-11T12:03:43.622229+00:00",
+  "scope": "Read-only source/actual official geometry comparison; no shared import or model change",
+  "source": {
+    "path": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-lan-che/page-17.jpg",
+    "sha256": "4af0501d287f9e5f542b34e2f09aad36693014b245b267e9d4464a45900ae0dd",
+    "actuallyViewed": true,
+    "observations": [
+      "White leaf has taller upper panes than lower panes; two right hinges.",
+      "Outer top appears nearly straight with rounded corners. Source is perspective illustration, not calibrated orthographic photo."
+    ]
+  },
+  "downloadEvidence": "window-candidates-download.json",
+  "closureFiles": 64,
+  "closureMissing": [],
+  "scratch": "D:\\Codex-task-2-20261011\\scratch\\window-candidates",
+  "metrics": {
+    "4809.dat": {
+      "bbox": {
+        "min": [
+          -133.5,
+          -66.0,
+          -2.5
+        ],
+        "max": [
+          2.5,
+          58.0,
+          8.5
+        ]
+      },
+      "triangles": 684
+    },
+    "31022.dat": {
+      "bbox": {
+        "min": [
+          -133.5,
+          -74.0,
+          -2.5
+        ],
+        "max": [
+          2.5,
+          58.0,
+          2.5
+        ]
+      },
+      "triangles": 556
+    },
+    "90265.dat": {
+      "bbox": {
+        "min": [
+          -133.5,
+          -60.0,
+          -2.5
+        ],
+        "max": [
+          2.5,
+          60.0,
+          2.5
+        ]
+      },
+      "triangles": 616
+    },
+    "2332a.dat": {
+      "bbox": {
+        "min": [
+          -80.0,
+          -11.0,
+          -51.0
+        ],
+        "max": [
+          80.0,
+          144.0,
+          40.0
+        ]
+      },
+      "triangles": 1793
+    },
+    "4253.dat": {
+      "bbox": {
+        "min": [
+          -80.0,
+          -11.0,
+          -46.0
+        ],
+        "max": [
+          80.0,
+          144.0,
+          40.0
+        ]
+      },
+      "triangles": 1442
+    },
+    "61649.dat": {
+      "bbox": {
+        "min": [
+          -80.0,
+          -11.0,
+          -46.0
+        ],
+        "max": [
+          80.0,
+          144.0,
+          40.0
+        ]
+      },
+      "triangles": 1430
+    }
+  },
+  "profile": {
+    "path": "D:\\Codex-task-2-20261011\\scratch\\window-candidates\\leaf-profile-comparison.png",
+    "sha256": "89c97e1970fac902e046fb586a61a63ff5de3149df8b41eaf4b5b0d834b87178",
+    "actuallyViewed": true,
+    "method": "Recursive actual DAT triangle orthographic front projection; not substitute geometry"
+  },
+  "candidateComparisons": {
+    "4809": "Official available. Rounded outer corners but shallow curved top and broadly similar pane heights do not uniquely match source.",
+    "31022": "Official available. Taller upper panes match one feature, but strongly domed top and square outer corners conflict with source silhouette.",
+    "90265": "Flat top and rounded corners match silhouette, but equal pane heights conflict with source. Do not select by nearest appearance."
+  },
+  "hingeEvidence": {
+    "leaf4809": {
+      "axisDirection": "Y",
+      "localAxisXZ": [
+        0,
+        0
+      ],
+      "segmentCentersY": [
+        -31,
+        31
+      ],
+      "cylinderYIntervals": [
+        [
+          -37,
+          -25
+        ],
+        [
+          25,
+          37
+        ]
+      ],
+      "source": "s/4247as02.dat cylinder references"
+    },
+    "leaf31022": {
+      "axisDirection": "Y",
+      "localAxisXZ": [
+        0,
+        0
+      ],
+      "segmentCentersY": [
+        -31,
+        31
+      ],
+      "cylinderYIntervals": [
+        [
+          -37.6,
+          -24.4
+        ],
+        [
+          24.4,
+          37.6
+        ]
+      ],
+      "source": "31022.dat cylinder references"
+    },
+    "frameSocketPrimitiveOrigins": {
+      "2332a": [
+        [
+          65.5,
+          41,
+          -45
+        ],
+        [
+          65.5,
+          103,
+          -45
+        ]
+      ],
+      "4253": [
+        [
+          65.5,
+          41,
+          -40
+        ],
+        [
+          65.5,
+          103,
+          -40
+        ]
+      ],
+      "61649": [
+        [
+          65.5,
+          41,
+          -40
+        ],
+        [
+          65.5,
+          103,
+          -40
+        ]
+      ]
+    },
+    "important": "Socket primitive origins are NOT independently established cylinder axes. Socket is polygon geometry; exact Z seating not certified. Y matching requires leaf origin Y72, identity orientation. No complete fit acceptance."
+  },
+  "nominalHeightComparison": {
+    "frameBodyY": [
+      0,
+      144
+    ],
+    "4809AtY72": [
+      6,
+      130
+    ],
+    "31022AtY72": [
+      -2,
+      130
+    ],
+    "90265AtY72": [
+      12,
+      132
+    ],
+    "interpretation": "31022 domed top reaches 2 LDU above body top with same hinge-Y matching. This height discrepancy reinforces need for correct frame variant; not a physical collision verdict."
+  },
+  "frameAssemblyCaution": "2332ac01 and 4253c01 include opaque back panels u9525/4252, not the required white four-pane leaf. Frame availability does not resolve assembly identity.",
+  "decision": "Geometry available and closure complete; source identity and exact frame/leaf compatibility remain unresolved. Do not import as source-confirmed or arbitrarily substitute. Parent may serial-render candidate profiles for further comparison.",
+  "accepted": false,
+  "physicalValidation": false
+}

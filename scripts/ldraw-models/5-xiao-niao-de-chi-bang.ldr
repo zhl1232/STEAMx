@@ -1,0 +1,78 @@
+0 5-xiao-niao-de-chi-bang - source-based dev-only reconstruction
+0 Name: 5-xiao-niao-de-chi-bang.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: 8x16green base and alternating six yellow/six blue bricks
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 14 0 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -40 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -40 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -40 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 2: two red ordinary bricks as head-body support
+1 4 -80 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 3: two long perforated beams and one short bearing
+1 4 -40 -384 0 0 0 1 0 1 0 -1 0 0 75350.dat
+1 4 160 -384 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 120 -432 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // Source page 4: three ordinary red bricks and two tail plates
+1 4 -80 -480 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -480 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -480 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -504 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 360 -504 40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Source page 5: yellow40tooth gear pair,grey axle and hand crank
+1 7 160 -408 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 160 -408 -60 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 14 160 -408 60 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 160 -408 -100 1 0 0 0 0 -1 0 1 0 6526.dat
+0 STEP
+0 // Source page 6: two red24tooth gears and grey axle
+1 7 0 -408 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 4 0 -408 -60 -1 0 0 0 1 0 0 0 -1 6529.dat
+1 4 0 -408 60 1 0 0 0 1 0 0 0 1 6529.dat
+0 STEP
+0 // Source page 7: two blue crown gears,two grey axles,two cranks and two red wing root bearings
+1 7 -40 -360 -160 1 0 0 0 1 0 0 0 1 6522.dat
+1 1 20 -360 -160 0 0 1 0 1 0 -1 0 0 31622.dat
+1 14 -100 -360 -160 0 1 0 -0.258819 0 -0.965926 -0.965926 0 0.258819 6526.dat
+1 4 -120 -383.18222 -153.788343 0 0 1 -0.258819 0.965926 0 -0.965926 -0.258819 0 75349.dat
+1 7 -40 -360 160 1 0 0 0 1 0 0 0 1 6522.dat
+1 1 20 -360 160 0 0 1 0 1 0 -1 0 0 31622.dat
+1 14 -100 -360 160 0 1 0 0.766044 0 -0.642788 -0.642788 0 -0.766044 6526.dat
+1 4 -120 -375.426903 141.614933 0 0 1 0.766044 0.642788 0 -0.642788 0.766044 0 75349.dat
+0 STEP
+0 // Source page 8: yellow curved beak and rounded eye head
+1 14 -80 -528 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 -80 -624 0 0 0 1 0 1 0 -1 0 0 4198p01.dat
+0 STEP
+0 // Source page 9: eight red2x4 plates extend both wings
+1 4 -200 -427.069963 -224.850752 0 0 1 -0.258819 0.965926 0 -0.965926 -0.258819 0 40666.dat
+1 4 -120 -427.069963 -224.850752 0 0 1 -0.258819 0.965926 0 -0.965926 -0.258819 0 40666.dat
+1 4 -200 -460.604945 -257.276128 0 0 1 -0.258819 0.965926 0 -0.965926 -0.258819 0 40666.dat
+1 4 -120 -460.604945 -257.276128 0 0 1 -0.258819 0.965926 0 -0.965926 -0.258819 0 40666.dat
+1 4 -200 -452.13736 174.652876 0 0 1 0.766044 0.642788 0 -0.642788 0.766044 0 40666.dat
+1 4 -120 -452.13736 174.652876 0 0 1 0.766044 0.642788 0 -0.642788 0.766044 0 40666.dat
+1 4 -200 -498.206041 181.979313 0 0 1 0.766044 0.642788 0 -0.642788 0.766044 0 40666.dat
+1 4 -120 -498.206041 181.979313 0 0 1 0.766044 0.642788 0 -0.642788 0.766044 0 40666.dat
+0 // PENDING: Source 10pages actually viewed. Gear IDs distinguish yellow40tooth6530,red24tooth6529,bluecrown31622; axle lengths and hidden end capture remain inferred.
+0 // PENDING: Crown gears use perpendicular axes; actual mesh relative to red gears not accepted until key-angle render and interface review.
+0 // PENDING: Selected wings tilt30degrees symmetrically; source shows one articulated state, no duplicate subassemblies.
+0 // PENDING: P3beam vertical registration and head/tail stud attachments need finalpixel review; no physical motion certification.
+0 // PENDING: Finalpixel correction raises two wings to15/50degree upward poses and seats head on beak. Crown gear engagement remains unresolved; approx16LDU edge gap is not accepted as a functional mesh. New finalrender required.
+0 // Source page 10: finished view, no duplicated placements.

@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-11T10:45:17.631660+00:00",
+  "libraryFileId": "libfile_da69e9aaa1748191b9c6a9482c255b06",
+  "version": 3,
+  "bytes": 73094,
+  "sha256": "ac61af008951304bdd0d5452b33f83140f263382f3c3db5dbc537bb8048df5fc",
+  "zipCrcPassed": true,
+  "mappedCourses": 129,
+  "mappingCheckedAgainstAudit": true,
+  "pdfCourses": 122,
+  "jpgCourses": 7,
+  "parentReportedSourcePages": 1580,
+  "boundary": "Catalog is locally verified; individual PDF imports and actual pixel review remain separate."
+}

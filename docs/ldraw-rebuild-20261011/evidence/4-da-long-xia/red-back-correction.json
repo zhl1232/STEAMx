@@ -1,0 +1,40 @@
+{
+  "beforeSha256": "9415e84ee529fa0db1ac82cc889801b628773fcb5a05262cd9ea6a0a0b390b28",
+  "sourceSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+  "sourcePages": [
+    4,
+    10
+  ],
+  "changes": [
+    {
+      "page": 4,
+      "before": "1 4 80 -144 0 1 0 0 0 1 0 0 0 1 76057.dat",
+      "after": "1 4 0 -144 0 1 0 0 0 1 0 0 0 1 76057.dat"
+    },
+    {
+      "page": 4,
+      "before": "1 4 200 -144 0 0 0 1 0 1 0 -1 0 0 76057.dat",
+      "after": "1 4 160 -144 0 1 0 0 0 1 0 0 0 1 76057.dat"
+    },
+    {
+      "page": 10,
+      "before": "1 4 -240 -192 0 -1 0 0 0 1 0 0 0 -1 2302.dat",
+      "after": "1 4 -160 -192 0 -1 0 0 0 1 0 0 0 -1 2302.dat"
+    },
+    {
+      "page": 10,
+      "before": "1 4 -120 -192 0 -1 0 0 0 1 0 0 0 -1 2302.dat",
+      "after": "1 4 -40 -192 0 -1 0 0 0 1 0 0 0 -1 2302.dat"
+    }
+  ],
+  "reason": "9415 top/final and step4 reveal2stud black gap not present in source red stepped spine. Two p4 red2x4 long3hole sides are sequential alongX; p10 upper tail curves stagger towardhead rather than repeat lower positions.",
+  "accepted": false,
+  "currentFollowupPixelReview": {
+    "sourceSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+    "revision": "6f2139891463180220d1386a292efec8371994edf8879d448bb863e39998b7ff",
+    "final3": true,
+    "all10Steps": true,
+    "accepted": false,
+    "limitations": "Actually reviewed current final3 and all10 cumulative stages on contact sheet, then original steps4/6/7/8/10 for red-back and appendage corrections. Upper black brick now longitudinal, red back continuous without previous2stud black gap, tail curves stagger, and long-arm closed tips/vertical yellow pins correspond to source cues. Full model framed. Source additions remain incomplete: eight4433c01 exhaust legs and one31239c01 tail wing lack licensed geometry, plus four28336 fork bases are known geometry but unassembled because supports unresolved;27placed+13omitted=40source target. Side claw angle/tongue engagement, arm root pin depth, curved roof retention and intended eight-leg ground stance remain provisional. Existing approved Toolo approximations do not certify rigid interfaces or load/motion. Pixel inspection only; no physical/user acceptance."
+  }
+}

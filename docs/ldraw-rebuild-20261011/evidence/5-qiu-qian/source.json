@@ -1,0 +1,71 @@
+{
+  "manifest": {
+    "name": "5+秋千搭建说明.pdf",
+    "relative_path": "5+/5+秋千搭建说明.pdf",
+    "pages": 9,
+    "bytes": 1470169,
+    "sha256": "af89034f7df63445af95fd5b01787dacdf309915e3e730d98b5ad8705d3bf661",
+    "source_url": "https://pan.quark.cn/list#/docpdf/31913cfbbd4c412eb33555830e7e3edf",
+    "slug": "5-qiu-qian",
+    "lesson_id": 278,
+    "course_id": 7
+  },
+  "hashVerified": true,
+  "currentModelSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qiu-qian\\page-1.jpg",
+      "sha256": "f9db293a90610aa7e4e3b65c05c1daa1f30618ca4b7bd1e45416ce55babe326b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qiu-qian\\page-2.jpg",
+      "sha256": "dcb4365eb3a2394b706628fbb30f7bdd157eec5180157919bec7145d354b93d4",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qiu-qian\\page-3.jpg",
+      "sha256": "53b04a61079852b1e88d17f2b1ba3bd286ed6d19868bf0539116b0c458b3606f",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qiu-qian\\page-4.jpg",
+      "sha256": "f2b61d5af31fbed869f8f1ca29ada5aa5996a5246f467333d732f705d5c0f4b9",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qiu-qian\\page-5.jpg",
+      "sha256": "9c520af1abfc60073c0f36bcd0222ede3572ccd44962c4cd2af3e87d9bc1d59d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qiu-qian\\page-6.jpg",
+      "sha256": "5da880ad3b4ea51aba41d78c55b8e58760ef417fc80812d8ab7033dd88ca4f3f",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qiu-qian\\page-7.jpg",
+      "sha256": "f50c4b1930fadf6eccb30a62d6c8a9521077509edafd4e78c65dda81a4b14295",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qiu-qian\\page-8.jpg",
+      "sha256": "7a59f47eefad48d9015db9635d859ba0e353e3f2ba444664a695b846d6e23a82",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qiu-qian\\page-9.jpg",
+      "sha256": "506929dd0a3a8f828c189146d7d6ffb578cd46f361a8b750ad42a99e93c57efa",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

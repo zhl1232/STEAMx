@@ -1,0 +1,382 @@
+{
+  "slug": "4-long-men-diao",
+  "source": {
+    "name": "4+龙门吊搭建说明.pdf",
+    "relative_path": "4+/4+龙门吊搭建说明.pdf",
+    "pages": 13,
+    "bytes": 1612731,
+    "sha256": "9df32d84f927a76585dca32a75cbfc63d05a63c95b7c264d33234432fef289c3",
+    "source_url": "https://pan.quark.cn/list#/docpdf/adf1fc5e2d54411294c7175c7c00c5d5",
+    "slug": "4-long-men-diao",
+    "lesson_id": 176,
+    "course_id": 6
+  },
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "modelSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+  "status": "incomplete-dev-draft",
+  "verificationLevel": "structurally checked only",
+  "userConfirmed": false,
+  "physicalVerified": false,
+  "steps": [
+    {
+      "page": 1,
+      "note": "three black Toolo base blocks; four bare gray rims",
+      "start": 9,
+      "placements": 7
+    },
+    {
+      "page": 2,
+      "note": "14 red+14 yellow2x4 bricks,14 alternating cross-bonded layers",
+      "start": 18,
+      "placements": 28
+    },
+    {
+      "page": 3,
+      "note": "second wheeled base",
+      "start": 48,
+      "placements": 7
+    },
+    {
+      "page": 4,
+      "note": "second alternating tower",
+      "start": 57,
+      "placements": 28
+    },
+    {
+      "page": 5,
+      "note": "seven black Toolo blocks: four lower, three upper bridging seams",
+      "start": 87,
+      "placements": 7
+    },
+    {
+      "page": 6,
+      "note": "four red2x3 curved bricks cap exposed ends",
+      "start": 96,
+      "placements": 4
+    },
+    {
+      "page": 7,
+      "note": "inverted red2x4 plate,2x2 brick andtwo Toolo base forks",
+      "start": 102,
+      "placements": 4
+    },
+    {
+      "page": 8,
+      "note": "two downward2x6 arms andtwo clutch blocks",
+      "start": 108,
+      "placements": 4
+    },
+    {
+      "page": 9,
+      "note": "three gray2x4 blocks andone red2x4 plate for lower cradle",
+      "start": 114,
+      "placements": 4
+    },
+    {
+      "page": 10,
+      "note": "cord preparation omitted: length androute unknown",
+      "start": 120,
+      "placements": 0
+    },
+    {
+      "page": 11,
+      "note": "pulley assembly omitted",
+      "start": 123,
+      "placements": 0
+    },
+    {
+      "page": 12,
+      "note": "attachment instruction retained; no new rigid geometry",
+      "start": 126,
+      "placements": 0
+    }
+  ],
+  "placements": 93,
+  "bom": [
+    {
+      "id": "76395.dat",
+      "color": 0,
+      "quantity": 13,
+      "name": "Toolo 4 x 6 x 1 with thread and screws",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "99565.dat",
+      "color": 71,
+      "quantity": 8,
+      "name": "Duplo rim with screw",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "3011.dat",
+      "color": 4,
+      "quantity": 28,
+      "name": "Duplo Brick 2 x 4",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "3011.dat",
+      "color": 14,
+      "quantity": 28,
+      "name": "Duplo Brick 2 x 4",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "2302.dat",
+      "color": 4,
+      "quantity": 4,
+      "name": "Duplo Brick 2 x 3 with Curved Top",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "40666.dat",
+      "color": 4,
+      "quantity": 2,
+      "name": "Duplo Plate 2 x 4",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "3437.dat",
+      "color": 4,
+      "quantity": 1,
+      "name": "Duplo Brick 2 x 2",
+      "geometryStatus": "Official"
+    },
+    {
+      "id": "28336.dat",
+      "color": 71,
+      "quantity": 2,
+      "name": "Duplo 2x2 with arm thread screws",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "dev-129/28334.dat",
+      "color": 71,
+      "quantity": 2,
+      "name": "Duplo Toolo fork arm 28334 (dev-129 length correction)",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "74957.dat",
+      "color": 71,
+      "quantity": 2,
+      "name": "Duplo clutch element with thread",
+      "geometryStatus": "Local simplified part"
+    },
+    {
+      "id": "76057.dat",
+      "color": 71,
+      "quantity": 3,
+      "name": "Duplo 2 x 4 with screw and thread",
+      "geometryStatus": "Local simplified part"
+    }
+  ],
+  "unknown": [
+    {
+      "page": 10,
+      "part": "cord",
+      "missing": "Exact length/material/routing not established; omitted"
+    },
+    {
+      "page": 11,
+      "part": "compact pulley holder",
+      "candidates": [
+        "2223"
+      ],
+      "missing": "Mold identity/redistributable geometry not available; omitted"
+    },
+    {
+      "page": 11,
+      "part": "gray small pulley andblack longhook",
+      "candidates": [],
+      "missing": "Real IDs not verified; not4663 short hook. No generic substitute."
+    }
+  ],
+  "knownApproximations": [
+    {
+      "id": "76395.dat",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182798.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "99565.dat",
+      "notes": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for99565.",
+        "BarrelR38 paired with44970 innerR38; front and rear flangeR42 outside tire width. Yellow serrated screw collar simplified as24 teeth and round bore.",
+        "Bore/thread shape, rim width and dimensions image estimates; not a physical fit certification.",
+        "Locally authored CC BY4.0; geometry simplified, all interfaces manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6043041.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "28336.dat",
+      "notes": [
+        "User-approved local simplification2026-09-12; official LEGO element6162848 image.",
+        "Base80x80x48 LDU; inclined fork and pivot y=-65,z=48 are unmeasured image estimates.",
+        "Local CC BY4.0 mesh; circular base side openings and four studs; twin cheeks with yellow transverse screw.",
+        "Threads, molded underside and tolerances not reproduced.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162848.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "dev-129/28334.dat",
+      "notes": [
+        "User-approved simplified model2026-09-12. Source official45002 element photo design28334.",
+        "40LDU stud grid only establishes reference scale; overall lengths, plate spacing48 and long-arm axle spacing100 are image estimates.",
+        "Two separated extruded cheek plates with actual open lower fork, yellow shafts and triangular screw indicators. Decorative relief and threads omitted.",
+        "Local authored CC BY4.0. Hidden fit and source-specific joint angles remain manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162840.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "2026-10-11 dev-only: inventory confirmed 74847 Arm 2 x 6; total span240LDU, pivots 0/open end200. Reuses approved approximate cheek mesh with remapped axial intervals, not an official mesh. Hole centers and mating fit still manual. No shared original DAT changed."
+      ]
+    },
+    {
+      "id": "74957.dat",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6139202.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "Central roof bore radius10LDU restored; bottom tongues join the sidewalls via estimated internal bridges. No yellow screw insert assumed for this part."
+      ]
+    },
+    {
+      "id": "76057.dat",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182720.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    }
+  ],
+  "inventoryExtraNeeded": [
+    {
+      "id": "76395.dat",
+      "set": "45002-1",
+      "required": 13,
+      "verifiedSingleSet": 7,
+      "extra": 6
+    }
+  ],
+  "validation": {
+    "matrixInvalid": [],
+    "rawCollision": "pass; Toolo manual collision policy means not complete rigid-intersection proof",
+    "closure": "pending parent serial pack",
+    "pixels": "Current19fc final3 and all12 original cumulative frames actually viewed; no framing loss. Known omissions and8LDU provisional support unchanged."
+  },
+  "limitations": [
+    "Upper/lower Toolo loop mounting depth andapproximate fork geometry need final pixel andphysical fit review.",
+    "p12 is an attachment instruction; p13 finaloverview has no new parts. Source p10/p11 preserved as explicit omitted stages.",
+    "14 alternating2x4 layers per tower; 28 red+28 yellow bricks total. Bare rims per source, no tires.",
+    "p7 connection PROVISIONAL: 40666 long axis X gives Z[-40,40]; two28336 bases centeredZ+/-72 give only8LDUedge overlap with plate. Normal two-row connection unproven. Red3437Y-836 vertical correction alone does not close this interface. Main owns model/hash/render updates.",
+    "Afterp7 plateaxisZ correction, topplate-to-fork footprint overlap is48LDU, not8; lowerred3437-to-fork overlap remains8LDU. Studcentres still do not register. Seeassembly-candidates.json; nojointclosure/physicalsupport accepted."
+  ],
+  "landmarks": {
+    "towerCentersX": [
+      -400,
+      400
+    ],
+    "towerFootprint": [
+      160,
+      160
+    ],
+    "towerTopY": -720,
+    "beamLayersY": [
+      -768,
+      -816
+    ],
+    "beamExtentX": [
+      -480,
+      480
+    ],
+    "armPivotsY": [
+      -819,
+      -619
+    ],
+    "armPlanesZ": [
+      -120,
+      120
+    ]
+  },
+  "revisions": [
+    {
+      "at": "2026-10-11T06:08:02.093Z",
+      "by": "main",
+      "part": "3437.dat",
+      "sourcePage": 7,
+      "change": "Y-884 to-836, invertedmatrix unchanged",
+      "boundary": "Verticalstack correction only; plate/fork8LDUedgeoverlap remains provisional. No physicaloruseracceptance."
+    },
+    {
+      "at": "2026-10-11T06:23:39.827Z",
+      "sourcePages": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "part": "40666.dat",
+      "change": "Onlyp7 invertedplate rotated90degrees aboutworldY: localX nowworldZ, so80x160 footprint acrossbeam. No position/scale/partcount changes.",
+      "reason": "Sourcep7 plate longedge follows transversebeamwidth, with twoinverted2x2 fork bases below. p8/p9 hangers remain on beamfront/back.",
+      "remaining": "Forkbases Z+/-72 do not register to40LDUstudgrid. Plateoverlapnow48LDU each but lowerred3437 remains8LDUedgeoverlap. Sourcealignedforkcentres+/-40 cause suppliedapproximatearm geometry to crossbeamwall."
+    }
+  ],
+  "previousFinalPixelReview": {
+    "sourceSha256": "4b7f0b3a8f5e2af2a7945cdeb1a366e9a7cf8ed1ed281095549f1d2c5840420e",
+    "revision": "406cf4ff119b1e44dab1f69b833b1ff9d59dcbc41443fd86dffb9a95dbaa4b17",
+    "reviewRecord": "current-pixel-review.json",
+    "finalThreeViewsActuallyReviewed": true,
+    "cumulativeStepsActuallyReviewed": false,
+    "observations": "Red inverted3437 is below gray fork bases after main Y=-836 correction; top view confirms plate-X versus fork-Z geometry. Only8LDUedgeoverlap,normalstudcapture andloadsupport not established. No crop. Cord/pulley/longhook absent.",
+    "accepted": false,
+    "physicalValidation": false
+  },
+  "currentFinalPixelReview": {
+    "sourceSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+    "revision": "19abb486598447fe71f1108e27bcef8c59c147ecaa8d5ad69fc49ab521bb473a",
+    "reviewRecord": "current-pixel-review.json",
+    "finalThreeViewsActuallyReviewed": true,
+    "cumulativeStepsActuallyReviewed": false,
+    "observations": "Actually viewed source p7 and all three full PNGs for 19fc8cda. Frame, wheels and top assembly are not cropped. Top view confirms inverted 40666 long axis across beam Z, consistent with p7. Inverted red3437 remains beneath fork bases. Upper plate overlap48LDU and lower redbrick edge overlap8LDU come from coordinate analysis; pixels do not certify stud registration or load support. Two iso views look nearly symmetric and do not resolve hidden mating surfaces. Fork/arm fit remains provisional; candidate stud-aligned bases would collide with supplied approximate arms. Missing cord/pulley/longhook and existing source limitations remain. No cumulative step or physical acceptance.",
+    "accepted": false,
+    "physicalValidation": false
+  },
+  "currentCumulativePixelReview": {
+    "sourceSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+    "revision": "19abb486598447fe71f1108e27bcef8c59c147ecaa8d5ad69fc49ab521bb473a",
+    "stepCount": 12,
+    "allOriginalFramesActuallyViewed": true,
+    "observations": "Actually inspected all12 original cumulative PNGs, alongside previous final3/sourcep7 and source-step ledger. Each frame fully contains its current model. Steps1-4 add wheel bases and striped piers;5 beam;6 red caps;7 transverse inverted plate and forks;8 hanging arms;9 lower red/gray carrier. Steps10-12 remain visually unchanged because missing cord/pulley/hook assemblies are deliberately omitted; this is incomplete, not evidence those source steps are built. Inverted40666 direction agrees with sourcep7. Lowerred3437/base8LDU edge overlap, stud registration and supplied approximate fork/arm interfaces remain provisional. No physical/load/motion/user acceptance.",
+    "accepted": false
+  }
+}

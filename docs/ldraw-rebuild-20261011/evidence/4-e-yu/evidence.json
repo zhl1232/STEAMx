@@ -1,0 +1,124 @@
+{
+  "source": [
+    {
+      "page": 1,
+      "path": "../inputs/source-2/4鳄鱼/4+鳄鱼搭建说明-1.jpg",
+      "sha256": "f2b52372554199015fb2184d65de2bdd87f98a68cc33d4d73d49a0a12c9b73f8",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "../inputs/source-2/4鳄鱼/4+鳄鱼搭建说明-2.jpg",
+      "sha256": "37a5386d6c490719907d80d8d8561d8e9715db699feeb1511d9570e211570184",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "../inputs/source-2/4鳄鱼/4+鳄鱼搭建说明-3.jpg",
+      "sha256": "ad8affc50716c8fee4a503731a4505d4974647ee12c266c3a892ba5686a1f90b",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "../inputs/source-2/4鳄鱼/4+鳄鱼搭建说明-4.jpg",
+      "sha256": "a777b98ccc1e41b1dbca7b911391dc69c4046fd52dcee1c4c32977d3eda79c0b",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "../inputs/source-2/4鳄鱼/4+鳄鱼搭建说明-5.jpg",
+      "sha256": "8cd1b3a06acd9f7eba0830eeebdaae0147046d7555f8fdf32b59a0377bb8aa69",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "../inputs/source-2/4鳄鱼/4+鳄鱼搭建说明-6.jpg",
+      "sha256": "57b9c06aae0af642e74df77ee1e35cbadfc41ab2e45de28806f39d2cb97e6f0f",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "../inputs/source-2/4鳄鱼/4+鳄鱼搭建说明-7.jpg",
+      "sha256": "75457bb694034d23fed9b281e84236db85820b94ec58b2b13e0e916e44ebc2ea",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "../inputs/source-2/4鳄鱼/4+鳄鱼搭建说明-8.jpg",
+      "sha256": "741840b3d5b3d3a30990098380c86d3a767f1042b82d46d24e3bf26fe1f27d1a",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "path": "../inputs/source-2/4鳄鱼/4+鳄鱼搭建说明-9.jpg",
+      "sha256": "951df8ab4b72ce55f4a1774386a0773bc0949cfc9e53803e85e15530170514a8",
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "path": "../inputs/source-2/4鳄鱼/4+鳄鱼搭建说明-10.jpg",
+      "sha256": "9310b0679e296cbe8974c1392e8f05d75d70b3c7e123ee4ab6ab0c87a31701a9",
+      "pixelsViewed": true
+    },
+    {
+      "page": 11,
+      "path": "../inputs/source-2/4鳄鱼/4+鳄鱼搭建说明-11.jpg",
+      "sha256": "668406b1129dd16f726d4d2d5b96301446c96312fd0f8b20de488b07ac5235ba",
+      "pixelsViewed": true
+    }
+  ],
+  "model": {
+    "path": "scripts/ldraw-models/4-e-yu.ldr",
+    "sha256": "bb2b3a7c85d16a1ce64ab046eda3f450dc002a40e5b14e6cb11336d261864c1d"
+  },
+  "metadata": {
+    "path": ".agents/skills/image-to-ldraw/references/part-metadata.json",
+    "sha256": "294f3ea56d174b3f10266517f86d89a97662ab8559fdf7e0ab2ac12fd1802d2c"
+  },
+  "checker": {
+    "path": ".agents/skills/image-to-ldraw/scripts/check-ldr-collision.mjs",
+    "sha256": "76838d6085b0e18f7fcec2e98eee9f2169a0637627f1a080b23b57a4937c5b10"
+  },
+  "parts": [
+    {
+      "id": "4196.dat",
+      "sha256": "ef8c75cd6d3df465054dd39e5ddfd357e320102f61ec3b4d72b0d16e7a494317"
+    },
+    {
+      "id": "76395.dat",
+      "sha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+    },
+    {
+      "id": "10199.dat",
+      "sha256": "1366e7828cf480e8309ad1c5f0acf556767da1bf3344e4c9bf9dfdef8aef53d7"
+    },
+    {
+      "id": "3011.dat",
+      "sha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+    },
+    {
+      "id": "2302.dat",
+      "sha256": "0b58ec8fa002ceb8fb9329fd208cbbc876a1e8c7a01abe477694fd4a4302f5fd"
+    },
+    {
+      "id": "28336.dat",
+      "sha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+    },
+    {
+      "id": "74957.dat",
+      "sha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+    },
+    {
+      "id": "3437pe1.dat",
+      "sha256": "1a20595792b07ebe8494bb1b02d0ce3add952af574e2b0444467928719f3e3c8"
+    },
+    {
+      "id": "3437.dat",
+      "sha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+    },
+    {
+      "id": "40666.dat",
+      "sha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+    }
+  ]
+}

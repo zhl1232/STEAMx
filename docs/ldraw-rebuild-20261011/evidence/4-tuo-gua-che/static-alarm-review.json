@@ -1,0 +1,52 @@
+{
+  "slug": "4-tuo-gua-che",
+  "sourceSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+  "rawChecker": {
+    "exitCode": 0,
+    "placements": 53,
+    "reportedErrors": 0,
+    "log": "raw-check.txt",
+    "sha256": "58158f5bf860652d242c15c290e61f3724eab68d5ac8715002bde1dbb1066973"
+  },
+  "conclusion": "Raw checker exit0 is not an assembly or physical-fit pass. Manual Toolo geometry and incomplete cab/tow support remain unresolved.",
+  "alarms": [
+    {
+      "key": "p4-capture",
+      "classification": "evidence-insufficient",
+      "detail": "Pixel correction after b156b render: sourcep5 has central driver opening; side-built groups moved Z±40 to Z±80 (80LDU gap), sourcep6 roof76395 rotated90 degrees to span6 studs across cab width. Sourcep4 fork yellow pins are vertical: corrected localX axes to world±Y, horizontal cheeks, symmetric inward fork tips. Sourcep4 hidden capture still unverified; predicted fork pivots now(23,-170,±32), not matched to clutch estimated(-100,-170,±80). No physical connection acceptance."
+    },
+    {
+      "key": "p5-p6-height",
+      "classification": "real-incomplete-structure",
+      "detail": "Roof supported by the tops of two sideways green3011 atY=-290. Five rear-wall bricks omitted;160 side dimension versus144 three-course height leaves16LDU mismatch. No rear support acceptance."
+    },
+    {
+      "key": "p8-tow-support",
+      "classification": "real-incomplete-connection",
+      "detail": "Tow beam bottomY=-194 rests on turntable topY=-194 atx=-400; its front endX=-160 abuts side-built rear stud plane. White reinforcement and tractor attachment absent: trailer assembly is supported but the tractor/trailer joint is not structurally closed. Sourcep8 is temporary subassembly untilp11, no standalone support claim."
+    },
+    {
+      "key": "toolo-wheel-mating",
+      "classification": "evidence-insufficient",
+      "detail": "Eight99565/44970 assemblies share axes and bottomground radius57.379; hubs and tires are approved approximate meshes. Screw bore retention, tread fit and turning freedom unverified."
+    },
+    {
+      "key": "p13-fence",
+      "classification": "source-supported",
+      "detail": "Official31021p01 matches two white rails with red rectangular stripes. Four fences sitY=-154 cargo brick top; posts occupy neighboring40LDU studs, no fence floating."
+    }
+  ],
+  "renderPixelsReviewed": true,
+  "accepted": false,
+  "pixelDrivenCorrection": "Pixel correction after b156b render: sourcep5 has central driver opening; side-built groups moved Z±40 to Z±80 (80LDU gap), sourcep6 roof76395 rotated90 degrees to span6 studs across cab width. Sourcep4 fork yellow pins are vertical: corrected localX axes to world±Y, horizontal cheeks, symmetric inward fork tips. Sourcep4 hidden capture still unverified; predicted fork pivots now(23,-170,±32), not matched to clutch estimated(-100,-170,±80). No physical connection acceptance.",
+  "secondPixelDrivenCorrection": "Second render actual inspection: green3011 lower body overlapped gray74957 due shared side-built studplaneX=-160. Corrected green3011 originX=-208: its bottomplaneX=-160 seats gray top/studplaneX=-160. Yellow3437 originX=-160 now seats the same green bottomplane on the upper half. Both colors shifted rearwards48LDU, preserving orthonormal SIDE matrix and source cavity-facing-forward direction. Manual stud/underside capture still unverified; no DAT changes.",
+  "currentPixelReview": {
+    "file": "current-pixel-review.json",
+    "sourceSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+    "revision": "f80ad667b6e2d702568b05c2048249ea71eda6d279b82ed6ee2e4a1c50d3e862",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "accepted": false,
+    "physicalValidation": false
+  }
+}

@@ -1,40 +1,105 @@
-0 5+ 吊扇 (Ceiling Fan) - DUPLO draft for manual repair
+0 5-diao-shan - source reconstruction, INCOMPLETE dev-only
 0 Name: 5-diao-shan.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+吊扇 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Support frame, fan blades, hub and hanging riders are simplified.
-
-0 // STEP 1 - green base and yellow frame posts
-1 2 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 14 -240 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -240 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 240 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 240 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source Library libfile_f6df9c75694881918d746cfa7e75e662, PDF SHA256 3cb1b483da9d075adfad3c9206144dc4096bc50c322309c639f7756b42f27d48
+0 // STATUS: INCOMPLETE; source pages 1-10 visually inspected, no human acceptance.
+0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
+0 // No physical validation. Missing parts are omitted and recorded per source step.
+0 // STEP 1 - 24x24 base and two red/yellow supports with blue thin separators
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 -360 -24 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -360 -72 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 -360 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -360 -144 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -360 -192 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 360 -24 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 360 -72 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 360 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 360 -144 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 360 -192 0 1 0 0 0 1 0 0 0 1 75349.dat
 0 STEP
 
-0 // STEP 2 - red overhead beam
-1 4 -240 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -80 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 80 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 240 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -360 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 360 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 2 - left two Beam11 links and two transverse Axle6; four yellow pulley retainers
+1 14 -360 -248 -60 1 0 0 0 0 1 0 -1 0 6525.dat
+1 14 -360 -248 60 1 0 0 0 0 1 0 -1 0 6525.dat
+1 0 -360 -48 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -360 -48 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -360 -48 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 -360 -168 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -360 -168 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -360 -168 100 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
 
-0 // STEP 3 - fan hub and green blades
-1 14 0 -264 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 2 -140 -264 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 2 140 -264 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 2 0 -264 -240 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 0 -264 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 3 - right mirror of source page2
+1 14 360 -248 -60 1 0 0 0 0 1 0 -1 0 6525.dat
+1 14 360 -248 60 1 0 0 0 0 1 0 -1 0 6525.dat
+1 0 360 -48 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 360 -48 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 360 -48 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 360 -168 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 360 -168 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 360 -168 100 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
 
-0 // STEP 4 - center drop and people markers
-1 0 0 -168 -80 1 0 0 0 0 -1 0 1 0 31452.dat
-1 1 -80 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 80 -72 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -120 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // STEP 4 - two suspended upper modules and end bars; axles meet Beam11 holes
+1 4 -360 -352 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 -360 -400 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -360 -424 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -280 -472 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 0 -360 -328 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -360 -328 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -360 -328 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 -360 -448 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -360 -448 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -360 -448 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 4 360 -352 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 360 -400 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 360 -424 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 280 -472 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 0 360 -328 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 360 -328 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 360 -328 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 360 -448 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 360 -448 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 360 -448 100 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+
+0 // STEP 5 - short red bridge closes 4-stud gap; lower central long brace (source p5 underside)
+1 4 0 -472 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 0 -424 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+
+0 // STEP 6 - upper central long brace; central sandwich totals3 layers
+1 4 0 -520 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+
+0 // STEP 7 - long blue official31623 pinion shaft passes three brace layers; two crossed formed61898b sheets, opposed official6526 carriers; hole pitch80, clamp pose inferred
+1 1 -80 -444 0 0 1 0 -1 0 0 0 0 1 31623.dat
+1 27 -80 -332 0 1 0 0 0 1 0 0 0 1 61898bc01.dat
+1 27 -80 -330 0 0 0 -1 0 1 0 1 0 0 61898bc01.dat
+0 // carrier upper pin at(-80,-332,80), lower pin starts(-160,-329,0) through sheetY[-330,-329]; each matches sheet offset hole80
+1 14 -80 -352 0 1 0 0 0 1 0 0 0 1 6526.dat
+1 14 -80 -309 0 0 0 -1 0 -1 0 -1 0 0 6526.dat
+0 STEP
+
+0 // STEP 8 - known large yellow gear, vertical Axle6, crank and lower yellow retainer
+1 0 40 -464 0 0 1 0 -1 0 0 0 0 1 6522.dat
+1 14 40 -544 0 1 0 0 0 0 -1 0 1 0 6530.dat
+1 14 40 -584 0 1 0 0 0 1 0 0 0 1 6526.dat
+1 14 40 -356 0 1 0 0 0 0 1 0 -1 0 6527.dat
+0 STEP
+
+0 // STEP 9 - four red floor feet and four blue seating bricks
+1 4 -120 -48 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -48 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -48 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 120 -48 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 0 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 10 - finished view only

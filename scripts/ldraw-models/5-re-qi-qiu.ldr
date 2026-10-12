@@ -1,0 +1,112 @@
+0 5-re-qi-qiu - source reconstruction; INCOMPLETE dev-only
+0 Name: 5-re-qi-qiu.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // PDF SHA256 ed15d42c3d50d15447a3dbb0ec55f7fc582ef59b4cbf77581bfefc628bcbb906
+0 // All13 source pages actually viewed; final page is presentation only.
+0 // No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.
+0 // SOURCE PAGE 1 - Hollow stepped balloon shell
+1 1 -80 -120 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -120 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -80 -120 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -120 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -120 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -120 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 2 - Hollow stepped balloon shell
+1 14 160 -168 -120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 40 -168 -160 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -120 -168 -160 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -160 -168 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 160 -168 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -160 -168 120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 120 -168 160 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -40 -168 160 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // SOURCE PAGE 3 - Hollow stepped balloon shell
+1 1 -160 -216 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -200 -216 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -200 -216 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -160 -216 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -216 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -216 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -216 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -216 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 200 -216 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 200 -216 80 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 4 - Hollow stepped balloon shell
+1 1 200 -264 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 80 -264 -200 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -80 -264 -200 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -200 -264 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 200 -264 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -200 -264 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 200 -264 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -200 -264 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 80 -264 200 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -80 -264 200 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // SOURCE PAGE 5 - Hollow stepped balloon shell
+1 14 -120 -312 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -312 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -160 -312 120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -40 -312 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -312 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -312 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -312 -120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 160 -312 40 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 6 - Two narrowing upper rings
+1 1 120 -360 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -360 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -120 -360 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 120 -360 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -120 -360 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -360 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -40 -408 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -408 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 40 -408 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -408 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 7 - Four short red beams and two blue underside binding plates
+1 4 -80 -72 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 80 -72 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 0 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -80 -72 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 80 -72 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 0 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // SOURCE PAGE 8 - Four blue five-stud gear axles
+1 1 -120 -48 -120 0 0 1 0 1 0 -1 0 0 6523.dat
+1 1 120 -48 -120 0 0 1 0 1 0 -1 0 0 6523.dat
+1 1 -120 -48 120 0 0 -1 0 1 0 1 0 0 6523.dat
+1 1 120 -48 120 0 0 -1 0 1 0 1 0 0 6523.dat
+0 // UNVERIFIED 6523 - 5L identity from source gear collar and exposed length; exact depth hidden, no suspension load validation
+0 STEP
+0 // SOURCE PAGE 9 - Source string preparation - omitted flexible element
+0 // UNVERIFIED 75536 string - Source page9 shows one thread and page10 repeats entire assembly4x. Exact length, winding, knots and licensed flexible geometry unverified; no invented string.
+0 STEP
+0 // SOURCE PAGE 10 - Four official pulley bodies; hook/string assemblies remain incomplete
+1 14 -120 -48 -200 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 120 -48 -200 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -120 -48 200 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 120 -48 200 1 0 0 0 1 0 0 0 1 6527.dat
+0 // UNVERIFIED 4663 suspension - Official hooks added with basket onp12; flexible string geometry absent but sourcep11-13 explicitly supports hanging relationship.
+0 STEP
+0 // SOURCE PAGE 11 - Source attaches suspension groups - no further rigid additions
+0 // UNVERIFIED upper shell suspension - Upper shell retains source form; overhead support not shown by source and not invented.
+0 STEP
+0 // SOURCE PAGE 12 - Basket and four hooks below shell; source-backed suspension with missing cord geometry
+1 71 0 360 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 15 -20 264 -120 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 20 264 120 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -120 264 20 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 120 264 -20 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 14 -120 284 -160 1 0 0 0 1 0 0 0 1 4663.dat
+1 14 120 284 -160 1 0 0 0 1 0 0 0 1 4663.dat
+1 14 -120 284 160 -1 0 0 0 1 0 0 0 -1 4663.dat
+1 14 120 284 160 -1 0 0 0 1 0 0 0 -1 4663.dat
+0 // UNVERIFIED basket suspension - Source-backed hanging exception: 4missing cord meshes mean static support graph is open. FloorY360 and hookEyeY284 inferred from illustration proportions; exact knot, hook rail seating and tension unverified.
+0 // Source final page adds no parts.

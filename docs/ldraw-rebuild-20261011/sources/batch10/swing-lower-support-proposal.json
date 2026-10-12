@@ -1,0 +1,162 @@
+{
+  "scope": "Independent sourcep6/7/8 visible topology and nominal approved-mesh placement proposal; owner must review; no model edit",
+  "sources": [
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-qiu-qian\\page-6.jpg",
+      "sha256": "279b4775be2ea80dd861608a0e85ce45bb98f163be1a599cb0e010e5a9578531",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-qiu-qian\\page-7.jpg",
+      "sha256": "d3a15374979ca285cbccc935b3da9c414385807566a86b5864516208fed60efb",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-qiu-qian\\page-8.jpg",
+      "sha256": "52c84456560fe8a23dc8c2d1dcb81bbaac60374dd77d8ea1e1bd28aa14c1aaaa",
+      "pixelsViewed": true
+    }
+  ],
+  "visibleConstraints": [
+    "Both74957boxes belowarms with undersideclip pointing upward into armend fork, rather than studs upward.",
+    "Two76057bricks have longaxes horizontal andstudfaces toward opposite-viewp8; they bridge inward from each74957box.",
+    "Source7/8 horizontal76395seat rests above two side bracket upper edges."
+  ],
+  "proposal": {
+    "currentArmLowerAxes": [
+      [
+        "-167",
+        -352,
+        0
+      ],
+      [
+        "167",
+        -352,
+        0
+      ]
+    ],
+    "74957": {
+      "origins": [
+        [
+          -167,
+          -292,
+          0
+        ],
+        [
+          167,
+          -292,
+          0
+        ]
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        -1
+      ],
+      "clipAxisLocal": [
+        0,
+        60,
+        0
+      ],
+      "worldBodyY": [
+        -340,
+        -292
+      ],
+      "upwardTongueY": [
+        -362,
+        -340
+      ]
+    },
+    "76057": {
+      "origins": [
+        [
+          -127,
+          -316,
+          88
+        ],
+        [
+          127,
+          -316,
+          88
+        ]
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -1,
+        0
+      ],
+      "worldBodyY": [
+        -356,
+        -276
+      ],
+      "worldBodyZ": [
+        40,
+        88
+      ],
+      "bodyContactWith74957": "BackplaneZ40 matches74957frontsideZ40; overlapX80,Y48. Longcenter shifted40towardsseat."
+    },
+    "76395": {
+      "origin": [
+        0,
+        -404,
+        0
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "bottomY": -356,
+      "supportPlaneY": -356,
+      "leftContactRectangle": {
+        "x": [
+          -120,
+          -47
+        ],
+        "z": [
+          40,
+          80
+        ]
+      },
+      "rightContactRectangle": {
+        "x": [
+          47,
+          120
+        ],
+        "z": [
+          40,
+          80
+        ]
+      }
+    }
+  },
+  "limits": [
+    "Source-constrained NOMINAL body placement, not unique calibrated CAD coordinates. Source pose/flip sufficiently visible; precise pitch offsets remain image-informed.",
+    "Seat-edge contact supports nominal placement and avoids floating but does not establish connector retention/load stability.",
+    "74957clip estimatedaxisY60 and76057offcentre simplifiedscrew(slotx-20,z20) are approximate; actual screwfit remainsmanual, not exact certifiedaxis.",
+    "No newgeometry/scaling/mirroring; all listed matrices proper rotations. Owner should render and compare source, preserve interface risks rather than certify."
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

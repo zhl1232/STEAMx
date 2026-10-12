@@ -1,0 +1,71 @@
+{
+  "slug": "5-diao-che",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 17,
+  "sourcePixels": "All17 source pages contact inspected; p11 enlarged plus part geometry axes inspected",
+  "modelSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+  "unknown": [
+    {
+      "page": "14-16",
+      "part": "75536/6527c01 rope assembly",
+      "missing": "4663 hook confirmed; rope flexible geometry/length/routing and extra winding pulley omitted"
+    },
+    {
+      "page": "10-13",
+      "part": "gearbox drive and rotating pillar",
+      "missing": "axes use official gearbox X/inputY-72,Z/outputY-168; gear engagement, pivot retention and mechanics require manual review"
+    },
+    {
+      "page": 7,
+      "part": "31196c01 cockpit",
+      "missing": "prior approved approximate geometry, not exact official mesh"
+    }
+  ],
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
+  "knownApproximate": [
+    "31196c01"
+  ],
+  "render": {
+    "sourceSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+    "viewsActuallyInspected": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "cumulativeStepsActuallyInspected": false,
+    "finding": "Current fullframe/sourcep11,13,16 reviewed. Hook still visibly unsupported due missing rope, explicitly incomplete; remaining structure corresponds. See current-pixel-review.json for exact PNG hashes."
+  },
+  "rawCollisionChecker": "FAIL; manual assessment required",
+  "collisionAssessment": [
+    "Only raw error is6345 windshield vs prior approved31196c01 thin cockpit shell; adopted same paired transform as4-ke-ji, surface tolerance remains manual.",
+    "p16 hook deliberately displayed without missing rope; unsupported until75536 rope geometry/routing supplied."
+  ],
+  "inventoryMechanicalDeficits": [
+    {
+      "part": "6530.dat",
+      "sourceQuantity": 5,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 3
+    },
+    {
+      "part": "75349.dat",
+      "sourceQuantity": 7,
+      "9656DesignTotal": 4,
+      "additionalBeyondSingle9656IgnoringColor": 3
+    }
+  ],
+  "sourceMaterialNote": "31624 transparent-clear per9656 official inventory; source uses white edge display, color47 used",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "currentCumulativePixelReview": {
+    "sourceSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 17,
+    "currentDfinalActuallyReviewed": true,
+    "limitations": "All17 cumulative D frames compared with source17-page contact; originalstep12 and16 inspected. Chassis/gearbox and boom increments correspond. Steps14-15 omit rope assembly and its winding pulley; step16 hook is visibly suspended without support and remains an incomplete endpoint marker. Sourceboom angle is posed; worm/axle retention and cockpit/canopy overlap unverified. No physical acceptance."
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "sourceSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+  "revision": "2256d4fd4797edbfd692402beee193d35dfe7bb2c7f4dfb7220512c83bc850fb",
+  "reviewedAt": "2026-10-11T12:27:46.602210+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-lan-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "a92f680839c2cfc97d76ca5e4a7939f6b623e6d488b00f85dd2460c5a9030756",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "6f682d44524333b14c1cfe28fbad251e8ce147fab0c5eef9f29718882ad34e73",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "e5328d7738b5dec1802ebfd14ef27a9cde1b857659dbcf96363227e1ab2ac0c0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "8c64aa520dea70cc699ee7669387ddc889817e936c698688d76a385783c0dc37",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "174cf76767424dd97cec61eb47b78521e6225bc8078857afe1c1128178993c47",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "7ddf22d8b4f41f2e707f46737b13c1c9194f3d78788a55b168413de066ed1d7c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "a1b99fe756f1c446e24afc086e980bbe17672675aca9b9900484017e1d7edb06",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "dc10a5ae011e6fc933d09b7dd2572d947d0227f0d481c6b8a383e5fa4deb9ecf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "7a7e292c4676828dc3f260513c932b35c842c1c0b8bf6438344921f52dc86d06",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "ef8816d9f15727fffa108456ae7629e2d12665deed48073ea36e0ba59bf481a9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "a7d1c207238dc5dda036013e9b687623732f09b04f89961e9ddefde4cc54c3b6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "d9f70b3abadc8b849f17b6f509a0af41afa3ac501e7f59baf60c68a632006498",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "f9e8a59f971cd356744db4feaad3f0f32ff5216f744cd94e9b60b22215c0e540",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "80face8d56ef5721d60396074201213d704d41cce5a24b4f2f65c24fd0515885",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "80face8d56ef5721d60396074201213d704d41cce5a24b4f2f65c24fd0515885",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "13cb904163a36d6f358863bc45cfd43164f329520db207dba2b3dd3fc50050c9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "197414978bae23a00f2c61755556173aca74eeb7a51b5105842b7fc3caa2b353",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "1deca7159eb5ea7c24eeefb6399b6a270201a7339705cc72b8812776a1101ddf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-16",
+      "sha256": "bcc85c58ee1bf50f1fbc0aa8273501d94e18ac9314eb3180435277c51c0aacf2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-17",
+      "sha256": "a92f680839c2cfc97d76ca5e4a7939f6b623e6d488b00f85dd2460c5a9030756",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "right",
+      "sha256": "376b8930b535d1a1288c9237b2a4213ccbe9e32b4c5df5ce9038b2298434e7fb",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Currentae839b28/revision2256d4fd actual final3/all17 cumulative step sheets inspected, right original plus step3/4/17 originals and sourcep3 enlarged fork inspected. Red caps now above shortbearing beams and bridge rear yellow filler, matching source layer order. No additional definite direction/layer error identified. Four-wheel suspension and inverted channel visible but does not certify friction/rolling. Rope geometry,4663 hook seating,2 unresolved whitewindow assemblies and dependent2floorplates still omitted separately. Winch wheel/head3pairs retain1LDU envelope risk;2 wheel/plate static proxy pairs separately proven by mesh projection, not physical validation."
+}

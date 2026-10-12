@@ -1,0 +1,47 @@
+{
+  "slug": "4-qian-shui-ting",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 10,
+  "sourcePixels": "All10 source pages contact inspected; enlarged structural pages inspected",
+  "modelSha256": "7f553094f5606a443730f4d0bf6a100e9c9ec260acb36140ae986358c0102159",
+  "unknown": [
+    {
+      "page": 6,
+      "part": "three-blade screw propeller",
+      "missing": "exact Toolo ID and licensed/approved geometry; omitted"
+    },
+    {
+      "page": "8-9",
+      "part": "periscope joints",
+      "missing": "dev longarm uses approved cross-section stretched only by source kit length; joint retention remains inferred"
+    }
+  ],
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
+  "knownApproximate": [
+    "76395",
+    "76057",
+    "31196c01",
+    "99565",
+    "60535",
+    "28336",
+    "74957",
+    "dev-129/28331"
+  ],
+  "render": "Source revised after full-frame pixel inspection found a defect; old image review is stale, pending fresh render",
+  "rawCollisionChecker": "1 existing cockpit/windscreen thin-surface overlap; unresolved",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "inventoryMechanicalDeficits": [],
+  "pixelRevisionReason": "Flipped longarm localY from-Y to+Y, openend400 now reaches bracket pivot(0,-393,48)",
+  "currentCumulativePixelReview": {
+    "sourceSha256": "7f553094f5606a443730f4d0bf6a100e9c9ec260acb36140ae986358c0102159",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 10,
+    "currentDfinalActuallyReviewed": true,
+    "limitations": "All10 cumulative D frames viewed against source10-page contact, originalstep8 inspected. Corrected longarm open end visibly joins lower periscope bracket. Missing sourcep6 propeller remains absent. Approved approximate Toolo parts, inferred hinge retention and cockpit/canopy overlap remain unresolved. No physical acceptance."
+  }
+}

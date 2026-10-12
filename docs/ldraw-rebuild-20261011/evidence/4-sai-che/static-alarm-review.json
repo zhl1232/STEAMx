@@ -1,0 +1,3914 @@
+{
+  "slug": "4-sai-che",
+  "modelSha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94",
+  "checkpointSha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94",
+  "matchesCheckpoint": true,
+  "reviewedAt": "2026-10-11T07:10:56.290678+00:00",
+  "rawExit": 0,
+  "alarms": [],
+  "manualWarnings": [
+    {
+      "message": "4-sai-che_l10 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 10,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -81.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l11 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 11,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -81.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l12 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 12,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            160.0,
+            -81.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l13 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 13,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -240.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l13 overlaps 4-sai-che_l10; manual collision accepted",
+      "placements": [
+        {
+          "line": 13,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -240.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 10,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -81.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l14 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l14 overlaps 4-sai-che_l10; manual collision accepted",
+      "placements": [
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 10,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -81.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l14 overlaps 4-sai-che_l11; manual collision accepted",
+      "placements": [
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 11,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -81.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l15 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l15 overlaps 4-sai-che_l11; manual collision accepted",
+      "placements": [
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 11,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -81.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l15 overlaps 4-sai-che_l12; manual collision accepted",
+      "placements": [
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 12,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            160.0,
+            -81.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l16 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 16,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            240.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l16 overlaps 4-sai-che_l12; manual collision accepted",
+      "placements": [
+        {
+          "line": 16,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            240.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 12,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            160.0,
+            -81.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l19 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 19,
+          "part": "76057.dat",
+          "sourcePage": 2,
+          "transform": [
+            320.0,
+            -81.378574,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l19 overlaps 4-sai-che_l16; manual collision accepted",
+      "placements": [
+        {
+          "line": 19,
+          "part": "76057.dat",
+          "sourcePage": 2,
+          "transform": [
+            320.0,
+            -81.378574,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        },
+        {
+          "line": 16,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            240.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l20 2302.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 20,
+          "part": "2302.dat",
+          "sourcePage": 2,
+          "transform": [
+            360.0,
+            -129.378574,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "0b58ec8fa002ceb8fb9329fd208cbbc876a1e8c7a01abe477694fd4a4302f5fd"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l20 overlaps 4-sai-che_l19; manual collision accepted",
+      "placements": [
+        {
+          "line": 20,
+          "part": "2302.dat",
+          "sourcePage": 2,
+          "transform": [
+            360.0,
+            -129.378574,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "0b58ec8fa002ceb8fb9329fd208cbbc876a1e8c7a01abe477694fd4a4302f5fd"
+        },
+        {
+          "line": 19,
+          "part": "76057.dat",
+          "sourcePage": 2,
+          "transform": [
+            320.0,
+            -81.378574,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l21 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 21,
+          "part": "76057.dat",
+          "sourcePage": 2,
+          "transform": [
+            320.0,
+            -81.378574,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l21 overlaps 4-sai-che_l16; manual collision accepted",
+      "placements": [
+        {
+          "line": 21,
+          "part": "76057.dat",
+          "sourcePage": 2,
+          "transform": [
+            320.0,
+            -81.378574,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        },
+        {
+          "line": 16,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            240.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l22 2302.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 22,
+          "part": "2302.dat",
+          "sourcePage": 2,
+          "transform": [
+            360.0,
+            -129.378574,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "0b58ec8fa002ceb8fb9329fd208cbbc876a1e8c7a01abe477694fd4a4302f5fd"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l22 overlaps 4-sai-che_l21; manual collision accepted",
+      "placements": [
+        {
+          "line": 22,
+          "part": "2302.dat",
+          "sourcePage": 2,
+          "transform": [
+            360.0,
+            -129.378574,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "0b58ec8fa002ceb8fb9329fd208cbbc876a1e8c7a01abe477694fd4a4302f5fd"
+        },
+        {
+          "line": 21,
+          "part": "76057.dat",
+          "sourcePage": 2,
+          "transform": [
+            320.0,
+            -81.378574,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l28 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 28,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            -200.0,
+            -57.378574,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l29 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 29,
+          "part": "44970.dat",
+          "sourcePage": 4,
+          "transform": [
+            -200.0,
+            -57.378574,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l29 overlaps 4-sai-che_l28; manual collision accepted",
+      "placements": [
+        {
+          "line": 29,
+          "part": "44970.dat",
+          "sourcePage": 4,
+          "transform": [
+            -200.0,
+            -57.378574,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        },
+        {
+          "line": 28,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            -200.0,
+            -57.378574,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l30 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 30,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            -200.0,
+            -57.378574,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l31 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 31,
+          "part": "44970.dat",
+          "sourcePage": 4,
+          "transform": [
+            -200.0,
+            -57.378574,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l31 overlaps 4-sai-che_l30; manual collision accepted",
+      "placements": [
+        {
+          "line": 31,
+          "part": "44970.dat",
+          "sourcePage": 4,
+          "transform": [
+            -200.0,
+            -57.378574,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        },
+        {
+          "line": 30,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            -200.0,
+            -57.378574,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l32 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 32,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -57.378574,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l33 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 33,
+          "part": "44970.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -57.378574,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l33 overlaps 4-sai-che_l32; manual collision accepted",
+      "placements": [
+        {
+          "line": 33,
+          "part": "44970.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -57.378574,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        },
+        {
+          "line": 32,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -57.378574,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l34 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 34,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -57.378574,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l35 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 35,
+          "part": "44970.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -57.378574,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l35 overlaps 4-sai-che_l34; manual collision accepted",
+      "placements": [
+        {
+          "line": 35,
+          "part": "44970.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -57.378574,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        },
+        {
+          "line": 34,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -57.378574,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l38 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 38,
+          "part": "76395.dat",
+          "sourcePage": 5,
+          "transform": [
+            -200.0,
+            -177.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l38 overlaps 4-sai-che_l13; manual collision accepted",
+      "placements": [
+        {
+          "line": 38,
+          "part": "76395.dat",
+          "sourcePage": 5,
+          "transform": [
+            -200.0,
+            -177.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 13,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -240.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l38 overlaps 4-sai-che_l14; manual collision accepted",
+      "placements": [
+        {
+          "line": 38,
+          "part": "76395.dat",
+          "sourcePage": 5,
+          "transform": [
+            -200.0,
+            -177.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l39 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 39,
+          "part": "76395.dat",
+          "sourcePage": 5,
+          "transform": [
+            -240.0,
+            -225.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l39 overlaps 4-sai-che_l38; manual collision accepted",
+      "placements": [
+        {
+          "line": 39,
+          "part": "76395.dat",
+          "sourcePage": 5,
+          "transform": [
+            -240.0,
+            -225.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 38,
+          "part": "76395.dat",
+          "sourcePage": 5,
+          "transform": [
+            -200.0,
+            -177.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l42 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 42,
+          "part": "76395.dat",
+          "sourcePage": 6,
+          "transform": [
+            -358.0,
+            -249.378574,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l42 overlaps 4-sai-che_l39; manual collision accepted",
+      "placements": [
+        {
+          "line": 42,
+          "part": "76395.dat",
+          "sourcePage": 6,
+          "transform": [
+            -358.0,
+            -249.378574,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 39,
+          "part": "76395.dat",
+          "sourcePage": 5,
+          "transform": [
+            -240.0,
+            -225.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l43 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 43,
+          "part": "76057.dat",
+          "sourcePage": 6,
+          "transform": [
+            -406.0,
+            -289.378574,
+            -80.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l43 overlaps 4-sai-che_l42; manual collision accepted",
+      "placements": [
+        {
+          "line": 43,
+          "part": "76057.dat",
+          "sourcePage": 6,
+          "transform": [
+            -406.0,
+            -289.378574,
+            -80.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        },
+        {
+          "line": 42,
+          "part": "76395.dat",
+          "sourcePage": 6,
+          "transform": [
+            -358.0,
+            -249.378574,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l44 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 44,
+          "part": "76057.dat",
+          "sourcePage": 6,
+          "transform": [
+            -406.0,
+            -289.378574,
+            80.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l44 overlaps 4-sai-che_l42; manual collision accepted",
+      "placements": [
+        {
+          "line": 44,
+          "part": "76057.dat",
+          "sourcePage": 6,
+          "transform": [
+            -406.0,
+            -289.378574,
+            80.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        },
+        {
+          "line": 42,
+          "part": "76395.dat",
+          "sourcePage": 6,
+          "transform": [
+            -358.0,
+            -249.378574,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l48 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 48,
+          "part": "76057.dat",
+          "sourcePage": 7,
+          "transform": [
+            40.0,
+            -177.378574,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l48 overlaps 4-sai-che_l14; manual collision accepted",
+      "placements": [
+        {
+          "line": 48,
+          "part": "76057.dat",
+          "sourcePage": 7,
+          "transform": [
+            40.0,
+            -177.378574,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        },
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l48 overlaps 4-sai-che_l15; manual collision accepted",
+      "placements": [
+        {
+          "line": 48,
+          "part": "76057.dat",
+          "sourcePage": 7,
+          "transform": [
+            40.0,
+            -177.378574,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        },
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l49 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 49,
+          "part": "76057.dat",
+          "sourcePage": 7,
+          "transform": [
+            40.0,
+            -177.378574,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l49 overlaps 4-sai-che_l14; manual collision accepted",
+      "placements": [
+        {
+          "line": 49,
+          "part": "76057.dat",
+          "sourcePage": 7,
+          "transform": [
+            40.0,
+            -177.378574,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        },
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l49 overlaps 4-sai-che_l15; manual collision accepted",
+      "placements": [
+        {
+          "line": 49,
+          "part": "76057.dat",
+          "sourcePage": 7,
+          "transform": [
+            40.0,
+            -177.378574,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+        },
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l52 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 52,
+          "part": "28336.dat",
+          "sourcePage": 8,
+          "transform": [
+            200.0,
+            -177.378574,
+            -80.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l52 overlaps 4-sai-che_l15; manual collision accepted",
+      "placements": [
+        {
+          "line": 52,
+          "part": "28336.dat",
+          "sourcePage": 8,
+          "transform": [
+            200.0,
+            -177.378574,
+            -80.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        },
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l52 overlaps 4-sai-che_l16; manual collision accepted",
+      "placements": [
+        {
+          "line": 52,
+          "part": "28336.dat",
+          "sourcePage": 8,
+          "transform": [
+            200.0,
+            -177.378574,
+            -80.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        },
+        {
+          "line": 16,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            240.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l53 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 53,
+          "part": "28336.dat",
+          "sourcePage": 8,
+          "transform": [
+            200.0,
+            -177.378574,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l53 overlaps 4-sai-che_l15; manual collision accepted",
+      "placements": [
+        {
+          "line": 53,
+          "part": "28336.dat",
+          "sourcePage": 8,
+          "transform": [
+            200.0,
+            -177.378574,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        },
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l53 overlaps 4-sai-che_l16; manual collision accepted",
+      "placements": [
+        {
+          "line": 53,
+          "part": "28336.dat",
+          "sourcePage": 8,
+          "transform": [
+            200.0,
+            -177.378574,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        },
+        {
+          "line": 16,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            240.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l54 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 54,
+          "part": "28336.dat",
+          "sourcePage": 8,
+          "transform": [
+            200.0,
+            -177.378574,
+            80.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l54 overlaps 4-sai-che_l15; manual collision accepted",
+      "placements": [
+        {
+          "line": 54,
+          "part": "28336.dat",
+          "sourcePage": 8,
+          "transform": [
+            200.0,
+            -177.378574,
+            80.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        },
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            80.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l54 overlaps 4-sai-che_l16; manual collision accepted",
+      "placements": [
+        {
+          "line": 54,
+          "part": "28336.dat",
+          "sourcePage": 8,
+          "transform": [
+            200.0,
+            -177.378574,
+            80.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        },
+        {
+          "line": 16,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            240.0,
+            -129.378574,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l57 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 57,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 9,
+          "transform": [
+            -44.0,
+            -282.178071,
+            -80.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l57 overlaps 4-sai-che_l52; manual collision accepted",
+      "placements": [
+        {
+          "line": 57,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 9,
+          "transform": [
+            -44.0,
+            -282.178071,
+            -80.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 52,
+          "part": "28336.dat",
+          "sourcePage": 8,
+          "transform": [
+            200.0,
+            -177.378574,
+            -80.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l58 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 58,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 9,
+          "transform": [
+            -44.0,
+            -282.178071,
+            0.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l58 overlaps 4-sai-che_l53; manual collision accepted",
+      "placements": [
+        {
+          "line": 58,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 9,
+          "transform": [
+            -44.0,
+            -282.178071,
+            0.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 53,
+          "part": "28336.dat",
+          "sourcePage": 8,
+          "transform": [
+            200.0,
+            -177.378574,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l59 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 59,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 9,
+          "transform": [
+            -44.0,
+            -282.178071,
+            80.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l59 overlaps 4-sai-che_l54; manual collision accepted",
+      "placements": [
+        {
+          "line": 59,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 9,
+          "transform": [
+            -44.0,
+            -282.178071,
+            80.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 54,
+          "part": "28336.dat",
+          "sourcePage": 8,
+          "transform": [
+            200.0,
+            -177.378574,
+            80.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l62 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 62,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -240.0,
+            -321.977569,
+            -80.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l62 overlaps 4-sai-che_l57; manual collision accepted",
+      "placements": [
+        {
+          "line": 62,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -240.0,
+            -321.977569,
+            -80.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 57,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 9,
+          "transform": [
+            -44.0,
+            -282.178071,
+            -80.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l63 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 63,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -240.0,
+            -321.977569,
+            0.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l63 overlaps 4-sai-che_l58; manual collision accepted",
+      "placements": [
+        {
+          "line": 63,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -240.0,
+            -321.977569,
+            0.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 58,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 9,
+          "transform": [
+            -44.0,
+            -282.178071,
+            0.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l64 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 64,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -240.0,
+            -321.977569,
+            80.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l64 overlaps 4-sai-che_l59; manual collision accepted",
+      "placements": [
+        {
+          "line": 64,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -240.0,
+            -321.977569,
+            80.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        },
+        {
+          "line": 59,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 9,
+          "transform": [
+            -44.0,
+            -282.178071,
+            80.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l67 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 67,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            -310.0,
+            -321.977569,
+            -80.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l67 overlaps 4-sai-che_l42; manual collision accepted",
+      "placements": [
+        {
+          "line": 67,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            -310.0,
+            -321.977569,
+            -80.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        },
+        {
+          "line": 42,
+          "part": "76395.dat",
+          "sourcePage": 6,
+          "transform": [
+            -358.0,
+            -249.378574,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l67 overlaps 4-sai-che_l62; manual collision accepted",
+      "placements": [
+        {
+          "line": 67,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            -310.0,
+            -321.977569,
+            -80.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        },
+        {
+          "line": 62,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -240.0,
+            -321.977569,
+            -80.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l68 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 68,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            -310.0,
+            -321.977569,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l68 overlaps 4-sai-che_l42; manual collision accepted",
+      "placements": [
+        {
+          "line": 68,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            -310.0,
+            -321.977569,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        },
+        {
+          "line": 42,
+          "part": "76395.dat",
+          "sourcePage": 6,
+          "transform": [
+            -358.0,
+            -249.378574,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l68 overlaps 4-sai-che_l63; manual collision accepted",
+      "placements": [
+        {
+          "line": 68,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            -310.0,
+            -321.977569,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        },
+        {
+          "line": 63,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -240.0,
+            -321.977569,
+            0.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l69 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 69,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            -310.0,
+            -321.977569,
+            80.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l69 overlaps 4-sai-che_l42; manual collision accepted",
+      "placements": [
+        {
+          "line": 69,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            -310.0,
+            -321.977569,
+            80.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        },
+        {
+          "line": 42,
+          "part": "76395.dat",
+          "sourcePage": 6,
+          "transform": [
+            -358.0,
+            -249.378574,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l69 overlaps 4-sai-che_l64; manual collision accepted",
+      "placements": [
+        {
+          "line": 69,
+          "part": "74957.dat",
+          "sourcePage": 11,
+          "transform": [
+            -310.0,
+            -321.977569,
+            80.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        },
+        {
+          "line": 64,
+          "part": "dev-129/28334.dat",
+          "sourcePage": 10,
+          "transform": [
+            -240.0,
+            -321.977569,
+            80.0,
+            0.19899748742132398,
+            0.98,
+            0.0,
+            -0.98,
+            0.19899748742132398,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l72 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 72,
+          "part": "76395.dat",
+          "sourcePage": 12,
+          "transform": [
+            40.0,
+            -177.378574,
+            -168.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l72 overlaps 4-sai-che_l32; manual collision accepted",
+      "placements": [
+        {
+          "line": 72,
+          "part": "76395.dat",
+          "sourcePage": 12,
+          "transform": [
+            40.0,
+            -177.378574,
+            -168.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 32,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -57.378574,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l72 overlaps 4-sai-che_l33; manual collision accepted",
+      "placements": [
+        {
+          "line": 72,
+          "part": "76395.dat",
+          "sourcePage": 12,
+          "transform": [
+            40.0,
+            -177.378574,
+            -168.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 33,
+          "part": "44970.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -57.378574,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l73 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 73,
+          "part": "76395.dat",
+          "sourcePage": 12,
+          "transform": [
+            40.0,
+            -177.378574,
+            168.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l73 overlaps 4-sai-che_l34; manual collision accepted",
+      "placements": [
+        {
+          "line": 73,
+          "part": "76395.dat",
+          "sourcePage": 12,
+          "transform": [
+            40.0,
+            -177.378574,
+            168.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 34,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -57.378574,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-sai-che_l73 overlaps 4-sai-che_l35; manual collision accepted",
+      "placements": [
+        {
+          "line": 73,
+          "part": "76395.dat",
+          "sourcePage": 12,
+          "transform": [
+            40.0,
+            -177.378574,
+            168.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 35,
+          "part": "44970.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -57.378574,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    }
+  ],
+  "noErrorMeaning": "Exit0 only means no unsuppressed checker errors. All raw placements are manual support; some parts also manual collision. Not assembly acceptance.",
+  "remainingCourseLimitations": "Two4433c01 exhausts and45117c01 rear wing omitted; axle/body support not certified.",
+  "geometryDiagnostic": "../owned-mesh-alarm-diagnostic.json",
+  "sourceEvidence": "source pages actually viewed previously, plus relevant source final/interface pages in current review; see ledger.md",
+  "modelEdited": false,
+  "accepted": false,
+  "physicalValidation": false
+}

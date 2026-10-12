@@ -1,42 +1,91 @@
-0 4+ 大象 (Elephant) - DUPLO draft for manual repair
+0 4-da-xiang - source reconstruction, INCOMPLETE dev-only
 0 Name: 4-da-xiang.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+大象 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Trunk, ears and tusks are simplified.
-
-0 // STEP 1 - four legs
-1 8 -160 -48 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 -160 -96 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 160 -48 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 160 -96 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 -160 -48 100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 -160 -96 100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 160 -48 100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 160 -96 100 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source Library libfile_f6df9c75694881918d746cfa7e75e662, PDF SHA256 f748fb3655a8c9b16016e4e414bf0629c82fc3f3860acd8e07c65166a0eaa78e
+0 // STATUS: INCOMPLETE; source pages 1-12 visually inspected, no human acceptance.
+0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
+0 // No physical validation. Missing parts are omitted and recorded per source step.
+0 // STEP 1 - seven black 4x6 screw blocks: 2 / 3 / 2 staggered body layers
+1 0 -80 0 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 80 0 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 -160 -48 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 0 -48 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 160 -48 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 -80 -96 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 80 -96 0 0 0 -1 0 1 0 1 0 0 76395.dat
 0 STEP
 
-0 // STEP 2 - body
-1 0 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 -80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -160 -240 -80 1 0 0 0 1 0 0 0 1 2302.dat
-1 1 160 -240 -80 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 // STEP 2 - four sideways 2x4 screw bricks form legs; top hole screws to body side
+1 72 -160 56 -168 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 -160 56 168 0 0 -1 1 0 0 0 -1 0 76057.dat
+1 72 160 56 -168 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 160 56 168 0 0 -1 1 0 0 0 -1 0 76057.dat
 0 STEP
 
-0 // STEP 3 - head and ears
-1 0 -320 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 -440 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -320 -240 -120 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 -320 -240 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STEP 3 - four upright wheel-rim and tyre feet
+1 71 -160 154 -144 1 0 0 0 1 0 0 0 1 99565.dat
+1 0 -160 154 -144 1 0 0 0 1 0 0 0 1 44970.dat
+1 71 -160 154 144 1 0 0 0 1 0 0 0 1 99565.dat
+1 0 -160 154 144 1 0 0 0 1 0 0 0 1 44970.dat
+1 71 160 154 -144 1 0 0 0 1 0 0 0 1 99565.dat
+1 0 160 154 -144 1 0 0 0 1 0 0 0 1 44970.dat
+1 71 160 154 144 1 0 0 0 1 0 0 0 1 99565.dat
+1 0 160 154 144 1 0 0 0 1 0 0 0 1 44970.dat
 0 STEP
 
-0 // STEP 4 - trunk and tail
-1 0 -520 -168 -40 0.866 0.500 0 -0.500 0.866 0 0 0 1 31195.dat
-1 0 -560 -96 -40 1 0 0 0 1 0 0 0 1 31452.dat
-1 15 -440 -216 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 15 -440 -216 40 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 300 -216 40 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // STEP 4 - UNRESOLVED two blue Toolo wing elements along body sides; omitted
+0 STEP
+
+0 // STEP 5 - front and rear screw bricks; front turntable; UNRESOLVED blue tail
+1 72 -200 -96 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 72 200 -96 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 0 -240 -48 0 0 -1 0 0 0 -1 1 0 0 60535.dat
+0 STEP
+
+0 // STEP 6 - eight grey screw bricks in two 4x8 layers on upper black body
+1 72 -80 -144 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 -80 -144 40 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 80 -144 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 80 -144 40 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 -80 -192 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 -80 -192 40 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 80 -192 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 80 -192 40 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+
+0 // STEP 7 - two head-face bricks screwed to turntable and two stud-stacked crossbars
+1 72 -280 -48 -40 0 -1 0 1 0 0 0 0 1 76057.dat
+1 72 -280 -48 40 0 -1 0 1 0 0 0 0 1 76057.dat
+1 72 -320 -176 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 72 -240 -176 0 0 0 -1 0 1 0 1 0 0 76057.dat
+0 STEP
+
+0 // STEP 8 - two side-mounted angled brackets and two orange 6294 ears
+0 // 6294 is prior user-approved local approximation2026-09-27, NOT official exact geometry. Two required;45002 has one, extra1.
+0 // Ear pivot seats are inferred from source p8. Mechanical retention/angle remains pending manual review.
+1 72 -280 -152 -128 0 0 -1 -1 0 0 0 1 0 28336.dat
+1 72 -280 -152 128 0 0 -1 1 0 0 0 -1 0 28336.dat
+1 25 -328 -152 -193 0 0 1 -1 0 0 0 -1 0 dev-129/6294.dat
+1 25 -328 -152 193 0 0 1 1 0 0 0 1 0 dev-129/6294.dat
+0 STEP
+
+0 // STEP 9 - two grey wheel-rim eyes and first angled trunk bracket
+1 71 -330 -48 -72 0 -1 0 0 0 -1 1 0 0 99565.dat
+1 71 -330 -48 72 0 -1 0 0 0 -1 1 0 0 99565.dat
+1 72 -328 -24 0 0 -1 0 0 0 1 -1 0 0 28336.dat
+0 STEP
+
+0 // STEP 10 - trunk clutch and next angled bracket; provisional articulated pose
+1 72 -421 36 0 0 -1 0 0 0 1 -1 0 0 74957.dat
+1 72 -451 28 0 0 -1 0 0 0 -1 1 0 0 28336.dat
+0 STEP
+
+0 // STEP 11 - upturned trunk: two clutch blocks and third angled bracket; provisional joints
+1 72 -510 -50 0 0 -1 0 0 0 -1 1 0 0 74957.dat
+1 72 -526 -96 0 0 1 0 0 0 1 1 0 0 28336.dat
+1 72 -478 -169 0 0 1 0 0 0 1 1 0 0 74957.dat
+0 STEP
+
+0 // STEP 12 - source final alternate view; no new parts

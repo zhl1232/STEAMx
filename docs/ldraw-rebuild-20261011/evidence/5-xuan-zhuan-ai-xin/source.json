@@ -1,0 +1,83 @@
+{
+  "manifest": {
+    "name": "5+旋转爱心搭建说明.pdf",
+    "relative_path": "5+/5+旋转爱心搭建说明.pdf",
+    "pages": 11,
+    "bytes": 1310042,
+    "sha256": "6dfcf5c058af0cb7db63c37e6ca68d40b756b89e779e9c280030b0d185cdb241",
+    "source_url": "https://pan.quark.cn/list#/docpdf/893db797d6b44eab9303d83c56bbe769",
+    "slug": "5-xuan-zhuan-ai-xin",
+    "lesson_id": 307,
+    "course_id": 7
+  },
+  "hashVerified": true,
+  "currentModelSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-ai-xin\\page-01.jpg",
+      "sha256": "2c1cfc3ca4d079eeaf53552a4a47fb441e7544d2dd66791d18ddad6f43e241a1",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-ai-xin\\page-02.jpg",
+      "sha256": "7554de26047993041027481b31c41a3c73b6fecc25d77fb4d5019b1694fd5d45",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-ai-xin\\page-03.jpg",
+      "sha256": "0245cf202654e1cf0f30985b34777fa58f6c5c12ec738e23f484437418bb4e7b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-ai-xin\\page-04.jpg",
+      "sha256": "40050a4b2b31079cdbca954e45aeaa1056e8c9d9c81fb77f4a275020eb4c2c4e",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-ai-xin\\page-05.jpg",
+      "sha256": "747b4afa08158d026ee908d5f8e7c4611f44a6acc9688336f4df9d87f7c22303",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-ai-xin\\page-06.jpg",
+      "sha256": "35ce1310ae1a81db90e0595c3292441f5b8f11026a04a29888edc301644a39bf",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-ai-xin\\page-07.jpg",
+      "sha256": "a37d8f330e364e4049423689b64fe71b5ceda4a3230cafd0b769410459baaf8e",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-ai-xin\\page-08.jpg",
+      "sha256": "b32aa96bd90a5948bc3670d0e8ca028fd53dcfe2087f4bb94280ac7223a7d749",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-ai-xin\\page-09.jpg",
+      "sha256": "91d6309ffad49ee91d9065923002b11f7d27bf7ed1557cbbb255792a1f5bbde8",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-ai-xin\\page-10.jpg",
+      "sha256": "3e15c7bd69c0c067212e76ce73855a0ff75e0a031d3633dfc51cf220ab6fa77e",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-ai-xin\\page-11.jpg",
+      "sha256": "5952e2e18aa739aade6686cb8ca02044a7e8990fa6e16b758664a94128b85745",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

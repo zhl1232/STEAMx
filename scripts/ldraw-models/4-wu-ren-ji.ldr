@@ -1,44 +1,56 @@
-0 4+ 无人机 (Drone) - DUPLO draft for manual repair
+0 4+ Drone - source reconstruction draft
 0 Name: 4-wu-ren-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+无人机 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Technic frame, propellers, motors and landing legs are simplified.
-
-0 // STEP 1 - central black body
-1 0 -80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 -80 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 80 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 // INCOMPLETE: four large Toolo three-blade propellers missing geometry (6670c01 confirmed, alias86601).
+0 // All9source PDF pages viewed; page9 no additions; Toolo geometry approximate.
+0 // SOURCE PAGE 1
+1 0 -160 -240 -80 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -240 -80 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 160 -240 -80 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -120 -240 120 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 120 -240 120 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
-
-0 // STEP 2 - four arms
-1 0 -220 -96 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 220 -96 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 -220 -96 80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 220 -96 80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 -360 -96 -80 0 0 1 0 1 0 -1 0 0 40666.dat
-1 0 360 -96 -80 0 0 1 0 1 0 -1 0 0 40666.dat
-1 0 -360 -96 80 0 0 1 0 1 0 -1 0 0 40666.dat
-1 0 360 -96 80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // SOURCE PAGE 2
+1 0 -288 -208 0 0 1 0 0 0 1 1 0 0 76395.dat
+1 0 0 -208 -248 1 0 0 0 0 -1 0 1 0 76395.dat
+1 0 288 -208 0 0 -1 0 0 0 1 -1 0 0 76395.dat
+1 0 0 -208 248 1 0 0 0 0 1 0 -1 0 76395.dat
 0 STEP
-
-0 // STEP 3 - propeller hubs and blades
-1 14 -440 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 440 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -440 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 440 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 -500 -168 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 7 500 -168 -120 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 7 -560 -168 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 7 560 -168 120 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
+0 // SOURCE PAGE 3
+1 72 160 -288 160 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 -160 -288 160 1 0 0 0 1 0 0 0 1 28336.dat
+1 72 -160 -288 -160 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 160 -288 -160 -1 0 0 0 1 0 0 0 -1 28336.dat
 0 STEP
-
-0 // STEP 4 - red landing legs and camera
-1 4 -160 -24 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 160 -24 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -160 -24 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 160 -24 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 0 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE 4
+1 72 608 -353 160 0 -1 0 1 0 0 0 0 1 dev-129/28331.dat
+1 72 -160 -353 608 0 0 -1 1 0 0 0 -1 0 dev-129/28331.dat
+1 72 -608 -353 -160 0 1 0 1 0 0 0 0 -1 dev-129/28331.dat
+1 72 160 -353 -608 0 0 1 1 0 0 0 1 0 dev-129/28331.dat
+0 STEP
+0 // SOURCE PAGE 5
+1 72 678 -353 160 0 -1 0 1 0 0 0 0 1 74957.dat
+1 72 -160 -353 678 0 0 -1 1 0 0 0 -1 0 74957.dat
+1 72 -678 -353 -160 0 1 0 1 0 0 0 0 -1 74957.dat
+1 72 160 -353 -678 0 0 1 1 0 0 0 1 0 74957.dat
+0 STEP
+0 // SOURCE PAGE 6
+0 // Missing large Toolo3blade propellers x4 at outward clutch top sidebores; no substitution.
+0 STEP
+0 // SOURCE PAGE 7
+1 4 -336 -160 -80 0 1 0 1 0 0 0 0 -1 76057.dat
+1 4 -384 -80 -80 0 1 0 1 0 0 0 0 -1 76057.dat
+1 4 -336 -160 80 0 1 0 1 0 0 0 0 -1 76057.dat
+1 4 -384 -80 80 0 1 0 1 0 0 0 0 -1 76057.dat
+1 4 336 -160 -80 0 -1 0 1 0 0 0 0 1 76057.dat
+1 4 384 -80 -80 0 -1 0 1 0 0 0 0 1 76057.dat
+1 4 336 -160 80 0 -1 0 1 0 0 0 0 1 76057.dat
+1 4 384 -80 80 0 -1 0 1 0 0 0 0 1 76057.dat
+0 STEP
+0 // SOURCE PAGE 8
+1 72 0 -128 208 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 0 -48 208 1 0 0 0 -1 0 0 0 -1 28336.dat
+1 71 0 -72 273 1 0 0 0 0 -1 0 1 0 99565.dat
+0 // Camera rim holder joints are inferred; final sourcep9 changes viewpoint only.

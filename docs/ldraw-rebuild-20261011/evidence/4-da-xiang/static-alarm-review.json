@@ -1,0 +1,39 @@
+{
+  "slug": "4-da-xiang",
+  "sourceSha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950",
+  "checkpointSha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950",
+  "reviewedAt": "2026-10-11T07:19:33.018550+00:00",
+  "rawExit": 0,
+  "rawOutput": "OK   [4-da-xiang.ldr] 46 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarmPairCount": 0,
+  "classificationCounts": {},
+  "alarms": [],
+  "directPartFileSha256": {},
+  "noRawAlarmsMeaning": "No raw bounding-box alarms is not proof of source fidelity, support closure, dynamic operation or physical fit.",
+  "remainingSourceLimitations": [
+    {
+      "page": 4,
+      "part": "two blue airplane wing elements",
+      "candidate": "45117c01 confirmed",
+      "missing": "licensed geometry"
+    },
+    {
+      "page": 5,
+      "part": "blue tail",
+      "candidate": "31239c01 confirmed",
+      "missing": "licensed geometry"
+    },
+    {
+      "page": "9-11",
+      "part": "trunk interfaces",
+      "missing": "manual hinge pose and retention need rendered/physical review"
+    },
+    {
+      "page": 8,
+      "part": "ear pivot pose",
+      "missing": "confirmed6294 uses prior approximation; source pose inferred, physical clip engagement not verified"
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

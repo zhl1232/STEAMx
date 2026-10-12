@@ -1,0 +1,208 @@
+{
+  "sourceSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+  "algorithmSha256": "ebf25f2d7add6f27a09157150799842c41555f602ba87b856ab49150f7125d7d",
+  "method": "Every recursive DAT type3/type4 polygon fan triangle against every transformed other triangle with AABB pruning. Strict segment/interior-triangle intersection (Moller-Trumbore). Positive witnesses establish geometric surface crossing. Zero does not exclude coplanar overlap, containment, contact or physical interference. No tolerance-based acceptance.",
+  "results": [
+    {
+      "tyreLine": 63,
+      "wheelLine": 48,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 63,
+      "wheelLine": 50,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 63,
+      "wheelLine": 51,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 63,
+      "wheelLine": 53,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 63,
+      "wheelLine": 54,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 66,
+      "wheelLine": 63,
+      "strictSurfaceCrossingTrianglePairs": 56,
+      "witnesses": [
+        {
+          "point": [
+            -4.422662933333342,
+            1,
+            -26.732011199999974
+          ],
+          "tyreTriangle": [
+            [
+              -10,
+              1,
+              -10
+            ],
+            [
+              10,
+              1,
+              -10
+            ],
+            [
+              10,
+              1,
+              -70
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -7.677499999999998,
+              -1.6612499999999955,
+              -31.341432456000007
+            ],
+            [
+              0.432500000000001,
+              1.048749999999984,
+              -26.647573703999996
+            ],
+            [
+              -15,
+              2,
+              -24.999959999999987
+            ]
+          ]
+        },
+        {
+          "point": [
+            0.288704612546157,
+            1,
+            -26.73199876415999
+          ],
+          "tyreTriangle": [
+            [
+              -10,
+              1,
+              -10
+            ],
+            [
+              10,
+              1,
+              -10
+            ],
+            [
+              10,
+              1,
+              -70
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -7.677499999999998,
+              -0.7959200000000237,
+              -31.84263245599999
+            ],
+            [
+              -7.677499999999998,
+              -1.6619499999999903,
+              -31.34263245599999
+            ],
+            [
+              0.432500000000001,
+              1.0480499999999893,
+              -26.648773704000007
+            ]
+          ]
+        },
+        {
+          "point": [
+            0.22117036882383712,
+            1,
+            -26.78411479579301
+          ],
+          "tyreTriangle": [
+            [
+              -10,
+              1,
+              -10
+            ],
+            [
+              10,
+              1,
+              -10
+            ],
+            [
+              10,
+              1,
+              -70
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -7.677499999999998,
+              -0.7959200000000237,
+              -31.84263245599999
+            ],
+            [
+              0.432500000000001,
+              1.0480499999999893,
+              -26.648773704000007
+            ],
+            [
+              0.432500000000001,
+              1.9140800000000127,
+              -27.148773704000007
+            ]
+          ]
+        },
+        {
+          "point": [
+            -3.7560108202666616,
+            1,
+            -28.731967539200014
+          ],
+          "tyreTriangle": [
+            [
+              -10,
+              1,
+              -10
+            ],
+            [
+              10,
+              1,
+              -10
+            ],
+            [
+              10,
+              1,
+              -70
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -7.677499999999998,
+              -0.79525000000001,
+              -31.841432456000007
+            ],
+            [
+              0.432500000000001,
+              1.9147500000000264,
+              -27.147573703999996
+            ],
+            [
+              -15,
+              2.8659999999999854,
+              -25.499959999999987
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

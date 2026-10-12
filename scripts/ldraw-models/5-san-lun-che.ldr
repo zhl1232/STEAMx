@@ -1,0 +1,79 @@
+0 Tricycle - source-based development draft; not accepted
+0 Name: 5-san-lun-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source 191ab51508d0e9eda1faf17c9624eead826183c9db8ae287645fbe66310a2069; all11pages viewed
+0 // Vertical coupling chosen hollow-stud axis X140 Z20; hidden offset is explicit and unverified.
+0 // SOURCE PAGE 1 blue plate, yellow spacer, short and long red axle bricks
+1 4 -120 -208 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 -120 -232 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -120 -280 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -328 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 2 two eleven-hole vertical forks, two grey axles and four pulley retainers
+1 14 -160 -264 -60 1 0 0 0 0 1 0 -1 0 6525.dat
+1 14 -160 -264 60 1 0 0 0 0 1 0 -1 0 6525.dat
+1 7 -160 -304 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -160 -304 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -160 -304 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 -160 -184 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -160 -184 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -160 -184 100 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 3 single red24-tooth front wheel, axle and two outer pulleys
+1 7 -160 -64 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 4 -160 -64 0 1 0 0 0 1 0 0 0 1 6529.dat
+1 14 -160 -64 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -160 -64 100 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 4 grey handle cross axle, four cranks and curved blue seat
+1 7 -160 -464 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -160 -464 -100 0 0 1 -1 0 0 0 -1 0 6526.dat
+1 14 -160 -464 -20 1 0 0 0 0 1 0 -1 0 6526.dat
+1 14 -160 -464 100 0 0 1 1 0 0 0 1 0 6526.dat
+1 14 -160 -464 20 -1 0 0 0 0 1 0 1 0 6526.dat
+1 1 -80 -376 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 STEP
+0 // SOURCE PAGE 5 rear axle module: four short red bricks, two lower blue plates, two gear axles and two40-tooth wheels
+1 4 280 -128 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 440 -128 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 360 -80 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 360 -104 -100 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 360 -104 -180 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 4 280 -128 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 440 -128 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 360 -80 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 360 -104 100 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 360 -104 180 1 0 0 0 1 0 0 0 1 6530.dat
+0 STEP
+0 // SOURCE PAGE 6 grey8x8 rear deck
+1 7 360 -152 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 STEP
+0 // SOURCE PAGE 7 cantilevered coupling brick, green vertical spindle and four pulley spacers
+1 4 200 -200 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 2 140 -228 20 0 1 0 -1 0 0 0 0 1 6521.dat
+1 14 140 -348 20 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 140 -260 20 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 140 -220 20 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 140 -132 20 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 8 five yellow cargo rim bricks
+1 14 280 -200 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 440 -200 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -200 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 440 -200 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -200 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 9 six yellow upper crossbond rim bricks
+1 14 240 -248 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -248 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 480 -248 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 480 -248 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 360 -248 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -248 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 10 three striped fences on the cargo rim
+1 15 360 -344 -140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 360 -344 140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 500 -344 0 0 0 1 0 1 0 -1 0 0 31021p01.dat

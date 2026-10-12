@@ -1,0 +1,939 @@
+[
+  {
+    "page": 1,
+    "description": "red2x10 holed chassis, two6L axles, eight yellow wheels and four tyres",
+    "placements": [
+      {
+        "id": "75350.dat",
+        "color": 4,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6522.dat",
+        "color": 71,
+        "position": [
+          -160,
+          24,
+          0
+        ],
+        "matrix": [
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          -1,
+          0,
+          0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6527.dat",
+        "color": 14,
+        "position": [
+          -160,
+          24,
+          -60
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6527.dat",
+        "color": 14,
+        "position": [
+          -160,
+          24,
+          -120
+        ],
+        "matrix": [
+          -1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          -1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6292.dat",
+        "color": 0,
+        "position": [
+          -160,
+          24,
+          -90
+        ],
+        "matrix": [
+          -1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          -1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6527.dat",
+        "color": 14,
+        "position": [
+          -160,
+          24,
+          60
+        ],
+        "matrix": [
+          -1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          -1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6527.dat",
+        "color": 14,
+        "position": [
+          -160,
+          24,
+          120
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6292.dat",
+        "color": 0,
+        "position": [
+          -160,
+          24,
+          90
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6522.dat",
+        "color": 71,
+        "position": [
+          160,
+          24,
+          0
+        ],
+        "matrix": [
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          -1,
+          0,
+          0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6527.dat",
+        "color": 14,
+        "position": [
+          160,
+          24,
+          -60
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6527.dat",
+        "color": 14,
+        "position": [
+          160,
+          24,
+          -120
+        ],
+        "matrix": [
+          -1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          -1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6292.dat",
+        "color": 0,
+        "position": [
+          160,
+          24,
+          -90
+        ],
+        "matrix": [
+          -1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          -1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6527.dat",
+        "color": 14,
+        "position": [
+          160,
+          24,
+          60
+        ],
+        "matrix": [
+          -1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          -1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6527.dat",
+        "color": 14,
+        "position": [
+          160,
+          24,
+          120
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6292.dat",
+        "color": 0,
+        "position": [
+          160,
+          24,
+          90
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      }
+    ]
+  },
+  {
+    "page": 2,
+    "description": "four yellow2x4 bricks along fuselage",
+    "placements": [
+      {
+        "id": "3011.dat",
+        "color": 14,
+        "position": [
+          -240,
+          -48,
+          0
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "3011.dat",
+        "color": 14,
+        "position": [
+          -80,
+          -48,
+          0
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "3011.dat",
+        "color": 14,
+        "position": [
+          80,
+          -48,
+          0
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "3011.dat",
+        "color": 14,
+        "position": [
+          240,
+          -48,
+          0
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      }
+    ]
+  },
+  {
+    "page": 3,
+    "description": "three yellow2x4 bricks and curved yellow front/rear ends",
+    "placements": [
+      {
+        "id": "3011.dat",
+        "color": 14,
+        "position": [
+          -160,
+          -96,
+          0
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "3011.dat",
+        "color": 14,
+        "position": [
+          0,
+          -96,
+          0
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "3011.dat",
+        "color": 14,
+        "position": [
+          160,
+          -96,
+          0
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "2302.dat",
+        "color": 14,
+        "position": [
+          -280,
+          -96,
+          0
+        ],
+        "matrix": [
+          -1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          -1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "2302.dat",
+        "color": 14,
+        "position": [
+          280,
+          -96,
+          0
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      }
+    ]
+  },
+  {
+    "page": 4,
+    "description": "three red2x10 beams form wings and spine, yellow curved nose and thin bridge plate",
+    "placements": [
+      {
+        "id": "75350.dat",
+        "color": 4,
+        "position": [
+          120,
+          -144,
+          0
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "75350.dat",
+        "color": 4,
+        "position": [
+          -160,
+          -144,
+          -240
+        ],
+        "matrix": [
+          0,
+          0,
+          -1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "75350.dat",
+        "color": 4,
+        "position": [
+          -160,
+          -144,
+          240
+        ],
+        "matrix": [
+          0,
+          0,
+          -1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "2302.dat",
+        "color": 14,
+        "position": [
+          -280,
+          -144,
+          0
+        ],
+        "matrix": [
+          -1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          -1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "40666.dat",
+        "color": 14,
+        "position": [
+          -160,
+          -168,
+          0
+        ],
+        "matrix": [
+          0,
+          0,
+          -1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      }
+    ]
+  },
+  {
+    "page": 5,
+    "description": "transverse driveshaft and yellow retainers; two official blue31622 crown gears",
+    "placements": [
+      {
+        "id": "6522.dat",
+        "color": 71,
+        "position": [
+          -40,
+          -120,
+          0
+        ],
+        "matrix": [
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          -1,
+          0,
+          0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6527.dat",
+        "color": 14,
+        "position": [
+          -40,
+          -120,
+          -60
+        ],
+        "matrix": [
+          -1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          -1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6527.dat",
+        "color": 14,
+        "position": [
+          -40,
+          -120,
+          60
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "31622.dat",
+        "color": 1,
+        "position": [
+          -40,
+          -120,
+          -100
+        ],
+        "matrix": [
+          -1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          -1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "31622.dat",
+        "color": 1,
+        "position": [
+          -40,
+          -120,
+          100
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      }
+    ]
+  },
+  {
+    "page": 6,
+    "description": "source rubber-band loop preparation; 4 loops, not a rigid construction addition",
+    "placements": []
+  },
+  {
+    "page": 7,
+    "description": "UNRESOLVED four crossed drive belts from rear wheels to blue crown gears; omitted",
+    "placements": []
+  },
+  {
+    "page": 8,
+    "description": "two official blue5L pinion shafts and red24-tooth wing gears",
+    "placements": [
+      {
+        "id": "6523.dat",
+        "color": 1,
+        "position": [
+          -160,
+          -120,
+          -160
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6529.dat",
+        "color": 4,
+        "position": [
+          -100,
+          -120,
+          -160
+        ],
+        "matrix": [
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          -1,
+          0,
+          0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6523.dat",
+        "color": 1,
+        "position": [
+          -160,
+          -120,
+          160
+        ],
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6529.dat",
+        "color": 4,
+        "position": [
+          -100,
+          -120,
+          160
+        ],
+        "matrix": [
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          -1,
+          0,
+          0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      }
+    ]
+  },
+  {
+    "page": 9,
+    "description": "two yellow40-tooth rotor disks on wing shafts",
+    "placements": [
+      {
+        "id": "6530.dat",
+        "color": 14,
+        "position": [
+          -240,
+          -120,
+          -160
+        ],
+        "matrix": [
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          -1,
+          0,
+          0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      },
+      {
+        "id": "6530.dat",
+        "color": 14,
+        "position": [
+          -240,
+          -120,
+          160
+        ],
+        "matrix": [
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          -1,
+          0,
+          0
+        ],
+        "support": "source-visible stud contact or Toolo screw; exact retaining fit unverified",
+        "confidence": "inferred placement; visible source part"
+      }
+    ]
+  },
+  {
+    "page": 10,
+    "description": "finished alternate view only",
+    "placements": []
+  }
+]

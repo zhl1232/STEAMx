@@ -1,0 +1,1882 @@
+{
+  "slug": "5-zhu-ge-lian-nu",
+  "sourceSha256": "a81c9953645da562b849c2fe373e7c309d7e6f0948d11cfba97924c4441be108",
+  "previousDraftSha256": null,
+  "placementCount": 53,
+  "stepCount": 6,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "description": "Four red10-stud perforated bricks in two mirrored L footprints",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            -240,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 6,
+          "step": 1
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            -80,
+            0,
+            240
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 7,
+          "step": 1
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            240,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 8,
+          "step": 1
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            80,
+            0,
+            240
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 9,
+          "step": 1
+        }
+      ],
+      "placedBOM": {
+        "75350.dat": 4
+      }
+    },
+    {
+      "sourcePage": 2,
+      "description": "Ten yellow2x4 underside plates; corner plates bridge each L seam",
+      "placements": [
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            -360,
+            48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 12,
+          "step": 2
+        },
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            -200,
+            48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 13,
+          "step": 2
+        },
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            -80,
+            48,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 14,
+          "step": 2
+        },
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            -80,
+            48,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 15,
+          "step": 2
+        },
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            -80,
+            48,
+            360
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 16,
+          "step": 2
+        },
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            360,
+            48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 17,
+          "step": 2
+        },
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            200,
+            48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 18,
+          "step": 2
+        },
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            80,
+            48,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 19,
+          "step": 2
+        },
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            80,
+            48,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 20,
+          "step": 2
+        },
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            80,
+            48,
+            360
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 21,
+          "step": 2
+        }
+      ],
+      "placedBOM": {
+        "40666.dat": 10
+      }
+    },
+    {
+      "sourcePage": 3,
+      "description": "Two vertical blue geared axles and yellow pulleys on outer ends",
+      "placements": [
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -400,
+            -31,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 24,
+          "step": 3
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            -400,
+            -31,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 25,
+          "step": 3
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            400,
+            -31,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 26,
+          "step": 3
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            400,
+            -31,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 27,
+          "step": 3
+        }
+      ],
+      "placedBOM": {
+        "6527.dat": 2,
+        "6523.dat": 2
+      }
+    },
+    {
+      "sourcePage": 4,
+      "description": "Two horizontal8L through axles, four outer crank retainers and paired11hole beams",
+      "placements": [
+        {
+          "part": "6521.dat",
+          "color": 2,
+          "position": [
+            0,
+            24,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 30,
+          "step": 4
+        },
+        {
+          "part": "6521.dat",
+          "color": 2,
+          "position": [
+            0,
+            24,
+            400
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 31,
+          "step": 4
+        },
+        {
+          "part": "6525.dat",
+          "color": 14,
+          "position": [
+            -20,
+            24,
+            240
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 32,
+          "step": 4
+        },
+        {
+          "part": "6525.dat",
+          "color": 14,
+          "position": [
+            20,
+            24,
+            240
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 33,
+          "step": 4
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            -140,
+            24,
+            80
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 34,
+          "step": 4
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            -140,
+            24,
+            400
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 35,
+          "step": 4
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            140,
+            24,
+            80
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 36,
+          "step": 4
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            140,
+            24,
+            400
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 37,
+          "step": 4
+        }
+      ],
+      "placedBOM": {
+        "6521.dat": 2,
+        "6525.dat": 2,
+        "6526.dat": 4
+      }
+    },
+    {
+      "sourcePage": 5,
+      "description": "Six blue2x4 bricks cap the long rails and bridge the L corners",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -48,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 40,
+          "step": 5
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -48,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 41,
+          "step": 5
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -48,
+            360
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 42,
+          "step": 5
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            80,
+            -48,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 43,
+          "step": 5
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            80,
+            -48,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 44,
+          "step": 5
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            80,
+            -48,
+            360
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 45,
+          "step": 5
+        }
+      ],
+      "placedBOM": {
+        "3011.dat": 6
+      }
+    },
+    {
+      "sourcePage": 6,
+      "description": "Four alternating five-brick hollow box layers; third loose long beam as static source display;p7 final",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -96,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 48,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -96,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 49,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -96,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 50,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            -96,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 51,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            -96,
+            240
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 52,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -144,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 53,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -144,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 54,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -144,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 55,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -144,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 56,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -144,
+            240
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 57,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -192,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 58,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -192,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 59,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -192,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 60,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            -192,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 61,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            -192,
+            240
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 62,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -240,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 63,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -240,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 64,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -240,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 65,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -240,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 66,
+          "step": 6
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -240,
+            240
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 67,
+          "step": 6
+        },
+        {
+          "part": "6525.dat",
+          "color": 14,
+          "position": [
+            0,
+            -24,
+            400
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 68,
+          "step": 6
+        }
+      ],
+      "placedBOM": {
+        "3011.dat": 20,
+        "6525.dat": 1
+      }
+    }
+  ],
+  "placedBOM": {
+    "75350.dat": 4,
+    "40666.dat": 10,
+    "6527.dat": 2,
+    "6523.dat": 2,
+    "6521.dat": 2,
+    "6525.dat": 3,
+    "6526.dat": 4,
+    "3011.dat": 26
+  },
+  "targetVisibleBOM": {
+    "75350.dat": 4,
+    "40666.dat": 10,
+    "6527.dat": 2,
+    "6523.dat": 2,
+    "6521.dat": 2,
+    "6525.dat": 3,
+    "6526.dat": 4,
+    "3011.dat": 26
+  },
+  "targetVisibleCount": 53,
+  "omitted": [],
+  "omittedCount": 0,
+  "limitations": [
+    "All seven original source pages actually viewed. Static toy-brick illustration only; no elastic, projectile, firing-performance or mechanism validation inferred.53 source components retained, six construction steps; source p7 is final view.",
+    "L footprint dimensions inferred from 10-stud red beams and 10 underside2x4 plates. Corner plate and first blue brick bridge each otherwise butt-connected L joint. Brick rows meet stud pitch without stretching.",
+    "Two green8L axles run worldX endpoints+-160 atY24/Z80 and400 through the two rail hole rows, two center11hole beams and four outer cranks. Integral crank pins face inward into adjacent rail holes; exact key phase and bore clearance are not accepted from nominal centers.",
+    "The paired long beams occupy the80LDU channel atX+-20 with localY alongX; third beam atX0/Y-24/Z400 rests nominally on their upper edges, extends forward, and remains loose/source-supported. Curved edge contact, confinement, motion and stability need verification. No extra securing axle invented.",
+    "Blue geared shafts and pulleys are displayed upright at outer end holes. Pulley bottom nominalY-11 meets red stud tops; blue shaft endpoints[-131,69] remain above plate bottom72. This static axial choice preserves visible stack without claiming underside engagement or clamping.",
+    "Four hollow box layers each use five2x4 bricks around a2x4-stud central opening; mirrored hidden tiling alternates seams. Layering and counts follow source; obscured individual seam allocation is an explicit reasonable layout inference."
+  ],
+  "accepted": false,
+  "physicalValidation": false,
+  "inventoryComparison": [
+    {
+      "part": "75350.dat",
+      "targetQuantity": 4,
+      "referencePart": "6515",
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 2,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "40666.dat",
+      "targetQuantity": 10,
+      "referencePart": "40666",
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 8,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6527.dat",
+      "targetQuantity": 2,
+      "referencePart": "6527",
+      "reference9656AllColors": 15,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6523.dat",
+      "targetQuantity": 2,
+      "referencePart": "6523",
+      "reference9656AllColors": 4,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6521.dat",
+      "targetQuantity": 2,
+      "referencePart": "6521",
+      "reference9656AllColors": 5,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6525.dat",
+      "targetQuantity": 3,
+      "referencePart": "6525",
+      "reference9656AllColors": 4,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6526.dat",
+      "targetQuantity": 4,
+      "referencePart": "6526",
+      "reference9656AllColors": 6,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "3011.dat",
+      "targetQuantity": 26,
+      "referencePart": "3011",
+      "reference9656AllColors": 12,
+      "extraIgnoringColor": 14,
+      "status": "known aggregate reference"
+    }
+  ],
+  "validation": {
+    "sourceSha256": "a81c9953645da562b849c2fe373e7c309d7e6f0948d11cfba97924c4441be108",
+    "rawAlarmPairCount": 0,
+    "closureMissing": [],
+    "matrixInvalid": [],
+    "pixels": "current final3 and all6steps actually viewed; current-pixel-review.json"
+  },
+  "recursiveInterfaceReview": {
+    "sourceSha256": "a81c9953645da562b849c2fe373e7c309d7e6f0948d11cfba97924c4441be108",
+    "evidence": "interface-mesh-results.json",
+    "testedPairs": 39,
+    "pairs": [
+      {
+        "lines": [
+          30,
+          7
+        ],
+        "parts": [
+          "6521.dat",
+          "75350.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 174,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          30,
+          9
+        ],
+        "parts": [
+          "6521.dat",
+          "75350.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 174,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          30,
+          32
+        ],
+        "parts": [
+          "6521.dat",
+          "6525.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 72,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          30,
+          33
+        ],
+        "parts": [
+          "6521.dat",
+          "6525.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 72,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          30,
+          34
+        ],
+        "parts": [
+          "6521.dat",
+          "6526.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 64,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          30,
+          35
+        ],
+        "parts": [
+          "6521.dat",
+          "6526.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          30,
+          36
+        ],
+        "parts": [
+          "6521.dat",
+          "6526.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 62,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          30,
+          37
+        ],
+        "parts": [
+          "6521.dat",
+          "6526.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          31,
+          7
+        ],
+        "parts": [
+          "6521.dat",
+          "75350.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 174,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          31,
+          9
+        ],
+        "parts": [
+          "6521.dat",
+          "75350.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 174,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          31,
+          32
+        ],
+        "parts": [
+          "6521.dat",
+          "6525.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 72,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          31,
+          33
+        ],
+        "parts": [
+          "6521.dat",
+          "6525.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 72,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          31,
+          34
+        ],
+        "parts": [
+          "6521.dat",
+          "6526.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          31,
+          35
+        ],
+        "parts": [
+          "6521.dat",
+          "6526.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 44,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          31,
+          36
+        ],
+        "parts": [
+          "6521.dat",
+          "6526.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          31,
+          37
+        ],
+        "parts": [
+          "6521.dat",
+          "6526.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 44,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          34,
+          7
+        ],
+        "parts": [
+          "6526.dat",
+          "75350.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 93,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          35,
+          7
+        ],
+        "parts": [
+          "6526.dat",
+          "75350.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 93,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          36,
+          9
+        ],
+        "parts": [
+          "6526.dat",
+          "75350.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 93,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          37,
+          9
+        ],
+        "parts": [
+          "6526.dat",
+          "75350.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 93,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          24,
+          25
+        ],
+        "parts": [
+          "6527.dat",
+          "6523.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 104,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          24,
+          6
+        ],
+        "parts": [
+          "6527.dat",
+          "75350.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          25,
+          6
+        ],
+        "parts": [
+          "6523.dat",
+          "75350.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 172,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          26,
+          27
+        ],
+        "parts": [
+          "6527.dat",
+          "6523.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 104,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          26,
+          8
+        ],
+        "parts": [
+          "6527.dat",
+          "75350.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          27,
+          8
+        ],
+        "parts": [
+          "6523.dat",
+          "75350.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 172,
+        "classification": "real_mesh_crossing_risk",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          68,
+          32
+        ],
+        "parts": [
+          "6525.dat",
+          "6525.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          68,
+          33
+        ],
+        "parts": [
+          "6525.dat",
+          "6525.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          68,
+          40
+        ],
+        "parts": [
+          "6525.dat",
+          "3011.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          68,
+          41
+        ],
+        "parts": [
+          "6525.dat",
+          "3011.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          68,
+          42
+        ],
+        "parts": [
+          "6525.dat",
+          "3011.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          68,
+          43
+        ],
+        "parts": [
+          "6525.dat",
+          "3011.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          68,
+          44
+        ],
+        "parts": [
+          "6525.dat",
+          "3011.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          68,
+          45
+        ],
+        "parts": [
+          "6525.dat",
+          "3011.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          68,
+          48
+        ],
+        "parts": [
+          "6525.dat",
+          "3011.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          68,
+          49
+        ],
+        "parts": [
+          "6525.dat",
+          "3011.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          68,
+          50
+        ],
+        "parts": [
+          "6525.dat",
+          "3011.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          68,
+          51
+        ],
+        "parts": [
+          "6525.dat",
+          "3011.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      },
+      {
+        "lines": [
+          68,
+          52
+        ],
+        "parts": [
+          "6525.dat",
+          "3011.dat"
+        ],
+        "strictSurfaceCrossingTrianglePairs": 0,
+        "classification": "insufficient_evidence_no_strict_crossing",
+        "note": "No strict crossing does not prove clutch, support, clearance, retention or movement; positive intersections remain unresolved."
+      }
+    ]
+  },
+  "unknownPartIds": [],
+  "knownApproximateGeometry": [],
+  "currentPixelReview": {
+    "sourceSha256": "a81c9953645da562b849c2fe373e7c309d7e6f0948d11cfba97924c4441be108",
+    "renderRevisionPrefix": "24e1c706",
+    "finalOriginalsActuallyViewed": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "allCumulativeStepsActuallyViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "sourcePagesRevisited": [
+      4,
+      6,
+      7
+    ],
+    "newVisibleConstructionErrorIdentified": false,
+    "observation": "L bases, box ring, outer upright axle stacks and forward third beam correspond to source static silhouette. Hidden seams and axial seating remain inference.",
+    "thirdBeamSupport": "Nominal resting pose only; no interface retention or movement demonstrated",
+    "existingMeshRisksRetained": true,
+    "physicalValidation": false
+  }
+}

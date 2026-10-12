@@ -1,0 +1,95 @@
+{
+  "sourceSha256": "0358a170f40167129a2a96348843adb084cae3ceeab2e447f18dfeaf547a1883",
+  "revision": "fb34f7a6cff5f0cda89d8908eae82fae14ae6e61474080e4a084e244a2d61463",
+  "reviewedAt": "2026-10-11T14:12:32.854811+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xuan-zhuan-mu-ma",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "66ae4bd29eb5295eeafddfe30a8a4af06250faef5b2d4db015198194f78f7f09",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "021daca62b17f2bf57f37feb90098bd2720b3ca5a5df75284b4d0a476152263c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "fd0f90f6b10307adf62b3264476f2082719b016e166c609f8c436b1a90ed1243",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "63986cd1f34921fbf153533f187027717fe7e772037bc3e878f052f168515568",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "83154844b19199decd0f50534ed58cecaa3d47ab3e6736258bad850b7ea511a8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "96e7645328cb1e6a2bb0f3fa7f40f0140097d9f03616fe9f07734eebe978c402",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "8abf30d628078ecf437ea74575392c1d7e2975d75862a745bfcb38fb2d2b6d3c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "971e811ec482df6ce59f17e734b1090efd29ed61094d4e5022dd63ee794e7869",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "84119d278b47d094f10e707ccbc3768438f31b3df47e8abaa0cf89cd709f7773",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "40cfd7d4c30d45d16b368295dc016ffccaa18ba28a878a74807b6d483f9f9990",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "16f4418c09ee27ebb4a9360eb82285423753e51ed3e17e355bee63e42c541b06",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "80f8e3922a396974c312a95f49672724c9fe767b013ffb59554b171449d27dbc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "78143f5c676804005764f529e8907efa6077c8d30639dc50328f47c6a1738d21",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "6f01a2fdf43b0eeeebc9c6c415c28b84dbde41666b62854622c337cffac32c20",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "af20278e0ec31b779c5444e03c603e2b3b8291462766480c8b35f10d9fe83613",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "66ae4bd29eb5295eeafddfe30a8a4af06250faef5b2d4db015198194f78f7f09",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current final3 and all13 cumulative step pixels, compared all14 source pages during construction. Tower, six long beams, four source brick horses and fences retained. Radial horse display yaw and 8L shaft identity/seat depth remain inferred; four flange/head wall overlap risks and shaft friction are not cleared by pixels. No newly proved source error; no physical acceptance."
+}

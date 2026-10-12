@@ -1,0 +1,1872 @@
+{
+  "slug": "5-shuai-gan-ji",
+  "pages": 9,
+  "source": {
+    "name": "5+甩干机搭建说明.pdf",
+    "relative_path": "5+/5+甩干机搭建说明.pdf",
+    "pages": 9,
+    "bytes": 1279093,
+    "sha256": "7184a89bc3f0fc94af200f6dbd128636e36244b3d5a538ff56b1f10297341f73",
+    "source_url": "https://pan.quark.cn/list#/docpdf/90f5f4f0be0949b9b69c842847f018cf",
+    "slug": "5-shuai-gan-ji",
+    "lesson_id": 287,
+    "course_id": 7,
+    "localPdf": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5+/5+甩干机搭建说明.pdf",
+    "localBytesVerified": true,
+    "pagesDecoded": [
+      {
+        "page": 1,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-1.jpg",
+        "sha256": "83fd54a7df76eee50baacdad2adcb4b0b2367accdb8f5dad2953c66a7d5b080e",
+        "pixelsViewed": true
+      },
+      {
+        "page": 2,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-2.jpg",
+        "sha256": "e7df4a982507da57b4b4021c8757ee9bd8a3467f74eafad3d7b9b707076a16d4",
+        "pixelsViewed": true
+      },
+      {
+        "page": 3,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-3.jpg",
+        "sha256": "eb1e8ac1e72e4bfde69ff32062ab880886a2d0116717a4f9ada52c60248cd653",
+        "pixelsViewed": true
+      },
+      {
+        "page": 4,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-4.jpg",
+        "sha256": "e2f84fd89dcafe5cbd222ef27ddd7eceebaa9009b460d708a2238f0aa48e4656",
+        "pixelsViewed": true
+      },
+      {
+        "page": 5,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-5.jpg",
+        "sha256": "8aa62c65c21e87455d119f4e4657ce579e08fd4f8c3fb71ba571a1a70ec9797c",
+        "pixelsViewed": true
+      },
+      {
+        "page": 6,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-6.jpg",
+        "sha256": "abea001a963f2e13255e9dd06635d9b3bd799af6614f6590eabcefd2b3f67802",
+        "pixelsViewed": true
+      },
+      {
+        "page": 7,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-7.jpg",
+        "sha256": "d97a64efdae1f7a5f87d0e636965d5d5a7b72d2563b308438d197a60ed8d94c9",
+        "pixelsViewed": true
+      },
+      {
+        "page": 8,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-8.jpg",
+        "sha256": "4762f4efd59cfbb5daa925d012c535d6b01b69f01a5304e3fa84da42334c3214",
+        "pixelsViewed": true
+      },
+      {
+        "page": 9,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-9.jpg",
+        "sha256": "e37797290703589b3d009c73a67b1a6263004e4c7d423576ffb0d09da7f8dd89",
+        "pixelsViewed": true
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "page": 1,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-1.jpg",
+      "sha256": "83fd54a7df76eee50baacdad2adcb4b0b2367accdb8f5dad2953c66a7d5b080e",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-2.jpg",
+      "sha256": "e7df4a982507da57b4b4021c8757ee9bd8a3467f74eafad3d7b9b707076a16d4",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-3.jpg",
+      "sha256": "eb1e8ac1e72e4bfde69ff32062ab880886a2d0116717a4f9ada52c60248cd653",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-4.jpg",
+      "sha256": "e2f84fd89dcafe5cbd222ef27ddd7eceebaa9009b460d708a2238f0aa48e4656",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-5.jpg",
+      "sha256": "8aa62c65c21e87455d119f4e4657ce579e08fd4f8c3fb71ba571a1a70ec9797c",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-6.jpg",
+      "sha256": "abea001a963f2e13255e9dd06635d9b3bd799af6614f6590eabcefd2b3f67802",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-7.jpg",
+      "sha256": "d97a64efdae1f7a5f87d0e636965d5d5a7b72d2563b308438d197a60ed8d94c9",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-8.jpg",
+      "sha256": "4762f4efd59cfbb5daa925d012c535d6b01b69f01a5304e3fa84da42334c3214",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-9.jpg",
+      "sha256": "e37797290703589b3d009c73a67b1a6263004e4c7d423576ffb0d09da7f8dd89",
+      "pixelsViewed": true
+    }
+  ],
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "Two10studholebricks formLframe,studfaces towardfront",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Horizontalrail, upperholeaxisY",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            240,
+            -160,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Verticalupright besidehorizontalend; later sidebricks bridgejoint",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 2
+    },
+    {
+      "sourcePage": 2,
+      "note": "Sixyellow4studbricks clampfront/backofLbase",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            0,
+            -48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottomplane matesLframe; outerlastbrick bridgesuprightjoint",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-2",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            0,
+            -48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottomplane matesLframe; outerlastbrick bridgesuprightjoint",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            200,
+            0,
+            -48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottomplane matesLframe; outerlastbrick bridgesuprightjoint",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            0,
+            96
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Bottomplane matesLframe; outerlastbrick bridgesuprightjoint",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            0,
+            96
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Bottomplane matesLframe; outerlastbrick bridgesuprightjoint",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            200,
+            0,
+            96
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Bottomplane matesLframe; outerlastbrick bridgesuprightjoint",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 8
+    },
+    {
+      "sourcePage": 3,
+      "note": "Secondsideclamp layers withstaggered2studends",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            -160,
+            0,
+            -96
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Staggeredouterends",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            240,
+            0,
+            -96
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Staggeredouterends",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            0,
+            -96
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Middleclampbond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            0,
+            -96
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Middleclampbond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-5",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            -160,
+            0,
+            144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Staggeredouterends",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-6",
+          "partId": "3437.dat",
+          "color": 14,
+          "position": [
+            240,
+            0,
+            144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Staggeredouterends",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-7",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            0,
+            144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Middleclampbond",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-8",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            0,
+            144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Middleclampbond",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 16
+    },
+    {
+      "sourcePage": 4,
+      "note": "Thirdclamp layers,verticalfeet andredplates4x2",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            0,
+            -144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Upperouterclamp middle",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            0,
+            -144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Upperouterclamp middle",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            40,
+            -144
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Verticalendfeet,lower80LDU beyondbase; hiddenbond inferred",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            240,
+            40,
+            -144
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Verticalendfeet,lower80LDU beyondbase; hiddenbond inferred",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-5",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            -120,
+            0,
+            -168
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Red2x4plate bridgesfoot andneighbor seam;24LDUthickness",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-6",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            200,
+            0,
+            -168
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Red2x4plate bridgesfoot andneighbor seam;24LDUthickness",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-7",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            0,
+            192
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Upperouterclamp middle",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-8",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            0,
+            192
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Upperouterclamp middle",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-9",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            40,
+            192
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "support": "Verticalendfeet,lower80LDU beyondbase; hiddenbond inferred",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-10",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            240,
+            40,
+            192
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "support": "Verticalendfeet,lower80LDU beyondbase; hiddenbond inferred",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-11",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            -120,
+            0,
+            216
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Red2x4plate bridgesfoot andneighbor seam;24LDUthickness",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-12",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            200,
+            0,
+            216
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Red2x4plate bridgesfoot andneighbor seam;24LDUthickness",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 28
+    },
+    {
+      "sourcePage": 5,
+      "note": "Vertical40toothinputgear and24toothgear;two shortblueaxles and crank",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            240,
+            -280,
+            24
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Axlepasses upright sidehole atworldZ24; gearplaneX280",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            240,
+            -120,
+            24
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Axlepasses upright sidehole atworldZ24; gearplaneX280",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-3",
+          "partId": "6530.dat",
+          "color": 14,
+          "position": [
+            180,
+            -280,
+            24
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Input40T; centerpitch160LDU tolower24T",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-4",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            180,
+            -120,
+            24
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Output24T; orthogonalstagebelow",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-5",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            320,
+            -280,
+            24
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            -1,
+            0,
+            0
+          ],
+          "support": "MainholeX onupperinput; offset80up integralpin",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 33
+    },
+    {
+      "sourcePage": 6,
+      "note": "Horizontalgeartrain two24T/one24Tcrown;two blueaxles,grayoutputshaft and crank",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            0,
+            0,
+            24
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "BaseverticalholeaxisY; integratedgearbelowbaseY40",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            120,
+            0,
+            24
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "BaseverticalholeaxisY; integratedgearbelowbaseY40",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-3",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            -120,
+            -20,
+            24
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gray6L output shaft",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-4",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -60,
+            24
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Horizontal24T centerpitch120",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-5",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            0,
+            -60,
+            24
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Horizontal24T centerpitch120",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-6",
+          "partId": "31622.dat",
+          "color": 1,
+          "position": [
+            120,
+            -60,
+            24
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Crown atorthogonaltransfer; phasecontactpending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-7",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -100,
+            24
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "MainholeY,80leftoffset uprightpin; platformmount pair",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 40
+    },
+    {
+      "sourcePage": 7,
+      "note": "10studrotatingcrossbeam and8x8graybase",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -168,
+            24
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "CentralnativeY passages receivegray shaft atX-120 andcrankpinX-200; shaftengagement22LDU inferred",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "51262.dat",
+          "color": 7,
+          "position": [
+            -120,
+            -192,
+            24
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "BottomY-168 oncrossbeam",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 42
+    },
+    {
+      "sourcePage": 8,
+      "note": "Three8x8hollowringlayers;yellow12 blue6",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -240,
+            -96
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-2",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -240,
+            144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -240,
+            -96
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -240,
+            144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -240,
+            -240,
+            24
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -240,
+            24
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-7",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -288,
+            -56
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-8",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -288,
+            104
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-9",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -288,
+            -56
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-10",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -288,
+            104
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-11",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -288,
+            -96
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-12",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -288,
+            144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-13",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -336,
+            -96
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-14",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -336,
+            144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-15",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -336,
+            -96
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-16",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -336,
+            144
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-17",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -240,
+            -336,
+            24
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-18",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -336,
+            24
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "6bricks perringlayer,staggeredseams;4x4centralopening",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 60
+    }
+  ],
+  "status": "INCOMPLETE dev-only source reconstruction",
+  "unknownIds": [],
+  "omitted": [],
+  "pending": [
+    "P4 hiddenbaseclamp andverticalfeet bond inferred fromfrontsource and8yellow/4redplatecount; retain sourcecount, no scale.",
+    "Gear nominalpitch160/120LDU; toothphase, orthogonalcrown mesh, axle retention and torque unverified.",
+    "P7 grayaxle engagesrotatingbeam22LDU; offsetcrankpin40LDU,centerpassages used; platform mechanical strength/sweep remains unverified.",
+    "P8 three6brick rings match12yellow+6blueBOM; hiddenbackseams inferred with alternatingbond."
+  ],
+  "verification": "Current SHA-bound raw/static reports and final/all-step pixel observation are available in static-alarm-review.json and current-pixel-review.json; unresolved interfaces remain, no physical or user acceptance.",
+  "inventory": "9656/9090 known rows compared; combined color availability unknown where incomplete",
+  "modelSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-shuai-gan-ji.ldr",
+  "totalPlacements": 60,
+  "bom": {
+    "75350.dat|4": 3,
+    "3011.dat|14": 30,
+    "3437.dat|14": 4,
+    "40666.dat|4": 4,
+    "6523.dat|1": 4,
+    "6530.dat|14": 1,
+    "6529.dat|4": 3,
+    "6526.dat|14": 2,
+    "6522.dat|7": 1,
+    "31622.dat|1": 1,
+    "51262.dat|7": 1,
+    "3011.dat|1": 6
+  },
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "knownApproximateGeometry": [],
+  "sourcePageBOM": [
+    {
+      "sourcePage": 1,
+      "installed": {
+        "75350.dat|4": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 2,
+      "installed": {
+        "3011.dat|14": 6
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 3,
+      "installed": {
+        "3437.dat|14": 4,
+        "3011.dat|14": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 4,
+      "installed": {
+        "3011.dat|14": 8,
+        "40666.dat|4": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 5,
+      "installed": {
+        "6523.dat|1": 2,
+        "6530.dat|14": 1,
+        "6529.dat|4": 1,
+        "6526.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 6,
+      "installed": {
+        "6523.dat|1": 2,
+        "6522.dat|7": 1,
+        "6529.dat|4": 2,
+        "31622.dat|1": 1,
+        "6526.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 7,
+      "installed": {
+        "75350.dat|4": 1,
+        "51262.dat|7": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 8,
+      "installed": {
+        "3011.dat|14": 12,
+        "3011.dat|1": 6
+      },
+      "omitted": []
+    }
+  ],
+  "inventoryByPart": [
+    {
+      "partId": "75350.dat",
+      "color": "Red",
+      "installedQuantity": 3,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 1,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Yellow",
+      "installedQuantity": 30,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 5
+        }
+      ],
+      "extraVsSingle9656": 25,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "3437.dat",
+      "color": "Yellow",
+      "installedQuantity": 4,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 3
+        }
+      ],
+      "extraVsSingle9656": 1,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "40666.dat",
+      "color": "Red",
+      "installedQuantity": 4,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 12
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "6523.dat",
+      "color": "Blue",
+      "installedQuantity": 4,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Blue",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "6530.dat",
+      "color": "Yellow",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "6529.dat",
+      "color": "Red",
+      "installedQuantity": 3,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 1,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "6526.dat",
+      "color": "Yellow",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 6
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "6522.dat",
+      "color": "Light Bluish Gray",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Light Bluish Gray",
+          "quantity": 7
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "31622.dat",
+      "color": "Blue",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Blue",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "51262.dat",
+      "color": "Light Bluish Gray",
+      "installedQuantity": 1,
+      "verifiedRows": [],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Blue",
+      "installedQuantity": 6,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Blue",
+          "quantity": 26
+        },
+        {
+          "set": "9076-1",
+          "color": "Blue",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if not listed;9090 incomplete, no color substitution"
+    }
+  ],
+  "rawCheck": {
+    "exitCode": 0,
+    "rawOutput": "OK   [5-shuai-gan-ji.ldr] 60 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  "currentPixelObservation": {
+    "sourceSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
+    "revision": "0ff23d7f1d9e25e69bd8068338c6e5efe1ebb0e2a61e26b224340a8cc06981cb",
+    "finalViewsViewed": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "stepsViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "sourcePagesViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "additionalOriginalViewed": "step-7.png",
+    "finding": "No additional definite source placement correction established; mechanical/hiddenlayout limitations remain. Observation only.",
+    "accepted": false
+  }
+}

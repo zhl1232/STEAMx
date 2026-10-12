@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
+  "revision": "299e4798e22a567b9569925815fe047835e08998f314e00e8745ad0c28edbe02",
+  "reviewedAt": "2026-10-11T08:41:00.078381+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-yi-dong-guang-gao-pai",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "b5ec740f5ee6f792f87589547e9d899fce1a80330b313f5440bde2d7cfd30ba0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "e50eeb59cfca9042a7adee914fe7529f82808d5a0b718b0d325ca23163c496fc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "e8f1a9ced195f3957891cd020fb6998ad89ecb03681ef33d654af799e5c45a92",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "85a5f780d1a73ab3fb47843d8bca7a8c8e74a8a49d5cf44b41ac0e977f90a605",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "43a7fc16c2369f2bd81858f611938489d16d20b42eb84d272f87b30d5d271714",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "b6c561db9f81e23c6f4494043897fe86d69e814cbe282b1f0c542db168436e01",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "400746a634b819cca0a5cc0e658890c23e62c230099acd5cdd5d1484f07f3b77",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "408869ab71333e4d1190b7997cc60db181d4044797b3f7f063ca949635d41627",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "0985666e3aa1d856d2b845ab9e047c488c40968989b8c8b28b029ef2cd2195ec",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "52cbbd1cfce0d6d708b2c44f6cbe3f1a8e03fa3e01c174506c9dfa1823e1c093",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "3590855983503a346c71f9b1e3b79eb100654591d2f548bd25161b27e8c114d1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "8fae13b4a9dc1878980ef6f07748d1c0793ee6cb6a57cadf74bcb6c16f9ac997",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "4e61e4a3ad8144e66c4f63794c279bcefadbaadae9e5e1d169cb9e023ddbc3d7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "b5ec740f5ee6f792f87589547e9d899fce1a80330b313f5440bde2d7cfd30ba0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "b5ec740f5ee6f792f87589547e9d899fce1a80330b313f5440bde2d7cfd30ba0",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current final3 originals and all12 cumulative steps via contact sheet, with original step6/7 and sourcep6/7 enlarged. Lower6527 atY=-127 now sits at lower red beam stud-top as source supports; exact hidden contact is not established by pixels. Source6526 remains omitted; upper pulley diameter82 versus column gap80 remains1LDU risk per side. Visible green shaft protrusion above upper retainer differs from sourcep6 and remains an unresolved axial-stack constraint. Local zero strict triangle crossings is not physical clearance proof. No LDR edits in this review; INCOMPLETE, accepted=false, physicalValidation=false."
+}

@@ -1,0 +1,150 @@
+{
+  "rows": [
+    {
+      "index": 0,
+      "group": "upper",
+      "ends": [
+        [
+          -480,
+          -1032,
+          -60
+        ],
+        [
+          -81.28221952302374,
+          -999.997944886089,
+          -60
+        ]
+      ],
+      "holeDistance": 400.00000000000006,
+      "rotationOrthonormalError": 2.220446049250313e-16
+    },
+    {
+      "index": 1,
+      "group": "upper",
+      "ends": [
+        [
+          -480,
+          -1032,
+          60
+        ],
+        [
+          -81.28221952302374,
+          -999.997944886089,
+          60
+        ]
+      ],
+      "holeDistance": 400.00000000000006,
+      "rotationOrthonormalError": 2.220446049250313e-16
+    },
+    {
+      "index": 2,
+      "group": "upper",
+      "ends": [
+        [
+          81.28221952302374,
+          -999.997944886089,
+          -60
+        ],
+        [
+          480,
+          -1032,
+          -60
+        ]
+      ],
+      "holeDistance": 400.00000000000006,
+      "rotationOrthonormalError": 2.220446049250313e-16
+    },
+    {
+      "index": 3,
+      "group": "upper",
+      "ends": [
+        [
+          81.28221952302374,
+          -999.997944886089,
+          60
+        ],
+        [
+          480,
+          -1032,
+          60
+        ]
+      ],
+      "holeDistance": 400.00000000000006,
+      "rotationOrthonormalError": 2.220446049250313e-16
+    },
+    {
+      "index": 4,
+      "group": "lower",
+      "ends": [
+        [
+          -81.28221952302371,
+          -999.997944886089,
+          -100
+        ],
+        [
+          -80,
+          -600,
+          -100
+        ]
+      ],
+      "holeDistance": 399.99999999999994,
+      "rotationOrthonormalError": 4.440892098500626e-16
+    },
+    {
+      "index": 5,
+      "group": "lower",
+      "ends": [
+        [
+          -81.28221952302371,
+          -999.997944886089,
+          100
+        ],
+        [
+          -80,
+          -600,
+          100
+        ]
+      ],
+      "holeDistance": 399.99999999999994,
+      "rotationOrthonormalError": 4.440892098500626e-16
+    },
+    {
+      "index": 6,
+      "group": "lower",
+      "ends": [
+        [
+          81.28221952302371,
+          -999.997944886089,
+          -100
+        ],
+        [
+          80,
+          -600,
+          -100
+        ]
+      ],
+      "holeDistance": 399.99999999999994,
+      "rotationOrthonormalError": 4.440892098500626e-16
+    },
+    {
+      "index": 7,
+      "group": "lower",
+      "ends": [
+        [
+          81.28221952302371,
+          -999.997944886089,
+          100
+        ],
+        [
+          80,
+          -600,
+          100
+        ]
+      ],
+      "holeDistance": 399.99999999999994,
+      "rotationOrthonormalError": 4.440892098500626e-16
+    }
+  ],
+  "physicalValidation": false,
+  "notes": "End coordinates derived from savedLDR matrices, no scale applied. AxialZ layer separation intentional, sharedZcrossshafts connect paired arms."
+}

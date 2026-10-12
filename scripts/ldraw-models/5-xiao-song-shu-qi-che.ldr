@@ -1,0 +1,126 @@
+0 Squirrel riding - source reconstruction; unaccepted development draft
+0 Name: 5-xiao-song-shu-qi-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source fa1c5fc2837739c65d65da7e9a23f650d02422f483134b8ebf1320b6ebd976d6; all13pages actually viewed
+0 // True240LDU rods solved with bent pose; no scaling. P8 BOM corrected: four blue axles, two pulleys; two lower blue axles omitted pending connection evidence.
+0 // SOURCE PAGE 1 four blue tie plates, long spine and three short rear axle bricks
+1 1 -200 -80 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -40 -80 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 120 -80 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -80 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 -80 -128 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 200 -128 -80 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 200 -128 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 200 -128 80 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // SOURCE PAGE 2 four large wheels, grey front shaft, green rear shaft and front crank pair
+1 7 -240 -104 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 2 200 -104 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -240 -104 -60 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 14 200 -104 -140 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 14 -240 -104 -100 0.25881905 0 0.96592583 -0.96592583 0 0.25881905 0 -1 0 6526.dat
+1 14 -240 -104 60 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 200 -104 140 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 -240 -104 100 -0.25881905 0 0.96592583 0.96592583 0 0.25881905 0 1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 3 two blue2x8 body platform bricks
+1 1 120 -176 -40 1 0 0 0 1 0 0 0 1 4199.dat
+1 1 120 -176 40 1 0 0 0 1 0 0 0 1 4199.dat
+0 STEP
+0 // SOURCE PAGE 4 six paired red/orange tail layers offset one stud backward each layer
+1 4 200 -224 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -224 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 240 -272 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 240 -272 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 280 -320 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 280 -320 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 320 -368 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 320 -368 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -416 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -416 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 400 -464 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 400 -464 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 5 six-layer body with two red axle layers and yellow crossbond layers
+1 14 0 -224 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -224 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -272 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -272 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -320 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 40 -320 40 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 40 -368 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -368 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -416 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -416 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 40 -464 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 40 -464 40 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // SOURCE PAGE 6 five blue steering-column bricks, blue plate and red top bearing
+1 1 -200 -176 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -200 -224 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -200 -272 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -200 -320 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -200 -368 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -200 -392 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -200 -440 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // SOURCE PAGE 7 body pivot green axle, two lower240LDU arms and two retainers
+1 2 40 -296 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -79.36913237 -308.28862223 -100 0.10240519 0 -0.99474277 -0.99474277 0 -0.10240519 0 1 0 6524.dat
+1 14 40 -296 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -79.36913237 -308.28862223 100 0.10240519 0 -0.99474277 -0.99474277 0 -0.10240519 0 1 0 6524.dat
+1 14 40 -296 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 8 two upper blue axles, two rods, two pulley collars; two lower blue axles known connection omission
+1 1 -198.73826475 -320.57724447 -160 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 -180.73209932 -201.93586043 -140 -0.9886782 0 0.15005138 0.15005138 0 0.9886782 0 1 0 6524.dat
+1 14 -198.73826475 -320.57724447 -180 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 1 -198.73826475 -320.57724447 160 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 -180.73209932 -201.93586043 140 -0.9886782 0 0.15005138 0.15005138 0 0.9886782 0 1 0 6524.dat
+1 14 -198.73826475 -320.57724447 180 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 9 two green upper bearing axles, two240LDU arms and six collars
+1 2 40 -440 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 2 -198.79698491 -416 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -79.39849245 -428 -100 -0.1 0 -0.99498744 -0.99498744 0 0.1 0 1 0 6524.dat
+1 14 40 -440 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -198.79698491 -416 -60 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -198.79698491 -416 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -79.39849245 -428 100 -0.1 0 -0.99498744 -0.99498744 0 0.1 0 1 0 6524.dat
+1 14 40 -440 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -198.79698491 -416 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -198.79698491 -416 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 10 blue neck, two yellow jaw plates, red mouth plate and yellow corners
+1 1 40 -512 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -536 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 40 -536 80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 40 -560 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 40 -584 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -584 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // SOURCE PAGE 11 yellow head crossbond with two red white-highlight eye bricks
+1 14 40 -632 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -632 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -632 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -680 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -680 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -680 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 40 -680 -80 0 0 1 0 1 0 -1 0 0 3437pe1.dat
+1 4 40 -680 80 0 0 1 0 1 0 -1 0 0 3437pe1.dat
+1 14 40 -728 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -728 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 12 nine small and one large yellow brick make stepped supported ears
+1 14 40 -776 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -776 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -776 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -776 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -824 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -824 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -824 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -824 160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -872 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -872 120 1 0 0 0 1 0 0 0 1 3437.dat

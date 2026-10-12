@@ -1,0 +1,119 @@
+0 5-shuang-kai-da-men - source-based dev-only reconstruction
+0 Name: 5-shuang-kai-da-men.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: 24x24base;two4x4towers13layers with alternating bond;27blue/24red ordinary4stud bricks,one top holebrick plus lower10+4stud rail
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 -400 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -480 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -576 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -624 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 1 320 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -480 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -576 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -80 -48 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 200 -48 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // Source page 2: Two lower vertical hinge brackets,6Lshafts,cranks and retainers
+1 7 -200 -136 0 0 -1 0 1 0 0 0 0 1 6522.dat
+1 14 -200 -68 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 -160 -136 -48 1 0 0 0 0 -1 0 1 0 75349.dat
+1 14 -200 -196 0 0 0 1 0 1 0 -1 0 0 6526.dat
+1 7 200 -136 0 0 -1 0 1 0 0 0 0 1 6522.dat
+1 14 200 -68 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 160 -136 -48 1 0 0 0 0 -1 0 1 0 75349.dat
+1 14 200 -196 0 0 0 -1 0 1 0 1 0 0 6526.dat
+0 STEP
+0 // Source page 3: Two10studrails and two24LDUblue2x4plate seamclamps
+1 1 0 -624 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -200 -672 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 200 -672 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 0 -696 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Source page 4: Upper pair of40tooth gears,8Lshafts and two crank clamp pairs
+1 2 -200 -596 0 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 -200 -692 0 1 0 0 0 0 -1 0 1 0 6530.dat
+1 4 -160 -536 -48 1 0 0 0 0 -1 0 1 0 75349.dat
+1 14 -200 -596 0 0 0 1 0 1 0 -1 0 0 6526.dat
+1 14 -200 -476 0 0 0 1 0 -1 0 1 0 0 6526.dat
+1 2 200 -596 0 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 200 -692 0 1 0 0 0 0 -1 0 1 0 6530.dat
+1 4 160 -536 -48 1 0 0 0 0 -1 0 1 0 75349.dat
+1 14 200 -596 0 0 0 -1 0 1 0 1 0 0 6526.dat
+1 14 200 -476 0 0 0 -1 0 -1 0 -1 0 0 6526.dat
+0 STEP
+0 // Source page 5: Two6x12green leaves,closed pose
+1 2 -120 -336 -72 0 0 1 1 0 0 0 1 0 4196.dat
+1 2 120 -336 -72 0 0 1 1 0 0 0 1 0 4196.dat
+0 STEP
+0 // Source page 6: Center pair upright4stud latch bricks plus shortblueaxle
+1 4 -40 -336 -120 0 0 1 1 0 0 0 1 0 75349.dat
+1 4 40 -336 -120 0 0 1 1 0 0 0 1 0 75349.dat
+1 1 -120 -336 -96 -1 0 0 0 1 0 0 0 -1 6523.dat
+0 STEP
+0 // Source page 7: Two red4studtopbearings;horizontalgray6Lshaft withtwo crowngears and retainers
+1 4 0 -744 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 0 -792 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 7 0 -768 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 -60 -768 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 1 -100 -768 0 0 0 -1 0 1 0 1 0 0 31622.dat
+1 14 60 -768 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 1 100 -768 0 0 0 1 0 1 0 -1 0 0 31622.dat
+0 STEP
+0 // Source page 8: Longblueinputaxle and crank
+1 1 -320 -592 0 0 1 0 -1 0 0 0 0 1 31623.dat
+1 14 -320 -732 0 0 0 -1 0 -1 0 -1 0 0 6526.dat
+0 // PENDING: Tower hiddenbond is alternate4x4layout matching source27blue/24red ordinary count; top left holebrick accountssecondsmallredholepiece.
+0 // PENDING: Hinge axisstack uses real48LDU brick,40LDU cranks,24LDU plates; exactretention/friction and opening sweep unverified.
+0 // PENDING: P6 6523 versus31623 length not conclusively measured; selectedshort sourceicon, entersleftbrick only; rightlatchclosure notclaimed.
+0 // PENDING: P7 orthogonalgear axis/phase/depth remain mechanicalrisk; inferred upperbearingrow.
+0 // PENDING: Source pose closed; no dualpose duplicate, no physical validation.
+0 // Source page 9: finished view, no duplicated placements.

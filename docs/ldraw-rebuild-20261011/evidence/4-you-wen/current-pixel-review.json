@@ -1,0 +1,85 @@
+{
+  "sourceSha256": "c3aac35cdb9f890c5639ec7bf7225397ddd0d98b85c3fe724ee05181f15ba3a2",
+  "revision": "10e313e4264d4411c6ee6cc51818dcffcb973dff59b11fd044edf081d875ce49",
+  "reviewedAt": "2026-10-11T07:41:16.224377+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-you-wen",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "3a5a29214198939eac28b9ce43509de373588669775b97ebc95acc74664b01a8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "e9b5362c9b2ed79ec46d1a7e219209c09cae482e41a562fa1801366a429815c5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "4c0d6a8ce1cbb98776e93426b2c9591054b14069dfff49c0e530b39473f0f432",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "9ce51727679660cc03de9d363c4dbbfb563056100fd94fa2a6ad137df9af5200",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "abc0a551486810f21e8d91916bf97e291e51c776d60eb154a5a78cb91f39b2b2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "f38854b1763c8817d968db83294620be3fa5f8eb5c0b53468fa77fc19cd241aa",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "573d005f5c27359cd355371c11e439d3db5d679de15a4f68400c330a9037ce64",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "74ba3927676f6e0b4f68210a2af4203e9df6b5943aaff146c6df7ecae64c20ef",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "8ad7ba7b73a9122e605181bc934fd7e6f4dd02845bb43384c5686f07ff7af521",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "fbf8b4e028e4e05dcec0e5473149bd2e917cf3627e6aa6f9816a8a7aa2927cb0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "688442a2c1b52d6f2b231847c94d288c7cadb2952fb75c0e9f42d1888a9d1611",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "a3a24a71fd91ab2666a78a413dbc1a534351912cd0278dc71f13f98e14bb6f5d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "2870acb44d02b171514981ffd56d099722f6346b7ea6ddb454db42cc624e46ee",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "3a5a29214198939eac28b9ce43509de373588669775b97ebc95acc74664b01a8",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual currentc3aac35c final3 and all11 cumulative cells inspected; originaliso-rear/step6 and sourcep5/6 re-opened. Red tail now points rear/down in rear view and spans body width. Remaining visible limitation: gray tail hinge in step5/6 rises above black body more than source appears; unchanged28336 axisY=-449 lies65abovebodytop-384. Current adjustment corrected74957/red-board orientation only; exact28336 pose/interface evidence requires further review. Head and long-arm angles visible, all approximate interfaces/retention unverified. This is inspection with discrepancy, not visual acceptance or physical validation."
+}

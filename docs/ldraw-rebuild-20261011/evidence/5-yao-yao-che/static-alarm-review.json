@@ -1,0 +1,23 @@
+{
+  "slug": "5-yao-yao-che",
+  "sourceSha256": "2845da5bc5021692a84c20f4e3bf59d3a3566d407f514151a82318ccd9bc0c18",
+  "checkedAtUTC": "2026-10-11T07:07:36.559056+00:00",
+  "checkpointFile": "preparation/checkpoint-checks.json",
+  "rawCheckerExit": 0,
+  "rawCheckerOutput": "OK   [5-yao-yao-che.ldr] 60 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "sourceStableDuringOriginalCheck": true,
+  "sourceHashRechecked": true,
+  "alarms": [],
+  "alarmCount": 0,
+  "classificationCounts": {
+    "false_positive_aabb": 0,
+    "true_risk": 0,
+    "insufficient_evidence": 0
+  },
+  "remainingNonAlarmLimitations": "Gear6523 phase/depth and driver joints not physically validated.",
+  "sourceAndPixelEvidence": "Existing per-course REVIEW and current-pixel-review; this pass reused those actual pixel reviews and inspected alarm placement lines and actual DAT geometry. No new pixel-review completion claimed.",
+  "rawPassDoesNotProveSupportOrSourceFidelity": true,
+  "accepted": false,
+  "physicalValidation": false,
+  "sourceModified": false
+}

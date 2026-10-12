@@ -1,0 +1,22 @@
+{
+  "beforeSourceSha256": "2a44fd52b59ce3f7d351750b3c1981025f8dafd2a476c9a4ff1f9beb294f46e1",
+  "beforeRenderedRevision": "059d01cf",
+  "afterSourceSha256": "47e8e5c8aad2cb5739ca3787a99fcf1e395b3a2529fc6b4dcc4aee92e057c569",
+  "actuallyViewed": ["all8 cumulative contact frames", "final3 contact frames", "source original p2,p4,p7,p9"],
+  "finding": "Sourcep2 yellow underside filler is opposite sourcep3 cutter end. First draft reversed which chassis layer overhangs toward cutter; its rear bracket was on lower instead of upper tier.",
+  "changes": [
+    "Swap lower/upper 76395 pair centre sets: lowerX=-40,200; upperX=-120,120. SameY0/-48.",
+    "Move underside yellow filler fromX280 to rearX-200. Corresponding nominal wheel-hole centres nowX-200,20,260, Y24.",
+    "Sourcep3 lower two yellow roots are transverse, atX280,Z+/-80,Y-48; bottom0 overlaps exposed lower chassis x240..320. Upper roots longitudinal atY-96;80x80 contact footprint.",
+    "Header bridge/extensions use sameZ+/-80. Only lower roots rotate; upper longitudinal span remains source p4.",
+    "Rear28336,74957,cap,tipper move up48 with rear upper platform: bracketY-96, clipY-209,capY-257,tipperY-262. Native inferred fork pivot remains unchanged."
+  ],
+  "remainingManualInterfaces": ["Nominal side-hole indexing for wheel axles; exact molded screw fit not certified", "Approximate28336/74957 clip retention", "14094 bottom support on screw brick does not establish native hinge retention"],
+  "partCountBefore": 41,
+  "partCountAfter": 41,
+  "affectedSteps": [1,2,3,4,5,6,7,8],
+  "newRenderRequired": true,
+  "currentPixelReviewAccepted": false,
+  "missingGeometryQuantity": 6,
+  "physicalValidation": false
+}

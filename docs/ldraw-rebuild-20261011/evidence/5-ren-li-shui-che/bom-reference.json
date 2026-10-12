@@ -1,0 +1,177 @@
+{
+  "slug": "5-ren-li-shui-che",
+  "mainPlacements": 62,
+  "note": "9656 reference only, not lesson-exclusive kit. Reference zero does not imply part absent in other kits; actual user inventory unknown.75536 includes pulley+cord+hook and is not decomposed here; comparison of6527 may double-count or undercount assembly content.",
+  "rows": [
+    {
+      "partId": "4268.dat",
+      "colorCode": 2,
+      "color": "Green",
+      "quantity": 1,
+      "reference9656Quantity": 0,
+      "extraAgainst9656": 1,
+      "referenceMapping": "4268",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "3011.dat",
+      "colorCode": 1,
+      "color": "Blue",
+      "quantity": 8,
+      "reference9656Quantity": 0,
+      "extraAgainst9656": 8,
+      "referenceMapping": "3011",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "3011.dat",
+      "colorCode": 4,
+      "color": "Red",
+      "quantity": 8,
+      "reference9656Quantity": 4,
+      "extraAgainst9656": 4,
+      "referenceMapping": "3011",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "75349.dat",
+      "colorCode": 4,
+      "color": "Red",
+      "quantity": 4,
+      "reference9656Quantity": 4,
+      "extraAgainst9656": 0,
+      "referenceMapping": "6517",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "6522.dat",
+      "colorCode": 71,
+      "color": "Light Bluish Gray",
+      "quantity": 6,
+      "reference9656Quantity": 7,
+      "extraAgainst9656": 0,
+      "referenceMapping": "6522",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "31625.dat",
+      "colorCode": 1,
+      "color": "Blue",
+      "quantity": 2,
+      "reference9656Quantity": 1,
+      "extraAgainst9656": 1,
+      "referenceMapping": "31625",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "6527.dat",
+      "colorCode": 14,
+      "color": "Yellow",
+      "quantity": 11,
+      "reference9656Quantity": 15,
+      "extraAgainst9656": 0,
+      "referenceMapping": "6527",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "6521.dat",
+      "colorCode": 2,
+      "color": "Green",
+      "quantity": 2,
+      "reference9656Quantity": 5,
+      "extraAgainst9656": 0,
+      "referenceMapping": "6521",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "6525.dat",
+      "colorCode": 14,
+      "color": "Yellow",
+      "quantity": 2,
+      "reference9656Quantity": 4,
+      "extraAgainst9656": 0,
+      "referenceMapping": "6525",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "6526.dat",
+      "colorCode": 14,
+      "color": "Yellow",
+      "quantity": 4,
+      "reference9656Quantity": 6,
+      "extraAgainst9656": 0,
+      "referenceMapping": "6526",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "40666.dat",
+      "colorCode": 1,
+      "color": "Blue",
+      "quantity": 4,
+      "reference9656Quantity": 0,
+      "extraAgainst9656": 4,
+      "referenceMapping": "40666",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "6530.dat",
+      "colorCode": 14,
+      "color": "Yellow",
+      "quantity": 1,
+      "reference9656Quantity": 2,
+      "extraAgainst9656": 0,
+      "referenceMapping": "6530",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "40666.dat",
+      "colorCode": 14,
+      "color": "Yellow",
+      "quantity": 2,
+      "reference9656Quantity": 2,
+      "extraAgainst9656": 0,
+      "referenceMapping": "40666",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "6524.dat",
+      "colorCode": 14,
+      "color": "Yellow",
+      "quantity": 4,
+      "reference9656Quantity": 2,
+      "extraAgainst9656": 2,
+      "referenceMapping": "6524",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "75350.dat",
+      "colorCode": 4,
+      "color": "Red",
+      "quantity": 1,
+      "reference9656Quantity": 2,
+      "extraAgainst9656": 0,
+      "referenceMapping": "6515",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "4198p01.dat",
+      "colorCode": 14,
+      "color": "Yellow",
+      "quantity": 1,
+      "reference9656Quantity": 1,
+      "extraAgainst9656": 0,
+      "referenceMapping": "4198pr9981",
+      "actualUserInventory": "unknown"
+    },
+    {
+      "partId": "11170.dat",
+      "colorCode": 1,
+      "color": "Blue",
+      "quantity": 1,
+      "reference9656Quantity": 0,
+      "extraAgainst9656": 1,
+      "referenceMapping": "11170",
+      "actualUserInventory": "unknown"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+0 5+ Basketball launcher - source reconstruction draft
+0 Name: 5-tou-lan-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // DEV-ONLY. All10 source pages visually inspected; p10 final view.
+0 // 22119 is official colour-neutral52mm ball; source ball is BLUE, not fixed-red41250.
+0 // Static lever pose inferred; no physical launch validation.
+0 // Source page 1: two8x16 bases joined by two yellow2x4 crosswise seam bricks.
+1 2 -320 -24 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 2 320 -24 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 14 0 -72 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -72 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 2: five interlocked4x4 pedestal layers; six yellow and four red bricks.
+1 14 480 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -72 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 440 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 520 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 480 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -168 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 440 -216 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 520 -216 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 480 -264 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -264 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 3: first five red plates: incomplete lower hoop layer.
+1 4 520 -288 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 520 -288 80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 400 -288 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 400 -288 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 280 -288 80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // Source page 4: finish first hoop layer, then six interlocking plates, 4x4 clear opening.
+1 4 280 -288 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 280 -312 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 520 -312 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 320 -312 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 480 -312 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 320 -312 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 480 -312 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Source page 5: five-layer8x2 backboard; yellow blue target band; four yellow2x2 endcaps.
+1 14 520 -360 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 520 -360 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 520 -408 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 520 -408 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 520 -408 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 520 -456 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 520 -456 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 520 -504 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 520 -504 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 520 -504 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 520 -552 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 520 -552 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 6: two three-yellow-layer launch supports topped by red hole bricks.
+1 14 -480 -72 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -480 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -480 -168 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -480 -216 -80 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 -480 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -480 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -480 -168 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -480 -216 80 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // Source page 7: two11-hole levers, green transverse axle8 and two outer retainers.
+1 14 -480 -192 -20 -0.6 0 0.8 -0.8 0 -0.6 0 -1 0 6525.dat
+1 14 -480 -192 20 -0.6 0 0.8 -0.8 0 -0.6 0 -1 0 6525.dat
+1 2 -480 -192 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -480 -192 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -480 -192 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // Source page 8: four shortcranks cup the two levers; gray axle through near end fourth hole.
+1 71 -576 -120 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -576 -120 -60 0.6 0 -0.8 0.8 0 0.6 0 -1 0 6526.dat
+1 14 -576 -120 -100 -0.6 0 0.8 -0.8 0 -0.6 0 -1 0 6526.dat
+1 14 -576 -120 60 -0.6 0 -0.8 -0.8 0 0.6 0 1 0 6526.dat
+1 14 -576 -120 100 0.6 0 0.8 0.8 0 -0.6 0 1 0 6526.dat
+0 STEP
+0 // Source page 9: loose blue52mm ball seated above lever pair near cup.
+1 1 -627 -188 0 1 0 0 0 1 0 0 0 1 22119.dat
+0 // p10 final view, no added parts.
+0 // INCOMPLETE: shortcrank double-stack depth and ball cup contact need render/manual review.
+0 // Pending user confirmation; no production publication.

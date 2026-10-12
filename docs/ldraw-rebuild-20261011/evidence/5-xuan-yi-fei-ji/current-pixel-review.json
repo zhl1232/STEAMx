@@ -1,0 +1,65 @@
+{
+  "sourceSha256": "04f09ef6131abe867fd52caecb06a89ff01838d3c97c2717b2aaadd8a2de92bf",
+  "revision": "6756d001d1c72eacf9604c2d1f65e07852f267a65f7e907999c443069a04b18d",
+  "reviewedAt": "2026-10-11T07:52:21.815403+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xuan-yi-fei-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "3d032534f557fad99a8fa1e5f94f6ac07e16d206387b6609567f6c3b82041811",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "c8e276b1df10c3bcde7c399f4713d66c8bd8527b78963b25baf0ada3137c08c4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "fb4099369b79f0a44f79823f5b14e4fbd5087b90f480f33ef57b3099e9d99e64",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "615c9e619dac4f20ca89460821902edb2293413ac701c9815caca61f028879f6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "b421294506c66392daa1a2540d50bb289cf9566fecec2f4501f5a0744a9240af",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "b421294506c66392daa1a2540d50bb289cf9566fecec2f4501f5a0744a9240af",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "b421294506c66392daa1a2540d50bb289cf9566fecec2f4501f5a0744a9240af",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "2b53d537cff4cc4fa3d3eeac417f807afd58a7dc88f8b418f61c6678d383996f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "28dfef6bc19ec20c357dfc7376e60f0f84f854044e399628ac3e622c5473a078",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "28dfef6bc19ec20c357dfc7376e60f0f84f854044e399628ac3e622c5473a078",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "All10 cumulative D frames viewed against source10-page contact; originalstep1 inspected. Wheel outer flanges protrude more than source silhouette; this is consistent with unresolved axle-stack issue, not accepted fit. Four inner rim pairs have197 strict triangle crossings each; old uniform tyre-radius exemption revoked. Four source drivebelts omitted atsteps6-7. Gear/body increments otherwise match broad construction. D steps only; old C final separately handled by main."
+}

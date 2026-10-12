@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "cf913530a0b3c5098396b4cd21f627c67007c94ed1c3dc9904246d6f5047b916",
+  "revision": "785e9dd22314d17e3f6c2da901b57ad0bc9ac3409cc091c0a07af02c3ccd791e",
+  "reviewedAt": "2026-10-11T11:33:37.540850+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-da-di-shu",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "f36d3b262966899173688c0d82a85f7a7a85c3f50fc110380c9f2b7dac3b9f9a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "776349eca793561bfd1ae602ff1de3fe0449ef5ef6013e4017a05e803ef32bc5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "4860a305a1ddf402db887d648581f1be6b012c6e2ce39c85b4ad8b7626603005",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "5a2bc31749c9819f33efcfbe91fff2ca2c4144843f22efb07e59cbd30e018358",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "6338d5adab42c585f2ee448621f83213309ffd51c76f86c2ce03bd01ce36c714",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "6d345a67e73c13d2c0921a5d30e1e66c2cffc9dd1f607b483620e670f52f8567",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "29587627f27ba12e73309d2afc0a5fff2c03e06f2f29135c338c2a03155ddf1f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "27e271fa641d1da7689791fa6d275ccc99728acd54451d0aaca99047bccd3bea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "86fc1474bae137386e45f5123837dfeea8eee7904f456e9bd3e395336b244a70",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "fb7b74b1e7fb3a53a555023185cd023a2b61c7916ae4ac1e9621036e514677dc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "f36d3b262966899173688c0d82a85f7a7a85c3f50fc110380c9f2b7dac3b9f9a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "f36d3b262966899173688c0d82a85f7a7a85c3f50fc110380c9f2b7dac3b9f9a",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual original PNG inspection of all three final views and nine cumulative steps, plus source pages4/8/10; no inference from file existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual original PNG inspection: final iso/rear/top and all9 cumulative steps; source p4/p8/p10 rechecked. Wall stripes, five-gear train, three followers, three holder rings and six tubes visually correspond. Three low-rest balls concealed in iso but yellow/red/blue visible through bores in top; step8/9 iso identical from occlusion, not missing balls. Deliberate low static phase differs from source raised presentation. Holder repaired42029 provenance, pin/axle engagement, dynamic motion, radial seat tolerance and physical stability remain unverified. No source change from this review."
+}

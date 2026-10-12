@@ -1,0 +1,106 @@
+{
+  "slug": "5-qing-sao-che",
+  "oldSha256": "496187fe9a93514b1684f47e7e59885c445b04eb33d86dbc7463d47cf24040de",
+  "modelSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+  "sourcePages": [
+    7,
+    12
+  ],
+  "sourceImages": [
+    {
+      "page": 7,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-qing-sao-che/page-07.jpg",
+      "sha256": "b8d5cc7cbff7bfac409dd8dc363325fbe98ca3ba98434133334ba1beee4e9b6a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-qing-sao-che/page-12.jpg",
+      "sha256": "4ad77bc8708d7f287af2cff5c7f1c92b0755e1b6b3351542ca0c0df0399111fa",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "oldPixelsActuallyViewed": "final3+all11 cumulative sheets and full iso PNG; source page12 re-opened",
+  "finding": "Both blue31622 crown tooth sides faced up in old final. Source p7/p12 shows tooth side below back ring facing road gears.",
+  "officialGeometry": [
+    {
+      "path": "STEAMx/scripts/ldraw-models/parts/31622.dat",
+      "sha256": "f3f46ef936923e8bbbf3cc1f8105d6f72e42a827beaf08313bfcb383937fb30a"
+    },
+    {
+      "path": "STEAMx/scripts/ldraw-models/p/dtoothc.dat",
+      "sha256": "2b1de48461f594d001cee6c84471f2656c3822a4175236925424f8070be40cf3"
+    }
+  ],
+  "geometryEvidence": "31622 back ring atlocalZ=-19.5, tooth localZ range approx[-16,+1.2032] so protrusion towards+Z. Old matrix mapped+Z to-Y; corrected matrix maps+Z to+Y.",
+  "beforeMatrix": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    -1,
+    0,
+    1,
+    0
+  ],
+  "afterMatrix": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    -1,
+    0
+  ],
+  "placements": [
+    {
+      "page": 7,
+      "line": 55,
+      "id": "31622.dat",
+      "color": 1,
+      "transform": [
+        220,
+        -176,
+        -260,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "page": 7,
+      "line": 59,
+      "id": "31622.dat",
+      "color": 1,
+      "transform": [
+        220,
+        -176,
+        260,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -1,
+        0
+      ]
+    }
+  ],
+  "unchanged": "shaft axes/world centres and allother placements",
+  "rawPairCount": 3,
+  "currentPixels": "current9c04/revision544030a4 final3 plus all11 cumulative steps actually reviewed; see current-pixel-review.json",
+  "accepted": false,
+  "physicalVerified": false,
+  "pixelReviewFile": "preparation/5-qing-sao-che/current-pixel-review.json"
+}

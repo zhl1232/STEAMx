@@ -1,0 +1,1857 @@
+{
+  "slug": "5-ge-cao-ji",
+  "source": {
+    "name": "5+割草机搭建说明.pdf",
+    "relative_path": "5+/5+割草机搭建说明.pdf",
+    "pages": 10,
+    "bytes": 1268634,
+    "sha256": "c1383dc7116fcd69d2f7513ec9fb1463b7b41358c2ec3b749f819c445723eda0",
+    "source_url": "https://pan.quark.cn/list#/docpdf/99dad91be95f4c59bd95ea08bdab3cf6",
+    "slug": "5-ge-cao-ji",
+    "lesson_id": 257,
+    "course_id": 7
+  },
+  "modelSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "sourceImages": [
+    {
+      "page": 1,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-ge-cao-ji/page-01.jpg",
+      "sha256": "f8df389652f3f63e8094d040c43ac9830564c8e757122458755ef8f7966190b6",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-ge-cao-ji/page-02.jpg",
+      "sha256": "b2adbd8ccccb4f6e41ba51d6b59d46898d4dc7296356a9965e18a27a4e6b3d75",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-ge-cao-ji/page-03.jpg",
+      "sha256": "3f84e1bd592dde765f1162ce9cd04c2be79b8cf83c6d8e3801ae3997b7143f9f",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-ge-cao-ji/page-04.jpg",
+      "sha256": "66d972d2e574b16071d5c4c8c3375fec61411a1545a927cafc50c15851ac8dd0",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-ge-cao-ji/page-05.jpg",
+      "sha256": "1a348c19f6aff82c504ec8817dac40146bea544bd114905b630d89a12d92370c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-ge-cao-ji/page-06.jpg",
+      "sha256": "08d70999886f1ad42b9e44f41b26e7e71b199b0376afb1913dba7f2f2055fe7d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-ge-cao-ji/page-07.jpg",
+      "sha256": "9effe0f87d9a132496f966eb923d9443b98a6d4090b7950d12d6b15d7e01d861",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-ge-cao-ji/page-08.jpg",
+      "sha256": "8de9e52bf6b30dc548d8c94debac902d937ba72a3ea0357bca949d424c2de375",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-ge-cao-ji/page-09.jpg",
+      "sha256": "bd443eae84ffc8d59ac3d4c4dad2af1eaa11e1f9ac5a879926f324f12231b4d1",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch12/5-ge-cao-ji/page-10.jpg",
+      "sha256": "7b75707021c6e54293becabd3b4af74808c69ceee5c5799e3959a5c5068cf55d",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "placements": [
+    {
+      "page": 1,
+      "line": 9,
+      "id": "75350.dat",
+      "color": 4,
+      "transform": [
+        -80,
+        -153,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 1,
+      "line": 10,
+      "id": "75350.dat",
+      "color": 4,
+      "transform": [
+        80,
+        -201,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 2,
+      "line": 13,
+      "id": "40666.dat",
+      "color": 14,
+      "transform": [
+        -200,
+        -105,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 2,
+      "line": 14,
+      "id": "75349.dat",
+      "color": 4,
+      "transform": [
+        -200,
+        -81,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 2,
+      "line": 15,
+      "id": "40666.dat",
+      "color": 14,
+      "transform": [
+        200,
+        -105,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 2,
+      "line": 16,
+      "id": "75349.dat",
+      "color": 4,
+      "transform": [
+        200,
+        -81,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 2,
+      "line": 17,
+      "id": "3011.dat",
+      "color": 14,
+      "transform": [
+        200,
+        -153,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 3,
+      "line": 20,
+      "id": "3437.dat",
+      "color": 1,
+      "transform": [
+        -160,
+        -201,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 3,
+      "line": 21,
+      "id": "2302.dat",
+      "color": 1,
+      "transform": [
+        -240,
+        -201,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "page": 4,
+      "line": 24,
+      "id": "6522.dat",
+      "color": 7,
+      "transform": [
+        0,
+        -142,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "page": 4,
+      "line": 25,
+      "id": "6529.dat",
+      "color": 4,
+      "transform": [
+        0,
+        -232,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        -1,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "page": 4,
+      "line": 26,
+      "id": "6527.dat",
+      "color": 14,
+      "transform": [
+        0,
+        -72,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        -1,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "page": 4,
+      "line": 27,
+      "id": "6530.dat",
+      "color": 14,
+      "transform": [
+        0,
+        -32,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        -1,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "page": 5,
+      "line": 30,
+      "id": "6522.dat",
+      "color": 7,
+      "transform": [
+        0,
+        -177,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "page": 5,
+      "line": 31,
+      "id": "31622.dat",
+      "color": 1,
+      "transform": [
+        0,
+        -177,
+        -60,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 5,
+      "line": 32,
+      "id": "6527.dat",
+      "color": 14,
+      "transform": [
+        0,
+        -177,
+        -100,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "page": 5,
+      "line": 33,
+      "id": "6527.dat",
+      "color": 14,
+      "transform": [
+        0,
+        -177,
+        60,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 6,
+      "line": 36,
+      "id": "6522.dat",
+      "color": 7,
+      "transform": [
+        -200,
+        -57,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "page": 6,
+      "line": 37,
+      "id": "6527.dat",
+      "color": 14,
+      "transform": [
+        -200,
+        -57,
+        -60,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 6,
+      "line": 38,
+      "id": "6527.dat",
+      "color": 14,
+      "transform": [
+        -200,
+        -57,
+        -100,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "page": 6,
+      "line": 39,
+      "id": "6292.dat",
+      "color": 0,
+      "transform": [
+        -200,
+        -57,
+        -100,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "page": 6,
+      "line": 40,
+      "id": "6527.dat",
+      "color": 14,
+      "transform": [
+        -200,
+        -57,
+        60,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "page": 6,
+      "line": 41,
+      "id": "6527.dat",
+      "color": 14,
+      "transform": [
+        -200,
+        -57,
+        100,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 6,
+      "line": 42,
+      "id": "6292.dat",
+      "color": 0,
+      "transform": [
+        -200,
+        -57,
+        100,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 7,
+      "line": 45,
+      "id": "6525.dat",
+      "color": 14,
+      "transform": [
+        200,
+        -257,
+        -60,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "page": 7,
+      "line": 46,
+      "id": "6525.dat",
+      "color": 14,
+      "transform": [
+        200,
+        -257,
+        60,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "page": 7,
+      "line": 47,
+      "id": "6522.dat",
+      "color": 7,
+      "transform": [
+        200,
+        -177,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "page": 7,
+      "line": 48,
+      "id": "6527.dat",
+      "color": 14,
+      "transform": [
+        200,
+        -177,
+        -100,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "page": 7,
+      "line": 49,
+      "id": "6527.dat",
+      "color": 14,
+      "transform": [
+        200,
+        -177,
+        100,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 7,
+      "line": 50,
+      "id": "6522.dat",
+      "color": 7,
+      "transform": [
+        200,
+        -57,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "page": 7,
+      "line": 51,
+      "id": "6527.dat",
+      "color": 14,
+      "transform": [
+        200,
+        -57,
+        -100,
+        -1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "page": 7,
+      "line": 52,
+      "id": "6527.dat",
+      "color": 14,
+      "transform": [
+        200,
+        -57,
+        100,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 8,
+      "line": 55,
+      "id": "6521.dat",
+      "color": 2,
+      "transform": [
+        200,
+        -457,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "page": 8,
+      "line": 56,
+      "id": "6524.dat",
+      "color": 14,
+      "transform": [
+        320,
+        -457,
+        -100,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "page": 8,
+      "line": 57,
+      "id": "6526.dat",
+      "color": 14,
+      "transform": [
+        200,
+        -457,
+        -140,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "page": 8,
+      "line": 58,
+      "id": "6526.dat",
+      "color": 14,
+      "transform": [
+        200,
+        -457,
+        -20,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "page": 8,
+      "line": 59,
+      "id": "6524.dat",
+      "color": 14,
+      "transform": [
+        320,
+        -457,
+        100,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "page": 8,
+      "line": 60,
+      "id": "6526.dat",
+      "color": 14,
+      "transform": [
+        200,
+        -457,
+        140,
+        0,
+        0,
+        1,
+        -1,
+        0,
+        0,
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "page": 8,
+      "line": 61,
+      "id": "6526.dat",
+      "color": 14,
+      "transform": [
+        200,
+        -457,
+        20,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "page": 9,
+      "line": 64,
+      "id": "4268.dat",
+      "color": 2,
+      "transform": [
+        -800,
+        -4,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 9,
+      "line": 65,
+      "id": "6510.dat",
+      "color": 27,
+      "transform": [
+        -1100,
+        -52,
+        -260,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 9,
+      "line": 66,
+      "id": "6510.dat",
+      "color": 27,
+      "transform": [
+        -940,
+        -52,
+        -300,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 9,
+      "line": 67,
+      "id": "6510.dat",
+      "color": 27,
+      "transform": [
+        -740,
+        -52,
+        -280,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 9,
+      "line": 68,
+      "id": "6510.dat",
+      "color": 27,
+      "transform": [
+        -540,
+        -52,
+        -220,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 9,
+      "line": 69,
+      "id": "6510.dat",
+      "color": 27,
+      "transform": [
+        -1100,
+        -52,
+        -60,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 9,
+      "line": 70,
+      "id": "6510.dat",
+      "color": 27,
+      "transform": [
+        -860,
+        -52,
+        -100,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 9,
+      "line": 71,
+      "id": "6510.dat",
+      "color": 27,
+      "transform": [
+        -660,
+        -52,
+        -60,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 9,
+      "line": 72,
+      "id": "6510.dat",
+      "color": 27,
+      "transform": [
+        -1060,
+        -52,
+        140,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 9,
+      "line": 73,
+      "id": "6510.dat",
+      "color": 27,
+      "transform": [
+        -900,
+        -52,
+        140,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 9,
+      "line": 74,
+      "id": "6510.dat",
+      "color": 27,
+      "transform": [
+        -700,
+        -52,
+        180,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 9,
+      "line": 75,
+      "id": "6510.dat",
+      "color": 27,
+      "transform": [
+        -980,
+        -52,
+        340,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "page": 9,
+      "line": 76,
+      "id": "6510.dat",
+      "color": 27,
+      "transform": [
+        -500,
+        -52,
+        140,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    }
+  ],
+  "placedCount": 52,
+  "omittedCount": 0,
+  "unknownParts": [],
+  "knownApproximateGeometry": [],
+  "interfaceRisks": [
+    "The blade is a source toy gear disc, not functional cutting hardware. Vertical spindle and horizontal crown gear use visible source axes; tooth phase/contact and bore clearance are not physically verified.",
+    "6527/6292 asymmetric tyre cavity risk retained; actual mesh triangle check will be recorded separately.",
+    "Handle upright endpoint spacing400 LDU, support-axle spacing120 LDU; 6526 integral pins enter neighbouring40LDU beam layers. Axial locks and loaded handle stiffness remain provisional.",
+    "p9 flower count12 comes from BOM. Lawn is24x24 and flower distribution is illustrative from two source views; exact coordinates of occluded flowers are not asserted."
+  ],
+  "accepted": false,
+  "userConfirmed": false,
+  "physicalVerified": false,
+  "currentPixels": "current final3 and all9 cumulative steps actually reviewed; see current-pixel-review.json",
+  "sourceBomByPage": [
+    {
+      "page": 1,
+      "placed": 2,
+      "parts": [
+        {
+          "id": "75350.dat",
+          "color": "Red",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "page": 2,
+      "placed": 5,
+      "parts": [
+        {
+          "id": "40666.dat",
+          "color": "Yellow",
+          "count": 2
+        },
+        {
+          "id": "75349.dat",
+          "color": "Red",
+          "count": 2
+        },
+        {
+          "id": "3011.dat",
+          "color": "Yellow",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": 3,
+      "placed": 2,
+      "parts": [
+        {
+          "id": "3437.dat",
+          "color": "Blue",
+          "count": 1
+        },
+        {
+          "id": "2302.dat",
+          "color": "Blue",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": 4,
+      "placed": 4,
+      "parts": [
+        {
+          "id": "6522.dat",
+          "color": "Light Bluish Gray",
+          "count": 1
+        },
+        {
+          "id": "6529.dat",
+          "color": "Red",
+          "count": 1
+        },
+        {
+          "id": "6527.dat",
+          "color": "Yellow",
+          "count": 1
+        },
+        {
+          "id": "6530.dat",
+          "color": "Yellow",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": 5,
+      "placed": 4,
+      "parts": [
+        {
+          "id": "6522.dat",
+          "color": "Light Bluish Gray",
+          "count": 1
+        },
+        {
+          "id": "6527.dat",
+          "color": "Yellow",
+          "count": 2
+        },
+        {
+          "id": "31622.dat",
+          "color": "Blue",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "page": 6,
+      "placed": 7,
+      "parts": [
+        {
+          "id": "6522.dat",
+          "color": "Light Bluish Gray",
+          "count": 1
+        },
+        {
+          "id": "6527.dat",
+          "color": "Yellow",
+          "count": 4
+        },
+        {
+          "id": "6292.dat",
+          "color": "Black",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "placed": 8,
+      "parts": [
+        {
+          "id": "6522.dat",
+          "color": "Light Bluish Gray",
+          "count": 2
+        },
+        {
+          "id": "6527.dat",
+          "color": "Yellow",
+          "count": 4
+        },
+        {
+          "id": "6525.dat",
+          "color": "Yellow",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "page": 8,
+      "placed": 7,
+      "parts": [
+        {
+          "id": "6521.dat",
+          "color": "Green",
+          "count": 1
+        },
+        {
+          "id": "6524.dat",
+          "color": "Yellow",
+          "count": 2
+        },
+        {
+          "id": "6526.dat",
+          "color": "Yellow",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "page": 9,
+      "placed": 13,
+      "parts": [
+        {
+          "id": "4268.dat",
+          "color": "Green",
+          "count": 1
+        },
+        {
+          "id": "6510.dat",
+          "color": "Lime",
+          "count": 12
+        }
+      ]
+    }
+  ],
+  "bom": [
+    {
+      "id": "75350.dat",
+      "color": "Red",
+      "colorCode": 4,
+      "quantity": 2,
+      "catalogId": "6515",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6515",
+          "color": "Red",
+          "quantity": 2,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 2,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "40666.dat",
+      "color": "Yellow",
+      "colorCode": 14,
+      "quantity": 2,
+      "catalogId": "40666",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "40666",
+          "color": "Yellow",
+          "quantity": 2,
+          "exactColor": true
+        },
+        {
+          "set": "9090-2",
+          "id": "40666",
+          "color": "Blue",
+          "quantity": 12,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "40666",
+          "color": "Bright Green",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "40666",
+          "color": "Lime",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "40666",
+          "color": "Medium Blue",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "40666",
+          "color": "Orange",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "40666",
+          "color": "Red",
+          "quantity": 12,
+          "exactColor": false
+        }
+      ],
+      "referenceStock": 2,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "75349.dat",
+      "color": "Red",
+      "colorCode": 4,
+      "quantity": 2,
+      "catalogId": "6517",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6517",
+          "color": "Red",
+          "quantity": 4,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 4,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "3011.dat",
+      "color": "Yellow",
+      "colorCode": 14,
+      "quantity": 1,
+      "catalogId": "3011",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "3011",
+          "color": "Green",
+          "quantity": 3,
+          "exactColor": false
+        },
+        {
+          "set": "9656-1",
+          "id": "3011",
+          "color": "Red",
+          "quantity": 4,
+          "exactColor": false
+        },
+        {
+          "set": "9656-1",
+          "id": "3011",
+          "color": "Yellow",
+          "quantity": 5,
+          "exactColor": true
+        },
+        {
+          "set": "9090-2",
+          "id": "3011",
+          "color": "Blue",
+          "quantity": 26,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3011",
+          "color": "Bright Green",
+          "quantity": 20,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3011",
+          "color": "Lime",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3011",
+          "color": "Medium Blue",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3011",
+          "color": "Orange",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3011",
+          "color": "Red",
+          "quantity": 20,
+          "exactColor": false
+        }
+      ],
+      "referenceStock": 5,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "3437.dat",
+      "color": "Blue",
+      "colorCode": 1,
+      "quantity": 1,
+      "catalogId": "3437",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "3437",
+          "color": "Green",
+          "quantity": 3,
+          "exactColor": false
+        },
+        {
+          "set": "9656-1",
+          "id": "3437",
+          "color": "Red",
+          "quantity": 2,
+          "exactColor": false
+        },
+        {
+          "set": "9656-1",
+          "id": "3437",
+          "color": "Yellow",
+          "quantity": 3,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3437",
+          "color": "Blue",
+          "quantity": 40,
+          "exactColor": true
+        },
+        {
+          "set": "9090-2",
+          "id": "3437",
+          "color": "Bright Green",
+          "quantity": 50,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3437",
+          "color": "Lime",
+          "quantity": 20,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3437",
+          "color": "Medium Blue",
+          "quantity": 20,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3437",
+          "color": "Orange",
+          "quantity": 20,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3437",
+          "color": "Red",
+          "quantity": 40,
+          "exactColor": false
+        },
+        {
+          "set": "45002-1",
+          "id": "3437",
+          "color": "Dark Bluish Gray",
+          "quantity": 3,
+          "exactColor": false
+        },
+        {
+          "set": "45002-1",
+          "id": "3437",
+          "color": "Tan",
+          "quantity": 3,
+          "exactColor": false
+        }
+      ],
+      "referenceStock": 40,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "2302.dat",
+      "color": "Blue",
+      "colorCode": 1,
+      "quantity": 1,
+      "catalogId": "2302",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "2302",
+          "color": "Red",
+          "quantity": 4,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "2302",
+          "color": "Blue",
+          "quantity": 10,
+          "exactColor": true
+        },
+        {
+          "set": "9090-2",
+          "id": "2302",
+          "color": "Bright Green",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "2302",
+          "color": "Red",
+          "quantity": 10,
+          "exactColor": false
+        }
+      ],
+      "referenceStock": 10,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6522.dat",
+      "color": "Light Bluish Gray",
+      "colorCode": 7,
+      "quantity": 5,
+      "catalogId": "6522",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6522",
+          "color": "Light Bluish Gray",
+          "quantity": 7,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 7,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6529.dat",
+      "color": "Red",
+      "colorCode": 4,
+      "quantity": 1,
+      "catalogId": "6529",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6529",
+          "color": "Red",
+          "quantity": 2,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 2,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6527.dat",
+      "color": "Yellow",
+      "colorCode": 14,
+      "quantity": 11,
+      "catalogId": "6527",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6527",
+          "color": "Yellow",
+          "quantity": 15,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 15,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6530.dat",
+      "color": "Yellow",
+      "colorCode": 14,
+      "quantity": 1,
+      "catalogId": "6530",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6530",
+          "color": "Yellow",
+          "quantity": 2,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 2,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "31622.dat",
+      "color": "Blue",
+      "colorCode": 1,
+      "quantity": 1,
+      "catalogId": "31622",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "31622",
+          "color": "Blue",
+          "quantity": 2,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 2,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6292.dat",
+      "color": "Black",
+      "colorCode": 0,
+      "quantity": 2,
+      "catalogId": "6292",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6292",
+          "color": "Black",
+          "quantity": 4,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 4,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6525.dat",
+      "color": "Yellow",
+      "colorCode": 14,
+      "quantity": 2,
+      "catalogId": "6525",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6525",
+          "color": "Yellow",
+          "quantity": 4,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 4,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6521.dat",
+      "color": "Green",
+      "colorCode": 2,
+      "quantity": 1,
+      "catalogId": "6521",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6521",
+          "color": "Green",
+          "quantity": 5,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 5,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6524.dat",
+      "color": "Yellow",
+      "colorCode": 14,
+      "quantity": 2,
+      "catalogId": "6524",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6524",
+          "color": "Yellow",
+          "quantity": 2,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 2,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6526.dat",
+      "color": "Yellow",
+      "colorCode": 14,
+      "quantity": 4,
+      "catalogId": "6526",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6526",
+          "color": "Yellow",
+          "quantity": 6,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 6,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "4268.dat",
+      "color": "Green",
+      "colorCode": 2,
+      "quantity": 1,
+      "catalogId": "4268",
+      "referenceInventories": [],
+      "referenceStock": null,
+      "extraNeeded": null,
+      "stockStatus": "color_or_identity_stock_unverified",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6510.dat",
+      "color": "Lime",
+      "colorCode": 27,
+      "quantity": 12,
+      "catalogId": "6510",
+      "referenceInventories": [],
+      "referenceStock": null,
+      "extraNeeded": null,
+      "stockStatus": "color_or_identity_stock_unverified",
+      "physicalStockVerified": false
+    }
+  ],
+  "pixelReviewFile": "preparation/5-ge-cao-ji/current-pixel-review.json"
+}

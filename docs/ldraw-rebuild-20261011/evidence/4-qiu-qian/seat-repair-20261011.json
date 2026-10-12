@@ -1,0 +1,70 @@
+{
+  "slug": "4-qiu-qian",
+  "beforeSha256": "607a4b103539fc94d49c39df5ca8fa4587c7a08723895e0d236553c1ebb12185",
+  "afterSha256": "4dcfba18e7d66e664b7acc4403c29103b581ff98c1559388b6dbe096b7d83026",
+  "pagesRevisited": [
+    6,
+    7,
+    8
+  ],
+  "restoredCount": 13,
+  "restoredStructuralParts": 5,
+  "restoredFigureComponents": 8,
+  "remainingOmittedCount": 0,
+  "nominalContacts": [
+    {
+      "interface": "arm-open-end / inverted clutch",
+      "armAxes": [
+        [
+          -167,
+          -352,
+          0
+        ],
+        [
+          167,
+          -352,
+          0
+        ]
+      ],
+      "clutchLocalNominalTongueY": 60,
+      "comment": "Approximate tongues span worldY[-362,-340], enclosing nominal axis -352; not a round hinge CAD test."
+    },
+    {
+      "interface": "clutch face / turned bracket back",
+      "planeZ": 40,
+      "overlapX": 80,
+      "overlapY": 48,
+      "comment": "Face contact only; approximate screw position not exact source retention."
+    },
+    {
+      "interface": "seat underside / two bracket upper edges",
+      "planeY": -356,
+      "eachOverlapX": 73,
+      "eachOverlapZ": 40
+    },
+    {
+      "interface": "child feet / seat studs",
+      "feetOrigin": [
+        0,
+        -404,
+        -20
+      ],
+      "socketsXYStudPlane": true,
+      "studCenters": [
+        [
+          -20,
+          -404,
+          -20
+        ],
+        [
+          20,
+          -404,
+          -20
+        ]
+      ]
+    }
+  ],
+  "status": "manual_fit_source_supported_pending_render",
+  "accepted": false,
+  "physicalValidation": false
+}

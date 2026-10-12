@@ -1,0 +1,54 @@
+{
+  "slug": "4-long-men-diao",
+  "reviewedAt": "2026-10-11T07:07:26.279Z",
+  "modelSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+  "originalCheck": {
+    "path": "scripts/ldraw-models/4-long-men-diao.ldr",
+    "sha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-long-men-diao.ldr] 93 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  "checkerPassIsNotConnectionAcceptance": true,
+  "sourceEvidence": "Existing source-page pixel reviews and current ledger; no new browser or physical test",
+  "accepted": false,
+  "physicalValidation": false,
+  "modelChanged": false,
+  "reliableCorrectionAvailable": false,
+  "limitations": [
+    {
+      "pages": [
+        6,
+        7
+      ],
+      "parts": [
+        "40666",
+        "28336",
+        "3437"
+      ],
+      "finding": "Top plate source-backed axisZ corrected. Plate/base overlap48LDU, lower3437/base edge overlap8LDU. Base stud Z52/92 does not register with plateZ20/60; no normal stud capture proof."
+    },
+    {
+      "pages": [
+        7,
+        8,
+        9
+      ],
+      "parts": [
+        "28336",
+        "dev-129/28334"
+      ],
+      "finding": "Grid-aligned basesZ+/-40 put approximate arm inner face12LDU inside beam. ExistingZ+/-72 avoids that candidate conflict but does not establish connection. No new movement, scaling or extra pieces justified.",
+      "evidence": "assembly-candidates.json"
+    },
+    {
+      "pages": [
+        10,
+        11,
+        12
+      ],
+      "finding": "Cord/pulley/long hook omitted; complete lifting linkage and support not demonstrated."
+    }
+  ],
+  "decision": "Keep provisional and INCOMPLETE; no reliable evidence-backed correction identified in this review. Coordinate alignment/raw exit0 cannot waive interface risks."
+}

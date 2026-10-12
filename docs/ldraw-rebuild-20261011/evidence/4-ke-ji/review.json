@@ -1,0 +1,55 @@
+{
+  "slug": "4-ke-ji",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 12,
+  "sourcePixels": "12-page contact sheet and enlarged structural pages viewed",
+  "modelSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755",
+  "unknown": [
+    {
+      "page": 5,
+      "part": "blue Toolo airplane wing and tail",
+      "candidate": "31239c01 confirmed",
+      "missing": "licensed geometry"
+    },
+    {
+      "page": 3,
+      "part": "wing side screw joints",
+      "missing": "licensed geometry",
+      "candidate": "45117c01 confirmed"
+    },
+    {
+      "page": 7,
+      "part": "light-blue curved 2x3 bricks",
+      "candidate": "2302",
+      "missing": "source color estimate, kit color quantity not established"
+    }
+  ],
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
+  "knownApproximate": [
+    "76395",
+    "76057",
+    "99565",
+    "44970",
+    "28336",
+    "31196c01"
+  ],
+  "render": {
+    "sourceSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755",
+    "viewsActuallyInspected": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "cumulativeStepsActuallyInspected": true,
+    "cumulativeStepCount": 12,
+    "finding": "All12 D cumulative frames actually screened against previously viewed source12-page contact; step4 original PNG inspected for cockpit. Sourcep5 blue45117c01/31239c01 omitted, hence renderedstep5 adds no geometry. Chassis/supports, blue upper plates, curved row, base and tower sequence correspond. Missing wing/tail and thin cockpit/canopy proxy overlap remain unresolved. Current final3 earlier inspected; no physical validation."
+  },
+  "collision": "1 cockpit/canopy proxy overlap, same approved relative seating as 3-jiu-hu-che; metadata records 0.05 LDU proxy contact, no physical fit claim",
+  "rawCollisionChecker": "FAIL; see collision.txt and manual assessment",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "inventoryMechanicalDeficits": []
+}

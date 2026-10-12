@@ -1,0 +1,66 @@
+{
+  "slug": "5-yi-dong-guang-gao-pai",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 12,
+  "sourcePixels": "All12 source pages contact inspected; enlarged structural pages inspected",
+  "modelSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
+  "unknown": [
+    {
+      "page": "2-6",
+      "part": "moving drivetrain and poster pivot",
+      "missing": "static source axes only; gear engagement and rotation under load unverified"
+    },
+    {
+      "page": 6,
+      "part": "yellow crank/carrier beneath upper poster beam",
+      "candidate": "6526.dat identity confirmed from source BOM and official geometry",
+      "missing": "6526 still omitted. Lower pulley source-supported seating fixed separately; upper crank depth/offset pin target remain unresolved. See omission-repair-20261011.json for concrete requested views/measurements."
+    }
+  ],
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
+  "knownApproximate": [],
+  "render": "Current full-frame final3 and all12 cumulative steps actually reviewed; evidence current-pixel-review.json. Remains INCOMPLETE.",
+  "rawCollisionChecker": "FAIL; same2 upper pulley/printed-column edge alarms, no new alarms.",
+  "collisionAssessment": "Two printed columns have80LDU inner gap; official6527 flange diameter82LDU, potential1LDU edge interference each side remains, not certified. Other frame/wall collisions corrected by readingp10 BOM5 full+4 square bricks and retaining red bridge end gaps.",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "inventoryMechanicalDeficits": [
+    {
+      "part": "6523.dat",
+      "sourceQuantity": 5,
+      "9656DesignTotal": 4,
+      "additionalBeyondSingle9656IgnoringColor": 1
+    },
+    {
+      "part": "6530.dat",
+      "sourceQuantity": 4,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    },
+    {
+      "part": "75350.dat",
+      "sourceQuantity": 6,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 4
+    }
+  ],
+  "patternPixelReview": "Official giraffe and zebra front upright orientation, blank reverse, compared against sourcep7 and current full-frame final3; resolved visual-orientation item.",
+  "omissionRepairEvidence": "omission-repair-20261011.json",
+  "currentCumulativePixelReview": {
+    "allCumulativeStepsActuallyReviewed": true,
+    "sourceSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
+    "revision": "299e4798e22a567b9569925815fe047835e08998f314e00e8745ad0c28edbe02",
+    "stepCount": 12,
+    "evidence": "current-pixel-review.json",
+    "limitations": "Actually viewed current final3 originals and all12 cumulative steps via contact sheet, with original step6/7 and sourcep6/7 enlarged. Lower6527 atY=-127 now sits at lower red beam stud-top as source supports; exact hidden contact is not established by pixels. Source6526 remains omitted; upper pulley diameter82 versus column gap80 remains1LDU risk per side. Visible green shaft protrusion above upper retainer differs from sourcep6 and remains an unresolved axial-stack constraint. Local zero strict triangle crossings is not physical clearance proof. No LDR edits in this review; INCOMPLETE, accepted=false, physicalValidation=false."
+  },
+  "currentFinalPixelReview": {
+    "allThreeViewsActuallyReviewed": true,
+    "sourceSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
+    "revision": "299e4798e22a567b9569925815fe047835e08998f314e00e8745ad0c28edbe02",
+    "evidence": "current-pixel-review.json"
+  }
+}

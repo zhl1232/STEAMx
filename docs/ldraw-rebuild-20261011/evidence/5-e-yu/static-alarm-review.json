@@ -1,0 +1,57 @@
+{
+  "slug": "5-e-yu",
+  "sourceSha256": "c089b59c16eaef20cbec4f4e72abad9c99ed34ee30a130b77dcbd59721b6b2bb",
+  "checker": {
+    "exitCode": 0,
+    "reportedErrors": 0,
+    "placements": 100,
+    "rawLog": "raw-check.txt",
+    "sha256": "d25bed8a2a087dd30e4fa9ba4ad70dc67897e33f1a654442763b1658333d0f7d"
+  },
+  "alarms": [
+    {
+      "key": "plates",
+      "classification": "source-supported",
+      "evidence": "p1 three4196 6x12 plates plus4672b 4x8 end-to-end. p2/p10/p11 bricks and staggered underside plates bridge seams; initial source stage contains unconnected plates until those bridging steps."
+    },
+    {
+      "key": "gearbox",
+      "classification": "evidence-insufficient",
+      "evidence": "Official31624 originbottomY0; worm31625 centeredY-72 axisX;24-tooth6529 centeredY-168 axisZ matches molded housing centres. Tooth phase, physical contact and actual torque transmission not tested."
+    },
+    {
+      "key": "jaw",
+      "classification": "evidence-insufficient",
+      "evidence": "p7 green8L axle atX-360,Y-168,Z axis passes through housing output and long75350 hole centers. Gray worm input distinctXaxis. Side6526 crank integral pins offset80 alongjaw enter adjacent holes. Jaw currently source horizontal pose, teeth below do not imply opening clearance through full rotation."
+    },
+    {
+      "key": "feet",
+      "classification": "evidence-insufficient",
+      "evidence": "p12 four individual6L axles, two per leg station, centeredZ±140 so solids do not overlap across centre (innerends±20). Inner crank only partial axle engagement; outer foot main bore atY48 and lower boreY128 meet retainer pin spacing80. Shaft end retention, inner crank phase and mirrored paw motion not physically verified."
+    },
+    {
+      "key": "eye",
+      "classification": "evidence-insufficient",
+      "evidence": "Sourcep9 eye brick has a white highlight. Existing official3437pe1 used; it also carries a second-eye side that source does not fully expose. Print variation remains pending, not a substituted generic unprinted brick."
+    },
+    {
+      "key": "eye-base-support",
+      "classification": "source-supported",
+      "evidence": "p9 six head-back parts now Z +/-80: ordinary 3011 undersides land on 75350 rail studs at same Z; source shows separated eye stacks. Old +/-40 lateral offset removed."
+    }
+  ],
+  "conclusion": "Manual gear/axle/hinge entries bypass ordinary boxes; exit0 is not mesh-intersection clearance or physical assembly approval.",
+  "renderPixelsReviewed": false,
+  "accepted": false,
+  "physicalValidation": false,
+  "pixelTriggeredRepair": "Actual current final3 and 13 cumulative frames inspected against original p9/12/13/14: p9 two green eye bases, two printed eyes and two curved bricks were wrongly adjacent at Z +/-40. Corrected all six to Z +/-80 directly above respective red jaw rails, leaving central two-stud gap visible in source p9/14. No BOM change. New render required; old pixel coverage is not valid for this source. Gear phase, inner crank engagement and print variant remain unverified.",
+  "currentPixelReview": {
+    "file": "current-pixel-review.json",
+    "revision": "6cc0faded4049d6f66b38258706464378a8853d7944e1e13b56a8c3b5ab5db15",
+    "sourceSha256": "c089b59c16eaef20cbec4f4e72abad9c99ed34ee30a130b77dcbd59721b6b2bb",
+    "finalViewsObserved": 3,
+    "cumulativeStepsObserved": 13,
+    "observationCoverageOnly": true,
+    "assemblyPass": false
+  }
+}

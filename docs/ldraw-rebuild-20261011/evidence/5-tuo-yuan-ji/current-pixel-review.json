@@ -1,0 +1,80 @@
+{
+  "sourceSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+  "revision": "6a5858c3d71d57bf202cae7e70d79c072bd54362d9cce8330f486674f3f11f9b",
+  "reviewedAt": "2026-10-11T13:39:59.743542+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-tuo-yuan-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "3f2abf6e7d185658914c5d477fa46a04ba79a05ad0f2a49b1c3f119aefa6e157",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "34146ba876c6eb14534f6af209d62cd73089fc989d2f3ea6427358a96a3ff01f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "2ec1f2e906893a36ff91d469abb6745d9adc44450b708eb19428058db1d2b122",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "b4bfb85c9d30c2d03bd768fc674db2d88a91937532135da02fd4417d0305a33b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "c94d52c74ce71e75e620221677c0530680601f8d98f5dffd33339e776e502641",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "49aad8489e6e29cbd024a8555c5c38f61fc3d19f995fb32655f486c8033ff8c9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "6c1cab4c46e84e380752301047fc5cb7624b270ec50a7db4835e67192ff55ad9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "3a5e293ac806f46c507a8cb16c86038edb76aa9015994e91c15b0d3e599f8e88",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "6030a64d991ffbd1ca64e5bc7a0b78ef48b772c45597ad2243565fdf7288d8c8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "15d8a0eddef9ec8418be80d1bf601f9ccee609ed7f0560653eaaa7c1244e6d3e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "df0c3ed4af271797596323fde7a5b26bb9c24674f57c35908016d2e2b6152adc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "853e1e0fd9d49f99d4f12e9db7081580d8be9fded78f609d9f5ada09d3330c9e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "3f2abf6e7d185658914c5d477fa46a04ba79a05ad0f2a49b1c3f119aefa6e157",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected current final contact sheet, all three original final PNGs and all ten cumulative step frames against the previously inspected eleven source pages. Tall/short supports, paired gears/cranks, handles and capped pedal bars follow the source sequence; no new unambiguous placement error observed. Opposed crank phases and hidden pedal cross-bond remain explicitly inferred poses. Nominal partial crank-pin insertion is only40LDU into80LDU brick depth; retention, shaft fit, load support and swept-motion clearance remain unverified. Raw checker exit0 and complete pixel coverage are not physical or assembly acceptance."
+}

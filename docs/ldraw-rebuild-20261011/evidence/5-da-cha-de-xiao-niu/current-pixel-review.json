@@ -1,0 +1,95 @@
+{
+  "sourceSha256": "74a67928ad21ebbcc212eb274748729cc6f2701d4952bbb07670d844c3187a2a",
+  "revision": "d08078cf6ab5305336a4c23290da2fbef5f1089b2539be236d6e25973f073a45",
+  "reviewedAt": "2026-10-11T11:38:49.187544+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-da-cha-de-xiao-niu",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "1fe5c87d5a1c854a73ce81504b89d4b04e84c07cccaaf75736b72b5242e471e6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "17afe008d9fe2127d18e68a099bbccc20f3905379b57d11cef4a66d81ff6dc8a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "a84239465f397b72ef71b281df067cf1d7edea193306c706a694afe5339732ad",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "4f26dd7607fd8cbd0854626380c4c20dd9ed9923bfdc07ff9aa3f94003ee3885",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "72d77eff240c6a1c748d8de08f57d52313ea0dcf4c404eda37680f3f1b1cca17",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "07a1da0cb2ed74200711dd8a317f03f792e33631fe79f418fe398a64e1429af9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "ec208932324d89f888c6c2788fb7438724a2f915171bed45741e79d875aa8812",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "c3759fd6a5f754bb11c65eee77e0d07e33a3563ebc92cf34404cec4aab28e912",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "199d9b775d307b9b470198cf70ef0d581bd88404d621832c6322310ef33ddd31",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "2b3e4181beaae50b680397acd8fb49267a0b15f06be40f5eed739ee1b423b320",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "dfc098ddeeebcb0aae8f64d2738d389ba116713b225cef46d93fd42095403fe8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "b3b339431dc23a221cbe0a6b4be8b69b34dab515ff1b76fdc7e8d912e3a71f29",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "775169ea81304aa6495433cadbd3d35e3e777650d2ec79c1bb4cd63780196c19",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "b9bf738d52ee9c0fc61bd3efe62b2a1ab93726d8ded36e40e76da279624ba49e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "7e07cb014628118907c267391c8d7d5da0360b082cd815f2b2dcdfdf77ce6969",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "1fe5c87d5a1c854a73ce81504b89d4b04e84c07cccaaf75736b72b5242e471e6",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Current revision d08078cf actual final3 and13 cumulative step contact sheets inspected; original step4/step6/top and sourcep4 rechecked, sourcep6/p7/p14 compared in preceding review. Arms now fold forward within approximate source shoulder width; no new clear wrong direction identified.60degree yaw is inferred pose, not measured. Four raw post/arm alarms remain unresolved; six-axis mesh projections did not establish separation. Carrier pin/shaft seating, crown-to24 gearing, pivot support and dynamic travel not proven by pixels. No LDR change."
+}

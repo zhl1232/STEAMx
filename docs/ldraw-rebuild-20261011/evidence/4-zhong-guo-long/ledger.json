@@ -1,0 +1,213 @@
+{
+  "slug": "4-zhong-guo-long",
+  "sourceSha256": "24c8258f52b468f8c4dd8ee31ac689edfc2500634d05a32c003b773ea84f8a08",
+  "previousModelSha256": "dd1e5e55f4675dfeb7bb905443de336c6c862d3b2a44e272932960f498f4e222",
+  "placementCount": 42,
+  "stepCount": 12,
+  "sourcePages": 13,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "description": "four eleven-stud long fork arms form straight segmented spine",
+      "placedBOM": {
+        "dev-129/28331.dat": 4
+      }
+    },
+    {
+      "sourcePage": 2,
+      "description": "two clutch cubes and neck fork",
+      "placedBOM": {
+        "74957.dat": 2,
+        "28336.dat": 1
+      }
+    },
+    {
+      "sourcePage": 3,
+      "description": "three gray Toolo2x4 form staggered upper jaw",
+      "placedBOM": {
+        "76057.dat": 3
+      }
+    },
+    {
+      "sourcePage": 4,
+      "description": "yellow spacer and lower jaw",
+      "placedBOM": {
+        "3437.dat": 1,
+        "76057.dat": 1
+      }
+    },
+    {
+      "sourcePage": 5,
+      "description": "two screw rims form eyes; unsupported wing/tail substitutes prohibited",
+      "placedBOM": {
+        "99565.dat": 2
+      }
+    },
+    {
+      "sourcePage": 6,
+      "description": "two spine clutch supports and four upper vertical leg bricks",
+      "placedBOM": {
+        "74957.dat": 2,
+        "76057.dat": 4
+      }
+    },
+    {
+      "sourcePage": 7,
+      "description": "four lower leg bricks offset outward on upper stud faces",
+      "placedBOM": {
+        "76057.dat": 4
+      }
+    },
+    {
+      "sourcePage": 8,
+      "description": "two fork ankles and two short toe arms",
+      "placedBOM": {
+        "28336.dat": 2,
+        "dev-129/28334.dat": 2
+      }
+    },
+    {
+      "sourcePage": 9,
+      "description": "two fork ankles and two short toe arms",
+      "placedBOM": {
+        "28336.dat": 2,
+        "dev-129/28334.dat": 2
+      }
+    },
+    {
+      "sourcePage": 10,
+      "description": "two rear scoop toes; two front wide toothed blades lack verified geometry",
+      "placedBOM": {
+        "dev-129/6294.dat": 2
+      }
+    },
+    {
+      "sourcePage": 11,
+      "description": "four orange curved leg decorations on outward-facing studs",
+      "placedBOM": {
+        "2302.dat": 4
+      }
+    },
+    {
+      "sourcePage": 12,
+      "description": "four orange curved leg decorations on outward-facing studs",
+      "placedBOM": {
+        "2302.dat": 4
+      }
+    }
+  ],
+  "sourcePageBOM": {
+    "1": {
+      "28331": 4
+    },
+    "2": {
+      "74957": 2,
+      "28336": 1
+    },
+    "3": {
+      "76057": 3
+    },
+    "4": {
+      "3437": 1,
+      "76057": 1
+    },
+    "5": {
+      "99565": 2,
+      "Toolo wing": 1,
+      "Toolo tail": 1
+    },
+    "6": {
+      "74957": 2,
+      "76057": 4
+    },
+    "7": {
+      "76057": 4
+    },
+    "8": {
+      "28336": 2,
+      "28334": 2
+    },
+    "9": {
+      "28336": 2,
+      "28334": 2
+    },
+    "10": {
+      "6294": 2,
+      "unknown toothed blade": 2
+    },
+    "11": {
+      "2302 orange": 4
+    },
+    "12": {
+      "2302 orange": 4
+    },
+    "13": {}
+  },
+  "placedBOM": {
+    "dev-129/28331.dat": 4,
+    "74957.dat": 4,
+    "28336.dat": 5,
+    "76057.dat": 12,
+    "3437.dat": 1,
+    "99565.dat": 2,
+    "dev-129/28334.dat": 4,
+    "dev-129/6294.dat": 2,
+    "2302.dat": 8
+  },
+  "omitted": [
+    {
+      "page": 5,
+      "part": "blue Toolo wing",
+      "quantity": 1,
+      "candidates": [
+        "45117c01",
+        "45116",
+        "86593"
+      ],
+      "missingEvidence": "Exact assembly identity mapping and approved local mesh unavailable; ordinary31215 is different and not substituted."
+    },
+    {
+      "page": 5,
+      "part": "blue Toolo tail",
+      "quantity": 1,
+      "candidates": [
+        "31239c01",
+        "76223"
+      ],
+      "missingEvidence": "Exact assembly identity mapping and approved local mesh unavailable."
+    },
+    {
+      "page": 10,
+      "part": "orange wide toothed blade",
+      "quantity": 2,
+      "candidates": [
+        "Toolo front blade identity unresolved; not6294"
+      ],
+      "missingEvidence": "Catalog underside/attachment view and verified real designID; cannot split or distort6294 to mimic shape."
+    }
+  ],
+  "knownApproximateParts": [
+    "dev-129/28331.dat",
+    "74957.dat",
+    "28336.dat",
+    "76057.dat",
+    "99565.dat",
+    "dev-129/28334.dat",
+    "dev-129/6294.dat"
+  ],
+  "limitations": [
+    "Four400LDU long-arm links follow source chain; neck uses two visible clutch blocks and one fork. All transformations are rigid, no scaling.",
+    "Vertical leg2x4 bricks deliberately overlap80LDU along their160LDU dimension while second layer is offset48LDU outward on stud faces, matching source layered construction; hidden screw/thread engagement still manual.",
+    "Four wing/blade parts omitted, with identities/candidate mappings and missing mesh evidence explicit. Existing dev6294 scoop approximation is reused only for rear bucket shape.",
+    "45002 reference has only2 long arms and1 orange6294: source needs4 long arms and2 scoops, thus extra2 long arms and1 scoop beyond one45002 set. Full kit color/BOM comparison pending; no physical/user acceptance."
+  ],
+  "accepted": false,
+  "physicalValidation": false,
+  "targetSourcePieceCount": 46,
+  "omittedCount": 4,
+  "matrixValidation": {
+    "badDeterminants": [],
+    "allProperRotations": true
+  },
+  "topLevelDependenciesPresent": true
+}

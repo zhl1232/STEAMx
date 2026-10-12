@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c",
+  "revision": "c8cbd8c1a052763b6b0e1f529e39ccfa46dca7aecdd464ac97deff0e28756dff",
+  "reviewedAt": "2026-10-11T07:56:45.012942+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-tui-tu-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "ca6921e00716be39c2aeec4de864b03a4a33a899b295729f5b823e37c3c8c04d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "c26c3ae30d4d437c697fc28397539cd2d3d99c1bf97556a682bd6a10d3a0c3a9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "c010bc9420efc2ef34a77d810c06e617e239f70875d09f3609a15415c8513514",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "168d30dfac622cb24a99d9c491bbfa1fe9589d3d2803638d9c9f143d978e3442",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "392fca0610238bbfc5aced9b68c6ec21ea6445a355d88114d87e5738d247c3a0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "5dec4bf568e575930f72faa2f0cbc85c493266c49dc3c6d246af757671a41841",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "b6f45a2a1d75ee854c63726663fb1d336357340ff2ec86c7c419330260ac9da5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "524062e25ae95a0949769262bb71155058f8e2264551984dd090e3f1fe4a5b74",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "7ef46ff3d16a7e2de93146e18dc6590afa7a1657251613505d4386218fccc2a9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "9ec5c22297a34bc66fc4f80986d228e05301e32bcebbb8f07c370e1e9173b566",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "ccb32cb16d6dba7627b4d6eed95265b8681f93d4f77a821898c23789fc6293fa",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "ca6921e00716be39c2aeec4de864b03a4a33a899b295729f5b823e37c3c8c04d",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected all9 currente86d6852 cumulative frames and sourcep5/7/9. Stages3/4 expose8rims because4tracks unavailable; stage5 lacks orange blade despite present hinge. Stages6/7 red deck/three rounded caps and8/9 window/roof sequence broadly match.4198 identity remains inferred, local Toolo fit and ground support unverified. Missing parts not counted as complete; no physical validation."
+}

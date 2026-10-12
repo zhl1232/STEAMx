@@ -1,38 +1,80 @@
-0 5+ 测距仪 (Rangefinder) - DUPLO draft for manual repair
+0 5-ce-ju-yi - source-based dev-only reconstruction
 0 Name: 5-ce-ju-yi.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+测距仪 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Long measuring beam, sight head, scale dots and support cart are simplified.
-
-0 // STEP 1 - small instrument cart
-1 0 -440 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 -440 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -360 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -520 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: two parallel2x10 hole bricks and three blue2x4 plates
+1 4 0 0 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 0 40 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 0 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 80 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 160 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
 0 STEP
-
-0 // STEP 2 - long measuring rail
-1 4 -240 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -80 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 80 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 240 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 400 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 560 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // Source page 2: two yellow bricks, front redbrick and two upper overhanging hole beams
+1 14 -120 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 160 -72 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 160 -72 40 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
-
-0 // STEP 3 - yellow scale markers
-1 14 -160 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 160 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 320 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 480 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source page 3: two grey6L axles; four short cranks identified but omitted for unresolved lower-pin closure
+1 7 0 -48 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 7 80 -48 0 0 0 -1 0 1 0 1 0 0 6522.dat
 0 STEP
-
-0 // STEP 4 - blue sight and end target
-1 1 -540 -192 -120 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 -640 -192 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 4 700 -120 -40 0 0 1 0 1 0 -1 0 0 40666.dat
-1 1 760 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source page 4: front green8L axle, four belt wheels and two tyres
+1 2 -160 24 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 -160 24 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 24 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 24 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 24 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 -160 24 -120 1 0 0 0 1 0 0 0 1 6292.dat
+1 0 -160 24 120 1 0 0 0 1 0 0 0 1 6292.dat
+0 STEP
+0 // Source page 5: first pair11-hole liftarms, two green8L throughaxles and four retaining belt wheels
+1 14 440 -48 -100 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 440 -48 100 0 0 1 1 0 0 0 1 0 6525.dat
+1 2 240 -48 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 240 -48 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 240 -48 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 2 320 -48 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 320 -48 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 320 -48 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // Source page 6: second pair11-hole liftarms overlap distal first pair; middle2x4 holebrick
+1 14 760 -48 -60 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 760 -48 60 0 0 1 1 0 0 0 1 0 6525.dat
+1 4 600 -72 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 2 560 -48 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 560 -48 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 560 -48 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 2 640 -48 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 640 -48 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 640 -48 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // Source page 7: distal2x10 holebrick, two grey6L axles and four belt wheels
+1 4 1040 -72 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 7 960 -48 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 960 -48 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 960 -48 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 880 -48 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 880 -48 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 880 -48 100 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // Source page 8: white gearbox, greyinputaxle/worm, blue short outputaxle and red24T gear
+1 15 -80 -48 0 0 0 1 0 1 0 -1 0 0 31624.dat
+1 7 -80 -120 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 1 -80 -120 0 1 0 0 0 1 0 0 0 1 31625.dat
+1 1 -80 -216 0 1 0 0 0 1 0 0 0 1 6523.dat
+1 4 -80 -216 0 0 0 1 0 1 0 -1 0 0 6529.dat
+0 STEP
+0 // Source page 9: two belt-wheel retainers; printed dial omitted, short crank identified but dial-side axial stack unresolved
+1 14 -80 -120 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -80 -120 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 // PENDING: P3 four source cranks omitted because candidate upper/lower hole closure not exact; explicit deficit not hidden.
+0 // PENDING: P5-7 rods/axles share documented exact hole lines; source selected hole indices inferred by visible two neighboringholes, requiring visual confirmation.
+0 // PENDING: P8 gearbox input/output axes taken from real31624 subfile; gear tooth phase, physical rotation and short-geared axle clearance unverified.
+0 // PENDING: P9 digital graduation sheet61898f missing licensed localgeometry; one short crank not installed without axialstack proof.
+0 // PENDING: P5-7 adjacent belt-wheel centers80LDU; realDAT rims radius41 create potential2LDU radial interference at equal depth; retain alarm pending source-facing orientation/axial stagger review, do not move axles off holegrid.
+0 // Source page 10: finished view, no duplicated placements.

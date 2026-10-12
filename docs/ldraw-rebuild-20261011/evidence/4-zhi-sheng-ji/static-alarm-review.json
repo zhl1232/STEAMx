@@ -1,0 +1,4258 @@
+{
+  "slug": "4-zhi-sheng-ji",
+  "modelSha256": "475f81edca039f422a42acc6dffb6e2ec8ee21f31ce13f057d9914e4f3e62e09",
+  "checkpointSha256": "475f81edca039f422a42acc6dffb6e2ec8ee21f31ce13f057d9914e4f3e62e09",
+  "matchesCheckpoint": true,
+  "reviewedAt": "2026-10-11T07:10:56.265717+00:00",
+  "rawExit": 2,
+  "alarms": [
+    {
+      "message": "step 4: 4-zhi-sheng-ji_l63 overlaps 4-zhi-sheng-ji_l62",
+      "placements": [
+        {
+          "line": 63,
+          "part": "6345.dat",
+          "sourcePage": 4,
+          "transform": [
+            -388.0,
+            -210.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 694,
+          "actualDatSha256": "58d36994073c27ed1dbd8fad58382acd302d281aa7e3f76efaa1447b9725e179"
+        },
+        {
+          "line": 62,
+          "part": "31196c01.dat",
+          "sourcePage": 4,
+          "transform": [
+            -240.0,
+            -176.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 1293,
+          "actualDatSha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708"
+        }
+      ],
+      "classification": "insufficient-evidence-near-contact",
+      "meaning": "Same provisional official6345-to-local31196c01 assembly used by all four owned cockpit lessons. Detailed collision regions overlap; cannot simply waive.",
+      "evidence": [
+        "All four exact relative transforms equal matrix[-1,0,0;0,0,1;0,1,0],translation(0,-34,-148) in cockpit coordinates.",
+        "Expanded actual meshes produce4 strict crossing events at only two extremely close witness points, separation about0.0008LDU. This is consistent with rounding/near-contact, not enough to certify zero material intersection or real-scale fit.",
+        "Local31196c01 is explicitly simplified, not certified CAD; source shows canopy seated on cockpit."
+      ],
+      "triangleDiagnostic": {
+        "properSurfaceCrossingCount": 4,
+        "witnessPoints": [
+          [
+            -395.81222066333737,
+            -181.55967686476308,
+            44.071947550742536
+          ],
+          [
+            -395.8119338648847,
+            -181.560233261074,
+            44.07153983147442
+          ],
+          [
+            -395.81222066333737,
+            -181.55967686476308,
+            44.071947550742536
+          ],
+          [
+            -395.8119338648847,
+            -181.560233261074,
+            44.07153983147442
+          ]
+        ],
+        "triangleCounts": [
+          1414,
+          22892
+        ],
+        "limitation": "Not a watertight solid boolean: zero crossings alone does not exclude containment or coplanar overlap."
+      },
+      "reliableFixAvailable": false,
+      "action": "No reliable position change justified by sub-millildu numerical crossing; retain alarm until robust tolerance/solid/contact and physical interface evidence."
+    }
+  ],
+  "manualWarnings": [
+    {
+      "message": "4-zhi-sheng-ji_l11 4268.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 11,
+          "part": "4268.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "086b644f40c0ca92003d2ff93665e3e090add8135ba06131824211bb97ddd00d"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l12 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 12,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            -240.0,
+            -48.0,
+            -280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l13 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 13,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -48.0,
+            -280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l14 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 14,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            -80.0,
+            -48.0,
+            -280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l15 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 15,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -48.0,
+            -280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l16 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 16,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            80.0,
+            -48.0,
+            -280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l17 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 17,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            160.0,
+            -48.0,
+            -280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l18 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 18,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            240.0,
+            -48.0,
+            -280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l19 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 19,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            -240.0,
+            -48.0,
+            280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l20 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 20,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -48.0,
+            280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l21 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 21,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            -80.0,
+            -48.0,
+            280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l22 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 22,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -48.0,
+            280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l23 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 23,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            80.0,
+            -48.0,
+            280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l24 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 24,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            160.0,
+            -48.0,
+            280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l25 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 25,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            240.0,
+            -48.0,
+            280.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l26 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 26,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            -320.0,
+            -48.0,
+            -200.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l27 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 27,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            -320.0,
+            -48.0,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l28 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 28,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            -320.0,
+            -48.0,
+            -40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l29 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 29,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            -320.0,
+            -48.0,
+            40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l30 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 30,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            -320.0,
+            -48.0,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l31 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 31,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            -320.0,
+            -48.0,
+            200.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l32 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 32,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            320.0,
+            -48.0,
+            -200.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l33 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 33,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            320.0,
+            -48.0,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l34 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 34,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            320.0,
+            -48.0,
+            -40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l35 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 35,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            320.0,
+            -48.0,
+            40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l36 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 36,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            320.0,
+            -48.0,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l37 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 37,
+          "part": "3437.dat",
+          "sourcePage": 1,
+          "transform": [
+            320.0,
+            -48.0,
+            200.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l38 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 38,
+          "part": "40666.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -24.0,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l39 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 39,
+          "part": "40666.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -24.0,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l40 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 40,
+          "part": "40666.dat",
+          "sourcePage": 1,
+          "transform": [
+            160.0,
+            -24.0,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l41 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 41,
+          "part": "40666.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -24.0,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l42 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 42,
+          "part": "40666.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -24.0,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l43 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 43,
+          "part": "40666.dat",
+          "sourcePage": 1,
+          "transform": [
+            160.0,
+            -24.0,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l44 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 44,
+          "part": "40666.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -24.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l47 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 47,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            -160.0,
+            -152.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l48 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 48,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            0.0,
+            -152.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l49 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 49,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            160.0,
+            -152.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l50 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 50,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            -80.0,
+            -200.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l50 overlaps 4-zhi-sheng-ji_l47; manual collision accepted",
+      "placements": [
+        {
+          "line": 50,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            -80.0,
+            -200.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 47,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            -160.0,
+            -152.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l50 overlaps 4-zhi-sheng-ji_l48; manual collision accepted",
+      "placements": [
+        {
+          "line": 50,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            -80.0,
+            -200.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 48,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            0.0,
+            -152.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l51 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 51,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            80.0,
+            -200.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l51 overlaps 4-zhi-sheng-ji_l48; manual collision accepted",
+      "placements": [
+        {
+          "line": 51,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            80.0,
+            -200.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 48,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            0.0,
+            -152.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l51 overlaps 4-zhi-sheng-ji_l49; manual collision accepted",
+      "placements": [
+        {
+          "line": 51,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            80.0,
+            -200.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 49,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            160.0,
+            -152.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l54 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 54,
+          "part": "74957.dat",
+          "sourcePage": 3,
+          "transform": [
+            20.0,
+            -104.0,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l54 overlaps 4-zhi-sheng-ji_l48; manual collision accepted",
+      "placements": [
+        {
+          "line": 54,
+          "part": "74957.dat",
+          "sourcePage": 3,
+          "transform": [
+            20.0,
+            -104.0,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        },
+        {
+          "line": 48,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            0.0,
+            -152.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l55 dev-129/28331.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 55,
+          "part": "dev-129/28331.dat",
+          "sourcePage": 3,
+          "transform": [
+            240.0,
+            -44.0,
+            -120.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l55 overlaps 4-zhi-sheng-ji_l54; manual collision accepted",
+      "placements": [
+        {
+          "line": 55,
+          "part": "dev-129/28331.dat",
+          "sourcePage": 3,
+          "transform": [
+            240.0,
+            -44.0,
+            -120.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+        },
+        {
+          "line": 54,
+          "part": "74957.dat",
+          "sourcePage": 3,
+          "transform": [
+            20.0,
+            -104.0,
+            -120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l56 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 56,
+          "part": "74957.dat",
+          "sourcePage": 3,
+          "transform": [
+            20.0,
+            -104.0,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l56 overlaps 4-zhi-sheng-ji_l48; manual collision accepted",
+      "placements": [
+        {
+          "line": 56,
+          "part": "74957.dat",
+          "sourcePage": 3,
+          "transform": [
+            20.0,
+            -104.0,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        },
+        {
+          "line": 48,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            0.0,
+            -152.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l57 dev-129/28331.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 57,
+          "part": "dev-129/28331.dat",
+          "sourcePage": 3,
+          "transform": [
+            240.0,
+            -44.0,
+            120.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l57 overlaps 4-zhi-sheng-ji_l56; manual collision accepted",
+      "placements": [
+        {
+          "line": 57,
+          "part": "dev-129/28331.dat",
+          "sourcePage": 3,
+          "transform": [
+            240.0,
+            -44.0,
+            120.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+        },
+        {
+          "line": 56,
+          "part": "74957.dat",
+          "sourcePage": 3,
+          "transform": [
+            20.0,
+            -104.0,
+            120.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l60 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 60,
+          "part": "28336.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -200.0,
+            -80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l60 overlaps 4-zhi-sheng-ji_l49; manual collision accepted",
+      "placements": [
+        {
+          "line": 60,
+          "part": "28336.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -200.0,
+            -80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        },
+        {
+          "line": 49,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            160.0,
+            -152.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l61 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 61,
+          "part": "28336.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -200.0,
+            80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l61 overlaps 4-zhi-sheng-ji_l49; manual collision accepted",
+      "placements": [
+        {
+          "line": 61,
+          "part": "28336.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -200.0,
+            80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        },
+        {
+          "line": 49,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            160.0,
+            -152.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l62 31196c01.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 62,
+          "part": "31196c01.dat",
+          "sourcePage": 4,
+          "transform": [
+            -240.0,
+            -176.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 1293,
+          "actualDatSha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l62 overlaps 4-zhi-sheng-ji_l47; manual collision accepted",
+      "placements": [
+        {
+          "line": 62,
+          "part": "31196c01.dat",
+          "sourcePage": 4,
+          "transform": [
+            -240.0,
+            -176.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 1293,
+          "actualDatSha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708"
+        },
+        {
+          "line": 47,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            -160.0,
+            -152.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l63 6345.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 63,
+          "part": "6345.dat",
+          "sourcePage": 4,
+          "transform": [
+            -388.0,
+            -210.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 694,
+          "actualDatSha256": "58d36994073c27ed1dbd8fad58382acd302d281aa7e3f76efaa1447b9725e179"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l66 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 66,
+          "part": "3011.dat",
+          "sourcePage": 5,
+          "transform": [
+            -200.0,
+            -248.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l67 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 67,
+          "part": "3011.dat",
+          "sourcePage": 5,
+          "transform": [
+            -200.0,
+            -296.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l68 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 68,
+          "part": "3011.dat",
+          "sourcePage": 5,
+          "transform": [
+            -200.0,
+            -344.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l69 61649.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 69,
+          "part": "61649.dat",
+          "sourcePage": 5,
+          "transform": [
+            -80.0,
+            -344.0,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l69 overlaps 4-zhi-sheng-ji_l50; manual collision accepted",
+      "placements": [
+        {
+          "line": 69,
+          "part": "61649.dat",
+          "sourcePage": 5,
+          "transform": [
+            -80.0,
+            -344.0,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        },
+        {
+          "line": 50,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            -80.0,
+            -200.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l71 61649.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 71,
+          "part": "61649.dat",
+          "sourcePage": 5,
+          "transform": [
+            -80.0,
+            -344.0,
+            80.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l71 overlaps 4-zhi-sheng-ji_l50; manual collision accepted",
+      "placements": [
+        {
+          "line": 71,
+          "part": "61649.dat",
+          "sourcePage": 5,
+          "transform": [
+            -80.0,
+            -344.0,
+            80.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        },
+        {
+          "line": 50,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            -80.0,
+            -200.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l73 61649.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 73,
+          "part": "61649.dat",
+          "sourcePage": 5,
+          "transform": [
+            80.0,
+            -344.0,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l73 overlaps 4-zhi-sheng-ji_l51; manual collision accepted",
+      "placements": [
+        {
+          "line": 73,
+          "part": "61649.dat",
+          "sourcePage": 5,
+          "transform": [
+            80.0,
+            -344.0,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        },
+        {
+          "line": 51,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            80.0,
+            -200.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l75 61649.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 75,
+          "part": "61649.dat",
+          "sourcePage": 5,
+          "transform": [
+            80.0,
+            -344.0,
+            80.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l75 overlaps 4-zhi-sheng-ji_l51; manual collision accepted",
+      "placements": [
+        {
+          "line": 75,
+          "part": "61649.dat",
+          "sourcePage": 5,
+          "transform": [
+            80.0,
+            -344.0,
+            80.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        },
+        {
+          "line": 51,
+          "part": "76395.dat",
+          "sourcePage": 2,
+          "transform": [
+            80.0,
+            -200.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l79 dev-129/28331.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 79,
+          "part": "dev-129/28331.dat",
+          "sourcePage": 6,
+          "transform": [
+            623.877048,
+            -401.808057,
+            -80.0,
+            0.342020143,
+            -0.939692621,
+            0.0,
+            0.939692621,
+            0.342020143,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l79 overlaps 4-zhi-sheng-ji_l60; manual collision accepted",
+      "placements": [
+        {
+          "line": 79,
+          "part": "dev-129/28331.dat",
+          "sourcePage": 6,
+          "transform": [
+            623.877048,
+            -401.808057,
+            -80.0,
+            0.342020143,
+            -0.939692621,
+            0.0,
+            0.939692621,
+            0.342020143,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+        },
+        {
+          "line": 60,
+          "part": "28336.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -200.0,
+            -80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l80 dev-129/28331.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 80,
+          "part": "dev-129/28331.dat",
+          "sourcePage": 6,
+          "transform": [
+            623.877048,
+            -401.808057,
+            80.0,
+            0.342020143,
+            -0.939692621,
+            0.0,
+            0.939692621,
+            0.342020143,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l80 overlaps 4-zhi-sheng-ji_l61; manual collision accepted",
+      "placements": [
+        {
+          "line": 80,
+          "part": "dev-129/28331.dat",
+          "sourcePage": 6,
+          "transform": [
+            623.877048,
+            -401.808057,
+            80.0,
+            0.342020143,
+            -0.939692621,
+            0.0,
+            0.939692621,
+            0.342020143,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+        },
+        {
+          "line": 61,
+          "part": "28336.dat",
+          "sourcePage": 4,
+          "transform": [
+            200.0,
+            -200.0,
+            80.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l84 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 84,
+          "part": "74957.dat",
+          "sourcePage": 7,
+          "transform": [
+            623.877048,
+            -401.808057,
+            -32.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l84 overlaps 4-zhi-sheng-ji_l79; manual collision accepted",
+      "placements": [
+        {
+          "line": 84,
+          "part": "74957.dat",
+          "sourcePage": 7,
+          "transform": [
+            623.877048,
+            -401.808057,
+            -32.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        },
+        {
+          "line": 79,
+          "part": "dev-129/28331.dat",
+          "sourcePage": 6,
+          "transform": [
+            623.877048,
+            -401.808057,
+            -80.0,
+            0.342020143,
+            -0.939692621,
+            0.0,
+            0.939692621,
+            0.342020143,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l85 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 85,
+          "part": "74957.dat",
+          "sourcePage": 7,
+          "transform": [
+            623.877048,
+            -401.808057,
+            32.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l85 overlaps 4-zhi-sheng-ji_l80; manual collision accepted",
+      "placements": [
+        {
+          "line": 85,
+          "part": "74957.dat",
+          "sourcePage": 7,
+          "transform": [
+            623.877048,
+            -401.808057,
+            32.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+        },
+        {
+          "line": 80,
+          "part": "dev-129/28331.dat",
+          "sourcePage": 6,
+          "transform": [
+            623.877048,
+            -401.808057,
+            80.0,
+            0.342020143,
+            -0.939692621,
+            0.0,
+            0.939692621,
+            0.342020143,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l88 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 88,
+          "part": "76395.dat",
+          "sourcePage": 8,
+          "transform": [
+            -160.0,
+            -392.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l89 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 89,
+          "part": "76395.dat",
+          "sourcePage": 8,
+          "transform": [
+            0.0,
+            -392.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l90 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 90,
+          "part": "76395.dat",
+          "sourcePage": 8,
+          "transform": [
+            160.0,
+            -392.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l93 60535.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 93,
+          "part": "60535.dat",
+          "sourcePage": 9,
+          "transform": [
+            0.0,
+            -432.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "762a186dc809bc334756e59e78c0f17e85dbd5bb8a9a1fc5d7a36475c9591ea6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l93 overlaps 4-zhi-sheng-ji_l89; manual collision accepted",
+      "placements": [
+        {
+          "line": 93,
+          "part": "60535.dat",
+          "sourcePage": 9,
+          "transform": [
+            0.0,
+            -432.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "762a186dc809bc334756e59e78c0f17e85dbd5bb8a9a1fc5d7a36475c9591ea6"
+        },
+        {
+          "line": 89,
+          "part": "76395.dat",
+          "sourcePage": 8,
+          "transform": [
+            0.0,
+            -392.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l96 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 96,
+          "part": "40666.dat",
+          "sourcePage": 10,
+          "transform": [
+            120.0,
+            -456.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l96 overlaps 4-zhi-sheng-ji_l93; manual collision accepted",
+      "placements": [
+        {
+          "line": 96,
+          "part": "40666.dat",
+          "sourcePage": 10,
+          "transform": [
+            120.0,
+            -456.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        },
+        {
+          "line": 93,
+          "part": "60535.dat",
+          "sourcePage": 9,
+          "transform": [
+            0.0,
+            -432.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "762a186dc809bc334756e59e78c0f17e85dbd5bb8a9a1fc5d7a36475c9591ea6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l97 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 97,
+          "part": "40666.dat",
+          "sourcePage": 10,
+          "transform": [
+            -120.0,
+            -456.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l97 overlaps 4-zhi-sheng-ji_l93; manual collision accepted",
+      "placements": [
+        {
+          "line": 97,
+          "part": "40666.dat",
+          "sourcePage": 10,
+          "transform": [
+            -120.0,
+            -456.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        },
+        {
+          "line": 93,
+          "part": "60535.dat",
+          "sourcePage": 9,
+          "transform": [
+            0.0,
+            -432.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "762a186dc809bc334756e59e78c0f17e85dbd5bb8a9a1fc5d7a36475c9591ea6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l98 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 98,
+          "part": "40666.dat",
+          "sourcePage": 10,
+          "transform": [
+            0.0,
+            -456.0,
+            120.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l98 overlaps 4-zhi-sheng-ji_l93; manual collision accepted",
+      "placements": [
+        {
+          "line": 98,
+          "part": "40666.dat",
+          "sourcePage": 10,
+          "transform": [
+            0.0,
+            -456.0,
+            120.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        },
+        {
+          "line": 93,
+          "part": "60535.dat",
+          "sourcePage": 9,
+          "transform": [
+            0.0,
+            -432.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "762a186dc809bc334756e59e78c0f17e85dbd5bb8a9a1fc5d7a36475c9591ea6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l99 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 99,
+          "part": "40666.dat",
+          "sourcePage": 10,
+          "transform": [
+            0.0,
+            -456.0,
+            -120.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l99 overlaps 4-zhi-sheng-ji_l93; manual collision accepted",
+      "placements": [
+        {
+          "line": 99,
+          "part": "40666.dat",
+          "sourcePage": 10,
+          "transform": [
+            0.0,
+            -456.0,
+            -120.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        },
+        {
+          "line": 93,
+          "part": "60535.dat",
+          "sourcePage": 9,
+          "transform": [
+            0.0,
+            -432.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "762a186dc809bc334756e59e78c0f17e85dbd5bb8a9a1fc5d7a36475c9591ea6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l102 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 102,
+          "part": "40666.dat",
+          "sourcePage": 11,
+          "transform": [
+            0.0,
+            -480.0,
+            -40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l103 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 103,
+          "part": "40666.dat",
+          "sourcePage": 11,
+          "transform": [
+            0.0,
+            -480.0,
+            40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l106 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 106,
+          "part": "40666.dat",
+          "sourcePage": 12,
+          "transform": [
+            160.0,
+            -480.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l107 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 107,
+          "part": "40666.dat",
+          "sourcePage": 12,
+          "transform": [
+            -160.0,
+            -480.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l108 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 108,
+          "part": "40666.dat",
+          "sourcePage": 12,
+          "transform": [
+            0.0,
+            -480.0,
+            160.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l109 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 109,
+          "part": "40666.dat",
+          "sourcePage": 12,
+          "transform": [
+            0.0,
+            -480.0,
+            -160.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l112 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 112,
+          "part": "40666.dat",
+          "sourcePage": 13,
+          "transform": [
+            280.0,
+            -456.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l113 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 113,
+          "part": "40666.dat",
+          "sourcePage": 13,
+          "transform": [
+            -280.0,
+            -456.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l114 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 114,
+          "part": "40666.dat",
+          "sourcePage": 13,
+          "transform": [
+            0.0,
+            -456.0,
+            280.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l115 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 115,
+          "part": "40666.dat",
+          "sourcePage": 13,
+          "transform": [
+            0.0,
+            -456.0,
+            -280.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l118 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 118,
+          "part": "40666.dat",
+          "sourcePage": 14,
+          "transform": [
+            320.0,
+            -480.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l119 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 119,
+          "part": "40666.dat",
+          "sourcePage": 14,
+          "transform": [
+            -320.0,
+            -480.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l120 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 120,
+          "part": "40666.dat",
+          "sourcePage": 14,
+          "transform": [
+            0.0,
+            -480.0,
+            320.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l121 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 121,
+          "part": "40666.dat",
+          "sourcePage": 14,
+          "transform": [
+            0.0,
+            -480.0,
+            -320.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l124 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 124,
+          "part": "3437.dat",
+          "sourcePage": 15,
+          "transform": [
+            0.0,
+            -528.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l125 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 125,
+          "part": "40666.dat",
+          "sourcePage": 15,
+          "transform": [
+            120.0,
+            -504.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l126 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 126,
+          "part": "40666.dat",
+          "sourcePage": 15,
+          "transform": [
+            -120.0,
+            -504.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l127 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 127,
+          "part": "40666.dat",
+          "sourcePage": 15,
+          "transform": [
+            0.0,
+            -504.0,
+            120.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-zhi-sheng-ji_l128 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 128,
+          "part": "40666.dat",
+          "sourcePage": 15,
+          "transform": [
+            0.0,
+            -504.0,
+            -120.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    }
+  ],
+  "noErrorMeaning": "Exit0 only means no unsuppressed checker errors. All raw placements are manual support; some parts also manual collision. Not assembly acceptance.",
+  "remainingCourseLimitations": "Two6670c01 props absent; skid and tail interfaces approximate; source tail angle inferred.",
+  "geometryDiagnostic": "../owned-mesh-alarm-diagnostic.json",
+  "sourceEvidence": "source pages actually viewed previously, plus relevant source final/interface pages in current review; see ledger.md",
+  "modelEdited": false,
+  "accepted": false,
+  "physicalValidation": false
+}

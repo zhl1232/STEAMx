@@ -1,0 +1,27 @@
+{
+  "slug": "5-xuan-zhuan-deng-long",
+  "sourceSha256": "a3c3d7eb3f6cf6949b55be8136dd4b2bbfff35edc5d04179911028126c227f5d",
+  "checkpointSha256": "a3c3d7eb3f6cf6949b55be8136dd4b2bbfff35edc5d04179911028126c227f5d",
+  "reviewedAt": "2026-10-11T07:19:33.066844+00:00",
+  "rawExit": 0,
+  "rawOutput": "OK   [5-xuan-zhuan-deng-long.ldr] 52 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarmPairCount": 0,
+  "classificationCounts": {},
+  "alarms": [],
+  "directPartFileSha256": {},
+  "noRawAlarmsMeaning": "No raw bounding-box alarms is not proof of source fidelity, support closure, dynamic operation or physical fit.",
+  "remainingSourceLimitations": [
+    {
+      "page": "6-9",
+      "part": "vertical shaft and gear drive",
+      "missing": "gear tooth phase, clamping and moving clearances remain unverified"
+    },
+    {
+      "page": 10,
+      "part": "hanging7hole arms",
+      "missing": "pin retention and free swinging clearance need review"
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

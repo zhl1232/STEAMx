@@ -840,3 +840,8 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - `app/api/profile/ensure/route.ts`：POST 仅为当前已认证用户补建并限流，忽略客户端 userId；`daily-check-in-sync.tsx` 的 23503 恢复改调此接口，成功才重试签到，不再浏览器 upsert profiles。
 - `scripts/check-missing-profiles.mjs`、`scripts/lib/missing-profiles.mjs`：`pnpm ops:check-profiles` 分页只读用户与 profile id，报告脱敏缺失清单，退出码 0/1/2；纯函数与模拟网络测试在 `scripts/check-missing-profiles.test.ts`。
 - `.github/workflows/ops-readonly-missing-profiles.yml`：仅手动、Production 环境、contents: read、独立 concurrency 组；runner 用 Node 22 做两个脚本语法检查，scp/ssh 使用服务器连接 secrets 传入 `steam-app` 容器执行，复用 env_file 注入的 Supabase 环境，不依赖 GitHub Supabase secrets。保持相对 import 路径，EXIT trap 清理两端临时目录并保留 0/1/2 退出码。未来只需加每日 schedule 并配通知，当前不启用。部署授权、只应用此迁移、阿里云权限和未来 schedule/CI 接入见 `docs/ensure-profile.md`；此次未连接生产、未应用迁移。
+
+## 2026-10-11 model reconstruction development evidence
+
+- docs/ldraw-rebuild-20261011/README.md: 129-course source audit, per-course development status and unknown-part evidence; not a publication or approval record. Current evolving counts: COURSE-STATUS-CURRENT.md, progress-129.json and current-development-QA.json; files named69 remain historical snapshots.
+- scripts/ldraw-models/parts/dev-129/: isolated approximate geometry for source-based development models; does not replace published part geometry.

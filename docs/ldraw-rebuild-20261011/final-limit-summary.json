@@ -1,0 +1,617 @@
+{
+  "generatedAt": "2026-10-11T14:56:47.585747+00:00",
+  "purpose": "Read-only final129 delivery boundary proposal; recomputed registry/intake counts and current129QA. No model/registry/Git mutation.",
+  "snapshot": {
+    "registryPath": "STEAMx\\docs\\ldraw-rebuild-20261011\\unknown-parts-registry.json",
+    "registrySha256": "149b5983d618f20e1478678e467d2a64697571bf62dbe423f080f5504d5c37de",
+    "registryGeneratedAt": "2026-10-11T14:52:31.430595+00:00",
+    "reconstructedOrInProgressCourses": 129,
+    "deferredCourses": 11,
+    "acceptance": false,
+    "qaPath": "STEAMx\\docs\\ldraw-rebuild-20261011\\current-development-QA.json",
+    "qaSha256": "8165d5269dfaf5d3a5debd9f3e77956489637be8416ad7e662b3f38731918eb9",
+    "qaSummary": {
+      "courses": 129,
+      "placements": 9897,
+      "structuralIssueCourses": 0,
+      "structuralIssues": 0,
+      "rawAlarmCourses": 55,
+      "rawErrorGroups": 211,
+      "expandedAlarmItems": 321,
+      "uniqueLocalDATFiles": 426,
+      "finalAllThreeCovered": 129,
+      "allStepsCovered": 129,
+      "pixelIssueCourses": 0,
+      "imagesChecked": 1862,
+      "pendingIndexEntries": 0
+    },
+    "qaBoundary": "Structural andpixelcoverage QA doesnot mean sourceexactness, completeBOM, zeroassemblyrisks orphysicalvalidation.",
+    "checkpointPath": "STEAMx\\docs\\ldraw-rebuild-20261011\\checkpoint-status.json",
+    "checkpointSha256": "df1cb10771e8e8974249a64936b45f0f0205697ff7af5eb114d25471fe43d83f",
+    "checkpointSummary": {
+      "draft-final-and-all-steps-pixels-reviewed": 129
+    }
+  },
+  "scope": {
+    "initialApiCourses": [
+      {
+        "id": 5,
+        "total": 100,
+        "hasModel": 100
+      },
+      {
+        "id": 6,
+        "total": 100,
+        "hasModel": 55
+      },
+      {
+        "id": 7,
+        "total": 100,
+        "hasModel": 5
+      }
+    ],
+    "arithmetic": "300 =160existingformal3D+71missing-source+58simplifieddrafts+11deferred;129=71+58, not140",
+    "target129": 129,
+    "actualCategoryCounts": {
+      "approximation": 58,
+      "missing-source": 71
+    },
+    "targetGradeCounts": {
+      "6": 41,
+      "7": 88
+    },
+    "existingFormalModels160": 160,
+    "deferred11Names": [
+      "孔雀",
+      "圣诞雪橇",
+      "照相机",
+      "中国结",
+      "扁担",
+      "变速风扇",
+      "病床",
+      "布谷鸟",
+      "唱片机",
+      "车库门",
+      "对抗球桌"
+    ],
+    "evidence": [
+      {
+        "file": "preparation\\candidates-129.json",
+        "sha256": "d36a15b61ec40fe357167af1a77bb1f5a153a7919ec1e9dab04602288c9e2aaa",
+        "base": "bbcdaddd417feba086f0683aa1bd3e6c5878d96a",
+        "initialCheckedAt": "2026-10-11T03:28:46.878Z"
+      },
+      {
+        "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\deferred-11.json",
+        "sha256": "dd4cef0cc9e789c3b35d6a9cf6e6b0ca20daf3d124e4ae3d2e518850444d5cd9"
+      },
+      {
+        "file": "preparation/audit-derived.json",
+        "originalLibraryFileId": "libfile_272938d514808191b81c2106db86b460"
+      }
+    ],
+    "preservationBoundary": "Parent read-only Git content comparison against taskbase confirms194tracked non-target root LDRs unchanged andzero11deferred source/publicationchanges. 194 isnot a formalmodelcount; initial160formal3D comes frominitial300course audit, not a freshliveAPI assertion.",
+    "preservedScopeVerification": {
+      "file": "STEAMx\\docs\\ldraw-rebuild-20261011\\preserved-scope-verification.json",
+      "sha256": "987c9959ba8dcb67ae368379b7de6a7b3b9bae0ddfdf8289492a6f0a210ed032",
+      "checkedAt": "2026-10-11T14:48:19.896165+00:00",
+      "base": "bbcdaddd417feba086f0683aa1bd3e6c5878d96a",
+      "nonTargetTrackedRootLdrUnchangedCount": 194,
+      "deferredCount": 11,
+      "deferredSourceOrPublicationChanges": [],
+      "applicationPublicWorkflowDatabaseFilesChanged": false,
+      "boundary": "Git content comparison against task base covers tracked repository files. No production API/DB/OSS writes or deployment were performed; no physical/user acceptance."
+    }
+  },
+  "issueFamilyCounts": {
+    "unit": "Curated issue-family records, not unknownIDs, physicalpieces, completedcourses ormissingcourses",
+    "total": 32,
+    "exactRegistryCategories": {
+      "confirmed_id_missing_geometry": 6,
+      "candidate_id_missing_geometry": 3,
+      "known_id_unverified_license": 1,
+      "flexible_route_unverified": 2,
+      "candidate_flexible_geometry": 1,
+      "unidentified_source_shape": 8,
+      "candidate_identity_unresolved": 6,
+      "known_part_hidden_mould_variant_unverified": 1,
+      "unidentified_figure_components": 1,
+      "inventory_id_missing_geometry_source_match_provisional": 2,
+      "known_flat_sheet_formed_geometry_unavailable": 1
+    },
+    "presentationGroups": [
+      {
+        "label": "身份或变体未定",
+        "families": 16,
+        "categories": [
+          "unidentified_source_shape",
+          "candidate_identity_unresolved",
+          "unidentified_figure_components",
+          "known_part_hidden_mould_variant_unverified"
+        ],
+        "subcounts": [
+          8,
+          6,
+          1,
+          1
+        ],
+        "examples": [
+          "unknown:child-figure-variants coverscomponents offigures, not1part/1course",
+          "candidate:car-cockpit-base exactmould pending"
+        ]
+      },
+      {
+        "label": "已知件缺所需几何",
+        "families": 7,
+        "categories": [
+          "confirmed_id_missing_geometry",
+          "known_flat_sheet_formed_geometry_unavailable"
+        ],
+        "subcounts": [
+          6,
+          1
+        ],
+        "examples": [
+          "4433c01 exhaust/Tooloends",
+          "45117c01 spoiler",
+          "61898d:formed-boat flatpattern doesnot supplyformedboat mesh"
+        ]
+      },
+      {
+        "label": "候选件几何/源身份尚未闭合",
+        "families": 6,
+        "categories": [
+          "candidate_id_missing_geometry",
+          "inventory_id_missing_geometry_source_match_provisional",
+          "candidate_flexible_geometry"
+        ],
+        "subcounts": [
+          3,
+          2,
+          1
+        ],
+        "examples": [
+          "2223/58629/61898f",
+          "86601/45146 inventoryIDs provisionalsource matches",
+          "71059 flexiblegeometry"
+        ]
+      },
+      {
+        "label": "已知件许可未验证",
+        "families": 1,
+        "categories": [
+          "known_id_unverified_license"
+        ],
+        "examples": [
+          "31193localDAT exists butemptyAuthor/noLICENSE; do not say nofile"
+        ]
+      },
+      {
+        "label": "绳路/柔性连接未验证",
+        "families": 2,
+        "categories": [
+          "flexible_route_unverified"
+        ],
+        "examples": [
+          "75536",
+          "unknown:gantry-cord"
+        ]
+      }
+    ],
+    "mixedOccurrenceWarning": "Family4433c01 isconfirmed_id_missing_geometry overall, but4-tuo-gua-che occurrence remainscandidate_identity_unresolved. Per-occurrence identityconfidence overridesfamilycategory. No rawoccurrence countsummed: repeatedledger/LDR/history evidence isnot extra physicalpieces.",
+    "finalBatchFlexibleBoundary": "71059family already includes two5-zhi-sheng-ji sourcep12 flexibletransmissions; exactmaterial mayalso becord, candidateidentity notconfirmed. Repeatedfamily isnot twoextraIDs ornewfamilies. Foldedladder one type2line isseparatelyschematic, not resolvedflexiblegeometry."
+  },
+  "knownConnectionOmissions": {
+    "groups": 14,
+    "distinctCourses": 14,
+    "pieces": 63,
+    "items": [
+      {
+        "slug": "5-tou-shi-che",
+        "pieces": 15,
+        "evidence": "preparation/5-tou-shi-che/omission-repair-20261011.json"
+      },
+      {
+        "slug": "5-ma-tou-diao-ji",
+        "pieces": 3,
+        "evidence": "preparation/5-ma-tou-diao-ji/omission-repair-20261011.json"
+      },
+      {
+        "slug": "5-yu-hang-yuan-xun-lian-ji",
+        "pieces": 4,
+        "evidence": "preparation/5-yu-hang-yuan-xun-lian-ji/omission-repair-20261011.json"
+      },
+      {
+        "slug": "5-yi-dong-guang-gao-pai",
+        "pieces": 1,
+        "evidence": "preparation/5-yi-dong-guang-gao-pai/omission-repair-20261011.json"
+      },
+      {
+        "slug": "4-mo-tian-lun",
+        "pieces": 8,
+        "evidence": "preparation/4-mo-tian-lun/window-first-four-evidence.json"
+      },
+      {
+        "slug": "5-tui-tu-ji",
+        "pieces": 2,
+        "evidence": "preparation/window-repair-20261011.json"
+      },
+      {
+        "slug": "4-da-long-xia",
+        "pieces": 4,
+        "evidence": "preparation/4-da-long-xia/ledger.json"
+      },
+      {
+        "slug": "4-tuo-gua-che",
+        "pieces": 7,
+        "evidence": "preparation/4-tuo-gua-che/ledger.json"
+      },
+      {
+        "slug": "5-ce-ju-yi",
+        "pieces": 5,
+        "evidence": "preparation/5-ce-ju-yi/ledger.json"
+      },
+      {
+        "slug": "5-feng-che-fang",
+        "pieces": 6,
+        "evidence": "preparation/5-feng-che-fang/ledger.json"
+      },
+      {
+        "slug": "5-lan-che",
+        "pieces": 3,
+        "evidence": "preparation/5-lan-che/ledger.json"
+      },
+      {
+        "slug": "5-long-men-diao",
+        "pieces": 1,
+        "evidence": "preparation/5-long-men-diao/ledger.json"
+      },
+      {
+        "slug": "5-xiao-song-shu-qi-che",
+        "pieces": 2,
+        "evidence": "preparation/5-xiao-song-shu-qi-che/ledger.json"
+      },
+      {
+        "slug": "5-ya-shui-jing",
+        "pieces": 2,
+        "evidence": "preparation/5-ya-shui-jing/ledger.json"
+      }
+    ],
+    "examples": [
+      "5-tou-shi-che15 basket/retainer/payload pieces",
+      "4-tuo-gua-che7 rearwall/towplatepieces",
+      "5-feng-che-fang6eavebricks",
+      "5-ya-shui-jing2bluebricks"
+    ],
+    "boundary": "KnownIDs andavailablegeometry; absenceisconnection/layout, notmissingDAT. Fourteencourses canoverlap identity andapproximation sets."
+  },
+  "approximateGeometry": {
+    "courseCount": 44,
+    "distinctReferenceIds": 12,
+    "referenceIds": [
+      "28336.dat",
+      "31196c01.dat",
+      "44970.dat",
+      "60535.dat",
+      "71981.dat",
+      "74957.dat",
+      "76057.dat",
+      "76395.dat",
+      "99565.dat",
+      "dev-129/28331.dat",
+      "dev-129/28334.dat",
+      "dev-129/6294.dat"
+    ],
+    "courses": [
+      "4-cha-che",
+      "4-chun-jie-wu-shi",
+      "4-ci-xuan-fu-lie-che",
+      "4-da-xiang",
+      "4-dao-dan-che",
+      "4-diao-che",
+      "4-du-jiao-xian",
+      "4-e-yu",
+      "4-ji-guan-qiang",
+      "4-ju-ji-qiang",
+      "4-jun-jian",
+      "4-ke-ji",
+      "4-kuai-ting",
+      "4-long-men-diao",
+      "4-mo-tian-lun",
+      "4-qian-shui-ting",
+      "4-qing-ting",
+      "4-sai-che",
+      "4-sheng-jiang-jiu-yuan-che",
+      "4-sun-wu-kong",
+      "4-ta-diao",
+      "4-tui-tu-ji",
+      "4-wa-li",
+      "4-wu-ren-ji",
+      "4-xiang-wei-she",
+      "4-xiao-tu-zi",
+      "4-xie-zi",
+      "4-xuan-zhuan-fei-ji",
+      "4-ya-lu-ji",
+      "4-yao-yao-ma",
+      "4-yi-long",
+      "4-you-wen",
+      "4-zhi-sheng-ji",
+      "4-zhi-zhu",
+      "5-da-zhuang-ji",
+      "5-diao-che",
+      "5-huan-wei-che",
+      "5-ma-tou-diao-ji",
+      "5-qi-dian-chuan",
+      "5-qing-sao-che",
+      "5-si-qu-che",
+      "5-ya-lu-ji",
+      "5-zha-lan-sheng-jiang-gan",
+      "5-zhi-sheng-ji"
+    ],
+    "method": "Unionofcurrent courses.approximatePartIds plusall batchIntake.knownApproximateGeometry occurrences, deduplicated bycourse/id. Official6345 inheritedmountingpose excluded fromapproximateDATidentity; separatepose risks retained.",
+    "boundary": "44courses useknownapproximategeometry;12referenceIDs arelocalDATreferences, notunknownIDs. Previouslyapprovedpartapproximation doesnot certifynewcoursefit. Course sets overlapunknownidentities, omissions, andmechanicalrisks.",
+    "legacyCourseFieldCount": 38,
+    "additionalCourseOccurrences": [
+      "5-qi-dian-chuan",
+      "5-qing-sao-che",
+      "5-si-qu-che",
+      "5-ya-lu-ji",
+      "5-zha-lan-sheng-jiang-gan",
+      "5-zhi-sheng-ji"
+    ],
+    "occurrenceEvidence": [
+      {
+        "intake": "batch13Intake",
+        "slug": "5-qi-dian-chuan",
+        "part": "31196c01.dat",
+        "evidence": {
+          "part": "31196c01.dat",
+          "quantity": 1,
+          "status": "existing local simplified geometry; not new user acceptance",
+          "relatedOfficialPart": "6345.dat canopy official geometry, original approval relative pose reused but this assembly contact not validated"
+        }
+      },
+      {
+        "intake": "batch13Intake",
+        "slug": "5-qing-sao-che",
+        "part": "31196c01.dat",
+        "evidence": {
+          "id": "31196c01.dat",
+          "count": 1,
+          "page": 6,
+          "status": "existing-user-approved-simplified-geometry",
+          "boundary": "source p6/p12 orange cockpit and pale hood match existing31196c01/6345 family; front/back perspective does not uniquely prove4x4 versus4x6 base. Existing approved surrogate only, no new geometry or physical fit"
+        }
+      },
+      {
+        "intake": "batch13Intake",
+        "slug": "5-qing-sao-che",
+        "part": "6345.dat",
+        "evidence": {
+          "id": "6345.dat",
+          "count": 1,
+          "page": 6,
+          "status": "existing-user-approved-windshield-assembly-placement",
+          "boundary": "hood local transform inherited; cab/hood overlap retained as known approximation interface, not acceptance"
+        }
+      },
+      {
+        "intake": "batch14Intake",
+        "slug": "5-si-qu-che",
+        "part": "31196c01.dat",
+        "evidence": {
+          "id": "31196c01.dat",
+          "page": 9,
+          "count": 1,
+          "status": "existing-approved-simplified-cockpit",
+          "boundary": "same source family, hidden exact footprint not proven; local surrogate nose/sidewalls larger; no new geometry"
+        }
+      },
+      {
+        "intake": "batch14Intake",
+        "slug": "5-si-qu-che",
+        "part": "6345.dat",
+        "evidence": {
+          "id": "6345.dat",
+          "page": 9,
+          "count": 1,
+          "status": "existing-approved-mounting-transform",
+          "boundary": "inherited cockpit-to-hood placement, fit not certified"
+        }
+      },
+      {
+        "intake": "batch15Intake",
+        "slug": "5-ya-lu-ji",
+        "part": "31196c01.dat",
+        "evidence": {
+          "id": "31196c01.dat",
+          "page": 4,
+          "approval": "existing local user-approved approximation"
+        }
+      },
+      {
+        "intake": "batch15Intake",
+        "slug": "5-ya-lu-ji",
+        "part": "6345.dat",
+        "evidence": {
+          "id": "6345.dat",
+          "page": 4,
+          "approval": "existing local user-approved approximation"
+        }
+      },
+      {
+        "intake": "batch15Intake",
+        "slug": "5-zha-lan-sheng-jiang-gan",
+        "part": "31196c01.dat",
+        "evidence": {
+          "id": "31196c01.dat",
+          "geometrySha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708",
+          "notes": [
+            "User confirmed 31196c01 and authorized local modelling/import on 2026-09-10; supplied eight photos and requested refinement on 2026-09-11.",
+            "Original local simplified geometry, CC BY 4.0; not official or dimensionally certified. Primary references are supplied red/orange/blue views, green views supplement nose shape. Photo hashes in .tmp/cockpit-photo-review-0911/source-hashes.json.",
+            "Collision regions follow shell/floor strips and preserve bore openings; adjacent regions are conservative approximations. No automatic collision exemption added.",
+            "2026-09-11 second revision after user rejected tall silhouette: overall height 120 LDU, rear deck thickness 48 LDU, continuous low arched panel with rear-facing ribs. Catalog dimensions 7.19 x 9.56 x 4.79 cm guide proportions only; not measured CAD.",
+            "Previous (0,-132,0) hinge datum withdrawn. Official canopy visual placement is provisional and mechanical fit unresolved. Underside sockets and exact snap geometry remain omitted.",
+            "2026-09-11 detail revision from tmp9697.png and tmpB28B.png: hollow rear shell with lateral circular bores, three interstitial deck holes, one rear yellow Toolo insert and one cockpit insert with triangular recesses. Insert positions follow top photo; photographs may show different movable screw placements. Wing undersides now taper toward nose. Interior threads and mechanical geometry remain approximate.",
+            "Both yellow captive screw heads reference the same original local subpart s/31196c01-local-screw.dat. This name is a project subpart identifier, not a confirmed standalone LEGO design ID. Toolo catalog assemblies include screws with their host; no verified downloadable screw geometry found.",
+            "Green side reference tmp9191.png: rounded D-section side housings with inset horizontal front grilles, scalloped lower edges and swept rear supports. Hole thread form/pitch not visible or verified; smooth bores do not assert that physical Toolo mating holes lack threads.",
+            "Supersedes prior smooth mating bores: user confirmed internal threads from tmp6659.png. Added approximate helical ridges in three rear interstitial holes, both side holes and central cockpit socket. Pitch5 LDU, crest1.2 LDU and sleeve depth are illustrative only; no physical mating certification. Hollow stud bores unchanged. Added two rectangular deck slots above side ports (X66..74 and -74..-66,Z32..48).",
+            "User frontal photo tmp2FA5.png: raised central recessed front console, folded bumper, twin stepped cockpit pegs and shoulder blocks. All internal threaded ports now use two helical turns as requested; pitch varies by illustrative socket depth and remains unmeasured.",
+            "2026-09-11 assembly correction: side housings and nose external width reduced from192 to160 LDU to fit source four-stud central bay; rear deck/stud pitch and120 LDU height unchanged. This supersedes earlier overhang dimensions and requires review of revised appearance.",
+            "Rear hollow studs y=-35..-24 are connection geometry and excluded from rigid collision regions, consistent with official stacking-brick metadata. Deck shell, threaded ports and all other solids remain checked.",
+            "Backrest assembly shifted4LDU toward nose so rear flutes end at deck boundaryz0, enabling adjacent source stacking; small fit correction requires updated appearance review.",
+            "Rear head above-deck3LDU is connection geometry: at submarine cockpitX=-240 it lies in3011 local(X40,Z0),Y45..48, below stud8 tube endY44; radius12 fits minimum bore13.73. Prior X=-280 sidewall-intersection pose rejected. Bus/ambulance had no head overlaps before this exclusion.",
+            "2026-09-11 user rejected floating canopy: added continuous seating sills from official6345 lower rim, front transition and rounded rear ends, following tmp3A6A.png/tmp20D2.png. Contact tops are mesh-derived; surrounding moulding remains approximate. Source references and contact proof in .tmp/cockpit-seat-0911. Previously certified only central contact was insufficient.",
+            "2026-09-11 assembled blue photo tmpC02A: replaced high infill walls with lower sills atY=-48; low console topY=-20.41158; flared nose up to192LDU wide only ahead ofZ=-120, rear4-stud deck unchanged. Shape remains photo approximation. Convex mesh check100 added solids vs700 canopy faces zero intersections; swept rear support bounding boxes are conservative. See .tmp/cockpit-low-0911."
+          ]
+        }
+      },
+      {
+        "intake": "batch16Intake",
+        "slug": "5-zhi-sheng-ji",
+        "part": "31196c01.dat",
+        "evidence": {
+          "id": "31196c01.dat",
+          "geometrySha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708",
+          "notes": [
+            "User confirmed 31196c01 and authorized local modelling/import on 2026-09-10; supplied eight photos and requested refinement on 2026-09-11.",
+            "Original local simplified geometry, CC BY 4.0; not official or dimensionally certified. Primary references are supplied red/orange/blue views, green views supplement nose shape. Photo hashes in .tmp/cockpit-photo-review-0911/source-hashes.json.",
+            "Collision regions follow shell/floor strips and preserve bore openings; adjacent regions are conservative approximations. No automatic collision exemption added.",
+            "2026-09-11 second revision after user rejected tall silhouette: overall height 120 LDU, rear deck thickness 48 LDU, continuous low arched panel with rear-facing ribs. Catalog dimensions 7.19 x 9.56 x 4.79 cm guide proportions only; not measured CAD.",
+            "Previous (0,-132,0) hinge datum withdrawn. Official canopy visual placement is provisional and mechanical fit unresolved. Underside sockets and exact snap geometry remain omitted.",
+            "2026-09-11 detail revision from tmp9697.png and tmpB28B.png: hollow rear shell with lateral circular bores, three interstitial deck holes, one rear yellow Toolo insert and one cockpit insert with triangular recesses. Insert positions follow top photo; photographs may show different movable screw placements. Wing undersides now taper toward nose. Interior threads and mechanical geometry remain approximate.",
+            "Both yellow captive screw heads reference the same original local subpart s/31196c01-local-screw.dat. This name is a project subpart identifier, not a confirmed standalone LEGO design ID. Toolo catalog assemblies include screws with their host; no verified downloadable screw geometry found.",
+            "Green side reference tmp9191.png: rounded D-section side housings with inset horizontal front grilles, scalloped lower edges and swept rear supports. Hole thread form/pitch not visible or verified; smooth bores do not assert that physical Toolo mating holes lack threads.",
+            "Supersedes prior smooth mating bores: user confirmed internal threads from tmp6659.png. Added approximate helical ridges in three rear interstitial holes, both side holes and central cockpit socket. Pitch5 LDU, crest1.2 LDU and sleeve depth are illustrative only; no physical mating certification. Hollow stud bores unchanged. Added two rectangular deck slots above side ports (X66..74 and -74..-66,Z32..48).",
+            "User frontal photo tmp2FA5.png: raised central recessed front console, folded bumper, twin stepped cockpit pegs and shoulder blocks. All internal threaded ports now use two helical turns as requested; pitch varies by illustrative socket depth and remains unmeasured.",
+            "2026-09-11 assembly correction: side housings and nose external width reduced from192 to160 LDU to fit source four-stud central bay; rear deck/stud pitch and120 LDU height unchanged. This supersedes earlier overhang dimensions and requires review of revised appearance.",
+            "Rear hollow studs y=-35..-24 are connection geometry and excluded from rigid collision regions, consistent with official stacking-brick metadata. Deck shell, threaded ports and all other solids remain checked.",
+            "Backrest assembly shifted4LDU toward nose so rear flutes end at deck boundaryz0, enabling adjacent source stacking; small fit correction requires updated appearance review.",
+            "Rear head above-deck3LDU is connection geometry: at submarine cockpitX=-240 it lies in3011 local(X40,Z0),Y45..48, below stud8 tube endY44; radius12 fits minimum bore13.73. Prior X=-280 sidewall-intersection pose rejected. Bus/ambulance had no head overlaps before this exclusion.",
+            "2026-09-11 user rejected floating canopy: added continuous seating sills from official6345 lower rim, front transition and rounded rear ends, following tmp3A6A.png/tmp20D2.png. Contact tops are mesh-derived; surrounding moulding remains approximate. Source references and contact proof in .tmp/cockpit-seat-0911. Previously certified only central contact was insufficient.",
+            "2026-09-11 assembled blue photo tmpC02A: replaced high infill walls with lower sills atY=-48; low console topY=-20.41158; flared nose up to192LDU wide only ahead ofZ=-120, rear4-stud deck unchanged. Shape remains photo approximation. Convex mesh check100 added solids vs700 canopy faces zero intersections; swept rear support bounding boxes are conservative. See .tmp/cockpit-low-0911."
+          ]
+        }
+      }
+    ],
+    "officialGeometryPlacementRisks": [
+      {
+        "slug": "5-qing-sao-che",
+        "id": "6345.dat",
+        "boundary": "Official geometry, inherited local cockpit mounting pose unverified; excluded from approximate DAT count."
+      },
+      {
+        "slug": "5-si-qu-che",
+        "id": "6345.dat",
+        "boundary": "Official geometry, inherited local cockpit mounting pose unverified; excluded from approximate DAT count."
+      },
+      {
+        "slug": "5-ya-lu-ji",
+        "id": "6345.dat",
+        "boundary": "Official geometry, inherited local cockpit mounting pose unverified; excluded from approximate DAT count."
+      }
+    ]
+  },
+  "sourceLayoutAdjustments": {
+    "globalExactCourseCount": null,
+    "reason": "No normalized exhaustiveadjustment field across126 ownerledgers; inferredposes/hiddenlayouts maynotbe indexed. Do notinvent a globalcount. Sixlistedexamples are a documentedlowerbound, not total.",
+    "documentedExampleCourses": 6,
+    "examples": [
+      {
+        "slug": "5-xuan-zhuan-fei-yi",
+        "description": "31625 tube bottom stays40LDU above beam; down40 candidate worsens strictmesh crossings630 versus77 andlongshaft insertion, not acceptedsourceappearance.",
+        "evidence": "preparation\\5-xuan-zhuan-fei-yi\\ledger.json",
+        "evidenceSha256": "e81f83b65d3ad8160559b5a6a39e6143c1ca458a022843a5df159e8c7d8fe8b9",
+        "sourceSha256": "998a249059b2682420cea0b19456b88be06ef1661ac3a4e3070bb260345b628e",
+        "independentlyReviewedPixelsInThisAudit": false
+      },
+      {
+        "slug": "5-ping-heng-da-shi",
+        "description": "Shoulderbar expanded18stud; sourcebluecaps appearfullycoverends butdraft exposesouter2stud redtops. Hidden14stud stagger unresolved.",
+        "evidence": "preparation\\5-ping-heng-da-shi\\ledger.json",
+        "evidenceSha256": "1e17e2b85609d1db4744c0019f3cae5b497618e81c3bcd498257cb3c8b638117",
+        "sourceSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+        "independentlyReviewedPixelsInThisAudit": false
+      },
+      {
+        "slug": "5-feng-che-fang",
+        "description": "6knownblueeaves omitted;21roofbricks lowered ontoexistingredplates, changesroofheight.",
+        "evidence": "preparation\\5-feng-che-fang\\ledger.json",
+        "evidenceSha256": "e652adcbd3eb480d2f80c76a0104df872ccf09905530889e36a12ad1e61eb99c",
+        "sourceSha256": "260e614b63c32a41602cf9dd501cd33c2e8a08c971503f8f2c0ed7db32fc604b",
+        "independentlyReviewedPixelsInThisAudit": false
+      },
+      {
+        "slug": "4-tuo-gua-che",
+        "description": "5rearwallbricks+2towplates omitted;144LDU threehorizontalcourses versus160sidebuiltgreenbrick leaves16LDU discrepancy.",
+        "evidence": "preparation\\4-tuo-gua-che\\ledger.json",
+        "evidenceSha256": "e925bfded3e0fdb915c7a2e0d2fca820e0b672ab82549d8bb814b48de24c5aae",
+        "sourceSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+        "independentlyReviewedPixelsInThisAudit": false
+      },
+      {
+        "slug": "5-ya-shui-jing",
+        "description": "2knownblueendwallbricks omitted, outwardpivot andpistonlayoutadjusted; sourceframe-side closure incomplete.",
+        "evidence": "preparation\\5-ya-shui-jing\\ledger.json",
+        "evidenceSha256": "6c1315ad46776e08a7ac345cd9a6a1de5ef707d7acd3f91815ccf14a79ceed6a",
+        "sourceSha256": "6545fa7d70a314b78ff9be5eea3a7f18afdcccf060e96931604395d07fd73462",
+        "independentlyReviewedPixelsInThisAudit": false
+      },
+      {
+        "slug": "5-sheng-jiang-dian-ti",
+        "description": "Suspendedcarriage/hooks retained in source-backedpose despiteabsentropemesh; source-backedexception isnot load supportpass.",
+        "evidence": "preparation\\5-sheng-jiang-dian-ti\\ledger.json",
+        "evidenceSha256": "d3a5b50ec72804502d094fca9d6d1908c61a583b24812fa05a3be4350fe19452",
+        "sourceSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+        "independentlyReviewedPixelsInThisAudit": false
+      }
+    ]
+  },
+  "interfaceRiskBoundary": {
+    "registryTyreInterfaceCourses": 12,
+    "rawAlarmCourses": 55,
+    "rawErrorGroups": 211,
+    "expandedAlarmItems": 321,
+    "doNotAddCounts": true,
+    "explanation": "Rawgroups/expandedpairs/issuefamilies/omittedpieces countdifferentunits. Facecrossing canreflect nominalcylinder tessellation/pressfit anddoesnot alone provephysicalinterference; noalarm doesnot proveconnection/support. Keepknownrisks visible."
+  },
+  "userReviewMethod": [
+    "Chooseonecourse andpinits sourcePDF hash, LDR hash, MPD/renderrevision; open matching sourcepage beside same cumulative step andfinal3views.",
+    "Show sourceBOM versusplaced/omittedpieces, identity confidence, reference-stock shortage andexplicitshape adjustments before asking fordecision.",
+    "Review sourceappearance, geometryidentity, staticconnections, fullmotion andphysicalbuild as separate decisions. Missingropemesh/suspendedsourcepose cannotreceive supportpass frompixels.",
+    "Record percourse decision as accepted-for-specified-purpose / needsrepair / deferred withexactversion andspecificlimits; neverbulkmark129 accepted fromrendercoverage.",
+    "Forunknownmould/hiddenjoint requestcloseup ofnamedpage/component, kitpiecephoto orphysicalfitcheck. Forstock useverifiedactualuserinventory; referencekits/unknowncounts arenot purchaseBOM.",
+    "Publication isseparate explicitauthorization afteracceptance; currentbranch/dev-onlyMPDs do not authorize main merge, PR, CI, deployment, OSS orproductiondatabase updates."
+  ],
+  "suggestedUserFacingBoundary": "129课均已形成可逐课审阅的开发稿，并完成当前版本源图、依赖和最终/步骤视图核查。仍有32个混合问题族，14课共63件已知连接遗漏，另有近似几何、明确外形调整及柔性连接未闭合；这些统计相互重叠，不等于未知编号数或未完成课程数。尚无逐课用户确认或实物验证。",
+  "refreshRequired": [
+    "If registry/model/part/QA changes, recompute hash-bound counts andaffectedpixelcoverage",
+    "Finalremote branchcommit and0Actions evidence suppliedbyparent; this read-only auditdoesnotpush orverifyremote"
+  ],
+  "nonRigidSourceItems": {
+    "registryPointer": "batch16Intake.nonRigidSourceItems",
+    "records": [
+      {
+        "slug": "5-zhe-die-ti",
+        "currentModelSha256": "8e453a0c308d5055e8c568c3a096a7c03d3446821ceeffffb972de64597f2c8f",
+        "ownerEvidence": {
+          "page": 10,
+          "count": 1,
+          "identity": "source string;75536 set component family",
+          "representation": "one type2 schematic line",
+          "missingEvidence": "exact length, tied ends, routing and retention",
+          "physicalValidation": false,
+          "countsInRigidPlacements": false,
+          "flexiblePartResolved": false,
+          "supportOrCollisionEvidence": false,
+          "hiddenRoutingInvented": false,
+          "onlyVisibleSpanSchematic": true
+        },
+        "classification": "schematic_or_unresolved_flexible_item_not_rigid_geometry_completion",
+        "accepted": false
+      }
+    ],
+    "count": 1,
+    "boundary": "One source flexible item in5-zhe-die-ti represented onlybytype2 schematic span; excluded fromrigidplacements. Exactlength, knots, routeandretention unresolved. Do not convert noowner-declared rigidomissions into completephysicalBOM."
+  }
+}

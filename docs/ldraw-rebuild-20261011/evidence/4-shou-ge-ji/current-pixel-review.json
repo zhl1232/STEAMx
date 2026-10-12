@@ -1,0 +1,70 @@
+{
+  "sourceSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+  "revision": "7322761e39505c08c30a86fafd408b0036687e9977940aec1c59df95bf709bdd",
+  "reviewedAt": "2026-10-11T10:55:57.335702+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-shou-ge-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "efde9db33512e9ab18b6812958c719d886b47f1f00186fff7e87b9fbcb8ac97a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "01f098491380b05552f9abd5e7b58398beadd1618dd5104d15f11d37523c66c7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "94f8af7c5fa0d8644ecf5f9d329cf8859b417cc950ce8f9ab791479ffa20e59c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "46c17fcb0fd8e5bd0b5ba6175b00c8fdc47b0b1649368b1d28ee79a4e894d27f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "57b97d022953ed100b22a7db370aa5b6542775a642b72bda82b2a942ab88e3de",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "1ec49de7f3b5743570bc4e482d235c2b166d79762a5262f693b98617cc54c517",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "1fef9e3a07c5952211538548c47cbf151cf3bd636aba4776c77044d209d234a1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "1fef9e3a07c5952211538548c47cbf151cf3bd636aba4776c77044d209d234a1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "4030e48489fe1e18126187ff06dc9e9857e363ddafa0399ab683d8a366620457",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "16057042b63af4ea8dd640fc285de2abc68fb1bf3b45947a108266e538373bc1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "efde9db33512e9ab18b6812958c719d886b47f1f00186fff7e87b9fbcb8ac97a",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current final3 and all8 cumulative steps via review sheets, plus original step3/top/iso-rear. Compared against previously viewed sourcep1-9, with sourcep3/7 originals freshly inspected in preceding correction review. Six upper longitudinal beams atZ+/-120 now sit on outer halves of transverse rootsZ+/-80, matching sourcep3 stud-row arrangement; front lower exposed strip and raised rear platform retained. No further source-placement error established this pass. Known31196c01 approximate width192 versus nominal160 corridor retains16LDU envelope overlap per side; visible adjacency is not collision clearance. Six geometry omissions remain:86601 propellerx4,45146 roll cage,4433c01 exhaust. Wheel-hole index, approximate28336/74957 retention and14094 bucket fixing remain unverified. INCOMPLETE; no physical validation or human acceptance. Source unchanged."
+}

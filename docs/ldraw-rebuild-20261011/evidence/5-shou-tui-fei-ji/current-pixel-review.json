@@ -1,0 +1,80 @@
+{
+  "sourceSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+  "revision": "c37c5f53ba6a72aa92a2921cfc5069c1923f0a1bba807276a4c5f6c77494dc3b",
+  "reviewedAt": "2026-10-11T13:10:40.644192+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-shou-tui-fei-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "6006973d6e60d40e9fe2c592de63240085bdcc789a3605c6c01890841e3a6f6f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "47daa3508011e86ef2cc1ec4b7c31cf11b75a420cec5ef9f786f1e1692b3dacc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "2860c08aee0df131c085d87543be4cb6973eddf9f8cef167d6e6b87050130fcf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "304fb9fc46f483f0460eaafe81ebc48db3e96daabf32dfb1b1b209c8329135ab",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "1beb4d64effb4d2178b95e04818ebcb2c4ce3906e68bdab41a9e9b86b3e85ae6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "fac96ee8904eeaac09aa8da2013d474496fe8ff2a47514e71c853e135c3e45bd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "4f87facae06303f5fe532c59cd6da57df1397e9f5b718bdd13e452d941bc50de",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "b88e10e649dd96f906136eb39e46dec40f03d39aa6d1c50c04c06feb2a6f33b9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "f53ab277418089b499a62c60bd4702a8997cc2be81c1462830484507e795db97",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "ba56dbf6096cfe5c17e342a8fe2de3437de8b8e3cdad8a34f46f28fd1db1a068",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "0dd71672be952313189d2aeefd81c64159be6ed908c8f824072d4598036e2b0a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "d5e0d323a6c0b9cf79faed43101c3697c53d466840fec46a068960142ba9122a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "6006973d6e60d40e9fe2c592de63240085bdcc789a3605c6c01890841e3a6f6f",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current final iso/iso-rear/top and every cumulative step1-10, with original step10 inspected; compared source p9-p11 already viewed. cc longer blades improve span and the rear view presents slender folded edges closer to source. Iso/top still show broad rounded faces; exact source sheet identity remains candidate, not uniquely confirmed. Two carrier pins retain nominal 80 LDU hole alignment and crossed sheet phases; central folded sheets have56 strict mesh crossings, not dismissed from pixels. Five blade/handle proxy pairs have0 strict intersections but no physical fit proof. Existing tyre52/52 and upper handle22/22 strict mesh crossings, handle bore eccentricity,9LDU rolling support difference and transmission/clamping limits remain. No new source-coordinate correction justified solely by different projection."
+}

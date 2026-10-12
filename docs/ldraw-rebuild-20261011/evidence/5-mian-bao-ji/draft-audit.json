@@ -1,0 +1,49 @@
+{
+  "slug": "5-mian-bao-ji",
+  "sourceSha256": "835a0bda97862a3f27c8a7fc4aabb7c84e66649da669344c015646850e149e92",
+  "placements": 167,
+  "steps": 16,
+  "rigidMatrixErrors": [],
+  "topLevelLocalParts": [
+    {
+      "id": "4196.dat",
+      "localDat": true
+    },
+    {
+      "id": "3011.dat",
+      "localDat": true
+    },
+    {
+      "id": "3437.dat",
+      "localDat": true
+    },
+    {
+      "id": "75349.dat",
+      "localDat": true
+    },
+    {
+      "id": "6525.dat",
+      "localDat": true
+    },
+    {
+      "id": "6522.dat",
+      "localDat": true
+    },
+    {
+      "id": "6527.dat",
+      "localDat": true
+    },
+    {
+      "id": "6526.dat",
+      "localDat": true
+    },
+    {
+      "id": "40666.dat",
+      "localDat": true
+    }
+  ],
+  "dependencyClosure": "Not asserted by this audit; parent MPD packer validates recursive closure",
+  "finalPixelReview": "pending",
+  "cumulativeStepPixelReview": "pending",
+  "status": "INCOMPLETE / pending user confirmation"
+}

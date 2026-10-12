@@ -1,0 +1,99 @@
+{
+  "name": "5+直升机搭建说明.pdf",
+  "relative_path": "5+/5+直升机搭建说明.pdf",
+  "pages": 14,
+  "bytes": 2182210,
+  "sha256": "f4f953e358ea3a438d9f4a43a38383040843bfcdfcc173e4fa1c1b603bc82e87",
+  "source_url": "https://pan.quark.cn/list#/docpdf/3a9d2d9de99040c1aacdacd86305a3e3",
+  "slug": "5-zhi-sheng-ji",
+  "lesson_id": 327,
+  "course_id": 7,
+  "localPdf": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5+/5+直升机搭建说明.pdf",
+  "localBytesVerified": true,
+  "pagesDecoded": [
+    {
+      "page": 1,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-01.jpg",
+      "sha256": "c23eb488385670d589ec776c2b68cac3b184fd2d0299f1161b7e18f07d395a81",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-02.jpg",
+      "sha256": "58583ac7231b99fbef65f54c2c5ed9eebd8330496931cd16bf69952249e94cb8",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-03.jpg",
+      "sha256": "44c59e4b4635caef8d03e59147e8658dda95cfb491bfe4bb1ccf067c6044b92d",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-04.jpg",
+      "sha256": "a5ddecbe8ffe48e7810e178420ff17a20ea5de225a0050fecf86d2312f8c3910",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-05.jpg",
+      "sha256": "242d64baf51cdd53e1b948a09eb2f5159f50f85fe29aff50b50b68e02c772490",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-06.jpg",
+      "sha256": "a734de7ddc772b3bc7001a49e6813a6b4121b2cae7d1e2a68d9cb7bd97c43782",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-07.jpg",
+      "sha256": "b59e9cd7b78c17ad0070c26bfccd1d2028f40b067f3c7b180bf6a7858bc9986a",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-08.jpg",
+      "sha256": "5f2372bd1796425317817f81644e8983cda040ab115fe25659c34e0b78f609ec",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-09.jpg",
+      "sha256": "b1fb151ec2fe3d0d16d5a2e04643d1a66508585d6d51d6c005bf354b58c948d5",
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-10.jpg",
+      "sha256": "f2fe521711b058369f83f415ac6385eced0bd8043aac71a92e54e65625c19d94",
+      "pixelsViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-11.jpg",
+      "sha256": "efab605a6a270e444f03015ce3a64a9a147e1627f0682176d68875a63d775295",
+      "pixelsViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-12.jpg",
+      "sha256": "ba7d7cdddf0febbf442c9d38a666bc53e70f0a7da791835639a56c8fa5f3dd84",
+      "pixelsViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-13.jpg",
+      "sha256": "c91dc455005dca73900ba477e877998393c8c8768a55454ebecde837cc841bbe",
+      "pixelsViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch16/5-zhi-sheng-ji/page-14.jpg",
+      "sha256": "653f2cccb0f4f1bac82616ac005a6765ffb077c05ca06894eb7fe201532142ed",
+      "pixelsViewed": true
+    }
+  ]
+}

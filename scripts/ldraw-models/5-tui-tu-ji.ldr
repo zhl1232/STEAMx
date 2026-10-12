@@ -1,0 +1,73 @@
+0 5+ Bulldozer - source reconstruction draft
+0 Name: 5-tui-tu-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // DEV-ONLY; all9 source PDF pages visually inspected.
+0 // INCOMPLETE: orange vehicle cabin, pale canopy placement, red-white window IDs pending.
+0 // Source page 1: two chassis rails, green axles8; asymmetric tyre cavities outward with verified back-to-back pulley hubs.
+1 4 0 -81 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 -81 40 1 0 0 0 1 0 0 0 1 75350.dat
+1 2 -160 -57 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -160 -57 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 -57 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 -160 -57 -140 -1 0 0 0 1 0 0 0 -1 6292.dat
+1 14 -160 -57 100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -160 -57 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 -160 -57 140 1 0 0 0 1 0 0 0 1 6292.dat
+1 2 160 -57 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 160 -57 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 160 -57 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 160 -57 -140 -1 0 0 0 1 0 0 0 -1 6292.dat
+1 14 160 -57 100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 160 -57 140 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 160 -57 140 1 0 0 0 1 0 0 0 1 6292.dat
+0 STEP
+0 // Source page 2: two red short bearing bricks and two yellow6x4 body layers.
+1 4 -120 -129 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 40 -129 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -129 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -129 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -120 -177 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 40 -177 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -177 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -177 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 3: yellow rear roof support and lime4x8 roof; cab/window missing parts remain explicit.
+1 14 160 -369 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 80 -393 0 1 0 0 0 1 0 0 0 1 4672b.dat
+0 STEP
+0 // Source page 4: two7-hole liftarms plus gray pivot axle and two short cranks.
+1 14 -195.654658 -121 -60 -0.266667 0 -0.963789 -0.963789 0 0.266667 0 1 0 6524.dat
+1 14 -80 -153 -100 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 14 -195.654658 -121 60 -0.266667 0 -0.963789 -0.963789 0 0.266667 0 1 0 6524.dat
+1 14 -80 -153 100 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 71 -80 -153 0 0 0 1 0 1 0 -1 0 0 6522.dat
+0 STEP
+0 // Source page 5: vertical front red bearing brick, axle and two short cranks.
+1 4 -335.309317 -89 0 0 1 0 1 0 0 0 0 -1 75349.dat
+1 71 -311.309317 -89 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -311.309317 -89 -100 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 14 -311.309317 -89 100 0 0 -1 -1 0 0 0 1 0 6526.dat
+0 STEP
+0 // Source page 6: blue spacer plate and lime4x8 vertical blade backing.
+1 1 -359.309317 -89 0 0 1 0 1 0 0 0 0 -1 40666.dat
+1 27 -383.309317 -89 0 0 1 0 0 0 1 1 0 0 4672b.dat
+0 STEP
+0 // Source page 7: four green2x3x2 concave blade bricks, concavity forward and lip down; official2301b, not smaller11169.
+1 2 -479.309317 -29 -120 0 1 0 0 0 1 1 0 0 2301b.dat
+1 2 -479.309317 -29 -40 0 1 0 0 0 1 1 0 0 2301b.dat
+1 2 -479.309317 -29 40 0 1 0 0 0 1 1 0 0 2301b.dat
+1 2 -479.309317 -29 120 0 1 0 0 0 1 1 0 0 2301b.dat
+0 STEP
+0 // Source page 8: loose yellow/lime blocks and plates to push, shown separately on floor.
+1 14 -580 -48 -140 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -580 -48 -60 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -660 -48 140 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -580 -48 240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -820 -80 -200 0 1 0 1 0 0 0 0 -1 40666.dat
+1 27 -720 -80 0 0 1 0 1 0 0 0 0 -1 40666.dat
+1 14 -820 -80 200 0 1 0 1 0 0 0 0 -1 40666.dat
+1 27 -920 -80 -40 0 1 0 1 0 0 0 0 -1 40666.dat
+0 // p9 final side view, no additional parts.
+0 // Blade/cab posture source-inferred; no physical actuation test. Pending user confirmation.

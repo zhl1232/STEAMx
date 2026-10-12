@@ -1,0 +1,70 @@
+{
+  "sourceSha256": "8b7a8aec00a60752bf869ab234a11e9057be8343dd3fd2aaa4bf82f11a154357",
+  "revision": "48e75f3eaa1bd99e25c4cb06a6561ac07d400d657eb9dcc937e14aa52be69d63",
+  "reviewedAt": "2026-10-11T13:03:19.094775+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-qiu-qian",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "3ec720748015d5a87a98245fdf8a9cf22de73acf6ca3d9eb9d97ba4b5e2bc34c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "ca68616f9e124cd0483d438549c4e3b4b560a008c9619cc91820b051c13896bd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "194b9bb685bea0fe41fe413b7562df0c0ec5763f18d18dcfe6426cfb4cb5de1d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "2ee95babf3ff1eb29039877ef6f79bd73dbc3be1b79dfd8dbf8f1dee22c49a40",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "2ece291f812d07102439e95b05c826261e0b26d63398baeb9caf68b1750bb436",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "2a87f49303492a0c4a4a4a89e5a653dd2e6d823f2ce0ae207aa5922af06032ff",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "45faff29172099026d1e79ebe68fc2517b6e5953610595d8c8cc35ceae584b06",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "5ae9625c7849a9be09db8effee975c56b2cb941f140a0952e97ecd02c560d9ba",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "e5c11a7d81b4d57dc74e468399bbc25e300a6b7e1ecb458bd643623c96e98af5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "a0b427f353db8cb0b0020cb6777f0d30c5c10f16bd2e13187ec70b6f63828fc4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "3ec720748015d5a87a98245fdf8a9cf22de73acf6ca3d9eb9d97ba4b5e2bc34c",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected final iso/iso-rear/top and all eight cumulative frames, compared source p5/p8/p9 again. Pillar layers, two top blue axles, central worm, paired red gears, suspended two beams and seat follow source sequence. Outer lower crank forward phase is a documented reasonable hidden-layout adjustment. Official worm/axle meshes retain 77 and 85 strict triangle crossings; visible alignment does not prove bore fit or motion. Outer crank shaft insertion only 20 LDU; retention/manual fit and extra kit quantities remain unresolved. No additional clear pixel error found."
+}

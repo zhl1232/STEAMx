@@ -1,0 +1,2164 @@
+{
+  "slug": "5-re-qi-qiu",
+  "sourceSha256": "3d1febd004c2afd9560ba388865410dd1034e18c56c7039bb8623e63957dfa67",
+  "partCount": 75,
+  "stepCount": 12,
+  "status": "INCOMPLETE",
+  "accepted": false,
+  "physicalValidation": false,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "title": "Hollow stepped balloon shell",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -120,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 10
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -120,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 11
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -120,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 12
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            80,
+            -120,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 13
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            80,
+            -120,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 14
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            120,
+            -120,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 15
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 6
+      },
+      "sourceBom": {
+        "3011.dat": 6
+      }
+    },
+    {
+      "sourcePage": 2,
+      "title": "Hollow stepped balloon shell",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -168,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 18
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            -168,
+            -160
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 19
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -168,
+            -160
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 20
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -168,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 21
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -168,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 22
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -168,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 23
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -168,
+            160
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 24
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -168,
+            160
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 25
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 8
+      },
+      "sourceBom": {
+        "3011.dat": 8
+      }
+    },
+    {
+      "sourcePage": 3,
+      "title": "Hollow stepped balloon shell",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -216,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 28
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -216,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 29
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -216,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 30
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -216,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 31
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -216,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 32
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -216,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 33
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            160,
+            -216,
+            -200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 34
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            160,
+            -216,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 35
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -216,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 36
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -216,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 37
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 10
+      },
+      "sourceBom": {
+        "3011.dat": 10
+      }
+    },
+    {
+      "sourcePage": 4,
+      "title": "Hollow stepped balloon shell",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -264,
+            -160
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 40
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            80,
+            -264,
+            -200
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 41
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -264,
+            -200
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 42
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -264,
+            -160
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 43
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -264,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 44
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -264,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 45
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -264,
+            160
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 46
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -264,
+            160
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 47
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            80,
+            -264,
+            200
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 48
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -264,
+            200
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 49
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 10
+      },
+      "sourceBom": {
+        "3011.dat": 10
+      }
+    },
+    {
+      "sourcePage": 5,
+      "title": "Hollow stepped balloon shell",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -312,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 52
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -312,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 53
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -312,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 54
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -312,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 55
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            -312,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 56
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -312,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 57
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -312,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 58
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -312,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 59
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 8
+      },
+      "sourceBom": {
+        "3011.dat": 8
+      }
+    },
+    {
+      "sourcePage": 6,
+      "title": "Two narrowing upper rings",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            120,
+            -360,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 62
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -360,
+            -120
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 63
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -360,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 64
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            120,
+            -360,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 65
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -360,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 66
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -360,
+            120
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 67
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -408,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 68
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -408,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 69
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            -408,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 70
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -408,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source square hollow ring; 40LDU outward/inward step overlaps lower ring by one stud; seam tiling inferred where hidden",
+          "line": 71
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 10
+      },
+      "sourceBom": {
+        "3011.dat": 10
+      }
+    },
+    {
+      "sourcePage": 7,
+      "title": "Four short red beams and two blue underside binding plates",
+      "placements": [
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -72,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom of first blue ring is -72; ordinary top studs connect underside",
+          "line": 74
+        },
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            80,
+            -72,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom of first blue ring is -72; ordinary top studs connect underside",
+          "line": 75
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            0,
+            -24,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "plate below pair of red beams bridges their centre seam; bottomY0",
+          "line": 76
+        },
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -72,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom of first blue ring is -72; ordinary top studs connect underside",
+          "line": 77
+        },
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            80,
+            -72,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom of first blue ring is -72; ordinary top studs connect underside",
+          "line": 78
+        },
+        {
+          "part": "40666.dat",
+          "color": 1,
+          "position": [
+            0,
+            -24,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "plate below pair of red beams bridges their centre seam; bottomY0",
+          "line": 79
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "75349.dat": 4,
+        "40666.dat": 2
+      },
+      "sourceBom": {
+        "75349.dat": 4,
+        "40666.dat": 2
+      }
+    },
+    {
+      "sourcePage": 8,
+      "title": "Four blue five-stud gear axles",
+      "placements": [
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -48,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "source outward end hole; collar at localX40 lies within/near beam outer side; insertion depth inferred, not locking-certified",
+          "line": 82
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            120,
+            -48,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "source outward end hole; collar at localX40 lies within/near beam outer side; insertion depth inferred, not locking-certified",
+          "line": 83
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -48,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source outward end hole; collar at localX40 lies within/near beam outer side; insertion depth inferred, not locking-certified",
+          "line": 84
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            120,
+            -48,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source outward end hole; collar at localX40 lies within/near beam outer side; insertion depth inferred, not locking-certified",
+          "line": 85
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "6523",
+          "sourceQuantity": 4,
+          "location": "p8 four suspension axles",
+          "missingEvidence": "5L identity from source gear collar and exposed length; exact depth hidden, no suspension load validation",
+          "classification": "known-interface-unverified"
+        }
+      ],
+      "placedBom": {
+        "6523.dat": 4
+      },
+      "sourceBom": {
+        "6523.dat": 4
+      }
+    },
+    {
+      "sourcePage": 9,
+      "title": "Source string preparation - omitted flexible element",
+      "placements": [],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "75536 string",
+          "sourceQuantity": 4,
+          "location": "p9-11 four suspensions",
+          "missingEvidence": "Source page9 shows one thread and page10 repeats entire assembly4x. Exact length, winding, knots and licensed flexible geometry unverified; no invented string.",
+          "classification": "known-geometry-omitted"
+        }
+      ],
+      "placedBom": {},
+      "sourceBom": {}
+    },
+    {
+      "sourcePage": 10,
+      "title": "Four official pulley bodies; hook/string assemblies remain incomplete",
+      "placements": [
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -48,
+            -200
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "pulley axisZ; source shaft outward end reaches220, pulley spans180..220; axle depth inferred",
+          "line": 92
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            120,
+            -48,
+            -200
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "pulley axisZ; source shaft outward end reaches220, pulley spans180..220; axle depth inferred",
+          "line": 93
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -48,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "pulley axisZ; source shaft outward end reaches220, pulley spans180..220; axle depth inferred",
+          "line": 94
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            120,
+            -48,
+            200
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "pulley axisZ; source shaft outward end reaches220, pulley spans180..220; axle depth inferred",
+          "line": 95
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "4663 suspension",
+          "sourceQuantity": 4,
+          "location": "p10-11 yellow hooks",
+          "missingEvidence": "Official hooks added with basket onp12; flexible string geometry absent but sourcep11-13 explicitly supports hanging relationship.",
+          "classification": "source-support-exception"
+        }
+      ],
+      "placedBom": {
+        "6527.dat": 4
+      },
+      "sourceBom": {
+        "6527.dat": 4
+      }
+    },
+    {
+      "sourcePage": 11,
+      "title": "Source attaches suspension groups - no further rigid additions",
+      "placements": [],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "upper shell suspension",
+          "sourceQuantity": 1,
+          "location": "p11",
+          "missingEvidence": "Upper shell retains source form; overhead support not shown by source and not invented.",
+          "classification": "pose-adjustment"
+        }
+      ],
+      "placedBom": {},
+      "sourceBom": {}
+    },
+    {
+      "sourcePage": 12,
+      "title": "Basket and four hooks below shell; source-backed suspension with missing cord geometry",
+      "placements": [
+        {
+          "part": "51262.dat",
+          "color": 71,
+          "position": [
+            0,
+            360,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "sourcep12/13 basket below shell; 408LDU wheel-to-floor separation is source-ratio inferred, not measured; support via four omitted strings",
+          "line": 102
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            -20,
+            264,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source patterned fence on plate studs; 6stud length; corners staggered by one stud",
+          "line": 103
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            20,
+            264,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source patterned fence on plate studs; 6stud length; corners staggered by one stud",
+          "line": 104
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            -120,
+            264,
+            20
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "four 1x6 fences form8stud square boundary with staggered corners",
+          "line": 105
+        },
+        {
+          "part": "31021p01.dat",
+          "color": 15,
+          "position": [
+            120,
+            264,
+            -20
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "four 1x6 fences form8stud square boundary with staggered corners",
+          "line": 106
+        },
+        {
+          "part": "4663.dat",
+          "color": 14,
+          "position": [
+            -120,
+            284,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "sourcep12/13 hook outside corner fence; eye284 and332LDU downward cord estimate, 40LDU inward cord run from upper wheel; hook rail seat not physically certified",
+          "line": 107
+        },
+        {
+          "part": "4663.dat",
+          "color": 14,
+          "position": [
+            120,
+            284,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "sourcep12/13 hook outside corner fence; eye284 and332LDU downward cord estimate, 40LDU inward cord run from upper wheel; hook rail seat not physically certified",
+          "line": 108
+        },
+        {
+          "part": "4663.dat",
+          "color": 14,
+          "position": [
+            -120,
+            284,
+            160
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "sourcep12/13 hook outside corner fence; eye284 and332LDU downward cord estimate, 40LDU inward cord run from upper wheel; hook rail seat not physically certified",
+          "line": 109
+        },
+        {
+          "part": "4663.dat",
+          "color": 14,
+          "position": [
+            120,
+            284,
+            160
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "sourcep12/13 hook outside corner fence; eye284 and332LDU downward cord estimate, 40LDU inward cord run from upper wheel; hook rail seat not physically certified",
+          "line": 110
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "basket suspension",
+          "sourceQuantity": 1,
+          "location": "p12-13",
+          "missingEvidence": "Source-backed hanging exception: 4missing cord meshes mean static support graph is open. FloorY360 and hookEyeY284 inferred from illustration proportions; exact knot, hook rail seating and tension unverified.",
+          "classification": "source-support-exception"
+        }
+      ],
+      "placedBom": {
+        "31021p01.dat": 4,
+        "4663.dat": 4,
+        "51262.dat": 1
+      },
+      "sourceBom": {
+        "31021p01.dat": 4,
+        "4663.dat": 4,
+        "51262.dat": 1
+      }
+    }
+  ],
+  "bom": {
+    "3011.dat": 52,
+    "75349.dat": 4,
+    "40666.dat": 2,
+    "6523.dat": 4,
+    "6527.dat": 4,
+    "31021p01.dat": 4,
+    "4663.dat": 4,
+    "51262.dat": 1
+  },
+  "inventoryReference": "inputs/inventory-evidence.json;9656 mechanical and9090 basic bricks. Source BOM defines use; missing inventory rows are unknown, not zero.",
+  "inventoryMechanicalComparison": [
+    {
+      "part": "3011.dat",
+      "sourceQuantity": 52,
+      "9656AllColors": 12,
+      "additionalAgainstOne9656IgnoringColor": 40
+    },
+    {
+      "part": "75349.dat",
+      "sourceQuantity": 4,
+      "9656AllColors": 4,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "40666.dat",
+      "sourceQuantity": 2,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6523.dat",
+      "sourceQuantity": 4,
+      "9656AllColors": 4,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6527.dat",
+      "sourceQuantity": 4,
+      "9656AllColors": 15,
+      "additionalAgainstOne9656IgnoringColor": 0
+    }
+  ],
+  "directGeometryHashes": {
+    "3011.dat": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+    "75349.dat": "57718956f0e3b4552de1edd641a9672d84f54552529bd5ef375baf8f9295718c",
+    "40666.dat": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5",
+    "6523.dat": "6dc8eed99ba38a806908f45c53e234ca83398f0007de7499ec5ce1316914d67c",
+    "6527.dat": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b",
+    "31021p01.dat": "d31be5a8b9c85733c3e992a9c6f25580e75e90d7c1742e38a6c14392f2baacb1",
+    "4663.dat": "f46190bd1202d61315334de27fc1a067025ef3b631a7aab8a7a0053e78055f51",
+    "51262.dat": "2311dc62a2f7314469e0adadd673dc5b7b2fa57cbffbb1c7155dc47d3c43fbb7"
+  },
+  "geometryMetadata": {
+    "3011.dat": {
+      "name": "Duplo Brick 2 x 4",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "75349.dat": {
+      "name": "Duplo Brick  2 x  4 with Holes",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "40666.dat": {
+      "name": "Duplo Plate 2 x 4",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 24,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 24
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "6523.dat": {
+      "name": "Duplo Axle 5 with Gear 8 Tooth",
+      "bbox": {
+        "xMin": -100,
+        "xMax": 100,
+        "yMin": -21.074868,
+        "yMax": 21.074868,
+        "zMin": -21.074868,
+        "zMax": 21.074868
+      },
+      "origin": {
+        "type": "axle-center",
+        "axis": "X",
+        "gearCenterX": 40
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official Philippe Hurbain CC BY 4.0 geometry UPDATE 2017-01 downloaded unchanged 2026-10-11 from https://library.ldraw.org/library/official/parts/6523.dat; original headers retained.",
+        "Recursive face-vertex bbox and dependency closure checked; gear engagement, phase, bearing clearance and physical fit require manual review.",
+        "Gear plane near X=40 (faces X=38..44); axle endpoints -100,+100."
+      ]
+    },
+    "6527.dat": {
+      "name": "Duplo Wheel with 2 Belt Grooves",
+      "bbox": {
+        "xMin": -44,
+        "xMax": 44,
+        "yMin": -44,
+        "yMax": 44,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 40
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "User confirmed 6527 as the rocket wheel hub/pulley on 2026-07-09.",
+        "Official LDraw 6527.dat and required primitives copied from the fixed official LDraw cache to scripts/ldraw-models on 2026-07-09; source header: LDraw Official UPDATE 2017-01, CC BY 4.0.",
+        "Support is manual because the pulley is placed as a decorative cylindrical rocket booster element."
+      ]
+    },
+    "31021p01.dat": {
+      "name": "Duplo Fence  1 x  6 x  2 with Red Stripes Pattern",
+      "bbox": {
+        "xMin": -120,
+        "xMax": 120,
+        "yMin": 0,
+        "yMax": 96,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 96
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official patterned fence copied from .agents/skills/image-to-ldraw/.cache/ldraw-library/extracted/ldraw/parts/31021p01.dat to scripts/ldraw-models/parts/31021p01.dat on 2026-07-08.",
+        "Uses the same placement and collision box as 31021.dat; red stripe pattern geometry is decorative."
+      ]
+    },
+    "4663.dat": {
+      "name": "Duplo Hook Short with Cross Bar and String Hole",
+      "bbox": {
+        "xMin": -44,
+        "xMax": 44,
+        "yMin": -16,
+        "yMax": 102,
+        "zMin": -10,
+        "zMax": 10
+      },
+      "origin": {
+        "type": "string-eye-center"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Source5-chou-you-ji p5 matches BrickLink4663 photograph; official geometry. String eye center at origin; hook hangs along+Y, plate thicknessZ. Assembly75536/6527c01 includes separate6527 pulley and cord; cord routing remains source-specific.",
+        "Original source downloaded2026-10-11 unchanged from https://library.ldraw.org/library/official/parts/4663.dat; license and authors retained. Recursive local type1 closure and face-vertex bbox verified."
+      ]
+    },
+    "51262.dat": {
+      "name": "Duplo Plate 8 x 8",
+      "bbox": {
+        "xMin": -160,
+        "xMax": 160,
+        "yMin": 0,
+        "yMax": 24,
+        "zMin": -160,
+        "zMax": 160
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 24
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    }
+  },
+  "render": {
+    "revision": "0775e4c11b18d82033599d1702cfa6118ff4a2af10d30708c5cab69db55c42c1",
+    "sourceSha256": "3d1febd004c2afd9560ba388865410dd1034e18c56c7039bb8623e63957dfa67",
+    "pixelReview": "current-pixel-review.json",
+    "final3ActuallyViewed": true,
+    "all12CumulativeStepsActuallyViewed": true,
+    "sourceChangedAfterRender": false
+  },
+  "validation": {
+    "sourceSha256": "3d1febd004c2afd9560ba388865410dd1034e18c56c7039bb8623e63957dfa67",
+    "rawCheckerExit": 0,
+    "matrixInvalid": [],
+    "closureMissing": [],
+    "staticReport": "static-alarm-review.json",
+    "pixels": "current-pixel-review.json; corrected8x8 floor observed; suspension limitations retained"
+  },
+  "unknownIdentityParts": [],
+  "sourcePositionUncertainties": [
+    {
+      "partOrCandidate": "6523",
+      "sourceQuantity": 4,
+      "location": "p8 four suspension axles",
+      "missingEvidence": "5L identity from source gear collar and exposed length; exact depth hidden, no suspension load validation",
+      "classification": "known-interface-unverified"
+    },
+    {
+      "partOrCandidate": "75536 string",
+      "sourceQuantity": 4,
+      "location": "p9-11 four suspensions",
+      "missingEvidence": "Source page9 shows one thread and page10 repeats entire assembly4x. Exact length, winding, knots and licensed flexible geometry unverified; no invented string.",
+      "classification": "known-geometry-omitted"
+    },
+    {
+      "partOrCandidate": "4663 suspension",
+      "sourceQuantity": 4,
+      "location": "p10-11 yellow hooks",
+      "missingEvidence": "Official hooks added with basket onp12; flexible string geometry absent but sourcep11-13 explicitly supports hanging relationship.",
+      "classification": "source-support-exception"
+    },
+    {
+      "partOrCandidate": "upper shell suspension",
+      "sourceQuantity": 1,
+      "location": "p11",
+      "missingEvidence": "Upper shell retains source form; overhead support not shown by source and not invented.",
+      "classification": "pose-adjustment"
+    },
+    {
+      "partOrCandidate": "basket suspension",
+      "sourceQuantity": 1,
+      "location": "p12-13",
+      "missingEvidence": "Source-backed hanging exception: 4missing cord meshes mean static support graph is open. FloorY360 and hookEyeY284 inferred from illustration proportions; exact knot, hook rail seating and tension unverified.",
+      "classification": "source-support-exception"
+    }
+  ],
+  "knownOmitted": [
+    {
+      "part": "75536 flexible cord component",
+      "quantity": 4,
+      "sourcePages": [
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "evidence": "p11 four pulley lower exits; p12/p13 four hooks outside basket corners",
+      "unresolved": "No licensed flexible path geometry; knot position, wound length and tension unknown"
+    }
+  ],
+  "sourceBomNotes": {
+    "9": "one thread demonstration; p10 four complete assemblies gives total4 strings",
+    "10": "source4x6527+4x4663+4threads; hooks rendered in step12 with basket for explicit location",
+    "11": "attaches four prepared groups, no new components",
+    "12": "4x31021p01+1x51262; render also brings in previously prepared4hooks"
+  },
+  "suspensionReview": {
+    "sourcePagesActuallyRechecked": [
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "wheelCenters": "X±120,Y-48,Z±200",
+    "hookEyes": "X±120,Y284,Z±160",
+    "basketFloorY": 360,
+    "verticalEyeDifference": 332,
+    "cordInwardRun": 40,
+    "classification": "source-support-exception",
+    "geometryAbsent": "four cord paths",
+    "placementBasis": "source illustration proportions and four corner association; not measured knot/seat geometry",
+    "hookFenceFit": "unverified; no supporting collision clearance certificate",
+    "upperOverheadSupport": "not shown by source, not invented"
+  },
+  "pixelObservations": [
+    "Corrected51262 floor visibly covers all four fence footprints, unlike former4x8plate.",
+    "Stepped hollow blue/yellow shell sequence visible through steps1-6; underside beam/axle/wheel sequence visible through7-11.",
+    "Basket remains below shell with four outside-corner hooks; absence of four strings remains visually apparent.",
+    "No newly identified definite source identity/orientation error in this revision; hook/rail fit, cord route/length and support remain unverified."
+  ]
+}

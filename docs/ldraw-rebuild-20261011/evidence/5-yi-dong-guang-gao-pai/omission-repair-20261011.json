@@ -1,0 +1,153 @@
+{
+  "slug": "5-yi-dong-guang-gao-pai",
+  "date": "2026-10-11",
+  "beforeSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+  "afterSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
+  "partCountBefore": 55,
+  "partCountAfter": 55,
+  "repairOutcome": "partial:source-backed lower pulley seating corrected; known6526 omission NOT repaired",
+  "sourcePixelsReinspected": [
+    {
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch4\\5-yi-dong-guang-gao-pai\\page-05.jpg",
+      "sha256": "9a1cbc25af9156d53e47574c5573b3a1370fae967b806b82d3e89102f20d2811",
+      "actuallyViewed": true
+    },
+    {
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch4\\5-yi-dong-guang-gao-pai\\page-06.jpg",
+      "sha256": "c635c2216d10395da8ebd1fb8f6c6b1b3626e9490fd5d6e4f74111bb420c1596",
+      "actuallyViewed": true
+    },
+    {
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch4\\5-yi-dong-guang-gao-pai\\page-07.jpg",
+      "sha256": "579a806dd5bdc98705e5fbbcdd0c23c69214271f70e3e7a1a7545b2f5dfb8c71",
+      "actuallyViewed": true
+    }
+  ],
+  "sourceObservations": {
+    "p5": "Green shaft and red driven gear added; no crank yet.",
+    "p6": "BOM2 pulleys,1 crank,1 beam. Lower retainer rests at the lower red beam; yellow offset crank appears immediately beneath upper beam. Secondary pin and seating surfaces hidden.",
+    "p7": "Printed columns obscure more of upper retention. Lower pulley and exposed green shaft remain visible; this confirms lower support location but not hidden upper pin depth."
+  },
+  "change": {
+    "line": 44,
+    "part": "6527.dat",
+    "step": 6,
+    "beforePosition": [
+      0,
+      -148,
+      0
+    ],
+    "afterPosition": [
+      0,
+      -127,
+      0
+    ],
+    "orientationUnchanged": true,
+    "downwardDisplacementLdu": 21
+  },
+  "seatDerivation": {
+    "lowerBeamTopY": -96,
+    "studNativeHeight": 4,
+    "studScaleY": 2.75,
+    "studTopY": -107,
+    "official6527AxialBounds": [
+      -20,
+      20
+    ],
+    "oldLowestEndY": -128,
+    "newLowestEndY": -107,
+    "contactWitnessWorld": [
+      10,
+      -107,
+      20
+    ],
+    "witnessReason": "Point radius22.36068 lies on wheel end annulusR20..24. Relative to the neighbouring stud centre(20,20), radial distance10 lies on its top annulusR9..12. This supplies a nominal coplanar seating contact at stud top; current source shows lower pulley supported on this beam.",
+    "displacementBasis": "contact geometry from official parts, not a claimed precise pixel measurement"
+  },
+  "localGeometryCheck": {
+    "evidence": "carrier-interface-audit.json",
+    "auditSourceSha256": "3664d8087e562f1f19d3f294042bb34ab97c27029eb599e8331b506aada5bcf6",
+    "evaluatedNewLowerPulleyTransformY": -127,
+    "strictNoncoplanarTriangleCrossingsWithLowerBeam": 0,
+    "limit": "Local grid/mesh evidence only. Zero strict crossings does not exclude coplanar overlap, containment, tolerances, friction or physical fit."
+  },
+  "6526StillOmitted": {
+    "sourceQuantity": 1,
+    "modelQuantity": 0,
+    "identityConfirmed": true,
+    "rejectedPose": {
+      "mainCentre": [
+        0,
+        -148,
+        0
+      ],
+      "pinStart": [
+        80,
+        -168,
+        0
+      ],
+      "pinEnd": [
+        80,
+        -208,
+        0
+      ],
+      "upperBeamStrictCrossingPairs": 156,
+      "oldLowerPulleyStrictCrossingPairs": 1404
+    },
+    "whyNotInsert": "Offset80 matches a beam bore-axis location, but does not establish a free through-path. The official lower beam subpart contains transverse hole tubes/ribs; naive upward insertion crosses actual upper-beam geometry. Lower-pulley correction alone does not determine upper crank pose."
+  },
+  "unresolvedMeasurements": [
+    {
+      "unknown": "6526 main-hole seating depth beneath upper75350",
+      "cannotDistinguish": "Main cylindrical face flush with beam underside versus partial cavity insertion; source hides their shared boundary. Raising/lowering the upper beam to make space would alter poster height without evidence.",
+      "needed": "Source side-on cutaway/exploded view of step6 upper beam underside, or measured axial distance from beam bottom plane to crank main-hole centre/end face."
+    },
+    {
+      "unknown": "Offset secondary pin target and insertion side",
+      "cannotDistinguish": "Source yellow offset arm is visible, but its pin tip is occluded. Cannot tell which beam underside opening receives it, whether pin points upward or downward, or whether it serves as a stop rather than entering a hole.",
+      "needed": "Underside view with poster beam removed or transparent, showing both crank ends and the target bore; identify target hole relative to central green shaft (number of40LDU pitches)."
+    },
+    {
+      "unknown": "Axial separation between lower retainer, crank main cylinder and upper retainer",
+      "cannotDistinguish": "Nominal common-axis parts can occupy many positions on the green shaft. Pixel perspective and hidden rear faces do not fix free shaft length or clamp depth.",
+      "needed": "One orthogonal side view along beam length with all three boundaries visible, or distance from lower-beam stud-top plane to upper-beam bottom plane plus shaft protrusion above top retainer."
+    }
+  ],
+  "affectedSteps": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "rawChecker": {
+    "exit": 1,
+    "remainingAlarmPairs": 2,
+    "newAlarmPairs": 0,
+    "output": "\nFAIL [5-yi-dong-guang-gao-pai.ldr] 2 error(s), 55 placement(s):\n  - step 7: 5-yi-dong-guang-gao-pai_l50 overlaps 5-yi-dong-guang-gao-pai_l46\n  - step 7: 5-yi-dong-guang-gao-pai_l53 overlaps 5-yi-dong-guang-gao-pai_l46\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  "remainingRisks": "Upper6527 flange diameter82 vs printed-column inner gap80 remains1LDU potential interference each side. Gear motion/axial retention unresolved.",
+  "officialFileHashes": {
+    "parts/6526.dat": "c91f1ba1fd21011e8da554de0b9a5e7e63a450f9608f0250890f96df13cf04c4",
+    "parts/6527.dat": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b",
+    "parts/75350.dat": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53",
+    "parts/6515.dat": "fb0f7da6b4f603990d5512be8e1cba3c51b555fa3a413e3c8f9697ada70e6057",
+    "parts/6516.dat": "fe40233cc54af0f327a7c2763bbca95cd0dca04138394b2183b3c04a4f479762",
+    "parts/s/6517s01.dat": "cf934726393bf023dcd9c95e06d6efe98a499e25b3359b7d17eb10c40757ea0b",
+    "parts/s/6518s01.dat": "19de774d52518b29da21768f5c3f9cf2d62eeaae82a7ff2203d7faeb197d3adb",
+    "p/stud7a.dat": "d0bde5b1dd75800ce1f4e0751947c1f378bd0ceb8aa1e4ceb8df7ede58123ff2"
+  },
+  "preview": "Current final3 and all12 cumulative steps actually reviewed after main repack; see current-pixel-review.json.",
+  "accepted": false,
+  "physicalValidation": false,
+  "postRepairPixelReview": {
+    "sourceSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
+    "revision": "299e4798e22a567b9569925815fe047835e08998f314e00e8745ad0c28edbe02",
+    "reviewedAt": "2026-10-11T08:41:00.078381+00:00",
+    "evidence": "current-pixel-review.json",
+    "observations": "Actually viewed current final3 originals and all12 cumulative steps via contact sheet, with original step6/7 and sourcep6/7 enlarged. Lower6527 atY=-127 now sits at lower red beam stud-top as source supports; exact hidden contact is not established by pixels. Source6526 remains omitted; upper pulley diameter82 versus column gap80 remains1LDU risk per side. Visible green shaft protrusion above upper retainer differs from sourcep6 and remains an unresolved axial-stack constraint. Local zero strict triangle crossings is not physical clearance proof. No LDR edits in this review; INCOMPLETE, accepted=false, physicalValidation=false.",
+    "sourceUnchangedDuringReview": true
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "slug": "5-diao-shan",
+  "sourceSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+  "checkpointSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+  "reviewedAt": "2026-10-11T07:19:33.023043+00:00",
+  "rawExit": 0,
+  "rawOutput": "OK   [5-diao-shan.ldr] 67 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarmPairCount": 0,
+  "classificationCounts": {},
+  "alarms": [],
+  "directPartFileSha256": {},
+  "noRawAlarmsMeaning": "No raw bounding-box alarms is not proof of source fidelity, support closure, dynamic operation or physical fit.",
+  "remainingSourceLimitations": [
+    {
+      "page": 7,
+      "part": "two official6526 blade carriers and61898bc01 cross stack",
+      "missing": "IDs and80LDU offset hole correspondence confirmed; opposed clamp depth/rotor phase inferred, friction and physical clamp retention untested"
+    },
+    {
+      "page": 8,
+      "part": "gear mesh and crank retention",
+      "missing": "source-backed axes and120LDU spacing; physical mesh/retention untested"
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

@@ -1,0 +1,1760 @@
+{
+  "at": "2026-10-11T11:45:44.442115+00:00",
+  "scope": "Independent PDF bytes/hash/page count/course provenance and decoded image integrity only. No source pixel review or LDR/model QA claimed.",
+  "batch": 12,
+  "archive": {
+    "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12.zip",
+    "bytes": 13685215,
+    "sha256": "6fb7fa611f9e5756901555b9a1a8c2e53c2052eaac47004a611027a8504f7e1b"
+  },
+  "expectedLibraryId": "libfile_2f7d19118b7c8191acf12b2484585011",
+  "catalog": {
+    "path": "D:\\Codex-task-2-20261011\\inputs\\source-catalog-v3.zip",
+    "sha256": "ac61af008951304bdd0d5452b33f83140f263382f3c3db5dbc537bb8048df5fc",
+    "bytes": 73094,
+    "zipCRC": null,
+    "completeMappingCourses": 129,
+    "summary": {
+      "as_of_utc": "2026-10-11T10:36:36Z",
+      "target_count": 129,
+      "covered_courses": 129,
+      "remaining_count": 0,
+      "source_coverage_complete": true,
+      "model_completion_claimed": false,
+      "status_counts": {
+        "downloaded_pdf": 122,
+        "existing_original_jpgs": 7
+      },
+      "downloaded_pdf_pages": 1487,
+      "existing_original_image_pages": 93,
+      "total_source_pages": 1580,
+      "pdf_packages": 16,
+      "existing_image_packages": 2,
+      "grade_4": {
+        "downloaded_pdf": 35,
+        "existing_original_jpgs": 6
+      },
+      "grade_5": {
+        "downloaded_pdf": 87,
+        "existing_original_jpgs": 1
+      },
+      "latest_resume": {
+        "target_count": 60,
+        "success_count": 60,
+        "remaining_count": 0,
+        "started_at_utc": "2026-10-11T10:10:00Z",
+        "finished_at_utc": "2026-10-11T10:34:12Z"
+      },
+      "validation": {
+        "pdf_page_renders_succeeded": 1487,
+        "jpg_decode_succeeded": 93,
+        "pdf_and_target_jpg_archive_hashes_match": true,
+        "last_pdf_pages_visually_reviewed": 122
+      }
+    }
+  },
+  "manifestSha256": "4cc07d4bae9f77f6d91395585ed81fd7f60dfd46a929ad979610480fc2dc1cde",
+  "materializationVerificationSha256": "031575d1fd30528ad2ecd03ce16cf900bab03ed596cc0c4adad643ecab32efcf",
+  "auditSha256": "d36a15b61ec40fe357167af1a77bb1f5a153a7919ec1e9dab04602288c9e2aaa",
+  "rows": [
+    {
+      "slug": "5-ji-gu-shou",
+      "lessonId": 263,
+      "courseId": 7,
+      "pdfPath": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+击鼓手搭建说明.pdf",
+      "actualSha256": "3bccfe43f16c5d94a69d50cb7cc5ca8f488b3f699f8a5124b34365ce532e0ba9",
+      "bytes": 1368842,
+      "pages": 11,
+      "checks": {
+        "sha256": true,
+        "bytes": true,
+        "pages": true,
+        "catalog.relative_path": true,
+        "catalog.sha256": true,
+        "catalog.bytes": true,
+        "catalog.pages": true,
+        "catalog.lesson_id": true,
+        "catalog.course_id": true,
+        "catalogBatch.relative_path": true,
+        "catalogBatch.sha256": true,
+        "catalogBatch.bytes": true,
+        "catalogBatch.pages": true,
+        "catalogBatch.lesson_id": true,
+        "catalogBatch.course_id": true,
+        "materialization.relative_path": true,
+        "materialization.sha256": true,
+        "materialization.bytes": true,
+        "materialization.pages": true,
+        "materialization.lesson_id": true,
+        "materialization.course_id": true,
+        "catalogBatchNumber": true,
+        "catalogLibraryId": true,
+        "auditLesson": true,
+        "auditCourse": true,
+        "allPagesDecoded": true
+      },
+      "decodedImages": [
+        {
+          "page": 1,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-01.jpg",
+          "sha256": "fb14af7b6f519ceb05270b694a4bb7c4b7906c7232fd421d156d89bd497fdc77",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 2,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-02.jpg",
+          "sha256": "b2c09de39f6865004fc13cd587f1e76cb7e6dea365c68aab50e96ab9cd0e811a",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 3,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-03.jpg",
+          "sha256": "fdf4608030e44ca53e6900e7bb8c7d47039368818f7b7fd5eb5bfd5f77186f3d",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 4,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-04.jpg",
+          "sha256": "50ddd4e7caba0fd56323a66028d4aae8a942c1bf4f58c518509cf7fd037acf33",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 5,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-05.jpg",
+          "sha256": "026fd670014a06b4fbde06f717c83584d4d9c2e06e738fd4d4eb1f1759a186fc",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 6,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-06.jpg",
+          "sha256": "c818f816e7fd69c6e39866c81b43717cf95f76d6547d97cda1f911a2dfc3a34f",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 7,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-07.jpg",
+          "sha256": "38b43544c803ab5e517b43cf6ee18e14da26a7e862ec150962714688613b23dc",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 8,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-08.jpg",
+          "sha256": "f41e89462ab2cb4046bd5c365d95878996ed602eeabd3e30e445c12cb414a049",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 9,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-09.jpg",
+          "sha256": "819f22465dd45524d7734295bd94ae9627e01608dad8bd99ee4eaf37a9647536",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 10,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-10.jpg",
+          "sha256": "8511f81847e919de22a73dc3d5a6895811b8b0ed28221b8f8083a36dd3feeb11",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 11,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ji-gu-shou\\page-11.jpg",
+          "sha256": "e4303d0d0840444c37d7a29fa08a09e4649d92525901215f4d2c911321c3f891",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        }
+      ]
+    },
+    {
+      "slug": "5-ge-cao-ji",
+      "lessonId": 257,
+      "courseId": 7,
+      "pdfPath": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+割草机搭建说明.pdf",
+      "actualSha256": "c1383dc7116fcd69d2f7513ec9fb1463b7b41358c2ec3b749f819c445723eda0",
+      "bytes": 1268634,
+      "pages": 10,
+      "checks": {
+        "sha256": true,
+        "bytes": true,
+        "pages": true,
+        "catalog.relative_path": true,
+        "catalog.sha256": true,
+        "catalog.bytes": true,
+        "catalog.pages": true,
+        "catalog.lesson_id": true,
+        "catalog.course_id": true,
+        "catalogBatch.relative_path": true,
+        "catalogBatch.sha256": true,
+        "catalogBatch.bytes": true,
+        "catalogBatch.pages": true,
+        "catalogBatch.lesson_id": true,
+        "catalogBatch.course_id": true,
+        "materialization.relative_path": true,
+        "materialization.sha256": true,
+        "materialization.bytes": true,
+        "materialization.pages": true,
+        "materialization.lesson_id": true,
+        "materialization.course_id": true,
+        "catalogBatchNumber": true,
+        "catalogLibraryId": true,
+        "auditLesson": true,
+        "auditCourse": true,
+        "allPagesDecoded": true
+      },
+      "decodedImages": [
+        {
+          "page": 1,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ge-cao-ji\\page-01.jpg",
+          "sha256": "f8df389652f3f63e8094d040c43ac9830564c8e757122458755ef8f7966190b6",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 2,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ge-cao-ji\\page-02.jpg",
+          "sha256": "b2adbd8ccccb4f6e41ba51d6b59d46898d4dc7296356a9965e18a27a4e6b3d75",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 3,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ge-cao-ji\\page-03.jpg",
+          "sha256": "3f84e1bd592dde765f1162ce9cd04c2be79b8cf83c6d8e3801ae3997b7143f9f",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 4,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ge-cao-ji\\page-04.jpg",
+          "sha256": "66d972d2e574b16071d5c4c8c3375fec61411a1545a927cafc50c15851ac8dd0",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 5,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ge-cao-ji\\page-05.jpg",
+          "sha256": "1a348c19f6aff82c504ec8817dac40146bea544bd114905b630d89a12d92370c",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 6,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ge-cao-ji\\page-06.jpg",
+          "sha256": "08d70999886f1ad42b9e44f41b26e7e71b199b0376afb1913dba7f2f2055fe7d",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 7,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ge-cao-ji\\page-07.jpg",
+          "sha256": "9effe0f87d9a132496f966eb923d9443b98a6d4090b7950d12d6b15d7e01d861",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 8,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ge-cao-ji\\page-08.jpg",
+          "sha256": "8de9e52bf6b30dc548d8c94debac902d937ba72a3ea0357bca949d424c2de375",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 9,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ge-cao-ji\\page-09.jpg",
+          "sha256": "bd443eae84ffc8d59ac3d4c4dad2af1eaa11e1f9ac5a879926f324f12231b4d1",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 10,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-ge-cao-ji\\page-10.jpg",
+          "sha256": "7b75707021c6e54293becabd3b4af74808c69ceee5c5799e3959a5c5068cf55d",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        }
+      ]
+    },
+    {
+      "slug": "5-la-ji-che",
+      "lessonId": 267,
+      "courseId": 7,
+      "pdfPath": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+垃圾车搭建说明.pdf",
+      "actualSha256": "971127a10ea4c54de8498ff88a1049083d0c246281fd7ee0666d775242e25e75",
+      "bytes": 2613323,
+      "pages": 16,
+      "checks": {
+        "sha256": true,
+        "bytes": true,
+        "pages": true,
+        "catalog.relative_path": true,
+        "catalog.sha256": true,
+        "catalog.bytes": true,
+        "catalog.pages": true,
+        "catalog.lesson_id": true,
+        "catalog.course_id": true,
+        "catalogBatch.relative_path": true,
+        "catalogBatch.sha256": true,
+        "catalogBatch.bytes": true,
+        "catalogBatch.pages": true,
+        "catalogBatch.lesson_id": true,
+        "catalogBatch.course_id": true,
+        "materialization.relative_path": true,
+        "materialization.sha256": true,
+        "materialization.bytes": true,
+        "materialization.pages": true,
+        "materialization.lesson_id": true,
+        "materialization.course_id": true,
+        "catalogBatchNumber": true,
+        "catalogLibraryId": true,
+        "auditLesson": true,
+        "auditCourse": true,
+        "allPagesDecoded": true
+      },
+      "decodedImages": [
+        {
+          "page": 1,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-01.jpg",
+          "sha256": "871e8384d8b24cf2f71a39e1da9ef85f5e318bcd9a869917536a6f9c48e9d03e",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 2,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-02.jpg",
+          "sha256": "c98d9cfc2fe73717063921a7a170c906233e44bf4b905632edf8a3060a4d4c24",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 3,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-03.jpg",
+          "sha256": "36b586916b333f63801bf6ddaba81ebb28dced8dce5ded57f6f5add9f667778f",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 4,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-04.jpg",
+          "sha256": "901f3248ece163f9e85710cd7f4a9012d3cfc6662590316c092ae1a4580728eb",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 5,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-05.jpg",
+          "sha256": "f31fb7a356f8458a715a7013f03201c914ba573e0235a93587e7b3abe6dbb81d",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 6,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-06.jpg",
+          "sha256": "ffc6ba611aca8d37fa4916a3e4ca1bab32e3a1f26ee4ed4e74ef42b3642da402",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 7,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-07.jpg",
+          "sha256": "fa1233f1ab5b8becbeb1e0f66a226906f90906e26bb4d329807d4b58902089fe",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 8,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-08.jpg",
+          "sha256": "8f3a774329476b110f21233f6cd1cf9755263d8858d54531950feea25842edfc",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 9,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-09.jpg",
+          "sha256": "c4d2cd91b23a0ba4d3daff010203a97d41e88e20964355c5ece33d80071913c5",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 10,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-10.jpg",
+          "sha256": "046313cc1bfe49c7a12a87622fcf5bae0e2da1d1ba14767cf070b6671c2bb2a1",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 11,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-11.jpg",
+          "sha256": "d75eea33edab729a80ab675f4ae2493e53763f80f4ca293d9d1c145ede43a4dd",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 12,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-12.jpg",
+          "sha256": "762c71500e37120f2e878e2325ef33ee1cf5f3c708b9a6675384a277d3c2dff0",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 13,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-13.jpg",
+          "sha256": "6464174dea963bb25d707cfb1540dc7a59b4de5d1891dc2ffecbbe998dfdf5bb",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 14,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-14.jpg",
+          "sha256": "afae9bb9c045a4ea32fba114c76a3deca4ff1e67cc9ee5fcf18826574289f49d",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 15,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-15.jpg",
+          "sha256": "1c92e1b05a1677957ecb0c0ad0b561c68f14b2c09dca46e3874533da0f3a4bfa",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 16,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-la-ji-che\\page-16.jpg",
+          "sha256": "438172b9a8a9e1166bc254d501d6a3ae4f9319827a59cecf23a01a910346938e",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        }
+      ]
+    },
+    {
+      "slug": "5-kai-ye-zi-qi",
+      "lessonId": 266,
+      "courseId": 7,
+      "pdfPath": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+开椰子器搭建说明.pdf",
+      "actualSha256": "15d623a43abdf57ce63b0f9d9bc34a2c8de1f20ad5837080be56997c340e7f89",
+      "bytes": 1541775,
+      "pages": 12,
+      "checks": {
+        "sha256": true,
+        "bytes": true,
+        "pages": true,
+        "catalog.relative_path": true,
+        "catalog.sha256": true,
+        "catalog.bytes": true,
+        "catalog.pages": true,
+        "catalog.lesson_id": true,
+        "catalog.course_id": true,
+        "catalogBatch.relative_path": true,
+        "catalogBatch.sha256": true,
+        "catalogBatch.bytes": true,
+        "catalogBatch.pages": true,
+        "catalogBatch.lesson_id": true,
+        "catalogBatch.course_id": true,
+        "materialization.relative_path": true,
+        "materialization.sha256": true,
+        "materialization.bytes": true,
+        "materialization.pages": true,
+        "materialization.lesson_id": true,
+        "materialization.course_id": true,
+        "catalogBatchNumber": true,
+        "catalogLibraryId": true,
+        "auditLesson": true,
+        "auditCourse": true,
+        "allPagesDecoded": true
+      },
+      "decodedImages": [
+        {
+          "page": 1,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-01.jpg",
+          "sha256": "1b33c15b38d13c3b7b0eaa92d74520e2b7785bb82c6824669b6ea916f232b88e",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 2,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-02.jpg",
+          "sha256": "9fd34a513dd745bc4ca5ee12b1cc00a99c345b3d605aa856173940e91a94e917",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 3,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-03.jpg",
+          "sha256": "2d337d9d94de83a63db94d9fc2a092375dbd1d29ddeb6ad599989ee95a073ffd",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 4,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-04.jpg",
+          "sha256": "6bbe4eac8469f926d7190767f8be673776051faeaac01db12c4913e5273e24e5",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 5,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-05.jpg",
+          "sha256": "1129050838dfe71ec1c8a9f30d84cb04be0419dac17d8a2e8178d49f9e0c8b4a",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 6,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-06.jpg",
+          "sha256": "145b12d124bfe66a55032a6ebe70f2f3ce509033dcdd6e1f64924b2cdb9df0c9",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 7,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-07.jpg",
+          "sha256": "f1ccbf6e14585c2a76c4c2df78919d0d5969663a0c2dac5304a3e0a6dfc05448",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 8,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-08.jpg",
+          "sha256": "7b163f942872dd69aa312e0dc1e39c5687354f64c3d53bfc921c0bac36f7b122",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 9,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-09.jpg",
+          "sha256": "3805cf271fd136f7c98080ee7a4d7c9c542b83a27ea3f90fcc6d5276f094865e",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 10,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-10.jpg",
+          "sha256": "0b2c7c9829d551c465a0c9f704868b7462bddc723b4ecd85b8744279a235f39a",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 11,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-11.jpg",
+          "sha256": "091405d45a94f80e03f46dd53cbbfd6a9da01686492811d775a5de075e02ce66",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 12,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-12.jpg",
+          "sha256": "fbe31bdce1289651b0d4d9a84b348db43d732380ddf13e67c482b5cec4c8f1f8",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        }
+      ]
+    },
+    {
+      "slug": "5-hai-dao-chuan",
+      "lessonId": 258,
+      "courseId": 7,
+      "pdfPath": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+海盗船搭建说明.pdf",
+      "actualSha256": "68377c18e7d9b804cba8a781b690d3683b006d24a76b388c984f97f8128ba26b",
+      "bytes": 2196624,
+      "pages": 14,
+      "checks": {
+        "sha256": true,
+        "bytes": true,
+        "pages": true,
+        "catalog.relative_path": true,
+        "catalog.sha256": true,
+        "catalog.bytes": true,
+        "catalog.pages": true,
+        "catalog.lesson_id": true,
+        "catalog.course_id": true,
+        "catalogBatch.relative_path": true,
+        "catalogBatch.sha256": true,
+        "catalogBatch.bytes": true,
+        "catalogBatch.pages": true,
+        "catalogBatch.lesson_id": true,
+        "catalogBatch.course_id": true,
+        "materialization.relative_path": true,
+        "materialization.sha256": true,
+        "materialization.bytes": true,
+        "materialization.pages": true,
+        "materialization.lesson_id": true,
+        "materialization.course_id": true,
+        "catalogBatchNumber": true,
+        "catalogLibraryId": true,
+        "auditLesson": true,
+        "auditCourse": true,
+        "allPagesDecoded": true
+      },
+      "decodedImages": [
+        {
+          "page": 1,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-01.jpg",
+          "sha256": "fd4ea2c486f53d2198a62c3818acbc028180014dfeb390726b9ed1db5966a05d",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 2,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-02.jpg",
+          "sha256": "80ea97a261ee8e4b4eb6525f418d36f6dc5f99af827e2b1385eafdf774ac0ea4",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 3,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-03.jpg",
+          "sha256": "54ed579055ba5065b7a7cd3d6df0947d10a4249bb7a03cb31808fd2778b510d5",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 4,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-04.jpg",
+          "sha256": "1992a567241f47732219a6b310c71c0ea39292b3832481df01dd9a04807db8c3",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 5,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-05.jpg",
+          "sha256": "2c8fd5e11c4ea5a46f88724a932164d98f412f8447c4797bf7742c4b4852cf0a",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 6,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-06.jpg",
+          "sha256": "dbfcaa7bca395a1a2a4c131653968622d69f5ee4d49035a4d07fde7c533477da",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 7,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-07.jpg",
+          "sha256": "56003ae48d8c060bd11c5d8c86125280a00be89e92090d521ca484817d879d26",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 8,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-08.jpg",
+          "sha256": "d3e27a2e9610c44fc986ffee43ec0d513b95cd0ba84049ced57bd6e0a92890a5",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 9,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-09.jpg",
+          "sha256": "bcd45b8fb92b6a8f9274b7ff97724c477d0604e382b844f127b970e51e7f534d",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 10,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-10.jpg",
+          "sha256": "365537b2b3f2c63d1734b4e8ce35582cecdf864f7640b5b83987c2599c6238ed",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 11,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-11.jpg",
+          "sha256": "02fff4343d1184bb3d8b28c8c6cd687ba678769077f16006470943d168bde812",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 12,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-12.jpg",
+          "sha256": "bb7540922e3276e0f8d4b15cf7322db00eab87d6c8914a91f41ce275afce7385",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 13,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-13.jpg",
+          "sha256": "35f0b56438234fd2e68e49231cd56e280f8249c6d0cdcd60beaa810c47dea924",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 14,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hai-dao-chuan\\page-14.jpg",
+          "sha256": "9d22693309cb7d51f4a2a58a7fccf43c9846f54a1aeb1ae5323e17f6beb0e09d",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        }
+      ]
+    },
+    {
+      "slug": "5-hua-ban-che",
+      "lessonId": 260,
+      "courseId": 7,
+      "pdfPath": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+滑板车搭建说明.pdf",
+      "actualSha256": "b270010f9c24749a986758d767afae72317eac1b8e97f7125fb8d7d9cdbafc6a",
+      "bytes": 1274496,
+      "pages": 10,
+      "checks": {
+        "sha256": true,
+        "bytes": true,
+        "pages": true,
+        "catalog.relative_path": true,
+        "catalog.sha256": true,
+        "catalog.bytes": true,
+        "catalog.pages": true,
+        "catalog.lesson_id": true,
+        "catalog.course_id": true,
+        "catalogBatch.relative_path": true,
+        "catalogBatch.sha256": true,
+        "catalogBatch.bytes": true,
+        "catalogBatch.pages": true,
+        "catalogBatch.lesson_id": true,
+        "catalogBatch.course_id": true,
+        "materialization.relative_path": true,
+        "materialization.sha256": true,
+        "materialization.bytes": true,
+        "materialization.pages": true,
+        "materialization.lesson_id": true,
+        "materialization.course_id": true,
+        "catalogBatchNumber": true,
+        "catalogLibraryId": true,
+        "auditLesson": true,
+        "auditCourse": true,
+        "allPagesDecoded": true
+      },
+      "decodedImages": [
+        {
+          "page": 1,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-01.jpg",
+          "sha256": "f9d04a430aefd6d73bb2c17a6e670661153ad9e07232f9b6f8ecfb14234812e4",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 2,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-02.jpg",
+          "sha256": "1a83df5680dc244e2eef9fff7d5039aad0016fb569442f7733b9260d4731fc51",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 3,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-03.jpg",
+          "sha256": "53fb6a829f4aa432a2381615dd1b61bf9130c3e04e2299646bf2c622113b8b40",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 4,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-04.jpg",
+          "sha256": "d52b2e104e2284f8b1d1a6f8e5fb5f81fa93f4abffaad186c406aeec288e6557",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 5,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-05.jpg",
+          "sha256": "d48bad3d4a667e61bc928a062ed3cc2c5e3787125e898189327dbbd66168fd68",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 6,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-06.jpg",
+          "sha256": "c8c179bf8fb6da62d5495be1212f702aa0144bde73adadc0ddc05ea9e56833f6",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 7,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-07.jpg",
+          "sha256": "d5574a2b0cae26188ef9218a9f4b5d1d54c7937607055ac5124b9a6c505fe423",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 8,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-08.jpg",
+          "sha256": "3e119ab5a5989d2822899ee1912645ecf0eb462732bc92a90ce3ae2376898d7f",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 9,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-09.jpg",
+          "sha256": "13cd5b060db45a4051431e42444ad00fe3f5979b45b50f58f07bad2f6b7822a9",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 10,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hua-ban-che\\page-10.jpg",
+          "sha256": "a4f7c2262b3aa39f08a6eaea89de6d309444ad491aebdd86ea1683ef3b261c97",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        }
+      ]
+    },
+    {
+      "slug": "5-nian-yao-ren-zai",
+      "lessonId": 272,
+      "courseId": 7,
+      "pdfPath": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+碾药人仔搭建说明.pdf",
+      "actualSha256": "5dc38f502dcb752332f5815fab18f0f5fc4b757557e0c7fe259ec4bd12952378",
+      "bytes": 1710615,
+      "pages": 12,
+      "checks": {
+        "sha256": true,
+        "bytes": true,
+        "pages": true,
+        "catalog.relative_path": true,
+        "catalog.sha256": true,
+        "catalog.bytes": true,
+        "catalog.pages": true,
+        "catalog.lesson_id": true,
+        "catalog.course_id": true,
+        "catalogBatch.relative_path": true,
+        "catalogBatch.sha256": true,
+        "catalogBatch.bytes": true,
+        "catalogBatch.pages": true,
+        "catalogBatch.lesson_id": true,
+        "catalogBatch.course_id": true,
+        "materialization.relative_path": true,
+        "materialization.sha256": true,
+        "materialization.bytes": true,
+        "materialization.pages": true,
+        "materialization.lesson_id": true,
+        "materialization.course_id": true,
+        "catalogBatchNumber": true,
+        "catalogLibraryId": true,
+        "auditLesson": true,
+        "auditCourse": true,
+        "allPagesDecoded": true
+      },
+      "decodedImages": [
+        {
+          "page": 1,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-01.jpg",
+          "sha256": "edf200e31fa9e0fb1209414b85712a4300cab12bc403855ed38e3c5c20af4410",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 2,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-02.jpg",
+          "sha256": "5cf433d02ae35cd6b88daad7525ba3adbd45d230661ae41705b98c62e0d8c050",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 3,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-03.jpg",
+          "sha256": "a99e85ff8a8a7b4959a530a55dedcb566ddbe30502de1091386fe7bffe2ab17e",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 4,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-04.jpg",
+          "sha256": "746c436f5e2f0643459e129f4927bb29bf7fe409ebe680342dcca471babc25c7",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 5,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-05.jpg",
+          "sha256": "cfe61389118a7d6d99dd378a617e2f021e085663b5e63d240c942437d8f9b833",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 6,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-06.jpg",
+          "sha256": "89bfd390d5ca54a9c802a2d3ebfb72602c2005ba2bbcd775d86c04e07b9617c0",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 7,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-07.jpg",
+          "sha256": "996b1b286d3ba625129443d3e7f6b20b61c20555cdd412b7626c3f4addf91e0e",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 8,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-08.jpg",
+          "sha256": "b0a646424eccb99169898ec4685f59383148ed0dfe8a86bd9a8e0664ec10ad3b",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 9,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-09.jpg",
+          "sha256": "6974165569b0d5f5dab4bb1735724f33fd1ba5fa585530b3cbbf99e2ef084bab",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 10,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-10.jpg",
+          "sha256": "c3c811913b236e37f4b70f19072c3bb28c7f3b6c53fbf4f22bedad416134bf99",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 11,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-11.jpg",
+          "sha256": "fb02c7151757912a0e97ce1ac3f3797b06f7960c7dc8eacd13adbcf69b849204",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 12,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-nian-yao-ren-zai\\page-12.jpg",
+          "sha256": "f1150fbb7bcf4d1b3c22bf60b24a687d1fce086a1a01f42826d62695af59b32e",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        }
+      ]
+    },
+    {
+      "slug": "5-lan-che",
+      "lessonId": 268,
+      "courseId": 7,
+      "pdfPath": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+缆车搭建说明.pdf",
+      "actualSha256": "773599d538ed8eac8581dd9830371dd85d3d4ac268e8e38421bcced747270a03",
+      "bytes": 2448677,
+      "pages": 18,
+      "checks": {
+        "sha256": true,
+        "bytes": true,
+        "pages": true,
+        "catalog.relative_path": true,
+        "catalog.sha256": true,
+        "catalog.bytes": true,
+        "catalog.pages": true,
+        "catalog.lesson_id": true,
+        "catalog.course_id": true,
+        "catalogBatch.relative_path": true,
+        "catalogBatch.sha256": true,
+        "catalogBatch.bytes": true,
+        "catalogBatch.pages": true,
+        "catalogBatch.lesson_id": true,
+        "catalogBatch.course_id": true,
+        "materialization.relative_path": true,
+        "materialization.sha256": true,
+        "materialization.bytes": true,
+        "materialization.pages": true,
+        "materialization.lesson_id": true,
+        "materialization.course_id": true,
+        "catalogBatchNumber": true,
+        "catalogLibraryId": true,
+        "auditLesson": true,
+        "auditCourse": true,
+        "allPagesDecoded": true
+      },
+      "decodedImages": [
+        {
+          "page": 1,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-01.jpg",
+          "sha256": "8363196c38e69d6ddf8bfa07ef674563a4711d45c7f771aa1cd961c49050befc",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 2,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-02.jpg",
+          "sha256": "4927bc91015ae30f79dd89d12d94ed5b2c66ba5b8a6bc6c28c9fe9b1f0479eab",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 3,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-03.jpg",
+          "sha256": "10b7347feb6522b2fcede34f061f2c29fd00143fc25d0bef195ebcd7c16ca62a",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 4,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-04.jpg",
+          "sha256": "8a7bc629981b50e9d8917275ecef62d0d1bc58052a82b606a35ba817013cbaf5",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 5,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-05.jpg",
+          "sha256": "c8ac5b7c386c63627d0515e22c3aa5bf1f39443b1edb57c20a87bfa2c64ee384",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 6,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-06.jpg",
+          "sha256": "cb9cea46dc351bd7a30e4c2c7047e0351f43a66601f6423d81bfbae04caef192",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 7,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-07.jpg",
+          "sha256": "c6d547a489376aea2a9e2b3332f6e900c2f705e6c30cbabe48ff410d252c8f90",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 8,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-08.jpg",
+          "sha256": "6991ddbddb4f91c22da7f826d3c3625cf955f0be20b4000202ec2bab41178760",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 9,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-09.jpg",
+          "sha256": "11dcaff396150e68850fab62953ee8450cbb54c6d8e49496b888eb9ff442332c",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 10,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-10.jpg",
+          "sha256": "5988f297ce9ddec83d2559121ee76bed9654ca21e68aa3a529529f88333681d7",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 11,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-11.jpg",
+          "sha256": "a32e97a847287ca29da23fe698ca97d8323fe1dc40a66712b26d2b27344bec2b",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 12,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-12.jpg",
+          "sha256": "9bf0289cbd067d1edb910e2c879a266c07c8c421b0dbb79cf4da3deea8779cad",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 13,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-13.jpg",
+          "sha256": "5fc5268e9c5380116fa23d9d74f87b9fdb60ff6b60c9a6d7cb86334ad921435a",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 14,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-14.jpg",
+          "sha256": "d9c9df160a5a0cf0f8999008bccca11fc88c9143f7c4e661a985cb11018facfa",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 15,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-15.jpg",
+          "sha256": "43b1660038dc3a4bdfe33a9eefde813ac051e522baba3eb51b2defcf3466fdf1",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 16,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-16.jpg",
+          "sha256": "724074170d114d76d91a3dae276e003ed7c15f86302db7d3f0925e28ff7f7a3c",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 17,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-17.jpg",
+          "sha256": "4af0501d287f9e5f542b34e2f09aad36693014b245b267e9d4464a45900ae0dd",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 18,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-lan-che\\page-18.jpg",
+          "sha256": "5abb4e91ff71cae34ae10be581308388b14d30e0cdd4175ebe0566b74858d2ca",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        }
+      ]
+    },
+    {
+      "slug": "5-hu-die",
+      "lessonId": 259,
+      "courseId": 7,
+      "pdfPath": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+蝴蝶搭建说明.pdf",
+      "actualSha256": "eb42c3a3e877bb28d12e12476f9c2871ab7ebf7cbb4b10b2ce1ae946327f5a44",
+      "bytes": 1978335,
+      "pages": 12,
+      "checks": {
+        "sha256": true,
+        "bytes": true,
+        "pages": true,
+        "catalog.relative_path": true,
+        "catalog.sha256": true,
+        "catalog.bytes": true,
+        "catalog.pages": true,
+        "catalog.lesson_id": true,
+        "catalog.course_id": true,
+        "catalogBatch.relative_path": true,
+        "catalogBatch.sha256": true,
+        "catalogBatch.bytes": true,
+        "catalogBatch.pages": true,
+        "catalogBatch.lesson_id": true,
+        "catalogBatch.course_id": true,
+        "materialization.relative_path": true,
+        "materialization.sha256": true,
+        "materialization.bytes": true,
+        "materialization.pages": true,
+        "materialization.lesson_id": true,
+        "materialization.course_id": true,
+        "catalogBatchNumber": true,
+        "catalogLibraryId": true,
+        "auditLesson": true,
+        "auditCourse": true,
+        "allPagesDecoded": true
+      },
+      "decodedImages": [
+        {
+          "page": 1,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hu-die\\page-01.jpg",
+          "sha256": "ededf982d491864c1ec684c9845e39846d570e31a5357b43ca5aa4c359b79af3",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 2,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hu-die\\page-02.jpg",
+          "sha256": "404441941be96c26e6ee848ebea518c26e92df44827084f33bdb33b69c753916",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 3,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hu-die\\page-03.jpg",
+          "sha256": "956f7c97334796e7907a11b7dc218b0a92fb55f4fc6c036168cd2e7689b90b4e",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 4,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hu-die\\page-04.jpg",
+          "sha256": "6f95134a89666f72abd8f7034c407e2e53a2e3092acf83862e3f70ba135d359a",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 5,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hu-die\\page-05.jpg",
+          "sha256": "b2ef13ae768788146a02ca38926fdd7b99642dee454c67b4f8ee015eb4620449",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 6,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hu-die\\page-06.jpg",
+          "sha256": "d21803373f97905136c2e5ce59c3022cff82c49fa272eb1264251862d53deb00",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 7,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hu-die\\page-07.jpg",
+          "sha256": "9eb6729822aba5f20a68e02e0980f7b266a8e895697841bff1909e3f7fedb0f0",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 8,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hu-die\\page-08.jpg",
+          "sha256": "7a7d5798579f2fafb1f2bcec234377432fa0c6d7a0b540f3700d35410c0b7b52",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 9,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hu-die\\page-09.jpg",
+          "sha256": "c2cb66c8872783074f6037bac2be9653bfe18d81d75ab4a18149322389748b1e",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 10,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hu-die\\page-10.jpg",
+          "sha256": "c6735a716a18a84403adf18c15373be8fe6a0fbfe69ea6c2af5d2130c03f1a23",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 11,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hu-die\\page-11.jpg",
+          "sha256": "c34e52e14a6afc01da1035fe50480f4f157cd885365f44ab3501a1f74e9de446",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 12,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-hu-die\\page-12.jpg",
+          "sha256": "cd08234f2893e69360727d675e1cd9af3e37101eec0ad1338552a62dddb89c10",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        }
+      ]
+    },
+    {
+      "slug": "5-long-men-diao",
+      "lessonId": 269,
+      "courseId": 7,
+      "pdfPath": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+龙门吊搭建说明.pdf",
+      "actualSha256": "b1ebd3c4d0c6ca8e011e4f3c905cea926bfde818d64ee9a792dcbd525ad02890",
+      "bytes": 1969625,
+      "pages": 15,
+      "checks": {
+        "sha256": true,
+        "bytes": true,
+        "pages": true,
+        "catalog.relative_path": true,
+        "catalog.sha256": true,
+        "catalog.bytes": true,
+        "catalog.pages": true,
+        "catalog.lesson_id": true,
+        "catalog.course_id": true,
+        "catalogBatch.relative_path": true,
+        "catalogBatch.sha256": true,
+        "catalogBatch.bytes": true,
+        "catalogBatch.pages": true,
+        "catalogBatch.lesson_id": true,
+        "catalogBatch.course_id": true,
+        "materialization.relative_path": true,
+        "materialization.sha256": true,
+        "materialization.bytes": true,
+        "materialization.pages": true,
+        "materialization.lesson_id": true,
+        "materialization.course_id": true,
+        "catalogBatchNumber": true,
+        "catalogLibraryId": true,
+        "auditLesson": true,
+        "auditCourse": true,
+        "allPagesDecoded": true
+      },
+      "decodedImages": [
+        {
+          "page": 1,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-01.jpg",
+          "sha256": "e28c66723752fb9d483a3714657c5aab1e4683e714e32a340a84a62c77d9118c",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 2,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-02.jpg",
+          "sha256": "23bb0d70d9c6e802502a804cffcdd32ee8ea3816801d71429faf1aa474fcd122",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 3,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-03.jpg",
+          "sha256": "88e03f3961dc23cf5930c77bb6774377621d672847121deedb01ef8f21013884",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 4,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-04.jpg",
+          "sha256": "759b7675a8fcea576aa5c9da9a77b68f3967d5ba54094a27665839287c4fa1e5",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 5,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-05.jpg",
+          "sha256": "a8892a7e048177a986903374cda3ccb82eaa1ab80cfd85656e5491e78496e993",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 6,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-06.jpg",
+          "sha256": "a241e523bfdfb455220360f4a3ca6817f728f155ff61c9fe5c59cdc224008a34",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 7,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-07.jpg",
+          "sha256": "0459d6a2470a94f6960bb1daf6e673a177c960489c84701fef0e20937a5a5ccc",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 8,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-08.jpg",
+          "sha256": "ed13ac6c220620cde9e162e14003a985b568d3ef14294b8ec87a5eb3bb1bb73b",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 9,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-09.jpg",
+          "sha256": "8aa7a94a4f3266f690557863b04cd4edee8d59316da9c2b949f899f35e6f2bd2",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 10,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-10.jpg",
+          "sha256": "0ea4e97fa8d895bae1fc00280e6c7e0b61efdefa8f8338599952f0e5859a9db9",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 11,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-11.jpg",
+          "sha256": "d65edf96be99bb54e0fff5e9ddaed2d17cae41cf86f38c8cb78d65182a9f3c4d",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 12,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-12.jpg",
+          "sha256": "07124b9889834b8b4df04cfe2b600d92e56ec5501abaae0daacbd1556f8a7402",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 13,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-13.jpg",
+          "sha256": "f426e2787204e9037039d441e8f86186da204be32f0c293ce6638edc77d53144",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 14,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-14.jpg",
+          "sha256": "6b442940269c20c3df63f2b9409c098e16f36c403bcdbfa53bc2070e1fb235a6",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        },
+        {
+          "page": 15,
+          "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-15.jpg",
+          "sha256": "e8ecdc78abcea2b448ed344a704ff02de68918f1ce093731db6b5b4f09a544e5",
+          "dimensions": [
+            1500,
+            1062
+          ],
+          "receiptMatches": true
+        }
+      ]
+    }
+  ],
+  "issues": [],
+  "summary": {
+    "courses": 10,
+    "pages": 130,
+    "bytes": 18370946,
+    "decodedImages": 130,
+    "issues": 0,
+    "passed": true
+  }
+}

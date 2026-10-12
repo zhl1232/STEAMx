@@ -1,0 +1,168 @@
+{
+  "slug": "5-ya-lu-ji",
+  "modelSha256": "41c0a7ea916fcfa0ef663dc965bfc9e0459f8a1946a46c608a421e0bf1c3b943",
+  "reviewedAt": "2026-10-11T14:05:07.060Z",
+  "originalCheck": {
+    "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-ya-lu-ji.ldr",
+    "sha256": "41c0a7ea916fcfa0ef663dc965bfc9e0459f8a1946a46c608a421e0bf1c3b943",
+    "exit": 2,
+    "output": "\nFAIL [5-ya-lu-ji.ldr] 2 error(s), 49 placement(s):\n  - step 4: 5-ya-lu-ji_l36 overlaps 5-ya-lu-ji_l35\n  - step 4: 5-ya-lu-ji_l39 overlaps 5-ya-lu-ji_l36\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+    "stableDuringCheck": true
+  },
+  "alarms": [
+    {
+      "lines": [
+        35,
+        36
+      ],
+      "step": 4,
+      "parts": [
+        "31196c01.dat",
+        "6345.dat"
+      ],
+      "sourceSha256": "41c0a7ea916fcfa0ef663dc965bfc9e0459f8a1946a46c608a421e0bf1c3b943",
+      "placements": [
+        {
+          "page": 4,
+          "line": 35,
+          "id": "31196c01.dat",
+          "color": 25,
+          "transform": [
+            80,
+            -232,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "page": 4,
+          "line": 36,
+          "id": "6345.dat",
+          "color": 19,
+          "transform": [
+            -68,
+            -266,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ]
+        }
+      ],
+      "classification": "known_approved_approximate_geometry_interface_risk",
+      "reason": "P4 existing local simplified31196c01 and6345 assembly overlap remains a known unverified interface. Do not infer physical fit from rendered appearance.",
+      "resolution": "retained-unresolved-not-clear",
+      "accepted": false
+    },
+    {
+      "lines": [
+        36,
+        39
+      ],
+      "step": 4,
+      "parts": [
+        "6345.dat",
+        "4672.dat"
+      ],
+      "sourceSha256": "41c0a7ea916fcfa0ef663dc965bfc9e0459f8a1946a46c608a421e0bf1c3b943",
+      "placements": [
+        {
+          "page": 4,
+          "line": 36,
+          "id": "6345.dat",
+          "color": 19,
+          "transform": [
+            -68,
+            -266,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "page": 4,
+          "line": 39,
+          "id": "4672.dat",
+          "color": 1,
+          "transform": [
+            0,
+            -424,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "classification": "known_approved_approximate_geometry_interface_risk",
+      "reason": "P4 approximate6345hood envelope intersects roof4672. Source roof touches or closely approaches hood; actual approximation contour and attachment clearance are not certified. Retain warning, no falsepositive exemption.",
+      "resolution": "retained-unresolved-not-clear",
+      "accepted": false
+    }
+  ],
+  "rawPairCount": 2,
+  "matrixReview": {
+    "maximumOrthogonalityError": 6.228718651968279e-10,
+    "maximumDeterminantError": 6.228718651968279e-10
+  },
+  "sourceEvidence": "preparation/5-ya-lu-ji/ledger.json",
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "limitations": [
+    "P1 blue half shafts meet atZ0; no keyed coupler in source. Native6523 gear collars atZ+-60 sit just inside axle bricksZ80..160; wheel centers+-180. Seam/retention are not physical validation.",
+    "P3 yellow lower layer and red front axle layer match source count; hidden lower brick seams inferred within source rectangular block.",
+    "P4 31196c01/6345 are existing user-approved local approximate geometry, not official exact cab. Cream19 opaque material follows source appearance; colour exactness unverified. Cab rear deck top assumedY-256 supports frame bottom atY-256; roof bottomY-400 on frame top, front roof overhang unsupported in source. Cab/hood/frame interfaces retain mesh risk.",
+    "61649+90265 selected from known inventory and source four-pane red frame. Pane uses frame-relative(65.5,72,-40) transformed with proper matrix; frame rear-facing (+X), white window faces rear.",
+    "P5 arm end hole spacing400LDU, body pivot(-80,-184) and drum(-472.713..., -108) give76LDU fall. Source approximate downward pose adjusted to keep red wheels near ground0 and large roller on board top-4; no scaling.",
+    "P6 four large gears40LDU thick fill160LDU drum width; arm inner facesZ+-80 meet drum outer faces. Native hubs/tooth clearances and dynamic rotation not certified.",
+    "P7 source ten loose obstacle bricks and24x24 baseplate are retained. Exact irregular positions not fixed by schematic; current stud-grid arrangement is a documented scene-layout adjustment. Actual4268base is4LDU thick, not metadata24; source road wheel vehicle outside board, front roller over board."
+  ],
+  "accepted": false,
+  "userConfirmed": false,
+  "physicalValidation": false,
+  "checkerPassIsNotConnectionAcceptance": true,
+  "currentPixels": {
+    "sourceSha256": "41c0a7ea916fcfa0ef663dc965bfc9e0459f8a1946a46c608a421e0bf1c3b943",
+    "revision": "d3d10096c74af9091a677c41889731b1668b29d30e9cf49a2e50f6cb375c0593",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "evidence": "current-pixel-review.json",
+    "accepted": false,
+    "physicalValidation": false
+  }
+}

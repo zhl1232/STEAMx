@@ -1,0 +1,1086 @@
+{
+  "slug": "4-shou-ge-ji",
+  "sourceSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+  "partCount": 41,
+  "stepCount": 8,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "title": "Four staggered black Toolo chassis bricks",
+      "placements": [
+        {
+          "part": "76395.dat",
+          "color": 0,
+          "position": [
+            -40,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "lower chassis pair; front exposed strip x240..320 supports cutter roots",
+          "line": 12
+        },
+        {
+          "part": "76395.dat",
+          "color": 0,
+          "position": [
+            200,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "lower chassis pair; front exposed strip x240..320 supports cutter roots",
+          "line": 13
+        },
+        {
+          "part": "76395.dat",
+          "color": 0,
+          "position": [
+            -120,
+            -48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom y0 meets lower top y0; rear overhang x-240..-160 receives yellow underside filler",
+          "line": 14
+        },
+        {
+          "part": "76395.dat",
+          "color": 0,
+          "position": [
+            120,
+            -48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom y0 meets lower top y0; rear overhang x-240..-160 receives yellow underside filler",
+          "line": 15
+        }
+      ],
+      "omissions": [],
+      "sourceBom": {
+        "76395.dat": 4
+      }
+    },
+    {
+      "sourcePage": 2,
+      "title": "Six screw rims with off-road tyres and front underside filler",
+      "placements": [
+        {
+          "part": "76057.dat",
+          "color": 14,
+          "position": [
+            -200,
+            0,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom of upper rear overhang y0; long axis across vehicle; sourcep2 filler is opposite sourcep3 cutter end",
+          "line": 18
+        },
+        {
+          "part": "99565.dat",
+          "color": 71,
+          "position": [
+            -200,
+            24,
+            -104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "rim back at side face z=+/-80; hole axis y24. Rear/middle selected nominal side holes; exact source hole index remains review item",
+          "line": 19
+        },
+        {
+          "part": "44970.dat",
+          "color": 0,
+          "position": [
+            -200,
+            24,
+            -104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "coaxial approved approximate rim/tyre pair; not physical fit certification",
+          "line": 20
+        },
+        {
+          "part": "99565.dat",
+          "color": 71,
+          "position": [
+            -200,
+            24,
+            104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "rim back at side face z=+/-80; hole axis y24. Rear/middle selected nominal side holes; exact source hole index remains review item",
+          "line": 21
+        },
+        {
+          "part": "44970.dat",
+          "color": 0,
+          "position": [
+            -200,
+            24,
+            104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "coaxial approved approximate rim/tyre pair; not physical fit certification",
+          "line": 22
+        },
+        {
+          "part": "99565.dat",
+          "color": 71,
+          "position": [
+            20,
+            24,
+            -104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "rim back at side face z=+/-80; hole axis y24. Rear/middle selected nominal side holes; exact source hole index remains review item",
+          "line": 23
+        },
+        {
+          "part": "44970.dat",
+          "color": 0,
+          "position": [
+            20,
+            24,
+            -104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "coaxial approved approximate rim/tyre pair; not physical fit certification",
+          "line": 24
+        },
+        {
+          "part": "99565.dat",
+          "color": 71,
+          "position": [
+            20,
+            24,
+            104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "rim back at side face z=+/-80; hole axis y24. Rear/middle selected nominal side holes; exact source hole index remains review item",
+          "line": 25
+        },
+        {
+          "part": "44970.dat",
+          "color": 0,
+          "position": [
+            20,
+            24,
+            104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "coaxial approved approximate rim/tyre pair; not physical fit certification",
+          "line": 26
+        },
+        {
+          "part": "99565.dat",
+          "color": 71,
+          "position": [
+            260,
+            24,
+            -104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "rim back at side face z=+/-80; hole axis y24. Rear/middle selected nominal side holes; exact source hole index remains review item",
+          "line": 27
+        },
+        {
+          "part": "44970.dat",
+          "color": 0,
+          "position": [
+            260,
+            24,
+            -104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "coaxial approved approximate rim/tyre pair; not physical fit certification",
+          "line": 28
+        },
+        {
+          "part": "99565.dat",
+          "color": 71,
+          "position": [
+            260,
+            24,
+            104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "rim back at side face z=+/-80; hole axis y24. Rear/middle selected nominal side holes; exact source hole index remains review item",
+          "line": 29
+        },
+        {
+          "part": "44970.dat",
+          "color": 0,
+          "position": [
+            260,
+            24,
+            104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "coaxial approved approximate rim/tyre pair; not physical fit certification",
+          "line": 30
+        }
+      ],
+      "omissions": [],
+      "sourceBom": {
+        "76057.dat": 1,
+        "99565.dat": 6,
+        "44970.dat": 6
+      }
+    },
+    {
+      "sourcePage": 3,
+      "title": "Two yellow front arm roots and second tier",
+      "placements": [
+        {
+          "part": "76057.dat",
+          "color": 14,
+          "position": [
+            280,
+            -48,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "transverse root spansx240..320, bottom0 overlaps exposed lower chassis top; inner80LDU half supported, outer80 cantilever",
+          "line": 33
+        },
+        {
+          "part": "76057.dat",
+          "color": 14,
+          "position": [
+            280,
+            -96,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "longitudinal upper root on OUTER half of transverse root, sourcep3; bottom-48,80x80LDU nominal engagement",
+          "line": 34
+        },
+        {
+          "part": "76057.dat",
+          "color": 14,
+          "position": [
+            280,
+            -48,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "transverse root spansx240..320, bottom0 overlaps exposed lower chassis top; inner80LDU half supported, outer80 cantilever",
+          "line": 35
+        },
+        {
+          "part": "76057.dat",
+          "color": 14,
+          "position": [
+            280,
+            -96,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "longitudinal upper root on OUTER half of transverse root, sourcep3; bottom-48,80x80LDU nominal engagement",
+          "line": 36
+        }
+      ],
+      "omissions": [],
+      "sourceBom": {
+        "76057.dat": 4
+      }
+    },
+    {
+      "sourcePage": 4,
+      "title": "Extend front arms and bridge their seam",
+      "placements": [
+        {
+          "part": "76057.dat",
+          "color": 14,
+          "position": [
+            440,
+            -96,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "cantilever supported after top bridge added in same source step; not independently stable",
+          "line": 39
+        },
+        {
+          "part": "76057.dat",
+          "color": 14,
+          "position": [
+            360,
+            -144,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom-96 bridges adjoining 160LDU screw bricks at x280/440,80LDU engagement each",
+          "line": 40
+        },
+        {
+          "part": "76057.dat",
+          "color": 14,
+          "position": [
+            440,
+            -96,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "cantilever supported after top bridge added in same source step; not independently stable",
+          "line": 41
+        },
+        {
+          "part": "76057.dat",
+          "color": 14,
+          "position": [
+            360,
+            -144,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom-96 bridges adjoining 160LDU screw bricks at x280/440,80LDU engagement each",
+          "line": 42
+        }
+      ],
+      "omissions": [],
+      "sourceBom": {
+        "76057.dat": 4
+      }
+    },
+    {
+      "sourcePage": 5,
+      "title": "Four front three-blade Toolo propellers - omitted",
+      "placements": [],
+      "omissions": [
+        {
+          "part": "86601",
+          "quantity": 4,
+          "sourcePosition": "four exposed side attachments around yellow cutter arms",
+          "identity": "inventory-confirmed candidate matched source three-blade form; geometry unavailable locally",
+          "missingEvidence": "licensed accurate DAT and local attachment origin; no invented blade mesh",
+          "canonicalCandidate": "6670c01 family;86601 is source-set inventory ID, not proven filename equivalence",
+          "geometryRecheckEvidence": "preparation/independent-qa/harvester-official-geometry-recheck.json"
+        }
+      ],
+      "sourceBom": {
+        "86601": 4
+      }
+    },
+    {
+      "sourcePage": 6,
+      "title": "Body deck, cockpit, rear angled bracket and clip block",
+      "placements": [
+        {
+          "part": "76057.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on upper black chassis; three transverse bricks cover rear deck",
+          "line": 48
+        },
+        {
+          "part": "76057.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on upper black chassis; three transverse bricks cover rear deck",
+          "line": 49
+        },
+        {
+          "part": "76057.dat",
+          "color": 14,
+          "position": [
+            40,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on upper black chassis; three transverse bricks cover rear deck",
+          "line": 50
+        },
+        {
+          "part": "31196c01.dat",
+          "color": 4,
+          "position": [
+            160,
+            -72,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "approved approximate rear bottom y24 maps to chassis top-48; rear footprint x80..160",
+          "line": 51
+        },
+        {
+          "part": "28336.dat",
+          "color": 72,
+          "position": [
+            -200,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on rear upper chassis; fork points rearward",
+          "line": 52
+        },
+        {
+          "part": "74957.dat",
+          "color": 72,
+          "position": [
+            -248,
+            -209,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "clip mouth y=-161 aligns inferred bracket pivot(-248,-161,0); prior approximate pivot retained, unmeasured",
+          "line": 53
+        }
+      ],
+      "omissions": [
+        {
+          "part": "45146",
+          "quantity": 1,
+          "sourcePosition": "cockpit roll cage",
+          "identity": "inventory confirmed roll-cage candidate; not6345 windscreen",
+          "missingEvidence": "licensed geometry and cockpit attachment transform",
+          "geometryRecheckEvidence": "preparation/independent-qa/harvester-official-geometry-recheck.json"
+        },
+        {
+          "part": "4433c01",
+          "quantity": 1,
+          "sourcePosition": "one side exhaust at cockpit/rear deck boundary",
+          "identity": "previous catalogue photograph evidence matches perforated stepped cylinder",
+          "missingEvidence": "licensed reusable geometry; absent from local library",
+          "geometryRecheckEvidence": "preparation/missing-parts/REPORT.md"
+        }
+      ],
+      "sourceBom": {
+        "76057.dat": 3,
+        "31196c01.dat": 1,
+        "28336.dat": 1,
+        "74957.dat": 1,
+        "45146": 1,
+        "4433c01": 1
+      }
+    },
+    {
+      "sourcePage": 7,
+      "title": "Rear yellow cap and red tipper bed",
+      "placements": [
+        {
+          "part": "76057.dat",
+          "color": 14,
+          "position": [
+            -208,
+            -257,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom-209 on 74957 top; stud-grid overhang80 alongX",
+          "line": 58
+        },
+        {
+          "part": "14094.dat",
+          "color": 4,
+          "position": [
+            -128,
+            -262,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "DAT bottom y5 touches yellow cap top-257. Native hinge not supplied in source; retention on ordinary screw-brick studs unverified",
+          "line": 59
+        }
+      ],
+      "omissions": [],
+      "sourceBom": {
+        "76057.dat": 1,
+        "14094.dat": 1
+      }
+    },
+    {
+      "sourcePage": 8,
+      "title": "Eight red bricks form two body tiers",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "first tier bottom-96 on yellow deck and cockpit rear stud plane; second tier bottom-144 on first",
+          "line": 62
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "first tier bottom-96 on yellow deck and cockpit rear stud plane; second tier bottom-144 on first",
+          "line": 63
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "first tier bottom-96 on yellow deck and cockpit rear stud plane; second tier bottom-144 on first",
+          "line": 64
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            120,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "first tier bottom-96 on yellow deck and cockpit rear stud plane; second tier bottom-144 on first",
+          "line": 65
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "first tier bottom-96 on yellow deck and cockpit rear stud plane; second tier bottom-144 on first",
+          "line": 66
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "first tier bottom-96 on yellow deck and cockpit rear stud plane; second tier bottom-144 on first",
+          "line": 67
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "first tier bottom-96 on yellow deck and cockpit rear stud plane; second tier bottom-144 on first",
+          "line": 68
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            120,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "first tier bottom-96 on yellow deck and cockpit rear stud plane; second tier bottom-144 on first",
+          "line": 69
+        }
+      ],
+      "omissions": [],
+      "sourceBom": {
+        "3011.dat": 8
+      }
+    }
+  ],
+  "bom": {
+    "76395.dat": 4,
+    "76057.dat": 13,
+    "99565.dat": 6,
+    "44970.dat": 6,
+    "31196c01.dat": 1,
+    "28336.dat": 1,
+    "74957.dat": 1,
+    "14094.dat": 1,
+    "3011.dat": 8
+  },
+  "knownApproximate": [
+    "76395.dat",
+    "76057.dat",
+    "99565.dat",
+    "44970.dat",
+    "31196c01.dat",
+    "28336.dat",
+    "74957.dat"
+  ],
+  "directPartHashes": {
+    "76395.dat": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3",
+    "76057.dat": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a",
+    "99565.dat": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8",
+    "44970.dat": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd",
+    "31196c01.dat": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708",
+    "28336.dat": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc",
+    "74957.dat": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2",
+    "14094.dat": "f79b95ed33921863fc964d49a07d793e46105b30004f2baee6a2d4b64d4ff6af",
+    "3011.dat": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+  },
+  "status": "INCOMPLETE",
+  "accepted": false,
+  "physicalValidation": false,
+  "sourcePositionUncertainties": [
+    "Rear/middle wheel side-hole indexes nominally selected on40LDU grid; must compare main preview against sourcep2/9; no arbitrary off-grid axle",
+    "Front arm transverse spacing and bridge overlap inferred from sourcep3/4 two-stud widths; preview pending",
+    "74957 clip pivot relies on approved approximate28336 pivot y-65,z48; exact molded latch engagement unverified",
+    "14094 pan rests on source yellow screw brick; no native hinge modeled or certified",
+    "Corrected front roots transverse on lower exposed chassis strip x240..320. Their inner halves overlap the chassis and upper longitudinal bricks have80x80 nominal stud support; exact screw retention remains unverified."
+  ],
+  "inventory": {
+    "reference": "inputs/inventory-evidence.json,45002-1+9090-2",
+    "toolobrick76057SourceQuantity": 13,
+    "45002AllColors": 7,
+    "additionalIgnoringColor": 6,
+    "propeller86601SourceQuantity": 4,
+    "45002Quantity": 1,
+    "additionalPropellers": 3,
+    "colorShortage": "13 yellow screw bricks versus45002 yellow1; extra12 if exact color required. Other colors not silently substituted."
+  },
+  "render": "Current full-frame final3 and all8 steps actually reviewed; INCOMPLETE with6 omitted geometric pieces and manual interfaces.",
+  "currentPixelReview": {
+    "sourceSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+    "revision": "7322761e39505c08c30a86fafd408b0036687e9977940aec1c59df95bf709bdd",
+    "evidence": "current-pixel-review.json",
+    "final3": true,
+    "all8Steps": true,
+    "accepted": false,
+    "physicalValidation": false,
+    "limitations": "Actually viewed current final3 and all8 cumulative steps via review sheets, plus original step3/top/iso-rear. Compared against previously viewed sourcep1-9, with sourcep3/7 originals freshly inspected in preceding correction review. Six upper longitudinal beams atZ+/-120 now sit on outer halves of transverse rootsZ+/-80, matching sourcep3 stud-row arrangement; front lower exposed strip and raised rear platform retained. No further source-placement error established this pass. Known31196c01 approximate width192 versus nominal160 corridor retains16LDU envelope overlap per side; visible adjacency is not collision clearance. Six geometry omissions remain:86601 propellerx4,45146 roll cage,4433c01 exhaust. Wheel-hole index, approximate28336/74957 retention and14094 bucket fixing remain unverified. INCOMPLETE; no physical validation or human acceptance. Source unchanged."
+  }
+}

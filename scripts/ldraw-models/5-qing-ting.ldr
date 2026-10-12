@@ -1,0 +1,99 @@
+0 5-qing-ting - source reconstruction, INCOMPLETE dev-only
+0 Name: 5-qing-ting.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source Library libfile_f6df9c75694881918d746cfa7e75e662, PDF SHA256 e0db02d33d4011b5e4e6236370c4cae045d0a7f96fe8a159f16efd1ab8b706de
+0 // STATUS: INCOMPLETE; source pages 1-10 visually inspected, no human acceptance.
+0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
+0 // No physical validation. Missing parts are omitted and recorded per source step.
+0 // STEP 1 - red body with three grey Axle6, four horizontal cranks and two rear pulleys
+1 4 0 0 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 71 -160 24 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 71 0 24 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 71 160 24 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -160 24 -60 0 0 1 -1 0 0 0 -1 0 6526.dat
+1 14 0 24 -60 0 0 1 -1 0 0 0 -1 0 6526.dat
+1 14 160 24 -60 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -160 24 60 0 0 1 1 0 0 0 1 0 6526.dat
+1 14 0 24 60 0 0 1 1 0 0 0 1 0 6526.dat
+1 14 160 24 60 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+
+0 // STEP 2 - six crank legs on three transverse axles
+1 14 -160 24 -100 1 0 0 0 0 1 0 -1 0 6526.dat
+1 14 0 24 -100 1 0 0 0 0 1 0 -1 0 6526.dat
+1 14 160 24 -100 1 0 0 0 0 1 0 -1 0 6526.dat
+1 14 -160 24 100 -1 0 0 0 0 1 0 1 0 6526.dat
+1 14 0 24 100 -1 0 0 0 0 1 0 1 0 6526.dat
+1 14 160 24 100 -1 0 0 0 0 1 0 1 0 6526.dat
+0 STEP
+
+0 // STEP 3 - upper red cross frame; small brick under tail extension
+1 4 160 -48 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -160 -48 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 80 -48 0 0 0 -1 0 1 0 1 0 0 75350.dat
+1 4 280 -48 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+
+0 // STEP 4 - two thin yellow 2x4 plates along upper body
+1 14 -40 -72 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 120 -72 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+
+0 // STEP 5 - tail Beam11 secured by two vertical grey Axle6 and four pulley retainers
+1 14 -440 -88 0 0 0 -1 0 1 0 1 0 0 6525.dat
+1 71 -320 -28 0 0 1 0 -1 0 0 0 0 1 6522.dat
+1 14 -320 -128 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 -320 20 0 1 0 0 0 0 1 0 -1 0 6527.dat
+1 71 -240 -28 0 0 1 0 -1 0 0 0 0 1 6522.dat
+1 14 -240 -128 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 -240 20 0 1 0 0 0 0 1 0 -1 0 6527.dat
+0 STEP
+
+0 // STEP 6 - four wings on two transverse axles; front pair level, rear pair60degrees raised
+1 71 80 -24 -160 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 20 -24.0 -360.0 0 1 0 1.0 0 -0.0 -0.0 0 -1.0 6525.dat
+1 14 140 -24.0 -360.0 0 1 0 1.0 0 -0.0 -0.0 0 -1.0 6525.dat
+1 14 -20 -24 -160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 180 -24 -160 0 0 1 0 1 0 -1 0 0 6527.dat
+1 71 80 -24 160 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 20 -197.205 260.0 0 1 0 -0.5 0 -0.866025 -0.866025 0 0.5 6525.dat
+1 14 140 -197.205 260.0 0 1 0 -0.5 0 -0.866025 -0.866025 0 0.5 6525.dat
+1 14 -20 -24 160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 180 -24 160 0 0 1 0 1 0 -1 0 0 6527.dat
+0 STEP
+
+0 // STEP 7 - two tyre eyes each made from two pulleys and one tyre
+1 71 320 -24 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 320 -24 -60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 320 -24 -120 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 320 -24 -90 -1 0 0 0 1 0 0 0 -1 6292.dat
+1 14 320 -24 60 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 320 -24 120 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 320 -24 90 1 0 0 0 1 0 0 0 1 6292.dat
+0 STEP
+
+0 // STEP 8 - distal wing cross-axles, four pulleys and four cranks
+1 71 80 -24.0 -560.0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 60 -24.0 -560.0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 -20 -24.0 -560.0 -0.0 -1.0 0.0 -1.0 0.0 0.0 -0.0 0.0 -1.0 6526.dat
+1 14 100 -24.0 -560.0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 180 -24.0 -560.0 0 1 0 1.0 0 0.0 0.0 0 -1.0 6526.dat
+1 71 80 -370.41 360.0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 60 -370.41 360.0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 -20 -370.41 360.0 -0.0 -1.0 0.0 0.5 0.0 0.866025 -0.866025 0.0 0.5 6526.dat
+1 14 100 -370.41 360.0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 180 -370.41 360.0 0 1 0 -0.5 0 0.866025 0.866025 0 0.5 6526.dat
+0 STEP
+
+0 // STEP 9 - official2296p01 pond scene beside mechanical dragonfly; five small flowers
+1 2 680 128 800 1 0 0 0 1 0 0 0 1 2296p01.dat
+1 1 400 80 640 1 0 0 0 1 0 0 0 1 6510.dat
+1 4 520 80 560 1 0 0 0 1 0 0 0 1 6510.dat
+1 14 640 80 640 1 0 0 0 1 0 0 0 1 6510.dat
+1 4 760 80 560 1 0 0 0 1 0 0 0 1 6510.dat
+1 1 880 80 640 1 0 0 0 1 0 0 0 1 6510.dat
+0 STEP
+
+0 // STEP 10 - alternate finished view only

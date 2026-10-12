@@ -1,0 +1,146 @@
+{
+  "source": [
+    {
+      "page": 1,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-1.jpg",
+      "sha256": "9c470d12a7bfc3cb2b0b244adf182c0cc6e822fcc9395c4df0a7ec2092745c5c",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-2.jpg",
+      "sha256": "71999727208d9305760b5059d7cdb350dcae6936601f8ae55255fe300d0b9b83",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-3.jpg",
+      "sha256": "a0f5e9b5ee049a0664ce4a9a0699de34575584c1e3a5e53a42e0722f7e8c5e21",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-4.jpg",
+      "sha256": "844eb6934615b28c20bcf11278f95143ede815c2aa2e578b550549463dee5fb6",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-5.jpg",
+      "sha256": "209372c445edae35c2423f32b2217c2cb35116fc15b8fbdb7c3ad22332c3bf02",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-6.jpg",
+      "sha256": "ee99d472169234a50b9337ef3e2321d57ef69edf29858d2c9e571c9f9fc1cb9f",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-7.jpg",
+      "sha256": "0a699629a2856de7915ea4b61c967208ad08598fe54ca42e12bb9a77a69d8363",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-8.jpg",
+      "sha256": "90da98e701c917823db89a69e71c2492f685ecc0b0b73875593cd505726c9933",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-9.jpg",
+      "sha256": "e19dc14f386776f812079e3c3ba8ca25064bf512ad64b1bbc72af46b2457fb41",
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-10.jpg",
+      "sha256": "682452dc0cd5484f63f91f815e23bc3f4bea52807ffe20310351c7f6951e396a",
+      "pixelsViewed": true
+    },
+    {
+      "page": 11,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-11.jpg",
+      "sha256": "2f908435d0eae6b99a20843a2891b9137f38eed801ff6d503a894023b948915f",
+      "pixelsViewed": true
+    },
+    {
+      "page": 12,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-12.jpg",
+      "sha256": "d35049351ba1a508c4ffc651a981ec8d18d5e57aecd3607a6e226a60f0c0a184",
+      "pixelsViewed": true
+    },
+    {
+      "page": 13,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-13.jpg",
+      "sha256": "2ee1cb6248aed544b7d05461f44fe0a8fadbc65ed6d641776e26e7caf2164050",
+      "pixelsViewed": true
+    },
+    {
+      "page": 14,
+      "path": "../inputs/source-2/4小兔子/4+小兔子搭建说明-14.jpg",
+      "sha256": "c32df904ff598c1b85fdb7664d6e6fdd26ac1e49e77874bb06b34251967ef8f2",
+      "pixelsViewed": true
+    }
+  ],
+  "model": {
+    "path": "scripts/ldraw-models/4-xiao-tu-zi.ldr",
+    "sha256": "03cf5c97a231318dc0cd2d3fafc5a206a75bcca1b756a090f4bfcad2f70550f6"
+  },
+  "metadata": {
+    "path": ".agents/skills/image-to-ldraw/references/part-metadata.json",
+    "sha256": "294f3ea56d174b3f10266517f86d89a97662ab8559fdf7e0ab2ac12fd1802d2c"
+  },
+  "checker": {
+    "path": ".agents/skills/image-to-ldraw/scripts/check-ldr-collision.mjs",
+    "sha256": "76838d6085b0e18f7fcec2e98eee9f2169a0637627f1a080b23b57a4937c5b10"
+  },
+  "parts": [
+    {
+      "id": "76395.dat",
+      "sha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+    },
+    {
+      "id": "74957.dat",
+      "sha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+    },
+    {
+      "id": "28336.dat",
+      "sha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+    },
+    {
+      "id": "76057.dat",
+      "sha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+    },
+    {
+      "id": "2302.dat",
+      "sha256": "0b58ec8fa002ceb8fb9329fd208cbbc876a1e8c7a01abe477694fd4a4302f5fd"
+    },
+    {
+      "id": "99565.dat",
+      "sha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+    },
+    {
+      "id": "44970.dat",
+      "sha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+    },
+    {
+      "id": "dev-129/28334.dat",
+      "sha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+    },
+    {
+      "id": "3011.dat",
+      "sha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+    },
+    {
+      "id": "40666.dat",
+      "sha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+    },
+    {
+      "id": "3437.dat",
+      "sha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+    }
+  ]
+}

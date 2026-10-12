@@ -1,0 +1,85 @@
+{
+  "sourceSha256": "7ff9ae506726e5036b403583eaab681194e9cfb8dd7b299aeaaa7b3330118e8a",
+  "revision": "dfdf0d8b7dac8648114e4591bb149f42bb6d4f865cd98be241f15e22ddc25035",
+  "reviewedAt": "2026-10-11T14:29:52.185018+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-zuan-tu-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "17fef5ff5390ceefcd6a7591f9ab979fcdf91fe26c8e32f4056c44eb76c6e722",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "cfb13303cf060304bdd6b1ae866b0040c19eedd76615597cd85bf79050484dee",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "ff29dfbe10c9957c95800dd3f16648785187c883e161c45f90c24952b0796c1d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "df29a744c429992149a30c4fd945d1b9ecd3e3e01382b5f4189089b6304eefea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "dca8fb47c2b3aa2b7de5e3914dd830e1d6691b5595e3fc935e6872418d424507",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "5923a31c08caa179cbcde4a265c284c1cad856c41d02bdd007a1b6c9a98804f5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "3c60d1f90e0b0aaf98cb3a64b0b322c57647f0277a373243d8f279a6ea49ac13",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "5a92e91a179203a4bc402d7e9109e091f630fee30bcaf0a0aca68693605bf268",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "b2590b4ac9394526039f7ee717d6a13eb40a88d027f2d9ec1eea94e3f3cc6f6a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "feea149422e69c1b01808c4553c559a089042916ed662cdfe80fb6ac8406165c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "87035679e95ebb18d400167965809f7adf832215597fbefdaac7c86a24aeaacb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "92d9463f4139c2d223fe665d02f4c7d64c24d5be2c33329aa98f5823592d13ba",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "c632846de1f086039d1f71524f9efc7c92af14117355592f0b5a0c76e8bce795",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "17fef5ff5390ceefcd6a7591f9ab979fcdf91fe26c8e32f4056c44eb76c6e722",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual current final3 original PNG and all11 steps current contact sheet inspected; original step9/10/11 enlarged, sourcep9-12 compared andp11 rechecked. Inward6.892degree arms retain root axes and now yield adjacent end boxes/full four-column yellow bridge. Old96LDU body gap and8LDU inner-column mismatch corrected nominally. Existing positive strict mesh crossings root/arm428,426 and arm/clutch90,92 remain unresolved; no verified capture/counterrotation/physical support. Raw cabhood overlap and approved approximate wheels/cab/arms retained. No clipping seen; pixel review is not physical or user acceptance."
+}

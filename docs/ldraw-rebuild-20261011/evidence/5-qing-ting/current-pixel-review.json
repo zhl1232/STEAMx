@@ -1,0 +1,65 @@
+{
+  "sourceSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
+  "revision": "c5d82ee5a525e0ab0e3170049c32101cfc079c6410cf744c94d74f9f89bd85fa",
+  "reviewedAt": "2026-10-11T07:52:25.768028+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-qing-ting",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "1e6af366002e476aa088a4c515736990d3142af6bc14ddb60bec65fa7e15280b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "eed11fb9fa454e2884052a2489e5aaff8dad472824974154b00b9f4db8940678",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "54fd492e7590096c952335b2cca85db00232dd69d2d2bc3562ad120d54d2472c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "d5054dc49c0077a200788bac3225bae43130b6b6bf7732e5ee27e0b6f83eb7f9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "f7b410e74a500d49cfc78ea61d9f12d23951c956566a9c6492edb740cdab94b3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "c39c1ee9b6f77c8ff5a6610cd11fe0bc3dae1ba5bc0480e825e1b397ceadf3c0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "8e748d68ab6c141ac7b70f5edf8a8729770fd730b96bf60b66de1d62ed60352d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "53e28de765cab3195be21c75bfd4674885031a6c42e50e9586f4c5e55fb6da52",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "60725930299b37a4adec9c723ecffa8cafb716dff99fc476355e4f05d5c743bf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "60725930299b37a4adec9c723ecffa8cafb716dff99fc476355e4f05d5c743bf",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "All10 cumulative D frames viewed against source10-page contact; originalstep5 inspected. Tail retains adjacent pulley edge risks and near-body1LDU risk; no source-backed stagger identified. Eye wheels have2 inner rim pairs with197 strict triangle crossings each; uniform tyre-radius exemption revoked. Source wing/leg/pond additions correspond but hidden retention and exact angles remain inferred. D steps only; old C final separately handled by main. No physical acceptance."
+}

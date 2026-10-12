@@ -1,0 +1,125 @@
+{
+  "sourceSha256": "5fcb0673d38d28114de2100988cd3ea9e0aec22c665087ddca2103f7aba27b18",
+  "revision": "c587a2686d18510f134554639822f1f3444dc8e183d6f73d099bea3cf54fabcf",
+  "reviewedAt": "2026-10-11T11:36:41.040106+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-cha-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "62c53a1cd0b544eebce4e00c8aed41d5b73ad6b3d547e852587e761ac91fee25",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "eeba1222a8598b2dfc0bc890ba883114713409d771e4618c13d8e3cee5b66414",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "6c8e350135c0978969bb4d54835cdd2d0ba56885e777f39b389c863563f4b821",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "441946e023996611811acda18c72ac6b7dfc6882e08ade77961fa235b7755d66",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "fa773af3f49f662392678c6aa67e500a24b2c7624a044f1fb105fa96c948527a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "02ae231d1920ca36a578a7d11367db5f50030a367e764331bf2f494e81a5abc9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "e05170c042a71fc3056e19dd3bc943f590f45e0356eab87e054660ea098fcfb8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "8aea2054edce599a913df3935029b0f4742f723dc2979510acdca17c4603f43e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "6c78bb33e0c57cca41308acd84ca58b6a6ad2dbc9ff0f8542747e151750e344b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "e1f722225c8526f46bdd55a701ab39a79a89c7ea8445de8aac586df17ecb5e10",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "81253a354def33dd70f6bd639b369ab7f160447cb42e79b48ae22d3b91957708",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "6fb2950ac947b1edbba75cc118177c572473fecd25dfda5e3b7615fe32fd6718",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "90bf118048e4c7dd40d8053ff93d5abe13e6d5c5cdd30f76af8626f3d0c01936",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "b03805006bc1bba6566e72a0da1fe55ad00f7f3a2e7c396314eb516872ba50fd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "d7a59ca491e9f7837eb08f42a3194e4624a0f362d388bff0f8df7f6cd5f390de",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "138301122174b54c92411fcb17db6ae33b1759f39045e098d21fc3ab3f01fc81",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "b4682d496ad6ffd406f8f41a5c53b09800af0dca6811beb4821253ec8add2bfc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "f5b1b9e2777b6c20116fa8e6c5afc7f0addf881a13d31a69b0e8e641ad84c64e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-16",
+      "sha256": "7152a291c4a0e79d75832441f4b1b0a78e0476f4f83b14ce5368e36236ee2548",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-17",
+      "sha256": "bbd7eb83bb82ce25e5317c69d360dc694a6c579fdb46d720fc4b711f58038290",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-18",
+      "sha256": "614034c8f22fc619be09a51c0a91d0022785ba185cb9b100d95cff2fa52a91f7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-19",
+      "sha256": "62c53a1cd0b544eebce4e00c8aed41d5b73ad6b3d547e852587e761ac91fee25",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current final3 original PNGs, all19 cumulative-step contact frames and original step8. White four-pane face now points outside toward vehicle rear(+X), matching source pages8/20; same support rows retained. No cropping or newly established source mismatch found. Raw1 cockpit/canopy overlap, approved cockpit approximation, gear tooth phase, crank/axle retention and cantilever load limits remain unresolved; no physical or user acceptance."
+}

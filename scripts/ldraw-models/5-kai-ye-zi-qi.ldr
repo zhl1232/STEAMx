@@ -1,0 +1,85 @@
+0 5-kai-ye-zi-qi - source-based dev-only reconstruction
+0 Name: 5-kai-ye-zi-qi.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: sixteen2x4 redbricks form four4x4 two-layer feet
+1 4 -280 0 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 0 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -48 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -240 -48 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -280 0 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 0 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -48 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -240 -48 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 280 0 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 280 0 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -48 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 320 -48 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 280 0 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 280 0 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -48 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 320 -48 120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 2: green8x16plate bridges fourfeet
+1 2 0 -72 0 1 0 0 0 1 0 0 0 1 6490.dat
+0 STEP
+0 // Source page 3: fouryellow2x4 bricks form4x8 frontpad
+1 14 -280 -120 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -120 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -200 -120 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -200 -120 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 4: two bluebrick seats on left/right ofyellowpad
+1 1 -240 -168 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -168 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 5: eightbluebricks form fourtwo-high rearpiers
+1 1 0 -120 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -168 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -120 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -168 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -120 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -168 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -120 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -168 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 6: two10hole-railbricks with two4studheadbricks
+1 4 120 -216 -120 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 240 -264 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 120 -216 120 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 240 -264 120 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // Source page 7: green8L mainshaft, two innerbeltwheels, innercrank and outside24Tgear
+1 2 40 -192 20 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 40 -192 -60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 40 -192 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 40 -192 0 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 4 40 -192 180 1 0 0 0 1 0 0 0 1 6529.dat
+0 STEP
+0 // Source page 8: shortgearedinputshaft withinsidebeltwheel andoutsidecrank
+1 1 120 -192 140 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 120 -192 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 120 -192 220 0 0 1 -1 0 0 0 -1 0 6526.dat
+0 STEP
+0 // Source page 9: greenpivotshaft and twoinnerwheels carryinverted10studlever
+1 2 200 -240 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 200 -240 -60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 200 -240 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 4 41.440697 -272.1706 0 0.939693 0.34202 0 0.34202 -0.939693 0 0 0 -1 75350.dat
+0 STEP
+0 // Source page 10: inverted4studextension with two8studyellow reinforcingbricks
+1 4 -221.673237 -367.93624 0 0.939693 0.34202 0 0.34202 -0.939693 0 0 0 -1 75349.dat
+1 14 -162.914794 -295.469383 0 0.939693 0.34202 0 0.34202 -0.939693 0 0 0 -1 4199.dat
+1 14 -130.08086 -385.679874 0 0.939693 0.34202 0 0.34202 -0.939693 0 0 0 -1 4199.dat
+0 STEP
+0 // Source page 11: orange2x2x2 curvedtop hammerhead inverted onlever
+1 25 -283.886402 -313.959205 0 0.939693 0.34202 0 0.34202 -0.939693 0 0 0 -1 3664.dat
+0 // PENDING: P7-8 cranks and 8T/24T teeth use realDAT, but exact toothphase, shaftretention and camcontact tolever are unvalidated.
+0 // PENDING: P9 lever20deg is a source-visible free-pivot pose inference; dynamic sweep and crank-driven lift not certified.
+0 // PENDING: P10 yellowlongparts interpreted4199 normal2x8 bricks48LDU fromsourceBOM/profile; rendered sourcecomparison required.
+0 // PENDING: P11 orange3664 identity matches2x2 curvedtop silhouette, mold/color inventory needs comparison; no customgeometry.
+0 // PENDING: 3664 official nativebottomY24 and curvedtopY-64 differ frommetadata top-center96 assumption; localplacement corrected toactualDAT, sharedmetadata unchanged.
+0 // Source page 12: finished view, no duplicated placements.

@@ -1,0 +1,29 @@
+{
+  "reviewedSourceSha256": "6330a89311c8d8065bd6152a197c2f1dd004510392cad895851376966917b31f",
+  "revision": "77303fbb0be900d57e4cf1a7c510337914d89a99da17822702a8a0804d36d24a",
+  "finalOriginalsViewed": [
+    "iso",
+    "iso-rear",
+    "top"
+  ],
+  "cumulativeContactStepsViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "outcome": "visible-side-built-body-overlap-corrected-awaiting-rerender",
+  "correction": "Second render actual inspection: green3011 lower body overlapped gray74957 due shared side-built studplaneX=-160. Corrected green3011 originX=-208: its bottomplaneX=-160 seats gray top/studplaneX=-160. Yellow3437 originX=-160 now seats the same green bottomplane on the upper half. Both colors shifted rearwards48LDU, preserving orthonormal SIDE matrix and source cavity-facing-forward direction. Manual stud/underside capture still unverified; no DAT changes.",
+  "newSourceSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+  "accepted": false,
+  "physicalValidation": false
+}

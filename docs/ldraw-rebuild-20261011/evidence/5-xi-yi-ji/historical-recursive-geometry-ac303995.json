@@ -1,0 +1,1102 @@
+{
+  "sourceSha256": "ac3039959ec5b6039cd21b50ec89a3733255e798484845452543641111315a6f",
+  "method": "Recursive actualDAT type3/4vertices, exactqualified lookup; no basenamefallback. Origins/bounds only, not meshpair or physicalvalidation.",
+  "parts": [
+    {
+      "id": "4196.dat",
+      "triangles": 9916,
+      "bbox": [
+        [
+          -240,
+          240
+        ],
+        [
+          -11,
+          24
+        ],
+        [
+          -120,
+          120
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "31191.dat",
+      "triangles": 4140,
+      "bbox": [
+        [
+          -120,
+          120
+        ],
+        [
+          -11,
+          240
+        ],
+        [
+          -40,
+          40
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "3011.dat",
+      "triangles": 1180,
+      "bbox": [
+        [
+          -80,
+          80
+        ],
+        [
+          -11,
+          48
+        ],
+        [
+          -40,
+          40
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "3437.dat",
+      "triangles": 572,
+      "bbox": [
+        [
+          -40,
+          40
+        ],
+        [
+          -11,
+          48
+        ],
+        [
+          -40,
+          40
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "75349.dat",
+      "triangles": 4584,
+      "bbox": [
+        [
+          -80,
+          80
+        ],
+        [
+          -11,
+          48
+        ],
+        [
+          -40,
+          40
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "6522.dat",
+      "triangles": 60,
+      "bbox": [
+        [
+          -120,
+          120
+        ],
+        [
+          -9.000230793000002,
+          9.000230793000002
+        ],
+        [
+          -9.000230793000002,
+          9.000230793000002
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "6530.dat",
+      "triangles": 3454,
+      "bbox": [
+        [
+          -103.797666854,
+          103.797666854
+        ],
+        [
+          -103.797666854,
+          103.797666854
+        ],
+        [
+          -20,
+          20
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "6527.dat",
+      "triangles": 1991,
+      "bbox": [
+        [
+          -41,
+          41
+        ],
+        [
+          -41,
+          41
+        ],
+        [
+          -20,
+          20
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "31195.dat",
+      "triangles": 2807,
+      "bbox": [
+        [
+          -84.6457,
+          80
+        ],
+        [
+          -80,
+          80
+        ],
+        [
+          -13,
+          134.3497
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "31623.dat",
+      "triangles": 644,
+      "bbox": [
+        [
+          -160,
+          160
+        ],
+        [
+          -21.074868,
+          21.074868
+        ],
+        [
+          -21.074868,
+          21.074868
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "31622.dat",
+      "triangles": 1929,
+      "bbox": [
+        [
+          -64.67,
+          64.67
+        ],
+        [
+          -64.67,
+          64.67
+        ],
+        [
+          -20,
+          20
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "6526.dat",
+      "triangles": 1252,
+      "bbox": [
+        [
+          -24,
+          24
+        ],
+        [
+          -20,
+          60
+        ],
+        [
+          -24,
+          104
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "75350.dat",
+      "triangles": 12600,
+      "bbox": [
+        [
+          -200,
+          200
+        ],
+        [
+          -11,
+          48
+        ],
+        [
+          -40,
+          40
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "51262.dat",
+      "triangles": 8828,
+      "bbox": [
+        [
+          -160,
+          160
+        ],
+        [
+          -11,
+          24
+        ],
+        [
+          -160,
+          160
+        ]
+      ],
+      "closureLoaded": true
+    },
+    {
+      "id": "11198.dat",
+      "triangles": 1376,
+      "bbox": [
+        [
+          -80,
+          80
+        ],
+        [
+          -11,
+          96
+        ],
+        [
+          -40,
+          40
+        ]
+      ],
+      "closureLoaded": true
+    }
+  ],
+  "provenance": {
+    "40666.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\40666.dat",
+      "sha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+    },
+    "stud8.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stud8.dat",
+      "sha256": "1a3202bf2d8dd8f58f59d09e220cb62f3411db762f88333a82503ab395f9d115"
+    },
+    "4-4ring7.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4ring7.dat",
+      "sha256": "67b27c082eec7286888ac427f11db06c5eca6c9bcec76c7e2b2014841afa83f3"
+    },
+    "4-4cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4cylo.dat",
+      "sha256": "d6ca97ee2e75918b3309a5c88aafcd2455b3a316f7cef8963517c19f1d86b38f"
+    },
+    "4-4edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4edge.dat",
+      "sha256": "54a52196e421fd1717d291ff52ea57553b1fb238907c1678cc1f1a84c698b1da"
+    },
+    "4-4cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4cyli.dat",
+      "sha256": "4a742c2765b6ebf98245baaf8a160a4ff587fc93d36c8ee2b9074712a2f968c4"
+    },
+    "box5.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box5.dat",
+      "sha256": "ccb7b8a1d36692335b10ea6aa196849afcad4b15331683ed8112a10b50977318"
+    },
+    "stud7.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stud7.dat",
+      "sha256": "250111864bb2492a8722544d1f09b5e45672ba3f8e93be769b77499e7ea3fb1a"
+    },
+    "4-4ring3.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4ring3.dat",
+      "sha256": "1f2835ac308154edc2d6f479d8e742a55be981f6167b20bfa100c195bc0731dd"
+    },
+    "box4-1.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box4-1.dat",
+      "sha256": "2ed58df5da841827dfc5f9ac11c0bd7ffd8a455e46f166638e635f61a014b44d"
+    },
+    "3011.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\3011.dat",
+      "sha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+    },
+    "s/3011s01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\3011s01.dat",
+      "sha256": "f2538222ec8c4baeb2609224fa99dc6be61f5eb8b5a1d616f9ac7202ff605ea1"
+    },
+    "stug8-1x3.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug8-1x3.dat",
+      "sha256": "684517fda2f33699b9a32dba81c833ae848c18e9ef9c006ad2f6a18119529c5c"
+    },
+    "box3u2p.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box3u2p.dat",
+      "sha256": "df73118b95f23d693c3b7d25c57c483db3bf61ae017d757848119955d28d59e0"
+    },
+    "stug7-2x2.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug7-2x2.dat",
+      "sha256": "c986982b4b6a8fc6552ef73b9aba4f9c107db8c2bfb6a6afdcb87ffc77c659a5"
+    },
+    "75349.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\75349.dat",
+      "sha256": "57718956f0e3b4552de1edd641a9672d84f54552529bd5ef375baf8f9295718c"
+    },
+    "6518.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6518.dat",
+      "sha256": "d4be191ea0f0baa5755beb53a617bf5c52186422a63abc2a14ea546ee3b9d356"
+    },
+    "rect.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect.dat",
+      "sha256": "ffeb2dd3d9b83c38841f18f1f74800fbba9e90c5fb6badfff2a795f08a96cb71"
+    },
+    "s/6518s01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\6518s01.dat",
+      "sha256": "19de774d52518b29da21768f5c3f9cf2d62eeaae82a7ff2203d7faeb197d3adb"
+    },
+    "stud7a.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stud7a.dat",
+      "sha256": "d0bde5b1dd75800ce1f4e0751947c1f378bd0ceb8aa1e4ceb8df7ede58123ff2"
+    },
+    "4-4ndis.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4ndis.dat",
+      "sha256": "21202dc15823f4336bc2544244d0b539b76745c89f7a59ad18cdd03ad45cc543"
+    },
+    "2-4cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4cylo.dat",
+      "sha256": "f68766ac03c28204320ae288bc10450627c09baaf14e003eceeda5a8e203f22f"
+    },
+    "2-4edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4edge.dat",
+      "sha256": "665400f76566b161c28303cdadce40d17d979a8ff9a8a133675af2d17fbe6763"
+    },
+    "2-4cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4cyli.dat",
+      "sha256": "d486780f0f84893899d9eadcd13150f13a42e15e77a3cda38cdf24ded98862c6"
+    },
+    "2-4ndis.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4ndis.dat",
+      "sha256": "7557eae598be3f530b840471535198e6b07b03486ffbcc18a00e862c3d25d925"
+    },
+    "rect1.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect1.dat",
+      "sha256": "48fdcd3181587b4bdc89d356a5aee21268688f3f2fcdd4d6f5c1a3d49b1a1ceb"
+    },
+    "6517.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6517.dat",
+      "sha256": "37473e8e483ce2426b493e96ba2e4098e36e125fa6d368f0db1b3ed47da5867a"
+    },
+    "s/6517s01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\6517s01.dat",
+      "sha256": "cf934726393bf023dcd9c95e06d6efe98a499e25b3359b7d17eb10c40757ea0b"
+    },
+    "1-4cyls.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4cyls.dat",
+      "sha256": "aaee6ffe6e4a191d6cad4496677132eb0349303d6e48c13c7a2240dcea1db621"
+    },
+    "3-8cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-8cyli.dat",
+      "sha256": "9224d4e5edc6f5b0f75f6fa358fd1368a4fd65f676b74fe1bb6e3bbb05046206"
+    },
+    "3-8edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-8edge.dat",
+      "sha256": "a590f230678d592d514a9c5e307c6a30945e50e4c529fc06accf37530d0e0ed5"
+    },
+    "2-4ring3.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4ring3.dat",
+      "sha256": "83daf728f0285b7471139e3fd5335603e548300307c0bb8615a4d3f76ca8dde0"
+    },
+    "1-8cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-8cyli.dat",
+      "sha256": "46def63dc8293ad9a2dd1d1a5cb720b9ba883850e65d3280d2093c664a6140c4"
+    },
+    "1-8edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-8edge.dat",
+      "sha256": "50436a0bce461198c342dccbccb658a1bffae13e44b7c48689b158c946c2c2ab"
+    },
+    "1-16edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16edge.dat",
+      "sha256": "42fc4d69af1281b71cb2eb9546e99e8bca2fc231d05a0379e71d4e1c9a60c95c"
+    },
+    "2-4cylc.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4cylc.dat",
+      "sha256": "b172c10584f59fa091f454276ecd5c0c707eba007934a23ccac9307007b1a1e9"
+    },
+    "2-4disc.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4disc.dat",
+      "sha256": "dcb05df95858362d5d6581c2ad7cf92e7e054cab60e580a2240ae043b07b9f2c"
+    },
+    "stud8a.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stud8a.dat",
+      "sha256": "291cbfdb54441d6457a3e17155a8741cc8424a01f8e9b99a7c9a015085aacfb9"
+    },
+    "rect2p.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect2p.dat",
+      "sha256": "faac2b36241a9de0c0108471e59c45734df6c79813332d9cacf97f6391886acc"
+    },
+    "rect3.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect3.dat",
+      "sha256": "07ac46908b6668d993b6de0fb001a34cd996542106b80ebc7de63317d8dde865"
+    },
+    "4196.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\4196.dat",
+      "sha256": "ef8c75cd6d3df465054dd39e5ddfd357e320102f61ec3b4d72b0d16e7a494317"
+    },
+    "stug7-6x6.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug7-6x6.dat",
+      "sha256": "a117a94c47c1b8eebec98025f491c285b9ebee8bff583f3ab75441aba65d1238"
+    },
+    "4268.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\4268.dat",
+      "sha256": "086b644f40c0ca92003d2ff93665e3e090add8135ba06131824211bb97ddd00d"
+    },
+    "48/1-4disc.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-4disc.dat",
+      "sha256": "13a871a0ae72fdaa132370d54c888d057ff138912e2a63c125eb992148846024"
+    },
+    "48/1-4cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-4cyli.dat",
+      "sha256": "e2ed297feaf608b7319c2e54cd81dcb653fbb3d87b5a8e48ab2f54b32953fc6b"
+    },
+    "48/1-4edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-4edge.dat",
+      "sha256": "e4ebabd21711f16411b3c8b8b278995a56c5f25919cd424976357da5b19943c6"
+    },
+    "stug20-8x8.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug20-8x8.dat",
+      "sha256": "58f83c2963e18f8b4eaed447d1f84e8f23a2db4cedf055de9a22f5e10ccbe2be"
+    },
+    "stug20-4x4.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug20-4x4.dat",
+      "sha256": "29ff51e991d8526cae54724a9fb1ced35b411db5bffe48e73b889c79dc37d8fc"
+    },
+    "stug20-2x2.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug20-2x2.dat",
+      "sha256": "cc365a16b8a9b9b1a551a9417b4e0f67ecd353f751c219bc6ee2c6d9887d168f"
+    },
+    "stud20.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stud20.dat",
+      "sha256": "63900875758ccf13be04b23c74c017112d002c1dc81e9933dad0d5f9c7d492cb"
+    },
+    "4-4cylc.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4cylc.dat",
+      "sha256": "0183cffc7f56a2f3e5e3511f0d07ac484d3039c2d41bee802a94344ec95ec8bd"
+    },
+    "4-4disc.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4disc.dat",
+      "sha256": "a00b5547776f61a7389d303616987c76b3c4de86ad8ec32f22857e1bd5e5e40f"
+    },
+    "stug20-1x7.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug20-1x7.dat",
+      "sha256": "df5ef80aeee6757b70b817994b563dcad9c133af61ddb1a942d743375efeb4b0"
+    },
+    "stug20-6x1.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug20-6x1.dat",
+      "sha256": "080ea857cd6b5bc989dc968445f54417afeb941915bfd34d849452944c284672"
+    },
+    "stug20-7x1.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug20-7x1.dat",
+      "sha256": "48d68111ca9ed66d01912aa3469b740a75747c9f6d4cc518d0a7700577e06037"
+    },
+    "stug20-1x8.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug20-1x8.dat",
+      "sha256": "44e01e011b3cd3d796af5952358b53cd9f20b1d40f68ffc5ad415860839bb9fb"
+    },
+    "stug20-7x7.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug20-7x7.dat",
+      "sha256": "1b99c2c30cee195837923fb035aa6db4dd8cc0b65bf7f0f4118134916440872a"
+    },
+    "stug20-3x3.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug20-3x3.dat",
+      "sha256": "7d69fb725326b484f5512baf448fab0643aecac8bd1df9db6a246646f7f0eb04"
+    },
+    "3437.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\3437.dat",
+      "sha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+    },
+    "s/3437s01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\3437s01.dat",
+      "sha256": "e2148866706324fdf35726bacf1e6235484c8caf1ae4f454112f9bbead372b99"
+    },
+    "4672.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\4672.dat",
+      "sha256": "f6272bb4f95334769cfb0efaabe65d9f3edc51e9dfe3d019c6ecd11717a95f02"
+    },
+    "4672a.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\4672a.dat",
+      "sha256": "ecc4887b0f3c231d8c5f8542b347b159a93f30b66b018a8215e9c706cb0022c6"
+    },
+    "s/4672s01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\4672s01.dat",
+      "sha256": "caff3d3dc789e72ea1630accbf695de56f057e49a360520ad2fc1baa80d30773"
+    },
+    "stug7-4x4.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug7-4x4.dat",
+      "sha256": "da5870b90b631f66400a1dd09f4337870c1d22bed1067bf962aee07b35a25e3d"
+    },
+    "box3u5p.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box3u5p.dat",
+      "sha256": "0f52d5c372a303f508113ace2c7cba6d52b46171052e76a88266679a74f17ea5"
+    },
+    "boxjcyl4.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\boxjcyl4.dat",
+      "sha256": "10720f260ee1985fabc0245547e29bb1b41a8059e15fce5a61908b637f55ff01"
+    },
+    "box3u8p.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box3u8p.dat",
+      "sha256": "0f6187106f023d041dcfd2a24e9f5a2a0c37b5c41b0ff171267ae776a8f16760"
+    },
+    "75350.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\75350.dat",
+      "sha256": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53"
+    },
+    "6516.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6516.dat",
+      "sha256": "fe40233cc54af0f327a7c2763bbca95cd0dca04138394b2183b3c04a4f479762"
+    },
+    "6515.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6515.dat",
+      "sha256": "fb0f7da6b4f603990d5512be8e1cba3c51b555fa3a413e3c8f9697ada70e6057"
+    },
+    "31624.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\31624.dat",
+      "sha256": "841a66840fb00a44d13118ce7d3168c59c000da5a4b23e1000300fb130d77763"
+    },
+    "s/31624s01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\31624s01.dat",
+      "sha256": "d9b832d027b915be91b430e2260934c8074a21c1a32b58991782fb6d70932e69"
+    },
+    "48/3-16cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\3-16cylo.dat",
+      "sha256": "76b0bf74b19495e59a445c0968739af5186827f331f03736b77c2c2bda71b866"
+    },
+    "48/3-16edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\3-16edge.dat",
+      "sha256": "9db5a2634d599770c8bd3f3f7dc790e0198b938054878d2149b25303896b4ab4"
+    },
+    "48/3-16cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\3-16cyli.dat",
+      "sha256": "70d8abd40f9811f79e109a8508112001d4249fb9b2ca204cec54d883d5bfa7bb"
+    },
+    "48/3-16chrd.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\3-16chrd.dat",
+      "sha256": "e9ff2d0b0d79857f5599489d1aa0f7ead77accdee8257959d917c85a463c3e15"
+    },
+    "1-4edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4edge.dat",
+      "sha256": "9ce2de7e67bbac575d52cfdc771b9d00856efc9b88002d97db8e665e50f4d467"
+    },
+    "1-4ndis.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4ndis.dat",
+      "sha256": "ff6685838636e7ab6152356d8f09e4f00a38af0d878b0881423f5c45fb868f0c"
+    },
+    "3-4cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-4cyli.dat",
+      "sha256": "4a54732476cf4eaad2c9f7b40a3cef24db025132004328e4e84c0666cd217533"
+    },
+    "1-8chrd.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-8chrd.dat",
+      "sha256": "7694157b725563188a6efd69b3f558b00533b375b8a4e82f469497a03e471e74"
+    },
+    "3-4edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-4edge.dat",
+      "sha256": "d7f5aff979bc227b601abbb8e0226d6055d08eafb5faaf507b3055f712cd4c04"
+    },
+    "1-8ndis.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-8ndis.dat",
+      "sha256": "97e394834789794c8635261fa604ad8e69b4c6872d0cd8d7506408b80023f408"
+    },
+    "3-4chrd.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-4chrd.dat",
+      "sha256": "0d6ab4757a7825257f175b7eb5457897bb93487d3b1b938e1ca0ab760fb8ed9a"
+    },
+    "48/1-24cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-24cylo.dat",
+      "sha256": "efeb548c4941d52d9642c0343fa790fcf4778cf4bf1b869de91502933f07671f"
+    },
+    "48/1-24edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-24edge.dat",
+      "sha256": "0946112b54d72f44d95d9f48b652bec53468f05eaacb2503ca09f58bee518e04"
+    },
+    "48/1-24cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-24cyli.dat",
+      "sha256": "5e767152f719b094442a5e68060781c9f2b7304595c6956bf98183bda00a9a36"
+    },
+    "48/1-24chrd.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-24chrd.dat",
+      "sha256": "9c1442d69aa0acfe4de87e4b9cdce8b164c88289640c9aa980afafb7b4aabd74"
+    },
+    "48/1-6edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-6edge.dat",
+      "sha256": "91d8e78d97ae0ae1e0a21d7b1c7d2e50ee931d9eee798b3f9d0cff5034369ab9"
+    },
+    "48/1-6chrd.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-6chrd.dat",
+      "sha256": "337c0ff3e06bb925fa87d5ed2eaea586504464a3612589662a5134f37fe4902a"
+    },
+    "48/1-6cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-6cyli.dat",
+      "sha256": "e6acc0794a9b5e6bd2a0e59fa408903077d97179e8bb5dbd7f57c2dc30042e9c"
+    },
+    "3-16ndis.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16ndis.dat",
+      "sha256": "abb7da370e72fe9e75faf5d10c637b476202dbd8ced9cb5b0f96433e1f72f529"
+    },
+    "1-4chrd.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4chrd.dat",
+      "sha256": "ccba3a97b5cc358754e476b78b4ce61cce5f404cd15e37471b73df3e81784aec"
+    },
+    "3-16chrd.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16chrd.dat",
+      "sha256": "2bb493e8b5b56a5d63bfa7356a0ed5d6403a68e5e9a983e13a57541783ad19c1"
+    },
+    "box4.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box4.dat",
+      "sha256": "72e1169ec1b2f11d44a6aaf6e87e15ec82a6cb35b5c56dcf7b1185d6b8b954aa"
+    },
+    "box4o4a.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box4o4a.dat",
+      "sha256": "a66f3fc32d0209b5b2432c82414997dc0910c48a074be1d96ef5ec088a2594dd"
+    },
+    "3-8cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-8cylo.dat",
+      "sha256": "f5e90ea29201b4cea569e2effe32eee5fe95146e3eadcddc054a881ef4f839bd"
+    },
+    "3-8ring6.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-8ring6.dat",
+      "sha256": "0cf20ca63e4428e0c7e6c9b54933845d1354b584546b53304455235012457477"
+    },
+    "6522.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6522.dat",
+      "sha256": "f29f4610440ca4d651fb43bbec8e004770aa122289a25dc09f24ef764601d1ec"
+    },
+    "daxle.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\daxle.dat",
+      "sha256": "1e110f59ba51341b23228ff5aa0b423dede60ee8d01d80cb6ec63c96f6d1c25f"
+    },
+    "1-8cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-8cylo.dat",
+      "sha256": "870bbbf6052e075598de7dce7efe7a139ea5189820e7a296442fe2b3318c18bf"
+    },
+    "box2-5.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box2-5.dat",
+      "sha256": "8f297b754f87da1dbe19eec8704a5ce03a23b794ccd7cd015508e3758a206174"
+    },
+    "31625.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\31625.dat",
+      "sha256": "5ab61278f8b7c3164bd8dc806aca4a22bd242629030add1d59531abfb4662439"
+    },
+    "3-16edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16edge.dat",
+      "sha256": "c08dd83bb7fe90b61f7cd0b10ebef0d9a9ba33b497676dedd2e2e968cb8248f9"
+    },
+    "6529.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6529.dat",
+      "sha256": "438a215bdb38efdc5f3f5de9b36ea9bfe8543a5074cfe8a863f84624606cdbea"
+    },
+    "daxlehub.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\daxlehub.dat",
+      "sha256": "7f386117519f6f8b9aee17ea0c6d9fd02d24bb2977caeec59c4a2b1413f73e20"
+    },
+    "4-4ring5.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4ring5.dat",
+      "sha256": "ca5a04efffaad8671c935fed492ee397b1b91f854079257b033e87fcca3580b1"
+    },
+    "daxlehole.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\daxlehole.dat",
+      "sha256": "32d44cb581782ac0a67efd0a8b72a5c3b24613a8ebf33a7bc8d0b1a6312c0417"
+    },
+    "box5-4a.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box5-4a.dat",
+      "sha256": "54b04b6b0098ab0d9a0a33909881297223b9f14d2b7077656257b94e05bd2603"
+    },
+    "s/6529s01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\6529s01.dat",
+      "sha256": "beb6c1c08bac88efbb10ae8fd94adf0bc08939d219dc9e60c222576d9ab666f4"
+    },
+    "48/1-8cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-8cylo.dat",
+      "sha256": "bc5df94184d568c4b032959d7ec8fb138adc17acf14d8f9b4d41b69e96bc9f5f"
+    },
+    "48/1-8edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-8edge.dat",
+      "sha256": "eec30153f06bac336ca71ae16b31c5d0c7ae432acb5e91befe37fdb7b6bb1c8e"
+    },
+    "48/1-8cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-8cyli.dat",
+      "sha256": "494069ca353e41885bf8f5b6b3ddc9b62aabeca3eedfe6aa5597ac8f12ca12b9"
+    },
+    "dtooth.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\dtooth.dat",
+      "sha256": "5823941c376c69d74c3de7caf5d6086e5a726f68ad1cb71700b3bd1784804c3a"
+    },
+    "48/4-4edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4edge.dat",
+      "sha256": "db8fd751c8c6b1f72211903adbff3aa90be6808cc4fcff391f1c320adced5da7"
+    },
+    "48/1-4chrd.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-4chrd.dat",
+      "sha256": "a735a3d5f7652eb4c1ec7fd2fc2d6fcbb0d54cd647cb92c60e64dd3ba000b0a1"
+    },
+    "6526.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6526.dat",
+      "sha256": "c91f1ba1fd21011e8da554de0b9a5e7e63a450f9608f0250890f96df13cf04c4"
+    },
+    "rect2a.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect2a.dat",
+      "sha256": "6d75ffb88e705a35f34e095ec0848a7bb70b577a376fdae05804da214b0d6369"
+    },
+    "1-4cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4cylo.dat",
+      "sha256": "792a01362608c3f385dd7f01a1bd7d19cf9ed8a40f793266345cc86d1d98f3af"
+    },
+    "1-4cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4cyli.dat",
+      "sha256": "5a7168952a5a3570327873b9a5802fa7b3be40967ab78c03b6a2bfd4419a1f10"
+    },
+    "3-16cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16cylo.dat",
+      "sha256": "a5c8370842299035a9cc14308301614c6fb169fb873a7950c888928cd8d9181c"
+    },
+    "3-16cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16cyli.dat",
+      "sha256": "f50d12a37a22ae4a5f37a017b8e39d1e729577b0a4aa376ca685b210806b49c8"
+    },
+    "box4o8a.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box4o8a.dat",
+      "sha256": "2144edea417bbc55c261e3731ea86d52ac50c7cb651b4879f55ec39966fd0f5b"
+    },
+    "3-16ring3.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16ring3.dat",
+      "sha256": "3e0d8f9325ef96db0fa0a471240f810181a235736554c040a303f20d03294136"
+    },
+    "6527.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6527.dat",
+      "sha256": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b"
+    },
+    "t04i2500.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\t04i2500.dat",
+      "sha256": "16a0e74be0e6e149ea99ffd6aff98b3406c19fc7727d0453b1fe1572cf4e40bb"
+    },
+    "48/4-4cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4cylo.dat",
+      "sha256": "ce018b080f8d657ed514164b995e119e9ea104a03cd84e6a6f736b40f58252a6"
+    },
+    "48/4-4cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4cyli.dat",
+      "sha256": "6c466cd94f69ecdb3a5a83faee52ad2e5ecd9d1560975feaf854c3433de6e6a2"
+    },
+    "48/4-4aring.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4aring.dat",
+      "sha256": "4c0d575f91df941b5d3313427d699813cc3cf9f09c334cbad7a0eceeaf98f573"
+    },
+    "48/4-4ring9.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4ring9.dat",
+      "sha256": "d8de1753705319aa11a189b579323b778c9b6cf4869360e698c64a8a0cdbf3d2"
+    },
+    "48/1-4ring9.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-4ring9.dat",
+      "sha256": "08cf8697a97526c9636b00578b792ef8452d3f74d7615e3a1d5644417908b42a"
+    },
+    "t04i1304.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\t04i1304.dat",
+      "sha256": "e23d62de56e98c40060f11106d93688dd6a53d5d92507673c4d3690184769cfc"
+    },
+    "t02i1111.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\t02i1111.dat",
+      "sha256": "827358bfc070521d4cfafac88fb7f74c41bd75e4ca712e13e28afc34c3533e40"
+    },
+    "1-16chrd.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16chrd.dat",
+      "sha256": "e429dd760eb6f0cf460a74e6ebf52c023bedbdea82de7801efa1694b5a1a82e8"
+    },
+    "empty.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\empty.dat",
+      "sha256": "192c9b9ee2e425cfbc9e9b12ff61ee0f05ae1cb0c12dc37d5590adb6abb65128"
+    },
+    "4663.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\4663.dat",
+      "sha256": "f46190bd1202d61315334de27fc1a067025ef3b631a7aab8a7a0053e78055f51"
+    },
+    "7-8cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\7-8cyli.dat",
+      "sha256": "65877ef8bdc2f6162bc5db53d62e6bde48349969e3370afa99623e082d6eee23"
+    },
+    "3-4cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-4cylo.dat",
+      "sha256": "b7ff6f92e06cea3815be42f757f17cd28350f2a4ff18dd1a11de0db3626ec44b"
+    },
+    "3-4ring3.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-4ring3.dat",
+      "sha256": "540acda3cc2567820cbba2ea67320bab8c80a99cc94d974cf70b58c1c32573cd"
+    },
+    "2-4ring1.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4ring1.dat",
+      "sha256": "a04bfc7ffeeb56f92a83aaa60429939e896facb5a407f93a50f24fd1b2b1706d"
+    },
+    "1-4cylc.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4cylc.dat",
+      "sha256": "fdcb54ba2e2731cbb86ea6b2fddb25c7dda060a7780629a72003e0278805dd30"
+    },
+    "1-4disc.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4disc.dat",
+      "sha256": "cf481d56b2c13dc2a6bcfe5eadb6577f2435b3f2f50fcdca199be76525d773ca"
+    },
+    "1-16cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16cylo.dat",
+      "sha256": "6cef884c4f96ec15f5bd1428264af2efba4443cb1e47ead116a8a094febefc67"
+    },
+    "1-16cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16cyli.dat",
+      "sha256": "b60f031d9dfd0995c1741992a5695ee3789419886e8189dead961d05f75f7bfc"
+    },
+    "1-16ring2.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16ring2.dat",
+      "sha256": "c8fd7bff229ffc832496ae5e7e1bcbb0c246629abbf72a660699772ab87d91a6"
+    },
+    "1-16ring4.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16ring4.dat",
+      "sha256": "9a5cc68e4201eff6d1172793a09a9b11f6ded5fe41c3cd9042a8dc4648831042"
+    },
+    "1-16ring3.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16ring3.dat",
+      "sha256": "fc42cc8def33dca0ba2bf372688e5c373d54783041e693ec6ed79da5974e48b7"
+    },
+    "3-16ring6.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16ring6.dat",
+      "sha256": "d022cec8faeaf430893137b3c0fc5b31eccfa5aba98571cefc7f785507a63335"
+    },
+    "31191.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\31191.dat",
+      "sha256": "efa72fc523ca19a5414a06360ca81b520831e74c887f133c97afcca8a244ea1d"
+    },
+    "stug8-1x5.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug8-1x5.dat",
+      "sha256": "c08935bbd780767eb6362d809c69887f20f98a940825a07d11e9bf0f6d5ec635"
+    },
+    "recte4.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\recte4.dat",
+      "sha256": "183b28b7586ffce3049e9248301668b4e16a84671b0f423efd792fb84a969dfe"
+    },
+    "s/31191s01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\31191s01.dat",
+      "sha256": "ab12e5e09729b90ad0857f5672c51454871a3467f62603618cda0be5c8e80396"
+    },
+    "5-8cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\5-8cylo.dat",
+      "sha256": "1b6b84c6316986d887e62da30a38d63d7e789dbf0e77e5ee53655dd78c218a12"
+    },
+    "5-8edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\5-8edge.dat",
+      "sha256": "ecac980b3e5486dda1363611cd2cbba5e3309b2fccc255363b6d9858f00ce583"
+    },
+    "5-8cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\5-8cyli.dat",
+      "sha256": "91679da1ed677f4273989f784e212d4a3f332cb4bee317617682b216f6aaf284"
+    },
+    "1-8tndis.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-8tndis.dat",
+      "sha256": "5e3bd48d2e7565fc97a8936255339d9682897b43a38f69da43571f42a4a2248e"
+    },
+    "48/1-6ndis.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-6ndis.dat",
+      "sha256": "9d486320bd1468df80c1d5564049ffa08e167419945577dfc4c3b6195e4edf8c"
+    },
+    "ddoorhinge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\ddoorhinge.dat",
+      "sha256": "1747ae9594f4aeaea4b8699b1dbaaf043763109519758566875439aad40abcc4"
+    },
+    "48/1-8tang.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-8tang.dat",
+      "sha256": "a48fdfb9852b080f49f0190af8b8a545088a566a891f3f88007800281d5f3de8"
+    },
+    "48/1-6cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-6cylo.dat",
+      "sha256": "107afb4cab0dad22da99e853c4d2d609387cb4cc4546a8d4ecccd41429f4258e"
+    },
+    "48/1-8ring41.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-8ring41.dat",
+      "sha256": "867dd657fa9b12242bc264f62c22c0be532da5beb546a83d3f471893e2b7c893"
+    },
+    "48/1-8ring84.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-8ring84.dat",
+      "sha256": "7f2b079323e8c3ddf928a08f6a60e18fab21f2be177ab808c8798206591603f0"
+    },
+    "48/2-4cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\2-4cylo.dat",
+      "sha256": "8664bb8070cc7b44b3f60c6dde9c3a96b2ef5f20e6585d340d543441d356e50c"
+    },
+    "48/2-4edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\2-4edge.dat",
+      "sha256": "e059b74394567300989a6189e8db33f885334455c20137f27b4739bf424042f5"
+    },
+    "48/2-4cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\2-4cyli.dat",
+      "sha256": "685652b02ba31d357cb53ab845f0256a3d1580f530d28e57e9a34fe00e82111b"
+    },
+    "48/1-4cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-4cylo.dat",
+      "sha256": "93f7305e7575678ae00336972ca5078611c37a02d9755865d38cea4ff122c345"
+    },
+    "48/1-8ndis.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-8ndis.dat",
+      "sha256": "28616a711c14c807d64784b3c97b16ccfaec2a6e06d40bd182fa99b68dfb8a72"
+    },
+    "48/2-4ring40.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\2-4ring40.dat",
+      "sha256": "30b27f26b7b13ac6332d8668d5885f88440d70de24b940ec102022f7af1d0f7d"
+    },
+    "48/4-4con39.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4con39.dat",
+      "sha256": "76908acd665a9632a1fe48a1c7ecaa62cc878668825e5c4dde9aed6f2de808a3"
+    },
+    "box3u4a.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\box3u4a.dat",
+      "sha256": "15463f41f9947dd75486dc7af3231b1037704f1b654c2555e3ba705817a2db75"
+    },
+    "stug7-1x6.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug7-1x6.dat",
+      "sha256": "98a3a4c93630a7ff4f1c57690a70de5160efbcf33e7baf9213da2991a8de02b9"
+    },
+    "6530.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6530.dat",
+      "sha256": "9037cefa788cb7f97424c6c5d4ff3c9cea63200ee7a8251d55aed32246028b48"
+    },
+    "s/6530s01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\6530s01.dat",
+      "sha256": "d4025ab533a76c50fc6c98284c3b545b1b1429622c3abd38da85e2707bd2900c"
+    },
+    "48/5-24cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\5-24cylo.dat",
+      "sha256": "f6b98815d032ae56c7e0bcc3bd02c2295e0fea90c4bb8c8c7bf9207c0500f71a"
+    },
+    "48/5-24edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\5-24edge.dat",
+      "sha256": "98f6635f6593350b1a5987341291fc1cf17674c28ced8a421a69d1ec17b39575"
+    },
+    "48/5-24cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\5-24cyli.dat",
+      "sha256": "32b15a6570d6f5534a620e667a26b86298596ed9d064a0a9b1886d413c345658"
+    },
+    "48/5-24ring18.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\5-24ring18.dat",
+      "sha256": "5a707d52eec6868a25f45ab5eb0b4410473e1541a3f37aa5cc6b574713e11684"
+    },
+    "31195.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\31195.dat",
+      "sha256": "9714624ca1f87c8632c05ded4b15d73f39c9349b7431e3e9ed707375eb2bdf09"
+    },
+    "s/31452s01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\31452s01.dat",
+      "sha256": "2e77f9725d108f731ba5f25710f3235e5db2e0f693bec9062e23d0709a7dd587"
+    },
+    "48/4-4ring11.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4ring11.dat",
+      "sha256": "1a0d0bc5ab42950da1f255d61e1fe2d3f08cb7c76dcc59e927a53beb5e6f2fe9"
+    },
+    "48/1-4con38.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\1-4con38.dat",
+      "sha256": "362da08769c18630f93ee3f6d178970bf95e9d90639d27cc365819089037567b"
+    },
+    "48/4-4ring19.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4ring19.dat",
+      "sha256": "f4bd9302cd727b17eb2c115de5255dbc6ec332ad2ae9ec80e4e86ce6cbc8f574"
+    },
+    "s/31452s02.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\31452s02.dat",
+      "sha256": "2d732a03dab88ac5f458a383ccea92e366b1c9a7c913a1cb5f8e9798dc074a75"
+    },
+    "48/3-16tang.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\3-16tang.dat",
+      "sha256": "722f7735056716e2c2610c785c78a4ad5f6799a86d62867829cee8741367bb08"
+    },
+    "48/t08q5500.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\t08q5500.dat",
+      "sha256": "13df7c76ca8153be9af5fa424c691a3f21f39275eed5b3cc9fb5f358cfa15cf8"
+    },
+    "s/31452s03.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\31452s03.dat",
+      "sha256": "7644737ef84192a6e5e7253c652a620adf3758e475d5ce9399ac6d8f3be99dd5"
+    },
+    "48/4-4ring33.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4ring33.dat",
+      "sha256": "3ebbb47f30c96272864bd4f8a8f9825543dc3ca552f73b671943a64b001775da"
+    },
+    "48/4-4ring34.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4ring34.dat",
+      "sha256": "db3471b6a4c338ddb436f842bbacc0dee7e85b4b6d578434a46794ced4a34f40"
+    },
+    "48/4-4ring47.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4ring47.dat",
+      "sha256": "228309bc3614ae478a4adfea78b3bb08dfd6464d25ff7399a7c8f4ebd5c0ed75"
+    },
+    "s/31195s01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\31195s01.dat",
+      "sha256": "f54e4c735fc63a08c622eae38ef0104c0cdcaa07e247d6ca72dbd2a5441bbf32"
+    },
+    "31623.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\31623.dat",
+      "sha256": "033a68ef26d5f0061b7c3bf4a07a521528ee2f1594d93bcefd7d8bda78b43309"
+    },
+    "s/6523s01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\6523s01.dat",
+      "sha256": "0465d5bc6982a8a7012c898d09d88e944408def249c758a89a556a1f4d4cc6f2"
+    },
+    "dtooth8.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\dtooth8.dat",
+      "sha256": "550fd28020126ad96cfe47e86af9651d253924dec43fa052254345fed7f6977d"
+    },
+    "31622.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\31622.dat",
+      "sha256": "f3f46ef936923e8bbbf3cc1f8105d6f72e42a827beaf08313bfcb383937fb30a"
+    },
+    "48/4-4ring17.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\48\\4-4ring17.dat",
+      "sha256": "7710b22eb917ca14083f0acdf8de4a3d3c380d9ab1adad4a869ca70778738fb7"
+    },
+    "dtoothc.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\dtoothc.dat",
+      "sha256": "2b1de48461f594d001cee6c84471f2656c3822a4175236925424f8070be40cf3"
+    },
+    "51262.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\51262.dat",
+      "sha256": "2311dc62a2f7314469e0adadd673dc5b7b2fa57cbffbb1c7155dc47d3c43fbb7"
+    },
+    "11198.dat": {
+      "source": "3-jing-che.mpd",
+      "sha256": "059c8b43d178a45678f85472db84b2d296f0e9415a6b8a4a6bb1cad0b2c0a189"
+    },
+    "s/11198s01.dat": {
+      "source": "3-jing-che.mpd",
+      "sha256": "76f0401798b63bce3c05b6a45099bc8f6cdace79699f41762fbe260ce871d3a3"
+    },
+    "s/76371s02.dat": {
+      "source": "3-jing-che.mpd",
+      "sha256": "0c330a8a9be645bc37613266c63003092c5746d8d8f89bbe10b81ba2d4e96b79"
+    },
+    "stud4.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stud4.dat",
+      "sha256": "871cdcab26e7f5113488a24c453d6fabda75b275b06de592e0bfaad4292c12a3"
+    },
+    "48/2-4ndis.dat": {
+      "source": "3-jing-che.mpd",
+      "sha256": "941f88c483f57566ffa1bc48bfc6c19f20a7b51e890cee345e99dc5eab46c43f"
+    },
+    "stug7-1x4.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stug7-1x4.dat",
+      "sha256": "5ff4ae6d96a8aaceebd21bd5122177e5637e023202638efe6126aef54048fb5a"
+    }
+  },
+  "physicalValidation": false
+}

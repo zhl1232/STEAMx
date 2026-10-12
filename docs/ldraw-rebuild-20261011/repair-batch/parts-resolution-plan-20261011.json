@@ -1,0 +1,3621 @@
+{
+  "generatedAt": "2026-10-11T08:45:46.522Z",
+  "scope": "原29家族逐行更新；只编辑本方案JSON/Markdown，不改registry、模型或验收状态",
+  "groupDefinitions": {
+    "1": "现有正规件已解决身份或有局部补装证据；明确区分两者",
+    "2": "可继续目录/源版本研究，但未有可直接装配的完整证据",
+    "3": "需源细节、实测、柔性连接或许可几何证据"
+  },
+  "webEvidence": [
+    {
+      "url": "https://library.ldraw.org/parts/list?tableSearch=32ac01.dat",
+      "finding": "Official list indexed2332ac01 Duplo Door Frame2x4x3 Raised Door Outline Complete; direct fetch inaccessible, license header/dependency file not yet obtained.",
+      "status": "historical_superseded",
+      "historicalOnly": true,
+      "supersededBy": "parts-resolution-evidence/new-official-closure.json",
+      "currentFinding": "旧direct-fetch-inaccessible不再有效：2332ac01/4253c01/74656已真实GET并完成90文件闭包；用于研究比较，不代表当前窗型或小车已修复。"
+    },
+    {
+      "file": "parts-resolution-evidence/official-probes.json",
+      "finding": "Escalated realGET24 endpoints:5official roots200,19endpoints404. Earlierblocked statuses superseded. New relevant roots2332ac01/4253c01/74656;10715p01/p02alreadylocal."
+    },
+    {
+      "file": "parts-resolution-evidence/new-official-closure.json",
+      "finding": "Three newcandidate roots fullyclosed across90files;9files savedto scratch, remaining81reusedlocal. No repo mutations."
+    }
+  ],
+  "freshPixelReviews": [
+    "4-tui-tu-ji/source/page-07.png",
+    "5-wo-lun-diao-qiao/source-11.jpg"
+  ],
+  "classificationBoundary": "29互斥分类是家族处理状态，不是课程完成计数。4198身份解决1；窗族可实施局部1；研究几何下载与完整依赖不等于源身份、装配或实物验证。已有近似与正规件分开。",
+  "summary": {
+    "originalFamilies": 29,
+    "resolvedExistingIdentity": 1,
+    "remainingFamilies": 28,
+    "groups": {
+      "1": 2,
+      "2": 13,
+      "3": 14
+    },
+    "exclusiveCategories": {
+      "licensed_geometry_missing": 7,
+      "identity_geometry_research": 12,
+      "flexible_interface_evidence": 4,
+      "resolved_identity": 1,
+      "ready_partial": 1,
+      "figure_variant_evidence": 1,
+      "regular_geometry_needs_source": 3
+    },
+    "sourceConfirmedPartialWindowAssemblies": 11,
+    "partialWindowCourses": 3,
+    "fullCoursesCompletedByThisPlan": 0
+  },
+  "rows": [
+    {
+      "key": "4433c01",
+      "name": "Toolo exhaust pipe",
+      "group": 3,
+      "identityStatus": "confirmed",
+      "confirmedId": "4433c01",
+      "candidateIds": [],
+      "aliases": [
+        "45149"
+      ],
+      "originalCategory": "confirmed_id_missing_geometry",
+      "courses": [
+        {
+          "slug": "4-cha-che",
+          "name": "叉车",
+          "sourcePages": [
+            "8",
+            8
+          ],
+          "modelSha256": "f4d5fccdd0d5e288d8819f5645a76c106b8d3826d2175667e747a05ab89c7c0c"
+        },
+        {
+          "slug": "4-sai-che",
+          "name": "赛车",
+          "sourcePages": [
+            3
+          ],
+          "modelSha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94"
+        },
+        {
+          "slug": "4-ya-lu-ji",
+          "name": "压路机",
+          "sourcePages": [
+            7
+          ],
+          "modelSha256": "4e8c62fadc2ec6f1805cbed2795e64c116e49abb6cdd27ac1b968db5f191b51c"
+        }
+      ],
+      "missingEvidence": [
+        "Reusable geometry with clear license"
+      ],
+      "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain dimensioned front/side/bottom views of4433c01/45149 plus Toolo screw-axis and mount depth; author original dev geometry only under explicitly agreed approximation boundary or locate an author-supplied licensed DAT. Roller source count1 remains authoritative over conflicting registry supplemental count2.",
+      "localGeometry": [
+        {
+          "id": "4433c01",
+          "available": false
+        },
+        {
+          "id": "45149",
+          "available": false
+        }
+      ],
+      "priorSources": [
+        "local parts/p and embedded MPDs",
+        "official/unofficial LDraw actual404",
+        "fixed mirror actual404",
+        "BrickLink source-photo match"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "缺可许可几何；新建精确几何需要接口尺寸/多视图，近似建模需明确范围。",
+      "notClaimedResolved": true,
+      "officialResearch": {
+        "file": "preparation/official-geometry-recheck-20261011.json",
+        "officialAvailable": false,
+        "unofficialAvailable": false,
+        "license": null,
+        "nextAction": "Obtain dimensioned front/side/bottom views of4433c01/45149 plus Toolo screw-axis and mount depth; author original dev geometry only under explicitly agreed approximation boundary or locate an author-supplied licensed DAT. Roller source count1 remains authoritative over conflicting registry supplemental count2."
+      },
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Reusable geometry with clear license"
+        ],
+        "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain dimensioned front/side/bottom views of4433c01/45149 plus Toolo screw-axis and mount depth; author original dev geometry only under explicitly agreed approximation boundary or locate an author-supplied licensed DAT. Roller source count1 remains authoritative over conflicting registry supplemental count2.",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+      "currentEvidence": [
+        "official-geometry-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "45117c01",
+      "name": "Toolo wing with2x4 central brick",
+      "group": 3,
+      "identityStatus": "confirmed",
+      "confirmedId": "45117c01",
+      "candidateIds": [],
+      "aliases": [
+        "45116",
+        "86593"
+      ],
+      "originalCategory": "confirmed_id_missing_geometry",
+      "courses": [
+        {
+          "slug": "4-da-xiang",
+          "name": "大象",
+          "sourcePages": [
+            4
+          ],
+          "modelSha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950"
+        },
+        {
+          "slug": "4-ke-ji",
+          "name": "客机",
+          "sourcePages": [
+            3,
+            5
+          ],
+          "modelSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755"
+        },
+        {
+          "slug": "4-sai-che",
+          "name": "赛车",
+          "sourcePages": [
+            6
+          ],
+          "modelSha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94"
+        },
+        {
+          "slug": "4-xuan-zhuan-fei-ji",
+          "name": "旋转飞机",
+          "sourcePages": [
+            11
+          ],
+          "modelSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7"
+        },
+        {
+          "slug": "4-yi-long",
+          "name": "翼龙",
+          "sourcePages": [
+            13,
+            "13"
+          ],
+          "modelSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751"
+        }
+      ],
+      "missingEvidence": [
+        "Reusable geometry with clear license"
+      ],
+      "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain wing outline/thickness and central2x4 brick screw/stud locations for45117c01 aliases45116/86593. Do not substitute31215 or rearspoiler31239c01. Original measured authoring or licensed author CAD needed.",
+      "localGeometry": [
+        {
+          "id": "45117c01",
+          "available": false
+        },
+        {
+          "id": "45116",
+          "available": false
+        },
+        {
+          "id": "86593",
+          "available": false
+        }
+      ],
+      "priorSources": [
+        "local and embedded MPDs",
+        "official/unofficial/fixed mirror404",
+        "BrickLink source-photo match"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "缺可许可几何；新建精确几何需要接口尺寸/多视图，近似建模需明确范围。",
+      "notClaimedResolved": true,
+      "officialResearch": {
+        "file": "preparation/official-geometry-recheck-20261011.json",
+        "officialAvailable": false,
+        "unofficialAvailable": false,
+        "license": null,
+        "nextAction": "Obtain wing outline/thickness and central2x4 brick screw/stud locations for45117c01 aliases45116/86593. Do not substitute31215 or rearspoiler31239c01. Original measured authoring or licensed author CAD needed."
+      },
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Reusable geometry with clear license"
+        ],
+        "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain wing outline/thickness and central2x4 brick screw/stud locations for45117c01 aliases45116/86593. Do not substitute31215 or rearspoiler31239c01. Original measured authoring or licensed author CAD needed.",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+      "currentEvidence": [
+        "official-geometry-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "31239c01",
+      "name": "Toolo rear spoiler",
+      "group": 3,
+      "identityStatus": "confirmed",
+      "confirmedId": "31239c01",
+      "candidateIds": [],
+      "aliases": [
+        "76223"
+      ],
+      "originalCategory": "confirmed_id_missing_geometry",
+      "courses": [
+        {
+          "slug": "4-da-xiang",
+          "name": "大象",
+          "sourcePages": [
+            5
+          ],
+          "modelSha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950"
+        },
+        {
+          "slug": "4-ke-ji",
+          "name": "客机",
+          "sourcePages": [
+            5
+          ],
+          "modelSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755"
+        },
+        {
+          "slug": "4-xuan-zhuan-fei-ji",
+          "name": "旋转飞机",
+          "sourcePages": [
+            11
+          ],
+          "modelSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7"
+        },
+        {
+          "slug": "4-yi-long",
+          "name": "翼龙",
+          "sourcePages": [
+            13,
+            "13"
+          ],
+          "modelSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751"
+        }
+      ],
+      "missingEvidence": [
+        "Reusable geometry with clear license"
+      ],
+      "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain rearspoiler31239c01/76223 side profile and connection axes; do not substitute45117c01 wing. Original measured authoring or licensed author CAD needed.",
+      "localGeometry": [
+        {
+          "id": "31239c01",
+          "available": false
+        },
+        {
+          "id": "76223",
+          "available": false
+        }
+      ],
+      "priorSources": [
+        "local and embedded MPDs",
+        "official/unofficial/fixed mirror404",
+        "BrickLink source-photo match"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "缺可许可几何；新建精确几何需要接口尺寸/多视图，近似建模需明确范围。",
+      "notClaimedResolved": true,
+      "officialResearch": {
+        "file": "preparation/official-geometry-recheck-20261011.json",
+        "officialAvailable": false,
+        "unofficialAvailable": false,
+        "license": null,
+        "nextAction": "Obtain rearspoiler31239c01/76223 side profile and connection axes; do not substitute45117c01 wing. Original measured authoring or licensed author CAD needed."
+      },
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Reusable geometry with clear license"
+        ],
+        "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain rearspoiler31239c01/76223 side profile and connection axes; do not substitute45117c01 wing. Original measured authoring or licensed author CAD needed.",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+      "currentEvidence": [
+        "official-geometry-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "2223",
+      "name": "Compact U ladder stand",
+      "group": 2,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [
+        "2223"
+      ],
+      "aliases": [],
+      "originalCategory": "candidate_id_missing_geometry",
+      "courses": [
+        {
+          "slug": "4-ji-guan-qiang",
+          "name": "机关枪",
+          "sourcePages": [
+            10,
+            "10"
+          ],
+          "modelSha256": "38a00ef6285bf348d611c68d5b662100b877cfb82daf3d2f01788029d212e270"
+        },
+        {
+          "slug": "4-ju-ji-qiang",
+          "name": "狙击枪",
+          "sourcePages": [
+            8
+          ],
+          "modelSha256": "e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388"
+        },
+        {
+          "slug": "4-long-men-diao",
+          "name": "龙门吊",
+          "sourcePages": [
+            11,
+            "11"
+          ],
+          "modelSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007"
+        },
+        {
+          "slug": "4-ta-diao",
+          "name": "塔吊",
+          "sourcePages": [
+            18
+          ],
+          "modelSha256": "99cebf4877faa66b43cb696bfdeff23fd5dd4e2a3c34ac42cfca3f2da20c800b"
+        }
+      ],
+      "missingEvidence": [
+        "Mold-version/side-rib confirmation and licensed geometry"
+      ],
+      "nextAction": "按机关枪p10、狙击枪p8、塔吊p18和龙门吊p11分别比较U架侧筋、孔距及基座；检索2223及正式别名的PT/官方组件，取得作者许可和依赖后再逐课装配。不能仅凭黑色U形把四课模具版本合并。",
+      "localGeometry": [
+        {
+          "id": "2223",
+          "available": false
+        }
+      ],
+      "priorSources": [
+        "source pixels+BL2223 photo",
+        "official/unofficial/fixed mirror404",
+        "Thingiverse410438 unavailable; license unverified"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Mold-version/side-rib confirmation and licensed geometry"
+        ],
+        "nextAction": "按机关枪p10、狙击枪p8、塔吊p18和龙门吊p11分别比较U架侧筋、孔距及基座；检索2223及正式别名的PT/官方组件，取得作者许可和依赖后再逐课装配。不能仅凭黑色U形把四课模具版本合并。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "2223仍为U架候选；四课侧筋、孔距、模具版本未统一证实，且现有检索无可复用许可几何。须逐课局部正反图与有权CAD，目录研究可继续。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "2223仍为U架候选；四课侧筋、孔距、模具版本未统一证实，且现有检索无可复用许可几何。须逐课局部正反图与有权CAD，目录研究可继续。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "6670c01",
+      "name": "Long narrow3-blade Toolo rotor",
+      "group": 3,
+      "identityStatus": "confirmed",
+      "confirmedId": "6670c01",
+      "candidateIds": [],
+      "aliases": [
+        "86601",
+        "17215",
+        "47191",
+        "75573"
+      ],
+      "originalCategory": "confirmed_id_missing_geometry",
+      "courses": [
+        {
+          "slug": "4-wu-ren-ji",
+          "name": "无人机",
+          "sourcePages": [
+            6
+          ],
+          "modelSha256": "6fbd18c0e366258df33ad88e862c986f781fd7559ccd356f9ecb25cc6ff4408c"
+        },
+        {
+          "slug": "4-zhi-sheng-ji",
+          "name": "直升机",
+          "sourcePages": [
+            7,
+            "7/15"
+          ],
+          "modelSha256": "475f81edca039f422a42acc6dffb6e2ec8ee21f31ce13f057d9914e4f3e62e09"
+        }
+      ],
+      "missingEvidence": [
+        "Reusable geometry; short thick6669c01 rejected"
+      ],
+      "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain hub/shaft interface and blade outline/thickness of long narrow6670c01 aliases86601/17215/47191/75573. Short thick6669c01 is excluded. Original measured authoring or licensed author CAD needed.",
+      "localGeometry": [
+        {
+          "id": "6670c01",
+          "available": false
+        },
+        {
+          "id": "86601",
+          "available": false
+        },
+        {
+          "id": "17215",
+          "available": false
+        },
+        {
+          "id": "47191",
+          "available": false
+        },
+        {
+          "id": "75573",
+          "available": false
+        }
+      ],
+      "priorSources": [
+        "source pixels+BrickLink6670c01 photograph",
+        "parent RB alias evidence",
+        "local/official/unofficial/fixed mirror404"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "缺可许可几何；新建精确几何需要接口尺寸/多视图，近似建模需明确范围。",
+      "notClaimedResolved": true,
+      "officialResearch": {
+        "file": "preparation/official-geometry-recheck-20261011.json",
+        "officialAvailable": false,
+        "unofficialAvailable": false,
+        "license": null,
+        "nextAction": "Obtain hub/shaft interface and blade outline/thickness of long narrow6670c01 aliases86601/17215/47191/75573. Short thick6669c01 is excluded. Original measured authoring or licensed author CAD needed."
+      },
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Reusable geometry; short thick6669c01 rejected"
+        ],
+        "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain hub/shaft interface and blade outline/thickness of long narrow6670c01 aliases86601/17215/47191/75573. Short thick6669c01 is excluded. Original measured authoring or licensed author CAD needed.",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+      "currentEvidence": [
+        "official-geometry-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "6295",
+      "name": "Toolo arm with fake pulley and hook",
+      "group": 3,
+      "identityStatus": "confirmed",
+      "confirmedId": "6295",
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "confirmed_id_missing_geometry",
+      "courses": [
+        {
+          "slug": "4-ta-diao",
+          "name": "塔吊",
+          "sourcePages": [
+            11
+          ],
+          "modelSha256": "99cebf4877faa66b43cb696bfdeff23fd5dd4e2a3c34ac42cfca3f2da20c800b"
+        },
+        {
+          "slug": "4-xie-zi",
+          "name": "蝎子",
+          "sourcePages": [
+            10
+          ],
+          "modelSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d"
+        }
+      ],
+      "missingEvidence": [
+        "Reusable geometry"
+      ],
+      "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain both side profiles and underside/hinge-axis dimensions for fake-pulley-and-hook arm6295. Do not substituteexisting6294 clamp; original measured authoring or licensed author CAD needed.",
+      "localGeometry": [
+        {
+          "id": "6295",
+          "available": false
+        }
+      ],
+      "priorSources": [
+        "source pixels+BrickLink6295 photo",
+        "BL3588 gray inventory",
+        "official/unofficial/fixed mirror404"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "缺可许可几何；新建精确几何需要接口尺寸/多视图，近似建模需明确范围。",
+      "notClaimedResolved": true,
+      "officialResearch": {
+        "file": "preparation/official-geometry-recheck-20261011.json",
+        "officialAvailable": false,
+        "unofficialAvailable": false,
+        "license": null,
+        "nextAction": "Obtain both side profiles and underside/hinge-axis dimensions for fake-pulley-and-hook arm6295. Do not substituteexisting6294 clamp; original measured authoring or licensed author CAD needed."
+      },
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Reusable geometry"
+        ],
+        "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain both side profiles and underside/hinge-axis dimensions for fake-pulley-and-hook arm6295. Do not substituteexisting6294 clamp; original measured authoring or licensed author CAD needed.",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+      "currentEvidence": [
+        "official-geometry-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "31193",
+      "name": "Ball tube door",
+      "group": 3,
+      "identityStatus": "known_id_license_unverified",
+      "confirmedId": "31193",
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "known_id_unverified_license",
+      "courses": [
+        {
+          "slug": "4-wa-li",
+          "name": "瓦力",
+          "sourcePages": [],
+          "modelSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68"
+        }
+      ],
+      "missingEvidence": [
+        "Author/provenance/redistribution permission for existing old mesh"
+      ],
+      "nextAction": "现有31193 DAT作者空白、无LICENSE，不能因在本地就复用。先追原作者/原始可再分发来源；若仍无许可，需有权的重新建模授权及门厚/铰轴照片，不覆盖旧件。",
+      "localGeometry": [
+        {
+          "id": "31193",
+          "file": "STEAMx/scripts/ldraw-models/parts/31193.dat",
+          "available": true,
+          "sha256": "c4b8a644d5a5356732fb9eb92bf61b17173aec4a1ea73a63946f6cb6c8bbce4c",
+          "title": "0  Duplo Ball Tube Door",
+          "author": "0 Author:",
+          "license": null,
+          "official": false,
+          "localApproximation": false
+        }
+      ],
+      "priorSources": [
+        "existing DAT:emptyAuthor,noLICENSE",
+        "official/unofficial31193.dat404"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Author/provenance/redistribution permission for existing old mesh"
+        ],
+        "nextAction": "现有31193 DAT作者空白、无LICENSE，不能因在本地就复用。先追原作者/原始可再分发来源；若仍无许可，需有权的重新建模授权及门厚/铰轴照片，不覆盖旧件。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "本地31193旧网格作者/许可缺失，不可因本地存在就复用；需要合法来源或基于尺寸的独立原创。",
+      "currentEvidence": [
+        "existing local31193 provenance review"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "本地31193旧网格作者/许可缺失，不可因本地存在就复用；需要合法来源或基于尺寸的独立原创。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "58629",
+      "name": "Large cement mixer drum family",
+      "group": 2,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [
+        "58629"
+      ],
+      "aliases": [
+        "58629pb01",
+        "58629pb02",
+        "58629pr0002"
+      ],
+      "originalCategory": "candidate_id_missing_geometry",
+      "courses": [
+        {
+          "slug": "4-zhi-zhu",
+          "name": "蜘蛛",
+          "sourcePages": [
+            6,
+            "6"
+          ],
+          "modelSha256": "5a42ba605ed73e7a9ea69ad8391390508bb587336da00fc9ec174bcee7251468"
+        }
+      ],
+      "missingEvidence": [
+        "Source decoration version and complete drum/cradle geometry"
+      ],
+      "nextAction": "蜘蛛p6先核桶口、轴端与底架关系，查58629及印花后缀；须完整桶体+95219c01底架，不能用42235单桶替代。",
+      "localGeometry": [
+        {
+          "id": "58629",
+          "available": false
+        },
+        {
+          "id": "58629pb01",
+          "available": false
+        },
+        {
+          "id": "58629pb02",
+          "available": false
+        },
+        {
+          "id": "58629pr0002",
+          "available": false
+        }
+      ],
+      "priorSources": [
+        "sourcep6+BL58629pb01 photo",
+        "45002 inventory58629pr0002",
+        "official/unofficial/fixed mirror404"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Source decoration version and complete drum/cradle geometry"
+        ],
+        "nextAction": "蜘蛛p6先核桶口、轴端与底架关系，查58629及印花后缀；须完整桶体+95219c01底架，不能用42235单桶替代。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "蜘蛛大筒候选58629家族，印花/筒口/轴端未锁定；42235已排除。必须连同95219c01托架解决，当前没有完整可装几何。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "蜘蛛大筒候选58629家族，印花/筒口/轴端未锁定；42235已排除。必须连同95219c01托架解决，当前没有完整可装几何。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "95219c01",
+      "name": "Cement mixer cradle/base assembly",
+      "group": 3,
+      "identityStatus": "confirmed",
+      "confirmedId": "95219c01",
+      "candidateIds": [],
+      "aliases": [
+        "95219"
+      ],
+      "originalCategory": "confirmed_id_missing_geometry",
+      "courses": [
+        {
+          "slug": "4-zhi-zhu",
+          "name": "蜘蛛",
+          "sourcePages": [
+            6,
+            "6"
+          ],
+          "modelSha256": "5a42ba605ed73e7a9ea69ad8391390508bb587336da00fc9ec174bcee7251468"
+        }
+      ],
+      "missingEvidence": [
+        "Reusable base assembly geometry"
+      ],
+      "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain cradle assembly95219c01/95219 photos showing drum attachment axes and underside stud grid; distinguish58629 drum from cradle and42235 small bucket. Original measured authoring or licensed author CAD needed.",
+      "localGeometry": [
+        {
+          "id": "95219c01",
+          "available": false
+        },
+        {
+          "id": "95219",
+          "available": false
+        }
+      ],
+      "priorSources": [
+        "sourcep6+BL95219c01 photo",
+        "parent alias evidence",
+        "official/unofficial/fixed mirror404"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "缺可许可几何；新建精确几何需要接口尺寸/多视图，近似建模需明确范围。",
+      "notClaimedResolved": true,
+      "officialResearch": {
+        "file": "preparation/official-geometry-recheck-20261011.json",
+        "officialAvailable": false,
+        "unofficialAvailable": false,
+        "license": null,
+        "nextAction": "Obtain cradle assembly95219c01/95219 photos showing drum attachment axes and underside stud grid; distinguish58629 drum from cradle and42235 small bucket. Original measured authoring or licensed author CAD needed."
+      },
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Reusable base assembly geometry"
+        ],
+        "nextAction": "官方/非官方及登记别名真实GET和目录复查均无匹配可再分发DAT。下一步取得有权作者原件，或按明确批准范围和尺寸照片另建dev几何。具体补证：Obtain cradle assembly95219c01/95219 photos showing drum attachment axes and underside stud grid; distinguish58629 drum from cradle and42235 small bucket. Original measured authoring or licensed author CAD needed.",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "licensed_geometry_missing",
+      "currentConclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+      "currentEvidence": [
+        "official-geometry-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "licensed_geometry_missing",
+        "conclusion": "身份已确认；最新官方/非官方及已列别名真实GET复查无匹配DAT，当前没有带许可的可复用几何。下一步所需尺寸/来源详见行动。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "75536",
+      "name": "Pulley+28L cord+short hook assembly",
+      "group": 3,
+      "identityStatus": "confirmed",
+      "confirmedId": "75536",
+      "candidateIds": [],
+      "aliases": [
+        "6527c01"
+      ],
+      "originalCategory": "flexible_route_unverified",
+      "courses": [
+        {
+          "slug": "5-chou-you-ji",
+          "name": "抽油机",
+          "sourcePages": [
+            "4",
+            "7",
+            "5"
+          ],
+          "modelSha256": "3d21cdd7c13110ddadb2d6207a9afa00e68ea9fcd3b378739d92287d0e544e6b"
+        },
+        {
+          "slug": "5-diao-che",
+          "name": "吊车",
+          "sourcePages": [
+            "14-16"
+          ],
+          "modelSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88"
+        },
+        {
+          "slug": "5-ma-tou-diao-ji",
+          "name": "码头吊机",
+          "sourcePages": [],
+          "modelSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e"
+        },
+        {
+          "slug": "5-shui-jing",
+          "name": "水井",
+          "sourcePages": [
+            "3-5/11"
+          ],
+          "modelSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de"
+        },
+        {
+          "slug": "5-ti-xian-mu-ou",
+          "name": "提线木偶",
+          "sourcePages": [
+            "7/8"
+          ],
+          "modelSha256": "57e05392dbf92be27a566118396110214288fdb2c8e8b34e81ad4f6ae84360b7"
+        }
+      ],
+      "missingEvidence": [
+        "Course-specific cord routing/length/knots and retention; hook4663 now available"
+      ],
+      "nextAction": "已知官方4663钩和6527轮可用；五课逐一取得绳长、端结、绕轮路径与固定点证据。若只需展示线，需明确允许示意并标无机械验收；不要重新称钩缺几何。",
+      "localGeometry": [
+        {
+          "id": "75536",
+          "available": false
+        },
+        {
+          "id": "6527c01",
+          "available": false
+        }
+      ],
+      "priorSources": [
+        "9656 inventory",
+        "BL6527c01 photo/sourcep5 match",
+        "official4663 CC BY4 imported"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Course-specific cord routing/length/knots and retention; hook4663 now available"
+        ],
+        "nextAction": "已知官方4663钩和6527轮可用；五课逐一取得绳长、端结、绕轮路径与固定点证据。若只需展示线，需明确允许示意并标无机械验收；不要重新称钩缺几何。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "4663正规钩和6527轮已具备，阻塞是各课绳长、端结、绕轮与固定点，不再描述为钩缺几何。",
+      "classification": "flexible_interface_evidence",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "flexible_interface_evidence",
+        "conclusion": "4663正规钩和6527轮已具备，阻塞是各课绳长、端结、绕轮与固定点，不再描述为钩缺几何。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "71059",
+      "name": "Rubber drive belt candidate",
+      "group": 3,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [
+        "71059"
+      ],
+      "aliases": [],
+      "originalCategory": "candidate_flexible_geometry",
+      "courses": [
+        {
+          "slug": "5-xuan-yi-fei-ji",
+          "name": "旋翼飞机",
+          "sourcePages": [
+            "6-7"
+          ],
+          "modelSha256": "04f09ef6131abe867fd52caecb06a89ff01838d3c97c2717b2aaadd8a2de92bf"
+        }
+      ],
+      "missingEvidence": [
+        "Source belt ID/length and approved flexed depiction"
+      ],
+      "nextAction": "旋翼飞机p6/7核四根带的截面、自然长度与绕轮关系；先核9656库存71059是否同件，随后需可再分发柔性模板或允许示意的范围。不能从圆环DAT推定拉伸长度或张力。",
+      "localGeometry": [
+        {
+          "id": "71059",
+          "available": false
+        }
+      ],
+      "priorSources": [
+        "9656 inventory",
+        "source rotor-planep6/p7"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Source belt ID/length and approved flexed depiction"
+        ],
+        "nextAction": "旋翼飞机p6/7核四根带的截面、自然长度与绕轮关系；先核9656库存71059是否同件，随后需可再分发柔性模板或允许示意的范围。不能从圆环DAT推定拉伸长度或张力。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "皮带71059仍需源件自然长度、截面及绕轮路径；正规圆环或库存不证明张力和变形姿态。",
+      "classification": "flexible_interface_evidence",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "flexible_interface_evidence",
+        "conclusion": "皮带71059仍需源件自然长度、截面及绕轮路径；正规圆环或库存不证明张力和变形姿态。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "unknown:yellow-concave-ears",
+      "name": "Yellow concave 2x3x2 ears",
+      "group": 2,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "unidentified_source_shape",
+      "courses": [
+        {
+          "slug": "4-chun-jie-wu-shi",
+          "name": "春节舞狮",
+          "sourcePages": [
+            10
+          ],
+          "modelSha256": "846331ba67892fa0b58dce432682696569e7e320f0ba25bf7d5f52a2eb268b39"
+        }
+      ],
+      "missingEvidence": [
+        "Exact design ID not identified; convex slopes explicitly rejected."
+      ],
+      "nextAction": "舞狮黄色凹弧耳先以已看源页轮廓核目录：关键为凹弧、凸点数及背面固定点。检索官方Duplo凹曲件，不用已排除凸坡件；官方匹配仍无结果时才请求局部正反近照。",
+      "localGeometry": [],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Exact design ID not identified; convex slopes explicitly rejected."
+        ],
+        "nextAction": "舞狮黄色凹弧耳先以已看源页轮廓核目录：关键为凹弧、凸点数及背面固定点。检索官方Duplo凹曲件，不用已排除凸坡件；官方匹配仍无结果时才请求局部正反近照。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "舞狮凹弧耳身份未明；凸坡候选已排除。需要凹面、背面接点的清晰局部图或官方套装映射。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "舞狮凹弧耳身份未明；凸坡候选已排除。需要凹面、背面接点的清晰局部图或官方套装映射。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "unknown:blue-toolo-wing-claw",
+      "name": "Blue opposed large Toolo claw/wing family",
+      "group": 2,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "unidentified_source_shape",
+      "courses": [
+        {
+          "slug": "4-du-jiao-xian",
+          "name": "独角仙",
+          "sourcePages": [
+            "5/8"
+          ],
+          "modelSha256": "315062621f6838fd246d5fce94debb509319f0cefa1e1debb4ebe1a983b12a2f"
+        },
+        {
+          "slug": "4-kuai-ting",
+          "name": "快艇",
+          "sourcePages": [
+            8
+          ],
+          "modelSha256": "1bb9c6ff364b591750d559d7645866f394b99749e11246d9e477f2f412c30318"
+        }
+      ],
+      "missingEvidence": [
+        "Author source visual-family match only; exact ID, handedness and licensed geometry remain unverified."
+      ],
+      "nextAction": "独角仙p5/8与快艇分别比两翼/钳口长度、手性、螺纹轴连接，查Toolo套装官方库存designID，再查官方LDraw。视觉家族相似不等于同一编号，不能拿普通31215翼替换。",
+      "localGeometry": [],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Author source visual-family match only; exact ID, handedness and licensed geometry remain unverified."
+        ],
+        "nextAction": "独角仙p5/8与快艇分别比两翼/钳口长度、手性、螺纹轴连接，查Toolo套装官方库存designID，再查官方LDraw。视觉家族相似不等于同一编号，不能拿普通31215翼替换。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "独角仙与快艇的蓝翼/钳只能作视觉家族比较；编号、手性和螺纹接口未证实，不能跨课合并或用31215代替。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "独角仙与快艇的蓝翼/钳只能作视觉家族比较；编号、手性和螺纹接口未证实，不能跨课合并或用31215代替。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "candidate:three-blade-propeller",
+      "name": "Three-blade propeller variant",
+      "group": 2,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [
+        "6669c01",
+        "6670c01"
+      ],
+      "aliases": [],
+      "originalCategory": "candidate_identity_unresolved",
+      "courses": [
+        {
+          "slug": "4-kuai-ting",
+          "name": "快艇",
+          "sourcePages": [
+            11
+          ],
+          "modelSha256": "1bb9c6ff364b591750d559d7645866f394b99749e11246d9e477f2f412c30318"
+        },
+        {
+          "slug": "4-qian-shui-ting",
+          "name": "潜水艇",
+          "sourcePages": [
+            6
+          ],
+          "modelSha256": "7f553094f5606a443730f4d0bf6a100e9c9ec260acb36140ae986358c0102159"
+        }
+      ],
+      "missingEvidence": [
+        "Need match actual source length, width and mount to catalog; no transfer of helicopter/drone confirmed6670c01 identity."
+      ],
+      "nextAction": "快艇和潜水艇源图分别核长窄叶/短厚叶、毂深和螺纹座，比较6669c01和6670c01；借用worker6670公开几何结果但不得转移直升机身份。",
+      "localGeometry": [
+        {
+          "id": "6669c01",
+          "available": false
+        },
+        {
+          "id": "6670c01",
+          "available": false
+        }
+      ],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Need match actual source length, width and mount to catalog; no transfer of helicopter/drone confirmed6670c01 identity."
+        ],
+        "nextAction": "快艇和潜水艇源图分别核长窄叶/短厚叶、毂深和螺纹座，比较6669c01和6670c01；借用worker6670公开几何结果但不得转移直升机身份。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "快艇/潜水艇需逐课分辨6669c01短厚叶与6670c01长窄叶；直升机的确认身份不能迁移，几何结果也不是源身份。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "快艇/潜水艇需逐课分辨6669c01短厚叶与6670c01长窄叶；直升机的确认身份不能迁移，几何结果也不是源身份。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "unknown:orange-toothed-blade",
+      "name": "Orange toothed rake/blade",
+      "group": 2,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "unidentified_source_shape",
+      "courses": [
+        {
+          "slug": "4-yi-long",
+          "name": "翼龙",
+          "sourcePages": [
+            "7/10"
+          ],
+          "modelSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751"
+        }
+      ],
+      "missingEvidence": [
+        "No reliable ID from current source/inventory research; not6294 scoop."
+      ],
+      "nextAction": "翼龙p7/10四件宽齿曲板，从齿数、侧夹方向及宽度查9090/Toolo官方库存并对源；不能复用6294无齿铲。",
+      "localGeometry": [],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "No reliable ID from current source/inventory research; not6294 scoop."
+        ],
+        "nextAction": "翼龙p7/10四件宽齿曲板，从齿数、侧夹方向及宽度查9090/Toolo官方库存并对源；不能复用6294无齿铲。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "翼龙4件齿板仍未知ID；需要齿数、侧夹和厚度/接口证据，不是6294无齿铲。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "翼龙4件齿板仍未知ID；需要齿数、侧夹和厚度/接口证据，不是6294无齿铲。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "unknown:orange-bulldozer-blade",
+      "name": "Orange bulldozer blade",
+      "group": 2,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "unidentified_source_shape",
+      "courses": [
+        {
+          "slug": "4-tui-tu-ji",
+          "name": "推土机",
+          "sourcePages": [
+            5
+          ],
+          "modelSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c"
+        }
+      ],
+      "missingEvidence": [
+        "Exact ID andgeometry unverified; resemblance alone does not merge with pterosaur rake."
+      ],
+      "nextAction": "4推土p5单片铲刀与翼龙齿板独立检索；核齿边、两侧连接孔/叉、宽度，再查官方DAT。没有匹配时需前后照片，不先合并为同件。",
+      "localGeometry": [],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Exact ID andgeometry unverified; resemblance alone does not merge with pterosaur rake."
+        ],
+        "nextAction": "4推土p5单片铲刀与翼龙齿板独立检索；核齿边、两侧连接孔/叉、宽度，再查官方DAT。没有匹配时需前后照片，不先合并为同件。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "4推土单片铲刀独立未定ID；需正反轮廓与两侧接口，不能因橙色或齿边直接合并为翼龙件。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "4推土单片铲刀独立未定ID；需正反轮廓与两侧接口，不能因橙色或齿边直接合并为翼龙件。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "unknown:blue-drum",
+      "name": "Blue plain drum with ring rim",
+      "group": 2,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "unidentified_source_shape",
+      "courses": [
+        {
+          "slug": "4-ya-lu-ji",
+          "name": "压路机",
+          "sourcePages": [
+            12
+          ],
+          "modelSha256": "4e8c62fadc2ec6f1805cbed2795e64c116e49abb6cdd27ac1b968db5f191b51c"
+        }
+      ],
+      "missingEvidence": [
+        "No reliable ID; top has no ordinary studs; not automatically60777/31180."
+      ],
+      "nextAction": "压路机p12/13两蓝半鼓查无stud顶、环缘、中央轴孔的Duplo筒件，按合拢后横滚筒特征查套装说明；不自动套60777/31180。",
+      "localGeometry": [],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "No reliable ID; top has no ordinary studs; not automatically60777/31180."
+        ],
+        "nextAction": "压路机p12/13两蓝半鼓查无stud顶、环缘、中央轴孔的Duplo筒件，按合拢后横滚筒特征查套装说明；不自动套60777/31180。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "压路机两半蓝鼓编号未明；需无stud顶、环缘及中央孔照片，不自动认60777/31180。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "压路机两半蓝鼓编号未明；需无stud顶、环缘及中央孔照片，不自动认60777/31180。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "candidate:track",
+      "name": "Track source identity",
+      "group": 3,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [
+        "71981"
+      ],
+      "aliases": [],
+      "originalCategory": "candidate_identity_unresolved",
+      "courses": [
+        {
+          "slug": "4-tui-tu-ji",
+          "name": "推土机",
+          "sourcePages": [
+            "3/4"
+          ],
+          "modelSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c"
+        }
+      ],
+      "missingEvidence": [
+        "Existing71981 approximation approval does not independently prove this source track identity."
+      ],
+      "nextAction": "71981现有CC BY4已批准近似不是正规精确几何。4推土p3/4可继续核履带节纹与轮距；要准确配合仍需环长、内节距、轮槽证据或批准固定展示形变，不能宣称已有近似即可直接修。",
+      "localGeometry": [
+        {
+          "id": "71981",
+          "file": "STEAMx/scripts/ldraw-models/parts/71981.dat",
+          "available": true,
+          "sha256": "cb78c4b136ba8dea895ef3bc2f951681ca1247fdf838427af2eaf5eea4c6829d",
+          "title": "0 Duplo caterpillar belt fixed display loop (Local simplified part)",
+          "author": "0 Author: STEAMX local reconstruction",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "official": false,
+          "localApproximation": true
+        }
+      ],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Existing71981 approximation approval does not independently prove this source track identity."
+        ],
+        "nextAction": "71981现有CC BY4已批准近似不是正规精确几何。4推土p3/4可继续核履带节纹与轮距；要准确配合仍需环长、内节距、轮槽证据或批准固定展示形变，不能宣称已有近似即可直接修。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "71981是已有许可且获旧批准的近似件，不能等同精确源履带；轮槽/内节距/环长与轮距配合仍需实测或明确展示形变边界。",
+      "classification": "flexible_interface_evidence",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "flexible_interface_evidence",
+        "conclusion": "71981是已有许可且获旧批准的近似件，不能等同精确源履带；轮槽/内节距/环长与轮距配合仍需实测或明确展示形变边界。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "candidate:double-curved-brick",
+      "name": "Red double-curved2x4 brick",
+      "group": 1,
+      "identityStatus": "confirmed",
+      "confirmedId": "4198",
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "candidate_identity_unresolved",
+      "courses": [
+        {
+          "slug": "4-tui-tu-ji",
+          "name": "推土机",
+          "sourcePages": [
+            7
+          ],
+          "modelSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c"
+        }
+      ],
+      "missingEvidence": [],
+      "nextAction": "无需新增几何；主线程按source-identity-quantity-recheck修正旧98223/身份待定记录。",
+      "localGeometry": [
+        {
+          "id": "4198",
+          "file": "STEAMx/scripts/ldraw-models/parts/4198.dat",
+          "available": true,
+          "sha256": "676462ff7a3b9d09bd02c092fdc1aee0ef8d4e5826c4ef2f466cadcf9e983412",
+          "title": "0 Duplo Brick  2 x  4 x  2 with Rounded Ends",
+          "author": "0 Author: Tony Hafner [hafhead]",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "official": true,
+          "localApproximation": false
+        }
+      ],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": false,
+      "resolutionStatus": "identity_resolved_existing_official_placements",
+      "ownerConfirmation": "preparation/source-identity-quantity-recheck-20261011.json",
+      "inventoryBoundary": {
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "part_num": "4198",
+            "name": "Duplo Brick 2 x 4 x 2 Rounded Ends",
+            "color": "Blue",
+            "quantity": 2,
+            "part_url": "https://rebrickable.com/parts/4198/duplo-brick-2-x-4-x-2-rounded-ends/",
+            "raw_description": "4198 Duplo Brick 2 x 4 x 2 Rounded Ends in Blue Duplo, Quatro and Primo"
+          }
+        ],
+        "sourceNeeds": {
+          "color": "Red",
+          "quantity": 3
+        },
+        "note": "Identity closure does not establish three red pieces in user stock; colour/quantity availability is independent."
+      },
+      "previousPlan": {
+        "group": 1,
+        "missingEvidence": [
+          "Latest source uses official4198 geometry, inferred from two curved ends/fourstud top/height. Catalogue identity still pending; prior98223 hypothesis superseded. This is a source-identity question, not missingDAT."
+        ],
+        "nextAction": "本轮实看4推土p7：四stud顶、双圆端、2砖高与本地Official4198一致，当前三件已采用4198。主可将旧98223猜测和缺件身份条目收敛为4198源图形态确认；不新增几何，不等于履带/铲刀已解决。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "resolved_identity",
+      "currentConclusion": "4推土p7三件已按源图及官方4198独特形态确认，当前源稿已有3件；仅身份条目关闭，不代表课程或其他缺件完成。",
+      "currentEvidence": [
+        "source-identity-quantity-recheck-20261011.json"
+      ],
+      "currentAssessment": {
+        "classification": "resolved_identity",
+        "conclusion": "4推土p7三件已按源图及官方4198独特形态确认，当前源稿已有3件；仅身份条目关闭，不代表课程或其他缺件完成。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "candidate:car-cockpit-base",
+      "name": "Orange vehicle seat/grille base",
+      "group": 2,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [
+        "6344",
+        "31196c01",
+        "6345",
+        "17562"
+      ],
+      "aliases": [],
+      "originalCategory": "candidate_identity_unresolved",
+      "courses": [
+        {
+          "slug": "5-tui-tu-ji",
+          "name": "推土机",
+          "sourcePages": [
+            3
+          ],
+          "modelSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b"
+        },
+        {
+          "slug": "5-tuo-gua-che",
+          "name": "拖挂车",
+          "sourcePages": [
+            4
+          ],
+          "modelSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949"
+        },
+        {
+          "slug": "4-dao-dan-che",
+          "name": "导弹车",
+          "sourcePages": [
+            5
+          ],
+          "modelSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64"
+        }
+      ],
+      "missingEvidence": [
+        "Exact base ID/licensed geometry not established.6345 canopy is known; canopy geometry does not establish base identity."
+      ],
+      "nextAction": "5推土p3、拖挂p4、导弹p5逐一分离底座和罩，查6344/17562正式几何及库存；现有6345正规罩不能证明底座，31196c01只是已批准近似，不可当精确替代。",
+      "localGeometry": [
+        {
+          "id": "6344",
+          "available": false
+        },
+        {
+          "id": "31196c01",
+          "file": "STEAMx/scripts/ldraw-models/parts/31196c01.dat",
+          "available": true,
+          "sha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708",
+          "title": "0 Duplo Toolo Cockpit 4 x 6 - LOCAL SIMPLIFIED photo-informed geometry",
+          "author": "0 Author: Local project reconstruction",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "official": false,
+          "localApproximation": true
+        },
+        {
+          "id": "6345",
+          "file": "STEAMx/scripts/ldraw-models/parts/6345.dat",
+          "available": true,
+          "sha256": "58d36994073c27ed1dbd8fad58382acd302d281aa7e3f76efaa1447b9725e179",
+          "title": "0 Duplo Windscreen  4 x  4 x  2 Curved",
+          "author": "0 Author: Philippe Hurbain [Philo]",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "official": true,
+          "localApproximation": false
+        },
+        {
+          "id": "17562",
+          "available": false
+        }
+      ],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": true,
+      "inventoryEvidence": {
+        "set": "45002-1",
+        "rows": [
+          {
+            "part_num": "31196c01",
+            "name": "Duplo Toolo Cockpit 4 x 6",
+            "color": "Blue",
+            "quantity": 1,
+            "part_url": "https://rebrickable.com/parts/31196c01/duplo-toolo-cockpit-4-x-6/",
+            "raw_description": "31196c01 Duplo Toolo Cockpit 4 x 6 in Blue Duplo, Quatro and Primo"
+          },
+          {
+            "part_num": "45146",
+            "name": "Duplo Windscreen Roll Cage",
+            "color": "Flat Silver",
+            "quantity": 3,
+            "part_url": "https://rebrickable.com/parts/45146/duplo-windscreen-roll-cage/",
+            "raw_description": "45146 Duplo Windscreen Roll Cage in Flat Silver Duplo, Quatro and Primo"
+          },
+          {
+            "part_num": "31196c01",
+            "name": "Duplo Toolo Cockpit 4 x 6",
+            "color": "Orange",
+            "quantity": 2,
+            "part_url": "https://rebrickable.com/parts/31196c01/duplo-toolo-cockpit-4-x-6/",
+            "raw_description": "31196c01 Duplo Toolo Cockpit 4 x 6 in Orange Duplo, Quatro and Primo"
+          },
+          {
+            "part_num": "31196c01",
+            "name": "Duplo Toolo Cockpit 4 x 6",
+            "color": "Red",
+            "quantity": 1,
+            "part_url": "https://rebrickable.com/parts/31196c01/duplo-toolo-cockpit-4-x-6/",
+            "raw_description": "31196c01 Duplo Toolo Cockpit 4 x 6 in Red Duplo, Quatro and Primo"
+          },
+          {
+            "part_num": "17562",
+            "name": "Duplo Windscreen 4 x 4 x 2 Curved",
+            "color": "Trans-Yellow",
+            "quantity": 2,
+            "part_url": "https://rebrickable.com/parts/17562/duplo-windscreen-4-x-4-x-2-curved/",
+            "raw_description": "17562 Duplo Windscreen 4 x 4 x 2 Curved in Trans-Yellow Duplo, Quatro and Primo"
+          },
+          {
+            "part_num": "31196c01",
+            "name": "Duplo Toolo Cockpit 4 x 6",
+            "color": "Yellow",
+            "quantity": 1,
+            "part_url": "https://rebrickable.com/parts/31196c01/duplo-toolo-cockpit-4-x-6/",
+            "raw_description": "31196c01 Duplo Toolo Cockpit 4 x 6 in Yellow Duplo, Quatro and Primo"
+          }
+        ],
+        "source": "inputs/inventory-evidence.json",
+        "limit": "17562 screen row does not establish6344 or source base identity; verified45002 aliases do not include6344/31196c01."
+      },
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Exact base ID/licensed geometry not established.6345 canopy is known; canopy geometry does not establish base identity."
+        ],
+        "nextAction": "5推土p3、拖挂p4、导弹p5逐一分离底座和罩，查6344/17562正式几何及库存；现有6345正规罩不能证明底座，31196c01只是已批准近似，不可当精确替代。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "三课车头底座仍待6344/17562等源型确认及正规几何；6345罩已知可用不等于底座解决，31196c01仅旧批准近似。5推土的橙色6344候选后承台平面未闭合，阻塞窗框落座。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "三课车头底座仍待6344/17562等源型确认及正规几何；6345罩已知可用不等于底座解决，31196c01仅旧批准近似。5推土的橙色6344候选后承台平面未闭合，阻塞窗框落座。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "candidate:four-pane-window",
+      "name": "Red frame with white four-pane insert",
+      "group": 1,
+      "identityStatus": "confirmed_for_four_source_courses_two_hidden_mould_observations_remain",
+      "confirmedId": null,
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "candidate_mould_or_assembly",
+      "courses": [
+        {
+          "slug": "4-mo-tian-lun",
+          "name": "摩天轮",
+          "sourcePages": [
+            12
+          ],
+          "modelSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424"
+        },
+        {
+          "slug": "5-tui-tu-ji",
+          "name": "推土机",
+          "sourcePages": [
+            3
+          ],
+          "modelSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b"
+        },
+        {
+          "slug": "5-tuo-gua-che",
+          "name": "拖挂车",
+          "sourcePages": [
+            5
+          ],
+          "modelSha256": "e18bd0c39dcd3541be4f8c875cba50ad49eb99af64f89bb36ce26a91ef7f7949"
+        },
+        {
+          "slug": "5-ma-tou-diao-ji",
+          "name": "码头吊机",
+          "sourcePages": [
+            9
+          ],
+          "modelSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e"
+        },
+        {
+          "slug": "4-dao-dan-che",
+          "name": "导弹车",
+          "sourcePages": [
+            6
+          ],
+          "modelSha256": "92bab008e7aa1d481ba81faeb346c25b73dad36ae1977fbd3b64a9b4b06acb64"
+        },
+        {
+          "slug": "4-diao-che",
+          "name": "吊车",
+          "sourcePages": [
+            4
+          ],
+          "modelSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a"
+        }
+      ],
+      "missingEvidence": [
+        "摩天轮剩余4套：占蓝板上4排还是叠在前框外侧、背面窗朝向未解。",
+        "5推土1套：缺6344候选车头后承台的stud平面高度及足迹；不得省略承台直接落黄车体。",
+        "5码头p9/4吊车p4背模隐藏，未重新确证；保留观察项，不当未知ID。"
+      ],
+      "nextAction": "补装并验收拖挂4/导弹3/摩天轮前4；推土待6344承台，摩天轮后4待布局证据。5码头p9/4吊车p4保留背模隐藏观察项；若要消除其精确模具限制，需背面图或明确套装模具来源。",
+      "localGeometry": [
+        {
+          "id": "2332ac01",
+          "available": false
+        },
+        {
+          "id": "4253c01",
+          "available": false
+        },
+        {
+          "id": "61649",
+          "file": "STEAMx/scripts/ldraw-models/parts/61649.dat",
+          "available": true,
+          "sha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8",
+          "title": "0 Duplo Door Frame  2 x  4 x  3 with Completely Open Back",
+          "author": "0 Author: Philippe Hurbain [Philo]",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "official": true,
+          "localApproximation": false
+        },
+        {
+          "id": "90265",
+          "file": "STEAMx/scripts/ldraw-models/parts/90265.dat",
+          "available": true,
+          "sha256": "e2c13bb59f14aaf887969736f299dd424959c15e2be6ba1a3206efe9fcc77259",
+          "title": "0 Duplo Window  1 x  4 x  3 with Flat Top with 4 Same Size Panes",
+          "author": "0 Author: Philippe Hurbain [Philo]",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "official": true,
+          "localApproximation": false
+        }
+      ],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "仅剩余子集需承台几何或背面源图；已具备证据的11套无需等新许可/背面照片。",
+      "notClaimedResolved": true,
+      "inventoryEvidence": {
+        "set": "9090-2",
+        "rows": [
+          {
+            "part_num": "61649",
+            "name": "Duplo Door / Window Frame Flat Front Surface, Completely Open Back",
+            "color": "Red",
+            "quantity": 6,
+            "part_url": "https://rebrickable.com/parts/61649/duplo-door-window-frame-flat-front-surface-completely-open-back/",
+            "raw_description": "61649 Duplo Door / Window Frame Flat Front Surface, Completely Open Back in Red Duplo, Quatro and Primo"
+          },
+          {
+            "part_num": "90265",
+            "name": "Duplo Door / Window with Four Equal Square Cornered Panes",
+            "color": "White",
+            "quantity": 6,
+            "part_url": "https://rebrickable.com/parts/90265/duplo-door-window-with-four-equal-square-cornered-panes/",
+            "raw_description": "90265 Duplo Door / Window with Four Equal Square Cornered Panes in White Duplo, Quatro and Primo"
+          }
+        ],
+        "source": "inputs/inventory-evidence.json",
+        "inference": "User-designated9090 inventory directly supports61649+90265, six each. Prefer these existing official components when visible source front/size agrees; do not prioritize old2332/4253 merely because newly downloaded. A source claim of using old frame needs actual contrary evidence. Ferris8 frames would need2 extra relative to one9090 reference set.",
+        "allMatchingRows": [
+          {
+            "set": "9090-2",
+            "part_num": "61649",
+            "name": "Duplo Door / Window Frame Flat Front Surface, Completely Open Back",
+            "color": "Red",
+            "quantity": 6,
+            "part_url": "https://rebrickable.com/parts/61649/duplo-door-window-frame-flat-front-surface-completely-open-back/",
+            "raw_description": "61649 Duplo Door / Window Frame Flat Front Surface, Completely Open Back in Red Duplo, Quatro and Primo"
+          },
+          {
+            "set": "9090-2",
+            "part_num": "90265",
+            "name": "Duplo Door / Window with Four Equal Square Cornered Panes",
+            "color": "White",
+            "quantity": 6,
+            "part_url": "https://rebrickable.com/parts/90265/duplo-door-window-with-four-equal-square-cornered-panes/",
+            "raw_description": "90265 Duplo Door / Window with Four Equal Square Cornered Panes in White Duplo, Quatro and Primo"
+          }
+        ]
+      },
+      "newOfficialCandidates": {
+        "ids": [
+          "2332ac01",
+          "4253c01"
+        ],
+        "file": "parts-resolution-evidence/new-official-closure.json",
+        "closed": true,
+        "license": "CC BY4.0",
+        "clarification": "Complete refers to frame+rear-panel, NOT frame+white4pane window;90265 remains a separate insert. Source old/new frame not confirmed by filename."
+      },
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Source outline does not prove old/new rear-frame mould. Geometry availability and source variant are separate; dock crane existing assembly is not a missing-geometry claim."
+        ],
+        "nextAction": "先按已授权9090-2库存61649红框+90265白四格（各6）与各课源前脸、门窗铰链对照；一致者可用现有正规DAT实施，不需默认等背面照片。摩天轮8套须记单套额外2。新2332ac01/4253c01已获得正规闭包，但只作旧框版本比较，不自动替换优先套装件。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "classification": "ready_partial",
+      "confirmedIds": [
+        "61649",
+        "90265"
+      ],
+      "currentConclusion": "已确认61649红框+90265白四等格窗；拖挂4套、导弹3套、摩天轮前4套具有局部补装证据，共11套/22个DAT引用。仍是候选/集成验收过程，不计3课完成。 本次身份确认限定推土/拖挂/导弹/摩天轮4课；5码头p9和4吊车p4已有61649+90265，但背模未重新证实，只保留hidden-mould观察限制，不重计未知ID或缺整套，不能关闭整个family。",
+      "currentEvidence": [
+        "window-repair-20261011.json",
+        "4-mo-tian-lun/window-first-four-evidence.json"
+      ],
+      "installableSubset": [
+        {
+          "slug": "5-tuo-gua-che",
+          "count": 4,
+          "candidatePath": "preparation\\5-tuo-gua-che\\window-candidate.ldr",
+          "candidateSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
+          "currentSourceSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
+          "candidateMatchesCurrentSource": true,
+          "fullCourseAccepted": false
+        },
+        {
+          "slug": "4-dao-dan-che",
+          "count": 3,
+          "candidatePath": "preparation\\4-dao-dan-che\\window-candidate.ldr",
+          "candidateSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
+          "currentSourceSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
+          "candidateMatchesCurrentSource": true,
+          "fullCourseAccepted": false
+        },
+        {
+          "slug": "4-mo-tian-lun",
+          "count": 4,
+          "candidatePath": "preparation/4-mo-tian-lun/window-first-four-candidate.ldr",
+          "candidateSha256": "c4dad2b6e73dba5e9910b24bca1ec2a7ceb4190740a19810ca979dc6ad0133c0",
+          "currentSourceSha256": "c4dad2b6e73dba5e9910b24bca1ec2a7ceb4190740a19810ca979dc6ad0133c0",
+          "candidateMatchesCurrentSource": true,
+          "fullCourseAccepted": false
+        }
+      ],
+      "inventoryBoundary": "9090-2参考库存各6；摩天轮完整8套各需额外2，但当前可补4套不超6。实际用户库存unknown；各课独立用量不混加为同时库存。",
+      "currentAssessment": {
+        "classification": "ready_partial",
+        "conclusion": "已确认61649红框+90265白四等格窗；拖挂4套、导弹3套、摩天轮前4套具有局部补装证据，共11套/22个DAT引用。仍是候选/集成验收过程，不计3课完成。 本次身份确认限定推土/拖挂/导弹/摩天轮4课；5码头p9和4吊车p4已有61649+90265，但背模未重新证实，只保留hidden-mould观察限制，不重计未知ID或缺整套，不能关闭整个family。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      },
+      "confirmedSourceCourses": [
+        "5-tui-tu-ji",
+        "5-tuo-gua-che",
+        "4-dao-dan-che",
+        "4-mo-tian-lun"
+      ],
+      "hiddenMouldObservations": [
+        {
+          "slug": "5-ma-tou-diao-ji",
+          "sourcePage": 9,
+          "status": "hidden_mould_observation_only",
+          "currentParts": [
+            "61649.dat",
+            "90265.dat"
+          ],
+          "exactRearMouldReconfirmed": false,
+          "unknownId": false
+        },
+        {
+          "slug": "4-diao-che",
+          "sourcePage": 4,
+          "status": "hidden_mould_observation_only",
+          "currentParts": [
+            "61649.dat",
+            "90265.dat"
+          ],
+          "exactRearMouldReconfirmed": false,
+          "unknownId": false
+        }
+      ],
+      "familyClosed": false
+    },
+    {
+      "key": "unknown:child-figure-variants",
+      "name": "Source child figure component/print variants",
+      "group": 3,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "unidentified_figure_components",
+      "courses": [
+        {
+          "slug": "5-xuan-zhuan-ka-fei-bei",
+          "name": "旋转咖啡杯",
+          "sourcePages": [
+            9
+          ],
+          "modelSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6"
+        },
+        {
+          "slug": "5-zhuan-wan-xiao-che",
+          "name": "转弯小车",
+          "sourcePages": [
+            14
+          ],
+          "modelSha256": "2b8694d9f89bca0a89cde234f2a9109b9e6a1cde0ab3dcdb58a53d500c95bb1b"
+        },
+        {
+          "slug": "4-jun-jian",
+          "name": "军舰",
+          "sourcePages": [
+            19
+          ],
+          "modelSha256": "01a43d48c1d7d8d6d447745356b7891a1f06de1e3dde2af76bb6671664213623"
+        }
+      ],
+      "missingEvidence": [
+        "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute."
+      ],
+      "nextAction": "咖啡杯10人、转弯车1司机需各自头/手/躯干/裤腿/印花局部图或允许装饰近似范围；军舰已有2官方拆分人偶只缺准确图案，不能重复计为缺整人。",
+      "localGeometry": [],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Need exact head,torso,cap,hands,legs per source; unrelated forklift/rockingcar figure is not an approved substitute."
+        ],
+        "nextAction": "咖啡杯10人、转弯车1司机需各自头/手/躯干/裤腿/印花局部图或允许装饰近似范围；军舰已有2官方拆分人偶只缺准确图案，不能重复计为缺整人。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "咖啡杯10人及转弯车司机需逐人头/帽/手/腿/印花证据；军舰已有2官方拆分人偶仅装饰未定，不能重复计作整人缺失。",
+      "classification": "figure_variant_evidence",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "figure_variant_evidence",
+        "conclusion": "咖啡杯10人及转弯车司机需逐人头/帽/手/腿/印花证据；军舰已有2官方拆分人偶仅装饰未定，不能重复计作整人缺失。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "candidate:small-car-base",
+      "name": "Small red/yellow car chassis variants",
+      "group": 2,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [
+        "74656",
+        "10715p01",
+        "10715p02"
+      ],
+      "aliases": [],
+      "originalCategory": "candidate_identity_unresolved",
+      "courses": [
+        {
+          "slug": "5-wo-lun-diao-qiao",
+          "name": "蜗轮吊桥",
+          "sourcePages": [
+            11
+          ],
+          "modelSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57"
+        }
+      ],
+      "missingEvidence": [
+        "Exactwheel/base variant not confirmed; omitted."
+      ],
+      "nextAction": "本轮重看吊桥p11明确2x6红车黄轮及黄车红轮，现有Official10715p02/p01可作精确比较候选；比较2313b假螺栓轮毂与74656模具后再放置，不因颜色相同判定。",
+      "localGeometry": [
+        {
+          "id": "74656",
+          "available": false
+        },
+        {
+          "id": "10715p01",
+          "file": "STEAMx/scripts/ldraw-models/parts/10715p01.dat",
+          "available": true,
+          "sha256": "bce09f4bf99c6d19c5117d538ed2a37eace1e2f4299bcb94de903b81a00a4e46",
+          "title": "0 Duplo Car Base  2 x  6 with Red Wheels with Fake Bolts",
+          "author": "0 Author: Philippe Hurbain [Philo]",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "official": true,
+          "localApproximation": false
+        },
+        {
+          "id": "10715p02",
+          "file": "STEAMx/scripts/ldraw-models/parts/10715p02.dat",
+          "available": true,
+          "sha256": "25e0c4768905c2abf73755a6128b8781eae8af02eae516d76f3b7d113a053a85",
+          "title": "0 Duplo Car Base  2 x  6 with Yellow Wheels with Fake Bolts",
+          "author": "0 Author: Philippe Hurbain [Philo]",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "official": true,
+          "localApproximation": false
+        }
+      ],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": true,
+      "newOfficialCandidates": {
+        "id": "74656",
+        "source": "parts-resolution-evidence/new-official-closure.json",
+        "license": "CC BY4.0",
+        "closed": true,
+        "distinction": "74656 contains2313a wheels;10715p01/p02 contain2313b fake-bolt wheels with fixed red/yellow colours."
+      },
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Exactwheel/base variant not confirmed; omitted."
+        ],
+        "nextAction": "本轮重看吊桥p11明确2x6红车黄轮及黄车红轮，现有Official10715p02/p01可作精确比较候选；比较2313b假螺栓轮毂与74656模具后再放置，不因颜色相同判定。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "官方74656及现有10715p01/p02可用于两辆2x6小车的版本比较；74656用2313a，10715用2313b轮毂。源p11轮毂/轴型仍未唯一确认，下载闭包不等于车已补装。",
+      "classification": "regular_geometry_needs_source",
+      "currentEvidence": [
+        "parts-resolution-evidence/new-official-closure.json"
+      ],
+      "currentAssessment": {
+        "classification": "regular_geometry_needs_source",
+        "conclusion": "官方74656及现有10715p01/p02可用于两辆2x6小车的版本比较；74656用2313a，10715用2313b轮毂。源p11轮毂/轴型仍未唯一确认，下载闭包不等于车已补装。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "candidate:mast-shafts",
+      "name": "Green sail mastshaft length",
+      "group": 3,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [
+        "6521",
+        "6522"
+      ],
+      "aliases": [],
+      "originalCategory": "candidate_identity_unresolved",
+      "courses": [
+        {
+          "slug": "5-fan-chuan",
+          "name": "帆船",
+          "sourcePages": [
+            11,
+            12
+          ],
+          "modelSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3"
+        }
+      ],
+      "missingEvidence": [
+        "Green colour is not length proof; source length andcoupler insertion depth unresolved."
+      ],
+      "nextAction": "帆船p11/12候选6521(8L)/6522(6L)正规几何齐全；需要杆全长和接头插入深度的正视比例/原BOM或实物，绿色不能证明长度，禁止重叠两杆凑总高。",
+      "localGeometry": [
+        {
+          "id": "6521",
+          "file": "STEAMx/scripts/ldraw-models/parts/6521.dat",
+          "available": true,
+          "sha256": "2bc6982d99419488edd87935f8414bbd940f048067ce83402a24677b1169d6bb",
+          "title": "0 Duplo Axle  8",
+          "author": "0 Author: Philippe Hurbain [Philo]",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "official": true,
+          "localApproximation": false
+        },
+        {
+          "id": "6522",
+          "file": "STEAMx/scripts/ldraw-models/parts/6522.dat",
+          "available": true,
+          "sha256": "f29f4610440ca4d651fb43bbec8e004770aa122289a25dc09f24ef764601d1ec",
+          "title": "0 Duplo Axle  6",
+          "author": "0 Author: Philippe Hurbain [Philo]",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "official": true,
+          "localApproximation": false
+        }
+      ],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Green colour is not length proof; source length andcoupler insertion depth unresolved."
+        ],
+        "nextAction": "帆船p11/12候选6521(8L)/6522(6L)正规几何齐全；需要杆全长和接头插入深度的正视比例/原BOM或实物，绿色不能证明长度，禁止重叠两杆凑总高。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "帆船6根桅杆的6521/6522正规DAT已齐，缺全长及31625两端插入深度证据；绿色不证明8L，禁止两杆重叠凑高。",
+      "classification": "regular_geometry_needs_source",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "regular_geometry_needs_source",
+        "conclusion": "帆船6根桅杆的6521/6522正规DAT已齐，缺全长及31625两端插入深度证据；绿色不证明8L，禁止两杆重叠凑高。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "candidate:tray-loose-shafts",
+      "name": "Loose tray shafts",
+      "group": 3,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [
+        "6521",
+        "6522"
+      ],
+      "aliases": [],
+      "originalCategory": "candidate_identity_unresolved",
+      "courses": [
+        {
+          "slug": "5-ya-mian-ji",
+          "name": "压面机",
+          "sourcePages": [
+            5
+          ],
+          "modelSha256": "10c6230f7159f6e014e1a54d742c54f2b3f73892866e1ebd592181075594e1f3"
+        }
+      ],
+      "missingEvidence": [
+        "Material icon gray shaft andfinal greenends conflict; exact length/identity unverified."
+      ],
+      "nextAction": "压面机p5材料栏灰杆与成品绿端矛盾，需高清原页或长度标记，6521/6522正规DAT已齐。先保持两杆遗漏，不能任意选色/长。",
+      "localGeometry": [
+        {
+          "id": "6521",
+          "file": "STEAMx/scripts/ldraw-models/parts/6521.dat",
+          "available": true,
+          "sha256": "2bc6982d99419488edd87935f8414bbd940f048067ce83402a24677b1169d6bb",
+          "title": "0 Duplo Axle  8",
+          "author": "0 Author: Philippe Hurbain [Philo]",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "official": true,
+          "localApproximation": false
+        },
+        {
+          "id": "6522",
+          "file": "STEAMx/scripts/ldraw-models/parts/6522.dat",
+          "available": true,
+          "sha256": "f29f4610440ca4d651fb43bbec8e004770aa122289a25dc09f24ef764601d1ec",
+          "title": "0 Duplo Axle  6",
+          "author": "0 Author: Philippe Hurbain [Philo]",
+          "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+          "official": true,
+          "localApproximation": false
+        }
+      ],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Material icon gray shaft andfinal greenends conflict; exact length/identity unverified."
+        ],
+        "nextAction": "压面机p5材料栏灰杆与成品绿端矛盾，需高清原页或长度标记，6521/6522正规DAT已齐。先保持两杆遗漏，不能任意选色/长。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "压面机2杆的6521/6522正规DAT已齐；材料栏灰与成品绿存在差异，需长度标记/BOM或量尺照片，不任意选色选长。",
+      "classification": "regular_geometry_needs_source",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "regular_geometry_needs_source",
+        "conclusion": "压面机2杆的6521/6522正规DAT已齐；材料栏灰与成品绿存在差异，需长度标记/BOM或量尺照片，不任意选色选长。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "unknown:gantry-hook-pulley",
+      "name": "Gantry gray pulley andlong black hook",
+      "group": 2,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "unidentified_source_shape",
+      "courses": [
+        {
+          "slug": "4-long-men-diao",
+          "name": "龙门吊",
+          "sourcePages": [
+            11
+          ],
+          "modelSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007"
+        }
+      ],
+      "missingEvidence": [
+        "Real IDs not verified; not4663short yellowhook. Compact Uholder candidate2223 tracked separately."
+      ],
+      "nextAction": "龙门吊p11灰小轮+长黑钩分别对官方Duplo钩/滑轮目录，识别孔、长颈和绳槽。明确不是4663短钩，2223支架另条，不把总成单ID假定。",
+      "localGeometry": [],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Real IDs not verified; not4663short yellowhook. Compact Uholder candidate2223 tracked separately."
+        ],
+        "nextAction": "龙门吊p11灰小轮+长黑钩分别对官方Duplo钩/滑轮目录，识别孔、长颈和绳槽。明确不是4663短钩，2223支架另条，不把总成单ID假定。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "龙门吊灰轮+黑长钩仍需分别确认ID与许可几何；不是4663短钩，2223架单独跟踪。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "龙门吊灰轮+黑长钩仍需分别确认ID与许可几何；不是4663短钩，2223架单独跟踪。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "unknown:gantry-cord",
+      "name": "Gantry cord",
+      "group": 3,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "flexible_route_unverified",
+      "courses": [
+        {
+          "slug": "4-long-men-diao",
+          "name": "龙门吊",
+          "sourcePages": [
+            10,
+            11,
+            12
+          ],
+          "modelSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007"
+        }
+      ],
+      "missingEvidence": [
+        "Length/material,knots androuting unknown; no evidence it is75536assembly."
+      ],
+      "nextAction": "龙门吊p10-12绳材/长度/两端结和绕轮路径需详细源或实物；不默认75536。若展示用连线需单独定义标注，不能当承载构件。",
+      "localGeometry": [],
+      "priorSources": [
+        "Current course source-page observations, ledger/review and LDR; previous special-part research when linked"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": "Requires the specific missing evidence or authorization stated above; available source alone has not resolved it.",
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 3,
+        "missingEvidence": [
+          "Length/material,knots androuting unknown; no evidence it is75536assembly."
+        ],
+        "nextAction": "龙门吊p10-12绳材/长度/两端结和绕轮路径需详细源或实物；不默认75536。若展示用连线需单独定义标注，不能当承载构件。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "龙门吊绳的材质、长度、两端结和绕轮路径未解，不默认75536；示意连线不能计为承载验证。",
+      "classification": "flexible_interface_evidence",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "flexible_interface_evidence",
+        "conclusion": "龙门吊绳的材质、长度、两端结和绕轮路径未解，不默认75536；示意连线不能计为承载验证。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "unknown:large-toolo-hook",
+      "name": "Large gray Toolo hook with fork/pin attachment",
+      "group": 2,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "unidentified_source_shape",
+      "courses": [
+        {
+          "slug": "4-diao-che",
+          "name": "吊车",
+          "sourcePages": [
+            8
+          ],
+          "modelSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a"
+        }
+      ],
+      "missingEvidence": [
+        "Exact catalogidentity for largefork-top Toolo hook andlicensed matchinggeometry or explicitapproximation approval. No candidate promoted from inventory resemblance."
+      ],
+      "nextAction": "4吊车p8大灰钩先比叉顶/枢轴/钩口；15449、14013c01、4663均不是已确认候选。查官方套装design/element映射后再检索几何，不能按名称选钩。",
+      "localGeometry": [],
+      "priorSources": [
+        "Author actually viewed12page source",
+        "Existing localinventory15449/14013c01 considered but no sourceidentity evidence",
+        "4663 shortcord-eye shape visibly different"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Exact catalogidentity for largefork-top Toolo hook andlicensed matchinggeometry or explicitapproximation approval. No candidate promoted from inventory resemblance."
+        ],
+        "nextAction": "4吊车p8大灰钩先比叉顶/枢轴/钩口；15449、14013c01、4663均不是已确认候选。查官方套装design/element映射后再检索几何，不能按名称选钩。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "4吊车大灰叉顶钩未定ID；需叉顶、枢轴、钩口近照和目录映射，15449/14013c01/4663不能按名称转正。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "4吊车大灰叉顶钩未定ID；需叉顶、枢轴、钩口近照和目录映射，15449/14013c01/4663不能按名称转正。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    },
+    {
+      "key": "unknown:warship-mixer-assembly",
+      "name": "Yellow mixer/drum assembly on rear turret",
+      "group": 2,
+      "identityStatus": "unresolved_or_candidate",
+      "confirmedId": null,
+      "candidateIds": [],
+      "aliases": [],
+      "originalCategory": "unidentified_source_shape",
+      "courses": [
+        {
+          "slug": "4-jun-jian",
+          "name": "军舰",
+          "sourcePages": [
+            16
+          ],
+          "modelSha256": "01a43d48c1d7d8d6d447745356b7891a1f06de1e3dde2af76bb6671664213623"
+        }
+      ],
+      "missingEvidence": [
+        "Sourcep16 exactpart orassembly IDs andlicensed source-matchinggeometry notconfirmed; omitted"
+      ],
+      "nextAction": "军舰p16对黄桶的口沿、轴、托架/底座逐组件查目录；蜘蛛58629/95219c01只作比较，不跨课默认确认。需同时解决桶体和转座许可几何。",
+      "localGeometry": [],
+      "priorSources": [
+        "4-jun-jian/evidence.json andledger.md latestauthorreview; no newnetwork orpixelidentityclaim inregistryupdate"
+      ],
+      "sourceReportEvidence": "parts-resolution-evidence/current-report-extracts.json",
+      "externalBlocker": null,
+      "notClaimedResolved": true,
+      "previousPlan": {
+        "group": 2,
+        "missingEvidence": [
+          "Sourcep16 exactpart orassembly IDs andlicensed source-matchinggeometry notconfirmed; omitted"
+        ],
+        "nextAction": "军舰p16对黄桶的口沿、轴、托架/底座逐组件查目录；蜘蛛58629/95219c01只作比较，不跨课默认确认。需同时解决桶体和转座许可几何。",
+        "status": "historical_superseded_by_currentAssessment"
+      },
+      "currentConclusion": "军舰黄筒总成身份和转座几何未确认；蜘蛛58629/95219c01只能作对照，不能跨课默认。",
+      "classification": "identity_geometry_research",
+      "currentEvidence": [
+        "parts-resolution-evidence/current-report-extracts.json"
+      ],
+      "currentAssessment": {
+        "classification": "identity_geometry_research",
+        "conclusion": "军舰黄筒总成身份和转座几何未确认；蜘蛛58629/95219c01只能作对照，不能跨课默认。",
+        "researchDownloadIsRepair": false,
+        "courseAccepted": false
+      }
+    }
+  ],
+  "geometryDeliverables": {
+    "at": "2026-10-11T08:29:12.518Z",
+    "roots": [
+      "2332ac01.dat",
+      "4253c01.dat",
+      "74656.dat"
+    ],
+    "missing": [],
+    "closed": true,
+    "files": [
+      {
+        "id": "2332ac01.dat",
+        "file": "preparation/parts-resolution-evidence/2332ac01.dat",
+        "url": null,
+        "sha256": "1f0c1b20745931bbaec1cefc93994cc38f966eb88b39facee71ca5c9e86d5876",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "2332a.dat",
+          "u9525.dat"
+        ]
+      },
+      {
+        "id": "2332a.dat",
+        "file": "preparation/parts-resolution-evidence/2332a.dat",
+        "url": "https://library.ldraw.org/library/official/parts/2332a.dat",
+        "sha256": "3a3fce3fea13e3c624c7be539f42940ae415ae18b3bafc9a1ba00b8c9647a298",
+        "author": "0 Author: Michael Heidemann [mikeheide]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "box5.dat",
+          "rect.dat",
+          "rect1.dat",
+          "rect2a.dat",
+          "rect2a.dat",
+          "rect.dat",
+          "rect2p.dat",
+          "rect2p.dat",
+          "rect3.dat",
+          "rect1.dat",
+          "rect1.dat",
+          "rect2p.dat",
+          "stug7-1x4.dat",
+          "stug7-1x4.dat",
+          "stug8-1x3.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "rect2p.dat",
+          "rect2p.dat",
+          "rect1.dat",
+          "rect.dat",
+          "rect3.dat",
+          "rect3.dat",
+          "rect2a.dat",
+          "rect3.dat",
+          "rect.dat",
+          "rect2a.dat",
+          "rect3.dat",
+          "rect2p.dat",
+          "rect3.dat",
+          "rect2p.dat",
+          "rect2p.dat",
+          "rect3.dat",
+          "rect2p.dat",
+          "rect2p.dat",
+          "rect2p.dat",
+          "rect2p.dat",
+          "rect2p.dat",
+          "rect2p.dat",
+          "2-4cylo.dat",
+          "2-4cylo.dat",
+          "1-4ndis.dat",
+          "1-4cylo.dat",
+          "rect2p.dat",
+          "rect2p.dat",
+          "rect2p.dat",
+          "rect2p.dat",
+          "rect2p.dat",
+          "1-4ndis.dat",
+          "1-4cylo.dat",
+          "4-4cylo.dat",
+          "4-4disc.dat",
+          "ddoorhinge.dat",
+          "ddoorhinge.dat",
+          "box4o4a.dat",
+          "box4o4a.dat",
+          "1-4cylo.dat",
+          "1-4ndis.dat",
+          "1-4ndis.dat",
+          "1-4ndis.dat",
+          "1-4ndis.dat",
+          "1-4cylo.dat",
+          "1-4ndis.dat",
+          "1-4ndis.dat",
+          "1-4ndis.dat",
+          "1-4ndis.dat",
+          "1-4cylo.dat",
+          "1-4cylo.dat",
+          "1-4cylo.dat",
+          "1-4cylo.dat",
+          "1-4chrd.dat",
+          "1-4chrd.dat",
+          "3-16cylo.dat",
+          "3-16chrd.dat",
+          "48\\1-16cylo.dat",
+          "48\\1-16chrd.dat",
+          "3-16cylo.dat",
+          "3-16chrd.dat",
+          "48\\1-16cylo.dat",
+          "48\\1-16chrd.dat",
+          "2-4cylo.dat",
+          "2-4chrd.dat",
+          "2-4ndis.dat",
+          "2-4cylo.dat",
+          "2-4ndis.dat",
+          "2-4chrd.dat",
+          "1-4chrd.dat",
+          "1-4chrd.dat",
+          "1-4chrd.dat",
+          "1-4chrd.dat"
+        ]
+      },
+      {
+        "id": "box5.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/box5.dat",
+        "url": null,
+        "sha256": "ccb7b8a1d36692335b10ea6aa196849afcad4b15331683ed8112a10b50977318",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "rect.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/rect.dat",
+        "url": null,
+        "sha256": "ffeb2dd3d9b83c38841f18f1f74800fbba9e90c5fb6badfff2a795f08a96cb71",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "rect1.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/rect1.dat",
+        "url": null,
+        "sha256": "48fdcd3181587b4bdc89d356a5aee21268688f3f2fcdd4d6f5c1a3d49b1a1ceb",
+        "author": "0 Author: Chris Dee [cwdee]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "rect2a.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/rect2a.dat",
+        "url": null,
+        "sha256": "6d75ffb88e705a35f34e095ec0848a7bb70b577a376fdae05804da214b0d6369",
+        "author": "0 Author: Chris Dee [cwdee]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "rect2p.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/rect2p.dat",
+        "url": null,
+        "sha256": "faac2b36241a9de0c0108471e59c45734df6c79813332d9cacf97f6391886acc",
+        "author": "0 Author: Donald Sutter [technog]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "rect3.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/rect3.dat",
+        "url": null,
+        "sha256": "07ac46908b6668d993b6de0fb001a34cd996542106b80ebc7de63317d8dde865",
+        "author": "0 Author: Mark Kennedy [mkennedy]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "stug7-1x4.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/stug7-1x4.dat",
+        "url": null,
+        "sha256": "5ff4ae6d96a8aaceebd21bd5122177e5637e023202638efe6126aef54048fb5a",
+        "author": "0 Author: Steffen [Steffen]",
+        "license": "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "deps": [
+          "stud7.dat",
+          "stud7.dat",
+          "stud7.dat",
+          "stud7.dat"
+        ]
+      },
+      {
+        "id": "stud7.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/stud7.dat",
+        "url": null,
+        "sha256": "250111864bb2492a8722544d1f09b5e45672ba3f8e93be769b77499e7ea3fb1a",
+        "author": "0 Author: Willy Tschager [Holly-Wood]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "4-4ring3.dat",
+          "4-4cylo.dat",
+          "4-4cylo.dat"
+        ]
+      },
+      {
+        "id": "4-4ring3.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/4-4ring3.dat",
+        "url": null,
+        "sha256": "1f2835ac308154edc2d6f479d8e742a55be981f6167b20bfa100c195bc0731dd",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "4-4cylo.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/4-4cylo.dat",
+        "url": null,
+        "sha256": "d6ca97ee2e75918b3309a5c88aafcd2455b3a316f7cef8963517c19f1d86b38f",
+        "author": "0 Author: Mark Kennedy [mkennedy]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "4-4edge.dat",
+          "4-4edge.dat",
+          "4-4cyli.dat"
+        ]
+      },
+      {
+        "id": "4-4edge.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/4-4edge.dat",
+        "url": null,
+        "sha256": "54a52196e421fd1717d291ff52ea57553b1fb238907c1678cc1f1a84c698b1da",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "4-4cyli.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/4-4cyli.dat",
+        "url": null,
+        "sha256": "4a742c2765b6ebf98245baaf8a160a4ff587fc93d36c8ee2b9074712a2f968c4",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "stug8-1x3.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/stug8-1x3.dat",
+        "url": null,
+        "sha256": "684517fda2f33699b9a32dba81c833ae848c18e9ef9c006ad2f6a18119529c5c",
+        "author": "0 Author: Steffen [Steffen]",
+        "license": "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "deps": [
+          "stud8.dat",
+          "stud8.dat",
+          "stud8.dat"
+        ]
+      },
+      {
+        "id": "stud8.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/stud8.dat",
+        "url": null,
+        "sha256": "1a3202bf2d8dd8f58f59d09e220cb62f3411db762f88333a82503ab395f9d115",
+        "author": "0 Author: Willy Tschager [Holly-Wood]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "4-4ring7.dat",
+          "4-4cylo.dat",
+          "4-4cylo.dat"
+        ]
+      },
+      {
+        "id": "4-4ring7.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/4-4ring7.dat",
+        "url": null,
+        "sha256": "67b27c082eec7286888ac427f11db06c5eca6c9bcec76c7e2b2014841afa83f3",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "box4-1.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/box4-1.dat",
+        "url": null,
+        "sha256": "2ed58df5da841827dfc5f9ac11c0bd7ffd8a455e46f166638e635f61a014b44d",
+        "author": "0 Author: Tore Eriksson [Tore_Eriksson]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "2-4cylo.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/2-4cylo.dat",
+        "url": null,
+        "sha256": "f68766ac03c28204320ae288bc10450627c09baaf14e003eceeda5a8e203f22f",
+        "author": "0 Author: Max Martin Richter [MMR1988]",
+        "license": "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "deps": [
+          "2-4edge.dat",
+          "2-4edge.dat",
+          "2-4cyli.dat"
+        ]
+      },
+      {
+        "id": "2-4edge.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/2-4edge.dat",
+        "url": null,
+        "sha256": "665400f76566b161c28303cdadce40d17d979a8ff9a8a133675af2d17fbe6763",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "2-4cyli.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/2-4cyli.dat",
+        "url": null,
+        "sha256": "d486780f0f84893899d9eadcd13150f13a42e15e77a3cda38cdf24ded98862c6",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "1-4ndis.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-4ndis.dat",
+        "url": null,
+        "sha256": "ff6685838636e7ab6152356d8f09e4f00a38af0d878b0881423f5c45fb868f0c",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "1-4cylo.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-4cylo.dat",
+        "url": null,
+        "sha256": "792a01362608c3f385dd7f01a1bd7d19cf9ed8a40f793266345cc86d1d98f3af",
+        "author": "0 Author: Max Martin Richter [MMR1988]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "1-4edge.dat",
+          "1-4edge.dat",
+          "1-4cyli.dat"
+        ]
+      },
+      {
+        "id": "1-4edge.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-4edge.dat",
+        "url": null,
+        "sha256": "9ce2de7e67bbac575d52cfdc771b9d00856efc9b88002d97db8e665e50f4d467",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "1-4cyli.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-4cyli.dat",
+        "url": null,
+        "sha256": "5a7168952a5a3570327873b9a5802fa7b3be40967ab78c03b6a2bfd4419a1f10",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "4-4disc.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/4-4disc.dat",
+        "url": null,
+        "sha256": "a00b5547776f61a7389d303616987c76b3c4de86ad8ec32f22857e1bd5e5e40f",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "ddoorhinge.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/ddoorhinge.dat",
+        "url": null,
+        "sha256": "1747ae9594f4aeaea4b8699b1dbaaf043763109519758566875439aad40abcc4",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "box3u2p.dat",
+          "rect.dat",
+          "rect.dat",
+          "box3u2p.dat"
+        ]
+      },
+      {
+        "id": "box3u2p.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/box3u2p.dat",
+        "url": null,
+        "sha256": "df73118b95f23d693c3b7d25c57c483db3bf61ae017d757848119955d28d59e0",
+        "author": "0 Author: Niels Karsdorp [nielsk]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "box4o4a.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/box4o4a.dat",
+        "url": null,
+        "sha256": "a66f3fc32d0209b5b2432c82414997dc0910c48a074be1d96ef5ec088a2594dd",
+        "author": "0 Author: Donald Sutter [technog]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "1-4chrd.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-4chrd.dat",
+        "url": null,
+        "sha256": "ccba3a97b5cc358754e476b78b4ce61cce5f404cd15e37471b73df3e81784aec",
+        "author": "0 Author: Max Martin Richter [MMR1988]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "3-16cylo.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/3-16cylo.dat",
+        "url": null,
+        "sha256": "a5c8370842299035a9cc14308301614c6fb169fb873a7950c888928cd8d9181c",
+        "author": "0 Author: J.C. Tchang [tchang]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "3-16edge.dat",
+          "3-16edge.dat",
+          "3-16cyli.dat"
+        ]
+      },
+      {
+        "id": "3-16edge.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/3-16edge.dat",
+        "url": null,
+        "sha256": "c08dd83bb7fe90b61f7cd0b10ebef0d9a9ba33b497676dedd2e2e968cb8248f9",
+        "author": "0 Author: Donald Sutter [technog]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "3-16cyli.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/3-16cyli.dat",
+        "url": null,
+        "sha256": "f50d12a37a22ae4a5f37a017b8e39d1e729577b0a4aa376ca685b210806b49c8",
+        "author": "0 Author: Mark Kennedy [mkennedy]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "3-16chrd.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/3-16chrd.dat",
+        "url": null,
+        "sha256": "2bb493e8b5b56a5d63bfa7356a0ed5d6403a68e5e9a983e13a57541783ad19c1",
+        "author": "0 Author: Niels Karsdorp [nielsk]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "48/1-16cylo.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/48/1-16cylo.dat",
+        "url": null,
+        "sha256": "94929f851cefec060fcf3222213a1f9743f9b6549a9e7bbcf471482dc546a827",
+        "author": "0 Author: Max Martin Richter [MMR1988]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "48\\1-16edge.dat",
+          "48\\1-16edge.dat",
+          "48\\1-16cyli.dat"
+        ]
+      },
+      {
+        "id": "48/1-16edge.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/48/1-16edge.dat",
+        "url": null,
+        "sha256": "9b3b4df68d3c0d68fd3e5c52346871867043f67522e53aaa21991562c89bdc10",
+        "author": "0 Author: Willy Tschager [Holly-Wood]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "48/1-16cyli.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/48/1-16cyli.dat",
+        "url": null,
+        "sha256": "b6fb5e76f958a18c4cc88866d5e6a0502b62d3abda1a72450663b82502645330",
+        "author": "0 Author: Willy Tschager [Holly-Wood]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "48/1-16chrd.dat",
+        "file": "preparation/parts-resolution-evidence/48/1-16chrd.dat",
+        "url": "https://library.ldraw.org/library/official/p/48/1-16chrd.dat",
+        "sha256": "612846540dad896fa0610b5f7eb9ec1f7a39c0bbbd68dd7e3a9114da1737173d",
+        "author": "0 Author: Michael Heidemann [mikeheide]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "2-4chrd.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/2-4chrd.dat",
+        "url": null,
+        "sha256": "1d467b20e425d329fa4831d5734b9b677afee1f16e07d907403ef94dadd81fec",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "2-4ndis.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/2-4ndis.dat",
+        "url": null,
+        "sha256": "7557eae598be3f530b840471535198e6b07b03486ffbcc18a00e862c3d25d925",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "u9525.dat",
+        "file": "preparation/parts-resolution-evidence/u9525.dat",
+        "url": "https://library.ldraw.org/library/official/parts/u9525.dat",
+        "sha256": "28ee5232f9fd81b3aac876e892397aa5c062fe8b002b9358178a80b8805ef676",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "box4.dat",
+          "box4.dat",
+          "4-4cylc.dat",
+          "4-4cylc.dat",
+          "4-4cylc.dat",
+          "4-4cylc.dat",
+          "4-4cylc.dat",
+          "4-4cylc.dat",
+          "4-4cylc.dat",
+          "4-4cylc.dat"
+        ]
+      },
+      {
+        "id": "box4.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/box4.dat",
+        "url": null,
+        "sha256": "72e1169ec1b2f11d44a6aaf6e87e15ec82a6cb35b5c56dcf7b1185d6b8b954aa",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "4-4cylc.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/4-4cylc.dat",
+        "url": null,
+        "sha256": "0183cffc7f56a2f3e5e3511f0d07ac484d3039c2d41bee802a94344ec95ec8bd",
+        "author": "0 Author: Alex Taylor [anathema]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "4-4edge.dat",
+          "4-4edge.dat",
+          "4-4disc.dat",
+          "4-4cyli.dat"
+        ]
+      },
+      {
+        "id": "4253c01.dat",
+        "file": "preparation/parts-resolution-evidence/4253c01.dat",
+        "url": null,
+        "sha256": "2796cd22f402fe96c3934fe3834ed2060c8be73d464e9a1395d2d889c0bb1168",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "4253.dat",
+          "4252.dat"
+        ]
+      },
+      {
+        "id": "4253.dat",
+        "file": "preparation/parts-resolution-evidence/4253.dat",
+        "url": "https://library.ldraw.org/library/official/parts/4253.dat",
+        "sha256": "927a8733fae3f20c231f5eafcf07faaea5f60350fe94eac5fdb30a8bfc6c0693",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "box5.dat",
+          "stug8-1x3.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box3u2p.dat",
+          "box4.dat",
+          "stug7-1x4.dat",
+          "stug7-1x4.dat",
+          "box3u2p.dat",
+          "rect1.dat",
+          "box3u2p.dat",
+          "4-4cyli.dat",
+          "4-4edge.dat",
+          "4-4disc.dat",
+          "5-16edge.dat",
+          "3-16cyli.dat",
+          "3-16edge.dat",
+          "5-16edge.dat",
+          "3-16cyli.dat",
+          "3-16edge.dat",
+          "rect1.dat",
+          "ddoorhinge.dat",
+          "ddoorhinge.dat",
+          "box4o4a.dat",
+          "box4o4a.dat"
+        ]
+      },
+      {
+        "id": "5-16edge.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/5-16edge.dat",
+        "url": null,
+        "sha256": "17a9ae47e68e98286d27fc7be4a48e1110d1cae0d3abff658f3378a552857fc3",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "4252.dat",
+        "file": "preparation/parts-resolution-evidence/4252.dat",
+        "url": "https://library.ldraw.org/library/official/parts/4252.dat",
+        "sha256": "02fe848a336787ee03fd5334252312ea130fe262e079ae7f558d0691c2c8411e",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "box4.dat",
+          "box4.dat"
+        ]
+      },
+      {
+        "id": "74656.dat",
+        "file": "preparation/parts-resolution-evidence/74656.dat",
+        "url": null,
+        "sha256": "a6f2e3445cdb75d068b9eaf5408115cf36824e9b72868034e0c0b5aade1d7d82",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "2312.dat",
+          "2313a.dat",
+          "2313a.dat",
+          "2313a.dat",
+          "2313a.dat"
+        ]
+      },
+      {
+        "id": "2312.dat",
+        "file": "STEAMx/scripts/ldraw-models/parts/2312.dat",
+        "url": null,
+        "sha256": "5709891cbdb1652c4916f51b9b4d2c15ed9f65f4963989b0efcf434882cbbe04",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "box5.dat",
+          "stug7-1x6.dat",
+          "stug7-1x6.dat",
+          "s\\2312s01.dat",
+          "s\\2312s01.dat",
+          "s\\2312s01.dat",
+          "s\\2312s01.dat",
+          "box5.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box5.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "rect3.dat",
+          "rect3.dat",
+          "box3u4p.dat",
+          "rect2a.dat",
+          "rect2a.dat",
+          "box5.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "box4-1.dat",
+          "rect3.dat",
+          "rect3.dat",
+          "box3u4p.dat",
+          "rect2a.dat",
+          "rect2a.dat",
+          "4-4ndis.dat",
+          "4-4cylc.dat",
+          "5-16cylo.dat",
+          "5-16cylo.dat",
+          "1-16ring9.dat",
+          "1-4ring9.dat",
+          "5-16chrd.dat",
+          "3-16chrd.dat",
+          "1-8chrd.dat",
+          "rect.dat",
+          "rect.dat",
+          "rect3.dat",
+          "rect3.dat",
+          "3-16cylo.dat",
+          "3-16chrd.dat",
+          "rect.dat",
+          "5-16cylo.dat",
+          "5-16cylo.dat",
+          "1-16ring9.dat",
+          "1-4ring9.dat",
+          "5-16chrd.dat",
+          "3-16chrd.dat",
+          "1-8chrd.dat",
+          "rect.dat",
+          "rect.dat",
+          "rect3.dat",
+          "rect3.dat",
+          "3-16cylo.dat",
+          "3-16chrd.dat",
+          "rect.dat",
+          "rect1.dat",
+          "3-8cylo.dat",
+          "1-4con3.dat",
+          "1-8con3.dat",
+          "1-8ring4.dat",
+          "3-8cylo.dat",
+          "1-4con3.dat",
+          "1-8con3.dat",
+          "3-8edge.dat",
+          "3-8ring3.dat",
+          "1-8ring4.dat",
+          "rect2p.dat",
+          "1-8cylo.dat",
+          "3-8chrd.dat",
+          "3-8chrd.dat",
+          "3-8cylo.dat",
+          "1-4con3.dat",
+          "1-8con3.dat",
+          "1-8ring4.dat",
+          "3-8cylo.dat",
+          "1-4con3.dat",
+          "1-8con3.dat",
+          "3-8edge.dat",
+          "3-8ring3.dat",
+          "1-8ring4.dat",
+          "rect2p.dat",
+          "1-8cylo.dat",
+          "3-8chrd.dat",
+          "3-8chrd.dat",
+          "3-8cylo.dat",
+          "1-8cylo.dat",
+          "3-8ring3.dat",
+          "rect.dat",
+          "3-8cylo.dat",
+          "1-8cylo.dat",
+          "3-8ring3.dat",
+          "rect.dat"
+        ]
+      },
+      {
+        "id": "stug7-1x6.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/stug7-1x6.dat",
+        "url": null,
+        "sha256": "98a3a4c93630a7ff4f1c57690a70de5160efbcf33e7baf9213da2991a8de02b9",
+        "author": "0 Author: Rolf Osterthun [Rolf]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "stud7.dat",
+          "stud7.dat",
+          "stud7.dat",
+          "stud7.dat",
+          "stud7.dat",
+          "stud7.dat"
+        ]
+      },
+      {
+        "id": "s/2312s01.dat",
+        "file": "STEAMx/scripts/ldraw-models/parts/s/2312s01.dat",
+        "url": null,
+        "sha256": "9511a1c34c8938a527f18f380962c014a7f0fe7e61b066f7255cfc652d10d4a7",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "8\\2-4ndis.dat",
+          "8\\2-4ndis.dat",
+          "8\\2-4cylo.dat",
+          "3-16cylo.dat",
+          "3-16cylo.dat",
+          "3-16ndis.dat",
+          "1-4cylo.dat",
+          "1-8chrd.dat",
+          "1-8chrd.dat",
+          "1-4chrd.dat",
+          "3-16cylo.dat",
+          "3-16cylo.dat",
+          "3-16ndis.dat",
+          "1-4cylo.dat",
+          "1-8chrd.dat",
+          "1-8chrd.dat",
+          "1-4chrd.dat",
+          "8\\2-4ndis.dat",
+          "8\\2-4ndis.dat",
+          "8\\2-4cylo.dat",
+          "3-16cylo.dat",
+          "3-16cylo.dat",
+          "3-16ndis.dat",
+          "1-4cylo.dat",
+          "1-8chrd.dat",
+          "1-8chrd.dat",
+          "1-4chrd.dat",
+          "3-16cylo.dat",
+          "3-16cylo.dat",
+          "3-16ndis.dat",
+          "1-4cylo.dat",
+          "1-8chrd.dat",
+          "1-8chrd.dat",
+          "1-4chrd.dat",
+          "box3u2p.dat"
+        ]
+      },
+      {
+        "id": "8/2-4ndis.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/8/2-4ndis.dat",
+        "url": null,
+        "sha256": "4f646d4ca8dd67205faf9b0e233c4921b85d3b30a9283090b0482397aad1a487",
+        "author": "0 Author: Magnus Forsberg [MagFors]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "8/2-4cylo.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/8/2-4cylo.dat",
+        "url": null,
+        "sha256": "cf7a9969c8d7396d17966b65c8ea48ea36445e98580dc76d18e5aa1fc5afd54f",
+        "author": "0 Author: Magnus Forsberg [MagFors]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "8\\2-4edge.dat",
+          "8\\2-4cyli.dat",
+          "8\\2-4edge.dat"
+        ]
+      },
+      {
+        "id": "8/2-4edge.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/8/2-4edge.dat",
+        "url": null,
+        "sha256": "3154ed3f142d644552b2533457c13c56ef326b0f7d31ea425585d6cdde2a3129",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "8/2-4cyli.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/8/2-4cyli.dat",
+        "url": null,
+        "sha256": "9e5869a3bf444fcda1cc9908ef96ce782b53fc68f94eaf6903a0dbca6c582215",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "3-16ndis.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/3-16ndis.dat",
+        "url": null,
+        "sha256": "abb7da370e72fe9e75faf5d10c637b476202dbd8ced9cb5b0f96433e1f72f529",
+        "author": "0 Author: Magnus Forsberg [MagFors]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "1-8chrd.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-8chrd.dat",
+        "url": null,
+        "sha256": "7694157b725563188a6efd69b3f558b00533b375b8a4e82f469497a03e471e74",
+        "author": "0 Author: Orion Pobursky [OrionP]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "box3u4p.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/box3u4p.dat",
+        "url": null,
+        "sha256": "1d63ff287fe62f8636cf59cfdfce5118e1017f66559aeb32abc642bacbacd361",
+        "author": "0 Author: Willy Tschager [Holly-Wood]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "4-4ndis.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/4-4ndis.dat",
+        "url": null,
+        "sha256": "21202dc15823f4336bc2544244d0b539b76745c89f7a59ad18cdd03ad45cc543",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "5-16cylo.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/5-16cylo.dat",
+        "url": null,
+        "sha256": "3468b4f9bf29026d7266da964f4298eea5d4bfa30f09d80e11abfb39cc9df797",
+        "author": "0 Author: Max Martin Richter [MMR1988]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "5-16cyli.dat",
+          "5-16edge.dat",
+          "5-16edge.dat"
+        ]
+      },
+      {
+        "id": "5-16cyli.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/5-16cyli.dat",
+        "url": null,
+        "sha256": "3a46e175cd13f2343645b5ba1be54f1f2fdf446cf28392383d511d85eaa7665a",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "1-16ring9.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-16ring9.dat",
+        "url": null,
+        "sha256": "1eda8b95e7831ab06a3e45a480e94043609f07ad81a316ef748996a0561d13fc",
+        "author": "0 Author: Magnus Forsberg [MagFors]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "1-4ring9.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-4ring9.dat",
+        "url": null,
+        "sha256": "4d3a3eb5f8e059d00d136bce05f91e094536a08f16ed22452656f546a8ad92bd",
+        "author": "0 Author: Franklin W. Cain [fwcain]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "5-16chrd.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/5-16chrd.dat",
+        "url": null,
+        "sha256": "53926ed51a8b6757ef36240cd7520ac1f8db16e4650e3618a09d8146f89ddd98",
+        "author": "0 Author: Niels Karsdorp [nielsk]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "3-8cylo.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/3-8cylo.dat",
+        "url": null,
+        "sha256": "f5e90ea29201b4cea569e2effe32eee5fe95146e3eadcddc054a881ef4f839bd",
+        "author": "0 Author: J.C. Tchang [tchang]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "3-8edge.dat",
+          "3-8edge.dat",
+          "3-8cyli.dat"
+        ]
+      },
+      {
+        "id": "3-8edge.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/3-8edge.dat",
+        "url": null,
+        "sha256": "a590f230678d592d514a9c5e307c6a30945e50e4c529fc06accf37530d0e0ed5",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "3-8cyli.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/3-8cyli.dat",
+        "url": null,
+        "sha256": "9224d4e5edc6f5b0f75f6fa358fd1368a4fd65f676b74fe1bb6e3bbb05046206",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "1-4con3.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-4con3.dat",
+        "url": null,
+        "sha256": "c68d5c616332fbf15f3f22519bab843bdb897bf29e28709fb02ef2dcd63a0e2f",
+        "author": "0 Author: Steve Bliss [sbliss]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "1-8con3.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-8con3.dat",
+        "url": null,
+        "sha256": "f964c471284eb4dafa0e9668bfc5721b6d299e4decb1c3ed268d0bc01b08130c",
+        "author": "0 Author: Willy Tschager [Holly-Wood]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "1-8ring4.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-8ring4.dat",
+        "url": null,
+        "sha256": "08954a02988b658890a539ae61db3e6225a587bd52b2e160c4f292d37629cc3d",
+        "author": "0 Author: Willy Tschager [Holly-Wood]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "3-8ring3.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/3-8ring3.dat",
+        "url": null,
+        "sha256": "c44e0a5db0b1fc228aa513880a7717cab472194b576a75a89fd71e4059d6d8a2",
+        "author": "0 Author: Niels Karsdorp [nielsk]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "1-8cylo.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-8cylo.dat",
+        "url": null,
+        "sha256": "870bbbf6052e075598de7dce7efe7a139ea5189820e7a296442fe2b3318c18bf",
+        "author": "0 Author: Tim Gould [timgould]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "1-8edge.dat",
+          "1-8edge.dat",
+          "1-8cyli.dat"
+        ]
+      },
+      {
+        "id": "1-8edge.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-8edge.dat",
+        "url": null,
+        "sha256": "50436a0bce461198c342dccbccb658a1bffae13e44b7c48689b158c946c2c2ab",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "1-8cyli.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/1-8cyli.dat",
+        "url": null,
+        "sha256": "46def63dc8293ad9a2dd1d1a5cb720b9ba883850e65d3280d2093c664a6140c4",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "3-8chrd.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/3-8chrd.dat",
+        "url": null,
+        "sha256": "dd829916e86c0c8e9a1d9d87d04d93d013d074402a43de210d399f9f4b9c58ce",
+        "author": "0 Author: Donald Sutter [technog]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "2313a.dat",
+        "file": "preparation/parts-resolution-evidence/2313a.dat",
+        "url": "https://library.ldraw.org/library/official/parts/2313a.dat",
+        "sha256": "ce0fc86868e6aa1b1d99af73bd934a18fbc136f4f671d8e9d5d98936d1aff2f9",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "s\\2313s01.dat",
+          "4-4ring1.dat"
+        ]
+      },
+      {
+        "id": "s/2313s01.dat",
+        "file": "STEAMx/scripts/ldraw-models/parts/s/2313s01.dat",
+        "url": null,
+        "sha256": "ea9402cc08aa2cf00dbc12e91a12deef03e6967b079eaed3d53af045e7f22652",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "48\\4-4cylo.dat",
+          "48\\4-4cylo.dat",
+          "4-4cylo.dat",
+          "4-4cylo.dat",
+          "4-4ring4.dat",
+          "4-4cylo.dat",
+          "4-4ring3.dat",
+          "48\\4-4ring8.dat",
+          "4-4ndis.dat",
+          "48\\1-4chrd.dat",
+          "box3u8p.dat",
+          "48\\1-4chrd.dat",
+          "box3u8p.dat",
+          "48\\1-4chrd.dat",
+          "box3u8p.dat",
+          "48\\1-4chrd.dat",
+          "box3u8p.dat",
+          "4-4cylo.dat",
+          "4-4ring5.dat",
+          "4-4ring6.dat",
+          "48\\4-4cylo.dat",
+          "48\\4-4ring6.dat"
+        ]
+      },
+      {
+        "id": "48/4-4cylo.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/48/4-4cylo.dat",
+        "url": null,
+        "sha256": "ce018b080f8d657ed514164b995e119e9ea104a03cd84e6a6f736b40f58252a6",
+        "author": "0 Author: Philippe Hurbain [Philo]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "48\\4-4edge.dat",
+          "48\\4-4edge.dat",
+          "48\\4-4cyli.dat"
+        ]
+      },
+      {
+        "id": "48/4-4edge.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/48/4-4edge.dat",
+        "url": null,
+        "sha256": "db8fd751c8c6b1f72211903adbff3aa90be6808cc4fcff391f1c320adced5da7",
+        "author": "0 Author: Paul Easter [pneaster]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "48\\1-4edge.dat",
+          "48\\1-4edge.dat",
+          "48\\1-4edge.dat",
+          "48\\1-4edge.dat"
+        ]
+      },
+      {
+        "id": "48/1-4edge.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/48/1-4edge.dat",
+        "url": null,
+        "sha256": "e4ebabd21711f16411b3c8b8b278995a56c5f25919cd424976357da5b19943c6",
+        "author": "0 Author: Magnus Forsberg [MagFors]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "48/4-4cyli.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/48/4-4cyli.dat",
+        "url": null,
+        "sha256": "6c466cd94f69ecdb3a5a83faee52ad2e5ecd9d1560975feaf854c3433de6e6a2",
+        "author": "0 Author: Paul Easter [pneaster]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": [
+          "48\\1-4cyli.dat",
+          "48\\1-4cyli.dat",
+          "48\\1-4cyli.dat",
+          "48\\1-4cyli.dat"
+        ]
+      },
+      {
+        "id": "48/1-4cyli.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/48/1-4cyli.dat",
+        "url": null,
+        "sha256": "e2ed297feaf608b7319c2e54cd81dcb653fbb3d87b5a8e48ab2f54b32953fc6b",
+        "author": "0 Author: Magnus Forsberg [MagFors]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "4-4ring4.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/4-4ring4.dat",
+        "url": null,
+        "sha256": "e046737f05ca843c7fc32bbfe9f5b26f3409c5b42b786d8809aa789faf761154",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "48/4-4ring8.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/48/4-4ring8.dat",
+        "url": null,
+        "sha256": "161616084a55a91c2e068afc2c51cc60fc08872e4ea4b55fa40f8e3155c24099",
+        "author": "0 Author: Willy Tschager [Holly-Wood]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "48/1-4chrd.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/48/1-4chrd.dat",
+        "url": null,
+        "sha256": "a735a3d5f7652eb4c1ec7fd2fc2d6fcbb0d54cd647cb92c60e64dd3ba000b0a1",
+        "author": "0 Author: Willy Tschager [Holly-Wood]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "box3u8p.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/box3u8p.dat",
+        "url": null,
+        "sha256": "0f6187106f023d041dcfd2a24e9f5a2a0c37b5c41b0ff171267ae776a8f16760",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "4-4ring5.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/4-4ring5.dat",
+        "url": null,
+        "sha256": "ca5a04efffaad8671c935fed492ee397b1b91f854079257b033e87fcca3580b1",
+        "author": "0 Author: Mark Kennedy [mkennedy]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "4-4ring6.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/4-4ring6.dat",
+        "url": null,
+        "sha256": "d47607450c3e7c3efb472d11ab9a4fc0941982c7eacd152a3f1988fa536574c8",
+        "author": "0 Author: Mark Kennedy [mkennedy]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "48/4-4ring6.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/48/4-4ring6.dat",
+        "url": null,
+        "sha256": "58a64c659a70b3c371b5b8e8b3716fdf954139e97ce2fa09518b950e59559e34",
+        "author": "0 Author: Willy Tschager [Holly-Wood]",
+        "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "deps": []
+      },
+      {
+        "id": "4-4ring1.dat",
+        "file": "STEAMx/scripts/ldraw-models/p/4-4ring1.dat",
+        "url": null,
+        "sha256": "ff2214a1fca5d34b81a2407a5cce0d1aa75c38f89be9582c55d8bc592f8524c9",
+        "author": "0 Author: James Jessiman",
+        "license": "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "deps": []
+      }
+    ],
+    "repoChanged": false
+  },
+  "notes": [
+    "压路机4433c01源p7为1件；旧supplemental2是错误，不能重复相加。",
+    "4198源p7为3件，现有源稿已有，无新增件。",
+    "窗族三课共11套局部安装已获源及DAT接口证据，仍需主集成和实际像素验收；推土6344承台与摩天轮后4套待证。",
+    "旧网络不可访问仅作历史，最新真实GET和闭包优先；6已知缺几何家族无匹配文件的结果不能被3个其他根文件下载替代。",
+    "常规几何齐全但仍需源版本/尺寸证据的3族是小车底盘、帆船杆、压面机杆。",
+    "本方案只更新研究结论，不改共享registry、模型、用户确认或生产状态。"
+  ],
+  "classificationDefinitions": {
+    "resolved_identity": "身份已解决，现有正规件已在源稿",
+    "ready_partial": "正规几何及局部安装证据具备，可继续补装/验收",
+    "regular_geometry_needs_source": "正规几何齐，仍需源版本或长度/插深证据",
+    "licensed_geometry_missing": "缺可再分发几何或许可；需有权CAD或实测后原创",
+    "identity_geometry_research": "身份/模具/组件仍需核查，不能直接安装",
+    "flexible_interface_evidence": "柔性路径、长度或轮件配合仍需证据",
+    "figure_variant_evidence": "人物变体/装饰与逐人源图仍需证据"
+  },
+  "evidenceReferences": [
+    {
+      "file": "preparation/official-geometry-recheck-20261011.json",
+      "sha256": "3cd71aa0c6424e2ff16a195ca0a02a92f031ccd18a2687ad53c0a92692c000b3"
+    },
+    {
+      "file": "preparation/source-identity-quantity-recheck-20261011.json",
+      "sha256": "88adfdaf3aa76af69e836476317904cdc9a8aa42958b464cf7a412df540a09f8"
+    },
+    {
+      "file": "preparation/window-repair-20261011.json",
+      "sha256": "0e7ab9371e7726f98919f13aa1b090d2b7e277bbb943f42512ddcef3bf8dd28c"
+    },
+    {
+      "file": "preparation/4-mo-tian-lun/window-first-four-evidence.json",
+      "sha256": "011ae45bdbe43ed2124d35830a1a909ff6ecf81f8c690b2f970ee257aa7cec59"
+    },
+    {
+      "file": "preparation/parts-resolution-evidence/new-official-closure.json",
+      "sha256": "2e940b6e8d884c11fd05f97df946a28e3ea458a5262687be1b9750d40311d601"
+    },
+    {
+      "file": "preparation/parts-resolution-evidence/official-probes.json",
+      "sha256": "f612b2d852e41a95d37d05c0602f506e0dbba5d55f4cdfbbbc8351cbfb9cc290"
+    }
+  ]
+}

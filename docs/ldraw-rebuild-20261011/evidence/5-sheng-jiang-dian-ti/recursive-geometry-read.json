@@ -1,0 +1,64 @@
+{
+  "slug": "5-sheng-jiang-dian-ti",
+  "sourceSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+  "allRecursiveFacesLoaded": true,
+  "parts": [
+    {
+      "id": "4268.dat",
+      "faceCount": 18410
+    },
+    {
+      "id": "3011.dat",
+      "faceCount": 590
+    },
+    {
+      "id": "3437.dat",
+      "faceCount": 286
+    },
+    {
+      "id": "40666.dat",
+      "faceCount": 590
+    },
+    {
+      "id": "4196.dat",
+      "faceCount": 4958
+    },
+    {
+      "id": "31021p01.dat",
+      "faceCount": 252
+    },
+    {
+      "id": "75350.dat",
+      "faceCount": 7502
+    },
+    {
+      "id": "6527.dat",
+      "faceCount": 1029
+    },
+    {
+      "id": "4663.dat",
+      "faceCount": 574
+    },
+    {
+      "id": "6522.dat",
+      "faceCount": 34
+    },
+    {
+      "id": "6530.dat",
+      "faceCount": 1812
+    },
+    {
+      "id": "6526.dat",
+      "faceCount": 674
+    },
+    {
+      "id": "75349.dat",
+      "faceCount": 2726
+    },
+    {
+      "id": "6523.dat",
+      "faceCount": 330
+    }
+  ],
+  "physicalValidation": false
+}

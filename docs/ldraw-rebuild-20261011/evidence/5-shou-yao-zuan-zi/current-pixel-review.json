@@ -1,0 +1,81 @@
+{
+  "sourceSha256": "a801cc7fbf4d46acbac7e13bb88ba888ecec5c1a60bd03d761054b7cde3532da",
+  "revision": "20b49d32e7a9d74a690ffc7d1e60b1ac183c4010aa57f738d95bff075b9bd44e",
+  "reviewedAt": "2026-10-11T07:18:16.657899+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-shou-yao-zuan-zi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "33b7e125f1bdeedc4f52828849e63cc2680aa461425f9392b70d1403bb66d595",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "5fbefbc2fbd29e7018fb1110e54788177591fca49842c73bba53598bc05130f0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "a3c5628d8c931392a4e5c36b155875b638063499d6e35c250129150bcdf8e9ac",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "09ef5b209730db1ba68898b7ba3164316d8def0a6eb2859f06f28c18eccc3421",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "49916e98b41e3352677cc3b048dcb025f377e98e47922e9e4106da309c2ed54e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "67fe4cdce0bdfaa68abd9623817f1367e1bee9ab6f1615eb85f43feac2e6aaf7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "2461a302428c55513dd592b48994458415361ab8d39fd83a27a78cf30a811cb5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "62fe6183f1129cbf7b7a74949de236a82d2cc46a89a258b5fa5ad1707fa8bb73",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "4f169b9f7a1a2299ef005a6f8e623a548d9b9f75929281126552b74056322dae",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed D cumulative contact steps1-9 and original step6; compared source page10 and prior source ledger. Crank static phase differs source horizontal presentation, worm/crown and axle overlap remain unverified. This is renderer pixel review only, no physical validation or user acceptance. Old C final evidence is separate and not claimed as new D final. Legacy C final source/revision match and previous observation preserved separately; full-bbox D final remains false.",
+  "legacyFinalEvidence": {
+    "directory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-shou-yao-zuan-zi",
+    "sourceSha256": "a801cc7fbf4d46acbac7e13bb88ba888ecec5c1a60bd03d761054b7cde3532da",
+    "revision": "20b49d32e7a9d74a690ffc7d1e60b1ac183c4010aa57f738d95bff075b9bd44e",
+    "pixelsActuallyReviewedPreviously": true,
+    "views": [
+      {
+        "view": "iso",
+        "sha256": "87b11f2cd2d3e5294187e168d8dab7133253f35636316f923f1f1cc7cfb8a592"
+      },
+      {
+        "view": "iso-rear",
+        "sha256": "94f7b84acac8bddee0b3d65d5e0d95af878362fd6d198d9bb752886ddde19c5b"
+      },
+      {
+        "view": "top",
+        "sha256": "a3348422470868767abd5cc8411e4d889c5d4422b4907580c104205a380aa8d0"
+      }
+    ],
+    "limits": "Previously observed C final views, not new D final. Old camera framing may be clipped; no full-bbox acceptance inferred."
+  }
+}

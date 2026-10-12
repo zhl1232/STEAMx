@@ -1,0 +1,115 @@
+{
+  "slug": "5-ta-diao",
+  "sourceSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
+  "previousDraftSha256": "2cbb9ca384ae37d43962c9b46e34069bf1a89d390bb6e94c3484526d0ec066a2",
+  "manifest": {
+    "name": "5+塔吊搭建说明.pdf",
+    "relative_path": "5+/5+塔吊搭建说明.pdf",
+    "pages": 16,
+    "bytes": 2571979,
+    "sha256": "dc95d205b051791aaf05098b929ecbe6225e5b6586b49ed656c20121b637bd12",
+    "source_url": "https://pan.quark.cn/list#/docpdf/5917a4b2b5364e2aad4054eab551f08f",
+    "slug": "5-ta-diao",
+    "lesson_id": 292,
+    "course_id": 7
+  },
+  "materializationEvidence": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\materialization-verification.json",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-01.jpg",
+      "sha256": "c1f7f51dd10ed1680d342ae896e869ad491a6ec3a238e71b58443b97f6750e9c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-02.jpg",
+      "sha256": "e7f716b98f3744ac081a5454b5ba24d15827e6e568820e2b54d9c13c085af811",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-03.jpg",
+      "sha256": "c77d72b772146cd1625a2c532d618415200adb6aef9a6e99db13e7911f273b19",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-04.jpg",
+      "sha256": "17b35920ae2e2f384efcc5277708556af3cc5fc47755428d36167eec1a060514",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-05.jpg",
+      "sha256": "96fdc2f878a58679b2afa3b58b72a24a3da48448adde5304781aae618c5ff897",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-06.jpg",
+      "sha256": "6f76253639f316f14d42d3c6735407c9f65c865e2091425e5a8da78269bd54c1",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-07.jpg",
+      "sha256": "e5a2533d66d23ada6ade221b3e53fb5cd81d8886a100750b50ad33e4f703b779",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-08.jpg",
+      "sha256": "11dab74ef46cfe698d0c1d77f3c068f4e8f61c527fc1b15b36c2b7e90594fb33",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-09.jpg",
+      "sha256": "927d81277aeb41650ea2cf1d012c5ad7c0ecfd327279d538139dfcd3aa76d8ac",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-10.jpg",
+      "sha256": "97d3aea47e1fd3c9f63c5dc000130449510e6d67116316a11ccdd34ebc7f27b8",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-11.jpg",
+      "sha256": "1b70c9df112b64af8a7ea6f507ad63221793a7ffea4855b9f754ba01c1ad530c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-12.jpg",
+      "sha256": "1ee8963554c32077177a72e00d3c998d919ceb61d0a8a87277a6d5b9b769aa28",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-13.jpg",
+      "sha256": "2b982913e40f53b19d6cffaab29cb6975eb998e75cd1ce536e456b544973aaf3",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-14.jpg",
+      "sha256": "48ef198047218407872d66a65d443c2feebd40b9f0155ef6bb2f898fea95a805",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 15,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-15.jpg",
+      "sha256": "f00b8ec9bb90dfc3ef04c51f22ac50ca542d01db692a129c51e97d929a6a4512",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 16,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-ta-diao\\page-16.jpg",
+      "sha256": "260347c21d410b94471109b0194dd94eb24e1e371ac8de20f118a38e5ef4d671",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

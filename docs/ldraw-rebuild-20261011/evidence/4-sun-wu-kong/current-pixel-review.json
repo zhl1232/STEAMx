@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "f208ed5e107f8d04951c9fede8b498cc955b34ff63f927842621bf2f0bb0da4e",
+  "revision": "ad1f519df8c0fad16be5608340fa44a66b14607734bb9ec2db840d9b39742c86",
+  "reviewedAt": "2026-10-11T05:43:27.434542+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-sun-wu-kong",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "96c1b6f51a10d41c99080c85bb989e79122b4beb4f72fb466cdd4bd014b43f96",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "cf9325c191335ac49bd3ebf8c571152738d7e12150e38009ada8f34345b7ef95",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "2f13639635657af774eff1ca4f758c8f5287e2ef14be8ae50673adb346e491e5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "94f86c4242890964a6d0d7945f870b76ecf8c6ade8de6e3ee913e4aae83d808b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "f9438de4dffe6ff276d9bf3a8b6c554ac5817404e97edaa05d6fcee8d6f5f531",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "fb8de5a9bb6fa1c7f38e2f5b40fc47ab72ed467316794c322d04e0e3111f55b2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "5e5e60c3b60973ce970efded8533fd8357fa8e06a1b92660eeaf4a01fcbe5d54",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "49b18c6a9b3857767e85f1505a692f34aa3d952cf8d89b8c1245196bda3598b1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "a395f7dacc88a32e44f93e438d79099deb4469dbc261c1d7c3f864e428ef22b6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "6df1f04946e855548de08c372a83b3eefc4f2d4ef82a161241de10b75d2b6574",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "1c5f456ee9e0f6df6cb5e6432f04dcc5d09eb236ce79e6811bbc4daa891ee22d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "d74acabb5fd300d8b81d333248ec583107ca4b5ac9691eac26b31bac3752926e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "3c0f14314565fd03365d018c41877af1afb46db9622b3e0aec6e7b5d60a04202",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "e24575fcf3aead07a53bbf964299a8b10ec1fa07d21fb61558755fd22e907b2e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "96c1b6f51a10d41c99080c85bb989e79122b4beb4f72fb466cdd4bd014b43f96",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed new D-drive final contact sheet (iso, iso-rear, top) and all 12 cumulative step panels. Full base, staff, crest and both short-arm assemblies remain inside frame, with no clipped extremity or blank step. Source sequence remains legs/body/head/crest/arms/skirt/staff. Existing approved Toolo approximations, mouth-depth inference and unverified physical connections remain; no user acceptance."
+}

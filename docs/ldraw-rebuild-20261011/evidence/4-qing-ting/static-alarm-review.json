@@ -1,0 +1,22 @@
+{
+  "slug": "4-qing-ting",
+  "sourceSha256": "0e9f1b226a77bee50273cb9e91b0b208ba38f03e765b9e8ec19583574c26746a",
+  "checkpointSha256": "0e9f1b226a77bee50273cb9e91b0b208ba38f03e765b9e8ec19583574c26746a",
+  "stableSinceCheckpoint": true,
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 0,
+  "rawOutput": "OK   [4-qing-ting.ldr] 26 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarms": [],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "Known-ID approximate Toolo leg/wing geometry; screw and clasp engagement and physical support are manual, not established by rawPASS.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "sourceModified": false,
+  "physicalValidation": false,
+  "overallAcceptance": false,
+  "method": "Each actual raw alarm reviewed against source image and real DAT geometry. No alarm is inferred for manual-policy parts; rawPASS is not structural/physical acceptance."
+}

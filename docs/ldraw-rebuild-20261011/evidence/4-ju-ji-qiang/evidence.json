@@ -1,0 +1,18 @@
+{
+  "slug": "4-ju-ji-qiang",
+  "modelSha256": "e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388",
+  "placements": 67,
+  "status": "incomplete-needs-source-geometry-and-step-acceptance",
+  "accepted": false,
+  "metadataUsedHash": "d79adf404b34ebbb84fcf97b1f611f6ae93699d0e24dffcdf35e324171274b58",
+  "source": {
+    "path": "D:/Codex-task-2-20261011/inputs/pdfbatch3/4+/4+狙击枪搭建说明.pdf",
+    "sha256": "e3e8685ac88de58ada7ddd02d06a33e7191c18fbbc5186445a9dae0fe727e94d",
+    "pages": 15,
+    "allPixelsViewed": true
+  },
+  "additiveStages": 14,
+  "checker": "PASS67; manual warnings remain",
+  "render": "awaiting rerender after source-guided cumulative-step correction",
+  "remaining": "Black2223 holder missing. All15sourcepages actually viewed. RawcheckerPASS67placements. Source barrel images may involve re-positioning earlier modules; current cumulative placements preserve source part counts and connected extension concept but do not certify exact source reassembly order. Stock grid and core stagger unresolved pending pixels. No functional weapon mechanism. No rendering yet."
+}

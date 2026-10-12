@@ -1,43 +1,103 @@
-0 4+ 螳螂 (Mantis) - DUPLO draft for manual repair
+0 4-tang-lang - source-based dev-only reconstruction
 0 Name: 4-tang-lang.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+螳螂 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Technic limb joints, wing panels, claws and eyes are simplified.
-
-0 // STEP 1 - black body core
-1 0 -120 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 40 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 200 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 -60 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 2 100 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: three black4x6 Toolo bricks: two lower plus seam-spanning upper
+1 0 -120 0 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 120 0 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -48 0 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
-
-0 // STEP 2 - green wings and abdomen
-1 2 -60 -168 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 2 100 -168 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 2 -60 -168 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
-1 2 100 -168 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
-1 2 280 -120 0 1 0 0 0 1 0 0 0 1 2302.dat
+0 // Source page 2: four gray2x4 Toolo bricks form front side extensions; corrected side-mounted vertical leg frame after actual rendered/source comparison
+1 72 160 64 -128 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 160 224 -128 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 160 64 128 0 0 -1 1 0 0 0 -1 0 76057.dat
+1 72 160 224 128 0 0 -1 1 0 0 0 -1 0 76057.dat
 0 STEP
-
-0 // STEP 3 - legs and forearms
-1 0 -300 -48 -140 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 0 -48 -160 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 300 -48 -140 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 -300 -48 140 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 0 0 -48 160 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 0 300 -48 140 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 2 -520 -144 -300 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 2 -520 -144 300 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+0 // Source page 3: two outer gray2x4 rails and two green curved foot caps
+1 72 240 224 -128 0 0 1 1 0 0 0 1 0 76057.dat
+1 2 328 224 -128 0 -1 0 1 0 0 0 0 1 2302.dat
+1 72 240 224 128 0 0 -1 1 0 0 0 -1 0 76057.dat
+1 2 328 224 128 0 -1 0 1 0 0 0 0 1 2302.dat
 0 STEP
-
-0 // STEP 4 - neck, head and claws
-1 2 -260 -216 0 1 0 0 0 0 -1 0 1 0 31452.dat
-1 2 -260 -336 0 1 0 0 0 0 -1 0 1 0 31452.dat
-1 2 -260 -420 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 -320 -468 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 -200 -468 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 -360 -500 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 4: four gray bricks for hind side legs; corrected side-mounted vertical leg frame after actual rendered/source comparison
+1 72 -160 64 -128 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 -160 224 -128 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 -160 64 128 0 0 -1 1 0 0 0 -1 0 76057.dat
+1 72 -160 224 128 0 0 -1 1 0 0 0 -1 0 76057.dat
+0 STEP
+0 // Source page 5: four gray bricks extend two forward forearms
+1 72 240 4 -40 0 1 0 -1 0 0 0 0 1 76057.dat
+1 72 320 -124 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 240 4 40 0 1 0 -1 0 0 0 0 1 76057.dat
+1 72 320 -124 40 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+0 // Source page 6: two Toolo forks and clutch blocks; two known exhaust assemblies omitted
+1 72 448 -100 -40 0 -1 0 1 0 0 0 0 1 28336.dat
+1 72 573 -100 8 0 -1 0 1 0 0 0 0 1 74957.dat
+1 72 448 -100 40 0 -1 0 1 0 0 0 0 1 28336.dat
+1 72 573 -100 88 0 -1 0 1 0 0 0 0 1 74957.dat
+0 STEP
+0 // Source page 7: upright neck fork, one short arm, top clutch
+1 72 160 -48 0 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 208 -113 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334.dat
+1 72 208 -373 0 1 0 0 0 1 0 0 0 1 74957.dat
+0 STEP
+0 // Source page 8: head Toolo brick, two tyre/rim eyes and green inside curve2301
+1 72 208 -421 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 2 168 -517 0 1 0 0 0 1 0 0 0 1 2301.dat
+1 71 188 -397 -65 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 188 -397 -65 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 188 -397 65 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 188 -397 65 1 0 0 0 0 -1 0 1 0 44970.dat
+0 STEP
+0 // Source page 9: two gray backingbricks and two Toolo wing hinges
+1 72 -40 -96 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 -40 -144 -40 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -40 -96 40 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 -40 -144 40 0 0 -1 0 1 0 1 0 0 28336.dat
+0 STEP
+0 // Source page 10: two wing clutch roots with two green2x4 plates; source-tailward pitch replaces rejected sideways splay
+1 72 -139.961524 -239 -40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 74957.dat
+1 2 -160.746134 -251 -40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 40666.dat
+1 72 -139.961524 -239 40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 74957.dat
+1 2 -160.746134 -251 40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 40666.dat
+0 STEP
+0 // Source page 11: four further green plates extend both wings; source-tailward pitch replaces rejected sideways splay
+1 2 -201.530744 -228.358984 -40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 40666.dat
+1 2 -242.315353 -205.717968 -40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 40666.dat
+1 2 -201.530744 -228.358984 40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 40666.dat
+1 2 -242.315353 -205.717968 40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 40666.dat
+0 STEP
+0 // Source page 12: six plates extend both wing fans; source-tailward pitch replaces rejected sideways splay
+1 2 -283.099963 -183.076952 -40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 40666.dat
+1 2 -323.884573 -160.435935 -40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 40666.dat
+1 2 -364.669182 -137.794919 -40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 40666.dat
+1 2 -283.099963 -183.076952 40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 40666.dat
+1 2 -323.884573 -160.435935 40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 40666.dat
+1 2 -364.669182 -137.794919 40 0.5 0.866025 0 -0.866025 0.5 0 0 0 1 40666.dat
+0 STEP
+0 // Source page 13: eight green curved covers on body and forearm bricks
+1 2 -160 -48 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 2 40 -96 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 2 -160 -48 40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 2 40 -96 40 1 0 0 0 1 0 0 0 1 2302.dat
+1 2 160 -48 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 2 160 -48 40 1 0 0 0 1 0 0 0 1 2302.dat
+1 2 320 -172 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 2 320 -172 40 1 0 0 0 1 0 0 0 1 2302.dat
+0 // PENDING: Source14pages actuallyviewed;13constructionsteps retained.
+0 // PENDING: P2-5sidebuilt graybrickleg exact orientations and branchlocations inferred from oblique source; manualthreadcontacts unvalidated.
+0 // PENDING: P6two4433c01 exhausts omitted for missinggeometry.
+0 // PENDING: P7shortarmdev28334 usesapprovedapproximategeometry; sourcepose notmeasured.
+0 // PENDING: P10-12wingangles and stagger direction are inferred; no mechanism/stability claim.
+0 // PENDING: P13bodycurvecovers positions require fullview review; physicalfit pending.
+0 // PENDING: Corrected P3sidebuilt footcap origin uses48LDUheight; P6fork/clutch direction uses actuallocalbottom/pivot signs; P10wings spread to opposite sides.
+0 // PENDING: Exactgreen shade unresolved;9090BrightGreen reference cannot silently prove sourcecolor.
+0 // PENDING: P2-4 side-threaded leg frames corrected by visible stud normal and body-hole height; exact end-thread linkage and p3 cap contact remain manual.
+0 // PENDING: P10-12 wing pitch -60 degrees is a source-based display inference, not measured articulation or physical validation.
+0 // Source page 14: finished view, no duplicated placements.
+0 // P5 repair: proximal upright, distal horizontal raised; body/arm and elbow faces nominally touch, hidden thread engagement remains unresolved.
+0 // P13 repair: six body covers and two raised distal covers; front body allocation inferred from source, exact mold interface unvalidated.

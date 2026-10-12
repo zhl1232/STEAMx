@@ -1,0 +1,27 @@
+{
+  "slug": "5-chou-you-ji",
+  "sourceSha256": "3d21cdd7c13110ddadb2d6207a9afa00e68ea9fcd3b378739d92287d0e544e6b",
+  "checkerSha256": "76838d6085b0e18f7fcec2e98eee9f2169a0637627f1a080b23b57a4937c5b10",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawCheckerLog": "static-checker.log",
+  "rawAlarmPairs": 0,
+  "alarms": [],
+  "additionalFindings": [
+    {
+      "classification": "real_risk",
+      "finding": "Source p5 hook4663 present but cord omitted; hook support chain incomplete."
+    },
+    {
+      "classification": "insufficient_evidence",
+      "finding": "Hidden eccentric-to-flywheel linkage is unresolved; static pose does not demonstrate pumping."
+    }
+  ],
+  "sourceEvidence": "source-review.md plus existing source page files/ledger; no new source pixel inspection claimed in this static review",
+  "limits": [
+    "Raw checker manual support/collision policies do not certify support, clearance or assembly. Exit0 does not prove assembly correctness.",
+    "No physical validation. Inventory reference is not the user actual color inventory.",
+    "Pending user confirmation; incomplete mechanisms/omitted source components are not publishable."
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

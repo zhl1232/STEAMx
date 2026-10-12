@@ -1,0 +1,97 @@
+0 5-xuan-zhuan-fei-yi - source reconstruction; INCOMPLETE dev-only
+0 Name: 5-xuan-zhuan-fei-yi.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // PDF SHA256 02d4eff7a940029db28365edf47eec38f2c21f62626e38b0650b1176b6801f37
+0 // All10 source pages actually viewed; final page is presentation only.
+0 // No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.
+0 // SOURCE PAGE 1 - Six yellow foundation bricks form two source U feet
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 14 -160 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -200 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 200 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 2 - Lower red longbeam and four outward yellow curved slopes
+1 4 0 -96 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 -160 -96 -80 1 0 0 0 1 0 0 0 1 2302b.dat
+1 14 -160 -96 80 -1 0 0 0 1 0 0 0 -1 2302b.dat
+1 14 160 -96 -80 1 0 0 0 1 0 0 0 1 2302b.dat
+1 14 160 -96 80 -1 0 0 0 1 0 0 0 -1 2302b.dat
+0 STEP
+0 // SOURCE PAGE 3 - Two yellow pillars and upper longbeam
+1 14 -160 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 160 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 0 -192 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 4 - Two blue axles, crown gear, hand tyre/pulley and rear red gear
+1 1 0 -72 0 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 0 -72 -80 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 0 -72 -80 -1 0 0 0 1 0 0 0 -1 6292.dat
+1 4 0 -72 80 1 0 0 0 1 0 0 0 1 6529.dat
+1 1 0 -192 0 0 1 0 -1 0 0 0 0 1 6523.dat
+1 1 0 -120 0 1 0 0 0 0 1 0 -1 0 31622.dat
+0 // UNVERIFIED crown/red gear and tyre handwheel - Source identities retained. Orthogonal gear contact, axle seat depth and asymmetric6292/6527 mesh require local inspection; no generic tyre false-positive exemption.
+0 STEP
+0 // SOURCE PAGE 5 - Worm tube as source shaft coupler, long upper axle and yellow carrier
+1 1 0 -292 0 1 0 0 0 0 -1 0 1 0 31625.dat
+1 1 0 -452 0 0 -1 0 1 0 0 0 0 1 31623.dat
+1 14 0 -456 0 0 0 1 0 -1 0 1 0 0 6526.dat
+0 // UNVERIFIED 31625 shaft coupling and6526 carrier - Two shafts meet end-to-endY-292, tube spans[-352,-232]. Tube40LDU above upperbeam and carrier104LDU above tube are inferred from actual nonoverlap stack, not source measured. Tube/shaft coupling engagement, friction and carrier axial retention remain source-backed support exceptions. No invented connector.
+0 STEP
+0 // SOURCE PAGE 6 - Two crossed rotating longbeams and top pulley
+1 4 0 -524 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 -572 0 0 0 -1 0 1 0 1 0 0 75350.dat
+1 14 0 -592 0 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 7 - Four blue outward curved caps
+1 1 -160 -572 0 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 1 160 -572 0 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 1 0 -620 -160 1 0 0 0 1 0 0 0 1 2302b.dat
+1 1 0 -620 160 -1 0 0 0 1 0 0 0 -1 2302b.dat
+0 STEP
+0 // SOURCE PAGE 8 - Eight seven-hole swinging links on four upper cross axles
+1 7 160 -500 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 228.829172 -401.701755 -64.0 -0.819152044 0 0.573576436 0.573576436 0 0.819152044 0.0 1 0.0 6524.dat
+1 14 160 -500 -104 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 228.829172 -401.701755 64.0 -0.819152044 0 0.573576436 0.573576436 0 0.819152044 0.0 1 0.0 6524.dat
+1 14 160 -500 104 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 -160 -500 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -228.829172 -401.701755 64.0 0.819152044 0 -0.573576436 0.573576436 0 0.819152044 0.0 -1 0.0 6524.dat
+1 14 -160 -500 104 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -228.829172 -401.701755 -64.0 0.819152044 0 -0.573576436 0.573576436 0 0.819152044 0.0 -1 0.0 6524.dat
+1 14 -160 -500 -104 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 7 0 -548 160 -1 0 0 0 1 0 0 0 -1 6522.dat
+1 14 64.0 -449.701755 228.829172 0.0 -1 0.0 0.573576436 0 0.819152044 -0.819152044 0 0.573576436 6524.dat
+1 14 104 -548 160 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -64.0 -449.701755 228.829172 0.0 -1 0.0 0.573576436 0 0.819152044 -0.819152044 0 0.573576436 6524.dat
+1 14 -104 -548 160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 7 0 -548 -160 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 -64.0 -449.701755 -228.829172 0.0 1 0.0 0.573576436 0 0.819152044 0.819152044 0 -0.573576436 6524.dat
+1 14 -104 -548 -160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 64.0 -449.701755 -228.829172 0.0 1 0.0 0.573576436 0 0.819152044 0.819152044 0 -0.573576436 6524.dat
+1 14 104 -548 -160 0 0 1 0 1 0 -1 0 0 6527.dat
+0 // UNVERIFIED swinging link pose - 35degrees fromvertical is source-shape inferred staticphase, not exact measured angle. Paired7hole beams keep240LDU endpoint distance and4LDU clearance fromredbeam sides. Motion envelope not tested.
+0 STEP
+0 // SOURCE PAGE 9 - Four lower cross axles, four shortbeam seats and eight wheels
+1 7 297.658345 -303.403509 0.0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 4 297.658345 -327.403509 0.0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 297.658345 -303.403509 -104.0 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 297.658345 -303.403509 104.0 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 -297.658345 -303.403509 0.0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 4 -297.658345 -327.403509 0.0 -1 0 0 0 1 0 0 0 -1 75349.dat
+1 14 -297.658345 -303.403509 104.0 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -297.658345 -303.403509 -104.0 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 7 0.0 -351.403509 297.658345 -1 0 0 0 1 0 0 0 -1 6522.dat
+1 4 0.0 -375.403509 297.658345 0 0 -1 0 1 0 1 0 0 75349.dat
+1 14 104.0 -351.403509 297.658345 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -104.0 -351.403509 297.658345 0 0 -1 0 1 0 1 0 0 6527.dat
+1 7 0.0 -351.403509 -297.658345 1 0 0 0 1 0 0 0 1 6522.dat
+1 4 0.0 -375.403509 -297.658345 0 0 1 0 1 0 -1 0 0 75349.dat
+1 14 -104.0 -351.403509 -297.658345 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 104.0 -351.403509 -297.658345 0 0 1 0 1 0 -1 0 0 6527.dat
+0 // UNVERIFIED seat retention - Source seat/axle/link geometry retained. Shaft/pulleyfriction, sideclearance underload and spinning balance not certified; no people or unsourcedconnector added.
+0 // Source final page adds no parts.

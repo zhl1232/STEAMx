@@ -1,0 +1,40 @@
+{
+  "previousSourceSha256": "3b121fad909015ac1b4e15c371850aa64d1e6dba67d00e1695274ef812f81e2a",
+  "currentSourceSha256": "2fc291f36a6595324a0e2f431cbd70b0a8e84afc102243f4ad1de2a6cf7dc2d8",
+  "observed": "Current previous final3 original PNG and all9 steps viewed. Eye erroneously visible on top due to pattern native Z mapped to world Y.",
+  "sourcePages": [
+    9,
+    10
+  ],
+  "correction": "Rotate eye brick90degrees about its stud axis without moving centre or changing parts count. Native Z pattern face now world Z side; stud direction still world-X.",
+  "before": [
+    0,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0
+  ],
+  "after": [
+    0,
+    1,
+    0,
+    -1,
+    0,
+    0,
+    0,
+    0,
+    1
+  ],
+  "currentPixels": {
+    "revision": "98a539effbce79f029161af1b1c353d800efdeb82c3f5cea535b650dd33b5a10",
+    "evidence": "current-pixel-review.json",
+    "sideEyeActuallyObserved": true,
+    "physicalValidation": false
+  },
+  "accepted": false,
+  "physicalValidation": false
+}

@@ -1,0 +1,100 @@
+{
+  "sourceSha256": "e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388",
+  "revision": "9b3e6d53fdcd148d9afb5221adbdd3ffc52664fa4c3eb05c1c947fd681b950d2",
+  "reviewedAt": "2026-10-11T07:39:46.208179+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-ju-ji-qiang",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "bb26b0ed48220de7aedea57cb89eff78b2b67c42236df8d2e624dc6af75d3438",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "2134e53877793133a397961e2bb6f730c104a70afe222805e37e5a8785ba2486",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "ce8522305fe60c71bec7c74c8b9d791e62bd66f75a92615d2c0247473203171b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "b265eff492e6b21d85d74316a1f6d664afd6d496eaf6b1496075e31ced3a3e78",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "34434c383790f06af9dad092880eff7deb9152fd2e4fa07c05f2fecc546481fd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "434dca3fcf130110f342f1ac5c602a10a5f76d65d0edc22aec081ea485278277",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "bb907fa0b830e93c48420ab48eca802f46f7ed7c34bf47ef36b7d617db1cb912",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "2b12fc1c9ed7522a1e91d6a850f705a2f210943c81be880cb5014d9277a007af",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "499427896038acc440bd1efc295922f5423c3faee7a9c7679127636f4a4f059e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "493e85e05d099f6ad255e53b2168b050fc29c4bdb77ce3bd21b624f6a21839f2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "6d70ebc95c0f51ad88d4bb33962ae2703a8146e8157e92612947492076d77f7b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "9f29864dfe24c427d1c3895a0aa727db56d3311ac946a50e1ad165f696d620ea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "fc60ad5f545e5645cb9deb2a4e0477baf906e0da8b1007c041011d9461ef1792",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "c58aec15897a4174b6fb870d7191974bd8d95fed13f4caaa108a68ddd0f31375",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "8113db084b2a8745182fe15bf44b5341d69cc7d07473f863a62e83aa79df3ec7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "fa4194b8630b5c269707c529d6e401f42555717f4682ce39a2ec097a67c991d1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "bb26b0ed48220de7aedea57cb89eff78b2b67c42236df8d2e624dc6af75d3438",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Inspected all current e52362b5 final3 and 14 cumulative cells, original step13, source p13/14. Upper clamp contact confirmed on actual DAT triangles at Y=-144 (three shared-plane witnesses in step13-contact-evidence.json), not floating gap. Source12 grip one-stud position and final14 stock seams remain source-informed provisional; missing2223, approximate Toolo fit and retention unverified. No physical validation."
+}

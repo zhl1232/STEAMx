@@ -1,0 +1,991 @@
+{
+  "slug": "5-sheng-jiang-dian-ti",
+  "sourceSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+  "status": "incomplete-development-preview",
+  "verificationLevel": "structurally checked only",
+  "implementedPlacements": 206,
+  "sourcePhysicalCount": 232,
+  "knownOmittedPhysicalCount": 26,
+  "pages": [
+    {
+      "page": 1,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "14",
+          "quantity": 20
+        },
+        {
+          "id": "3437.dat",
+          "color": "14",
+          "quantity": 8
+        },
+        {
+          "id": "4268.dat",
+          "color": "2",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 29,
+      "cumulativePlacements": 29,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-01.jpg"
+    },
+    {
+      "page": 2,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "14",
+          "quantity": 14
+        },
+        {
+          "id": "3437.dat",
+          "color": "14",
+          "quantity": 4
+        },
+        {
+          "id": "40666.dat",
+          "color": "1",
+          "quantity": 6
+        },
+        {
+          "id": "4196.dat",
+          "color": "4",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 25,
+      "cumulativePlacements": 54,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-02.jpg"
+    },
+    {
+      "page": 3,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "14",
+          "quantity": 34
+        },
+        {
+          "id": "3437.dat",
+          "color": "14",
+          "quantity": 12
+        },
+        {
+          "id": "40666.dat",
+          "color": "1",
+          "quantity": 6
+        },
+        {
+          "id": "4196.dat",
+          "color": "4",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 53,
+      "cumulativePlacements": 107,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-03.jpg"
+    },
+    {
+      "page": 4,
+      "sourcePageBOM": [
+        {
+          "id": "31021p01.dat",
+          "color": "15",
+          "quantity": 2
+        },
+        {
+          "id": "unknown-figure-components",
+          "color": "mixed",
+          "quantity": 16
+        }
+      ],
+      "implementedCount": 2,
+      "cumulativePlacements": 109,
+      "omissions": [
+        {
+          "page": 4,
+          "id": "unknown-figure-components",
+          "color": "mixed",
+          "quantity": 16,
+          "category": "unknown-ID",
+          "candidate": "47203p03 green chest white8 torso family; exact blue/red assemblies and constituent variants unresolved",
+          "missingEvidence": "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute."
+        }
+      ],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-04.jpg"
+    },
+    {
+      "page": 5,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "14",
+          "quantity": 34
+        },
+        {
+          "id": "3437.dat",
+          "color": "14",
+          "quantity": 12
+        },
+        {
+          "id": "40666.dat",
+          "color": "1",
+          "quantity": 8
+        },
+        {
+          "id": "4196.dat",
+          "color": "4",
+          "quantity": 1
+        }
+      ],
+      "implementedCount": 55,
+      "cumulativePlacements": 164,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-05.jpg"
+    },
+    {
+      "page": 6,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "14",
+          "quantity": 7
+        },
+        {
+          "id": "3437.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "40666.dat",
+          "color": "1",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 11,
+      "cumulativePlacements": 175,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-06.jpg"
+    },
+    {
+      "page": 7,
+      "sourcePageBOM": [
+        {
+          "id": "3011.dat",
+          "color": "4",
+          "quantity": 1
+        },
+        {
+          "id": "40666.dat",
+          "color": "1",
+          "quantity": 2
+        },
+        {
+          "id": "75350.dat",
+          "color": "4",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 5,
+      "cumulativePlacements": 180,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-07.jpg"
+    },
+    {
+      "page": 8,
+      "sourcePageBOM": [
+        {
+          "id": "source-rope",
+          "color": "0",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 0,
+      "cumulativePlacements": 180,
+      "omissions": [
+        {
+          "page": 8,
+          "id": "source-rope",
+          "color": 0,
+          "quantity": 2,
+          "category": "known-item geometry/path omitted",
+          "candidate": "75536 assembly string",
+          "missingEvidence": "p8 one rope substep repeated twice byp9; length, winding and eye attachment not specified. No invented flexible DAT."
+        }
+      ],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-08.jpg"
+    },
+    {
+      "page": 9,
+      "sourcePageBOM": [
+        {
+          "id": "4663.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 4,
+      "cumulativePlacements": 184,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-09.jpg"
+    },
+    {
+      "page": 10,
+      "sourcePageBOM": [
+        {
+          "id": "6522.dat",
+          "color": "7",
+          "quantity": 2
+        },
+        {
+          "id": "6526.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "6530.dat",
+          "color": "4",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 6,
+      "cumulativePlacements": 190,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-10.jpg"
+    },
+    {
+      "page": 11,
+      "sourcePageBOM": [
+        {
+          "id": "6522.dat",
+          "color": "7",
+          "quantity": 2
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 4
+        },
+        {
+          "id": "75349.dat",
+          "color": "4",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 8,
+      "cumulativePlacements": 198,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-11.jpg"
+    },
+    {
+      "page": 12,
+      "sourcePageBOM": [
+        {
+          "id": "40666.dat",
+          "color": "1",
+          "quantity": 2
+        },
+        {
+          "id": "6523.dat",
+          "color": "1",
+          "quantity": 2
+        },
+        {
+          "id": "6527.dat",
+          "color": "14",
+          "quantity": 2
+        },
+        {
+          "id": "75349.dat",
+          "color": "4",
+          "quantity": 2
+        }
+      ],
+      "implementedCount": 8,
+      "cumulativePlacements": 206,
+      "omissions": [],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-12.jpg"
+    },
+    {
+      "page": 13,
+      "sourcePageBOM": [
+        {
+          "id": "unknown-window-frame-and-leaf",
+          "color": "red/white",
+          "quantity": 8
+        }
+      ],
+      "implementedCount": 0,
+      "cumulativePlacements": 206,
+      "omissions": [
+        {
+          "page": 13,
+          "id": "unknown-window-frame-and-leaf",
+          "color": "red/white",
+          "quantity": 8,
+          "category": "unknown-ID",
+          "candidate": "4assemblies;61649/2332/4253 frame and4809/31022/90265 leaf families require exact match",
+          "missingEvidence": "Source white4panes has taller upper panes and right hinge; four source assemblies but only2fronts visible. Official candidate DAT availability does not prove ID, rear pair layout unresolved. Independent batch13-special-parts-evidence.json and batch12 cable-window comparison retained."
+        }
+      ],
+      "confidence": "visible identity/count; inferred hidden layout/pose as detailed in risks",
+      "sourceImage": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-13.jpg"
+    }
+  ],
+  "omissions": [
+    {
+      "page": 4,
+      "id": "unknown-figure-components",
+      "color": "mixed",
+      "quantity": 16,
+      "category": "unknown-ID",
+      "candidate": "47203p03 green chest white8 torso family; exact blue/red assemblies and constituent variants unresolved",
+      "missingEvidence": "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute."
+    },
+    {
+      "page": 8,
+      "id": "source-rope",
+      "color": 0,
+      "quantity": 2,
+      "category": "known-item geometry/path omitted",
+      "candidate": "75536 assembly string",
+      "missingEvidence": "p8 one rope substep repeated twice byp9; length, winding and eye attachment not specified. No invented flexible DAT."
+    },
+    {
+      "page": 13,
+      "id": "unknown-window-frame-and-leaf",
+      "color": "red/white",
+      "quantity": 8,
+      "category": "unknown-ID",
+      "candidate": "4assemblies;61649/2332/4253 frame and4809/31022/90265 leaf families require exact match",
+      "missingEvidence": "Source white4panes has taller upper panes and right hinge; four source assemblies but only2fronts visible. Official candidate DAT availability does not prove ID, rear pair layout unresolved. Independent batch13-special-parts-evidence.json and batch12 cable-window comparison retained."
+    }
+  ],
+  "unknownIdentity": [
+    {
+      "page": 4,
+      "id": "unknown-figure-components",
+      "color": "mixed",
+      "quantity": 16,
+      "category": "unknown-ID",
+      "candidate": "47203p03 green chest white8 torso family; exact blue/red assemblies and constituent variants unresolved",
+      "missingEvidence": "p4 shows8physical components per person; inventory SKATE print is not source figure identity. Do not substitute."
+    },
+    {
+      "page": 13,
+      "id": "unknown-window-frame-and-leaf",
+      "color": "red/white",
+      "quantity": 8,
+      "category": "unknown-ID",
+      "candidate": "4assemblies;61649/2332/4253 frame and4809/31022/90265 leaf families require exact match",
+      "missingEvidence": "Source white4panes has taller upper panes and right hinge; four source assemblies but only2fronts visible. Official candidate DAT availability does not prove ID, rear pair layout unresolved. Independent batch13-special-parts-evidence.json and batch12 cable-window comparison retained."
+    }
+  ],
+  "missingGeometry": [
+    {
+      "page": 8,
+      "id": "source-rope",
+      "color": 0,
+      "quantity": 2,
+      "category": "known-item geometry/path omitted",
+      "candidate": "75536 assembly string",
+      "missingEvidence": "p8 one rope substep repeated twice byp9; length, winding and eye attachment not specified. No invented flexible DAT."
+    }
+  ],
+  "knownConnectionOmissions": [],
+  "approvedApproximateGeometry": [],
+  "implementedBOM": [
+    {
+      "id": "3011.dat",
+      "color": "14",
+      "quantity": 109
+    },
+    {
+      "id": "3011.dat",
+      "color": "4",
+      "quantity": 1
+    },
+    {
+      "id": "31021p01.dat",
+      "color": "15",
+      "quantity": 2
+    },
+    {
+      "id": "3437.dat",
+      "color": "14",
+      "quantity": 38
+    },
+    {
+      "id": "40666.dat",
+      "color": "1",
+      "quantity": 26
+    },
+    {
+      "id": "4196.dat",
+      "color": "4",
+      "quantity": 3
+    },
+    {
+      "id": "4268.dat",
+      "color": "2",
+      "quantity": 1
+    },
+    {
+      "id": "4663.dat",
+      "color": "14",
+      "quantity": 2
+    },
+    {
+      "id": "6522.dat",
+      "color": "7",
+      "quantity": 4
+    },
+    {
+      "id": "6523.dat",
+      "color": "1",
+      "quantity": 2
+    },
+    {
+      "id": "6526.dat",
+      "color": "14",
+      "quantity": 2
+    },
+    {
+      "id": "6527.dat",
+      "color": "14",
+      "quantity": 8
+    },
+    {
+      "id": "6530.dat",
+      "color": "4",
+      "quantity": 2
+    },
+    {
+      "id": "75349.dat",
+      "color": "4",
+      "quantity": 4
+    },
+    {
+      "id": "75350.dat",
+      "color": "4",
+      "quantity": 2
+    }
+  ],
+  "partGeometry": [
+    {
+      "id": "3011.dat",
+      "sha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+      "header": [
+        "0 Duplo Brick  2 x  4",
+        "0 Name: 3011.dat",
+        "0 Author: Tony Hafner [hafhead]",
+        "0 !LDRAW_ORG Part UPDATE 2020-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "0 !CATEGORY Brick",
+        "",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "31021p01.dat",
+      "sha256": "d31be5a8b9c85733c3e992a9c6f25580e75e90d7c1742e38a6c14392f2baacb1",
+      "header": [
+        "0 Duplo Fence  1 x  6 x  2 with Red Stripes Pattern",
+        "0 Name: 31021p01.dat",
+        "0 Author: Tony Hafner [hafhead]",
+        "0 !LDRAW_ORG Part UPDATE 2010-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Fence",
+        "0 !KEYWORDS Rebrickable 31021pr0001, Set 2000415"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "3437.dat",
+      "sha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902",
+      "header": [
+        "0 Duplo Brick  2 x  2",
+        "0 Name: 3437.dat",
+        "0 Author: Tony Hafner [hafhead]",
+        "0 !LDRAW_ORG Part UPDATE 2020-03",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "0 !CATEGORY Brick",
+        "",
+        "0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "40666.dat",
+      "sha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5",
+      "header": [
+        "0 Duplo Plate  2 x  4",
+        "0 Name: 40666.dat",
+        "0 Author: Paul Schelleman [schellie]",
+        "0 !LDRAW_ORG Part UPDATE 2009-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "4196.dat",
+      "sha256": "ef8c75cd6d3df465054dd39e5ddfd357e320102f61ec3b4d72b0d16e7a494317",
+      "header": [
+        "0 Duplo Plate  6 x 12",
+        "0 Name: 4196.dat",
+        "0 Author: Tony Hafner [hafhead]",
+        "0 !LDRAW_ORG Part UPDATE 2018-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Plate",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "4268.dat",
+      "sha256": "086b644f40c0ca92003d2ff93665e3e090add8135ba06131824211bb97ddd00d",
+      "header": [
+        "0 Duplo Baseplate 24 x 24",
+        "0 Name: 4268.dat",
+        "0 Author: Tony Hafner [hafhead]",
+        "0 !LDRAW_ORG Part UPDATE 2018-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CW",
+        "",
+        "0 !CATEGORY Baseplate",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "4663.dat",
+      "sha256": "f46190bd1202d61315334de27fc1a067025ef3b631a7aab8a7a0053e78055f51",
+      "header": [
+        "0 Duplo Hook Short with Cross Bar and String Hole",
+        "0 Name: 4663.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Crane",
+        ""
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6522.dat",
+      "sha256": "f29f4610440ca4d651fb43bbec8e004770aa122289a25dc09f24ef764601d1ec",
+      "header": [
+        "0 Duplo Axle  6",
+        "0 Name: 6522.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6523.dat",
+      "sha256": "6dc8eed99ba38a806908f45c53e234ca83398f0007de7499ec5ce1316914d67c",
+      "header": [
+        "0 Duplo Axle  5 with Gear  8 Tooth",
+        "0 Name: 6523.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6526.dat",
+      "sha256": "c91f1ba1fd21011e8da554de0b9a5e7e63a450f9608f0250890f96df13cf04c4",
+      "header": [
+        "0 Duplo Beam  3 x  0.5 Liftarm with Axle",
+        "0 Name: 6526.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2025-07",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS Crank, dacta, Early Simple Machines, handle"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6527.dat",
+      "sha256": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b",
+      "header": [
+        "0 Duplo Wheel with 2 Belt Groves",
+        "0 Name: 6527.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines, Pulley"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "6530.dat",
+      "sha256": "9037cefa788cb7f97424c6c5d4ff3c9cea63200ee7a8251d55aed32246028b48",
+      "header": [
+        "0 Duplo Gear 40 Tooth",
+        "0 Name: 6530.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Part UPDATE 2019-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "75349.dat",
+      "sha256": "57718956f0e3b4552de1edd641a9672d84f54552529bd5ef375baf8f9295718c",
+      "header": [
+        "0 Duplo Brick  2 x  4 with Holes",
+        "0 Name: 75349.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Shortcut UPDATE 2017-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS Dacta, Early Simple Machines"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    },
+    {
+      "id": "75350.dat",
+      "sha256": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53",
+      "header": [
+        "0 Duplo Brick  2 x 10 with Holes",
+        "0 Name: 75350.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Shortcut UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "",
+        "0 BFC CERTIFY CCW",
+        "",
+        "0 !CATEGORY Technic",
+        "0 !KEYWORDS BrickLink 6515c01, dacta, Early Simple Machines, Rebrickable 6515"
+      ],
+      "classification": "existing official DAT; dependency closure must also be verified in main pack"
+    }
+  ],
+  "risks": [
+    {
+      "key": "tower-bond",
+      "classification": "source-supported",
+      "evidence": "Sourcep1 crop confirms8x6 U footprint, opening4x4, three48LDU courses. A course3long+2square per tower;B4long;A/B/A gives20long8square total. P2B/A adds14long4square; p3/p5 eachA/B/A/B/A adds34long12square. All source quantities closed without scaling."
+    },
+    {
+      "key": "platforms",
+      "classification": "source-supported-with-depth-inference",
+      "evidence": "Red6x12 platforms atY-264/-528/-792, centreZ-80. Each overlaps inner tower leg2stud X and4stud Z, front2stud overhang. Blue back caps/outer-leg caps same Y do not intersect red. Depth inferred from front/finished views."
+    },
+    {
+      "key": "temporary-header-support",
+      "classification": "source-backed-staging-exception",
+      "evidence": "p5 two central blue platesX+/-80,Z80 temporarily need hand support. P6 yellow bricksX+/-160 span tower and central plates by80LDU each; upper stud clutch cross-bonds them into rigid header. Centre yellow and p7red joint cross-bond with other layers. No extra support brick invented, no claim that isolatedp5 stage self-supports."
+    },
+    {
+      "key": "winding-shafts",
+      "classification": "evidence-insufficient",
+      "evidence": "Header axesX+/-320,Y-864,Z80;6522 spansZ-40..200. Winding6527 atZ-20,40T6530 atZ160 and6526 atZ200. Actual shaft/gear holes and crank axes aligned nominally; torsional retention and travel not tested."
+    },
+    {
+      "key": "angled-guides",
+      "classification": "source-pose-inference",
+      "evidence": "p11 short75349 rotated+/-30deg inXY, inner end holex+/-40 anchored on long header holeX+/-160,Y-864 by6522 Z-axis. Short brick centre depthZ0, headerZ80; two6527 atZ-60/140. Angle inferred from source, no claim of exact adjustment/rotation lock."
+    },
+    {
+      "key": "suspended-cars",
+      "classification": "source-backed-support-exception",
+      "evidence": "Parent authorized source-backed hanging pose despite omitted rope geometry. p9 known4663 atX+/-320,Y-558,Z-80, hook bottomY-456; p12 red75349 topY-456 with blue40666 underneathY-408, blue6523 centreY-432/Z-100 and rear6527 Z-20. Source shows rope to hook and car between lower2floors. Exact height/depth inferred; no rope mesh, eye knot, hook grip, guide fit, load support or motion proven. These known parts intentionally retained; NOT a physical-support pass."
+    },
+    {
+      "key": "unknown-variants",
+      "classification": "unknown-ID",
+      "evidence": "16figure components and8window pieces omitted; specific candidates and page evidence in omissions. No known-ID missing geometry reclassified as unknown merely because file absent."
+    },
+    {
+      "key": "validation",
+      "classification": "evidence-insufficient",
+      "evidence": "Raw collision checker can pass while hanging support/rope/window identity remains unresolved. No Studio or physical operation claim; incomplete dev preview pending full current rendered pixels and user confirmation."
+    }
+  ],
+  "inventory": {
+    "referenceSets": [
+      "9090-2",
+      "9656-1"
+    ],
+    "setIsNotCourseBOM": true,
+    "userStock": "unknown",
+    "comparisons": [
+      {
+        "id": "3011.dat",
+        "color": "Yellow",
+        "sourceQuantity": 109,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 5
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 104,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "3011.dat",
+        "color": "Red",
+        "sourceQuantity": 1,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 20
+          },
+          {
+            "set": "9656-1",
+            "quantity": 4
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "31021p01.dat",
+        "color": "White",
+        "sourceQuantity": 2,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "3437.dat",
+        "color": "Yellow",
+        "sourceQuantity": 38,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 3
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 35,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "40666.dat",
+        "color": "Blue",
+        "sourceQuantity": 26,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 12
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 14,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "4196.dat",
+        "color": "Red",
+        "sourceQuantity": 3,
+        "referenceRows": [
+          {
+            "set": "9090-2",
+            "quantity": 2
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 1,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "4268.dat",
+        "color": "Green",
+        "sourceQuantity": 1,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "4663.dat",
+        "color": "Yellow",
+        "sourceQuantity": 2,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6522.dat",
+        "color": "Light Bluish Gray",
+        "sourceQuantity": 4,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 7
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6523.dat",
+        "color": "Blue",
+        "sourceQuantity": 2,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 4
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6526.dat",
+        "color": "Yellow",
+        "sourceQuantity": 2,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 6
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6527.dat",
+        "color": "Yellow",
+        "sourceQuantity": 8,
+        "referenceRows": [
+          {
+            "set": "9656-1",
+            "quantity": 15
+          }
+        ],
+        "extraBeyondLargestVerifiedSingleSet": 0,
+        "absenceNotInferred": true
+      },
+      {
+        "id": "6530.dat",
+        "color": "Red",
+        "sourceQuantity": 2,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "75349.dat",
+        "color": "Red",
+        "sourceQuantity": 4,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "75350.dat",
+        "color": "Red",
+        "sourceQuantity": 2,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "source-rope",
+        "color": "Black",
+        "sourceQuantity": 2,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "unknown-figure-components",
+        "color": "unknown",
+        "sourceQuantity": 16,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      },
+      {
+        "id": "unknown-window-frame-and-leaf",
+        "color": "unknown",
+        "sourceQuantity": 8,
+        "referenceRows": [],
+        "extraBeyondLargestVerifiedSingleSet": "unknown",
+        "absenceNotInferred": true
+      }
+    ]
+  },
+  "accepted": false,
+  "physicalValidation": false,
+  "currentPixelReview": {
+    "file": "current-pixel-review.json",
+    "revision": "46f8d88989e2e5c99f4f09177d55cb30c73b38d81c2faff92b669c15a3846a91",
+    "sourceSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+    "finalViewsObserved": 3,
+    "cumulativeStepsObserved": 13,
+    "observationCoverageOnly": true,
+    "assemblyPass": false
+  }
+}

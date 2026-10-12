@@ -1,38 +1,93 @@
-0 4+ 摩天轮 (Ferris Wheel) - DUPLO draft for manual repair
+0 4+ Ferris wheel - incomplete source reconstruction draft
 0 Name: 4-mo-tian-lun.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+摩天轮 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Wheel tower, spokes and gondolas are simplified.
-
-0 // STEP 1 - base and tower
-1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 0 -80 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 80 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -80 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 80 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // All13 source pages actually viewed. No physical verification or user acceptance.
+0 // INCOMPLETE: p12 four 61649+90265 window assemblies placed; four more known assemblies omitted pending seating/orientation evidence. Source radial forks andturntables use approved approximations; attachment fit and bearing retention unverified.
+0 // Existing approved Toolo approximations: fit, thread engagement and load support remain manual.
+0 // SOURCE PAGE 1 - green24x24 base andeight black Toolo blocks in stepped pedestal
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 0 0 -48 -200 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -48 200 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -96 -160 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -96 160 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -144 -120 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -144 120 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -192 -80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -192 80 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
-
-0 // STEP 2 - wheel hub and vertical spokes
-1 14 0 -240 -160 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 0 -336 -160 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 0 -144 -160 1 0 0 0 1 0 0 0 1 3011.dat
+0 // SOURCE PAGE 2 - fourteen upright black Toolo tower layers
+1 0 0 -240 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -288 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -336 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -384 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -432 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -480 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -528 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -576 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -624 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -672 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -720 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -768 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -816 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -864 0 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
-
-0 // STEP 3 - horizontal and diagonal spokes
-1 1 -160 -240 -160 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 160 -240 -160 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 -120 -312 -260 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
-1 1 120 -312 -260 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
-1 1 -120 -168 -260 0.707 0.707 0 -0.707 0.707 0 0 0 1 3011.dat
-1 1 120 -168 -260 0.707 -0.707 0 0.707 0.707 0 0 0 1 3011.dat
+0 // SOURCE PAGE 3 - six yellow bricks in3/2/1 cap
+1 14 0 -912 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -912 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -912 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -960 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -960 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -1008 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 4 - gondolas
-1 4 -200 -240 -300 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 200 -240 -300 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -380 -300 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -100 -300 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4 - sideways black4x6 against tower front
+1 0 0 -784 128 1 0 0 0 0 1 0 -1 0 76395.dat
+0 STEP
+0 // SOURCE PAGE 5 - central turntable on sideblock
+1 0 0 -784 168 1 0 0 0 0 1 0 -1 0 60535.dat
+0 STEP
+0 // SOURCE PAGE 6 - front rotating4x6
+1 0 0 -784 216 1 0 0 0 0 1 0 -1 0 76395.dat
+0 STEP
+0 // SOURCE PAGE 7 - four2x2 base forks radially oriented
+1 71 -40 -744 264 1 0 0 0 0 1 0 -1 0 28336.dat
+1 71 -40 -824 264 0 0 -1 1 0 0 0 -1 0 28336.dat
+1 71 40 -824 264 -1 0 0 0 0 -1 0 -1 0 28336.dat
+1 71 40 -744 264 0 0 1 -1 0 0 0 -1 0 28336.dat
+0 STEP
+0 // SOURCE PAGE 8 - four2x6 radial arms
+1 71 -40 -696 329 0 0 1 0 1 0 -1 0 0 dev-129/28334.dat
+1 71 -88 -824 329 0 -1 0 0 0 1 -1 0 0 dev-129/28334.dat
+1 71 40 -872 329 0 0 -1 0 -1 0 -1 0 0 dev-129/28334.dat
+1 71 88 -744 329 0 1 0 0 0 -1 -1 0 0 dev-129/28334.dat
+0 STEP
+0 // SOURCE PAGE 9 - fourclutch blocks at radial end pivots
+1 71 -40 -496 353 1 0 0 0 0 1 0 -1 0 74957.dat
+1 71 -288 -824 353 1 0 0 0 0 1 0 -1 0 74957.dat
+1 71 40 -1072 353 1 0 0 0 0 1 0 -1 0 74957.dat
+1 71 288 -744 353 1 0 0 0 0 1 0 -1 0 74957.dat
+0 STEP
+0 // SOURCE PAGE 10 - fourseat turntables
+1 0 -40 -496 393 1 0 0 0 0 1 0 -1 0 60535.dat
+1 0 -288 -824 393 1 0 0 0 0 1 0 -1 0 60535.dat
+1 0 40 -1072 393 1 0 0 0 0 1 0 -1 0 60535.dat
+1 0 288 -744 393 1 0 0 0 0 1 0 -1 0 60535.dat
+0 STEP
+0 // SOURCE PAGE 11 - fourblue2x8 hanging plates
+1 1 -40 -396 417 0 0 1 -1 0 0 0 -1 0 44524.dat
+1 1 -288 -724 417 0 0 1 -1 0 0 0 -1 0 44524.dat
+1 1 40 -972 417 0 0 1 -1 0 0 0 -1 0 44524.dat
+1 1 288 -644 417 0 0 1 -1 0 0 0 -1 0 44524.dat
+0 STEP
+0 // SOURCE PAGE 12 - four source-visible lower window assemblies; four hidden second assemblies remain unplaced
+1 4 -40 -316 561 0 0 1 -1 0 0 0 -1 0 61649.dat
+1 15 -80 -381.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat
+1 4 -288 -644 561 0 0 1 -1 0 0 0 -1 0 61649.dat
+1 15 -328 -709.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat
+1 4 40 -892 561 0 0 1 -1 0 0 0 -1 0 61649.dat
+1 15 0 -957.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat
+1 4 288 -564 561 0 0 1 -1 0 0 0 -1 0 61649.dat
+1 15 248 -629.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat
+0 // KNOWN OMITTED p12 four additional61649+90265 assemblies: second frame seating/orientation remains unresolved. Source target8 each; placed4 each.
+0 // Inventory9090-2 has6 red61649 and6 white90265; complete target8 each needs2 extra ofeach; current4 each doesnot exceed that reference.

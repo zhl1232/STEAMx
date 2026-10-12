@@ -1,0 +1,34 @@
+{
+  "sourceSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+  "sourcePagesActuallyRechecked": [
+    9,
+    10
+  ],
+  "observation": "Source p9/p10 visibly shows widened pole base on roof and complete upper ball, with flag below ball. No reliable evidence of shortened or deeply inserted pole. Perspective contact-sheet height impression is not a metric.",
+  "part": "51708.dat",
+  "officialPartSha256": "87d56c60376b81bce9e3209ba48e2f29ec571aee8d928496fe40316155ec0a9b",
+  "geometry": {
+    "poleOrigin": [
+      20,
+      -1056,
+      20
+    ],
+    "roofTopY": -1040,
+    "localBaseBottomY": 16,
+    "worldBaseBottomY": -1040,
+    "localSphereCenterY": -301.6,
+    "sphereRadius": 13,
+    "localStraightShaftY": [
+      -291,
+      -8
+    ],
+    "flagRelativeY": -250,
+    "flagLocalY": [
+      -28,
+      49.7
+    ]
+  },
+  "decision": "Retain unscaled official geometry and current source-backed full exposed pose. Nominal stud placement and clip fit remain manual; no physical fit or photogrammetric height certification.",
+  "sourceChanged": false,
+  "accepted": false
+}

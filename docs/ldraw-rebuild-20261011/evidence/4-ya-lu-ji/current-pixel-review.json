@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "4e8c62fadc2ec6f1805cbed2795e64c116e49abb6cdd27ac1b968db5f191b51c",
+  "revision": "e55f4ad7602344691e76f1e2f11c859c692e879b83e4fe5ccad1ff5f7cc24402",
+  "reviewedAt": "2026-10-11T07:41:16.144588+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-ya-lu-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "92435aa0fdf97e952f116133eb18288ad8d06e9014f7492e4f3d0314218fe5df",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "119a13ea8d40b97138994d8cb87a83c6e0314aeba45e50f834ddb7f9b193e3c2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "82ea26ccae34f083a8786f4254ca848a790e539511674b71bc5673e47c183a2f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "0b9c9a6a6d774934d1cd20b6f16f253e079ab8f9e204ce5773cef81f80d4174f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "4e0632af204f7e4548695ec5abae6183da56f96ee1acb62c9d8ff8bdd65e8523",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "2b54a3b4676cb8b262d93918c7b3fe93a57ba453cd964619d4ef46eef1de4a82",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "9d3842b805988f7f8e6c55f24ae2a8bd6cb832b47e44949353aec11ab8d68e3e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "497e678bca7e1523effc752bd075926c4c497fefff7ecf0475c69807d27c3bd7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "e498d5d9e04cfe2fbec3be1c82da3514303e37fc4330c196f4b58d90290928b3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "e498d5d9e04cfe2fbec3be1c82da3514303e37fc4330c196f4b58d90290928b3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "6cdfbfd94f6cd3bc830337089ab7c5b9845e9c3219f54a1c38ef20649690baf9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "cd9200df764bd525067e0a65ded09cf3e67f3fb0c4ba752498ae2a218c8b8669",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "66d61a8c236286d3ae7ce10efffcc3e60c6e8c512dc8d5231668e20090cfa8b1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "92435aa0fdf97e952f116133eb18288ad8d06e9014f7492e4f3d0314218fe5df",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "92435aa0fdf97e952f116133eb18288ad8d06e9014f7492e4f3d0314218fe5df",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual current4e8c62fa final3 and all12 cumulative cells inspected; originalstep9 and sourcep9/10 re-opened. Frame now attaches at upper yellow76057 side-bore height, not2302 cap. No new clear floating frame seen. Missing4433c01 exhaust and two unidentified blue cylinders retained; canopy near-contact and approximate Toolo fit remain unverified. No physical validation."
+}

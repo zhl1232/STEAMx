@@ -1,0 +1,536 @@
+{
+  "sourceSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
+  "method": "Recursive realDAT type3/4 triangulation; triangle-AABB broadphase followed by strict MollerTrumbore edge/triangle intersections; endpoints and coplanar contacts excluded. Diagnostic only, not volumetric/physical proof.",
+  "results": [
+    {
+      "lines": [
+        87,
+        88
+      ],
+      "parts": [
+        "31196c01.dat",
+        "6345.dat"
+      ],
+      "triangles": [
+        20716,
+        1000
+      ],
+      "bboxCandidates": 10071,
+      "strictCrossingPairs": 4,
+      "samples": [
+        {
+          "aTriangle": 20124,
+          "bTriangle": 417,
+          "point": [
+            484.18777933666263,
+            -427.1811028647631,
+            44.071947550742536
+          ],
+          "aFace": [
+            [
+              480.004,
+              -423,
+              43.7815
+            ],
+            [
+              490.85278,
+              -393,
+              44.2639
+            ],
+            [
+              486.9469,
+              -430,
+              44.2639
+            ]
+          ],
+          "bFace": [
+            [
+              485.6408,
+              -430,
+              42.0063
+            ],
+            [
+              480.004,
+              -423,
+              43.7815
+            ],
+            [
+              482.0326,
+              -423,
+              47.1358
+            ]
+          ]
+        },
+        {
+          "aTriangle": 20124,
+          "bTriangle": 418,
+          "point": [
+            484.18777933666263,
+            -427.1811028647631,
+            44.071947550742536
+          ],
+          "aFace": [
+            [
+              480.004,
+              -423,
+              43.7815
+            ],
+            [
+              490.85278,
+              -393,
+              44.2639
+            ],
+            [
+              486.9469,
+              -430,
+              44.2639
+            ]
+          ],
+          "bFace": [
+            [
+              485.6408,
+              -430,
+              42.0063
+            ],
+            [
+              482.0326,
+              -423,
+              47.1358
+            ],
+            [
+              486.9469,
+              -430,
+              44.2639
+            ]
+          ]
+        },
+        {
+          "aTriangle": 20127,
+          "bTriangle": 417,
+          "point": [
+            484.1880661351153,
+            -427.181659261074,
+            44.07153983147442
+          ],
+          "aFace": [
+            [
+              486.9469,
+              -430,
+              44.2639
+            ],
+            [
+              490.7563,
+              -393,
+              43.7815
+            ],
+            [
+              480.004,
+              -423,
+              43.7815
+            ]
+          ],
+          "bFace": [
+            [
+              485.6408,
+              -430,
+              42.0063
+            ],
+            [
+              480.004,
+              -423,
+              43.7815
+            ],
+            [
+              482.0326,
+              -423,
+              47.1358
+            ]
+          ]
+        },
+        {
+          "aTriangle": 20127,
+          "bTriangle": 418,
+          "point": [
+            484.1880661351153,
+            -427.181659261074,
+            44.07153983147442
+          ],
+          "aFace": [
+            [
+              486.9469,
+              -430,
+              44.2639
+            ],
+            [
+              490.7563,
+              -393,
+              43.7815
+            ],
+            [
+              480.004,
+              -423,
+              43.7815
+            ]
+          ],
+          "bFace": [
+            [
+              485.6408,
+              -430,
+              42.0063
+            ],
+            [
+              482.0326,
+              -423,
+              47.1358
+            ],
+            [
+              486.9469,
+              -430,
+              44.2639
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "lines": [
+        89,
+        90
+      ],
+      "parts": [
+        "31196c01.dat",
+        "6345.dat"
+      ],
+      "triangles": [
+        20716,
+        1000
+      ],
+      "bboxCandidates": 10071,
+      "strictCrossingPairs": 4,
+      "samples": [
+        {
+          "aTriangle": 20124,
+          "bTriangle": 417,
+          "point": [
+            1595.8122206633375,
+            -427.1811028647631,
+            -44.071947550742536
+          ],
+          "aFace": [
+            [
+              1599.996,
+              -423,
+              -43.7815
+            ],
+            [
+              1589.14722,
+              -393,
+              -44.2639
+            ],
+            [
+              1593.0531,
+              -430,
+              -44.2639
+            ]
+          ],
+          "bFace": [
+            [
+              1594.3592,
+              -430,
+              -42.0063
+            ],
+            [
+              1599.996,
+              -423,
+              -43.7815
+            ],
+            [
+              1597.9674,
+              -423,
+              -47.1358
+            ]
+          ]
+        },
+        {
+          "aTriangle": 20124,
+          "bTriangle": 418,
+          "point": [
+            1595.8122206633375,
+            -427.1811028647631,
+            -44.071947550742536
+          ],
+          "aFace": [
+            [
+              1599.996,
+              -423,
+              -43.7815
+            ],
+            [
+              1589.14722,
+              -393,
+              -44.2639
+            ],
+            [
+              1593.0531,
+              -430,
+              -44.2639
+            ]
+          ],
+          "bFace": [
+            [
+              1594.3592,
+              -430,
+              -42.0063
+            ],
+            [
+              1597.9674,
+              -423,
+              -47.1358
+            ],
+            [
+              1593.0531,
+              -430,
+              -44.2639
+            ]
+          ]
+        },
+        {
+          "aTriangle": 20127,
+          "bTriangle": 417,
+          "point": [
+            1595.8119338648848,
+            -427.181659261074,
+            -44.071539831474425
+          ],
+          "aFace": [
+            [
+              1593.0531,
+              -430,
+              -44.2639
+            ],
+            [
+              1589.2437,
+              -393,
+              -43.7815
+            ],
+            [
+              1599.996,
+              -423,
+              -43.7815
+            ]
+          ],
+          "bFace": [
+            [
+              1594.3592,
+              -430,
+              -42.0063
+            ],
+            [
+              1599.996,
+              -423,
+              -43.7815
+            ],
+            [
+              1597.9674,
+              -423,
+              -47.1358
+            ]
+          ]
+        },
+        {
+          "aTriangle": 20127,
+          "bTriangle": 418,
+          "point": [
+            1595.8119338648848,
+            -427.181659261074,
+            -44.071539831474425
+          ],
+          "aFace": [
+            [
+              1593.0531,
+              -430,
+              -44.2639
+            ],
+            [
+              1589.2437,
+              -393,
+              -43.7815
+            ],
+            [
+              1599.996,
+              -423,
+              -43.7815
+            ]
+          ],
+          "bFace": [
+            [
+              1594.3592,
+              -430,
+              -42.0063
+            ],
+            [
+              1597.9674,
+              -423,
+              -47.1358
+            ],
+            [
+              1593.0531,
+              -430,
+              -44.2639
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "31196c01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\31196c01.dat",
+      "sha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708"
+    },
+    "s/31196c01-local-screw.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\31196c01-local-screw.dat",
+      "sha256": "7b3c0700fd3c5d5248976012f4f9afc1d54cb3d1e00a3b92114dab27443a850d"
+    },
+    "stud7.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\stud7.dat",
+      "sha256": "250111864bb2492a8722544d1f09b5e45672ba3f8e93be769b77499e7ea3fb1a"
+    },
+    "4-4ring3.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4ring3.dat",
+      "sha256": "1f2835ac308154edc2d6f479d8e742a55be981f6167b20bfa100c195bc0731dd"
+    },
+    "4-4cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4cylo.dat",
+      "sha256": "d6ca97ee2e75918b3309a5c88aafcd2455b3a316f7cef8963517c19f1d86b38f"
+    },
+    "4-4edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4edge.dat",
+      "sha256": "54a52196e421fd1717d291ff52ea57553b1fb238907c1678cc1f1a84c698b1da"
+    },
+    "4-4cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4cyli.dat",
+      "sha256": "4a742c2765b6ebf98245baaf8a160a4ff587fc93d36c8ee2b9074712a2f968c4"
+    },
+    "6345.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\6345.dat",
+      "sha256": "58d36994073c27ed1dbd8fad58382acd302d281aa7e3f76efaa1447b9725e179"
+    },
+    "s/6345s01.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\parts\\s\\6345s01.dat",
+      "sha256": "2d0bcf43911c18fcb2d4f0a711cdeca6a43a80e246986f9bb34f5ff4a065184f"
+    },
+    "5-16chrd.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\5-16chrd.dat",
+      "sha256": "53926ed51a8b6757ef36240cd7520ac1f8db16e4650e3618a09d8146f89ddd98"
+    },
+    "8/2-4chrd.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\8\\2-4chrd.dat",
+      "sha256": "2caebc5de687f190e7ef2f25724665284bf0139e4db42844d0e2691128b9c0ea"
+    },
+    "3-16cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16cylo.dat",
+      "sha256": "a5c8370842299035a9cc14308301614c6fb169fb873a7950c888928cd8d9181c"
+    },
+    "3-16edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16edge.dat",
+      "sha256": "c08dd83bb7fe90b61f7cd0b10ebef0d9a9ba33b497676dedd2e2e968cb8248f9"
+    },
+    "3-16cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16cyli.dat",
+      "sha256": "f50d12a37a22ae4a5f37a017b8e39d1e729577b0a4aa376ca685b210806b49c8"
+    },
+    "3-16chrd.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-16chrd.dat",
+      "sha256": "2bb493e8b5b56a5d63bfa7356a0ed5d6403a68e5e9a983e13a57541783ad19c1"
+    },
+    "3-4cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-4cylo.dat",
+      "sha256": "b7ff6f92e06cea3815be42f757f17cd28350f2a4ff18dd1a11de0db3626ec44b"
+    },
+    "3-4edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-4edge.dat",
+      "sha256": "d7f5aff979bc227b601abbb8e0226d6055d08eafb5faaf507b3055f712cd4c04"
+    },
+    "3-4cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\3-4cyli.dat",
+      "sha256": "4a54732476cf4eaad2c9f7b40a3cef24db025132004328e4e84c0666cd217533"
+    },
+    "1-4cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4cylo.dat",
+      "sha256": "792a01362608c3f385dd7f01a1bd7d19cf9ed8a40f793266345cc86d1d98f3af"
+    },
+    "1-4edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4edge.dat",
+      "sha256": "9ce2de7e67bbac575d52cfdc771b9d00856efc9b88002d97db8e665e50f4d467"
+    },
+    "1-4cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4cyli.dat",
+      "sha256": "5a7168952a5a3570327873b9a5802fa7b3be40967ab78c03b6a2bfd4419a1f10"
+    },
+    "4-4ndis.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4ndis.dat",
+      "sha256": "21202dc15823f4336bc2544244d0b539b76745c89f7a59ad18cdd03ad45cc543"
+    },
+    "1-4chrd.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-4chrd.dat",
+      "sha256": "ccba3a97b5cc358754e476b78b4ce61cce5f404cd15e37471b73df3e81784aec"
+    },
+    "rect3.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect3.dat",
+      "sha256": "07ac46908b6668d993b6de0fb001a34cd996542106b80ebc7de63317d8dde865"
+    },
+    "2-4ndis.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\2-4ndis.dat",
+      "sha256": "7557eae598be3f530b840471535198e6b07b03486ffbcc18a00e862c3d25d925"
+    },
+    "1-8ndis.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-8ndis.dat",
+      "sha256": "97e394834789794c8635261fa604ad8e69b4c6872d0cd8d7506408b80023f408"
+    },
+    "rect1.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\rect1.dat",
+      "sha256": "48fdcd3181587b4bdc89d356a5aee21268688f3f2fcdd4d6f5c1a3d49b1a1ceb"
+    },
+    "4-4con0.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\4-4con0.dat",
+      "sha256": "b9e568215ff9786203c7d8e7ee4b7f99b72222a097c7663c732c4ecae77eaf9c"
+    },
+    "1-16cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16cylo.dat",
+      "sha256": "6cef884c4f96ec15f5bd1428264af2efba4443cb1e47ead116a8a094febefc67"
+    },
+    "1-16cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16cyli.dat",
+      "sha256": "b60f031d9dfd0995c1741992a5695ee3789419886e8189dead961d05f75f7bfc"
+    },
+    "1-16edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\1-16edge.dat",
+      "sha256": "42fc4d69af1281b71cb2eb9546e99e8bca2fc231d05a0379e71d4e1c9a60c95c"
+    },
+    "5-16cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\5-16cylo.dat",
+      "sha256": "3468b4f9bf29026d7266da964f4298eea5d4bfa30f09d80e11abfb39cc9df797"
+    },
+    "5-16cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\5-16cyli.dat",
+      "sha256": "3a46e175cd13f2343645b5ba1be54f1f2fdf446cf28392383d511d85eaa7665a"
+    },
+    "5-16edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\5-16edge.dat",
+      "sha256": "17a9ae47e68e98286d27fc7be4a48e1110d1cae0d3abff658f3378a552857fc3"
+    },
+    "8/2-4cylo.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\8\\2-4cylo.dat",
+      "sha256": "cf7a9969c8d7396d17966b65c8ea48ea36445e98580dc76d18e5aa1fc5afd54f"
+    },
+    "8/2-4edge.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\8\\2-4edge.dat",
+      "sha256": "3154ed3f142d644552b2533457c13c56ef326b0f7d31ea425585d6cdde2a3129"
+    },
+    "8/2-4cyli.dat": {
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\p\\8\\2-4cyli.dat",
+      "sha256": "9e5869a3bf444fcda1cc9908ef96ce782b53fc68f94eaf6903a0dbca6c582215"
+    }
+  }
+}

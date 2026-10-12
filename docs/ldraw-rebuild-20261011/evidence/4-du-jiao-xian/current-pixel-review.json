@@ -1,0 +1,85 @@
+{
+  "sourceSha256": "315062621f6838fd246d5fce94debb509319f0cefa1e1debb4ebe1a983b12a2f",
+  "revision": "3c96d98f4a2d2e3eb62eb92c180d86bbc09b7547a4189a2822eddca3d8c497a2",
+  "reviewedAt": "2026-10-11T07:58:03.590941+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-du-jiao-xian",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "16b716e1d98174d9fdce8ccb30154d893d5d94cd7e04771854434c81c0a0957a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "03425aef225b2fd4066809a12ed6909643eb222d0afebcfc452b6441c5ece262",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "832891f28579098705d3427561898d3b59feec616ec46fb712987b866b822320",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "0b9c9a6a6d774934d1cd20b6f16f253e079ab8f9e204ce5773cef81f80d4174f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "10adf303c060da463ee87d1ad945410fe6b8000d033d29c70240c305cb7c602e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "9ef1a0681d2dccb8ec7932bd57dd703d37c1bcd6d6a148f2a670e1b7f50f9bba",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "7fecb181755e4a022bb326c390387d4e3f2633d68e63b5c748719adfa8bf3e68",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "61e1551cae27fab0059cc0656b1720af370dd5dd990bed08eba57d223232f264",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "6c2a3a7d12df0320ea0371f45ccc72b110419a202a6de3ac4c2b8fce4ae6cbba",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "c535377c8d1072f43f7af10dff8cd8fd535aa99c8e67d60d09a6e5b0fcf188f3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "d7f9c46057b479f1affde50822ea027c90ebe77af7ac905be931e1cf569bea1b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "cdd8200e3f81714463985a00b57c8b25a5f797b19f77cf35f0ce576b62548e99",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "9f42e21ceccbda906f5d6720e4efb4b96ecdeb755286b75933d63bb0b06a44d9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "16b716e1d98174d9fdce8ccb30154d893d5d94cd7e04771854434c81c0a0957a",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected current31506262 all11 cumulative cells and originalstep7/8 against reopened sourcep7/8. Stage7 distinct turntable/hinge/clutch pairs precede separate lime panels stage8; centralgap remains and panels appear seated on separate mounts. Step5 horn clutch and later frames still lack two blue claws. Approximate limb forms, provisional20degree wing tilt/turntable yaw and source-informed plate offsets remain uncalibrated; hidden engagement and six-leg stability unverified. No new unequivocal floating panel seen; inspection not physical or visual acceptance."
+}

@@ -1,0 +1,89 @@
+{
+  "slug": "4-mo-tian-lun",
+  "reviewedAt": "2026-10-11T08:56:14.540Z",
+  "modelSha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d",
+  "originalCheck": {
+    "path": "scripts/ldraw-models/4-mo-tian-lun.ldr",
+    "sha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d",
+    "exit": 0,
+    "stableDuringCheck": true,
+    "output": "OK   [4-mo-tian-lun.ldr] 60 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  "checkerPassIsNotConnectionAcceptance": true,
+  "sourceEvidence": "Existing source-page pixel reviews and current ledger; no new browser or physical test",
+  "accepted": false,
+  "physicalValidation": false,
+  "modelChanged": true,
+  "reliableCorrectionAvailable": true,
+  "limitations": [
+    {
+      "pages": [
+        4,
+        5,
+        6
+      ],
+      "parts": [
+        "76395",
+        "60535"
+      ],
+      "finding": "Side-mount cube and central screw turntable rely on source pose and approved approximate thread/shell geometry. Screw capture, load support and rotation are not certified."
+    },
+    {
+      "pages": [
+        7,
+        8,
+        9
+      ],
+      "parts": [
+        "28336",
+        "dev-129/28334",
+        "74957"
+      ],
+      "finding": "Four base forks use regular2x2 grid and proper radial rotations. Approximate pivot-axis coincidence does not certify pin depth, fork-cheek clearance or capture. Supplied200LDU fork arm and clutch interfaces are inferred, not measured."
+    },
+    {
+      "pages": [
+        10,
+        11
+      ],
+      "parts": [
+        "60535",
+        "44524"
+      ],
+      "finding": "Four seat bearings and official plates follow static hanging pose; retention, center of gravity and clearance over a full revolution not tested."
+    },
+    {
+      "page": 12,
+      "finding": "Four lower frames and white panes placed; four additional assemblies remain known-ID placement omissions. Lower blueplate stud-row support established geometrically; visual facing and physical fit not yet verified."
+    }
+  ],
+  "decision": "INCOMPLETE, accepted=false. Corrected final3 and all12 cumulative frames actually viewed; four white window faces now match source p12 relative to blue stud faces. Four second assemblies remain omitted and existing approximate interfaces remain provisional. Static PASS and visible facing do not certify physical fit.",
+  "history": [
+    {
+      "reviewedAt": "2026-10-11T07:07:26.283Z",
+      "modelSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+      "originalCheck": {
+        "path": "scripts/ldraw-models/4-mo-tian-lun.ldr",
+        "sha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+        "exit": 0,
+        "stableDuringCheck": true,
+        "output": "OK   [4-mo-tian-lun.ldr] 52 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+      },
+      "decision": "Keep provisional and INCOMPLETE; no reliable evidence-backed correction identified in this review. Coordinate alignment/raw exit0 cannot waive interface risks."
+    },
+    {
+      "reviewedAt": "2026-10-11T08:48:08.400Z",
+      "modelSha256": "e87d58a01362ab1088a5ca94f53db37c0affe46646d699fc6348b2b8c7acbf21",
+      "originalCheck": {
+        "path": "scripts/ldraw-models/4-mo-tian-lun.ldr",
+        "sha256": "e87d58a01362ab1088a5ca94f53db37c0affe46646d699fc6348b2b8c7acbf21",
+        "exit": 0,
+        "stableDuringCheck": true,
+        "output": "OK   [4-mo-tian-lun.ldr] 60 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+      },
+      "decision": "Keep INCOMPLETE and accepted=false. Raw checker PASS does not certify original approximate interfaces or new window facing. Current-source pixels pending."
+    }
+  ],
+  "correctionApplied": "Four visible lower 61649+90265 assemblies added using source p12, exact inventory types and official local geometry. Evidence window-first-four-evidence.json; render orientation pending. Four frame+pane assemblies now rotated180 around localY following actual source/render comparison; support rows unchanged.",
+  "currentPixelEvidence": "current-pixel-review.json"
+}

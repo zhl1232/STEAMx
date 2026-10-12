@@ -1,46 +1,127 @@
-0 4+ 磁悬浮列车 (Maglev Train) - DUPLO draft for manual repair
+0 4-ci-xuan-fu-lie-che - source-based dev-only reconstruction
 0 Name: 4-ci-xuan-fu-lie-che.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+磁悬浮列车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Track pylons and streamlined train nose are simplified.
-
-0 // STEP 1 - long green base and rails
-1 2 -480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 0 -480 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 -240 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 0 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 240 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 480 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: one green6x12 base, two underside-up black4x6 bricks and three red2x4 plates
+1 2 160 0 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 0 0 -11 0 0 0 1 0 -1 0 1 0 0 76395.dat
+1 0 220 -11 0 0 0 1 0 -1 0 1 0 0 76395.dat
+1 4 420 -11 -80 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 420 -11 0 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 420 -11 80 1 0 0 0 -1 0 0 0 -1 40666.dat
 0 STEP
-
-0 // STEP 2 - pylons
-1 0 -360 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -360 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 360 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 360 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source page 2: extend with one green base, one inverted blackbrick and three red ties
+1 2 640 0 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 0 620 -11 0 0 0 1 0 -1 0 1 0 0 76395.dat
+1 4 820 -11 -80 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 820 -11 0 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 820 -11 80 1 0 0 0 -1 0 0 0 -1 40666.dat
 0 STEP
-
-0 // STEP 3 - train body
-1 4 -320 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -160 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 320 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 -220 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 15 20 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 15 260 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 3: extend with one green base, one inverted blackbrick and three red ties
+1 2 1120 0 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 0 1020 -11 0 0 0 1 0 -1 0 1 0 0 76395.dat
+1 4 1220 -11 -80 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 1220 -11 0 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 1220 -11 80 1 0 0 0 -1 0 0 0 -1 40666.dat
 0 STEP
-
-0 // STEP 4 - roof and noses
-1 1 -240 -312 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 1 240 -312 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 -480 -240 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 480 -240 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 // Source page 4: final two green bases, two inverted blackbricks and three red ties
+1 2 1600 0 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 2080 0 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 0 1420 -11 0 0 0 1 0 -1 0 1 0 0 76395.dat
+1 0 1820 -11 0 0 0 1 0 -1 0 1 0 0 76395.dat
+1 4 1620 -11 -80 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 1620 -11 0 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 1620 -11 80 1 0 0 0 -1 0 0 0 -1 40666.dat
+0 STEP
+0 // Source page 5: six clutch blocks and six upright short arms
+1 72 0 -107 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 0 -83 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334.dat
+1 72 220 -107 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 220 -83 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334.dat
+1 72 620 -107 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 620 -83 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334.dat
+1 72 1020 -107 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 1020 -83 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334.dat
+1 72 1420 -107 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 1420 -83 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334.dat
+1 72 1820 -107 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 1820 -83 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334.dat
+0 STEP
+0 // Source page 6: five chained long arms form rail plus one downward short end stop
+1 72 0 -283 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
+1 72 400 -283 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
+1 72 800 -283 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
+1 72 1200 -283 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
+1 72 1600 -283 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
+1 72 2000 -283 0 1 0 0 0 1 0 0 0 1 dev-129/28334.dat
+0 STEP
+0 // Source page 7: nine black4x6 train deck bricks: five lower and four crossing seams
+1 0 720 -351 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 880 -351 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 1040 -351 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 1200 -351 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 1360 -351 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 800 -399 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 960 -399 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 1120 -399 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 1280 -399 0 0 0 1 0 1 0 -1 0 0 76395.dat
+0 STEP
+0 // Source page 8: twelve red Toolo2x4 bricks in paired underside guides, two layers
+1 4 720 -303 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 720 -255 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 720 -303 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 720 -255 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1040 -303 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1040 -255 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1040 -303 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1040 -255 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1360 -303 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1360 -255 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1360 -303 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1360 -255 80 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+0 // Source page 9: two Toolo cockpit bases with pale-yellow curved canopies
+1 4 640 -375 0 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 19 492 -409 0 0 1 0 0 0 1 1 0 0 6345.dat
+1 4 1440 -375 0 0 0 -1 0 1 0 1 0 0 31196c01.dat
+1 19 1588 -409 0 0 -1 0 0 0 1 -1 0 0 6345.dat
+0 STEP
+0 // Source page 10: eight red2x4x3 window frames, each with one white four-pane insert
+1 4 800 -543 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 865.5 -471 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 800 -543 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 734.5 -471 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 960 -543 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 1025.5 -471 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 960 -543 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 894.5 -471 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 1120 -543 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 1185.5 -471 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 1120 -543 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 1054.5 -471 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 1280 -543 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 1345.5 -471 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 1280 -543 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 1214.5 -471 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+0 STEP
+0 // Source page 11: six yellow2x4 bricks close the carriage ends in three layers
+1 14 680 -447 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 680 -495 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 680 -543 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 1400 -447 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 1400 -495 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 1400 -543 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 12: two blue4x8 roofplates and two transverse blue2x4 endcaps
+1 1 880 -567 0 1 0 0 0 1 0 0 0 1 4672b.dat
+1 1 1200 -567 0 1 0 0 0 1 0 0 0 1 4672b.dat
+1 1 680 -567 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 1400 -567 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // PENDING: Base green plate seams, inverted black/red connections, and source pillar registration are unresolved. Base pose is explicitly provisional; no physical support claim.
+0 // PENDING: Rail pitch400 and middle pivot220 follow dev arm approximation. Source base registration is not measured and must not be inferred as exact from this preview.
+0 // PENDING: Train bottom at nominal rail envelope is a display/contact hypothesis; sliding guidance, pin clearances and vertical support need mesh/physical evidence.
+0 // PENDING: Cockpit/canopy assembly reuses approved approximate base and known official canopy transform; exact moulded fit remains unverified.
+0 // Source page 13: finished view, no duplicated placements.

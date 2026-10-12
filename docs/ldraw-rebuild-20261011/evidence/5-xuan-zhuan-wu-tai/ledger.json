@@ -1,0 +1,972 @@
+{
+  "slug": "5-xuan-zhuan-wu-tai",
+  "sourceSha256": "5015bfbbb964d5a624f2b8ed30171bac68b0adf4c2157e345ed8bd6c6315a9f6",
+  "previousDraftSha256": "ddc32886ea636f4e1721458b3daf9091056c23452236f85be27cf771f6e83aed",
+  "placementCount": 34,
+  "stepCount": 6,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "description": "Green6x12 base,11 yellow bricks, two red bearings and vertical8L axle",
+      "placements": [
+        {
+          "part": "4196.dat",
+          "color": 2,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 6,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 7,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 8,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 9,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 10,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 11,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 12,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 13,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 14,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 15,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -96,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 16,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -144,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 17,
+          "step": 1
+        },
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -192,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 18,
+          "step": 1
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -240,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 19,
+          "step": 1
+        },
+        {
+          "part": "6521.dat",
+          "color": 2,
+          "position": [
+            0,
+            -292,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 20,
+          "step": 1
+        }
+      ],
+      "placedBOM": {
+        "4196.dat": 1,
+        "3011.dat": 11,
+        "75349.dat": 1,
+        "75350.dat": 1,
+        "6521.dat": 1
+      }
+    },
+    {
+      "sourcePage": 2,
+      "description": "Horizontal6L shaft,40T gear, rear hub and input crank",
+      "placements": [
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -168,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 23,
+          "step": 2
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            0,
+            -168,
+            60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 24,
+          "step": 2
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            0,
+            -168,
+            -60
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 25,
+          "step": 2
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            0,
+            -168,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0
+          ],
+          "line": 26,
+          "step": 2
+        }
+      ],
+      "placedBOM": {
+        "6522.dat": 1,
+        "6530.dat": 1,
+        "6527.dat": 1,
+        "6526.dat": 1
+      }
+    },
+    {
+      "sourcePage": 3,
+      "description": "Blue24T crown stage and two stacked pulleys",
+      "placements": [
+        {
+          "part": "6529.dat",
+          "color": 1,
+          "position": [
+            0,
+            -272,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 29,
+          "step": 3
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            0,
+            -312,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 30,
+          "step": 3
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            0,
+            -352,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 31,
+          "step": 3
+        }
+      ],
+      "placedBOM": {
+        "6529.dat": 1,
+        "6527.dat": 2
+      }
+    },
+    {
+      "sourcePage": 4,
+      "description": "Horizontal11-hole carrier beam with two6L satellite shafts and lower retainers",
+      "placements": [
+        {
+          "part": "6525.dat",
+          "color": 14,
+          "position": [
+            0,
+            -392,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 34,
+          "step": 4
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            -120.0,
+            -432,
+            0.0
+          ],
+          "matrix": [
+            0.0,
+            0.9914448613738104,
+            0.13052619222005157,
+            -1,
+            0,
+            0,
+            0.0,
+            -0.13052619222005157,
+            0.9914448613738104
+          ],
+          "line": 35,
+          "step": 4
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -120.0,
+            -352,
+            0.0
+          ],
+          "matrix": [
+            0.9914448613738104,
+            0.13052619222005157,
+            0.0,
+            0,
+            0,
+            -1,
+            -0.13052619222005157,
+            0.9914448613738104,
+            0.0
+          ],
+          "line": 36,
+          "step": 4
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            120.0,
+            -432,
+            0.0
+          ],
+          "matrix": [
+            0.0,
+            0.9914448613738104,
+            0.13052619222005157,
+            -1,
+            0,
+            0,
+            0.0,
+            -0.13052619222005157,
+            0.9914448613738104
+          ],
+          "line": 37,
+          "step": 4
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            120.0,
+            -352,
+            0.0
+          ],
+          "matrix": [
+            0.9914448613738104,
+            0.13052619222005157,
+            0.0,
+            0,
+            0,
+            -1,
+            -0.13052619222005157,
+            0.9914448613738104,
+            0.0
+          ],
+          "line": 38,
+          "step": 4
+        }
+      ],
+      "placedBOM": {
+        "6525.dat": 1,
+        "6522.dat": 2,
+        "6527.dat": 2
+      }
+    },
+    {
+      "sourcePage": 5,
+      "description": "Three red24T gears at120LDU nominal pitch spacing",
+      "placements": [
+        {
+          "part": "6529.dat",
+          "color": 4,
+          "position": [
+            -120.0,
+            -432,
+            0.0
+          ],
+          "matrix": [
+            0.9914448613738104,
+            0.13052619222005157,
+            0.0,
+            0,
+            0,
+            -1,
+            -0.13052619222005157,
+            0.9914448613738104,
+            0.0
+          ],
+          "line": 41,
+          "step": 5
+        },
+        {
+          "part": "6529.dat",
+          "color": 4,
+          "position": [
+            0,
+            -432,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 42,
+          "step": 5
+        },
+        {
+          "part": "6529.dat",
+          "color": 4,
+          "position": [
+            120.0,
+            -432,
+            0.0
+          ],
+          "matrix": [
+            0.9914448613738104,
+            0.13052619222005157,
+            0.0,
+            0,
+            0,
+            -1,
+            -0.13052619222005157,
+            0.9914448613738104,
+            0.0
+          ],
+          "line": 43,
+          "step": 5
+        }
+      ],
+      "placedBOM": {
+        "6529.dat": 3
+      }
+    },
+    {
+      "sourcePage": 6,
+      "description": "Two up-facing crank carriers and short perforated stage platforms;p7 final",
+      "placements": [
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            -120.0,
+            -472,
+            0.0
+          ],
+          "matrix": [
+            0.13052619222005157,
+            0.0,
+            0.9914448613738104,
+            0,
+            -1,
+            0,
+            0.9914448613738104,
+            0.0,
+            -0.13052619222005157
+          ],
+          "line": 46,
+          "step": 6
+        },
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            -80.34220554504759,
+            -540,
+            -5.221047688802063
+          ],
+          "matrix": [
+            0.9914448613738104,
+            0.0,
+            0.13052619222005157,
+            0,
+            1,
+            0,
+            -0.13052619222005157,
+            0.0,
+            0.9914448613738104
+          ],
+          "line": 47,
+          "step": 6
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            120.0,
+            -472,
+            0.0
+          ],
+          "matrix": [
+            0.13052619222005157,
+            0.0,
+            0.9914448613738104,
+            0,
+            -1,
+            0,
+            0.9914448613738104,
+            0.0,
+            -0.13052619222005157
+          ],
+          "line": 48,
+          "step": 6
+        },
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            159.6577944549524,
+            -540,
+            -5.221047688802063
+          ],
+          "matrix": [
+            0.9914448613738104,
+            0.0,
+            0.13052619222005157,
+            0,
+            1,
+            0,
+            -0.13052619222005157,
+            0.0,
+            0.9914448613738104
+          ],
+          "line": 49,
+          "step": 6
+        }
+      ],
+      "placedBOM": {
+        "6526.dat": 2,
+        "75349.dat": 2
+      }
+    }
+  ],
+  "placedBOM": {
+    "4196.dat": 1,
+    "3011.dat": 11,
+    "75349.dat": 3,
+    "75350.dat": 1,
+    "6521.dat": 1,
+    "6522.dat": 3,
+    "6530.dat": 1,
+    "6527.dat": 5,
+    "6526.dat": 3,
+    "6529.dat": 4,
+    "6525.dat": 1
+  },
+  "targetVisibleBOM": {
+    "4196.dat": 1,
+    "3011.dat": 11,
+    "75349.dat": 3,
+    "75350.dat": 1,
+    "6521.dat": 1,
+    "6522.dat": 3,
+    "6530.dat": 1,
+    "6527.dat": 5,
+    "6526.dat": 3,
+    "6529.dat": 4,
+    "6525.dat": 1
+  },
+  "targetVisibleCount": 34,
+  "omitted": [],
+  "omittedCount": 0,
+  "limitations": [
+    "All7 source pages actually viewed.11 yellow body bricks and all source mechanisms retained, zero omission.",
+    "Base short center bearing lower than outer four-brick pillars; upper long bearing crosses all three support stacks. Vertical8L axis atX0/Z0 through nominal center bores, centeredY-292 endpoints[-452,-132]. No physical material clearance claim.",
+    "11hole beam rotated rigidly to horizontalX, centerY-392; side axesX+-120 give three24T pitch spacing120. Side6L endpointsY[-552,-312], lower hubs centered-352, upper gears-432, carriers-472. Stacked face contacts provide nominal support; gear tooth phase, rotation and retention unverified.",
+    "Source platforms rest on crank upper facesY-492; top bricksY-540 bottom-492. Main axle and eccentric pins nominally enter underside holes at80LDU separation. Hidden phase chosen same direction as source two carriers, without adding geometry.",
+    "Reasonable static phase correction: both complete keyed satellite assemblies (shaft, hubs, gear, crank and platform) rotate7.5degrees about their vertical axes. Trial recursive meshes reduce adjacent red gear strict crossings56 to0; central transmission319 and axle interfaces remain. Zero crossings do not prove free motion.",
+    "Complete satellite assemblies phased7.5degrees, reducing red gear pair strict crossings56 to0. Perpendicular transmission319 remains; centered axle/brick172/178, axle/beam104 and support crank156 remain actual mesh risks. No physical clearance acceptance."
+  ],
+  "accepted": false,
+  "physicalValidation": false,
+  "inventoryComparison": [
+    {
+      "part": "4196.dat",
+      "targetQuantity": 1,
+      "referencePart": "4196",
+      "reference9656AllColors": 1,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "3011.dat",
+      "targetQuantity": 11,
+      "referencePart": "3011",
+      "reference9656AllColors": 12,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "75349.dat",
+      "targetQuantity": 3,
+      "referencePart": "6517",
+      "reference9656AllColors": 4,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "75350.dat",
+      "targetQuantity": 1,
+      "referencePart": "6515",
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6521.dat",
+      "targetQuantity": 1,
+      "referencePart": "6521",
+      "reference9656AllColors": 5,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6522.dat",
+      "targetQuantity": 3,
+      "referencePart": "6522",
+      "reference9656AllColors": 7,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6530.dat",
+      "targetQuantity": 1,
+      "referencePart": "6530",
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6527.dat",
+      "targetQuantity": 5,
+      "referencePart": "6527",
+      "reference9656AllColors": 15,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6526.dat",
+      "targetQuantity": 3,
+      "referencePart": "6526",
+      "reference9656AllColors": 6,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6529.dat",
+      "targetQuantity": 4,
+      "referencePart": "6529",
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 2,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6525.dat",
+      "targetQuantity": 1,
+      "referencePart": "6525",
+      "reference9656AllColors": 4,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    }
+  ],
+  "validation": {
+    "sourceSha256": "5015bfbbb964d5a624f2b8ed30171bac68b0adf4c2157e345ed8bd6c6315a9f6",
+    "rawAlarmPairCount": 0,
+    "closureMissing": [],
+    "matrixInvalid": [],
+    "pixels": "pending",
+    "recursiveMeshEvidence": "interface-mesh-results.json"
+  },
+  "currentPixelReview": {
+    "path": "preparation\\5-xuan-zhuan-wu-tai\\current-pixel-review.json",
+    "sourceSha256": "5015bfbbb964d5a624f2b8ed30171bac68b0adf4c2157e345ed8bd6c6315a9f6",
+    "finalViewsActuallyViewed": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "allCumulativeStepsActuallyViewed": true,
+    "newVisibleErrorFound": false,
+    "physicalValidation": false,
+    "existingRisksRetained": true
+  }
+}

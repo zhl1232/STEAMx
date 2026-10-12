@@ -1,0 +1,26 @@
+{
+  "wheelProfileSampling": {
+    "offsetLdu": 20,
+    "axisDistanceLdu": 80,
+    "zIncrementLdu": 0.025,
+    "worst": {
+      "z": 0.012299999999934301,
+      "r1": 41.00248042496942,
+      "r2": 24.000605992349442,
+      "sum": 65.00308641731885
+    },
+    "clearanceLdu": 14.996913582681145,
+    "note": "Sampled radially conservative mesh cross sections, not continuous exact solid collision; flange boundary contact is allowed."
+  },
+  "brickSeparatingPlane": {
+    "normal": [
+      0.8191520442889918,
+      -0.573576436351046,
+      0
+    ],
+    "fixedMaxProjection": 196.01869143295767,
+    "upperMinProjection": 196.7206934174132,
+    "gapLdu": 0.702001984455535,
+    "note": "Positive gap is an exact separating-plane certificate for both rectangular brick bodies; studs extend upward from their top faces and are away from this nearest corner."
+  }
+}

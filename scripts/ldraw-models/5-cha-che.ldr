@@ -1,40 +1,137 @@
-0 5+ 叉车 (Forklift) - DUPLO draft for manual repair
+0 Forklift - source reconstruction; unaccepted development draft
 0 Name: 5-cha-che.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+叉车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Fork mast, yellow lift linkage, forks, load box and gear details are simplified.
-
-0 // STEP 1 - wheeled chassis and yellow body
-1 14 -120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 14 120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 14 -120 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -280 -96 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source PDF SHA256 c0308d6bbddcaa092caeec673d63ea6c77e08ccbf4e14e3185388294365c4145; all 20 pages actually viewed.
+0 // Existing approved cockpit approximation; gears, axial retention and support remain unaccepted.
+0 // SOURCE PAGE 1: green 8x16 plate and four red underside axle bricks; final upright coordinate frame
+1 2 0 -151.797667 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 4 -240 -127.797667 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -240 -127.797667 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 240 -127.797667 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 240 -127.797667 120 1 0 0 0 1 0 0 0 1 75349.dat
 0 STEP
-
-0 // STEP 2 - cab and roof
-1 8 -40 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 120 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -40 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 120 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 40 -240 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 25 200 -192 -120 1 0 0 0 1 0 0 0 1 2302.dat
+0 // SOURCE PAGE 2: four five-stud blue gear axles with teeth toward inner wall
+1 1 -240 -103.797667 -120 0 0 -1 0 1 0 1 0 0 6523.dat
+1 1 -240 -103.797667 120 0 0 1 0 1 0 -1 0 0 6523.dat
+1 1 240 -103.797667 -120 0 0 -1 0 1 0 1 0 0 6523.dat
+1 1 240 -103.797667 120 0 0 1 0 1 0 -1 0 0 6523.dat
 0 STEP
-
-0 // STEP 3 - front mast and lift arm
-1 0 -300 -96 -80 1 0 0 0 0 -1 0 1 0 31452.dat
-1 0 -300 -216 -80 1 0 0 0 0 -1 0 1 0 31452.dat
-1 14 -360 -168 -240 0 0 1 0 1 0 -1 0 0 31452.dat
-1 14 -480 -168 -240 0 0 1 0 1 0 -1 0 0 31452.dat
-1 14 -600 -168 -240 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // SOURCE PAGE 3: four forty-tooth yellow gears serve as wheels
+1 14 -240 -103.797667 -180 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 14 -240 -103.797667 180 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 240 -103.797667 -180 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 14 240 -103.797667 180 1 0 0 0 1 0 0 0 1 6530.dat
 0 STEP
-
-0 // STEP 4 - forks and blue load
-1 8 -700 -72 -160 0 0 1 0 1 0 -1 0 0 40666.dat
-1 8 -700 -72 0 0 0 1 0 1 0 -1 0 0 40666.dat
-1 1 -820 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -820 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -820 -144 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE 4: four yellow bricks and six blue plates reinforce underside
+1 14 -120 -127.797667 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -127.797667 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -200 -79.797667 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -200 -79.797667 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -120 -79.797667 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 120 -127.797667 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -127.797667 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 200 -79.797667 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 200 -79.797667 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 120 -79.797667 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 5: twelve-brick body layer: yellow border around four red bricks
+1 14 -80 -199.797667 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -199.797667 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -199.797667 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -199.797667 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -199.797667 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -199.797667 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -199.797667 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -199.797667 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -199.797667 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -199.797667 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -199.797667 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -199.797667 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 6: eight yellow bricks cross bond upper body
+1 14 -40 -247.797667 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -40 -247.797667 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -247.797667 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -247.797667 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -247.797667 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -247.797667 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -247.797667 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -247.797667 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 7: orange cab and pale yellow screen face forward
+1 25 80 -271.797667 0 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 46 -68 -305.797667 0 0 1 0 0 0 1 1 0 0 6345.dat
+0 STEP
+0 // SOURCE PAGE 8: red frame with white four-pane insert and three blue roof plates
+1 4 120 -439.797667 0 0 0 -1 0 1 0 1 0 0 61649.dat
+1 15 160 -367.797667 65.5 0 0 -1 0 1 0 1 0 0 90265.dat
+1 1 120 -463.797667 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 40 -487.797667 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 120 -487.797667 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 9: front tower: two plain red bricks around one red axle brick
+1 4 -240 -199.797667 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -247.797667 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -240 -295.797667 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 10: white gearbox with blue worm and red 24-tooth gear
+1 15 -240 -295.797667 0 1 0 0 0 1 0 0 0 1 31624.dat
+1 1 -240 -367.797667 0 0 0 1 0 1 0 -1 0 0 31625.dat
+1 4 -240 -463.797667 0 1 0 0 0 1 0 0 0 1 6529.dat
+0 STEP
+0 // SOURCE PAGE 11: grey worm axle, yellow pulley and crank handle
+1 7 -200 -367.797667 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 -120 -367.797667 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -80 -367.797667 0 0 1 0 0 0 -1 -1 0 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 12: two green axles and two seven-hole vertical beams
+1 2 -240 -463.797667 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 2 -240 -223.797667 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -240 -343.797667 -60 1 0 0 0 0 1 0 -1 0 6524.dat
+1 14 -240 -343.797667 60 1 0 0 0 0 1 0 -1 0 6524.dat
+0 STEP
+0 // SOURCE PAGE 13: two seven-hole top links and two crank retainers
+1 14 -360 -463.797667 -100 0 0 1 1 0 0 0 1 0 6524.dat
+1 14 -240 -463.797667 -140 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 14 -360 -463.797667 100 0 0 1 1 0 0 0 1 0 6524.dat
+1 14 -240 -463.797667 140 0 0 -1 1 0 0 0 -1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 14: two seven-hole lower links and pulley retainers
+1 14 -360 -223.797667 -100 0 0 1 1 0 0 0 1 0 6524.dat
+1 14 -240 -223.797667 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -360 -223.797667 100 0 0 1 1 0 0 0 1 0 6524.dat
+1 14 -240 -223.797667 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 15: green top axle, two eleven-hole front beams and four pulleys
+1 2 -480 -463.797667 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -480 -263.797667 -60 1 0 0 0 0 1 0 -1 0 6525.dat
+1 14 -480 -463.797667 -20 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -480 -463.797667 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -480 -263.797667 60 1 0 0 0 0 1 0 -1 0 6525.dat
+1 14 -480 -463.797667 20 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -480 -463.797667 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 16: green lower linkage axle and two outside pulleys
+1 2 -480 -223.797667 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -480 -223.797667 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -480 -223.797667 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 17: green bottom axle and two inside upright crank locks
+1 2 -480 -63.797667 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -480 -63.797667 -20 -1 0 0 0 0 -1 0 -1 0 6526.dat
+1 14 -480 -63.797667 20 1 0 0 0 0 -1 0 1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 18: two seven-hole fork tines and two outside crank locks
+1 14 -600 -63.797667 -100 0 0 1 1 0 0 0 1 0 6524.dat
+1 14 -480 -63.797667 -140 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 14 -600 -63.797667 100 0 0 1 1 0 0 0 1 0 6524.dat
+1 14 -480 -63.797667 140 0 0 -1 1 0 0 0 -1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 19: independent practice load: four blue bricks and red ten-stud beam
+1 1 -1000 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -1000 -96 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -1000 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -1000 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -1000 -144 0 0 0 1 0 1 0 -1 0 0 75350.dat

@@ -1,0 +1,85 @@
+{
+  "sourceSha256": "b423cf4f04a198290adf337b4cdf5387f4996bcbe18a6d349ff9a2624049420f",
+  "revision": "ccec6382f8d34cdd1106889ff11466853e5c603bbf744af90dc10032e85f15ea",
+  "reviewedAt": "2026-10-11T12:36:01.856450+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-kai-ye-zi-qi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "80d2975f0ee38966b42bffe0e9164140c541255de3e6bc79c7262b95fc1ec27a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "9c4f273d7f86b8d35ccae6291ab4b090c77471df3b2f3aecb0d7b84ed234c9fa",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "f39aa9b5fb2245c301421e99cce82976b4268b1da8a250faee8ecdeb20e9f14c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "7add8f324bd8f32c6560a121db2cb6f2266c3ec817b24099a7b67b0c6493566d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "3af48bde8fb0202d302e846702d8e3a2b9f58933a78abd7882b1393806eb01e9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "64381ce3ea436996a50585c44c5eef186f5234a5403f586e1bfd824b5447a67e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "36efe2e7f21115a59f1acd15c1af4273062b8f1e8b1ea4b09e663a71db842189",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "93a0147d826a46152927ab526c883823cbadaca3d59e9b9df3d5d478de0fbbc9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "8ce10a8d0f7778ba2e0c0da2399f313090421a222ff352823c6fb641afe94f06",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "4c63a5203170369c9b989ec84f6f6c7accd11aaaee7f5a2873324b927bad8083",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "3d300c74bd5698aed71daf5296819157711ed007def985b594d6c06155dc98ad",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "0d9e9f0f8e39df43001b5e1fc9ea5a0275df1e39d02faea66bbc28be2544202d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "4f908254dbf0ebf3a37eecca749ba1b3ccb2d6a945bc467391d2a23101316096",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "80d2975f0ee38966b42bffe0e9164140c541255de3e6bc79c7262b95fc1ec27a",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual final3 and all11 cumulative frames viewed after official high-resolution48/2-4chrd replacement; originalstep11 inspected. Orange3664 curved face/support remains visibly continuous and seated; no new definite source placement error. Current revisionccec6382 supersedes prior wrong-basename primitive render evidence. Camcontact, pulley80spacing, retention, dynamic sweep and inferred20degree lever remain unresolved; observation not physical acceptance."
+}

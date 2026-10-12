@@ -1,0 +1,108 @@
+{
+  "slug": "5-e-yu",
+  "lessonId": 253,
+  "courseId": 7,
+  "sourceSha256": "c089b59c16eaef20cbec4f4e72abad9c99ed34ee30a130b77dcbd59721b6b2bb",
+  "pdf": {
+    "name": "5+鳄鱼搭建说明.pdf",
+    "relative_path": "5+/5+鳄鱼搭建说明.pdf",
+    "pages": 14,
+    "bytes": 1569452,
+    "sha256": "00e9871df4a765fdafebfc688e7cfe30b207bd76734f0ecb69eb414c622bc87c",
+    "source_url": "https://pan.quark.cn/list#/docpdf/f272ebbdb8224330b5ea2abcb3f92160",
+    "slug": "5-e-yu",
+    "lesson_id": 253,
+    "course_id": 7
+  },
+  "verifiedPdfHash": true,
+  "assemblySteps": 13,
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-01.jpg",
+      "sha256": "adf6569a3d3be89f4306210de4d40e5d941bfc1f0bccd0ffe21d0ea2b001e3c1",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-02.jpg",
+      "sha256": "1eb45296dec0827678d60e5442f2cae302ee5bcd53c6d7dbda63d167966a001f",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-03.jpg",
+      "sha256": "d6809d4eb80d98ea7d9b7a5ea31f08d5318027c5f1c8836ccac2440670226ab9",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-04.jpg",
+      "sha256": "0d800dd8d6524d7081d760c13f2b1e3be19fe30c0b8be8e579d40c6add4bf313",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-05.jpg",
+      "sha256": "ef68e2bac30ce09847713b7678e034c6e5549abba6e8a7b48ebb893935dac34f",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-06.jpg",
+      "sha256": "a5583b0db40282f2573924141476796209019186551d219b35d0069150bef835",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-07.jpg",
+      "sha256": "175acb763ebfb66eef8b58d62af7a65a568e1bc4ab7c0ce7797c848232bb0fa0",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-08.jpg",
+      "sha256": "120e5a7de58460afa51612d2124072a76b09cdbfa0c85ca9ebf07f353c752f95",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-09.jpg",
+      "sha256": "65167b5c4ea0f83add4b4bf6554fefc05019e56615f355f5583a6b8c6da44432",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-10.jpg",
+      "sha256": "1d6bac8478134b92c222419c37b07a6c0ec8b26e1ba11e7fb258ed4e45c0b7c8",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-11.jpg",
+      "sha256": "a31478543322d4c289a3272f336cae4c7c0f06a9f3dce997f1ebc5dd97311aa3",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-12.jpg",
+      "sha256": "276dc739d54b8b9e6a5b9ded058870cbefbb0ccd04a55507ed302d5cee9b8df0",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-13.jpg",
+      "sha256": "f729e7d55d957578960322f40e699685ffe76137daf1868495056be090c2126f",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-e-yu\\page-14.jpg",
+      "sha256": "28582a6a2232937549910dd5d90f2df2c9b8f997f872fbfb261706027609680e",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "finalOverviewPage": 14,
+  "accepted": false,
+  "pixelTriggeredRepair": "Actual current final3 and 13 cumulative frames inspected against original p9/12/13/14: p9 two green eye bases, two printed eyes and two curved bricks were wrongly adjacent at Z +/-40. Corrected all six to Z +/-80 directly above respective red jaw rails, leaving central two-stud gap visible in source p9/14. No BOM change. New render required; old pixel coverage is not valid for this source. Gear phase, inner crank engagement and print variant remain unverified."
+}

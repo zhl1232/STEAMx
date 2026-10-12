@@ -1,0 +1,27 @@
+{
+  "slug": "5-dan-gan-yun-dong-yuan",
+  "sourceSha256": "45c42ce48bb244b3c82b007441bab20cca5df875a21dc18ec89228ad35b444f3",
+  "checkpointSha256": "45c42ce48bb244b3c82b007441bab20cca5df875a21dc18ec89228ad35b444f3",
+  "reviewedAt": "2026-10-11T07:19:33.025055+00:00",
+  "rawExit": 0,
+  "rawOutput": "OK   [5-dan-gan-yun-dong-yuan.ldr] 70 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarmPairCount": 0,
+  "classificationCounts": {},
+  "alarms": [],
+  "directPartFileSha256": {},
+  "noRawAlarmsMeaning": "No raw bounding-box alarms is not proof of source fidelity, support closure, dynamic operation or physical fit.",
+  "remainingSourceLimitations": [
+    {
+      "page": "1-4",
+      "part": "side-built foundation and pillar splice",
+      "missing": "hidden support/overlap order inferred; renderer must compare source before approval"
+    },
+    {
+      "page": 10,
+      "part": "shoe on beam-end",
+      "missing": "underside-tube retention not verified"
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

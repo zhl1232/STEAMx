@@ -1,0 +1,120 @@
+{
+  "sourceSha256": "8549a6d7c22f4b960fc75fb599dc9d3bdca51024b0b104133475be6ae975d178",
+  "revision": "f7d83518789e4c1eb18bea52a80eb2190eaa7dd87960882290295bf8b968e173",
+  "reviewedAt": "2026-10-11T07:31:13.633723+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-di-qiu-yi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "86bb6602b684634ef037769d61aa34519d810c1380fd098d114f501829feded5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "1ad9ae3ff76b2424b514d33654bc50d4e28476c5c98a4187ff22eafbe64993cb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "a979f2d2eba1212b3ab241c21151a09d23b86a098f44093c999db673fd251d3b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "1d586f6d6036f39fed7fa79a92318d2374f49bb801af132dcd78f989e80e3115",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "f6b750dcf9b677d08da94fad4fb847e0bd4128e4c947b0490980a90d4281cd7d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "eb8bc3d3f6a2f9065421c10274d08c1a0d5a28b7057c97ed4f2e34b78d596f55",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "1a7fe9b57d9e30533fb028c8287688402c43b35a572bf21502b52a2588abdfa6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "4486f55a9c329b75cfecf4b43edfffc7cf1506a11afd9bb1a50ffc6c04ffe843",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "7b3c619ce71de6c9e75baa3c0bc92dcd0637be01c8d08dcd8e232a554f6a6ab4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "6074a0f1cc59af354c9685fdbc49ff858eb92f9868c1753a552c98cc5eb136b3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "e42116c82c1813c4d497feff45e99ea012edac4784a68edb4ff9738d63bd757c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "70df785502592e508ea186d32e5c49a632f29fe3b98894904d2cf82bd3da9db0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "fa8ebe826f9171d6f31491b43d78af9006ad42c27844799bade30b9a7f87a408",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "966d4c034637ddc0e53de869884f91bf93bf0a9fb60087da3a73ed27ae3dfc59",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "03f8da53752923e7ee2ac118a00b3546db2e631175b48e6fada2fa04e35f583c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "951f76a592d54b759d65afad39a2bdc21e2832c3c1c5c84b94b3ed28f022110b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "35ddf17e80a8e28eb9dbc10a430bc51dad3f74a4f18daeaaf664f7349bf9bbfc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "25d23f678cf4df91e6b76d2310100b5f6ea29fc84f7b37762ca0dee8e6cc33c3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-16",
+      "sha256": "e461a10ecc4aa45e2227a6ea63aed394705a403b89d5fcd5810c8ad31329ceab",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-17",
+      "sha256": "05780fa76b4e6ec843cd1a5582bcfe7efaab3031471d7a7fa9e22107d40dd645",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-18",
+      "sha256": "86bb6602b684634ef037769d61aa34519d810c1380fd098d114f501829feded5",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected all18 cumulative step panels, enlarged step18 and compared source p18. Stepped support, lower pivot, expanding and shrinking colored hollow rings, upper crossbeam/caps and collars accumulate without new visible gross deviation. Current shorter shaft protrusion and shifted top yellow cap remain as previously corrected. Axle/bore retention, cantilever stiffness and full rotation clearance remain unverified; appearance is not physical validation. Same-hash final3 retained; provisional source reconstruction."
+}

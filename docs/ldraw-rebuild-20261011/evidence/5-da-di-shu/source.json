@@ -1,0 +1,79 @@
+{
+  "slug": "5-da-di-shu",
+  "sourceSha256": "cf913530a0b3c5098396b4cd21f627c67007c94ed1c3dc9904246d6f5047b916",
+  "previousDraftSha256": "51a3a6be363971df56e289fac54f9d4413b31e9c34393b4e20caea46244855c6",
+  "manifest": {
+    "name": "5+打地鼠搭建说明.pdf",
+    "relative_path": "5+/5+打地鼠搭建说明.pdf",
+    "pages": 10,
+    "bytes": 1509091,
+    "sha256": "fad0f9695b509dc78b30a403cca4b8f5c0f810d223e6940ffc87e59c7e05d054",
+    "source_url": "https://pan.quark.cn/list#/docpdf/72c1e85dfc3841cdba7ba6c3ae5cbfdc",
+    "slug": "5-da-di-shu",
+    "lesson_id": 244,
+    "course_id": 7
+  },
+  "materializationEvidence": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\materialization-verification.json",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-di-shu\\page-01.jpg",
+      "sha256": "2e5d7369e143321621848d8d7b52634c072157b81756df80f460bf6a001ac52d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-di-shu\\page-02.jpg",
+      "sha256": "d36877fc87bf5a770216c594cf63c4a07229399a6dd61f09a7269355b154de8a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-di-shu\\page-03.jpg",
+      "sha256": "b937fc7caab95caec3f38adb0ba05447068720108b4084b0e925934451053ea3",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-di-shu\\page-04.jpg",
+      "sha256": "bd32faadc9e3290335775b06b5feee4d0d5c6f42288b44f6513b05d8a790285e",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-di-shu\\page-05.jpg",
+      "sha256": "0a61980632e2d7c6241d5883180f3014b7306053a9d3227592bbf4f560873646",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-di-shu\\page-06.jpg",
+      "sha256": "2216e1d17ebcdcdca5315ea71815dddadde09426a49240f4227a1e0aac0546bc",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-di-shu\\page-07.jpg",
+      "sha256": "d68ab4469185682063926e776b42c1e220e4caf134bb05cb6452163598c99c2b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-di-shu\\page-08.jpg",
+      "sha256": "2595c04f6aed64994bd53577c7277d172119cbf6b1034445503aca3ce229d026",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-di-shu\\page-09.jpg",
+      "sha256": "3fb171fa0755b2ab0330a5d50e5281a29139ba75653d4709ab2757855bf60f9b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-di-shu\\page-10.jpg",
+      "sha256": "23a31480f1b30d4e1d58e28c220831fc3422da3f334ddad1b690138d6a143f9a",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

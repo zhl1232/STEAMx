@@ -1,0 +1,25 @@
+# 冰球运动员
+
+状态：source reconstruction / pending diagnostic render / pending user confirmation。51件主放置，12新增步骤，p13最终视图。无实物验证。
+
+源 PDF `D:/Codex-task-2-20261011/inputs/pdfbatch2/5+/5+冰球运动员搭建说明.pdf`，SHA256 `b1f55dd0d9318d6b838af6fe733b34ac54db92ad0f3713f627e98046a7c04104`。13页全量实际看像素。
+
+逐页对应：p1两红黄轮车底+四黄3011；p2双75349髋部拼接、蓝40666下桥、红3011；p3蓝红蓝躯干；p4红75350肩、蓝砖板与头75349；p5双黄内凹头11169；p6两6525前梁、两灰轴、四6526；p7两灰轴、两滑轮、两短柄；p8灰轴、两滑轮、6292黑胎、6529红齿；p9两75349与四蓝板形成双向肩轴承；p10绿轴、两滑轮、蓝31622冠齿；p11黄长梁球杆与短柄；p12红41250球；p13最终图。
+
+头部辨别：源p5两顶stud、内凹弧、总底宽2stud。官方11169为stug7-1x2、真实Y0..72、Z-60..20，与源吻合；11344为四顶stud凸曲面，不能替代。本地11169原metadata写高96且原点错误，真实bbox sidecar11169-metadata.json交主整合。下载11344仅用作排除比较，本课无11344放置。
+
+车底用现有真实10715p02（黄色轮+红车身），轮胎6292由9656库存和官方DAT核实，冠齿31622已由missing_parts核闭合。杆轴均652x官方形状。冠齿轴X与红齿轴Z垂直，名义节圆接触点X-60、Z-60；尚需像素/齿相检查。上部两滑轮轴距80小于外圈径82；右后轮沿同轴外滑20 LDU，保留至少40LDU轴啮合，避免外圈实体相交。
+
+raw checker首次51件四项错误：两项头旧metadata、一项相邻轮（已移20深度）、一项6292胎与两6527套接AABB。待主合11169后重跑；轮胎内孔/双轮嵌套不应全局关闭碰撞，需要实际几何验证。没有将未验证零件隐藏为通过。
+
+库存9656只参考：红3011×2、蓝3011×3、黄3011×4、75349×5、75350×1、灰6522×5、6525×3、6526×7、6527×6、6292×1、6529×1、31622×1、6521×1、蓝40666×6、11169×2、车底×2、球×1。75349比参考4多1，短6526比参考6多1；蓝板、内凹头、车底与球分色真实库存待核。实际用户库存unknown，不据此否定零件存在。
+
+接触修正：p8单6527与6292同心Z120，第二轮位于红齿后Z-100。6292内腔分段24/41 LDU，对应轮毂24/外圈41。contacts-report采样最坏差-0.00445 LDU属DAT圆周舍入量，不能解释成实物干涉证据；双后轮相隔20LDU轴向，保守净距14.997。旧11169问题已合，raw剩2项AABB误报（邻轮、同心套胎），51件。待像素。
+
+
+## 最新三视图像素复核
+已实际查看更新iso、iso-rear、top全部三视图。外观与源图对应，最新调整无新增可见问题；final renderer-verified only，累计步骤仍待验证。 pending user confirmation，未作实物验证。
+
+## D final pixel review
+Actually viewed original iso, iso-rear and top, comparing source p9 and p13. Body, curved head, gear front, stick, ball and rolling feet fully framed and broadly correspond. Rear tyre/pulley cavity and hidden axle engagement remain limited by earlier profile/metadata checks; dynamic stick travel and physical play unverified. current-pixel-review.json binds exact source/revision. No source edits, no new exceptions. Cumulative D steps pending.
+

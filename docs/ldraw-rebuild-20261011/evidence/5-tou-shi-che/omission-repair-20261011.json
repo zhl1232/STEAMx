@@ -1,0 +1,211 @@
+{
+  "slug": "5-tou-shi-che",
+  "beforeSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+  "afterSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
+  "sourcePagesActuallyReViewed": [
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "beforePlacedCount": 48,
+  "afterPlacedCount": 50,
+  "beforeOmittedCount": 17,
+  "afterOmittedCount": 15,
+  "restoredBOM": {
+    "6527.dat": 2
+  },
+  "remainingOmittedBOM": {
+    "6527.dat": 4,
+    "6522.dat": 2,
+    "6526.dat": 8,
+    "3437.dat": 1
+  },
+  "items": [
+    {
+      "id": "p9-retainer--1",
+      "part": "6527.dat",
+      "sourcePage": 9,
+      "status": "restored",
+      "transform": "1 14 103.923048 -561.575681 -100 1 0 0 0 1 0 0 0 1 6527.dat",
+      "basis": "Source p9 explicitly four retainers on two existing grey axles. t120 axle already spans z+-120; extension beam outer face z+-80, retainer center+-100 yields axial extent reaching axle ends and outer beam face. Independent second look agrees. No dependency on omitted basket.",
+      "risk": "Adjacent same-side t200 retainer has22 strict mesh crossing witnesses; depth/phase still requires exact fit review."
+    },
+    {
+      "id": "p9-retainer-1",
+      "part": "6527.dat",
+      "sourcePage": 9,
+      "status": "restored",
+      "transform": "1 14 103.923048 -561.575681 100 1 0 0 0 1 0 0 0 1 6527.dat",
+      "basis": "Source p9 explicitly four retainers on two existing grey axles. t120 axle already spans z+-120; extension beam outer face z+-80, retainer center+-100 yields axial extent reaching axle ends and outer beam face. Independent second look agrees. No dependency on omitted basket.",
+      "risk": "Adjacent same-side t200 retainer has22 strict mesh crossing witnesses; depth/phase still requires exact fit review."
+    },
+    {
+      "id": "p10-far-cross-axle",
+      "part": "6522.dat",
+      "sourcePage": 10,
+      "status": "still_omitted",
+      "location": "far raised basket cross shaft above the extension rails",
+      "cannotDistinguish": "A shaft through paired crank holes with crank pins entering rail holes versus a shaft through rail holes with crank bodies forming the raised rim; rear interfaces are hidden by outer retainers.",
+      "requiredEvidence": "Oblique rear/underside closeup of this basket end with outer retainers removed, showing both crank holes and rail hole index, and axial stack order."
+    },
+    {
+      "id": "p10-near-side-retainer",
+      "part": "6527.dat",
+      "sourcePage": 10,
+      "status": "still_omitted",
+      "location": "far basket cross shaft near-side end",
+      "cannotDistinguish": "Pulley face can be outside one or two crank thicknesses; shaft support and insertion depth unresolved until crossed-crank topology is known.",
+      "requiredEvidence": "Axial end view of cross shaft with crank stack visible, or measured stack thickness and shaft engagement."
+    },
+    {
+      "id": "p10-far-side-retainer",
+      "part": "6527.dat",
+      "sourcePage": 10,
+      "status": "still_omitted",
+      "location": "far basket cross shaft far-side end",
+      "cannotDistinguish": "Pulley face can be outside one or two crank thicknesses; shaft support and insertion depth unresolved until crossed-crank topology is known.",
+      "requiredEvidence": "Axial end view of cross shaft with crank stack visible, or measured stack thickness and shaft engagement."
+    },
+    {
+      "id": "p10-crank-near-inner",
+      "part": "6526.dat",
+      "sourcePage": 10,
+      "status": "still_omitted",
+      "location": "far basket rim near-inner crank",
+      "knownGeometry": "Official6526: hole at local(0,0,0) alongY, integral pin at(0,20,80) alongY; center offset80LDU and20LDU pin shoulder; no scaling permitted.",
+      "cannotDistinguish": "Source shows four cranks but hides which integral pin enters the extension rail versus another crank hole, pin inward/outward sign and one/two-thickness axial stagger. Red-highlighted pin suggests a rail hole near first free extension hole but does not expose all four interfaces.",
+      "requiredEvidence": "Rear and underside basket closeups, with retaining pulley removed; number rail holes from t120 extension endpoint and show pin direction for both crank layers."
+    },
+    {
+      "id": "p10-crank-near-outer",
+      "part": "6526.dat",
+      "sourcePage": 10,
+      "status": "still_omitted",
+      "location": "far basket rim near-outer crank",
+      "knownGeometry": "Official6526: hole at local(0,0,0) alongY, integral pin at(0,20,80) alongY; center offset80LDU and20LDU pin shoulder; no scaling permitted.",
+      "cannotDistinguish": "Source shows four cranks but hides which integral pin enters the extension rail versus another crank hole, pin inward/outward sign and one/two-thickness axial stagger. Red-highlighted pin suggests a rail hole near first free extension hole but does not expose all four interfaces.",
+      "requiredEvidence": "Rear and underside basket closeups, with retaining pulley removed; number rail holes from t120 extension endpoint and show pin direction for both crank layers."
+    },
+    {
+      "id": "p10-crank-far-inner",
+      "part": "6526.dat",
+      "sourcePage": 10,
+      "status": "still_omitted",
+      "location": "far basket rim far-inner crank",
+      "knownGeometry": "Official6526: hole at local(0,0,0) alongY, integral pin at(0,20,80) alongY; center offset80LDU and20LDU pin shoulder; no scaling permitted.",
+      "cannotDistinguish": "Source shows four cranks but hides which integral pin enters the extension rail versus another crank hole, pin inward/outward sign and one/two-thickness axial stagger. Red-highlighted pin suggests a rail hole near first free extension hole but does not expose all four interfaces.",
+      "requiredEvidence": "Rear and underside basket closeups, with retaining pulley removed; number rail holes from t120 extension endpoint and show pin direction for both crank layers."
+    },
+    {
+      "id": "p10-crank-far-outer",
+      "part": "6526.dat",
+      "sourcePage": 10,
+      "status": "still_omitted",
+      "location": "far basket rim far-outer crank",
+      "knownGeometry": "Official6526: hole at local(0,0,0) alongY, integral pin at(0,20,80) alongY; center offset80LDU and20LDU pin shoulder; no scaling permitted.",
+      "cannotDistinguish": "Source shows four cranks but hides which integral pin enters the extension rail versus another crank hole, pin inward/outward sign and one/two-thickness axial stagger. Red-highlighted pin suggests a rail hole near first free extension hole but does not expose all four interfaces.",
+      "requiredEvidence": "Rear and underside basket closeups, with retaining pulley removed; number rail holes from t120 extension endpoint and show pin direction for both crank layers."
+    },
+    {
+      "id": "p11-near-cross-axle",
+      "part": "6522.dat",
+      "sourcePage": 11,
+      "status": "still_omitted",
+      "location": "near raised basket cross shaft above the extension rails",
+      "cannotDistinguish": "A shaft through paired crank holes with crank pins entering rail holes versus a shaft through rail holes with crank bodies forming the raised rim; rear interfaces are hidden by outer retainers.",
+      "requiredEvidence": "Oblique rear/underside closeup of this basket end with outer retainers removed, showing both crank holes and rail hole index, and axial stack order."
+    },
+    {
+      "id": "p11-near-side-retainer",
+      "part": "6527.dat",
+      "sourcePage": 11,
+      "status": "still_omitted",
+      "location": "near basket cross shaft near-side end",
+      "cannotDistinguish": "Pulley face can be outside one or two crank thicknesses; shaft support and insertion depth unresolved until crossed-crank topology is known.",
+      "requiredEvidence": "Axial end view of cross shaft with crank stack visible, or measured stack thickness and shaft engagement."
+    },
+    {
+      "id": "p11-far-side-retainer",
+      "part": "6527.dat",
+      "sourcePage": 11,
+      "status": "still_omitted",
+      "location": "near basket cross shaft far-side end",
+      "cannotDistinguish": "Pulley face can be outside one or two crank thicknesses; shaft support and insertion depth unresolved until crossed-crank topology is known.",
+      "requiredEvidence": "Axial end view of cross shaft with crank stack visible, or measured stack thickness and shaft engagement."
+    },
+    {
+      "id": "p11-crank-near-inner",
+      "part": "6526.dat",
+      "sourcePage": 11,
+      "status": "still_omitted",
+      "location": "near basket rim near-inner crank",
+      "knownGeometry": "Official6526: hole at local(0,0,0) alongY, integral pin at(0,20,80) alongY; center offset80LDU and20LDU pin shoulder; no scaling permitted.",
+      "cannotDistinguish": "Source shows four cranks but hides which integral pin enters the extension rail versus another crank hole, pin inward/outward sign and one/two-thickness axial stagger. Red-highlighted pin suggests a rail hole near first free extension hole but does not expose all four interfaces.",
+      "requiredEvidence": "Rear and underside basket closeups, with retaining pulley removed; number rail holes from t120 extension endpoint and show pin direction for both crank layers."
+    },
+    {
+      "id": "p11-crank-near-outer",
+      "part": "6526.dat",
+      "sourcePage": 11,
+      "status": "still_omitted",
+      "location": "near basket rim near-outer crank",
+      "knownGeometry": "Official6526: hole at local(0,0,0) alongY, integral pin at(0,20,80) alongY; center offset80LDU and20LDU pin shoulder; no scaling permitted.",
+      "cannotDistinguish": "Source shows four cranks but hides which integral pin enters the extension rail versus another crank hole, pin inward/outward sign and one/two-thickness axial stagger. Red-highlighted pin suggests a rail hole near first free extension hole but does not expose all four interfaces.",
+      "requiredEvidence": "Rear and underside basket closeups, with retaining pulley removed; number rail holes from t120 extension endpoint and show pin direction for both crank layers."
+    },
+    {
+      "id": "p11-crank-far-inner",
+      "part": "6526.dat",
+      "sourcePage": 11,
+      "status": "still_omitted",
+      "location": "near basket rim far-inner crank",
+      "knownGeometry": "Official6526: hole at local(0,0,0) alongY, integral pin at(0,20,80) alongY; center offset80LDU and20LDU pin shoulder; no scaling permitted.",
+      "cannotDistinguish": "Source shows four cranks but hides which integral pin enters the extension rail versus another crank hole, pin inward/outward sign and one/two-thickness axial stagger. Red-highlighted pin suggests a rail hole near first free extension hole but does not expose all four interfaces.",
+      "requiredEvidence": "Rear and underside basket closeups, with retaining pulley removed; number rail holes from t120 extension endpoint and show pin direction for both crank layers."
+    },
+    {
+      "id": "p11-crank-far-outer",
+      "part": "6526.dat",
+      "sourcePage": 11,
+      "status": "still_omitted",
+      "location": "near basket rim far-outer crank",
+      "knownGeometry": "Official6526: hole at local(0,0,0) alongY, integral pin at(0,20,80) alongY; center offset80LDU and20LDU pin shoulder; no scaling permitted.",
+      "cannotDistinguish": "Source shows four cranks but hides which integral pin enters the extension rail versus another crank hole, pin inward/outward sign and one/two-thickness axial stagger. Red-highlighted pin suggests a rail hole near first free extension hole but does not expose all four interfaces.",
+      "requiredEvidence": "Rear and underside basket closeups, with retaining pulley removed; number rail holes from t120 extension endpoint and show pin direction for both crank layers."
+    },
+    {
+      "id": "p11-payload",
+      "part": "3437.dat",
+      "sourcePage": 11,
+      "status": "still_omitted",
+      "location": "Blue2x2 payload between two basket rows",
+      "cannotDistinguish": "Payload may rest on crank bodies, cross shafts or extension rails; source gives studs-up appearance but hides underside seat height/contact and exact yaw. Current missing basket cannot support an independently added payload.",
+      "requiredEvidence": "Side/underside view through basket showing payload bottom relative to crank bodies and rail tops; height/contact measurement if underside remains hidden."
+    }
+  ],
+  "independentReview": "preparation/catapult-local-repair-second-look.json",
+  "staticResult": {
+    "false_positive_aabb": 4,
+    "true_risk": 6,
+    "insufficient_evidence": 4
+  },
+  "rerenderRequired": [
+    "final iso",
+    "final iso-rear",
+    "final top",
+    "all cumulative steps for new source binding; visual changes9-11 only"
+  ],
+  "accepted": false,
+  "physicalValidation": false,
+  "currentPixelReview": {
+    "sourceSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
+    "revision": "1e049b6f3362e24144cf235098c04ead89ab8e3adece00d6d44362fc89936def",
+    "record": "preparation/5-tou-shi-che/current-pixel-review.json",
+    "finalViews": 3,
+    "cumulativeSteps": 11,
+    "actuallyReviewed": true,
+    "accepted": false
+  }
+}

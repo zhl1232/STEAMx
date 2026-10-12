@@ -1,0 +1,47 @@
+{
+  "slug": "5-xuan-zhuan-men",
+  "sourceSha256": "a96e9aa223a5d061446bbb2f856452097beaf880ffc8af33414192d1afb64797",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 0,
+  "rawOutput": "OK   [5-xuan-zhuan-men.ldr] 89 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarms": [],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "Top orthogonal gear phase/depth and shaft retention remain unverified; axis seats inferred from actual hole grid, not physical validation.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Bottom/top pivot bearing clearance and full door sweep require mechanical verification.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P8 four thin plates inferred from BOM/profile; hidden overlap bond chosen to support header.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P11 tilted bearing is nominal 30 degrees on separate top-row shaft; source pose angle not measured.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Lower pulley actual axial extent +/-20 seats on y-48 bearing; lower crossed brick bottom y-88. Door shifted8LDU from first layout to eliminate real12/8LDU thrust-seat overlap; fixed header retained.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "physicalValidation": false,
+  "overallAcceptance": false,
+  "pixelObservation": {
+    "sourceSha256": "a96e9aa223a5d061446bbb2f856452097beaf880ffc8af33414192d1afb64797",
+    "revision": "9371aa10dc15a1def754833861f78ce89665a3c7180c33d0f0fda3087fb4e676",
+    "record": "current-pixel-review.json",
+    "finalViewsActuallyViewed": 3,
+    "cumulativeStepsActuallyViewed": 11,
+    "observations": "Actually viewed current iso/iso-rear/top original PNGs and all11 cumulative contact tiles, step4 original; rechecked source final p12. Crossed door wings, alternating towers, header stack and inclined right bearing correspond in overall arrangement; no new definite source error observed. Door thrust seat8LDU correction retained. Hidden header thin-plate bond, rotating sweep, upper/lower pivot retention, crown/red gear phase/depth and30degree bearing pose remain nominal and unverified. This is pixel observation, not physical or functional acceptance.",
+    "accepted": false
+  }
+}

@@ -1,0 +1,120 @@
+0 5-ta-diao - source reconstruction; INCOMPLETE dev-only
+0 Name: 5-ta-diao.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // PDF SHA256 dc95d205b051791aaf05098b929ecbe6225e5b6586b49ed656c20121b637bd12
+0 // All16 source pages actually viewed; final page is presentation only.
+0 // No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.
+0 // SOURCE PAGE 1 - Square base with two foot bricks, long crossbeam and blue capped yellow root
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 14 -160 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 160 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 0 -96 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 0 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -168 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // SOURCE PAGE 2 - Striped pillar with short centrebeam and long uppercrossbeam
+1 4 0 -216 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 0 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -312 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -360 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -456 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 3 - Three transverse axles and two eleven-hole vertical braces
+1 7 0 -72 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 0 -72 -104 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 0 -72 104 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 0 -192 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 0 -192 -104 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 0 -192 104 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 0 -432 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 0 -432 -104 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 0 -432 104 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -272 -64 1 0 0 0 0 -1 0 1 0 6525.dat
+1 14 0 -272 64 1 0 0 0 0 -1 0 1 0 6525.dat
+0 // UNVERIFIED three6522 shafts - 6L inferred fromgrey sourceaxis; fixed240LDU shaft vs outerwheelspan248 leaves4LDU wheel-end overhang on eachside. Nominal nonzero insertion is not locking proof.
+0 STEP
+0 // SOURCE PAGE 4 - Side crank, forty-tooth drive and upright twenty-four-tooth gear
+1 1 80 -432 0 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 80 -432 -80 1 0 0 0 0 1 0 -1 0 6526.dat
+1 1 80 -432 80 1 0 0 0 1 0 0 0 1 6530.dat
+1 4 80 -476 0 1 0 0 0 0 -1 0 1 0 6529.dat
+1 0 80 -536 0 0 -1 0 1 0 0 0 0 1 6522.dat
+0 // UNVERIFIED orthogonal rotation geartrain - Red24T/blue40T axes and nominalheight derived fromsource andpartthickness; exact phase/mesh/collision/load retention unverified. 6Lverticalshaftlength inferred from unobstructedactualspan; source6Lvs8Lnotuniquelyproven, candidate retained.
+0 STEP
+0 // SOURCE PAGE 5 - Two yellow thrust pulleys and rotating upperlongbeam
+1 14 80 -516 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 80 -556 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 80 -624 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 6 - Two blue end bricks and central rectangular-cutout bridge
+1 1 -40 -672 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 200 -672 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -768 0 1 0 0 0 1 0 0 0 1 6394.dat
+0 STEP
+0 // SOURCE PAGE 7 - Right twin eleven-hole jib rails fixed at two root holes
+1 14 360 -600 -64 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 360 -600 64 0 0 1 1 0 0 0 1 0 6525.dat
+1 7 160 -600 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 160 -600 -104 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 160 -600 104 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 240 -600 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 240 -600 -104 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 240 -600 104 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 8 - Left twin eleven-hole jib rails
+1 14 -200 -600 -64 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 -200 -600 64 0 0 1 1 0 0 0 1 0 6525.dat
+1 7 -80 -600 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 -80 -600 -104 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -80 -600 104 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 0 -600 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 0 -600 -104 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 0 -600 104 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 9 - Prepare flexible lifting string - geometry absent
+0 // UNVERIFIED 75536 stringcomponent - Known assemblyuses6527and4663; exact cordlength/winding/knot andflexiblegeometry notavailable. Do notinventlinegeometry.
+0 STEP
+0 // SOURCE PAGE 10 - Known pulley and hook placed in final source-supported suspension locations
+1 14 560 -600 0 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 560 -240 0 1 0 0 0 1 0 0 0 1 4663.dat
+0 // UNVERIFIED hook support - Sourceexplicitstring supports4663; currentcordmesh absent, vertical360LDU drop isillustrationinference notmeasuredlength. No actualsupport/hoistingvalidation.
+0 STEP
+0 // SOURCE PAGE 11 - Tip winch shaft, red drivegear and two retainers
+1 0 560 -600 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 560 -600 -104 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 560 -600 104 1 0 0 0 1 0 0 0 1 6527.dat
+1 4 560 -600 -144 -1 0 0 0 1 0 0 0 -1 6529.dat
+0 // UNVERIFIED tip shaft6521 vs6522 - Sourceicon alone ambiguous6L/8L. 8L installedidentitycandidate hasenoughnominal328LDUstack with4LDUendoverhang; 6L cannotspan shownstack. Must confirmactualsourceaxislength andwheelordering.
+0 STEP
+0 // SOURCE PAGE 12 - Tilted red brake lever at adjacent jib hole
+1 0 440 -600 -40 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 440 -600 -184 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 440 -600 104 1 0 0 0 1 0 0 0 1 6527.dat
+1 4 423.029437 -616.970563 -124 0.707106781 0.707106781 0 -0.707106781 0.707106781 0 0 0 1 75349.dat
+0 // UNVERIFIED brakelever angle - 45degree rigidpose inferredfromimage,notmeasured; exactcontactred24gear andshaftstack retention remainmanual.
+0 STEP
+0 // SOURCE PAGE 13 - Vertical red shortbeam at opposite jib tip
+1 7 -400 -600 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 -400 -600 -104 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -400 -600 104 1 0 0 0 1 0 0 0 1 6527.dat
+1 4 -424 -560 0 0 1 0 -1 0 0 0 0 1 75349.dat
+0 STEP
+0 // SOURCE PAGE 14 - First side-built counterweight bluecolumns and doubleyellow binder
+1 1 -472 -520 -40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 -472 -520 40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -520 -520 0 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 -568 -520 0 0 1 0 0 0 1 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 15 - Extended counterweight, preserving seven added sourcebricks
+1 1 -472 -360 -40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 -472 -360 40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 -424 -400 0 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -520 -440 0 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 -568 -440 0 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 -520 -360 0 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 -568 -360 0 0 1 0 0 0 1 1 0 0 3011.dat
+0 // UNVERIFIED counterweight hiddenlayout - 5blue+6yellowsourceBOM retained. Allsidebuilt layers use48LDU normal thickness; doubleyellowdepth andsinglehiddenbluebacking are allowedhiddenlayout inference,notmeasuredcounterweight. Momentbalance/swingclearance notvalidated.
+0 // Source final page adds no parts.

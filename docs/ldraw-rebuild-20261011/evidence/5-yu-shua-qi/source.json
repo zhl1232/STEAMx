@@ -1,0 +1,101 @@
+{
+  "slug": "5-yu-shua-qi",
+  "lessonId": 323,
+  "courseId": 7,
+  "sourceSha256": "d610707a8bad9944f01746f1b1f09a9cd98f8a9a63bb98a38e811c8a6da36539",
+  "pdf": {
+    "name": "5+雨刷器搭建说明.pdf",
+    "relative_path": "5+/5+雨刷器搭建说明.pdf",
+    "pages": 13,
+    "bytes": 1652847,
+    "sha256": "eb52586266d475d4bf83965dd32813744a32ba0d5e276afebf04a9361c601af5",
+    "source_url": "https://pan.quark.cn/list#/docpdf/9a23f2ccb9c743a6800e0936755e3d66",
+    "slug": "5-yu-shua-qi",
+    "lesson_id": 323,
+    "course_id": 7
+  },
+  "verifiedPdfHash": true,
+  "manifestSha256": "bcb60ed9dc2485bce1fea177bf7153b30339d14fb6e49d058a4e3e8788578077",
+  "assemblySteps": 12,
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-yu-shua-qi\\page-01.jpg",
+      "sha256": "85ac31a47cc2e476a273c5625ef158e3c0aa9f3765e1197ca3087bdde454b5c4",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-yu-shua-qi\\page-02.jpg",
+      "sha256": "fe6d6feaecb158dfeabbc422068a1ed05f458a973d7ae825b32757c30e6f2344",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-yu-shua-qi\\page-03.jpg",
+      "sha256": "4f3d763486c7fec3b9b0a7b9af584b8753a3116ee7156e9cd49791e4019b6c54",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-yu-shua-qi\\page-04.jpg",
+      "sha256": "6a9d902cb4bea2bc3b4d47527819c8de069d272983b8d46e9ef9ec1f85a98395",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-yu-shua-qi\\page-05.jpg",
+      "sha256": "c8831ac2da15b418297d70f7794981520072069751bf5ab0a87c468101ea9712",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-yu-shua-qi\\page-06.jpg",
+      "sha256": "fdc7257916ef52c19bc2b67e5eb4b4c56b16d440feb59f10819c1ee3b8eb53e8",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-yu-shua-qi\\page-07.jpg",
+      "sha256": "6f035cd748200ba3b6c5c37a9304a9223030ed6a8218ba4c90abae6f568afcad",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-yu-shua-qi\\page-08.jpg",
+      "sha256": "38a11f1ee34f8a3735d70fee1871d4b2ed0970dbb4965f0ab50fb39878bc6088",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-yu-shua-qi\\page-09.jpg",
+      "sha256": "d42197faaf621b879c2388552ba43390079601945da28a236009ece2947cf575",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-yu-shua-qi\\page-10.jpg",
+      "sha256": "a22f95cfe92a06a5336f2ef1d91eda6f95f082da7fd3b8d0e7d112f091661020",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-yu-shua-qi\\page-11.jpg",
+      "sha256": "6073069a7415d960fa3a23841322f84369cf186db839bb22a7093f6bf5252b0f",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-yu-shua-qi\\page-12.jpg",
+      "sha256": "fae8e2c852e14f585357ab23b3705c3d5cc21f9c3eeb69ea95e2ce4b0c9c1001",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch15\\5-yu-shua-qi\\page-13.jpg",
+      "sha256": "114a98bbd180e9881f3781cdb963be802d8e1f54d171fc0484d92b32e42ee428",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "accepted": false
+}

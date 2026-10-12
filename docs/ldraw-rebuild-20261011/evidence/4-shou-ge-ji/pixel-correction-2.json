@@ -1,0 +1,34 @@
+{
+  "beforeSourceSha256": "47e8e5c8aad2cb5739ca3787a99fcf1e395b3a2529fc6b4dcc4aee92e057c569",
+  "beforeRevisionPrefix": "4e72fcf",
+  "afterSourceSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+  "actuallyViewed": [
+    "current final3 original PNGs and contact",
+    "all8 steps contact",
+    "step3 original",
+    "step7 original",
+    "sourcep3 original",
+    "sourcep7 original"
+  ],
+  "finding": "Sourcep3 upper longitudinal beams sit on the OUTER two stud rows of the transverse root. Previous correction incorrectly moved both lower and upper centres toZ+/-80. Top render shows cockpit side walls emerging inside yellow beams.",
+  "change": "Only six upper longitudinal root/extension/bridge placements restoreZ+/-120. Lower transverse roots remainZ+/-80 with 160LDU transverse span. Nominal inner corridor expands80 to160LDU.",
+  "support": "Lower roots each spanZ0..160 or-160..0. Upper beams spanZ80..160 or-160..-80, leaving inner80LDU of each transverse root exposed as sourcep3. Nominal overlap80x80.",
+  "affectedSteps": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "partCount": 41,
+  "missingGeometryQuantity": 6,
+  "remainingRisk": "Approximate31196c01 total width192 versus source4stud nominal160 means a16LDU nominal envelope overlap per side remains possible; cannot certify by moving source bricks or altering approved DAT. Curved/front wall geometry needs fresh pixels; support and screw fits unverified.",
+  "rawChecker": "0 alarms41 placements; manual Toolo policy limits this result",
+  "newRenderRequired": false,
+  "accepted": false,
+  "physicalValidation": false,
+  "currentReviewEvidence": "current-pixel-review.json",
+  "currentRevision": "7322761e39505c08c30a86fafd408b0036687e9977940aec1c59df95bf709bdd",
+  "reviewOutcome": "Current pixels inspected; no additional source-placement error established. Missing geometry and approximate interfaces remain."
+}

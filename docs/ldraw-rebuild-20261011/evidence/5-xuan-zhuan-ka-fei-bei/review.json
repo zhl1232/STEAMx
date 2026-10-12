@@ -1,0 +1,59 @@
+{
+  "slug": "5-xuan-zhuan-ka-fei-bei",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 10,
+  "sourcePixels": "All10 source pages contact inspected; enlarged structural pages inspected",
+  "modelSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+  "unknown": [
+    {
+      "page": 9,
+      "part": "ten child figures",
+      "missing": "exact source torso/head/cap/leg variants; no substitution from unrelated driver"
+    },
+    {
+      "page": "3-8",
+      "part": "gear train and rides",
+      "missing": "source axes/gear-table layout only; tooth phase, locks and dynamic clearance not verified"
+    }
+  ],
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
+  "knownApproximate": [],
+  "render": {
+    "sourceSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+    "viewsActuallyInspected": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "cumulativeStepsActuallyInspected": false,
+    "finding": "Current full-frame render and source detail pages compared; no new visible support mismatch. Existing missing figures or rope/hooks remain. Exact PNG hashes in current-pixel-review.json."
+  },
+  "rawCollisionChecker": "PASS",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "inventoryMechanicalDeficits": [
+    {
+      "part": "6530.dat",
+      "sourceQuantity": 5,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 3
+    },
+    {
+      "part": "75349.dat",
+      "sourceQuantity": 6,
+      "9656DesignTotal": 4,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    }
+  ],
+  "currentCumulativePixelReview": {
+    "sourceSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 10,
+    "currentDfinalActuallyReviewed": true,
+    "limitations": "All10 cumulative D frames compared with source10-page contact; originalstep7 inspected for crossed support beams and5 gear tables. Figures absent atstep9:10 source people still need exact identities. Crank and gear phase, axle retention and operation under load remain unverified. No new source edits or physical acceptance."
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "8e453a0c308d5055e8c568c3a096a7c03d3446821ceeffffb972de64597f2c8f",
+  "revision": "0f48268de3a92e9e4a54e33b3d2aa07ba2fbcb6fe47477bc8a449e344b744620",
+  "reviewedAt": "2026-10-11T14:47:31.584598+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-zhe-die-ti",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "a07589a023aeecde470e8c81c6093fcc5b5efd4b1aa73e8d2715ba47e65e531a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "767e865d1b27b4273cd4b7fb82616303d490cc6aa2fb1796f99428668a446ad0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "1b7723ec5d0b984b2baba0d6be993c4277e13f47b084d9b058dbeeb637032694",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "3e5ea1d3a2392b845583e2bcb8c9c9d15244a5ffa078bea09129ddaf43e2dd68",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "a117fd51f3e8d792118b969988dd2aa69e0ecb719019fd730e4ce8828bdf8f37",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "e8ac0819552dc786791b4d27d89b168719f74892ee32a6e0216b788299d7ece8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "675e0dfbb77b2c7a83723a56d079093c9f993471117b72e0b45d956a97c460ca",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "6c73205651b69e75848cddb09095e57db31af32ee6cf879f69875e1b1f14a7a1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "8ccc893314027c58b55735bbe8667c0cab3a99d923fa0192a0f9d2406205be7b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "3594b113f93f94e199939387d9cd10154a4b84f7d92384b40ed82dc022a3a833",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "fb94cea411faaadbc229fb14b700766e85484f34978ddfdcc8965150fefda3ff",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "40040fd7d027e2407a1798b2ecf9757d83954939851dbf8b12cb58f9e3d76a17",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "342abafa3e5ea795283dfeb3e05c1b93da411b1d7f75bca56e8dab663ccce5d5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "a07589a023aeecde470e8c81c6093fcc5b5efd4b1aa73e8d2715ba47e65e531a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "a07589a023aeecde470e8c81c6093fcc5b5efd4b1aa73e8d2715ba47e65e531a",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current iso.png, iso-rear.png, top.png and all 12 cumulative stages in current review-sheet-steps.jpg; compared source pages 1,6,12,13. Top hinge, progressive rail length and four rung levels visually correspond; no observed frame cropping. Rear view exposes nominal lower blue-shaft/pulley layout: exact hole choice, collar grip and string attachment remain unresolved. Cross-centre aligned rung seams and two separate top half-shafts do not establish lateral rigidity. Type2 string is only a visible-span schematic, not rigid geometry, solved flexible part, collision or support evidence. No physical or user acceptance."
+}

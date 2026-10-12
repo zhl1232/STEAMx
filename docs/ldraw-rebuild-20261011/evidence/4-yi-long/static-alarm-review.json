@@ -1,0 +1,22 @@
+{
+  "slug": "4-yi-long",
+  "sourceSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
+  "checkpointSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
+  "stableSinceCheckpoint": true,
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 0,
+  "rawOutput": "OK   [4-yi-long.ldr] 35 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarms": [],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "Known blue wing45117c01/tail31239c01 geometry omitted and orange rake identity unresolved. Overall build cannot be accepted.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "sourceModified": false,
+  "physicalValidation": false,
+  "overallAcceptance": false,
+  "method": "Each actual raw alarm reviewed against source image and real DAT geometry. No alarm is inferred for manual-policy parts; rawPASS is not structural/physical acceptance."
+}

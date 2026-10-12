@@ -1,0 +1,79 @@
+{
+  "slug": "5-xuan-zhuan-can-ting",
+  "sourceSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+  "previousDraftSha256": "4172389248cd8aba80ca649a06a4d73ecfa7b5f3fa137be6a2945f4a1d9107ee",
+  "manifest": {
+    "name": "5+旋转餐厅搭建说明.pdf",
+    "relative_path": "5+/5+旋转餐厅搭建说明.pdf",
+    "pages": 10,
+    "bytes": 1464054,
+    "sha256": "31f4879cb2f4a744513219a38e5e51fe080c00f633d3a391e907ca1cf3fa2cf7",
+    "source_url": "https://pan.quark.cn/list#/docpdf/2e5ef0af90984aaebef8f2130251f7b9",
+    "slug": "5-xuan-zhuan-can-ting",
+    "lesson_id": 308,
+    "course_id": 7
+  },
+  "materializationEvidence": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\materialization-verification.json",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-can-ting\\page-01.jpg",
+      "sha256": "fb15122054202bf02fdb7ae6a6b6b3efa1a5865b4e032a018dfc2b411799361d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-can-ting\\page-02.jpg",
+      "sha256": "306d632c36c4ac98fa6e4a20d715cc28a29788538cb65bcb37572711ad70cc06",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-can-ting\\page-03.jpg",
+      "sha256": "1d34671d620cf1a929a7217782c5570dc97ef7375e4e99db193d74f22aa4ae7f",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-can-ting\\page-04.jpg",
+      "sha256": "7d4637d45c7b2b2c4fd337e9da3d58b227d6611c1cfa0a0d3cc6263c0c842978",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-can-ting\\page-05.jpg",
+      "sha256": "7793222d7e2ba5b06a8d392c7474792e11bac5ec79e9306ab8607eaa2b3dd9d6",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-can-ting\\page-06.jpg",
+      "sha256": "920be5f29558a13fafa853edcfcdba1234f42da4f9279c96132fc3a2abcae43c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-can-ting\\page-07.jpg",
+      "sha256": "b9c3425c2272c6c98b846887748e4ce816a480396ee6bd95afecdc4a1c1f53f6",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-can-ting\\page-08.jpg",
+      "sha256": "beb5cddb41f8ba150637c3b8c6a485bfb9c28cecdbc6af6b20d025c841e4d899",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-can-ting\\page-09.jpg",
+      "sha256": "f52c61104e98d5cb5a8248f2bdf5f459f5b7746764665dcc553b0fc8096c5697",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xuan-zhuan-can-ting\\page-10.jpg",
+      "sha256": "c7326f8cc9f93310f7c122f5a3caebb7a9685aa4010b0798eaab13bdb3a89401",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

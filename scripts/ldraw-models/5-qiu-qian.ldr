@@ -1,0 +1,65 @@
+0 Swing - source reconstruction dev-only unaccepted
+0 Name: 5-qiu-qian.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 // SOURCE PAGE 1: Green24x24 base and two four-by-eight-stud yellow tower feet
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 14 -280 -48 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -48 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -48 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -48 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 2: Each tower red bearing, yellowbrick, thinblueplate and red upper bearing
+1 4 -280 -96 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 14 -280 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -280 -168 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 -280 -216 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 280 -96 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 14 280 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -168 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 280 -216 0 0 0 1 0 1 0 -1 0 0 75349.dat
+0 STEP
+0 // SOURCE PAGE 3: Left11hole upright retained on two6L tower shafts120apart
+1 7 -280 -72 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 -180 -72 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -340 -72 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 7 -280 -192 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 -180 -192 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -340 -192 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 -220 -272 0 0 1 0 0 0 -1 -1 0 0 6525.dat
+0 STEP
+0 // SOURCE PAGE 4: Right11hole upright and matching shafts/retainers
+1 7 280 -72 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 180 -72 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 340 -72 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 7 280 -192 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 180 -192 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 340 -192 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 220 -272 0 0 1 0 0 0 -1 -1 0 0 6525.dat
+0 STEP
+0 // SOURCE PAGE 5: Two blue8L geared shafts enter central official worm; outer retainers and24Tgear
+1 1 -160 -472 0 1 0 0 0 1 0 0 0 1 31623.dat
+1 1 160 -472 0 -1 0 0 0 1 0 0 0 -1 31623.dat
+1 1 0 -472 0 0 0 1 0 1 0 -1 0 0 31625.dat
+1 14 -260 -472 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 260 -472 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 4 300 -472 0 0 0 1 0 1 0 -1 0 0 6529.dat
+0 STEP
+0 // SOURCE PAGE 6: Lower blue8L shaft with second24Tgear and handcrank; nominal120pitch
+1 1 180 -352 0 -1 0 0 0 1 0 0 0 -1 31623.dat
+1 4 300 -352 0 0 0 1 0 1 0 -1 0 0 6529.dat
+1 14 340 -352 0 0 1 0 0 0 -1 -1 0 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 7: Two inner11hole pendulum arms with inward-facing upper lockingcranks
+1 14 -120 -272 0 0 1 0 0 0 -1 -1 0 0 6525.dat
+1 14 -160 -472 0 0 1 0 0 0 1 1 0 0 6526.dat
+1 14 120 -272 0 0 1 0 0 0 -1 -1 0 0 6525.dat
+1 14 160 -472 0 0 -1 0 0 0 1 -1 0 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 8: Green8L lower shaft, shortred seat and four source cranks;p9 reverse final
+1 2 0 -72 0 1 0 0 0 1 0 0 0 1 6521.dat
+1 4 0 -96 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 14 -80 -72 0 0 -1 0 0 0 -1 1 0 0 6526.dat
+1 14 -160 -72 0 0 1 0 -1 0 0 0 0 1 6526.dat
+1 14 80 -72 0 0 1 0 0 0 -1 -1 0 0 6526.dat
+1 14 160 -72 0 0 -1 0 1 0 0 0 0 1 6526.dat

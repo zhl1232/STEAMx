@@ -1,0 +1,1398 @@
+{
+  "slug": "5-xuan-zhuan-ai-xin",
+  "sourceSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+  "previousDraftSha256": null,
+  "placementCount": 52,
+  "stepCount": 10,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "description": "Two6x12 plates; eight-brick square rim and central bearing foundation",
+      "placements": [
+        {
+          "part": "4196.dat",
+          "color": 4,
+          "position": [
+            0,
+            0,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 6,
+          "step": 1
+        },
+        {
+          "part": "4196.dat",
+          "color": 4,
+          "position": [
+            0,
+            0,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 7,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -48,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 8,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            -48,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 9,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -48,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 10,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -48,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 11,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -48,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 12,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -48,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 13,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -48,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 14,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -48,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 15,
+          "step": 1
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 16,
+          "step": 1
+        }
+      ],
+      "placedBOM": {
+        "4196.dat": 2,
+        "3011.dat": 9
+      }
+    },
+    {
+      "sourcePage": 2,
+      "description": "Staggered second square rim and center brick",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -96,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 19,
+          "step": 2
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -96,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 20,
+          "step": 2
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -96,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 21,
+          "step": 2
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -96,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 22,
+          "step": 2
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -96,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 23,
+          "step": 2
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            160,
+            -96,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 24,
+          "step": 2
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -96,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 25,
+          "step": 2
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            40,
+            -96,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 26,
+          "step": 2
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -96,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 27,
+          "step": 2
+        }
+      ],
+      "placedBOM": {
+        "3011.dat": 9
+      }
+    },
+    {
+      "sourcePage": 3,
+      "description": "Red rim with front long perforated bearing",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -144,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 30,
+          "step": 3
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -160,
+            -144,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 31,
+          "step": 3
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -160,
+            -144,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 32,
+          "step": 3
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            160,
+            -144,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 33,
+          "step": 3
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            160,
+            -144,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 34,
+          "step": 3
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -144,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 35,
+          "step": 3
+        },
+        {
+          "part": "3437.dat",
+          "color": 4,
+          "position": [
+            80,
+            -144,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 36,
+          "step": 3
+        }
+      ],
+      "placedBOM": {
+        "75350.dat": 1,
+        "3011.dat": 5,
+        "3437.dat": 1
+      }
+    },
+    {
+      "sourcePage": 4,
+      "description": "Two central perforated bricks",
+      "placements": [
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -144,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 39,
+          "step": 4
+        },
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            0,
+            -192,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 40,
+          "step": 4
+        }
+      ],
+      "placedBOM": {
+        "75349.dat": 2
+      }
+    },
+    {
+      "sourcePage": 5,
+      "description": "Horizontal8L shaft through rim and lower center bearing with40T gear, hub and crank",
+      "placements": [
+        {
+          "part": "6521.dat",
+          "color": 2,
+          "position": [
+            0,
+            -120,
+            100
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 43,
+          "step": 5
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            0,
+            -120,
+            60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 44,
+          "step": 5
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            0,
+            -120,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 45,
+          "step": 5
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            0,
+            -120,
+            220
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 46,
+          "step": 5
+        }
+      ],
+      "placedBOM": {
+        "6521.dat": 1,
+        "6530.dat": 1,
+        "6527.dat": 1,
+        "6526.dat": 1
+      }
+    },
+    {
+      "sourcePage": 6,
+      "description": "Vertical6L shaft, perpendicular24T and up-facing support crank",
+      "placements": [
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -210,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 49,
+          "step": 6
+        },
+        {
+          "part": "6529.dat",
+          "color": 1,
+          "position": [
+            0,
+            -224,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 50,
+          "step": 6
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            0,
+            -264,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 51,
+          "step": 6
+        }
+      ],
+      "placedBOM": {
+        "6522.dat": 1,
+        "6529.dat": 1,
+        "6526.dat": 1
+      }
+    },
+    {
+      "sourcePage": 7,
+      "description": "Long rotating red base bears on crank face; nominal underside axial engagement",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -332,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 54,
+          "step": 7
+        }
+      ],
+      "placedBOM": {
+        "75350.dat": 1
+      }
+    },
+    {
+      "sourcePage": 8,
+      "description": "Lower three stepped heart rows",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -380,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 57,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -428,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 58,
+          "step": 8
+        },
+        {
+          "part": "3437.dat",
+          "color": 4,
+          "position": [
+            40,
+            -428,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 59,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -476,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 60,
+          "step": 8
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -476,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 61,
+          "step": 8
+        }
+      ],
+      "placedBOM": {
+        "3011.dat": 4,
+        "3437.dat": 1
+      }
+    },
+    {
+      "sourcePage": 9,
+      "description": "Ten-stud then twelve-stud wide rows",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -160,
+            -524,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 64,
+          "step": 9
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -524,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 65,
+          "step": 9
+        },
+        {
+          "part": "3437.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -524,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 66,
+          "step": 9
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -572,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 67,
+          "step": 9
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -572,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 68,
+          "step": 9
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            120,
+            -572,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 69,
+          "step": 9
+        }
+      ],
+      "placedBOM": {
+        "3011.dat": 5,
+        "3437.dat": 1
+      }
+    },
+    {
+      "sourcePage": 10,
+      "description": "Two separated heart lobes;p11 final adds no parts",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -160,
+            -620,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 72,
+          "step": 10
+        },
+        {
+          "part": "3437.dat",
+          "color": 4,
+          "position": [
+            -160,
+            -668,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 73,
+          "step": 10
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -620,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 74,
+          "step": 10
+        },
+        {
+          "part": "3437.dat",
+          "color": 4,
+          "position": [
+            80,
+            -668,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 75,
+          "step": 10
+        }
+      ],
+      "placedBOM": {
+        "3011.dat": 2,
+        "3437.dat": 2
+      }
+    }
+  ],
+  "placedBOM": {
+    "4196.dat": 2,
+    "3011.dat": 34,
+    "75350.dat": 2,
+    "3437.dat": 5,
+    "75349.dat": 2,
+    "6521.dat": 1,
+    "6530.dat": 1,
+    "6527.dat": 1,
+    "6526.dat": 2,
+    "6522.dat": 1,
+    "6529.dat": 1
+  },
+  "targetVisibleBOM": {
+    "4196.dat": 2,
+    "3011.dat": 34,
+    "75350.dat": 2,
+    "3437.dat": 5,
+    "75349.dat": 2,
+    "6521.dat": 1,
+    "6530.dat": 1,
+    "6527.dat": 1,
+    "6526.dat": 2,
+    "6522.dat": 1,
+    "6529.dat": 1
+  },
+  "targetVisibleCount": 52,
+  "omitted": [],
+  "omittedCount": 0,
+  "limitations": [
+    "All11 source pages actually viewed. Square wall staggered hidden joints reconstructed with visible counts; only ordinary source parts used.",
+    "Horizontal shaft centeredZ100 spans[-60,260], supports center bearingZ[-40,40] and rimZ[120,200], gear[40,80],hub[80,120],crank[200,240]. Actual axle/bore clearance and gear movement not physically established.",
+    "Vertical6L centeredY-210 spans[-330,-90]; central brick nominal vertical interior bore used, not stud-solid guessed penetration. Crank upper faceY-284 supports long beam undersideY-284; shaft/pin engage underside nominally40-46 LDU. Interface between round/cross shafts and brick underside needs recursive mesh review, not a validated rotating bearing.",
+    "Perpendicular40T/24T center placement follows source contact: large centerY-120,Z60 and smallY-224,Z0; tooth phase and motion unverified.",
+    "Heart centeredX-40 on two source support axes atX0/-80. No invented hidden support; assembly load/retention unverified.",
+    "Recursive meshes expose nominal coaxial round-hole/cross-axle crossings: horizontal 174 per bearing, vertical172 per center bearing/152 upper brick; support crank156, perpendicular gear319. These are real geometric warnings, not erased by raw proxy PASS. No motion or material tolerance proof."
+  ],
+  "accepted": false,
+  "physicalValidation": false,
+  "inventoryComparison": [
+    {
+      "part": "4196.dat",
+      "targetQuantity": 2,
+      "referencePart": "4196",
+      "reference9656AllColors": 1,
+      "extraIgnoringColor": 1,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "3011.dat",
+      "targetQuantity": 34,
+      "referencePart": "3011",
+      "reference9656AllColors": 12,
+      "extraIgnoringColor": 22,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "75350.dat",
+      "targetQuantity": 2,
+      "referencePart": "6515",
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "3437.dat",
+      "targetQuantity": 5,
+      "referencePart": "3437",
+      "reference9656AllColors": 8,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "75349.dat",
+      "targetQuantity": 2,
+      "referencePart": "6517",
+      "reference9656AllColors": 4,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6521.dat",
+      "targetQuantity": 1,
+      "referencePart": "6521",
+      "reference9656AllColors": 5,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6530.dat",
+      "targetQuantity": 1,
+      "referencePart": "6530",
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6527.dat",
+      "targetQuantity": 1,
+      "referencePart": "6527",
+      "reference9656AllColors": 15,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6526.dat",
+      "targetQuantity": 2,
+      "referencePart": "6526",
+      "reference9656AllColors": 6,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6522.dat",
+      "targetQuantity": 1,
+      "referencePart": "6522",
+      "reference9656AllColors": 7,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    },
+    {
+      "part": "6529.dat",
+      "targetQuantity": 1,
+      "referencePart": "6529",
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 0,
+      "status": "known aggregate reference"
+    }
+  ],
+  "validation": {
+    "sourceSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+    "rawAlarmPairCount": 0,
+    "closureMissing": [],
+    "matrixInvalid": [],
+    "pixels": "current final3/all10 actually reviewed",
+    "recursiveMeshEvidence": "interface-mesh-results.json"
+  },
+  "pixelReview": {
+    "sourceSha256": "5555beacd17dc29e9ddeb4b71241e569a8d0d45e9f204f0fdd68127c06df8fd6",
+    "revision": "241bad19cf9e7a5c38e13746ff4631d52a9405148652b12ed48f87c202aaeca0",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "file": "current-pixel-review.json"
+  }
+}

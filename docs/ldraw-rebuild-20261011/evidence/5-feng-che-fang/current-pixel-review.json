@@ -1,0 +1,95 @@
+{
+  "sourceSha256": "260e614b63c32a41602cf9dd501cd33c2e8a08c971503f8f2c0ed7db32fc604b",
+  "revision": "fea782c638cddd76bd85d06d504c0fa110372a5dc19bb6812f33565f8dc57684",
+  "reviewedAt": "2026-10-11T11:23:19.790644+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-feng-che-fang",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "136630abab00b834e39b09c07c0fa6c2c0371f9f3ab4fc1242c14238608baa36",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "173218ec234303cd5f9251f42c7df488941ff963e62b8f7dbf78b0cb0bc20449",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "6cb141fc37749c802133653ea4ebf31879d22b2a71ed4b5e95ab405864192325",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "c0dd229d9e3dafccebab1f12f586099030deb4a3f7972c0488637bb0df2f4cd0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "21ab9342522ab49b8dc257e3310775c6ac4951b0b6bda354269463a789a75767",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "18686baaba3e735a3aa14482a10122e2476ff700d3968a35a3551ce484b02284",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "6203c491680155a5ace50498ecb26a652fda53e49a3ee1b13c7d94fc7111c604",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "7bfec66c38ff320b891af663224ba20c7720e2c35ce220c3fb11fc520ce9ab2b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "97dd8218d249b673f51ffe0abbb47b55e6b4f9c85192fec9f6ab2a9dde7a45ec",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "3b38e9fdeeac61a25d25333a0ae1f1a842621a13458fffe3c77fd922b39ab9ad",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "4fa9c996b1a49b1df6ff8ebfd0da60f18224c685a3a52e3f942afca7b69f8962",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "ba998adec756223b3c8b59f09c1a0527362d4b88ad181c9646ba21d31f14eda7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "f6c82c6be8375c8c294f16e5889e2499baf0994af4350254d089e3c9ec687981",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "da21ffaa5840e893b5e638c3f2cb584ba19f1cc3e541ee5cbaa8fe309b0d0427",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "bd0d170729e1fe9cdb58cf20232121bc3d7fd3e2385c24f68f8dd1f58b51ee27",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "136630abab00b834e39b09c07c0fa6c2c0371f9f3ab4fc1242c14238608baa36",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "实际查看当前 final 三原图、13 累计步骤联系表，并放大 step-10/13 对源 p13；门、屋顶阶梯/洞口、轴座、风叶层序未发现新增可确认错位。仅记录观察覆盖，不是装配通过：源 p5 的 6 件蓝檐砖因支承未闭合省略，上层屋顶降低一砖高为预览调整；前轴隐藏路径、风叶夹持/转动及门铰链仍待实物核验。180 placements 对源 186 件，不能称完整完成。"
+}

@@ -1,0 +1,1211 @@
+{
+  "checkedAt": "2026-10-11T08:24:35.011Z",
+  "scope": "six confirmed_id_missing_geometry only",
+  "repositoryPartsChanged": false,
+  "items": [
+    {
+      "key": "4433c01",
+      "name": "Toolo exhaust pipe",
+      "ids": [
+        "4433c01",
+        "45149"
+      ],
+      "affectedCourses": [
+        "4-cha-che",
+        "4-sai-che",
+        "4-ya-lu-ji"
+      ],
+      "identityBasis": "Existing registry source/catalog comparison, not newly reclassified",
+      "requests": [
+        "https://library.ldraw.org/library/official/parts/45149.dat",
+        "https://library.ldraw.org/library/unofficial/parts/4433c01.dat",
+        "https://library.ldraw.org/library/official/parts/4433c01.dat",
+        "https://library.ldraw.org/library/unofficial/parts/45149.dat"
+      ],
+      "status": "confirmed_id_missing_geometry",
+      "officialGeometryAvailable": false,
+      "unofficialGeometryAvailable": false,
+      "geometryLicense": null,
+      "redistributionAuthorization": "No matching file obtained; no license or redistribution permission inferred for absent geometry.",
+      "dependencyClosure": {
+        "status": "not_applicable_no_matching_root_DAT",
+        "resolvedFiles": 0,
+        "complete": false
+      },
+      "candidatePaths": [],
+      "implementableCoursesNow": [],
+      "nextAction": "Obtain dimensioned front/side/bottom views of4433c01/45149 plus Toolo screw-axis and mount depth; author original dev geometry only under explicitly agreed approximation boundary or locate an author-supplied licensed DAT. Roller source count1 remains authoritative over conflicting registry supplemental count2."
+    },
+    {
+      "key": "45117c01",
+      "name": "Toolo wing with2x4 central brick",
+      "ids": [
+        "45117c01",
+        "45116",
+        "86593"
+      ],
+      "affectedCourses": [
+        "4-da-xiang",
+        "4-ke-ji",
+        "4-sai-che",
+        "4-xuan-zhuan-fei-ji",
+        "4-yi-long"
+      ],
+      "identityBasis": "Existing registry source/catalog comparison, not newly reclassified",
+      "requests": [
+        "https://library.ldraw.org/library/official/parts/45117c01.dat",
+        "https://library.ldraw.org/library/unofficial/parts/45117c01.dat",
+        "https://library.ldraw.org/library/unofficial/parts/45116.dat",
+        "https://library.ldraw.org/library/official/parts/45116.dat",
+        "https://library.ldraw.org/library/official/parts/86593.dat",
+        "https://library.ldraw.org/library/unofficial/parts/86593.dat"
+      ],
+      "status": "confirmed_id_missing_geometry",
+      "officialGeometryAvailable": false,
+      "unofficialGeometryAvailable": false,
+      "geometryLicense": null,
+      "redistributionAuthorization": "No matching file obtained; no license or redistribution permission inferred for absent geometry.",
+      "dependencyClosure": {
+        "status": "not_applicable_no_matching_root_DAT",
+        "resolvedFiles": 0,
+        "complete": false
+      },
+      "candidatePaths": [],
+      "implementableCoursesNow": [],
+      "nextAction": "Obtain wing outline/thickness and central2x4 brick screw/stud locations for45117c01 aliases45116/86593. Do not substitute31215 or rearspoiler31239c01. Original measured authoring or licensed author CAD needed."
+    },
+    {
+      "key": "31239c01",
+      "name": "Toolo rear spoiler",
+      "ids": [
+        "31239c01",
+        "76223"
+      ],
+      "affectedCourses": [
+        "4-da-xiang",
+        "4-ke-ji",
+        "4-xuan-zhuan-fei-ji",
+        "4-yi-long"
+      ],
+      "identityBasis": "Existing registry source/catalog comparison, not newly reclassified",
+      "requests": [
+        "https://library.ldraw.org/library/official/parts/31239c01.dat",
+        "https://library.ldraw.org/library/unofficial/parts/31239c01.dat",
+        "https://library.ldraw.org/library/official/parts/76223.dat",
+        "https://library.ldraw.org/library/unofficial/parts/76223.dat"
+      ],
+      "status": "confirmed_id_missing_geometry",
+      "officialGeometryAvailable": false,
+      "unofficialGeometryAvailable": false,
+      "geometryLicense": null,
+      "redistributionAuthorization": "No matching file obtained; no license or redistribution permission inferred for absent geometry.",
+      "dependencyClosure": {
+        "status": "not_applicable_no_matching_root_DAT",
+        "resolvedFiles": 0,
+        "complete": false
+      },
+      "candidatePaths": [],
+      "implementableCoursesNow": [],
+      "nextAction": "Obtain rearspoiler31239c01/76223 side profile and connection axes; do not substitute45117c01 wing. Original measured authoring or licensed author CAD needed."
+    },
+    {
+      "key": "6670c01",
+      "name": "Long narrow3-blade Toolo rotor",
+      "ids": [
+        "6670c01",
+        "86601",
+        "17215",
+        "47191",
+        "75573"
+      ],
+      "affectedCourses": [
+        "4-wu-ren-ji",
+        "4-zhi-sheng-ji"
+      ],
+      "identityBasis": "Existing registry source/catalog comparison, not newly reclassified",
+      "requests": [
+        "https://library.ldraw.org/library/official/parts/86601.dat",
+        "https://library.ldraw.org/library/official/parts/6670c01.dat",
+        "https://library.ldraw.org/library/unofficial/parts/6670c01.dat",
+        "https://library.ldraw.org/library/unofficial/parts/86601.dat",
+        "https://library.ldraw.org/library/official/parts/17215.dat",
+        "https://library.ldraw.org/library/unofficial/parts/17215.dat",
+        "https://library.ldraw.org/library/official/parts/47191.dat",
+        "https://library.ldraw.org/library/official/parts/75573.dat",
+        "https://library.ldraw.org/library/unofficial/parts/47191.dat",
+        "https://library.ldraw.org/library/unofficial/parts/75573.dat"
+      ],
+      "status": "confirmed_id_missing_geometry",
+      "officialGeometryAvailable": false,
+      "unofficialGeometryAvailable": false,
+      "geometryLicense": null,
+      "redistributionAuthorization": "No matching file obtained; no license or redistribution permission inferred for absent geometry.",
+      "dependencyClosure": {
+        "status": "not_applicable_no_matching_root_DAT",
+        "resolvedFiles": 0,
+        "complete": false
+      },
+      "candidatePaths": [],
+      "implementableCoursesNow": [],
+      "nextAction": "Obtain hub/shaft interface and blade outline/thickness of long narrow6670c01 aliases86601/17215/47191/75573. Short thick6669c01 is excluded. Original measured authoring or licensed author CAD needed."
+    },
+    {
+      "key": "6295",
+      "name": "Toolo arm with fake pulley and hook",
+      "ids": [
+        "6295"
+      ],
+      "affectedCourses": [
+        "4-ta-diao",
+        "4-xie-zi"
+      ],
+      "identityBasis": "Existing registry source/catalog comparison, not newly reclassified",
+      "requests": [
+        "https://library.ldraw.org/library/official/parts/6295.dat",
+        "https://library.ldraw.org/library/unofficial/parts/6295.dat"
+      ],
+      "status": "confirmed_id_missing_geometry",
+      "officialGeometryAvailable": false,
+      "unofficialGeometryAvailable": false,
+      "geometryLicense": null,
+      "redistributionAuthorization": "No matching file obtained; no license or redistribution permission inferred for absent geometry.",
+      "dependencyClosure": {
+        "status": "not_applicable_no_matching_root_DAT",
+        "resolvedFiles": 0,
+        "complete": false
+      },
+      "candidatePaths": [],
+      "implementableCoursesNow": [],
+      "nextAction": "Obtain both side profiles and underside/hinge-axis dimensions for fake-pulley-and-hook arm6295. Do not substituteexisting6294 clamp; original measured authoring or licensed author CAD needed."
+    },
+    {
+      "key": "95219c01",
+      "name": "Cement mixer cradle/base assembly",
+      "ids": [
+        "95219c01",
+        "95219"
+      ],
+      "affectedCourses": [
+        "4-zhi-zhu"
+      ],
+      "identityBasis": "Existing registry source/catalog comparison, not newly reclassified",
+      "requests": [
+        "https://library.ldraw.org/library/official/parts/95219c01.dat",
+        "https://library.ldraw.org/library/unofficial/parts/95219c01.dat",
+        "https://library.ldraw.org/library/official/parts/95219.dat",
+        "https://library.ldraw.org/library/unofficial/parts/95219.dat"
+      ],
+      "status": "confirmed_id_missing_geometry",
+      "officialGeometryAvailable": false,
+      "unofficialGeometryAvailable": false,
+      "geometryLicense": null,
+      "redistributionAuthorization": "No matching file obtained; no license or redistribution permission inferred for absent geometry.",
+      "dependencyClosure": {
+        "status": "not_applicable_no_matching_root_DAT",
+        "resolvedFiles": 0,
+        "complete": false
+      },
+      "candidatePaths": [],
+      "implementableCoursesNow": [],
+      "nextAction": "Obtain cradle assembly95219c01/95219 photos showing drum attachment axes and underside stud grid; distinguish58629 drum from cradle and42235 small bucket. Original measured authoring or licensed author CAD needed."
+    }
+  ],
+  "requests": [
+    {
+      "key": "4433c01",
+      "id": "45149",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/45149.dat",
+      "checkedAt": "2026-10-11T08:24:35.068Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/45149.dat",
+      "bytes": 9449,
+      "responseSha256": "443ffe340551c2ca1ea3ad0360a2f55497d6698468a2291af6934f7faa092bfb",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "4433c01",
+      "id": "4433c01",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/4433c01.dat",
+      "checkedAt": "2026-10-11T08:24:35.067Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/4433c01.dat",
+      "bytes": 9449,
+      "responseSha256": "0b38b851d5af8efaca86c07de17d82f2c03fc8129700f07e2411542574389438",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "4433c01",
+      "id": "4433c01",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/4433c01.dat",
+      "checkedAt": "2026-10-11T08:24:35.012Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/4433c01.dat",
+      "bytes": 9449,
+      "responseSha256": "d1ffb2283d7783188364d5ffed4059c193ba507d0515a428c341bd0d0412dacd",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "4433c01",
+      "id": "45149",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/45149.dat",
+      "checkedAt": "2026-10-11T08:24:36.651Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/45149.dat",
+      "bytes": 9449,
+      "responseSha256": "764d4bb6b85708960019da9c73ecf7d7a5eac03569f1872920d24e84977d2f1f",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "45117c01",
+      "id": "45117c01",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/45117c01.dat",
+      "checkedAt": "2026-10-11T08:24:36.837Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/45117c01.dat",
+      "bytes": 9449,
+      "responseSha256": "bf5af57bed1a1690585e4a498f437ace1405e20aa2edc9bc4a93cef9e9c59fce",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "45117c01",
+      "id": "45117c01",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/45117c01.dat",
+      "checkedAt": "2026-10-11T08:24:36.860Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/45117c01.dat",
+      "bytes": 9449,
+      "responseSha256": "482f618e2a16aae6c765573605a572679b8271ed655407bfb846751ae716d9e4",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "45117c01",
+      "id": "45116",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/45116.dat",
+      "checkedAt": "2026-10-11T08:24:37.521Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/45116.dat",
+      "bytes": 9449,
+      "responseSha256": "74f89f045d5de7b80c4194e99d6c1ea71edc7dd42b13543115cd48bdb9ec022b",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "45117c01",
+      "id": "45116",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/45116.dat",
+      "checkedAt": "2026-10-11T08:24:37.342Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/45116.dat",
+      "bytes": 9449,
+      "responseSha256": "3602efe443262c6bac0ef4093b8089b0b8fde197b75060aa1ae595688f8fb607",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "45117c01",
+      "id": "86593",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/86593.dat",
+      "checkedAt": "2026-10-11T08:24:37.560Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/86593.dat",
+      "bytes": 9449,
+      "responseSha256": "9beec06350c8b3a0eaf0b363ba301b75225fe8a0a9eec39fa7cb2cade47dca87",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "45117c01",
+      "id": "86593",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/86593.dat",
+      "checkedAt": "2026-10-11T08:24:38.011Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/86593.dat",
+      "bytes": 9449,
+      "responseSha256": "da7c980926c9293d13ab6c109d262cb102002442010082fb13cf0b0e296e7002",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "31239c01",
+      "id": "31239c01",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/31239c01.dat",
+      "checkedAt": "2026-10-11T08:24:38.037Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/31239c01.dat",
+      "bytes": 9449,
+      "responseSha256": "dc847ad0c3164547449005cdf98dfbb96a305778c47f893c748453056e7afb96",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "31239c01",
+      "id": "31239c01",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/31239c01.dat",
+      "checkedAt": "2026-10-11T08:24:38.263Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/31239c01.dat",
+      "bytes": 9449,
+      "responseSha256": "e615371f5f170ce3bba6f5ac7b7b61d6e496ea6dc85f102f184856ded221eab5",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "31239c01",
+      "id": "76223",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/76223.dat",
+      "checkedAt": "2026-10-11T08:24:38.708Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/76223.dat",
+      "bytes": 9449,
+      "responseSha256": "1e2d98152fe9eac2124989f41d3d191442f00cee3914a03d75e625b79e81377a",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "31239c01",
+      "id": "76223",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/76223.dat",
+      "checkedAt": "2026-10-11T08:24:38.725Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/76223.dat",
+      "bytes": 9449,
+      "responseSha256": "e6c511115c877382375bc5f87490a8fe93be6693812457f137ab5598f37e92e8",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "6670c01",
+      "id": "86601",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/86601.dat",
+      "checkedAt": "2026-10-11T08:24:39.394Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/86601.dat",
+      "bytes": 9449,
+      "responseSha256": "33019aa86d34f15d62e1e5630617d11f05e4d3d395d97cb1cec87bb44880393e",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "6670c01",
+      "id": "6670c01",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/6670c01.dat",
+      "checkedAt": "2026-10-11T08:24:39.224Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/6670c01.dat",
+      "bytes": 9449,
+      "responseSha256": "5634a71574bd103b189028a309891fb6d5c10dfa85fcb71e944a109d22b04b12",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "6670c01",
+      "id": "6670c01",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/6670c01.dat",
+      "checkedAt": "2026-10-11T08:24:39.367Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/6670c01.dat",
+      "bytes": 9449,
+      "responseSha256": "63568b5e8afe42638c05ec81a8f87001e92b38876b7ec6b64991f0c687d0e954",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "6670c01",
+      "id": "86601",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/86601.dat",
+      "checkedAt": "2026-10-11T08:24:39.901Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/86601.dat",
+      "bytes": 9449,
+      "responseSha256": "ed155a65871d162d9b113d6e4abc4da557aa3d0b085593a996c55748973cb6d9",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "6670c01",
+      "id": "17215",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/17215.dat",
+      "checkedAt": "2026-10-11T08:24:39.927Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/17215.dat",
+      "bytes": 9449,
+      "responseSha256": "370a3030a8c83a83b11a6093a62903df8015f274a3e5b1a0ca439d3f8876c8f8",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "6670c01",
+      "id": "17215",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/17215.dat",
+      "checkedAt": "2026-10-11T08:24:40.064Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/17215.dat",
+      "bytes": 9449,
+      "responseSha256": "06eaea7d0440bf1d720c290616c82fa1cfa518621b843e4e4080aaa30efab94b",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "6670c01",
+      "id": "47191",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/47191.dat",
+      "checkedAt": "2026-10-11T08:24:40.574Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/47191.dat",
+      "bytes": 9449,
+      "responseSha256": "e2bdedd2dab1251eff1189eba7b41f9dd1300e12df8187997ccf572bf8f34299",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "6670c01",
+      "id": "75573",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/75573.dat",
+      "checkedAt": "2026-10-11T08:24:40.750Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/75573.dat",
+      "bytes": 9449,
+      "responseSha256": "ddad2d783e48c8a0666f917894717979384129b5caa9fb77e5aa77e36852f647",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "6670c01",
+      "id": "47191",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/47191.dat",
+      "checkedAt": "2026-10-11T08:24:40.615Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/47191.dat",
+      "bytes": 9449,
+      "responseSha256": "58400a87ae324d505d790c23123dc213273a6ef57cbe4444048176267c5d5c36",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "6295",
+      "id": "6295",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/6295.dat",
+      "checkedAt": "2026-10-11T08:24:41.261Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/6295.dat",
+      "bytes": 9449,
+      "responseSha256": "2a5dfc47c1035933ec8a7988050f922ccb78e8caf86516df539fb125ae1f9d46",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "6670c01",
+      "id": "75573",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/75573.dat",
+      "checkedAt": "2026-10-11T08:24:41.074Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/75573.dat",
+      "bytes": 9449,
+      "responseSha256": "35f474c137511b3f1b594a3d6d8004aa4b05ca4ea3fdbf61cd5212bc4fd55918",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "6295",
+      "id": "6295",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/6295.dat",
+      "checkedAt": "2026-10-11T08:24:41.317Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/6295.dat",
+      "bytes": 9449,
+      "responseSha256": "8f4ebb8b97127eb2d6418c1e9bb36be2dfe856e825de7853d99037ef05aaf6cb",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "95219c01",
+      "id": "95219c01",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/95219c01.dat",
+      "checkedAt": "2026-10-11T08:24:41.753Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/95219c01.dat",
+      "bytes": 9449,
+      "responseSha256": "5bc181bcc6a4fff05300db5734faf3309967e6bd78aa1517f5399c4d3881c0be",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "95219c01",
+      "id": "95219c01",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/95219c01.dat",
+      "checkedAt": "2026-10-11T08:24:41.757Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/95219c01.dat",
+      "bytes": 9449,
+      "responseSha256": "915444bf43885a2b0ded71a80d0226d8af0e9434e283af15efc1051a74572023",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "95219c01",
+      "id": "95219",
+      "lib": "official",
+      "url": "https://library.ldraw.org/library/official/parts/95219.dat",
+      "checkedAt": "2026-10-11T08:24:41.817Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/official/parts/95219.dat",
+      "bytes": 9449,
+      "responseSha256": "aee2485bdcb5e26df4f9d3770e9462799f5c3c6de2792494886f63f48ab10d66",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    },
+    {
+      "key": "95219c01",
+      "id": "95219",
+      "lib": "unofficial",
+      "url": "https://library.ldraw.org/library/unofficial/parts/95219.dat",
+      "checkedAt": "2026-10-11T08:24:42.266Z",
+      "status": 404,
+      "finalUrl": "https://library.ldraw.org/library/unofficial/parts/95219.dat",
+      "bytes": 9449,
+      "responseSha256": "60ea9825d7043f0bab862e92d71a09df545d5859ad85cbe75ed4fdd127b6c532",
+      "contentType": "text/html; charset=utf-8",
+      "header": null
+    }
+  ],
+  "trackerSearch": [
+    {
+      "query": "4433c01",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=4433c01",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:39.546Z",
+      "responseSha256": "b8d5461002b73aee0971f7d06dcd726f7230c18001f4e0d788f20f04aa356f6f",
+      "bytes": 190498,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "45149",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=45149",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:40.740Z",
+      "responseSha256": "2dc69df073f9c6d079eee21014c0996c44224fb9cf163b1908ef25e71c654ff7",
+      "bytes": 190494,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "45117c01",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=45117c01",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:41.764Z",
+      "responseSha256": "bcb0cc13f78c33c0867a82b36bb2718a7cdc3a842d5598b6cd784194848b6eaa",
+      "bytes": 190500,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "45116",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=45116",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:42.700Z",
+      "responseSha256": "cb8ba6ed18ef2f78bdafc678dba82b8b639ea23c966e148cb552593b32382808",
+      "bytes": 190494,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "86593",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=86593",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:43.549Z",
+      "responseSha256": "8b13cadffd5d23589cd855aa948c582003bec64468e76b817d07718fa3cee639",
+      "bytes": 190494,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "31239c01",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=31239c01",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:44.661Z",
+      "responseSha256": "3e71d4df3cd58b64350e09c0b9871e1e8772c5d651a63096aaa0e843f574eacc",
+      "bytes": 190500,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "76223",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=76223",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:45.463Z",
+      "responseSha256": "ef002527fbd65c99ed4560ed7bc103a36e926f68842273dd7052454e3a5043a5",
+      "bytes": 190494,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "6670c01",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=6670c01",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:46.315Z",
+      "responseSha256": "6f5c5b915e2bb9bba930a72a0fe854fb2de4d96e7b544199ae9a09e4f07cb431",
+      "bytes": 218025,
+      "returnedDatUrls": [
+        "https://library.ldraw.org/library/official/parts/26674-f1.dat",
+        "https://library.ldraw.org/library/official/parts/26674-f2.dat"
+      ],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "86601",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=86601",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:47.003Z",
+      "responseSha256": "5ad79feb64e9717343ad9f814d6af518b784adfa2622e123a87a1a1a115ca8e4",
+      "bytes": 190494,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "17215",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=17215",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:47.799Z",
+      "responseSha256": "773d229ca818b20d28b6c840e38ae704c08e4417c6a9880150434cb38d960f7b",
+      "bytes": 190494,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "47191",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=47191",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:49.021Z",
+      "responseSha256": "512e4b03041b55241b8b1e8106bcb5f7215f36f7f2f37048cf85431662bcc39e",
+      "bytes": 190494,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "75573",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=75573",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:52.105Z",
+      "responseSha256": "69a22c463b722f0541602f2bd98333e9d1c6a5a0a46ebaf2e9ccb708924cb8c7",
+      "bytes": 210877,
+      "returnedDatUrls": [
+        "https://library.ldraw.org/library/official/parts/80441p01.dat"
+      ],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "6295",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=6295",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:54.005Z",
+      "responseSha256": "817ace643a6c111d3fc264660f03c0842b8c3e867aba8d16b37cbc62707c6f52",
+      "bytes": 190492,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "95219c01",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=95219c01",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:55.659Z",
+      "responseSha256": "3e173422df27420a53ee3c100b12976dd366c3ad084438698cb2596f4776bc93",
+      "bytes": 190500,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "95219",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=95219",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:57.100Z",
+      "responseSha256": "4aad35e9b2cceadf2955ea7839ad9642cfa5c078ca97c397cd1e0defc1cb3d80",
+      "bytes": 190494,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "4433",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=4433",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:25:58.695Z",
+      "responseSha256": "153f9ca3ce21eae030c3e5cb3006398e503eb3f5c98ece151e03bb9526e42281",
+      "bytes": 275110,
+      "returnedDatUrls": [
+        "https://library.ldraw.org/library/official/parts/44336.dat",
+        "https://library.ldraw.org/library/official/parts/44336p01.dat",
+        "https://library.ldraw.org/library/official/parts/44336p02.dat",
+        "https://library.ldraw.org/library/official/parts/44336p03.dat",
+        "https://library.ldraw.org/library/official/parts/44336p04.dat",
+        "https://library.ldraw.org/library/official/parts/s/44336s01.dat",
+        "https://library.ldraw.org/library/official/parts/3626cp82.dat",
+        "https://library.ldraw.org/library/official/parts/3982.dat",
+        "https://library.ldraw.org/library/official/parts/973ptk.dat",
+        "https://library.ldraw.org/library/official/parts/76382ptk.dat"
+      ],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "45117",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=45117",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:00.092Z",
+      "responseSha256": "9c7e11ab1a719b98c7cb39b0840081ad52c375bd15d79ea951c46244baf46685",
+      "bytes": 190494,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "31239",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=31239",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:01.371Z",
+      "responseSha256": "b8847fea2dce87f7cd37e48b64facec080ec64dacf588bce1d6f0c86bf3d9728",
+      "bytes": 190494,
+      "returnedDatUrls": [],
+      "emptyStateExcerpt": null
+    },
+    {
+      "query": "6670",
+      "url": "https://library.ldraw.org/parts/list?tableSearch=6670",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:03.312Z",
+      "responseSha256": "8ad573dd976f12320633dd2af64809ea1ad2010429147b67c69b8e13a8a17466",
+      "bytes": 240982,
+      "returnedDatUrls": [
+        "https://library.ldraw.org/library/official/parts/26674-f1.dat",
+        "https://library.ldraw.org/library/official/parts/26674-f2.dat",
+        "https://library.ldraw.org/library/official/parts/3068bp05.dat",
+        "https://library.ldraw.org/library/official/parts/76382p73.dat",
+        "https://library.ldraw.org/library/unofficial/parts/24782p03.dat"
+      ],
+      "emptyStateExcerpt": null
+    }
+  ],
+  "searchHitHeaderChecks": [
+    {
+      "url": "https://library.ldraw.org/library/official/parts/26674-f1.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:24.744Z",
+      "sha256": "adf878af4b41947b89772b8e96136d6825732677c67c14f89e044465e898c106",
+      "headers": [
+        "0 Technic Pneumatic Pump  1 x  1 x  6 with Reinforced Base (Retracted)",
+        "0 Name: 26674-f1.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Shortcut UPDATE 2018-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !KEYWORDS BrickLink 26670c01, Rebrickable 26674",
+        "0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/26674-f2.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:25.459Z",
+      "sha256": "02edf1fbc3ee03380c918154551a218e49f4812660d3d8c19bf00a033014ba2a",
+      "headers": [
+        "0 Technic Pneumatic Pump  1 x  1 x  6 with Reinforced Base (Extended)",
+        "0 Name: 26674-f2.dat",
+        "0 Author: Philippe Hurbain [Philo]",
+        "0 !LDRAW_ORG Shortcut UPDATE 2018-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !KEYWORDS BrickLink 26670c01, Rebrickable 26674",
+        "0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/80441p01.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:26.162Z",
+      "sha256": "3a6326507cac67211bd9303421f33014dbdffba225ef16c00c71efa4e7d12b44",
+      "headers": [
+        "0 Wheel  2 x 21 with Technic Pin Hole with Integral Rubber Black Tyre Pattern",
+        "0 Name: 80441p01.dat",
+        "0 Author: Chris B鏋歨nke [KnightOfTarenta]",
+        "0 !LDRAW_ORG Part UPDATE 2025-06",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !KEYWORDS Bricklink 80441pb01, Rebrickable 80441pat0001, Set 31141, Set 41751",
+        "0 !KEYWORDS Set 60389, Set 71799, Set 75573, Wheelchair",
+        "0 !HISTORY 2025-06-26 [OrionP] Official Update 2025-06"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/44336.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:26.883Z",
+      "sha256": "8a4f732c636443d1df455a2d7de51ff169f5e6d17fae2c9a750a4fca94d0674d",
+      "headers": [
+        "0 Baseplate 32 x 32 Road 6-Stud Straight",
+        "0 Name: 44336.dat",
+        "0 Author: Chris Dee [cwdee]",
+        "0 !LDRAW_ORG Part UPDATE 2009-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !KEYWORDS 6-stud, roadplate, Straight",
+        "0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01",
+        "0"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/44336p01.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:27.851Z",
+      "sha256": "43e622e439e6f918c4c02d98f4fc00097ebba2610f204e2925b84432ce17fb57",
+      "headers": [
+        "0 Baseplate 32 x 32 Road 6-Stud Straight with Yellow Road Edge Pattern",
+        "0 Name: 44336p01.dat",
+        "0 Author: William Howard [WilliamH]",
+        "0 !LDRAW_ORG Part UPDATE 2018-02",
+        "0 !LICENSE Licensed under CC BY 2.0 and CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !KEYWORDS BrickLink 44336pb01, Rebrickable 44336pr0001, roadplate, Set 10128",
+        "0 !KEYWORDS Straight",
+        "0 !HISTORY 2004-09-15 [PTadmin] Official Update 2004-03",
+        "0 !HISTORY 2007-07-04 [PTadmin] Header formatted for Contributor Agreement",
+        "0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01",
+        "0 !HISTORY 2018-11-29 [cwdee] Update description",
+        "0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02",
+        "0"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 2.0 and CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/44336p02.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:28.434Z",
+      "sha256": "4b9c59b4b3cd810ba4b564ec969ace62f33928e4fa3b2b667389dfddd90d5e2f",
+      "headers": [
+        "0 Baseplate 32 x 32 Road 6-Stud Straight with Pit Stop Pattern",
+        "0 Name: 44336p02.dat",
+        "0 Author: William Howard [WilliamH]",
+        "0 !LDRAW_ORG Part UPDATE 2009-01",
+        "0 !LICENSE Licensed under CC BY 2.0 and CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !KEYWORDS 6-stud, BrickLink 44336pb02, pit stop, Racers",
+        "0 !KEYWORDS Rebrickable 44336pr0002, roadplate, set 8375, Straight",
+        "0 !HISTORY 2004-12-12 [cwdee] Updated to use stug* primitives",
+        "0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01",
+        "0"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 2.0 and CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/44336p03.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:29.041Z",
+      "sha256": "9e44b00363fe9397febbbffd0355cd21fdd306b0c153701ce55d9965e2a6820f",
+      "headers": [
+        "0 Baseplate 32 x 32 Road 6-Stud Straight with Runway Pattern",
+        "0 Name: 44336p03.dat",
+        "0 Author: Alex Taylor [anathema]",
+        "0 !LDRAW_ORG Part UPDATE 2025-09",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !KEYWORDS BrickLink 44336pb03, Rebrickable 44336pr0003, set 10159",
+        "0 !HISTORY 2010-04-09 [mikeheide] Moved portions from subfile",
+        "0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02",
+        "0 !HISTORY 2025-09-27 [OrionP] Changed winding to CCW",
+        "0 !HISTORY 2025-09-29 [OrionP] Official Update 2025-09"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/44336p04.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:29.682Z",
+      "sha256": "c60f6c59029e0dd50bd758c5ecd63c6f7b6b868e22811a9f46ed153afdfca2f2",
+      "headers": [
+        "0 Baseplate 32 x 32 Road 6-Stud Straight with White Road Edge Pattern",
+        "0 Name: 44336p04.dat",
+        "0 Author: Sylvain Sauvage [SLS]",
+        "0 !LDRAW_ORG Part UPDATE 2018-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !KEYWORDS BrickLink 44336px4, Rebrickable 44336pr0004, roadplate, Set 60236",
+        "0 !HISTORY 2018-08-30 [SLS] Copied from 44336p01.dat",
+        "0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/s/44336s01.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:30.271Z",
+      "sha256": "8644f64782b502c98a4c26a91dd58f2f9b5b1600fcd88b685f620fa3489da601",
+      "headers": [
+        "0 ~Baseplate 32 x 32 Road 6-Stud Straight without Top Surface",
+        "0 Name: s\\44336s01.dat",
+        "0 Author: Alex Taylor [anathema]",
+        "0 !LDRAW_ORG Subpart UPDATE 2010-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !HISTORY 2010-04-09 [mikeheide] Moved portions to main file",
+        "0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/3626cp82.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:31.050Z",
+      "sha256": "83226d64b138538078322a5149307b4aeb94b1a56f66ee24d919c1189b43bbb6",
+      "headers": [
+        "0 Minifig Head with White Pupils, Crooked Mouth, Eyebrows and Dimple Pattern",
+        "0 Name: 3626cp82.dat",
+        "0 Author: Evert-Jan Boer [ejboer]",
+        "0 !LDRAW_ORG Part UPDATE 2024-08",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !KEYWORDS BrickLink 3626pb0530, Rebrickable 3626cpr0743, Set 4207, Set 4429",
+        "0 !KEYWORDS Set 4433, Set 4442, Set 70404",
+        "0 !HISTORY 2024-09-30 [OrionP] Official Update 2024-08"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/3982.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:31.652Z",
+      "sha256": "c81d0219c0536cbc6a627b9470f6a04229da11dcd0e090a8e9f236eae31b50c6",
+      "headers": [
+        "0 Duplo Wagon Body  4 x  6 with Sloped Sides",
+        "0 Name: 3982.dat",
+        "0 Author: Niels Karsdorp [nielsk]",
+        "0 !LDRAW_ORG Part UPDATE 2026-07",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !CATEGORY Vehicle",
+        "0 !KEYWORDS Brickowl 724433",
+        "0 !HISTORY 2026-03-27 [Blechtaler] subfiled in half",
+        "0 !HISTORY 2026-07-30 [OrionP] Official Update 2026-07"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/973ptk.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:32.693Z",
+      "sha256": "5dfad6fea41870377daa13fe4f1051e70e9a7237e3c1b962b0cbdb9550de6bad",
+      "headers": [
+        "0 Minifig Torso with White Lace Collar and Light Grey Bowtie Pattern",
+        "0 Name: 973ptk.dat",
+        "0 Author: Chris B鏋歨nke [KnightOfTarenta]",
+        "0 !LDRAW_ORG Part UPDATE 2025-06",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !KEYWORDS Arcade, Beach, Bricklink 973pb0038, Brickowl 443322, Fun fair",
+        "0 !KEYWORDS Paradisa, Rebrickable 973c01h01pr0039, Seaside Holiday Cottage",
+        "0 !KEYWORDS Set 6489, Set 6547, town",
+        "0 !HISTORY 2025-06-26 [OrionP] Official Update 2025-06",
+        "0 // Pattern",
+        "0 // Colour 7 Light Grey",
+        "0 // Colour 15 White",
+        "0 // Colour 16 Main Colour"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/76382ptk.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:33.283Z",
+      "sha256": "8cd7a74f05910b592ef32de5c79a8ea3b67026c33497482d9297b459898e8bfe",
+      "headers": [
+        "0 Minifig Torso with Arms and Hands with White Lace Collar and Light Grey Bowtie Pattern",
+        "0 Name: 76382ptk.dat",
+        "0 Author: Chris B鏋歨nke [KnightOfTarenta]",
+        "0 !LDRAW_ORG Shortcut UPDATE 2025-06",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !KEYWORDS Arcade, Beach, Bricklink 973pb0038, Brickowl 443322, Fun fair",
+        "0 !KEYWORDS Paradisa, Rebrickable 973c01h01pr0039, Seaside Holiday Cottage",
+        "0 !KEYWORDS Set 6489, Set 6547, town",
+        "0 !HISTORY 2025-06-26 [OrionP] Official Update 2025-06"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/3068bp05.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:33.882Z",
+      "sha256": "b37fc6692ba06b50e59167aeee408e8ddbecabe1e236550fbd55b0b02a40cbad",
+      "headers": [
+        "0 Tile  2 x  2 with Diagonal Arrow on Blue Disc Pattern",
+        "0 Name: 3068bp05.dat",
+        "0 Author: Tore Eriksson [Tore_Eriksson]",
+        "0 !LDRAW_ORG Part UPDATE 2023-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !KEYWORDS Auto service, BrickLink 3068p50, City, Construction, police",
+        "0 !KEYWORDS Rebrickable 3068bpr0029, Roadsign, Set 1589-2, Set 1590, Set 1656",
+        "0 !KEYWORDS Set 6329, Set 6430, Set 6450, set 6581, Set 6600, set 6632, Set 6653",
+        "0 !KEYWORDS Set 6662, Set 6670, Set 6671, Set 6686, Set 735, Set 9365, Set 9371",
+        "0 !KEYWORDS town",
+        "0 !HISTORY 2002-10-14 [grapeape] Secondary author",
+        "0 !HISTORY 2002-10-15 [BrickCaster] groove, L3P compliant",
+        "0 !HISTORY 2003-10-28 [Steffen] BFCed, added 1 ring primitive, changed part name",
+        "0 !HISTORY 2004-04-22 [PTadmin] Official Update 2004-02",
+        "0 !HISTORY 2007-06-13 [PTadmin] Header formatted for Contributor Agreement"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/official/parts/76382p73.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:34.470Z",
+      "sha256": "8bf3f6916551b661a21603974ab85bd2e585575fdb0029983d5bacd30b8d1ecc",
+      "headers": [
+        "0 Minifig Torso with Arms and Hands with Vest with Patch Pockets Pattern",
+        "0 Name: 76382p73.dat",
+        "0 Author: Chris B鏋歨nke [KnightOfTarenta]",
+        "0 !LDRAW_ORG Shortcut UPDATE 2025-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !KEYWORDS Airport, Bricklink 973p73c01, dacta, Dingo Melbourne, football",
+        "0 !KEYWORDS Freestyle, Max Timebuster, Mini Upper Part No 147",
+        "0 !KEYWORDS Mini Upper Part No 178, outback, Race, Rebrickable 973c27h01pr0073",
+        "0 !KEYWORDS set 10159, Set 1796, Set 2150, Set 3310, Set 4158, Set 4555",
+        "0 !KEYWORDS Set 6345, set 6444, Set 6487, Set 6490, Set 6513, Set 6514, Set 6539",
+        "0 !KEYWORDS set 6549, Set 6552, Set 6563, Set 6564, set 6597, Set 6665, Set 6670",
+        "0 !KEYWORDS set 9293, Soccer, town, Town Junior, Trains",
+        "0 !HISTORY 2025-01-20 [OrionP] Official Update 2025-01"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    },
+    {
+      "url": "https://library.ldraw.org/library/unofficial/parts/24782p03.dat",
+      "status": 200,
+      "checkedAt": "2026-10-11T08:26:35.046Z",
+      "sha256": "bfb5d75f02669aef6432f16b7d59fb3f82d7e228fe41c6991db9180c2fbfe06a",
+      "headers": [
+        "0 Minifig Skirt Wavy with White Apron Pattern",
+        "0 Name: 24782p03.dat",
+        "0 Author: Gerald Lasser [GeraldLasser]",
+        "0 !LDRAW_ORG Unofficial_Part",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+        "0 BFC CERTIFY CCW",
+        "0 !CATEGORY Minifig Hipwear",
+        "0 !KEYWORDS Alice, Bricklink 24782pb01, Brickowl 946670, Brickset 26441, CMF",
+        "0 !KEYWORDS Collectibe Minifigures, Disney Series 1, Rebrickable 24782pr0002",
+        "0 !KEYWORDS Set 71012"
+      ],
+      "disposition": "rejected_unrelated_geometry",
+      "licenseHeaders": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ]
+    }
+  ],
+  "method": {
+    "registry": "STEAMx/docs/ldraw-rebuild-20261011/unknown-parts-registry.json",
+    "registrySha256": "0dcdd6986f01a4f23f83e20e1b55e1801d7956d6f2dee78ed0b289d3ebff81cd",
+    "http": "Actual public GET;30 registeredID/alias DAT endpoint checks,19 Parts List queries,16 returned DAT header checks. Network sandbox initial fetch failed; authorized retry succeeded. HTTP404 is not inferred from web tool errors.",
+    "searchLimit": "Parts List search is fuzzy; all returned DAT headers checked; absence at these endpoints is not proof of no geometry anywhere. No third-party archives used.",
+    "storage": "Small audit JSON only; no matching candidate geometry found, so no D candidate files or repository parts written."
+  },
+  "licensing": {
+    "policyUrl": "https://www.ldraw.org/pt-policies.html",
+    "policyCheckedDate": "2026-10-11",
+    "policySummary": "Current library policy permits authors to selectCC BY4.0 orCC0. This general policy does not establish file-specific permission when no matching DAT is available. Any future import must preserve each file author/license/history, follow dependencies recursively and verify every file license; unofficial status is not assurance of geometry accuracy.",
+    "trackerUrl": "https://library.ldraw.org/tracker",
+    "rejectedSearchHits": "Returned DAT headers have licenses, but the parts are unrelated; they are not approved substitutes and their dependency trees were not imported."
+  },
+  "summary": {
+    "families": 6,
+    "registeredIdsAndAliases": 15,
+    "directDatGets": 30,
+    "http404": 30,
+    "trackerQueries": 19,
+    "unrelatedDatHeadersChecked": 16,
+    "matchingCandidates": 0,
+    "repoFilesChanged": 0,
+    "physicalValidation": false,
+    "accepted": false
+  },
+  "quantityCorrectionEvidence": "preparation/source-identity-quantity-recheck-20261011.json",
+  "quantityCorrection": "Actual roller sourcep7 inset1x confirms one4433c01; supplemental occurrence2 is erroneous duplicate description. No source/model change."
+}

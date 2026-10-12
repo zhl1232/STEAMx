@@ -1,0 +1,28 @@
+{
+  "sourceSha256": "0f116666bd03476db674134bc0cb580b80dcd09a38eb96af9890ba0268160801",
+  "brickHoleEvidence": [
+    "parts/75349.dat →6517.dat →s/6517s01.dat localY24",
+    "parts/75350.dat →6515.dat →s/6517s01.dat localY24"
+  ],
+  "beamHoleEvidence": [
+    "6524/6525 end hole rings:2-4ring3 radial scale5 => inner15;40LDU repeat pitch"
+  ],
+  "nominalTopAxis": [
+    120,
+    -144,
+    0
+  ],
+  "nominalLowerAxis": [
+    160,
+    -72,
+    0
+  ],
+  "distance": 82.365041127896,
+  "beamPitchDistance": 80,
+  "shaftRadiusRecursiveMax": 9.00023655911332,
+  "eccentricity": 2.3650411278960064,
+  "conservativeRadialClearance": 3.6347223129906734,
+  "axialStack": "brick facesZ±40;beam slabsZ40..80 and-80..-40;retainersZ80..120 and-120..-80;6L axle ends±120",
+  "status": "source-selected nonconcentric clearance fit; retention and loaded behavior unverified",
+  "physicalValidation": false
+}

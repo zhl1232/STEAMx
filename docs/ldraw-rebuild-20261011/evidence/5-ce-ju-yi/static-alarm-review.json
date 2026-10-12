@@ -1,0 +1,149 @@
+{
+  "slug": "5-ce-ju-yi",
+  "sourceSha256": "ef4ae2663544dbf692d91d3bff4e2e91b0853f72b18f3ba54628cfa03b72daeb",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 2,
+  "rawOutput": "\nFAIL [5-ce-ju-yi.ldr] 8 error(s), 50 placement(s):\n  - step 4: 5-ce-ju-yi_l32 overlaps 5-ce-ju-yi_l28; 5-ce-ju-yi_l32 overlaps 5-ce-ju-yi_l29\n  - step 4: 5-ce-ju-yi_l33 overlaps 5-ce-ju-yi_l30; 5-ce-ju-yi_l33 overlaps 5-ce-ju-yi_l31\n  - step 5: 5-ce-ju-yi_l42 overlaps 5-ce-ju-yi_l39\n  - step 5: 5-ce-ju-yi_l43 overlaps 5-ce-ju-yi_l40\n  - step 6: 5-ce-ju-yi_l53 overlaps 5-ce-ju-yi_l50\n  - step 6: 5-ce-ju-yi_l54 overlaps 5-ce-ju-yi_l51\n  - step 7: 5-ce-ju-yi_l62 overlaps 5-ce-ju-yi_l59\n  - step 7: 5-ce-ju-yi_l63 overlaps 5-ce-ju-yi_l60\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "alarms": [
+    {
+      "sourceLine": 32,
+      "otherSourceLine": 28,
+      "lineNumbers": [
+        32,
+        28
+      ],
+      "raw": "- step 4: 5-ce-ju-yi_l32 overlaps 5-ce-ju-yi_l28; 5-ce-ju-yi_l32 overlaps 5-ce-ju-yi_l29",
+      "classification": "insufficient_evidence",
+      "explanation": "Source p4 explicitly nests belt wheels in tyre annulus; solid AABB alarm expected but exact rim/tyre groove contact not mesh-verified, do not waive."
+    },
+    {
+      "sourceLine": 32,
+      "otherSourceLine": 29,
+      "lineNumbers": [
+        32,
+        29
+      ],
+      "raw": "- step 4: 5-ce-ju-yi_l32 overlaps 5-ce-ju-yi_l28; 5-ce-ju-yi_l32 overlaps 5-ce-ju-yi_l29",
+      "classification": "insufficient_evidence",
+      "explanation": "Source p4 explicitly nests belt wheels in tyre annulus; solid AABB alarm expected but exact rim/tyre groove contact not mesh-verified, do not waive."
+    },
+    {
+      "sourceLine": 33,
+      "otherSourceLine": 30,
+      "lineNumbers": [
+        33,
+        30
+      ],
+      "raw": "- step 4: 5-ce-ju-yi_l33 overlaps 5-ce-ju-yi_l30; 5-ce-ju-yi_l33 overlaps 5-ce-ju-yi_l31",
+      "classification": "insufficient_evidence",
+      "explanation": "Source p4 explicitly nests belt wheels in tyre annulus; solid AABB alarm expected but exact rim/tyre groove contact not mesh-verified, do not waive."
+    },
+    {
+      "sourceLine": 33,
+      "otherSourceLine": 31,
+      "lineNumbers": [
+        33,
+        31
+      ],
+      "raw": "- step 4: 5-ce-ju-yi_l33 overlaps 5-ce-ju-yi_l30; 5-ce-ju-yi_l33 overlaps 5-ce-ju-yi_l31",
+      "classification": "insufficient_evidence",
+      "explanation": "Source p4 explicitly nests belt wheels in tyre annulus; solid AABB alarm expected but exact rim/tyre groove contact not mesh-verified, do not waive."
+    },
+    {
+      "sourceLine": 42,
+      "otherSourceLine": 39,
+      "lineNumbers": [
+        42,
+        39
+      ],
+      "raw": "- step 5: 5-ce-ju-yi_l42 overlaps 5-ce-ju-yi_l39",
+      "classification": "real_risk",
+      "explanation": "Source neighboring retainer axes at80LDU; actual6527 DAT rim cylinder radius41 produces up to2LDU radial interference at equal axial depth. Need verify opposite-facing/staggered source stack. Axles kept on source hole grid, no arbitrary collision-avoidance displacement."
+    },
+    {
+      "sourceLine": 43,
+      "otherSourceLine": 40,
+      "lineNumbers": [
+        43,
+        40
+      ],
+      "raw": "- step 5: 5-ce-ju-yi_l43 overlaps 5-ce-ju-yi_l40",
+      "classification": "real_risk",
+      "explanation": "Source neighboring retainer axes at80LDU; actual6527 DAT rim cylinder radius41 produces up to2LDU radial interference at equal axial depth. Need verify opposite-facing/staggered source stack. Axles kept on source hole grid, no arbitrary collision-avoidance displacement."
+    },
+    {
+      "sourceLine": 53,
+      "otherSourceLine": 50,
+      "lineNumbers": [
+        53,
+        50
+      ],
+      "raw": "- step 6: 5-ce-ju-yi_l53 overlaps 5-ce-ju-yi_l50",
+      "classification": "real_risk",
+      "explanation": "Source neighboring retainer axes at80LDU; actual6527 DAT rim cylinder radius41 produces up to2LDU radial interference at equal axial depth. Need verify opposite-facing/staggered source stack. Axles kept on source hole grid, no arbitrary collision-avoidance displacement."
+    },
+    {
+      "sourceLine": 54,
+      "otherSourceLine": 51,
+      "lineNumbers": [
+        54,
+        51
+      ],
+      "raw": "- step 6: 5-ce-ju-yi_l54 overlaps 5-ce-ju-yi_l51",
+      "classification": "real_risk",
+      "explanation": "Source neighboring retainer axes at80LDU; actual6527 DAT rim cylinder radius41 produces up to2LDU radial interference at equal axial depth. Need verify opposite-facing/staggered source stack. Axles kept on source hole grid, no arbitrary collision-avoidance displacement."
+    },
+    {
+      "sourceLine": 62,
+      "otherSourceLine": 59,
+      "lineNumbers": [
+        62,
+        59
+      ],
+      "raw": "- step 7: 5-ce-ju-yi_l62 overlaps 5-ce-ju-yi_l59",
+      "classification": "real_risk",
+      "explanation": "Source neighboring retainer axes at80LDU; actual6527 DAT rim cylinder radius41 produces up to2LDU radial interference at equal axial depth. Need verify opposite-facing/staggered source stack. Axles kept on source hole grid, no arbitrary collision-avoidance displacement."
+    },
+    {
+      "sourceLine": 63,
+      "otherSourceLine": 60,
+      "lineNumbers": [
+        63,
+        60
+      ],
+      "raw": "- step 7: 5-ce-ju-yi_l63 overlaps 5-ce-ju-yi_l60",
+      "classification": "real_risk",
+      "explanation": "Source neighboring retainer axes at80LDU; actual6527 DAT rim cylinder radius41 produces up to2LDU radial interference at equal axial depth. Need verify opposite-facing/staggered source stack. Axles kept on source hole grid, no arbitrary collision-avoidance displacement."
+    }
+  ],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "P3 four source cranks omitted because candidate upper/lower hole closure not exact; explicit deficit not hidden.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P5-7 rods/axles share documented exact hole lines; source selected hole indices inferred by visible two neighboringholes, requiring visual confirmation.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P8 gearbox input/output axes taken from real31624 subfile; gear tooth phase, physical rotation and short-geared axle clearance unverified.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P9 digital graduation sheet61898f missing licensed localgeometry; one short crank not installed without axialstack proof.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P5-7 adjacent belt-wheel centers80LDU; realDAT rims radius41 create potential2LDU radial interference at equal depth; retain alarm pending source-facing orientation/axial stagger review, do not move axles off holegrid.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "physicalValidation": false,
+  "overallAcceptance": false
+}

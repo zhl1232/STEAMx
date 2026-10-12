@@ -1,0 +1,85 @@
+{
+  "sourceSha256": "38eb303f07f9052a3c0f548a1d84f400ac58adc65963658b2caa799de1a6b430",
+  "revision": "28a660b43c12c73d7ba454daa5248116c3ad110daa0041be0ae3a0df2792e25e",
+  "reviewedAt": "2026-10-11T08:10:27.261731+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ren-li-shui-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "35147ab8c70066e5b14f8c0eac4c4a4452c4b17273e0a07c27059490544fd49d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "da1f0b79061fb37b464e92d3f1ffcc5a1deeae4920a307127fd20a27baf5ac00",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "8aeb59158a02e1c39e13073391985d8e61b55bcf0ed68af66ccce8e56276574d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "3f713a6d82ee19967b9e8cbd62998d4a4ed0c1bea29846c9886729930e48f293",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "eb3d1605126245bc99bb00fd685ce78c45acfb36f2de5b33338a8e87ffb0b5c6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "b1f3cfc261387109d700a4c3d12ee10131e047a08256f8cbfd055331f545251f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "d714f4739795ade17c99d5622119e92011d850dfbd14ee98bb905dcd756a655d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "938f6fccbd07f84939256b78973461fe06cffc28b0013b9e5559a6f03e35640a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "3fe08a5e372d496a718675998ea68bacd68146ac288602f111fef88737475ecb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "dbc7a6070cc76ac96f083d35d537d068ed891e82e4b47a72e88a2886b417c140",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "7a204e8214528cb058120b5d9cedb95be5a503cb1db1275761e6619940756453",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "1c5fb4316e874c422b52311540d80ca889d8f0f86a8f2af66612df27d49f181a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "ded138c1ae4dd1baf5b9a4c53a5cea504fcb1758739fa9338a26da46eedef2b8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "35147ab8c70066e5b14f8c0eac4c4a4452c4b17273e0a07c27059490544fd49d",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed all11 D cumulative original PNGs and re-opened source p4,p11,p12. Pillars, twin blue axle components, paddle cross, plates, figure head/arms and final crank additions visible in sequence. Figure38.22deg inferred lean differs source near-upright pose; hidden crank-to-gear capture and synchronized linkage remain incomplete. Proper beam matrices do not establish physical support or working drive. Original final3 retained by exact hashes; INCOMPLETE and pending user confirmation, no physical validation."
+}

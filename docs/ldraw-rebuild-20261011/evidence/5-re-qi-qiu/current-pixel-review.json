@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "3d1febd004c2afd9560ba388865410dd1034e18c56c7039bb8623e63957dfa67",
+  "revision": "0775e4c11b18d82033599d1702cfa6118ff4a2af10d30708c5cab69db55c42c1",
+  "reviewedAt": "2026-10-11T13:11:16.464049+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-re-qi-qiu",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "e4c3ff9bbb98553518c467e21bb723a15f9a1795734b9fa6a6775e248df33a0c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "db97453b34f8d5a07d5119a361fc2613486965a24fd50cb7ee8fad18f46bb401",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "8c72c75e7321f24d9c8f77e52d33eaf3e63621ffb7d591fdcf49a02494c59ead",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "3b3f67ac13775e061c4895223d28cc9f74d6107ac01aef18cb8cbbc14db8a910",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "eb356743baa732084de0a42f9536ecac6988851064e2bd68f0981133ba76167f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "e2ab64f19018bd9e24042c2a29b80d925d6534219dc0ad54aaabcf8df4689253",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "c173e6b44221e0fb48df19a140d5918644bc2b00d848b887b471d757de2a9436",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "53e2ca3cca67f8bcf07dabc889b13e089da550b30b5c6cb2c9a835b5dc6aa273",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "6d06c93c242f830fcc01c4e4e7dd46569c27941becd5fde0a6ce2fc7569a4608",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "7a7373304502a89a0f2206fb8a521216f8ed7ea858067fdd1778696028a19f95",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "9300906d389fbe49b4aede912c409a67db4f8fce342761b505d7fc271b6df926",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "9300906d389fbe49b4aede912c409a67db4f8fce342761b505d7fc271b6df926",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "d1773b9759b2c15815096ea924fbcd53002161678896f359545cb17e0d45fd5a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "d1773b9759b2c15815096ea924fbcd53002161678896f359545cb17e0d45fd5a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "e4c3ff9bbb98553518c467e21bb723a15f9a1795734b9fa6a6775e248df33a0c",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual corrected final3 and all12 cumulative steps reviewed via current sheets and original iso/rear/top/step12 against sourcep12/13. Official51262 now provides full8x8 basket floor beneath four fences; earlier4x8 error corrected. Four hooks remain outside basket corners below shell, but hook/fence seating and load support are not verified. Four cord meshes absent; 332LDU eye-height difference and40LDU inward run are illustration-based estimates. No physical or overall-fit acceptance."
+}

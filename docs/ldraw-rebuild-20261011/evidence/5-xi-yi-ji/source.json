@@ -1,0 +1,99 @@
+{
+  "name": "5+洗衣机搭建说明.pdf",
+  "relative_path": "5+/5+洗衣机搭建说明.pdf",
+  "pages": 14,
+  "bytes": 2127190,
+  "sha256": "9e8ce233c9d2259396f2bc29a3fbd76865b916b37b3c329fe3f0d4639c17d90c",
+  "source_url": "https://pan.quark.cn/list#/docpdf/f909f95af0c54817bf20a5de5fa9083b",
+  "slug": "5-xi-yi-ji",
+  "lesson_id": 302,
+  "course_id": 7,
+  "localPdf": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5+/5+洗衣机搭建说明.pdf",
+  "localBytesVerified": true,
+  "pagesDecoded": [
+    {
+      "page": 1,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-01.jpg",
+      "sha256": "939c360a0c7dd335812140763b2946ff3fb549a791d9073273a5efeb901049a8",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-02.jpg",
+      "sha256": "800813f938fc1b642c82eadc41080777ce2e5b78cbb17c4d9386ac60ab4ea960",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-03.jpg",
+      "sha256": "cefb1990636ef74d4589bee152856b40e2aae770d53cd015919e3cec76df5808",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-04.jpg",
+      "sha256": "fd2fcf814aed74580593b16d29510304b01ec48b35070a843dcc5e4606694f56",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-05.jpg",
+      "sha256": "196cc6cc7919ada25380de85800c98b0352a0d5e63648de8c26769f266a2e5c3",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-06.jpg",
+      "sha256": "07661b3aa8953feabee007550c1aed911e9744e9e913c3000c1f1b43b2010203",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-07.jpg",
+      "sha256": "f02b160ad7ef79f17920e06d4648bae6062c979305d80aede8733c10d457f416",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-08.jpg",
+      "sha256": "5cdb5367225aa6659883dd27aed703de4d11277f79ca5441dbdc01472a0dd6df",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-09.jpg",
+      "sha256": "af90bbb61ef3ae7b1ea00b8b645b930b57012b7269a0fcfe0fe24bccf046d384",
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-10.jpg",
+      "sha256": "5382487dbe071fb551ea19c0e00f18d54ee4eb6fcb9e8a6ae0d1262e8255f0fe",
+      "pixelsViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-11.jpg",
+      "sha256": "9aff742da9b7102a9efce4fb84c7327c923f4d7c7707de05de11b7f010a917af",
+      "pixelsViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-12.jpg",
+      "sha256": "6fd501fafae3a32c829ed3f01dea8d295f353017b169f14093d4bf6a13b2ab62",
+      "pixelsViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-13.jpg",
+      "sha256": "6e24437dcaba13d084efdd43067e79255bc3bf62857c766d1107029829599773",
+      "pixelsViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-xi-yi-ji/page-14.jpg",
+      "sha256": "61e0d7fe15f46fb51a35b1f5774d64cde216b6957113914bf1733c09f659f84a",
+      "pixelsViewed": true
+    }
+  ]
+}

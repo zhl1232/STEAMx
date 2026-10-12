@@ -1,39 +1,68 @@
-0 4+ 蜘蛛 (Spider) - DUPLO draft for manual repair
+0 4-zhi-zhu - source-based dev-only reconstruction
 0 Name: 4-zhi-zhu.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+蜘蛛 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Curved abdomen, eyes, spinnerets and eight jointed legs are simplified.
-
-0 // STEP 1 - yellow body core
-1 14 -120 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 200 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -80 -120 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 120 -120 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: seven transverse black4x6 Toolo bricks: four lower and three seam-spanning upper
+1 0 -240 0 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -80 0 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 80 0 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 240 0 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -160 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 160 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 2 - black legs
-1 0 -360 -48 -140 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 -120 -48 -160 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 120 -48 -160 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 360 -48 -140 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 -360 -48 140 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 0 -120 -48 160 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 0 120 -48 160 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 0 360 -48 140 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+0 // Source page 2: grey2x4 head bridge and two side-built fork mandibles
+1 72 280 -48 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 72 368 -24 -40 0 -1 0 -1 0 0 0 0 -1 28336.dat
+1 72 368 -24 40 0 -1 0 1 0 0 0 0 1 28336.dat
 0 STEP
-
-0 // STEP 3 - rounded abdomen
-1 14 40 -168 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -216 -120 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 40 -264 -160 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 3: two clutch blocks fitted to the mandible forks
+1 72 493 -24 -88 0 -1 0 1 0 0 0 0 1 74957.dat
+1 72 493 -24 88 0 -1 0 1 0 0 0 0 1 74957.dat
 0 STEP
-
-0 // STEP 4 - eyes and front feelers
-1 15 -160 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 -80 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -240 -168 -160 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 0 -40 -168 -240 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // Source page 4: two bare rim eyes, two yellow Toolo head bricks and one rear grey Toolo brick
+1 14 240 -96 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 14 320 -96 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 72 -280 -48 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 71 384 -72 -40 0 -1 0 1 0 0 0 0 1 99565.dat
+1 71 384 -72 40 0 -1 0 1 0 0 0 0 1 99565.dat
+0 STEP
+0 // Source page 5: eight body-side forks, four each side, prongs directed upward/outward
+1 72 -240 24 -168 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 -240 24 168 -1 0 0 0 0 -1 0 -1 0 28336.dat
+1 72 -80 24 -168 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 -80 24 168 -1 0 0 0 0 -1 0 -1 0 28336.dat
+1 72 80 24 -168 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 80 24 168 -1 0 0 0 0 -1 0 -1 0 28336.dat
+1 72 240 24 -168 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 240 24 168 -1 0 0 0 0 -1 0 -1 0 28336.dat
+0 STEP
+0 // Source page 6: yellow concrete mixer assembly unresolved; omitted pending confirmed ID and geometry
+0 STEP
+0 // Source page 7: eight short Toolo arms form downward legs
+1 72 -240 117.421356 -374.421356 0 0 -1 -0.707107 -0.707107 0 -0.707107 0.707107 0 dev-129/28334.dat
+1 72 -240 117.421356 374.421356 0 0 1 -0.707107 -0.707107 0 0.707107 -0.707107 0 dev-129/28334.dat
+1 72 -80 117.421356 -374.421356 0 0 -1 -0.707107 -0.707107 0 -0.707107 0.707107 0 dev-129/28334.dat
+1 72 -80 117.421356 374.421356 0 0 1 -0.707107 -0.707107 0 0.707107 -0.707107 0 dev-129/28334.dat
+1 72 80 117.421356 -374.421356 0 0 -1 -0.707107 -0.707107 0 -0.707107 0.707107 0 dev-129/28334.dat
+1 72 80 117.421356 374.421356 0 0 1 -0.707107 -0.707107 0 0.707107 -0.707107 0 dev-129/28334.dat
+1 72 240 117.421356 -374.421356 0 0 -1 -0.707107 -0.707107 0 -0.707107 0.707107 0 dev-129/28334.dat
+1 72 240 117.421356 374.421356 0 0 1 -0.707107 -0.707107 0 0.707107 -0.707107 0 dev-129/28334.dat
+0 STEP
+0 // Source page 8: four orange and four yellow curved2x3 bricks in opposing pairs
+1 25 -120 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 25 -120 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 -40 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 -40 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 25 40 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 25 40 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 120 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 120 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+0 // PENDING: Rear yellow mixer assembly fromp6 is omitted until ID/geometry are confirmed; do not treat this model as complete.
+0 // PENDING: All Toolo geometry is previously approved approximation; dev short arm total240/openhook200. Exact clasp and screw engagement remains unmeasured.
+0 // PENDING: Leg angle45deg and mandible clutch orientation are inferred from source views and require central rendered comparison.
+0 // PENDING: Final ground contact is through eight distal leg shafts; raw checker manual policies cannot establish physical stability.
+0 // Source page 9: finished view, no duplicated placements.

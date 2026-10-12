@@ -1,0 +1,64 @@
+{
+  "slug": "5-xi-yi-ji",
+  "sourceSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 0,
+  "rawOutput": "OK   [5-xi-yi-ji.ldr] 78 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarms": [],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "31195 officialports chainedexactly; alternatebendroll180 chosen tofollowdownwardoutletshape,not measuredsource3Droll; no scaling.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Roundframe actual240height andopeningcenterlocalY110 used; tubeinletatfrontfaceZ-240,nominalportR66versusframeR80; connectionretention notphysicallyverified.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Rearinput31623 lengthselectedfromlongBOM; crown40T axesnominal,phase/depth unverified.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P5pulley axialseat partlyhidden; selectedabove40Tgear,notclaimedunique.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Lid30degreepose inferred; twoaxles240LDUstack resolved usingreal48LDUbrackets+40LDUcranks+80LDUrails. Sweep/physicalstrength pending.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Wallseams hidden inferred withinexactper-page8four+1square counts; no unavailablecomponents omitted.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "physicalValidation": false,
+  "overallAcceptance": false,
+  "handleCorrection": {
+    "oldSourceSha256": "ac3039959ec5b6039cd21b50ec89a3733255e798484845452543641111315a6f",
+    "sourcePage": 13,
+    "oldPart": "11198.dat",
+    "newPart": "6394.dat",
+    "evidence": "Source p13 actual pixels show square 2x2 bottom opening. Official local 6394.dat has x +/-80,z +/-40, body y0..96; opening x +/-40,y48..96. Same 96-height bottom seating preserves pose without scaling.",
+    "oldGeometryResolution": "11198 and three dependencies were exact-name blocks read from published 3-jing-che.mpd, not local DAT. Valid closure did not establish correct source identity.",
+    "oldRenderRevision": "81161e6a9f806fcd19b1e39ab3c30eb3618d0110716e0617ca8aebe0ffecfbb1",
+    "newRenderPending": false,
+    "currentRenderRevision": "b0cc56a7a2163f0b440cea9f6a28a34b1d6da5bffbdfb83416e3b550abc7b473",
+    "currentShapeActuallyReviewed": true
+  },
+  "pixelObservation": {
+    "sourceSha256": "19f409b1ffad7627e42a5b5b01bd149d55b102ea8f0b73d5e06a97537645d813",
+    "revision": "b0cc56a7a2163f0b440cea9f6a28a34b1d6da5bffbdfb83416e3b550abc7b473",
+    "record": "current-pixel-review.json",
+    "finalViewsActuallyViewed": 3,
+    "cumulativeStepsActuallyViewed": 13,
+    "observations": "Actually reviewed current final3 contact views and all13 cumulative step tiles; opened step13 original PNG and source p13/p14 originals. Corrected6394 now has source square bottom opening, seated on tilted gray lid; prior11198 round arch revision is historical rejected identity evidence only. No further definite source-placement error found in box layers, inlet tube sequence, rear shaft or lid progression. Hidden tube rolls/wall seams, p5 pulley seat, crown gear depth/phase, tube-frame retention and lid pivot sweep/strength remain unverified; observation is not physical acceptance.",
+    "accepted": false
+  }
+}

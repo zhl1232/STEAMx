@@ -1,0 +1,66 @@
+{
+  "slug": "5-shuai-gan-ji",
+  "sourceSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 0,
+  "rawOutput": "OK   [5-shuai-gan-ji.ldr] 60 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarms": [],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "P4 hiddenbaseclamp andverticalfeet bond inferred fromfrontsource and8yellow/4redplatecount; retain sourcecount, no scale.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Gear nominalpitch160/120LDU; toothphase, orthogonalcrown mesh, axle retention and torque unverified.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P7 grayaxle engagesrotatingbeam22LDU; offsetcrankpin40LDU,centerpassages used; platform mechanical strength/sweep remains unverified.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P8 three6brick rings match12yellow+6blueBOM; hiddenbackseams inferred with alternatingbond.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "physicalValidation": false,
+  "overallAcceptance": false,
+  "currentPixelObservation": {
+    "sourceSha256": "c28ab30d867ee468ab7dbae9b5b9552b67e36f831916a9fc13383cb5a167a6bd",
+    "revision": "0ff23d7f1d9e25e69bd8068338c6e5efe1ebb0e2a61e26b224340a8cc06981cb",
+    "finalViewsViewed": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "stepsViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "sourcePagesViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "additionalOriginalViewed": "step-7.png",
+    "finding": "No additional definite source placement correction established; mechanical/hiddenlayout limitations remain. Observation only.",
+    "accepted": false
+  }
+}

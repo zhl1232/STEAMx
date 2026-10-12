@@ -1,0 +1,1971 @@
+{
+  "generatedAt": "2026-10-11T08:57:58.955Z",
+  "scope": "69 current drafts only, excludes deferred11; independent read-only current-source snapshot",
+  "method": "Matrices and DAT/MPD text checked. Materialized PDFs SHA-checked. Existing authors source-view claims indexed, not new pixel inspection or physical validation. No browser/render/repack/model mutations.",
+  "summary": {
+    "models": 69,
+    "placements": 4999,
+    "matrixIssues": 0,
+    "sourceIssues": 0,
+    "statusIssues": 0,
+    "mpdIssues": 0,
+    "embeddedDatBlocksCompared": 5971,
+    "uniqueLocalPartFiles": 392,
+    "acceptedTrue": 0,
+    "closureManifestIssues": 0,
+    "nestedAcceptanceTrue": 0,
+    "materializedPdfShaVerified": 62,
+    "imageLibrarySourceCourses": 7,
+    "remainingCoursesAwaitingTransfer": 60
+  },
+  "matrixIssues": [],
+  "sourceIssues": [],
+  "statusIssues": [],
+  "mpdIssues": [],
+  "models": [
+    {
+      "slug": "4-cha-che",
+      "sourceSha256": "f5f48f9048435436f0647273313f97036e3431ca5e9bf51c090fab20b62d0a4d",
+      "pdfPages": 15,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch1/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "docs/ldraw-rebuild-20261011/forklift-review.md",
+          "claim": "All15pagepixels inspected, as recorded in forklift review"
+        }
+      ],
+      "modelSha256": "f4d5fccdd0d5e288d8819f5645a76c106b8d3826d2175667e747a05ab89c7c0c",
+      "placements": 71,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "c6c622610201750a3019ba234ff58174631d1cf6ac56877a22e4fee26c4d4b89",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-chun-jie-wu-shi",
+      "sourceSha256": "10a10ad5fe1d90d98a10de8a6f9553143f45931e77c2eaab9d90f006e11cbde1",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch7/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-chun-jie-wu-shi/review.json",
+          "field": "sourcePixels",
+          "value": "All13 source pages contact inspected; enlarged structural pages inspected"
+        }
+      ],
+      "modelSha256": "846331ba67892fa0b58dce432682696569e7e320f0ba25bf7d5f52a2eb268b39",
+      "placements": 58,
+      "maxMatrixError": 6.146489999192539e-07,
+      "developmentMpdSha256": "955f224e6b25e814e602183da92d6652dfb869d4a88640b32a14f8ec2ba58cc7",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-ci-xuan-fu-lie-che",
+      "sourceSha256": "6b27d9e78963183d83a3909411633ad97d2337952efecf33bc03efbf9b952798",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch2/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ci-xuan-fu-lie-che/ledger.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "allPixelsViewed": true
+        }
+      ],
+      "modelSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
+      "placements": 92,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "6a7d07738072ac10aade007d611993f5fbf949852dd0e111e030adc1f2141487",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-da-xiang",
+      "sourceSha256": "f748fb3655a8c9b16016e4e414bf0629c82fc3f3860acd8e07c65166a0eaa78e",
+      "pdfPages": 12,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch1/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-da-xiang/review.json",
+          "field": "sourcePixels",
+          "value": "12-page contact sheet and enlarged structural pages viewed"
+        }
+      ],
+      "modelSha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950",
+      "placements": 46,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "b0e2089a0e4b3b68490dabe62eae78a0a34c82d49f35ddd12a0ca67b853d1771",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-dao-dan-che",
+      "sourceSha256": "0e62a72ff99d376bc60e00dda9d854f1899853e1fcf1717cfcd872d41dad416a",
+      "pdfPages": 14,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch9/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-dao-dan-che/source-review.md",
+          "claim": "Status: INCOMPLETE / pending user confirmation. Dev-only toy model; no firing mechanism. Final pixels inspected with unresolved findings below; no physical validation."
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-dao-dan-che/source-review.md",
+          "claim": "The locally materialized batch9 manifest PDF SHA256 was verified as `0e62a72ff99d376bc60e00dda9d854f1899853e1fcf1717cfcd872d41dad416a`. All 14 pages were individually viewed as pixels. Source images reside at `D:/Codex-task-2-20261011/sourc"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-dao-dan-che/source-review.md",
+          "claim": "Raw checker PASS,60 placements. All six approximate Toolo families use manual collision/support policies; this PASS does not certify their fit, hidden support, or motion. Top-level and recursive MPD closure belongs to parent packaging. Fina"
+        },
+        {
+          "file": "scripts/ldraw-models/4-dao-dan-che.ldr",
+          "claim": "0 // All14 source PDF pages viewed. Source SHA256 0e62a72ff99d376bc60e00dda9d854f1899853e1fcf1717cfcd872d41dad416a."
+        }
+      ],
+      "modelSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
+      "placements": 66,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "66d19e61b46ea7a4295fdd7d7b42b7ee0435e17bc0e50a4388c557f4d78b625c",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-diao-che",
+      "sourceSha256": "88a0ee8c26df7d1c881539181144f5380b7f3abf259acfcaf5159070f2f20c21",
+      "pdfPages": 12,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch9/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-diao-che/REVIEW.md",
+          "claim": "Exact manifest mapping: `4-diao-che`, lesson145/course6; this is not `5-diao-che`. Batch09 PDF `4+/4+吊车搭建说明.pdf`, 12 pages,1992439 bytes. SHA25688a0ee8c26df7d1c881539181144f5380b7f3abf259acfcaf5159070f2f20c21 was recomputed locally and matc"
+        },
+        {
+          "file": "scripts/ldraw-models/4-diao-che.ldr",
+          "claim": "0 // Lesson145 course6; PDF SHA256 88a0ee8c26df7d1c881539181144f5380b7f3abf259acfcaf5159070f2f20c21; all12 pages viewed."
+        }
+      ],
+      "modelSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a",
+      "placements": 74,
+      "maxMatrixError": 8.76160033413953e-10,
+      "developmentMpdSha256": "cb96b1e420517551801fee83a9fdaa004eee433feda4c4ea6abd6b25fd1d867e",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-du-jiao-xian",
+      "sourceSha256": "11db2740e2f5d1e5b0cb002f777ef700e1ac1d2dbbe127fabf506dbb00b31919",
+      "pdfPages": 12,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch5/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-du-jiao-xian/evidence.json",
+          "field": "allSourcePixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-du-jiao-xian/REVIEW.md",
+          "claim": "Actual current final3 contact sheet and original iso-rear pixels inspected against previously actually viewed source p7/p8/p12. Source31506262 matches local LDR, pack3c96d98f. Two lime wings now visibly separate; iso and top show the intend"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-du-jiao-xian/ledger.md",
+          "claim": "All 12 source pages actually viewed after SHA256 verification: 11db2740e2f5d1e5b0cb002f777ef700e1ac1d2dbbe127fabf506dbb00b31919."
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-du-jiao-xian/ledger.md",
+          "claim": "Actual current final3 contact sheet and original iso-rear pixels inspected against previously actually viewed source p7/p8/p12. Source31506262 matches local LDR, pack3c96d98f. Two lime wings now visibly separate; iso and top show the intend"
+        },
+        {
+          "file": "scripts/ldraw-models/4-du-jiao-xian.ldr",
+          "claim": "0 // All 12 source PDF pages actually viewed. No physical verification."
+        }
+      ],
+      "modelSha256": "315062621f6838fd246d5fce94debb509319f0cefa1e1debb4ebe1a983b12a2f",
+      "placements": 50,
+      "maxMatrixError": 6.5548401151360736e-09,
+      "developmentMpdSha256": "3c96d98f4a2d2e3eb62eb92c180d86bbc09b7547a4189a2822eddca3d8c497a2",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-e-yu",
+      "sourceSha256": null,
+      "pdfPages": null,
+      "sourceManifest": null,
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-e-yu/evidence.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "allPixelsViewed": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-e-yu/ledger.md",
+          "claim": "All 11 source pages actually viewed using view_image. Source/model/part/script SHA256 recorded in evidence.json. Main agent owns dev-only MPD and rendered comparisons."
+        },
+        {
+          "kind": "image-library-source-no-PDF-required",
+          "note": "Original image Library evidence, not a missing-source declaration"
+        }
+      ],
+      "modelSha256": "bb2b3a7c85d16a1ce64ab046eda3f450dc002a40e5b14e6cb11336d261864c1d",
+      "placements": 60,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "9e7cc1055e330823c51da709276649636d2e693ed13837e7df69baa7f8a59eac",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-ji-guan-qiang",
+      "sourceSha256": "a44f50db1002915ed2baca1e6ac59ada63363e5d46aada816e44ada453e5b515",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch2/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ji-guan-qiang/evidence.json",
+          "field": "allSourcePixelsViewed",
+          "value": true
+        },
+        {
+          "file": "scripts/ldraw-models/4-ji-guan-qiang.ldr",
+          "claim": "0 // All 13 PDF source pages actually viewed; page13 adds no parts."
+        }
+      ],
+      "modelSha256": "38a00ef6285bf348d611c68d5b662100b877cfb82daf3d2f01788029d212e270",
+      "placements": 41,
+      "maxMatrixError": 1.2212453270876722e-15,
+      "developmentMpdSha256": "d63cf52b29b29ed79f84cbfd24e94c690aaf73a4fa2474c45c5b8317d77d33ce",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-ju-ji-qiang",
+      "sourceSha256": "e3e8685ac88de58ada7ddd02d06a33e7191c18fbbc5186445a9dae0fe727e94d",
+      "pdfPages": 15,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch3/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ju-ji-qiang/ledger.md",
+          "claim": "Black2223 holder missing. All15sourcepages actually viewed. RawcheckerPASS67placements. Source barrel images may involve re-positioning earlier modules; current cumulative placements preserve source part counts and connected extension conce"
+        },
+        {
+          "file": "scripts/ldraw-models/4-ju-ji-qiang.ldr",
+          "claim": "0 // All15 PDF pages viewed; purely decorative brick toy, no functional mechanism."
+        }
+      ],
+      "modelSha256": "e52362b5889fb366ebc4358a795f4895758aa75650ca2bd643dd295353e75388",
+      "placements": 67,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "9b3e6d53fdcd148d9afb5221adbdd3ffc52664fa4c3eb05c1c947fd681b950d2",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-jun-jian",
+      "sourceSha256": "a994e09191209ddd15cf38a9d97f6fea8d520269bd5366a5f735f6da4524b10b",
+      "pdfPages": 20,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch5/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-jun-jian/evidence.json",
+          "field": "allSourcePixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-jun-jian/ledger.md",
+          "claim": "All 20 source pages actually viewed after SHA256 verification: a994e09191209ddd15cf38a9d97f6fea8d520269bd5366a5f735f6da4524b10b."
+        },
+        {
+          "file": "scripts/ldraw-models/4-jun-jian.ldr",
+          "claim": "0 // All 20 source PDF pages actually viewed. No physical verification."
+        }
+      ],
+      "modelSha256": "01a43d48c1d7d8d6d447745356b7891a1f06de1e3dde2af76bb6671664213623",
+      "placements": 129,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "4a2f82afb4bad971b298872268e168134568c4a3e6d114643f9e939d0bbf0a7a",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-ke-ji",
+      "sourceSha256": "25cc2fb679437ef1003dc94cc7db86865f6f2a8c4414b315d71d425b0075f3fa",
+      "pdfPages": 12,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch1/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ke-ji/review.json",
+          "field": "sourcePixels",
+          "value": "12-page contact sheet and enlarged structural pages viewed"
+        }
+      ],
+      "modelSha256": "52eb878dbb40e5149b435d5b666527eccd74ebb4db03bbba5f3b3e9ccc4ab755",
+      "placements": 69,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "6c9812c262c3d7304e6cf529d9d3de0330fc6270e83891af68c782cde5a7db8c",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-kuai-ting",
+      "sourceSha256": "0e20cda098dfc97b9d819a6c2950e511a154c94aba05bf7e5b868d08d8060484",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch7/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-kuai-ting/evidence.json",
+          "field": "allSourcePixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-kuai-ting/ledger.md",
+          "claim": "All13sourcepages actually viewed."
+        },
+        {
+          "file": "scripts/ldraw-models/4-kuai-ting.ldr",
+          "claim": "0 // All 13 source pages actually viewed. No physical verification."
+        }
+      ],
+      "modelSha256": "1bb9c6ff364b591750d559d7645866f394b99749e11246d9e477f2f412c30318",
+      "placements": 118,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "e37e25a3d14666bb8461912b2c2f0e5df43b954f7e0d7e0c2e8fb492aa23e7bc",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-long-men-diao",
+      "sourceSha256": "9df32d84f927a76585dca32a75cbfc63d05a63c95b7c264d33234432fef289c3",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch8/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-long-men-diao/ledger.json",
+          "field": "sourcePagesActuallyViewed",
+          "value": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+          ]
+        },
+        {
+          "file": "scripts/ldraw-models/4-long-men-diao.ldr",
+          "claim": "0 // All13 source pages actually viewed. No physical verification or user acceptance."
+        }
+      ],
+      "modelSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+      "placements": 93,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "19abb486598447fe71f1108e27bcef8c59c147ecaa8d5ad69fc49ab521bb473a",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-mo-tian-lun",
+      "sourceSha256": "6e2cab2c357f42a41890c349b2f3d8609aa9618e8be2afbae3503ae8e73a319f",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch8/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-mo-tian-lun/ledger.json",
+          "field": "sourcePagesActuallyViewed",
+          "value": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+          ]
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-mo-tian-lun/REVIEW.md",
+          "claim": "实际看e87d58a0的final3与全部12步骤后，发现蓝板stud面可见时，白窗处于远侧，与源第12页相反。已将四组框与窗绕框局部Y转180度，原点、底面与支撑孔排保持不变。当前SHA 4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d，静态PASS60件，新像素待复核。前后变换及旧图hash见window-facing-correction.json。"
+        },
+        {
+          "file": "scripts/ldraw-models/4-mo-tian-lun.ldr",
+          "claim": "0 // All13 source pages actually viewed. No physical verification or user acceptance."
+        }
+      ],
+      "modelSha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d",
+      "placements": 60,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "87f98f7e87ada12f3ef6e88165267dd882e415e09ccab9f78383d0e3e9b0c508",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-qian-shui-ting",
+      "sourceSha256": "72acead54f80ea9161ebcffb06c57a9ade5893cfd149cf6fa1cb669a3a68be4c",
+      "pdfPages": 10,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch7/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-qian-shui-ting/review.json",
+          "field": "sourcePixels",
+          "value": "All10 source pages contact inspected; enlarged structural pages inspected"
+        }
+      ],
+      "modelSha256": "7f553094f5606a443730f4d0bf6a100e9c9ec260acb36140ae986358c0102159",
+      "placements": 41,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "fe789caab9601d63ce52aa46c2e1e7c763a5678069d4562df330dff3fa9b3180",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-qing-ting",
+      "sourceSha256": null,
+      "pdfPages": null,
+      "sourceManifest": null,
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-qing-ting/ledger.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "allPixelsViewed": true
+        },
+        {
+          "kind": "image-library-source-no-PDF-required",
+          "note": "Original image Library evidence, not a missing-source declaration"
+        }
+      ],
+      "modelSha256": "0e9f1b226a77bee50273cb9e91b0b208ba38f03e765b9e8ec19583574c26746a",
+      "placements": 26,
+      "maxMatrixError": 4.2476799988477865e-07,
+      "developmentMpdSha256": "bfdf751c0cf4b906dd4b8763b5741c8b908dace1562ccad861c6d78f7b5562bc",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-sai-che",
+      "sourceSha256": "72064f97c043dbc88a88921b96c874fc12f127892a6c2a2221eac7e39d65f124",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch2/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-sai-che/evidence.json",
+          "field": "allSourcePixelsViewed",
+          "value": true
+        },
+        {
+          "file": "scripts/ldraw-models/4-sai-che.ldr",
+          "claim": "0 // All 13 PDF source pages actually viewed; page13 adds no parts."
+        }
+      ],
+      "modelSha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94",
+      "placements": 40,
+      "maxMatrixError": 1.1102230246251565e-16,
+      "developmentMpdSha256": "ae4f343c773a5bad18cffda4df47099f68cefa41c986aa3119c26ff5498b65a6",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-sheng-jiang-jiu-yuan-che",
+      "sourceSha256": "2c05b0fdec3a3a5632623c4f2c434e4ff7cc5c0a8fbb79709cedfbc2d9d0cb94",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch7/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-sheng-jiang-jiu-yuan-che/evidence.json",
+          "field": "allSourcePixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-sheng-jiang-jiu-yuan-che/REVIEW.md",
+          "claim": "Source pages were actually viewed; final source pages and relevant joint pages rechecked during refinement. Prior three-view pixels exposed the pose discrepancies and do not verify this new revision. Await parent serial D-drive final and cu"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-sheng-jiang-jiu-yuan-che/REVIEW.md",
+          "claim": "Current final3 contact sheet and original iso-rear pixels actually inspected against previously viewed source pages. Source hash matches render manifest. Final framing complete. Shortened nose and reduced lift extension visible; canopy/roof"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-sheng-jiang-jiu-yuan-che/ledger.md",
+          "claim": "All13sourcepages actually viewed."
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-sheng-jiang-jiu-yuan-che/ledger.md",
+          "claim": "All thirteen source pages individually viewed. Upper linkage orientation is estimated; no claim of lifting capability, loaded stability, or clamping fit. Each endpoint is geometrically coincident under approximate20/60/200LDU part-interface"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-sheng-jiang-jiu-yuan-che/ledger.md",
+          "claim": "Current final3 contact sheet and original iso-rear pixels actually inspected against previously viewed source pages. Source hash matches render manifest. Final framing complete. Shortened nose and reduced lift extension visible; canopy/roof"
+        },
+        {
+          "file": "scripts/ldraw-models/4-sheng-jiang-jiu-yuan-che.ldr",
+          "claim": "0 // All13 source pages actually viewed. Draft, no physical or human acceptance."
+        }
+      ],
+      "modelSha256": "5f833583ab068a5fc42c0ae417dece0255c517359a783737834ecf79920155f0",
+      "placements": 73,
+      "maxMatrixError": 6.5548401151360736e-09,
+      "developmentMpdSha256": "866524574d348ce54fc41111af426280d3018ba29ef766ecc3072629edf45873",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-sun-wu-kong",
+      "sourceSha256": null,
+      "pdfPages": null,
+      "sourceManifest": null,
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-sun-wu-kong/REVIEW.md",
+          "claim": "状态：未确认开发稿；structurally checked only (render dependency revision pending)。79 个零件，12 个增加零件步骤，源第 13 页为成品图。未发布、未经过 Studio 或实物验证。原图来自 Library libfile_f1b8d0abcba08191adf73366f31c7f1f；本机 `inputs/source-2/4孙悟空` 的 13 页均已实际查看像素。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-sun-wu-kong/REVIEW.md",
+          "claim": "累计步骤渲染复核：2026-10-11已实际查看修复harness后的全部12张累计steps拼图，以及最新版iso和top；每步可见新增件，裙甲正面凸点朝外、长棍16层、双冠5层、脸眼图案、腿间空洞均可见。机械叉臂只保留近似轮廓/手工接口的限制；表情嘴部深度有推断。等级可标structurally checked only (render dependency revision pending)，仍未用户确认或实物验证。"
+        },
+        {
+          "kind": "image-library-source-no-PDF-required",
+          "note": "Original image Library evidence, not a missing-source declaration"
+        }
+      ],
+      "modelSha256": "f208ed5e107f8d04951c9fede8b498cc955b34ff63f927842621bf2f0bb0da4e",
+      "placements": 79,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "ad1f519df8c0fad16be5608340fa44a66b14607734bb9ec2db840d9b39742c86",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-ta-diao",
+      "sourceSha256": "96e0335e657bdbdeffc6d644c464ea69b25e29a6a6502b7d27bf0232e0309b43",
+      "pdfPages": 19,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch4/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ta-diao/evidence.json",
+          "field": "allSourcePixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ta-diao/ledger.md",
+          "claim": "All 19 source PDF pages rendered and actually viewed."
+        },
+        {
+          "file": "scripts/ldraw-models/4-ta-diao.ldr",
+          "claim": "0 // All 19 source PDF pages actually viewed. No physical verification."
+        }
+      ],
+      "modelSha256": "99cebf4877faa66b43cb696bfdeff23fd5dd4e2a3c34ac42cfca3f2da20c800b",
+      "placements": 84,
+      "maxMatrixError": 1.0413503059858442e-08,
+      "developmentMpdSha256": "b5955dd0ceae3b89da975a0fbc9630909b0a64cc45b63d6f86dadea1db1acf88",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-tui-tu-ji",
+      "sourceSha256": "d665224a4ae78d02b7ac5332425e24fac436839ca2c25aa26da8b37a32af44fe",
+      "pdfPages": 10,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch5/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-tui-tu-ji/evidence.json",
+          "field": "allSourcePixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-tui-tu-ji/ledger.md",
+          "claim": "All 10 source pages actually viewed after SHA256 verification: d665224a4ae78d02b7ac5332425e24fac436839ca2c25aa26da8b37a32af44fe."
+        },
+        {
+          "file": "scripts/ldraw-models/4-tui-tu-ji.ldr",
+          "claim": "0 // All 10 source PDF pages actually viewed. No physical verification."
+        }
+      ],
+      "modelSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c",
+      "placements": 47,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "c8cbd8c1a052763b6b0e1f529e39ccfa46dca7aecdd464ac97deff0e28756dff",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-wa-li",
+      "sourceSha256": "4c1fd432f80a49fe0fd79cd0672b94d27ddf422fe22c64fba1bdf9b67be9905e",
+      "pdfPages": 15,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch3/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-wa-li/ledger.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "allPixelsViewed": true
+        }
+      ],
+      "modelSha256": "412af45ef6f40a34e0292cfca53b7e927c4c403a90df84e21c4ec8d4bedfbc68",
+      "placements": 47,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "f2dc2532d2b463de19d970d2e203a4449b3e2da33ef94301ff818e4f592ef03b",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-wu-ren-ji",
+      "sourceSha256": "7a0159eb5e973e2367c4b38b9990efe799fdcbeb183bd295ea02345d0129ee5e",
+      "pdfPages": 9,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch3/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-wu-ren-ji/ledger.md",
+          "claim": "Four propellers missing. All9sourcepages actually viewed. RawcheckerPASS32placements. No rendered pixels yet. Body tiling/leg positions/camera should be checked against source once rendered."
+        },
+        {
+          "file": "scripts/ldraw-models/4-wu-ren-ji.ldr",
+          "claim": "0 // All9source PDF pages viewed; page9 no additions; Toolo geometry approximate."
+        }
+      ],
+      "modelSha256": "6fbd18c0e366258df33ad88e862c986f781fd7559ccd356f9ecb25cc6ff4408c",
+      "placements": 32,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "56e636e1490e9224210fdbc859f3434d1a1fc7aa2a1cd33b394079d11fcc2ab4",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-xiang-wei-she",
+      "sourceSha256": null,
+      "pdfPages": null,
+      "sourceManifest": null,
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-xiang-wei-she/ledger.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "allPixelsViewed": true
+        },
+        {
+          "kind": "image-library-source-no-PDF-required",
+          "note": "Original image Library evidence, not a missing-source declaration"
+        }
+      ],
+      "modelSha256": "5cd07261d9e51eff923d27d57a0d808666bbd95eefe7b34ea7eae99ae13bed8b",
+      "placements": 44,
+      "maxMatrixError": 6.188980001819999e-07,
+      "developmentMpdSha256": "9281fb9b7b208cad02175a30ef6a4ee87c5cae5828f9b88f6360e8c302ddbc59",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-xiao-tu-zi",
+      "sourceSha256": null,
+      "pdfPages": null,
+      "sourceManifest": null,
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-xiao-tu-zi/evidence.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "allPixelsViewed": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-xiao-tu-zi/ledger.md",
+          "claim": "All 14 source pages actually viewed using view_image. Source/model/part/script SHA256 recorded in evidence.json. Main agent owns dev-only MPD and rendered comparisons."
+        },
+        {
+          "kind": "image-library-source-no-PDF-required",
+          "note": "Original image Library evidence, not a missing-source declaration"
+        }
+      ],
+      "modelSha256": "03cf5c97a231318dc0cd2d3fafc5a206a75bcca1b756a090f4bfcad2f70550f6",
+      "placements": 54,
+      "maxMatrixError": 1.7958989850797025e-10,
+      "developmentMpdSha256": "7d041650503807614b9036de54c592657cc2c41d8a863b4a65f6070c374312bc",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-xie-zi",
+      "sourceSha256": "3f9068f6e354ae5a322a72da4a480e51529a449ecbc1f6476cd816219b9f0b93",
+      "pdfPages": 12,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch3/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-xie-zi/ledger.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "allPixelsViewed": true
+        }
+      ],
+      "modelSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
+      "placements": 54,
+      "maxMatrixError": 6.993749999129051e-07,
+      "developmentMpdSha256": "19283dfff924125037ee4b2aca3f18a36f8afc11947555e2a3838ece1bf20cca",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-xuan-zhuan-fei-ji",
+      "sourceSha256": "14a7c76071a15818c3e83dbc1373549d5be98656d0653df9873859fad1ec3778",
+      "pdfPages": 12,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch7/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-xuan-zhuan-fei-ji/review.json",
+          "field": "sourcePixels",
+          "value": "All12 source pages contact inspected; enlarged structural pages inspected"
+        }
+      ],
+      "modelSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7",
+      "placements": 71,
+      "maxMatrixError": 6.188980001819999e-07,
+      "developmentMpdSha256": "a0de6f67c9ba289878c13c65c44b3139cc4bd2f81100f3647b9aa309da833799",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-ya-lu-ji",
+      "sourceSha256": "76dfe5eff752c0d0aec0a51a22081cec6398f1a34f038dc94631ae0ba2400746",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch4/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ya-lu-ji/evidence.json",
+          "field": "allSourcePixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-ya-lu-ji/ledger.md",
+          "claim": "All 13 source PDF pages rendered and actually viewed."
+        },
+        {
+          "file": "scripts/ldraw-models/4-ya-lu-ji.ldr",
+          "claim": "0 // All 13 source PDF pages actually viewed. No physical verification."
+        }
+      ],
+      "modelSha256": "4e8c62fadc2ec6f1805cbed2795e64c116e49abb6cdd27ac1b968db5f191b51c",
+      "placements": 48,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "e55f4ad7602344691e76f1e2f11c859c692e879b83e4fe5ccad1ff5f7cc24402",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-yao-yao-ma",
+      "sourceSha256": null,
+      "pdfPages": null,
+      "sourceManifest": null,
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-yao-yao-ma/REVIEW.md",
+          "claim": "状态：未确认开发稿；structurally checked only。81 个零件，19 个增加零件步骤；第20页为成品。未发布、未经过 Studio 或实物验证。原图来自 Library libfile_f1b8d0abcba08191adf73366f31c7f1f；本机 `inputs/source-2/4摇摇马` 全20页均已实际查看像素。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-yao-yao-ma/REVIEW.md",
+          "claim": "最新LDR SHA256：94C88CDB081AD992EFB7368225CA6465CBE135FB5E06E7214D5E1CAAD1B4F13F。2026-10-11已实际看sourceSha匹配、MPD revision b718bce6新版三视角。耳叉朝上后倾，四腿dev短臂完整加载、座垫和轮眼可见。旧依赖/旧耳steps不能作为当前验收，等待修正依赖版累计19步。仍是未确认草稿、没有实物验证。"
+        },
+        {
+          "kind": "image-library-source-no-PDF-required",
+          "note": "Original image Library evidence, not a missing-source declaration"
+        }
+      ],
+      "modelSha256": "94c88cdb081ad992efb7368225ca6465cbe135fb5e06e7214d5e1caad1b4f13f",
+      "placements": 81,
+      "maxMatrixError": 1.4634338185715023e-10,
+      "developmentMpdSha256": "b718bce6389b4f7770146d60b968b728bb5e0280d4e1d6bcd07adcd0bc2f78d4",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-yi-long",
+      "sourceSha256": "f260b4e540a74d6b24565f7b52e290055228cad25e9a3dab9670ea5f32b74b35",
+      "pdfPages": 15,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch4/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-yi-long/ledger.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "allPixelsViewed": true
+        }
+      ],
+      "modelSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
+      "placements": 35,
+      "maxMatrixError": 6.188980001819999e-07,
+      "developmentMpdSha256": "5a5950c94b601a8d3cf4dc477856d9998a922a10bc7edd7d8eecedddacccd0b7",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-you-wen",
+      "sourceSha256": "61ff94911554dee67ab7e25e9f90c43ae5b8c70b3560d6058e46e79b13c634c5",
+      "pdfPages": 12,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch7/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-you-wen/evidence.json",
+          "field": "allSourcePixelsViewed",
+          "value": true
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-you-wen/REVIEW.md",
+          "claim": "Source pages were actually viewed; final source pages and relevant joint pages rechecked during refinement. Prior three-view pixels exposed the pose discrepancies and do not verify this new revision. Await parent serial D-drive final and cu"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-you-wen/REVIEW.md",
+          "claim": "Current final3 contact sheet and original iso-rear pixels actually inspected against previously viewed source pages. Source hash matches render manifest. Final framing complete. Distinct long-arm angles and adjusted head/eye/tail pose now v"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-you-wen/ledger.md",
+          "claim": "All12sourcepages actually viewed."
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-you-wen/ledger.md",
+          "claim": "All twelve pages individually viewed before modeling. Head clutch, grey face, eyes and proboscis are real known parts with inferred source attachment offsets. Tail board is a2x2arrangement in tiltedplane; exact source board seams and leg ra"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-you-wen/ledger.md",
+          "claim": "Current final3 contact sheet and original iso-rear pixels actually inspected against previously viewed source pages. Source hash matches render manifest. Final framing complete. Distinct long-arm angles and adjusted head/eye/tail pose now v"
+        },
+        {
+          "file": "scripts/ldraw-models/4-you-wen.ldr",
+          "claim": "0 // All 12 source pages actually viewed. No physical verification."
+        }
+      ],
+      "modelSha256": "c3aac35cdb9f890c5639ec7bf7225397ddd0d98b85c3fe724ee05181f15ba3a2",
+      "placements": 41,
+      "maxMatrixError": 9.704091308293528e-09,
+      "developmentMpdSha256": "10e313e4264d4411c6ee6cc51818dcffcb973dff59b11fd044edf081d875ce49",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-zhi-sheng-ji",
+      "sourceSha256": "4f366150ee004ae5922ab18ba5f80d765890adc7d31acaac67f2fe4052cf56c5",
+      "pdfPages": 16,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch1/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-zhi-sheng-ji/ledger.md",
+          "claim": "All 16 original PDF pages were actually viewed. Source SHA256: 4f366150ee004ae5922ab18ba5f80d765890adc7d31acaac67f2fe4052cf56c5. Model SHA256: da1b193b6033f66330e19acad3421aac8028c266b51562b0cf70e3b22b866d68. 89 placements, 15 additive step"
+        }
+      ],
+      "modelSha256": "475f81edca039f422a42acc6dffb6e2ec8ee21f31ce13f057d9914e4f3e62e09",
+      "placements": 89,
+      "maxMatrixError": 1.7958989850797025e-10,
+      "developmentMpdSha256": "570807af1d966a470bac9a33060907d8d9a8e066a058d071c69d294bde6c976d",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "4-zhi-zhu",
+      "sourceSha256": "bb59b87ed26014b14de7234ce232ca0eb0a7c7c4ea5d201b06b5cb50e4790553",
+      "pdfPages": 9,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch2/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/4-zhi-zhu/ledger.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "allPixelsViewed": true
+        }
+      ],
+      "modelSha256": "5a42ba605ed73e7a9ea69ad8391390508bb587336da00fc9ec174bcee7251468",
+      "placements": 41,
+      "maxMatrixError": 6.188980001819999e-07,
+      "developmentMpdSha256": "38ee77e98f2346bfbb94a0c6ce1704948bde7c18cec671b35cf8f177aabb5ba1",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-bing-qiu-yun-dong-yuan",
+      "sourceSha256": "b1f55dd0d9318d6b838af6fe733b34ac54db92ad0f3713f627e98046a7c04104",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch2/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-bing-qiu-yun-dong-yuan/source-review.md",
+          "claim": "源 PDF `D:/Codex-task-2-20261011/inputs/pdfbatch2/5+/5+冰球运动员搭建说明.pdf`，SHA256 `b1f55dd0d9318d6b838af6fe733b34ac54db92ad0f3713f627e98046a7c04104`。13页全量实际看像素。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-bing-qiu-yun-dong-yuan/source-review.md",
+          "claim": "已实际查看更新iso、iso-rear、top全部三视图。外观与源图对应，最新调整无新增可见问题；final renderer-verified only，累计步骤仍待验证。 pending user confirmation，未作实物验证。"
+        }
+      ],
+      "modelSha256": "780e76e4857f494c1719a88f256dd9579cb351c40164e39e2c32d4d4e1932ca4",
+      "placements": 51,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "0a48fbf41fc83f34974fc994ca110fce1f69c4c689733559333e6e487041bd6d",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-chou-you-ji",
+      "sourceSha256": "4a52e39cf0afdf1db7288b6706fcbd142beaa51003d057fa98ade927b34e9885",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch1/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-chou-you-ji/source-review.md",
+          "claim": "源：`D:/Codex-task-2-20261011/inputs/pdfbatch1/5+/5+抽油机搭建说明.pdf`；SHA256 `4a52e39cf0afdf1db7288b6706fcbd142beaa51003d057fa98ade927b34e9885`。全部13页均实际查看 PNG 像素。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-chou-you-ji/source-review.md",
+          "claim": "最新像素诊断：b818833a版三视图已实际查看，刚性A架、两红摇梁、十蓝砖空框可见；绳钩缺失与驱动未闭合仍成立，不升完成状态。missing_parts另核BrickLink6527c01完整组件照片对应75536，6528独立编号仍缺证据，官方6528/75536 DAT返回404。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-chou-you-ji/source-review.md",
+          "claim": "已实际查看更新iso、iso-rear、top全部三视图。官方新件可见且对应源图，但已列隐藏机构/绳线缺口仍存在，状态保持INCOMPLETE。 pending user confirmation，未作实物验证。"
+        }
+      ],
+      "modelSha256": "3d21cdd7c13110ddadb2d6207a9afa00e68ea9fcd3b378739d92287d0e544e6b",
+      "placements": 64,
+      "maxMatrixError": 2.5477499998594055e-07,
+      "developmentMpdSha256": "fc4386c65b316bd137762f4d05c36bdc90e2558bee1ddb5142d4c29afc2b02fc",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-da-zhuang-ji",
+      "sourceSha256": "1c6e6bb3eab2eac80a3b882cda59e05caf38b85f4626ae0a3e0888c3376396f4",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch5/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-da-zhuang-ji/REVIEW.md",
+          "claim": "Manifest: batch5, lesson245/course7, slug5-da-zhuang-ji. Verified PDF SHA256 1c6e6bb3eab2eac80a3b882cda59e05caf38b85f4626ae0a3e0888c3376396f4. All13 source pages actually viewed at1400px."
+        },
+        {
+          "file": "scripts/ldraw-models/5-da-zhuang-ji.ldr",
+          "claim": "0 // PDF SHA256 1c6e6bb3eab2eac80a3b882cda59e05caf38b85f4626ae0a3e0888c3376396f4; all thirteen source pages actually viewed."
+        }
+      ],
+      "modelSha256": "b7e4e587b6e82291d21feddf1e1f512d4713e8436f38dd862ab39506035dd238",
+      "placements": 83,
+      "maxMatrixError": 6.823033249503396e-10,
+      "developmentMpdSha256": "1fd758cbe2defda2a4e5748765ada46be3ebd4b8cf4e7d4c0f2d43484067b26a",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-dan-gan-yun-dong-yuan",
+      "sourceSha256": "eae1ec8c9ef1ab6e983ae0a76c934e7e9a4c38a646cc61e4d1a9c9877bbc3c12",
+      "pdfPages": 11,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch1/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-dan-gan-yun-dong-yuan/review.json",
+          "field": "sourcePixels",
+          "value": "11-page contact sheet and enlarged structural pages viewed"
+        }
+      ],
+      "modelSha256": "45c42ce48bb244b3c82b007441bab20cca5df875a21dc18ec89228ad35b444f3",
+      "placements": 70,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "dfa1331fccd6346d8322d57bf75e75b58cf41fbe0c785789c2d836e3faa25405",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-di-qiu-yi",
+      "sourceSha256": "7574fe7562443a8cd3cb0bdc6994c39a713bfa371ee0024c0074b49b387a7a10",
+      "pdfPages": 19,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch5/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-di-qiu-yi/ledger.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "allPixelsViewed": true
+        }
+      ],
+      "modelSha256": "8549a6d7c22f4b960fc75fb599dc9d3bdca51024b0b104133475be6ae975d178",
+      "placements": 134,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "f7d83518789e4c1eb18bea52a80eb2190eaa7dd87960882290295bf8b968e173",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-diao-che",
+      "sourceSha256": "fc5ab2b26cfa8e653fadcd1dac66e9d21bce1ef454c7d78e25ac6e61dc300c0c",
+      "pdfPages": 17,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch3/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-diao-che/review.json",
+          "field": "sourcePixels",
+          "value": "All17 source pages contact inspected; p11 enlarged plus part geometry axes inspected"
+        }
+      ],
+      "modelSha256": "42cc5e88fb5628cbfae07ec7241f8bb76209b0a6cfe1e6fdddf2825126d00b88",
+      "placements": 61,
+      "maxMatrixError": 6.188980001819999e-07,
+      "developmentMpdSha256": "39a5e5c6601f7d171088ac86fec3d1e059503cc6cdeebb80f5405691317073ed",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-diao-shan",
+      "sourceSha256": "3cb1b483da9d075adfad3c9206144dc4096bc50c322309c639f7756b42f27d48",
+      "pdfPages": 10,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch1/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-diao-shan/review.json",
+          "field": "sourcePixels",
+          "value": "10-page contact sheet and enlarged structural pages viewed"
+        }
+      ],
+      "modelSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+      "placements": 67,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "fc0283e6fe758c6b3e7afea3fa8fc51535d8496beef9ef256abaf2e703c77818",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-fan-chuan",
+      "sourceSha256": "8c9095e5d422ce0d3c0a2149c11a086f2dcbf6387566b352a3b2c4953f8d83e3",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch4/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-fan-chuan/ledger.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "allPixelsViewed": true
+        }
+      ],
+      "modelSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
+      "placements": 107,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "c3db9ba9abc6f89fcb7fba3f6037d5ff88c15415a03b0b580ca239c161f57e6c",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-huan-wei-che",
+      "sourceSha256": "7ebe22f5b66adce5226c7a99caa7c6af450dedf0f8f5774ae5c88b84f215dcec",
+      "pdfPages": 16,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch2/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-huan-wei-che/REVIEW.md",
+          "claim": "状态：INCOMPLETE / 未确认开发稿。84 placements，15 个新增步骤。全部16页实际看像素。原图来自本机materialized pdfbatch2；lesson261，course7，slug5-huan-wei-che。PDF SHA256 7ebe22f5b66adce5226c7a99caa7c6af450dedf0f8f5774ae5c88b84f215dcec；当前LDR 8261A3929B4D5804B2BA0A69C7B029E0BBE"
+        },
+        {
+          "file": "scripts/ldraw-models/5-huan-wei-che.ldr",
+          "claim": "0 // Source PDF SHA256 7ebe22f5b66adce5226c7a99caa7c6af450dedf0f8f5774ae5c88b84f215dcec; all 16 pages viewed."
+        }
+      ],
+      "modelSha256": "59318358ef0427a86f641fbbc05a7a924f29cc3047dad7775c1a7bdd34b6f78d",
+      "placements": 84,
+      "maxMatrixError": 3.733633402447367e-10,
+      "developmentMpdSha256": "4098580190667f6e51847131a65688ed76a4def140b5fb128679b3773a48b976",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-huo-jian",
+      "sourceSha256": "17ee4d7c81769c8ca2cb7820ae950c22ce84e70bb4dcbc6fb66605dcd66ce92f",
+      "pdfPages": 11,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch2/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-huo-jian/REVIEW.md",
+          "claim": "未确认开发稿；182 placements，10新增步骤。11页均实际查看像素。源pdfbatch2/5+/5+火箭搭建说明.pdf，lesson262/course7；源哈希17ee4d7c81769c8ca2cb7820ae950c22ce84e70bb4dcbc6fb66605dcd66ce92f，本机hash已匹配manifest。LDR SHA256 5EF2F72F5796CE26563B0D8DDA2148708B3E42A772954BEBDD8BDDD721"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-huo-jian/REVIEW.md",
+          "claim": "第2页竖直轴是否通过75349顶腔并由轮毂支承；第3页双轮毂/轮胎实际嵌合；第8–10页11孔横梁在平台上的保持方式，均编号已核但接口缺实物/背面证据。横梁自由端没有凭空增加支撑或零件。塔柱两种黄色/橙色为源图色差解释，需用户看预览确认。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-huo-jian/REVIEW.md",
+          "claim": "全部件为既有真实编号，无新近似几何。套装逐色数量unknown，尤其42黄长砖和塔柱60小砖必须单列数量核对，不能声称单套足量。父串行队列负责自包含MPD和最终/逐步渲染；此处尚未通过像素验收，未实物验证/用户确认/发布。"
+        },
+        {
+          "file": "scripts/ldraw-models/5-huo-jian.ldr",
+          "claim": "0 // PDF SHA256 17ee4d7c81769c8ca2cb7820ae950c22ce84e70bb4dcbc6fb66605dcd66ce92f; all eleven pages viewed."
+        }
+      ],
+      "modelSha256": "5ef2f72f5796ce26563b0d8dda2148708b3e42a772954bebdd8bddd72190d393",
+      "placements": 182,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "363c6e195eefb5cee608189730c133a91838be863d9f9501925904bd3871150f",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-ji-xie-shou",
+      "sourceSha256": "dea21d3fb559f6c19e503efe09eb8179f37f68dc8e0531704efc489fe69b069a",
+      "pdfPages": 8,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch2/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ji-xie-shou/REVIEW.md",
+          "claim": "未确认开发稿，36 placements、7新增步骤。全部8页实际看像素。源pdfbatch2/5+/5+机械手搭建说明.pdf；lesson264/course7；源哈希dea21d3fb559f6c19e503efe09eb8179f37f68dc8e0531704efc489fe69b069a已匹配manifest。LDR SHA256 85DDE2E70992E95911EA5BBA501ACB7E72A38A9F11951D27BC8640C2F6F394A4。"
+        },
+        {
+          "file": "scripts/ldraw-models/5-ji-xie-shou.ldr",
+          "claim": "0 // PDF SHA256 dea21d3fb559f6c19e503efe09eb8179f37f68dc8e0531704efc489fe69b069a; all eight source pages viewed."
+        }
+      ],
+      "modelSha256": "85dde2e70992e95911ea5bba501acb7e72a38a9f11951d27bc8640c2f6f394a4",
+      "placements": 36,
+      "maxMatrixError": 3.733633402447367e-10,
+      "developmentMpdSha256": "fd0b65daf56cc6929bf9bd99e4d2ee74ea1820a7ef14bcf162c1f1e3380e6355",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-jiao-ban-qi",
+      "sourceSha256": "e4dc2c2168b1fca01cb54a3118a386dceae0f256bb35f7f976515676baabf1c1",
+      "pdfPages": 11,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch1/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-jiao-ban-qi/source-review.md",
+          "claim": "源 PDF：`D:/Codex-task-2-20261011/inputs/pdfbatch1/5+/5+搅拌器搭建说明.pdf`，SHA256 `e4dc2c2168b1fca01cb54a3118a386dceae0f256bb35f7f976515676baabf1c1`。11 页均实际查看 PNG 像素；p11 是最终视图，不新增步骤。LDR 85 个主模型放置、10 步。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-jiao-ban-qi/source-review.md",
+          "claim": "最新像素复验：84c2b5f3 源版 iso/iso-rear/top 已实际查看，上臂分离与滑轮错位无可见穿插。源 p11 为抬头演示，搅拌叶位于桶外上方，不能声称当前在桶内搅拌。发现输入曲柄销应朝上，已仅翻转该6526轴向，待新版final复验。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-jiao-ban-qi/source-review.md",
+          "claim": "已实际查看更新iso、iso-rear、top全部三视图。外观与源图对应，最新调整无新增可见问题；final renderer-verified only，累计步骤仍待验证。 pending user confirmation，未作实物验证。"
+        }
+      ],
+      "modelSha256": "94b8a3ad96eaa9ce14acc0454706dda5627470390beb482b25d0947719e07f2b",
+      "placements": 85,
+      "maxMatrixError": 5.731200001246606e-07,
+      "developmentMpdSha256": "3081f6aca354fc12719a4f0e6d690798dd128a98c477e7af8f2b40ea6367c4ba",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-ma-tou-diao-ji",
+      "sourceSha256": "1f52aba69bf1b1b0bd89af111c672ffcd8c496809a75fe5bb98b7e3bff804baa",
+      "pdfPages": 15,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch3/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ma-tou-diao-ji/REVIEW.md",
+          "claim": "Lesson 270, course 7. Source: verified pdfbatch3/5+/5+码头吊机搭建说明.pdf; SHA256 1f52aba69bf1b1b0bd89af111c672ffcd8c496809a75fe5bb98b7e3bff804baa. All 15 rendered source pages actually viewed. This is not 5-diao-che."
+        },
+        {
+          "file": "scripts/ldraw-models/5-ma-tou-diao-ji.ldr",
+          "claim": "0 // PDF SHA256 1f52aba69bf1b1b0bd89af111c672ffcd8c496809a75fe5bb98b7e3bff804baa; all fifteen source pages viewed."
+        }
+      ],
+      "modelSha256": "8cbf8cff66a30e39a48cbd609c5f6e5b79063c363fd05ef8a5812cd0e59c794e",
+      "placements": 83,
+      "maxMatrixError": 8.76160033413953e-10,
+      "developmentMpdSha256": "def96c23a4e1c40f196b4fcca09f2bad73821cef999043874ebe99cda0d7a0ef",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-mian-bao-ji",
+      "sourceSha256": "379d0fc9641a8a0c47e5550243f4e72277a594b55e9b7c8893fee697eed0b07d",
+      "pdfPages": 17,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch5/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-mian-bao-ji/source-review.md",
+          "claim": "All 17 PDF pages were actually viewed before the resource pause. Source SHA256 379d0fc9641a8a0c47e5550243f4e72277a594b55e9b7c8893fee697eed0b07d. Model has 167 placements and 16 cumulative steps; p17 final view adds nothing."
+        }
+      ],
+      "modelSha256": "835a0bda97862a3f27c8a7fc4aabb7c84e66649da669344c015646850e149e92",
+      "placements": 167,
+      "maxMatrixError": 6.993749999129051e-07,
+      "developmentMpdSha256": "c2f26caab66f4475f54632e3cf17c00f24c020a916506792e92cc4dacae03091",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-ping-heng-cheng",
+      "sourceSha256": null,
+      "pdfPages": null,
+      "sourceManifest": null,
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ping-heng-cheng/source-review.md",
+          "claim": "实际查看：`inputs/source-2/5平衡秤/5+平衡秤搭建说明-1.jpg` 至 `-10.jpg`，全十页像素，2026-10-11。第10页只有成品视图，制作步骤共9个。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ping-heng-cheng/source-review.md",
+          "claim": "实际看过：step-1.png至step-8.png全部逐步截图，与源p1–8对应；第9步是最终完整状态，已看iso.png、iso-rear.png和top.png，与源p9–10对应。逐步渲染被主代理要求停止以避免多Chrome资源争用，未产生独立step-9.png；第9步最终模型三视图已检查，不把缺命名截图误报成缺最终模型图。未发现可见空隙或穿插，厚砖/薄板、11孔梁、轮数、托盘颜色和前竖后横短柄均一致。final rear视角补充了原图被遮挡的后曲柄连接检查。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ping-heng-cheng/source-review.md",
+          "claim": "新版正确解析本地DAT的146a2e57三视图已实际查看，模型外形/端部托盘/曲柄与上一版一致；累计步骤仍待复验。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ping-heng-cheng/source-review.md",
+          "claim": "`n## 最新累计步骤复核`n已实际查看 source 146a2e57 的累计 step-1.png 至 step-9.png 全部像素。底座/塔身/四连杆/托盘横置曲柄及最后护栏逐步一致，无新增可见错误。状态：final and cumulative steps renderer-verified only / pending user confirmation；未作实物验证。"
+        },
+        {
+          "kind": "image-library-source-no-PDF-required",
+          "note": "Original image Library evidence, not a missing-source declaration"
+        }
+      ],
+      "modelSha256": "146a2e5788cef0a710bd4846217701ebcfa7b0a0bcf2b639226dd21f1ea9667a",
+      "placements": 70,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "9f4ae1ccee7b0406163727527dd51a7c513f7ef2b951d079e0157d03f1f05cbf",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-qing-ting",
+      "sourceSha256": "e0db02d33d4011b5e4e6236370c4cae045d0a7f96fe8a159f16efd1ab8b706de",
+      "pdfPages": 10,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch1/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-qing-ting/review.json",
+          "field": "sourcePixels",
+          "value": "All10 source pages visually inspected; p1/3/5/6/8 enlarged"
+        }
+      ],
+      "modelSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
+      "placements": 62,
+      "maxMatrixError": 6.993749999129051e-07,
+      "developmentMpdSha256": "c5d82ee5a525e0ab0e3170049c32101cfc079c6410cf744c94d74f9f89bd85fa",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-ren-li-shui-che",
+      "sourceSha256": "c69df5a42eb45faffb367f29164dead7e76f8180377eb43c179c634d16f3fbb1",
+      "pdfPages": 12,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch2/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ren-li-shui-che/source-review.md",
+          "claim": "源 PDF `D:/Codex-task-2-20261011/inputs/pdfbatch2/5+/5+人力水车搭建说明.pdf`，SHA256 `c69df5a42eb45faffb367f29164dead7e76f8180377eb43c179c634d16f3fbb1`。12页均实际查看像素，未靠课程名推形。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ren-li-shui-che/source-review.md",
+          "claim": "已实际查看更新iso、iso-rear、top全部三视图。官方新件可见且对应源图，但已列隐藏机构/绳线缺口仍存在，状态保持INCOMPLETE。 pending user confirmation，未作实物验证。"
+        },
+        {
+          "file": "scripts/ldraw-models/5-ren-li-shui-che.ldr",
+          "claim": "0 // DEV-ONLY all12 source PDF pages viewed; p12 final rear view."
+        }
+      ],
+      "modelSha256": "38eb303f07f9052a3c0f548a1d84f400ac58adc65963658b2caa799de1a6b430",
+      "placements": 62,
+      "maxMatrixError": 6.592049999198935e-07,
+      "developmentMpdSha256": "28a660b43c12c73d7ba454daa5248116c3ad110daa0041be0ae3a0df2792e25e",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-shou-yao-zuan-zi",
+      "sourceSha256": "ebff8b1dffdd5cb049242370b06914e409089dd3944600fbb5990bfe0e101dd7",
+      "pdfPages": 10,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch3/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-shou-yao-zuan-zi/source-review.md",
+          "claim": "已逐页实际查看第3批PDF的10页PNG。源hash见source.json。源稿40件9步，p10为反面成品图，不增件。无虚构DAT，无生产挂载。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-shou-yao-zuan-zi/source-review.md",
+          "claim": "已实际看iso、iso-rear、top三视图。梁孔/握柄/蓝钻杆和冠齿位置外观与源一致，齿相位与实物啮合仍未验证。final renderer-verified only，累计步骤待验证。 pending user confirmation。"
+        }
+      ],
+      "modelSha256": "a801cc7fbf4d46acbac7e13bb88ba888ecec5c1a60bd03d761054b7cde3532da",
+      "placements": 40,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "20b49d32e7a9d74a690ffc7d1e60b1ac183c4010aa57f738d95bff075b9bd44e",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-shui-jing",
+      "sourceSha256": "c74be14c5416e50d7cdcb0dad0dcea4896b00836eef15e4306d487494aebc96f",
+      "pdfPages": 13,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch4/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-shui-jing/review.json",
+          "field": "sourcePixels",
+          "value": "All13 source pages contact inspected; enlarged structural pages inspected"
+        }
+      ],
+      "modelSha256": "941ca2b4bf6aa249fc6d23515c111a7ff024a0a417a1c253253eca940e28f5de",
+      "placements": 117,
+      "maxMatrixError": 6.993749999129051e-07,
+      "developmentMpdSha256": "d5451d7035f884a08943d94b5dd33b4d804381fb520dba9d1f52f625c242143f",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-ti-xian-mu-ou",
+      "sourceSha256": "d82218690f4cd677c6a4477fe10213aeed8212dba6d2f20222ecb6ef7e8e7c10",
+      "pdfPages": 10,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch3/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ti-xian-mu-ou/REVIEW.md",
+          "claim": "未确认开发稿；56个有编号零件放置+2根type2示意绳线，按源保留9步骤（第6为绳，第8为挂接说明无新增实体）。10页全已实际看像素。PDF pdfbatch3/5+/5+提线木偶搭建说明.pdf，lesson293/course7，sha256 d82218690f4cd677c6a4477fe10213aeed8212dba6d2f20222ecb6ef7e8e7c10与manifest一致。LDR SHA256 57E05392DBF92BE27A5661183961"
+        },
+        {
+          "file": "scripts/ldraw-models/5-ti-xian-mu-ou.ldr",
+          "claim": "0 // PDF SHA256 d82218690f4cd677c6a4477fe10213aeed8212dba6d2f20222ecb6ef7e8e7c10; all ten pages viewed."
+        }
+      ],
+      "modelSha256": "57e05392dbf92be27a566118396110214288fdb2c8e8b34e81ad4f6ae84360b7",
+      "placements": 56,
+      "maxMatrixError": 3.733633402447367e-10,
+      "developmentMpdSha256": "e7fd028f81f9e4adc8328024e8560c20c533a3b49ced7c15c637ed4cdab5a344",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-tou-lan-ji",
+      "sourceSha256": "20af739d817165cbf7cd5dd854a484dae5585784ad06c6df1c8b0d130692967d",
+      "pdfPages": 10,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch3/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tou-lan-ji/source-review.md",
+          "claim": "已逐页实际查看第3批PDF全部10页PNG，源hash见source.json。源稿57件9步，p10成品页不增件。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tou-lan-ji/source-review.md",
+          "claim": "已实际看iso、iso-rear、top三视图。篮圈、靶板、双支柱、蓝球形色一致；杯托深度仍缺反向源图，维持INCOMPLETE，不凭渲染声称可弹射。 pending user confirmation。"
+        }
+      ],
+      "modelSha256": "b117e73bb6d8d21da148ffce5a7db8457f46913500b2c3d82f960845c1598e03",
+      "placements": 57,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "9f1364115c5c2667f900ec484736a38c300a06b3dff29497eb97e2bc6dc89376",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-tou-shi-che",
+      "sourceSha256": "e4e79ac48262f6244791d5d8a489e0288d1185b6225cd2a660e6826ab723ce28",
+      "pdfPages": 12,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch5/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tou-shi-che/REVIEW.md",
+          "claim": "Manifest: batch5, lesson296/course7, slug5-tou-shi-che. Verified PDF SHA256 e4e79ac48262f6244791d5d8a489e0288d1185b6225cd2a660e6826ab723ce28. All12 pages actually viewed at1400px."
+        },
+        {
+          "file": "scripts/ldraw-models/5-tou-shi-che.ldr",
+          "claim": "0 // Source PDF SHA256 e4e79ac48262f6244791d5d8a489e0288d1185b6225cd2a660e6826ab723ce28; all twelve pages actually viewed."
+        }
+      ],
+      "modelSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
+      "placements": 50,
+      "maxMatrixError": 7.954816805266773e-10,
+      "developmentMpdSha256": "1e049b6f3362e24144cf235098c04ead89ab8e3adece00d6d44362fc89936def",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-tui-tu-ji",
+      "sourceSha256": "aeec2c949e20cdebd9bfd48790127145287c668abceae9b53225430e49850f5c",
+      "pdfPages": 9,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch4/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tui-tu-ji/source-review.md",
+          "claim": "已实际看完9页源图，SHA见source.json。与4+推土机独立。源稿49件8步，页9为成品侧视图。已实现双红长孔底架、两绿轴四轮、黄色车体、前端双7孔铲臂及曲柄、竖直铲背和四凹曲铲面、8件散放积木。"
+        }
+      ],
+      "modelSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b",
+      "placements": 49,
+      "maxMatrixError": 5.254099999518758e-07,
+      "developmentMpdSha256": "95805bf6f233a52d72606ff501be98dee70805507c38874f154e576c5475ce7b",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-tuo-gua-che",
+      "sourceSha256": "8c4a86340ccd6275feb5b12aca63abb372a17de96da17384c40ff8c844e055bb",
+      "pdfPages": 18,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch4/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-tuo-gua-che/source-review.md",
+          "claim": "已实际看完18页源图，SHA见source.json。当前109件17步，checker PASS109。未做最终渲染。页18为整车反面图，不增件。已实现车架、红齿轮作车轮、灰地板、蓝车体、黄内支撑、牵引轴、拖斗绿底板与五层蓝黄环墙。"
+        }
+      ],
+      "modelSha256": "02ec1a77c928d05fb9cfc6db30bc1a58b1ab6ac59c7ff9fe619fb3e5569e5687",
+      "placements": 117,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "59682e1b6d1eced6054823969afbe51be1d42064763d9690d1183b6377b52ae4",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-wo-lun-diao-qiao",
+      "sourceSha256": "fd90e92e5d3e394831a70a5df4e406b8ccb8c8cd4b457351e316f6800949bd4f",
+      "pdfPages": 12,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch3/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-wo-lun-diao-qiao/ledger.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "allPixelsViewed": true
+        }
+      ],
+      "modelSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
+      "placements": 176,
+      "maxMatrixError": 4.440892098500626e-16,
+      "developmentMpdSha256": "5278ad9f1fdbe2f5ee36334e71b092e330cb66457f4a08603b65ccc59424b96d",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-xiao-niao-de-chi-bang",
+      "sourceSha256": "d4919d1b8f2f75733f2adf2ee7f66f55a98a85343373e60d8ded505568bb16f0",
+      "pdfPages": 10,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch5/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-xiao-niao-de-chi-bang/ledger.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "allPixelsViewed": true
+        },
+        {
+          "file": "scripts/ldraw-models/5-xiao-niao-de-chi-bang.ldr",
+          "claim": "0 // PENDING: Source 10pages actually viewed. Gear IDs distinguish yellow40tooth6530,red24tooth6529,bluecrown31622; axle lengths and hidden end capture remain inferred."
+        }
+      ],
+      "modelSha256": "b93c63ad0a00edbceccbe83aaf0a6071150554fded866dd7d2069666834b1307",
+      "placements": 48,
+      "maxMatrixError": 3.1223700003302213e-07,
+      "developmentMpdSha256": "eeea5e02fe46389775b3b33fdc2ea0d1edd36b8bf099bbfbd405945623d54182",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-xuan-yi-fei-ji",
+      "sourceSha256": "3f6423a6809f49d9ef815e4139bb54b1a0659ad73c90bee14396bb0170287d56",
+      "pdfPages": 10,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch2/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-xuan-yi-fei-ji/review.json",
+          "field": "sourcePixels",
+          "value": "10-page contact sheet and enlarged structural pages viewed"
+        }
+      ],
+      "modelSha256": "04f09ef6131abe867fd52caecb06a89ff01838d3c97c2717b2aaadd8a2de92bf",
+      "placements": 40,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "6756d001d1c72eacf9604c2d1f65e07852f267a65f7e907999c443069a04b18d",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-xuan-zhuan-deng-long",
+      "sourceSha256": "f0578a565b92d54bbc9bac73d4e27ef1da2e51fe5deaccf1b788b69d97c06b15",
+      "pdfPages": 11,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch7/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-xuan-zhuan-deng-long/review.json",
+          "field": "sourcePixels",
+          "value": "All11 source pages contact inspected; enlarged structural pages inspected"
+        }
+      ],
+      "modelSha256": "a3c3d7eb3f6cf6949b55be8136dd4b2bbfff35edc5d04179911028126c227f5d",
+      "placements": 52,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "d37d3f1c06f2ff9e89b918963488b6576f21f8cbfb97dca86b465dedfd047d6c",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-xuan-zhuan-ka-fei-bei",
+      "sourceSha256": "cf28a944b973fb632a398a94463528eaa558a2a2053d6b5c2cd74bdb2247c54a",
+      "pdfPages": 10,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch4/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-xuan-zhuan-ka-fei-bei/review.json",
+          "field": "sourcePixels",
+          "value": "All10 source pages contact inspected; enlarged structural pages inspected"
+        }
+      ],
+      "modelSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+      "placements": 63,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "cf88da4daa7adec36d07884c493e629f679328cac2ffe763edd95ee05752eedc",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-ya-mian-ji",
+      "sourceSha256": "22ff8d6cdae198e55d06549efdb0c60dcae0f45270a948fe40bc2d38462dc1fa",
+      "pdfPages": 6,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch5/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-ya-mian-ji/REVIEW.md",
+          "claim": "Manifest: batch5, lesson316/course7, slug5-ya-mian-ji. Verified PDF SHA256 22ff8d6cdae198e55d06549efdb0c60dcae0f45270a948fe40bc2d38462dc1fa. All six source pages actually viewed at 1400px. No source copying or old LDR reuse."
+        },
+        {
+          "file": "scripts/ldraw-models/5-ya-mian-ji.ldr",
+          "claim": "0 // Source PDF SHA256 22ff8d6cdae198e55d06549efdb0c60dcae0f45270a948fe40bc2d38462dc1fa; six source pages actually viewed."
+        }
+      ],
+      "modelSha256": "10c6230f7159f6e014e1a54d742c54f2b3f73892866e1ebd592181075594e1f3",
+      "placements": 58,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "6bb9a2f9845eeb55bc2f6a756bdb1e72faf7ab594a9ec012ebeb799ef1c35958",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-yao-yao-che",
+      "sourceSha256": "fd542a1ad2646091f19bbf8fabc18814222436928750899ef48236c519f4d01e",
+      "pdfPages": 10,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch1/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-yao-yao-che/REVIEW.md",
+          "claim": "状态：未确认开发稿，structurally checked only。60 个零件放置、9 个新增步骤。全部 10 页已实际看像素。未发布、未实物验证。父代理串行渲染队列待复核。"
+        },
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-yao-yao-che/REVIEW.md",
+          "claim": "2026-10-11：父队列cc2135ac三视角iso/iso-rear/top已实际查看；大齿/两侧轴列、座椅靠背、前罩和绿8号司机均正确可见，无明显新实体穿插。人物姿态与源最后页一致范围内，但关节/机构转动未验证。当前累计9steps待渲染复核。"
+        }
+      ],
+      "modelSha256": "2845da5bc5021692a84c20f4e3bf59d3a3566d407f514151a82318ccd9bc0c18",
+      "placements": 60,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "4bb808bd5ae6442b4d1afebb18f6eaae0cc43e7a9347d1234769466bf16027b8",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-yi-dong-guang-gao-pai",
+      "sourceSha256": "70641ca2b095eb8d16fdced4d59d0cc09a9745251e332e0c5dd50106684a4c68",
+      "pdfPages": 12,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch4/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-yi-dong-guang-gao-pai/review.json",
+          "field": "sourcePixels",
+          "value": "All12 source pages contact inspected; enlarged structural pages inspected"
+        }
+      ],
+      "modelSha256": "0ff688cca608f2dc493335598cb331837c0275ed25c61c0d92765d870ba667cf",
+      "placements": 55,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "299e4798e22a567b9569925815fe047835e08998f314e00e8745ad0c28edbe02",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-yu-er-de-wei-ba",
+      "sourceSha256": "1f52d929ea4d6255eb09ce4974ca3e0906fd1b78c96d05d14ac4b8256be5c495",
+      "pdfPages": 10,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch6/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-yu-er-de-wei-ba/source-review.md",
+          "claim": "All 10 source pages were actually viewed before the resource pause. Source identity and SHA256 are in source.json (1f52d929…be5c495). Model contains 195 placements and 9 cumulative steps. Page 10 is the final view without additions. Generat"
+        }
+      ],
+      "modelSha256": "2f7ea51d8834ec51771278ff4848b33ae73f3ec35f4035b51739456d258d68c9",
+      "placements": 195,
+      "maxMatrixError": 6.188980001819999e-07,
+      "developmentMpdSha256": "00cce469bc21f97c85c08942979b7ba58dbc223e3362ac78abaaac8e62e9a818",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-yu-hang-yuan-xun-lian-ji",
+      "sourceSha256": "9481fbb6dd62a2b37cd13a9291eefa41c113ad9d2889aa0d42987add2b741fed",
+      "pdfPages": 9,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch4/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-yu-hang-yuan-xun-lian-ji/ledger.json",
+          "field": "per-page-source-evidence",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "allPixelsViewed": true
+        },
+        {
+          "file": "scripts/ldraw-models/5-yu-hang-yuan-xun-lian-ji.ldr",
+          "claim": "0 // PENDING: All source pages actually viewed; counts for base arches and frame retained; inventory colour availability unknown."
+        }
+      ],
+      "modelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+      "placements": 109,
+      "maxMatrixError": 5.731200001246606e-07,
+      "developmentMpdSha256": "59a03c8aafbcaa6202cdc26f4061c6f5c586452bdf9bc6e63daa990582efb194",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    },
+    {
+      "slug": "5-zhuan-wan-xiao-che",
+      "sourceSha256": "2727fd9c3acdb9aab0c1689337a886813ad650234f52b83be38163773511f765",
+      "pdfPages": 15,
+      "sourceManifest": "D:/Codex-task-2-20261011/inputs/pdfbatch5/manifest.json",
+      "sourcePageEvidenceClaims": [
+        {
+          "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation/5-zhuan-wan-xiao-che/source-review.md",
+          "claim": "All 15 PDF pages were actually viewed. Source SHA256 2727fd9c3acdb9aab0c1689337a886813ad650234f52b83be38163773511f765. 68 modeled placements, 14 cumulative steps; p15 final view adds nothing. Printed multipart driver is omitted and must not"
+        }
+      ],
+      "modelSha256": "2b8694d9f89bca0a89cde234f2a9109b9e6a1cde0ab3dcdb58a53d500c95bb1b",
+      "placements": 68,
+      "maxMatrixError": 0,
+      "developmentMpdSha256": "88a44cbf11cd3bc9e215bd063cd3f760d61d191e5aeaad479238b3c8c76754c7",
+      "previewMatchesCurrentSource": true,
+      "previewDependencyClosure": true,
+      "userAccepted": false
+    }
+  ],
+  "closedPackageEvidence": {
+    "file": "D:/Codex-task-2-20261011/rendered-evidence/development-previews/closure.json",
+    "sha256": "9038d3e336d61068704fc27821984ff3c5f201ef264dda4bff74820b73b86a0c",
+    "entries": 69,
+    "matchingCurrentModelSha": 69,
+    "developmentOnlyAndAcceptedFalse": true,
+    "issues": []
+  },
+  "nestedAcceptanceScan": {
+    "fieldsChecked": 171,
+    "trueFields": [],
+    "scope": "Known current report JSON fields recursively checked; absence of a field is not approval."
+  },
+  "sourceEvidenceScope": {
+    "materializedPdfShaVerified": 62,
+    "imageLibrarySourceCourses": [
+      "4-e-yu",
+      "4-qing-ting",
+      "4-sun-wu-kong",
+      "4-xiang-wei-she",
+      "4-xiao-tu-zi",
+      "4-yao-yao-ma",
+      "5-ping-heng-cheng"
+    ],
+    "all69HaveExistingSourcePixelReviewClaims": true,
+    "newPixelReviewsByThisScan": 0,
+    "remaining60": {
+      "status": "awaiting-transfer",
+      "progressStatus": "source-verified-remotely-awaiting-transfer",
+      "count": 60,
+      "remoteVerifiedJpgs": 713,
+      "remotePackages": 6,
+      "remoteEvidenceBasis": "Parent reports verified remote host files; this local read-only QA does not independently hash remote images.",
+      "blocker": "Official Library upload tools unavailable on source host; six packages not transferred locally. Not missing source."
+    },
+    "deferred11": "Outside current69 matrix/package QA; tracked separately, not newly reconstructed."
+  },
+  "boundary": "Technical closure and matrix checks do not certify complete source reproduction, physical connectivity, collision clearance, stock sufficiency or user acceptance. Existing known omissions and provisional interfaces remain.",
+  "staticAlarmCoverage": {
+    "courses": 69,
+    "rawAlarmCourses": 24,
+    "rawErrorGroups": 81,
+    "expandedAlarmItems": 99,
+    "staleCheckHashes": 0,
+    "staleStaticReportHashes": 0,
+    "unexplainedRawPairMentions": 0,
+    "report": "alarm24-report-coverage.json"
+  },
+  "finalIntegritySummary": {
+    "models": 69,
+    "consistencyFailures": 0,
+    "confirmationFieldsChecked": 551,
+    "confirmationTrue": 0,
+    "legacyCourses": 20,
+    "legacyEvidenceMismatches": 0
+  },
+  "pixelEvidenceIntegritySummary": {
+    "courses": 69,
+    "finalAllThreeCovered": 69,
+    "allStepsCovered": 69,
+    "imagesChecked": 1028,
+    "imageHashMismatches": 0,
+    "sourceOrRevisionMismatches": 0,
+    "docsFinal": 69,
+    "docsSteps": 69,
+    "pendingIndexEntries": 0
+  },
+  "pixelEvidenceMethod": "Union of current explicit image reviews and separately labeled historical owner attestations. Every listed image hash and its own manifest/source/revision checked. No new visual review inferred from existence."
+}

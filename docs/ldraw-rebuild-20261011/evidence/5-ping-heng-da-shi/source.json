@@ -1,0 +1,89 @@
+{
+  "slug": "5-ping-heng-da-shi",
+  "lessonId": 274,
+  "courseId": 7,
+  "sourceSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+  "pdf": {
+    "name": "5+平衡大师搭建说明.pdf",
+    "relative_path": "5+/5+平衡大师搭建说明.pdf",
+    "pages": 11,
+    "bytes": 1662631,
+    "sha256": "1c2cfd2e71227ba45ff67fdcbe1283ea2dbb225f48bc9088eea7130880d91809",
+    "source_url": "https://pan.quark.cn/list#/docpdf/cb4119fee7fc41ad90c50d476cdce575",
+    "slug": "5-ping-heng-da-shi",
+    "lesson_id": 274,
+    "course_id": 7
+  },
+  "verifiedPdfHash": true,
+  "manifestSha256": "0e86c663773e0e38fb6cac5728f5e352bf6a4f122fd7cda9cf9ab25f3c0f8c99",
+  "assemblySteps": 10,
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-01.jpg",
+      "sha256": "66405654cd0bcad2d479b9b7c5bd19b8fac72867f299c6637ba531e769f15b7f",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-02.jpg",
+      "sha256": "d7f60e15cd5a30c492e8d11571465f6c24c3dbad037ef78f5fd793f89b039c6b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-03.jpg",
+      "sha256": "15221c7a6b5f9f5d595f453e9ca24c009e2eecae6a4aff4a67b14313e5233b80",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-04.jpg",
+      "sha256": "3afe7c110badf35a040dcd0933c3cae12346fee7171fa10cd55a396a52a67ae7",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-05.jpg",
+      "sha256": "1009b4210699a1dae7c704a0d169c65acafa049120ec61a142cb08a084b73b20",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-06.jpg",
+      "sha256": "376e0b80d54664a58a54774cab844056e7cb6198e22a61559008897aa100aa05",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-07.jpg",
+      "sha256": "838754b6887b54e3c82e024144b8e73a15515e0055eb03fc841d545aee278b10",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-08.jpg",
+      "sha256": "a28f21b11e89c49e54a94b42e31ca5bcf79b48bf09077a900e8a3dd5734754f1",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-09.jpg",
+      "sha256": "9cbf1a60ef1b9e0d5bada5f8c4f3509684fd252a0e5ce5e0af74d9fff741b3ad",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-10.jpg",
+      "sha256": "118aa9c1b4cbb563f7a50a68f1b05f18b063b296807c7744d708ade690a779a0",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-ping-heng-da-shi\\page-11.jpg",
+      "sha256": "e098eb6428b2e10417bb826419d51654e3b29ddde21f00c01b02eee51a9e41d3",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "accepted": false
+}

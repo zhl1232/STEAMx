@@ -1,0 +1,59 @@
+{
+  "manifest": {
+    "name": "5+诸葛连弩搭建说明.pdf",
+    "relative_path": "5+/5+诸葛连弩搭建说明.pdf",
+    "pages": 7,
+    "bytes": 849203,
+    "sha256": "127d34a5df345434dfc0005e37b4709409469379dd1fed0d500d7f238baa9f95",
+    "source_url": "https://pan.quark.cn/list#/docpdf/6fac1e0c4b864e3eabd638f06942b3d2",
+    "slug": "5-zhu-ge-lian-nu",
+    "lesson_id": 328,
+    "course_id": 7
+  },
+  "hashVerified": true,
+  "currentModelSha256": "a81c9953645da562b849c2fe373e7c309d7e6f0948d11cfba97924c4441be108",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-1.jpg",
+      "sha256": "798255d96228669c0ff11da777b2916fd47de56b818290b757fd26a0a5baa5e4",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-2.jpg",
+      "sha256": "96ed70a1068242780e05a21c12694bb1decc56d77d9264d64ee22c6d828894ba",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-3.jpg",
+      "sha256": "7575b6357e471e6dee21619560d395259ec6f1f1a98a0b66ae9e22333da8cb00",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-4.jpg",
+      "sha256": "b17288a24836496c35f080b3d31810faf84d60504718f50904562c3670274261",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-5.jpg",
+      "sha256": "8e2f883f94aafdc0626f9081c6f4256d1db14bfc7c7c6bfe4306abda08a6fca7",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-6.jpg",
+      "sha256": "bea7bcfdb35eb5a7484a0726d581b79213db81ad7c44d2201747de48957af542",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch16\\5-zhu-ge-lian-nu\\page-7.jpg",
+      "sha256": "6347941e1a365855835d9f1305b01c623404d46fc77a2d1c174536cbf31d976f",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

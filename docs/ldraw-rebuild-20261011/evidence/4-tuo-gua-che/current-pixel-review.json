@@ -1,0 +1,95 @@
+{
+  "sourceSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+  "revision": "f80ad667b6e2d702568b05c2048249ea71eda6d279b82ed6ee2e4a1c50d3e862",
+  "reviewedAt": "2026-10-11T10:56:07.207303+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-tuo-gua-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "4b9f126ef020a4b7fda3e8b43a59eb01689ffd6261c1cba35f87639bce853b38",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "70f4df2b372e04d9651792e5789b761d6e1d057a1e029e93bfa64c2739b35eb7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "26b26df5d5cd5d988dd01718bf9b23e2157903f1b55033dc4b7be6b304ce0421",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "044315e1fc089e535f0cc13171e7065c55ec9c0eb0a3cbb22b0cfbfdce518881",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "048ce0b0109eccc9e200f7cfbf58d857a5affbb5f6994dd177559fed5781976d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "23ea8fed082d87f9af23e16feacd19cee3712c19d5a0afb1a756cba5153c6c58",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "7d576763f1c3bf4805c760b935829d86b6283715a14e66d4adaab332c718d9c6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "499afba107255c24cfbcaa27c6fad880fbcf180bffd017c441c7bbf259139839",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "ba153397e0e8fa2c26b010c2ce3b2a2dd168544acba4c73004dcd4471f9223f6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "ba153397e0e8fa2c26b010c2ce3b2a2dd168544acba4c73004dcd4471f9223f6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "c712892f26f83b2a2630e1b9efca44102fd92ab29b4376b428d438211ad3129d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "aaabd40488fe83c8637f7817a2590c915d5329091a6dbcab01e65f99a48192eb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "8759cc1e1b954710ce9f04055066cba46e49b6b3e55e05dcd2bce67a704dbe99",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "08633fa2e5aa8a2712380e8dccf42f05e48a010a1bf4f58adf2fcbcdbbf0d028",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "beb610942dc60af2e7de2ffe12b236dee775e26378d678d196ac10b7a2d3aa99",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "4b9f126ef020a4b7fda3e8b43a59eb01689ffd6261c1cba35f87639bce853b38",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual current final iso/iso-rear/top originals and all13 cumulative contact-sheet frames reviewed; original step5 and sourcep5 reopened to compare gray74957/green3011 interface. The former coincident-body z-fighting is gone after48LDU rear offset; separate cab sides leave the source central opening, roof spans across cab, fork pins are vertical. No additional confidently correctable source mismatch found in represented parts. This is an INCOMPLETE preview, not completion or physical approval:16 source components remain omitted (exhaust/tool1 candidate4433c01, rear wall3011x5, split figure8, tow reinforcement40666x2). Gray Toolo meshes are prior approved approximations; clutch/fork hidden capture not closed, rear-wall144 versus side160 height difference16LDU unresolved, roof side support/retention unverified, tractor/tow-beam coupling incomplete. Beam is supported by trailer turntable only; cumulativep8-10 show unconnected staged subassemblies. Wheel screw/tyre mating and articulation are not physically validated. Sourcef4c0641f; no LDR changes during this review."
+}

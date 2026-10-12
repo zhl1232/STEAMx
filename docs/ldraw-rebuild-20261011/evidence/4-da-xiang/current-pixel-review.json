@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950",
+  "revision": "b0e2089a0e4b3b68490dabe62eae78a0a34c82d49f35ddd12a0ca67b853d1771",
+  "reviewedAt": "2026-10-11T07:47:46.849008+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-da-xiang",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "27ead257489ca7f66f974d407fa10f1dbcf0fc1ffeae9a0eb9f026725ae770e5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "01e1b17a12594f6f47c3582dadc68ebfcc8d6be0e2c0a556530c9c0cf56d1ba5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "1ed826e84f72aa6b131a50fbb7f1592f4f3c3de51f84e035679ee66296db5788",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "1ed826e84f72aa6b131a50fbb7f1592f4f3c3de51f84e035679ee66296db5788",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "b37c7e95d4a5e12971c966921d14639c519c4c69702f26680a65c6756f6b55f4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "7688da4fdb184453a3befe8dbaa83b65569520e2aea8a5eada36e95f25cec2fb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "3b894d72f98d4e4142fb135b77a240abc7184ee47f993f5c380184dcbf60d427",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "2e22807ff6920e3b02e970b40461b86dbd01d9c1565a6ee95c04262be4bef128",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "da30aa6c688a72a67bc4a3b7e3f966a03334abb33dc925d1aec7ce2ca6cfc692",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "86c1b3c0c0d245a7e3ab27126f810ca7bb668631a21074b4bed858f6ae1775a3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "cb3d5a090411b5b072b349c7907b93c51a62baee942a01b3eb553262f0e7da86",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "cb3d5a090411b5b072b349c7907b93c51a62baee942a01b3eb553262f0e7da86",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "All12 cumulative D frames screened against source12-page contact; originalstep8 and11 inspected. Sourcep4 blue wings andp5 tail absent; empty step4 expected. Two dev6294 ears use prior approved approximation; ear angular pose remains inferred. Trunk/ear increments seen but cumulative rear camera occludes several front interfaces, so no new support-clearance acceptance. This records only D steps, not D final views. Existing source-matched C final evidence handled separately by main. No physical validation."
+}

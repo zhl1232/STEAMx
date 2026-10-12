@@ -1,0 +1,1698 @@
+{
+  "slug": "5-nian-yao-ren-zai",
+  "sourceSha256": "9b05313eae729fe360f99d24a14396d37eb447dbc91b567d26374a1fd0b688e9",
+  "previousModelSha256": null,
+  "placementCount": 61,
+  "stepCount": 11,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "description": "base and two shoes with two yellow layers and red hip bearings",
+      "placedBOM": {
+        "4268.dat": 1,
+        "3437.dat": 2,
+        "2302.dat": 2,
+        "3011.dat": 4,
+        "75349.dat": 2
+      }
+    },
+    {
+      "sourcePage": 2,
+      "description": "40.329034529degree torso; source static pose reasonable adjustment for exact400LDU closure",
+      "placedBOM": {
+        "6521.dat": 1,
+        "6527.dat": 2,
+        "75349.dat": 1
+      }
+    },
+    {
+      "sourcePage": 3,
+      "description": "striped tilted torso and printed rounded eye head",
+      "placedBOM": {
+        "3011.dat": 2,
+        "40666.dat": 2,
+        "75349.dat": 1,
+        "4198p01.dat": 1
+      }
+    },
+    {
+      "sourcePage": 4,
+      "description": "Independent shoulder shafts; short arms only on front shoulder, rear shoulder free for long rod",
+      "placedBOM": {
+        "6524.dat": 2,
+        "6522.dat": 2,
+        "6527.dat": 4
+      }
+    },
+    {
+      "sourcePage": 5,
+      "description": "double40T grinding roller on forward end shaft",
+      "placedBOM": {
+        "6522.dat": 1,
+        "6530.dat": 2,
+        "6527.dat": 2
+      }
+    },
+    {
+      "sourcePage": 6,
+      "description": "Drive pedestal shifted one40LDU stud along-Z for source-supported axial stack",
+      "placedBOM": {
+        "3011.dat": 2,
+        "40666.dat": 1,
+        "75349.dat": 1
+      }
+    },
+    {
+      "sourcePage": 7,
+      "description": "Both source cranks restored; opposite crank supported by same mainshaft, obscured phase inferred",
+      "placedBOM": {
+        "6522.dat": 1,
+        "6530.dat": 1,
+        "6527.dat": 1,
+        "6526.dat": 2
+      }
+    },
+    {
+      "sourcePage": 8,
+      "description": "Exact400LDU connecting rod and blue5L axle through40T eccentric hole; axial retention unresolved",
+      "placedBOM": {
+        "6525.dat": 1,
+        "6523.dat": 1
+      }
+    },
+    {
+      "sourcePage": 9,
+      "description": "red6x12 trough foundation ahead of figure",
+      "placedBOM": {
+        "4196.dat": 1
+      }
+    },
+    {
+      "sourcePage": 10,
+      "description": "seven blue2x4 trough wall bricks",
+      "placedBOM": {
+        "3011.dat": 7
+      }
+    },
+    {
+      "sourcePage": 11,
+      "description": "eight red2x4 upper rim plates; p12 final adds no parts",
+      "placedBOM": {
+        "40666.dat": 8
+      }
+    }
+  ],
+  "placedBOM": {
+    "4268.dat": 1,
+    "3437.dat": 2,
+    "2302.dat": 2,
+    "3011.dat": 15,
+    "75349.dat": 5,
+    "6521.dat": 1,
+    "6527.dat": 9,
+    "40666.dat": 11,
+    "4198p01.dat": 1,
+    "6524.dat": 2,
+    "6522.dat": 4,
+    "6530.dat": 3,
+    "6526.dat": 2,
+    "6525.dat": 1,
+    "6523.dat": 1,
+    "4196.dat": 1
+  },
+  "sourcePageBOM": {
+    "1": {
+      "4268.dat": 1,
+      "3437.dat": 2,
+      "2302.dat": 2,
+      "3011.dat": 4,
+      "75349.dat": 2
+    },
+    "2": {
+      "6521.dat": 1,
+      "6527.dat": 2,
+      "75349.dat": 1
+    },
+    "3": {
+      "3011.dat": 2,
+      "40666.dat": 2,
+      "75349.dat": 1,
+      "4198p01.dat": 1
+    },
+    "4": {
+      "6524.dat": 2,
+      "6522.dat": 2,
+      "6527.dat": 4
+    },
+    "5": {
+      "6522.dat": 1,
+      "6530.dat": 2,
+      "6527.dat": 2
+    },
+    "6": {
+      "3011.dat": 2,
+      "40666.dat": 1,
+      "75349.dat": 1
+    },
+    "7": {
+      "6522.dat": 1,
+      "6530.dat": 1,
+      "6527.dat": 1,
+      "6526.dat": 2
+    },
+    "8": {
+      "6525.dat": 1,
+      "6523.dat": 1
+    },
+    "9": {
+      "4196.dat": 1
+    },
+    "10": {
+      "3011.dat": 7
+    },
+    "11": {
+      "40666.dat": 8
+    }
+  },
+  "omitted": [],
+  "omittedCount": 0,
+  "limitations": [
+    "All12 source pages actually viewed. p4 short arms corrected to front shoulder axle only, rear shoulder independent. Torso40.329034529degrees and short-arm downward30degrees are reasonable static poses, not measured source angles.",
+    "p8 actual400LDU rod joins shoulder(78.231978877,-321.960246430) and gear40eccentric(-280,-144); no scaled placements. Rear shoulder positive-Z pulley40..80 then rod80..120 on6Lshaft. Drive gear0..40, secondcrank40..80, rod80..120, blueaxle0..200. Gear8TcollarZ140 leaves20LDU gap from rod outerface120; exact collar/retention depth remains manual.",
+    "Sourcep10 seven blue bricks tile6x12 perimeter (3straight one side,2straight opposite+2turned endcaps). p11 eight plates tile8x12 rim with40LDU lateral overhang/40LDU brick contact. Hidden seam allocation inferred from source count and visible outline. Roller bottom approximately-46.4, trayfloor-24: static noncontact gap, no claimed grinding under load.",
+    "Adjacent shoulder pulleys retain source80LDU hole spacing, mesh risk preserved. Official printed4198p01 head; no invented human. No physical validation; Current final3/all11/right pixels reviewed, interface limits unchanged.",
+    "Secondp7 crank restored with rear pedestal shifted one40LDU stud along-Z on existing base. Mainshaft[-160,80]; rear wheel[-120,-80]/handle[-160,-120]; positive gear[0,40]/newcrank[40,80]/rod[80,120]. Added crank fully receives40LDU shaft; integralpin faces-X/+Z away from blueaxis. Hidden-side attachment/phase is a supported non-unique source inference, not exact confirmation. OriginalZ100candidate had58 strict crossings with rod and was rejected; shifted candidate has0 against rod/gear/blue, not a physical validation."
+  ],
+  "accepted": false,
+  "physicalValidation": false,
+  "placements": [
+    {
+      "line": 6,
+      "step": 1,
+      "part": "4268.dat",
+      "color": 2,
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 7,
+      "step": 1,
+      "part": "3437.dat",
+      "color": 4,
+      "position": [
+        -60.0,
+        -48.0,
+        -80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 8,
+      "step": 1,
+      "part": "2302.dat",
+      "color": 4,
+      "position": [
+        20.0,
+        -48.0,
+        -80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 9,
+      "step": 1,
+      "part": "3011.dat",
+      "color": 14,
+      "position": [
+        -20.0,
+        -96.0,
+        -80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 10,
+      "step": 1,
+      "part": "3011.dat",
+      "color": 14,
+      "position": [
+        -20.0,
+        -144.0,
+        -80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 11,
+      "step": 1,
+      "part": "75349.dat",
+      "color": 4,
+      "position": [
+        -20.0,
+        -192.0,
+        -80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 12,
+      "step": 1,
+      "part": "3437.dat",
+      "color": 4,
+      "position": [
+        -60.0,
+        -48.0,
+        80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 13,
+      "step": 1,
+      "part": "2302.dat",
+      "color": 4,
+      "position": [
+        20.0,
+        -48.0,
+        80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 14,
+      "step": 1,
+      "part": "3011.dat",
+      "color": 14,
+      "position": [
+        -20.0,
+        -96.0,
+        80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 15,
+      "step": 1,
+      "part": "3011.dat",
+      "color": 14,
+      "position": [
+        -20.0,
+        -144.0,
+        80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 16,
+      "step": 1,
+      "part": "75349.dat",
+      "color": 4,
+      "position": [
+        -20.0,
+        -192.0,
+        80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 19,
+      "step": 2,
+      "part": "6521.dat",
+      "color": 2,
+      "position": [
+        0.0,
+        -168.0,
+        0.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "line": 20,
+      "step": 2,
+      "part": "6527.dat",
+      "color": 14,
+      "position": [
+        0.0,
+        -168.0,
+        -140.0
+      ],
+      "matrix": [
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+      ]
+    },
+    {
+      "line": 21,
+      "step": 2,
+      "part": "6527.dat",
+      "color": 14,
+      "position": [
+        0.0,
+        -168.0,
+        140.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 22,
+      "step": 2,
+      "part": "75349.dat",
+      "color": 4,
+      "position": [
+        15.532228184,
+        -186.296171581,
+        0.0
+      ],
+      "matrix": [
+        0.762340472,
+        -0.647176178,
+        0.0,
+        0.647176178,
+        0.762340472,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 25,
+      "step": 3,
+      "part": "3011.dat",
+      "color": 14,
+      "position": [
+        46.596684733,
+        -222.888513756,
+        0.0
+      ],
+      "matrix": [
+        0.762340472,
+        -0.647176178,
+        0.0,
+        0.647176178,
+        0.762340472,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 26,
+      "step": 3,
+      "part": "40666.dat",
+      "color": 4,
+      "position": [
+        62.128913016,
+        -241.184685345,
+        0.0
+      ],
+      "matrix": [
+        0.762340472,
+        -0.647176178,
+        0.0,
+        0.647176178,
+        0.762340472,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 27,
+      "step": 3,
+      "part": "3011.dat",
+      "color": 14,
+      "position": [
+        93.193369067,
+        -277.777027478,
+        0.0
+      ],
+      "matrix": [
+        0.762340472,
+        -0.647176178,
+        0.0,
+        0.647176178,
+        0.762340472,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 28,
+      "step": 3,
+      "part": "75349.dat",
+      "color": 4,
+      "position": [
+        124.257826032,
+        -314.36937069,
+        0.0
+      ],
+      "matrix": [
+        0.762340472,
+        -0.647176178,
+        0.0,
+        0.647176178,
+        0.762340472,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 29,
+      "step": 3,
+      "part": "40666.dat",
+      "color": 14,
+      "position": [
+        139.790054515,
+        -332.665542296,
+        0.0
+      ],
+      "matrix": [
+        0.762340472,
+        -0.647176178,
+        0.0,
+        0.647176178,
+        0.762340472,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 30,
+      "step": 3,
+      "part": "4198p01.dat",
+      "color": 14,
+      "position": [
+        201.918967531,
+        -405.850227641,
+        0.0
+      ],
+      "matrix": [
+        0.0,
+        -0.647176178,
+        -0.762340472,
+        0.0,
+        0.762340472,
+        -0.647176178,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "line": 33,
+      "step": 4,
+      "part": "6524.dat",
+      "color": 14,
+      "position": [
+        243.142265114,
+        -210.186152255,
+        -60.0
+      ],
+      "matrix": [
+        0.5,
+        0.0,
+        0.866025404,
+        -0.866025404,
+        0.0,
+        0.5,
+        0.0,
+        -1.0,
+        0.0
+      ]
+    },
+    {
+      "line": 34,
+      "step": 4,
+      "part": "6524.dat",
+      "color": 14,
+      "position": [
+        243.142265114,
+        -210.186152255,
+        60.0
+      ],
+      "matrix": [
+        0.5,
+        0.0,
+        0.866025404,
+        -0.866025404,
+        0.0,
+        0.5,
+        0.0,
+        -1.0,
+        0.0
+      ]
+    },
+    {
+      "line": 35,
+      "step": 4,
+      "part": "6522.dat",
+      "color": 7,
+      "position": [
+        78.231978925,
+        -321.960245946,
+        0.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "line": 36,
+      "step": 4,
+      "part": "6527.dat",
+      "color": 14,
+      "position": [
+        78.231978925,
+        -321.960245946,
+        -100.0
+      ],
+      "matrix": [
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+      ]
+    },
+    {
+      "line": 37,
+      "step": 4,
+      "part": "6527.dat",
+      "color": 14,
+      "position": [
+        78.231978925,
+        -321.960245946,
+        60.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 38,
+      "step": 4,
+      "part": "6522.dat",
+      "color": 7,
+      "position": [
+        139.219216173,
+        -270.186152223,
+        0.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "line": 39,
+      "step": 4,
+      "part": "6527.dat",
+      "color": 14,
+      "position": [
+        139.219216173,
+        -270.186152223,
+        -100.0
+      ],
+      "matrix": [
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+      ]
+    },
+    {
+      "line": 40,
+      "step": 4,
+      "part": "6527.dat",
+      "color": 14,
+      "position": [
+        139.219216173,
+        -270.186152223,
+        100.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 43,
+      "step": 5,
+      "part": "6522.dat",
+      "color": 7,
+      "position": [
+        347.065313568,
+        -150.186152255,
+        0.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "line": 44,
+      "step": 5,
+      "part": "6530.dat",
+      "color": 14,
+      "position": [
+        347.065313568,
+        -150.186152255,
+        -20.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 45,
+      "step": 5,
+      "part": "6530.dat",
+      "color": 14,
+      "position": [
+        347.065313568,
+        -150.186152255,
+        20.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 46,
+      "step": 5,
+      "part": "6527.dat",
+      "color": 14,
+      "position": [
+        347.065313568,
+        -150.186152255,
+        -100.0
+      ],
+      "matrix": [
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+      ]
+    },
+    {
+      "line": 47,
+      "step": 5,
+      "part": "6527.dat",
+      "color": 14,
+      "position": [
+        347.065313568,
+        -150.186152255,
+        100.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 50,
+      "step": 6,
+      "part": "3011.dat",
+      "color": 14,
+      "position": [
+        -320.0,
+        -48.0,
+        -40.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 51,
+      "step": 6,
+      "part": "40666.dat",
+      "color": 4,
+      "position": [
+        -320.0,
+        -72.0,
+        -40.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 52,
+      "step": 6,
+      "part": "3011.dat",
+      "color": 14,
+      "position": [
+        -320.0,
+        -120.0,
+        -40.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 53,
+      "step": 6,
+      "part": "75349.dat",
+      "color": 4,
+      "position": [
+        -320.0,
+        -168.0,
+        -40.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 56,
+      "step": 7,
+      "part": "6522.dat",
+      "color": 7,
+      "position": [
+        -320.0,
+        -144.0,
+        -40.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "line": 57,
+      "step": 7,
+      "part": "6530.dat",
+      "color": 14,
+      "position": [
+        -320.0,
+        -144.0,
+        20.0
+      ],
+      "matrix": [
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 58,
+      "step": 7,
+      "part": "6527.dat",
+      "color": 14,
+      "position": [
+        -320.0,
+        -144.0,
+        -100.0
+      ],
+      "matrix": [
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+      ]
+    },
+    {
+      "line": 59,
+      "step": 7,
+      "part": "6526.dat",
+      "color": 14,
+      "position": [
+        -320.0,
+        -144.0,
+        -140.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        -1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0
+      ]
+    },
+    {
+      "line": 60,
+      "step": 7,
+      "part": "6526.dat",
+      "color": 14,
+      "position": [
+        -320.0,
+        -144.0,
+        60.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "line": 64,
+      "step": 8,
+      "part": "6525.dat",
+      "color": 14,
+      "position": [
+        -100.884010561,
+        -232.980123215,
+        100.0
+      ],
+      "matrix": [
+        0.444900616,
+        0.0,
+        0.895579947,
+        0.895579947,
+        0.0,
+        -0.444900616,
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "line": 65,
+      "step": 8,
+      "part": "6523.dat",
+      "color": 1,
+      "position": [
+        -280.0,
+        -144.0,
+        100.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "line": 69,
+      "step": 9,
+      "part": "4196.dat",
+      "color": 4,
+      "position": [
+        340.0,
+        -24.0,
+        0.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 72,
+      "step": 10,
+      "part": "3011.dat",
+      "color": 1,
+      "position": [
+        180.0,
+        -72.0,
+        -80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 73,
+      "step": 10,
+      "part": "3011.dat",
+      "color": 1,
+      "position": [
+        340.0,
+        -72.0,
+        -80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 74,
+      "step": 10,
+      "part": "3011.dat",
+      "color": 1,
+      "position": [
+        500.0,
+        -72.0,
+        -80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 75,
+      "step": 10,
+      "part": "3011.dat",
+      "color": 1,
+      "position": [
+        260.0,
+        -72.0,
+        80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 76,
+      "step": 10,
+      "part": "3011.dat",
+      "color": 1,
+      "position": [
+        420.0,
+        -72.0,
+        80.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 77,
+      "step": 10,
+      "part": "3011.dat",
+      "color": 1,
+      "position": [
+        140.0,
+        -72.0,
+        40.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "line": 78,
+      "step": 10,
+      "part": "3011.dat",
+      "color": 1,
+      "position": [
+        540.0,
+        -72.0,
+        40.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "line": 81,
+      "step": 11,
+      "part": "40666.dat",
+      "color": 4,
+      "position": [
+        260.0,
+        -96.0,
+        -120.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 82,
+      "step": 11,
+      "part": "40666.dat",
+      "color": 4,
+      "position": [
+        420.0,
+        -96.0,
+        -120.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 83,
+      "step": 11,
+      "part": "40666.dat",
+      "color": 4,
+      "position": [
+        260.0,
+        -96.0,
+        120.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 84,
+      "step": 11,
+      "part": "40666.dat",
+      "color": 4,
+      "position": [
+        420.0,
+        -96.0,
+        120.0
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "line": 85,
+      "step": 11,
+      "part": "40666.dat",
+      "color": 4,
+      "position": [
+        140.0,
+        -96.0,
+        -80.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "line": 86,
+      "step": 11,
+      "part": "40666.dat",
+      "color": 4,
+      "position": [
+        140.0,
+        -96.0,
+        80.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "line": 87,
+      "step": 11,
+      "part": "40666.dat",
+      "color": 4,
+      "position": [
+        540.0,
+        -96.0,
+        -80.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "line": 88,
+      "step": 11,
+      "part": "40666.dat",
+      "color": 4,
+      "position": [
+        540.0,
+        -96.0,
+        80.0
+      ],
+      "matrix": [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "targetVisibleBOM": {
+    "4268.dat": 1,
+    "3437.dat": 2,
+    "2302.dat": 2,
+    "3011.dat": 15,
+    "75349.dat": 5,
+    "6521.dat": 1,
+    "6527.dat": 9,
+    "40666.dat": 11,
+    "4198p01.dat": 1,
+    "6524.dat": 2,
+    "6522.dat": 4,
+    "6530.dat": 3,
+    "6526.dat": 2,
+    "6525.dat": 1,
+    "6523.dat": 1,
+    "4196.dat": 1
+  },
+  "targetVisibleCount": 61,
+  "inventoryComparison": [
+    {
+      "part": "4268.dat",
+      "referencePart": "4268",
+      "targetVisibleQuantity": 1,
+      "reference9656AllColorsQuantity": null,
+      "additionalBeyondOne9656IgnoringColor": null,
+      "status": "unknown_not_zero"
+    },
+    {
+      "part": "3437.dat",
+      "referencePart": "3437",
+      "targetVisibleQuantity": 2,
+      "reference9656AllColorsQuantity": 8,
+      "additionalBeyondOne9656IgnoringColor": 0,
+      "status": "quantity_known_color_not_substituted"
+    },
+    {
+      "part": "2302.dat",
+      "referencePart": "2302",
+      "targetVisibleQuantity": 2,
+      "reference9656AllColorsQuantity": 4,
+      "additionalBeyondOne9656IgnoringColor": 0,
+      "status": "quantity_known_color_not_substituted"
+    },
+    {
+      "part": "3011.dat",
+      "referencePart": "3011",
+      "targetVisibleQuantity": 15,
+      "reference9656AllColorsQuantity": 12,
+      "additionalBeyondOne9656IgnoringColor": 3,
+      "status": "quantity_known_color_not_substituted"
+    },
+    {
+      "part": "75349.dat",
+      "referencePart": "6517",
+      "targetVisibleQuantity": 5,
+      "reference9656AllColorsQuantity": 4,
+      "additionalBeyondOne9656IgnoringColor": 1,
+      "status": "quantity_known_color_not_substituted"
+    },
+    {
+      "part": "6521.dat",
+      "referencePart": "6521",
+      "targetVisibleQuantity": 1,
+      "reference9656AllColorsQuantity": 5,
+      "additionalBeyondOne9656IgnoringColor": 0,
+      "status": "quantity_known_color_not_substituted"
+    },
+    {
+      "part": "6527.dat",
+      "referencePart": "6527",
+      "targetVisibleQuantity": 9,
+      "reference9656AllColorsQuantity": 15,
+      "additionalBeyondOne9656IgnoringColor": 0,
+      "status": "quantity_known_color_not_substituted"
+    },
+    {
+      "part": "40666.dat",
+      "referencePart": "40666",
+      "targetVisibleQuantity": 11,
+      "reference9656AllColorsQuantity": 2,
+      "additionalBeyondOne9656IgnoringColor": 9,
+      "status": "quantity_known_color_not_substituted"
+    },
+    {
+      "part": "4198p01.dat",
+      "referencePart": "4198p01",
+      "targetVisibleQuantity": 1,
+      "reference9656AllColorsQuantity": null,
+      "additionalBeyondOne9656IgnoringColor": null,
+      "status": "unknown_not_zero"
+    },
+    {
+      "part": "6524.dat",
+      "referencePart": "6524",
+      "targetVisibleQuantity": 2,
+      "reference9656AllColorsQuantity": 2,
+      "additionalBeyondOne9656IgnoringColor": 0,
+      "status": "quantity_known_color_not_substituted"
+    },
+    {
+      "part": "6522.dat",
+      "referencePart": "6522",
+      "targetVisibleQuantity": 4,
+      "reference9656AllColorsQuantity": 7,
+      "additionalBeyondOne9656IgnoringColor": 0,
+      "status": "quantity_known_color_not_substituted"
+    },
+    {
+      "part": "6530.dat",
+      "referencePart": "6530",
+      "targetVisibleQuantity": 3,
+      "reference9656AllColorsQuantity": 2,
+      "additionalBeyondOne9656IgnoringColor": 1,
+      "status": "quantity_known_color_not_substituted"
+    },
+    {
+      "part": "6526.dat",
+      "referencePart": "6526",
+      "targetVisibleQuantity": 2,
+      "reference9656AllColorsQuantity": 6,
+      "additionalBeyondOne9656IgnoringColor": 0,
+      "status": "quantity_known_color_not_substituted"
+    },
+    {
+      "part": "6525.dat",
+      "referencePart": "6525",
+      "targetVisibleQuantity": 1,
+      "reference9656AllColorsQuantity": 4,
+      "additionalBeyondOne9656IgnoringColor": 0,
+      "status": "quantity_known_color_not_substituted"
+    },
+    {
+      "part": "6523.dat",
+      "referencePart": "6523",
+      "targetVisibleQuantity": 1,
+      "reference9656AllColorsQuantity": 4,
+      "additionalBeyondOne9656IgnoringColor": 0,
+      "status": "quantity_known_color_not_substituted"
+    },
+    {
+      "part": "4196.dat",
+      "referencePart": "4196",
+      "targetVisibleQuantity": 1,
+      "reference9656AllColorsQuantity": 1,
+      "additionalBeyondOne9656IgnoringColor": 0,
+      "status": "quantity_known_color_not_substituted"
+    }
+  ],
+  "validation": {
+    "sourceSha256": "9b05313eae729fe360f99d24a14396d37eb447dbc91b567d26374a1fd0b688e9",
+    "rawCheckerExit": 2,
+    "rawAlarmCount": 1,
+    "matrixInvalid": [],
+    "missingDependencies": [],
+    "render": {
+      "record": "current-pixel-review.json",
+      "sourceSha256": "9b05313eae729fe360f99d24a14396d37eb447dbc91b567d26374a1fd0b688e9",
+      "revision": "bd41eeca4000d23cbdf3bf8d26f22366125ca30e99995e2cd7bd0bfba9d742d6",
+      "finalAllThreeViewsReviewed": true,
+      "allCumulativeStepsReviewed": true,
+      "supplementalActuallyReviewed": [
+        "right"
+      ]
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "sourceSha256": "9c04a0981038ff1b57a454d94d846a7aa40782572c3f028ff74f6b24d16e3b08",
+  "revision": "544030a4aea0cc3befe90cad9a88f8eb5d513f56222d358e4dbbd29f3509fda1",
+  "reviewedAt": "2026-10-11T13:04:39.873651+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-qing-sao-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "cb546f51a0259f4c65ee43f3b6149b241f14955346cffb57d880994a3a070b38",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "9f6829bdfb0b01ee7dbf9a80b68d8aac3b87b38755425db66d99c30eb09e90ce",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "4da2b7fcd7c84d5dfd300031d3c2cc104bc5742e747ce88a85b2087738cdf3f8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "dd1905c3f498a1b30fa838dcdd58dd66598f3713ecb725bb7a2edbd96a23eefa",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "669272ebd400eaa8d5afee9175939eb21a4d3768e86f110ff002870e3a76ddef",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "59ec24ea76df11b3d1eb339a6d1f3a703af0ad320c753153fcc4fc72d4f7fa83",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "608cca35c9610009fa1d3d5826c8982095afa2e5dc564b63baccb51270a0fd2d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "a3decd5d7195f44e7e67d5f409ad23f00ae3c1b950d5b331ef909b598a909ac4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "e1b779ea084456de04a6523ee5d1df8b9416b7041378e6eadd1380a2103e43ee",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "e61fdbf88de1b227ded953d42e9fda17b0d9782d276be4f44b9b115c9975d499",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "9abcfe80897bee2b8caed951539ce55a968a474f19ac6315d8f9ce9a975487fc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "791d0f2c165e9171b947740608672d3d2b92f9e17527c5a9986ad0aafdc1daa8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "ba12aa4f679cf18db4460f44bf6ffe0a47bf846ab3dbd0e1e95ab15247d5289f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "cb546f51a0259f4c65ee43f3b6149b241f14955346cffb57d880994a3a070b38",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current9c04 final iso/iso-rear/top and all11 cumulative step frames in refreshed sheets, plus full step7 PNG and source p7 again; compared source p12 already actually viewed. Both blue31622 crowns now point down toward road gears, matching p7/p12. No additional visible source-order discrepancy or clipping found across14 views. Side beams, short/long vertical shafts, staggered crank pairs, cargo wall/fences and red seat caps present. Exact drive tooth phase, shaft/tube clearance, cantilever strength and swept motion remain unverified. Existing31196c01/6345 approximation retained; raw pairs49/50 and50/105,50/106 (hood/cab/seat) remain unresolved, not blanket cleared. Pixel review is not physical acceptance."
+}

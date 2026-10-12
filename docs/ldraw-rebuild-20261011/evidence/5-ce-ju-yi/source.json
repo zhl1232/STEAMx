@@ -1,0 +1,86 @@
+{
+  "name": "5+测距仪搭建说明.pdf",
+  "relative_path": "5+/5+测距仪搭建说明.pdf",
+  "pages": 10,
+  "bytes": 1483120,
+  "sha256": "93e3f9df8531910c38b3ea9fc658f74fb05ff22cf8bcd6a4afd1ebf6cdfa1485",
+  "source_url": "https://pan.quark.cn/list#/docpdf/c00c9c4c45aa4e798af8f56d6ff87081",
+  "slug": "5-ce-ju-yi",
+  "lesson_id": 236,
+  "course_id": 7,
+  "localPdf": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5+\\5+测距仪搭建说明.pdf",
+  "pagesDecoded": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-01.jpg",
+      "sha256": "bd3d980792b126173a6c41613082b020d15779cf1e9e2344d681acb56d6ae1d6",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-02.jpg",
+      "sha256": "4c4c9d66e3cae576417163e3130417e75b4007ba5fbbbb6d9d2940d7df7d7c8c",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-03.jpg",
+      "sha256": "6a6ea450967e8d836b9a89ade55e656bc8b6bd24c4391b7115f4770e8a2edf43",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-04.jpg",
+      "sha256": "db1a669d63338fc0eaf9c1d66ee0e95f47e63da280ac694fc8ac68921778ae04",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-05.jpg",
+      "sha256": "9912363111da4ace3006a0bd72839fb337c590a058986a293ddf2a814b61fa19",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-06.jpg",
+      "sha256": "f3dbc958ee9ce7b6590b1a6dc8667b8b9276704a3ac4d8e828fd906bf0823b41",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-07.jpg",
+      "sha256": "af5694cc3749acaa14abf4cde2abc96cbe1ae9f8b22ad35d18621a64b2debde8",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-08.jpg",
+      "sha256": "292fe7f85d0aee802a311ed0884228e72c141dfe55d4e0513ccacd04dc554573",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-09.jpg",
+      "sha256": "e941d99e7445cf0b077eddf4487e8a1db0aef6fcfa59056275dbda140a024606",
+      "width": 1500,
+      "height": 1062
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-10.jpg",
+      "sha256": "29115b60d897605e9209b8eb40199e230f409d6dc63e2258a4238151e88548e4",
+      "width": 1500,
+      "height": 1062
+    }
+  ],
+  "localBytesVerified": true,
+  "libraryFileId": "libfile_a51226cb6bb481919c9fca3ca46c74f4"
+}

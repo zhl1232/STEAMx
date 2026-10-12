@@ -1,0 +1,38 @@
+{
+  "as_of_utc": "2026-10-11T10:36:36Z",
+  "target_count": 129,
+  "covered_courses": 129,
+  "remaining_count": 0,
+  "source_coverage_complete": true,
+  "model_completion_claimed": false,
+  "status_counts": {
+    "downloaded_pdf": 122,
+    "existing_original_jpgs": 7
+  },
+  "downloaded_pdf_pages": 1487,
+  "existing_original_image_pages": 93,
+  "total_source_pages": 1580,
+  "pdf_packages": 16,
+  "existing_image_packages": 2,
+  "grade_4": {
+    "downloaded_pdf": 35,
+    "existing_original_jpgs": 6
+  },
+  "grade_5": {
+    "downloaded_pdf": 87,
+    "existing_original_jpgs": 1
+  },
+  "latest_resume": {
+    "target_count": 60,
+    "success_count": 60,
+    "remaining_count": 0,
+    "started_at_utc": "2026-10-11T10:10:00Z",
+    "finished_at_utc": "2026-10-11T10:34:12Z"
+  },
+  "validation": {
+    "pdf_page_renders_succeeded": 1487,
+    "jpg_decode_succeeded": 93,
+    "pdf_and_target_jpg_archive_hashes_match": true,
+    "last_pdf_pages_visually_reviewed": 122
+  }
+}

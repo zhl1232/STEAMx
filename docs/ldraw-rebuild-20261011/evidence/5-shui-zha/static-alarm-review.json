@@ -1,0 +1,47 @@
+{
+  "slug": "5-shui-zha",
+  "sourceSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 0,
+  "rawOutput": "OK   [5-shui-zha.ldr] 119 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarms": [],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "Gate selectedslightlyraised48LDU pose matchinglater source; cordomitted meansno certifiedlifting/support,notfloating waiver.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P1 yellow14 pieces identifiedthin40666 fromBOM/profile; totalgate144LDUdepth fits160LDUguide slot,8LDUeachside. Blueframe/hiddenseams inferred withsourcecounts.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "GuideU4x8 arrangement matchesred3bricks/blue2bricks+2squares perlayer; sourcehiddenbond inferred,sourceforward/backslot preserved.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "31624 actuallowerX(-72)/upperZ(-168) interfaces used; worm/gear phase andinput/outputretention unverified.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Hooksactual4663,sourcefront/back layout preserved but cordpaths/pegcapture exactseat unresolved.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "physicalValidation": false,
+  "overallAcceptance": false,
+  "pixelObservation": {
+    "sourceSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+    "revision": "d043bbf2f7826400e766bfdc4f8a3cba454eb741a78b82beb68fafd22491a57c",
+    "record": "current-pixel-review.json",
+    "finalViewsActuallyViewed": 3,
+    "cumulativeStepsActuallyViewed": 14,
+    "observations": "Actually viewed final three views and every cumulative step1-14 contact tile, iso original; rechecked source p12 and p15 original. Gate sandwich, alternating guide walls, top bridge and gearbox progression show no new definite source-placement error. Source two flexible cord runs remain omitted; hooks lack verified cord support/peg capture. Gate raised48LDU and hidden wall bond inferred; worm phase, pulley retention, guide clearance under motion unverified. Observation only, not assembly or physical acceptance.",
+    "accepted": false
+  }
+}

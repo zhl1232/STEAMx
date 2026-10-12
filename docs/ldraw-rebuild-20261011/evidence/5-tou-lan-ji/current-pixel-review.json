@@ -1,0 +1,81 @@
+{
+  "sourceSha256": "b117e73bb6d8d21da148ffce5a7db8457f46913500b2c3d82f960845c1598e03",
+  "revision": "9f1364115c5c2667f900ec484736a38c300a06b3dff29497eb97e2bc6dc89376",
+  "reviewedAt": "2026-10-11T07:18:19.597938+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-tou-lan-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "ae763ad308900745b90b667763d2e1d212e112a3ba1082df6874f2c26d49cc2f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "ee1416be9c71d64014d56a6cbb69f12084b2a066dd8ed513b934e9dff0e67d8f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "f3289c9705faf7898dd2dcf60352dddcfd617991bc6842c2550bb859755126dd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "390363883e01ff94dc5e9bb06603553e850766437255519a65cf1fb1aef29b61",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "073c979f3b3f72e7b051296ffe54a46293533a4e019da1f99700eb568ba3758a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "1fd306b77b18e98e1e8bbd20451b672814d20eaa7e4ea319221a22e85c0bb617",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "6fe7c0a5dc0edc4a5b6df58152bc109de6330eae59316459bfb6e4e466461b56",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "428fa67393844a8b75f657d984a74116dd6d9e9aaf5c96f025e6969ac47c0a52",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "3e228115c2394fdab5aa3c7628f6cae2e863db94d1bc29971cdcd317ca605d6c",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed D cumulative contact steps1-9 and original step9; compared source page10 and prior source ledger. Frame and board sequence visible; hidden four-crank cup-stack depth/support remains unresolved. No launch or physical validation and no user acceptance. Old C final evidence is separate and not claimed as new D final. Legacy C final source/revision match and previous observation preserved separately; full-bbox D final remains false.",
+  "legacyFinalEvidence": {
+    "directory": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-tou-lan-ji",
+    "sourceSha256": "b117e73bb6d8d21da148ffce5a7db8457f46913500b2c3d82f960845c1598e03",
+    "revision": "9f1364115c5c2667f900ec484736a38c300a06b3dff29497eb97e2bc6dc89376",
+    "pixelsActuallyReviewedPreviously": true,
+    "views": [
+      {
+        "view": "iso",
+        "sha256": "e0e616c1bee361dfcc63c1022fe998bcdc095a7a13fbe6347efc6a2fbaaedf9a"
+      },
+      {
+        "view": "iso-rear",
+        "sha256": "0a256caac0549b450f95dd501e3f47a9b82aad496bb6e0424b4c3508f92fd250"
+      },
+      {
+        "view": "top",
+        "sha256": "c952e75e126b04ebbea1b93ee3988b00cb9344728b8bc04de50ee62f8f5456db"
+      }
+    ],
+    "limits": "Previously observed C final views, not new D final. Old camera framing may be clipped; no full-bbox acceptance inferred."
+  }
+}

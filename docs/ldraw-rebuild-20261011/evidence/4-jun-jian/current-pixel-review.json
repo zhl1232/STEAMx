@@ -1,0 +1,125 @@
+{
+  "sourceSha256": "01a43d48c1d7d8d6d447745356b7891a1f06de1e3dde2af76bb6671664213623",
+  "revision": "4a2f82afb4bad971b298872268e168134568c4a3e6d114643f9e939d0bbf0a7a",
+  "reviewedAt": "2026-10-11T07:39:46.309263+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-jun-jian",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "ea8ef64be0161b8422138e5254848ee46062f6df8b909d02271ef8d9ffae64a7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "c0b2049352fd21822696dd4581465bec86f2c49ddb7f567d205041881dcc8caf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "8eba0fe60ba237eb3378edfcdbb21aa08a27278ac0e25d02be03823dad53fa44",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "e030ff31a92fc167bec4bae738b814139d0a9a29beb0eb30db4960b4f639ab7f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "2c32be6e1f244c2987d771adb14b4e7a7df7189c5c2845fe75739f90c87020a4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "8391a224aae4a604264b0339a4ec5565e85ff27ce09f2dcef9c37850c0f9a7af",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "4ad79cbd2f964497155d29e263657f3d1599f32c2775fa2969c6dcfcc5648184",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "d2ae0fffd49d0b90a4d9a2712af7cf2cbb3d907fefe7d70dd62d57e9ef208e9b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "8eb6b6642140947becf6632fff3e8b229c8300eec34b3c992e31f6fb61de5f9c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "bba2a90ebb225f1a891ceb3d9b8b1a92521701be232d605543e7bcfdc0642655",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "dc958b030a872c95aad32855c181cec73b41ff8f9d6279d186c5a52b44048b7d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "dac5e2d9a0976cf588d39a47c96dfc33c3fc36fd3b0cd52412411925dde5dcba",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "31837c8e417ae2cde7e286f9908e2f6744423cd68bf8b4e1c3e855283c203ace",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "f7e0e1eea27410eb620df958838fc7ade468e1b662352f183deceb48f7e01812",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "b4abc468685327054a5df17e3bc77cb4085b7b4d617d455db42949892ab310aa",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "de6777fdc55156a7cfb0e0fd99b2c509b83cf11be7ca8e0e36a546dda346af23",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "3a71904938a86876e393d4dd4d24927559c0a68a42ef05af0215eb558ecaafdf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "f2861d51484f1b0d08fd1ae3ab0f71731ae62903d1e5233ed0ba3f6d5115eeea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-16",
+      "sha256": "f2861d51484f1b0d08fd1ae3ab0f71731ae62903d1e5233ed0ba3f6d5115eeea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-17",
+      "sha256": "f2b7872964532940bc49423456871022ed491b48abc6cc6858719bd4d8ac815a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-18",
+      "sha256": "f2b7872964532940bc49423456871022ed491b48abc6cc6858719bd4d8ac815a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-19",
+      "sha256": "ea8ef64be0161b8422138e5254848ee46062f6df8b909d02271ef8d9ffae64a7",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Inspected current01a43d48 final3 and all19 cumulative cells, original step2/5, reopened source p2/3/4/5. Four-stud-deep ends and20/24/28stud ring lengths now correspond to source; each tier half-brick end overlap and deck2stud overhang remain visible. No new unsupported ring end seen. Missing yellow mixer retained; Toolo approximate interfaces, temporary overhang stability, flag/pole proxy diagnostic not physical proof."
+}

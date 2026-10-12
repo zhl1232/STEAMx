@@ -1,0 +1,85 @@
+{
+  "sourceSha256": "d1b50ef6cdefe049948fe539bbcefb2f81f3e48c10fd0ce8120f358c89436f7f",
+  "revision": "a6c3d120f31435d2bffa614f89fe43e41e3a1feccb968ac5fe5864a6cab0eec1",
+  "reviewedAt": "2026-10-11T12:00:26.209690+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-hu-die",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "aee21fb54a80b5d895045bb3c43dbea4d11c97df08d223d3566ade8818b7cd88",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "3a13eca81ee0fecb115d00c7a3b2d134821235891a3c124fb68249085c51a3fd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "4dc6c7a4fe7f163690af1d8b70be91513913e3c25120751ada8da0edd35ad4f4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "e7b2d340746d3dcb0569ce4a69cac737ce3151d1299beb0fdf22ee034960687b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "3d9e27ff4f48cbba13614907f4421e0b861ba1bbb0ff7018fb84cf728a05d495",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "4798fd377c2faa6c3366746e7e9b0efc62da0497e49d39e1e99e908ca53fd171",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "0d7479ce43246ad47b0a82c34165b3ed8921de29d8e968f19a036cfaa0461a60",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "1714217447540bde89b63748a7d75c0c54df54a1d4eeae4fb2276acf274205ce",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "1bc3bb81857f0ae4bb9026f6d88a48e7e7d44e1e594f9d0a1df1ba642852e7e7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "3644686d64612701455d35a55c5fb40c365e366bb7f40c089bc2edc813336140",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "7f3bb7ae6c6835fdc6ddb9be2e6d59ac41c07ec277cb8c7fc61979309cff2c20",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "1de10edce8d78efadaa1bbd84dfbe2b48fb69fb8bdc0c5e84a6fa731a850756d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "835dd4ff5c43f80971e95ccec88c9685f5463355553213a0bfcf9aa30a5c4993",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "aee21fb54a80b5d895045bb3c43dbea4d11c97df08d223d3566ade8818b7cd88",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual currentfinal3 and11 cumulative step sheets viewed, originalstep5/8/iso inspected. Four wings, stepped upper tips, striped body andantennae correspond to source12pages previously individually viewed. Hinge pulley retention depths and8L axle insertion margins remain inferred; pixel visibility does not prove clamp or motion. No source change or physical validation."
+}

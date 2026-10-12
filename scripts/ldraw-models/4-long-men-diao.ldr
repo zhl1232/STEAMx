@@ -1,40 +1,129 @@
-0 4+ 龙门吊 (Gantry Crane) - DUPLO draft for manual repair
+0 4+ Gantry crane - incomplete source reconstruction draft
 0 Name: 4-long-men-diao.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+龙门吊 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Tall striped gantry, trolley and hook are simplified.
-
-0 // STEP 1 - wheeled bases
-1 0 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 14 -240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // All13 source pages actually viewed. No physical verification or user acceptance.
+0 // INCOMPLETE: p10 cord andp11 compact pulley holder/pulley/long black hook lack confirmed complete geometry; omitted. Suspended Toolo loop estimated interfaces.
+0 // Existing approved Toolo approximations: fit, thread engagement and load support remain manual.
+0 // SOURCE PAGE 1 - three black Toolo base blocks; four bare gray rims
+1 0 -400 0 -120 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -400 0 120 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -400 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 71 -505 24 -160 0 1 0 -1 0 0 0 0 1 99565.dat
+1 71 -505 24 160 0 1 0 -1 0 0 0 0 1 99565.dat
+1 71 -295 24 -160 0 -1 0 1 0 0 0 0 1 99565.dat
+1 71 -295 24 160 0 -1 0 1 0 0 0 0 1 99565.dat
 0 STEP
-
-0 // STEP 2 - striped pillars
-1 4 -240 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -240 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -240 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -240 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 240 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 240 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 240 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 240 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 2 - 14 red+14 yellow2x4 bricks,14 alternating cross-bonded layers
+1 4 -400 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -400 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -400 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -400 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -400 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -480 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -400 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -576 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -400 -672 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -672 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -720 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -720 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 3 - top beam and trolley
-1 0 -240 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 -80 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 240 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 8 0 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 3 - second wheeled base
+1 0 400 0 -120 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 400 0 120 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 400 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 71 295 24 -160 0 1 0 -1 0 0 0 0 1 99565.dat
+1 71 295 24 160 0 1 0 -1 0 0 0 0 1 99565.dat
+1 71 505 24 -160 0 -1 0 1 0 0 0 0 1 99565.dat
+1 71 505 24 160 0 -1 0 1 0 0 0 0 1 99565.dat
 0 STEP
-
-0 // STEP 4 - hook
-1 8 0 -432 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 0 -480 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 0 -528 0 0 0 1 0 1 0 -1 0 0 40666.dat
-1 4 -180 -384 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4 - second alternating tower
+1 4 400 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 400 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 400 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 400 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 400 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -480 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 400 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -576 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 400 -672 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -672 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -720 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -720 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 5 - seven black Toolo blocks: four lower, three upper bridging seams
+1 0 -360 -768 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -120 -768 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 120 -768 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 360 -768 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -240 -816 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -816 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 240 -816 0 1 0 0 0 1 0 0 0 1 76395.dat
+0 STEP
+0 // SOURCE PAGE 6 - four red2x3 curved bricks cap exposed ends
+1 4 -400 -816 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 -400 -816 40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 400 -816 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 400 -816 40 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+0 // SOURCE PAGE 7 - inverted red2x4 plate,2x2 brick andtwo Toolo base forks
+0 // p7 source direction correction: red2x4 plate longaxis across beam Z; fork base grid registration remains unresolved.
+1 4 0 -932 0 0 0 1 0 -1 0 1 0 0 40666.dat
+0 // p7 correction: inverted red brick body below fork stud plane; plate-to-fork and lower redbrick horizontal seating remain provisional; no fullsupport claim.
+1 4 0 -836 0 1 0 0 0 -1 0 0 0 -1 3437.dat
+1 71 0 -884 72 -1 0 0 0 -1 0 0 0 1 28336.dat
+1 71 0 -884 -72 1 0 0 0 -1 0 0 0 -1 28336.dat
+0 STEP
+0 // SOURCE PAGE 8 - two downward2x6 arms andtwo clutch blocks
+1 71 0 -819 -120 0 0 1 0 1 0 -1 0 0 dev-129/28334.dat
+1 71 0 -643 -120 1 0 0 0 1 0 0 0 1 74957.dat
+1 71 0 -819 120 0 0 1 0 1 0 -1 0 0 dev-129/28334.dat
+1 71 0 -643 120 1 0 0 0 1 0 0 0 1 74957.dat
+0 STEP
+0 // SOURCE PAGE 9 - three gray2x4 blocks andone red2x4 plate for lower cradle
+1 71 0 -595 -80 0 0 1 0 1 0 -1 0 0 76057.dat
+1 71 0 -595 80 0 0 1 0 1 0 -1 0 0 76057.dat
+1 71 0 -547 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 4 0 -619 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 10 - cord preparation omitted: length androute unknown
+0 // UNKNOWN p10 cord physical length and material; no fabricated geometry.
+0 STEP
+0 // SOURCE PAGE 11 - pulley assembly omitted
+0 // UNKNOWN p11 compact U holder candidate2223, small gray pulley andlong black hook: not4663 short hook; exact IDs/geometry unavailable.
+0 STEP
+0 // SOURCE PAGE 12 - attachment instruction retained; no new rigid geometry
+0 // UNKNOWN p12 omitted pulley/rope/hook would attach below lower cradle; retention unresolved.

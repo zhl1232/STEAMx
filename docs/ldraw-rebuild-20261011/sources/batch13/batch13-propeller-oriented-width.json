@@ -1,0 +1,62 @@
+{
+  "candidates": {
+    "61898bc01.dat": {
+      "axisAlignedMin": [
+        -122.49506,
+        -55.9994,
+        -263.0
+      ],
+      "axisAlignedMax": [
+        122.49506,
+        56.9994,
+        263.0
+      ],
+      "minimumProjectedWidthOrientation": {
+        "rotationDegrees": 17.300000000000885,
+        "width": 163.47007049042503,
+        "length": 538.8605320121716,
+        "ratio": 3.296386490784161
+      }
+    },
+    "61898cc01.dat": {
+      "axisAlignedMin": [
+        -165.79614,
+        -81.0,
+        -361.0
+      ],
+      "axisAlignedMax": [
+        165.79614,
+        82.0,
+        361.0
+      ],
+      "minimumProjectedWidthOrientation": {
+        "rotationDegrees": 17.70000000000089,
+        "width": 213.55531961535965,
+        "length": 739.595450487475,
+        "ratio": 3.4632499523757154
+      }
+    }
+  },
+  "actualSourcePages": [
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-09.jpg",
+      "sha256": "d72fcf4dec54fcc609471952f21f3120f70a08c38f7858864c5530b74df86e32",
+      "actuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-10.jpg",
+      "sha256": "b4bd18c36c96270a9378acecaa26e4dee9e8baaecb049e748e1ee615cdb61718",
+      "actuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-shou-tui-fei-ji\\page-11.jpg",
+      "sha256": "6f08d33c4a1dee0f074b41e1606e6baf8a89404f31fcb67efdaffb990e531ecb",
+      "actuallyViewed": true
+    }
+  ],
+  "conclusion": "cc01 has longer actual geometry and same three-hole topology; source final illustrations support checking it over shortbc01, but perspective and twist prevent unique ID confirmation solely from aspectratio. No scale change or source identity acceptance.",
+  "method": "Actual recursiveface vertices, XZ projected width minimized over rotations -45..45 in0.1deg increments; not a rendered visual equivalence test."
+}

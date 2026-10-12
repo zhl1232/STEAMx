@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "998a249059b2682420cea0b19456b88be06ef1661ac3a4e3070bb260345b628e",
+  "revision": "d6a521abb44ec19e580a8bf36a1abba97c2a65d36bbaf61d4dd136e84d022091",
+  "reviewedAt": "2026-10-11T14:25:50.319338+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xuan-zhuan-fei-yi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "afdd62f36ad471daf5f13e636aabe51046832386710653803ae3042ea8a230e1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "e1803493a01856b58c8182299a6d5d8257e223d1c7e7d71d7b16a39591107185",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "c95b28c824c75e195829689a5de4b66db3aab82c8e8512691b1fb530b3c1244e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "32e86307dbd0e03248f22b764e4419f296973f034430b8ce1bcc919da7c28246",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "68b2447783b623124cd214055385dc0303177cb751e9b0bab52f0c8dc2c49275",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "debff391b6311ccdce2fe1e0d7808f387f16f78b04d8de5194e162138db626eb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "d78301f1b7dcf54a74dba935b2236f41c8e59b6036cfba7fbc2b3bad32abba99",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "14e96728703b2577520e9d77526cd9e7fe94951282dc4b1379709eeea7b83c2d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "5ce0684c1c97dffdb35897a4ba70790b4b8195f804fa6b40536e9875edb6a892",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "63fb3ab2536cf1421861f19612beeec52c585676fb27247a11be772c8ded587d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "97dda473024e6d6b5bcff9506236496a2ed6e89b0fed1aa2c67fb6ac535ec761",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "afdd62f36ad471daf5f13e636aabe51046832386710653803ae3042ea8a230e1",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed all three current final PNGs and all nine cumulative step PNGs individually, then rechecked source p5/p10. Four source seats, paired links and base retained. Tube bottom40LDU above fixedbeam and exposed uppershaft collar are visible inferred seating differences from source p5, whose tube appears to reach beamtop; not asserted source-exact. Coupler77/85 triangle-crossing risks, tyre fit uncertainty,35degree swing pose and friction/retention remain. No physical acceptance."
+}

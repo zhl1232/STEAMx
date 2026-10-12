@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "bb2b3a7c85d16a1ce64ab046eda3f450dc002a40e5b14e6cb11336d261864c1d",
+  "revision": "9e7cc1055e330823c51da709276649636d2e693ed13837e7df69baa7f8a59eac",
+  "reviewedAt": "2026-10-11T06:31:23.972247+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-e-yu",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "4a87a73f41d4816c1b04f6934fb10948ca01a8d06eb5d02eb5813091ab845ee6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "aa3dcb852d1c852fdf33d1d02ff0cb5cbffa506edf19f8c687a8ec4447a38938",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "094ff329f3b86816b894d89a5827c020db511172ae2989957cd2b70364e8066a",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": false,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected current D complete-frame iso/iso-rear/top contact-sheet pixels. Source bb2b3a7c and pack9e7cc105 match current LDR and previously individually reviewed corrected-packer C steps1-10. Jaw, teeth, tongue, eyes, back, tail and all four limbs visible; no blank frame or clipping. Side-limb/hinge/clutch geometry remains approximate and source-specific screw engagement unresolved. This D JSON records final3 only; earlier C full10step actual pixel review remains valid historical evidence with identical source/pack hashes, not claimed as newly viewed D steps. No physical validation or acceptance."
+}

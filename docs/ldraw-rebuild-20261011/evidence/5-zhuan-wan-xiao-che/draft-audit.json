@@ -1,0 +1,69 @@
+{
+  "slug": "5-zhuan-wan-xiao-che",
+  "sourceSha256": "2b8694d9f89bca0a89cde234f2a9109b9e6a1cde0ab3dcdb58a53d500c95bb1b",
+  "placements": 68,
+  "steps": 14,
+  "rigidMatrixErrors": [],
+  "topLevelLocalParts": [
+    {
+      "id": "6490.dat",
+      "localDat": true
+    },
+    {
+      "id": "75350.dat",
+      "localDat": true
+    },
+    {
+      "id": "3011.dat",
+      "localDat": true
+    },
+    {
+      "id": "75349.dat",
+      "localDat": true
+    },
+    {
+      "id": "6522.dat",
+      "localDat": true
+    },
+    {
+      "id": "31622.dat",
+      "localDat": true
+    },
+    {
+      "id": "6527.dat",
+      "localDat": true
+    },
+    {
+      "id": "6529.dat",
+      "localDat": true
+    },
+    {
+      "id": "6524.dat",
+      "localDat": true
+    },
+    {
+      "id": "6523.dat",
+      "localDat": true
+    },
+    {
+      "id": "6526.dat",
+      "localDat": true
+    },
+    {
+      "id": "6530.dat",
+      "localDat": true
+    },
+    {
+      "id": "2302b.dat",
+      "localDat": true
+    },
+    {
+      "id": "31021p01.dat",
+      "localDat": true
+    }
+  ],
+  "dependencyClosure": "Not asserted by this audit; parent MPD packer validates recursive closure",
+  "finalPixelReview": "pending",
+  "cumulativeStepPixelReview": "pending",
+  "status": "INCOMPLETE / pending user confirmation"
+}

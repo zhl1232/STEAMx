@@ -1,0 +1,105 @@
+{
+  "sourceSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
+  "revision": "2350ad7bd110533c1b629f6f957b2673674e1861662184ccfb66fbc511df9be9",
+  "reviewedAt": "2026-10-11T13:50:03.608147+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ta-diao",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "d928ec070147a74386f25f837f83c1edfbcbfee95e21c6e17a77717325c9d2bd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "e46e2523b6ff3b720d67e7820ea89ca9ae905515b686ef94a24b0ce1b4e22af7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "ad46490a2ad7b4de6b1527664afd97bd12eca0ca950e5bbdfe95b4bcd3ef0aa0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "9ac469753df21bd83c148d0155d0e415c1300f9b2108d36e5d55e4cce7974f8f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "400a805cece6b70935403f8360e6e93cf68077b52da94f1415f178052fc3ea4f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "2c23c185ff8ead8b66dd975b06e99f6bd79e3082bc7bfcd2c20cebfb966d6908",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "7f3e7f17b123882aefe108410a0240a014bd2e457f5f5815280dea0588643dc7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "7fbde2b511f3b7748c4f8ea99bb2582edfc49baa5d38fa37d1b3b3cf8b93229c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "8540c3addbfd7cfc8a498f3c0ba58f0b7d94112a5eed3ae09c42d2c7a8999f61",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "bac0bcb824fb6d39eb5a275fcd087c80ffbb20172f578457a1b2e60031784945",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "753aa9cd1af0e4a5c993bb0d2812b552228b543a083c293b04a89b7f6e843af0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "753aa9cd1af0e4a5c993bb0d2812b552228b543a083c293b04a89b7f6e843af0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "cd905e9de99d06eb00b5075ce662eea29384f229fd0d1cd8d1971bafa47119c5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "436803d383c386a1f7abc7d93ec67a07714132e6afc4a974073d4a922132a645",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "2b986e6f243482f57d5a8663d1197a53fa8a0b81e579be3fddc9bb120eb11e28",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "33b8151ff948bafd1710532ba364726435e636e46989e40fe9478638169d0829",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "572fb2ee7548dad2dccb42797ebb96b282cf575a41ddf8e56b2f99568f093e73",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "d928ec070147a74386f25f837f83c1edfbcbfee95e21c6e17a77717325c9d2bd",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current final3, all15 cumulative steps contact sheet and full step6/12/15, compared source p6/12/16. Rectangular6394 bridge now matches. Source-backed hanging hook remains visibly unsupported because cord geometry is omitted. Four adjacent pulley solid-overlap risks, axle length candidates, brake phase and counterweight hidden-fill inference remain unresolved. No new definite source error found; not physical acceptance."
+}

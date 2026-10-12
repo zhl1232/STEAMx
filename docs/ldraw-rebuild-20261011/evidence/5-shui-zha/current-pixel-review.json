@@ -1,0 +1,100 @@
+{
+  "sourceSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+  "revision": "d043bbf2f7826400e766bfdc4f8a3cba454eb741a78b82beb68fafd22491a57c",
+  "reviewedAt": "2026-10-11T13:43:56.706823+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-shui-zha",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "87dec9304acee5edb9d803ca33f32c080f8a701281aec226abb7b561116d0a38",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "f8513041bcbd8ed080e973026f4d7ff476579b99519abdf97522b8263a21b7f5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "dd34fca9f6cbd9fbc3176a99a8c727cae0f8901880841a2223fea596f6038f51",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "62dae01c0c7d37080b358e46349b9a5a290685f35fa9f9e1a793826735946a7e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "b5ddb75362ad1ccb24eca48347dcbc70c1798322c78e97ebc8ee85cc369eb982",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "5c6ae8e660f29ee9a69d34b2ab351ee21a4285c39d74632f72daafbe82545585",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "68889922ab3c1872c1e4ee33b559b757d31f2d8874ff998b07edb8b0a2a23a4d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "202ec1169bc06d6e62055debe8d898c5f54bf47dd28469f87dad8b7e41464b5e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "c15a0ff4a1520b46e7f99072f9f44f317edbafc89e43fab639e5581a57f1dddf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "5ba00c419de9376f4ca485a92f74849510b98e58c6a88c8cbefe3215b24135f3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "835116c72617d99dce12d7cec4ac5066013072846d152893b064dd50296a9124",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "55467eb1dec799c462ecfac797b1128a4286942f81692481ea15580d67228aea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "a18c915d86ac9397c2833294579171beec64a0f7a34708149bd2405c4abc8c35",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "a18c915d86ac9397c2833294579171beec64a0f7a34708149bd2405c4abc8c35",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "e1465cce9be62f7d474bddb183bc54d4e826dafe3e2b7ba842705e7afef52a0d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "e1465cce9be62f7d474bddb183bc54d4e826dafe3e2b7ba842705e7afef52a0d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "87dec9304acee5edb9d803ca33f32c080f8a701281aec226abb7b561116d0a38",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed final three views and every cumulative step1-14 contact tile, iso original; rechecked source p12 and p15 original. Gate sandwich, alternating guide walls, top bridge and gearbox progression show no new definite source-placement error. Source two flexible cord runs remain omitted; hooks lack verified cord support/peg capture. Gate raised48LDU and hidden wall bond inferred; worm phase, pulley retention, guide clearance under motion unverified. Observation only, not assembly or physical acceptance."
+}

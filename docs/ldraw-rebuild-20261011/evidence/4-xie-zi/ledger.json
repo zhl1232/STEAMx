@@ -1,0 +1,1583 @@
+{
+  "slug": "4-xie-zi",
+  "pages": 12,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "seven transverse black Toolo bricks, four lower and three crossing seams",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            -240,
+            0,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "lower body lifted by legs in final model",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            -80,
+            0,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "lower body lifted by legs in final model",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-3",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            80,
+            0,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "lower body lifted by legs in final model",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-4",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            240,
+            0,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "lower body lifted by legs in final model",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-5",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            -160,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom0 bridges lower seam",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-6",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            0,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom0 bridges lower seam",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-7",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            160,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom0 bridges lower seam",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 7
+    },
+    {
+      "sourcePage": 2,
+      "note": "two forward side-built fork mouthparts",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            368,
+            24,
+            -40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Bottomx320 seats on front face; pivots x433,y24,z+/-88",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-2",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            368,
+            24,
+            40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottomx320 seats on front face; pivots x433,y24,z+/-88",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 9
+    },
+    {
+      "sourcePage": 3,
+      "note": "three grey Toolo bricks form head; two bare rims are eyes",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            280,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom0 on front lower body",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            240,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on head/base upper level",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-3",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            320,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on head/base upper level",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-4",
+          "partId": "99565.dat",
+          "color": 71,
+          "position": [
+            384,
+            -72,
+            -40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "axisX at front head face; source has no tyre",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-5",
+          "partId": "99565.dat",
+          "color": 71,
+          "position": [
+            384,
+            -72,
+            40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "axisX at front head face; source has no tyre",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 14
+    },
+    {
+      "sourcePage": 4,
+      "note": "eight side forks: six leg brackets and two forward claw brackets",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            -240,
+            24,
+            -168
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottomz+/-120 on body side; pivoty-24,z+/-233",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            -240,
+            24,
+            168
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Bottomz+/-120 on body side; pivoty-24,z+/-233",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-3",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            -80,
+            24,
+            -168
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottomz+/-120 on body side; pivoty-24,z+/-233",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-4",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            -80,
+            24,
+            168
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Bottomz+/-120 on body side; pivoty-24,z+/-233",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-5",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            80,
+            24,
+            -168
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottomz+/-120 on body side; pivoty-24,z+/-233",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-6",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            80,
+            24,
+            168
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Bottomz+/-120 on body side; pivoty-24,z+/-233",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-7",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            240,
+            24,
+            -168
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Side-built claw bracket, fork toward+X, pivotx288,z+/-233",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-8",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            240,
+            24,
+            168
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "support": "Side-built claw bracket, fork toward+X, pivotx288,z+/-233",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 22
+    },
+    {
+      "sourcePage": 5,
+      "note": "six short arms form downward walking legs",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            -240,
+            117.421356,
+            -374.421356
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            -0.707107,
+            -0.707107,
+            0,
+            -0.707107,
+            0.707107,
+            0
+          ],
+          "support": "Open end200 joins bracket;45deg downward/outward from source silhouette",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            -240,
+            117.421356,
+            374.421356
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.707107,
+            -0.707107,
+            0,
+            0.707107,
+            -0.707107,
+            0
+          ],
+          "support": "Open end200 joins bracket;45deg downward/outward from source silhouette",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-3",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            -80,
+            117.421356,
+            -374.421356
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            -0.707107,
+            -0.707107,
+            0,
+            -0.707107,
+            0.707107,
+            0
+          ],
+          "support": "Open end200 joins bracket;45deg downward/outward from source silhouette",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-4",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            -80,
+            117.421356,
+            374.421356
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.707107,
+            -0.707107,
+            0,
+            0.707107,
+            -0.707107,
+            0
+          ],
+          "support": "Open end200 joins bracket;45deg downward/outward from source silhouette",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-5",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            80,
+            117.421356,
+            -374.421356
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            -0.707107,
+            -0.707107,
+            0,
+            -0.707107,
+            0.707107,
+            0
+          ],
+          "support": "Open end200 joins bracket;45deg downward/outward from source silhouette",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-6",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            80,
+            117.421356,
+            374.421356
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.707107,
+            -0.707107,
+            0,
+            0.707107,
+            -0.707107,
+            0
+          ],
+          "support": "Open end200 joins bracket;45deg downward/outward from source silhouette",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 28
+    },
+    {
+      "sourcePage": 6,
+      "note": "two forward short forearms and two clutch blocks",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            488,
+            24,
+            -233
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0
+          ],
+          "support": "Open end200 atx288 joins claw bracket; closed pin atx488",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            548,
+            24,
+            -233
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Tongue60 meets forearm closed pin; studs face forward",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-3",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            488,
+            24,
+            233
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0
+          ],
+          "support": "Open end200 atx288 joins claw bracket; closed pin atx488",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-4",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            548,
+            24,
+            233
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Tongue60 meets forearm closed pin; studs face forward",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 32
+    },
+    {
+      "sourcePage": 7,
+      "note": "four fork bases make two opposed pincer pairs",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            596,
+            24,
+            -273
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Bottomx548 contacts clutch studs; pincer pivotx661,y24,z233sign+88side",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            596,
+            24,
+            -193
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottomx548 contacts clutch studs; pincer pivotx661,y24,z233sign+88side",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-3",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            596,
+            24,
+            193
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Bottomx548 contacts clutch studs; pincer pivotx661,y24,z233sign+88side",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-4",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            596,
+            24,
+            273
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottomx548 contacts clutch studs; pincer pivotx661,y24,z233sign+88side",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 36
+    },
+    {
+      "sourcePage": 8,
+      "note": "four orange Toolo scoops form pincer shells",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "dev-129/6294.dat",
+          "color": 25,
+          "position": [
+            661,
+            24,
+            -321
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Scoop pivot-axisX mapped toY at fork axle; shell opening pose inferred, exact mating pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-2",
+          "partId": "dev-129/6294.dat",
+          "color": 25,
+          "position": [
+            661,
+            24,
+            -145
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Scoop pivot-axisX mapped toY at fork axle; shell opening pose inferred, exact mating pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-3",
+          "partId": "dev-129/6294.dat",
+          "color": 25,
+          "position": [
+            661,
+            24,
+            145
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Scoop pivot-axisX mapped toY at fork axle; shell opening pose inferred, exact mating pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-4",
+          "partId": "dev-129/6294.dat",
+          "color": 25,
+          "position": [
+            661,
+            24,
+            321
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Scoop pivot-axisX mapped toY at fork axle; shell opening pose inferred, exact mating pending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 40
+    },
+    {
+      "sourcePage": 9,
+      "note": "rear fork base and first raised short tail arm",
+      "placements": [
+        {
+          "id": "p9-1",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            -280,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom0 on exposed rear lower brick; tailpivot(-328,-113,0)",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-2",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            -469.421356,
+            -254.421356,
+            0
+          ],
+          "matrix": [
+            -0.707107,
+            0.707107,
+            0,
+            0.707107,
+            0.707107,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Openhook200 at rear fork, raised45deg backward",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 42
+    },
+    {
+      "sourcePage": 10,
+      "note": "two curled tail short arms; terminal hook not yet identified",
+      "placements": [
+        {
+          "id": "p10-1",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            -269.421356,
+            -254.421356,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Openhook at tailA closed pin, horizontal forward segment",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-2",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            -96.216275,
+            -154.421356,
+            0
+          ],
+          "matrix": [
+            0.5,
+            -0.866025,
+            0,
+            -0.866025,
+            -0.5,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Openhook at tailB closed pin, end points forward/down30deg",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 44
+    },
+    {
+      "sourcePage": 11,
+      "note": "ten red2x3 curved bricks cover body in five opposing pairs",
+      "placements": [
+        {
+          "id": "p11-1",
+          "partId": "2302.dat",
+          "color": 4,
+          "position": [
+            -160,
+            -96,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on upper blackbody, curves face outward",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-2",
+          "partId": "2302.dat",
+          "color": 4,
+          "position": [
+            -160,
+            -96,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on upper blackbody, curves face outward",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-3",
+          "partId": "2302.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -96,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on upper blackbody, curves face outward",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-4",
+          "partId": "2302.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -96,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on upper blackbody, curves face outward",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-5",
+          "partId": "2302.dat",
+          "color": 4,
+          "position": [
+            0,
+            -96,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on upper blackbody, curves face outward",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-6",
+          "partId": "2302.dat",
+          "color": 4,
+          "position": [
+            0,
+            -96,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on upper blackbody, curves face outward",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-7",
+          "partId": "2302.dat",
+          "color": 4,
+          "position": [
+            80,
+            -96,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on upper blackbody, curves face outward",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-8",
+          "partId": "2302.dat",
+          "color": 4,
+          "position": [
+            80,
+            -96,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on upper blackbody, curves face outward",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-9",
+          "partId": "2302.dat",
+          "color": 4,
+          "position": [
+            160,
+            -96,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on upper blackbody, curves face outward",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-10",
+          "partId": "2302.dat",
+          "color": 4,
+          "position": [
+            160,
+            -96,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-48 on upper blackbody, curves face outward",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 54
+    }
+  ],
+  "status": "INCOMPLETE dev-only source reconstruction",
+  "verification": "Source-based dev draft; final three views reviewed; omitted pieces and cumulative-step work remain.",
+  "source": {
+    "name": "4+蝎子搭建说明.pdf",
+    "relative_path": "4+/4+蝎子搭建说明.pdf",
+    "pages": 12,
+    "bytes": 2080945,
+    "sha256": "3f9068f6e354ae5a322a72da4a480e51529a449ecbc1f6476cd816219b9f0b93",
+    "source_url": "https://pan.quark.cn/list#/docpdf/a0a32f388f80499dbb162c2b0129da27",
+    "slug": "4-xie-zi",
+    "lesson_id": 214,
+    "course_id": 6
+  },
+  "evidence": [
+    {
+      "page": 1,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi\\source-01.jpg",
+      "sha256": "593f19c75136befdb31340ce1b95d775f965e9e45a9ec00de2c8be5dd2d33aeb",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi\\source-02.jpg",
+      "sha256": "4a0032b7892464cdabf9ad8e15f44acb86714c81d3f027c88429887b821a2835",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi\\source-03.jpg",
+      "sha256": "d14c0c10d483e029d4b8fe051cef151c17e3cb1924d6a2165db4b78b9315a10f",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi\\source-04.jpg",
+      "sha256": "9f24ba7607df089a2fffa7a8fa0a8417a5fc0b988837e497abc9d00015d4c435",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi\\source-05.jpg",
+      "sha256": "f0176ff23bb6a139b55875db9d67a323e5da7fab1ae660c31c56e71fe733877e",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi\\source-06.jpg",
+      "sha256": "2f3587b024f6e8192037b4a91b498305c61250a481b8dceb4695c434f056d2f3",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi\\source-07.jpg",
+      "sha256": "92189877eb1edd27a5507f6183bdc070bede01f4b940f612cdae80bfc8909401",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi\\source-08.jpg",
+      "sha256": "87c6e449d60136d839f72cfe0e8bcdf62e313d21e6ab1f26a7c06ab55a5d9c09",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi\\source-09.jpg",
+      "sha256": "156c8a76c23d1c802050b4e20afaba5b392973778a6712c28669ccb2b1f78361",
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi\\source-10.jpg",
+      "sha256": "4797cca76913f0f2c987f12d2eeaee7c8f78b7c8f43dc2d3f9ed31335f811273",
+      "pixelsViewed": true
+    },
+    {
+      "page": 11,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi\\source-11.jpg",
+      "sha256": "f260ec14c37e7bc088caab5280bfcac0e5498ba9ae3e68af6295a6d29d28cedc",
+      "pixelsViewed": true
+    },
+    {
+      "page": 12,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi\\source-12.jpg",
+      "sha256": "bc278948d2e8bf051021cf58aaafd38ff75af5460ec11d4673f69356245fc6da",
+      "pixelsViewed": true
+    }
+  ],
+  "unknownIds": [],
+  "pending": [
+    "Tail-end hook sourcep10 omitted pending confirmed ID and geometry.",
+    "All Toolo pivots and scoop clamp fits remain source-inferred approximate geometry, not physical validation.",
+    "Six leg angles45deg, horizontal claws and three tail segment angles are display poses inferred from source; central final/step pixel comparison required."
+  ],
+  "inventory": "Combined 9090/45002 colour counts unknown; compare known45002 aliases separately.",
+  "inventoryDeficits": [
+    {
+      "id": "28336.dat",
+      "required": 15,
+      "in45002": 4,
+      "extraNeeded": 11
+    },
+    {
+      "id": "dev-129/28334.dat",
+      "required": 11,
+      "in45002": 5,
+      "extraNeeded": 6
+    },
+    {
+      "id": "dev-129/6294.dat",
+      "required": 4,
+      "in45002": 1,
+      "extraNeeded": 3
+    }
+  ],
+  "modelSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\4-xie-zi.ldr",
+  "totalPlacements": 54,
+  "bom": {
+    "76395.dat|0": 7,
+    "28336.dat|72": 15,
+    "76057.dat|72": 3,
+    "99565.dat|71": 2,
+    "dev-129/28334.dat|72": 11,
+    "74957.dat|72": 2,
+    "dev-129/6294.dat|25": 4,
+    "2302.dat|4": 10
+  },
+  "metadataSha256": "6e11f39ebfb238372002e10f1bd82642d85144f633f11192a34849c39a29e9b4",
+  "knownApproximateGeometry": [
+    {
+      "id": "76395.dat",
+      "geometrySha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182798.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "28336.dat",
+      "geometrySha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc",
+      "notes": [
+        "User-approved local simplification2026-09-12; official LEGO element6162848 image.",
+        "Base80x80x48 LDU; inclined fork and pivot y=-65,z=48 are unmeasured image estimates.",
+        "Local CC BY4.0 mesh; circular base side openings and four studs; twin cheeks with yellow transverse screw.",
+        "Threads, molded underside and tolerances not reproduced.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162848.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "76057.dat",
+      "geometrySha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182720.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "99565.dat",
+      "geometrySha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8",
+      "notes": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for99565.",
+        "BarrelR38 paired with44970 innerR38; front and rear flangeR42 outside tire width. Yellow serrated screw collar simplified as24 teeth and round bore.",
+        "Bore/thread shape, rim width and dimensions image estimates; not a physical fit certification.",
+        "Locally authored CC BY4.0; geometry simplified, all interfaces manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6043041.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "dev-129/28334.dat",
+      "geometrySha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d",
+      "notes": [
+        "User-approved simplified model2026-09-12. Source official45002 element photo design28334.",
+        "40LDU stud grid only establishes reference scale; overall lengths, plate spacing48 and long-arm axle spacing100 are image estimates.",
+        "Two separated extruded cheek plates with actual open lower fork, yellow shafts and triangular screw indicators. Decorative relief and threads omitted.",
+        "Local authored CC BY4.0. Hidden fit and source-specific joint angles remain manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162840.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "2026-10-11 dev-only: inventory confirmed 74847 Arm 2 x 6; total span240LDU, pivots 0/open end200. Reuses approved approximate cheek mesh with remapped axial intervals, not an official mesh. Hole centers and mating fit still manual. No shared original DAT changed."
+      ]
+    },
+    {
+      "id": "74957.dat",
+      "geometrySha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6139202.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "Central roof bore radius10LDU restored; bottom tongues join the sidewalls via estimated internal bridges. No yellow screw insert assumed for this part."
+      ]
+    },
+    {
+      "id": "dev-129/6294.dat",
+      "geometrySha256": "7656908c017d5f95d2fa2b178144d740d4a748f27eb3cf3677a9f44c10f07d0f",
+      "notes": [
+        "Unchanged geometry extracted from published4-wa-tu-ji.mpd 6294.dat, with original2026-09-27 user-approval header and CC BY4.0 local author retained. Name moved into dev-129 namespace only.",
+        "Not official exact geometry; molded clip fit/pivot dimensions were inferred from4188816 photo. Elephant source page8 requires two;45002 inventory has one orange, extra required1.",
+        "Elephant articulated ear pose remains inferred pending rendered comparison, not physical validation."
+      ]
+    }
+  ],
+  "checks": {
+    "modelSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
+    "dependencyNodes": 30,
+    "missingDependencies": [],
+    "rawCheckerExitCode": 0,
+    "rawCheckerReport": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-xie-zi\\collision.txt",
+    "physicalFit": false,
+    "rendering": "Central queue pending; no independent browser launched"
+  },
+  "currentFinalPixelReview": {
+    "sourceSha256": "8a81cff87ccee93cd5fa5387bd6a4fbf1d7ebf1827be39b12defece982a6976d",
+    "packRevision": "19283dfff924125037ee4b2aca3f18a36f8afc11947555e2a3838ece1bf20cca",
+    "note": "All three views inspected with source page12: six legs, paired claw subassemblies and three-link tail present. Orange6294 prior approved approximation is visibly flatter than source scoop; exact clasp/pin geometry unverified. Hook6295 identified but geometry absent and omitted.",
+    "views": [
+      {
+        "view": "iso",
+        "pixelsViewed": true,
+        "sha256": "83a62bd27b828f9268bb66ff6380f223f64d07a1a2190ea0b28cf8f14a0210a9"
+      },
+      {
+        "view": "iso-rear",
+        "pixelsViewed": true,
+        "sha256": "f02ef60bfb9fadb3c9a5195cec98658d9c6542a3d8b525d6f5e5d5e719a759ec"
+      },
+      {
+        "view": "top",
+        "pixelsViewed": true,
+        "sha256": "5a30760da866d5436ebb011b2da981ccb69914b648426dea32b22d94f9d8be9b"
+      }
+    ],
+    "steps": "pending cumulative/source-version review",
+    "physicalValidation": false
+  },
+  "knownMissingGeometry": [
+    {
+      "id": "6295",
+      "sourcePage": 10,
+      "count": 1,
+      "identityEvidence": "BrickLink catalog Duplo Toolo Arm with Fake Pulley and Hook image compared by missing_parts against sourcep10;3588inventory PearlLightGray",
+      "missingEvidence": "Official DAT endpoints404; no reliable geometry"
+    }
+  ]
+}

@@ -1,0 +1,2081 @@
+{
+  "slug": "4-tang-lang",
+  "pages": 14,
+  "source": {
+    "name": "4+螳螂搭建说明.pdf",
+    "relative_path": "4+/4+螳螂搭建说明.pdf",
+    "pages": 14,
+    "bytes": 1953298,
+    "sha256": "98d27857d3f16307d0aec7d1c58214e3a05c28889d268e401d7a923e26a8cd43",
+    "source_url": "https://pan.quark.cn/list#/docpdf/26af5f7c359e4fb881fb89ca191607ea",
+    "slug": "4-tang-lang",
+    "lesson_id": 199,
+    "course_id": 6
+  },
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "three black4x6 Toolo bricks: two lower plus seam-spanning upper",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            -120,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Lower pair end faces meet X0; resting planeY48.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            120,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Lower pair end faces meet X0; resting planeY48.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-3",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            0,
+            -48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Upper bottomY0 spans lower seam on40LDUstudgrid.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 3
+    },
+    {
+      "sourcePage": 2,
+      "note": "four gray2x4 Toolo bricks form front side extensions; corrected side-mounted vertical leg frame after actual rendered/source comparison",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            160,
+            64,
+            -128
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Source p2/p4 side-mounted Toolo leg: studs face outward, long axis downward; upper screw nominal Y24 aligns body side-hole. Adjacent end-thread closure remains manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-2",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            160,
+            224,
+            -128
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Source p2/p4 side-mounted Toolo leg: studs face outward, long axis downward; upper screw nominal Y24 aligns body side-hole. Adjacent end-thread closure remains manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-3",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            160,
+            64,
+            128
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "support": "Source p2/p4 side-mounted Toolo leg: studs face outward, long axis downward; upper screw nominal Y24 aligns body side-hole. Adjacent end-thread closure remains manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-4",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            160,
+            224,
+            128
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "support": "Source p2/p4 side-mounted Toolo leg: studs face outward, long axis downward; upper screw nominal Y24 aligns body side-hole. Adjacent end-thread closure remains manual.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 7
+    },
+    {
+      "sourcePage": 3,
+      "note": "two outer gray2x4 rails and two green curved foot caps",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            240,
+            224,
+            -128
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "P3 parallel outer leg strip and green side cap follow corrected side-facing vertical leg frame; cap interface remains unvalidated.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "2302.dat",
+          "color": 2,
+          "position": [
+            328,
+            224,
+            -128
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P3 parallel outer leg strip and green side cap follow corrected side-facing vertical leg frame; cap interface remains unvalidated.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-3",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            240,
+            224,
+            128
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "support": "P3 parallel outer leg strip and green side cap follow corrected side-facing vertical leg frame; cap interface remains unvalidated.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-4",
+          "partId": "2302.dat",
+          "color": 2,
+          "position": [
+            328,
+            224,
+            128
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P3 parallel outer leg strip and green side cap follow corrected side-facing vertical leg frame; cap interface remains unvalidated.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 11
+    },
+    {
+      "sourcePage": 4,
+      "note": "four gray bricks for hind side legs; corrected side-mounted vertical leg frame after actual rendered/source comparison",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            -160,
+            64,
+            -128
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Source p2/p4 side-mounted Toolo leg: studs face outward, long axis downward; upper screw nominal Y24 aligns body side-hole. Adjacent end-thread closure remains manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            -160,
+            224,
+            -128
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Source p2/p4 side-mounted Toolo leg: studs face outward, long axis downward; upper screw nominal Y24 aligns body side-hole. Adjacent end-thread closure remains manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-3",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            -160,
+            64,
+            128
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "support": "Source p2/p4 side-mounted Toolo leg: studs face outward, long axis downward; upper screw nominal Y24 aligns body side-hole. Adjacent end-thread closure remains manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-4",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            -160,
+            224,
+            128
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "support": "Source p2/p4 side-mounted Toolo leg: studs face outward, long axis downward; upper screw nominal Y24 aligns body side-hole. Adjacent end-thread closure remains manual.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 15
+    },
+    {
+      "sourcePage": 5,
+      "note": "four gray bricks extend two forward forearms",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            240,
+            4,
+            -40
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
+        },
+        {
+          "id": "p5-2",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            320,
+            -124,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
+        },
+        {
+          "id": "p5-3",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            240,
+            4,
+            40
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
+        },
+        {
+          "id": "p5-4",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            320,
+            -124,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
+        }
+      ],
+      "cumulativePlacements": 19
+    },
+    {
+      "sourcePage": 6,
+      "note": "two Toolo forks and clutch blocks; two known exhaust assemblies omitted",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            448,
+            -100,
+            -40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
+        },
+        {
+          "id": "p6-2",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            573,
+            -100,
+            8
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
+        },
+        {
+          "id": "p6-3",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            448,
+            -100,
+            40
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
+        },
+        {
+          "id": "p6-4",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            573,
+            -100,
+            88
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
+        }
+      ],
+      "cumulativePlacements": 23
+    },
+    {
+      "sourcePage": 7,
+      "note": "upright neck fork, one short arm, top clutch",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            160,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "BottomY0 on exposed front lowerbody; pivot(208,-113,0).",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            208,
+            -113,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Closed pivot atfork; localopenY200 mapsY-313; known approveddev length, threads approximated.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-3",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            208,
+            -373,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Tongue atY-313 meets upperopen armend; top planeY-373.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 26
+    },
+    {
+      "sourcePage": 8,
+      "note": "head Toolo brick, two tyre/rim eyes and green inside curve2301",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            208,
+            -421,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "BottomY-373 on neckclutch top; centered40grid.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-2",
+          "partId": "2301.dat",
+          "color": 2,
+          "position": [
+            168,
+            -517,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Official2x3x2concave: bottomY-421;2studhighend sourcep8, X148..268 on headbrick128..288.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-3",
+          "partId": "99565.dat",
+          "color": 71,
+          "position": [
+            188,
+            -397,
+            -65
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Eye axisZ; wheelcenterY24 below headtop; rim innerface approxZ40, tyre on rim.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-4",
+          "partId": "44970.dat",
+          "color": 0,
+          "position": [
+            188,
+            -397,
+            -65
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Eye axisZ; wheelcenterY24 below headtop; rim innerface approxZ40, tyre on rim.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-5",
+          "partId": "99565.dat",
+          "color": 71,
+          "position": [
+            188,
+            -397,
+            65
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Eye axisZ; wheelcenterY24 below headtop; rim innerface approxZ40, tyre on rim.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-6",
+          "partId": "44970.dat",
+          "color": 0,
+          "position": [
+            188,
+            -397,
+            65
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Eye axisZ; wheelcenterY24 below headtop; rim innerface approxZ40, tyre on rim.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 32
+    },
+    {
+      "sourcePage": 9,
+      "note": "two gray backingbricks and two Toolo wing hinges",
+      "placements": [
+        {
+          "id": "p9-1",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            -40,
+            -96,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "BottomY-48 on central blackupperbrick; contiguous4studwide pad.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-2",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            -40,
+            -144,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Base bottomY-96 on backingbrick; wingpivot(-88,-209,z).",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-3",
+          "partId": "76057.dat",
+          "color": 72,
+          "position": [
+            -40,
+            -96,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "BottomY-48 on central blackupperbrick; contiguous4studwide pad.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-4",
+          "partId": "28336.dat",
+          "color": 72,
+          "position": [
+            -40,
+            -144,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Base bottomY-96 on backingbrick; wingpivot(-88,-209,z).",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 36
+    },
+    {
+      "sourcePage": 10,
+      "note": "two wing clutch roots with two green2x4 plates; source-tailward pitch replaces rejected sideways splay",
+      "placements": [
+        {
+          "id": "p10-1",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            -139.961524,
+            -239,
+            -40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-2",
+          "partId": "40666.dat",
+          "color": 2,
+          "position": [
+            -160.746134,
+            -251,
+            -40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-3",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            -139.961524,
+            -239,
+            40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-4",
+          "partId": "40666.dat",
+          "color": 2,
+          "position": [
+            -160.746134,
+            -251,
+            40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 40
+    },
+    {
+      "sourcePage": 11,
+      "note": "four further green plates extend both wings; source-tailward pitch replaces rejected sideways splay",
+      "placements": [
+        {
+          "id": "p11-1",
+          "partId": "40666.dat",
+          "color": 2,
+          "position": [
+            -201.530744,
+            -228.358984,
+            -40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-2",
+          "partId": "40666.dat",
+          "color": 2,
+          "position": [
+            -242.315353,
+            -205.717968,
+            -40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-3",
+          "partId": "40666.dat",
+          "color": 2,
+          "position": [
+            -201.530744,
+            -228.358984,
+            40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-4",
+          "partId": "40666.dat",
+          "color": 2,
+          "position": [
+            -242.315353,
+            -205.717968,
+            40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 44
+    },
+    {
+      "sourcePage": 12,
+      "note": "six plates extend both wing fans; source-tailward pitch replaces rejected sideways splay",
+      "placements": [
+        {
+          "id": "p12-1",
+          "partId": "40666.dat",
+          "color": 2,
+          "position": [
+            -283.099963,
+            -183.076952,
+            -40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-2",
+          "partId": "40666.dat",
+          "color": 2,
+          "position": [
+            -323.884573,
+            -160.435935,
+            -40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-3",
+          "partId": "40666.dat",
+          "color": 2,
+          "position": [
+            -364.669182,
+            -137.794919,
+            -40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-4",
+          "partId": "40666.dat",
+          "color": 2,
+          "position": [
+            -283.099963,
+            -183.076952,
+            40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-5",
+          "partId": "40666.dat",
+          "color": 2,
+          "position": [
+            -323.884573,
+            -160.435935,
+            40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-6",
+          "partId": "40666.dat",
+          "color": 2,
+          "position": [
+            -364.669182,
+            -137.794919,
+            40
+          ],
+          "matrix": [
+            0.5,
+            0.866025,
+            0,
+            -0.866025,
+            0.5,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "P10-12 tailward overlapping wing, pitch -60 degrees inferred from source; shared stud grid stack retained, no sideways splay. Hinge fit/precise pitch manual.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 50
+    },
+    {
+      "sourcePage": 13,
+      "note": "eight green curved covers on body and forearm bricks",
+      "placements": [
+        {
+          "id": "p13-1",
+          "partId": "2302.dat",
+          "color": 2,
+          "position": [
+            -160,
+            -48,
+            -40
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Rearbody topY0 supports curvedcoverbottom; outeredge overhang.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p13-2",
+          "partId": "2302.dat",
+          "color": 2,
+          "position": [
+            40,
+            -96,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Centralupperbody topY-48 supports curvebottom.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p13-3",
+          "partId": "2302.dat",
+          "color": 2,
+          "position": [
+            -160,
+            -48,
+            40
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Rearbody topY0 supports curvedcoverbottom; outeredge overhang.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p13-4",
+          "partId": "2302.dat",
+          "color": 2,
+          "position": [
+            40,
+            -96,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Centralupperbody topY-48 supports curvebottom.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p13-5",
+          "partId": "2302.dat",
+          "color": 2,
+          "position": [
+            160,
+            -48,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
+        },
+        {
+          "id": "p13-6",
+          "partId": "2302.dat",
+          "color": 2,
+          "position": [
+            160,
+            -48,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
+        },
+        {
+          "id": "p13-7",
+          "partId": "2302.dat",
+          "color": 2,
+          "position": [
+            320,
+            -172,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
+        },
+        {
+          "id": "p13-8",
+          "partId": "2302.dat",
+          "color": 2,
+          "position": [
+            320,
+            -172,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source p5/p6/p13 raised display pose; nominal face contact only; approved approximate Toolo geometry does not prove threaded attachment.",
+          "confidence": "source-constrained-pose-inference"
+        }
+      ],
+      "cumulativePlacements": 58
+    }
+  ],
+  "status": "INCOMPLETE dev-only source reconstruction",
+  "evidence": [
+    {
+      "page": 1,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-01.jpg",
+      "sha256": "4d64c5825cdd9761d5b51078887f25bee61b664f1a246ab00d7e7b1aef2a73c9",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-02.jpg",
+      "sha256": "ccfb53571d1bcb76fd14cbfcf976e4dd9f41a7aea8a64276fcafd4d1f69748e5",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-03.jpg",
+      "sha256": "34fde6cffb1ed09ddfdfec49968f69174b749000d8d4476f10ad57ec073e9dc9",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-04.jpg",
+      "sha256": "1d0fcba94ec999f718582df3542dd18f716b84dc5a8175e64b97bfbdc68283c0",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-05.jpg",
+      "sha256": "18262d81a3ceec632ff1041e32aa5f373bef17cd03fc3f6e8c11b3530772f06c",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-06.jpg",
+      "sha256": "d23a849c01ce0cd503ee086da6c5c922e3d561b0a23a5e112d35626e11674d33",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-07.jpg",
+      "sha256": "c66bb5ffcaea8b8cfbe0be165b5432b1e0e93bf2ceb4e9939d84d9dda207fc4a",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-08.jpg",
+      "sha256": "b61ee5c63ccff4394e9085a1f9d110108ebec2b259939ed7066ef966fc8beda6",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-09.jpg",
+      "sha256": "87cb809bbf3c1f85299cedf72c5c3019da2223b7f0205585200f4069d8d260f2",
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-10.jpg",
+      "sha256": "915afbf95e19e2d24283a90cff5a68951bd16c292e75d32ba949557b8563d9e1",
+      "pixelsViewed": true
+    },
+    {
+      "page": 11,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-11.jpg",
+      "sha256": "5e8370ed150333176d5d7cf33440c0434fed157f91e9c8830e9848711917de75",
+      "pixelsViewed": true
+    },
+    {
+      "page": 12,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-12.jpg",
+      "sha256": "5756edaac2d6da019514e1234dca11073b661cfdeb83c3c5456c8a230e5d044b",
+      "pixelsViewed": true
+    },
+    {
+      "page": 13,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-13.jpg",
+      "sha256": "aeaf9f9b68c2310e25a66c84d85c1c4d60d26b192494f0d306e6a46517de0324",
+      "pixelsViewed": true
+    },
+    {
+      "page": 14,
+      "file": "D:/Codex-task-2-20261011/inputs/pdfbatch10/4-tang-lang/page-14.jpg",
+      "sha256": "39c80e805df8ba073beb647f864d9a62ddadc2e6da2f7cd7d769521c8c57367e",
+      "pixelsViewed": true
+    }
+  ],
+  "unknownIds": [],
+  "pending": [
+    "Source14pages actuallyviewed;13constructionsteps retained.",
+    "P2-5sidebuilt graybrickleg exact orientations and branchlocations inferred from oblique source; manualthreadcontacts unvalidated.",
+    "P6two4433c01 exhausts omitted for missinggeometry.",
+    "P7shortarmdev28334 usesapprovedapproximategeometry; sourcepose notmeasured.",
+    "P10-12wingangles and stagger direction are inferred; no mechanism/stability claim.",
+    "P13bodycurvecovers positions require fullview review; physicalfit pending.",
+    "Corrected P3sidebuilt footcap origin uses48LDUheight; P6fork/clutch direction uses actuallocalbottom/pivot signs; P10wings spread to opposite sides.",
+    "Exactgreen shade unresolved;9090BrightGreen reference cannot silently prove sourcecolor.",
+    "P5 front forearm brick frames remain uncertain: current straight extension differs from source raised/elbowed silhouette; require interface reconstruction before acceptance.",
+    "P2-4 side-threaded leg frames corrected by visible stud normal and body-hole height; exact end-thread linkage and p3 cap contact remain manual.",
+    "P10-12 wing pitch -60 degrees is a source-based display inference, not measured articulation or physical validation."
+  ],
+  "beforeSha256": "0ca34eb893126f17b16d9a89ddfe0a26c2c4860b0c465beff58a9efe89f5ed51",
+  "knownOmitted": [
+    {
+      "sourcePage": 6,
+      "id": "4433c01.dat",
+      "aliases": [
+        "45149"
+      ],
+      "count": 2,
+      "location": "two forward claws/exhaust-like ends",
+      "reason": "Sourcep6 twin perforated cylindrical Tooloexhaust assemblies match confirmed family; no licensedgeometry after earlierofficialGET checks; omitted without substitute."
+    }
+  ],
+  "inventory": {
+    "reference": "inputs/inventory-evidence.json",
+    "referenceSha256": "a6e4d1ab4f29a0462f03047a4d7cf66bb278890505b4900f49afba914140304d",
+    "sets": [
+      "9090-2",
+      "45002-1"
+    ],
+    "userPhysicalStock": "unknown",
+    "note": "Only observed rows compared; absent9090rows remainunknown, notzero.",
+    "comparisons": [
+      {
+        "id": "28336",
+        "alias": "45202",
+        "need": 5,
+        "set": "45002-1",
+        "referenceQuantity": 4,
+        "extra": 1
+      },
+      {
+        "id": "74957",
+        "need": 5,
+        "set": "45002-1",
+        "referenceQuantity": 2,
+        "extra": 3
+      },
+      {
+        "id": "dev-129/28334",
+        "alias": "74847",
+        "need": 1,
+        "set": "45002-1",
+        "referenceQuantity": 5,
+        "extra": 0
+      },
+      {
+        "id": "44970",
+        "need": 2,
+        "set": "45002-1",
+        "referenceQuantity": 8,
+        "extra": 0
+      },
+      {
+        "id": "40666",
+        "need": 12,
+        "sourceColor": "green shade unresolved",
+        "referenceColor": "Bright Green",
+        "set": "9090-2",
+        "referenceQuantity": 10,
+        "extraIfSameColor": 2
+      },
+      {
+        "id": "2302",
+        "need": 10,
+        "sourceColor": "green shade unresolved",
+        "referenceColor": "Bright Green",
+        "set": "9090-2",
+        "referenceQuantity": 10
+      },
+      {
+        "id": "2301",
+        "need": 1,
+        "referenceColor": "Bright Green",
+        "set": "9090-2",
+        "referenceQuantity": 4
+      }
+    ]
+  },
+  "modelSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\4-tang-lang.ldr",
+  "totalPlacements": 58,
+  "bom": {
+    "76395.dat|0": 3,
+    "76057.dat|72": 17,
+    "2302.dat|2": 10,
+    "28336.dat|72": 5,
+    "74957.dat|72": 5,
+    "dev-129/28334.dat|72": 1,
+    "2301.dat|2": 1,
+    "99565.dat|71": 2,
+    "44970.dat|0": 2,
+    "40666.dat|2": 12
+  },
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "knownApproximateGeometry": [
+    {
+      "id": "76395.dat",
+      "geometrySha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182798.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "76057.dat",
+      "geometrySha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182720.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "28336.dat",
+      "geometrySha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc",
+      "notes": [
+        "User-approved local simplification2026-09-12; official LEGO element6162848 image.",
+        "Base80x80x48 LDU; inclined fork and pivot y=-65,z=48 are unmeasured image estimates.",
+        "Local CC BY4.0 mesh; circular base side openings and four studs; twin cheeks with yellow transverse screw.",
+        "Threads, molded underside and tolerances not reproduced.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162848.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "74957.dat",
+      "geometrySha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6139202.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "Central roof bore radius10LDU restored; bottom tongues join the sidewalls via estimated internal bridges. No yellow screw insert assumed for this part."
+      ]
+    },
+    {
+      "id": "dev-129/28334.dat",
+      "geometrySha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d",
+      "notes": [
+        "User-approved simplified model2026-09-12. Source official45002 element photo design28334.",
+        "40LDU stud grid only establishes reference scale; overall lengths, plate spacing48 and long-arm axle spacing100 are image estimates.",
+        "Two separated extruded cheek plates with actual open lower fork, yellow shafts and triangular screw indicators. Decorative relief and threads omitted.",
+        "Local authored CC BY4.0. Hidden fit and source-specific joint angles remain manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162840.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "2026-10-11 dev-only: inventory confirmed 74847 Arm 2 x 6; total span240LDU, pivots 0/open end200. Reuses approved approximate cheek mesh with remapped axial intervals, not an official mesh. Hole centers and mating fit still manual. No shared original DAT changed."
+      ]
+    },
+    {
+      "id": "99565.dat",
+      "geometrySha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8",
+      "notes": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for99565.",
+        "BarrelR38 paired with44970 innerR38; front and rear flangeR42 outside tire width. Yellow serrated screw collar simplified as24 teeth and round bore.",
+        "Bore/thread shape, rim width and dimensions image estimates; not a physical fit certification.",
+        "Locally authored CC BY4.0; geometry simplified, all interfaces manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6043041.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "44970.dat",
+      "geometrySha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd",
+      "notes": [
+        "User-approved local simplified mesh2026-09-12; official LEGO inventory photo for44970.",
+        "Outer tread diameter115LDU from46mm inventory name; inner diameter76 and width36 estimated.",
+        "Continuous rounded tire body with48 solid staggered tread blocks; not rubber deformation or molded exact pattern.",
+        "Locally authored CC BY4.0; geometry simplified, all interfaces manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/4186713.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    }
+  ],
+  "sourcePageBom": [
+    {
+      "sourcePage": 1,
+      "modeledCount": 3,
+      "parts": {
+        "76395.dat": 3
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 2,
+      "modeledCount": 4,
+      "parts": {
+        "76057.dat": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 3,
+      "modeledCount": 4,
+      "parts": {
+        "76057.dat": 2,
+        "2302.dat": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 4,
+      "modeledCount": 4,
+      "parts": {
+        "76057.dat": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 5,
+      "modeledCount": 4,
+      "parts": {
+        "76057.dat": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 6,
+      "modeledCount": 4,
+      "parts": {
+        "28336.dat": 2,
+        "74957.dat": 2
+      },
+      "omitted": [
+        {
+          "sourcePage": 6,
+          "id": "4433c01.dat",
+          "aliases": [
+            "45149"
+          ],
+          "count": 2,
+          "location": "two forward claws/exhaust-like ends",
+          "reason": "Sourcep6 twin perforated cylindrical Tooloexhaust assemblies match confirmed family; no licensedgeometry after earlierofficialGET checks; omitted without substitute."
+        }
+      ]
+    },
+    {
+      "sourcePage": 7,
+      "modeledCount": 3,
+      "parts": {
+        "28336.dat": 1,
+        "dev-129/28334.dat": 1,
+        "74957.dat": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 8,
+      "modeledCount": 6,
+      "parts": {
+        "76057.dat": 1,
+        "2301.dat": 1,
+        "99565.dat": 2,
+        "44970.dat": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 9,
+      "modeledCount": 4,
+      "parts": {
+        "76057.dat": 2,
+        "28336.dat": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 10,
+      "modeledCount": 4,
+      "parts": {
+        "74957.dat": 2,
+        "40666.dat": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 11,
+      "modeledCount": 4,
+      "parts": {
+        "40666.dat": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 12,
+      "modeledCount": 6,
+      "parts": {
+        "40666.dat": 6
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 13,
+      "modeledCount": 8,
+      "parts": {
+        "2302.dat": 8
+      },
+      "omitted": []
+    }
+  ],
+  "verification": {
+    "sourceSha256": "59acfbcc93af7b5d57b5ba09e7f6a26c44e8767222b1925be791d10774b2aa0f",
+    "rawExitCode": 0,
+    "rawOutput": "OK   [4-tang-lang.ldr] 58 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+    "fullDependencyClosure": "pending main pack",
+    "finalPixelsReviewed": false,
+    "cumulativePixelsReviewed": false,
+    "physicalValidation": false,
+    "pixelReview": "current-pixel-review.json; all final/13steps actually reviewed"
+  },
+  "pixelCorrection": {
+    "rejectedSourceSha256": "59acfbcc93af7b5d57b5ba09e7f6a26c44e8767222b1925be791d10774b2aa0f",
+    "rejectedRevision": "12c487fc8c00566888a9514d9111353ac6fd465909573a4a58d066e03182026b",
+    "viewed": [
+      "review-sheet-final.jpg: all three views",
+      "review-sheet-steps.jpg: all 13 frames"
+    ],
+    "sourcePagesRevisited": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11,
+      12,
+      14
+    ],
+    "corrections": [
+      "Side legs: flat outward rejected; vertical side-facing frame",
+      "Wings: sideways fan rejected; tailward downward pitch"
+    ],
+    "remaining": "P5 exact proximal mating face and distal receiving hole/underside are hidden; research candidates rejected as installs. See forearmInterfaceReview. 4433c01x2 omitted.",
+    "status": "awaiting central rerender"
+  },
+  "forearmInterfaceReview": {
+    "sourcePages": [
+      4,
+      5,
+      6,
+      14
+    ],
+    "pixelsRevisited": true,
+    "sourceSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+    "status": "blocked_unique_frame_not_determined",
+    "observations": [
+      "P4 has no forearm assembly; p5 introduces exactly four 76057, two per forearm. P6 adds the fork/clutch terminal assembly, not extra riser bricks.",
+      "P5 upper distal bricks have upward-facing studs and long axis along body. Proximal brick mating face and screw engagement are obscured by the distal brick/body in the single common perspective.",
+      "P5/P6 show a raised, overlapping elbow silhouette; current two collinear coplanar 76057 per forearm is rejected as faithful reconstruction."
+    ],
+    "datEvidence": {
+      "part": "76057.dat",
+      "status": "prior-approved simplified, not metrologically exact",
+      "localBody": {
+        "x": [
+          -80,
+          80
+        ],
+        "y": [
+          0,
+          48
+        ],
+        "z": [
+          -40,
+          40
+        ]
+      },
+      "topScrewIndicator": {
+        "center": [
+          -20,
+          0,
+          20
+        ],
+        "note": "Observed actual yellow mesh and dark triangular indicator; previous generic 40-LDU screw assumptions are insufficient."
+      },
+      "threadRetention": "No exact underside thread/retention representation; cannot prove a mate from bounding-box contact."
+    },
+    "candidates": [
+      {
+        "name": "side-mounted upright proximal brick plus horizontal distal brick",
+        "role": "research_only_not_installed",
+        "proximalRotation": "Rz(+90deg), long axis Y and top normal +X",
+        "candidateOrigin": [
+          288,
+          -16,
+          40
+        ],
+        "unresolved": [
+          "At this candidate origin actual top screw line is Y=-36,Z=60, not the body end-hole nominal Y24; guessed generic screw alignment is invalid.",
+          "Which proximal end/side bore receives distal screw is hidden; distal origin cannot be chosen uniquely."
+        ],
+        "rejectedAsInstall": true
+      },
+      {
+        "name": "horizontal overlapping staggered pair",
+        "role": "research_only_not_installed",
+        "proximalRotation": "I or Ry(180deg)",
+        "unresolved": [
+          "Need see whether distal underside sits on proximal studs or engages a perpendicular threaded face.",
+          "Need count exposed proximal stud columns and identify screw row; silhouette alone cannot determine 40/80-LDU offset or vertical rise."
+        ],
+        "rejectedAsInstall": true
+      }
+    ],
+    "requiredEvidence": [
+      "Close view along body longitudinal axis looking at the black front face with proximal forearm bricks removed/transparent: identify the receiving hole and the screw-bearing face, including left/right branch offsets.",
+      "Side orthographic view of one p5 two-brick forearm with distal upper brick lifted: expose proximal receiving face, engaged stud/side-hole row and distal underside. A dimensioned 76057 screw/underside interface drawing would also resolve the approximate-DAT uncertainty."
+    ],
+    "decision": "Do not invent a new transformed installation. Keep current draft explicitly incorrect/unaccepted in this area until those interfaces are established. Main may render the already-corrected leg/wing draft for diagnosis only."
+  },
+  "forearmPoseRepair": {
+    "beforeSha256": "b106384e58f5e179dc2d92407636a5d82880183200a48d17c9507a75dddff157",
+    "sourceSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
+    "changedIds": [
+      "p5-1",
+      "p5-2",
+      "p5-3",
+      "p5-4",
+      "p6-1",
+      "p6-2",
+      "p6-3",
+      "p6-4",
+      "p13-5",
+      "p13-6",
+      "p13-7",
+      "p13-8"
+    ],
+    "status": "pixel-reviewed-silhouette-improved-manual-interface-unresolved",
+    "nominalProximalBodyBox": {
+      "x": [
+        240,
+        288
+      ],
+      "y": [
+        -76,
+        84
+      ]
+    },
+    "distalBottomY": -76,
+    "proximalScrewIndicators": [
+      [
+        240,
+        24,
+        -20
+      ],
+      [
+        240,
+        24,
+        60
+      ]
+    ],
+    "bodyEndHoleCenters": [
+      [
+        240,
+        24,
+        -40
+      ],
+      [
+        240,
+        24,
+        0
+      ],
+      [
+        240,
+        24,
+        40
+      ]
+    ],
+    "limitation": "20 LDU transverse screw-indicator mismatch is unresolved, not accepted via clearance. Face adjacency is display pose only. Source sleeve/hidden thread mapping cannot be proven with approved approximate DAT.",
+    "risks": [
+      "Approved approximate 76057 screw indicator at world Z -20/+60 differs 20 LDU from front-body hole candidates -40/0/+40. This is unresolved thread registration, not clearance-accepted attachment.",
+      "Proximal body nominal X240 face abuts body end X240; its upper edge Y-76 touches distal bottom Y-76 over X240..288. Stud/thread and load bearing retention remain unproved.",
+      "Recursive strict crossings include each proximal/body 614 pairs, each front relocated cap/proximal 620, each inherited fork/clutch 372. These remain real mesh risks with approximate geometry, not dismissed by source appearance.",
+      "P13 six body/two distal cap allocation is source-constrained display inference. Exact hidden positions are not unique; front caps use existing black front-body top.",
+      "Known 4433c01 exhaust pair omitted for unavailable geometry; no invented substitute.",
+      "All previous leg/wing/head/eye interface limitations still apply; this repair does not clear them."
+    ],
+    "recursiveMeshEvidence": "pose-mesh-results.json"
+  },
+  "currentPixelObservation": {
+    "sourceSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
+    "sourcePagesActuallyRevisited": [
+      5,
+      6,
+      13,
+      14
+    ],
+    "finalOriginalsActuallyViewed": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "cumulativeStepsActuallyViewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "keyOriginalStepsActuallyViewed": [
+      5,
+      6,
+      13
+    ],
+    "raisedElbowSilhouetteImproved": true,
+    "remainingVisibleDifferences": [
+      "terminal display more horizontal/compact than source; source articulation not uniquely measured",
+      "two hanging4433c01 exhausts absent for missinggeometry",
+      "six body cap allocation remains inferred rather than uniquely source-confirmed"
+    ],
+    "mechanicalAcceptance": false,
+    "risksRetained": [
+      "20LDU thread registration mismatch",
+      "614 proximal/body,620 cap/proximal,372 fork/clutch strict crossing triangle pairs per assembly",
+      "all existing leg/head/wing interface limitations"
+    ]
+  }
+}

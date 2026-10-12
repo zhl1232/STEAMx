@@ -1,0 +1,80 @@
+{
+  "sourceSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+  "revision": "6f2139891463180220d1386a292efec8371994edf8879d448bb863e39998b7ff",
+  "reviewedAt": "2026-10-11T10:53:45.493187+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-da-long-xia",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "15de13c04b3e575906df0254ee421bbcaf975dc8e244a36a261656bf631b9ab9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "1d952322cbee77c75cf5e07ef189d75d5ad6780a8bbff590325a55eace3076de",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "10ac700b1a621a0bd2f509dda6d50b7078eb51981c46b579a728423bb0c6a8cd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "f8ce672e7e83c5d4f889aeb341c996eaa6151a1f1680385bbf6163034c4c3eea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "f8ce672e7e83c5d4f889aeb341c996eaa6151a1f1680385bbf6163034c4c3eea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "cdee4517d57423a4360b844b26b9dd2d21d1e782d7d9fc845565c34b0db49e8c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "701009b850d54232cb87b692aee1737c941161053633af63725490332607a774",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "fca546144a86952b4959164a3055102cc6a9a17f51254ab6bf3318669e6f5e47",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "7fb7d234dd30a0a380a4c264259b77811aa27a162497720b9fea38b87bb61669",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "91041dcbaa007fef56862165baca94a7b876bf689fbef9d3a16b5ba180c44a61",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "e425b51ca22437b8c3772d0c131cfb8713cd47a2af7f2b7e6e29008963d757cf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "e425b51ca22437b8c3772d0c131cfb8713cd47a2af7f2b7e6e29008963d757cf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "15de13c04b3e575906df0254ee421bbcaf975dc8e244a36a261656bf631b9ab9",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed current final3 and all10 cumulative stages on contact sheet, then original steps4/6/7/8/10 for red-back and appendage corrections. Upper black brick now longitudinal, red back continuous without previous2stud black gap, tail curves stagger, and long-arm closed tips/vertical yellow pins correspond to source cues. Full model framed. Source additions remain incomplete: eight4433c01 exhaust legs and one31239c01 tail wing lack licensed geometry, plus four28336 fork bases are known geometry but unassembled because supports unresolved;27placed+13omitted=40source target. Side claw angle/tongue engagement, arm root pin depth, curved roof retention and intended eight-leg ground stance remain provisional. Existing approved Toolo approximations do not certify rigid interfaces or load/motion. Pixel inspection only; no physical/user acceptance."
+}

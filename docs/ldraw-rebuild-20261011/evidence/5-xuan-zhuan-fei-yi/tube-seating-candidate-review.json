@@ -1,0 +1,51 @@
+{
+  "sourceSha256": "998a249059b2682420cea0b19456b88be06ef1661ac3a4e3070bb260345b628e",
+  "candidateOnly": true,
+  "sourceChanged": false,
+  "sourcePagesRechecked": [
+    4,
+    5,
+    10
+  ],
+  "currentTubeY": -292,
+  "candidateTubeY": -252,
+  "shaftEndPlaneY": -292,
+  "shaftsUnchanged": true,
+  "geometryEvidence": "Official31625.dat middle axle profile spans localZ[-20,20], whole tube localZ[-60,60]. U transform maps these to worldY.",
+  "current": {
+    "tubeYRange": [
+      -352,
+      -232
+    ],
+    "centralProfileYRange": [
+      -312,
+      -272
+    ],
+    "shortAxleStrictCrossings": 77,
+    "longAxleStrictCrossings": 85,
+    "beamTopY": -192,
+    "visualGapLdu": 40
+  },
+  "candidate": {
+    "tubeYRange": [
+      -312,
+      -192
+    ],
+    "centralProfileYRange": [
+      -272,
+      -232
+    ],
+    "shortAxleStrictCrossings": 630,
+    "longAxleStrictCrossings": 0,
+    "upperLongAxleEndY": -292,
+    "longAxleStopsBeforeCentralProfileLdu": 20,
+    "shortAxleCollarCenterY": -232
+  },
+  "decision": "Rejected candidate for this preview: source appearance is closer but it moves the long shaft end out of the central profile and produces many more strict surface crossings at the short shaft/collar. Zero longshaft crossings reflects lost central engagement, not cleared coupling. Retain original 998a with explicit40LDU appearance mismatch and77/85 real geometry risks. Need source cutaway/assembled insertion measurements or correct coupled-part configuration evidence; do not invent connector or claim function.",
+  "reports": [
+    "coupler-triangles.json",
+    "coupler-down40-candidate.json"
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

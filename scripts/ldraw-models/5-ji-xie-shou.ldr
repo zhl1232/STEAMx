@@ -1,0 +1,59 @@
+0 Mechanical hand - unaccepted source reconstruction
+0 Name: 5-ji-xie-shou.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // PDF SHA256 dea21d3fb559f6c19e503efe09eb8179f37f68dc8e0531704efc489fe69b069a; all eight source pages viewed.
+0 // INCOMPLETE mechanical interfaces: geared axle depth, claw pivot spacers and motion not verified.
+0 // SOURCE PAGE 1: green base and two stacked red 2x4 holed bricks
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 4 240 -48 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 240 -96 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // SOURCE PAGE 2: vertical pivot axle, red 24T bearing and beam platform
+1 4 240 -116 0 1 0 0 0 0 1 0 -1 0 6529.dat
+1 7 240 -160 0 0 1 0 1 0 0 0 0 -1 6522.dat
+1 4 240 -184 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 240 -232 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // SOURCE PAGE 3: gearbox, worm, red gear and hand crank drive
+1 15 240 -232 0 1 0 0 0 1 0 0 0 1 31624.dat
+1 1 240 -304 0 0 0 1 0 1 0 -1 0 0 31625.dat
+1 7 240 -304 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 4 240 -400 0 1 0 0 0 1 0 0 0 1 6529.dat
+1 14 340 -304 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 380 -304 0 0 1 0 0 0 -1 -1 0 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 4: two eleven-hole beams and crank retainers on output axle
+1 7 240 -400 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 40 -400 -60 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 240 -400 -100 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 14 40 -400 60 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 240 -400 100 0 0 -1 1 0 0 0 -1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 5: distal shaft with large gear and external red gear, blue geared drive and pulley handle
+1 7 -80 -400 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -80 -400 20 1 0 0 0 1 0 0 0 1 6530.dat
+1 4 -80 -400 100 1 0 0 0 1 0 0 0 1 6529.dat
+1 1 40 -400 60 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 40 -400 120 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 40 -400 160 -1 0 0 0 0 1 0 1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 6: blue second geared pivot and two angled seven-hole claw arms with crank retainers
+1 1 -160 -400 60 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 -220 -296.076952 -100 0.866025404 0 -0.5 0.5 0 0.866025404 0 -1 0 6524.dat
+1 14 -160 -400 -140 -0.866025404 0 -0.5 -0.5 0 0.866025404 0 1 0 6526.dat
+1 14 -20 -296.076952 100 0.866025404 0 0.5 -0.5 0 0.866025404 0 -1 0 6524.dat
+1 14 -80 -400 140 0.866025404 0 0.5 -0.5 0 0.866025404 0 -1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 7: three-layer blue pedestal and a loose tyre to pick up
+1 1 -160 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -200 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -160 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 -160 -175 0 1 0 0 0 0 1 0 -1 0 6292.dat
+0 // SOURCE PAGE 8 final view, no additions.
+0 // Claw angle30deg inferred from image; no dynamics or load validation.
+0 // The tyre is a loose object resting on the blue pedestal, not stud-connected.

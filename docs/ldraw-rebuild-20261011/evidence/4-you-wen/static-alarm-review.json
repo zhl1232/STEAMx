@@ -1,0 +1,4851 @@
+{
+  "slug": "4-you-wen",
+  "modelSha256": "c3aac35cdb9f890c5639ec7bf7225397ddd0d98b85c3fe724ee05181f15ba3a2",
+  "checkpointSha256": "75bd8b000bac6e7cd06101de092f1a6f26422ee3bdf6b0e16bbb78a05c4ebc4f",
+  "matchesCheckpoint": false,
+  "reviewedAt": "2026-10-11T07:10:56.544084+00:00",
+  "rawExit": 0,
+  "alarms": [],
+  "manualWarnings": [
+    {
+      "message": "4-you-wen_l9 4268.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 9,
+          "part": "4268.dat",
+          "transform": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l10 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 10,
+          "part": "3011.dat",
+          "transform": [
+            0.0,
+            -48.0,
+            -40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l11 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 11,
+          "part": "3011.dat",
+          "transform": [
+            0.0,
+            -96.0,
+            -40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l12 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 12,
+          "part": "3011.dat",
+          "transform": [
+            0.0,
+            -48.0,
+            40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l13 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 13,
+          "part": "3011.dat",
+          "transform": [
+            0.0,
+            -96.0,
+            40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l16 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 16,
+          "part": "3011.dat",
+          "transform": [
+            0.0,
+            -144.0,
+            -40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l17 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 17,
+          "part": "3011.dat",
+          "transform": [
+            0.0,
+            -144.0,
+            40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l18 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 18,
+          "part": "3011.dat",
+          "transform": [
+            0.0,
+            -192.0,
+            -40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l19 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 19,
+          "part": "3011.dat",
+          "transform": [
+            0.0,
+            -192.0,
+            40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l20 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 20,
+          "part": "3011.dat",
+          "transform": [
+            0.0,
+            -240.0,
+            -40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l21 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 21,
+          "part": "3011.dat",
+          "transform": [
+            0.0,
+            -240.0,
+            40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l22 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 22,
+          "part": "3011.dat",
+          "transform": [
+            0.0,
+            -288.0,
+            -40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l23 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 23,
+          "part": "3011.dat",
+          "transform": [
+            0.0,
+            -288.0,
+            40.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l26 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 26,
+          "part": "76395.dat",
+          "transform": [
+            -80.0,
+            -336.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l27 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 27,
+          "part": "76395.dat",
+          "transform": [
+            80.0,
+            -336.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l28 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 28,
+          "part": "76395.dat",
+          "transform": [
+            0.0,
+            -384.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l28 overlaps 4-you-wen_l26; manual collision accepted",
+      "placements": [
+        {
+          "line": 28,
+          "part": "76395.dat",
+          "transform": [
+            0.0,
+            -384.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "line": 26,
+          "part": "76395.dat",
+          "transform": [
+            -80.0,
+            -336.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l28 overlaps 4-you-wen_l27; manual collision accepted",
+      "placements": [
+        {
+          "line": 28,
+          "part": "76395.dat",
+          "transform": [
+            0.0,
+            -384.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "line": 27,
+          "part": "76395.dat",
+          "transform": [
+            80.0,
+            -336.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l31 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 31,
+          "part": "76057.dat",
+          "transform": [
+            -120.0,
+            -256.0,
+            -168.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l32 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 32,
+          "part": "76057.dat",
+          "transform": [
+            -120.0,
+            -256.0,
+            168.0,
+            0.0,
+            0.0,
+            -1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l33 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 33,
+          "part": "76057.dat",
+          "transform": [
+            0.0,
+            -256.0,
+            -168.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l34 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 34,
+          "part": "76057.dat",
+          "transform": [
+            0.0,
+            -256.0,
+            168.0,
+            0.0,
+            0.0,
+            -1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l35 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 35,
+          "part": "76057.dat",
+          "transform": [
+            120.0,
+            -256.0,
+            -168.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l36 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 36,
+          "part": "76057.dat",
+          "transform": [
+            120.0,
+            -256.0,
+            168.0,
+            0.0,
+            0.0,
+            -1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l39 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 39,
+          "part": "28336.dat",
+          "transform": [
+            -120.0,
+            -384.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l39 overlaps 4-you-wen_l26; manual collision accepted",
+      "placements": [
+        {
+          "line": 39,
+          "part": "28336.dat",
+          "transform": [
+            -120.0,
+            -384.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "line": 26,
+          "part": "76395.dat",
+          "transform": [
+            -80.0,
+            -336.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l40 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 40,
+          "part": "74957.dat",
+          "transform": [
+            -219.96152423,
+            -419.0,
+            0.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l40 overlaps 4-you-wen_l39; manual collision accepted",
+      "placements": [
+        {
+          "line": 40,
+          "part": "74957.dat",
+          "transform": [
+            -219.96152423,
+            -419.0,
+            0.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "line": 39,
+          "part": "28336.dat",
+          "transform": [
+            -120.0,
+            -384.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l43 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 43,
+          "part": "76057.dat",
+          "transform": [
+            -261.53074361,
+            -395.0,
+            -80.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l43 overlaps 4-you-wen_l40; manual collision accepted",
+      "placements": [
+        {
+          "line": 43,
+          "part": "76057.dat",
+          "transform": [
+            -261.53074361,
+            -395.0,
+            -80.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "line": 40,
+          "part": "74957.dat",
+          "transform": [
+            -219.96152423,
+            -419.0,
+            0.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l44 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 44,
+          "part": "76057.dat",
+          "transform": [
+            -303.09996299,
+            -371.0,
+            -80.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l44 overlaps 4-you-wen_l43; manual collision accepted",
+      "placements": [
+        {
+          "line": 44,
+          "part": "76057.dat",
+          "transform": [
+            -303.09996299,
+            -371.0,
+            -80.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "line": 43,
+          "part": "76057.dat",
+          "transform": [
+            -261.53074361,
+            -395.0,
+            -80.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l45 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 45,
+          "part": "76057.dat",
+          "transform": [
+            -261.53074361,
+            -395.0,
+            80.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l45 overlaps 4-you-wen_l40; manual collision accepted",
+      "placements": [
+        {
+          "line": 45,
+          "part": "76057.dat",
+          "transform": [
+            -261.53074361,
+            -395.0,
+            80.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "line": 40,
+          "part": "74957.dat",
+          "transform": [
+            -219.96152423,
+            -419.0,
+            0.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l46 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 46,
+          "part": "76057.dat",
+          "transform": [
+            -303.09996299,
+            -371.0,
+            80.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l46 overlaps 4-you-wen_l45; manual collision accepted",
+      "placements": [
+        {
+          "line": 46,
+          "part": "76057.dat",
+          "transform": [
+            -303.09996299,
+            -371.0,
+            80.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "line": 45,
+          "part": "76057.dat",
+          "transform": [
+            -261.53074361,
+            -395.0,
+            80.0,
+            0.0,
+            0.8660254,
+            0.5,
+            0.0,
+            -0.5,
+            0.8660254,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l50 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 50,
+          "part": "28336.dat",
+          "transform": [
+            120.0,
+            -384.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l50 overlaps 4-you-wen_l27; manual collision accepted",
+      "placements": [
+        {
+          "line": 50,
+          "part": "28336.dat",
+          "transform": [
+            120.0,
+            -384.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "line": 27,
+          "part": "76395.dat",
+          "transform": [
+            80.0,
+            -336.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l51 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 51,
+          "part": "74957.dat",
+          "transform": [
+            225.95554958,
+            -464.52914271,
+            0.0,
+            0.0,
+            -0.96592583,
+            -0.25881905,
+            0.0,
+            0.25881905,
+            -0.96592583,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l51 overlaps 4-you-wen_l50; manual collision accepted",
+      "placements": [
+        {
+          "line": 51,
+          "part": "74957.dat",
+          "transform": [
+            225.95554958,
+            -464.52914271,
+            0.0,
+            0.0,
+            -0.96592583,
+            -0.25881905,
+            0.0,
+            0.25881905,
+            -0.96592583,
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "line": 50,
+          "part": "28336.dat",
+          "transform": [
+            120.0,
+            -384.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l54 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 54,
+          "part": "76057.dat",
+          "transform": [
+            272.31998924,
+            -476.95245687,
+            0.0,
+            0.0,
+            -0.96592583,
+            -0.25881905,
+            0.0,
+            0.25881905,
+            -0.96592583,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l54 overlaps 4-you-wen_l51; manual collision accepted",
+      "placements": [
+        {
+          "line": 54,
+          "part": "76057.dat",
+          "transform": [
+            272.31998924,
+            -476.95245687,
+            0.0,
+            0.0,
+            -0.96592583,
+            -0.25881905,
+            0.0,
+            0.25881905,
+            -0.96592583,
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "line": 51,
+          "part": "74957.dat",
+          "transform": [
+            225.95554958,
+            -464.52914271,
+            0.0,
+            0.0,
+            -0.96592583,
+            -0.25881905,
+            0.0,
+            0.25881905,
+            -0.96592583,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l55 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 55,
+          "part": "74957.dat",
+          "transform": [
+            204.23466631,
+            -429.68148347,
+            0.0,
+            0.70710678,
+            0.70710678,
+            0.0,
+            -0.70710678,
+            0.70710678,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l55 overlaps 4-you-wen_l50; manual collision accepted",
+      "placements": [
+        {
+          "line": 55,
+          "part": "74957.dat",
+          "transform": [
+            204.23466631,
+            -429.68148347,
+            0.0,
+            0.70710678,
+            0.70710678,
+            0.0,
+            -0.70710678,
+            0.70710678,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "line": 50,
+          "part": "28336.dat",
+          "transform": [
+            120.0,
+            -384.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l55 overlaps 4-you-wen_l51; manual collision accepted",
+      "placements": [
+        {
+          "line": 55,
+          "part": "74957.dat",
+          "transform": [
+            204.23466631,
+            -429.68148347,
+            0.0,
+            0.70710678,
+            0.70710678,
+            0.0,
+            -0.70710678,
+            0.70710678,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "line": 51,
+          "part": "74957.dat",
+          "transform": [
+            225.95554958,
+            -464.52914271,
+            0.0,
+            0.0,
+            -0.96592583,
+            -0.25881905,
+            0.0,
+            0.25881905,
+            -0.96592583,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l55 overlaps 4-you-wen_l54; manual collision accepted",
+      "placements": [
+        {
+          "line": 55,
+          "part": "74957.dat",
+          "transform": [
+            204.23466631,
+            -429.68148347,
+            0.0,
+            0.70710678,
+            0.70710678,
+            0.0,
+            -0.70710678,
+            0.70710678,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "line": 54,
+          "part": "76057.dat",
+          "transform": [
+            272.31998924,
+            -476.95245687,
+            0.0,
+            0.0,
+            -0.96592583,
+            -0.25881905,
+            0.0,
+            0.25881905,
+            -0.96592583,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l56 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 56,
+          "part": "dev-129/28334.dat",
+          "transform": [
+            246.66107319,
+            -387.2550766,
+            0.0,
+            0.70710678,
+            0.70710678,
+            0.0,
+            -0.70710678,
+            0.70710678,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l56 overlaps 4-you-wen_l55; manual collision accepted",
+      "placements": [
+        {
+          "line": 56,
+          "part": "dev-129/28334.dat",
+          "transform": [
+            246.66107319,
+            -387.2550766,
+            0.0,
+            0.70710678,
+            0.70710678,
+            0.0,
+            -0.70710678,
+            0.70710678,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "line": 55,
+          "part": "74957.dat",
+          "transform": [
+            204.23466631,
+            -429.68148347,
+            0.0,
+            0.70710678,
+            0.70710678,
+            0.0,
+            -0.70710678,
+            0.70710678,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l59 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 59,
+          "part": "99565.dat",
+          "transform": [
+            249.13776941,
+            -470.74079979,
+            -105.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l60 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 60,
+          "part": "44970.dat",
+          "transform": [
+            249.13776941,
+            -470.74079979,
+            -105.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l60 overlaps 4-you-wen_l59; manual collision accepted",
+      "placements": [
+        {
+          "line": 60,
+          "part": "44970.dat",
+          "transform": [
+            249.13776941,
+            -470.74079979,
+            -105.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ]
+        },
+        {
+          "line": 59,
+          "part": "99565.dat",
+          "transform": [
+            249.13776941,
+            -470.74079979,
+            -105.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l61 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 61,
+          "part": "99565.dat",
+          "transform": [
+            249.13776941,
+            -470.74079979,
+            105.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l62 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 62,
+          "part": "44970.dat",
+          "transform": [
+            249.13776941,
+            -470.74079979,
+            105.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l62 overlaps 4-you-wen_l61; manual collision accepted",
+      "placements": [
+        {
+          "line": 62,
+          "part": "44970.dat",
+          "transform": [
+            249.13776941,
+            -470.74079979,
+            105.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "line": 61,
+          "part": "99565.dat",
+          "transform": [
+            249.13776941,
+            -470.74079979,
+            105.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l65 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 65,
+          "part": "28336.dat",
+          "transform": [
+            0.0,
+            -432.0,
+            -40.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l65 overlaps 4-you-wen_l28; manual collision accepted",
+      "placements": [
+        {
+          "line": 65,
+          "part": "28336.dat",
+          "transform": [
+            0.0,
+            -432.0,
+            -40.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "line": 28,
+          "part": "76395.dat",
+          "transform": [
+            0.0,
+            -384.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l66 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 66,
+          "part": "28336.dat",
+          "transform": [
+            0.0,
+            -432.0,
+            40.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l66 overlaps 4-you-wen_l28; manual collision accepted",
+      "placements": [
+        {
+          "line": 66,
+          "part": "28336.dat",
+          "transform": [
+            0.0,
+            -432.0,
+            40.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "line": 28,
+          "part": "76395.dat",
+          "transform": [
+            0.0,
+            -384.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l69 dev-129/28331.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 69,
+          "part": "dev-129/28331.dat",
+          "transform": [
+            -217.0473047,
+            -859.52311481,
+            -40.0,
+            0.90630779,
+            0.42261826,
+            0.0,
+            -0.42261826,
+            0.90630779,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l69 overlaps 4-you-wen_l65; manual collision accepted",
+      "placements": [
+        {
+          "line": 69,
+          "part": "dev-129/28331.dat",
+          "transform": [
+            -217.0473047,
+            -859.52311481,
+            -40.0,
+            0.90630779,
+            0.42261826,
+            0.0,
+            -0.42261826,
+            0.90630779,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "line": 65,
+          "part": "28336.dat",
+          "transform": [
+            0.0,
+            -432.0,
+            -40.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l70 dev-129/28331.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 70,
+          "part": "dev-129/28331.dat",
+          "transform": [
+            -330.84271247,
+            -779.84271247,
+            40.0,
+            0.70710678,
+            0.70710678,
+            0.0,
+            -0.70710678,
+            0.70710678,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    },
+    {
+      "message": "4-you-wen_l70 overlaps 4-you-wen_l66; manual collision accepted",
+      "placements": [
+        {
+          "line": 70,
+          "part": "dev-129/28331.dat",
+          "transform": [
+            -330.84271247,
+            -779.84271247,
+            40.0,
+            0.70710678,
+            0.70710678,
+            0.0,
+            -0.70710678,
+            0.70710678,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "line": 66,
+          "part": "28336.dat",
+          "transform": [
+            0.0,
+            -432.0,
+            40.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Existing manual collision/support policy warning; actual joint retention not validated.",
+      "reliableFixAvailable": false
+    }
+  ],
+  "noErrorMeaning": "Exit0 only means no unsuppressed checker errors. All raw placements are manual support; some parts also manual collision. Not assembly acceptance.",
+  "remainingCourseLimitations": "Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+  "geometryDiagnostic": "../owned-mesh-alarm-diagnostic.json",
+  "sourceEvidence": "source pages actually viewed previously, plus relevant source final/interface pages in current review; see ledger.md",
+  "modelEdited": true,
+  "accepted": false,
+  "physicalValidation": false,
+  "history": [
+    {
+      "slug": "4-you-wen",
+      "modelSha256": "75bd8b000bac6e7cd06101de092f1a6f26422ee3bdf6b0e16bbb78a05c4ebc4f",
+      "checkpointSha256": "75bd8b000bac6e7cd06101de092f1a6f26422ee3bdf6b0e16bbb78a05c4ebc4f",
+      "matchesCheckpoint": true,
+      "reviewedAt": "2026-10-11T07:10:56.544084+00:00",
+      "rawExit": 0,
+      "alarms": [],
+      "manualWarnings": [
+        {
+          "message": "4-you-wen_l9 4268.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 9,
+              "part": "4268.dat",
+              "sourcePage": 1,
+              "transform": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "checked",
+              "supportPolicy": "structural",
+              "collisionRegionCount": 1,
+              "actualDatSha256": "086b644f40c0ca92003d2ff93665e3e090add8135ba06131824211bb97ddd00d"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l10 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 10,
+              "part": "3011.dat",
+              "sourcePage": 1,
+              "transform": [
+                0.0,
+                -48.0,
+                -40.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "checked",
+              "supportPolicy": "structural",
+              "collisionRegionCount": 1,
+              "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l11 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 11,
+              "part": "3011.dat",
+              "sourcePage": 1,
+              "transform": [
+                0.0,
+                -96.0,
+                -40.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "checked",
+              "supportPolicy": "structural",
+              "collisionRegionCount": 1,
+              "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l12 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 12,
+              "part": "3011.dat",
+              "sourcePage": 1,
+              "transform": [
+                0.0,
+                -48.0,
+                40.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "checked",
+              "supportPolicy": "structural",
+              "collisionRegionCount": 1,
+              "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l13 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 13,
+              "part": "3011.dat",
+              "sourcePage": 1,
+              "transform": [
+                0.0,
+                -96.0,
+                40.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "checked",
+              "supportPolicy": "structural",
+              "collisionRegionCount": 1,
+              "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l16 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 16,
+              "part": "3011.dat",
+              "sourcePage": 2,
+              "transform": [
+                0.0,
+                -144.0,
+                -40.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "checked",
+              "supportPolicy": "structural",
+              "collisionRegionCount": 1,
+              "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l17 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 17,
+              "part": "3011.dat",
+              "sourcePage": 2,
+              "transform": [
+                0.0,
+                -144.0,
+                40.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "checked",
+              "supportPolicy": "structural",
+              "collisionRegionCount": 1,
+              "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l18 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 18,
+              "part": "3011.dat",
+              "sourcePage": 2,
+              "transform": [
+                0.0,
+                -192.0,
+                -40.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "checked",
+              "supportPolicy": "structural",
+              "collisionRegionCount": 1,
+              "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l19 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 19,
+              "part": "3011.dat",
+              "sourcePage": 2,
+              "transform": [
+                0.0,
+                -192.0,
+                40.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "checked",
+              "supportPolicy": "structural",
+              "collisionRegionCount": 1,
+              "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l20 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 20,
+              "part": "3011.dat",
+              "sourcePage": 2,
+              "transform": [
+                0.0,
+                -240.0,
+                -40.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "checked",
+              "supportPolicy": "structural",
+              "collisionRegionCount": 1,
+              "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l21 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 21,
+              "part": "3011.dat",
+              "sourcePage": 2,
+              "transform": [
+                0.0,
+                -240.0,
+                40.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "checked",
+              "supportPolicy": "structural",
+              "collisionRegionCount": 1,
+              "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l22 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 22,
+              "part": "3011.dat",
+              "sourcePage": 2,
+              "transform": [
+                0.0,
+                -288.0,
+                -40.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "checked",
+              "supportPolicy": "structural",
+              "collisionRegionCount": 1,
+              "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l23 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 23,
+              "part": "3011.dat",
+              "sourcePage": 2,
+              "transform": [
+                0.0,
+                -288.0,
+                40.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "checked",
+              "supportPolicy": "structural",
+              "collisionRegionCount": 1,
+              "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l26 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 26,
+              "part": "76395.dat",
+              "sourcePage": 3,
+              "transform": [
+                -80.0,
+                -336.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l27 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 27,
+              "part": "76395.dat",
+              "sourcePage": 3,
+              "transform": [
+                80.0,
+                -336.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l28 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 28,
+              "part": "76395.dat",
+              "sourcePage": 3,
+              "transform": [
+                0.0,
+                -384.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l28 overlaps 4-you-wen_l26; manual collision accepted",
+          "placements": [
+            {
+              "line": 28,
+              "part": "76395.dat",
+              "sourcePage": 3,
+              "transform": [
+                0.0,
+                -384.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+            },
+            {
+              "line": 26,
+              "part": "76395.dat",
+              "sourcePage": 3,
+              "transform": [
+                -80.0,
+                -336.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l28 overlaps 4-you-wen_l27; manual collision accepted",
+          "placements": [
+            {
+              "line": 28,
+              "part": "76395.dat",
+              "sourcePage": 3,
+              "transform": [
+                0.0,
+                -384.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+            },
+            {
+              "line": 27,
+              "part": "76395.dat",
+              "sourcePage": 3,
+              "transform": [
+                80.0,
+                -336.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l31 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 31,
+              "part": "76057.dat",
+              "sourcePage": 4,
+              "transform": [
+                -120.0,
+                -256.0,
+                -168.0,
+                0.0,
+                0.0,
+                1.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l32 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 32,
+              "part": "76057.dat",
+              "sourcePage": 4,
+              "transform": [
+                -120.0,
+                -256.0,
+                168.0,
+                0.0,
+                0.0,
+                -1.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l33 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 33,
+              "part": "76057.dat",
+              "sourcePage": 4,
+              "transform": [
+                0.0,
+                -256.0,
+                -168.0,
+                0.0,
+                0.0,
+                1.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l34 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 34,
+              "part": "76057.dat",
+              "sourcePage": 4,
+              "transform": [
+                0.0,
+                -256.0,
+                168.0,
+                0.0,
+                0.0,
+                -1.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l35 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 35,
+              "part": "76057.dat",
+              "sourcePage": 4,
+              "transform": [
+                120.0,
+                -256.0,
+                -168.0,
+                0.0,
+                0.0,
+                1.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l36 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 36,
+              "part": "76057.dat",
+              "sourcePage": 4,
+              "transform": [
+                120.0,
+                -256.0,
+                168.0,
+                0.0,
+                0.0,
+                -1.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l39 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 39,
+              "part": "28336.dat",
+              "sourcePage": 5,
+              "transform": [
+                -120.0,
+                -384.0,
+                0.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l39 overlaps 4-you-wen_l26; manual collision accepted",
+          "placements": [
+            {
+              "line": 39,
+              "part": "28336.dat",
+              "sourcePage": 5,
+              "transform": [
+                -120.0,
+                -384.0,
+                0.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+            },
+            {
+              "line": 26,
+              "part": "76395.dat",
+              "sourcePage": 3,
+              "transform": [
+                -80.0,
+                -336.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l40 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 40,
+              "part": "74957.dat",
+              "sourcePage": 5,
+              "transform": [
+                -198.0,
+                -500.96152423,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l40 overlaps 4-you-wen_l39; manual collision accepted",
+          "placements": [
+            {
+              "line": 40,
+              "part": "74957.dat",
+              "sourcePage": 5,
+              "transform": [
+                -198.0,
+                -500.96152423,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+            },
+            {
+              "line": 39,
+              "part": "28336.dat",
+              "sourcePage": 5,
+              "transform": [
+                -120.0,
+                -384.0,
+                0.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l43 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 43,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -291.2820323,
+                -502.53074361,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l43 overlaps 4-you-wen_l40; manual collision accepted",
+          "placements": [
+            {
+              "line": 43,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -291.2820323,
+                -502.53074361,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            },
+            {
+              "line": 40,
+              "part": "74957.dat",
+              "sourcePage": 5,
+              "transform": [
+                -198.0,
+                -500.96152423,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l44 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 44,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -315.2820323,
+                -544.09996299,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l44 overlaps 4-you-wen_l43; manual collision accepted",
+          "placements": [
+            {
+              "line": 44,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -315.2820323,
+                -544.09996299,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            },
+            {
+              "line": 43,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -291.2820323,
+                -502.53074361,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l45 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 45,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -152.7179677,
+                -582.53074361,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l45 overlaps 4-you-wen_l40; manual collision accepted",
+          "placements": [
+            {
+              "line": 45,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -152.7179677,
+                -582.53074361,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            },
+            {
+              "line": 40,
+              "part": "74957.dat",
+              "sourcePage": 5,
+              "transform": [
+                -198.0,
+                -500.96152423,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l46 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 46,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -176.7179677,
+                -624.09996299,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l46 overlaps 4-you-wen_l45; manual collision accepted",
+          "placements": [
+            {
+              "line": 46,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -176.7179677,
+                -624.09996299,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            },
+            {
+              "line": 45,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -152.7179677,
+                -582.53074361,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l49 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 49,
+              "part": "28336.dat",
+              "sourcePage": 7,
+              "transform": [
+                120.0,
+                -384.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l49 overlaps 4-you-wen_l27; manual collision accepted",
+          "placements": [
+            {
+              "line": 49,
+              "part": "28336.dat",
+              "sourcePage": 7,
+              "transform": [
+                120.0,
+                -384.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+            },
+            {
+              "line": 27,
+              "part": "76395.dat",
+              "sourcePage": 3,
+              "transform": [
+                80.0,
+                -336.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l50 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 50,
+              "part": "74957.dat",
+              "sourcePage": 7,
+              "transform": [
+                225.95554958,
+                -464.52914271,
+                0.0,
+                0.0,
+                -0.96592583,
+                -0.25881905,
+                0.0,
+                0.25881905,
+                -0.96592583,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l50 overlaps 4-you-wen_l49; manual collision accepted",
+          "placements": [
+            {
+              "line": 50,
+              "part": "74957.dat",
+              "sourcePage": 7,
+              "transform": [
+                225.95554958,
+                -464.52914271,
+                0.0,
+                0.0,
+                -0.96592583,
+                -0.25881905,
+                0.0,
+                0.25881905,
+                -0.96592583,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+            },
+            {
+              "line": 49,
+              "part": "28336.dat",
+              "sourcePage": 7,
+              "transform": [
+                120.0,
+                -384.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l53 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 53,
+              "part": "76057.dat",
+              "sourcePage": 8,
+              "transform": [
+                272.31998924,
+                -476.95245687,
+                0.0,
+                0.0,
+                -0.96592583,
+                -0.25881905,
+                0.0,
+                0.25881905,
+                -0.96592583,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l53 overlaps 4-you-wen_l50; manual collision accepted",
+          "placements": [
+            {
+              "line": 53,
+              "part": "76057.dat",
+              "sourcePage": 8,
+              "transform": [
+                272.31998924,
+                -476.95245687,
+                0.0,
+                0.0,
+                -0.96592583,
+                -0.25881905,
+                0.0,
+                0.25881905,
+                -0.96592583,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            },
+            {
+              "line": 50,
+              "part": "74957.dat",
+              "sourcePage": 7,
+              "transform": [
+                225.95554958,
+                -464.52914271,
+                0.0,
+                0.0,
+                -0.96592583,
+                -0.25881905,
+                0.0,
+                0.25881905,
+                -0.96592583,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l54 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 54,
+              "part": "74957.dat",
+              "sourcePage": 8,
+              "transform": [
+                204.23466631,
+                -429.68148347,
+                0.0,
+                0.70710678,
+                0.70710678,
+                0.0,
+                -0.70710678,
+                0.70710678,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l54 overlaps 4-you-wen_l49; manual collision accepted",
+          "placements": [
+            {
+              "line": 54,
+              "part": "74957.dat",
+              "sourcePage": 8,
+              "transform": [
+                204.23466631,
+                -429.68148347,
+                0.0,
+                0.70710678,
+                0.70710678,
+                0.0,
+                -0.70710678,
+                0.70710678,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+            },
+            {
+              "line": 49,
+              "part": "28336.dat",
+              "sourcePage": 7,
+              "transform": [
+                120.0,
+                -384.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l54 overlaps 4-you-wen_l50; manual collision accepted",
+          "placements": [
+            {
+              "line": 54,
+              "part": "74957.dat",
+              "sourcePage": 8,
+              "transform": [
+                204.23466631,
+                -429.68148347,
+                0.0,
+                0.70710678,
+                0.70710678,
+                0.0,
+                -0.70710678,
+                0.70710678,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+            },
+            {
+              "line": 50,
+              "part": "74957.dat",
+              "sourcePage": 7,
+              "transform": [
+                225.95554958,
+                -464.52914271,
+                0.0,
+                0.0,
+                -0.96592583,
+                -0.25881905,
+                0.0,
+                0.25881905,
+                -0.96592583,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l54 overlaps 4-you-wen_l53; manual collision accepted",
+          "placements": [
+            {
+              "line": 54,
+              "part": "74957.dat",
+              "sourcePage": 8,
+              "transform": [
+                204.23466631,
+                -429.68148347,
+                0.0,
+                0.70710678,
+                0.70710678,
+                0.0,
+                -0.70710678,
+                0.70710678,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+            },
+            {
+              "line": 53,
+              "part": "76057.dat",
+              "sourcePage": 8,
+              "transform": [
+                272.31998924,
+                -476.95245687,
+                0.0,
+                0.0,
+                -0.96592583,
+                -0.25881905,
+                0.0,
+                0.25881905,
+                -0.96592583,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l55 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 55,
+              "part": "dev-129/28334.dat",
+              "sourcePage": 8,
+              "transform": [
+                246.66107319,
+                -387.2550766,
+                0.0,
+                0.70710678,
+                0.70710678,
+                0.0,
+                -0.70710678,
+                0.70710678,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l55 overlaps 4-you-wen_l54; manual collision accepted",
+          "placements": [
+            {
+              "line": 55,
+              "part": "dev-129/28334.dat",
+              "sourcePage": 8,
+              "transform": [
+                246.66107319,
+                -387.2550766,
+                0.0,
+                0.70710678,
+                0.70710678,
+                0.0,
+                -0.70710678,
+                0.70710678,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d"
+            },
+            {
+              "line": 54,
+              "part": "74957.dat",
+              "sourcePage": 8,
+              "transform": [
+                204.23466631,
+                -429.68148347,
+                0.0,
+                0.70710678,
+                0.70710678,
+                0.0,
+                -0.70710678,
+                0.70710678,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l58 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 58,
+              "part": "99565.dat",
+              "sourcePage": 9,
+              "transform": [
+                249.13776941,
+                -470.74079979,
+                -105.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l59 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 59,
+              "part": "44970.dat",
+              "sourcePage": 9,
+              "transform": [
+                249.13776941,
+                -470.74079979,
+                -105.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l59 overlaps 4-you-wen_l58; manual collision accepted",
+          "placements": [
+            {
+              "line": 59,
+              "part": "44970.dat",
+              "sourcePage": 9,
+              "transform": [
+                249.13776941,
+                -470.74079979,
+                -105.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+            },
+            {
+              "line": 58,
+              "part": "99565.dat",
+              "sourcePage": 9,
+              "transform": [
+                249.13776941,
+                -470.74079979,
+                -105.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l60 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 60,
+              "part": "99565.dat",
+              "sourcePage": 9,
+              "transform": [
+                249.13776941,
+                -470.74079979,
+                105.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0,
+                1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l61 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 61,
+              "part": "44970.dat",
+              "sourcePage": 9,
+              "transform": [
+                249.13776941,
+                -470.74079979,
+                105.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0,
+                1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l61 overlaps 4-you-wen_l60; manual collision accepted",
+          "placements": [
+            {
+              "line": 61,
+              "part": "44970.dat",
+              "sourcePage": 9,
+              "transform": [
+                249.13776941,
+                -470.74079979,
+                105.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0,
+                1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd"
+            },
+            {
+              "line": 60,
+              "part": "99565.dat",
+              "sourcePage": 9,
+              "transform": [
+                249.13776941,
+                -470.74079979,
+                105.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0,
+                1.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l64 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 64,
+              "part": "28336.dat",
+              "sourcePage": 10,
+              "transform": [
+                0.0,
+                -432.0,
+                -40.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l64 overlaps 4-you-wen_l28; manual collision accepted",
+          "placements": [
+            {
+              "line": 64,
+              "part": "28336.dat",
+              "sourcePage": 10,
+              "transform": [
+                0.0,
+                -432.0,
+                -40.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+            },
+            {
+              "line": 28,
+              "part": "76395.dat",
+              "sourcePage": 3,
+              "transform": [
+                0.0,
+                -384.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l65 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 65,
+              "part": "28336.dat",
+              "sourcePage": 10,
+              "transform": [
+                0.0,
+                -432.0,
+                40.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l65 overlaps 4-you-wen_l28; manual collision accepted",
+          "placements": [
+            {
+              "line": 65,
+              "part": "28336.dat",
+              "sourcePage": 10,
+              "transform": [
+                0.0,
+                -432.0,
+                40.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+            },
+            {
+              "line": 28,
+              "part": "76395.dat",
+              "sourcePage": 3,
+              "transform": [
+                0.0,
+                -384.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l68 dev-129/28331.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 68,
+              "part": "dev-129/28331.dat",
+              "sourcePage": 11,
+              "transform": [
+                -217.0473047,
+                -859.52311481,
+                -40.0,
+                0.90630779,
+                0.42261826,
+                0.0,
+                -0.42261826,
+                0.90630779,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l68 overlaps 4-you-wen_l45; manual collision accepted",
+          "placements": [
+            {
+              "line": 68,
+              "part": "dev-129/28331.dat",
+              "sourcePage": 11,
+              "transform": [
+                -217.0473047,
+                -859.52311481,
+                -40.0,
+                0.90630779,
+                0.42261826,
+                0.0,
+                -0.42261826,
+                0.90630779,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+            },
+            {
+              "line": 45,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -152.7179677,
+                -582.53074361,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l68 overlaps 4-you-wen_l46; manual collision accepted",
+          "placements": [
+            {
+              "line": 68,
+              "part": "dev-129/28331.dat",
+              "sourcePage": 11,
+              "transform": [
+                -217.0473047,
+                -859.52311481,
+                -40.0,
+                0.90630779,
+                0.42261826,
+                0.0,
+                -0.42261826,
+                0.90630779,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+            },
+            {
+              "line": 46,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -176.7179677,
+                -624.09996299,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l68 overlaps 4-you-wen_l64; manual collision accepted",
+          "placements": [
+            {
+              "line": 68,
+              "part": "dev-129/28331.dat",
+              "sourcePage": 11,
+              "transform": [
+                -217.0473047,
+                -859.52311481,
+                -40.0,
+                0.90630779,
+                0.42261826,
+                0.0,
+                -0.42261826,
+                0.90630779,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+            },
+            {
+              "line": 64,
+              "part": "28336.dat",
+              "sourcePage": 10,
+              "transform": [
+                0.0,
+                -432.0,
+                -40.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l69 dev-129/28331.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+          "placements": [
+            {
+              "line": 69,
+              "part": "dev-129/28331.dat",
+              "sourcePage": 11,
+              "transform": [
+                -330.84271247,
+                -779.84271247,
+                40.0,
+                0.70710678,
+                0.70710678,
+                0.0,
+                -0.70710678,
+                0.70710678,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l69 overlaps 4-you-wen_l45; manual collision accepted",
+          "placements": [
+            {
+              "line": 69,
+              "part": "dev-129/28331.dat",
+              "sourcePage": 11,
+              "transform": [
+                -330.84271247,
+                -779.84271247,
+                40.0,
+                0.70710678,
+                0.70710678,
+                0.0,
+                -0.70710678,
+                0.70710678,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+            },
+            {
+              "line": 45,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -152.7179677,
+                -582.53074361,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l69 overlaps 4-you-wen_l46; manual collision accepted",
+          "placements": [
+            {
+              "line": 69,
+              "part": "dev-129/28331.dat",
+              "sourcePage": 11,
+              "transform": [
+                -330.84271247,
+                -779.84271247,
+                40.0,
+                0.70710678,
+                0.70710678,
+                0.0,
+                -0.70710678,
+                0.70710678,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+            },
+            {
+              "line": 46,
+              "part": "76057.dat",
+              "sourcePage": 6,
+              "transform": [
+                -176.7179677,
+                -624.09996299,
+                0.0,
+                0.8660254,
+                0.5,
+                0.0,
+                -0.5,
+                0.8660254,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        },
+        {
+          "message": "4-you-wen_l69 overlaps 4-you-wen_l65; manual collision accepted",
+          "placements": [
+            {
+              "line": 69,
+              "part": "dev-129/28331.dat",
+              "sourcePage": 11,
+              "transform": [
+                -330.84271247,
+                -779.84271247,
+                40.0,
+                0.70710678,
+                0.70710678,
+                0.0,
+                -0.70710678,
+                0.70710678,
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0"
+            },
+            {
+              "line": 65,
+              "part": "28336.dat",
+              "sourcePage": 10,
+              "transform": [
+                0.0,
+                -432.0,
+                40.0,
+                0.0,
+                0.0,
+                -1.0,
+                0.0,
+                1.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ],
+              "collisionPolicy": "manual",
+              "supportPolicy": "manual",
+              "collisionRegionCount": 0,
+              "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+            }
+          ],
+          "classification": "insufficient-evidence",
+          "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+          "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+          "reliableFixAvailable": false,
+          "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+        }
+      ],
+      "noErrorMeaning": "Exit0 only means no unsuppressed checker errors. All raw placements are manual support; some parts also manual collision. Not assembly acceptance.",
+      "remainingCourseLimitations": "Head eye offsets, mouth and tail clutch fit inferred; revised wing angles source-informed, manual joint clearance unverified.",
+      "geometryDiagnostic": "../owned-mesh-alarm-diagnostic.json",
+      "sourceEvidence": "source pages actually viewed previously, plus relevant source final/interface pages in current review; see ledger.md",
+      "modelEdited": false,
+      "accepted": false,
+      "physicalValidation": false
+    }
+  ],
+  "sourceSha256": "c3aac35cdb9f890c5639ec7bf7225397ddd0d98b85c3fe724ee05181f15ba3a2",
+  "currentRaw": {
+    "modelSha256": "c3aac35cdb9f890c5639ec7bf7225397ddd0d98b85c3fe724ee05181f15ba3a2",
+    "errors": [],
+    "warnings": [
+      "4-you-wen_l9 4268.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l10 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l11 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l12 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l13 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l16 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l17 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l18 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l19 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l20 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l21 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l22 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l23 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l26 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l27 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l28 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l28 overlaps 4-you-wen_l26; manual collision accepted",
+      "4-you-wen_l28 overlaps 4-you-wen_l27; manual collision accepted",
+      "4-you-wen_l31 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l32 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l33 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l34 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l35 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l36 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l39 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l39 overlaps 4-you-wen_l26; manual collision accepted",
+      "4-you-wen_l40 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l40 overlaps 4-you-wen_l39; manual collision accepted",
+      "4-you-wen_l43 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l43 overlaps 4-you-wen_l40; manual collision accepted",
+      "4-you-wen_l44 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l44 overlaps 4-you-wen_l43; manual collision accepted",
+      "4-you-wen_l45 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l45 overlaps 4-you-wen_l40; manual collision accepted",
+      "4-you-wen_l46 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l46 overlaps 4-you-wen_l45; manual collision accepted",
+      "4-you-wen_l50 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l50 overlaps 4-you-wen_l27; manual collision accepted",
+      "4-you-wen_l51 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l51 overlaps 4-you-wen_l50; manual collision accepted",
+      "4-you-wen_l54 76057.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l54 overlaps 4-you-wen_l51; manual collision accepted",
+      "4-you-wen_l55 74957.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l55 overlaps 4-you-wen_l50; manual collision accepted",
+      "4-you-wen_l55 overlaps 4-you-wen_l51; manual collision accepted",
+      "4-you-wen_l55 overlaps 4-you-wen_l54; manual collision accepted",
+      "4-you-wen_l56 dev-129/28334.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l56 overlaps 4-you-wen_l55; manual collision accepted",
+      "4-you-wen_l59 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l60 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l60 overlaps 4-you-wen_l59; manual collision accepted",
+      "4-you-wen_l61 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l62 44970.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l62 overlaps 4-you-wen_l61; manual collision accepted",
+      "4-you-wen_l65 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l65 overlaps 4-you-wen_l28; manual collision accepted",
+      "4-you-wen_l66 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l66 overlaps 4-you-wen_l28; manual collision accepted",
+      "4-you-wen_l69 dev-129/28331.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l69 overlaps 4-you-wen_l65; manual collision accepted",
+      "4-you-wen_l70 dev-129/28331.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "4-you-wen_l70 overlaps 4-you-wen_l66; manual collision accepted"
+    ]
+  },
+  "latestCorrection": "Source p5/p6 re-opened after all11 old cumulative cells. Tail was wrongly above body. Keep hinge origin(-120,-384,0), pivot(-168,-449,0). New74957 origin(-219.96152423,-419,0), matrix[0,0.8660254,0.5;0,-0.5,0.8660254;1,0,0]; localY60 maps exactly to original hinge pivot. Stud outward normal points rear/down, red76057 long localX axes now span worldZ. Red pair localX+/-80 and layersY-48/-96 preserved, no new parts or count change. Angle30degrees remains source-informed rather than calibrated. New final and cumulative5-11 required; old75bd8b00 pixels identify defect only. Checker PASS41 but manual interfaces remain unverified."
+}
