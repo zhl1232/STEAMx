@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { expect, it, vi } from 'vitest'
 import ProfilePage from './page'
 
@@ -31,15 +31,20 @@ it.each([390, 768, 1440])('keeps profile destinations visible even for an empty 
   try {
     render(<ProfilePage />)
     if (width >= 768) {
-      const nav = await screen.findByRole('navigation', { name: '个人中心常用入口' })
-      expect(nav).toHaveClass('hidden', 'md:flex')
       for (const [name, href] of [['内容库', '/profile/library'], ['排行榜', '/leaderboard']]) {
-        expect(within(nav).getByRole('link', { name })).toHaveAttribute('href', href)
+        const links = await screen.findAllByRole('link', { name })
+        expect(links.length).toBeGreaterThan(0)
+        for (const link of links) expect(link).toHaveAttribute('href', href)
       }
-      expect(within(nav).queryByRole('link', { name: '编辑资料' })).not.toBeInTheDocument()
+      expect(screen.getByRole('link', { name: '查看排行榜' })).toHaveAttribute('href', '/leaderboard')
     } else {
       expect(await screen.findByRole('link', { name: /我的内容/ })).toHaveAttribute('href', '/profile/library')
-      expect(screen.queryByRole('navigation', { name: '个人中心常用入口' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('link', { name: '内容库' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('link', { name: /排行榜/ })).not.toBeInTheDocument()
+    }
+    expect(screen.queryByRole('navigation', { name: '个人中心常用入口' })).not.toBeInTheDocument()
+    for (const link of screen.getAllByRole('link', { name: /作品/ })) {
+      expect(link).toHaveAttribute('href', '/profile/library')
     }
     expect(screen.getAllByRole('button', { name: '编辑资料' }).length).toBeGreaterThan(0)
   } finally { vi.unstubAllGlobals() }
