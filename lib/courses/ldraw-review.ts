@@ -3,6 +3,101 @@ import { dirname, resolve } from 'node:path'
 import { randomUUID } from 'node:crypto'
 
 export const LDRAW_REVIEW_CANDIDATES = [
+  // 151 pieces / 8 source steps; 10 classified native mating contacts; axle lengths and hidden color seams inferred.
+  '5-tuo-luo-da-zhan.ldr',
+  // 70 pieces / 10 source steps; 48 classified static mating contacts; axle length and hidden base seams inferred.
+  '5-ping-heng-cheng.ldr',
+  // 68 pieces / 9 steps; 14 classified mating contacts; axle length and hidden seams inferred.
+  '5-du-lun-shou-tui-che.ldr',
+  // 139 pieces / 10 steps; exact native contact classification, inferred rear roof bonding.
+  '5-shen-suo-men.ldr',
+  // 56 pieces / 10 source steps; 22 classified mating contacts; inferred insertion depths.
+  '5-shi-zi-zha-men.ldr',
+  // 98 pieces / 11 source steps; 24 classified mating contacts; physical retention untested.
+  '5-da-bai-chui.ldr',
+  // 26 pieces/9 steps; 24 joint/support checks; documented source-seated hinge/plate mesh-fit exception.
+  '4-xiao-tu-zi.ldr',
+  '4-tai-yang-neng-re-shui-qi.ldr',
+  '4-tian-ping.ldr',
+  '4-you-wen.ldr',
+  '4-ji-ta.ldr',
+  '4-gong-jian.ldr',
+  '4-zhang-yu.ldr',
+  '4-er-tong-hua-ban-che.ldr',
+  '4-luo-tuo.ldr',
+  '4-hu-die.ldr',
+  '4-xian-wei-jing.ldr',
+  '4-fei-die.ldr',
+  '4-wan-long.ldr',
+  '4-la-ji-fen-lei.ldr',
+  // 299 pieces/14 steps; inferred water layout and documented eccentric simplified joints.
+  '4-xie-la-qiao.ldr',
+  '4-da-zha-xie.ldr',
+  '4-feng-che-fang.ldr',
+  '4-gou-wu-che.ldr',
+  '4-wang-yuan-jing.ldr',
+  '4-yao-yao-ma.ldr',
+  '4-ying-er-che.ldr',
+  '4-wai-xing-tan-ce-qi.ldr',
+  '4-han-xue-bao-ma.ldr',
+  '4-fan-chuan.ldr',
+  '4-sun-wu-kong.ldr',
+  '4-xiang-wei-she.ldr',
+  '4-tuo-niao.ldr',
+  '4-pang-xie.ldr',
+  '4-re-qi-qiu.ldr',
+  '4-she-xiang-ji.ldr',
+  '4-huang-bao-che.ldr',
+  '4-jiu-hu-che.ldr',
+  '4-hua-kai-hua-luo.ldr',
+  '4-gao-tie-zhan.ldr',
+  '4-tan-ke.ldr',
+  '4-hai-shi.ldr',
+  '4-lan-qiu-jia.ldr',
+  '4-shuang-ceng-ba-shi.ldr',
+  '4-long-zhou.ldr',
+  '4-xuan-zhuan-mu-ma.ldr',
+  '4-wa-tu-ji.ldr',
+  '4-fan-dou-che.ldr',
+  '4-shi-zi-wang.ldr',
+  // 123 pieces/15 source steps; gravity contacts and documented rim/canopy fit exceptions.
+  '4-huo-jian.ldr',
+  '4-tai-deng.ldr',
+  '4-qing-ting.ldr',
+  // 64 pieces/13 steps; 264 mesh pairs clear, 14 joint/mount checks; inferred 25-degree pose.
+  '4-lei-da.ldr',
+  // 49 pieces/9 steps; 123 mesh pairs clear and 18 anchors aligned; inferred rear screw seating.
+  '4-shu-bao.ldr',
+  // 72 pieces/17 steps; tripod and holder contacts checked; documented elbow connector exception.
+  '4-zhao-xiang-ji.ldr',
+  // 106 pieces/11 steps; 324 mesh pairs clear and four axes aligned; inferred concealed bonds.
+  '4-lu-yin-ji.ldr',
+  // 90 pieces/13 steps; full mesh clear, eight joint/mount checks; inferred side fastening.
+  '4-xing-li-xiang.ldr',
+  // 46 pieces/10 steps; four mesh contacts; three documented pipe connector mating exceptions.
+  '4-dian-hua-ji.ldr',
+  // 72 pieces/9 steps; tripod/panel joints checked; separate flat palette, inferred poses.
+  '4-hua-ban.ldr',
+  // 74 pieces/13 steps; 272 mesh pairs clear; enclosure corner fasteners inferred.
+  '4-deng-long.ldr',
+  // 60 pieces/11 source steps; six hinge axes aligned, full 198-pair mesh clear; hidden bonds inferred.
+  '4-e-yu.ldr',
+  // 2026-09-27: 77 placements/12 steps; repaired arms, outward hubs and child facing; documented mating-mesh exceptions.
+  '4-ban-gong-yi.ldr',
+  // 145 parts/18 source steps; three tripod joints aligned, full 379-pair mesh clear; inferred foot locations.
+  '4-dong-fang-ming-zhu.ldr',
+  // 53 parts/11 source steps; complete local candidate, separate handheld bow and inferred screw fits.
+  '4-er-hu.ldr',
+  // 2026-09-27: 56 placements/11 source steps; 40 joint checks and full mesh reviewed, approximate Toolo fit.
+  '4-da-wen-zi.ldr',
+  // 2026-09-27: 42 placements/13 source steps; authorized6294 ears, inferred hidden cover pair; one45002 kit short1 scoop.
+  '4-chong-wu-gou.ldr',
+  // 2026-09-27: 52 placements/9 source steps; approximate Toolo joints, centre curve height inferred.
+  '4-bao-jian.ldr',
+  // 2026-09-27: 29 placements/13 source steps; corrected turntable pedestal, inferred Toolo retention.
+  '4-ba-wang-long.ldr',
+  // 2026-09-27: 78 placements/10 source steps; inferred hinge-retained ramp and fixed-belt geometry.
+  '4-an-jian-ji.ldr',
   // User requested visual acceptance, 2026-09-15.
   '3-da-xiang.ldr',
   '3-da-xiong-mao.ldr',
