@@ -8,8 +8,9 @@ import {
   type MembershipProfile,
 } from '@/lib/membership'
 import type { AiCreditConsumeResult, AiCreditStatus } from '@/lib/ai/tutor/types'
-import { parseTutorBilling, TUTOR_MAX_OUTPUT_TOKENS } from '@/lib/ai/tutor/billing'
-import type { Database } from '@/lib/supabase/types'
+import { parseTutorBilling, TUTOR_MAX_OUTPUT_TOKENS, TUTOR_MAX_TOTAL_TOKENS } from '@/lib/ai/tutor/billing'
+import type { TutorUsageSnapshot } from '@/lib/ai/tutor/usage'
+import type { Database, Json } from '@/lib/supabase/types'
 
 type CreditRpcResult = Record<string, unknown>
 
@@ -18,6 +19,7 @@ export type TutorCreditReservation = {
   source?: 'wallet' | 'free'
   receiptId?: number
   maxOutputTokens?: number
+  maxTotalTokens?: number
   reservedCredits?: number
   error?: string
   resetAt?: number
@@ -26,8 +28,9 @@ export type TutorCreditReservation = {
 export async function reserveTutorCredit(userId: string, requestId: string): Promise<TutorCreditReservation> {
   if (!supabaseAdmin) throw new Error('AI credit service unavailable')
   const attempt = async () => {
-    const result = await supabaseAdmin.rpc('reserve_tutor_credit_service', {
+    const result = await supabaseAdmin.rpc('reserve_tutor_usage_service', {
       p_user_id: userId, p_request_id: requestId, p_max_output_tokens: TUTOR_MAX_OUTPUT_TOKENS,
+      p_max_total_tokens: TUTOR_MAX_TOTAL_TOKENS,
     })
     if (result.error) throw result.error
     return result
@@ -40,17 +43,20 @@ export async function reserveTutorCredit(userId: string, requestId: string): Pro
   if ((value.source !== 'wallet' && value.source !== 'free') ||
       !Number.isSafeInteger(value.receiptId) ||
       typeof value.maxOutputTokens !== 'number' || !Number.isSafeInteger(value.maxOutputTokens) ||
-      value.maxOutputTokens < 1 || value.maxOutputTokens > TUTOR_MAX_OUTPUT_TOKENS) {
+      value.maxOutputTokens < 1 || value.maxOutputTokens > TUTOR_MAX_OUTPUT_TOKENS ||
+      typeof value.maxTotalTokens !== 'number' || !Number.isSafeInteger(value.maxTotalTokens) ||
+      value.maxTotalTokens < 1 || value.maxTotalTokens > TUTOR_MAX_TOTAL_TOKENS) {
     throw new Error('Invalid tutor credit reservation')
   }
   return { ok: true, source: value.source, receiptId: value.receiptId as number,
-    maxOutputTokens: value.maxOutputTokens, reservedCredits: Number(value.reservedCredits ?? 0) }
+    maxOutputTokens: value.maxOutputTokens, maxTotalTokens: value.maxTotalTokens,
+    reservedCredits: Number(value.reservedCredits ?? 0) }
 }
 
-export async function settleTutorCredit(userId: string, receiptId: number, outputTokens: number | null, cancel = false) {
+export async function settleTutorCredit(userId: string, receiptId: number, usage: TutorUsageSnapshot | null, cancel = false) {
   if (!supabaseAdmin) throw new Error('AI credit service unavailable')
-  const { data, error } = await supabaseAdmin.rpc('settle_tutor_credit_service', {
-    p_user_id: userId, p_receipt_id: receiptId, p_output_tokens: outputTokens, p_cancel: cancel,
+  const { data, error } = await supabaseAdmin.rpc('settle_tutor_usage_service', {
+    p_user_id: userId, p_receipt_id: receiptId, p_usage: usage as unknown as Json, p_cancel: cancel,
   })
   if (error) throw error
   const value = data as CreditRpcResult | null

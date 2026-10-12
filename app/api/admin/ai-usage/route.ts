@@ -41,7 +41,7 @@ function validNumber(value: unknown): value is number {
 
 function creditsUsedMilli(log: AiUsageLog): number | null {
   const meta = log.meta && typeof log.meta === 'object' ? log.meta as Record<string, unknown> : null
-  if (meta?.billing === 'tutor_output_tokens') {
+  if (meta?.billing === 'tutor_output_tokens' || meta?.billing === 'tutor_total_tokens') {
     if (meta.state !== 'settled' || !validNumber(meta.chargedCredits) || meta.chargedCredits < 0) return null
     return Math.round(meta.chargedCredits * 1000)
   }
@@ -57,8 +57,13 @@ function summarizeAiUsage(logs: AiUsageLog[]): UsageSummary {
   for (const log of logs) {
     const creditsMilli = creditsUsedMilli(log)
     const meta = log.meta && typeof log.meta === 'object' ? log.meta as Record<string, unknown> : null
-    const isTutorReceipt = meta?.billing === 'tutor_output_tokens'
-    const isFree = log.reason === 'free_chat' && (!isTutorReceipt || creditsMilli !== null)
+    const isTutorReceipt = meta?.billing === 'tutor_output_tokens' || meta?.billing === 'tutor_total_tokens'
+    // Quota bookkeeping children are never settled receipts. A wallet receipt
+    // can finish using free quota while retaining its original credit_chat reason.
+    if (isTutorReceipt && creditsMilli == null) continue
+    const isFree = isTutorReceipt && (meta?.source === 'free' || meta?.source === 'wallet')
+      ? meta.source === 'free'
+      : log.reason === 'free_chat'
     if (creditsMilli == null && !isFree) continue
 
     const day = log.created_at.slice(0, 10)

@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 import { summarizeConversationWindow, summarizeNotebook } from '@/lib/ai/tutor/engine'
+import type { DashScopeUsageObserver } from '@/lib/ai/dashscope'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import type { Database } from '@/lib/supabase/types'
 
@@ -34,7 +35,7 @@ export async function loadTutorNotebook(
   return data?.content?.trim() || null
 }
 
-export async function maybeUpdateTutorNotebook(userId: string) {
+export async function maybeUpdateTutorNotebook(userId: string, options?: { usageObserver?: DashScopeUsageObserver }) {
   if (!supabaseAdmin) return
 
   const { data: notebook } = await supabaseAdmin
@@ -70,6 +71,7 @@ export async function maybeUpdateTutorNotebook(userId: string) {
       notebook?.content ?? '',
       newMessages.map((m) => ({ role: m.role, content: m.content })),
       charLimit,
+      options,
     )
     if (!summary?.trim()) return
     const updatedAt = new Date().toISOString()
@@ -107,9 +109,13 @@ export async function maybeUpdateTutorNotebook(userId: string) {
 
 /**
  * 会话级滚动摘要：把滑出上下文窗口（最近 CONVERSATION_CONTEXT_WINDOW 条）的
- * 早期消息折叠进 tutor_conversations.summary。回复落库后在 after() 里调用。
+ * 早期消息折叠进 tutor_conversations.summary。请求结算前处理此前已保存的消息。
  */
-export async function maybeUpdateTutorConversationSummary(conversationId: string, userId: string) {
+export async function maybeUpdateTutorConversationSummary(
+  conversationId: string,
+  userId: string,
+  options?: { usageObserver?: DashScopeUsageObserver },
+) {
   if (!supabaseAdmin) return
 
   const { data: conversation } = await supabaseAdmin
@@ -144,6 +150,7 @@ export async function maybeUpdateTutorConversationSummary(conversationId: string
     const summary = await summarizeConversationWindow(
       conversation.summary ?? '',
       toFold.map((m) => ({ role: m.role, content: m.content })),
+      options,
     )
     if (!summary?.trim()) return
 

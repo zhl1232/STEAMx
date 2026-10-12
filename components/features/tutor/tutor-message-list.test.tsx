@@ -27,10 +27,27 @@ describe('tutor reading experience', () => {
     expect(screen.getByText('历史回复')).toBeInTheDocument()
   })
 
-  it('formats wallet, free, and unknown usage captions without inventing zero tokens', () => {
-    expect(formatTutorBillingCaption({ source: 'wallet', chargedCredits: 0.123, outputTokens: 123, usageMissing: false, receiptId: 1 })).toBe('本次 0.123 代币 · 123 token')
-    expect(formatTutorBillingCaption({ source: 'free', chargedCredits: 0, outputTokens: 456, usageMissing: false, receiptId: 2 })).toBe('本次免费 · 456 token')
-    expect(formatTutorBillingCaption({ source: 'wallet', chargedCredits: 0, outputTokens: null, usageMissing: true, receiptId: 3 })).toBe('本次 0 代币')
+  it('formats credit-only receipts while preserving historical charged amounts', () => {
+    expect(formatTutorBillingCaption({ source: 'wallet', chargedCredits: 1.23, receiptId: 1 })).toBe('本次 1.23 代币')
+    expect(formatTutorBillingCaption({ source: 'free', chargedCredits: 0, receiptId: 2 })).toBe('本次免费')
+    expect(formatTutorBillingCaption({ source: 'wallet', chargedCredits: 0, receiptId: 3 })).toBe('本次 0 代币')
+    expect(formatTutorBillingCaption({ source: 'wallet', chargedCredits: 0.123, receiptId: 4 })).toBe('本次 0.123 代币')
+    expect(formatTutorBillingCaption()).toBeNull()
+  })
+
+  it('keeps credit receipts visible in current replies and archived history', () => {
+    const initial = props()
+    const { rerender } = render(<TutorMessageList {...initial} busy={false} messages={[{
+      role: 'assistant', content: '当前回复', billing: { source: 'wallet', chargedCredits: 1.23, receiptId: 1 },
+    }]} />)
+    expect(screen.getByText('本次 1.23 代币')).toBeInTheDocument()
+    rerender(<TutorMessageList {...initial} busy={false} view="historyDetail" historyDetail={{
+      id: 'old', title: '历史', archivedAt: null, messages: [{
+        role: 'assistant', content: '历史回复', billing: { source: 'wallet', chargedCredits: 0.123, receiptId: 4 },
+      }],
+    }} />)
+    expect(screen.queryByText('本次 1.23 代币')).not.toBeInTheDocument()
+    expect(screen.getByText('本次 0.123 代币')).toBeInTheDocument()
   })
 
   it('keeps the reading position when new text arrives, with a way back to latest', () => {

@@ -180,7 +180,7 @@ describe('tutor chat lifecycle', () => {
   })
 
   it('restores a replay without duplicating refetched history or leaving speech in loading state', async () => {
-    const billing = { source: 'wallet' as const, chargedCredits: .1, outputTokens: 100, usageMissing: false, receiptId: 8 }
+    const billing = { source: 'wallet' as const, chargedCredits: .1, receiptId: 8 }
     mocks.fetch.mockRejectedValueOnce(new Error('lost response'))
       .mockResolvedValueOnce(response([{ type: 'done', reply: '已保存的回复', replayed: true, billing }]))
     const opts = { ...options(), autoReadReplies: true }
@@ -228,7 +228,7 @@ describe('tutor chat lifecycle', () => {
   })
 
   it('retains completed answer billing in local messages and the session cache', async () => {
-    const billing = { source: 'wallet', chargedCredits: 0.123, outputTokens: 123, usageMissing: false, receiptId: 7 }
+    const billing = { source: 'wallet', chargedCredits: 0.123, receiptId: 7 }
     mocks.fetch.mockResolvedValue(response([{ type: 'done', reply: '已完成', billing }]))
     const opts = options()
     const { result } = renderHook(() => useTutorChatStream(opts))

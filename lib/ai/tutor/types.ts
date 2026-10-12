@@ -133,7 +133,5 @@ export type AiCreditConsumeResult = {
 export type TutorBilling = {
   source: 'wallet' | 'free'
   chargedCredits: number
-  outputTokens: number | null
-  usageMissing: boolean
   receiptId: number
 }

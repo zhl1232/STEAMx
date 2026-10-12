@@ -8,6 +8,7 @@
 |---|---|
 | [产品方向](product-direction.md) | 新增功能前确认主线与暂缓范围 |
 | [AI 开发规范](AI_DEVELOPMENT_GUIDELINES.md) | 模型决策与服务端确定性边界 |
+| [小迪代币计费](ai/tutor-credit-accounting.md) | 实际模型用量、代币结算、客户展示与语音成本边界 |
 | [设计规范](design-system.md) | 布局、组件、字体和样式约定 |
 | [PBL 指南](PBL_CHALLENGE_GUIDE.md) | 挑战内容生产与当前系统规则 |
 | [互动资格与内容访问](TRUST_AND_INTERACTION_ACCESS.md) | 能力矩阵、确认流程与权限实现 |

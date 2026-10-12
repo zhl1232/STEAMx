@@ -36,7 +36,7 @@ export default function MembershipPage() {
           <p className={styles.price}><strong>¥19.9</strong><span>/ 30 天</span></p>
           <p>自实际开通时起连续计算 30 天</p>
           <dl className={styles.facts}>
-            <div><dt>AI 使用额度</dt><dd>1500 点 / 购买周期</dd></div>
+            <div><dt>AI 代币</dt><dd>1500 代币 / 购买周期</dd></div>
             <div><dt>购买方式</dt><dd>单次购买，不自动续费</dd></div>
             <div><dt>交付方式</dt><dd>网站账号权益，无实物物流</dd></div>
           </dl>
@@ -47,10 +47,10 @@ export default function MembershipPage() {
         <div>
           <p className={styles.eyebrow}>会员权益</p>
           <h2 id="benefits-title">把额度用在探索中</h2>
-          <p className={styles.description}>1500 点用于站内 AI 辅助，覆盖同一个 30 天购买周期。</p>
+          <p className={styles.description}>1500 代币用于站内 AI 辅助，覆盖同一个 30 天购买周期。</p>
         </div>
         <div className={styles.benefitList}>
-          <div><MessageCircle aria-hidden="true" /><div><h3>和小迪一起想一想</h3><p>使用小迪 AI 辅助问答，围绕探索中的问题获得解释与启发。按实际计费回答 token 扣减额度。</p></div></div>
+          <div><MessageCircle aria-hidden="true" /><div><h3>和小迪一起想一想</h3><p>使用小迪 AI 辅助问答，围绕探索中的问题获得解释与启发。代币用于理解问题、准备资料和生成回答，本次扣费会在回复后显示。</p></div></div>
           <div><Compass aria-hidden="true" /><div><h3>为 PBL 项目理清思路</h3><p>使用项目式学习中的 AI 辅导工具，辅助拆解问题、整理草稿和获得反馈，按对应工具规则扣减额度。</p></div></div>
         </div>
       </section>
@@ -58,7 +58,7 @@ export default function MembershipPage() {
       <section className={styles.rules} aria-labelledby="rules-title">
         <h2 id="rules-title">额度怎样使用</h2>
         <ul>
-          <li>每个购买周期共 1500 点，跨自然月不重复发放。</li>
+          <li>每个购买周期共 1500 代币，跨自然月不重复发放。</li>
           <li>余额仅在当前周期有效，不累积到下一周期；仅供站内使用，不折现。</li>
           <li>不产生超额扣款，到期后是否再次购买由你决定。</li>
           <li>购买前和使用时展示扣减规则与余额。</li>

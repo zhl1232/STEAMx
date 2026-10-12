@@ -60,6 +60,28 @@ export type DashScopeTokenUsage = {
   reasoningTokens?: number
 }
 
+export type DashScopeUsageStatus = 'completed' | 'failed' | 'rejected'
+
+/** A caller-owned handle for one physical provider attempt, never a global meter. */
+export type DashScopeUsageHandle = {
+  maxOutputTokens: number
+  finish: (result: { usage: DashScopeTokenUsage | null; status: DashScopeUsageStatus }) => void
+}
+
+export type DashScopeUsageObserver = {
+  start: (input: {
+    role: DashScopeModelRole
+    model: string
+    payload: Record<string, unknown>
+  }) => DashScopeUsageHandle
+  /** Optional admission recovery, before this provider attempt is sent. */
+  recoverBudget?: (input: {
+    role: DashScopeModelRole
+    model: string
+    payload: Record<string, unknown>
+  }, error: unknown) => Promise<boolean>
+}
+
 export class DashScopeError extends Error {
   code: DashScopeErrorCode
   status?: number
@@ -329,6 +351,7 @@ export function parseDashScopeUsage(raw: unknown): DashScopeTokenUsage | null {
     completion_tokens_details?: { reasoning_tokens?: unknown } | null
   }
   const pick = (value: unknown) => (typeof value === 'number' && Number.isSafeInteger(value) && value >= 0 ? value : undefined)
+  if ([usage.prompt_tokens, usage.completion_tokens, usage.total_tokens].some((value) => value != null && pick(value) === undefined)) return null
   if (usage.completion_tokens_details?.reasoning_tokens != null &&
       pick(usage.completion_tokens_details.reasoning_tokens) === undefined) return null
   const parsed: DashScopeTokenUsage = {
@@ -387,7 +410,8 @@ export async function dashScopeChatCompletions(input: {
   role: DashScopeModelRole
   timeoutMs: number
   payload: Record<string, unknown>
-}): Promise<{ response: Response; model: string }> {
+  usageObserver?: DashScopeUsageObserver
+}): Promise<{ response: Response; model: string; usageCapture?: DashScopeUsageHandle }> {
   const startedAt = Date.now()
   let apiKey: string
   let baseUrl: string
@@ -406,6 +430,20 @@ export async function dashScopeChatCompletions(input: {
 
   for (const candidate of models) {
     model = candidate
+    // Admission is synchronous so concurrent planners cannot spend the same budget.
+    // A denied attempt never reaches the provider and is not a usage entry.
+    const usageInput = { role: input.role, model, payload: input.payload }
+    let usageCapture: DashScopeUsageHandle | undefined
+    if (input.usageObserver) {
+      try {
+        usageCapture = input.usageObserver.start(usageInput)
+      } catch (error) {
+        if (!input.usageObserver.recoverBudget || !await input.usageObserver.recoverBudget(usageInput, error)) throw error
+        // Retry admission once, never the provider call. Previously completed
+        // planners and in-flight reservations stay in the same request scope.
+        usageCapture = input.usageObserver.start(usageInput)
+      }
+    }
     let response: Response
     try {
       response = await fetch(`${baseUrl}/chat/completions`, {
@@ -414,10 +452,16 @@ export async function dashScopeChatCompletions(input: {
           Authorization: `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...tutorThinkingOptions(input.role, model), ...input.payload, model }),
+        body: JSON.stringify({
+          ...tutorThinkingOptions(input.role, model),
+          ...input.payload,
+          ...(usageCapture ? { max_tokens: usageCapture.maxOutputTokens } : {}),
+          model,
+        }),
         signal: AbortSignal.timeout(input.timeoutMs),
       })
     } catch (error) {
+      usageCapture?.finish({ usage: null, status: 'failed' })
       const latencyMs = Date.now() - startedAt
       if (isDashScopeTimeoutError(error)) {
         logFailure({ role: input.role, model, code: 'timeout', status: 504, latencyMs })
@@ -442,10 +486,19 @@ export async function dashScopeChatCompletions(input: {
           skippedModels: models.slice(0, models.indexOf(candidate)),
         })
       }
-      return { response, model }
+      return { response, model, ...(usageCapture ? { usageCapture } : {}) }
     }
 
     const details = await response.json().catch(() => null)
+    const errorUsage = details && typeof details === 'object' && 'usage' in details
+      ? parseDashScopeUsage((details as { usage?: unknown }).usage)
+      : null
+    usageCapture?.finish({
+      usage: errorUsage,
+      // Explicit request/model rejections did not produce a completion. Unknown
+      // network/server failures retain their execution reservation instead.
+      status: [400, 401, 403, 404, 409, 429].includes(response.status) ? 'rejected' : 'failed',
+    })
     logFailure({
       role: input.role,
       model,
@@ -476,16 +529,18 @@ export async function dashScopeChatComplete(input: {
   role: DashScopeModelRole
   timeoutMs?: number
   payload: Record<string, unknown>
+  usageObserver?: DashScopeUsageObserver
 }): Promise<{
   text: string
   model: string
   usage: DashScopeTokenUsage | null
   raw: unknown
 }> {
-  const { response, model } = await dashScopeChatCompletions({
+  const { response, model, usageCapture } = await dashScopeChatCompletions({
     role: input.role,
     timeoutMs: input.timeoutMs ?? DASHSCOPE_COMPLETE_TIMEOUT_MS,
     payload: input.payload,
+    usageObserver: input.usageObserver,
   })
 
   const raw = (await response.json().catch(() => null)) as {
@@ -493,10 +548,13 @@ export async function dashScopeChatComplete(input: {
     usage?: unknown
   } | null
 
+  const usage = parseDashScopeUsage(raw?.usage)
+  usageCapture?.finish({ usage, status: raw ? 'completed' : 'failed' })
+
   return {
     text: parseDashScopeContent(raw?.choices?.[0]?.message?.content).trim(),
     model,
-    usage: parseDashScopeUsage(raw?.usage),
+    usage,
     raw,
   }
 }
