@@ -99,7 +99,8 @@ test('phase2 retains current UI assets and migration/asset safety boundaries', (
 // not a permanent requirement to copy obsolete implementations into the tree.
 test('context cleanup removes unused editors and redundant snapshots', () => {
   const retiredPaths = [
-    '.kiro', '.trae', '.agent/skills/project-seed',
+    '.kiro', '.trae', '.cursor', '.cursorignore', '.cursorindexingignore', '.cursorrules',
+    '.agent/skills/project-seed',
     '.codex/leaderboard-mobile-header-check.png',
     '.codex/profile-mobile-header-check.png',
     'docs/archive/documentation/2026-10-13',
@@ -120,7 +121,24 @@ test('context cleanup leaves no active references to removed snapshots or editor
     'leaderboard-mobile-header-check.png', 'profile-mobile-header-check.png',
   ], [
     'app', 'components', 'hooks', 'lib', 'packages', 'scripts', 'supabase', '.github',
-    '.agent', '.agents', '.claude', '.cursor', 'docs', 'README.md', 'PROJECT_INDEX.md', 'AGENTS.md',
+    '.agent', '.agents', '.claude', 'docs', 'README.md', 'PROJECT_INDEX.md', 'AGENTS.md',
     ':(exclude)scripts/repository-cleanup-phase2.test.mjs', ':(exclude)docs/archive/**',
   ])
+})
+
+test('cursor cleanup keeps current instructions editor-independent and prevents reintroduction', () => {
+  // Historical records and generic third-party skill utilities are not active editor configuration.
+  assertNoTrackedMatches([
+    '.cursor/', '.cursorignore', '.cursorindexingignore', '.cursorrules',
+  ], [
+    'AGENTS.md', 'README.md', 'PROJECT_INDEX.md', 'docs', '.agent/rules',
+    ':(exclude)docs/archive/**',
+  ])
+
+  const ignoredPaths = [
+    '.cursor/rules/reintroduced.mdc', '.cursorignore', '.cursorindexingignore', '.cursorrules',
+  ]
+  const result = git(['check-ignore', '--no-index', '--', ...ignoredPaths])
+  assert.equal(result.status, 0, result.stderr)
+  assert.deepEqual(result.stdout.trim().split('\n'), ignoredPaths)
 })

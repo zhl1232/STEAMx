@@ -7,7 +7,7 @@
 - 旧全文、执行日志和检查截图优先由 Git 历史或原 PR 留存，不在当前代码树另存副本或新建清理报告。删除前迁出仍有效的约束和未完成项；脚本依赖的清单、迁移、模型确认与有效证据不得按“历史文件”批量删除。
 - 局部代码修复遵守既有设计规范，不自动扩展成整体设计或多技能流程；专项技能仅在任务确实需要时读取。
 - This project uses Next.js 16. Use root-level `proxy.ts` with an exported `proxy` function for request interception. Do not create or restore the deprecated `middleware.ts` convention.
-- For database migrations, follow `.cursor/rules/db-migrations.mdc` and use `pnpm db:push`, not `supabase db push`.
+- For database migrations, follow `docs/database-psql.md` and use `pnpm db:push`, not `supabase db push`.
 
 ## Git 与生产发布
 
