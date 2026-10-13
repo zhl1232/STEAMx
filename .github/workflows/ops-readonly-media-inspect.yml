@@ -12,7 +12,7 @@ jobs:
     environment: Production
     timeout-minutes: 10
     steps:
-      - name: Remove leftover steam-release-check-tmp containers (user-confirmed)
+      - name: Read-only verify steam-app after release (user-confirmed)
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -22,4 +22,4 @@ jobs:
           timeout: 30s
           command_timeout: 5m
           script: |
-            echo 'c2V0IC1ldQplY2hvICJiZWZvcmU6IjsgZG9ja2VyIHBzIC1hIC0tZm9ybWF0ICd7ey5OYW1lc319IHt7LlN0YXR1c319JyB8IGdyZXAgLUUgJ15zdGVhbS1yZWxlYXNlLWNoZWNrLXRtcFwuJyB8fCBlY2hvIG5vbmUKZm9yIGMgaW4gJChkb2NrZXIgcHMgLWEgLS1mb3JtYXQgJ3t7Lk5hbWVzfX0nIHwgZ3JlcCAtRSAnXnN0ZWFtLXJlbGVhc2UtY2hlY2stdG1wXC4nIHx8IHRydWUpOyBkbyBkb2NrZXIgcm0gLWYgIiRjIjsgZG9uZQplY2hvICJhZnRlcjoiOyBkb2NrZXIgcHMgLWEgLS1mb3JtYXQgJ3t7Lk5hbWVzfX0ge3suU3RhdHVzfX0nCg==' | base64 -d | bash
+            echo 'ZG9ja2VyIGluc3BlY3Qgc3RlYW0tYXBwIC0tZm9ybWF0ICdpbWFnZT17ey5Db25maWcuSW1hZ2V9fSBoZWFsdGg9e3suU3RhdGUuSGVhbHRoLlN0YXR1c319IHN0YXJ0ZWQ9e3suU3RhdGUuU3RhcnRlZEF0fX0nCmRvY2tlciBpbnNwZWN0IHN0ZWFtLWFwcCAtLWZvcm1hdCAne3tpbmRleCAuQ29uZmlnLkxhYmVscyAib3JnLm9wZW5jb250YWluZXJzLmltYWdlLnJldmlzaW9uIn19JyB8IHNlZCAncy9eL3JldmlzaW9uPS8nCmRvY2tlciBleGVjIHN0ZWFtLWFwcCBzaCAtYyAnWyAtbiAiJHtEQVNIU0NPUEVfV09SS1NQQUNFX0lEOi19IiBdICYmIGVjaG8gIndzIHZhcjogeWVzIGxlbiAkeyNEQVNIU0NPUEVfV09SS1NQQUNFX0lEfSIgfHwgZWNobyAid3MgdmFyOiBubyInCmVjaG8gIkludmFsaWQgREFTSFNDT1BFIGNvdW50OiAkKGRvY2tlciBsb2dzIHN0ZWFtLWFwcCAyPiYxIHwgZ3JlcCAtYyAnSW52YWxpZCBEQVNIU0NPUEUnIHx8IHRydWUpIgplY2hvICJJbnZhbGlkIEJlaWppbmcgY291bnQ6ICQoZG9ja2VyIGxvZ3Mgc3RlYW0tYXBwIDI+JjEgfCBncmVwIC1jICdJbnZhbGlkIEJlaWppbmcnIHx8IHRydWUpIgpkb2NrZXIgcHMgLWEgLS1mb3JtYXQgJ3t7Lk5hbWVzfX0ge3suU3RhdHVzfX0nCg==' | base64 -d | bash
