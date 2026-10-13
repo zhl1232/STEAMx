@@ -23,17 +23,18 @@
 1 0 160 -96 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
 0 // Source page 4: rear fork and long tail arm
-1 72 -80 -144 0 0 0 -1 0 1 0 1 0 0 28336.dat
-0 // night2d: restore rear arm to original 45° (65° was too steep vs courseware)
-0 // night2g: rear arm restored to original 45° connection
-1 72 -410.842712 -491.842712 0 -0.7071067811865476 0.7071067811865476 0 0.7071067811865476 0.7071067811865476 0 0 0 -1 dev-129/28331.dat
+0 // night3c: rear fork offset to -Z (side wing silhouette)
+1 72 -80 -144 -120 0 0 -1 0 1 0 1 0 0 28336.dat
+0 // night3f: rear arm 45° on -Z side (best IoU 0.65)
+1 72 -419.553 -483.553 -120 -0.707107 0.707107 0 0.707107 0.707107 0 0 0 -1 dev-129/28331.dat
 0 STEP
 0 // Source page 5: front fork and vertical long neck
+0 // night3b: neck fork 280→200
 0 // night2g: neck fork 240→280 (near front edge)
 0 // night2f: neck +80 X (fork 160→240, toward front edge)
 0 // night2e: neck restored vertical at fork x=160 (courseware p15 neck is upright)
-1 72 280 -144 0 0 0 1 0 1 0 -1 0 0 28336.dat
-1 72 328 -609 0 1 0 0 0 1 0 0 0 1 dev-129/28331.dat
+1 72 200 -144 0 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 248 -609 0 1 0 0 0 1 0 0 0 1 dev-129/28331.dat
 0 STEP
 0 // Source page 6: two side-built front foot brackets
 1 72 288 -24 -160 0 -1 0 0 0 1 -1 0 0 28336.dat
@@ -58,19 +59,19 @@
 1 25 -553 48 80 1 0 0 0 1 0 0 0 1 dev-129/rake-yi-long.dat
 0 STEP
 0 // Source page 11: neck clutch and two offset red Toolo jaw bricks
-1 72 328 -669 0 1 0 0 0 1 0 0 0 1 74957.dat
-1 4 448 -669 0 1 0 0 0 1 0 0 0 1 76057.dat
-1 4 368 -717 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 248 -669 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 4 368 -669 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 288 -717 0 1 0 0 0 1 0 0 0 1 76057.dat
 0 STEP
 0 // Source page 12: two upper red Toolo bricks and paired wheel eyes
-1 4 368 -765 -40 1 0 0 0 1 0 0 0 1 76057.dat
-1 4 368 -765 40 1 0 0 0 1 0 0 0 1 76057.dat
-1 71 328 -741 -104 1 0 0 0 0 1 0 -1 0 99565.dat
-1 71 328 -741 104 1 0 0 0 0 -1 0 1 0 99565.dat
+1 4 288 -765 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 288 -765 40 1 0 0 0 1 0 0 0 1 76057.dat
+1 71 248 -741 -104 1 0 0 0 0 1 0 -1 0 99565.dat
+1 71 248 -741 104 1 0 0 0 0 -1 0 1 0 99565.dat
 0 STEP
 0 // Source page 13: blue wing 45117c01 + spoiler 31239c01 crest on head top
-1 1 368 -765 0 -1 0 0 0 1 0 0 0 -1 dev-129/45117c01-yi-long.dat
-1 1 368 -813 0 -1 0 0 0 1 0 0 0 -1 dev-129/31239c01-yi-long.dat
+1 1 288 -765 0 -1 0 0 0 1 0 0 0 -1 dev-129/45117c01-yi-long.dat
+1 1 288 -813 0 -1 0 0 0 1 0 0 0 -1 dev-129/31239c01-yi-long.dat
 0 STEP
 0 // Source page 14: six black Toolo bricks in two stepped wing rows
 1 0 0 -144 -200 0 0 1 0 1 0 -1 0 0 76395.dat
