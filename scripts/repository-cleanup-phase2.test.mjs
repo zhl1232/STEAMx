@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { createHash } from 'node:crypto'
 import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
@@ -8,18 +7,12 @@ import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const ARCHIVE = 'docs/archive/maintenance/2026-10-13-phase2'
 const REMOVED = [
   'public/assets/bird-topic-campus-lake-hero.png',
   'public/assets/observation-list-reeds-sky-bg.png',
   'public/assets/species-archive-blue-tech-bg.png',
   'public/assets/profile-hero-explorer-v4.webp',
   ...['content', 'invite', 'messages', 'shop', 'wallet'].map(name => `public/assets/profile-actions/${name}.webp`),
-]
-const SNAPSHOTS = [
-  ['apply-content-triage-2026-08-13.yml.txt', '7d671925be1277b8626565925c0bf22b89c25318'],
-  ['apply-content-triage-2026-08-13.mjs.txt', '630e765acd8ca1a2868675709400db4276572d09'],
-  ['generate-math-worksheet-assets.mjs.txt', '1f816df2b4c93753bce9ccde565f0eabb32c233e'],
 ]
 
 function git(args) {
@@ -57,14 +50,6 @@ test('phase2 retires the destructive workflow rather than changing its productio
   assertNoTrackedMatches(['apply-content-triage-2026-08-13', 'purge-triaged-project-assets'], ['.github/workflows'])
   assert.ok(existsSync(path.join(ROOT, '.github/workflows/release.yml')))
   assert.ok(existsSync(path.join(ROOT, '.github/workflows/ci.yml')))
-})
-
-test('phase2 preserves byte-identical historical source snapshots', () => {
-  for (const [filename, expected] of SNAPSHOTS) {
-    const bytes = readFileSync(path.join(ROOT, ARCHIVE, filename))
-    const actual = createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex')
-    assert.equal(actual, expected, filename)
-  }
 })
 
 for (const filename of ['apply-content-triage-2026-08-13.mjs', 'generate-math-worksheet-assets.mjs']) {
@@ -108,4 +93,34 @@ test('phase2 retains current UI assets and migration/asset safety boundaries', (
     'supabase/migrations/20260826090000_math_worksheet_assets.sql',
     'scripts/purge-triaged-project-assets.mjs', 'scripts/db-push.mjs',
   ]) assert.ok(existsSync(path.join(ROOT, relative)), relative)
+})
+
+// Historical text is recoverable from Git. Keep useful safety assertions above,
+// not a permanent requirement to copy obsolete implementations into the tree.
+test('context cleanup removes unused editors and redundant snapshots', () => {
+  const retiredPaths = [
+    '.kiro', '.trae', '.agent/skills/project-seed',
+    '.codex/leaderboard-mobile-header-check.png',
+    '.codex/profile-mobile-header-check.png',
+    'docs/archive/documentation/2026-10-13',
+    'docs/archive/scripts/2026-10-13',
+    'docs/archive/maintenance/2026-10-13-phase2',
+    'docs/maintenance/repository-cleanup-phase2-index-review.json',
+  ]
+  const result = git(['ls-files', '-z', '--', ...retiredPaths])
+  assert.equal(result.status, 0, result.stderr)
+  assert.equal(result.stdout, '', 'retired context must not remain tracked, including dangling symlinks')
+})
+
+test('context cleanup leaves no active references to removed snapshots or editors', () => {
+  assertNoTrackedMatches([
+    'archive/documentation/2026-10-13', 'archive/scripts/2026-10-13',
+    'archive/maintenance/2026-10-13-phase2', 'repository-cleanup-phase2-index-review.json',
+    '.kiro/', '.trae/', '.agent/skills/project-seed',
+    'leaderboard-mobile-header-check.png', 'profile-mobile-header-check.png',
+  ], [
+    'app', 'components', 'hooks', 'lib', 'packages', 'scripts', 'supabase', '.github',
+    '.agent', '.agents', '.claude', '.cursor', 'docs', 'README.md', 'PROJECT_INDEX.md', 'AGENTS.md',
+    ':(exclude)scripts/repository-cleanup-phase2.test.mjs', ':(exclude)docs/archive/**',
+  ])
 })

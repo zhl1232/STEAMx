@@ -1,8 +1,8 @@
 # 文档导航与唯一规则来源
 
-核对日期：2026-10-13；代码基线 `0d322eda40dfdf81c7feb4f37703c9b38bea2b15`。本轮只整理文档，没有执行生产迁移、发布、交易或真实账号验收。
+核对日期：2026-10-13；代码基线 `0a3cdd8c9d5e537ae6026eeb78f28b9b3a7634cb`。本轮整理上下文，不执行生产迁移、发布、交易或真实账号验收。
 
-[根 README](../README.md) 负责介绍和启动，[项目索引](../PROJECT_INDEX.md) 负责定位代码。本页规定现行文档分工；同一规则不在多份文档复制维护。
+[根 README](../README.md) 负责介绍和启动，[项目索引](../PROJECT_INDEX.md) 负责定位代码。本页规定现行文档分工；同一规则不在多份文档复制维护。默认检索范围和开发授权见 [AGENTS.md](../AGENTS.md)。
 
 ## 规则由谁维护
 
@@ -42,29 +42,24 @@
 | [游乐场联网](playground-online-features.md) | 对战、竞速及房间生命周期 |
 | [LDraw 状态](ldraw-status.md) | 资源状态汇总，不把候选当上线 |
 | [LDraw 发布](ldraw-publishing.md) | 资源上传、回读、挂载与缓存 |
-| [维护入口退役与第二轮资源清理](maintenance/repository-cleanup-phase2.md) | 旧生产删除链停用、历史脚本入口、资源范围与验证边界 |
+| [维护入口保护](maintenance/repository-cleanup-phase2.md) | 旧命令拒绝执行、遗留 purge 风险与回归边界 |
 | [小班材料覆盖](courses/lesson-kit-coverage-small-class.md) | 对应库存和核算限制 |
 | [中班/大班材料覆盖](courses/lesson-kit-coverage-middle-senior.md) | 对应模型和核算限制 |
 | [SEO 周报模板](seo-weekly-report-template.csv) | 页面与搜索词记录 |
 | [sitemap 检查模板](seo-sitemap-check-template.csv) | 技术、实时测试和后台读取分层记录 |
 
-## 当前、历史与验证状态
+## 状态与留存
 
-每次更新涉及状态时，分别记录：检查日期、提交/版本、环境、证据、仍未验证的项目。代码已合入、发布配置已纳入、迁移已执行、真实业务已验收是四个独立结论；没有证据写“本次未核验”，不能把旧的“未执行”改成新的“已完成”。
+每次更新涉及状态时，分别记录检查日期、提交/版本、环境、证据和仍未验证的项目。代码已合入、发布配置已纳入、迁移已执行、真实业务已验收是独立结论；没有证据写“本次未核验”。定价或数量注明对象、日期和来源，不改写历史 ID、计数或哈希来制造一致。
 
-生产状态属于相应版本的发布/验收记录，不在多个通用指南维护“本次尚未上线”。定价或数量必须注明对象、日期和来源；不同批次的计数、原 ID 和哈希不为表面一致而改写。
+当前代码树只保留现行规则、必要数据、有效证据和未完成事项。旧全文、重复快照、一次性交付日志优先留在 Git 历史和原 PR，不为每次整理再建全文备份、备份索引或清理报告。删除前先迁出有效约束并修正引用；发布脚本读取的清单、数据库迁移和模型确认记录仍须保留。
 
-新规则更新其唯一来源，并检查入链文档是否重复了旧值。历史命令、测试结果和排障过程放入 `archive/`；删除跳转页前核对仓库入链及外部兼容需要，体积小的兼容入口不以数量为清理目标。可被脚本读取的清单须先检查依赖，不因它是 JSON 或放在 docs 内就删除。
+历史证据不在本导航逐项展开。确需追溯某个模型或科学来源时，从对应专题定位具体版本；未决模型限制尚未迁出前，不删除其唯一证据。被 Git 忽略的本地资料不因本规则自动获得备份。
 
-## 发布记录与历史入口
+例如只读查看精简前某一份文档：
 
-- [2026-10-13 运行时迁移配置快照](releases/2026-10-13/runtime-migrations.md)：解释当前基线的白名单与发布边界，不是生产执行凭证。
-- [旧昆虫工具归档](archive/scripts/2026-10-13/README.md)：两个缺少输入且无调用的旧入口的源代码快照；不代表生产数据清理已完成。
-- [2026-10-09 发布包](releases/2026-10-09/README.md)：其资产清单仍保留原位置和历史事实。
-- [本轮文档整理与原始快照](archive/documentation/2026-10-13/README.md)：完整旧索引、登录排障、会员交付、语音/计费/手机验收原记录。
-- [科学第三批](archive/science/2026-10-12/batch3.md)、[科学第四批](archive/science/2026-10-12/batch4.md)：原文和计数保留；根目录旧地址只作迁移指引。
-- [科学 55 项](archive/science/2026-10-10/README.md)、[科学扩展](archive/science/2026-10-09/expansion/README.md)、[科学五页样板](archive/science/2026-10-09/science-samples-review.md)、[趣味实验](archive/content/2026-09-21/fun-science-content.md)、[科教版](archive/content/2026-09-21/science-kit-content.md)、[视频分类](archive/content/2026-09-21/video-classification.md)。
-- [探索页历史](archive/explore/2026-09-22-optimization.md)、[内容分诊历史](archive/content/2026-08-13/content-triage.md)、[3+ 发布记录](archive/ldraw/releases/2026-09-15/release-notes.md)、[LDraw 历史总账](archive/ldraw/ldraw-model-audit.md)、[LDraw 状态历史快照](archive/ldraw/ldraw-status-history-2026-09-15.md)、[PROJECT_INDEX LDraw 过程归档](archive/ldraw/project-index-ldraw-history-2026-09-15.md)、[2026-09-08 确认记录](archive/ldraw/ldraw-confirmed-2026-09-08.md)、[2026-09-09 挂载记录](archive/ldraw/ldraw-mounted-2026-09-09.md)。
-- 历史产品方案：[PBL 阶段重构](archive/PBL_STAGE_FLOW_REDESIGN.md)、[免费课与积木变现](archive/free-course-and-brick-monetization-plan.md)、[2026-08-14 产品评审](archive/product-design-review-2026-08-14.md)。未完成项继续由 [下一步](next-step.md) 承接。
+```sh
+git show 0d322eda40dfdf81c7feb4f37703c9b38bea2b15:docs/phone-auth.md
+```
 
-PR #76、#79 已与本页同批合入主分支（源素材移动与旧维护入口退役见上方对应文档）；合入代码不等于生产数据清理已完成。被 Git 忽略的本地设计图（`ui-gpt-designs/`）需自行备份到项目外，不能把文档整理当作它们已有备份的证明。
+原文档和旧脚本按原提交、原路径读取，不整目录恢复到工作树；浅克隆缺少该提交时须先取得相应历史，不能把缺失当作从未存在。仓库的 `.cursorignore` 将保留的 `docs/archive/` 排除出 Cursor 默认上下文；终端与 MCP 不受该文件控制，仍须遵守定点读取规则。

@@ -2,7 +2,7 @@
 
 本文统一维护小迪语音接入、配置、音色、共享预算、缓存和取消语义。课程操作体验见 [手机搭建](../courses/mobile-building-experience.md)，代币边界见 [计费规则](tutor-credit-accounting.md)，避免在多个文档维护模型名与价格。
 
-核对：2026-10-13，`0d322eda40dfdf81c7feb4f37703c9b38bea2b15`。本版本已包含 Audio 3.1 实现与其发布白名单配置；本次未连接供应商、试听或查询生产迁移。历史本地测试原文见 [文档快照](../archive/documentation/2026-10-13/README.md)。
+核对：2026-10-13，`0d322eda40dfdf81c7feb4f37703c9b38bea2b15`。本版本已包含 Audio 3.1 实现与其发布白名单配置；本次未连接供应商、试听或查询生产迁移。
 
 ## 接入和配置
 
