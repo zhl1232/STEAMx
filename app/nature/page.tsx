@@ -214,12 +214,6 @@ function NatureHeroSection({ submitHref }: { submitHref: string }) {
           <p className="text-[13.5px] font-bold leading-relaxed text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.9),0_2px_14px_rgba(0,0,0,0.75)] dark:font-medium dark:text-white/85 dark:[text-shadow:0_1px_3px_rgba(0,0,0,0.6)] min-[390px]:text-[14.5px] md:hidden">
             记录身边的生命，和社区一起守护环境
           </p>
-          <Link
-            href="/learn/nature"
-            className="mt-2 inline-flex min-h-11 items-center text-sm font-bold text-white underline decoration-white/70 underline-offset-4 [text-shadow:0_1px_6px_rgba(0,0,0,0.9),0_2px_14px_rgba(0,0,0,0.75)] dark:font-medium dark:text-white/85 dark:decoration-white/40 dark:[text-shadow:0_1px_3px_rgba(0,0,0,0.6)] transition hover:text-white/85 md:hidden"
-          >
-            第一次观察？从这里开始 →
-          </Link>
 
           {/* 桌面端大标题与导语 */}
           <h1 className="hidden text-[38px] font-black leading-none text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.8)] dark:text-white/95 dark:[text-shadow:0_1px_3px_rgba(0,0,0,0.6)] md:block md:text-[46px] lg:text-[50px]">

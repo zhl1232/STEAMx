@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="积木编程课程封面">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef4ff"/><stop offset="1" stop-color="#e3ecff"/></linearGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cc4ff"/><stop offset="1" stop-color="#c9e8ff"/></linearGradient>
+    <filter id="sh" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#2b4a8a" flood-opacity=".18"/></filter>
+  </defs>
+  <rect width="400" height="300" rx="24" fill="url(#bg)"/>
+  <g filter="url(#sh)">
+    <path d="M36 52h22l6 6h16l6-6h96a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10H86l-6 6H64l-6-6H36a10 10 0 0 1-10-10V62a10 10 0 0 1 10-10z" fill="#ffab19"/>
+    <path d="M36 98h22l6 6h16l6-6h76a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10H86l-6 6H64l-6-6H36a10 10 0 0 1-10-10v-20a10 10 0 0 1 10-10z" fill="#4c97ff"/>
+    <path d="M36 144h22l6 6h16l6-6h96a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10H86l-6 6H64l-6-6H36a10 10 0 0 1-10-10v-20a10 10 0 0 1 10-10z" fill="#9966ff"/>
+    <path d="M36 190h22l6 6h16l6-6h66a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10H86l-6 6H64l-6-6H36a10 10 0 0 1-10-10v-20a10 10 0 0 1 10-10z" fill="#59c059"/>
+  </g>
+  <g fill="#fff" opacity=".9"><rect x="40" y="68" width="70" height="8" rx="4"/><rect x="40" y="114" width="54" height="8" rx="4"/><rect x="104" y="111" width="34" height="14" rx="7" fill="#fff" opacity=".95"/><rect x="40" y="160" width="80" height="8" rx="4"/><rect x="40" y="206" width="60" height="8" rx="4"/></g>
+  <g filter="url(#sh)">
+    <rect x="214" y="48" width="160" height="196" rx="16" fill="#fff"/>
+    <rect x="224" y="58" width="140" height="150" rx="10" fill="url(#sky)"/>
+    <path d="M224 178c30-18 58-14 80-4s44 10 60-2v26a10 10 0 0 1-10 10H234a10 10 0 0 1-10-10z" fill="#6fcf7a"/>
+    <circle cx="340" cy="82" r="12" fill="#ffe27a"/>
+    <g transform="translate(286 132) rotate(-28)">
+      <path d="M0-34c12 10 16 26 12 44H-12c-4-18 0-34 12-44z" fill="#ff6b6b"/>
+      <circle cx="0" cy="-10" r="6" fill="#fff"/><circle cx="0" cy="-10" r="3" fill="#4c97ff"/>
+      <path d="M-12 4l-10 12h10zM12 4l10 12H12z" fill="#ffab19"/>
+      <path d="M-6 12h12l-6 14z" fill="#ffd166"/>
+    </g>
+    <g fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"><path d="M250 150q8-10 18-6"/><path d="M244 168q10-8 20-4"/></g>
+    <circle cx="240" cy="226" r="9" fill="#59c059"/><rect x="256" y="219" width="14" height="14" rx="3" fill="#ff6b6b"/>
+    <rect x="282" y="222" width="76" height="8" rx="4" fill="#dfe7f5"/>
+  </g>
+</svg>

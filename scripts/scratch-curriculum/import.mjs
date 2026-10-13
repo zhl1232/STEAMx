@@ -247,7 +247,7 @@ async function loadAndValidate() {
       fail(`${lesson.key} starter already meets every new block requirement`)
     }
   }
-  await requireFile(path.join(PUBLIC_ROOT, 'cover.svg'))
+  await requireFile(path.join(process.cwd(), 'public', 'assets', 'courses', 'scratch-course-cover.svg'))
   return lessons
 }
 
@@ -322,7 +322,7 @@ async function upsertDraft(lessons) {
     const { data, error } = await client.from('courses').insert({
       title: COURSE_TITLE,
       description: '从动画、互动故事到游戏和自主创作，48 节原创 Scratch 课程，适合 7–10 岁孩子在家跟学。',
-      image_url: '/api/assets/courses/scratch-original/v1/cover.svg',
+      image_url: '/assets/courses/scratch-course-cover.svg',
       tags: ['Scratch', '少儿编程', '创探编程', CURRICULUM_KEY],
       status: 'draft',
       is_listed: false,
