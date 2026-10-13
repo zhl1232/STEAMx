@@ -24,18 +24,18 @@ export const HERO_PHOTOS: Record<SpeciesAtlasTopicFilter, HeroPhoto> = {
   all: KINGFISHER,
   birds: KINGFISHER,
   insects: {
-    /* AntanO「File:Papilio demoleus (Lime Butterfly) on leaf.JPG」CC BY-SA 3.0；已水平翻转并裁成 1800×1000。 */
-    src: '/assets/nature-atlas-hero-insects.webp',
-    alt: '停在嫩叶上的达摩凤蝶',
+    /* Habibhelou「File:Ladybird Beneath the Orchid Leaf.jpg」CC BY-SA 4.0；已水平翻转并裁成 1800×1000。 */
+    src: '/assets/nature-atlas-hero-insects-v2.webp',
+    alt: '倒挂在叶片下的七星瓢虫',
     note: '（已翻转裁切）',
-    credits: [{ label: 'AntanO / CC BY-SA 3.0', href: 'https://commons.wikimedia.org/wiki/File:Papilio_demoleus_(Lime_Butterfly)_on_leaf.JPG' }],
+    credits: [{ label: 'Habibhelou / CC BY-SA 4.0', href: 'https://commons.wikimedia.org/wiki/File:Ladybird_Beneath_the_Orchid_Leaf.jpg' }],
   },
   plants: {
-    /* Ashish2py「File:Match-stick-flower.jpg」CC BY-SA 4.0；已裁成 1800×1000。 */
-    src: '/assets/nature-atlas-hero-plants.webp',
-    alt: '绿叶虚化背景前的粉紫色花序',
+    /* Holger from Dortmund「File:Green - Flickr - angsthase..jpg」CC BY 2.0；已裁成 1800×1000。 */
+    src: '/assets/nature-atlas-hero-plants-v2.webp',
+    alt: '逆光下的蕨类嫩叶',
     note: '（已裁切）',
-    credits: [{ label: 'Ashish2py / CC BY-SA 4.0', href: 'https://commons.wikimedia.org/wiki/File:Match-stick-flower.jpg' }],
+    credits: [{ label: 'Holger from Dortmund / CC BY 2.0', href: 'https://commons.wikimedia.org/wiki/File:Green_-_Flickr_-_angsthase..jpg' }],
   },
 }
 
