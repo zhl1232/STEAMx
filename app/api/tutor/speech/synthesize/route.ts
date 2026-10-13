@@ -1,3 +1,5 @@
+import { getTutorVoiceAccess } from '@/lib/ai/tutor/voice-access'
+import { isTutorVoice } from '@/lib/ai/tutor/voice-catalog'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { requireAuth, handleApiError } from '@/lib/api/auth'
@@ -50,13 +52,19 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const access = await getTutorVoiceAccess(supabase, user)
+    const requestedVoice = parsed.data.voice
+    if (requestedVoice && (!access.canChoose || !isTutorVoice(requestedVoice))) {
+      return NextResponse.json({ error: '当前账号不能使用该音色。' }, { status: access.canChoose ? 400 : 403 })
+    }
+    const voice = requestedVoice ?? access.voice
     const safeText = sanitizeTutorSpeechText(parsed.data.text)
     if (!safeText) {
       throw new TutorSpeechError('Empty speech text', '这条回复没有可朗读的内容。', 400)
     }
 
     if (parsed.data.fallback) {
-      const result = await synthesizeTutorSpeech(parsed.data.text)
+      const result = await synthesizeTutorSpeech(parsed.data.text, { voice, signal: request.signal })
       logger.info('Tutor speech synthesized', {
         userId: user.id,
         elapsedMs: Date.now() - startedAt,
@@ -91,10 +99,12 @@ export async function POST(request: NextRequest) {
         }
         try {
           session = createTutorRealtimeTtsSession({
+            voice,
             onAudio: (pcm) => {
               if (pcm.byteLength <= 0) return
               send({
                 type: 'audio',
+                voice,
                 pcm: pcm.toString('base64'),
                 sampleRate: TUTOR_TTS_PCM_SAMPLE_RATE,
               })
@@ -115,6 +125,7 @@ export async function POST(request: NextRequest) {
           session?.abort()
           send({
             type: 'error',
+            status: error instanceof TutorSpeechError ? error.status : 500,
             error: error instanceof TutorSpeechError ? error.userMessage : '小迪语音暂时不可用，请稍后再试。',
           })
           logger.warn('Tutor realtime TTS synthesize failed', {

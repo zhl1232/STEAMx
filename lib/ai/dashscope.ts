@@ -20,8 +20,8 @@ const DEFAULT_MODEL_CANDIDATES = {
   'pbl-text': ['qwen3.8-max', 'qwen3.7-plus', 'qwen3.7-flash', 'qwen-flash'],
   'pbl-vision': ['qwen3.7-plus', 'qwen3-vl-flash'],
   'tutor-tts': ['qwen3-tts-flash', 'qwen3-tts-flash-2025-11-27'],
-  'tutor-tts-realtime': ['qwen3-tts-flash-realtime', 'qwen3-tts-flash-realtime-2025-11-27'],
-  'tutor-asr': ['qwen3-asr-flash-realtime', 'qwen3-asr-flash-realtime-2025-10-27'],
+  'tutor-tts-realtime': ['qwen-audio-3.1-tts-flash'],
+  'tutor-asr': ['qwen-audio-3.1-asr-flash-streaming'],
 } as const
 
 type ModelCatalogState = {

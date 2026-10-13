@@ -10,6 +10,8 @@ export type TutorStreamEvent = {
   error?: string
   warning?: string
   pcm?: string
+  voice?: string
+  complete?: boolean
   sampleRate?: number
   toolCall?: TutorToolCall
   clarification?: TutorResourceClarification

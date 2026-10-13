@@ -18,6 +18,7 @@ vi.mock('./tutor-pcm-player', () => ({
 vi.mock('@/components/features/courses/building-voice-capture', () => ({ createBuildingVoiceCapture: mocks.capture }))
 
 import { useTutorVoice } from './use-tutor-voice'
+import { claimTutorAudioSession } from './tutor-audio-session'
 import { useBuildingVoiceControls } from '@/components/features/courses/use-building-voice-controls'
 
 function deferred<T>() {
@@ -99,6 +100,70 @@ describe('tutor and building voice ownership', () => {
   })
 
   afterEach(() => vi.unstubAllGlobals())
+
+  it('releases an incomplete native fallback without playing or retaining partial PCM', async () => {
+    mocks.resume.mockRejectedValue(new Error('Web Audio unavailable'))
+    const { result } = renderVoices()
+    await act(async () => { await result.current.tutor.beginStreamedSpeech('partial-native') })
+    act(() => { result.current.tutor.pushStreamedPcm('AAAA', 24_000, 'partial-native') })
+    expect(result.current.tutor.playingSpeechKey).toBe('partial-native')
+
+    act(() => { result.current.tutor.finishStreamedSpeech('partial-native', false) })
+
+    expect(result.current.tutor.playingSpeechKey).toBeNull()
+    expect(result.current.tutor.speechLoadingKey).toBeNull()
+    expect(audios).toHaveLength(0)
+    expect(URL.createObjectURL).not.toHaveBeenCalled()
+    expect(mocks.fetch).not.toHaveBeenCalled()
+    expect(result.current.tutor.pushStreamedPcm('AAAA', 24_000, 'partial-native')).toBeNull()
+    expect(result.current.tutor.finishStreamedSpeech('partial-native', true, 'late')).toBeNull()
+    const stopCount = players[0].stop.mock.calls.length
+    const release = claimTutorAudioSession('course-control', vi.fn())
+    expect(players[0].stop).toHaveBeenCalledTimes(stopCount)
+    release()
+  })
+
+  it.each(['empty', 'abort'] as const)('cleans up a native fallback on %s without synthesis', async (termination) => {
+    mocks.resume.mockRejectedValue(new Error('Web Audio unavailable'))
+    const { result } = renderVoices()
+    await act(async () => { await result.current.tutor.beginStreamedSpeech('terminal-native') })
+    if (termination === 'abort') {
+      act(() => result.current.tutor.pushStreamedPcm('AAAA', 24_000, 'terminal-native'))
+      act(() => result.current.tutor.stopSpeechPlayback())
+    } else {
+      act(() => result.current.tutor.finishStreamedSpeech('terminal-native', true))
+    }
+    expect(result.current.tutor.playingSpeechKey).toBeNull()
+    expect(result.current.tutor.speechLoadingKey).toBeNull()
+    expect(result.current.tutor.finishStreamedSpeech('terminal-native', true)).toBeNull()
+    expect(audios).toHaveLength(0)
+    expect(mocks.fetch).not.toHaveBeenCalled()
+    expect(URL.createObjectURL).not.toHaveBeenCalled()
+    const stopCount = players[0].stop.mock.calls.length
+    const release = claimTutorAudioSession('course-control', vi.fn())
+    expect(players[0].stop).toHaveBeenCalledTimes(stopCount)
+    release()
+  })
+
+  it('keeps a completed native WAV playing through repeated chat finalization and releases it on error', async () => {
+    mocks.resume.mockRejectedValue(new Error('Web Audio unavailable'))
+    const { result } = renderVoices()
+    await act(async () => { await result.current.tutor.beginStreamedSpeech('complete-native') })
+    act(() => result.current.tutor.pushStreamedPcm('AAAA', 24_000, 'complete-native'))
+    await act(async () => { result.current.tutor.finishStreamedSpeech('complete-native', true, '完整内容') })
+    act(() => { result.current.tutor.finishStreamedSpeech('complete-native') })
+    expect(audios).toHaveLength(1)
+    expect(audios[0].play).toHaveBeenCalledOnce()
+    expect(result.current.tutor.playingSpeechKey).toBe('complete-native')
+    expect(audios[0].pause).not.toHaveBeenCalled()
+    act(() => audios[0].onerror?.())
+    expect(result.current.tutor.playingSpeechKey).toBeNull()
+    expect(result.current.tutor.speechLoadingKey).toBeNull()
+    expect(audios[0].pause).toHaveBeenCalledOnce()
+    expect(audios[0].src).toBe('')
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:speech')
+    expect(mocks.fetch).not.toHaveBeenCalled()
+  })
 
   it('pauses course listening before tutor recording, then cancels tutor recording when course resumes', async () => {
     const courseCapture = capture()
@@ -208,12 +273,13 @@ describe('tutor and building voice ownership', () => {
 
   it('keeps native-audio fallback cancellable while its blob is still pending', async () => {
     const blob = deferred<Blob>()
+    mocks.fetch.mockResolvedValueOnce({ ok: true, json: async () => ({ voice: 'yezhiqing_v3.1', canChoose: false }) })
     mocks.fetch.mockResolvedValue({ ok: true, headers: new Headers({ 'content-type': 'audio/mpeg' }), blob: () => blob.promise })
     const { result } = renderVoices()
     let playback!: Promise<void>
     await act(async () => { playback = result.current.tutor.playSpeech('等待音频', 'native') })
-    expect(mocks.fetch).toHaveBeenCalledOnce()
-    const signal = mocks.fetch.mock.calls[0][1].signal as AbortSignal
+    expect(mocks.fetch).toHaveBeenCalledTimes(2)
+    const signal = mocks.fetch.mock.calls[1][1].signal as AbortSignal
     await act(async () => { await result.current.course.start() })
     expect(signal.aborted).toBe(true)
     await act(async () => { blob.resolve(new Blob(['mpeg'])); await playback })
@@ -223,6 +289,7 @@ describe('tutor and building voice ownership', () => {
   })
 
   it('stops native audio on takeover and ignores its obsolete ended callback', async () => {
+    mocks.fetch.mockResolvedValueOnce({ ok: true, json: async () => ({ voice: 'yezhiqing_v3.1', canChoose: false }) })
     mocks.fetch.mockResolvedValue({
       ok: true, headers: new Headers({ 'content-type': 'audio/mpeg' }), blob: async () => new Blob(['mpeg']),
     })
