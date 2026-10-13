@@ -258,9 +258,7 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '5-qiu-qian.ldr',
   '5-shuai-gan-ji.ldr',
   '5-shuang-kai-da-men.ldr',
-  '5-shui-jing.ldr',
   '5-si-qu-che.ldr',
-  '5-ta-diao.ldr',
   '5-ti-xian-mu-ou.ldr',
   '5-tian-ping.ldr',
   '5-tou-shi-che.ldr',
@@ -290,8 +288,6 @@ export const LDRAW_REVIEW_CANDIDATES = [
   // 2026-10-13 hand review, camera calibrated to courseware final page; main parts match.
   '5-zhan-chi-gao-fei.ldr',
   '5-shou-tui-fei-ji.ldr',
-  '5-sheng-jiang-dian-ti.ldr',
-  '5-huan-wei-che.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
