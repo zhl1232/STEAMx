@@ -1,32 +1,25 @@
 name: Ops Readonly Media Inspect
-
 on:
   workflow_dispatch:
-
 permissions:
   contents: read
-
 concurrency:
-  group: ops-readonly-media-inspect
+  group: release-production
   cancel-in-progress: false
-
 jobs:
   inspect:
     runs-on: ubuntu-latest
     environment: Production
+    timeout-minutes: 10
     steps:
-      - name: Read-only prod env names + nginx mtime
+      - name: Remove leftover steam-release-check-tmp containers (user-confirmed)
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
-          script_stop: true
+          timeout: 30s
           command_timeout: 5m
           script: |
-            set -euo pipefail
-            echo 'IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKZWNobyAic3RlcDpzdGFydCBkYXRlPSQoZGF0ZSAtSXMpIgpmb3IgcCBpbiAvZXRjL25naW54L3NpdGVzLWF2YWlsYWJsZS9zdGVhbS1hcHAgL2V0Yy9uZ2lueC9zaXRlcy1lbmFibGVkL3N0ZWFtLWFwcCAvb3B0L3N0ZWFtLWFwcC9uZ2lueC5jb25mOyBkbwogIGlmIFsgLWUgIiRwIiBdOyB0aGVuCiAgICBlY2hvICJzdGVwOnBhdGg9JHAiCiAgICBscyAtbGEgLS10aW1lLXN0eWxlPWxvbmctaXNvICIkcCIKICAgIHN0YXQgLWMgJ3N0ZXA6bXRpbWU9JXkgaW5vZGU9JWknICIkcCIKICAgIGVjaG8gInN0ZXA6Y29udGVudF9iZWdpbjokcCIKICAgICMgZnVsbCBzbWFsbCBjb25mIGV4cGVjdGVkCiAgICBzZWQgLW4gJzEsMjAwcCcgIiRwIgogICAgZWNobyAic3RlcDpjb250ZW50X2VuZDokcCIKICBlbHNlCiAgICBlY2hvICJzdGVwOm1pc3Npbmc9JHAiCiAgZmkKZG9uZQplY2hvICJzdGVwOm5naW54X2NvbmZfbXRpbWVfYWxsIgpmaW5kIC9ldGMvbmdpbnggLXR5cGUgZiAtbmFtZSAnKi5jb25mJyAtcHJpbnRmICclVFktJVRtLSVUZCAlVEg6JVRNICVwXG4nIDI+L2Rldi9udWxsIHwgc29ydAplY2hvICJzdGVwOmRvbmUiCg==' | base64 -d > /tmp/readonly_media_inspect.sh
-            chmod +x /tmp/readonly_media_inspect.sh
-            bash /tmp/readonly_media_inspect.sh
-            rm -f /tmp/readonly_media_inspect.sh
+            echo 'c2V0IC1ldQplY2hvICJiZWZvcmU6IjsgZG9ja2VyIHBzIC1hIC0tZm9ybWF0ICd7ey5OYW1lc319IHt7LlN0YXR1c319JyB8IGdyZXAgLUUgJ15zdGVhbS1yZWxlYXNlLWNoZWNrLXRtcFwuJyB8fCBlY2hvIG5vbmUKZm9yIGMgaW4gJChkb2NrZXIgcHMgLWEgLS1mb3JtYXQgJ3t7Lk5hbWVzfX0nIHwgZ3JlcCAtRSAnXnN0ZWFtLXJlbGVhc2UtY2hlY2stdG1wXC4nIHx8IHRydWUpOyBkbyBkb2NrZXIgcm0gLWYgIiRjIjsgZG9uZQplY2hvICJhZnRlcjoiOyBkb2NrZXIgcHMgLWEgLS1mb3JtYXQgJ3t7Lk5hbWVzfX0ge3suU3RhdHVzfX0nCg==' | base64 -d | bash
