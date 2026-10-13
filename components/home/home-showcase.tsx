@@ -25,9 +25,7 @@ import { type ObservationEvent, type Work } from "@/lib/mappers/types";
 import { getObservationDisplayTitle } from "@/lib/observations/display";
 import { MAINLINE_ENTRY_HREF } from "@/lib/product/mainline";
 import {
-  BRAND_FULL_NAME,
   BRAND_HERO_SUBTITLE,
-  BRAND_HOME_HERO_GUIDE,
   BRAND_HOME_HERO_TITLE,
 } from "@/lib/brand";
 import { cn } from "@/lib/utils";
@@ -114,12 +112,9 @@ function HomeHero({ image }: { image: string }) {
 
         <div className="relative z-10 flex min-h-[200px] flex-col justify-start px-4 pb-[88px] pt-5 md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
           <div className="min-w-0 max-w-[440px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[550px]">
-            <p className="hidden text-[12px] font-bold tracking-normal text-[hsl(var(--brand-blue))] md:block">
-              {BRAND_FULL_NAME}
-            </p>
             {/* One H1; CSS selects the visible copy without a viewport-dependent hydration pass. */}
             <h1
-              className="font-heading text-[clamp(1.375rem,6vw,1.5rem)] font-semibold leading-[1.3] tracking-normal text-foreground md:mt-2.5 md:text-[32px] md:font-black md:leading-[1.18] lg:text-[40px] xl:text-[44px]"
+              className="font-heading text-[clamp(1.375rem,6vw,1.5rem)] font-semibold leading-[1.3] tracking-normal text-foreground md:text-[32px] md:font-black md:leading-[1.18] lg:text-[40px] xl:text-[44px]"
             >
               <span className="md:hidden">陪孩子，一起动手做</span>
               <span className="hidden md:block">
@@ -134,9 +129,6 @@ function HomeHero({ image }: { image: string }) {
             <p className="mt-2 max-w-[32rem] text-[14px] font-medium leading-6 text-foreground/85 md:mt-3 md:text-[15px] md:leading-7 lg:text-[16px]">
               <span className="md:hidden">搭积木 · 做实验 · 学编程 · 观察自然</span>
               <span className="hidden md:inline">{BRAND_HERO_SUBTITLE}</span>
-            </p>
-            <p className="mt-1.5 hidden max-w-[30rem] text-[13px] leading-5 text-muted-foreground md:block md:text-[14px] md:leading-6">
-              {BRAND_HOME_HERO_GUIDE}
             </p>
 
             {/* On phones the card below remains the direct free-course entry. */}
@@ -170,9 +162,10 @@ function HomeHero({ image }: { image: string }) {
               </Link>
               <Link
                 href="/start"
-                className="hidden min-h-11 w-fit items-center text-sm font-semibold text-[hsl(var(--brand-blue))] underline-offset-4 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:inline-flex"
+                className="hidden min-h-11 w-fit items-center gap-1 text-sm font-semibold text-[hsl(var(--brand-blue))] underline-offset-4 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:inline-flex"
               >
-                第一次来？看探索指南 →
+                探索指南
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
           </div>
@@ -289,20 +282,9 @@ function MainlineStartCard({ className }: { className?: string }) {
 function StartExploreSection({ categoryTileCounts }: { categoryTileCounts: HomeCategoryTileCounts }) {
   return (
     <section aria-labelledby="home-start-heading">
-      <div className="mb-2 flex items-center justify-between md:mb-3">
-        <div>
-          <h2 id="home-start-heading" className="text-[17px] font-extrabold text-foreground md:mt-1 md:text-[20px]">
-            探索你感兴趣的方向
-          </h2>
-        </div>
-        <Link
-          href={MAINLINE_ENTRY_HREF}
-          className="hidden min-h-7 items-center gap-1 px-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))] transition hover:translate-x-0.5 md:inline-flex md:min-h-11"
-        >
-          免费积木课
-          <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
+      <h2 id="home-start-heading" className="mb-2 text-[17px] font-extrabold text-foreground md:mb-3 md:text-[20px]">
+        按兴趣探索
+      </h2>
       <CategoryGrid categoryTileCounts={categoryTileCounts} />
     </section>
   );
@@ -398,12 +380,9 @@ function HomeNatureSection({ observations }: { observations: ObservationEvent[] 
     <section className="flex min-w-0 flex-col justify-between" aria-labelledby="home-nature-heading">
       <div>
         <div className="mb-2 flex items-center justify-between md:mb-3">
-          <div>
-            <p className="hidden text-[11px] font-bold text-[hsl(var(--brand-green))] md:block">身边的真实发现</p>
-            <h2 id="home-nature-heading" className="text-[17px] font-extrabold text-foreground md:mt-1 md:text-[20px]">
-              自然新发现
-            </h2>
-          </div>
+          <h2 id="home-nature-heading" className="text-[17px] font-extrabold text-foreground md:text-[20px]">
+            自然观察
+          </h2>
           <Link
             href="/nature/observations"
             className="inline-flex min-h-11 items-center gap-1 px-1.5 text-[13px] font-semibold text-[hsl(var(--brand-green))] transition hover:translate-x-0.5"
@@ -411,11 +390,6 @@ function HomeNatureSection({ observations }: { observations: ObservationEvent[] 
             全部观察
             <ArrowRight className="h-4 w-4" />
           </Link>
-        </div>
-
-        {/* 桌面端常驻自然探索频道横幅，平衡双栏高度并强化自然探索主线入口 */}
-        <div className="mb-3 hidden lg:block">
-          <NatureChannel />
         </div>
 
         {observations.length > 0 ? (
@@ -427,7 +401,7 @@ function HomeNatureSection({ observations }: { observations: ObservationEvent[] 
         ) : (
           <div className="grid min-h-[180px] place-items-center rounded-sm border border-dashed border-border bg-card/45 px-5 text-center">
             <div>
-              <p className="text-sm font-semibold text-foreground">还没有新的自然记录</p>
+              <p className="text-sm font-semibold text-foreground">还没有自然观察记录</p>
               <Link href="/nature/submit" className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold text-[hsl(var(--brand-green))]">
                 发布一次观察
               </Link>

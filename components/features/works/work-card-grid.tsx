@@ -13,14 +13,17 @@ const SOURCE_BADGE_CLASS: Record<string, string> = {
   observation: "bg-[hsl(var(--tone-math)/0.12)] text-[hsl(var(--tone-math))]",
 }
 
+/** 首页桌面端优先展示创作者；其他页面与手机端保持原有卡片信息层级。 */
+type WorkCardVariant = "default" | "showcase"
+
 export function workCardKey(work: Work) {
   return `${work.source?.type ?? "work"}:${work.id}`
 }
 
-export function WorkCardGrid({ works, className, imageClassName }: { works: Work[]; className?: string; imageClassName?: string }) {
+export function WorkCardGrid({ works, className, imageClassName, variant = "default" }: { works: Work[]; className?: string; imageClassName?: string; variant?: WorkCardVariant }) {
   return (
     <div className={cn("grid grid-cols-2 items-stretch gap-3 md:grid-cols-3 xl:grid-cols-4", className)}>
-      {works.map((work, index) => <WorkCard key={workCardKey(work)} work={work} priority={index < 4} imageClassName={imageClassName} />)}
+      {works.map((work, index) => <WorkCard key={workCardKey(work)} work={work} priority={index < 4} imageClassName={imageClassName} variant={variant} />)}
     </div>
   )
 }
@@ -62,11 +65,16 @@ function describeSource(
   }
 }
 
-export function WorkCard({ work, priority = false, imageClassName }: { work: Work; priority?: boolean; imageClassName?: string }) {
+export function WorkCard({ work, priority = false, imageClassName, variant = "default" }: { work: Work; priority?: boolean; imageClassName?: string; variant?: WorkCardVariant }) {
   const source = work.source
   const image = work.proofImages[0]
   const title = source?.title || "作品"
   const { typeLabel, context, href, ariaLabel } = describeSource(work, title)
+  const sourceContext = source?.type === "course_lesson" ? source.courseTitle
+    : source?.type === "challenge" ? source.challengeTitle
+      : source?.type === "observation" ? source.locationName : undefined
+  const sourceCaption = [source?.type === "observation" ? "自然观察" : `${typeLabel}作品`, sourceContext]
+    .filter(Boolean).join(" · ")
 
   return (
     <Link
@@ -103,6 +111,7 @@ export function WorkCard({ work, priority = false, imageClassName }: { work: Wor
             className={cn(
               "inline-flex shrink-0 items-center rounded-xs px-1.5 py-0.5 text-[10px] font-semibold leading-none",
               SOURCE_BADGE_CLASS[source?.type ?? "project"] ?? SOURCE_BADGE_CLASS.project,
+              variant === "showcase" && "md:hidden",
             )}
           >
             {typeLabel}
@@ -111,7 +120,12 @@ export function WorkCard({ work, priority = false, imageClassName }: { work: Wor
         </div>
         <div className="flex min-w-0 items-center justify-between gap-2">
           <p className="min-w-0 flex-1 truncate text-[11px] font-medium text-muted-foreground/80">
-            {context || "\u00a0"}
+            {variant === "showcase" ? (
+              <>
+                <span className="md:hidden">{context || "\u00a0"}</span>
+                <span className="hidden md:inline">{work.author || "创作者"}</span>
+              </>
+            ) : context || "\u00a0"}
           </p>
           <div className="flex shrink-0 items-center gap-2.5 text-[11px] font-medium text-muted-foreground/75">
             <span className="inline-flex items-center gap-1 transition-colors hover:text-foreground" title="点赞数">
@@ -124,6 +138,11 @@ export function WorkCard({ work, priority = false, imageClassName }: { work: Wor
             </span>
           </div>
         </div>
+        {variant === "showcase" ? (
+          <p className="hidden truncate text-[11px] leading-4 text-muted-foreground/80 md:block" title={sourceCaption}>
+            {sourceCaption}
+          </p>
+        ) : null}
       </div>
     </Link>
   )
