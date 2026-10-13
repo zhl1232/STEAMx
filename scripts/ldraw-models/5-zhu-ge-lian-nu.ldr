@@ -1,4 +1,4 @@
-0 5-zhu-ge-lian-nu source reconstruction dev-only unaccepted
+0 5-zhu-ge-lian-nu - night18b bottom hopper yellow→blue
 0 Name: 5-zhu-ge-lian-nu.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
@@ -46,11 +46,12 @@
 1 1 360 -48 -80 -1 0 0 0 1 0 0 0 -1 3011.dat
 0 STEP
 0 // SOURCE PAGE 6: Four alternating five-brick hollow box layers; third loose long beam as static source display;p7 final
-1 14 200 -96 80 0 0 -1 0 1 0 1 0 0 3011.dat
-1 14 200 -96 -80 0 0 -1 0 1 0 1 0 0 3011.dat
-1 14 40 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
-1 14 80 -96 120 -1 0 0 0 1 0 0 0 -1 3011.dat
-1 14 80 -96 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 // night18b: bottom hollow layer yellow→blue to match courseware p6/p7
+1 1 200 -96 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 200 -96 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 40 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 80 -96 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 80 -96 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
 1 4 40 -144 80 0 0 -1 0 1 0 1 0 0 3011.dat
 1 4 40 -144 -80 0 0 -1 0 1 0 1 0 0 3011.dat
 1 4 200 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
