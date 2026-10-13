@@ -62,7 +62,7 @@ describe("AboutSettingsPage", () => {
     render(<AboutSettingsPage />);
 
     expect(
-      screen.getByText(/如果你也认同「兴趣是最好的老师」，愿意陪孩子在真实项目中动手探索、学会拆解问题、持续迭代/),
+      screen.getByText(/兴趣是最好的老师。我们鼓励孩子在动手中发现问题、尝试解决、获得成功反馈/),
     ).toBeInTheDocument();
     expect(screen.queryByText(/从兴趣出发/)).not.toBeInTheDocument();
   });

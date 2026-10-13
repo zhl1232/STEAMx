@@ -33,16 +33,17 @@ export function validTutorReservationBudget(value: Record<string, unknown>): boo
 }
 
 export function formatTutorCredits(value: number): string {
-  return Number.isFinite(value) ? Number(value.toFixed(3)).toLocaleString('zh-CN', { maximumFractionDigits: 3 }) : '0'
+  return Number.isFinite(value) ? Number(value.toFixed(2)).toLocaleString('zh-CN', { maximumFractionDigits: 2 }) : '0'
 }
 
 export function formatTutorQuota(quota: AiCreditStatus | null): string | null {
   if (!quota || quota.creditUnit !== 'credits') return null
-  const daily = `今日赠送 ${formatTutorCredits(quota.freeRemainingToday)}/${formatTutorCredits(quota.freeDaily)} 代币`
-  if (!quota.isMember || quota.walletBalance <= 0) {
-    return `${daily}\n每次最多使用 ${formatTutorCredits(quota.dailyChargeCap)} 赠送代币`
+  // Members only use the monthly wallet; never show leftover daily-grant rows.
+  if (quota.isMember) {
+    return `本月 ${formatTutorCredits(quota.walletBalance)}/${formatTutorCredits(quota.monthlyGrant)} 代币`
   }
-  return `本月 ${formatTutorCredits(quota.walletBalance)}/${formatTutorCredits(quota.monthlyGrant)} 代币\n${daily}`
+  const daily = `今日赠送 ${formatTutorCredits(quota.freeRemainingToday)}/${formatTutorCredits(quota.freeDaily)} 代币`
+  return `${daily}\n每次最多使用 ${formatTutorCredits(quota.dailyChargeCap)} 赠送代币`
 }
 
 export function parseTutorBilling(raw: unknown): TutorBilling | undefined {

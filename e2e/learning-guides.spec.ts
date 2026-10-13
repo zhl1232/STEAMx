@@ -35,16 +35,27 @@ test('原有自然观察操作说明深链接直接展开并定位', async ({ pa
   await expect(page.locator('#observation-avoid')).toBeInViewport()
 })
 
-test('learn 总入口兼容到唯一探索指南，并可直接开始推荐活动', async ({ page }) => {
+test('learn 总入口兼容到 /start，四个方向入口可直接进入内容', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/learn')
   await expect(page).toHaveURL(/\/start$/)
-  const start = page.locator('main a[href="/learn/nature#first-try"]')
-  await expect(start).toBeInViewport()
-  await start.click()
-  await expect(page).toHaveURL(/\/learn\/nature#first-try$/)
-  await expect(page.locator('#first-try')).toBeInViewport()
-  await expect(page.locator('#observation-boundaries')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: '今天想和孩子做点什么？' })).toBeVisible()
+  await expect(page.locator('main a[href="/learn/nature#first-try"]')).toHaveCount(0)
+  const destinations = [
+    ['/courses?category=brick', '搭积木'],
+    ['/explore?category=科学', '做小实验'],
+    ['/courses?category=programming', '学编程'],
+    ['/nature', '去自然里观察'],
+  ] as const
+  for (const [href, label] of destinations) {
+    const link = page.getByRole('navigation', { name: '选择开始方向' }).getByRole('link', { name: new RegExp(label) })
+    await expect(link).toHaveCount(1)
+    await expect(link).toHaveAttribute('href', href)
+  }
+  const nature = page.getByRole('navigation', { name: '选择开始方向' }).getByRole('link', { name: /去自然里观察/ })
+  await expect(nature).toBeInViewport()
+  await nature.click()
+  await expect(page).toHaveURL(/\/nature\/?$/)
 })
 
 test('无 JavaScript 时仍有可展开正文和真实链接', async ({ browser, baseURL }) => {

@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-import { DEFAULT_WELCOME_SETTINGS } from "@/lib/communications/types";
+// Historical migrations are immutable snapshots, not aliases of the latest fallback.
+const BRAND_WELCOME_BODY_20261004 = "兴趣是最好的老师。在真实项目中动手探索，学会拆解问题、持续迭代。创探空间是少儿 STEAM 项目式学习平台：你可以探索积木搭建、Scratch 编程、科学实验、自然观察、PBL 挑战和游乐场，遇到问题随时联系我们。";
 
 const read = (name: string) =>
   readFileSync(new URL(`../supabase/migrations/${name}`, import.meta.url), "utf8");
@@ -17,8 +18,8 @@ describe("welcome brand copy migration", () => {
     expect(refresh).toContain(`quote_literal('${historicalBody}') || '::text'`);
   });
 
-  it("writes the same text as the code fallback", () => {
-    const newBody = DEFAULT_WELCOME_SETTINGS.body;
+  it("writes the pinned October 4 brand copy", () => {
+    const newBody = BRAND_WELCOME_BODY_20261004;
     expect(refresh).toContain(`SET body = '${newBody}'`);
     expect(refresh).toContain(`ALTER COLUMN body SET DEFAULT '${newBody}'`);
     expect(newBody).not.toContain("'");

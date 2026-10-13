@@ -99,9 +99,11 @@ const CourseCard = memo(function CourseCard({ course, featured = false, priority
   )
 })
 
-export function CourseHub({ courses }: { courses: CourseListItem[] }) {
-  const [filter, setFilter] = useState<CourseFilter>('recommended')
-  const available = useMemo(() => CATEGORY_ORDER.filter(category => courses.some(course => getCourseCategory(course) === category)), [courses])
+export function CourseHub({ courses, initialFilter = 'recommended' }: {
+  courses: CourseListItem[]; initialFilter?: CourseFilter
+}) {
+  const [filter, setFilter] = useState<CourseFilter>(initialFilter)
+  const available = useMemo(() => CATEGORY_ORDER.filter(category => category === filter || courses.some(course => getCourseCategory(course) === category)), [courses, filter])
   const learning = useMemo(() => courses.filter(isLearningCourse), [courses])
   // 无进度时不虚构「继续学习」；接口暂无最近学习时间，按原顺序取一个入口。
   const featured = filter === 'recommended' ? learning[0] : undefined
@@ -141,10 +143,10 @@ export function CourseHub({ courses }: { courses: CourseListItem[] }) {
         <div className={styles.sectionHeading}><h2 id="course-directions-heading">更多学习方向</h2>
         </div>
         <div className={styles.directionGrid}>
-          <Link href="/learn/science"><FlaskConical aria-hidden="true" /><strong>科学实验</strong><span>找个小实验</span></Link>
-          <Link href="/learn/nature"><Leaf aria-hidden="true" /><strong>自然观察</strong><span>去发现自然</span></Link>
+          <Link href="/explore?category=科学"><FlaskConical aria-hidden="true" /><strong>科学实验</strong><span>找个小实验</span></Link>
+          <Link href="/nature"><Leaf aria-hidden="true" /><strong>自然观察</strong><span>去发现自然</span></Link>
           <Link href="/explore"><Lightbulb aria-hidden="true" /><strong>动手项目</strong><span>挑个项目做</span></Link>
-          <Link href="/start"><Compass aria-hidden="true" /><strong>入门指南</strong><span>找到起点</span></Link>
+          <Link href="/start"><Compass aria-hidden="true" /><strong>选一个开始</strong><span>换个方向</span></Link>
         </div>
       </section>
     </div>
