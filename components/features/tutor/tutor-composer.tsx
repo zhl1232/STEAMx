@@ -210,7 +210,7 @@ export function TutorComposer({
         </div>
       </div>
       <p className="px-1 text-[10px] leading-4 text-muted-foreground">
-        代币用于理解问题、准备资料和生成回答；本次扣费会在回复后显示。
+        代币用于理解问题、准备资料和生成回答。
       </p>
       {showReviewAction && onReview ? (
         <button
