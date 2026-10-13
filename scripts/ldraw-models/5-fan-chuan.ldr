@@ -1,7 +1,8 @@
-0 5-fan-chuan - source-based dev-only reconstruction
+0 5-fan-chuan - night15e bow beam pullback
 0 Name: 5-fan-chuan.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // night15e: forward 75350 beam x=680→560 (shorten bow overhang)
 0 // BATCH3 2026-10-12: P6 six windows form two parallel three-window rows, open at both ends; P11-12 contain one wide + two narrow sails, all already present. No duplicate forward sail added. Source-facing preview shows all three. Mast shafts are still unresolved and this draft is NOT structurally complete.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
@@ -113,7 +114,7 @@
 0 STEP
 0 // Source page 9: rear mast brick and long forward perforated beam
 1 4 -480 -264 0 1 0 0 0 1 0 0 0 1 75349.dat
-1 4 680 -264 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 560 -264 0 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
 0 // Source page 10: blue support, red axle block, geared axle and blue40tooth gear
 1 1 400 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
