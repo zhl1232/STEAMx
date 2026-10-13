@@ -61,16 +61,19 @@
 0 STEP
 0 // Source page 10: two fork brackets on shoulder turntables
 1 72 0 -264 -256 0 0 1 1 0 0 0 1 0 28336.dat
-1 72 0 -264 256 0 0 1 -1 0 0 0 -1 0 28336.dat
+0 // night: +Z shoulder fork orientation follows side arm
+1 72 0 -264 256 0 1 0 -1 0 0 0 0 1 28336.dat
 0 STEP
 0 // Source page 11: two forward short Toolo arms
 1 72 248 -264 -321 0 -1 0 0 0 -1 1 0 0 dev-129/28334.dat
-1 72 248 -264 321 0 -1 0 0 0 1 -1 0 0 dev-129/28334.dat
+0 // night: +Z arm rotated -90°Y to match courseware side pose
+1 72 -65 -264 504 1 0 0 0 0 1 0 -1 0 dev-129/28334.dat
 0 STEP
 0 // Source page 12: two orange scoop hands
 0 // Hand fix 2026-10-13: two orange scoop hands hung on short-arm end pins; local approximation dev-129/scoop-wa-li (shape from p12/p15).
 1 25 248 -264 -321 1 0 0 0 1 0 0 0 1 dev-129/scoop-wa-li.dat
-1 25 248 -264 321 1 0 0 0 1 0 0 0 1 dev-129/scoop-wa-li.dat
+0 // night: +Z arm rotated -90°Y to match courseware side pose
+1 25 -65 -264 504 0 0 -1 0 1 0 1 0 0 dev-129/scoop-wa-li.dat
 0 STEP
 0 // Source page 13: two upright neckfork bases
 1 72 0 -336 -40 0 0 1 0 1 0 -1 0 0 28336.dat
