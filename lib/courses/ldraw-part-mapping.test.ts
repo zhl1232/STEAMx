@@ -1,10 +1,11 @@
 import { expect, it } from 'vitest'
+import inventories from './ldraw-kit-inventories.json'
 import { isDuploEyePrint, resolveLdrawColor, resolveLdrawPart, VIRTUAL_CHILD_FIGURE } from './ldraw-part-mapping'
 
-it.each(['3437pe0', '3437pe1', '3437pe2', '3437pe12', '3437pr0049', '3437pr0067', 'parts\\3437PE3.DAT'])(
+it.each(['3437pe0', '3437pe1', '3437pe2', '3437pe12', '3437pr0049', '3437pr0067', '3437pr0113', '3437pr0123', 'parts\\3437PE3.DAT'])(
   'recognizes equivalent 2×2 eye prints: %s', (id) => {
     expect(resolveLdrawPart(id)).toMatchObject({
-      partNums: ['3437pr0049', '3437pr0067', '3437'],
+      partNums: ['3437pr0049', '3437pr0067', '3437pr0113', '3437pr0123', '3437'],
       flags: { eyePrintEquivalent: true, printedFlexible: true },
     })
   },
@@ -26,7 +27,7 @@ it.each([
   ['14639p02.dat', ['11248c01']],
   ['31021.dat', ['12602']],
   ['31021p01.dat', ['12602']],
-  ['3437pe1.dat', ['3437pr0049', '3437pr0067', '3437']],
+  ['3437pe1.dat', ['3437pr0049', '3437pr0067', '3437pr0113', '3437pr0123', '3437']],
   ['2301b.dat', ['2301']],
   ['2302b.dat', ['2302']],
   ['98223b.dat', ['31213', '98223']],
@@ -115,3 +116,19 @@ it.each([0, 19, 46, 47, 71, 72])('resolves exact color %s', (color) => {
 it('leaves unreviewed colors for substitution rules', () => {
   expect(resolveLdrawColor(9999)).toBeUndefined()
 })
+
+// 用库存逐项约束 9206 Toolo / 绞盘整件，避免 c01/c02 被遗漏或错误截断。
+it.each([...new Set(inventories['9206-1'].parts
+  .filter((part) => /Toolo|Winch|Roll Cage|Tread/.test(part.name))
+  .map((part) => part.partNum))])('9206 mechanical inventory part %s resolves unchanged', (partNum) => {
+  expect(resolveLdrawPart(`${partNum}.dat`)).toEqual({ partNums: [partNum], flags: { kitColor: true } })
+})
+
+it.each(['4433c01.dat', 'parts\\4433C01.DAT'])(
+  'exhaust pipe %s matches the 9206 inventory assembly', (partId) => {
+    const resolved = resolveLdrawPart(partId)
+    const matches = inventories['9206-1'].parts.filter((part) => resolved.partNums.includes(part.partNum))
+    expect(resolved.flags.unknown).toBeFalsy()
+    expect(matches).toEqual([expect.objectContaining({ partNum: '4433c01', quantity: 2, colorId: 135 })])
+  },
+)
