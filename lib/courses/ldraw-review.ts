@@ -291,6 +291,10 @@ export const LDRAW_REVIEW_CANDIDATES = [
   // 2026-10-13 rechecked against the real 5+ PDFs (camera-calibrated overlay).
   '5-shui-jing.ldr',
   '5-ta-diao.ldr',
+  // 2026-10-13 night: v3 overlay vs courseware p16; side lever moved; main body/arm match.
+  '5-huan-wei-che.ldr',
+  // 2026-10-13 night: figures lowered, panes white; front overlay vs p14 matches main structure.
+  '5-sheng-jiang-dian-ti.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
