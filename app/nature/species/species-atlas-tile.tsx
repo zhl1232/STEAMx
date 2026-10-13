@@ -76,7 +76,7 @@ export const SpeciesAtlasTile = memo(function SpeciesAtlasTile({ item, filtersKe
       <span className={styles.tileInfo}>
         <span className="nature-atlas-tile-name" title={item.commonName}>{item.commonName}</span>
         {item.scientificName ? <i className={styles.scientificName} title={item.scientificName}>{item.scientificName}</i> : null}
-        {item.taxonGroup ? <span className={styles.taxonGroup} title={item.taxonGroup}>{item.taxonGroup}</span> : null}
+        {item.taxonGroup ? <span className={styles.taxonTags} title={item.taxonGroup}>{item.taxonGroup.split(/\s+/).filter(Boolean).map(tag => <span key={tag} className={styles.taxonGroup}>{tag}</span>)}</span> : null}
         <span className="sr-only">{statusLabel}</span>
       </span>
     </Link>
