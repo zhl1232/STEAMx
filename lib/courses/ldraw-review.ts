@@ -224,6 +224,7 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '4-da-xiang.ldr',
   '4-ci-xuan-fu-lie-che.ldr',
   '4-mo-tian-lun.ldr',
+  '4-yao-yao-ma.ldr',
   '4-ju-ji-qiang.ldr',
   '4-ke-ji.ldr',
   '4-shou-ge-ji.ldr',
