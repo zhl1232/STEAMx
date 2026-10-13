@@ -287,6 +287,11 @@ export const LDRAW_REVIEW_CANDIDATES = [
   // 2026-10-12 batch5 修好放回待确认：
   // 2026-10-12 batch6 修好放回待确认：
   // 2026-10-12 batch7 修好放回待确认：
+  // 2026-10-13 hand review, camera calibrated to courseware final page; main parts match.
+  '5-zhan-chi-gao-fei.ldr',
+  '5-shou-tui-fei-ji.ldr',
+  '5-sheng-jiang-dian-ti.ldr',
+  '5-huan-wei-che.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'

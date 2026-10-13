@@ -27,7 +27,7 @@
 0 STEP
 0 // SOURCE PAGE 4: Short red bearing and upright8L axle with blue24T gear
 1 4 0 -120 240 0 0 -1 0 1 0 1 0 0 75349.dat
-1 2 0 -220 240 0 0 -1 -1 0 0 0 1 0 6521.dat
+1 2 0 -190.0 240 0 0 -1 -1 0 0 0 1 0 6521.dat
 1 1 0 -144 240 0 -1 0 0 0 -1 1 0 0 6529.dat
 0 STEP
 0 // SOURCE PAGE 5: Three thin yellow plates under front long red bearing
@@ -61,10 +61,12 @@
 1 14 0 -689.048669156 -648.683135822 0 0 -1 -0.874157276 -0.485642931 0 -0.485642931 0.874157276 0 40666.dat
 0 STEP
 0 // SOURCE PAGE 9: First up-facing carrier pin; source slender lime rotor sheet omitted
-1 14 0 -272 240 0 0 1 0 -1 0 1 0 0 6526.dat
-0 // OMITTED source rotor sheet x1: 61898cc01 broad formed candidate does not match slender p9-11 blade outline; exact matching geometry unresolved. Do not scale/substitute.
+1 14 0 -242.0 240 0 0 1 0 -1 0 1 0 0 6526.dat
+0 // 2026-10-13 hand: lime rotor sheet = local approximation dev-129/rotor-shou-tui-fei-ji.dat (outline from p9-11)
+1 27 0 -270.0 240 1 0 0 0 1 0 0 0 1 dev-129/rotor-shou-tui-fei-ji.dat
 0 STEP
 0 // SOURCE PAGE 10: Second source rotor sheet omitted; opposite carrier and top hub retained; p11 final
-0 // OMITTED source rotor sheet x1: 61898cc01 broad formed candidate does not match slender p9-11 blade outline; exact matching geometry unresolved. Do not scale/substitute.
-1 14 0 -317 240 1 0 0 0 1 0 0 0 1 6526.dat
-1 14 0 -357 240 0 -1 0 0 0 -1 1 0 0 6527.dat
+0 // 2026-10-13 hand: second lime rotor sheet crossed 90 degrees
+1 27 0 -310.0 240 0 0 1 0 1 0 -1 0 0 dev-129/rotor-shou-tui-fei-ji.dat
+1 14 0 -287.0 240 1 0 0 0 1 0 0 0 1 6526.dat
+1 14 0 -327.0 240 0 -1 0 0 0 -1 1 0 0 6527.dat
