@@ -51,8 +51,8 @@
 1 4 -160 -345.378574 -40 -1 0 0 0 1 0 0 0 -1 40666.dat
 0 STEP
 0 // SOURCE PAGE 7
-0 // Hand fix 2026-10-13: 4433c01 exhaust standing on rear edge of yellow hood (existing dev-129 approximation).
-1 71 120 -241.378574 -60 1 0 0 0 0 -1 0 1 0 dev-129/4433c01.dat
+0 // v2 2026-10-13: shortened exhaust (p7 proportion) at front-far corner of hood per p7 overlay.
+1 71 200 -241.378574 -60 1 0 0 0 0 -1 0 1 0 dev-129/4433c01-ya-lu-ji.dat
 0 STEP
 0 // SOURCE PAGE 8
 1 15 -100 -177.378574 0 0 0 1 0 1 0 -1 0 0 47205.dat
@@ -34812,6 +34812,16 @@
 1 16 -74 4 20 0 0 2 0 19 0 -1.5 0 0 box4-1.dat
 1 16 -74 4 -20 0 0 2 0 19 0 -1.5 0 0 box4-1.dat
 0
+
+0 FILE dev-129/4433c01-ya-lu-ji.dat
+0 Duplo Toolo Exhaust Pipe short (ya-lu-ji courseware p7 proportion)
+0 Name: dev-129/4433c01-ya-lu-ji.dat
+0 Author: STEAMX local reconstruction
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // Wrapper of dev-129/4433c01 with exhaust axis (+Z) shortened to 0.6 to match courseware p7 height (~2.7x width).
+0 BFC NOCERTIFY
+1 16 0 0 0 1 0 0 0 1 0 0 0 0.6 dev-129/4433c01.dat
 
 0 FILE dev-129/4433c01.dat
 0 Duplo Toolo Exhaust Pipe (local approx of 4433c01)

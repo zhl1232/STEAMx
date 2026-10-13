@@ -50,8 +50,8 @@
 1 4 -160 -345.378574 -40 -1 0 0 0 1 0 0 0 -1 40666.dat
 0 STEP
 0 // SOURCE PAGE 7
-0 // Hand fix 2026-10-13: 4433c01 exhaust standing on rear edge of yellow hood (existing dev-129 approximation).
-1 71 120 -241.378574 -60 1 0 0 0 0 -1 0 1 0 dev-129/4433c01.dat
+0 // v2 2026-10-13: shortened exhaust (p7 proportion) at front-far corner of hood per p7 overlay.
+1 71 200 -241.378574 -60 1 0 0 0 0 -1 0 1 0 dev-129/4433c01-ya-lu-ji.dat
 0 STEP
 0 // SOURCE PAGE 8
 1 15 -100 -177.378574 0 0 0 1 0 1 0 -1 0 0 47205.dat
