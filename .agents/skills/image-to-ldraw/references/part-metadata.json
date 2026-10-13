@@ -40894,20 +40894,20 @@
         "xMax": 22,
         "yMin": -22,
         "yMax": 22,
-        "zMin": 0,
-        "zMax": 148
+        "zMin": -16,
+        "zMax": 180
       },
       "origin": {
         "type": "pivot-center",
-        "axis": "Z"
+        "axis": "X"
       },
-      "heightLdu": 148,
+      "heightLdu": 44,
       "supportPolicy": "manual",
       "collisionPolicy": "manual",
       "notes": [
         "2026-10-12 local approx for 4-cha-che forks; official/unofficial DAT unavailable (404).",
         "Silhouette from BrickLink PN/66/4433c01 and courseware p8/p15; screw fit not exact.",
-        "Not physical-fit evidence."
+        "2026-10-13 user-authorized rewrite: transverse screw at origin, pipe +Z, recessed perforations and tapered same-colour tip; dimensions inferred, no physical-fit evidence."
       ]
     }
   }
