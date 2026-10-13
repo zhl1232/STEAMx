@@ -14,6 +14,9 @@ vi.mock('@/lib/content-classification', () => ({
   mapPublicClassification: vi.fn(),
 }))
 vi.mock('@/lib/ai/dashscope', () => ({ resolveDashScopeConfig: mocks.config }))
+vi.mock('@/lib/ai/tutor/guarded-speech', () => ({
+  guardedTranscribeTutorSpeechPcm16: (_userId: string, audio: ArrayBuffer, options: unknown) => mocks.transcribe(audio, options),
+}))
 vi.mock('@/lib/ai/tutor/speech', () => ({
   transcribeTutorSpeechPcm16: mocks.transcribe,
   TutorSpeechError: class TutorSpeechError extends Error {

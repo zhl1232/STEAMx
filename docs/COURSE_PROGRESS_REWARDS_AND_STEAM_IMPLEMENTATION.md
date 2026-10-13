@@ -23,7 +23,7 @@
 
 ## 维护入口
 
-数据库命令会通过 `scripts/db-push.mjs` 确保 `public._schema_migrations` 追踪表存在；即使 `db:status` 或 `--dry-run` 也可能创建该表。具体连接、迁移和权限边界遵循 [`database-psql.md`](./database-psql.md) 与 `.cursor/rules/db-migrations.mdc`，不要把这些命令当作无副作用的本地检查。
+数据库连接、迁移模式、副作用及执行授权统一遵循 [数据库连接与迁移](database-psql.md)。下列维护命令须分别按其实际副作用和已批准范围执行；不能把命令名含 `status` 或 `dry-run` 当作只读依据。
 
 每次课程结构、配置、审核奖励或雷达逻辑发布后运行：
 
@@ -57,3 +57,17 @@ pnpm course:audit -- --json
 - 普通 authenticated 不能直写里程碑；完成来源由 RPC 维护，legacy completion 不会自动固化为能力。
 
 线上用 `pnpm course:audit -- --json` 采集配置错误、奖励 no-op/重复、里程碑缺口和 reconcile 延迟。回滚时切回应用读取或暂时移除雷达新来源，不删除里程碑、进度或历史 XP，也不恢复课时 XP。
+
+## 课程目录的展示与入口
+
+实现入口：`app/courses/page.tsx` → `components/features/courses/course-board.tsx` → `course-hub.tsx`。分类与路由纯函数在同目录 `course-catalog.ts`，样式限定在 `course-hub.module.css`。
+
+- 页面仍由服务端原有 `listApprovedCourses` 批量读取课程与当前用户进度。客户端只筛选传入目录，不新增数据请求、缓存个人进度或写完成状态。
+- 推荐页前置一个真实在学入口，并从下方推荐区移除同一课程。多个在学课程通过「在学课程」查看；暂未提供最近访问时间，不声称首项为最近学习。
+- 「继续学习」使用服务端提供的 `next_lesson_id`，无下一课时则进入课程目录；已完成课程显示「回顾课程」，零课时课程仅显示「查看课程」。课程标题始终链接课程目录。
+- 推荐沿用接口顺序、优先积木。分类根据已有名称/标签，只有有内容的分类才出现；Scratch 编程优先于实体积木识别，未识别类别进入「其他技能」，不能漏掉课程。
+- 卡片只展示真实课时、进度及公开分级。未登录/未开始不虚构进度；没有分级则不编造年龄或陪伴要求；封面缺失/失败显示占位，换图后可恢复。
+- 横幅 `public/assets/courses-hero-art.webp` 是经用户审阅的设计图中的装饰插画裁切，不是课程成果或课程封面；横幅标题为真实文本，不是整张效果图贴上页面。
+- 手机采用单列紧凑横向课程卡，继续学习按钮和进度位于右侧信息区；平板/桌面自适应双列或三列。入门专题链接收于原生折叠，保留真实 URL 和无需 JavaScript 的展开。
+
+对应回归：`components/features/courses/course-board.test.tsx`，检查真实链接、分类/全部/在学切换、推荐去重、匿名/完成/空目录/请求失败、封面错误恢复。修改目录展示不应执行数据库命令或触发生产部署。

@@ -43,7 +43,9 @@ const SCRATCH_ASSET_PREFIX = '/scratch/assets/'
 const ORIGINAL_SCRATCH_COURSE_PREFIX = '/courses/scratch-original/v1/'
 const CANONICAL_ASSET_REFERER = 'https://steamx.cc'
 const KNOWN_ASSETS_CDN_HOST = 'assets.steamx.cc'
-const DEFAULT_ASSET_CONNECT_TIMEOUT_MS = 10_000
+const DEFAULT_ASSET_CONNECT_TIMEOUT_MS = 15_000
+/** 超时或 5xx 时再试一次（只对不带 Range 的 GET/HEAD），避免偶发慢请求让封面变成「暂无封面」。 */
+const ASSET_UPSTREAM_RETRIES = 1
 
 function isExpiredCertificateError(error: unknown): boolean {
   let current: unknown = error
@@ -131,7 +133,22 @@ async function fetchUpstreamAsset(
   requestHeaders: Headers,
 ) {
   const referer = getAssetReferer()
-  const fetchWithReferer = async (url: string, value: string) => {
+  const fetchWithReferer = async (url: string, value: string): Promise<Response> => {
+    const canRetry = !requestHeaders.get('range')
+    for (let attempt = 0; ; attempt += 1) {
+      try {
+        const response = await fetchOnce(url, value)
+        if (canRetry && attempt < ASSET_UPSTREAM_RETRIES && response.status >= 500) {
+          await response.body?.cancel().catch(() => undefined)
+          continue
+        }
+        return response
+      } catch (error) {
+        if (!canRetry || attempt >= ASSET_UPSTREAM_RETRIES || !isUpstreamTimeoutError(error)) throw error
+      }
+    }
+  }
+  const fetchOnce = async (url: string, value: string) => {
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), getAssetConnectTimeoutMs())
     const headers = new Headers({ Referer: value })

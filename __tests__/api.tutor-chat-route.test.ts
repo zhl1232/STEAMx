@@ -42,6 +42,10 @@ vi.mock('next/server', async (importOriginal) => {
 })
 
 vi.mock('@/lib/ai/tutor/speech', () => ({ createTutorSpeechStreamer: vi.fn() }))
+vi.mock('@/lib/ai/tutor/guarded-speech', async () => {
+  const speech = await import('@/lib/ai/tutor/speech')
+  return { createGuardedTutorSpeechStreamer: (_userId: string, options: Parameters<typeof speech.createTutorSpeechStreamer>[0]) => speech.createTutorSpeechStreamer(options) }
+})
 
 vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn(),
@@ -389,6 +393,25 @@ describe('/api/tutor/chat route', () => {
       yield '，一起探索吧！'
       return '你好，一起探索吧！'
     })
+  })
+
+  it('closes speech input before slow memory maintenance and only finishes it once', async () => {
+    const db = createTutorSupabaseMock()
+    createClientMock.mockResolvedValue(db.client as never)
+    let releaseMemory!: () => void
+    const memory = new Promise<void>(resolve => { releaseMemory = resolve })
+    vi.mocked(maybeUpdateTutorNotebook).mockReturnValue(memory)
+    const finish = vi.fn().mockResolvedValue(true)
+    vi.mocked(createTutorSpeechStreamer).mockReturnValue({ start: vi.fn(), push: vi.fn(), finish, abort: vi.fn() })
+    completeMock.mockResolvedValue({ status: 'completed', message: { content: '你好，一起探索吧！', meta: {} } } as never)
+    const draining = readSseEvents(await POST(createPostRequest({ contextType: 'global', content: '你好', speak: true })))
+    try {
+      await vi.waitFor(() => expect(maybeUpdateTutorNotebook).toHaveBeenCalled())
+      expect(finish).toHaveBeenCalledTimes(1)
+      expect(completeMock).not.toHaveBeenCalled()
+    } finally { releaseMemory() }
+    await draining
+    expect(finish).toHaveBeenCalledTimes(1)
   })
 
   it('reads only the authenticated previous active conversation and caps text at four messages / 1500 chars', async () => {

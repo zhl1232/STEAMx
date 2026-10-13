@@ -1,6 +1,6 @@
 # 创探空间 — 项目功能索引
 
-核对基线：2026-10-13，`0d322eda40dfdf81c7feb4f37703c9b38bea2b15`。本文件只帮助定位实现和规则，不维护额度、文件数量、批次日志或生产完成状态。
+核对基线：2026-10-13，`0a3cdd8c9d5e537ae6026eeb78f28b9b3a7634cb`。本文件只帮助定位实现和规则，不维护额度、文件数量、批次日志或生产完成状态。
 
 规则的唯一维护位置见 [文档导航](docs/README.md)，执行与发布授权见 [AGENTS.md](AGENTS.md)。遇到文档与代码不一致，先核对对应提交并修正文档；不要为迁就旧说明改变产品行为。
 
@@ -58,10 +58,10 @@
 | 公开图片与 OSS 路径 | `lib/utils/asset-url.ts`、`lib/assets/`、`public/`、`.gitignore`、`.dockerignore` | [SEO 图片核验](docs/seo-indexing-checklist.md)、[LDraw 发布](docs/ldraw-publishing.md) |
 | SEO、爬虫、sitemap 与推送 | `lib/seo/`、`scripts/check-seo.mjs`、`next.config.mjs` | [索引检查](docs/seo-indexing-checklist.md)、[日常运营](docs/seo-daily-operations.md) |
 
-历史批次命令不作为日常快捷命令列出。按本索引基线，旧内容分诊入口和固定数学题面工具仍存在；退役方案在 PR #79，未合并不能写成已停用。不要执行旧编排或把旧 purge 当作通用孤儿资源清理器。其索引修订应在退役实际合并后核对本节，而非机械应用旧版字符串补丁。
+历史批次命令不作为日常快捷命令列出。旧内容分诊自动工作流已移除，编排与固定数学题面命令仅拒绝执行；不要把旧 purge 当作通用孤儿资源清理器。保护边界见 [维护入口](docs/maintenance/repository-cleanup-phase2.md)。代码中的退役不等于历史生产数据清理已完成。
 
 ## 维护方式
 
 新增模块时补“职责、代码入口、唯一规则来源”；产品常量、协议限额与执行结果只在对应专题更新。代码检出与文件检索负责精确定位，不在索引手工维护全量文件计数。
 
-本轮压缩前的完整索引及历史实现说明保留在 [文档快照](docs/archive/documentation/2026-10-13/README.md)。它是追溯材料，不是第二套现行规范；尚未重新核验的细节应从本表代码入口核对，不将历史“尚未发布”或数量沿用为现状。
+默认阅读范围见 [AGENTS.md](AGENTS.md)。旧索引和交付过程通过 Git 历史追溯，不在当前代码树保存另一套全文。

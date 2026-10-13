@@ -37,7 +37,7 @@ node scripts/migrate-public-to-oss.mjs --only=birds-atlas,insects-atlas,trees-at
 
 ## 数据库与发布维护
 
-数据库变更遵循 `.cursor/rules/db-migrations.mdc` 和 [`database-psql.md`](./database-psql.md)，使用 `pnpm db:push`，不用 `supabase db push`。`db:status`、`db:push -- --dry-run` 和实际 push 都会先确保 `public._schema_migrations` 追踪表存在，因此不把它们当作无副作用的本地检查。RPC 或索引变更后按边界执行 dry-run、push、status，并按真实数据抽样 `EXPLAIN (ANALYZE, BUFFERS)`。
+数据库连接、迁移命令、各模式副作用和执行授权统一遵循 [数据库连接与迁移](database-psql.md)，不在本页维护另一套命令规则。RPC 或索引变更后按该文档核对目标与批准范围，再进行对应模式的预检、执行和状态验证，并在授权范围内按真实数据抽样 `EXPLAIN (ANALYZE, BUFFERS)`。
 
 内容审核、AI 阈值或专题可见性变化后，复核“共识覆盖 AI、0.80/0.79 边界、被拒观察熄灭、本人私密 approved 观察可亮”的语义。真菌仍为预告，没有 active 条目时不要开放专题点亮。
 
