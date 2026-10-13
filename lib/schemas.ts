@@ -198,6 +198,7 @@ export const TutorSendSchema = z.object({
 });
 
 export const TutorSpeechSynthesizeSchema = z.object({
+  voice: z.string().max(64).optional(),
   text: z.string().min(1, '朗读内容不能为空').max(4000, '朗读内容太长'),
   fallback: z.boolean().optional(),
 });

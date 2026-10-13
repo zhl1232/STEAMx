@@ -164,7 +164,7 @@ export async function POST(request: NextRequest) {
     const pcm = await audio.arrayBuffer()
     if (request.signal.aborted) throw new InvalidAudioRequest(400, '语音操作已取消，请重新开启。')
     admitted = true
-    const transcript = await transcribeTutorSpeechPcm16(pcm)
+    const transcript = await transcribeTutorSpeechPcm16(pcm, { signal: request.signal, courseControl: true })
     command = parseBuildingVoiceCommand(transcript)
     outcome = command ? 'matched' : 'unmatched'
     return NextResponse.json({ command }, { headers: { 'Cache-Control': 'no-store' } })

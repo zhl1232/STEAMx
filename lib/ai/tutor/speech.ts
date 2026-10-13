@@ -1,3 +1,7 @@
+import { createTaskTtsSession, transcribeTaskPcm } from './speech-task'
+import { TutorSpeechError } from './speech-error'
+import { reserveSpeechRequest } from './speech-budget'
+export { TutorSpeechError } from './speech-error'
 import { AUDIO_TAG_REGEX } from '@/lib/ai/tutor/audio-tags'
 import { stripTutorResourceTags, TUTOR_RESOURCE_TAG_REGEX } from '@/lib/ai/tutor/resource-links'
 import {
@@ -5,7 +9,6 @@ import {
   isDashScopeModelAvailabilityError,
   isDashScopeTimeoutError,
   markDashScopeModelUnavailable,
-  resolveDashScopeConfig,
 } from '@/lib/ai/dashscope'
 import WebSocket, { type RawData } from 'ws'
 
@@ -82,17 +85,6 @@ const RESOURCE_TAG_AT_START = new RegExp(`^${TUTOR_RESOURCE_TAG_REGEX.source}`, 
 const CHIP_STARTERS = ['[audio:', '[lesson:', '[challenge:', '[resource:', '[species:', '[game:', '[project:', '[course:'] as const
 const SCRATCH_STARTERS = ['[[block:', '[[cat:'] as const
 
-export class TutorSpeechError extends Error {
-  status: number
-  userMessage: string
-
-  constructor(message: string, userMessage = '小迪语音暂时不可用，请稍后再试。', status = 500) {
-    super(message)
-    this.name = 'TutorSpeechError'
-    this.userMessage = userMessage
-    this.status = status
-  }
-}
 
 function requireDashScopeApiKey() {
   const apiKey = process.env.DASHSCOPE_API_KEY
@@ -246,7 +238,7 @@ export function createTutorSpeechSanitizer() {
   }
 }
 
-export async function synthesizeTutorSpeech(text: string): Promise<{ audio: ArrayBuffer; contentType: string }> {
+async function synthesizeLegacyTutorSpeech(text: string, signal?: AbortSignal): Promise<{ audio: ArrayBuffer; contentType: string }> {
   const safeText = sanitizeTutorSpeechText(text)
   if (!safeText) {
     throw new TutorSpeechError('Empty speech text', '这条回复没有可朗读的内容。', 400)
@@ -261,7 +253,9 @@ export async function synthesizeTutorSpeech(text: string): Promise<{ audio: Arra
   let lastModelError: TutorSpeechError | null = null
   let audioUrl: string | null = null
 
-  for (const model of models) {
+  for (const model of models.slice(0, 2)) {
+    if (signal?.aborted) throw new TutorSpeechError('TTS aborted', undefined, 499)
+    await reserveSpeechRequest('tts')
     let response: Response
     try {
       response = await fetch(ttsUrl, {
@@ -278,7 +272,7 @@ export async function synthesizeTutorSpeech(text: string): Promise<{ audio: Arra
             language_type: language,
           },
         }),
-        signal: AbortSignal.timeout(TTS_TIMEOUT_MS),
+        signal: AbortSignal.any([AbortSignal.timeout(TTS_TIMEOUT_MS), ...(signal ? [signal] : [])]),
       })
     } catch (error) {
       if (isDashScopeTimeoutError(error)) {
@@ -289,6 +283,7 @@ export async function synthesizeTutorSpeech(text: string): Promise<{ audio: Arra
 
     const raw = await response.json().catch(() => null)
     if (!response.ok) {
+      if (response.status === 429) throw new TutorSpeechError('TTS throttled', undefined, 429)
       const error = new TutorSpeechError(`DashScope TTS failed (${response.status})`)
       if (!isDashScopeModelAvailabilityError(response.status, raw)) throw error
       markDashScopeModelUnavailable('tutor-tts', model)
@@ -307,7 +302,7 @@ export async function synthesizeTutorSpeech(text: string): Promise<{ audio: Arra
 
   let audioResponse: Response
   try {
-    audioResponse = await fetch(audioUrl, { signal: AbortSignal.timeout(TTS_TIMEOUT_MS) })
+    audioResponse = await fetch(audioUrl, { signal: AbortSignal.any([AbortSignal.timeout(TTS_TIMEOUT_MS), ...(signal ? [signal] : [])]) })
   } catch (error) {
     if (isDashScopeTimeoutError(error)) {
       throw new TutorSpeechError(
@@ -335,13 +330,13 @@ function buildRealtimeWebSocketUrl(model: string, configuredUrl = DEFAULT_ASR_WS
 }
 
 function buildAsrWebSocketUrl() {
-  const model = resolveDashScopeConfig('tutor-asr').model || DEFAULT_ASR_MODEL
+  const model = process.env.DASHSCOPE_TUTOR_ASR_MODEL || DEFAULT_ASR_MODEL
   const configuredUrl = process.env.DASHSCOPE_TUTOR_ASR_WS_URL || DEFAULT_ASR_WS_URL
   return buildRealtimeWebSocketUrl(model, configuredUrl)
 }
 
 function buildTtsRealtimeWebSocketUrl() {
-  const model = resolveDashScopeConfig('tutor-tts-realtime').model || DEFAULT_TTS_REALTIME_MODEL
+  const model = process.env.DASHSCOPE_TUTOR_TTS_REALTIME_MODEL || DEFAULT_TTS_REALTIME_MODEL
   const configuredUrl =
     process.env.DASHSCOPE_TUTOR_TTS_WS_URL || process.env.DASHSCOPE_TUTOR_ASR_WS_URL || DEFAULT_ASR_WS_URL
   return buildRealtimeWebSocketUrl(model, configuredUrl)
@@ -376,7 +371,7 @@ export type TutorRealtimeTtsSession = {
   abort: () => void
 }
 
-export function createTutorRealtimeTtsSession(options: {
+function createLegacyTutorRealtimeTtsSession(options: {
   onAudio: (pcm: Buffer) => void
   signal?: AbortSignal
 }): TutorRealtimeTtsSession {
@@ -579,6 +574,7 @@ export type TutorSpeechStreamer = {
 export function createTutorSpeechStreamer(options: {
   onAudio: (pcmBase64: string, sampleRate: number) => void
   onError?: (error: TutorSpeechError) => void
+  voice?: string
   signal?: AbortSignal
 }): TutorSpeechStreamer {
   const sanitizer = createTutorSpeechSanitizer()
@@ -608,6 +604,7 @@ export function createTutorSpeechStreamer(options: {
           options.onAudio(pcm.toString('base64'), TUTOR_TTS_PCM_SAMPLE_RATE)
         },
         signal: options.signal,
+        voice: options.voice,
       })
     } catch (error) {
       failSoft(error)
@@ -630,13 +627,13 @@ export function createTutorSpeechStreamer(options: {
     },
     async finish() {
       speak(sanitizer.flush())
-      if (!session || failed) return audioChunks > 0
+      if (!session || failed) return !failed && audioChunks > 0
       try {
         await session.finish()
       } catch (error) {
         failSoft(error)
       }
-      return audioChunks > 0
+      return !failed && audioChunks > 0
     },
     abort() {
       failed = true
@@ -646,7 +643,7 @@ export function createTutorSpeechStreamer(options: {
   }
 }
 
-export async function transcribeTutorSpeechPcm16(audio: ArrayBuffer): Promise<string> {
+async function transcribeLegacyTutorSpeechPcm16(audio: ArrayBuffer, signal?: AbortSignal): Promise<string> {
   if (audio.byteLength <= 0) {
     throw new TutorSpeechError('Empty ASR audio', '没有录到声音，请再试一次。', 400)
   }
@@ -665,10 +662,14 @@ export async function transcribeTutorSpeechPcm16(audio: ArrayBuffer): Promise<st
       headers: realtimeWsHeaders(apiKey),
     })
 
+    const abort = () => fail(new TutorSpeechError('ASR aborted', undefined, 499))
+    if (signal?.aborted) abort()
+    else signal?.addEventListener('abort', abort, { once: true })
     const finish = (value: string) => {
       if (settled) return
       settled = true
       clearTimeout(timer)
+      signal?.removeEventListener('abort', abort)
       try {
         ws.close()
       } catch {
@@ -681,6 +682,7 @@ export async function transcribeTutorSpeechPcm16(audio: ArrayBuffer): Promise<st
       if (settled) return
       settled = true
       clearTimeout(timer)
+      signal?.removeEventListener('abort', abort)
       try {
         ws.close()
       } catch {
@@ -712,6 +714,7 @@ export async function transcribeTutorSpeechPcm16(audio: ArrayBuffer): Promise<st
     }
 
     ws.on('open', () => {
+      if (settled) return
       sendJson({
         event_id: buildEventId('session'),
         type: 'session.update',
@@ -727,6 +730,7 @@ export async function transcribeTutorSpeechPcm16(audio: ArrayBuffer): Promise<st
     })
 
     ws.on('message', (data) => {
+      if (settled) return
       const payload = parseServerEvent(data)
       if (!payload?.type) return
 
@@ -769,4 +773,65 @@ export async function transcribeTutorSpeechPcm16(audio: ArrayBuffer): Promise<st
       fail(new TutorSpeechError(`ASR websocket closed before completion (${code})${detail ? `: ${detail}` : ''}`))
     })
   })
+}
+
+/** Explicit operator rollback only: task voices never enter the old realtime protocol. */
+export function createTutorRealtimeTtsSession(options: {
+  onAudio: (pcm: Buffer) => void; signal?: AbortSignal; voice?: string
+}): TutorRealtimeTtsSession {
+  requireDashScopeApiKey()
+  if (process.env.DASHSCOPE_TUTOR_AUDIO_PROTOCOL !== 'legacy') return createTaskTtsSession(options)
+  let session: TutorRealtimeTtsSession | undefined
+  let pending = ''
+  let aborted = false
+  const ready = reserveSpeechRequest('tts').then(async () => {
+    if (aborted || options.signal?.aborted) throw new TutorSpeechError('Speech aborted', undefined, 499)
+    session = createLegacyTutorRealtimeTtsSession(options)
+    await session.ready
+    if (aborted) { session.abort(); return }
+    session.append(pending)
+    pending = ''
+  })
+  void ready.catch(() => undefined)
+  return { ready, append(text) { if (aborted) return; if (session) session.append(text); else pending += text },
+    async finish() { await ready; await session?.finish() },
+    abort() { aborted = true; session?.abort() } }
+}
+
+export async function transcribeTutorSpeechPcm16(audio: ArrayBuffer, options: { signal?: AbortSignal; courseControl?: boolean } = {}) {
+  if (!audio.byteLength || audio.byteLength % 2 || audio.byteLength > MAX_TUTOR_SPEECH_PCM_BYTES) {
+    throw new TutorSpeechError('Invalid PCM size', '录音无效或超过 30 秒，请重新录音。', 400)
+  }
+  if (options.signal?.aborted) throw new TutorSpeechError('ASR aborted', undefined, 499)
+  if (process.env.DASHSCOPE_TUTOR_AUDIO_PROTOCOL === 'legacy') {
+    await reserveSpeechRequest('asr')
+    return transcribeLegacyTutorSpeechPcm16(audio, options.signal)
+  }
+  return transcribeTaskPcm(audio, options.signal, options.courseControl)
+}
+
+export async function synthesizeTutorSpeech(text: string, options: { voice?: string; signal?: AbortSignal } = {}): Promise<{ audio: ArrayBuffer; contentType: string }> {
+  if (process.env.DASHSCOPE_TUTOR_AUDIO_PROTOCOL === 'legacy') {
+    return synthesizeLegacyTutorSpeech(text, options.signal)
+  }
+  const safe = sanitizeTutorSpeechText(text)
+  if (!safe) throw new TutorSpeechError('Empty text', '这条回复没有可朗读的内容。', 400)
+  const chunks: Buffer[] = []
+  let size = 0
+  const session = createTaskTtsSession({ ...options, onAudio(pcm) {
+    size += pcm.length
+    if (size > 12 * 1024 * 1024) throw new TutorSpeechError('Audio too large')
+    chunks.push(pcm)
+  } })
+  await session.ready
+  session.append(safe)
+  await session.finish()
+  if (!size) throw new TutorSpeechError('Empty audio')
+  const pcm = Buffer.concat(chunks)
+  const wav = Buffer.alloc(44 + pcm.length)
+  wav.write('RIFF'); wav.writeUInt32LE(36 + pcm.length, 4); wav.write('WAVEfmt ', 8)
+  wav.writeUInt32LE(16, 16); wav.writeUInt16LE(1, 20); wav.writeUInt16LE(1, 22)
+  wav.writeUInt32LE(24000, 24); wav.writeUInt32LE(48000, 28); wav.writeUInt16LE(2, 32); wav.writeUInt16LE(16, 34)
+  wav.write('data', 36); wav.writeUInt32LE(pcm.length, 40); pcm.copy(wav, 44)
+  return { audio: Uint8Array.from(wav).buffer, contentType: 'audio/wav' }
 }

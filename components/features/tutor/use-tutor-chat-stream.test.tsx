@@ -235,7 +235,7 @@ describe('tutor chat lifecycle', () => {
     expect(result.current.messages.at(-1)?.content).toBe('这段文字仍然保留。')
   })
 
-  it('still retries a failed speech stream while the same audio session is active', async () => {
+  it('does not automatically synthesize again after a failed chat speech stream', async () => {
     mocks.fetch.mockResolvedValue(response([
       { type: 'audio', pcm: 'AAAA', sampleRate: 24000 },
       { type: 'done', reply: '可以重新播放的答复。' },
@@ -247,7 +247,7 @@ describe('tutor chat lifecycle', () => {
 
     await act(async () => { await result.current.sendMessage('帮我看看') })
 
-    expect(opts.playSpeech).toHaveBeenCalledWith('可以重新播放的答复。', expect.any(String))
+    expect(opts.playSpeech).not.toHaveBeenCalled()
   })
 
   it('keeps an in-progress retry on its original request identity', async () => {

@@ -1,3 +1,4 @@
+import { getTutorVoiceAccess } from '@/lib/ai/tutor/voice-access'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { buildTutorSceneContext } from '@/lib/ai/tutor/context-builders'
@@ -800,15 +801,21 @@ export async function POST(request: NextRequest) {
               safeEnqueue({ type: 'perf', phase: 'server_ready', timings: timing.snapshot() })
             }
             if (wantSpeak) {
+              const voiceAccess = await getTutorVoiceAccess(supabase, user).catch(() => null)
+              if (voiceAccess) {
               speechRef.current = createTutorSpeechStreamer({
+                voice: voiceAccess.voice,
+                signal: request.signal,
                 onAudio: (pcm, sampleRate) => {
-                  safeEnqueue({ type: 'audio', pcm, sampleRate })
+                  safeEnqueue({ type: 'audio', pcm, sampleRate, voice: voiceAccess.voice })
                 },
                 onError: (error) => {
+                  safeEnqueue({ type: 'audio_error', error: error.userMessage })
                   logger.warn('Tutor realtime TTS failed', { message: error.message })
                 },
               })
               // push() starts TTS lazily after a sanitized reply is available.
+              }
             }
             for (const toolCall of toolCalls) {
               safeEnqueue({ type: 'tool_call', toolCall })
@@ -955,12 +962,13 @@ export async function POST(request: NextRequest) {
           }
           safeEnqueue({ type: 'done', reply: fullReply, ...(billing ? { billing } : {}) })
           if (speechRef.current) {
+            let complete = false
             try {
-              await speechRef.current.finish()
+              complete = await speechRef.current.finish()
             } catch {
               // TTS 失败只静音，文字已经发出
             }
-            safeEnqueue({ type: 'audio_done' })
+            safeEnqueue({ type: 'audio_done', complete })
           }
         } catch (error) {
           speechRef.current?.abort()
