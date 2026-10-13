@@ -85,10 +85,12 @@
 1 14 -320 -476 -40 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 -320 -476 80 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-0 // Source p12: three exposed gray screw wheel hubs create toy front tubes; no launch mechanism.
-1 71 58 -452 -80 0 -1 0 1 0 0 0 0 1 99565.dat
-1 71 58 -452 0 0 -1 0 1 0 0 0 0 1 99565.dat
-1 71 58 -452 80 0 -1 0 1 0 0 0 0 1 99565.dat
+0 // Source p12: four gray screw hubs as front tubes (courseware p14).
+0 // night7c/n8: 4 hubs @ x=100 y=-420 z=-120/-40/40/120 — IoU≈0.632; NOT gated
+1 71 100 -420 -120 0 -1 0 1 0 0 0 0 1 99565.dat
+1 71 100 -420 -40 0 -1 0 1 0 0 0 0 1 99565.dat
+1 71 100 -420 40 0 -1 0 1 0 0 0 0 1 99565.dat
+1 71 100 -420 120 0 -1 0 1 0 0 0 0 1 99565.dat
 0 STEP
 0 // Source p13: six blue and three yellow curved top bricks, three source rows.
 1 1 -320 -524 -80 0 0 -1 0 1 0 1 0 0 2302b.dat
