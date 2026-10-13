@@ -7,10 +7,10 @@
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source PDF SHA256 de176ffaf6642f30107e5511bc9a7dd9a77c3d1bb0ba8e66cd8e63c658a30bb3; all source pages actually viewed. Existing approved Toolo approximations only; no physical validation.
 0 // SOURCE PAGE 1: four eleven-stud long fork arms form straight segmented spine
-1 72 0 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
-1 72 400 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
-1 72 800 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
-1 72 1200 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
+1 72 0 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-zhong-guo-long.dat
+1 72 400 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-zhong-guo-long.dat
+1 72 800 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-zhong-guo-long.dat
+1 72 1200 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-zhong-guo-long.dat
 0 STEP
 0 // SOURCE PAGE 2: two clutch cubes and neck fork
 1 72 0 -460 0 1 0 0 0 1 0 0 0 1 74957.dat
@@ -29,7 +29,9 @@
 0 // SOURCE PAGE 5: two screw rims form eyes; unsupported wing/tail substitutes prohibited
 1 7 -273 -705 -40 0 -1 0 1 0 0 0 0 1 99565.dat
 1 7 -273 -705 40 0 -1 0 1 0 0 0 0 1 99565.dat
-0 // OMITTED blue Toolo wing45117c01/45116/86593 and tail31239c01/76223: candidate identities, no approved available geometry. Not substituted by ordinary31215.
+0 // Hand fix 2026-10-13: blue head crest = 45117c01 wing + 31239c01 spoiler (copies of approved 4-ke-ji v2 approximations), spoiler sweeping back (+X).
+1 1 -168 -729 0 1 0 0 0 1 0 0 0 1 dev-129/45117c01-zhong-guo-long.dat
+1 1 -168 -777 0 1 0 0 0 1 0 0 0 1 dev-129/31239c01-zhong-guo-long.dat
 0 STEP
 0 // SOURCE PAGE 6: two spine clutch supports and four upper vertical leg bricks
 1 72 220 -460 0 1 0 0 0 1 0 0 0 1 74957.dat
@@ -58,9 +60,12 @@
 1 72 772 -265 136 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
 0 STEP
 0 // SOURCE PAGE 10: two rear scoop toes; two front wide toothed blades lack verified geometry
-1 25 772 -265 -136 0 0 -1 0 1 0 1 0 0 dev-129/6294.dat
-1 25 772 -265 136 0 0 -1 0 1 0 1 0 0 dev-129/6294.dat
-0 // OMITTED front two orange narrow toothed Toolo blades: shape differs from6294; unknown designID, no substitute generated.
+0 // Hand fix 2026-10-13: rear toe scoops resized (1.3x small scoop), opening forward (-X).
+1 25 772 -265 -136 -1 0 0 0 1 0 0 0 -1 dev-129/scoop-zhong-guo-long.dat
+1 25 772 -265 136 -1 0 0 0 1 0 0 0 -1 dev-129/scoop-zhong-guo-long.dat
+0 // Hand fix 2026-10-13: two front orange toothed rake feet on front toe-arm ends (copy of 4-yi-long rake approximation).
+1 25 -28 -245 -136 1 0 0 0 1 0 0 0 1 dev-129/rake-zhong-guo-long.dat
+1 25 -28 -245 136 -1 0 0 0 1 0 0 0 -1 dev-129/rake-zhong-guo-long.dat
 0 STEP
 0 // SOURCE PAGE 11: four orange 2x2 square leg decorations on outward-facing studs
 1 25 220 -420 -136 0 0 1 1 0 0 0 1 0 3437.dat
