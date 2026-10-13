@@ -27,10 +27,16 @@ import { ResetPasswordSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 import { toE164 } from '@/lib/utils/phone'
+import {
+  clearPendingOtp,
+  OTP_COOLDOWN_SECONDS,
+  readPendingOtp,
+  savePendingOtp,
+  type RestoredPendingOtp,
+} from '@/lib/auth/pending-otp'
 
 const OTP_SEND_FAIL_DEFAULT = '发送验证码失败，请检查手机号或稍后重试。'
 const OTP_VERIFY_FAIL_DEFAULT = '验证失败，请检查验证码是否正确。'
-const OTP_COOLDOWN_SECONDS = 60
 
 export type AuthMode = 'sign_in' | 'sign_up' | 'forgot_password'
 export type AuthMethod = 'phone' | 'email'
@@ -120,6 +126,12 @@ function getAuthPhone(value: string) {
   return toE164(value)
 }
 
+/** Restore pending SMS OTP after the login dialog unmounts (sessionStorage). */
+function readBootPendingOtp(initialMode: AuthMode): RestoredPendingOtp | null {
+  if (initialMode === 'forgot_password') return null
+  return readPendingOtp()
+}
+
 export function AuthFlow({
   presentation,
   title,
@@ -133,27 +145,30 @@ export function AuthFlow({
 }: AuthFlowProps) {
   const supabase = createClient()
 
-  const [method, setMethod] = useState<AuthMethod>(initialMode === 'forgot_password' ? 'email' : initialMethod)
+  const [bootPending] = useState(() => readBootPendingOtp(initialMode))
+  const [method, setMethod] = useState<AuthMethod>(
+    initialMode === 'forgot_password' ? 'email' : (bootPending ? 'phone' : initialMethod),
+  )
   const [emailMode, setEmailMode] = useState<'sign_in' | 'sign_up'>(getInitialEmailMode(initialMode))
   const [isResetMode, setIsResetMode] = useState(initialMode === 'forgot_password')
   const [phoneRecoveryAfterOtp, setPhoneRecoveryAfterOtp] = useState(false)
 
-  const [phone, setPhone] = useState('')
+  const [phone, setPhone] = useState(() => bootPending?.displayPhone ?? '')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [otp, setOtp] = useState('')
-  const [otpStep, setOtpStep] = useState<OtpStep>('input')
+  const [otpStep, setOtpStep] = useState<OtpStep>(() => (bootPending ? 'verify' : 'input'))
 
-  const [termsAgreed, setTermsAgreed] = useState(false)
+  const [termsAgreed, setTermsAgreed] = useState(() => bootPending?.termsAgreed ?? false)
   const [consentOpen, setConsentOpen] = useState(false)
   const [consentActionLabel, setConsentActionLabel] = useState('获取验证码')
   const consentActionRef = useRef<(() => void) | null>(null)
   const consentReturnFocusRef = useRef<HTMLElement | null>(null)
   const consentCancelRef = useRef<HTMLButtonElement>(null)
   const consentContinuingRef = useRef(false)
-  const [otpCooldown, setOtpCooldown] = useState(0)
-  const [otpSentPhone, setOtpSentPhone] = useState('')
+  const [otpCooldown, setOtpCooldown] = useState(() => bootPending?.cooldownSeconds ?? 0)
+  const [otpSentPhone, setOtpSentPhone] = useState(() => bootPending?.phone ?? '')
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -209,11 +224,14 @@ export function AuthFlow({
 
   useEffect(() => {
     if (phoneRecoveryAfterOtp) return
+    // Keep verify UI while the typed phone still matches the number we already sent to
+    // (also protects session restore on remount — otherwise the first effect pass resets to input).
+    if (otpSentPhone && getAuthPhone(phoneValue) === otpSentPhone) return
     setOtp('')
     setOtpStep('input')
     setError(null)
     setMessage(null)
-  }, [phoneValue, phoneRecoveryAfterOtp])
+  }, [phoneValue, phoneRecoveryAfterOtp, otpSentPhone])
 
   useEffect(() => {
     if (presentation !== 'page') return
@@ -251,6 +269,8 @@ export function AuthFlow({
   }
 
   const completeSuccess = (options?: { isNewUser?: boolean }) => {
+    clearPendingOtp()
+
     if (phoneRecoveryAfterOtp) {
       window.location.href = getRecoveryHref()
       return
@@ -307,6 +327,12 @@ export function AuthFlow({
       setOtpStep('verify')
       setPhone(rawPhone)
       setMethod('phone')
+      savePendingOtp({
+        phone: nextFormattedPhone,
+        displayPhone: rawPhone.trim(),
+        sentAt: Date.now(),
+        termsAgreed: true,
+      })
     } catch (err: unknown) {
       logger.warn('OTP send error', { error: err })
       setError(getOtpErrorMessage(err))
