@@ -21,8 +21,9 @@ export const SpeciesAtlasTile = memo(function SpeciesAtlasTile({ item, filtersKe
   // 失败状态绑定图片地址，不为每张图片安装 effect 或在 onLoad 后再次渲染。
   const [failedSrc, setFailedSrc] = useState<string | null>(null)
   // 资源代理冷连接偶发 504：先退避重试两次（带 retry 参数绕过失败缓存），仍失败才显示占位。
-  const [retry, setRetry] = useState(0)
+  const [retryState, setRetryState] = useState<{ src: string | null | undefined; count: number }>({ src: null, count: 0 })
   const baseSrc = resolveAssetDisplayUrl(item.thumbnailUrl) ?? item.thumbnailUrl
+  const retry = retryState.src === baseSrc ? retryState.count : 0
   const imageSrc = baseSrc && retry > 0 ? `${baseSrc}${baseSrc.includes('?') ? '&' : '?'}retry=${retry}` : baseSrc
   const showImage = Boolean(imageSrc) && failedSrc !== baseSrc
   const topicLabel = item.topicKey === 'birds' ? '鸟类' : item.topicKey === 'insects' ? '昆虫' : '植物'
@@ -66,14 +67,14 @@ export const SpeciesAtlasTile = memo(function SpeciesAtlasTile({ item, filtersKe
             unoptimized={shouldBypassAssetDisplayOptimization(item.thumbnailUrl)}
             className="object-cover"
             onError={() => {
-              if (retry < 2) window.setTimeout(() => setRetry(value => value + 1), 600 * (retry + 1))
+              if (retry < 2) window.setTimeout(() => setRetryState({ src: baseSrc, count: retry + 1 }), 600 * (retry + 1))
               else setFailedSrc(baseSrc)
             }}
           />
         ) : (
           <span className={styles.placeholder}><PlaceholderIcon size={28} strokeWidth={1.5} /><span>暂无图片</span></span>
         )}
-        {item.observedByCurrentUser === true ? (
+        {item.observedByCurrentUser !== null ? (
           <span className={cn(styles.badge, item.observedByCurrentUser && styles.observedBadge)}>
             {item.observedByCurrentUser ? <Check size={11} aria-hidden="true" /> : null}{statusLabel}
           </span>

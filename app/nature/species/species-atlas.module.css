@@ -147,7 +147,7 @@
   .categoryCount { font-size: 12px; }
   .atlas :global(.nature-atlas-status-button) { padding-inline: 22px; font-size: 14px; min-height: 40px; }
   .atlas :global(.nature-atlas-results) { margin-top: 28px !important; }
-  .atlas :global(.nature-atlas-grid) { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
+  .atlas :global(.nature-atlas-grid) { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 18px; }
   .atlas[data-layout='list'] :global(.nature-atlas-grid) { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
   .atlas :global(.nature-atlas-tile-name) { font-size: 16px; }
   .tileInfo { padding: 12px 14px 14px; }
@@ -155,6 +155,9 @@
   .atlas :global(.nature-atlas-letter-heading) h2 { font-size: 24px; }
   .atlas :global(.nature-atlas-index) { top: 88px; }
   .heroStats > div { padding: 0 28px; }
+}
+@media (min-width: 1280px) {
+  .atlas :global(.nature-atlas-grid) { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .atlas :global(.nature-atlas-tile), .atlas :global(.nature-atlas-index-link) { transition: none; }

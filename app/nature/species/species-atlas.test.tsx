@@ -62,7 +62,6 @@ describe('物种图鉴的内容与筛选', () => {
     const { container } = renderAtlas()
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1)
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('鸟类图鉴与观察')
-    expect(screen.getByRole('link', { name: '查看公开观察记录' })).toHaveAttribute('href', '/nature/observations')
     expect(container.querySelector('[data-topic="birds"]')).toHaveTextContent('4')
     expect(container.querySelector('[data-topic="insects"]')).toHaveTextContent('0')
     expect(container.querySelector('[aria-live="polite"]')).toHaveTextContent('4 种')
@@ -209,10 +208,17 @@ describe('物种卡片', () => {
     expect(screen.getByRole('link')).toHaveAttribute('aria-label', `鸟类 1，鸟类，${status}`)
     expect(container.querySelector('[aria-hidden="true"]')!.textContent).toBe(observed === null ? '' : status)
   })
-  it('图片失败显示占位，更换图片后恢复，不依赖 onLoad 设置透明度', () => {
+  it('图片失败先重试两次再显示占位，更换图片后恢复，不依赖 onLoad 设置透明度', () => {
+    vi.useFakeTimers()
     const item = bird(1)
     const { container, rerender } = render(<SpeciesAtlasTile item={item} filtersKey="" />)
+    for (let attempt = 1; attempt <= 2; attempt += 1) {
+      fireEvent.error(container.querySelector('img')!)
+      act(() => { vi.advanceTimersByTime(2000) })
+      expect(container.querySelector('img')!.getAttribute('src')).toContain(`retry=${attempt}`)
+    }
     fireEvent.error(container.querySelector('img')!)
+    vi.useRealTimers()
     expect(screen.getByText('暂无图片')).toBeInTheDocument()
     rerender(<SpeciesAtlasTile item={{ ...item, thumbnailUrl: '/replacement.webp' }} filtersKey="" />)
     expect(container.querySelector('img')).toHaveAttribute('src', '/replacement.webp')

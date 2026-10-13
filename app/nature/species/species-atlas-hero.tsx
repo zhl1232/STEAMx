@@ -8,10 +8,10 @@ import styles from './species-atlas.module.css'
  * 头图：普通翠鸟（Alcedo atthis），摄影 Andreas Trepte（photo-natur.de），
  * 来源 Wikimedia Commons「File:Common_Kingfisher_Alcedo_atthis.jpg」，
  * 许可 CC BY-SA 2.5（https://creativecommons.org/licenses/by-sa/2.5/）。
- * 已缩放为 1600px webp；按许可要求在头图角落署名。
+ * 已改为 1800×1000 宽幅合成（原图背景虚化延展、翠鸟置右、整体色调略偏绿），webp；按许可要求在头图角落署名。
  */
 const HERO_PHOTO = {
-  src: '/assets/nature-atlas-hero-kingfisher-v2.webp',
+  src: '/assets/nature-atlas-hero-kingfisher-v3.webp',
   credit: '图：Andreas Trepte / CC BY-SA 2.5',
   sourceUrl: 'https://commons.wikimedia.org/wiki/File:Common_Kingfisher_Alcedo_atthis.jpg',
 }
