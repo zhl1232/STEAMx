@@ -52,7 +52,7 @@ export default function MembershipPage() {
           <p className={styles.description}>会员有效期内，每自然月可使用 {formatTutorCredits(MEMBER_AI_MONTHLY_CREDITS)} 代币；创始会员每自然月为 {formatTutorCredits(FOUNDER_AI_MONTHLY_CREDITS)} 代币。</p>
         </div>
         <div className={styles.benefitList}>
-          <div><MessageCircle aria-hidden="true" /><div><h3>和小迪一起想一想</h3><p>使用小迪 AI 辅助问答，围绕探索中的问题获得解释与启发。代币用于理解问题、准备资料和生成回答，本次扣费会在回复后显示。</p></div></div>
+          <div><MessageCircle aria-hidden="true" /><div><h3>和小迪一起想一想</h3><p>使用小迪 AI 辅助问答，围绕探索中的问题获得解释与启发。代币用于理解问题、准备资料和生成回答。</p></div></div>
           <div><Compass aria-hidden="true" /><div><h3>为 PBL 项目理清思路</h3><p>使用项目式学习中的 AI 辅导工具，辅助拆解问题、整理草稿和获得反馈，按对应工具规则扣减额度。</p></div></div>
         </div>
       </section>

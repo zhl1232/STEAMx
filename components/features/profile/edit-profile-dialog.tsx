@@ -8,6 +8,17 @@ import { ProfileEditor, type ProfileEditorHandle, type ProfileEditorTarget } fro
 
 export type { ProfileEditorTarget } from './profile-editor'
 
+/** History state marker so mobile system/gesture back closes the dialog instead of leaving /profile. */
+export const EDIT_PROFILE_DIALOG_HISTORY_KEY = '__steamxEditProfileDialog'
+
+export function isEditProfileDialogHistoryState(state: unknown): boolean {
+  return Boolean(
+    state
+    && typeof state === 'object'
+    && (state as Record<string, unknown>)[EDIT_PROFILE_DIALOG_HISTORY_KEY] === true,
+  )
+}
+
 interface EditProfileDialogProps {
   children?: ReactNode
   open?: boolean
@@ -23,6 +34,7 @@ export function EditProfileDialog({
   const [viewport, setViewport] = useState<{ height: number; top: number } | null>(null)
   const editorRef = useRef<ProfileEditorHandle>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
+  const historyPushedRef = useRef(false)
   const open = controlledOpen ?? internalOpen
   const setOpen = (next: boolean) => {
     setInternalOpen(next)
@@ -44,6 +56,43 @@ export function EditProfileDialog({
     return () => {
       visualViewport.removeEventListener('resize', update)
       visualViewport.removeEventListener('scroll', update)
+    }
+  }, [open])
+
+  // Full-screen mobile dialog looks like a page; without a history entry, Android/iOS
+  // back (and edge swipe) pops /profile and lands on the homepage. Push a marker while
+  // open so system back only dismisses the dialog.
+  useEffect(() => {
+    if (!open) return
+
+    if (!isEditProfileDialogHistoryState(window.history.state)) {
+      window.history.pushState({ [EDIT_PROFILE_DIALOG_HISTORY_KEY]: true }, '')
+      historyPushedRef.current = true
+    }
+
+    const onPopState = () => {
+      historyPushedRef.current = false
+      let didLeave = false
+      const leave = () => {
+        didLeave = true
+        setOpen(false)
+      }
+      if (editorRef.current) editorRef.current.requestLeave(leave)
+      else leave()
+      // Dirty confirm is showing: put the marker back so another system-back is needed.
+      if (!didLeave) {
+        window.history.pushState({ [EDIT_PROFILE_DIALOG_HISTORY_KEY]: true }, '')
+        historyPushedRef.current = true
+      }
+    }
+
+    window.addEventListener('popstate', onPopState)
+    return () => {
+      window.removeEventListener('popstate', onPopState)
+      if (historyPushedRef.current && isEditProfileDialogHistoryState(window.history.state)) {
+        historyPushedRef.current = false
+        window.history.back()
+      }
     }
   }, [open])
 
