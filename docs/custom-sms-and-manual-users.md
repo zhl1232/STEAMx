@@ -1,115 +1,31 @@
-# 自定义短信与手动添加用户
+# 管理员创建账号与历史短信入口
 
-因 Supabase 官方短信（Twilio 等）在国内需资质或配置复杂，项目支持**自定义短信接口**和**管理员手动添加用户**。
+本文仅维护管理员建号接口及其使用边界。短信配置、提供商、OTP 和会话处理统一见 [登录与短信](phone-auth.md)，不在此复制第二套配置表。
 
-## 一、自定义短信（替代 Supabase 官方短信）
+核对基线：2026-10-13，`0d322eda40dfdf81c7feb4f37703c9b38bea2b15`。本文不代表已使用真实账号完成验收。
 
-当 `AUTH_PHONE_PROVIDER=legacy` 时，手机号登录/注册使用项目自己的「发码 + 验证」流程，短信由网站服务器发送。
+## 管理接口
 
-### 1. 环境变量
-
-在 `.env.local` 中配置其一即可：
-
-| 变量 | 说明 |
-|------|------|
-| `SMS_PROVIDER=log` | 不真实发短信，仅限开发环境；生产环境缺少发送配置会报错 |
-| `SMS_PROVIDER=aliyun` | 阿里云普通短信服务（Dysmsapi SendSms），需配合下表 |
-| `SMS_PROVIDER=custom` | 使用自定义 HTTP 接口发短信，需配合下表 |
-
-**阿里云**：只需配置下面两个变量即走阿里云 Dysmsapi，签名「北京创探科技」、模板 `SMS_332130837` 在代码内配置（`lib/sms/aliyun.ts` 中 `ALIYUN_SIGN_NAME`、`ALIYUN_TEMPLATE_CODE`，如需修改可改该文件）。
-
-| 变量 | 说明 |
-|------|------|
-| `SMS_ALIYUN_ACCESS_KEY_ID` | 必填。阿里云 AccessKey ID |
-| `SMS_ALIYUN_ACCESS_KEY_SECRET` | 必填。阿里云 AccessKey Secret |
-
-模板正文为 `您的验证码为：${code}，请勿泄露于他人！`，只传数字验证码变量 `code`。验证码由应用生成并通过本库 `phone_otps` 校验、消费，不调用号码认证 `CheckSmsVerifyCode`。只有短信 API 返回 `Code=OK` 才视为发送受理成功。
-
-**手机号登录后的跳转**：验证成功后会通过 Supabase Magic Link 跳回你的站点（优先用请求的 `Origin`，否则用 `NEXT_PUBLIC_SITE_URL` 或本地 `http://localhost:3000`）。请在 Supabase Dashboard → **Authentication** → **URL Configuration** 中把「Redirect URLs」里加上你的站点根地址（如 `http://localhost:3000/`、`https://你的域名/`），否则可能跳转到 Supabase 默认页。
-
-当 `SMS_PROVIDER=custom` 时：
-
-| 变量 | 说明 |
-|------|------|
-| `SMS_CUSTOM_URL` | **必填**。发短信的 HTTP 地址，项目会向该 URL 发送 POST |
-| `SMS_CUSTOM_HEADERS` | 可选。JSON 对象字符串，如 `{"Authorization":"Bearer xxx"}` |
-
-POST 请求体为：
+已认证的 admin 可按现有服务端角色校验调用 `POST /api/admin/users`。输入保留现有邮箱、密码和可选显示名字段：
 
 ```json
 {
-  "phone": "+8613800138000",
-  "code": "123456"
-}
-```
-
-你的接口收到后，可调用任意短信服务（阿里云、腾讯云、其他国内厂商）发送验证码，无需在项目里写死某一家。
-
-### 2. 数据库迁移
-
-执行一次迁移以创建 OTP 与手机号映射表：
-
-```bash
-pnpm db:push
-```
-
-涉及表：`phone_otps`、`phone_to_user`（仅 service_role 可访问）。
-
-### 3. 流程说明
-
-- **发验证码**：前端请求 `POST /api/auth/sms/send`，服务端生成 6 位验证码、写入 `phone_otps`、调用你配置的短信接口。
-- **验证并登录**：前端请求 `POST /api/auth/sms/verify`，服务端校验 OTP，若用户不存在则用 Admin API 创建用户（占位邮箱 + 可选密码），再生成 Magic Link。响应同时可能包含 `redirectUrl` 和 `tokenHash`：前端优先跳转 `redirectUrl`；没有可用链接时，使用 Supabase `auth.verifyOtp({ type: 'email', token_hash: tokenHash })` 完成会话建立，再跳转响应中的 `redirectTo`。这样兼容 pg-meta 返回 action link 或仅返回 hashed token 的两种格式。
-- **绑定手机号**：已登录用户请求 `POST /api/auth/sms/send`（`type=phone_change`）发送验证码，再调用 `POST /api/auth/sms/verify`（`type=phone_change`）完成绑定。
-
-手机号用户在本系统中以「占位邮箱」形式存在于 Supabase Auth（如 `p_8613800138000@phone.local`），`phone_to_user` 表维护手机号与用户 ID 的对应关系。
-
-> **设置页「绑定手机号」**：已改为自定义短信接口，仅支持首次绑定，不支持换绑/解绑。
-
----
-
-## 二、管理员手动添加用户（无需短信/邮箱验证）
-
-不依赖短信和邮箱验证，由管理员在后台直接创建「邮箱 + 密码」用户，用户用该邮箱和密码登录即可。
-
-### 1. API
-
-仅 **admin** 角色可调用：
-
-```http
-POST /api/admin/users
-Content-Type: application/json
-
-{
   "email": "user@example.com",
-  "password": "至少6位",
-  "displayName": "可选显示名"
+  "password": "<符合当前接口要求的测试密码>",
+  "displayName": "测试账号"
 }
 ```
 
-成功返回示例：
+此示例不能使用生产账号或真实密码。请求需携带当前管理员会话；不得将 session cookie、密码或 service-role key 放入共享文档。成功返回账号 ID 等创建结果；重复邮箱、输入无效和权限不足按接口错误处理。创建账号是一项写操作，必须在用户批准的环境和范围内执行。
 
-```json
-{
-  "id": "uuid",
-  "email": "user@example.com",
-  "message": "用户已创建，可使用该邮箱和密码登录。"
-}
-```
+注册资料由 `handle_new_user` 与现有补建机制承担，检查见 [资料补建](ensure-profile.md)。管理员建号不会自动验证短信送达、获得手机号安全资格、授予付费会员或证明学习流程可用。
 
-- 若邮箱已存在，会返回 400 及「该邮箱已被注册」。
-- 创建后 Supabase 的 `handle_new_user` 触发器会自动插入 `profiles` 记录。
+## 邮箱账号如何使用
 
-### 2. 调用方式
+公开登录界面强调手机号，没有单独的邮箱注册入口。当前密码登录实现仍识别含 `@` 的标识并走邮箱认证，因此内部测试账号可在“密码登录”分支使用既有邮箱标识；标签仍为手机号，这是一项兼容能力，不是承诺存在面向公众的邮箱登录产品。
 
-- 用 Postman / curl 等调用时，需先以管理员账号登录网站，再在请求中携带该账号的 Cookie（与现有登录态一致）。
-- 或在管理后台增加「添加用户」表单：输入邮箱、密码、可选显示名，提交时请求 `POST /api/admin/users`。
+使用前在对应版本确认表单和认证返回，再核验资料与权限。不要为了符合旧建号文档而恢复邮箱注册界面，也不要绕过手机号或互动安全要求。密码找回和站内回跳仍遵循 [登录与短信](phone-auth.md)。
 
-用户创建后，直接使用**邮箱 + 密码**在登录页登录即可。
+## 原始记录
 
----
-
-## 三、安全与限流
-
-- 验证码：同一手机号 60 秒内只能请求一次；验证码约 10 分钟内有效。
-- `phone_otps`、`phone_to_user` 已启用 RLS，仅 service_role 可访问，前端无法直接读写。
-- 管理员创建用户接口依赖现有 `requireRole(supabase, ['admin'])`，仅管理员可调用。
+本文件保留旧路径，避免原文档导航失效。原短信说明、旧会话顺序与建号交付文字由 Git 历史保存；历史登录配置和排障时间线见 [文档快照](archive/documentation/2026-10-13/README.md)。旧操作示例不能直接作为当前初始化或生产维护命令。

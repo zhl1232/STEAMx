@@ -1,64 +1,70 @@
-# 文档导航
+# 文档导航与唯一规则来源
 
-这里维护当前规则、操作说明和待办。代码位置见 [项目索引](../PROJECT_INDEX.md)，历史方案与验收过程放在 `archive/`，不作为当前实现说明。2026-10-12 完成一批方向、状态与归档整理；这次是代码和文档核对，不替代生产或真实家庭验收。
+核对日期：2026-10-13；代码基线 `0d322eda40dfdf81c7feb4f37703c9b38bea2b15`。本轮只整理文档，没有执行生产迁移、发布、交易或真实账号验收。
 
-## 当前规则与开发规范
+[根 README](../README.md) 负责介绍和启动，[项目索引](../PROJECT_INDEX.md) 负责定位代码。本页规定现行文档分工；同一规则不在多份文档复制维护。
 
-| 文档 | 用途 |
+## 规则由谁维护
+
+| 主题 | 唯一维护文档 | 其他文档的职责 |
+|---|---|---|
+| 长期方向、用户假设与产品约束 | [产品方向](product-direction.md) | 架构和待办只链接，不重述经营决定 |
+| 模块、数据和实践关系 | [产品架构](product-architecture.md) | 索引只列实现入口 |
+| 当前任务及关闭条件 | [下一步](next-step.md) | 专项文档提供技术与验收依据，不另建竞争待办表 |
+| 内容证据与验收口径 | [内容质量](content-quality.md) | 批次记录只保存当次证据，不代替规则 |
+| 数据库连接、迁移命令与写入边界 | [数据库连接与迁移](database-psql.md) | README、编辑器规则、部署文档仅链接命令契约 |
+| 应用发布、切换与故障恢复 | [生产部署](deployment.md) | 指定版本允许迁移名单以该提交的 workflow 为准；发布记录是快照 |
+| 登录、认证提供商与短信配置 | [登录与短信](phone-auth.md) | [管理员建号](custom-sms-and-manual-users.md) 只维护管理接口和使用限制 |
+| 代币发放、扣费、退款与预算 | [小迪代币计费](ai/tutor-credit-accounting.md) | 会员交接和待办不复制额度或换算规则 |
+| 会员开售、履约与验收 | [会员开售交接](MEMBERSHIP_PAGE_HANDOFF.md) | 不据此认定真实收款、退款或权益验收通过 |
+| 语音模型、配置、音色、共享预算和取消 | [语音协议与验收](ai/voice-31-upgrade.md) | 课程文档只维护课程控制体验；计费文档只说明是否纳入代币 |
+| 手机搭建、有限口令及课程内限制 | [手机积木搭建](courses/mobile-building-experience.md) | 模型接入和价格不在此另写一份 |
+| AI 语义决策与确定性协议边界 | [AI 开发规范](AI_DEVELOPMENT_GUIDELINES.md) | 各功能引用规范，不扩大有限口令例外 |
+| 页面身份、品牌验收、验证文件及推送入口 | [SEO 索引清单](seo-indexing-checklist.md) | [日常运营](seo-daily-operations.md) 只维护频率、故障流程和记录方法 |
+| 商城渠道、采购和履约边界 | [商城决策](STORE_CHANNEL_FULFILLMENT_DECISION.md) | 方向、架构和待办不另外承诺自动采购或已开售 |
+
+“唯一来源”是文档分工，不允许文档覆盖实际代码、已确认产品决定或生产证据。发现冲突须核对日期、提交与适用环境，再修正对应来源；不得为匹配旧说明改变产品行为。
+
+## 其他现行专题
+
+| 文档 | 负责内容 |
 |---|---|
-| [产品方向](product-direction.md) | 长期理念、首批用户假设、网站推广与商城准备的当前顺序 |
-| [产品架构](product-architecture.md) | 项目、课程、实践、记录与商城的已有边界，以及待讨论差异 |
-| [内容质量与验收](content-quality.md) | 材料/视频/模型/实物/家庭使用的证据口径与内容核验规则 |
-| [AI 开发规范](AI_DEVELOPMENT_GUIDELINES.md) | 模型决策与服务端确定性边界 |
-| [小迪代币计费](ai/tutor-credit-accounting.md) | 会员月度与每日赠币、实际模型用量、代币结算、客户展示与语音成本边界 |
-| [设计规范](design-system.md) | 布局、组件、字体和样式约定 |
+| [设计规范](design-system.md) | 布局、组件、字体和样式 |
+| [PBL 指南](PBL_CHALLENGE_GUIDE.md) | 挑战内容及系统契约 |
 | [品牌源素材](brand-assets/README.md) | 非运行时品牌导出稿、配色备选与统一 Logo 入口 |
-| [PBL 指南](PBL_CHALLENGE_GUIDE.md) | 挑战内容生产与当前系统规则 |
-| [互动资格与内容访问](TRUST_AND_INTERACTION_ACCESS.md) | 能力矩阵、登录与账号限制、权限实现 |
-| [商城渠道决策](STORE_CHANNEL_FULFILLMENT_DECISION.md) | 站内交易准备、人工采购与供应商代发；支付及开售条件 |
-| [探索记录](EXPLORATION_RECORDS.md) | 普通项目记录的公开审核契约与本地文字恢复边界 |
+| [互动资格](TRUST_AND_INTERACTION_ACCESS.md) | 阅读、写入、角色与安全资格 |
+| [内容分级](CONTENT_CLASSIFICATION_IMPLEMENTATION.md) | 三轴规则、审核和开关 |
+| [探索记录](EXPLORATION_RECORDS.md) | 普通项目记录、公开审核与草稿恢复 |
+| [课程进度与奖励](COURSE_PROGRESS_REWARDS_AND_STEAM_IMPLEMENTATION.md) | 完成契约、奖励、里程碑和审计 |
+| [Scratch 维护与验收](SCRATCH_CURRICULUM_ROLLOUT.md) | 导入、旧课保护和真实账号续学 |
+| [注册资料补建](ensure-profile.md) | 触发器、服务端兜底和待核验事项 |
+| [物种图鉴](NATURE_SPECIES_ATLAS_IMPLEMENTATION.md) | 图鉴读模型、缩略图和核查 |
+| [游乐场联网](playground-online-features.md) | 对战、竞速及房间生命周期 |
+| [LDraw 状态](ldraw-status.md) | 资源状态汇总，不把候选当上线 |
+| [LDraw 发布](ldraw-publishing.md) | 资源上传、回读、挂载与缓存 |
+| [维护入口退役与第二轮资源清理](maintenance/repository-cleanup-phase2.md) | 旧生产删除链停用、历史脚本入口、资源范围与验证边界 |
+| [小班材料覆盖](courses/lesson-kit-coverage-small-class.md) | 对应库存和核算限制 |
+| [中班/大班材料覆盖](courses/lesson-kit-coverage-middle-senior.md) | 对应模型和核算限制 |
+| [SEO 周报模板](seo-weekly-report-template.csv) | 页面与搜索词记录 |
+| [sitemap 检查模板](seo-sitemap-check-template.csv) | 技术、实时测试和后台读取分层记录 |
 
-## 维护与操作
+## 当前、历史与验证状态
 
-| 文档 | 用途 |
-|---|---|
-| [数据库连接与迁移](database-psql.md) | 连接诊断、正式迁移入口与执行边界 |
-| [应用部署](deployment.md) | Docker、CI 与生产发布操作 |
-| [维护入口退役与第二轮资源清理](maintenance/repository-cleanup-phase2.md) | 旧生产删除链停用、历史脚本入口说明、资源范围与验证边界 |
-| [手机认证](phone-auth.md) | 登录、提供商切换与历史排查状态 |
-| [注册资料补建](ensure-profile.md) | 触发器、服务端兜底与待核对的生产验收 |
-| [短信与手动用户](custom-sms-and-manual-users.md) | 短信配置和账号创建流程 |
-| [内容分级](CONTENT_CLASSIFICATION_IMPLEMENTATION.md) | 三轴规则、审核、开关与运维 |
-| [课程进度与奖励](COURSE_PROGRESS_REWARDS_AND_STEAM_IMPLEMENTATION.md) | 完成契约、奖励、里程碑与审计 |
-| [Scratch 维护与验收](SCRATCH_CURRICULUM_ROLLOUT.md) | 导入、旧课保护、发布顺序与真实账号保存/续学验收 |
-| [小班材料覆盖](courses/lesson-kit-coverage-small-class.md) | 默认库存、替代规则与小班课时粗算范围 |
-| [中班/大班材料覆盖](courses/lesson-kit-coverage-middle-senior.md) | 默认库存、扫描模型范围与缺件说明 |
-| [物种图鉴](NATURE_SPECIES_ATLAS_IMPLEMENTATION.md) | 图鉴读模型、缩略图与发布核查 |
-| [游乐场联网](playground-online-features.md) | 对战、竞速和房间生命周期 |
-| [LDraw 当前状态](ldraw-status.md) | 历史发布基线、后续确认候选与待核对状态 |
-| [手机积木搭建体验](courses/mobile-building-experience.md) | 成品图、视角连续性、明确开启的语音口令、识别成本与手机验收边界 |
-| [LDraw 课程资源发布](ldraw-publishing.md) | 模型独立 OSS 发布、应用发布范围、首次启用与版本缓存规则 |
-| [SEO / GEO 索引清单](seo-indexing-checklist.md) | Sitemap、站长验证、百度推送与高价值 URL |
-| [SEO / GEO 日常检查](seo-daily-operations.md) | 发布检查、每日异常检查、三个专题及 Google/百度/Bing 效果跟踪 |
-| [SEO 周报模板](seo-weekly-report-template.csv) | 按平台、页面、查询词记录真实数据和复查计划 |
-| [站点地图检查模板](seo-sitemap-check-template.csv) | 分别记录公开技术检查、Google 实时测试和后台 sitemap 读取结果 |
+每次更新涉及状态时，分别记录：检查日期、提交/版本、环境、证据、仍未验证的项目。代码已合入、发布配置已纳入、迁移已执行、真实业务已验收是四个独立结论；没有证据写“本次未核验”，不能把旧的“未执行”改成新的“已完成”。
 
-## 待办与历史
+生产状态属于相应版本的发布/验收记录，不在多个通用指南维护“本次尚未上线”。定价或数量必须注明对象、日期和来源；不同批次的计数、原 ID 和哈希不为表面一致而改写。
 
-- [旧昆虫工具归档](archive/scripts/2026-10-13/README.md)：缺少输入且无其他仓库调用的两个旧入口，保留原始源代码快照；不代表生产数据清理已完成。
+新规则更新其唯一来源，并检查入链文档是否重复了旧值。历史命令、测试结果和排障过程放入 `archive/`；删除跳转页前核对仓库入链及外部兼容需要，体积小的兼容入口不以数量为清理目标。可被脚本读取的清单须先检查依赖，不因它是 JSON 或放在 docs 内就删除。
 
-- [下一步](next-step.md)：集中维护当前任务、优先级和关闭条件；网站试推广与商城准备并行，已完成事项回到模块说明。
-- 待验收和专项依据：[会员开售差异](MEMBERSHIP_PAGE_HANDOFF.md)。科学五页样板与科学扩展批次已归档，见下方历史记录；其中未完成项仍由 [下一步](next-step.md) 承接。
-- [2026-10-09 发布包](releases/2026-10-09/README.md) 保留原目录；其中资产清单仍被发布脚本读取，发布候选不等于生产完成。
-- 2026-10-12 归档的批次记录：[趣味实验核对](archive/content/2026-09-21/fun-science-content.md)、[科教版内容整理](archive/content/2026-09-21/science-kit-content.md)、[视频分类调整](archive/content/2026-09-21/video-classification.md)、[探索页与封面调整](archive/explore/2026-09-22-optimization.md)、[3+ 模型 2026-09-15 发布](archive/ldraw/releases/2026-09-15/release-notes.md)、[内容分诊硬删除](archive/content/2026-08-13/content-triage.md)、[科学五页样板](archive/science/2026-10-09/science-samples-review.md)、[科学扩展批次](archive/science/2026-10-09/expansion/README.md)、[科学 55 项发布说明](archive/science/2026-10-10/README.md)。原路径保留迁移指引；science55 / science-expansion 目录下的 json 留在原处；原正文、数量与哈希作为历史证据保留。
-- 历史产品方案：[PBL 阶段重构](archive/PBL_STAGE_FLOW_REDESIGN.md)、[免费课与积木变现](archive/free-course-and-brick-monetization-plan.md)、[2026-08-14 产品评审](archive/product-design-review-2026-08-14.md)。
-- [LDraw 历史总账](archive/ldraw/ldraw-model-audit.md)、[状态历史快照](archive/ldraw/ldraw-status-history-2026-09-15.md)、[PROJECT_INDEX LDraw 过程归档](archive/ldraw/project-index-ldraw-history-2026-09-15.md)与各批次原始记录保留验收依据；[2026-09-08 确认记录](archive/ldraw/ldraw-confirmed-2026-09-08.md)和[2026-09-09 挂载记录](archive/ldraw/ldraw-mounted-2026-09-09.md)已归档，最新汇总从 [LDraw 当前状态](ldraw-status.md)进入。
-- `ui-gpt-designs/` 是被 Git 忽略的本地设计参考图，不属于受版本管理的文档；需要保留的参考图应自行备份到项目外。
+## 发布记录与历史入口
 
-## 维护约定
+- [2026-10-13 运行时迁移配置快照](releases/2026-10-13/runtime-migrations.md)：解释当前基线的白名单与发布边界，不是生产执行凭证。
+- [旧昆虫工具归档](archive/scripts/2026-10-13/README.md)：两个缺少输入且无调用的旧入口的源代码快照；不代表生产数据清理已完成。
+- [2026-10-09 发布包](releases/2026-10-09/README.md)：其资产清单仍保留原位置和历史事实。
+- [本轮文档整理与原始快照](archive/documentation/2026-10-13/README.md)：完整旧索引、登录排障、会员交付、语音/计费/手机验收原记录。
+- [科学第三批](archive/science/2026-10-12/batch3.md)、[科学第四批](archive/science/2026-10-12/batch4.md)：原文和计数保留；根目录旧地址只作迁移指引。
+- [科学 55 项](archive/science/2026-10-10/README.md)、[科学扩展](archive/science/2026-10-09/expansion/README.md)、[科学五页样板](archive/science/2026-10-09/science-samples-review.md)、[趣味实验](archive/content/2026-09-21/fun-science-content.md)、[科教版](archive/content/2026-09-21/science-kit-content.md)、[视频分类](archive/content/2026-09-21/video-classification.md)。
+- [探索页历史](archive/explore/2026-09-22-optimization.md)、[内容分诊历史](archive/content/2026-08-13/content-triage.md)、[3+ 发布记录](archive/ldraw/releases/2026-09-15/release-notes.md)、[LDraw 历史总账](archive/ldraw/ldraw-model-audit.md)、[LDraw 状态历史快照](archive/ldraw/ldraw-status-history-2026-09-15.md)、[PROJECT_INDEX LDraw 过程归档](archive/ldraw/project-index-ldraw-history-2026-09-15.md)、[2026-09-08 确认记录](archive/ldraw/ldraw-confirmed-2026-09-08.md)、[2026-09-09 挂载记录](archive/ldraw/ldraw-mounted-2026-09-09.md)。
+- 历史产品方案：[PBL 阶段重构](archive/PBL_STAGE_FLOW_REDESIGN.md)、[免费课与积木变现](archive/free-course-and-brick-monetization-plan.md)、[2026-08-14 产品评审](archive/product-design-review-2026-08-14.md)。未完成项继续由 [下一步](next-step.md) 承接。
 
-- 同一规则只维护一个来源，其余文件用链接引用；`PROJECT_INDEX.md` 负责定位，不重复记录批次过程。
-- 当前事实、阶段性决定、待验证假设、历史快照与未实施计划必须明确区分。涉及线上数量、开关、迁移或发布状态时，注明检查日期和证据，不从代码存在推断已上线。
-- 合并或归档前迁移未完成事项及有效约束，并更新入口和引用；历史记录不继续承担当前待办职责。
-- 已执行迁移、发布白名单和哈希清单保留当时事实，不为路径整理改写其历史内容；需要兼容旧引用时在旧文档路径留简短指引。脚本直接读取的文件须先核对依赖再移动。
-- 关键状态写明检查日期与证据；没有重新核验时保留“待核对”，不能把代码合入、资源发布、数据库更新与实物验证合并成一个完成状态。
+PR #76、#79 已与本页同批合入主分支（源素材移动与旧维护入口退役见上方对应文档）；合入代码不等于生产数据清理已完成。被 Git 忽略的本地设计图（`ui-gpt-designs/`）需自行备份到项目外，不能把文档整理当作它们已有备份的证明。
