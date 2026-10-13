@@ -3,6 +3,8 @@
 0 Name: 4-you-wen.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
+0 // Batch2 p1-12 review: all3 crossbeam blocks,4 red tail bricks, head clutch/brick/arm,2 wheels and2 long arms are present. No source-backed missing hammer.
+0 // Source p12 shows opposite side to p11; compare with camera from -X. Existing proper rotations retained; no invented pump assembly.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // INCOMPLETE REVIEW: tail board and head clutch mounting angles inferred; Toolo parts approximate.
 0 // All 12 source pages actually viewed. No physical verification.
@@ -67,8 +69,9 @@
 1 72 0 -432 40 0 0 -1 0 1 0 1 0 0 28336.dat
 0 STEP
 0 // SOURCE PAGE 11
-1 72 -217.0473047 -859.52311481 -40 0.90630779 0.42261826 0 -0.42261826 0.90630779 0 0 0 1 dev-129/28331.dat
-1 72 -330.84271247 -779.84271247 40 0.70710678 0.70710678 0 -0.70710678 0.70710678 0 0 0 1 dev-129/28331.dat
+0 // night4e: wing 50°/58° (best IoU ~0.82; tail left stock)
+1 72 -367.290404 -740.193243 -40 0.64278761 0.76604444 0 -0.76604444 0.64278761 0 0 0 1 dev-129/28331.dat
+1 72 -406.608168 -686.076983 40 0.52991926 0.84804810 0 -0.84804810 0.52991926 0 0 0 1 dev-129/28331.dat
 0 // SOURCE PAGE12 final view only. Screw axes and support are geometric estimates, not fit certification.
 
 0 FILE 4268.dat

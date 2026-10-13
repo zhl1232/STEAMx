@@ -23,7 +23,9 @@
 1 1 360 -129.378574 80 1 0 0 0 1 0 0 0 1 2302.dat
 0 STEP
 0 // SOURCE PAGE 3
-0 // MISSING 4433c01 exhaust x2: rear body side holes; no substitute.
+0 // night4e: exhaust x2 mid-body sides
+1 71 -80 -129.378574 -144 1 0 0 0 0 -1 0 1 0 dev-129/4433c01.dat
+1 71 -80 -129.378574 144 1 0 0 0 0 1 0 -1 0 dev-129/4433c01.dat
 0 STEP
 0 // SOURCE PAGE 4
 1 71 -200 -57.378574 -144 1 0 0 0 0 1 0 -1 0 99565.dat
@@ -43,7 +45,8 @@
 1 0 -358 -249.378574 0 0 1 0 0 0 1 1 0 0 76395.dat
 1 14 -406 -289.378574 -80 0 1 0 0 0 1 1 0 0 76057.dat
 1 14 -406 -289.378574 80 0 1 0 0 0 1 1 0 0 76057.dat
-0 // MISSING45117c01 blue Toolo wing x1; source-specific rear attachment unresolved.
+0 // night4e: blue rear wing flat on yellows
+1 1 -406 -337.378574 0 1 0 0 0 1 0 0 0 1 dev-129/45117c01.dat
 0 STEP
 0 // SOURCE PAGE 7
 1 4 40 -177.378574 -80 1 0 0 0 1 0 0 0 1 76057.dat

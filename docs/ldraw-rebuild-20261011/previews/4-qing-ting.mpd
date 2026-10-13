@@ -46,11 +46,11 @@
 1 14 0 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
 0 // STEP 8 - p8: four long double-screw wing arms
-0 // night3d: rear wings +35° up, front wings -20° down (courseware asym)
-1 72 -40 -363.239315088 -421.657295166 0 0 -1 -0.819152044 0.573576436 0 0.573576436 0.819152044 0 dev-129/28331.dat
-1 72 -40 -363.239315088 421.657295166 0 0 1 -0.819152044 0.573576436 0 -0.573576436 -0.819152044 0 dev-129/28331.dat
-1 72 40 63.353179552 -477.819262537 0 0 -1 -0.939692621 -0.342020143 0 -0.342020143 0.939692621 0 dev-129/28331.dat
-1 72 40 63.353179552 477.819262537 0 0 1 -0.939692621 -0.342020143 0 0.342020143 -0.939692621 0 dev-129/28331.dat
+0 // night4: rear+25 front-10 milder asym
+1 72 -40 -292.905255609 -462.264683339 0 0 -1 -0.906307787 0.422618262 0 0.422618262 0.906307787 0 dev-129/28331.dat
+1 72 -40 -292.905255609 462.264683339 0 0 1 -0.906307787 0.422618262 0 -0.422618262 -0.906307787 0 dev-129/28331.dat
+1 72 40 -15.094270397 -498.839193399 0 0 -1 -0.984807753 -0.173648178 0 -0.173648178 0.984807753 0 dev-129/28331.dat
+1 72 40 -15.094270397 498.839193399 0 0 1 -0.984807753 -0.173648178 0 0.173648178 -0.984807753 0 dev-129/28331.dat
 0 // PENDING: All 12 fork-base interfaces use approximate 28336 geometry; source-backed intended attachments are not certified mechanical fits.
 0 // PENDING: dev-129/28331 arm geometry uses nominal2x11 length440, middle axle220 and hook400 from official photo/catalog; nonuniform segment reconstruction remains approximate, not measured fit.
 0 // PENDING: Rear wings15deg up/front wings15deg up are inferred from p8/9 silhouette and root clearance, not angle dimensions printed in source.
