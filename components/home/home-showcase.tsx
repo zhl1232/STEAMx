@@ -160,14 +160,14 @@ function HomeHero({ image }: { image: string }) {
               >
                 看看动手项目
               </Link>
-              <Link
-                href="/start"
-                className="hidden min-h-11 w-fit items-center gap-1 text-sm font-semibold text-[hsl(var(--brand-blue))] underline-offset-4 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:inline-flex"
-              >
-                探索指南
-                <ChevronRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
             </div>
+            <Link
+              href="/start"
+              className="mt-3 hidden w-fit items-center gap-1 text-[13px] text-muted-foreground underline-offset-4 hover:text-foreground hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:inline-flex"
+            >
+              第一次来？看探索指南
+              <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </div>
