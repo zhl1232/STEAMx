@@ -1,6 +1,6 @@
 # 小迪代币计费与用量核算
 
-本文是代币发放、扣费、退款和执行预算的唯一文档来源。核对基线：2026-10-13，`0d322eda40dfdf81c7feb4f37703c9b38bea2b15`；规则已体现在该版本的代码与迁移中，本次未核验生产实例是否执行或真实余额。历史建议、估算和本地测试原记录见 [文档快照](../archive/documentation/2026-10-13/README.md)。
+本文是代币发放、扣费、退款和执行预算的唯一文档来源。核对基线：2026-10-13，`0d322eda40dfdf81c7feb4f37703c9b38bea2b15`；规则已体现在该版本的代码与迁移中，本次未核验生产实例是否执行或真实余额。
 
 ## 产品规则
 
@@ -73,10 +73,10 @@ collector 每次调用前同步预留输入估计量和输出上限，包含并�
 
 ASR 音频和 TTS 字符用量尚未接入这里的代币兑换，不把它们当文本 token 加总。语音协议、实际模型、共享限额、取消和音色只在 [语音协议与验收](voice-31-upgrade.md) 维护；课程明确开启的有限控制另见 [手机搭建](../courses/mobile-building-experience.md)。
 
-旧模型人民币秒价、字符价及旧预算算例移入历史快照，不能冒充 Audio 3.1 的当前价格或真实成本。本次未查询供应商最新价格或账单；需要成本结论时另按实际模型、区域和账单核对。
+旧模型单价及旧预算算例仅代表原记录的模型和日期，不能冒充 Audio 3.1 的当前价格或真实成本。本次未查询供应商最新价格或账单；需要成本结论时另按实际模型、区域和账单核对。
 
 ## 验证与发布
 
-隔离验证入口包括 `scripts/test-tutor-total-usage-billing.mjs`、`scripts/test-ai-credit-grants.mjs` 和 `scripts/test-tutor-daily-credit-billing.mjs`；临时 PGlite 和 mock 不证明多连接生产并发或实际账单正确。旧测试数量、浏览器夹具和发布前说明保留在 [历史快照](../archive/documentation/2026-10-13/README.md)，不算本次验证。
+隔离验证入口包括 `scripts/test-tutor-total-usage-billing.mjs`、`scripts/test-ai-credit-grants.mjs` 和 `scripts/test-tutor-daily-credit-billing.mjs`；临时 PGlite 和 mock 不证明多连接生产并发或实际账单正确。历史测试结果只支持当时覆盖的范围，不算本次验证。
 
 迁移命令及各模式副作用只遵循 [数据库连接与迁移](../database-psql.md)，版本清单见 [运行时迁移快照](../releases/2026-10-13/runtime-migrations.md)。本轮文档不应用迁移、不补发余额、不宣称生产已完成。
