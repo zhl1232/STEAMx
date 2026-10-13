@@ -44,6 +44,12 @@
     linear-gradient(180deg, rgb(0 0 0 / 25%) 0%, rgb(0 0 0 / 0%) 24%),
     linear-gradient(90deg, rgb(8 36 12 / 55%) 0%, rgb(8 36 12 / 30%) 45%, rgb(8 36 12 / 0%) 70%);
 }
+:global(.dark) .heroShade {
+  background:
+    linear-gradient(180deg, transparent 58%, color-mix(in srgb, var(--atlas-page-bg) 50%, transparent) 78%, var(--atlas-page-bg) 100%),
+    linear-gradient(180deg, rgb(0 0 0 / 12%) 0%, rgb(0 0 0 / 0%) 22%),
+    linear-gradient(90deg, rgb(0 0 0 / 38%) 0%, rgb(0 0 0 / 18%) 42%, rgb(0 0 0 / 0%) 68%);
+}
 .heroNav { position: absolute !important; inset: 0 0 auto 0; z-index: 2; background: transparent !important; }
 .heroNavContent { padding-right: 8px; }
 .heroNavBack { color: #fff !important; }
