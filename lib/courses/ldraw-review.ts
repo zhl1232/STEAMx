@@ -311,6 +311,8 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '4-you-wen.ldr',
   // night13: cam 1.25,1.05,1.3 IoU≈0.824; tubes -24Y/|Z|-20 inward; arch residual foreshortening
   '4-qiu-qian.ldr',
+  // night14: cam 1.0,0.7,1.2 IoU≈0.866; chimney stack +48Y
+  '5-xiao-huo-che.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
