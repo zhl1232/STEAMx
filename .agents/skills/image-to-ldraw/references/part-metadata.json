@@ -40909,6 +40909,60 @@
         "Silhouette from BrickLink PN/66/4433c01 and courseware p8/p15; screw fit not exact.",
         "2026-10-13 user-authorized rewrite: transverse screw at origin, pipe +Z, recessed perforations and tapered same-colour tip; dimensions inferred, no physical-fit evidence."
       ]
+    },
+    "dev-129/45117c01.dat": {
+      "name": "Duplo Toolo Wings with Beam Center (dev-129 local approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -199,
+        "xMax": 199,
+        "yMin": -120,
+        "yMax": 40,
+        "zMin": 0,
+        "zMax": 59
+      },
+      "origin": {
+        "type": "mounting-plane-center",
+        "axis": "Z"
+      },
+      "heightLdu": 160,
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "2026-10-13 user explicitly authorized local approx for elephant blue sides/tail; authored locally under CC BY 4.0; non-official geometry.",
+        "Confirmed real ID 45117c01; courseware 4-da-xiang p4/p5/p12 and catalog references. Absent from preferred 45002/9090/9076/9656 inventories; do not attribute to 45002.",
+        "2026-10-13 https://library.ldraw.org/library/official/parts/45117c01.dat and /library/unofficial/parts/45117c01.dat returned 404; fixed gkjohnson mirror also 404.",
+        "Wing shells/oval end plates or twin spoiler rails/curved foil are locally inferred; screw fits and hidden retention require manual physical review.",
+        "Integral wing beam reuses unchanged local 76057.dat geometry; this reference is not another BOM placement."
+      ]
+    },
+    "dev-129/31239c01.dat": {
+      "name": "Duplo Toolo Rear Spoiler (dev-129 local approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": 0,
+        "xMax": 132,
+        "yMin": -24,
+        "yMax": 94,
+        "zMin": -84,
+        "zMax": 84
+      },
+      "origin": {
+        "type": "mounting-plane-center",
+        "axis": "X"
+      },
+      "heightLdu": 118,
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "2026-10-13 user explicitly authorized local approx for elephant blue sides/tail; authored locally under CC BY 4.0; non-official geometry.",
+        "Confirmed real ID 31239c01; courseware 4-da-xiang p4/p5/p12 and catalog references. Absent from preferred 45002/9090/9076/9656 inventories; do not attribute to 45002.",
+        "2026-10-13 https://library.ldraw.org/library/official/parts/31239c01.dat and /library/unofficial/parts/31239c01.dat returned 404; fixed gkjohnson mirror also 404.",
+        "Wing shells/oval end plates or twin spoiler rails/curved foil are locally inferred; screw fits and hidden retention require manual physical review.",
+        "Mounting plane X=0; root at rear brick (240,-72,0), rails extend rearward/downward, transverse foil spans Z +/-84."
+      ]
     }
   }
 }

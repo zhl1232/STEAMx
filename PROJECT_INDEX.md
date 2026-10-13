@@ -874,6 +874,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 ## 2026-10-11 model reconstruction development evidence
 
 - 2026-10-13 大象 v3 `4-da-xiang.ldr`：逐页重排灰色台阶背部、四砖头部、耳轴/scoop 朝向和上卷象鼻，四腿内收并对齐脚轮；保留 12 步，按 4×45002-1 核算已放置件，蓝翼壳/尾仍缺可靠本地几何而省略，现有 Toolo 近似连接未做实物验证；本地报告 `/workspace/pending-fix-20261012/daxiang-v3-report.md`，未验收、未发布。
+- 2026-10-13 大象 v3b：仅在第 4/5 步加入蓝色 `dev-129/45117c01.dat`×2 翼壳与 `dev-129/31239c01.dat`×1 尾翼（用户授权自研近似、CC BY 4.0、非官方几何），保留 v3 全部原有摆位；两号均不属四套首选库存，连接/曲面尺寸仍待实物核对，渲染及检查见 `/workspace/pending-fix-20261012/daxiang-v3b-report.md`，仅本地待验收稿。
 
 - 2026-10-13 龙虾 v2 `4-da-long-xia.ldr`：课件腿身份为 4433c01×8，按套件限制改为 9656 的 6×6522＋6×6526 与 45002 的 2×74847（已有 `dev-129/28334.dat`），调整钳子朝前外展；保留 10 步，跨系统腿根锁定、尾翼缺件及整模库存缺口仍待解决，报告 `/workspace/pending-fix-20261012/longxia-v2-report.md`，仅本地待验收草稿。
 - 2026-10-12 叉车 `4-cha-che`：托盘顶板改石灰绿；两根货叉用本地近似 `parts/dev-129/4433c01.dat`（官方 DAT 仍无）；报告 `/workspace/pending-fix-20261012/cha-che-report.md`。 2026-10-13 v2 重写货叉圆筒/节段环/锥肩与螺钉座、移至铰座基座侧孔，人仔七件整体转向车头；14 步不变，报告 `/workspace/pending-fix-20261012/cha-che-v2-report.md`。
