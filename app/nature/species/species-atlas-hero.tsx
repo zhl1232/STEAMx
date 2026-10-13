@@ -39,13 +39,6 @@ export const HERO_PHOTOS: Record<SpeciesAtlasTopicFilter, HeroPhoto> = {
   },
 }
 
-const SUMMARIES: Record<SpeciesAtlasTopicFilter, string> = {
-  all: '认识身边的鸟类、昆虫和植物，留下自己的发现。',
-  birds: '认识常见鸟类，学习识别特征\n查看社区的真实观察内容',
-  insects: '看看小小昆虫的细节\n发现身边的生命',
-  plants: '认识一株植物\n观察四季里的变化',
-}
-
 const UNIT: Record<SpeciesAtlasTopicFilter, string> = { all: '物种总数', birds: '鸟类总数', insects: '昆虫总数', plants: '植物总数' }
 
 const UNIT_SHORT: Record<SpeciesAtlasTopicFilter, string> = { all: '种物种', birds: '种鸟类', insects: '种昆虫', plants: '种植物' }
@@ -67,7 +60,6 @@ export function SpeciesAtlasHero({ topic, heading, stats, children }: {
       <div className={styles.heroContent}>
         <p className={styles.kicker}><Leaf size={14} aria-hidden="true" />发现身边的自然</p>
         <h1>{heading}</h1>
-        <p className={styles.heroIntro}>{SUMMARIES[topic]}</p>
         <dl className={styles.heroStats}>
           <div><dd>{stats.total}</dd><dt>{UNIT_SHORT[topic]}</dt></div>
           <div><dd>{stats.observed ?? '—'}</dd><dt>已观察</dt></div>
