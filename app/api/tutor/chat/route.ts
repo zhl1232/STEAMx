@@ -802,7 +802,10 @@ export async function POST(request: NextRequest) {
               safeEnqueue({ type: 'perf', phase: 'server_ready', timings: timing.snapshot() })
             }
             if (wantSpeak) {
-              const voiceAccess = await getTutorVoiceAccess(supabase, user).catch(() => null)
+              const voiceAccess = await getTutorVoiceAccess(supabase, user).catch((error) => {
+                logger.warn('Tutor voice access failed before TTS', { error: String(error) })
+                return null
+              })
               if (voiceAccess) {
               speechRef.current = createTutorSpeechStreamer(user.id, {
                 voice: voiceAccess.voice,
@@ -816,6 +819,10 @@ export async function POST(request: NextRequest) {
                 },
               })
               // push() starts TTS lazily after a sanitized reply is available.
+              } else {
+                // Previously a profile lookup failure silently skipped TTS and the client only
+                // showed the generic "朗读未完成" toast with no actionable server error.
+                safeEnqueue({ type: 'audio_error', error: '暂时无法确认朗读设置，请重试。' })
               }
             }
             for (const toolCall of toolCalls) {
