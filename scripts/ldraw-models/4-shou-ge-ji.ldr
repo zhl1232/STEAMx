@@ -1,33 +1,35 @@
-0 4-shou-ge-ji - PDF reconstruction; INCOMPLETE dev-only
+0 4-shou-ge-ji - Source-based reconstruction; local review draft
 0 Name: 4-shou-ge-ji.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 NumOfBricks: 47
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source batch10 lesson191 course6 PDF SHA256 aa4ebf254d52ccabb40a7850c69810d3f5a9eabae7a166d3c051450e256805e5
 0 // All9 source pages actually viewed. Pages1-8 build; page9 final opposite view.
-0 // Prior approved Toolo approximations only; no new custom geometry.
-0 // Missing:86601 propeller x4,45146 roll cage x1,4433c01 exhaust x1.
-0 // Wheel hole selection, rear clip joint and tipper retention remain manual/incomplete. No physical validation or acceptance.
+0 // Isolated source-informed geometry added 2026-10-13 under user authorization; physical fit unverified.
+0 // Source pages1-8: 47 placements; page9 opposite finished view. Approximate blades/cage/exhaust/wheels are model-local.
+0 // Wheel centers X=-200,0,240 at Y=24 now align with side-bore grid; wheel pins meet body at Z=+/-80.
+0 // Rear clip joint, tipper retention and approximate fasteners remain manual. No physical validation or acceptance.
 0 // SOURCE PAGE 1 - Four staggered black Toolo chassis bricks
 1 0 -40 0 0 1 0 0 0 1 0 0 0 1 76395.dat
 1 0 200 0 0 1 0 0 0 1 0 0 0 1 76395.dat
 1 0 -120 -48 0 1 0 0 0 1 0 0 0 1 76395.dat
 1 0 120 -48 0 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
-0 // SOURCE PAGE 2 - Six screw rims with off-road tyres and front underside filler
+0 // SOURCE PAGE 2 - Six screw rims with off-road tyres and rear underside filler
 1 14 -200 0 0 0 0 -1 0 1 0 1 0 0 76057.dat
-1 71 -200 24 -104 1 0 0 0 0 1 0 -1 0 99565.dat
-1 0 -200 24 -104 1 0 0 0 0 1 0 -1 0 44970.dat
-1 71 -200 24 104 1 0 0 0 0 -1 0 1 0 99565.dat
-1 0 -200 24 104 1 0 0 0 0 -1 0 1 0 44970.dat
-1 71 20 24 -104 1 0 0 0 0 1 0 -1 0 99565.dat
-1 0 20 24 -104 1 0 0 0 0 1 0 -1 0 44970.dat
-1 71 20 24 104 1 0 0 0 0 -1 0 1 0 99565.dat
-1 0 20 24 104 1 0 0 0 0 -1 0 1 0 44970.dat
-1 71 260 24 -104 1 0 0 0 0 1 0 -1 0 99565.dat
-1 0 260 24 -104 1 0 0 0 0 1 0 -1 0 44970.dat
-1 71 260 24 104 1 0 0 0 0 -1 0 1 0 99565.dat
-1 0 260 24 104 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 -200 24 -112 1 0 0 0 0 -1 0 1 0 dev-129/99565c01-shou-ge-ji.dat
+1 0 -200 24 -112 1 0 0 0 0 -1 0 1 0 dev-129/44970-shou-ge-ji.dat
+1 71 -200 24 112 1 0 0 0 0 1 0 -1 0 dev-129/99565c01-shou-ge-ji.dat
+1 0 -200 24 112 1 0 0 0 0 1 0 -1 0 dev-129/44970-shou-ge-ji.dat
+1 71 0 24 -112 1 0 0 0 0 -1 0 1 0 dev-129/99565c01-shou-ge-ji.dat
+1 0 0 24 -112 1 0 0 0 0 -1 0 1 0 dev-129/44970-shou-ge-ji.dat
+1 71 0 24 112 1 0 0 0 0 1 0 -1 0 dev-129/99565c01-shou-ge-ji.dat
+1 0 0 24 112 1 0 0 0 0 1 0 -1 0 dev-129/44970-shou-ge-ji.dat
+1 71 240 24 -112 1 0 0 0 0 -1 0 1 0 dev-129/99565c01-shou-ge-ji.dat
+1 0 240 24 -112 1 0 0 0 0 -1 0 1 0 dev-129/44970-shou-ge-ji.dat
+1 71 240 24 112 1 0 0 0 0 1 0 -1 0 dev-129/99565c01-shou-ge-ji.dat
+1 0 240 24 112 1 0 0 0 0 1 0 -1 0 dev-129/44970-shou-ge-ji.dat
 0 STEP
 0 // SOURCE PAGE 3 - Two yellow front arm roots and second tier
 1 14 280 -48 -80 0 0 -1 0 1 0 1 0 0 76057.dat
@@ -41,8 +43,12 @@
 1 14 440 -96 120 1 0 0 0 1 0 0 0 1 76057.dat
 1 14 360 -144 120 1 0 0 0 1 0 0 0 1 76057.dat
 0 STEP
-0 // SOURCE PAGE 5 - Four front three-blade Toolo propellers - omitted
-0 // OMITTED 86601 x4 - licensed accurate DAT and local attachment origin; no invented blade mesh
+0 // SOURCE PAGE 5 - Four grey three-blade cutters on inner/outer side bores of the two front arms
+0 // Centers X=480,Y=-72; Z=+/-80 and +/-160 mounting faces. Local +Z points out of its supporting arm.
+1 71 480 -72 -160 1 0 0 0 -1 0 0 0 -1 dev-129/86601-shou-ge-ji.dat
+1 71 480 -72 -80 1 0 0 0 1 0 0 0 1 dev-129/86601-shou-ge-ji.dat
+1 71 480 -72 80 1 0 0 0 -1 0 0 0 -1 dev-129/86601-shou-ge-ji.dat
+1 71 480 -72 160 1 0 0 0 1 0 0 0 1 dev-129/86601-shou-ge-ji.dat
 0 STEP
 0 // SOURCE PAGE 6 - Body deck, cockpit, rear angled bracket and clip block
 1 14 -120 -96 0 0 0 -1 0 1 0 1 0 0 76057.dat
@@ -51,8 +57,9 @@
 1 4 160 -72 0 0 0 -1 0 1 0 1 0 0 31196c01.dat
 1 72 -200 -96 0 0 0 -1 0 1 0 1 0 0 28336.dat
 1 72 -248 -209 0 1 0 0 0 1 0 0 0 1 74957.dat
-0 // OMITTED 45146 x1 - licensed geometry and cockpit attachment transform
-0 // OMITTED 4433c01 x1 - licensed reusable geometry; absent from local library
+0 // Cage shares cockpit origin; base rails contact its rim. Exhaust screw reaches the upper chassis side bore.
+1 71 160 -72 0 0 0 -1 0 1 0 1 0 0 dev-129/45146-shou-ge-ji.dat
+1 71 80 -24 102 0 -1 0 0 0 -1 1 0 0 dev-129/4433c01-shou-ge-ji.dat
 0 STEP
 0 // SOURCE PAGE 7 - Rear yellow cap and red tipper bed
 1 14 -208 -257 0 1 0 0 0 1 0 0 0 1 76057.dat
@@ -68,4 +75,3 @@
 1 4 40 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
 1 4 120 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
 0 // Source page9 final opposite-side view; no added parts.
-0 // Batch5 source review 2026-10-12: p4/p6/p8-9 red4/yellow14 body and front supports already match source color families. p5 four blade disks remain omitted (86601 alias; geometry missing), as do p6 cage45146/exhaust4433c01. Not a gray-part recolor fix; INCOMPLETE.
