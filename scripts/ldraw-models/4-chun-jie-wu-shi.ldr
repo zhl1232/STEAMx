@@ -65,62 +65,61 @@
 1 4 160 -120 80 1 0 0 0 1 0 0 0 1 2302.dat
 0 STEP
 
-0 // STEP 7 - slide-13 source: turntable x1, black 4x6 jaws x2 (6-wide x8-deep).
-0 // V5 width adaptation: rotate/rearrange the same two 4x6s into an8-wide x6-deep jaw.
-0 // Original turntable retained; each jaw half grips its top. Neck moves forward for support.
+0 // STEP 7 - slide-13 (v10 rewrite): yellow-top turntable 1x on the black neck seat; two black 4x6 Toolo
+0 // jaw blocks turned 90deg so the lower jaw is 6 studs wide (Z -120..120) x 8 deep (X -320..0), bottom Y=-112.
 1 0 -160 -112 0 1 0 0 0 1 0 0 0 1 60535.dat
-1 0 -280 -160 0 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 -120 -160 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -240 -160 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 -80 -160 0 0 0 -1 0 1 0 1 0 0 76395.dat
 0 STEP
 
-0 // STEP 8 - slide-14: one red tongue, one red spacer, two yellow neck bricks.
-0 // Both V4 lifts removed: mouth returns to one 48-LDU layer, neck to two layers.
-0 // Tongue X=-440..-280: 120 past lower jaw /80 past upper jaw; two studs grip the lower jaw.
-0 // Increased overhang is a review adaptation, not a source BOM addition; check clutch physically.
-1 4 -280 -208 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -160 -208 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -80 -208 0 0 0 -1 0 1 0 1 0 0 3011.dat
-1 14 -40 -256 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 // STEP 8 - slide-14: red 2x4 tongue lies ACROSS the head (long side along Z) on the front edge, offset to +Z,
+0 // one stud row overhanging the jaw front (X -360..-280, Z -40..120). Red 2x2 sits behind, -Z half (X -160..-80).
+0 // Two yellow 2x4 stacked directly behind the 2x2, long side along Z (X -80..0, Z -120..40).
+1 4 -320 -208 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -120 -208 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -40 -208 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -40 -256 -40 0 0 -1 0 1 0 1 0 0 3011.dat
 0 STEP
 
-0 // STEP 9 - slide-15: black upper jaw x2, 6 studs deep x8 wide, one 48-LDU layer.
-0 // Width already matches source; both halves grip the red spacer and the tongue root.
+0 // STEP 9 - slide-15: upper jaw, two black 4x6 Toolo, 8 wide (Z) x 6 deep (X -320..-80), resting on tongue rear row
+0 // and the red 2x2; the yellow neck stack rises behind it. Tongue projects one row in front of both jaws.
 1 0 -200 -256 -80 1 0 0 0 1 0 0 0 1 76395.dat
 1 0 -200 -256 80 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
 
-0 // STEP 10 - slide-16 source: two yellow screw bricks and two yellow rear-crossbar bricks.
-0 // V5 width adaptation: add one yellow 76057; central face 4 to6 studs wide, rear bar stays8.
-0 // Face front remains one stud behind upper jaw; all bottoms Y=-256.
+0 // STEP 10 - slide-16: yellow lower face is inset one stud from the black upper jaw front.
+0 // Rear crossbar X=-120..-40 bridges the jaw and the top rear-neck brick.
 1 14 -200 -304 -40 1 0 0 0 1 0 0 0 1 76057.dat
 1 14 -200 -304 40 1 0 0 0 1 0 0 0 1 76057.dat
-1 14 -80 -304 -120 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -80 -304 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -304 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -304 80 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 
-0 // STEP 11 - slide-17 source: yellow screw bricks x2, red nose x1, grey crown x1.
-0 // V5 width adaptation: add one yellow 76057 to make a6-wide x4-deep face.
-0 // Two crosswise bricks bridge lower-face seams; third fills the remaining side strip.
-1 14 -240 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
-1 14 -160 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
-1 4 -240 -400 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 72 -240 -400 -40 0 0 1 0 1 0 -1 0 0 28336.dat
+0 // STEP 11 - slide-17: upper yellow face is staggered one stud behind the lower face.
+0 // Its rear stud row bridges onto the crossbar; nose and rear-leaning crest follow this layer.
+1 14 -200 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 14 -120 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
+0 // v10: slide-17/finished - red 2x2 nose (+Z) and grey fork crest (-Z) stand side by side on the front upper-face brick.
+1 4 -200 -400 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 72 -200 -400 -40 0 0 1 0 1 0 -1 0 0 28336.dat
 0 STEP
 
-0 // STEP 12 - slide-18: yellow inside-curve ears x2, tall ends outward, 96 LDU high.
-0 // V5 ears move outward one stud each, Z=+/-180, bottoms Y=-304 on the rear bar.
-0 // Each ear grips two studs along one X row; rear/outer overhangs require physical review.
-1 14 -80 -400 -140 -1 0 0 0 1 0 0 0 -1 2301b.dat
-1 14 -80 -400 140 1 0 0 0 1 0 0 0 1 2301b.dat
+0 // STEP 12 - slide-18: two yellow 2x3x2 inside-curve ears, official 2301b.
+0 // Bottom Y=-304 grips one X row of the step-10 rear crossbar (three studs per ear).
+0 // Rear one-row overhang clears the upper face; tall ends face outwards, curves face inwards.
+0 // Actual 2301b origin is its top stud row; toe extends 100 LDU toward local -Z.
+1 14 -40 -400 -140 -1 0 0 0 1 0 0 0 -1 2301b.dat
+1 14 -40 -400 140 1 0 0 0 1 0 0 0 1 2301b.dat
 0 STEP
 
-0 // STEP 13 - slide-19/20: grey cheek forks x2, grey rims/yellow screws x2, black tyres x2.
-0 // V5 each eye/fork moves outward40 with the wider face; eye centres (-264,-328,+/-144).
-0 // 99565/44970 retain prior approximate geometry; tyre width/spokes differ from courseware.
-0 // Fork bases meet yellow faces at Z=+/-120; Toolo screw/axle fits still require physical review.
-1 72 -200 -328 -128 1 0 0 0 0 -1 0 1 0 28336.dat
-1 71 -264 -328 -104 0 1 0 -1 0 0 0 0 1 99565.dat
-1 0 -264 -328 -104 0 1 0 -1 0 0 0 0 1 44970.dat
-1 72 -200 -328 128 -1 0 0 0 0 -1 0 -1 0 28336.dat
-1 71 -264 -328 104 0 1 0 -1 0 0 0 0 1 99565.dat
-1 0 -264 -328 104 0 1 0 -1 0 0 0 0 1 44970.dat
+0 // STEP 13 - slide-19: two cheek forks, grey rims with built-in yellow screws, and black tyres.
+0 // v10: eyes moved in front of the yellow face (axle X, centres Z=+/-72); tyre = local chunky approx dev-129/44970-wu-shi.dat (courseware knobby tyre); 99565 rim kept.
+0 // No extra yellow gear: the source yellow centre is the rim screw, already included in 99565.
+0 // Fork bottoms meet yellow side faces at Z=+/-80; front bore and rim axle share Y=-328, Z=+/-104.
+0 // Approved approximate screw interfaces only; the cheek pivots are decorative brow tips, not wheel axles.
+1 72 -240 -360 -128 1 0 0 0 0 -1 0 1 0 28336.dat
+1 71 -304 -360 -72 0 1 0 -1 0 0 0 0 1 99565.dat
+1 0 -304 -360 -72 0 1 0 -1 0 0 0 0 1 dev-129/44970-wu-shi.dat
+1 72 -240 -360 128 -1 0 0 0 0 -1 0 -1 0 28336.dat
+1 71 -304 -360 72 0 1 0 -1 0 0 0 0 1 99565.dat
+1 0 -304 -360 72 0 1 0 -1 0 0 0 0 1 dev-129/44970-wu-shi.dat
