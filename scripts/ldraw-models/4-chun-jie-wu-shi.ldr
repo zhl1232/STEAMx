@@ -4,7 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source PDF batch07 manifest, SHA256 10a10ad5fe1d90d98a10de8a6f9553143f45931e77c2eaab9d90f006e11cbde1
-0 // STATUS: INCOMPLETE; PPT slides 07-20 and finished image reviewed 2026-10-12, no human acceptance.
+0 // STATUS: INCOMPLETE; PPT slides 01-23 and finished image reviewed 2026-10-13, no human acceptance.
 0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
 0 // No physical validation. Missing parts are omitted and recorded per source step.
 0 // STEP 1 - three black screw bricks beneath green6x12 body plate
@@ -46,19 +46,23 @@
 1 4 160 -72 80 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 5 - rear angled tail and clutch cap
-1 72 160 -120 0 0 0 1 0 1 0 -1 0 0 28336.dat
-1 72 208 -244 0 1 0 0 0 1 0 0 0 1 74957.dat
+0 // STEP 5 - slide-11/12: rear tail base occupies the last 2x2 cells of the red screw brick.
+0 // Fork leans toward +X (tail); cap clip and fork axle both run across Z.
+0 // Approximate axle centre (248,-185,0); cap clip centre is 59 LDU below its top.
+1 72 200 -120 0 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 248 -244 0 0 0 1 0 1 0 -1 0 0 74957.dat
 0 STEP
 
-0 // STEP 6 - six curved red roof bricks across three rear rows
-1 4 40 -120 -80 0 0 -1 0 1 0 1 0 0 2302.dat
-1 4 40 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
-1 4 120 -120 -80 0 0 -1 0 1 0 1 0 0 2302.dat
-1 4 120 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
-1 4 200 -120 -80 0 0 -1 0 1 0 1 0 0 2302.dat
-1 4 200 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
-0 // Curved noses surround the tail base; exact clearance against the approved approximate Toolo fork remains unverified.
+0 // STEP 6 - slide-12: six red 2302 curves all descend toward +X, away from the head.
+0 // Three longitudinal lanes: centre starts two studs ahead of both side lanes.
+0 // 2302 footprint is local X=-40..80, with its curved toe at +X; all bottoms Y=-72.
+0 // Centre ends at X=160, meeting the tail base at X=160 without occupying its cells.
+1 4 -40 -120 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 80 -120 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 40 -120 -80 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 160 -120 -80 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 40 -120 80 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 160 -120 80 1 0 0 0 1 0 0 0 1 2302.dat
 0 STEP
 
 0 // STEP 7 - turntable and two lower jaw platform blocks
@@ -67,9 +71,12 @@
 1 0 -80 -160 0 0 0 -1 0 1 0 1 0 0 76395.dat
 0 STEP
 
-0 // STEP 8 - red tongue and front spacer plus two stacked yellow rear neck bricks
-1 4 -280 -208 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 -160 -208 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 8 - slide-14/15: red 2x4 thick tongue extends forward (-X), studs upward.
+0 // Tongue X=-360..-200, Z=-40..40, bottom Y=-160; three stud rows grip the lower jaw.
+0 // One front stud row projects 40 LDU beyond both jaws; a one-stud gap precedes the red 2x2 spacer.
+0 // Two yellow rear neck bricks remain stacked, top Y=-256; do not reverse head and tail.
+1 4 -280 -208 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -120 -208 0 1 0 0 0 1 0 0 0 1 3437.dat
 1 14 -40 -208 0 0 0 -1 0 1 0 1 0 0 3011.dat
 1 14 -40 -256 0 0 0 -1 0 1 0 1 0 0 3011.dat
 0 STEP
@@ -79,25 +86,28 @@
 1 0 -200 -256 80 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
 
-0 // STEP 10 - two yellow screw blocks and rear yellow crossbar supporting the ears
-1 14 -240 -304 -40 1 0 0 0 1 0 0 0 1 76057.dat
-1 14 -240 -304 40 1 0 0 0 1 0 0 0 1 76057.dat
-1 14 -120 -304 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -120 -304 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STEP 10 - slide-16: yellow lower face is inset one stud from the black upper jaw front.
+0 // Rear crossbar X=-120..-40 bridges the jaw and the top rear-neck brick.
+1 14 -200 -304 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -200 -304 40 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -80 -304 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -304 80 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 
-0 // STEP 11 - two yellow upper face screw blocks, red nose and central angled crest
-1 14 -280 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
+0 // STEP 11 - slide-17: upper yellow face is staggered one stud behind the lower face.
+0 // Its rear stud row bridges onto the crossbar; nose and rear-leaning crest follow this layer.
 1 14 -200 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
-1 4 -280 -400 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 72 -200 -400 0 0 0 1 0 1 0 -1 0 0 28336.dat
+1 14 -120 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 4 -200 -400 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 72 -120 -400 0 0 0 1 0 1 0 -1 0 0 28336.dat
 0 STEP
 
 0 // STEP 12 - slide-18: two yellow 2x3x2 inside-curve ears, official 2301b.
-0 // Bottom Y=-304 rests on the step-10 rear crossbar; tall ends face outwards.
+0 // Bottom Y=-304 grips one X row of the step-10 rear crossbar (three studs per ear).
+0 // Rear one-row overhang clears the upper face; tall ends face outwards, curves face inwards.
 0 // Actual 2301b origin is its top stud row; toe extends 100 LDU toward local -Z.
-1 14 -120 -400 -140 -1 0 0 0 1 0 0 0 -1 2301b.dat
-1 14 -120 -400 140 1 0 0 0 1 0 0 0 1 2301b.dat
+1 14 -40 -400 -140 -1 0 0 0 1 0 0 0 -1 2301b.dat
+1 14 -40 -400 140 1 0 0 0 1 0 0 0 1 2301b.dat
 0 STEP
 
 0 // STEP 13 - slide-19: two cheek forks, grey rims with built-in yellow screws, and black tyres.
@@ -105,9 +115,9 @@
 0 // No extra yellow gear: the source yellow centre is the rim screw, already included in 99565.
 0 // Fork bottoms meet yellow side faces at Z=+/-80; front bore and rim axle share Y=-328, Z=+/-104.
 0 // Approved approximate screw interfaces only; the cheek pivots are decorative brow tips, not wheel axles.
-1 72 -240 -328 -128 1 0 0 0 0 -1 0 1 0 28336.dat
-1 71 -304 -328 -104 0 1 0 -1 0 0 0 0 1 99565.dat
-1 0 -304 -328 -104 0 1 0 -1 0 0 0 0 1 44970.dat
-1 72 -240 -328 128 -1 0 0 0 0 -1 0 -1 0 28336.dat
-1 71 -304 -328 104 0 1 0 -1 0 0 0 0 1 99565.dat
-1 0 -304 -328 104 0 1 0 -1 0 0 0 0 1 44970.dat
+1 72 -160 -328 -128 1 0 0 0 0 -1 0 1 0 28336.dat
+1 71 -224 -328 -104 0 1 0 -1 0 0 0 0 1 99565.dat
+1 0 -224 -328 -104 0 1 0 -1 0 0 0 0 1 44970.dat
+1 72 -160 -328 128 -1 0 0 0 0 -1 0 -1 0 28336.dat
+1 71 -224 -328 104 0 1 0 -1 0 0 0 0 1 99565.dat
+1 0 -224 -328 104 0 1 0 -1 0 0 0 0 1 44970.dat
