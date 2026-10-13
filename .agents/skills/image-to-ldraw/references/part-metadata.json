@@ -69169,6 +69169,29 @@
         "Hand-authored 2026-10-13 from 4-wa-li courseware p12/p15 (orange scoop hand x2). Exact real part id not established; no LDraw geometry found.",
         "Pivot at origin on arm end pin, axis Z. Shape, size and teeth are image estimates."
       ]
+    },
+    "dev-129/4433c01-ya-lu-ji.dat": {
+      "name": "Duplo Toolo exhaust pipe, short (4-ya-lu-ji local approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -22,
+        "xMax": 22,
+        "yMin": -22,
+        "yMax": 22,
+        "zMin": -9.6,
+        "zMax": 108
+      },
+      "heightLdu": 118,
+      "origin": {
+        "type": "screw-axis",
+        "axis": "X"
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Hand-authored 2026-10-13: wrapper of dev-129/4433c01 with exhaust axis scaled 0.6 to match 4-ya-lu-ji courseware p7 proportions. Not a physically measured part."
+      ]
     }
   }
 }
