@@ -875,3 +875,5 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 - 2026-10-12 batch5 九课 minor 本地复核：仅调整 `4-xiao-tu-zi` 第11步耳朵后仰与第12–13步整根胡萝卜摆位、`4-xie-zi` 第9–10步三段尾巴姿态；其余七课补分步证据注释。刀盘、排气管、推土铲、旋翼、机翼/尾翼、尾钩缺件继续省略；蝎子钳爪朝向未修好。复核确认无人机镜头、吐司顶板、碾药红底板已存在，不重复加件。报告及逐课版本/检查记录：`/workspace/pending-fix-20261012/batch5-report.md`、`batch5-checks/`，成品预览 `after/<slug>.png`。不改待确认名单、保护清单、共享几何、公开 MPD 或数据库，未提交/推送。
 
 - 2026-10-12 ok-batch3 八课本地复核：仅处理 `5-ta-diao / 5-tian-ping / 5-tou-lan-ji / 5-tou-shi-che / 5-xiao-song-shu-qi-che / 5-xuan-zhuan-ka-fei-bei / 5-yan-jing-she / 5-yu-hang-yuan-xun-lian-ji`。塔吊、天平的本地课件为另一版 Toolo 机构，源稿改为跟随本地课件（塔吊按 19 页、天平按原 10 个搭建步骤）；撤去旧版绳吊结构，缺失夹爪/顶件/未解斜撑继续省略。咖啡杯第 9 步补五组共十个人仔；投石车第 9 步改用真实 11 孔延长梁，第 10–11 步补静态托架/蓝块，限位深度仍未解；训练机转到成品直立姿态并补中央双轴、蓝色蜗杆与四黄轮，顶部传动仍缺。投篮臂、松鼠上翘尾巴和眼镜蛇折线已在当前源码存在，仅补复核注释。逐课 fixed/unfixed、局限、课件页码与检查结果见 `/workspace/pending-fix-20261012/ok-batch3-report.md`，源/依赖哈希与渲染在 `ok-batch3-checks/`、`after/`；属于本地开发稿，不更新验收记录、公开 MPD、保护名单、共享几何或其它批次，未提交/推送。
+
+- 2026-10-13 大龙虾 v3：八腿改 2×45002 的 74847（dev-129/28334）斜垂；去掉 v2 横轴曲柄；钳子保留 v2。报告 pending-fix-20261012/longxia-v3-report.md。

@@ -3,37 +3,32 @@
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // PPT slides 08-11 and finished image re-reviewed 2026-10-13 (kit-leg v2). No user/physical acceptance.
+0 // PPT slides 08-11 and finished image re-reviewed 2026-10-13 (Toolo-leg v3). No user/physical acceptance.
 0 // Existing approved Toolo approximations only; source interfaces and hidden retention provisional.
 0 // SOURCE PAGE 1 - Two bottom Toolo4x6 bricks and transverse upper brick
 1 0 -129.042611008 7.211417631 0 0.906307787 0.422618262 0 -0.422618262 0.906307787 0 0 0 1.0 76395.dat
 1 0 88.471257881 -94.216965187 0 0.906307787 0.422618262 0 -0.422618262 0.906307787 0 0 0 1.0 76395.dat
 1 0 -4.319041646 -103.910278025 0 0.906307787 0.422618262 0 -0.422618262 0.906307787 0 0 0 1.0 76395.dat
 0 // Presentation pose: entire assembly pitched 25 degrees head-up, as in the finished reference.
-0 // Kit-leg redesign is provisional: no measured retention, floor contact or physical acceptance.
+0 // Toolo-leg redesign: same-system screw arms; simplified threads and floor support are not physically verified.
 0 STEP
-0 // SOURCE slide-08 / build 2: source identity = 4433c01 x8; deliberately NOT used (kit shortage).
-0 // KIT REDESIGN: 9656-1 supplies 6/7 light-grey 6522 axles and 6/6 yellow 6526 cranks;
-0 // 45002-1 supplies 2/5 dark-grey 74847 arms, represented by existing dev-129/28334.dat.
-0 // Six crank pins enter body side bores at X=-120,-40,40, Y=-24, Z=+/-80, coaxially by 20 LDU.
-0 // Crank lower axle holes: Y=56,Z=+/-120. 6522 endpoints Z=+/-96..336 span the full 40-LDU hole.
-0 // The crank-to-Toolo bore is an UNVERIFIED cross-system friction fit, not a threaded lock; physical retention unresolved.
-0 // Rear arms pivot on X=-200,Y=-24,Z=+/-104; approved approximate screw faces meet body sidewalls.
-0 // Six rods extend horizontally after a downward elbow; two rear fork arms slope down/back. Not eight exhaust-shaped legs.
-1 72 -191.404395689 62.772265459 -104 -0.996194698 0.087155743 0 0.087155743 0.996194698 0 0 0 -1 dev-129/28334.dat
-1 14 -85.090311787 101.467427483 -120 0.906307787 0 -0.422618262 -0.422618262 0 -0.906307787 0 1 0 6526.dat
-1 71 -85.090311787 101.467427483 -216 0 0.422618262 0.906307787 0 0.906307787 -0.422618262 -1 0 0 6522.dat
-1 14 -12.585688824 67.657966544 -120 0.906307787 0 -0.422618262 -0.422618262 0 -0.906307787 0 1 0 6526.dat
-1 71 -12.585688824 67.657966544 -216 0 0.422618262 0.906307787 0 0.906307787 -0.422618262 -1 0 0 6522.dat
-1 14 59.918934139 33.848505604 -120 0.906307787 0 -0.422618262 -0.422618262 0 -0.906307787 0 1 0 6526.dat
-1 71 59.918934139 33.848505604 -216 0 0.422618262 0.906307787 0 0.906307787 -0.422618262 -1 0 0 6522.dat
-1 72 -191.404395689 62.772265459 104 0.996194698 0.087155743 0 -0.087155743 0.996194698 0 0 0 1 dev-129/28334.dat
-1 14 -85.090311787 101.467427483 120 -0.906307787 0 -0.422618262 0.422618262 0 -0.906307787 0 -1 0 6526.dat
-1 71 -85.090311787 101.467427483 216 0 0.422618262 -0.906307787 0 0.906307787 0.422618262 1 0 0 6522.dat
-1 14 -12.585688824 67.657966544 120 -0.906307787 0 -0.422618262 0.422618262 0 -0.906307787 0 -1 0 6526.dat
-1 71 -12.585688824 67.657966544 216 0 0.422618262 -0.906307787 0 0.906307787 0.422618262 1 0 0 6522.dat
-1 14 59.918934139 33.848505604 120 -0.906307787 0 -0.422618262 0.422618262 0 -0.906307787 0 -1 0 6526.dat
-1 71 59.918934139 33.848505604 216 0 0.422618262 -0.906307787 0 0.906307787 0.422618262 1 0 0 6522.dat
+0 // SOURCE slide-08 / build 2: eight downward/backward legs; exhaust shape deliberately substituted.
+0 // KIT REDESIGN v3: 2 x 45002-1 provide 10 x 74847; use 8 identical dark-grey Toolo short arms (4 per side).
+0 // Existing dev-129/28334.dat represents 74847 (2 x 6 arm with triangular set screw and clip ends).
+0 // Toolo screw ends mate to Toolo 76395 side bores, NOT Technic axles or crank pins.
+0 // Body-local bore centers: X=-200,-120,-40,40; Y=-24; Z=+/-80. Arm pivots are at Z=+/-104.
+0 // Inner cheek faces at local Z=-24 meet sidewalls; inward screw tips at local Z=-25 enter the bore mesh.
+0 // All arms turn 55 degrees back from body-down around the side-bore axis; after body pitch, 30 degrees back from world-down.
+0 // Free ends point backward/down, with no lateral run. Proper rotations only; triangular screw heads face outward.
+0 // Simplified screw travel/threads are not measured fit evidence; real Toolo threaded engagement remains a physical check.
+1 72 -191.404395689 62.772265459 -104 -0.866025404 -0.5 0 -0.5 0.866025404 0 0 0 -1 dev-129/28334.dat
+1 72 -118.899772726 28.96280452 -104 -0.866025404 -0.5 0 -0.5 0.866025404 0 0 0 -1 dev-129/28334.dat
+1 72 -46.395149763 -4.846656419 -104 -0.866025404 -0.5 0 -0.5 0.866025404 0 0 0 -1 dev-129/28334.dat
+1 72 26.1094732 -38.656117359 -104 -0.866025404 -0.5 0 -0.5 0.866025404 0 0 0 -1 dev-129/28334.dat
+1 72 -191.404395689 62.772265459 104 0.866025404 -0.5 0 0.5 0.866025404 0 0 0 1 dev-129/28334.dat
+1 72 -118.899772726 28.96280452 104 0.866025404 -0.5 0 0.5 0.866025404 0 0 0 1 dev-129/28334.dat
+1 72 -46.395149763 -4.846656419 104 0.866025404 -0.5 0 0.5 0.866025404 0 0 0 1 dev-129/28334.dat
+1 72 26.1094732 -38.656117359 104 0.866025404 -0.5 0 0.5 0.866025404 0 0 0 1 dev-129/28334.dat
 0 STEP
 0 // SOURCE PAGE 3 - Tail2x4+2x2 and transverse head2x4
 1 4 -258.085222016 14.422835262 0 0.906307787 0.422618262 0 -0.422618262 0.906307787 0 0 0 1.0 76057.dat
