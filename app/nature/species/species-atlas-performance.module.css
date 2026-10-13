@@ -1,5 +1,6 @@
 /* 保留完整 DOM、原生查找和字母锚点。按卡片跳过离屏绘制，不给整组套固定高度。 */
-.performance { --atlas-info-size: 7rem; }
+.performance { --atlas-info-size: 5.4rem; }
+@media (min-width: 768px) { .performance { --atlas-info-size: 5.9rem; } }
 .tileCell { min-width: 0; }
 .performance.performance :global(.nature-atlas-tile) { height: auto; }
 /* 确定的照片比例 + 可容纳两行名称及学名/分类的文字区，避免图片解码后撑高。
@@ -12,7 +13,7 @@
 .performance.performance :global(.nature-atlas-tile-name) {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   overflow: hidden;
   max-width: 100%;
 }
