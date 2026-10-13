@@ -19,6 +19,21 @@ export function TutorVoiceSettings({ userId, onClose, onPreview, onStop }: {
       .catch(() => { if (!controller.signal.aborted) setError('暂时无法加载声音，请稍后重试。') })
     return () => { controller.abort(); onStop() }
   }, [userId, onStop])
+  useEffect(() => {
+    if (!access?.canChoose || !access.expiresAt) return
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const check = () => {
+      const remaining = Date.parse(access.expiresAt!) - Date.now()
+      if (remaining <= 0) {
+        onStop()
+        setAccess((current) => current ? { ...current, canChoose: false, voice: DEFAULT_TUTOR_VOICE } : current)
+        setSelected(DEFAULT_TUTOR_VOICE)
+        window.dispatchEvent(new Event('tutor-voice-selection-changed'))
+      } else if (Number.isFinite(remaining)) timer = setTimeout(check, Math.min(remaining, 2_147_483_647))
+    }
+    check()
+    return () => { if (timer) clearTimeout(timer) }
+  }, [access?.canChoose, access?.expiresAt, onStop])
   const save = async () => {
     if (saving || !access?.canChoose) return
     setSaving(true); setError(''); onStop()

@@ -33,3 +33,13 @@
 ## 验证
 
 协议、权限、音色保存、缓存和生命周期使用本地 mock 测试；未调用付费模型或真实支付。需后续在授权环境确认 Workspace、真实额度、默认音色听感、儿童短命令准确率和桌面/手机真实设备播放。
+
+2026-10-13 本地结果：
+
+- `pnpm run type-check`：通过。
+- `pnpm run lint`：通过（仍有 React 提示，不是零警告）。
+- `pnpm exec vitest run lib/ai/tutor components/features/tutor lib/ai/dashscope.test.ts app/api/tutor/speech components/features/courses/building-voice-capture.test.ts components/features/courses/building-voice-controls.test.tsx components/features/courses/use-building-voice-controls.test.tsx lib/courses/building-voice-commands.test.ts`：63 个文件、615 项通过。
+- `node scripts/test-tutor-speech-budget.mjs`：通过；`PGLITE_MODULE_PATH` 指向任务目录临时安装的 PGlite，项目未新增依赖。验证真实迁移、角色权限、两个滚动配额及过期；不代表多连接生产压测。
+- `git diff --check`：通过。工作流文件未修改，未建 PR，未调用 workflow dispatch。
+
+分支基于同步确认的 `c21a18639fd04a5fbb35d0fa696c7dafb99ac725`。首阶段推送后发现远端 main 被其它工作推进到 `a1ce88ad5f3776c6d1192587431a671d611472cc`；只读比较确认新增改动没有语音实现重叠。未合并这些其它改动，也未更新 main。

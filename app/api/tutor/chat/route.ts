@@ -810,6 +810,7 @@ export async function POST(request: NextRequest) {
                   safeEnqueue({ type: 'audio', pcm, sampleRate, voice: voiceAccess.voice })
                 },
                 onError: (error) => {
+                  safeEnqueue({ type: 'audio_error', error: error.userMessage })
                   logger.warn('Tutor realtime TTS failed', { message: error.message })
                 },
               })

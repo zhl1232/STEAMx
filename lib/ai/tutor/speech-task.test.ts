@@ -121,6 +121,16 @@ describe('Qwen Audio 3.1 task protocol', () => {
     event(ws, 'task-finished')
     await expect(promise).rejects.toMatchObject({ status: 400 })
   })
+  it('aborts ASR before processing late finalized commands', async () => {
+    const controller = new AbortController()
+    const promise = transcribeTaskPcm(new ArrayBuffer(4), controller.signal)
+    const ws = await socket(); event(ws, 'task-started'); await Promise.resolve()
+    controller.abort()
+    event(ws, 'result-generated', { output: { sentence: { sentence_id: 1, text: '下一步', sentence_end: true } } })
+    event(ws, 'task-finished')
+    await expect(promise).rejects.toMatchObject({ status: 499 })
+    expect(ws.close).toHaveBeenCalledOnce()
+  })
   it('rejects missing configuration, wrong regions and unknown voices before any call', () => {
     vi.stubEnv('DASHSCOPE_WORKSPACE_ID', '')
     expect(speechTaskUrl).toThrow('Missing DASHSCOPE_WORKSPACE_ID')
