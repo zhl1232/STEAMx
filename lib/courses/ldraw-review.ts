@@ -299,6 +299,8 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '4-wa-li.ldr',
   // 2026-10-13 night: v3 overlay vs p13; blue drums/cab/exhaust present; drum+exhaust geometry approximate.
   '4-ya-lu-ji.ldr',
+  // 2026-10-13 night: body/arms match courseware final; propeller blade angle slightly off.
+  '4-wu-ren-ji.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
