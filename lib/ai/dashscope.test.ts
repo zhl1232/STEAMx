@@ -170,6 +170,17 @@ describe('dashScopeChatComplete', () => {
     expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ model, enable_thinking: false })
   })
 
+  it.each(['vision', 'moderation', 'pbl-vision'] as const)('disables optional thinking for %s role JSON/vision calls', async (role) => {
+    process.env.DASHSCOPE_VISION_MODELS = 'qwen3.7-plus'
+    process.env.DASHSCOPE_MODERATION_MODELS = 'qwen3.7-plus'
+    fetchMock.mockResolvedValue({ ok: true, json: async () => ({ choices: [{ message: { content: '{}' } }] }) })
+    await dashScopeChatComplete({ role, payload: { messages: [] } })
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({
+      model: 'qwen3.7-plus',
+      enable_thinking: false,
+    })
+  })
+
   it('does not send an unsupported thinking option to a custom thinking model', async () => {
     process.env.DASHSCOPE_TUTOR_TEXT_MODELS = 'custom-thinking-model'
     fetchMock.mockResolvedValue({ ok: true, json: async () => ({ choices: [{ message: { content: '收到' } }] }) })
