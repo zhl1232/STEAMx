@@ -65,59 +65,67 @@
 1 4 160 -120 80 1 0 0 0 1 0 0 0 1 2302.dat
 0 STEP
 
-0 // STEP 7 - turntable and two lower jaw platform blocks
+0 // STEP 7 - slide-13: turntable (40 LDU) and one black lower-jaw layer (48 LDU).
+0 // Source additions: 60535 x1 and 76395 x2; no extra black jaw layer is shown.
 1 0 -160 -112 0 1 0 0 0 1 0 0 0 1 60535.dat
 1 0 -240 -160 0 0 0 -1 0 1 0 1 0 0 76395.dat
 1 0 -80 -160 0 0 0 -1 0 1 0 1 0 0 76395.dat
 0 STEP
 
-0 // STEP 8 - slide-14/15: red 2x4 thick tongue extends forward (-X), studs upward.
-0 // Tongue X=-360..-200, Z=-40..40, bottom Y=-160; three stud rows grip the lower jaw.
-0 // One front stud row projects 40 LDU beyond both jaws; a one-stud gap precedes the red 2x2 spacer.
-0 // Two yellow rear neck bricks remain stacked, top Y=-256; do not reverse head and tail.
-1 4 -280 -208 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 8 - slide-14: red 2x4 tongue, red 2x2 spacer, two yellow rear-neck bricks.
+0 // V4 review adjustment: ADD one red 3437 above the spacer and one yellow 3011 atop the neck.
+0 // These two added 48-LDU lifts respond to the requested taller head; they are NOT in slide-14's BOM.
+0 // Tongue moves forward one more stud: X=-400..-240, Z=-40..40, Y=-208..-160.
+0 // Front overhang is now 80 LDU (two stud rows); rear 80x80 grips four lower-jaw studs.
+0 // Upper-jaw underside Y=-256 leaves 48 LDU above tongue body, 37 above its 11-LDU studs.
+0 // Tongue rests on lower jaw: zero lower contact gap; overhanging tip has open space below.
+1 4 -320 -208 0 1 0 0 0 1 0 0 0 1 3011.dat
 1 4 -120 -208 0 1 0 0 0 1 0 0 0 1 3437.dat
 1 14 -40 -208 0 0 0 -1 0 1 0 1 0 0 3011.dat
 1 14 -40 -256 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 // V4 added support layer; ordinary Duplo stud connections, no floating upper assembly.
+1 4 -120 -256 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -40 -304 0 0 0 -1 0 1 0 1 0 0 3011.dat
 0 STEP
 
-0 // STEP 9 - slide-15: upper jaw is 6 studs deep by 8 wide, crossing the 8x6 lower jaw.
-1 0 -200 -256 -80 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 -200 -256 80 1 0 0 0 1 0 0 0 1 76395.dat
+0 // STEP 9 - slide-15: one black upper-jaw layer, 6 studs deep by 8 wide, crossing lower jaw.
+0 // V4 upper assembly is 48 LDU higher; both halves grip the red spacer at Y=-256.
+1 0 -200 -304 -80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -200 -304 80 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
 
-0 // STEP 10 - slide-16: yellow lower face is inset one stud from the black upper jaw front.
-0 // Rear crossbar X=-120..-40 bridges the jaw and the top rear-neck brick.
-1 14 -200 -304 -40 1 0 0 0 1 0 0 0 1 76057.dat
-1 14 -200 -304 40 1 0 0 0 1 0 0 0 1 76057.dat
-1 14 -80 -304 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -80 -304 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STEP 10 - slide-16: yellow lower face, 48 LDU; front inset one stud from upper jaw.
+0 // Rear crossbar X=-120..-40 bridges upper jaw and extended rear neck at Y=-304.
+1 14 -200 -352 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -200 -352 40 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -80 -352 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -352 80 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 
-0 // STEP 11 - slide-17: upper yellow face is staggered one stud behind the lower face.
-0 // Its rear stud row bridges onto the crossbar; nose and rear-leaning crest follow this layer.
-1 14 -200 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
-1 14 -120 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
-1 4 -200 -400 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 72 -120 -400 0 0 0 1 0 1 0 -1 0 0 28336.dat
+0 // STEP 11 - slide-17: yellow upper face, 48 LDU; another one-stud rearward stagger.
+0 // Red 2x2 nose and grey fork crown follow the raised face, without changing their connections.
+1 14 -200 -400 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 14 -120 -400 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 4 -200 -448 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 72 -120 -448 0 0 0 1 0 1 0 -1 0 0 28336.dat
 0 STEP
 
-0 // STEP 12 - slide-18: two yellow 2x3x2 inside-curve ears, official 2301b.
-0 // Bottom Y=-304 grips one X row of the step-10 rear crossbar (three studs per ear).
-0 // Rear one-row overhang clears the upper face; tall ends face outwards, curves face inwards.
-0 // Actual 2301b origin is its top stud row; toe extends 100 LDU toward local -Z.
-1 14 -40 -400 -140 -1 0 0 0 1 0 0 0 -1 2301b.dat
-1 14 -40 -400 140 1 0 0 0 1 0 0 0 1 2301b.dat
+0 // STEP 12 - slide-18: two yellow 2301b 2x3x2 inside-curve ears, 96 LDU tall.
+0 // V4 ears rise 48 LDU with their crossbar: bottoms Y=-352, tops Y=-448.
+0 // Each grips one X row of three studs; rear one-row overhang remains inferred from source.
+0 // Tall ends face outwards; actual origin is top stud row, toe extends 100 LDU toward local -Z.
+1 14 -40 -448 -140 -1 0 0 0 1 0 0 0 -1 2301b.dat
+1 14 -40 -448 140 1 0 0 0 1 0 0 0 1 2301b.dat
 0 STEP
 
-0 // STEP 13 - slide-19: two cheek forks, grey rims with built-in yellow screws, and black tyres.
-0 // 99565/44970 retain approved approximate geometry: tyre diameter ~115 LDU; rim spokes differ from source.
-0 // No extra yellow gear: the source yellow centre is the rim screw, already included in 99565.
-0 // Fork bottoms meet yellow side faces at Z=+/-80; front bore and rim axle share Y=-328, Z=+/-104.
-0 // Approved approximate screw interfaces only; the cheek pivots are decorative brow tips, not wheel axles.
-1 72 -160 -328 -128 1 0 0 0 0 -1 0 1 0 28336.dat
-1 71 -224 -328 -104 0 1 0 -1 0 0 0 0 1 99565.dat
-1 0 -224 -328 -104 0 1 0 -1 0 0 0 0 1 44970.dat
-1 72 -160 -328 128 -1 0 0 0 0 -1 0 -1 0 28336.dat
-1 71 -224 -328 104 0 1 0 -1 0 0 0 0 1 99565.dat
-1 0 -224 -328 104 0 1 0 -1 0 0 0 0 1 44970.dat
+0 // STEP 13 - slide-19/20/finished: two cheek forks, grey rims with yellow screws, black tyres.
+0 // V4 eyes and side forks rise 48 LDU together; axle centres (-224,-376,+/-104).
+0 // 99565/44970 retain approved approximate geometry: tyre diameter ~115 LDU; width/spokes differ.
+0 // No extra yellow gear: source yellow centre is the rim screw included in 99565.
+0 // Fork bottoms meet yellow faces at Z=+/-80; approximate Toolo interfaces still need physical review.
+1 72 -160 -376 -128 1 0 0 0 0 -1 0 1 0 28336.dat
+1 71 -224 -376 -104 0 1 0 -1 0 0 0 0 1 99565.dat
+1 0 -224 -376 -104 0 1 0 -1 0 0 0 0 1 44970.dat
+1 72 -160 -376 128 -1 0 0 0 0 -1 0 -1 0 28336.dat
+1 71 -224 -376 104 0 1 0 -1 0 0 0 0 1 99565.dat
+1 0 -224 -376 104 0 1 0 -1 0 0 0 0 1 44970.dat
