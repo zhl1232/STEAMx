@@ -200,11 +200,12 @@ export const TUTOR_RESOURCE_GOLDEN_CASES: TutorResourceGoldenCase[] = [
   },
   {
     id: 'resource-compound-topic',
-    description: '组合词「乐高轮船」→ 先确认积木规格范围',
+    description: '组合词「乐高轮船」→ 直接检索（大颗粒=兼容乐高，不再拆规格）',
     message: '有没有乐高轮船的课程',
     expectShouldSearch: true,
     expectedResourceTypes: ['course'],
-    expectClarification: true,
+    expectClarification: false,
+    queryMustMatch: ['乐高|大颗粒积木|轮船'],
   },
   {
     id: 'resource-explicit-large-bricks',
@@ -213,6 +214,19 @@ export const TUTOR_RESOURCE_GOLDEN_CASES: TutorResourceGoldenCase[] = [
     expectShouldSearch: true,
     expectedResourceTypes: ['course'],
     queryMustMatch: ['大颗粒积木|轮船'],
+  },
+  {
+    id: 'resource-brick-option-followup',
+    description: '澄清选项点「大颗粒积木」→ 检索站内积木课，不空转',
+    message: '大颗粒积木',
+    previousMessages: [
+      { role: 'user', content: '有没有积木相关的课程？' },
+      { role: 'assistant', content: '你想先按年龄看看，还是直接看大颗粒积木课？' },
+    ],
+    expectShouldSearch: true,
+    expectedResourceTypes: ['course'],
+    expectClarification: false,
+    queryMustMatch: ['大颗粒积木|乐高'],
   },
   {
     id: 'resource-knowledge-question',
