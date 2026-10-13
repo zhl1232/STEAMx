@@ -120,15 +120,15 @@ const AtlasResults = memo(function AtlasResults({ groups, topic, filtersKey, pri
     let previousBreakpoint = -1
     const updateGeometry = (width: number) => {
       const breakpoint = window.matchMedia('(min-width: 1280px)').matches ? 3
-        : window.matchMedia('(min-width: 768px)').matches ? 2
-          : window.matchMedia('(min-width: 380px)').matches ? 1 : 0
+        : window.matchMedia('(min-width: 768px)').matches ? 2 : 0
       if (width <= 0 || (width === previousWidth && breakpoint === previousBreakpoint)) return
       previousWidth = width
       previousBreakpoint = breakpoint
       const gap = breakpoint >= 2 ? 14 : 10
       const gridMin = breakpoint === 3 ? 190 : 170
       const listMin = breakpoint === 3 ? 340 : 300
-      const gridColumns = breakpoint >= 2 ? Math.max(1, Math.floor((width + gap) / (gridMin + gap))) : breakpoint === 1 ? 3 : 2
+      // 手机固定双列，离屏行数和图片高度必须与 CSS 的双列布局一致。
+      const gridColumns = breakpoint >= 2 ? Math.max(1, Math.floor((width + gap) / (gridMin + gap))) : 2
       const listColumns = breakpoint >= 2 ? Math.max(1, Math.floor((width + gap) / (listMin + gap))) : 1
       const mediaSize = ((width - gap * (gridColumns - 1)) / gridColumns - 2) * 0.75
       element.style.setProperty('--atlas-grid-media-size', `${mediaSize}px`)

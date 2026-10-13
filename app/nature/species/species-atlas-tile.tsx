@@ -59,7 +59,7 @@ export const SpeciesAtlasTile = memo(function SpeciesAtlasTile({ item, filtersKe
             fill
             priority={priority}
             decoding="async"
-            sizes="(max-width: 379px) 45vw, (max-width: 767px) 30vw, (max-width: 1279px) 25vw, 240px"
+            sizes="(max-width: 767px) 45vw, (max-width: 1279px) 25vw, 240px"
             unoptimized={shouldBypassAssetDisplayOptimization(item.thumbnailUrl)}
             className="object-cover"
             onError={() => setFailedSrc(imageSrc)}
