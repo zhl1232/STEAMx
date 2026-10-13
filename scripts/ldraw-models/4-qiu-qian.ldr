@@ -1,7 +1,8 @@
-0 4+ Swing - local courseware version, unaccepted
+0 4+ Swing - local courseware version (night13 tube polish)
 0 Name: 4-qiu-qian.ldr
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // night13: blue tubes -24Y + |Z|-20 inward; arch Y/Z edits hurt IoU — left arch.
 0 // VERSION: local courseware p1..11 replaces different 7-step Toolo version from pairs.
 0 // Reused same-source 3-qiu-qian placements; donor unchanged. Physical hanger retention remains unresolved.
 0 // Original timeline slot count retained; local source page groups remain explicitly labelled below.
@@ -75,10 +76,11 @@
 1 4 0 -648 360 1 0 0 0 1 0 0 0 1 31191.dat
 0 // Local source page boundary retained as comment inside legacy timeline slot.
 0 // STEP6: two coaxial straight tubes through each doorway; aperture centerY=-538
-1 1 0 -538 -400 1 0 0 0 1 0 0 0 1 31452.dat
-1 1 0 -538 -280 1 0 0 0 1 0 0 0 1 31452.dat
-1 1 0 -538 400 -1 0 0 0 1 0 0 0 -1 31452.dat
-1 1 0 -538 280 -1 0 0 0 1 0 0 0 -1 31452.dat
+0 // night13: tubes raised -24Y, |Z| -20 toward center (was aperture Y=-538)
+1 1 0 -562.0000 -380.0000 1 0 0 0 1 0 0 0 1 31452.dat
+1 1 0 -562.0000 -260.0000 1 0 0 0 1 0 0 0 1 31452.dat
+1 1 0 -562.0000 380.0000 -1 0 0 0 1 0 0 0 -1 31452.dat
+1 1 0 -562.0000 260.0000 -1 0 0 0 1 0 0 0 -1 31452.dat
 0 // Local source page boundary retained as comment inside legacy timeline slot.
 0 // STEP7: both ring-holder stud faces point +Z; coaxial slide inferred from seat closure.
 0 // Measured local ring axis (0,Y,-30.84) maps to world Y=-538.
