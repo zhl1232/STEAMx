@@ -99,7 +99,7 @@ function HomeHero({ image }: { image: string }) {
           priority
           loading="eager"
           sizes="(max-width: 768px) 100vw, 1800px"
-          className="absolute inset-x-0 bottom-0 h-[180px] w-full object-cover object-[74%_center] dark:brightness-90 md:hidden"
+          className="absolute inset-x-0 bottom-0 h-[124px] w-full object-cover object-[74%_62%] dark:brightness-90 md:hidden"
         />
         <Image
           src={heroWideImage}
@@ -110,9 +110,9 @@ function HomeHero({ image }: { image: string }) {
           sizes="1800px"
           className="hidden object-cover object-[69%_center] md:block md:object-[70%_center] lg:object-[73%_center] xl:object-[75%_center] md:[mask-image:linear-gradient(90deg,transparent_0%,transparent_43%,black_76%,black_100%)] lg:[mask-image:linear-gradient(90deg,transparent_0%,transparent_32%,black_64%,black_100%)] xl:[mask-image:linear-gradient(90deg,transparent_0%,transparent_26%,black_58%,black_100%)]"
         />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[180px] bg-[linear-gradient(180deg,hsl(var(--surface-raised))_0%,hsl(var(--surface-raised)/0.82)_18%,hsl(var(--surface-raised)/0.18)_44%,transparent_68%)] md:hidden" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[124px] bg-[linear-gradient(180deg,hsl(var(--surface-raised))_0%,hsl(var(--surface-raised)/0.82)_18%,hsl(var(--surface-raised)/0.18)_44%,transparent_68%)] md:hidden" />
 
-        <div className="relative z-10 flex min-h-[280px] flex-col justify-start px-4 pb-32 pt-5 md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
+        <div className="relative z-10 flex min-h-[200px] flex-col justify-start px-4 pb-[88px] pt-5 md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
           <div className="min-w-0 max-w-[440px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[550px]">
             <p className="hidden text-[12px] font-bold tracking-normal text-[hsl(var(--brand-blue))] md:block">
               {BRAND_FULL_NAME}
