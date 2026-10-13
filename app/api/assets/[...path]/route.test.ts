@@ -226,7 +226,8 @@ describe("asset proxy", () => {
 
         expect(response.status).toBe(504);
         await expect(response.json()).resolves.toEqual({ error: "Asset upstream timeout" });
-        expect(fetchMock).toHaveBeenCalledTimes(1);
+        // 超时会重试一次再放弃。
+        expect(fetchMock).toHaveBeenCalledTimes(2);
     });
 
     it("allows unsigned images when signing secret is configured", async () => {

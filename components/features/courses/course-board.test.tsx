@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react'
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { CourseListItem } from '@/lib/courses/types'
 import { CourseBoard, CourseBoardError, isBrickCourse, partitionCourseGroups } from './course-board'
@@ -109,8 +109,16 @@ describe('真实课程组件', () => {
   })
   it('封面失败显示占位，更新图片后恢复，不使用别的课程图', () => {
     const course = makeCourse({ image_url: '/broken.webp' })
+    vi.useFakeTimers()
     const { container, rerender } = render(<CourseBoard courses={[course]} />)
+    // 先自动重试两次（带 retry 参数），仍失败才显示占位。
+    for (let attempt = 1; attempt <= 2; attempt += 1) {
+      fireEvent.error(container.querySelector('[data-course-id] img')!)
+      act(() => { vi.advanceTimersByTime(600 * attempt) })
+      expect(container.querySelector('[data-course-id] img')!.getAttribute('src')).toContain(`retry=${attempt}`)
+    }
     fireEvent.error(container.querySelector('[data-course-id] img')!)
+    vi.useRealTimers()
     expect(screen.getByRole('img', { name: '示例课程：暂无封面' })).toBeInTheDocument()
     expect(container.querySelector('img[src="/projects/tech_programming.webp"]')).toBeNull()
     rerender(<CourseBoard courses={[{ ...course, image_url: '/fixed.webp' }]} />)
