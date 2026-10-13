@@ -3,7 +3,7 @@
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // INCOMPLETE REVIEW: blue wing/claw pair and two3blade props missing geometry/identity evidence; rear block assembly provisional.
+0 // night8e: blue wings=45117-ke-ji-v2×2 scaled; stern props=6670×2 scaled; visual gate pending
 0 // All 13 source pages actually viewed. No physical verification.
 0 // SOURCE PAGE 1
 1 0 0 -48 0 1 0 0 0 1 0 0 0 1 76395.dat
@@ -47,7 +47,10 @@
 1 0 -52 -257 0 0 -1 0 0 0 -1 1 0 0 60535.dat
 0 STEP
 0 // SOURCE PAGE 8
-0 // MISSING blue opposed Toolo wings/claws x2; same visual family as beetle horn end.
+0 // night8e WIP: 45117-ke-ji-v2 x0.5 on panel ±Z; Z-span→fore-aft, +X→outward
+0 // wing tilt still flatter than courseware; IoU≈0.91 @ 0.6,0.8,1.2 — not gated
+1 1 -40 -240 80 0 0 -0.5 0 0.5 0 0.5 0 0 dev-129/45117c01-ke-ji-v2.dat
+1 1 -40 -240 -80 0 0 0.5 0 0.5 0 -0.5 0 0 dev-129/45117c01-ke-ji-v2.dat
 0 STEP
 0 // SOURCE PAGE 9
 1 14 -80 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
@@ -74,7 +77,9 @@
 1 4 48 -223 0 0 0 1 0 1 0 -1 0 0 47199.dat
 0 STEP
 0 // SOURCE PAGE 11
-0 // MISSING two Toolo3blade propellers at bow; source identity family6669c01/6670c01 unresolved, no automatic substitution.
+0 // night8e WIP: 6670 props 0.6 scale face aft at stern
+1 71 -390 -150 -85 0 -0.6 0 0 0 -0.6 0.6 0 0 dev-129/6670c01-wu-ren-ji.dat
+1 71 -390 -150 85 0 -0.6 0 0 0 0.6 -0.6 0 0 dev-129/6670c01-wu-ren-ji.dat
 0 STEP
 0 // SOURCE PAGE 12
 0 // BATCH4: source original12 (extracted page-04): 24x24 base, 6x12 alternating 2x4 tiles, 36 blue + 36 medium-azure. Footprint960x960LDU retained; cyan matched to source, no resizing/scaling.
