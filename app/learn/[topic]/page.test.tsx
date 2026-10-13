@@ -73,7 +73,7 @@ describe("learning topic pages", () => {
         for (const item of topic.reflection) expect(document.body).toHaveTextContent(item);
         expect(document.querySelectorAll("details[open]")).toHaveLength(0);
         expect(document.querySelectorAll("details").length).toBeGreaterThan(0);
-        expect(document.querySelectorAll("#first-try ol > li")).toHaveLength(3);
+        expect(document.querySelectorAll("#first-try ol > li")).toHaveLength(topic.slug === "science" ? 0 : 3);
         const ids = Array.from(document.querySelectorAll("[id]"), element => element.id);
         expect(new Set(ids).size).toBe(ids.length);
         for (const item of LEARNING_TOPICS.filter(item => item.slug !== topic.slug)) {
@@ -161,16 +161,43 @@ describe("learning topic pages", () => {
         expect(cards.slice(3).every(card => card.closest("details") && !card.closest("details")!.hasAttribute("open"))).toBe(true);
     });
 
-    it("links real science projects with strict queries and retains adult-support reminders", async () => {
-        const project = { id: 91, title: "纸桥承重探索", description: "比较不同折法。", author: "作者", author_id: "public-author", image: "", category: "科学", likes: 0 };
+    it("uses returned science projects rather than promoting a hard-coded guide example", async () => {
+        // 测试目录故意不含纸桥，不能靠同名假数据掩盖固定推荐的问题。
+        const project = { id: 91, title: "测试用光影观察", description: "观察光照方向变化。", author: "作者", author_id: "public-author", image: "", category: "科学", likes: 0 };
         vi.mocked(getProjects).mockResolvedValue({ projects: [project], total: 1, hasMore: false });
-        vi.mocked(getProjectById).mockResolvedValue({ ...project, steps: [{ title: "折纸桥", description: "把纸折成折扇形。" }] });
+        vi.mocked(getProjectById).mockResolvedValue({ ...project, steps: [{ title: "观察影子", description: "记录光照方向与影子的变化。" }] });
         const document = await renderTopic("science");
         expect(getProjects).toHaveBeenCalledWith({ category: "科学" }, { sortBy: "latest", strictErrors: true, pageSize: 24 });
-        expect(document.querySelector('a[href="/project/91"]')).toHaveTextContent("纸桥承重探索");
-        expect(document.querySelector("#first-try")!.closest("details")).toBeNull();
-        expect(document.querySelector("#first-try")).toHaveTextContent("由成人承担相应操作");
+        const resources = document.querySelector("#start-learning")!;
+        const card = resources.querySelector('a[href="/project/91"]')!;
+        expect(card).toHaveTextContent("测试用光影观察");
+        expect(card.closest("details")).toBeNull();
+        expect(resources.querySelectorAll('a[href^="/project/"]')).toHaveLength(1);
+        expect(document.querySelector("header a")).toHaveTextContent("选择一个科学项目");
+        expect(document.querySelector("header a")).toHaveAttribute("href", "#start-learning");
+        expect(document.querySelector("header")).not.toHaveTextContent("纸桥");
+        expect(document.querySelector('a[href="#first-try"]')).toBeNull();
+        expect(document.querySelector("#first-try-heading")).toBeNull();
+        expect(document.querySelector("#first-try")!.closest("section")).toBe(resources);
+        expect(resources).toHaveTextContent("由成人承担相应操作");
+        expect(resources).not.toHaveTextContent("两个稳定支撑物");
+        const method = document.querySelector("#learning-method")!.closest("section")!;
+        expect(method).toHaveTextContent("方法示例（非站内项目）");
+        expect(method.closest("details")).not.toHaveAttribute("open");
+        expect(resources.compareDocumentPosition(method)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
         expect(listApprovedCourses).not.toHaveBeenCalled();
+    });
+
+    it("does not invent a starter project or keep an empty primary CTA when science resources are absent", async () => {
+        const document = await renderTopic("science");
+        const resources = document.querySelector("#start-learning")!;
+        expect(resources).toHaveTextContent("暂时没有可展示的科学项目");
+        expect(resources.querySelectorAll('a[href^="/project/"]')).toHaveLength(0);
+        expect(resources.querySelector('a[href="/explore"]')).toHaveTextContent("去探索其他项目");
+        expect(document.querySelector("header a")).toBeNull();
+        expect(document.body).not.toHaveTextContent("先试试纸桥");
+        expect(resources).not.toHaveTextContent("本页的小挑战");
+        expect(Array.from(document.querySelectorAll("summary")).some(item => item.textContent?.includes("能托住更多"))).toBe(false);
     });
 
     it("rejects unknown page slugs before requesting resources", async () => {

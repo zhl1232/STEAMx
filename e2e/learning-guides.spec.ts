@@ -59,3 +59,35 @@ test('无 JavaScript 时仍有可展开正文和真实链接', async ({ browser,
     await expect(page.locator('#start-learning a[href="/nature/submit"]')).toHaveAttribute('href', '/nature/submit')
   } finally { await context.close() }
 })
+
+for (const width of [390, 1280]) {
+  test(`科学指引 ${width}：入口由项目承接，纸桥只作方法示例`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto('/learn/science#first-try', { waitUntil: 'domcontentloaded' })
+    await expect(page.getByRole('heading', { level: 1, name: '科学实验' })).toBeVisible()
+    await expect(page.locator('#first-try-heading')).toHaveCount(0)
+    await expect(page.getByRole('link', { name: '先试试纸桥' })).toHaveCount(0)
+    await expect(page.locator('article header')).not.toContainText('纸桥')
+    await expect(page.locator('#start-learning #first-try')).toHaveCount(1)
+    const resources = page.locator('#start-learning')
+    await expect(resources).toContainText('由成人承担相应操作')
+    const cards = resources.locator('a[href^="/project/"]')
+    if (await cards.count()) {
+      await expect(page.locator('article header a')).toHaveAttribute('href', '#start-learning')
+      await expect(page.locator('article header a')).toContainText('选择一个科学项目')
+      await expect(cards.first()).toBeVisible()
+      for (const card of await cards.all()) {
+        expect(await card.getAttribute('href')).toMatch(/^\/project\/[^/?#]+$/)
+      }
+    } else {
+      await expect(resources).toContainText('暂时没有可展示的科学项目')
+      await expect(page.locator('article header a')).toHaveCount(0)
+      await expect(resources.getByRole('link', { name: '去探索其他项目' })).toHaveAttribute('href', '/explore')
+    }
+    const method = page.locator('details').filter({ has: page.locator('#learning-method') })
+    await expect(method).not.toHaveAttribute('open', '')
+    await method.locator('summary').click()
+    await expect(method.getByText(/方法示例（非站内项目）/)).toBeVisible()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  })
+}
