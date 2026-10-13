@@ -90,7 +90,7 @@ ${
     : '无。'
 }
 
-人物库存包含四套教育套装中的完整小人（含成人）。
+人物库存包含已收录教育套装中的完整小人（含成人）。
 
 复现：\`node scripts/summarize-lesson-kit-coverage-middle-senior.mjs\`。
 `

@@ -9,7 +9,7 @@ const directory = 'public/courses/ldraw'
 const colors = parseLdrawColorTable(readFileSync(`${directory}/LDConfig.ldr`, 'utf8'))
 const files = readdirSync(directory).filter((file) => /^[345]-.*\.mpd$/.test(file) && !/-[a-f0-9]{8,}\.mpd$/.test(file))
 
-it('all 160 lessons render only meaningful substitutions with default and all-four-kit inventories', () => {
+it('all 160 lessons render only meaningful substitutions with default and all-catalog-kit inventories', () => {
   expect(files).toHaveLength(160)
   const failures: string[] = []
   for (const file of files) {

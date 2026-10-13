@@ -59,7 +59,7 @@ for (const viewport of [
   { name: '430', width: 430, height: 900 },
   { name: 'desktop', width: 1280, height: 900 },
 ]) {
-  test(`探索指南在 ${viewport.name} 视口展示六个入口且无横向溢出`, async ({ page }) => {
+  test(`探索指南在 ${viewport.name} 视口保留六个方向和一个推荐活动且无横向溢出`, async ({ page }) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height })
     await mockCommunications(page)
     await page.goto('/start', { waitUntil: 'domcontentloaded' })
@@ -78,7 +78,8 @@ for (const viewport of [
       await expect(destination).toHaveCount(1)
       await expect(destination).toContainText(label)
     }
-    await expect(page.locator('main a')).toHaveCount(7) // six destinations + contact link
+    await expect(page.locator('main a[href="/learn/nature#first-try"]')).toHaveCount(1)
+    await expect(page.locator('main a')).toHaveCount(8) // 六个方向、一个推荐活动和联系方式
     await expect(page.getByRole('link', { name: announcement.title })).toBeVisible()
     await expectNoHorizontalOverflow(page)
     await page.screenshot({ path: `/tmp/platform-start-${viewport.name}.png`, fullPage: true })

@@ -12,8 +12,8 @@ vi.mock("next/link", () => ({
 }));
 
 vi.mock("@/components/features/works/work-card-grid", () => ({
-  WorkCardGrid: ({ works }: { works: Work[] }) => (
-    <div>{works.map((work) => <span key={work.id}>{work.source?.title}</span>)}</div>
+  WorkCardGrid: ({ works, variant }: { works: Work[]; variant?: string }) => (
+    <div data-testid="work-grid" data-variant={variant}>{works.map((work) => <span key={work.id}>{work.source?.title}</span>)}</div>
   ),
 }));
 
@@ -39,7 +39,7 @@ describe("HomeWorksSection", () => {
     vi.clearAllMocks();
   });
 
-  it("loads the next four-work batch and replaces the current list", async () => {
+  it("loads the next six-work batch and replaces the current list", async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
@@ -59,6 +59,11 @@ describe("HomeWorksSection", () => {
         }}
       />,
     );
+
+    const heading = screen.getByRole("heading", { name: "大家的作品" });
+    expect(heading.parentElement).toHaveClass("md:min-h-11");
+    expect(screen.queryByText("社区正在创作")).not.toBeInTheDocument();
+    expect(screen.getByTestId("work-grid")).toHaveAttribute("data-variant", "showcase");
 
     const user = userEvent.setup();
     await user.click(screen.getByRole("button", { name: "换一批" }));
