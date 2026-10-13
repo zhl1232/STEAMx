@@ -137,7 +137,7 @@ jobs:
       DEPLOY_DIR: /tmp/steam-deploy-${{ github.run_id }}-${{ github.run_attempt }}
       # Reviewed database changes for this release. Other pending migrations fail
       # before writes; future schema changes require an explicit allowlist update.
-      MIGRATION_ALLOWLIST: 20261012160000_tutor_total_usage_billing.sql,20261012170000_ai_credit_grants.sql,20261012171000_tutor_daily_credit_billing.sql,20261013090000_tutor_speech_budget.sql,20261013120000_tutor_speech_usage_limits.sql,20261013200000_ai_credit_rules_v2.sql,20261013210000_simplify_mobile_onboarding.sql
+      MIGRATION_ALLOWLIST: 20261012160000_tutor_total_usage_billing.sql,20261012170000_ai_credit_grants.sql,20261012171000_tutor_daily_credit_billing.sql,20261013090000_tutor_speech_budget.sql,20261013120000_tutor_speech_usage_limits.sql,20261013200000_ai_credit_rules_v2.sql,20261013210000_simplify_mobile_onboarding.sql,20261013223000_ai_credit_member_daily_zero.sql
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
