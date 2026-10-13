@@ -439,19 +439,31 @@ export function useTutorVoice({
   )
 
   useEffect(() => {
-    const clear = () => { audioCacheRef.current.clear(); cancelAllVoice() }
-    clear()
-    window.addEventListener('tutor-voice-selection-changed', clear)
+    // Quota/membership refresh (e.g. after reply `done`) must invalidate cached WAV only.
+    // Calling cancelAllVoice here used to kill in-flight auto-read and surface "朗读未完成".
+    audioCacheRef.current.clear()
+    const onVoiceSelectionChanged = () => {
+      audioCacheRef.current.clear()
+      cancelAllVoice()
+    }
+    window.addEventListener('tutor-voice-selection-changed', onVoiceSelectionChanged)
     const expires = profile?.membership_expires_at ? Date.parse(profile.membership_expires_at) : NaN
     let timer: ReturnType<typeof setTimeout> | undefined
     const scheduleExpiry = () => {
       const remaining = expires - Date.now()
       if (!Number.isFinite(remaining)) return
-      if (remaining <= 0) { clear(); return }
+      if (remaining <= 0) {
+        audioCacheRef.current.clear()
+        cancelAllVoice()
+        return
+      }
       timer = setTimeout(scheduleExpiry, Math.min(remaining, 2_147_483_647))
     }
     scheduleExpiry()
-    return () => { window.removeEventListener('tutor-voice-selection-changed', clear); if (timer) clearTimeout(timer); clear() }
+    return () => {
+      window.removeEventListener('tutor-voice-selection-changed', onVoiceSelectionChanged)
+      if (timer) clearTimeout(timer)
+    }
   }, [user?.id, profile?.membership_expires_at, quota?.isMember, contextKey, cancelAllVoice])
 
   const finishVoiceRecording = useCallback(async () => {
@@ -599,10 +611,11 @@ export function useTutorVoice({
     setTutorVoicePreference('autoReadReplies', checked)
   }, [])
 
-  // 面板关闭、场景/身份变化与卸载走同一条中断路径。
+  // 关面板只停录音；已开始的自动朗读继续播完，避免「看到字就关面板 → 永远听不到」。
+  // 场景切换 / 卸载仍由下面的 cancelAllVoice 效果负责打断。
   useEffect(() => {
-    if (!open) cancelAllVoice()
-  }, [cancelAllVoice, open])
+    if (!open) cancelVoiceRecording()
+  }, [cancelVoiceRecording, open])
 
   // 卸载兜底清理
   useEffect(() => {

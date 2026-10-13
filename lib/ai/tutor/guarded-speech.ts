@@ -29,11 +29,30 @@ export function createGuardedTutorSpeechStreamer(userId: string, options: Stream
       if (finished) return finished
       const safeText = sanitizeTutorSpeechText(text)
       text = ''
-      finished = (!safeText || signal.aborted) ? Promise.resolve(false) : withSpeechUsage(userId, 'tts', safeText.length, async () => {
-        inner = createTutorSpeechStreamer({ ...options, signal, onError: notify })
-        inner.push(safeText)
-        return inner.finish()
-      }, signal).catch(error => { notify(error); return false })
+      finished = (async () => {
+        if (signal.aborted) return false
+        if (!safeText) return false
+        try {
+          const ok = await withSpeechUsage(userId, 'tts', safeText.length, async () => {
+            inner = createTutorSpeechStreamer({ ...options, signal, onError: notify })
+            inner.push(safeText)
+            return inner.finish()
+          }, signal)
+          // Provider sometimes closes with zero PCM and no thrown error; surface that to the client
+          // so it does not fall through to the generic "朗读未完成" toast without a reason.
+          if (!ok) {
+            notify(new TutorSpeechError(
+              'TTS produced no audio',
+              '这次朗读未完成，可以点击回复旁的朗读按钮重试。',
+              502,
+            ))
+          }
+          return ok
+        } catch (error) {
+          notify(error)
+          return false
+        }
+      })()
       return finished
     },
     abort() { controller.abort(); inner?.abort(); text = '' },
