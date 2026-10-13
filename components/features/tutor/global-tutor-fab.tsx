@@ -54,6 +54,7 @@ import { TutorMobileSheet, tutorSheetSummary } from './tutor-mobile-sheet'
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
 import { useTutorFabDrag } from '@/components/features/tutor/use-tutor-fab-drag'
 import { useTutorHistory } from '@/components/features/tutor/use-tutor-history'
+import { TutorVoiceSettings } from './tutor-voice-settings'
 import { useTutorVoice } from '@/components/features/tutor/use-tutor-voice'
 import { useToast } from '@/hooks/use-toast'
 import { useAuth } from '@/lib/context/auth-context'
@@ -142,6 +143,7 @@ export function GlobalTutorFab({
   const { toast } = useToast()
   const tutorCtx = useOptionalTutorContext()
   const queryClient = useQueryClient()
+  const [showVoiceSettings, setShowVoiceSettings] = useState(false)
   const sheet = useTutorSheet(open, fabBottomInset)
   const { collapse } = sheet
   const dispatchToolCall = tutorCtx?.dispatchToolCall
@@ -261,10 +263,11 @@ export function GlobalTutorFab({
 
   // ---- 流式对话控制器 ----
   const handleBeforeSend = useCallback(() => {
+    stopSpeechPlayback()
     setMascotFeedback(null)
     setGreeting(null)
     setInput('')
-  }, [])
+  }, [stopSpeechPlayback])
 
   const {
     messages,
@@ -586,6 +589,7 @@ export function GlobalTutorFab({
                   <History className="mr-2 h-4 w-4" />
                   历史对话
                 </DropdownMenuItem>
+                <DropdownMenuItem disabled={!user || busy} onClick={() => setShowVoiceSettings(true)}>朗读声音</DropdownMenuItem>
                 <DropdownMenuCheckboxItem
                   checked={voice.autoReadReplies}
                   onCheckedChange={(checked) => voice.toggleAutoReadReplies(checked === true)}
@@ -604,6 +608,8 @@ export function GlobalTutorFab({
               <X className="h-4 w-4" />
             </button>
           </div>
+
+          {showVoiceSettings && user && <TutorVoiceSettings key={user.id} userId={user.id} onClose={() => setShowVoiceSettings(false)} onPreview={voice.playSpeech} onStop={voice.stopSpeechPlayback} />}
 
           {view !== 'chat' && (
             <div className="flex items-center gap-2 border-b border-[hsl(var(--brand-blue)/0.12)] bg-[hsl(var(--surface-raised)/0.8)] px-3.5 py-2">

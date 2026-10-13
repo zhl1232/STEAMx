@@ -63,8 +63,8 @@ export type UseTutorChatStreamOptions = {
   busyRef: MutableRefObject<boolean>
   autoReadReplies: boolean
   beginStreamedSpeech: (speechKey: string) => Promise<void>
-  pushStreamedPcm: (pcm: string, sampleRate?: number, speechKey?: string) => boolean | null
-  finishStreamedSpeech: (speechKey?: string) => boolean | null
+  pushStreamedPcm: (pcm: string, sampleRate?: number, speechKey?: string, voice?: string) => boolean | null
+  finishStreamedSpeech: (speechKey?: string, complete?: boolean, text?: string) => boolean | null
   playSpeech: (text: string, speechKey: string) => void | Promise<void>
   setQuota: Dispatch<SetStateAction<AiCreditStatus | null>>
   refreshQuota: () => void | Promise<void>
@@ -96,7 +96,6 @@ export function useTutorChatStream({
   beginStreamedSpeech,
   pushStreamedPcm,
   finishStreamedSpeech,
-  playSpeech,
   setQuota,
   refreshQuota,
   setMascotFeedback,
@@ -449,7 +448,7 @@ export function useTutorChatStream({
             full += event.content
             patchStreaming({ role: 'assistant', content: full, streaming: true })
           } else if (event.type === 'audio' && event.pcm) {
-            const accepted = pushStreamedPcm(event.pcm, event.sampleRate, assistantSpeechKeyRef.current)
+            const accepted = pushStreamedPcm(event.pcm, event.sampleRate, assistantSpeechKeyRef.current, event.voice)
             receivedAudio = accepted === true || receivedAudio
             speechPlaybackFailed = speechPlaybackFailed || accepted === false
             speechStreamWentStale = speechStreamWentStale || accepted === null
@@ -460,7 +459,7 @@ export function useTutorChatStream({
             replayed = event.replayed === true
             settleAssistantText(full, clarification, event.billing)
           } else if (event.type === 'audio_done') {
-            finishStreamedSpeech(assistantSpeechKeyRef.current)
+            finishStreamedSpeech(assistantSpeechKeyRef.current, event.complete === true, full)
           } else if (event.type === 'warning') {
             streamWarning = event.warning || null
           } else if (event.type === 'error') {
@@ -493,7 +492,7 @@ export function useTutorChatStream({
         // 再次抢占课程语音。只有仍然拥有播放会话的失败才允许自动补播。
         const speechNeedsRetry = speechResult !== null && (speechResult === false || speechStreamWentStale)
         if (shouldSpeak && (speechPlaybackFailed || !receivedAudio) && speechNeedsRetry) {
-          void playSpeech(full || '…', assistantSpeechKeyRef.current)
+          toast({ title: '这次朗读未完成，可以点击回复旁的朗读按钮重试。' })
         }
       } catch (error) {
         if (!isCurrent()) return
@@ -550,7 +549,6 @@ export function useTutorChatStream({
       beginStreamedSpeech,
       pushStreamedPcm,
       finishStreamedSpeech,
-      playSpeech,
       busyRef,
       onBeforeSend,
       setMascotFeedback,

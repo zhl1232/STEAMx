@@ -208,12 +208,13 @@ describe('tutor and building voice ownership', () => {
 
   it('keeps native-audio fallback cancellable while its blob is still pending', async () => {
     const blob = deferred<Blob>()
+    mocks.fetch.mockResolvedValueOnce({ ok: true, json: async () => ({ voice: 'yezhiqing_v3.1', canChoose: false }) })
     mocks.fetch.mockResolvedValue({ ok: true, headers: new Headers({ 'content-type': 'audio/mpeg' }), blob: () => blob.promise })
     const { result } = renderVoices()
     let playback!: Promise<void>
     await act(async () => { playback = result.current.tutor.playSpeech('等待音频', 'native') })
-    expect(mocks.fetch).toHaveBeenCalledOnce()
-    const signal = mocks.fetch.mock.calls[0][1].signal as AbortSignal
+    expect(mocks.fetch).toHaveBeenCalledTimes(2)
+    const signal = mocks.fetch.mock.calls[1][1].signal as AbortSignal
     await act(async () => { await result.current.course.start() })
     expect(signal.aborted).toBe(true)
     await act(async () => { blob.resolve(new Blob(['mpeg'])); await playback })
@@ -223,6 +224,7 @@ describe('tutor and building voice ownership', () => {
   })
 
   it('stops native audio on takeover and ignores its obsolete ended callback', async () => {
+    mocks.fetch.mockResolvedValueOnce({ ok: true, json: async () => ({ voice: 'yezhiqing_v3.1', canChoose: false }) })
     mocks.fetch.mockResolvedValue({
       ok: true, headers: new Headers({ 'content-type': 'audio/mpeg' }), blob: async () => new Blob(['mpeg']),
     })

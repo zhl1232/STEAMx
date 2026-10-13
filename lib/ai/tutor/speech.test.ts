@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest'
 
 type MockAsrSocket = {
   url: string
@@ -60,6 +60,9 @@ import {
   TutorSpeechError,
 } from '@/lib/ai/tutor/speech'
 
+vi.mock('./speech-budget', () => ({ reserveSpeechRequest: vi.fn().mockResolvedValue(undefined) }))
+beforeEach(() => { vi.stubEnv('DASHSCOPE_TUTOR_AUDIO_PROTOCOL', 'legacy') })
+
 const originalApiKey = process.env.DASHSCOPE_API_KEY
 const originalModelDiscovery = process.env.DASHSCOPE_MODEL_DISCOVERY
 
@@ -69,6 +72,7 @@ afterEach(() => {
   else process.env.DASHSCOPE_MODEL_DISCOVERY = originalModelDiscovery
   asrSocketMock.instances.length = 0
   vi.restoreAllMocks()
+  vi.unstubAllEnvs()
 })
 
 describe('sanitizeTutorSpeechText', () => {
@@ -148,8 +152,8 @@ describe('synthesizeTutorSpeech', () => {
       vi.fn()
         .mockResolvedValueOnce({
           ok: false,
-          status: 429,
-          json: async () => ({ error: { code: 'FreeTierLimitExceeded' } }),
+          status: 503,
+          json: async () => ({ error: { code: 'ModelNotFound' } }),
         })
         .mockResolvedValueOnce({
           ok: true,
@@ -253,6 +257,7 @@ describe('createTutorRealtimeTtsSession', () => {
     const session = createTutorRealtimeTtsSession({
       onAudio: (pcm) => chunks.push(pcm),
     })
+    await Promise.resolve()
     const socket = asrSocketMock.instances[0]
 
     expect(socket.url).toContain('model=qwen3-tts-flash-realtime')
@@ -300,8 +305,7 @@ describe('createTutorRealtimeTtsSession', () => {
     expect(Buffer.concat(chunks).equals(pcm)).toBe(true)
 
     const finished = session.finish()
-    await Promise.resolve()
-    expect(JSON.parse(socket.sent.at(-1)!).type).toBe('session.finish')
+    await vi.waitFor(() => expect(JSON.parse(socket.sent.at(-1)!).type).toBe('session.finish'))
     socket.emit('message', Buffer.from(JSON.stringify({ type: 'session.finished' })))
     await finished
     expect(socket.close).toHaveBeenCalled()
@@ -327,6 +331,7 @@ describe('transcribeTutorSpeechPcm16', () => {
     const audio = Uint8Array.from([0, 1, 2, 3]).buffer
 
     const transcription = transcribeTutorSpeechPcm16(audio)
+    await Promise.resolve()
     const socket = asrSocketMock.instances[0]
 
     expect(socket.url).toContain('model=qwen3-asr-flash-realtime')

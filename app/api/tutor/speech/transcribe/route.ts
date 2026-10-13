@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '这段语音太长了，请控制在 30 秒以内。' }, { status: 400 })
     }
 
-    const transcript = await transcribeTutorSpeechPcm16(await audio.arrayBuffer())
+    const transcript = await transcribeTutorSpeechPcm16(await audio.arrayBuffer(), { signal: request.signal })
     logger.info('Tutor speech transcribed', {
       userId: user.id,
       elapsedMs: Date.now() - startedAt,
