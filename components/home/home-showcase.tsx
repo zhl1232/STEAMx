@@ -89,15 +89,16 @@ function HomeHero({ image }: { image: string }) {
   return (
     <section className="surface-card relative overflow-hidden rounded-sm">
       <div className="relative">
-        {/* 手机：照片铺满卡片，顶部只留轻量遮罩护字；深色不再用整块深色卡片色压照片。 */}
+        {/* 浅色：底部照片条 + 白卡下融；深色：照片铺满 + 很轻的护字遮罩，避免乌云压顶。 */}
         <Image
           src={image}
           alt=""
-          fill
+          width={1672}
+          height={941}
           priority
           loading="eager"
           sizes="(max-width: 768px) 100vw, 1800px"
-          className="object-cover object-[74%_42%] md:hidden"
+          className="absolute inset-x-0 bottom-0 h-[124px] w-full object-cover object-[74%_62%] dark:inset-0 dark:h-full dark:object-[74%_42%] md:hidden"
         />
         <Image
           src={heroWideImage}
@@ -109,7 +110,7 @@ function HomeHero({ image }: { image: string }) {
           className="hidden object-cover object-[69%_center] md:block md:object-[70%_center] lg:object-[73%_center] xl:object-[75%_center] md:[mask-image:linear-gradient(90deg,transparent_0%,transparent_43%,black_76%,black_100%)] lg:[mask-image:linear-gradient(90deg,transparent_0%,transparent_32%,black_64%,black_100%)] xl:[mask-image:linear-gradient(90deg,transparent_0%,transparent_26%,black_58%,black_100%)]"
         />
         <div
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.88)_0%,hsl(var(--surface-raised)/0.55)_28%,hsl(var(--surface-raised)/0.12)_58%,transparent_78%)] dark:bg-[linear-gradient(180deg,rgba(8,14,24,0.55)_0%,rgba(8,14,24,0.28)_32%,rgba(8,14,24,0.08)_58%,transparent_78%)] md:hidden"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[124px] bg-[linear-gradient(180deg,hsl(var(--surface-raised))_0%,hsl(var(--surface-raised)/0.82)_18%,hsl(var(--surface-raised)/0.18)_44%,transparent_68%)] dark:inset-0 dark:h-auto dark:bg-[linear-gradient(180deg,rgba(8,14,24,0.42)_0%,rgba(8,14,24,0.18)_36%,rgba(8,14,24,0.04)_62%,transparent_82%)] md:hidden"
           aria-hidden="true"
         />
 
