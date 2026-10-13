@@ -11,10 +11,14 @@
 0 // P8 explicitly contains twelve red undercarriage bricks; retain three paired two-layer guides.
 0 // Stud-down black/red parts insert into the stud-down green plates: mating rim is y=-24.
 0 // Rail/train/pillars shifted together by -13 to preserve their existing relative registration.
-0 // PENDING: rail arms and clutch blocks use existing approximate DATs. Their silhouette, fork overlap and lock fit remain unverified.
+0 // v4: isolated photo-informed arms; local pivot axes 0/196 (short), 0/220/400 (long).
+0 // Rail lowered 4 LDU to keep its wider profile tangent to unchanged deck underside.
+0 // Upright roots stay at clutch bore Y=-96; clip pitch196 LDU is an image/assembly estimate.
+0 // PENDING: clutch blocks and lower mounting fit remain approximate; no physical retention/rolling certification.
 0 // PENDING: five green plates are kept non-overlapping. Source exact plate-joint/rail registration is unresolved; right base tail remains longer than the visible source crop.
 0 // PENDING: underside socket depths and thread profiles are image estimates, not measured physical fits.
-0 // PENDING: cockpit base remains a local approximation. Canopies use transparent yellow 46 (inventory 17562), replacing opaque 19.
+0 // PENDING: cockpit/canopy retain two collision-proxy alarms; forward-shift trial rejected visually.
+0 // Canopies remain transparent yellow46 (inventory17562); original cockpit and canopy poses retained.
 0 // Source page 1: one inverted green6x12 base, two underside-up black4x6 bricks and three red2x4 plates
 1 2 160 0 0 1 0 0 0 -1 0 0 0 -1 4196.dat
 1 0 0 -24 0 0 0 1 0 -1 0 1 0 0 dev-129/76395.dat
@@ -48,25 +52,25 @@
 0 STEP
 0 // Source page 5: six clutch blocks and six upright short arms
 1 72 0 -120 0 1 0 0 0 1 0 0 0 1 74957.dat
-1 72 0 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334.dat
+1 72 0 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334-ci-xuan-fu-v4.dat
 1 72 220 -120 0 1 0 0 0 1 0 0 0 1 74957.dat
-1 72 220 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334.dat
+1 72 220 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334-ci-xuan-fu-v4.dat
 1 72 620 -120 0 1 0 0 0 1 0 0 0 1 74957.dat
-1 72 620 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334.dat
+1 72 620 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334-ci-xuan-fu-v4.dat
 1 72 1020 -120 0 1 0 0 0 1 0 0 0 1 74957.dat
-1 72 1020 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334.dat
+1 72 1020 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334-ci-xuan-fu-v4.dat
 1 72 1420 -120 0 1 0 0 0 1 0 0 0 1 74957.dat
-1 72 1420 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334.dat
+1 72 1420 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334-ci-xuan-fu-v4.dat
 1 72 1820 -120 0 1 0 0 0 1 0 0 0 1 74957.dat
-1 72 1820 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334.dat
+1 72 1820 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334-ci-xuan-fu-v4.dat
 0 STEP
 0 // Source page 6: five chained long arms form rail plus one downward short end stop
-1 72 0 -296 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
-1 72 400 -296 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
-1 72 800 -296 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
-1 72 1200 -296 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
-1 72 1600 -296 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
-1 72 2000 -296 0 1 0 0 0 1 0 0 0 1 dev-129/28334.dat
+1 72 0 -292 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-ci-xuan-fu-v4.dat
+1 72 400 -292 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-ci-xuan-fu-v4.dat
+1 72 800 -292 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-ci-xuan-fu-v4.dat
+1 72 1200 -292 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-ci-xuan-fu-v4.dat
+1 72 1600 -292 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-ci-xuan-fu-v4.dat
+1 72 2000 -292 0 1 0 0 0 1 0 0 0 1 dev-129/28334-ci-xuan-fu-v4.dat
 0 STEP
 0 // Source page 7: nine black4x6 train deck bricks: five lower and four crossing seams
 1 0 720 -364 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat

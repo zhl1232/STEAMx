@@ -51,6 +51,97 @@
     ]
   },
   "parts": {
+    "dev-129/76395.dat": {
+      "name": "Duplo Toolo 4 x 6 with three screws (train isolated v3 geometry)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "studFootprint": {
+        "x": 6,
+        "z": 4
+      },
+      "heightLdu": 48,
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "bbox": {
+        "xMin": -120.0,
+        "xMax": 120.0,
+        "yMin": -11.0,
+        "yMax": 48.0,
+        "zMin": -80.0,
+        "zMax": 80.0
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Existing train-only local approximation authored 2026-10-13; this change adds metadata only, geometry untouched.",
+        "Real part: BrickLink 31345c01 / 76395; course p1-p4 and p7; https://www.bricklink.com/v2/catalog/catalogitem.page?P=31345c01",
+        "User authorized this metadata addition in v4. Hollow underside, three screws, wall ports and socket grid; threads and fit are not measured.",
+        "Body 240 x 160 x 48 LDU; bbox measured from local DAT. Inherits the existing manual collision/support policy of shared 76395, not an automatic physical clearance proof."
+      ]
+    },
+    "dev-129/28331-ci-xuan-fu-v4.dat": {
+      "name": "Duplo Toolo 2 x 11 fork arm (train isolated v4)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -24.0,
+        "xMax": 24.0,
+        "yMin": -24.0,
+        "yMax": 416.0,
+        "zMin": -40.0,
+        "zMax": 40.0
+      },
+      "origin": {
+        "type": "pivot-center",
+        "axis": "Z"
+      },
+      "heightLdu": 440,
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Confirmed real assembly: BrickLink 6273c01, alternate 74844; design 28331 from existing inventory mapping.",
+        "https://www.bricklink.com/v2/catalog/catalogitem.page?P=6273c01",
+        "https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162831.jpg (viewed 2026-10-13).",
+        "Local and official LDraw / fixed mirror searched 2026-10-13; no usable exact arm mesh found. User explicitly authorized photo/course approximation for this task; locally authored CC BY 4.0.",
+        "Source p5 short x6, p6 short x1 and long x5; wider cheeks, shoulder taper, through-slots, open clips and recessed triangular screw seats.",
+        "Local Y along arm, Z pivot axis; root 0, middle 220, clip 400 LDU. Profile width48, paired cheek outside width76, screw heads width80; clip narrows to52. Image estimates, not measured CAD.",
+        "bbox measured from this DAT. Keeps established manual support/collision policy for approximate Toolo joints; automatic checker success is not physical fit validation.",
+        "Train poses align all top clip and screw axes, with rail moved down4 LDU to preserve the unchanged deck clearance. Lower pivot centers match clutch side-bore centers at Y=-96; the clutch solid shape and actual retention remain approximate."
+      ]
+    },
+    "dev-129/28334-ci-xuan-fu-v4.dat": {
+      "name": "Duplo Toolo 2 x 6 fork arm (train isolated v4)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -24.0,
+        "xMax": 24.0,
+        "yMin": -24.0,
+        "yMax": 216.0,
+        "zMin": -42.0,
+        "zMax": 42.0
+      },
+      "origin": {
+        "type": "pivot-center",
+        "axis": "Z"
+      },
+      "heightLdu": 240,
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Confirmed real assembly: BrickLink 6275c01, alternate 74847; design 28334 from existing inventory mapping.",
+        "https://www.bricklink.com/v2/catalog/catalogitem.page?P=6275c01",
+        "https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162840.jpg (viewed 2026-10-13).",
+        "Local and official LDraw / fixed mirror searched 2026-10-13; no usable exact arm mesh found. User explicitly authorized photo/course approximation for this task; locally authored CC BY 4.0.",
+        "Source p5 short x6, p6 short x1 and long x5; wider cheeks, shoulder taper, through-slots, open clips and recessed triangular screw seats.",
+        "Local Y along arm, Z pivot axis; root 0, clip 196 LDU. Profile width48, paired cheek outside width76, screw heads width84; clip narrows to52. Image estimates, not measured CAD.",
+        "bbox measured from this DAT. Keeps established manual support/collision policy for approximate Toolo joints; automatic checker success is not physical fit validation.",
+        "Train poses align all top clip and screw axes, with rail moved down4 LDU to preserve the unchanged deck clearance. Lower pivot centers match clutch side-bore centers at Y=-96; the clutch solid shape and actual retention remain approximate."
+      ]
+    },
     "31196c01.dat": {
       "name": "Duplo Toolo Cockpit 4 x 6 (local simplified)",
       "category": "vehicle-front",
