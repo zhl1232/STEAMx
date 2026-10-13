@@ -68,7 +68,9 @@
 1 72 248 -264 321 0 -1 0 0 0 1 -1 0 0 dev-129/28334.dat
 0 STEP
 0 // Source page 12: two orange scoop hands
-0 // NOT FIXED: existing approved dev-129/6294 approximation lacks the source scoop side walls/teeth. BATCH4: omitted both thin-shell placeholders. Source requires enclosed orange scoop hands with teeth; no matching usable geometry established. Blue31193 retained; front-view render required.
+0 // Hand fix 2026-10-13: two orange scoop hands hung on short-arm end pins; local approximation dev-129/scoop-wa-li (shape from p12/p15).
+1 25 248 -264 -321 1 0 0 0 1 0 0 0 1 dev-129/scoop-wa-li.dat
+1 25 248 -264 321 1 0 0 0 1 0 0 0 1 dev-129/scoop-wa-li.dat
 0 STEP
 0 // Source page 13: two upright neckfork bases
 1 72 0 -336 -40 0 0 1 0 1 0 -1 0 0 28336.dat

@@ -61251,6 +61251,31 @@
           "zMax": 4
         }
       ]
+    },
+    "dev-129/scoop-wa-li.dat": {
+      "name": "Duplo Toolo small scoop hand (4-wa-li local approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -14,
+        "xMax": 122,
+        "yMin": -14,
+        "yMax": 114,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "pivot-center",
+        "axis": "Z"
+      },
+      "heightLdu": 128,
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "requiresExactTransform": true,
+      "notes": [
+        "Hand-authored 2026-10-13 from 4-wa-li courseware p12/p15 (orange scoop hand x2). Exact real part id not established; no LDraw geometry found.",
+        "Pivot at origin on arm end pin, axis Z. Shape, size and teeth are image estimates."
+      ]
     }
   }
 }
