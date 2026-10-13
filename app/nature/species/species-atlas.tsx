@@ -325,6 +325,10 @@ export function SpeciesAtlas({
     finally { setIsRefreshing(false) }
   }
 
+  // 顶栏元素固定引用，避免 memo 的头图随每次输入重渲染照片。
+  const heroNav = useMemo(() => (
+        <MobilePageHeader title="自然观察" sticky={false} borderless className={styles.heroNav} contentClassName={styles.heroNavContent} backButtonClassName={styles.heroNavBack} titleClassName={styles.heroNavTitle} fallbackHref="/nature" rightSlot={<button type="button" className={styles.heroNavSearch} aria-label="搜索物种" onClick={() => document.getElementById('species-atlas-search')?.focus()}><Search size={20} aria-hidden="true" /></button>} />
+  ), [])
   const filters = useMemo(() => ({ query, topic, status }), [query, topic, status])
   const filteredGroups = useMemo(() => filterSpeciesAtlasGroups(data.groups, filters), [data.groups, filters])
   const letterGroups = useMemo(() => groupSpeciesByInitial(filteredGroups.flatMap(group => group.items)), [filteredGroups])
@@ -378,9 +382,7 @@ export function SpeciesAtlas({
   return (
     <div className={cn('app-shell-wide pb-24 pt-0 md:px-8 md:pb-12 md:pt-8', styles.atlas, performanceStyles.performance)} data-layout={layout}>
       <Link href="/nature" className={styles.desktopBack}>返回自然观察首页</Link>
-      <AtlasHero topic={topic} heading={heading} introduction={introduction} stats={statusCounts}>
-        <MobilePageHeader title="自然观察" sticky={false} borderless className={styles.heroNav} contentClassName={styles.heroNavContent} backButtonClassName={styles.heroNavBack} titleClassName={styles.heroNavTitle} fallbackHref="/nature" rightSlot={<button type="button" className={styles.heroNavSearch} aria-label="搜索物种" onClick={() => document.getElementById('species-atlas-search')?.focus()}><Search size={20} aria-hidden="true" /></button>} />
-      </AtlasHero>
+      <AtlasHero topic={topic} heading={heading} introduction={introduction} stats={statusCounts}>{heroNav}</AtlasHero>
       <section className="nature-atlas-toolbar" aria-label="物种筛选">
         <form onSubmit={handleSearchSubmit} className="nature-atlas-search-form">
           <label className="sr-only" htmlFor="species-atlas-search">搜索物种</label>
