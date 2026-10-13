@@ -32,6 +32,9 @@ jobs:
           node-version: 22
           cache: pnpm
 
+      - name: Verify repository cleanup safety
+        run: node --test scripts/repository-cleanup-phase2.test.mjs
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -51,5 +54,8 @@ jobs:
         if: github.event_name == 'pull_request'
         run: pnpm run build
 
+      - name: Verify retained interface assets
+        run: pnpm exec playwright test e2e/repository-cleanup-phase2.spec.ts --project=chromium
+
       - name: Run smoke E2E
-        run: pnpm exec playwright test e2e/smoke.spec.ts e2e/learning-guides.spec.ts --project=chromium
+        run: pnpm exec playwright test e2e/smoke.spec.ts e2e/learning-guides.spec.ts e2e/asset-cleanup.spec.ts --project=chromium

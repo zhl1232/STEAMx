@@ -1,0 +1,164 @@
+/* 限定在图鉴内，避免影响自然首页、物种详情及全站导航。 */
+.atlas {
+  --atlas-accent: var(--brand-green);
+  padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+}
+.desktopBack { display: none; }
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 180px;
+  margin-top: 8px;
+  border-radius: 16px;
+  background: #153d29;
+  color: #fff;
+}
+.heroImage { object-fit: cover; object-position: 75% center; z-index: -2; }
+.heroShade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgb(10 42 27 / 95%), rgb(10 42 27 / 78%) 48%, rgb(10 42 27 / 15%));
+}
+.heroContent { width: 82%; max-width: 640px; padding: 18px; }
+.kicker { display: flex; align-items: center; gap: 6px; margin: 0 0 8px; font-size: 11px; font-weight: 600; color: #d5e9d5; }
+.heroContent h1 { margin: 0; font-family: var(--font-sans, system-ui), sans-serif; font-size: clamp(21px, 5.7vw, 28px); line-height: 1.35; font-weight: 750; text-wrap: balance; }
+.mobileIntroduction { margin: 8px 0 0; font-size: 12px; line-height: 1.7; color: #edf4ed; }
+.desktopIntroduction { display: none; }
+.heroAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  margin-top: 12px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #fff;
+  color: #195c3a;
+  font-size: 12px;
+  font-weight: 650;
+}
+.heroAction:hover { background: #edf6ed; }
+.heroAction:focus-visible { outline: 2px solid white; outline-offset: 4px; }
+.atlas :global(.nature-atlas-toolbar) { margin-top: 16px; padding-top: 0; gap: 12px; }
+.atlas :global(.nature-atlas-search-form) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 3px 3px 3px 12px;
+  border: 1px solid hsl(var(--surface-border) / 0.7);
+  border-radius: 12px;
+  background: hsl(var(--surface-raised));
+  box-shadow: none;
+}
+.atlas :global(.nature-atlas-search-form) input { font-size: 14px; min-height: 40px; }
+.atlas :global(.nature-atlas-search-form):focus-within { outline: 2px solid hsl(var(--brand-blue) / 0.35); outline-offset: 2px; }
+.atlas :global(.nature-atlas-search-form) button[type='submit'] { min-height: 40px; padding-inline: 15px; border-radius: 9px; }
+.atlas :global(.nature-atlas-icon-button) { min-width: 36px; min-height: 40px; }
+.atlas :global(.nature-atlas-topic-tabs) { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; max-width: none; gap: 8px; overflow: visible; }
+.atlas :global(.nature-atlas-topic-tab) {
+  --tab-accent: var(--brand-green);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 0;
+  min-height: 62px;
+  gap: 7px;
+  padding: 8px 4px;
+  border: 1px solid hsl(var(--surface-border) / 0.55);
+  border-radius: 12px;
+  background: hsl(var(--surface-raised));
+  font-size: 13px;
+}
+.atlas :global(.nature-atlas-topic-tab)[data-topic='birds'] { --tab-accent: var(--brand-blue); }
+.atlas :global(.nature-atlas-topic-tab)[data-topic='insects'] { --tab-accent: var(--tone-engineering); }
+.atlas :global(.nature-atlas-topic-tab)::after { display: none; }
+.atlas :global(.nature-atlas-topic-tab) > svg { width: 20px; height: 20px; flex-shrink: 0; color: hsl(var(--tab-accent)); }
+.atlas :global(.nature-atlas-topic-tab-active) { border-color: hsl(var(--tab-accent) / 0.35); color: hsl(var(--tab-accent)); background: hsl(var(--tab-accent) / 0.09); }
+.topicText { display: flex; min-width: 0; flex-direction: column; gap: 4px; text-align: left; line-height: 1.2; }
+.topicCount { color: hsl(var(--muted-foreground)); font-size: 11px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.atlas :global(.nature-atlas-status-row) { display: block; border: 0; padding: 0; }
+.atlas :global(.nature-atlas-status-filters) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; overflow: visible; }
+.atlas :global(.nature-atlas-status-button) { min-width: 0; min-height: 44px; padding: 6px 4px; gap: 4px; font-size: 12px; border-radius: 999px; border-color: hsl(var(--surface-border) / 0.6); background: hsl(var(--surface-raised)); }
+.atlas :global(.nature-atlas-status-button-active),
+.atlas :global(.nature-atlas-status-button-unobserved.nature-atlas-status-button-active) { color: hsl(var(--atlas-accent)); border-color: hsl(var(--atlas-accent) / 0.35); background: hsl(var(--atlas-accent) / 0.1); }
+.atlas :global(.nature-atlas-status-count) { color: inherit; font-size: 11px; opacity: 0.8; }
+.atlas :global(.nature-atlas-status-note) { margin: 0; font-size: 12px; line-height: 1.7; }
+.resultsToolbar { display: flex; min-width: 0; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; margin: 12px 0 8px; }
+.resultsToolbar p { margin: 0; font-size: 12px; }
+.resultsToolbar strong { font-weight: 600; }
+.sortNote { color: hsl(var(--muted-foreground)); font-size: 11px; }
+.layoutSwitch { display: inline-flex; gap: 2px; padding: 2px; border-radius: 10px; background: hsl(var(--surface-muted)); }
+.layoutSwitch button { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-height: 36px; padding: 4px 8px; border-radius: 8px; font-size: 12px; color: hsl(var(--muted-foreground)); }
+.layoutSwitch button[aria-pressed='true'] { background: hsl(var(--surface-raised)); color: hsl(var(--atlas-accent)); box-shadow: 0 1px 3px hsl(var(--surface-shadow) / 0.08); }
+.layoutSwitch button:focus-visible { outline: 2px solid hsl(var(--atlas-accent)); outline-offset: 2px; }
+.atlas :global(.nature-atlas-results) { margin-top: 0; gap: 6px; }
+.atlas :global(.nature-atlas-group) { content-visibility: visible; contain-intrinsic-size: none; }
+.atlas :global(.nature-atlas-letter-group) { scroll-margin-top: calc(var(--mobile-page-header-height, 48px) + 12px); }
+.atlas :global(.nature-atlas-letter-heading) { justify-content: space-between; padding-bottom: 8px; gap: 12px; font-family: var(--font-sans, system-ui), sans-serif; font-size: 17px; line-height: 1.4; }
+.letterCount { color: hsl(var(--muted-foreground)); font-size: 11px; font-weight: 400; }
+.atlas :global(.nature-atlas-grid) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 0; }
+.atlas :global(.nature-atlas-grid) > li { min-width: 0; }
+.atlas :global(.nature-atlas-tile) { display: flex; flex-direction: column; height: 100%; border-radius: 12px; background: hsl(var(--surface-raised)); border-color: hsl(var(--surface-border) / 0.6); box-shadow: 0 2px 8px hsl(var(--surface-shadow) / 0.035); }
+.atlas :global(.nature-atlas-tile-observed) { border-color: hsl(var(--atlas-accent) / 0.35); }
+.atlas :global(.nature-atlas-tile-media) { position: relative; aspect-ratio: 4 / 3; background: hsl(var(--atlas-accent) / 0.06); }
+.tileInfo { display: flex; flex: 1; min-width: 0; flex-direction: column; align-items: flex-start; gap: 4px; padding: 9px 8px 10px; }
+.atlas :global(.nature-atlas-tile-name) { display: block; min-height: 0; padding: 0; font-size: 14px; font-weight: 650; line-height: 1.4; overflow-wrap: anywhere; }
+.scientificName { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; line-height: 1.5; color: hsl(var(--muted-foreground)); }
+.taxonGroup { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border-radius: 5px; padding: 1px 5px; background: hsl(var(--surface-muted)); font-size: 10px; line-height: 1.5; color: hsl(var(--muted-foreground)); }
+.badge { position: absolute; top: 5px; right: 5px; display: inline-flex; align-items: center; gap: 2px; border-radius: 999px; padding: 3px 5px; background: rgb(255 255 255 / 94%); color: #45534c; font-size: 10px; font-weight: 600; line-height: 1.2; box-shadow: 0 1px 4px rgb(0 0 0 / 8%); }
+.observedBadge { background: #176b42; color: white; }
+.placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: hsl(var(--muted-foreground)); font-size: 11px; }
+/* 字母下只有一项时采用横卡，而不是留下一整行空白。 */
+.atlas :global(.nature-atlas-grid)[data-singleton='true'] > li { grid-column: 1 / -1; }
+.atlas :global(.nature-atlas-grid)[data-singleton='true'] :global(.nature-atlas-tile),
+.atlas[data-layout='list'] :global(.nature-atlas-tile) { display: grid; grid-template-columns: 100px minmax(0, 1fr); min-height: 104px; }
+.atlas :global(.nature-atlas-grid)[data-singleton='true'] :global(.nature-atlas-tile-media),
+.atlas[data-layout='list'] :global(.nature-atlas-tile-media) { height: 100%; min-height: 104px; aspect-ratio: auto; }
+.atlas :global(.nature-atlas-grid)[data-singleton='true'] .tileInfo,
+.atlas[data-layout='list'] .tileInfo { justify-content: center; padding: 12px; }
+.atlas[data-layout='list'] :global(.nature-atlas-grid) { grid-template-columns: minmax(0, 1fr); }
+.atlas :global(.nature-atlas-index) { position: sticky; top: calc(var(--mobile-page-header-height, 48px) + 12px); width: 28px; max-height: calc(100dvh - var(--mobile-page-header-height, 48px) - 112px - env(safe-area-inset-bottom)); padding-top: 0; gap: 2px; overflow-y: auto; scrollbar-width: none; overscroll-behavior: contain; }
+.atlas :global(.nature-atlas-index-link) { flex-shrink: 0; width: 28px; height: 24px; border-radius: 8px; color: hsl(var(--atlas-accent)); }
+.atlas :global(.nature-atlas-index-link-disabled) { color: hsl(var(--muted-foreground) / 0.35); }
+.atlas :global(.nature-atlas-index-link):focus-visible { outline: 2px solid hsl(var(--atlas-accent)); outline-offset: -2px; }
+.atlas :global(.nature-atlas-empty-all) { margin-top: 12px; }
+.atlas :global(.nature-atlas-empty-all) > button { min-height: 44px; padding-inline: 16px; }
+/* 手机图集固定双列；不要在 380px 等手机断点切回三列。 */
+@media (min-width: 768px) {
+  .desktopBack { display: inline-flex; min-height: 40px; align-items: center; margin-bottom: 8px; font-size: 13px; color: hsl(var(--muted-foreground)); }
+  .desktopBack:hover { color: hsl(var(--atlas-accent)); }
+  .hero { min-height: 232px; margin-top: 0; }
+  .heroContent { padding: 28px 32px; width: 65%; }
+  .heroContent h1 { font-size: 32px; }
+  .kicker { font-size: 12px; }
+  .mobileIntroduction { display: none; }
+  .desktopIntroduction { display: block; margin: 12px 0 0; max-width: 480px; font-size: 14px; line-height: 1.8; color: #edf4ed; }
+  .heroAction { min-height: 44px; font-size: 13px; }
+  .atlas :global(.nature-atlas-toolbar) { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(360px, 1fr); align-items: center; gap: 14px 24px; margin-top: 20px; }
+  .atlas :global(.nature-atlas-status-row) { grid-column: 1 / -1; }
+  .atlas :global(.nature-atlas-status-filters) { display: flex; width: fit-content; gap: 8px; }
+  .atlas :global(.nature-atlas-status-button) { min-width: 112px; padding-inline: 16px; font-size: 13px; }
+  .atlas :global(.nature-atlas-status-note) { grid-column: 1 / -1; }
+  .atlas :global(.nature-atlas-grid) { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
+  .atlas :global(.nature-atlas-grid)[data-singleton='true'] > li { max-width: 420px; }
+  .atlas[data-layout='list'] :global(.nature-atlas-grid) { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .atlas :global(.nature-atlas-tile-name) { font-size: 15px; }
+  .tileInfo { padding: 12px; }
+  .scientificName { font-size: 12px; }
+  .taxonGroup { font-size: 11px; }
+  .badge { top: 8px; right: 8px; padding: 4px 7px; font-size: 11px; }
+  .atlas :global(.nature-atlas-index), .atlas :global(.nature-atlas-letter-group) { --mobile-page-header-height: 68px; }
+  .resultsToolbar { margin-top: 16px; }
+}
+@media (min-width: 1280px) {
+  .atlas :global(.nature-atlas-grid) { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+  .atlas[data-layout='list'] :global(.nature-atlas-grid) { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atlas :global(.nature-atlas-tile), .atlas :global(.nature-atlas-index-link) { transition: none; }
+}

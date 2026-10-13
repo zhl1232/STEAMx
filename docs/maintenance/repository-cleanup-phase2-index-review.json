@@ -1,0 +1,16 @@
+{
+  "status": "review-only; not applied to PROJECT_INDEX.md",
+  "audit_base": "a1ce88ad5f3776c6d1192587431a671d611472cc",
+  "pr_base": "daa33cb6471745906f394adf7bb39c151bd998d5",
+  "path": "PROJECT_INDEX.md",
+  "replace": [
+    {
+      "old": "# 创探空间 — 项目功能索引\n",
+      "new": "# 创探空间 — 项目功能索引\n\n> 维护入口退役（2026-10-13）：旧内容分诊自动工作流已移出活动目录，旧编排与 358 / 373 / 381 固定题面生成入口改为拒绝执行；原始源码保留为历史文本。当前用途、资源清单与发布边界见 [维护入口退役说明](docs/maintenance/repository-cleanup-phase2.md)。此条描述本批代码变更，未获准合入前不代表默认分支或生产已经生效。\n"
+    },
+    {
+      "old": "| `generate-math-worksheet-assets.mjs` | 用精确 SVG 几何生成 358 / 373 / 381 的固定数学题面，并用 sharp 输出 1600×1000 WebP；`--check` 只校验点数、坐标题面和幻方答案，不写文件 |",
+      "new": "| `generate-math-worksheet-assets.mjs` | 已退役：原命令仅输出归档指引并以状态 1 停止，不再生成图片或执行 `--check`；精确几何源码与当前边界见 [维护入口退役说明](docs/maintenance/repository-cleanup-phase2.md) |"
+    }
+  ]
+}

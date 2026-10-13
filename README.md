@@ -1,143 +1,57 @@
 # 创探空间
 
-帮家长陪孩子找项目、动手做。
+帮家长陪孩子找项目、动手做：搭积木、做小实验、学编程，去自然里观察。
 
-## 🎯 项目简介
+## 从哪里开始
 
-创探空间帮助家长陪孩子找到感兴趣的动手项目，提供积木搭建、科学小实验、编程和自然观察的内容与指导。先挑一节免费课程，一起动手做。
+- 找实现位置：[项目索引](PROJECT_INDEX.md)。
+- 查现行规则：[文档导航与唯一来源](docs/README.md)。
+- 看产品方向和任务：[产品方向](docs/product-direction.md)、[下一步](docs/next-step.md)。
 
-## 品牌定位
+README 只负责介绍和启动，不另行维护会员额度、登录规则、页面按钮或生产发布状态。对外品牌常量在 `lib/brand.ts`，搜索身份在 `lib/seo/site.ts`；首页各尺寸的入口与验收口径见 [SEO 索引清单](docs/seo-indexing-checklist.md)。
 
-用户可见品牌常量集中在 `lib/brand.ts`（正式名 `创探空间`，官网 `https://steam.bj.cn`）。
+## 技术与模块
 
-**首页主标题：** 陪孩子找个有趣的项目，一起动手做。
+Next.js 16、React 19、TypeScript、Tailwind CSS、shadcn/ui、TanStack Query；数据与认证使用 Supabase 兼容服务，应用以 Docker 方式部署。
 
-**活动介绍：** 搭积木、做小实验、学编程，去自然里观察。
+模块包括探索项目、技能课程、自然观察、PBL 挑战、统一作品、游乐场、个人成长和管理后台。不在本页维护游戏、徽章、课程或迁移数量；数量应从相应版本的代码或真实数据核对。
 
-**下一步：** 从孩子想做的开始，跟着指导一步步尝试。
+## 本地启动
 
-手机与电脑首页均显示「挑一节免费课程」→ `/courses` 和「看看动手项目」→ `/explore`。免费说明落在课程内容，所需积木、工具与材料按具体课程准备。语音搭建继续标注「会员权益 · 目前免费体验」。
+开发环境与 CI 对齐使用 Node.js 22、pnpm 10.22.0。在项目根目录：
 
-**搜索标题：** 创探空间｜积木搭建、科学小实验、少儿编程与自然观察。共享网站介绍同步用于页脚、关于页、搜索和分享信息。
-
-**短句定位：** 兴趣是最好的老师。在动手中，让孩子学会解决问题。
-
-**完整定位：** 兴趣是最好的老师。我们鼓励孩子在动手中发现问题、尝试解决、获得成功反馈，在真实项目的探索与创造中自主定义挑战、持续跨界协作，逐步培养拆解复杂问题与持续迭代的能力，让这种主动学习的能力伴随一生。
-
-公开关于页 `/about#philosophy` 从「兴趣驱动、动手探究、自主挑战、协作与迭代」四个方面展开这一理念；首页保持简短介绍，理念由页脚「关于我们」承接。
-
-## 🚀 技术栈
-
-- **前端框架**: Next.js 16 + React 19
-- **样式系统**: Tailwind CSS + shadcn/ui
-- **服务端与数据**: Supabase (数据库 + 认证 + 存储)
-- **客户端状态**: TanStack Query v5
-- **部署目标**: Docker 镜像 + 自托管服务器
-- **工程质量**: TypeScript / Oxlint / Vitest / Playwright / Husky
-
-## ✨ 主要功能
-
-- **项目系统** — 浏览、搜索、分类筛选、项目详情（步骤/材料）、点赞/收藏、评论
-- **自然观察** — 鸟类与植物物种库、野外观察记录提交、AI 物种识别、地图标注
-- **益智游乐场** — 18 个互动游戏，含五子棋、记忆翻牌与函数战争实时对战、10 款固定题面游戏的邀请竞速房间，以及扫雷云端榜单
-- **社区** — 讨论区、PBL 双轨挑战系统（限时竞赛 + 长期学习）、多维评价
-- **游戏化** — XP 经验值/等级、112 枚徽章、STEAM 能力雷达图、排行榜
-- **金币经济** — 每日签到获取、打赏创作者、积分商店（头像框/名字颜色/主题）
-- **社交** — 关注、私信、弹幕
-- **用户系统** — 手机号短信登录、个人主页、新手引导、学习打卡
-- **管理后台** — 项目审核、挑战管理、举报处理、审核员系统
-
-## 📁 项目结构
-
-> 详细的模块索引与文件定位见 [PROJECT_INDEX.md](./PROJECT_INDEX.md)
->
-> AI/自动化工具开发前必须先读 `PROJECT_INDEX.md` 的相关模块。新增功能、新路由、共享模块、脚本、数据库结构或重要行为变更时，同步更新 `PROJECT_INDEX.md`。
->
-> 这些约定也写入了 `AGENTS.md` 和 `.cursor/rules/project-context.mdc`。Next.js 16 已废弃 `middleware.ts` 文件约定；本项目使用根目录 `proxy.ts` 并导出 `proxy`，不要新建或恢复 `middleware.ts`。
-
-```
-steam-explore-share/
-├── app/                    # App Router 页面与 API 路由
-├── components/             # UI 基础组件与业务组件
-├── hooks/                  # 自定义 Hooks（游乐场/游戏化/通用）
-├── lib/                    # 核心库（Supabase/Context/API/Config/工具）
-├── supabase/               # 数据库迁移与种子数据
-├── scripts/                # 数据脚本（图片抓取/压缩/DB推送）
-├── deploy/                 # Docker/Nginx 部署配置
-├── docs/                   # 当前规范、维护说明与历史归档
-├── __tests__/              # 单元测试
-├── e2e/                    # Playwright E2E 测试
-└── public/                 # 静态资源（图片/图标/头像）
-```
-
-## 📦 快速开始
-
-### 环境要求
-
-- Node.js 20+
-- pnpm 10.22.0
-- Supabase 账号
-
-### 安装
-
-```bash
-pnpm install
+```sh
+pnpm install --frozen-lockfile
 cp .env.example .env.local
-# 编辑 .env.local 填入 Supabase 配置
-```
-
-### 配置 Supabase
-
-1. 在 [Supabase](https://supabase.com) 创建新项目
-2. 在 `.env.local` 中配置 `NEXT_PUBLIC_SUPABASE_URL` 和 `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-3. 运行数据库迁移：
-
-```bash
-# 使用自定义推送工具
-set -a && source .env.local && set +a && pnpm db:push
-```
-
-> 本项目统一通过 `pnpm db:push` 推送迁移，不使用 `supabase db push`。迁移规则见 `.cursor/rules/db-migrations.mdc`；数据库连接说明见 [docs/database-psql.md](./docs/database-psql.md)。
-
-### 启动开发服务器
-
-```bash
+# 编辑 .env.local，使用获准的开发环境配置，勿复制生产凭据。
 pnpm dev
 ```
 
-访问 [http://localhost:3000](http://localhost:3000)
+默认开发地址为 `http://localhost:3000`。前端至少需要有效的 `NEXT_PUBLIC_SUPABASE_URL` 与 `NEXT_PUBLIC_SUPABASE_ANON_KEY`；假地址只适用于明确隔离的测试，不保证数据页面、登录或接口可用。服务端功能还需要各自的配置，逐项参照 `.env.example` 和专项文档。
 
-## 🔒 权限系统
+### 完整后端不是“创建任意 Supabase 项目即可”
 
-| 角色 | 权限 |
-|------|------|
-| **user** | 浏览、点赞、评论、创建项目、提交观察 |
-| **moderator** | 审核项目、管理评论、管理标签 |
-| **admin** | 所有权限 + 管理后台 |
+当前迁移工具面向项目托管环境的 pg-meta `/pg/query` API，还需要服务端 `SUPABASE_SERVICE_ROLE_KEY`。官方托管实例不能仅凭品牌名称就被视为与当前迁移方式兼容。新建空库、接入已有库和日常升级是不同任务；启动前端不要求自动运行迁移，更不能给空库直接 baseline。
 
-## ☁️ 部署
+数据库准备、只读预检、写入授权和命令模式只在 [数据库连接与迁移](docs/database-psql.md) 维护。
 
-- **生产发布**：GitHub Actions 将镜像推送 GHCR，服务器按摘要增量拉取；Scratch 使用独立缓存层。操作见 [部署说明](docs/deployment.md)
-- **课程模型发布**：已确认 MPD 单独上传 OSS、回读后更新课时；纯模型/文档提交跳过应用镜像。首次启用需部署 OSS 读取层，操作见 [LDraw 发布流程](docs/ldraw-publishing.md)
-- **CI**：Oxlint、TypeScript、Vitest、Next build、Playwright smoke
+## 开发与验证
 
-## 📝 开发规范
+```sh
+pnpm run lint
+pnpm run type-check
+pnpm exec vitest run
+pnpm run build
+```
 
-- [Conventional Commits](https://www.conventionalcommits.org/) 提交规范（Husky 自动检查）
-- TypeScript 严格模式
-- Oxlint 代码检查
+具体执行范围以 `package.json` 和 `.github/workflows/ci.yml` 为准。本地构建包含 Scratch；生产镜像的分层构建见 [部署说明](docs/deployment.md)。使用替身、占位配置的测试不代表真实账号、生产数据或供应商服务已验收。
 
-## 📚 相关文档
+修改前遵循 [AGENTS.md](AGENTS.md)，先读索引中的相关模块与其规则来源。规则变更更新对应专题文档，只有入口变化才增改索引；不要把交付日志重复贴入索引。项目使用根目录 `proxy.ts`，不要恢复 `middleware.ts`。
 
-- [docs/README.md](./docs/README.md) — 文档导航：当前规则、维护说明、待办与归档
+## 发布
 
-- [PROJECT_INDEX.md](./PROJECT_INDEX.md) — 完整功能索引与代码定位
-- [docs/AI_DEVELOPMENT_GUIDELINES.md](./docs/AI_DEVELOPMENT_GUIDELINES.md) — AI 意图判断与模型决策开发规范
-- [docs/database-psql.md](./docs/database-psql.md) — 数据库连接与正式迁移流程
-- [docs/custom-sms-and-manual-users.md](./docs/custom-sms-and-manual-users.md) — 自建短信登录方案
-- [docs/PBL_CHALLENGE_GUIDE.md](./docs/PBL_CHALLENGE_GUIDE.md) — PBL 内容与系统指南
-- [SEO / GEO 日常检查](./docs/seo-daily-operations.md) — 发布检查、专题维护和 Google/百度/Bing 效果跟踪
+应用发布见 [生产部署](docs/deployment.md)，课程模型资源发布见 [LDraw 发布](docs/ldraw-publishing.md)。修改文档、创建 PR 和合入生产是不同操作；合入 `main` 仍需本次授权，不能把此前授权沿用到新任务。
 
-## 📄 许可证
+## 许可证
 
 MIT License

@@ -1,71 +1,58 @@
 # 生产部署
 
-GitHub Actions 的 Release Deploy 构建镜像并推送 `ghcr.io/zhl1232/steamx`，服务器按本次构建的 `sha256` 摘要拉取。Compose、部署脚本和 Nginx 配置合并一次 SCP，上传到本次 run/attempt 专属临时目录，执行结束后清理。
+核对：2026-10-13，`0d322eda40dfdf81c7feb4f37703c9b38bea2b15`。本文维护应用构建、切换、恢复与运维互斥。数据库命令只在 [数据库连接与迁移](database-psql.md) 维护；模型资源发布见 [LDraw 发布](ldraw-publishing.md)。本次未核验生产运行状态。
 
-Release 复用 `ci.yml` 的检查，与 Docker 构建并行；只有同一提交的两项任务都成功，才会运行服务器切换。PR 保留独立 CI，main 不再重复启动另一套 CI。测试与镜像统一使用 Node 22。纯文档/课程资源变更仍运行 CI，但按已有范围规则跳过镜像和服务器切换。
+## 触发与范围
 
-构建前检查磁盘：可用空间低于 20 GiB 才清理 Android、.NET、Haskell，保留工具缓存中的 Node。该阈值是保守起点，实际提速取决于 runner 剩余空间和构建缓存命中率。SEO 检查、报告和百度推送保持部署后执行。
+Release Deploy 在获授权的 main push、`v*` 标签或手动触发时运行。GitHub Actions 构建私有 GHCR 镜像，服务器按本次构建的 SHA-256 摘要拉取；创建 PR 不等于授权合并或发布。
 
-## Scratch 缓存
+Release 复用 `ci.yml`，检查与镜像构建并行，同一提交的两项均成功后才切换服务器。PR 有独立 CI。测试和镜像使用 Node.js 22；实际流程以对应提交的 `.github/workflows/release.yml`、`ci.yml` 和 `scripts/release-scope.mjs` 为准。
 
-Docker 的 `scratch-builder` 只接收 Scratch 子包与依赖输入；主站调用 `pnpm exec next build`。Scratch 产物独立放在应用文件之前的镜像层中，因此主站修改通常既不重编译 Scratch，也不重复下载该层。本地 `pnpm build` 仍构建 Scratch 和主站。
+纯文档或允许的课程资源变更按范围规则跳过应用镜像和服务器切换，但仍可能运行 CI；混合应用变更、Release 配置变化、标签及手动发布不能按纯文档处理。仅独立 `ops-*` 工作流或对应手机号运维脚本变化的处理也由范围脚本决定，不能推断任意配置文件均无需部署。
 
-首次切换、依赖锁文件或 Scratch 源码/配置变化、基础镜像变化以及缓存失效时仍会重新构建。首次生产拉取也需要完整下载；后续才按缺失层传输。GitHub Actions 缓存用于编译复用，服务器 Docker 层缓存用于下载复用。
+## 构建与缓存
 
-## 凭据与前置条件
+Docker 的 `scratch-builder` 只接收 Scratch 子包及依赖输入，产物处于应用文件之前的独立镜像层；主站运行 `pnpm exec next build`。本地 `pnpm build` 仍同时构建 Scratch 和主站。
 
-- 继续使用现有 `SERVER_HOST`、`SERVER_USER`、`SSH_PRIVATE_KEY` 和可选 `SERVER_PORT` secrets。
-- GHCR 使用本次 Actions 的 `GITHUB_TOKEN`，workflow 需要 `packages: write`。不新增长期仓库密码，不将镜像设为公开。
-- 若 GHCR 中同名包已存在，需允许此仓库的 Actions 访问该包。
-- 服务器必须能连接 GHCR，Docker Compose 必须支持 `up --wait --wait-timeout`；首次拉取可能较慢。网络或权限失败时先解决连接问题，再重跑 Release。
-- `/opt/steam-app/.env.production` 继续提供运行时配置。临时 Docker 登录目录在部署退出时删除。
+首次构建、锁文件或 Scratch 源码/配置变更、基础镜像变化及缓存失效时仍需重建。Actions 缓存用于编译复用，服务器 Docker 缓存用于只下载缺失层，不能保证每次都会命中。
 
-## 切换与恢复
+构建前磁盘空间低于 20 GiB 才触发清理 Android、.NET、Haskell 等预装内容，保留工具缓存里的 Node。此阈值不代表实际构建空间或提速承诺。
 
-部署先拉取精确镜像，用生产运行配置启动不发布端口、不运行 worker 的候选容器，检查 `/api/health` 后移除候选容器。此步骤只检查进程启动，不验证真实用户计费、ASR 或数据库业务。随后备份并安装候选 Compose、Nginx 配置及启用链接；Nginx 语法通过、下述受限数据库迁移成功后，启动主站和后台 worker，等待健康检查，最后 reload Nginx。全部成功后将版本写入 `/opt/steam-app/.env` 的 `STEAM_APP_IMAGE`，保留其他配置，普通 `docker compose up -d` 会继续使用这个版本。
+## 凭据和前置条件
 
-配置安装/校验、健康检查或 Nginx reload 失败时，脚本恢复原配置；若已尝试切换容器，再用部署前运行容器的本地镜像和原 Compose 恢复两个服务，并让 Actions 标记失败。镜像拉取失败不会改动线上配置。若配置恢复失败，日志会打印保留的备份目录，需先恢复配置；若容器恢复失败，需查看服务器容器日志。发布不自动清理镜像，以保留恢复所需的层；后续按磁盘使用情况清理更早的版本。
+服务器连接复用现有 `SERVER_HOST`、`SERVER_USER`、`SSH_PRIVATE_KEY` 和可选 `SERVER_PORT`。GHCR 使用当次 Actions 的 `GITHUB_TOKEN` 与 `packages: write` 权限；同名包需允许该仓库访问，不新增长期仓库密码或把镜像改为公开。
 
-如需人工查看当前版本：
+运行时配置由服务器 `/opt/steam-app/.env.production` 提供。本地同名文件不会自动上传。服务器须能连接 GHCR，Compose 须支持 `up --wait --wait-timeout`；令牌失效后已有本地镜像可继续使用，换服务器或删除本地镜像需通过获授权发布重新取得可用拉取凭证。
 
-```sh
-cd /opt/steam-app
-docker compose ps
-docker inspect --format '{{.Config.Image}}' steam-app
-```
+## 发布事务与恢复边界
 
-令牌在 Actions 结束后失效；已拉取镜像仍可在本机使用。换服务器或清理本地镜像后，应重新运行 Release 获取新的临时令牌并拉取。
+1. 拉取精确镜像，以生产配置启动不发布端口、不运行 worker 的候选容器，检查 `/api/health` 后移除。健康检查只证明进程启动，不证明计费、ASR 或数据库业务正确。
+2. 备份并安装候选 Compose、Nginx 配置和启用链接，校验 Nginx；通过后执行本次获批准的限定迁移。
+3. 迁移成功后切换主站和 worker，等待健康检查并 reload Nginx。成功才将 `STEAM_APP_IMAGE` 写入服务器 `.env`，保留其他配置。
+4. 失败时按脚本恢复原配置；已尝试切换容器时使用部署前实际镜像和原 Compose 恢复，Actions 标记失败。恢复失败保留备份路径，先修复配置/容器，不盲目重跑。
 
+部署 bundle 使用 run/attempt 专属临时目录，完成后清理。发布不自动清空旧镜像，保留恢复所需层。
 
-## 运维互斥与拉取超时
+**容器回滚不等于数据库或业务回滚。** 已提交迁移不会被部署脚本反向修改；旧计费应用可能无法新建旧凭证。迁移后切换失败，应发布兼容已提交结构的应用，不伪造未执行标记、不删减用户账本。
 
-手机号提供商切换与 Release 共用 `release-production` 并发组；服务器脚本另用 `/opt/steam-app/.deploy.lock` 互斥，防止手动执行或残留远端进程同时重建容器。Release 等锁默认 120 秒，可用 `DEPLOY_LOCK_TIMEOUT` 调整。
+## 数据库与应用版本协调
 
-镜像每次拉取默认最多 180 秒，失败最多尝试 2 次，可通过 `IMAGE_PULL_TIMEOUT`（秒）和 `IMAGE_PULL_ATTEMPTS` 调整。拉取失败不切换服务、不写配置；日志记录每次尝试及退出码。这能限制网络卡住时的等待，但不能修复 GHCR 的网络连通问题。
+Release 的 `MIGRATION_ALLOWLIST` 是该提交的批准文件清单。通用指南不写死“本次三条”；[2026-10-13 配置快照](releases/2026-10-13/runtime-migrations.md) 保存本轮核对结果。新增迁移必须另行审查并更新允许名单，不取消范围校验放行。
 
-仅修改独立 `ops-*` 工作流或手机号运维脚本不再触发镜像构建；混合应用变更、Release 配置变更、标签和手动发布仍构建。
+部署包必须携带完整迁移目录。限定预检要求已有追踪表，发现名单外待执行项会在写入前失败；命令、副作用、事务及首次接入规则统一见 [数据库连接与迁移](database-psql.md)。
 
-手机号运维任务可选择 `legacy` 或 `supabase`，只重建主站并保持其实际运行镜像；失败恢复原 `.env.production` 和服务，恢复失败保留备份路径。选择 Supabase 需确认真实短信、老账号登录与新注册验收已通过；任务的健康检查只证明容器运行，不验证短信送达。
+生产精简镜像直接以 Node 执行项目自定义迁移脚本，不下载新依赖或使用官方 Supabase CLI。候选与迁移沿用 `docker compose run --no-deps`、既有环境文件和只读脚本/SQL 挂载。应用预检和 Nginx 校验失败时不执行迁移。
 
-## 本次计费迁移与发布顺序
+## 互斥、超时和手机号运维
 
-2026-10-12 的 #62 / #63 / #65 / #66 通过一个整合 PR 发布，#57 模型开发稿不在范围内。Release 的 `MIGRATION_ALLOWLIST` 只批准以下三个文件，顺序由文件名确定：
+Release 与手机号提供商运维共用 `release-production` 并发组，服务器另以 `.deploy.lock` 互斥。默认锁等待 120 秒、镜像拉取单次 180 秒、最多 2 次尝试，分别由 `DEPLOY_LOCK_TIMEOUT`、`IMAGE_PULL_TIMEOUT`、`IMAGE_PULL_ATTEMPTS` 调整。
 
-1. `20261012160000_tutor_total_usage_billing.sql`
-2. `20261012170000_ai_credit_grants.sql`
-3. `20261012171000_tutor_daily_credit_billing.sql`
+候选预检默认最多 20 次、间隔 2 秒，每次 HTTP 请求最多 4 秒；相关变量为 `PREFLIGHT_ATTEMPTS`、`PREFLIGHT_INTERVAL_SECONDS`。超时限制不能修复网络问题。
 
-部署包保留完整 `supabase/migrations/`，不能只放这三条来隐藏其他待执行迁移。`scripts/db-push.mjs push --only=...` 先用 SELECT 检查现有追踪表与全部本地迁移状态；追踪表缺失、名单无效或存在名单外待执行迁移时，在数据库写入前失败。它不会自动 baseline。已经执行的批准迁移会跳过；本次仍需执行的 SQL 与对应追踪记录在同一个事务提交。事务失败则整批回滚，并阻止新镜像切换。后续包含新迁移的发布必须审查并更新允许名单，不能取消范围检查来放行。
+手机号运维只重建主站并保持其实际镜像；失败恢复环境文件和服务，恢复失败保留备份。认证切换的准入和真实短信验收只在 [登录与短信](phone-auth.md) 维护，容器健康不能代替短信送达。
 
-人工操作继续使用项目规定的命令：
+## 部署后的独立检查
 
-```sh
-pnpm db:push -- --only=20261012160000_tutor_total_usage_billing.sql,20261012170000_ai_credit_grants.sql,20261012171000_tutor_daily_credit_billing.sql --dry-run
-pnpm db:push -- --only=20261012160000_tutor_total_usage_billing.sql,20261012170000_ai_credit_grants.sql,20261012171000_tutor_daily_credit_billing.sql
-```
+SEO 检查在切换后运行；失败可标记 Release 失败并跳过主动推送，但不会自动回滚已经部署的应用，处理见 [SEO 日常运营](seo-daily-operations.md)。
 
-限定模式的 `--dry-run` 是只读检查；未指定 `--only` 的旧 `status` / `push --dry-run` 仍会尝试初始化追踪表。生产精简镜像没有包管理器，Release 直接用同一镜像的 Node 执行 `pnpm db:push` 对应的自定义脚本，不下载依赖，不使用官方 Supabase CLI，不新增凭据。Supabase 环境由服务器现有 `.env.production` 提供；候选与迁移均使用 `docker compose run --no-deps`，固定生产项目目录，保留与正式服务相同的引号和变量插值语义。脚本和全部 SQL 以只读目录挂载。
-
-三条迁移不补发测试会员的历史额度，也不覆盖历史钱包。旧输出计费凭证可以收尾结算，但迁移完成后旧应用不能新建旧计费请求。因此迁移提交到新应用切换之间，小迪新请求可能短暂失败。若迁移已经提交、之后应用切换失败，部署会恢复旧镜像和配置并标记失败，但不会反向修改计费账本；旧镜像恢复不代表小迪业务恢复。应修复失败原因并重新发布兼容这三个迁移的镜像，不能将迁移标记伪装为未执行或直接删减用户账本。
-
-候选容器预检默认最多 20 次、间隔 2 秒，每次 HTTP 请求最多 4 秒；`PREFLIGHT_ATTEMPTS` / `PREFLIGHT_INTERVAL_SECONDS` 可调整。预检或 Nginx 校验失败不会执行迁移。原有服务器发布锁覆盖预检、迁移和正式切换。
+每次发布分别记录代码提交、镜像摘要、迁移结果、应用健康和实际业务检查。没有检查对应数据或真实功能时写“未核验”，不从 workflow 成功推定用户余额、供应商连通或课程体验全部通过。

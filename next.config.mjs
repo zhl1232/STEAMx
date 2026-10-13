@@ -226,6 +226,9 @@ const nextConfig = {
   async rewrites() {
     const scratchAssetDestination = buildScratchAssetDestination()
     return [
+      // Keep previously published duplicate-logo URLs working without shipping extra PNGs.
+      { source: '/logo-mark.png', destination: '/logo.png' },
+      { source: '/brand-kit/logo-avatar-transparent.png', destination: '/logo.png' },
       {
         // scratch-storage FetchWorker 默认去 /chunks/xxx，产物在 /scratch/chunks/
         // 注意：:param 前必须有分隔符，不能写成 fetch-worker:path*
