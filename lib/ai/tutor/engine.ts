@@ -8,8 +8,10 @@ import {
   parseDashScopeUsage,
   type DashScopeModelRole,
   type DashScopeTokenUsage,
+  type DashScopeUsageObserver,
 } from '@/lib/ai/dashscope'
 import { sanitizeTutorReply } from '@/lib/ai/tutor/reasoning-output'
+import { TutorUsageBudgetError, TUTOR_USAGE_BUDGET_MESSAGE } from '@/lib/ai/tutor/usage'
 
 export class TutorEngineError extends Error {
   userMessage: string
@@ -38,7 +40,7 @@ export type TutorEngineTelemetry = {
   usage: TutorTokenUsage | null
   visionFallback: boolean
   finishReason?: string
-  /** Sanitization removed unmetered content; do not bill it as answer output. */
+  /** Reply-safety diagnostic only; provider usage still includes all output. */
   outputSanitized?: boolean
 }
 
@@ -51,10 +53,12 @@ export type TutorEngineOptions = {
   maxTokens?: number
   /** 覆盖默认超时（毫秒）。 */
   timeoutMs?: number
-  /** 视觉调用失败、即将降级为纯文本重试时触发（用于提示用户/退差价）。 */
+  /** 视觉调用失败、即将降级为纯文本重试时触发（用于提示用户）。 */
   onVisionFallback?: () => void
-  /** 调用成功结束后回传模型与 token 用量，供计费与观测记录。 */
+  /** 成功主调用的观测信息；完整请求计费由 usageObserver 捕获全部调用。 */
   onTelemetry?: (telemetry: TutorEngineTelemetry) => void
+  /** Explicit request/purpose scope for every provider attempt, including retries. */
+  usageObserver?: DashScopeUsageObserver
 }
 
 function tutorRole(preferVision: boolean, mode: TutorModelMode): DashScopeModelRole {
@@ -64,6 +68,9 @@ function tutorRole(preferVision: boolean, mode: TutorModelMode): DashScopeModelR
 
 function toTutorEngineError(error: unknown): TutorEngineError {
   if (error instanceof TutorEngineError) return error
+  if (error instanceof TutorUsageBudgetError) {
+    return new TutorEngineError(error.message, TUTOR_USAGE_BUDGET_MESSAGE, 402)
+  }
   if (error instanceof DashScopeError) {
     if (error.code === 'missing_config') {
       return new TutorEngineError(error.message, '服务端未配置 AI 密钥，请稍后再试。')
@@ -147,6 +154,7 @@ export async function chatWithTutorComplete(
     const result = await dashScopeChatComplete({
       role: tutorRole(includeImages && wantImages, mode),
       timeoutMs,
+      usageObserver: options?.usageObserver,
       payload: {
         temperature: options?.temperature ?? 0.7,
         ...(typeof options?.maxTokens === 'number' ? { max_tokens: options.maxTokens } : {}),
@@ -166,6 +174,7 @@ export async function chatWithTutorComplete(
   try {
     result = await call(wantImages)
   } catch (error) {
+    if (error instanceof TutorUsageBudgetError) throwTutorEngineError(error)
     if (wantImages && options?.allowVisionFallback !== false) {
       visionFallback = true
       options?.onVisionFallback?.()
@@ -204,9 +213,10 @@ export async function* streamChatWithTutor(
       includeImages,
       visionFallbackNote: wantImages && !includeImages,
     })
-    const { response, model } = await dashScopeChatCompletions({
+    const { response, model, usageCapture } = await dashScopeChatCompletions({
       role: tutorRole(includeImages && wantImages, mode),
       timeoutMs,
+      usageObserver: options?.usageObserver,
       payload: {
         temperature: options?.temperature ?? 0.7,
         stream: true,
@@ -217,10 +227,17 @@ export async function* streamChatWithTutor(
     })
 
     if (!response.body) {
+      usageCapture?.finish({ usage: null, status: 'failed' })
       throw new TutorEngineError('DashScope stream missing body', '小迪暂时不可用，请稍后再试。')
     }
 
-    const reader = response.body.getReader()
+    let reader: ReadableStreamDefaultReader<Uint8Array>
+    try {
+      reader = response.body.getReader()
+    } catch (error) {
+      usageCapture?.finish({ usage: null, status: 'failed' })
+      throw error
+    }
     const decoder = new TextDecoder()
     let buffer = ''
     let full = ''
@@ -228,6 +245,7 @@ export async function* streamChatWithTutor(
     let finishReason: string | undefined
     let sawDone = false
     let omittedReasoning = false
+    let streamReadComplete = false
     const readLine = (line: string) => {
       const trimmed = line.trim()
       if (!trimmed.startsWith('data:')) return
@@ -258,12 +276,16 @@ export async function* streamChatWithTutor(
       }
       buffer += decoder.decode()
       if (buffer.trim()) readLine(buffer)
+      streamReadComplete = true
     } catch (error) {
       if (isDashScopeTimeoutError(error) || error instanceof DashScopeError) {
         throwTutorEngineError(error)
       }
       throw error
     } finally {
+      const complete = streamReadComplete && (sawDone || Boolean(finishReason)) &&
+        (!finishReason || ['stop', 'length'].includes(finishReason))
+      usageCapture?.finish({ usage, status: complete ? 'completed' : 'failed' })
       reader.releaseLock()
     }
 
@@ -301,6 +323,7 @@ export async function* streamChatWithTutor(
     options?.onTelemetry?.({ model: result.model, usage: result.usage, visionFallback: false, ...(result.outputSanitized ? { outputSanitized: true } : {}), ...(result.finishReason ? { finishReason: result.finishReason } : {}) })
     return result.text
   } catch (error) {
+    if (error instanceof TutorUsageBudgetError) throwTutorEngineError(error)
     // 仅在视觉模型「还没输出任何内容」就失败时降级为纯文本重试；
     // 已经吐出一半内容再重播会让前端出现拼接的重复文本。
     if (wantImages && !yieldedAny && options?.allowVisionFallback !== false) {
@@ -331,13 +354,17 @@ async function summarizeWithModel(input: {
   system: string
   user: string
   maxChars: number
+  maxTokens: number
+  usageObserver?: DashScopeUsageObserver
 }): Promise<string | null> {
   try {
     const { text } = await dashScopeChatComplete({
       role: 'tutor-planner',
       timeoutMs: DASHSCOPE_COMPLETE_TIMEOUT_MS,
+      usageObserver: input.usageObserver,
       payload: {
         temperature: 0.3,
+        max_tokens: input.maxTokens,
         messages: [
           { role: 'system', content: input.system },
           { role: 'user', content: input.user },
@@ -357,11 +384,14 @@ export async function summarizeNotebook(
   previousNotebook: string,
   recentMessages: Array<{ role: string; content: string }>,
   maxChars = NOTEBOOK_DEFAULT_CHAR_LIMIT,
+  options?: { usageObserver?: DashScopeUsageObserver },
 ): Promise<string | null> {
   return summarizeWithModel({
     system: `你是小迪的内部笔记本助手。把旧笔记与新对话合并成一份不超过 ${maxChars} 字的中文记忆摘要，记录：学生偏好、技能强弱、正在做的事、沟通风格、需要记住的约定。只输出摘要正文，不要标题。`,
     user: `【旧笔记】\n${previousNotebook || '（空）'}\n\n【新对话】\n${formatTutorTranscript(recentMessages)}`,
     maxChars,
+    maxTokens: Math.min(1800, Math.ceil(maxChars * 1.5)),
+    usageObserver: options?.usageObserver,
   })
 }
 
@@ -372,16 +402,20 @@ export const CONVERSATION_SUMMARY_CHAR_LIMIT = 400
 export async function summarizeConversationWindow(
   previousSummary: string,
   olderMessages: Array<{ role: string; content: string }>,
+  options?: { usageObserver?: DashScopeUsageObserver },
 ): Promise<string | null> {
   return summarizeWithModel({
     system: `你是小迪的会话摘要助手。把旧摘要与即将滑出上下文窗口的对话合并成一份不超过 ${CONVERSATION_SUMMARY_CHAR_LIMIT} 字的中文摘要，按时间顺序记录：聊过的话题、学生的关键进展或作品状态、双方的约定与未完成事项。只输出摘要正文，不要标题。`,
     user: `【旧摘要】\n${previousSummary || '（空）'}\n\n【滑出窗口的对话】\n${formatTutorTranscript(olderMessages)}`,
     maxChars: CONVERSATION_SUMMARY_CHAR_LIMIT,
+    maxTokens: 800,
+    usageObserver: options?.usageObserver,
   })
 }
 
 export function getTutorEngineUserMessage(error: unknown): string {
   if (error instanceof TutorEngineError) return error.userMessage
+  if (error instanceof TutorUsageBudgetError) return TUTOR_USAGE_BUDGET_MESSAGE
   if (error instanceof DashScopeError) {
     if (error.code === 'missing_config') return '服务端未配置 AI 密钥，请稍后再试。'
     if (error.code === 'timeout') return '小迪响应超时，请稍后再试。'

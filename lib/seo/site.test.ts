@@ -63,12 +63,12 @@ describe("getSiteUrl", () => {
 
 describe("site SEO copy", () => {
   it("describes the brand and actual learning topics", () => {
-    expect(HOME_PAGE_TITLE).toBe("少儿 STEAM 项目式学习：积木、科学实验与编程");
+    expect(HOME_PAGE_TITLE).toBe("积木搭建、科学小实验、少儿编程与自然观察");
     expect(HOME_PAGE_TITLE).not.toContain("观鸟");
     expect(HOME_PAGE_TITLE).not.toContain("免费");
-    expect(HOME_DOCUMENT_TITLE).toBe("创探空间｜少儿 STEAM 项目式学习：积木、科学实验与编程");
+    expect(HOME_DOCUMENT_TITLE).toBe("创探空间｜积木搭建、科学小实验、少儿编程与自然观察");
     expect(SITE_DESCRIPTION).toBe(
-      "创探空间是面向 3–16 岁孩子的少儿 STEAM 项目式学习平台。兴趣是最好的老师：孩子在积木搭建、科学实验、自然观察和编程项目中动手发现问题、尝试解决、获得成功反馈。",
+      "创探空间帮助家长陪孩子找到感兴趣的动手项目，提供积木搭建、科学小实验、编程和自然观察的内容与指导。先挑一节免费课程，一起动手做。",
     );
     expect(SITE_DESCRIPTION).not.toContain("非游戏平台");
     expect(SITE_DESCRIPTION).not.toContain("在线学习与创作");

@@ -2240,6 +2240,48 @@ export interface Database {
         }
         Relationships: []
       }
+      tutor_usage_records: {
+        Row: {
+          receipt_id: number
+          user_id: string
+          request_id: string
+          max_output_tokens: number
+          max_total_tokens: number
+          free_quota_receipt_id: number | null
+          usage: Json | null
+          actual_total_tokens: number | null
+          budget_overrun_tokens: number
+          created_at: string
+          settled_at: string | null
+        }
+        Insert: {
+          receipt_id: number
+          user_id: string
+          request_id: string
+          max_output_tokens: number
+          max_total_tokens: number
+          free_quota_receipt_id?: number | null
+          usage?: Json | null
+          actual_total_tokens?: number | null
+          budget_overrun_tokens?: number
+          created_at?: string
+          settled_at?: string | null
+        }
+        Update: {
+          receipt_id?: number
+          user_id?: string
+          request_id?: string
+          max_output_tokens?: number
+          max_total_tokens?: number
+          free_quota_receipt_id?: number | null
+          usage?: Json | null
+          actual_total_tokens?: number | null
+          budget_overrun_tokens?: number
+          created_at?: string
+          settled_at?: string | null
+        }
+        Relationships: []
+      }
       ai_credit_wallets: {
         Row: {
           user_id: string
@@ -4451,6 +4493,14 @@ export interface Database {
         Args: { p_user_id: string; p_request_id: string; p_max_output_tokens?: number }
         Returns: Json
       }
+      reserve_tutor_usage_service: {
+        Args: { p_user_id: string; p_request_id: string; p_max_output_tokens?: number; p_max_total_tokens?: number }
+        Returns: Json
+      }
+      fallback_tutor_usage_to_free_service: {
+        Args: { p_user_id: string; p_request_id: string; p_receipt_id: number; p_executor_id: string; p_min_total_tokens: number }
+        Returns: Json
+      }
       get_tutor_chat_session_service: {
         Args: { p_user_id: string; p_context_type: string; p_context_id: string }
         Returns: Json
@@ -4463,8 +4513,16 @@ export interface Database {
         Args: { p_user_id: string; p_request_id: string; p_request_hash: string; p_context_type: string; p_context_id: string; p_epoch: number; p_max_output_tokens: number; p_executor_id: string }
         Returns: Json
       }
+      begin_tutor_usage_request_service: {
+        Args: { p_user_id: string; p_request_id: string; p_request_hash: string; p_context_type: string; p_context_id: string; p_epoch: number; p_max_output_tokens: number; p_executor_id: string; p_max_total_tokens: number }
+        Returns: Json
+      }
       complete_tutor_request_service: {
         Args: { p_user_id: string; p_request_id: string; p_user_content: string; p_images: string[]; p_user_meta: Json; p_reply: string; p_assistant_meta: Json; p_output_tokens: number | null; p_clarification: boolean; p_title: string }
+        Returns: Json
+      }
+      complete_tutor_usage_request_service: {
+        Args: { p_user_id: string; p_request_id: string; p_user_content: string; p_images: string[]; p_user_meta: Json; p_reply: string; p_assistant_meta: Json; p_usage: Json; p_clarification: boolean; p_title: string }
         Returns: Json
       }
       fail_tutor_request_service: {
@@ -4477,6 +4535,10 @@ export interface Database {
       }
       settle_tutor_credit_service: {
         Args: { p_user_id: string; p_receipt_id: number; p_output_tokens?: number | null; p_cancel?: boolean }
+        Returns: Json
+      }
+      settle_tutor_usage_service: {
+        Args: { p_user_id: string; p_receipt_id: number; p_usage?: Json | null; p_cancel?: boolean }
         Returns: Json
       }
       refund_ai_credit_service: {

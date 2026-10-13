@@ -7,6 +7,21 @@ import { LessonPageClient } from './lesson-page-client'
 import { TutorProvider, useTutorContext, type TutorContextOverride } from '@/components/features/tutor/tutor-context'
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
 import type { CourseLessonRow } from '@/lib/courses/types'
+import type { BuildingVoiceControlsProps } from '@/components/features/courses/building-voice-controls'
+
+const voiceControls = vi.hoisted(() => ({ props: null as BuildingVoiceControlsProps | null }))
+
+vi.mock('@/components/features/courses/building-voice-controls', () => ({
+  BuildingVoiceControls: (props: BuildingVoiceControlsProps) => {
+    voiceControls.props = props
+    return props.stepCount > 0 ? (
+      <div data-testid="voice-controls">
+        <button type="button" onClick={() => props.onNavigate(props.stepIndex + 1)}>语音下一步</button>
+        <button type="button" onClick={() => props.onNavigate(props.stepIndex - 1)}>语音上一步</button>
+      </div>
+    ) : null
+  },
+}))
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ refresh: vi.fn() }),
@@ -27,6 +42,7 @@ vi.mock('@/components/features/courses/lesson-workspace-renderer', () => ({
     onScratchEditorContextChange,
     onStepChange,
     buildingNavigationSlot,
+    buildingVoiceControlsSlot,
   }: {
     activeStepIndex: number
     scratchBlockHint?: {
@@ -52,9 +68,11 @@ vi.mock('@/components/features/courses/lesson-workspace-renderer', () => ({
     }) => void
     onStepChange: (index: number) => void
     buildingNavigationSlot?: ReactNode
+    buildingVoiceControlsSlot?: ReactNode
   }) => (
     <div data-testid="lesson-workspace">
       {buildingNavigationSlot}
+      {buildingVoiceControlsSlot}
       <p>workspace step {activeStepIndex + 1}</p>
       <button type="button" onClick={() => onStepChange(activeStepIndex + 1)}>
         下一页
@@ -184,6 +202,7 @@ function TutorOverrideCapture({
 describe('LessonPageClient', () => {
   beforeEach(() => {
     window.history.replaceState({}, '', '/courses/7/lessons/42')
+    voiceControls.props = null
   })
 
   it.each(['scratch', 'playground', 'building_3d'])('renders complete %s step copy before hydration outside the sidebar', (lessonType) => {
@@ -364,6 +383,56 @@ describe('LessonPageClient', () => {
     expect(window.location.search).toBe('')
   })
 
+  it('keeps the phone scroll position between build steps and resets it when changing page kinds', () => {
+    const scrollTo = vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
+    const matchMedia = vi.spyOn(window, 'matchMedia').mockReturnValue({
+      matches: true, media: '(max-width: 1023px)', onchange: null,
+      addListener: vi.fn(), removeListener: vi.fn(), addEventListener: vi.fn(),
+      removeEventListener: vi.fn(), dispatchEvent: vi.fn(),
+    })
+    const buildingLesson: CourseLessonRow = {
+      ...lesson,
+      title: '救援车',
+      lesson_type: 'building_3d',
+      content: {
+        building3d: {
+          ldrawModelUrl: '/courses/ldraw/rescue.mpd',
+          slideImageUrls: Array.from({ length: 10 }, (_, index) => `/slides/rescue-${index + 1}.webp`),
+          parts: [],
+          steps3d: ['搭建底盘', '连接车轮', '装上车身'].map((title) => ({ title, description: title, partIds: [] })),
+        },
+      },
+    }
+    window.history.replaceState({}, '', '/courses/7/lessons/42?step=5')
+
+    try {
+      render(
+        <TutorProvider>
+          <LessonPageClient courseId={7} courseTitle="积木课" lesson={buildingLesson} previewHref="/preview" initialStepIndex={4} />
+        </TutorProvider>,
+      )
+      const directory = within(screen.getByRole('complementary'))
+
+      fireEvent.click(screen.getByRole('button', { name: '下一页' }))
+      expect(screen.getByText('workspace step 6')).toBeInTheDocument()
+      expect(window.location.search).toBe('?step=6')
+      fireEvent.click(directory.getByRole('button', { name: /搭建底盘/ }))
+      fireEvent.click(directory.getByRole('button', { name: /装上车身/ }))
+      expect(screen.getByText('workspace step 7')).toBeInTheDocument()
+      expect(scrollTo).not.toHaveBeenCalled()
+
+      fireEvent.click(screen.getByRole('button', { name: '下一页' }))
+      expect(screen.getByText('workspace step 8')).toBeInTheDocument()
+      expect(scrollTo).toHaveBeenLastCalledWith({ top: 0, behavior: 'instant' })
+      expect(scrollTo).toHaveBeenCalledTimes(1)
+      fireEvent.click(directory.getByRole('button', { name: /搭建底盘/ }))
+      expect(scrollTo).toHaveBeenCalledTimes(2)
+    } finally {
+      scrollTo.mockRestore()
+      matchMedia.mockRestore()
+    }
+  })
+
   it('keeps playground sidebars compact so step copy is not repeated', () => {
     const playgroundLesson: CourseLessonRow = {
       ...lesson,
@@ -398,6 +467,76 @@ describe('LessonPageClient', () => {
     const sidebar = within(screen.getByRole('complementary'))
     expect(sidebar.queryByText('这段讲解应只出现在 playground 工作区。')).not.toBeInTheDocument()
     expect(sidebar.queryByText(/这条提示也不应出现在左侧步骤列表/)).not.toBeInTheDocument()
+  })
+
+  it('uses displayed building pages for voice navigation, URL state and tutor context together', () => {
+    const observedOverrides: TutorContextOverride[] = []
+    const buildingLesson: CourseLessonRow = {
+      ...lesson, lesson_type: 'building_3d',
+      content: { building3d: {
+        ldrawModelUrl: '/car.mpd', parts: [],
+        steps3d: ['准备底盘', '装上轮子', '检查连接'].map((title) => ({ title, description: title, partIds: [] })),
+      } },
+    }
+    render(
+      <TutorProvider>
+        <TutorOverrideCapture onChange={(override) => { observedOverrides.push(override) }} />
+        <LessonPageClient courseId={7} courseTitle="积木课" lesson={buildingLesson} previewHref="/preview" />
+      </TutorProvider>,
+    )
+    const firstKey = voiceControls.props!.navigationKey
+    expect(voiceControls.props).toMatchObject({ courseId: 7, lessonId: 42, stepIndex: 0, stepCount: 3 })
+    fireEvent.click(screen.getByRole('button', { name: '语音下一步' }))
+    expect(screen.getByText('workspace step 2')).toBeInTheDocument()
+    expect(window.location.search).toBe('?step=2')
+    expect(observedOverrides.at(-1)).toMatchObject({ lessonStepIndex: 1, lessonStepCount: 3, subtitle: '正在做「装上轮子」' })
+    expect(voiceControls.props!.navigationKey).not.toBe(firstKey)
+    fireEvent.click(screen.getByRole('button', { name: '语音上一步' }))
+    expect(window.location.search).toBe('?step=1')
+    expect(voiceControls.props!.navigationKey).not.toBe(firstKey)
+  })
+
+  it('rejects a captured voice result after manual A → B → A navigation, including before rerender', () => {
+    const buildingLesson: CourseLessonRow = {
+      ...lesson, lesson_type: 'building_3d',
+      content: { building3d: {
+        ldrawModelUrl: '/car.mpd', parts: [],
+        steps3d: ['准备底盘', '装上轮子', '检查连接'].map((title) => ({ title, description: title, partIds: [] })),
+      } },
+    }
+    render(<TutorProvider><LessonPageClient courseId={7} courseTitle="积木课" lesson={buildingLesson} previewHref="/preview" /></TutorProvider>)
+    const captured = voiceControls.props!
+    act(() => {
+      screen.getByRole('button', { name: '下一页' }).click()
+      captured.onNavigate(2)
+    })
+    expect(screen.getByText('workspace step 2')).toBeInTheDocument()
+    fireEvent.click(within(screen.getByRole('complementary')).getByRole('button', { name: /准备底盘/ }))
+    expect(screen.getByText('workspace step 1')).toBeInTheDocument()
+    expect(voiceControls.props!.navigationKey).not.toBe(captured.navigationKey)
+    act(() => captured.onNavigate(2))
+    expect(screen.getByText('workspace step 1')).toBeInTheDocument()
+    expect(window.location.search).toBe('?step=1')
+  })
+
+  it('invalidates a pending voice result when browser history restores another page', () => {
+    const buildingLesson: CourseLessonRow = {
+      ...lesson, lesson_type: 'building_3d',
+      content: { building3d: {
+        ldrawModelUrl: '/car.mpd', parts: [],
+        steps3d: ['准备底盘', '装上轮子', '检查连接'].map((title) => ({ title, description: title, partIds: [] })),
+      } },
+    }
+    render(<TutorProvider><LessonPageClient courseId={7} courseTitle="积木课" lesson={buildingLesson} previewHref="/preview" /></TutorProvider>)
+    const captured = voiceControls.props!
+    act(() => {
+      window.history.replaceState({}, '', '/courses/7/lessons/42?step=2')
+      window.dispatchEvent(new PopStateEvent('popstate'))
+      captured.onNavigate(2)
+    })
+    expect(screen.getByText('workspace step 2')).toBeInTheDocument()
+    expect(window.location.search).toBe('?step=2')
+    expect(voiceControls.props!.navigationKey).not.toBe(captured.navigationKey)
   })
 
   it('lets Scratch lessons scroll naturally on phones and only pins the editor layout from md up', () => {

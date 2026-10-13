@@ -14,12 +14,12 @@ describe("buildLlmsTxt", () => {
 
     expect(text).toContain("# 创探空间");
     expect(text).toContain("Primary URL: https://steam.bj.cn");
-    expect(text).toContain("少儿 STEAM 项目式学习平台");
+    expect(text).toContain("帮助家长陪孩子找到感兴趣的动手项目");
     expect(text).not.toContain("非游戏平台");
     expect(text).toContain("## What it is");
     expect(text).not.toContain("## What it is not");
     expect(text).not.toContain("Not Valve Steam");
-    expect(text).toContain("Chinese kids STEAM project-based learning platform");
+    expect(text).toContain("helps parents find hands-on activities to do with their children");
     expect(text).toContain("https://steam.bj.cn/explore");
     expect(text).toContain("https://steam.bj.cn/sitemap.xml");
     expect(text).toContain("/api/");
