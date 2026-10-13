@@ -1353,5 +1353,356 @@
         "quantity": 16
       }
     ]
+  },
+  "45026-1": {
+    "setNum": "45026-1",
+    "name": "Tubes / 管道套装",
+    "totalQuantity": 150,
+    "source": "rebrickable",
+    "parts": [
+      {
+        "partNum": "11170",
+        "name": "Duplo Brick 2 x 2 x 1 1/2 with Curved Top",
+        "colorId": 322,
+        "colorName": "Medium Azure",
+        "quantity": 6
+      },
+      {
+        "partNum": "11197",
+        "name": "Duplo Brick 2 x 6 x 2 Curved with 2 x 2 Cutout on Bottom",
+        "colorId": 322,
+        "colorName": "Medium Azure",
+        "quantity": 3
+      },
+      {
+        "partNum": "14721",
+        "name": "Duplo Plate 4 x 4",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 1
+      },
+      {
+        "partNum": "16685",
+        "name": "Duplo Brick 1 x 4 x 2 with 2 Top Cutouts (Arrow Slits)",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 2
+      },
+      {
+        "partNum": "18652",
+        "name": "Duplo Brick 2 x 8 x 2 Arch",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 1
+      },
+      {
+        "partNum": "2301",
+        "name": "Duplo Brick 2 x 3 x 2 with Curve",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 2
+      },
+      {
+        "partNum": "2302",
+        "name": "Duplo Brick 2 x 3 with Curved Top",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "2302",
+        "name": "Duplo Brick 2 x 3 with Curved Top",
+        "colorId": 5,
+        "colorName": "Dark Pink",
+        "quantity": 6
+      },
+      {
+        "partNum": "2302pr0012",
+        "name": "Duplo Brick 2 x 3 with Curved Top with Black and White Eye Print",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 4
+      },
+      {
+        "partNum": "25549",
+        "name": "Duplo Plate 4 x 6",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 2
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 4
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 4
+      },
+      {
+        "partNum": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "colorId": 15,
+        "colorName": "White",
+        "quantity": 2
+      },
+      {
+        "partNum": "31191",
+        "name": "Duplo Ball Tube exit with round doorway 2 x 6 x 5",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 3
+      },
+      {
+        "partNum": "31191",
+        "name": "Duplo Ball Tube exit with round doorway 2 x 6 x 5",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 3
+      },
+      {
+        "partNum": "31193",
+        "name": "Duplo Ball Tube Exit Door",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 3
+      },
+      {
+        "partNum": "31193",
+        "name": "Duplo Ball Tube Exit Door",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 3
+      },
+      {
+        "partNum": "31195",
+        "name": "Duplo Ball Tube 45° Turn",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 6
+      },
+      {
+        "partNum": "31195",
+        "name": "Duplo Ball Tube 45° Turn",
+        "colorId": 5,
+        "colorName": "Dark Pink",
+        "quantity": 6
+      },
+      {
+        "partNum": "31195",
+        "name": "Duplo Ball Tube 45° Turn",
+        "colorId": 322,
+        "colorName": "Medium Azure",
+        "quantity": 6
+      },
+      {
+        "partNum": "31452",
+        "name": "Duplo Ball Tube Straight",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 6
+      },
+      {
+        "partNum": "31452",
+        "name": "Duplo Ball Tube Straight",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 6
+      },
+      {
+        "partNum": "31452",
+        "name": "Duplo Ball Tube Straight",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 6
+      },
+      {
+        "partNum": "31925",
+        "name": "Duplo Flag Wavy 3 x 4 with Post",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 2
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 4
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 4
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 4
+      },
+      {
+        "partNum": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "colorId": 322,
+        "colorName": "Medium Azure",
+        "quantity": 4
+      },
+      {
+        "partNum": "3437pr0113",
+        "name": "Duplo Brick 2 x 2 with Eye, White Sclera and Spot in Pupil on both sides Print",
+        "colorId": 5,
+        "colorName": "Dark Pink",
+        "quantity": 2
+      },
+      {
+        "partNum": "3437pr0123",
+        "name": "Duplo Brick 2 x 2 with Eye Looking Left with White Pupil Print",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 2
+      },
+      {
+        "partNum": "40666",
+        "name": "Duplo Plate 2 x 4",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 2
+      },
+      {
+        "partNum": "41250",
+        "name": "Ball, Hard Plastic, 51mm (approx. 6 studs diameter)",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 2
+      },
+      {
+        "partNum": "41250",
+        "name": "Ball, Hard Plastic, 51mm (approx. 6 studs diameter)",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "41250",
+        "name": "Ball, Hard Plastic, 51mm (approx. 6 studs diameter)",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 2
+      },
+      {
+        "partNum": "4196",
+        "name": "Duplo Plate 6 x 12",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 1
+      },
+      {
+        "partNum": "42029",
+        "name": "Duplo Plate 2 x 4 with Round Tube Holder",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 3
+      },
+      {
+        "partNum": "44524",
+        "name": "Duplo Plate 2 x 8",
+        "colorId": 322,
+        "colorName": "Medium Azure",
+        "quantity": 2
+      },
+      {
+        "partNum": "4672",
+        "name": "Duplo Plate 4 x 8",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 1
+      },
+      {
+        "partNum": "47408",
+        "name": "Duplo Cone 2 x 2 Square Base",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 2
+      },
+      {
+        "partNum": "51262",
+        "name": "Duplo Plate 8 x 8",
+        "colorId": 72,
+        "colorName": "Dark Bluish Gray",
+        "quantity": 1
+      },
+      {
+        "partNum": "6474",
+        "name": "Duplo Brick 2 x 2 Slope 45°",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 4
+      },
+      {
+        "partNum": "6510",
+        "name": "Duplo Plant, Flower with 1 Top Stud",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 2
+      },
+      {
+        "partNum": "89157",
+        "name": "Duplo Plant Vine 13L with Studs on Ends",
+        "colorId": 2,
+        "colorName": "Green",
+        "quantity": 2
+      },
+      {
+        "partNum": "98220pr0010",
+        "name": "Duplo Brick Round 4 x 4 Dome Top with 2 x 2 Studs with Two Eyes Print",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 1
+      },
+      {
+        "partNum": "98223",
+        "name": "Duplo Brick 2 x 4 Curved Top",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 6
+      },
+      {
+        "partNum": "98223pr0017",
+        "name": "Duplo Brick 2 x 4 Curved Top with Two Eyes Print",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 2
+      },
+      {
+        "partNum": "98224",
+        "name": "Duplo Brick 2 x 4 Curved Bottom",
+        "colorId": 322,
+        "colorName": "Medium Azure",
+        "quantity": 2
+      },
+      {
+        "partNum": "98233",
+        "name": "Duplo Plate 2 x 6",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 2
+      },
+      {
+        "partNum": "98252",
+        "name": "Duplo Brick 2 x 3 with Curved Bottom",
+        "colorId": 27,
+        "colorName": "Lime",
+        "quantity": 2
+      }
+    ]
   }
 }
