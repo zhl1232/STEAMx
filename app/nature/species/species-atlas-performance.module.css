@@ -1,0 +1,53 @@
+/* 保留完整 DOM、原生查找和字母锚点。按卡片跳过离屏绘制，不给整组套固定高度。 */
+.performance { --atlas-info-size: 7rem; }
+.tileCell { min-width: 0; }
+.performance.performance :global(.nature-atlas-tile) { height: auto; }
+/* 确定的照片比例 + 可容纳两行名称及学名/分类的文字区，避免图片解码后撑高。
+   使用 rem 随字号缩放；全名仍在链接可访问名称和 title 中。 */
+.performance.performance :global(.nature-atlas-tile) > span:last-child {
+  box-sizing: border-box;
+  flex: none;
+  block-size: var(--atlas-info-size);
+}
+.performance.performance :global(.nature-atlas-tile-name) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  max-width: 100%;
+}
+@supports (content-visibility: auto) and (width: 1cqw) {
+  .tileCell { container-type: inline-size; }
+  .performance.performance :global(.nature-atlas-tile) {
+    content-visibility: auto;
+    contain-intrinsic-block-size: calc((100cqw - 2px) * 0.75 + var(--atlas-info-size));
+  }
+  /* 不用 auto 缓存高度：切换列表/图集后立即按新布局保留正确的空间。 */
+  .performance.performance :global(.nature-atlas-grid)[data-singleton='true'] :global(.nature-atlas-tile),
+  .performance.performance[data-layout='list'] :global(.nature-atlas-tile) {
+    contain-intrinsic-block-size: var(--atlas-info-size);
+  }
+}
+
+/* 宽度就绪后按真实列数/条目数保留每个网格的高度，离屏整段跳过布局。
+   图集和列表分别计算行数，切换只改 CSS，不重新创建卡片。 */
+@supports (content-visibility: auto) {
+  .performance.performance [data-atlas-measured='true'] :global(.nature-atlas-grid) {
+    content-visibility: auto;
+    contain-intrinsic-block-size: calc(var(--atlas-rows-grid) * (var(--atlas-grid-media-size) + var(--atlas-info-size) + 2px) + (var(--atlas-rows-grid) - 1) * var(--atlas-grid-gap));
+  }
+  .performance.performance[data-layout='list'] [data-atlas-measured='true'] :global(.nature-atlas-grid) {
+    contain-intrinsic-block-size: calc(var(--atlas-rows-list) * (var(--atlas-info-size) + 2px) + (var(--atlas-rows-list) - 1) * var(--atlas-grid-gap));
+  }
+  .performance.performance [data-atlas-measured='true'] :global(.nature-atlas-grid)[data-singleton='true'] {
+    contain-intrinsic-block-size: calc(var(--atlas-info-size) + 2px);
+  }
+}
+/* 网格接管离屏管理后取消嵌套的卡片跳过，避免浏览器同时切换两级
+   content-visibility 时短暂使用旧的子容器尺寸。 */
+@supports (content-visibility: auto) {
+  .performance.performance [data-atlas-measured='true'] :global(.nature-atlas-grid) :global(.nature-atlas-tile) {
+    content-visibility: visible;
+    contain-intrinsic-block-size: none;
+  }
+}
