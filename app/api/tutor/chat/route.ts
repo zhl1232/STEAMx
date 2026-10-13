@@ -69,7 +69,7 @@ import {
 import { TutorSendSchema, type TutorSendInput } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/server'
 import type { Database } from '@/lib/supabase/types'
-import { createTutorSpeechStreamer } from '@/lib/ai/tutor/speech'
+import { createGuardedTutorSpeechStreamer as createTutorSpeechStreamer } from '@/lib/ai/tutor/guarded-speech'
 
 const HISTORY_LIMIT = 200
 const CONTEXT_TURNS = 12
@@ -767,6 +767,7 @@ export async function POST(request: NextRequest) {
     // 客户端中途断开（关面板/刷新）后 enqueue 会抛错；用标记保证后续落库照常进行。
     let cancelled = false
     const speechRef: { current: ReturnType<typeof createTutorSpeechStreamer> | null } = { current: null }
+    let speechCompletion: Promise<boolean> | null = null
 
     const readable = new ReadableStream({
       cancel() {
@@ -803,7 +804,7 @@ export async function POST(request: NextRequest) {
             if (wantSpeak) {
               const voiceAccess = await getTutorVoiceAccess(supabase, user).catch(() => null)
               if (voiceAccess) {
-              speechRef.current = createTutorSpeechStreamer({
+              speechRef.current = createTutorSpeechStreamer(user.id, {
                 voice: voiceAccess.voice,
                 signal: request.signal,
                 onAudio: (pcm, sampleRate) => {
@@ -856,6 +857,9 @@ export async function POST(request: NextRequest) {
                 speechRef.current?.push(safeContent)
               }
             }
+            // Close TTS input immediately; do not wait for memory, settlement or persistence.
+            // Observe rejection now so a fast audio failure cannot become unhandled.
+            speechCompletion = speechRef.current?.finish().catch(() => false) ?? null
             timing.mark('ai_stream_done')
           } catch (error) {
             speechRef.current?.abort()
@@ -961,10 +965,10 @@ export async function POST(request: NextRequest) {
             safeEnqueue({ type: 'warning', warning: '本次回答已达到输出上限，可以继续提问。' })
           }
           safeEnqueue({ type: 'done', reply: fullReply, ...(billing ? { billing } : {}) })
-          if (speechRef.current) {
+          if (speechCompletion) {
             let complete = false
             try {
-              complete = await speechRef.current.finish()
+              complete = await speechCompletion
             } catch {
               // TTS 失败只静音，文字已经发出
             }

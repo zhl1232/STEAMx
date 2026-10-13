@@ -4,7 +4,8 @@ import { AuthError, RateLimitError, requireAuth } from '@/lib/api/auth'
 import { getLessonInCourse } from '@/lib/api/courses'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { resolveDashScopeConfig } from '@/lib/ai/dashscope'
-import { TutorSpeechError, transcribeTutorSpeechPcm16 } from '@/lib/ai/tutor/speech'
+import { TutorSpeechError } from '@/lib/ai/tutor/speech'
+import { guardedTranscribeTutorSpeechPcm16 } from '@/lib/ai/tutor/guarded-speech'
 import { buildBuildingLessonFlow } from '@/lib/courses/building-lesson-flow'
 import { parseBuildingVoiceCommand, type BuildingVoiceCommand } from '@/lib/courses/building-voice-commands'
 import { createClient } from '@/lib/supabase/server'
@@ -164,7 +165,7 @@ export async function POST(request: NextRequest) {
     const pcm = await audio.arrayBuffer()
     if (request.signal.aborted) throw new InvalidAudioRequest(400, '语音操作已取消，请重新开启。')
     admitted = true
-    const transcript = await transcribeTutorSpeechPcm16(pcm, { signal: request.signal, courseControl: true })
+    const transcript = await guardedTranscribeTutorSpeechPcm16(user.id, pcm, { signal: request.signal, courseControl: true })
     command = parseBuildingVoiceCommand(transcript)
     outcome = command ? 'matched' : 'unmatched'
     return NextResponse.json({ command }, { headers: { 'Cache-Control': 'no-store' } })
