@@ -41,7 +41,7 @@ export function isDuploEyePrint(partId: string, description = ''): boolean {
     (/^3437p[0-9a-z]+$/.test(id) && /\beyes?\b|眼睛/i.test(description))
 }
 
-/** 四套教育库存的完整小人（含成人）；保留 CHILD 常量名以兼容调用方 */
+/** 教育套装库存的完整小人（含成人）；保留 CHILD 常量名以兼容调用方 */
 export const KIT_CHILD_FIGURE_PART_NUMS = [
   '10111c01pr0005',
   '47202pr9999',
