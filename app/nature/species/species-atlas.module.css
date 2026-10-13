@@ -126,7 +126,7 @@
 /* ---------- 桌面：同一风格放大 ---------- */
 @media (min-width: 768px) {
   .hero { margin-inline: 0; margin-top: 4px; border-radius: 20px; min-height: 380px; }
-  .heroImage { object-position: right center; }
+  .heroImage { object-position: right 8%; }
   .heroNav { display: none; }
   .heroContent { padding: 64px 48px 72px; max-width: 55%; }
   .kicker { font-size: 15px; }
@@ -135,10 +135,10 @@
   .heroStats { gap: 40px; margin-top: 24px; }
   .heroStats dd { font-size: 30px; }
   .heroStats dt { font-size: 13px; }
-  .hero { min-height: 400px; }
+  .hero { min-height: 420px; }
   .heroContent { padding-top: 80px; }
   .heroStats dt { font-size: 13px; }
-  .heroCredit { bottom: 48px; right: 16px; font-size: 10px; }
+  .heroCredit { top: 12px; bottom: auto; right: 16px; font-size: 10px; }
   .atlas :global(.nature-atlas-toolbar) { margin: -36px 40px 0; gap: 18px; }
   .atlas :global(.nature-atlas-search-form) { min-height: 60px; border-radius: 16px; }
   .atlas :global(.nature-atlas-topic-tabs).categoryCards { grid-template-columns: repeat(4, 140px); gap: 16px; }
