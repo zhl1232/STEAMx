@@ -3,7 +3,7 @@
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // INCOMPLETE: blue horn-end claw pair unresolved; hinge articulation and wing offsets provisional.
+0 // night11: blue horn-end claws added (dev-129/claw-du-jiao-xian); hinge/wing offsets still provisional — not gated.
 0 // All 12 source PDF pages actually viewed. No physical verification.
 0 // SOURCE PAGE 1
 1 0 -160 -196 0 0 0 1 0 1 0 -1 0 0 76395.dat
@@ -36,7 +36,9 @@
 0 // SOURCE PAGE 5
 1 72 528 -711.41016151 0 0.8660254 -0.5 0 0.5 0.8660254 0 0 0 1 dev-129/28331.dat
 1 72 558 -763.37168574 0 0.8660254 -0.5 0 0.5 0.8660254 0 0 0 1 74957.dat
-0 // MISSING blue opposed horn-end claws x2 from p5.
+0 // night11: blue opposed horn-end claws x2 (local claw-du-jiao-xian) on tip clutch — WIP not gated
+1 1 558 -763.37168574 45 0 0.5 0.8660254 0 -0.8660254 0.5 1 0 0 dev-129/claw-du-jiao-xian.dat
+1 1 558 -763.37168574 -45 0 0.5 -0.8660254 0 -0.8660254 -0.5 -1 0 0 dev-129/claw-du-jiao-xian.dat
 0 STEP
 0 // SOURCE PAGE 6
 1 71 288 -172 -105 1 0 0 0 0 1 0 -1 0 99565.dat
