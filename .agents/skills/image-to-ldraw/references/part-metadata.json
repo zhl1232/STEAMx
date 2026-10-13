@@ -54311,6 +54311,3828 @@
         "https://library.ldraw.org/library/official/parts/31196c01.dat and /library/unofficial/parts/31196c01.dat both returned 404. BrickLink catalog inventory confirms ID. Derived from existing local CC BY 4.0 photo-informed geometry.",
         "Only outer-wing X beyond +/-64 LDU is compressed by half (max +/-96 becomes +/-80). Central studs and screws unchanged; inner nose lip gains 0.1 LDU each side to clear the canopy and 0.05 LDU planar collision proxies. Collision face bounds transformed with the same monotonic map; no overlap exemptions added. Outer pockets and physical fit remain approximate."
       ]
+    },
+    "dev-129/45117c01-ke-ji-v2.dat": {
+      "name": "Duplo Toolo Wings with Beam Center (4-ke-ji v2 approximation of 45117c01)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -42.06218,
+        "xMax": 120.0,
+        "yMin": -71.0,
+        "yMax": 0,
+        "zMin": -200,
+        "zMax": 200
+      },
+      "heightLdu": 71.0,
+      "origin": {
+        "type": "mounted-reference-plane"
+      },
+      "supportPolicy": "manual",
+      "collisionVolumes": [
+        {
+          "xMin": -40.44011,
+          "xMax": -40,
+          "yMin": -46.75,
+          "yMax": -40.84464,
+          "zMin": -144.16667,
+          "zMax": -140
+        },
+        {
+          "xMin": -42.06218,
+          "xMax": -40,
+          "yMin": -46.75,
+          "yMax": -40.21964,
+          "zMin": -140,
+          "zMax": -120
+        },
+        {
+          "xMin": -42.06218,
+          "xMax": -40,
+          "yMin": -46.125,
+          "yMax": -40,
+          "zMin": -120,
+          "zMax": -100
+        },
+        {
+          "xMin": -41.76133,
+          "xMax": -40,
+          "yMin": -45.625,
+          "yMax": -40,
+          "zMin": -100,
+          "zMax": -80
+        },
+        {
+          "xMin": -41.76133,
+          "xMax": -40,
+          "yMin": -45.625,
+          "yMax": -40,
+          "zMin": 80,
+          "zMax": 100
+        },
+        {
+          "xMin": -42.06218,
+          "xMax": -40,
+          "yMin": -46.125,
+          "yMax": -40,
+          "zMin": 100,
+          "zMax": 120
+        },
+        {
+          "xMin": -42.06218,
+          "xMax": -40,
+          "yMin": -46.75,
+          "yMax": -40.21964,
+          "zMin": 120,
+          "zMax": 140
+        },
+        {
+          "xMin": -40.44011,
+          "xMax": -40,
+          "yMin": -46.75,
+          "yMax": -40.84464,
+          "zMin": 140,
+          "zMax": 144.16667
+        },
+        {
+          "xMin": -42.05347,
+          "xMax": -40,
+          "yMin": -40,
+          "yMax": -39.71964,
+          "zMin": -112.08333,
+          "zMax": -100
+        },
+        {
+          "xMin": -41.76133,
+          "xMax": -40,
+          "yMin": -40,
+          "yMax": -39.21964,
+          "zMin": -100,
+          "zMax": -80
+        },
+        {
+          "xMin": -41.76133,
+          "xMax": -40,
+          "yMin": -40,
+          "yMax": -39.34464,
+          "zMin": 80,
+          "zMax": 100
+        },
+        {
+          "xMin": -41.94975,
+          "xMax": -40,
+          "yMin": -40,
+          "yMax": -39.71964,
+          "zMin": 100,
+          "zMax": 112.08333
+        },
+        {
+          "xMin": -26.51757,
+          "xMax": -20,
+          "yMin": -63.67767,
+          "yMax": -60,
+          "zMin": -200,
+          "zMax": -190
+        },
+        {
+          "xMin": -26.51757,
+          "xMax": -20,
+          "yMin": -63.67767,
+          "yMax": -60,
+          "zMin": 190,
+          "zMax": 200
+        },
+        {
+          "xMin": -26.51757,
+          "xMax": -20,
+          "yMin": -63.67767,
+          "yMax": -60,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": -200,
+          "zMax": -180
+        },
+        {
+          "xMin": -37.05347,
+          "xMax": -20,
+          "yMin": -47.75,
+          "yMax": -40,
+          "zMin": -180,
+          "zMax": -160
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -47.25,
+          "yMax": -40,
+          "zMin": -160,
+          "zMax": -140
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -46.75,
+          "yMax": -40,
+          "zMin": -140,
+          "zMax": -120
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -46.125,
+          "yMax": -40,
+          "zMin": -120,
+          "zMax": -100
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -45.625,
+          "yMax": -40,
+          "zMin": -100,
+          "zMax": -80
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -45.625,
+          "yMax": -40,
+          "zMin": 80,
+          "zMax": 100
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -46.125,
+          "yMax": -40,
+          "zMin": 100,
+          "zMax": 120
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -46.75,
+          "yMax": -40,
+          "zMin": 120,
+          "zMax": 140
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -47.25,
+          "yMax": -40,
+          "zMin": 140,
+          "zMax": 160
+        },
+        {
+          "xMin": -37.05347,
+          "xMax": -20,
+          "yMin": -47.75,
+          "yMax": -40,
+          "zMin": 160,
+          "zMax": 180
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 180,
+          "zMax": 200
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": -38.46282,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -28.32233,
+          "zMin": -200,
+          "zMax": -190
+        },
+        {
+          "xMin": -21.57804,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -39.90272,
+          "zMin": -162.5,
+          "zMax": -160
+        },
+        {
+          "xMin": -25.91635,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -39.40272,
+          "zMin": -160,
+          "zMax": -140
+        },
+        {
+          "xMin": -35.55829,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -38.17157,
+          "zMin": -140,
+          "zMax": -120
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -37.67157,
+          "zMin": -120,
+          "zMax": -100
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -37.17157,
+          "zMin": -100,
+          "zMax": -80
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -37.17157,
+          "zMin": 80,
+          "zMax": 100
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -37.67157,
+          "zMin": 100,
+          "zMax": 120
+        },
+        {
+          "xMin": -35.55829,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -38.17157,
+          "zMin": 120,
+          "zMax": 140
+        },
+        {
+          "xMin": -25.91635,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -39.40272,
+          "zMin": 140,
+          "zMax": 160
+        },
+        {
+          "xMin": -21.57804,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -39.90272,
+          "zMin": 160,
+          "zMax": 162.5
+        },
+        {
+          "xMin": -38.46282,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -28.32233,
+          "zMin": 190,
+          "zMax": 200
+        },
+        {
+          "xMin": -38.46282,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -28.32233,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -68.04803,
+          "yMax": -60,
+          "zMin": -200,
+          "zMax": -190
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -68.04803,
+          "yMax": -60,
+          "zMin": 190,
+          "zMax": 200
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -68.04803,
+          "yMax": -60,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": -200,
+          "zMax": -180
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -46.96964,
+          "yMax": -40,
+          "zMin": -180,
+          "zMax": -160
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -45.71927,
+          "yMax": -40,
+          "zMin": -160,
+          "zMax": -140
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -45.21927,
+          "yMax": -40,
+          "zMin": -140,
+          "zMax": -120
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -43.90272,
+          "yMax": -41.5,
+          "zMin": -120,
+          "zMax": -100
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -43.40272,
+          "yMax": -41.0,
+          "zMin": -100,
+          "zMax": -80
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -45.0,
+          "yMax": -40,
+          "zMin": 80,
+          "zMax": 100
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -43.90272,
+          "yMax": -41.5,
+          "zMin": 100,
+          "zMax": 120
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -45.21927,
+          "yMax": -40,
+          "zMin": 120,
+          "zMax": 140
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -45.71927,
+          "yMax": -40,
+          "zMin": 140,
+          "zMax": 160
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -46.96964,
+          "yMax": -40,
+          "zMin": 160,
+          "zMax": 180
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 180,
+          "zMax": 190.0
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -23.95197,
+          "zMin": -200,
+          "zMax": -180
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -38.79912,
+          "zMin": -180,
+          "zMax": -160
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -37.92948,
+          "zMin": -160,
+          "zMax": -140
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -37.07686,
+          "zMin": -140,
+          "zMax": -120
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -38.90272,
+          "yMax": -36.5,
+          "zMin": -120,
+          "zMax": -100
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -38.40272,
+          "yMax": -36.0,
+          "zMin": -100,
+          "zMax": -80
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -38.40272,
+          "yMax": -36.0,
+          "zMin": 80,
+          "zMax": 100
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -38.90272,
+          "yMax": -36.5,
+          "zMin": 100,
+          "zMax": 120
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -37.07686,
+          "zMin": 120,
+          "zMax": 140
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -37.92948,
+          "zMin": 140,
+          "zMax": 160
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -38.79912,
+          "zMin": 160,
+          "zMax": 180
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -23.95197,
+          "zMin": 180,
+          "zMax": 200
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -23.95197,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -70.51963,
+          "yMax": -60,
+          "zMin": -200,
+          "zMax": -190
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -70.51963,
+          "yMax": -60,
+          "zMin": 190,
+          "zMax": 200
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -70.51963,
+          "yMax": -60,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": -200,
+          "zMax": -180
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -45.52772,
+          "yMax": -40,
+          "zMin": -180,
+          "zMax": -160
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -44.42157,
+          "yMax": -42.625,
+          "zMin": -160,
+          "zMax": -140
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -43.42412,
+          "yMax": -42.0,
+          "zMin": -140,
+          "zMax": -120
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -42.54912,
+          "yMax": -41.5,
+          "zMin": -120,
+          "zMax": -100
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -42.54657,
+          "yMax": -41.0,
+          "zMin": -100,
+          "zMax": -80
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -45.0,
+          "yMax": -40,
+          "zMin": 80,
+          "zMax": 100
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -42.42948,
+          "yMax": -41.5,
+          "zMin": 100,
+          "zMax": 120
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -43.42412,
+          "yMax": -42.0,
+          "zMin": 120,
+          "zMax": 140
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -44.42157,
+          "yMax": -42.625,
+          "zMin": 140,
+          "zMax": 160
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -45.52772,
+          "yMax": -40,
+          "zMin": 160,
+          "zMax": 180
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 180,
+          "zMax": 190.0
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -21.48037,
+          "zMin": -200,
+          "zMax": -180
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -38.125,
+          "zMin": -180,
+          "zMax": -160
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -39.42157,
+          "yMax": -37.625,
+          "zMin": -160,
+          "zMax": -140
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -38.42412,
+          "yMax": -37.0,
+          "zMin": -140,
+          "zMax": -120
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -37.42948,
+          "yMax": -36.5,
+          "zMin": -120,
+          "zMax": -100
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -37.42157,
+          "yMax": -36.0,
+          "zMin": -100,
+          "zMax": -80
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -37.54657,
+          "yMax": -36.0,
+          "zMin": 80,
+          "zMax": 100
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -37.54912,
+          "yMax": -36.5,
+          "zMin": 100,
+          "zMax": 120
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -38.42412,
+          "yMax": -37.0,
+          "zMin": 120,
+          "zMax": 140
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -39.42157,
+          "yMax": -37.625,
+          "zMin": 140,
+          "zMax": 160
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -38.125,
+          "zMin": 160,
+          "zMax": 180
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -21.48037,
+          "zMin": 180,
+          "zMax": 200
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -21.48037,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -71.0,
+          "yMax": -60,
+          "zMin": -200,
+          "zMax": -190
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -71.0,
+          "yMax": -60,
+          "zMin": 190,
+          "zMax": 200
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -71.0,
+          "yMax": -60,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": -200,
+          "zMax": -180
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -44.05448,
+          "yMax": -43.125,
+          "zMin": -180,
+          "zMax": -160
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -43.92157,
+          "yMax": -42.625,
+          "zMin": -160,
+          "zMax": -140
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -44.02772,
+          "yMax": -42.07686,
+          "zMin": -140,
+          "zMax": -120
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -44.84464,
+          "yMax": -41.80448,
+          "zMin": -120,
+          "zMax": -100
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -45.25,
+          "yMax": -40,
+          "zMin": -100,
+          "zMax": -80
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -48,
+          "yMax": -40,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -45.125,
+          "yMax": -40,
+          "zMin": 80,
+          "zMax": 100
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -44.71964,
+          "yMax": -41.80448,
+          "zMin": 100,
+          "zMax": 120
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -43.90272,
+          "yMax": -42.07686,
+          "zMin": 120,
+          "zMax": 140
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -43.79657,
+          "yMax": -42.625,
+          "zMin": 140,
+          "zMax": 160
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -44.05448,
+          "yMax": -43.125,
+          "zMin": 160,
+          "zMax": 180
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 180,
+          "zMax": 190.0
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -21.0,
+          "zMin": -200,
+          "zMax": -180
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -39.05448,
+          "yMax": -38.125,
+          "zMin": -180,
+          "zMax": -160
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -38.79657,
+          "yMax": -37.625,
+          "zMin": -160,
+          "zMax": -140
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -38.90272,
+          "yMax": -37.07686,
+          "zMin": -140,
+          "zMax": -120
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -39.71964,
+          "yMax": -36.80448,
+          "zMin": -120,
+          "zMax": -100
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -36.67948,
+          "zMin": -100,
+          "zMax": -80
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -36.55448,
+          "zMin": 80,
+          "zMax": 100
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -39.84464,
+          "yMax": -36.80448,
+          "zMin": 100,
+          "zMax": 120
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -39.02772,
+          "yMax": -37.07686,
+          "zMin": 120,
+          "zMax": 140
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -38.92157,
+          "yMax": -37.625,
+          "zMin": 140,
+          "zMax": 160
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -39.05448,
+          "yMax": -38.125,
+          "zMin": 160,
+          "zMax": 180
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -21.0,
+          "zMin": 180,
+          "zMax": 200
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -21.0,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -71.0,
+          "yMax": -60,
+          "zMin": -200,
+          "zMax": -190
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -71.0,
+          "yMax": -60,
+          "zMin": 190,
+          "zMax": 200
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -71.0,
+          "yMax": -60,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": -200,
+          "zMax": -180
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -45.15272,
+          "yMax": -40,
+          "zMin": -180,
+          "zMax": -160
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -45.46927,
+          "yMax": -40,
+          "zMin": -160,
+          "zMax": -140
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -46.25,
+          "yMax": -40,
+          "zMin": -140,
+          "zMax": -120
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -46.125,
+          "yMax": -40,
+          "zMin": -120,
+          "zMax": -100
+        },
+        {
+          "xMin": 40,
+          "xMax": 53.75,
+          "yMin": -45.625,
+          "yMax": -40,
+          "zMin": -100,
+          "zMax": -80
+        },
+        {
+          "xMin": 40,
+          "xMax": 53.75,
+          "yMin": -45.625,
+          "yMax": -40,
+          "zMin": 80,
+          "zMax": 100
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -46.125,
+          "yMax": -40,
+          "zMin": 100,
+          "zMax": 120
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -46.125,
+          "yMax": -40,
+          "zMin": 120,
+          "zMax": 140
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -45.34427,
+          "yMax": -40,
+          "zMin": 140,
+          "zMax": 160
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -45.02772,
+          "yMax": -40,
+          "zMin": 160,
+          "zMax": 180
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 180,
+          "zMax": 190.0
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -40,
+          "yMax": -21.0,
+          "zMin": -200,
+          "zMax": -180
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -40,
+          "yMax": -38.20186,
+          "zMin": -180,
+          "zMax": -160
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -40,
+          "yMax": -38.05448,
+          "zMin": -160,
+          "zMax": -140
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -40,
+          "yMax": -37.92412,
+          "zMin": -140,
+          "zMax": -120
+        },
+        {
+          "xMin": 40,
+          "xMax": 58.08018,
+          "yMin": -40,
+          "yMax": -38.04657,
+          "zMin": -120,
+          "zMax": -100
+        },
+        {
+          "xMin": 40,
+          "xMax": 53.75,
+          "yMin": -40,
+          "yMax": -38.40272,
+          "zMin": -100,
+          "zMax": -80
+        },
+        {
+          "xMin": 40,
+          "xMax": 53.75,
+          "yMin": -40,
+          "yMax": -38.27772,
+          "zMin": 80,
+          "zMax": 100
+        },
+        {
+          "xMin": 40,
+          "xMax": 59.25,
+          "yMin": -40,
+          "yMax": -37.92157,
+          "zMin": 100,
+          "zMax": 120
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -40,
+          "yMax": -37.79912,
+          "zMin": 120,
+          "zMax": 140
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -40,
+          "yMax": -37.92948,
+          "zMin": 140,
+          "zMax": 160
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -40,
+          "yMax": -38.20186,
+          "zMin": 160,
+          "zMax": 180
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -40,
+          "yMax": -21.0,
+          "zMin": 180,
+          "zMax": 200
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -40,
+          "yMax": -21.0,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -70.51963,
+          "yMax": -60,
+          "zMin": -200,
+          "zMax": -190
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -70.51963,
+          "yMax": -60,
+          "zMin": 190,
+          "zMax": 200
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -70.51963,
+          "yMax": -60,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": -200,
+          "zMax": -180
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -47.25,
+          "yMax": -40,
+          "zMin": -180,
+          "zMax": -160
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -47.25,
+          "yMax": -40,
+          "zMin": -160,
+          "zMax": -140
+        },
+        {
+          "xMin": 60,
+          "xMax": 78.5,
+          "yMin": -46.75,
+          "yMax": -40,
+          "zMin": -140,
+          "zMax": -120
+        },
+        {
+          "xMin": 60,
+          "xMax": 64.75,
+          "yMin": -46.125,
+          "yMax": -40.21964,
+          "zMin": -120,
+          "zMax": -112.08333
+        },
+        {
+          "xMin": 60,
+          "xMax": 64.75,
+          "yMin": -46.125,
+          "yMax": -40.09464,
+          "zMin": 112.08333,
+          "zMax": 120
+        },
+        {
+          "xMin": 60,
+          "xMax": 78.5,
+          "yMin": -46.75,
+          "yMax": -40,
+          "zMin": 120,
+          "zMax": 140
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -47.125,
+          "yMax": -40,
+          "zMin": 140,
+          "zMax": 160
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -47.125,
+          "yMax": -40,
+          "zMin": 160,
+          "zMax": 180
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 180,
+          "zMax": 190.0
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -40,
+          "yMax": -21.48037,
+          "zMin": -200,
+          "zMax": -180
+        },
+        {
+          "xMin": 60,
+          "xMax": 75.87905,
+          "yMin": -40,
+          "yMax": -39.04912,
+          "zMin": -180,
+          "zMax": -160
+        },
+        {
+          "xMin": 60,
+          "xMax": 71.27457,
+          "yMin": -40,
+          "yMax": -39.17157,
+          "zMin": -160,
+          "zMax": -140
+        },
+        {
+          "xMin": 60,
+          "xMax": 65.875,
+          "yMin": -40,
+          "yMax": -39.40272,
+          "zMin": -140,
+          "zMax": -121.25
+        },
+        {
+          "xMin": 60,
+          "xMax": 68.48812,
+          "yMin": -40,
+          "yMax": -39.27772,
+          "zMin": 121.25,
+          "zMax": 140
+        },
+        {
+          "xMin": 60,
+          "xMax": 73.81878,
+          "yMin": -40,
+          "yMax": -39.04657,
+          "zMin": 140,
+          "zMax": 160
+        },
+        {
+          "xMin": 60,
+          "xMax": 75.87905,
+          "yMin": -40,
+          "yMax": -38.92412,
+          "zMin": 160,
+          "zMax": 180
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -40,
+          "yMax": -21.48037,
+          "zMin": 180,
+          "zMax": 200
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -40,
+          "yMax": -21.48037,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -68.04803,
+          "yMax": -60,
+          "zMin": -200,
+          "zMax": -190
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -68.04803,
+          "yMax": -60,
+          "zMin": 190,
+          "zMax": 200
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -68.04803,
+          "yMax": -60,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": -200,
+          "zMax": -180
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -47.75,
+          "yMax": -40.40272,
+          "zMin": -180,
+          "zMax": -160
+        },
+        {
+          "xMin": 80,
+          "xMax": 89.5,
+          "yMin": -47.25,
+          "yMax": -40.71927,
+          "zMin": -160,
+          "zMax": -144.16667
+        },
+        {
+          "xMin": 80,
+          "xMax": 89.5,
+          "yMin": -47.25,
+          "yMax": -40.59427,
+          "zMin": 144.16667,
+          "zMax": 160
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -47.75,
+          "yMax": -40.27772,
+          "zMin": 160,
+          "zMax": 180
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 180,
+          "zMax": 190.0
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -40,
+          "yMax": -23.95197,
+          "zMin": -200,
+          "zMax": -190
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -40,
+          "yMax": -23.95197,
+          "zMin": 190,
+          "zMax": 200
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -40,
+          "yMax": -23.95197,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 100,
+          "xMax": 106.51757,
+          "yMin": -63.67767,
+          "yMax": -60,
+          "zMin": -200,
+          "zMax": -190
+        },
+        {
+          "xMin": 100,
+          "xMax": 106.51757,
+          "yMin": -63.67767,
+          "yMax": -60,
+          "zMin": 190,
+          "zMax": 200
+        },
+        {
+          "xMin": 100,
+          "xMax": 106.51757,
+          "yMin": -63.67767,
+          "yMax": -60,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 100,
+          "xMax": 120,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": -200,
+          "zMax": -180
+        },
+        {
+          "xMin": 100,
+          "xMax": 100.5,
+          "yMin": -47.75,
+          "yMax": -41.96964,
+          "zMin": -180,
+          "zMax": -176.25
+        },
+        {
+          "xMin": 100,
+          "xMax": 100.5,
+          "yMin": -47.75,
+          "yMax": -41.84464,
+          "zMin": 176.25,
+          "zMax": 180
+        },
+        {
+          "xMin": 100,
+          "xMax": 120,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 180,
+          "zMax": 200
+        },
+        {
+          "xMin": 100,
+          "xMax": 120,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 200,
+          "zMax": 200
+        },
+        {
+          "xMin": 100,
+          "xMax": 118.46282,
+          "yMin": -40,
+          "yMax": -28.32233,
+          "zMin": -200,
+          "zMax": -190
+        },
+        {
+          "xMin": 100,
+          "xMax": 118.46282,
+          "yMin": -40,
+          "yMax": -28.32233,
+          "zMin": 190,
+          "zMax": 200
+        },
+        {
+          "xMin": 100,
+          "xMax": 118.46282,
+          "yMin": -40,
+          "yMax": -28.32233,
+          "zMin": 200,
+          "zMax": 200
+        }
+      ],
+      "notes": [
+        "2026-10-13 user explicitly requested v2 source-shaped approximation when no LDraw geometry exists; local CC BY 4.0.",
+        "Confirmed catalog ID 45117c01; courseware 4-ke-ji p5,6,7,12 and cached BrickLink catalog photographs from /workspace/pending-fix-20261012/daxiang-inspect. Live image endpoints returned 403 in this round.",
+        "Official/unofficial LDraw and fixed gkjohnson mirror returned 404 for 31239c01, alias 76223, and 45117c01. Resolver refused absent canonical metadata before network lookup; direct HTTP checks saved in v2 report artifacts.",
+        "Only 4-ke-ji uses this new filename; shared donor geometry is unchanged. Preferred four kit inventories have neither tail part.",
+        "Dimensions, hidden underside, screw retention and molded radii are image estimates. Conservative 20-LDU occupied cells from all triangle bounds and beam solid body bounds, clipped to each contributing face/body bound; central opening retained; no whole-part collision exemption."
+      ]
+    },
+    "dev-129/31239c01-ke-ji-v2.dat": {
+      "name": "Duplo Toolo Rear Spoiler (4-ke-ji v2 approximation of 31239c01)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -40,
+        "xMax": 125.0,
+        "yMin": -131.0,
+        "yMax": 0,
+        "zMin": -80.0,
+        "zMax": 80.0
+      },
+      "heightLdu": 131.0,
+      "origin": {
+        "type": "mounted-reference-plane"
+      },
+      "supportPolicy": "manual",
+      "collisionVolumes": [
+        {
+          "xMin": -22.0,
+          "xMax": -20,
+          "yMin": -41.99335,
+          "yMax": -40,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": -25.8,
+          "xMax": -20,
+          "yMin": -47,
+          "yMax": -40,
+          "zMin": -13.48701,
+          "zMax": 0
+        },
+        {
+          "xMin": -25.8,
+          "xMax": -20,
+          "yMin": -47,
+          "yMax": -40,
+          "zMin": 0,
+          "zMax": 13.48701
+        },
+        {
+          "xMin": -22.0,
+          "xMax": -20,
+          "yMin": -41.99335,
+          "yMax": -40,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": -37.0,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": -25.8,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -13.48701,
+          "zMax": 0
+        },
+        {
+          "xMin": -25.8,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 0,
+          "zMax": 13.48701
+        },
+        {
+          "xMin": -37.0,
+          "xMax": -20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": -34.0,
+          "xMax": -20,
+          "yMin": -38.99335,
+          "yMax": -20,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": -40,
+          "xMax": -20,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": -4.0,
+          "xMax": 0,
+          "yMin": -64.65448,
+          "yMax": -60,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": -4.0,
+          "xMax": 0,
+          "yMin": -64.65448,
+          "yMax": -60,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": -1.0,
+          "xMax": 0,
+          "yMin": -61.65448,
+          "yMax": -60,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -47.1,
+          "yMax": -40,
+          "zMin": -17.8,
+          "zMax": 0
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -47.1,
+          "yMax": -40,
+          "zMin": 0,
+          "zMax": 17.8
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": -19.0,
+          "xMax": 0,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -17.8,
+          "zMax": 0
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 0,
+          "zMax": 17.8
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -20,
+          "yMax": -8,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -20,
+          "yMax": -8,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 20,
+          "zMax": 38
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": -20,
+          "xMax": 0,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -79.73418,
+          "yMax": -60,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -79.73418,
+          "yMax": -60,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -76.73418,
+          "yMax": -60,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": 0,
+          "xMax": 9.8,
+          "yMin": -47.1,
+          "yMax": -40,
+          "zMin": -15.70595,
+          "zMax": 0
+        },
+        {
+          "xMin": 0,
+          "xMax": 9.8,
+          "yMin": -47.1,
+          "yMax": -40,
+          "zMin": 0,
+          "zMax": 15.70595
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": 0,
+          "xMax": 9.8,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -15.70595,
+          "zMax": 0
+        },
+        {
+          "xMin": 0,
+          "xMax": 9.8,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 0,
+          "zMax": 15.70595
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 26,
+          "zMax": 26
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -20,
+          "yMax": -8,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -20,
+          "yMax": -8,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 20,
+          "zMax": 38
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 0,
+          "xMax": 20,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -92.51297,
+          "yMax": -80,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -92.51297,
+          "yMax": -80,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": 23.0,
+          "xMax": 40,
+          "yMin": -89.51297,
+          "yMax": -80,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -80,
+          "yMax": -60,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -80,
+          "yMax": -60,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -80,
+          "yMax": -60,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -40,
+          "yMax": -20,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -8,
+          "yMax": -8,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -8,
+          "yMax": -8,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 20,
+          "xMax": 38.0,
+          "yMin": -20,
+          "yMax": 0,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 20,
+          "xMax": 40,
+          "yMin": 0,
+          "yMax": 0,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 48.71862,
+          "xMax": 60,
+          "yMin": -112.25,
+          "yMax": -101.0625,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": 54.25,
+          "xMax": 60,
+          "yMin": -107.61806,
+          "yMax": -100,
+          "zMin": -60,
+          "zMax": -47.5
+        },
+        {
+          "xMin": 54.25,
+          "xMax": 60,
+          "yMin": -107.61806,
+          "yMax": -100,
+          "zMin": 47.5,
+          "zMax": 60
+        },
+        {
+          "xMin": 48.71862,
+          "xMax": 60,
+          "yMin": -111.69629,
+          "yMax": -101.0625,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": 57.0,
+          "xMax": 60,
+          "yMin": -111.55556,
+          "yMax": -105.0,
+          "zMin": 80,
+          "zMax": 80.0
+        },
+        {
+          "xMin": 56.76562,
+          "xMax": 60,
+          "yMin": -100,
+          "yMax": -99.17285,
+          "zMin": -55.0,
+          "zMax": -47.5
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -99.96794,
+          "yMax": -80,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -99.96794,
+          "yMax": -80,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -100,
+          "yMax": -80,
+          "zMin": 40,
+          "zMax": 55.0
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -80,
+          "yMax": -60,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -80,
+          "yMax": -60,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": 40,
+          "xMax": 60,
+          "yMin": -80,
+          "yMax": -60,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": 40,
+          "xMax": 50.0,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": 40,
+          "xMax": 50.0,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": 40,
+          "xMax": 50.0,
+          "yMin": -60,
+          "yMax": -40,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": 40,
+          "xMax": 41.0,
+          "yMin": -40,
+          "yMax": -31.8625,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": 40,
+          "xMax": 41.0,
+          "yMin": -40,
+          "yMax": -31.8625,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": 40,
+          "xMax": 41.0,
+          "yMin": -40,
+          "yMax": -31.8625,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": 40,
+          "xMax": 40,
+          "yMin": -8,
+          "yMax": 0,
+          "zMin": -38,
+          "zMax": -20
+        },
+        {
+          "xMin": 40,
+          "xMax": 40,
+          "yMin": -8,
+          "yMax": 0,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 40,
+          "xMax": 40,
+          "yMin": -8,
+          "yMax": 0,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 40,
+          "xMax": 40,
+          "yMin": -8,
+          "yMax": 0,
+          "zMin": 20,
+          "zMax": 38
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -119.88889,
+          "yMax": -101.20139,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -112.0625,
+          "yMax": -100,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": 62.0,
+          "xMax": 80,
+          "yMin": -106.47222,
+          "yMax": -100,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 68.25,
+          "xMax": 80,
+          "yMin": -103.8125,
+          "yMax": -100,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 68.25,
+          "xMax": 80,
+          "yMin": -103.8125,
+          "yMax": -100,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 62.0,
+          "xMax": 80,
+          "yMin": -106.47222,
+          "yMax": -100,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -112.0625,
+          "yMax": -100,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -119.88889,
+          "yMax": -101.20139,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -119.88889,
+          "yMax": -105.13889,
+          "zMin": 80,
+          "zMax": 80.0
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -100,
+          "yMax": -98.25,
+          "zMin": -55.0,
+          "zMax": -40
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -100,
+          "yMax": -80,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 68.25,
+          "xMax": 80,
+          "yMin": -100,
+          "yMax": -96.0,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 68.25,
+          "xMax": 80,
+          "yMin": -100,
+          "yMax": -96.0,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -100,
+          "yMax": -80,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 60,
+          "xMax": 80,
+          "yMin": -100,
+          "yMax": -80,
+          "zMin": 40,
+          "zMax": 55.0
+        },
+        {
+          "xMin": 60,
+          "xMax": 65.0,
+          "yMin": -80,
+          "yMax": -74.9073,
+          "zMin": -40,
+          "zMax": -26
+        },
+        {
+          "xMin": 60,
+          "xMax": 65.0,
+          "yMin": -80,
+          "yMax": -74.9073,
+          "zMin": 26,
+          "zMax": 40
+        },
+        {
+          "xMin": 60,
+          "xMax": 65.0,
+          "yMin": -80,
+          "yMax": -74.9073,
+          "zMin": 40,
+          "zMax": 40
+        },
+        {
+          "xMin": 80.33333,
+          "xMax": 100,
+          "yMin": -131.0,
+          "yMax": -120,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": 99.71875,
+          "xMax": 100,
+          "yMin": -120.95139,
+          "yMax": -120,
+          "zMin": -60,
+          "zMax": -57.5
+        },
+        {
+          "xMin": 99.71875,
+          "xMax": 100,
+          "yMin": -120.95139,
+          "yMax": -120,
+          "zMin": 57.5,
+          "zMax": 60
+        },
+        {
+          "xMin": 80.33333,
+          "xMax": 100,
+          "yMin": -131.0,
+          "yMax": -120,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": 80.33333,
+          "xMax": 92.0,
+          "yMin": -131.0,
+          "yMax": -120,
+          "zMin": 80,
+          "zMax": 80.0
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -120,
+          "yMax": -104.53472,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -120,
+          "yMax": -100,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -113.13889,
+          "yMax": -100,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -109.36806,
+          "yMax": -100,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -109.36806,
+          "yMax": -100,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -113.13889,
+          "yMax": -100,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -120,
+          "yMax": -100,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": 80,
+          "xMax": 100,
+          "yMin": -120,
+          "yMax": -104.53472,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": 80,
+          "xMax": 89.08333,
+          "yMin": -120,
+          "yMax": -111.80556,
+          "zMin": 80,
+          "zMax": 80.0
+        },
+        {
+          "xMin": 80,
+          "xMax": 82.16667,
+          "yMin": -100,
+          "yMax": -99.5,
+          "zMin": -45.0,
+          "zMax": -40
+        },
+        {
+          "xMin": 80,
+          "xMax": 91.42708,
+          "yMin": -100,
+          "yMax": -88.0,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 80,
+          "xMax": 97.5,
+          "yMin": -100,
+          "yMax": -96.55556,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 80,
+          "xMax": 97.5,
+          "yMin": -100,
+          "yMax": -96.55556,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 80,
+          "xMax": 91.42708,
+          "yMin": -100,
+          "yMax": -88.0,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 80,
+          "xMax": 82.16667,
+          "yMin": -100,
+          "yMax": -99.5,
+          "zMin": 40,
+          "zMax": 45.0
+        },
+        {
+          "xMin": 100,
+          "xMax": 114.875,
+          "yMin": -131.0,
+          "yMax": -120,
+          "zMin": -80,
+          "zMax": -60
+        },
+        {
+          "xMin": 100,
+          "xMax": 120,
+          "yMin": -127.0625,
+          "yMax": -120,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": 110.91667,
+          "xMax": 120,
+          "yMin": -124.25,
+          "yMax": -120,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 119.23958,
+          "xMax": 120,
+          "yMin": -122.5625,
+          "yMax": -120,
+          "zMin": -20,
+          "zMax": -10.0
+        },
+        {
+          "xMin": 119.23958,
+          "xMax": 120,
+          "yMin": -122.5625,
+          "yMax": -120,
+          "zMin": 10.0,
+          "zMax": 20
+        },
+        {
+          "xMin": 110.91667,
+          "xMax": 120,
+          "yMin": -124.25,
+          "yMax": -120,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 100,
+          "xMax": 120,
+          "yMin": -127.0625,
+          "yMax": -120,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": 100,
+          "xMax": 114.875,
+          "yMin": -131.0,
+          "yMax": -120,
+          "zMin": 60,
+          "zMax": 80
+        },
+        {
+          "xMin": 100,
+          "xMax": 114.875,
+          "yMin": -120,
+          "yMax": -112.3125,
+          "zMin": -77.5,
+          "zMax": -60
+        },
+        {
+          "xMin": 100,
+          "xMax": 120,
+          "yMin": -120,
+          "yMax": -105.05556,
+          "zMin": -60,
+          "zMax": -40
+        },
+        {
+          "xMin": 100,
+          "xMax": 120,
+          "yMin": -120,
+          "yMax": -101.5625,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 100,
+          "xMax": 120,
+          "yMin": -120,
+          "yMax": -101.0,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 100,
+          "xMax": 120,
+          "yMin": -120,
+          "yMax": -101.0,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 100,
+          "xMax": 120,
+          "yMin": -120,
+          "yMax": -101.5625,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 100,
+          "xMax": 120,
+          "yMin": -120,
+          "yMax": -105.05556,
+          "zMin": 40,
+          "zMax": 60
+        },
+        {
+          "xMin": 100,
+          "xMax": 114.875,
+          "yMin": -120,
+          "yMax": -112.3125,
+          "zMin": 60,
+          "zMax": 77.5
+        },
+        {
+          "xMin": 120,
+          "xMax": 120.5,
+          "yMin": -124.54004,
+          "yMax": -120,
+          "zMin": -42.5,
+          "zMax": -40
+        },
+        {
+          "xMin": 120,
+          "xMax": 123.875,
+          "yMin": -124.25,
+          "yMax": -120,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 120,
+          "xMax": 125.0,
+          "yMin": -122.5625,
+          "yMax": -120,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 120,
+          "xMax": 125.0,
+          "yMin": -122.5625,
+          "yMax": -120,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 120,
+          "xMax": 123.875,
+          "yMin": -124.25,
+          "yMax": -120,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 120,
+          "xMax": 120.5,
+          "yMin": -124.54004,
+          "yMax": -120,
+          "zMin": 40,
+          "zMax": 42.5
+        },
+        {
+          "xMin": 120,
+          "xMax": 120.5,
+          "yMin": -120,
+          "yMax": -115.05556,
+          "zMin": -42.5,
+          "zMax": -40
+        },
+        {
+          "xMin": 120,
+          "xMax": 123.875,
+          "yMin": -120,
+          "yMax": -113.36806,
+          "zMin": -40,
+          "zMax": -20
+        },
+        {
+          "xMin": 120,
+          "xMax": 125.0,
+          "yMin": -120,
+          "yMax": -109.88889,
+          "zMin": -20,
+          "zMax": 0
+        },
+        {
+          "xMin": 120,
+          "xMax": 125.0,
+          "yMin": -120,
+          "yMax": -109.88889,
+          "zMin": 0,
+          "zMax": 20
+        },
+        {
+          "xMin": 120,
+          "xMax": 123.875,
+          "yMin": -120,
+          "yMax": -113.36806,
+          "zMin": 20,
+          "zMax": 40
+        },
+        {
+          "xMin": 120,
+          "xMax": 120.5,
+          "yMin": -120,
+          "yMax": -115.05556,
+          "zMin": 40,
+          "zMax": 42.5
+        }
+      ],
+      "notes": [
+        "2026-10-13 user explicitly requested v2 source-shaped approximation when no LDraw geometry exists; local CC BY 4.0.",
+        "Confirmed catalog ID 31239c01; courseware 4-ke-ji p5,6,7,12 and cached BrickLink catalog photographs from /workspace/pending-fix-20261012/daxiang-inspect. Live image endpoints returned 403 in this round.",
+        "Official/unofficial LDraw and fixed gkjohnson mirror returned 404 for 31239c01, alias 76223, and 45117c01. Resolver refused absent canonical metadata before network lookup; direct HTTP checks saved in v2 report artifacts.",
+        "Only 4-ke-ji uses this new filename; shared donor geometry is unchanged. Preferred four kit inventories have neither tail part.",
+        "Dimensions, hidden underside, screw retention and molded radii are image estimates. Conservative 20-LDU occupied cells from all triangle bounds and beam solid body bounds, clipped to each contributing face/body bound; central opening retained; no whole-part collision exemption."
+      ]
     }
   }
 }
