@@ -71,7 +71,7 @@ describe('手机图鉴双列约定', () => {
     const grid = container.querySelector<HTMLElement>('[data-atlas-count="5"]')!
     expect(grid.style.getPropertyValue('--atlas-rows-grid')).toBe('3') // ceil(5 / 2)，不是 ceil(5 / 3)
     expect(grid.style.getPropertyValue('--atlas-rows-list')).toBe('5')
-    expect(parseFloat(results.style.getPropertyValue('--atlas-grid-media-size'))).toBeCloseTo(((resultsWidth - 10) / 2 - 2) * 0.75)
+    expect(parseFloat(results.style.getPropertyValue('--atlas-grid-media-size'))).toBeCloseTo(((resultsWidth - 10) / 2 - 2) * 0.625)
     const images = Array.from(grid.querySelectorAll('img'))
     expect(images).toHaveLength(5)
     for (const image of images) expect(image).toHaveAttribute('sizes', '(max-width: 767px) 45vw, (max-width: 1279px) 25vw, 240px')

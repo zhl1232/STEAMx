@@ -2,7 +2,11 @@
 .atlas {
   --atlas-accent: 215 100% 54%;
   --atlas-blue: #1677ff;
-  --atlas-card-shadow: 0 2px 10px rgb(30 60 110 / 7%);
+  --atlas-card-shadow: 0 6px 18px rgb(31 56 99 / 10%), 0 1px 3px rgb(31 56 99 / 6%);
+  --atlas-page-bg: #f2f6fa;
+  background: var(--atlas-page-bg);
+  box-shadow: 0 0 0 100vmax var(--atlas-page-bg);
+  clip-path: inset(0 -100vmax);
   padding-bottom: calc(6rem + env(safe-area-inset-bottom));
 }
 .desktopBack { display: none; }
@@ -14,15 +18,16 @@
   overflow: hidden;
   margin-inline: calc(50% - 50vw);
   min-height: 0;
-  background: #5d6b2c;
+  background: #3f7a2a;
   color: #fff;
 }
-.heroImage { object-fit: cover; object-position: 82% center; z-index: -2; }
+.heroImage { object-fit: cover; object-position: 88% center; z-index: -2; }
 .heroShade {
   position: absolute; inset: 0; z-index: -1;
   background:
-    linear-gradient(180deg, rgb(0 0 0 / 28%) 0%, rgb(0 0 0 / 0%) 26%),
-    linear-gradient(90deg, rgb(10 30 10 / 55%) 0%, rgb(10 30 10 / 30%) 45%, rgb(10 30 10 / 0%) 70%);
+    linear-gradient(180deg, rgb(242 246 250 / 0%) 62%, rgb(242 246 250 / 55%) 80%, var(--atlas-page-bg) 100%),
+    linear-gradient(180deg, rgb(0 0 0 / 25%) 0%, rgb(0 0 0 / 0%) 24%),
+    linear-gradient(90deg, rgb(8 36 12 / 55%) 0%, rgb(8 36 12 / 30%) 45%, rgb(8 36 12 / 0%) 70%);
 }
 .heroNav { position: absolute !important; inset: 0 0 auto 0; z-index: 2; background: transparent !important; }
 .heroNavContent { padding-right: 8px; }
@@ -31,7 +36,7 @@
 .heroNavTitle { color: #fff !important; font-size: 16px; font-weight: 600; }
 .heroNavSearch { display: grid; place-items: center; width: 44px; height: 44px; margin-left: auto; border-radius: 999px; color: #fff; }
 .heroNavSearch:hover { background: rgb(255 255 255 / 15%); }
-.heroContent { position: relative; padding: 52px 16px 46px; max-width: 66%; text-shadow: 0 1px 6px rgb(0 0 0 / 30%); }
+.heroContent { position: relative; padding: 52px 16px 64px; max-width: 66%; text-shadow: 0 1px 6px rgb(0 0 0 / 30%); }
 .kicker { display: flex; align-items: center; gap: 6px; margin: 0 0 6px; font-size: 13px; font-weight: 500; color: #fff; }
 .kicker svg { color: #7ee08a; }
 .heroContent h1 { margin: 0; font-size: 24px; line-height: 1.3; font-weight: 800; letter-spacing: 0.02em; white-space: nowrap; }
@@ -43,18 +48,18 @@
 .heroStats > div + div { border-left: 1px solid rgb(255 255 255 / 35%); }
 .heroStats dd { order: 1; margin: 0; font-size: 17px; font-weight: 800; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .heroStats dt { order: 2; font-size: 10px; color: rgb(255 255 255 / 88%); }
-.heroCredit { position: absolute; right: 8px; bottom: 40px; font-size: 8px; color: rgb(255 255 255 / 60%); }
-.heroCredit:hover { color: #fff; text-decoration: underline; }
+.heroCredit { position: absolute; right: 8px; top: 48px; margin: 0; font-size: 7px; color: rgb(255 255 255 / 55%); text-shadow: 0 1px 2px rgb(0 0 0 / 40%); }
+.heroCredit a:hover { color: #fff; text-decoration: underline; }
 
 /* ---------- 搜索框压住头图底边 ---------- */
-.atlas :global(.nature-atlas-toolbar) { position: relative; z-index: 3; display: flex; flex-direction: column; gap: 14px; margin-top: -30px; padding-top: 0; }
+.atlas :global(.nature-atlas-toolbar) { position: relative; z-index: 3; display: flex; flex-direction: column; gap: 14px; margin-top: -44px; padding-top: 0; }
 .atlas :global(.nature-atlas-search-form) {
-  display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 5px 5px 5px 14px;
+  display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 4px 4px 4px 12px;
   border: 0; border-radius: 14px; background: #fff; box-shadow: 0 6px 20px rgb(20 40 80 / 12%);
 }
-.atlas :global(.nature-atlas-search-form) input { font-size: 14px; min-height: 40px; }
+.atlas :global(.nature-atlas-search-form) input { font-size: 13px; min-height: 36px; }
 .atlas :global(.nature-atlas-search-form):focus-within { outline: 2px solid rgb(22 119 255 / 35%); outline-offset: 2px; }
-.atlas :global(.nature-atlas-search-form) button[type='submit'] { min-height: 42px; padding-inline: 18px; border-radius: 10px; background: var(--atlas-blue); font-size: 15px; }
+.atlas :global(.nature-atlas-search-form) button[type='submit'] { height: 34px; min-height: 34px; padding-inline: 16px; border-radius: 9px; background: var(--atlas-blue); font-size: 13px; }
 .atlas :global(.nature-atlas-icon-button) { min-width: 36px; min-height: 40px; }
 
 /* ---------- 分类方块 ---------- */
@@ -62,7 +67,7 @@
 .atlas :global(.nature-atlas-topic-tab).categoryCard {
   --tile-color: #1677ff;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
-  aspect-ratio: 1 / 0.86; min-height: 0; width: auto; padding: 6px 2px;
+  min-height: 74px; width: auto; padding: 8px 2px 6px;
   border: 1.5px solid transparent; border-radius: 14px; background: #fff; box-shadow: var(--atlas-card-shadow);
   color: #1f2a37;
 }
@@ -70,8 +75,7 @@
 .atlas :global(.nature-atlas-topic-tab).categoryCard[data-topic='insects'] { --tile-color: #22a447; }
 .atlas :global(.nature-atlas-topic-tab).categoryCard[data-topic='plants'] { --tile-color: #2eaa4f; }
 .atlas :global(.nature-atlas-topic-tab).categoryCard[data-topic='all'] { --tile-color: #a46be0; }
-.atlas :global(.nature-atlas-topic-tab).categoryCard.categoryCard > svg.categoryIcon { width: 28px; height: 28px; color: var(--tile-color); fill: var(--tile-color); fill-opacity: 0.9; stroke-width: 1.6; }
-.atlas :global(.nature-atlas-topic-tab).categoryCard[data-topic='birds'] > svg.categoryIcon { fill-opacity: 0.12; }
+.atlas :global(.nature-atlas-topic-tab).categoryCard.categoryCard > svg.categoryIcon { width: 26px; height: 26px; color: var(--tile-color); filter: drop-shadow(0 2px 3px rgb(0 0 0 / 10%)); }
 .atlas :global(.nature-atlas-topic-tab-active).categoryCard { border-color: #1677ff; background: #eaf3ff; color: #1677ff; box-shadow: none; }
 .categoryLabel { font-size: 13px; font-weight: 600; line-height: 1.3; }
 .categoryCount { font-size: 10px; color: #8a94a3; font-variant-numeric: tabular-nums; }
@@ -83,7 +87,9 @@
 .atlas :global(.nature-atlas-status-button) { min-width: 0; min-height: 36px; padding: 6px 16px; font-size: 13px; border-radius: 999px; border: 1px solid #dfe3ea; background: #fff; color: #4b5563; box-shadow: none; }
 .atlas :global(.nature-atlas-status-button-active),
 .atlas :global(.nature-atlas-status-button-unobserved.nature-atlas-status-button-active) { color: #fff; border-color: var(--atlas-blue); background: var(--atlas-blue); }
-.sortLabel { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #6b7280; white-space: nowrap; }
+.indexTrigger { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; padding: 0 10px; border: 1px solid #dfe3ea; border-radius: 999px; background: #fff; color: #4b5563; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.indexTriggerOpen { border-color: var(--atlas-blue); color: var(--atlas-blue); background: #eaf3ff; }
+.indexTrigger:focus-visible { outline: 2px solid var(--atlas-blue); outline-offset: 2px; }
 .atlas :global(.nature-atlas-status-note) { margin: -4px 0 0; font-size: 12px; line-height: 1.7; }
 
 /* 结果数仅供读屏；设计稿没有图集/列表切换，隐藏工具条但保留实时播报。 */
@@ -101,7 +107,7 @@
 .atlas :global(.nature-atlas-grid) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 0; }
 .atlas :global(.nature-atlas-grid) > li { min-width: 0; }
 .atlas :global(.nature-atlas-tile) { display: flex; flex-direction: column; height: 100%; overflow: hidden; border: 0; border-radius: 14px; background: #fff; box-shadow: var(--atlas-card-shadow); }
-.atlas :global(.nature-atlas-tile-media) { position: relative; aspect-ratio: 4 / 3; border-radius: 0; background: #eef2f6; }
+.atlas :global(.nature-atlas-tile-media) { position: relative; aspect-ratio: 16 / 10; border-radius: 0; background: #eef2f6; }
 .tileInfo { display: flex; flex: 1; min-width: 0; flex-direction: column; align-items: flex-start; gap: 3px; padding: 10px 10px 12px; }
 .atlas :global(.nature-atlas-tile-name) { display: block; min-height: 0; padding: 0; font-size: 15px; font-weight: 700; line-height: 1.4; color: #111827; }
 .scientificName { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; line-height: 1.5; color: #9aa3af; }
@@ -118,15 +124,14 @@
 .atlas :global(.nature-atlas-index-link-disabled) { color: #d4d8de; }
 .indexActive { color: var(--atlas-blue) !important; font-weight: 800 !important; background: #eaf3ff; }
 .indexCollapse { display: grid; place-items: center; width: 20px; height: 20px; margin-bottom: 2px; border-radius: 6px; color: #b0b7c2; }
-.indexCollapsedWrap { position: fixed; right: 4px; top: 58%; z-index: 20; opacity: 0.8; }
-.indexToggle { display: grid; place-items: center; min-width: 24px; height: 24px; padding: 0 4px; border-radius: 999px; background: rgb(255 255 255 / 92%); color: #6b7280; font-size: 10px; font-weight: 600; box-shadow: 0 1px 6px rgb(0 0 0 / 10%); }
-.indexToggle:focus-visible, .indexCollapse:focus-visible { outline: 2px solid var(--atlas-blue); outline-offset: 2px; }
+.indexCollapse:focus-visible { outline: 2px solid var(--atlas-blue); outline-offset: 2px; }
 .atlas :global(.nature-atlas-empty-all) { margin-top: 12px; }
 
+.atlas :global(.nature-atlas-index).indexPanel { position: fixed; right: 8px; top: 50%; z-index: 30; width: 30px; max-height: calc(100dvh - 160px); padding: 6px 0; transform: translateY(-50%); align-items: center; border-radius: 15px; background: rgb(255 255 255 / 96%); box-shadow: 0 6px 20px rgb(31 56 99 / 16%); opacity: 1; }
 /* ---------- 桌面：同一风格放大 ---------- */
 @media (min-width: 768px) {
   .hero { margin-inline: 0; margin-top: 4px; border-radius: 20px; min-height: 380px; }
-  .heroImage { object-position: right 8%; }
+  .heroImage { object-position: right center; }
   .heroNav { display: none; }
   .heroContent { padding: 64px 48px 72px; max-width: 55%; }
   .kicker { font-size: 15px; }
@@ -138,11 +143,14 @@
   .hero { min-height: 420px; }
   .heroContent { padding-top: 80px; }
   .heroStats dt { font-size: 13px; }
-  .heroCredit { top: 12px; bottom: auto; right: 16px; font-size: 10px; }
-  .atlas :global(.nature-atlas-toolbar) { margin: -36px 40px 0; gap: 18px; }
-  .atlas :global(.nature-atlas-search-form) { min-height: 60px; border-radius: 16px; }
+  .heroCredit { top: 12px; right: 16px; font-size: 10px; }
+  .atlas :global(.nature-atlas-toolbar) { margin: -64px 40px 0; gap: 18px; }
+  .atlas :global(.nature-atlas-search-form) { min-height: 52px; border-radius: 14px; }
+  .atlas :global(.nature-atlas-search-form) button[type='submit'] { height: 40px; padding-inline: 20px; font-size: 14px; }
   .atlas :global(.nature-atlas-topic-tabs).categoryCards { grid-template-columns: repeat(4, 140px); gap: 16px; }
-  .atlas :global(.nature-atlas-topic-tab).categoryCard.categoryCard > svg.categoryIcon { width: 36px; height: 36px; }
+  .atlas :global(.nature-atlas-topic-tab).categoryCard.categoryCard > svg.categoryIcon { width: 32px; height: 32px; }
+  .atlas :global(.nature-atlas-topic-tab).categoryCard { min-height: 92px; }
+  .heroContent { padding-bottom: 110px; }
   .categoryLabel { font-size: 15px; }
   .categoryCount { font-size: 12px; }
   .atlas :global(.nature-atlas-status-button) { padding-inline: 22px; font-size: 14px; min-height: 40px; }

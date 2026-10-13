@@ -2,8 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowDownUp, ChevronRight, LayoutGrid, List, Bird, Bug, Search, Leaf as Sprout, X } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import { LayoutGrid, ListFilter, List, Search, X } from 'lucide-react'
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useTransition } from 'react'
 import type { FormEvent } from 'react'
 
@@ -44,13 +43,23 @@ interface SpeciesAtlasProps {
   introduction?: string
 }
 
-type TileIcon = LucideIcon | ((props: { className?: string }) => React.JSX.Element)
+type TileIcon = (props: { className?: string }) => React.JSX.Element
+/* 分类块使用实心彩色图标（对应设计稿），颜色由 CSS 的 --tile-color 控制。 */
+function BirdTileIcon({ className }: { className?: string }) {
+  return <svg viewBox="0 0 32 32" className={className} aria-hidden="true"><path fill="currentColor" d="M5 18.5c0-5.2 4.3-9.3 9.7-9.3.7 0 1.4.1 2 .2 1.1-2.6 3.6-4.4 6.5-4.4 1.2 0 2.3.3 3.3.9l3 .1-2.3 2c.2.7.3 1.4.3 2.1 0 8.2-6.3 14.4-14.4 14.4H11l-4.6 4.2v-4.9C5.5 22.4 5 20.5 5 18.5Z" /><path fill="#fff" fill-opacity=".35" d="M9.5 18.2c2.6-.2 5.2-1.3 7-3.3.3 3.6-2 6.5-5.9 7.2-1.1-1-1.4-2.5-1.1-3.9Z" /><circle cx="23.3" cy="8.6" r="1.3" fill="#fff" /></svg>
+}
+function BugTileIcon({ className }: { className?: string }) {
+  return <svg viewBox="0 0 32 32" className={className} aria-hidden="true"><g stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"><path d="M12 6.5 10 4M20 6.5 22 4M8.5 14H4.5M27.5 14h-4M8.8 19.5l-3.8 2M23.2 19.5l3.8 2M10 24.5l-2.5 3M22 24.5l2.5 3" /></g><circle cx="16" cy="9" r="4" fill="currentColor" /><path fill="currentColor" d="M16 12.2c4.4 0 7.8 3.7 7.8 8.3 0 4.4-3.5 7.5-7.8 7.5s-7.8-3.1-7.8-7.5c0-4.6 3.4-8.3 7.8-8.3Z" /><path stroke="#fff" strokeOpacity=".55" strokeWidth="1.4" d="M16 13v15" /><circle cx="12.6" cy="18.5" r="1.3" fill="#fff" fillOpacity=".55" /><circle cx="19.4" cy="22.5" r="1.3" fill="#fff" fillOpacity=".55" /></svg>
+}
+function LeafTileIcon({ className }: { className?: string }) {
+  return <svg viewBox="0 0 32 32" className={className} aria-hidden="true"><path fill="currentColor" d="M27.5 4.5C14.8 4 5.5 9.8 5.5 19.4c0 2.4.7 4.6 1.9 6.4C9.8 19.5 14 15 20 12.3 14.6 16 11 20.5 9.4 27.6c1.5.6 3.2.9 4.9.9 9.8 0 14.8-9.8 13.2-24Z" /></svg>
+}
 /** 实心蘑菇：用于「全部」分类块，对应设计稿紫色蘑菇。 */
 function MushroomIcon({ className }: { className?: string }) {
-  return <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true"><path d="M12 3C6.5 3 2.5 6.6 2.5 10.6c0 .8.6 1.4 1.4 1.4h16.2c.8 0 1.4-.6 1.4-1.4C21.5 6.6 17.5 3 12 3Z" /><path d="M9 13.5h6l.7 5.6A1.7 1.7 0 0 1 14 21h-4a1.7 1.7 0 0 1-1.7-1.9l.7-5.6Z" opacity=".75" /></svg>
+  return <svg viewBox="0 0 32 32" className={className} aria-hidden="true"><path fill="currentColor" d="M16 3.5C8.8 3.5 3.5 8.4 3.5 14c0 1 .8 1.8 1.8 1.8h21.4c1 0 1.8-.8 1.8-1.8 0-5.6-5.3-10.5-12.5-10.5Z" /><circle cx="11" cy="9.5" r="1.8" fill="#fff" fillOpacity=".5" /><circle cx="19.5" cy="7.8" r="1.3" fill="#fff" fillOpacity=".5" /><path fill="currentColor" fillOpacity=".7" d="M12 17.5h8l.9 7.6a2.4 2.4 0 0 1-2.4 2.7h-5a2.4 2.4 0 0 1-2.4-2.7l.9-7.6Z" /></svg>
 }
 const TOPIC_ICONS: Record<SpeciesAtlasTopicFilter, TileIcon> = {
-  all: MushroomIcon, birds: Bird, insects: Bug, plants: Sprout,
+  all: MushroomIcon, birds: BirdTileIcon, insects: BugTileIcon, plants: LeafTileIcon,
 }
 const STATUS_OPTIONS: Array<{ key: SpeciesAtlasStatusFilter; label: string }> = [
   { key: 'all', label: '全部' }, { key: 'observed', label: '已观察' }, { key: 'unobserved', label: '待观察' },
@@ -112,13 +121,34 @@ function buildSpeciesHref(filters: {
   return params.size ? `${basePath}?${params}` : basePath
 }
 
-/** 右侧 A–Z：可收起；无物种字母置灰不可点；滚动时高亮当前字母。手机默认收起。 */
-function AtlasLetterIndex({ topic, availableLetters }: { topic: SpeciesAtlasTopicFilter; availableLetters: Set<string> }) {
-  const [collapsed, setCollapsed] = useState(false)
-  const [active, setActive] = useState<string | null>(null)
-  useLayoutEffect(() => {
-    if (window.matchMedia('(max-width: 767px)').matches) setCollapsed(true)
+const INDEX_TOGGLE_EVENT = 'nature-atlas-index-toggle'
+/** 筛选行右侧的 A–Z 触发按钮；通过事件开关索引面板，不让整批卡片重渲染。 */
+function AtlasIndexTrigger() {
+  const [open, setOpen] = useState(false)
+  useEffect(() => {
+    const sync = (event: Event) => setOpen(Boolean((event as CustomEvent<{ open: boolean }>).detail?.open))
+    window.addEventListener(`${INDEX_TOGGLE_EVENT}-state`, sync)
+    return () => window.removeEventListener(`${INDEX_TOGGLE_EVENT}-state`, sync)
   }, [])
+  return (
+    <button type="button" className={cn(styles.indexTrigger, open && styles.indexTriggerOpen)} aria-expanded={open} aria-controls="species-atlas-letter-index" onClick={() => window.dispatchEvent(new CustomEvent(INDEX_TOGGLE_EVENT))}>
+      <ListFilter size={14} aria-hidden="true" />A–Z
+    </button>
+  )
+}
+
+/** A–Z 索引面板：默认收起，由筛选行的按钮打开；无物种字母置灰不可点；滚动时高亮当前字母。 */
+function AtlasLetterIndex({ topic, availableLetters }: { topic: SpeciesAtlasTopicFilter; availableLetters: Set<string> }) {
+  const [open, setOpen] = useState(false)
+  const [active, setActive] = useState<string | null>(null)
+  useEffect(() => {
+    const toggle = () => setOpen(value => !value)
+    window.addEventListener(INDEX_TOGGLE_EVENT, toggle)
+    return () => window.removeEventListener(INDEX_TOGGLE_EVENT, toggle)
+  }, [])
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent(`${INDEX_TOGGLE_EVENT}-state`, { detail: { open } }))
+  }, [open])
   useEffect(() => {
     if (typeof IntersectionObserver === 'undefined') return
     const sections = SPECIES_ALPHABET.filter(letter => availableLetters.has(letter))
@@ -137,22 +167,14 @@ function AtlasLetterIndex({ topic, availableLetters }: { topic: SpeciesAtlasTopi
     for (const section of sections) { section.element.dataset.letter = section.letter; observer.observe(section.element) }
     return () => observer.disconnect()
   }, [availableLetters, topic])
-  if (collapsed) {
-    return (
-      <div className={styles.indexCollapsedWrap}>
-        <button type="button" className={styles.indexToggle} onClick={() => setCollapsed(false)} aria-expanded="false" aria-label="展开字母索引" title="展开字母索引">
-          <span aria-hidden="true">{active === speciesAtlasOtherInitial ? '#' : active ?? 'A–Z'}</span>
-        </button>
-      </div>
-    )
-  }
+  if (!open) return null
   return (
-    <nav className="nature-atlas-index" aria-label="按名称首字母跳转">
-      <button type="button" className={styles.indexCollapse} onClick={() => setCollapsed(true)} aria-expanded="true" aria-label="收起字母索引" title="收起字母索引">
-        <ChevronRight size={14} aria-hidden="true" />
+    <nav id="species-atlas-letter-index" className={cn('nature-atlas-index', styles.indexPanel)} aria-label="按名称首字母跳转">
+      <button type="button" className={styles.indexCollapse} onClick={() => setOpen(false)} aria-label="收起字母索引" title="收起字母索引">
+        <X size={14} aria-hidden="true" />
       </button>
       {SPECIES_ALPHABET.map(letter => availableLetters.has(letter) ? (
-        <a key={letter} href={`#${buildSpeciesLetterId(topic, letter)}`} className={cn('nature-atlas-index-link', active === letter && styles.indexActive)} aria-current={active === letter ? 'true' : undefined} aria-label={`跳转到${getSpeciesLetterLabel(letter)}`} onClick={() => { setActive(letter); if (window.matchMedia('(max-width: 767px)').matches) setCollapsed(true) }}>{letter}</a>
+        <a key={letter} href={`#${buildSpeciesLetterId(topic, letter)}`} className={cn('nature-atlas-index-link', active === letter && styles.indexActive)} aria-current={active === letter ? 'true' : undefined} aria-label={`跳转到${getSpeciesLetterLabel(letter)}`} onClick={() => { setActive(letter); if (window.matchMedia('(max-width: 767px)').matches) setOpen(false) }}>{letter}</a>
       ) : (
         <span key={letter} className="nature-atlas-index-link nature-atlas-index-link-disabled" aria-hidden="true">{letter}</span>
       ))}
@@ -183,7 +205,7 @@ const AtlasResults = memo(function AtlasResults({ groups, topic, filtersKey, pri
       // 手机固定双列，离屏行数和图片高度必须与 CSS 的双列布局一致。
       const gridColumns = breakpoint >= 2 ? Math.max(1, Math.floor((width + gap) / (gridMin + gap))) : 2
       const listColumns = breakpoint >= 2 ? Math.max(1, Math.floor((width + gap) / (listMin + gap))) : 1
-      const mediaSize = ((width - gap * (gridColumns - 1)) / gridColumns - 2) * 0.75
+      const mediaSize = ((width - gap * (gridColumns - 1)) / gridColumns - 2) * 0.625
       element.style.setProperty('--atlas-grid-media-size', `${mediaSize}px`)
       element.style.setProperty('--atlas-grid-gap', `${gap}px`)
       for (const grid of element.querySelectorAll<HTMLElement>('[data-atlas-count]')) {
@@ -327,7 +349,7 @@ export function SpeciesAtlas({
 
   // 顶栏元素固定引用，避免 memo 的头图随每次输入重渲染照片。
   const heroNav = useMemo(() => (
-        <MobilePageHeader title="自然观察" sticky={false} borderless className={styles.heroNav} contentClassName={styles.heroNavContent} backButtonClassName={styles.heroNavBack} titleClassName={styles.heroNavTitle} fallbackHref="/nature" rightSlot={<button type="button" className={styles.heroNavSearch} aria-label="搜索物种" onClick={() => document.getElementById('species-atlas-search')?.focus()}><Search size={20} aria-hidden="true" /></button>} />
+        <MobilePageHeader title="自然观察" sticky={false} borderless className={styles.heroNav} contentClassName={styles.heroNavContent} backButtonClassName={styles.heroNavBack} titleClassName={styles.heroNavTitle} fallbackHref="/nature" />
   ), [])
   const filters = useMemo(() => ({ query, topic, status }), [query, topic, status])
   const filteredGroups = useMemo(() => filterSpeciesAtlasGroups(data.groups, filters), [data.groups, filters])
@@ -410,7 +432,7 @@ export function SpeciesAtlas({
               <span>{label}</span>{count !== null ? <span className="sr-only">{count}</span> : null}
             </button>
           })}
-        </div><span className={styles.sortLabel}>名称排序<ArrowDownUp size={14} aria-hidden="true" /></span></div>
+        </div>{letterGroups.length > 0 ? <AtlasIndexTrigger /> : null}</div>
         {data.viewer.progressState === 'anonymous' ? <p className="nature-atlas-status-note"><Link href={`/login?next=${encodeURIComponent(buildSpeciesHref({ query, topic, status: requestedStatus, canonicalTopicPath }))}`} className="font-semibold text-primary hover:underline">登录</Link> 后可筛选已观察物种。</p> : null}
         {data.viewer.progressState === 'unavailable' || refreshError ? <p className="nature-atlas-status-note nature-atlas-status-note-warning">观察状态暂时不可用，物种仍可正常浏览。<button type="button" className="ml-1 font-semibold underline underline-offset-2" onClick={refreshAtlas} disabled={isRefreshing}>{isRefreshing ? '重试中' : '重试'}</button></p> : null}
       </section>
