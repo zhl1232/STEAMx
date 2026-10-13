@@ -5,15 +5,19 @@ import type { SpeciesAtlasTopicFilter } from '@/lib/nature-species-atlas'
 import styles from './species-atlas.module.css'
 
 /**
- * 头图：普通翠鸟（Alcedo atthis），摄影 Andreas Trepte（photo-natur.de），
- * 来源 Wikimedia Commons「File:Common_Kingfisher_Alcedo_atthis.jpg」，
- * 许可 CC BY-SA 2.5（https://creativecommons.org/licenses/by-sa/2.5/）。
- * 已改为 1800×1000 宽幅合成（原图背景虚化延展、翠鸟置右、整体色调略偏绿），webp；按许可要求在头图角落署名。
+ * 头图为两张 Wikimedia Commons 图片的合成（已修改：抠出翠鸟与树枝、水平翻转、叠到虚化枫叶背景上）：
+ * - 翠鸟与树枝：Alexis Lours，「File:Common kingfisher on a branch facing right.jpg」，CC BY 2.0
+ *   https://commons.wikimedia.org/wiki/File:Common_kingfisher_on_a_branch_facing_right.jpg
+ * - 绿叶虚化背景：Takashi Hososhima，「File:Spring maple leaves (8689469096).jpg」，CC BY-SA 2.0
+ *   https://commons.wikimedia.org/wiki/File:Spring_maple_leaves_(8689469096).jpg
+ * 合成图按 CC BY-SA 2.0 提供；按许可要求在头图角落署名并链接原图。
  */
 const HERO_PHOTO = {
-  src: '/assets/nature-atlas-hero-kingfisher-v3.webp',
-  credit: '图：Andreas Trepte / CC BY-SA 2.5',
-  sourceUrl: 'https://commons.wikimedia.org/wiki/File:Common_Kingfisher_Alcedo_atthis.jpg',
+  src: '/assets/nature-atlas-hero-kingfisher-v4.webp',
+  credits: [
+    { label: 'Alexis Lours / CC BY 2.0', href: 'https://commons.wikimedia.org/wiki/File:Common_kingfisher_on_a_branch_facing_right.jpg' },
+    { label: 'Takashi Hososhima / CC BY-SA 2.0', href: 'https://commons.wikimedia.org/wiki/File:Spring_maple_leaves_(8689469096).jpg' },
+  ],
 }
 
 const SUMMARIES: Record<SpeciesAtlasTopicFilter, string> = {
@@ -51,7 +55,7 @@ export function SpeciesAtlasHero({ topic, heading, stats, children }: {
           <div><dd>{stats.unobserved ?? '—'}</dd><dt>待观察</dt></div>
         </dl>
       </div>
-      <a href={HERO_PHOTO.sourceUrl} target="_blank" rel="noopener noreferrer" className={styles.heroCredit}>{HERO_PHOTO.credit}</a>
+      <p className={styles.heroCredit}>图：{HERO_PHOTO.credits.map((credit, index) => <span key={credit.href}>{index ? '；' : ''}<a href={credit.href} target="_blank" rel="noopener noreferrer">{credit.label}</a></span>)}（合成）</p>
     </header>
   )
 }

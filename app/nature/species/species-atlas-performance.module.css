@@ -20,7 +20,7 @@
   .tileCell { container-type: inline-size; }
   .performance.performance :global(.nature-atlas-tile) {
     content-visibility: auto;
-    contain-intrinsic-block-size: calc((100cqw - 2px) * 0.75 + var(--atlas-info-size));
+    contain-intrinsic-block-size: calc((100cqw - 2px) * 0.625 + var(--atlas-info-size));
   }
   /* 不用 auto 缓存高度：切换列表/图集后立即按新布局保留正确的空间。 */
   .performance.performance :global(.nature-atlas-grid)[data-singleton='true'] :global(.nature-atlas-tile),
