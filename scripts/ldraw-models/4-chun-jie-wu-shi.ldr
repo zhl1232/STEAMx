@@ -77,7 +77,7 @@
 0 // Both V4 lifts removed: mouth returns to one 48-LDU layer, neck to two layers.
 0 // Tongue X=-440..-280: 120 past lower jaw /80 past upper jaw; two studs grip the lower jaw.
 0 // Increased overhang is a review adaptation, not a source BOM addition; check clutch physically.
-1 4 -360 -208 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -208 0 1 0 0 0 1 0 0 0 1 3011.dat
 1 4 -160 -208 0 1 0 0 0 1 0 0 0 1 3437.dat
 1 14 -80 -208 0 0 0 -1 0 1 0 1 0 0 3011.dat
 1 14 -80 -256 0 0 0 -1 0 1 0 1 0 0 3011.dat
@@ -92,9 +92,8 @@
 0 // STEP 10 - slide-16 source: two yellow screw bricks and two yellow rear-crossbar bricks.
 0 // V5 width adaptation: add one yellow 76057; central face 4 to6 studs wide, rear bar stays8.
 0 // Face front remains one stud behind upper jaw; all bottoms Y=-256.
-1 14 -240 -304 -80 1 0 0 0 1 0 0 0 1 76057.dat
-1 14 -240 -304 0 1 0 0 0 1 0 0 0 1 76057.dat
-1 14 -240 -304 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -240 -304 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -240 -304 40 1 0 0 0 1 0 0 0 1 76057.dat
 1 14 -120 -304 -80 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 -120 -304 80 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
@@ -102,9 +101,8 @@
 0 // STEP 11 - slide-17 source: yellow screw bricks x2, red nose x1, grey crown x1.
 0 // V5 width adaptation: add one yellow 76057 to make a6-wide x4-deep face.
 0 // Two crosswise bricks bridge lower-face seams; third fills the remaining side strip.
-1 14 -240 -352 -40 0 0 1 0 1 0 -1 0 0 76057.dat
-1 14 -160 -352 -40 0 0 1 0 1 0 -1 0 0 76057.dat
-1 14 -200 -352 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -240 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 14 -160 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
 1 4 -240 -400 0 1 0 0 0 1 0 0 0 1 3437.dat
 1 72 -160 -400 0 0 0 1 0 1 0 -1 0 0 28336.dat
 0 STEP
@@ -112,17 +110,17 @@
 0 // STEP 12 - slide-18: yellow inside-curve ears x2, tall ends outward, 96 LDU high.
 0 // V5 ears move outward one stud each, Z=+/-180, bottoms Y=-304 on the rear bar.
 0 // Each ear grips two studs along one X row; rear/outer overhangs require physical review.
-1 14 -80 -400 -180 -1 0 0 0 1 0 0 0 -1 2301b.dat
-1 14 -80 -400 180 1 0 0 0 1 0 0 0 1 2301b.dat
+1 14 -80 -400 -140 -1 0 0 0 1 0 0 0 -1 2301b.dat
+1 14 -80 -400 140 1 0 0 0 1 0 0 0 1 2301b.dat
 0 STEP
 
 0 // STEP 13 - slide-19/20: grey cheek forks x2, grey rims/yellow screws x2, black tyres x2.
 0 // V5 each eye/fork moves outward40 with the wider face; eye centres (-264,-328,+/-144).
 0 // 99565/44970 retain prior approximate geometry; tyre width/spokes differ from courseware.
 0 // Fork bases meet yellow faces at Z=+/-120; Toolo screw/axle fits still require physical review.
-1 72 -200 -328 -168 1 0 0 0 0 -1 0 1 0 28336.dat
-1 71 -264 -328 -144 0 1 0 -1 0 0 0 0 1 99565.dat
-1 0 -264 -328 -144 0 1 0 -1 0 0 0 0 1 44970.dat
-1 72 -200 -328 168 -1 0 0 0 0 -1 0 -1 0 28336.dat
-1 71 -264 -328 144 0 1 0 -1 0 0 0 0 1 99565.dat
-1 0 -264 -328 144 0 1 0 -1 0 0 0 0 1 44970.dat
+1 72 -200 -328 -128 1 0 0 0 0 -1 0 1 0 28336.dat
+1 71 -264 -328 -104 0 1 0 -1 0 0 0 0 1 99565.dat
+1 0 -264 -328 -104 0 1 0 -1 0 0 0 0 1 44970.dat
+1 72 -200 -328 128 -1 0 0 0 0 -1 0 -1 0 28336.dat
+1 71 -264 -328 104 0 1 0 -1 0 0 0 0 1 99565.dat
+1 0 -264 -328 104 0 1 0 -1 0 0 0 0 1 44970.dat
