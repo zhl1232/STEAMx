@@ -65,11 +65,11 @@
 1 72 240 -216 -80 0 0 -1 0 1 0 1 0 0 28336.dat
 1 72 240 -216 80 0 0 -1 0 1 0 1 0 0 28336.dat
 0 STEP
-0 // SOURCE PAGE 7: four diagonal long arms; align end pivots with estimated geometry
-1 72 -192 -281 -80 0.828492607 0.56 0 0.56 -0.828492607 0 0 0 -1 dev-129/28334.dat
-1 72 -192 -281 80 0.828492607 0.56 0 0.56 -0.828492607 0 0 0 -1 dev-129/28334.dat
-1 72 192 -281 -80 0.828492607 -0.56 0 -0.56 -0.828492607 0 0 0 -1 dev-129/28334.dat
-1 72 192 -281 80 0.828492607 -0.56 0 -0.56 -0.828492607 0 0 0 -1 dev-129/28334.dat
+0 // SOURCE PAGE 7: four diagonal wide 2x6 arms (hand fix 2026-10-13: wide-cheek variant to match p7); end pivots unchanged
+1 72 -192 -281 -80 0.828492607 0.56 0 0.56 -0.828492607 0 0 0 -1 dev-129/74847-yao-yao-ma.dat
+1 72 -192 -281 80 0.828492607 0.56 0 0.56 -0.828492607 0 0 0 -1 dev-129/74847-yao-yao-ma.dat
+1 72 192 -281 -80 0.828492607 -0.56 0 -0.56 -0.828492607 0 0 0 -1 dev-129/74847-yao-yao-ma.dat
+1 72 192 -281 80 0.828492607 -0.56 0 -0.56 -0.828492607 0 0 0 -1 dev-129/74847-yao-yao-ma.dat
 0 STEP
 0 // SOURCE PAGE 8: four upper clutch blocks; tongue/pin interfaces manual
 1 72 -80 -506.698521 -80 0 0 1 0 1 0 -1 0 0 74957.dat

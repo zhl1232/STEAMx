@@ -61350,6 +61350,82 @@
         "Hand-authored 2026-10-13 from 4-wu-ren-ji courseware p6; real part 6670c01 (alias 86601 per earlier review). No LDraw geometry found; blade radius/shape estimated."
       ],
       "collisionPolicy": "manual"
+    },
+    "dev-129/44970-ya-lu-ji.dat": {
+      "name": "Duplo Toolo deep-tread tyre 44970 (4-ya-lu-ji copy of 4-shou-ge-ji approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -57.99961355072084,
+        "xMax": 57.99961355072084,
+        "yMin": -28,
+        "yMax": 28,
+        "zMin": -57.99961355072084,
+        "zMax": 57.99961355072084
+      },
+      "heightLdu": 56,
+      "origin": {
+        "type": "axle-center",
+        "axis": "Y"
+      },
+      "supportPolicy": "manual",
+      "notes": [
+        "Real catalogue ID: 44970. Used only by 4-shou-ge-ji.",
+        "User authorization 2026-10-13: approximate missing geometry from courseware; new isolated filename, no shared geometry edits.",
+        "Course pages2-9: estimated width56 LDU, diameter116 LDU. Existing shared simplified tyre is much thinner.",
+        "Hub intentionally sits inside tyre bore radius38; pair interface is manual, not a solid cylinder."
+      ],
+      "collisionPolicy": "manual"
+    },
+    "dev-129/drum-ya-lu-ji.dat": {
+      "name": "Duplo Toolo smooth roller drum half (4-ya-lu-ji local approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -90,
+        "xMax": 90,
+        "yMin": -90,
+        "yMax": 90,
+        "zMin": 0,
+        "zMax": 96
+      },
+      "heightLdu": 180,
+      "origin": {
+        "type": "axle-center",
+        "axis": "Z"
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Hand-authored 2026-10-13 from 4-ya-lu-ji courseware p12 (blue drum x2). Real part id not established; no LDraw geometry found. Radius/length estimated from frame blocks."
+      ]
+    },
+    "dev-129/74847-yao-yao-ma.dat": {
+      "name": "Duplo Toolo 2 x 6 fork arm wide (4-yao-yao-ma, x1.35 of dev-129/74847)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -40.5,
+        "xMax": 40.5,
+        "yMin": -30,
+        "yMax": 220,
+        "zMin": -25,
+        "zMax": 28.009999999999998
+      },
+      "origin": {
+        "type": "pivot-center",
+        "axis": "Z"
+      },
+      "heightLdu": 250,
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Real inventory ID74847 / design28334; source pages7-10, LEGO element6162840 photo retrieved2026-10-13: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162840.jpg",
+        "User authorized new source-based approximate geometry2026-10-13. Local searches found only existing simplified28334/74847; official/unofficial library28334/74847 requests returned403, so no exact redistributable mesh was obtained.",
+        "Derived from local CC BY4.0 dev-129/28334.dat; Preserves200LDU pivot spacing and48LDU cheek separation; widens the gray cheek profile to60LDU (250LDU overall length) to follow the source and official product silhouette. Adds1LDU relief panels and native crease lines; these are image-based estimates, not measured dimensions.",
+        "Manual support/collision retained from original approximate Toolo geometry; screw threads, clipping retention, hinge fit and moving clearance are unverified.",
+        "2026-10-13 4-yao-yao-ma: cheek width scaled 1.35 inside part file; pivots unchanged."
+      ]
     }
   }
 }

@@ -17,13 +17,13 @@
 0 STEP
 0 // SOURCE PAGE 2
 1 71 160 -57.378574 145 -1 0 0 0 0 1 0 1 0 99565.dat
-1 0 160 -57.378574 145 -1 0 0 0 0 1 0 1 0 44970.dat
+1 0 160 -57.378574 145 -1 0 0 0 0 1 0 1 0 dev-129/44970-ya-lu-ji.dat
 1 71 160 -57.378574 -145 -1 0 0 0 0 -1 0 -1 0 99565.dat
-1 0 160 -57.378574 -145 -1 0 0 0 0 -1 0 -1 0 44970.dat
+1 0 160 -57.378574 -145 -1 0 0 0 0 -1 0 -1 0 dev-129/44970-ya-lu-ji.dat
 1 71 -160 -57.378574 145 -1 0 0 0 0 1 0 1 0 99565.dat
-1 0 -160 -57.378574 145 -1 0 0 0 0 1 0 1 0 44970.dat
+1 0 -160 -57.378574 145 -1 0 0 0 0 1 0 1 0 dev-129/44970-ya-lu-ji.dat
 1 71 -160 -57.378574 -145 -1 0 0 0 0 -1 0 -1 0 99565.dat
-1 0 -160 -57.378574 -145 -1 0 0 0 0 -1 0 -1 0 44970.dat
+1 0 -160 -57.378574 -145 -1 0 0 0 0 -1 0 -1 0 dev-129/44970-ya-lu-ji.dat
 0 STEP
 0 // SOURCE PAGE 3
 1 14 200 -129.378574 0 0 0 -1 0 1 0 1 0 0 76057.dat
@@ -50,7 +50,8 @@
 1 4 -160 -345.378574 -40 -1 0 0 0 1 0 0 0 -1 40666.dat
 0 STEP
 0 // SOURCE PAGE 7
-0 // MISSING 4433c01 Toolo exhaust at left hood/cab edge; source-confirmed identity.
+0 // Hand fix 2026-10-13: 4433c01 exhaust standing on rear edge of yellow hood (existing dev-129 approximation).
+1 71 120 -241.378574 -60 1 0 0 0 0 -1 0 1 0 dev-129/4433c01.dat
 0 STEP
 0 // SOURCE PAGE 8
 1 15 -100 -177.378574 0 0 0 1 0 1 0 -1 0 0 47205.dat
@@ -81,5 +82,7 @@
 1 4 444 -153.378574 0 0 1 0 0 0 -1 -1 0 0 40666.dat
 0 STEP
 0 // SOURCE PAGE 12
-0 // MISSING blue roller cylinders x2, source p12; identity unresolved.
+0 // Hand fix 2026-10-13: two blue smooth drum halves (local approximation) around the front cross-member, axis Z.
+1 1 516 -153.378574 0 1 0 0 0 1 0 0 0 1 dev-129/drum-ya-lu-ji.dat
+1 1 516 -153.378574 -96 1 0 0 0 1 0 0 0 1 dev-129/drum-ya-lu-ji.dat
 0 // SOURCE PAGE13 final image, no new parts.
