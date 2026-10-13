@@ -382,11 +382,23 @@ function logFailure(input: {
   })
 }
 
-/** Only known hybrid tutor models accept false; fixed-thinking/custom models may reject it.
- * https://help.aliyun.com/en/model-studio/qwen-api-via-dashscope
+/** Hybrid Qwen3.5+ models default enable_thinking=true; turn it off for non-streaming
+ * JSON/vision calls so they finish inside DASHSCOPE_COMPLETE_TIMEOUT_MS.
+ * Fixed-thinking/custom models may reject the flag — skip those.
+ * https://help.aliyun.com/zh/model-studio/vision
  */
+const THINKING_OPTIONAL_ROLES: DashScopeModelRole[] = [
+  'tutor-text',
+  'tutor-planner',
+  'tutor-vision',
+  'vision',
+  'moderation',
+  'pbl-text',
+  'pbl-vision',
+]
+
 function tutorThinkingOptions(role: DashScopeModelRole, model: string) {
-  if (!['tutor-text', 'tutor-planner', 'tutor-vision'].includes(role)) return {}
+  if (!THINKING_OPTIONAL_ROLES.includes(role)) return {}
   const family = model.replace(/-(?:latest|\d{4}-\d{2}-\d{2})$/, '')
   return /^(?:qwen3\.[78]-(?:max|plus|flash)|qwen3-vl-(?:plus|flash)|qwen-flash)$/.test(family)
     ? { enable_thinking: false }

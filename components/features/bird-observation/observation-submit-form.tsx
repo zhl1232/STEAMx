@@ -948,9 +948,40 @@ export function ObservationSubmitForm({
         })
       } catch (error) {
         if (!controller.signal.aborted) {
+          const failureReason = error instanceof Error ? error.message : "请稍后重试"
+          // Mark failed URLs as error so we stop the「识别中」retry loop.
+          // Without this, missing analysis rows keep counting as pending and refetch forever.
+          setMediaAnalyses((current) => {
+            const nextByImage = new Map(
+              current
+                .filter((item) => evidenceImages.includes(item.imageUrl))
+                .map((item) => [item.imageUrl, item]),
+            )
+            for (const imageUrl of imageUrlsToAnalyze) {
+              if (!evidenceImages.includes(imageUrl)) continue
+              const existing = nextByImage.get(imageUrl)
+              if (existing && MEDIA_ANALYSIS_FINAL_STATUSES.has(existing.status) && existing.status !== "pending") {
+                continue
+              }
+              nextByImage.set(imageUrl, {
+                id: existing?.id,
+                imageUrl,
+                status: "error",
+                moderationPass: existing?.moderationPass ?? null,
+                moderationReason: failureReason,
+                qualityPass: null,
+                qualityReason: null,
+                noteSuggestion: null,
+                speciesCandidates: existing?.speciesCandidates ?? [],
+              })
+            }
+            return evidenceImages
+              .map((url) => nextByImage.get(url))
+              .filter((item): item is ObservationMediaAnalysis => Boolean(item))
+          })
           toast({
             title: "图片识别失败",
-            description: error instanceof Error ? error.message : "请稍后重试",
+            description: failureReason,
             variant: "destructive",
           })
         }
