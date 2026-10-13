@@ -305,6 +305,8 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '4-zhong-guo-long.ldr',
   // 2026-10-13 night: parts/colors match; camera pitch slightly flatter than courseware.
   '4-e-yu.ldr',
+  // 2026-10-13 night: body/tail match; front claws angle slightly off.
+  '4-xie-zi.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
