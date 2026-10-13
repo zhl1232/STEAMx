@@ -51,13 +51,10 @@ export function HomeWorksSection({ initialData }: { initialData: WorksBatch }) {
 
   return (
     <section className="min-w-0" aria-labelledby="home-works-heading">
-      <div className="mb-2 flex items-center justify-between md:mb-3">
-        <div>
-          <p className="hidden text-[11px] font-bold text-[hsl(var(--brand-blue))] md:block">社区正在创作</p>
-          <h2 id="home-works-heading" className="text-[17px] font-extrabold text-foreground md:mt-1 md:text-[20px]">
-            大家的新作品
-          </h2>
-        </div>
+      <div className="mb-2 flex items-center justify-between md:mb-3 md:min-h-11">
+        <h2 id="home-works-heading" className="text-[17px] font-extrabold text-foreground md:text-[20px]">
+          大家的作品
+        </h2>
         {works.length > 0 && canRotate ? (
           <button
             type="button"
@@ -72,7 +69,7 @@ export function HomeWorksSection({ initialData }: { initialData: WorksBatch }) {
         ) : null}
       </div>
       {works.length > 0 ? (
-        <WorkCardGrid works={works} className="md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 [&>a:nth-child(n+5)]:hidden lg:[&>a:nth-child(n+5)]:flex" imageClassName="lg:aspect-[4/3]" />
+        <WorkCardGrid works={works} variant="showcase" className="md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 [&>a:nth-child(n+5)]:hidden lg:[&>a:nth-child(n+5)]:flex" imageClassName="lg:aspect-[4/3]" />
       ) : (
         <div className="grid min-h-[180px] place-items-center rounded-sm border border-dashed border-border bg-card/45 px-5 text-center">
           <div>
