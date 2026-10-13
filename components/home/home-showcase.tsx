@@ -89,15 +89,15 @@ function HomeHero({ image }: { image: string }) {
   return (
     <section className="surface-card relative overflow-hidden rounded-sm">
       <div className="relative">
+        {/* 手机：照片铺满卡片，顶部只留轻量遮罩护字；深色不再用整块深色卡片色压照片。 */}
         <Image
           src={image}
           alt=""
-          width={1672}
-          height={941}
+          fill
           priority
           loading="eager"
           sizes="(max-width: 768px) 100vw, 1800px"
-          className="absolute inset-x-0 bottom-0 h-[124px] w-full object-cover object-[74%_62%] md:hidden"
+          className="object-cover object-[74%_42%] md:hidden"
         />
         <Image
           src={heroWideImage}
@@ -108,14 +108,16 @@ function HomeHero({ image }: { image: string }) {
           sizes="1800px"
           className="hidden object-cover object-[69%_center] md:block md:object-[70%_center] lg:object-[73%_center] xl:object-[75%_center] md:[mask-image:linear-gradient(90deg,transparent_0%,transparent_43%,black_76%,black_100%)] lg:[mask-image:linear-gradient(90deg,transparent_0%,transparent_32%,black_64%,black_100%)] xl:[mask-image:linear-gradient(90deg,transparent_0%,transparent_26%,black_58%,black_100%)]"
         />
-        {/* 浅色：白卡向下融进照片；深色：只做很轻的压暗，避免乌云压顶把孩子照片盖死。 */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[124px] bg-[linear-gradient(180deg,hsl(var(--surface-raised))_0%,hsl(var(--surface-raised)/0.82)_18%,hsl(var(--surface-raised)/0.18)_44%,transparent_68%)] dark:bg-[linear-gradient(180deg,rgba(0,0,0,0.14)_0%,rgba(0,0,0,0.05)_18%,transparent_40%)] md:hidden" />
+        <div
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.88)_0%,hsl(var(--surface-raised)/0.55)_28%,hsl(var(--surface-raised)/0.12)_58%,transparent_78%)] dark:bg-[linear-gradient(180deg,rgba(8,14,24,0.55)_0%,rgba(8,14,24,0.28)_32%,rgba(8,14,24,0.08)_58%,transparent_78%)] md:hidden"
+          aria-hidden="true"
+        />
 
         <div className="relative z-10 flex min-h-[200px] flex-col justify-start px-4 pb-[88px] pt-5 md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
           <div className="min-w-0 max-w-[440px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[550px]">
             {/* One H1; CSS selects the visible copy without a viewport-dependent hydration pass. */}
             <h1
-              className="font-heading text-[clamp(1.375rem,6vw,1.5rem)] font-semibold leading-[1.3] tracking-normal text-foreground md:text-[32px] md:font-black md:leading-[1.18] lg:text-[40px] xl:text-[44px]"
+              className="font-heading text-[clamp(1.375rem,6vw,1.5rem)] font-semibold leading-[1.3] tracking-normal text-foreground dark:drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)] md:text-[32px] md:font-black md:leading-[1.18] lg:text-[40px] xl:text-[44px]"
             >
               <span className="md:hidden">陪孩子，一起动手做</span>
               <span className="hidden md:block">
