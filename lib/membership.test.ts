@@ -97,10 +97,10 @@ describe('membership helpers', () => {
   })
 
   it('uses daily credits for free users and separate monthly grants for member tiers', () => {
-    expect(FREE_AI_DAILY_CREDITS).toBe(300)
+    expect(FREE_AI_DAILY_CREDITS).toBe(150)
     expect(FREE_AI_PER_REQUEST_CREDIT_CAP).toBe(100)
     expect(MEMBER_AI_MONTHLY_CREDITS).toBe(15_000)
     expect(FOUNDER_AI_MONTHLY_CREDITS).toBe(20_000)
-    expect(getMembershipSummary({ membership_tier: 'founder', membership_period: 'monthly' }, now).quota).toBe(300)
+    expect(getMembershipSummary({ membership_tier: 'founder', membership_period: 'monthly' }, now).quota).toBe(150)
   })
 })
