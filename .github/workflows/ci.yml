@@ -52,4 +52,4 @@ jobs:
         run: pnpm run build
 
       - name: Run smoke E2E
-        run: pnpm exec playwright test e2e/smoke.spec.ts --project=chromium
+        run: pnpm exec playwright test e2e/smoke.spec.ts e2e/learning-guides.spec.ts --project=chromium
