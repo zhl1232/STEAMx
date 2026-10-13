@@ -1,4 +1,5 @@
-import { BRAND_HERO_STATEMENT, BRAND_NAME } from "@/lib/brand";
+import { BRAND_NAME } from "@/lib/brand";
+import { PLATFORM_SUPPORT_HREF } from "@/lib/product/support";
 
 export type AnnouncementLevel = "normal" | "important" | "urgent";
 export type AnnouncementStatus = "draft" | "published" | "withdrawn";
@@ -32,8 +33,8 @@ export const DEFAULT_WELCOME_SETTINGS: WelcomeSettings = {
   title: `欢迎来到${BRAND_NAME}`,
   // Keep the persisted welcome default independent of homepage marketing copy.
   // A welcome-copy change must also account for the existing database settings.
-  body: `${BRAND_HERO_STATEMENT}${BRAND_NAME}是少儿 STEAM 项目式学习平台：你可以探索积木搭建、Scratch 编程、科学实验、自然观察、PBL 挑战和游乐场，遇到问题随时联系我们。`,
-  contact_href: "/about#contact",
+  body: "和孩子选一件想做的事，一起动手试试。",
+  contact_href: PLATFORM_SUPPORT_HREF,
 };
 
 export const COMMUNICATION_SYSTEM_KINDS = ["welcome", "announcement"] as const;

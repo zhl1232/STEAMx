@@ -91,7 +91,7 @@ describe('AI credit service RPC contract', () => {
       freeDaily: 300, freeRemainingToday: 300, dailyPeriod: '2026-10-12' }, error: null })
     const status = await getAiCreditStatusForProfile({ rpc } as never, { membership_tier: 'founder', membership_period: 'founder' })
     expect(status.monthlyGrant).toBe(20_000)
-    expect(rpc).toHaveBeenCalledWith('get_ai_credit_status', { p_is_member: true, p_monthly_grant: 20_000, p_free_daily: 300 })
+    expect(rpc).toHaveBeenCalledWith('get_ai_credit_status', { p_is_member: true, p_monthly_grant: 20_000, p_free_daily: 150 })
   })
 
   it('does not relabel an old count response or non-finite balances as daily credits', async () => {

@@ -21,8 +21,8 @@ export type MembershipSummary = {
   expiresAt: string | null
 }
 
-/** 每个账号每日赠送的 AI 代币；北京时间当日有效，不累计。 */
-export const FREE_AI_DAILY_CREDITS = 300
+/** 普通用户（非会员）每日赠送的 AI 代币；北京时间当日有效，零点重置，不累计。会员不领取。 */
+export const FREE_AI_DAILY_CREDITS = 150
 /** 小迪使用日赠代币时，单轮最多扣减的代币。 */
 export const FREE_AI_PER_REQUEST_CREDIT_CAP = 100
 /** @deprecated 仅供历史按次凭证兼容；当前权益使用 FREE_AI_DAILY_CREDITS。 */

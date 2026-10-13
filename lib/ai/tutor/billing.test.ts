@@ -18,15 +18,18 @@ describe('public tutor credit receipts', () => {
       .toEqual({ source: 'free', chargedCredits: 42.31, receiptId: 13 })
   })
 
-  it('shows daily and monthly balances as separate credits with the server tier allowance', () => {
+  it('shows daily grant for free users and only the monthly wallet for members', () => {
     const quota: AiCreditStatus = { creditUnit: 'credits', isMember: false, walletBalance: 0, monthlyGrant: 0,
-      freeDaily: 300, freeUsedToday: 12.34, freeRemainingToday: 287.66, dailyChargeCap: 100, dailyPeriod: '2026-10-12',
+      freeDaily: 150, freeUsedToday: 12.34, freeRemainingToday: 137.66, dailyChargeCap: 100, dailyPeriod: '2026-10-13',
       grantPeriod: '', dayResetAt: 0, canChat: true }
-    expect(formatTutorQuota(quota)).toBe('今日赠送 287.66/300 代币\n每次最多使用 100 赠送代币')
-    expect(formatTutorQuota({ ...quota, isMember: true, walletBalance: 1500, monthlyGrant: 20000 }))
-      .toBe('本月 1,500/20,000 代币\n今日赠送 287.66/300 代币')
-    expect(formatTutorQuota({ ...quota, isMember: true, walletBalance: 0, monthlyGrant: 20000 }))
-      .toBe('今日赠送 287.66/300 代币\n每次最多使用 100 赠送代币')
+    expect(formatTutorQuota(quota)).toBe('今日赠送 137.66/150 代币\n每次最多使用 100 赠送代币')
+    // Stale freeDaily>0 on a member must still hide the daily line.
+    expect(formatTutorQuota({ ...quota, isMember: true, walletBalance: 1314.494, monthlyGrant: 20000,
+      freeDaily: 300, freeRemainingToday: 300 }))
+      .toBe('本月 1,314.49/20,000 代币')
+    expect(formatTutorQuota({ ...quota, isMember: true, walletBalance: 0, monthlyGrant: 20000,
+      freeDaily: 300, freeRemainingToday: 300 }))
+      .toBe('本月 0/20,000 代币')
     expect(formatTutorQuota({ ...quota, creditUnit: undefined } as unknown as AiCreditStatus)).toBeNull()
   })
 
@@ -39,10 +42,16 @@ describe('public tutor credit receipts', () => {
     expect(parseTutorBilling(null)).toBeUndefined()
   })
 
-  it('preserves small new and historical charges without rounding each reply up to a credit', () => {
-    expect(formatTutorCredits(0.001)).toBe('0.001')
+  it('shows at most two decimal places for credit amounts', () => {
+    expect(formatTutorCredits(0.001)).toBe('0')
     expect(formatTutorCredits(0.01)).toBe('0.01')
     expect(formatTutorCredits(0.1 + 0.2)).toBe('0.3')
+    expect(formatTutorCredits(1314.494)).toBe('1,314.49')
     expect(formatTutorCredits(1499.9)).toBe('1,499.9')
+  })
+  it('shows only the monthly wallet for members without a daily grant', () => {
+    const quota = { isMember: true, walletBalance: 1500, monthlyGrant: 15000, grantPeriod: '2026-10', creditUnit: 'credits',
+      freeDaily: 0, freeUsedToday: 0, freeRemainingToday: 0, dailyChargeCap: 100, dailyPeriod: '2026-10-13' } as never
+    expect(formatTutorQuota(quota)).toBe('本月 1,500/15,000 代币')
   })
 })
