@@ -12,6 +12,7 @@
 | [AI 开发规范](AI_DEVELOPMENT_GUIDELINES.md) | 模型决策与服务端确定性边界 |
 | [小迪代币计费](ai/tutor-credit-accounting.md) | 会员月度与每日赠币、实际模型用量、代币结算、客户展示与语音成本边界 |
 | [设计规范](design-system.md) | 布局、组件、字体和样式约定 |
+| [品牌源素材](brand-assets/README.md) | 非运行时品牌导出稿、配色备选与统一 Logo 入口 |
 | [PBL 指南](PBL_CHALLENGE_GUIDE.md) | 挑战内容生产与当前系统规则 |
 | [互动资格与内容访问](TRUST_AND_INTERACTION_ACCESS.md) | 能力矩阵、登录与账号限制、权限实现 |
 | [商城渠道决策](STORE_CHANNEL_FULFILLMENT_DECISION.md) | 站内交易准备、人工采购与供应商代发；支付及开售条件 |
@@ -42,6 +43,8 @@
 | [站点地图检查模板](seo-sitemap-check-template.csv) | 分别记录公开技术检查、Google 实时测试和后台 sitemap 读取结果 |
 
 ## 待办与历史
+
+- [旧昆虫工具归档](archive/scripts/2026-10-13/README.md)：缺少输入且无其他仓库调用的两个旧入口，保留原始源代码快照；不代表生产数据清理已完成。
 
 - [下一步](next-step.md)：集中维护当前任务、优先级和关闭条件；网站试推广与商城准备并行，已完成事项回到模块说明。
 - 待验收和专项依据：[会员开售差异](MEMBERSHIP_PAGE_HANDOFF.md)。科学五页样板与科学扩展批次已归档，见下方历史记录；其中未完成项仍由 [下一步](next-step.md) 承接。
