@@ -307,6 +307,8 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '4-e-yu.ldr',
   // 2026-10-13 night: body/tail match; front claws angle slightly off.
   '4-xie-zi.ldr',
+  // night5: camera 1.3,1.05,-1.3; wings 40°/48°, probe 60°; overlay OK, minor tail/probe ghost
+  '4-you-wen.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
