@@ -34,7 +34,6 @@ const siteFooterColumns = [
       { label: "提交反馈", href: "/about#feedback" },
       { label: "服务条款", href: "/legal/terms" },
       { label: "隐私政策", href: "/legal/privacy" },
-      { label: "图片来源", href: "/credits" },
     ],
   },
 ] as const;
@@ -96,10 +95,6 @@ export function SiteFooter() {
           />
           <span>{POLICE_FILING_NUMBER}</span>
         </a>
-        <span aria-hidden="true" className="md:hidden">·</span>
-        <Link href="/credits" className={`${filingLinkClassName} md:hidden`}>
-          图片来源
-        </Link>
       </div>
     </footer>
   );
