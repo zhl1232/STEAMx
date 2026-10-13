@@ -2,7 +2,7 @@
 
 # 创探空间 — 项目功能索引
 
-> 语音 3.1 升级（独立分支，未部署）：`lib/ai/tutor/speech-task.ts` 接入 Qwen Audio 3.1 TTS/ASR 的任务 WebSocket 协议，保持整段输出清洗边界；北京业务空间配置、显式旧协议回滚见 `docs/ai/voice-31-upgrade.md`。`voice-catalog.ts` 提供默认叶知晴与七个男女音色白名单，`voice-access.ts` 每次以 profiles 会员状态校验账号偏好，`/api/tutor/speech/voices` 查询/保存到本人 auth user_metadata，元数据不作为会员证明。面板增加会员试听/选择；内存音频缓存按用户、实际音色、消息和文本隔离，停止/切换/过期清理，PCM 原生 WAV 回退复用原始字节，不重复合成。`20261013090000_tutor_speech_budget.sql` 提供仅 service_role 可调用的共享滚动限流（TTS 180、ASR 600/60 秒）；需与应用协调发布，尚未应用。实声与真机验收不由 mock 测试代替。
+> 语音 3.1 升级：`lib/ai/tutor/speech-task.ts` 接入 Qwen Audio 3.1 TTS/ASR 的任务 WebSocket 协议，保持整段输出清洗边界；优先复用北京专属域名、保留旧北京入口兼容；配置与显式旧协议回滚见 `docs/ai/voice-31-upgrade.md`。`voice-catalog.ts` 提供默认叶知晴与七个男女音色白名单，`voice-access.ts` 每次以 profiles 会员状态校验账号偏好，`/api/tutor/speech/voices` 查询/保存到本人 auth user_metadata，元数据不作为会员证明。面板增加会员试听/选择；内存音频缓存按用户、实际音色、消息和文本隔离，停止/切换/过期清理，PCM 原生 WAV 回退复用原始字节，不重复合成。`20261013090000_tutor_speech_budget.sql` 提供仅 service_role 可调用的共享滚动限流（TTS 180、ASR 600/60 秒）；需与应用协调发布，尚未应用。实声与真机验收不由 mock 测试代替。
 
 > 手机积木搭建体验（2026-10-12）：积木目录卡片在手机显示成品图；`building-3d-workspace.tsx` 复用 `PartThumbnail` 将模型、本步零件形状与数量紧凑呈现。新增 `lib/utils/ldraw-step-highlight.ts` 在真实 LDraw 搭建中将已完成步骤的边线透明度乘以 0.25，保留本步经共享边线工具准备后的材质，以轮廓清晰度提示新增结构；不改变线色、积木面色、几何、条件线视角显隐或绘制批次。普通翻步保留相机；`lesson-page-client.tsx` 按 `buildBuildingLessonFlow` 判断连续搭建页并保留整页滚动位置，跨到课件/视频仍从页首阅读。首次加载中也接收新步骤，迟到模型不得改回旧步骤。新增明确开启的“语音搭建”：有限口令翻页、回看、暂停和退出，复用当前展示页序并保留原观察角度；局部声音检测仅用于切段，语音仍需联网识别。实现、成本与真机验收边界见 [手机积木搭建体验](docs/courses/mobile-building-experience.md)；本批尚未生产发布。
 

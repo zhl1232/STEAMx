@@ -22,6 +22,7 @@ beforeEach(() => {
   vi.stubEnv('DASHSCOPE_WORKSPACE_ID', 'test-workspace')
   vi.stubEnv('DASHSCOPE_TUTOR_AUDIO_WS_URL', '')
   vi.stubEnv('DASHSCOPE_TUTOR_AUDIO_PROTOCOL', '')
+  for (const key of ['DASHSCOPE_BASE_URL', 'DASHSCOPE_TUTOR_TTS_URL', 'DASHSCOPE_TUTOR_TTS_WS_URL', 'DASHSCOPE_TUTOR_ASR_WS_URL']) vi.stubEnv(key, '')
   mocks.reserve.mockResolvedValue(undefined)
 })
 afterEach(() => { vi.unstubAllEnvs(); vi.useRealTimers(); vi.clearAllMocks(); mocks.sockets.length = 0 })
@@ -131,11 +132,48 @@ describe('Qwen Audio 3.1 task protocol', () => {
     await expect(promise).rejects.toMatchObject({ status: 499 })
     expect(ws.close).toHaveBeenCalledOnce()
   })
-  it('rejects missing configuration, wrong regions and unknown voices before any call', () => {
+  it('retains the existing Beijing default and new task model without requiring a Workspace ID', async () => {
     vi.stubEnv('DASHSCOPE_WORKSPACE_ID', '')
-    expect(speechTaskUrl).toThrow('Missing DASHSCOPE_WORKSPACE_ID')
+    expect(speechTaskUrl()).toBe('wss://dashscope.aliyuncs.com/api-ws/v1/inference')
+    const session = createTaskTtsSession({ onAudio: vi.fn() })
+    const ws = await socket()
+    expect(ws.sent[0]).toMatchObject({ header: { action: 'run-task' }, payload: { model: TTS_MODEL } })
+    session.abort()
+    await expect(session.ready).rejects.toMatchObject({ status: 499 })
+  })
+  it('rejects wrong regions and unknown voices before any call', () => {
+    vi.stubEnv('DASHSCOPE_WORKSPACE_ID', '')
     vi.stubEnv('DASHSCOPE_TUTOR_AUDIO_WS_URL', 'wss://example.ap-southeast-1.maas.aliyuncs.com/api-ws/v1/inference')
     expect(speechTaskUrl).toThrow('Invalid Beijing')
     expect(() => createTaskTtsSession({ onAudio: vi.fn(), voice: 'Ethan' })).toThrow('Unsupported voice')
+  })
+  it('accepts official ws-prefixed workspace hosts and prioritizes them over the old Beijing host', () => {
+    vi.stubEnv('DASHSCOPE_WORKSPACE_ID', 'ws-example123')
+    vi.stubEnv('DASHSCOPE_BASE_URL', 'https://dashscope.aliyuncs.com/compatible-mode/v1')
+    expect(speechTaskUrl()).toBe('wss://ws-example123.cn-beijing.maas.aliyuncs.com/api-ws/v1/inference')
+    vi.stubEnv('DASHSCOPE_WORKSPACE_ID', '')
+    vi.stubEnv('DASHSCOPE_TUTOR_AUDIO_WS_URL', 'wss://ws-example123.cn-beijing.maas.aliyuncs.com/api-ws/v1/inference')
+    expect(speechTaskUrl()).toBe('wss://ws-example123.cn-beijing.maas.aliyuncs.com/api-ws/v1/inference')
+  })
+  it('prefers an existing dedicated API Host and translates old realtime paths', () => {
+    vi.stubEnv('DASHSCOPE_WORKSPACE_ID', '')
+    vi.stubEnv('DASHSCOPE_TUTOR_ASR_WS_URL', 'wss://dashscope.aliyuncs.com/api-ws/v1/realtime')
+    vi.stubEnv('DASHSCOPE_BASE_URL', 'https://llm-example.cn-beijing.maas.aliyuncs.com/compatible-mode/v1')
+    expect(speechTaskUrl()).toBe('wss://llm-example.cn-beijing.maas.aliyuncs.com/api-ws/v1/inference')
+    vi.stubEnv('DASHSCOPE_BASE_URL', '')
+    vi.stubEnv('DASHSCOPE_TUTOR_ASR_WS_URL', 'wss://llm-old.cn-beijing.maas.aliyuncs.com/api-ws/v1/realtime')
+    expect(speechTaskUrl()).toBe('wss://llm-old.cn-beijing.maas.aliyuncs.com/api-ws/v1/inference')
+  })
+  it.each([
+    'wss://dashscope-intl.aliyuncs.com/api-ws/v1/realtime',
+    'wss://dashscope.aliyuncs.com.evil.example/api-ws/v1/realtime',
+    'ws://dashscope.aliyuncs.com/api-ws/v1/realtime',
+    'wss://user:password@dashscope.aliyuncs.com/api-ws/v1/realtime',
+    'wss://trial.cn-beijing.maas.aliyuncs.com/api-ws/v1/realtime',
+    'wss://dashscope.aliyuncs.com:8443/api-ws/v1/realtime',
+  ])('does not reinterpret unsafe or non-Beijing legacy config: %s', (url) => {
+    vi.stubEnv('DASHSCOPE_WORKSPACE_ID', '')
+    vi.stubEnv('DASHSCOPE_TUTOR_ASR_WS_URL', url)
+    expect(speechTaskUrl).toThrow('Invalid Beijing audio endpoint')
   })
 })

@@ -9,19 +9,43 @@ export const ASR_MODEL = 'qwen-audio-3.1-asr-flash-streaming'
 
 export function speechTaskUrl() {
   const workspace = process.env.DASHSCOPE_WORKSPACE_ID?.trim()
-  const configured = process.env.DASHSCOPE_TUTOR_AUDIO_WS_URL
-  if (configured) {
-    const url = new URL(configured)
-    if (url.protocol !== 'wss:' || !/^[a-zA-Z0-9-]+\.cn-beijing\.maas\.aliyuncs\.com$/.test(url.hostname)
-      || url.pathname !== '/api-ws/v1/inference' || url.username || url.password || url.search || url.hash) {
+  const taskPath = '/api-ws/v1/inference'
+  const legacyHost = 'dashscope.aliyuncs.com'
+  const isDedicated = (host: string) => /^[a-z0-9-]+\.cn-beijing\.maas\.aliyuncs\.com$/.test(host)
+    && !/^(trial|token-plan|coding)\./.test(host)
+  const readHost = (value: string, protocol: string, paths: string[]) => {
+    let url: URL
+    try { url = new URL(value) } catch { throw new TutorSpeechError('Invalid Beijing audio endpoint', undefined, 503) }
+    if (url.protocol !== protocol || !(url.hostname === legacyHost || isDedicated(url.hostname))
+      || !paths.includes(url.pathname.replace(/\/$/, '')) || url.port || url.username || url.password || url.search || url.hash) {
       throw new TutorSpeechError('Invalid Beijing audio endpoint', '语音服务地域配置需要更新。', 503)
     }
-    return url.toString()
+    return url.hostname
   }
-  if (!workspace || !/^[a-zA-Z0-9-]+$/.test(workspace)) {
-    throw new TutorSpeechError('Missing DASHSCOPE_WORKSPACE_ID', '语音服务尚未配置完成。', 503)
+  const explicit = process.env.DASHSCOPE_TUTOR_AUDIO_WS_URL?.trim()
+  const explicitHost = explicit ? readHost(explicit, 'wss:', [taskPath]) : undefined
+  if (explicitHost && isDedicated(explicitHost)) return `wss://${explicitHost}${taskPath}`
+  if (workspace) {
+    if (!/^[a-zA-Z0-9-]+$/.test(workspace) || /^(trial|token-plan|coding)$/i.test(workspace)) {
+      throw new TutorSpeechError('Invalid DASHSCOPE_WORKSPACE_ID', undefined, 503)
+    }
+    return `wss://${workspace}.cn-beijing.maas.aliyuncs.com${taskPath}`
   }
-  return `wss://${workspace}.cn-beijing.maas.aliyuncs.com/api-ws/v1/inference`
+  // Reuse already configured Beijing API Hosts, translating only the API path.
+  // Reject overseas/unknown hosts instead of guessing a region or leaking credentials.
+  const hosts = [explicitHost]
+  for (const key of ['DASHSCOPE_TUTOR_TTS_WS_URL', 'DASHSCOPE_TUTOR_ASR_WS_URL']) {
+    const value = process.env[key]?.trim()
+    if (value) hosts.push(readHost(value, 'wss:', [taskPath, '/api-ws/v1/realtime']))
+  }
+  const base = process.env.DASHSCOPE_BASE_URL?.trim()
+  if (base) hosts.push(readHost(base, 'https:', ['/compatible-mode/v1', '/api/v1']))
+  const tts = process.env.DASHSCOPE_TUTOR_TTS_URL?.trim()
+  if (tts) hosts.push(readHost(tts, 'https:', ['/api/v1/services/aigc/multimodal-generation/generation', '/api/v1/services/audio/tts/speech-synthesizer']))
+  const host = hosts.find((value) => value && isDedicated(value)) ?? hosts.find(Boolean) ?? legacyHost
+  // No override retains this project's established Beijing default. The legacy
+  // domain is officially supported for existing workloads, not live-tested here.
+  return `wss://${host}${taskPath}`
 }
 
 type TaskEvent = {

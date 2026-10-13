@@ -329,12 +329,20 @@ export function useTutorVoice({
       if (streamedGotAudioRef.current) setPlayingSpeechKey(speechKey)
     }
     const buffered = audioBufferRef.current
-    if (complete && !buffered.complete && buffered.size && speechKey) {
+    // Native playback starts only after a complete stream. A truncated/empty
+    // stream has no player that can fire onEnded, so release it here instead.
+    // Later chat-finalization calls must not stop an already completed WAV.
+    if (nativeRequiredRef.current && !buffered.complete && (!complete || !buffered.size)) {
+      stopSpeechPlayback()
+      return false
+    }
+    const activeSpeechKey = streamedSpeechKeyRef.current
+    if (complete && !buffered.complete && buffered.size) {
       buffered.complete = true
       const blob = pcmWav(buffered.chunks, buffered.sampleRate)
-      audioCacheRef.current.put(JSON.stringify([userIdRef.current, buffered.voice, speechKey, text]), blob)
+      audioCacheRef.current.put(JSON.stringify([userIdRef.current, buffered.voice, activeSpeechKey, text]), blob)
       if (nativeRequiredRef.current) {
-        void playNativeRef.current?.(blob, speechKey, speechRequestIdRef.current).catch(() => stopSpeechPlayback())
+        void playNativeRef.current?.(blob, activeSpeechKey, speechRequestIdRef.current).catch(() => stopSpeechPlayback())
       }
     }
     if (!nativeRequiredRef.current) getPcmPlayer().markStreamComplete()
