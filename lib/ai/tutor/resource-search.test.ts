@@ -1,12 +1,24 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { chatWithTutorComplete } from '@/lib/ai/tutor/engine'
-import { formatTutorResourceSearch, searchTutorResources } from '@/lib/ai/tutor/resource-search'
+import {
+  expandBrickMaterialQueries,
+  formatTutorResourceSearch,
+  searchTutorResources,
+} from '@/lib/ai/tutor/resource-search'
 import {
   TUTOR_RESOURCE_TYPES,
   parseTutorResourceSearchPlanForTest,
   planTutorResourceSearch,
 } from '@/lib/ai/tutor/resource-search-planner'
+
+const { getContentClassificationSettings } = vi.hoisted(() => ({
+  getContentClassificationSettings: vi.fn(),
+}))
+
+vi.mock('@/lib/content-classification', () => ({
+  getContentClassificationSettings,
+}))
 
 vi.mock('@/lib/ai/tutor/engine', () => ({
   chatWithTutorComplete: vi.fn(),
@@ -36,18 +48,18 @@ describe('tutor resource search planner', () => {
   it('keeps a structured clarification for an ambiguous resource request', () => {
     expect(
       parseTutorResourceSearchPlanForTest(
-        '{"shouldSearch":true,"queries":[],"resourceTypes":["course","project"],"clarification":{"prompt":"你说的积木更接近哪一种？","options":[{"id":"general-bricks","label":"通用积木搭建"},{"id":"large-bricks","label":"大颗粒积木"},{"id":"lego-compatible","label":"兼容乐高的积木/零件"}]}}',
+        '{"shouldSearch":true,"queries":[],"resourceTypes":["course","project"],"clarification":{"prompt":"你更想搭哪一类主题？","options":[{"id":"vehicles","label":"小车轮船"},{"id":"animals","label":"动物造型"},{"id":"buildings","label":"建筑场景"}]}}',
       ),
     ).toEqual({
       shouldSearch: true,
       queries: [],
       resourceTypes: ['course', 'project'],
       clarification: {
-        prompt: '你说的积木更接近哪一种？',
+        prompt: '你更想搭哪一类主题？',
         options: [
-          { id: 'general-bricks', label: '通用积木搭建' },
-          { id: 'large-bricks', label: '大颗粒积木' },
-          { id: 'lego-compatible', label: '兼容乐高的积木/零件' },
+          { id: 'vehicles', label: '小车轮船' },
+          { id: 'animals', label: '动物造型' },
+          { id: 'buildings', label: '建筑场景' },
         ],
       },
     })
@@ -56,18 +68,29 @@ describe('tutor resource search planner', () => {
   it('normalizes common model aliases and string options', () => {
     expect(
       parseTutorResourceSearchPlanForTest(
-        '{"needsClarification":true,"shouldSearch":true,"queries":[],"resourceTypes":["course"],"clarification":{"question":"你想找哪种积木？","choices":["通用积木搭建","大颗粒积木","兼容乐高的积木/零件"]}}',
+        '{"needsClarification":true,"shouldSearch":true,"queries":[],"resourceTypes":["course"],"clarification":{"question":"想先看哪个年龄段？","choices":["小班大颗粒","中班大颗粒","大班大颗粒"]}}',
       ),
     ).toMatchObject({
       clarification: {
-        prompt: '你想找哪种积木？',
+        prompt: '想先看哪个年龄段？',
         options: [
-          { label: '通用积木搭建' },
-          { label: '大颗粒积木' },
-          { label: '兼容乐高的积木/零件' },
+          { label: '小班大颗粒' },
+          { label: '中班大颗粒' },
+          { label: '大班大颗粒' },
         ],
       },
     })
+  })
+
+  it('planner prompt forbids mutually exclusive brick-spec options', async () => {
+    vi.mocked(chatWithTutorComplete).mockResolvedValue(
+      '{"shouldSearch":true,"queries":["大颗粒积木"],"resourceTypes":["course"]}',
+    )
+    await planTutorResourceSearch('有没有乐高轮船的课程')
+    const [systemPrompt] = vi.mocked(chatWithTutorComplete).mock.calls[0] ?? []
+    expect(systemPrompt).toContain('绝不要拆成互斥的三种规格选项')
+    expect(systemPrompt).toContain('大颗粒积木，也就是兼容乐高')
+    expect(systemPrompt).not.toContain('选项 id 可用 general-bricks、large-bricks、lego-compatible')
   })
 
   it('也允许非资源问题先澄清，但保留 shouldSearch=false', () => {
@@ -185,6 +208,11 @@ function createFakeSupabase(
 }
 
 describe('searchTutorResources', () => {
+  beforeEach(() => {
+    getContentClassificationSettings.mockReset()
+    getContentClassificationSettings.mockResolvedValue({ publicV1Enabled: false, enforcementEnabled: false })
+  })
+
   it('searches courses, lesson titles, and projects with bounded metadata queries', async () => {
     const { client, calls } = createFakeSupabase(({ table, byIds }) => {
       if (table === 'course_lessons') {
@@ -369,14 +397,66 @@ describe('searchTutorResources', () => {
         queries: [],
         resourceTypes: ['course', 'project'],
         clarification: {
-          prompt: '你说的积木更接近哪一种？',
+          prompt: '你更想搭哪一类主题？',
           options: [
-            { id: 'general-bricks', label: '通用积木搭建' },
-            { id: 'large-bricks', label: '大颗粒积木' },
+            { id: 'vehicles', label: '小车轮船' },
+            { id: 'animals', label: '动物造型' },
           ],
         },
       }),
     ).resolves.toBeNull()
+  })
+
+  it('still searches courses when brick-material queries only asked for projects', async () => {
+    const { client, calls } = createFakeSupabase(({ table, filter, byIds }) => {
+      if (table === 'courses' && !byIds && filter.includes('大颗粒积木')) {
+        return { data: [{ id: 5, title: '小班大颗粒积木', tags: ['乐高', '大颗粒积木'] }], error: null }
+      }
+      return { data: [], error: null }
+    })
+
+    const result = await searchTutorResources(client as never, {
+      status: 'model',
+      shouldSearch: true,
+      queries: ['大颗粒积木'],
+      resourceTypes: ['project'],
+    })
+
+    expect(calls.some((call) => call.table === 'courses')).toBe(true)
+    expect(result?.courses).toEqual([
+      { id: 5, title: '小班大颗粒积木', tags: ['乐高', '大颗粒积木'], lessonTitles: [] },
+    ])
+  })
+
+  it('expands 兼容乐高 queries so brick courses can match', async () => {
+    const { client, calls } = createFakeSupabase(({ table, filter, byIds }) => {
+      if (table === 'courses' && !byIds && (filter.includes('大颗粒积木') || filter.includes('乐高'))) {
+        return { data: [{ id: 6, title: '中班大颗粒积木', tags: ['乐高', '得宝', '大颗粒积木'] }], error: null }
+      }
+      return { data: [], error: null }
+    })
+
+    const result = await searchTutorResources(client as never, {
+      status: 'model',
+      shouldSearch: true,
+      queries: ['兼容乐高的积木'],
+      resourceTypes: ['course'],
+    })
+
+    const courseFilters = calls.filter((call) => call.table === 'courses' && !call.byIds).map((call) => call.filter)
+    expect(courseFilters.some((filter) => filter.includes('大颗粒积木'))).toBe(true)
+    expect(result?.courses?.[0]?.title).toBe('中班大颗粒积木')
+  })
+})
+
+
+describe('expandBrickMaterialQueries', () => {
+  it('maps lego-compatible synonyms onto searchable brick course phrases', () => {
+    expect(expandBrickMaterialQueries(['兼容乐高的积木'])).toEqual(['大颗粒积木', '乐高', '兼容乐高的积木'])
+    expect(expandBrickMaterialQueries(['大颗粒积木'])).toEqual(['大颗粒积木', '乐高'])
+    expect(expandBrickMaterialQueries(['轮船'])).toEqual(['轮船'])
+    // 材料+主题粘连词留给 broaden，不在这里扩成规范材料短语
+    expect(expandBrickMaterialQueries(['乐高轮船'])).toEqual(['乐高轮船'])
   })
 })
 
