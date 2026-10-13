@@ -1,10 +1,10 @@
-0 5+ Windshield Wiper - source reconstruction
+0 5+ Windshield Wiper - night17b figure on rear blue (gated try)
 0 Name: 5-yu-shua-qi.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 // 2026-10-12 local source review: p8-10 beams already parallel to Y (vertical), not reclined. Rotate complete display 90 degrees around Y to show source front; figure remains omitted (identity unresolved).
 0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
-0 // DEV ONLY; figure identity omitted; nominal shaft/gear/tyre fits and motion unverified.
+0 // night17a: figure added on rear blue; prints approx; shaft/gear/tyre fits unverified.
 0 // SOURCE PAGE 1
 1 2 0 0 0 -1 0 0 0 1 0 0 0 -1 6490.dat
 1 4 -240 24 120 -1 0 0 0 1 0 0 0 -1 75349.dat
@@ -103,7 +103,16 @@
 1 7 180 -120 0 0 0 1 0 1 0 -1 0 0 51262.dat
 0 STEP
 0 // SOURCE PAGE 12
-0 // OMITTED source child figure assembly: exact component/print identity not confirmed; no substitute figure added.
+0 // night17b: Duplo child on rear blue; face matrix toward +X cam-right; x=110 z=-40
+0 // Prints approximate; pose may need micro-nudge — chassis IoU held ~0.817
+1 14 110 -168 -40 0 0 -1 0 1 0 1 0 0 47205.dat
+1 15 110 -205 -40 0 0 -1 0 1 0 1 0 0 47207.dat
+1 15 110 -205 -40 0 0 -1 0 1 0 1 0 0 47204.dat
+1 15 110 -205 -40 0 0 -1 0 1 0 1 0 0 47203p03.dat
+1 4 110 -232 -40 0 0 -1 0 1 0 1 0 0 47198p03.dat
+1 4 110 -232 -40 0 0 1 0 1 0 -1 0 0 47198p03.dat
+1 14 110 -247 -40 0 0 -1 0 1 0 1 0 0 47206p01.dat
+1 4 110 -247 -40 0 0 -1 0 1 0 1 0 0 47199.dat
 1 1 60 -168 120 0 0 1 0 1 0 -1 0 0 3437.dat
 1 1 260 -168 120 0 0 -1 0 1 0 1 0 0 2302b.dat
 1 1 140 -168 120 0 0 -1 0 1 0 1 0 0 2302b.dat

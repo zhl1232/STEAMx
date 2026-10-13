@@ -1,0 +1,37 @@
+0 Duplo Sheet Plastic U-bent boat skirt (5-qi-dian-chuan local approx)
+0 Name: dev-129/61898d-qi-dian-chuan.dat
+0 Author: STEAMX local reconstruction (hand-authored 2026-10-14 night17)
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 !HELP Shallow U under 75350 rails; side flare for lime skirt band. Dual-sided. Silhouette approx only.
+0 BFC NOCERTIFY
+
+0 // Bottom trough — wide enough to hide rail outer faces (rails ~z±136)
+4 16 -250 0 -145 250 0 -145 250 0 145 -250 0 145
+4 16 -250 0 145 250 0 145 250 0 -145 -250 0 -145
+
+0 // Shallow -Z flare (rise 40, out to z=-255)
+4 16 -250 0 -145 250 0 -145 250 -40 -255 -250 -40 -255
+4 16 -250 -40 -255 250 -40 -255 250 0 -145 -250 0 -145
+0 // +Z flare
+4 16 -250 0 145 -250 -40 255 250 -40 255 250 0 145
+4 16 250 0 145 250 -40 255 -250 -40 255 -250 0 145
+
+0 // End flaps shallow
+4 16 -250 0 -145 -250 -28 -200 -250 -28 200 -250 0 145
+4 16 -250 0 145 -250 -28 200 -250 -28 -200 -250 0 -145
+4 16 250 0 -145 250 0 145 250 -28 200 250 -28 -200
+4 16 250 0 145 250 0 -145 250 -28 -200 250 -28 200
+
+0 // corners
+3 16 -250 0 -145 -250 -40 -255 -250 -28 -200
+3 16 -250 0 -145 -250 -28 -200 -250 -40 -255
+3 16 250 0 -130 250 -28 -200 250 -40 -255
+3 16 250 0 -145 250 -40 -255 250 -28 -200
+3 16 -250 0 145 -250 -28 200 -250 -40 255
+3 16 -250 0 145 -250 -40 255 -250 -28 200
+3 16 250 0 145 250 -40 255 250 -28 200
+3 16 250 0 145 250 -28 200 250 -40 255
+
+1 16 0 0 220 1 0 0 0 1 0 0 0 1 s/61898s01.dat
+1 16 0 0 -220 1 0 0 0 1 0 0 0 1 s/61898s01.dat

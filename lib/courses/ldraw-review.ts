@@ -313,6 +313,8 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '4-qiu-qian.ldr',
   // night14: cam 1.0,0.7,1.2 IoU≈0.866; chimney stack +48Y
   '5-xiao-huo-che.ldr',
+  '5-qi-dian-chuan.ldr',
+  '5-yu-shua-qi.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
