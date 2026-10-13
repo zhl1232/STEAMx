@@ -42,6 +42,16 @@ const topicCardImages: Record<SpeciesAtlasTopicKey, string> = {
   plants: "/assets/nature-topic-plants.webp",
 };
 
+/* 移动端专用卡片图（桌面端仍用上面的图）：
+ * 翠鸟：Alexis Lours「Common kingfisher on a branch facing right」CC BY 2.0，已裁切提亮；
+ * 瓢虫：Link89「Coccinella septempunctata on a leaf」公有领域，已裁切；
+ * 苹果花：W.carter「Cluster of apple blossoms」CC0，已裁切。 */
+const topicCardMobileImages: Record<SpeciesAtlasTopicKey, string> = {
+  birds: "/assets/nature-topic-mobile-birds.webp",
+  insects: "/assets/nature-topic-mobile-insects.webp",
+  plants: "/assets/nature-topic-mobile-plants.webp",
+};
+
 export const metadata: Metadata = buildPageMetadata({
   title: "自然观察",
   description:
@@ -253,11 +263,18 @@ function NatureHeroSection({ submitHref }: { submitHref: string }) {
 function TopicCardsSection({ topicCards }: { topicCards: TopicCard[] }) {
   return (
     <section aria-labelledby="nature-topics-heading">
-      <h2 id="nature-topics-heading" className="sr-only">选择观察专题</h2>
-      <div className="grid grid-cols-3 gap-2 md:gap-4">
+      <div className="relative overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.7)] bg-[linear-gradient(180deg,#f3faf5_0%,#f8fbfd_60%,transparent_100%)] p-3 pt-2.5 dark:bg-[linear-gradient(180deg,hsl(150_30%_12%/0.55)_0%,transparent_100%)] md:overflow-visible md:rounded-none md:border-0 md:bg-none md:p-0 md:dark:bg-none">
+        <div aria-hidden className="pointer-events-none absolute -right-3 -top-3 text-[#4f9a62] opacity-[0.16] dark:text-[#7fd49a] dark:opacity-[0.12] md:hidden">
+          <Leaf className="absolute right-10 top-2 h-9 w-9 rotate-[-30deg]" />
+          <Leaf className="absolute right-1 top-7 h-12 w-12 rotate-[25deg]" />
+          <Leaf className="absolute right-20 top-9 h-6 w-6 rotate-[60deg]" />
+        </div>
+        <h2 id="nature-topics-heading" className="relative mb-2.5 px-1 text-[15px] font-bold text-foreground min-[390px]:text-[16px] md:sr-only">物种图鉴</h2>
+      <div className="relative grid grid-cols-3 gap-2 md:gap-4">
         {topicCards.map((topic) => (
           <TopicCardView key={topic.title} topic={topic} />
         ))}
+      </div>
       </div>
     </section>
   );
@@ -278,13 +295,22 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
     >
       <div className="relative h-20 overflow-hidden min-[390px]:h-24 md:absolute md:inset-0 md:h-full">
         <Image
+          src={topicCardMobileImages[topic.key]}
+          alt=""
+          fill
+          placeholder="blur"
+          blurDataURL={natureBlurDataUrl}
+          className="object-cover transition-transform duration-700 dark:brightness-[0.85] motion-safe:group-hover:scale-[1.03] md:hidden"
+          sizes="34vw"
+        />
+        <Image
           src={topicImage.src}
           alt=""
           fill
           unoptimized={topicImage.unoptimized}
           placeholder="blur"
           blurDataURL={natureBlurDataUrl}
-          className="object-cover object-right opacity-95 transition-transform duration-700 dark:brightness-[0.82] dark:saturate-[0.8] motion-safe:group-hover:scale-[1.03] md:mask-[linear-gradient(100deg,transparent_0%,transparent_40%,rgba(0,0,0,0.28)_56%,rgba(0,0,0,0.88)_72%,#000_86%)]"
+          className="hidden object-cover object-right opacity-95 md:block transition-transform duration-700 dark:brightness-[0.82] dark:saturate-[0.8] motion-safe:group-hover:scale-[1.03] md:mask-[linear-gradient(100deg,transparent_0%,transparent_40%,rgba(0,0,0,0.28)_56%,rgba(0,0,0,0.88)_72%,#000_86%)]"
           sizes="(max-width: 767px) 33vw, (max-width: 1536px) 32vw, 480px"
         />
         <div aria-hidden className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.08)_30%,hsl(var(--surface-raised)/0.3)_70%,hsl(var(--surface-raised))_100%)] dark:block md:dark:hidden" />
@@ -467,6 +493,15 @@ export default async function NaturePage() {
 
             <DesktopSidebar stats={homepage.stats} latestObservation={latestObservation} topHotspot={topHotspot} />
           </div>
+          <p className="px-1 text-[10px] leading-4 text-muted-foreground/70 md:hidden">
+            图鉴配图：
+            <a href="https://commons.wikimedia.org/wiki/File:Common_kingfisher_on_a_branch_facing_right.jpg" className="underline-offset-2 hover:underline">Alexis Lours / CC BY 2.0</a>
+            {" · "}
+            <a href="https://commons.wikimedia.org/wiki/File:Coccinella_septempunctata_on_a_leaf.JPG" className="underline-offset-2 hover:underline">Link89 / 公有领域</a>
+            {" · "}
+            <a href="https://commons.wikimedia.org/wiki/File:Cluster_of_apple_blossoms.jpg" className="underline-offset-2 hover:underline">W.carter / CC0</a>
+            （均已裁切）
+          </p>
         </div>
       </div>
     </div>
