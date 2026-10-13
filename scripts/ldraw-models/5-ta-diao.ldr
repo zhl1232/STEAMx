@@ -5,6 +5,7 @@
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // PDF SHA256 dc95d205b051791aaf05098b929ecbe6225e5b6586b49ed656c20121b637bd12
 0 // 2026-10-13 restored from 0d17feaa: bc865171 had rebuilt this from the 4+ (中班) courseware by mistake; this version follows the 5+ PDF above.
+0 // 2026-10-13 hand v2: blue 40T gear moved to mast back (z-80), crank to front pointing -X, per p4/p15/p16 camera-calibrated overlays.
 0 // All16 source pages actually viewed; final page is presentation only.
 0 // No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.
 0 // SOURCE PAGE 1 - Square base with two foot bricks, long crossbeam and blue capped yellow root
@@ -39,8 +40,8 @@
 0 STEP
 0 // SOURCE PAGE 4 - Side crank, forty-tooth drive and upright twenty-four-tooth gear
 1 1 80 -432 0 0 0 -1 0 1 0 1 0 0 6523.dat
-1 14 80 -432 -80 1 0 0 0 0 1 0 -1 0 6526.dat
-1 1 80 -432 80 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 80 -432 80 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 1 80 -432 -80 -1 0 0 0 1 0 0 0 -1 6530.dat
 1 4 80 -476 0 1 0 0 0 0 -1 0 1 0 6529.dat
 1 0 80 -536 0 0 -1 0 1 0 0 0 0 1 6522.dat
 0 // UNVERIFIED orthogonal rotation geartrain - Red24T/blue40T axes and nominalheight derived fromsource andpartthickness; exact phase/mesh/collision/load retention unverified. 6Lverticalshaftlength inferred from unobstructedactualspan; source6Lvs8Lnotuniquelyproven, candidate retained.
