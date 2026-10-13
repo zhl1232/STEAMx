@@ -2,13 +2,14 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { CircleHelp } from 'lucide-react'
+import { Bird, Bug, Check, Sprout } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { saveNatureSpeciesScrollRestore } from '@/lib/nature-species-scroll-restore'
 import type { SpeciesAtlasItem } from '@/lib/nature-species-atlas'
 import { resolveAssetDisplayUrl, shouldBypassAssetDisplayOptimization } from '@/lib/utils/asset-url'
 import { cn } from '@/lib/utils'
+import styles from './species-atlas.module.css'
 
 interface SpeciesAtlasTileProps {
   item: SpeciesAtlasItem
@@ -17,7 +18,6 @@ interface SpeciesAtlasTileProps {
 }
 
 export function SpeciesAtlasTile({ item, filtersKey, priority = false }: SpeciesAtlasTileProps) {
-  const [loaded, setLoaded] = useState(false)
   const [failed, setFailed] = useState(false)
   const imageSrc = resolveAssetDisplayUrl(item.thumbnailUrl) ?? item.thumbnailUrl
   const showImage = Boolean(imageSrc) && !failed
@@ -28,9 +28,9 @@ export function SpeciesAtlasTile({ item, filtersKey, priority = false }: Species
       ? '待观察'
       : '观察状态未知'
   const href = `/nature/species/${item.slug}`
+  const PlaceholderIcon = item.topicKey === 'birds' ? Bird : item.topicKey === 'insects' ? Bug : Sprout
 
   useEffect(() => {
-    setLoaded(false)
     setFailed(false)
   }, [item.thumbnailUrl])
 
@@ -57,6 +57,7 @@ export function SpeciesAtlasTile({ item, filtersKey, priority = false }: Species
       aria-label={`${item.commonName}，${topicLabel}，${statusLabel}`}
       title={item.scientificName || item.commonName}
       onPointerDown={(event) => saveScrollPosition(event.currentTarget)}
+      onClick={(event) => saveScrollPosition(event.currentTarget)}
     >
       <span className="nature-atlas-tile-media" aria-hidden="true">
         {showImage ? (
@@ -65,23 +66,25 @@ export function SpeciesAtlasTile({ item, filtersKey, priority = false }: Species
             alt=""
             fill
             priority={priority}
-            sizes="(max-width: 639px) 22vw, (max-width: 1023px) 92px, 112px"
+            sizes="(max-width: 379px) 45vw, (max-width: 767px) 30vw, (max-width: 1279px) 25vw, 240px"
             unoptimized={shouldBypassAssetDisplayOptimization(item.thumbnailUrl)}
-            className={cn(
-              'object-cover transition-opacity duration-300',
-              item.observedByCurrentUser !== true && 'grayscale saturate-25 opacity-75',
-              loaded ? (item.observedByCurrentUser === true ? 'opacity-100' : 'opacity-75') : 'opacity-0',
-            )}
-            onLoad={() => setLoaded(true)}
+            className="object-cover"
             onError={() => setFailed(true)}
           />
         ) : (
-          <CircleHelp className="h-7 w-7 text-muted-foreground/75" strokeWidth={1.7} />
+          <span className={styles.placeholder}><PlaceholderIcon size={28} strokeWidth={1.5} /><span>暂无图片</span></span>
         )}
+        {item.observedByCurrentUser !== null ? (
+          <span className={cn(styles.badge, item.observedByCurrentUser && styles.observedBadge)}>
+            {item.observedByCurrentUser ? <Check size={11} aria-hidden="true" /> : null}{statusLabel}
+          </span>
+        ) : null}
       </span>
 
-      <span className="nature-atlas-tile-name">
-        <span className="line-clamp-2">{item.commonName}</span>
+      <span className={styles.tileInfo}>
+        <span className="nature-atlas-tile-name">{item.commonName}</span>
+        {item.scientificName ? <i className={styles.scientificName} title={item.scientificName}>{item.scientificName}</i> : null}
+        {item.taxonGroup ? <span className={styles.taxonGroup} title={item.taxonGroup}>{item.taxonGroup}</span> : null}
         <span className="sr-only">{statusLabel}</span>
       </span>
     </Link>

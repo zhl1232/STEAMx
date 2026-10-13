@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
-  ArrowDownAZ,
+  LayoutGrid,
+  List,
   Bird,
   Bug,
   CircleCheck,
@@ -35,6 +36,8 @@ import {
 } from '@/lib/nature-species-scroll-restore'
 import { cn } from '@/lib/utils'
 import { SpeciesAtlasTile } from './species-atlas-tile'
+import { SpeciesAtlasHero } from './species-atlas-hero'
+import styles from './species-atlas.module.css'
 
 interface SpeciesAtlasProps {
   initialData: SpeciesAtlasResponse
@@ -73,6 +76,8 @@ const SPECIES_ALPHABET = [
 
 /** 首屏可见的前几张缩略图使用 priority，其余保持懒加载 */
 const PRIORITY_TILE_COUNT = 3
+const LAYOUT_STORAGE_KEY = 'nature-atlas-layout-v1'
+type AtlasLayout = 'grid' | 'list'
 
 interface SpeciesLetterGroup {
   initial: string
@@ -165,6 +170,7 @@ export function SpeciesAtlas({
   const [searchDraft, setSearchDraft] = useState(initialQuery)
   const [topic, setTopic] = useState<SpeciesAtlasTopicFilter>(initialTopic)
   const [status, setStatus] = useState<SpeciesAtlasStatusFilter>(initialStatus)
+  const [layout, setLayout] = useState<AtlasLayout>('grid')
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [refreshError, setRefreshError] = useState<string | null>(null)
   const progressReady = data.viewer.progressState === 'ready'
@@ -177,6 +183,18 @@ export function SpeciesAtlas({
     setTopic(initialTopic)
     setStatus(initialData.viewer.progressState === 'ready' ? initialStatus : 'all')
   }, [initialData, initialQuery, initialStatus, initialTopic])
+
+  // 切回图鉴时沿用布局，避免返回定位后卡片高度发生变化。
+  useLayoutEffect(() => {
+    try {
+      if (sessionStorage.getItem(LAYOUT_STORAGE_KEY) === 'list') setLayout('list')
+    } catch { /* 禁用存储时仍可正常浏览。 */ }
+  }, [])
+
+  function changeLayout(next: AtlasLayout) {
+    setLayout(next)
+    try { sessionStorage.setItem(LAYOUT_STORAGE_KEY, next) } catch { /* 布局不依赖存储成功。 */ }
+  }
 
   const updateFilters = useCallback((next: Partial<{
     query: string
@@ -298,7 +316,7 @@ export function SpeciesAtlas({
 
   function renderTileGrid(items: SpeciesAtlasItem[], label: string) {
     return (
-      <ul className="nature-atlas-grid" aria-label={label}>
+      <ul className="nature-atlas-grid" aria-label={label} data-singleton={items.length === 1 ? 'true' : undefined}>
         {items.map((item) => (
           <li key={item.id}>
             <SpeciesAtlasTile
@@ -313,7 +331,7 @@ export function SpeciesAtlas({
   }
 
   return (
-    <div className="app-shell-wide pb-24 pt-0 md:px-8 md:pb-12 md:pt-8">
+    <div className={cn("app-shell-wide pb-24 pt-0 md:px-8 md:pb-12 md:pt-8", styles.atlas)} data-layout={layout}>
       <MobilePageHeader
         title="自然观察"
         className="nature-atlas-mobile-header"
@@ -323,21 +341,8 @@ export function SpeciesAtlas({
         fallbackHref="/nature"
       />
 
-      <header className="px-4 pb-4 pt-5 md:px-0 md:pb-6 md:pt-0">
-        <p className="text-xs font-semibold tracking-[0.16em] text-[hsl(var(--brand-green))]">自然观察 · 创探空间</p>
-        <h1 className="mt-2 text-3xl font-black tracking-tight text-foreground md:text-4xl">{heading}</h1>
-        <p className="mt-2 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
-          {introduction}
-        </p>
-        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold">
-          <Link href="/nature/observations" className="text-[hsl(var(--brand-green))] hover:underline">
-            查看公开观察记录
-          </Link>
-          <Link href="/nature" className="text-muted-foreground hover:text-foreground hover:underline">
-            返回自然观察首页
-          </Link>
-        </div>
-      </header>
+      <Link href="/nature" className={styles.desktopBack}>返回自然观察首页</Link>
+      <SpeciesAtlasHero topic={topic} heading={heading} introduction={introduction} />
 
       <section className="nature-atlas-toolbar" aria-label="物种筛选">
         <form onSubmit={handleSearchSubmit} className="nature-atlas-search-form">
@@ -349,6 +354,7 @@ export function SpeciesAtlas({
             onChange={(event) => setSearchDraft(event.target.value)}
             placeholder="搜索名称、学名或科属"
             autoComplete="off"
+            enterKeyHint="search"
           />
           {searchDraft ? (
             <button
@@ -367,19 +373,22 @@ export function SpeciesAtlas({
         </form>
 
         <div className="nature-atlas-topic-tabs" aria-label="专题筛选">
-          {(['all', ...data.groups.map((group) => group.key)] as SpeciesAtlasTopicFilter[]).map((key) => {
+          {([...data.groups.map((group) => group.key), 'all'] as SpeciesAtlasTopicFilter[]).map((key) => {
             const Icon = TOPIC_ICONS[key]
             const label = key === 'all' ? '全部' : getTopicSummaryLabel(key)
+            const count = key === 'all' ? data.total : data.groups.find(group => group.key === key)?.total ?? 0
             return (
               <button
                 key={key}
                 type="button"
                 className={cn('nature-atlas-topic-tab', topic === key && 'nature-atlas-topic-tab-active')}
+                aria-label={label}
+                data-topic={key}
                 aria-pressed={topic === key}
                 onClick={() => updateFilters({ topic: key })}
               >
                 {Icon ? <Icon className="h-4 w-4" aria-hidden="true" /> : null}
-                <span>{label}</span>
+                <span className={styles.topicText}><span>{label}</span><span className={styles.topicCount} aria-hidden="true">{count}</span></span>
               </button>
             )
           })}
@@ -414,10 +423,6 @@ export function SpeciesAtlas({
             })}
           </div>
 
-          <span className="nature-atlas-sort-label" aria-label="当前按名称排序">
-            <span>名称排序</span>
-            <ArrowDownAZ className="h-3.5 w-3.5" aria-hidden="true" />
-          </span>
         </div>
 
         {data.viewer.progressState === 'anonymous' ? (
@@ -438,7 +443,13 @@ export function SpeciesAtlas({
         ) : null}
       </section>
 
-      <p className="sr-only" aria-live="polite">当前显示 {visibleCount} 个物种</p>
+      <div className={styles.resultsToolbar}>
+        <p aria-live="polite" aria-atomic="true"><strong>{visibleCount} 种</strong><span className={styles.sortNote}> · 名称 A–Z</span></p>
+        <div className={styles.layoutSwitch} role="group" aria-label="显示方式">
+          <button type="button" aria-pressed={layout === 'grid'} onClick={() => changeLayout('grid')}><LayoutGrid size={15} aria-hidden="true" />图集</button>
+          <button type="button" aria-pressed={layout === 'list'} onClick={() => changeLayout('list')}><List size={15} aria-hidden="true" />列表</button>
+        </div>
+      </div>
 
       <div className="nature-atlas-results mt-2 md:mt-8">
         <div className="nature-atlas-results-main space-y-8 md:space-y-10">
@@ -456,7 +467,7 @@ export function SpeciesAtlas({
                       {group.label}
                     </h2>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      共 {group.total} 个物种
+                      {group.items.length} 种
                     </p>
                   </div>
                 </div>
@@ -472,6 +483,7 @@ export function SpeciesAtlas({
                         <section key={letterGroup.initial} id={letterId} className="nature-atlas-letter-group" aria-labelledby={`${letterId}-heading`}>
                           <div className="nature-atlas-letter-heading">
                             <h2 id={`${letterId}-heading`}>{letterGroup.initial}</h2>
+                            <span className={styles.letterCount}>{letterGroup.items.length} 种</span>
                           </div>
                           {renderTileGrid(letterGroup.items, `${group.label}${getSpeciesLetterLabel(letterGroup.initial)}`)}
                         </section>
@@ -510,7 +522,7 @@ export function SpeciesAtlas({
         ) : null}
       </div>
 
-      {!isTopicView && filteredGroups.every((group) => group.items.length === 0) ? (
+      {visibleCount === 0 ? (
         <div className="nature-atlas-empty-all">
           <Search className="h-5 w-5" aria-hidden="true" />
           <span>没有找到匹配的物种</span>
