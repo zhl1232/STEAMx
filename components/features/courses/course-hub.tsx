@@ -9,11 +9,10 @@ import type { CourseListItem } from '@/lib/courses/types'
 import { cn } from '@/lib/utils'
 import {
   COURSE_CATEGORY_LABELS, getCourseAction, getCourseCategory, isLearningCourse, selectCourseCatalog,
-  type CourseCategory, type CourseFilter,
+  type CourseCategory,
 } from './course-catalog'
 import styles from './course-hub.module.css'
 
-const CATEGORY_ORDER: CourseCategory[] = ['brick', 'programming', 'strategy', 'other']
 
 // 数据库里的旧封面地址在代码侧换成新图，不改线上数据。
 const COVER_OVERRIDES: Record<string, string> = {
@@ -80,42 +79,26 @@ const CourseCard = memo(function CourseCard({ course, featured = false, priority
 })
 
 export function CourseHub({ courses }: { courses: CourseListItem[] }) {
-  const [filter, setFilter] = useState<CourseFilter>('recommended')
-  const available = useMemo(() => CATEGORY_ORDER.filter(category => courses.some(course => getCourseCategory(course) === category)), [courses])
+  // 课程不多，不分类筛选，全部列出（积木课在前）。
   const learning = useMemo(() => courses.filter(isLearningCourse), [courses])
   // 无进度时不虚构「继续学习」；接口暂无最近学习时间，按原顺序取一个入口。
-  const featured = filter === 'recommended' ? learning[0] : undefined
-  const visible = useMemo(() => selectCourseCatalog(courses, filter).filter(course => course.id !== featured?.id), [courses, filter, featured?.id])
-  const title = filter === 'recommended' ? '推荐课程' : filter === 'all' ? '全部课程' : filter === 'learning' ? '在学课程' : COURSE_CATEGORY_LABELS[filter]
-  const filters: Array<{ key: CourseFilter; label: string }> = [
-    { key: 'recommended', label: '推荐' },
-    ...available.map(key => ({ key, label: COURSE_CATEGORY_LABELS[key] })),
-    { key: 'all', label: '全部' },
-  ]
+  const featured = learning[0]
+  const visible = useMemo(() => selectCourseCatalog(courses, 'recommended').filter(course => course.id !== featured?.id), [courses, featured?.id])
+  const title = featured ? '其他课程' : '全部课程'
   return (
     <div className={styles.hub} data-course-hub>
       {courses.length > 0 ? <>
-        <div className={styles.filters} role="group" aria-label="课程分类">
-          {filters.map(item => <button key={item.key} type="button" aria-pressed={filter === item.key} onClick={() => setFilter(item.key)}>{item.label}</button>)}
-        </div>
         {featured ? <section className={styles.section} aria-labelledby="course-continue-heading">
-          <div className={styles.sectionHeading}><h2 id="course-continue-heading">继续学习</h2>
-            {learning.length > 1 ? <button type="button" onClick={() => setFilter('learning')}>在学课程 {learning.length}<ChevronRight size={14} aria-hidden="true" /></button> : null}
-          </div>
+          <div className={styles.sectionHeading}><h2 id="course-continue-heading">继续学习</h2></div>
           <div className={styles.cardGrid}><CourseCard course={featured} featured priority /></div>
         </section> : null}
-        <section className={styles.section} aria-labelledby="course-catalog-heading" id="course-catalog">
-          <div className={styles.sectionHeading}><h2 id="course-catalog-heading">{title}</h2>
-            {filter !== 'all' ? <button type="button" onClick={() => setFilter('all')}>全部课程<ChevronRight size={14} aria-hidden="true" /></button> : null}
-          </div>
+        {visible.length > 0 ? <section className={styles.section} aria-labelledby="course-catalog-heading" id="course-catalog">
+          <div className={styles.sectionHeading}><h2 id="course-catalog-heading">{title}</h2></div>
           <p className="sr-only" role="status">{title}，共 {visible.length} 门</p>
-          {visible.length > 0 ? <div className={styles.cardGrid}>
+          <div className={styles.cardGrid}>
             {visible.map((course, index) => <CourseCard key={course.id} course={course} priority={!featured && index === 0} />)}
-          </div> : <div className={styles.empty}>
-            <p>{featured ? '其他课程会陆续加入，先继续手上的作品吧。' : '当前没有符合条件的课程。'}</p>
-            <button type="button" onClick={() => setFilter('all')}>查看全部课程</button>
-          </div>}
-        </section>
+          </div>
+        </section> : null}
       </> : <div className={styles.empty}><BookOpen size={28} aria-hidden="true" /><p>技能课程即将上线，敬请期待。</p></div>}
       <section className={styles.directions} aria-labelledby="course-directions-heading">
         <div className={styles.sectionHeading}><h2 id="course-directions-heading">更多学习方向</h2>
