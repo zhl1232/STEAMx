@@ -37,7 +37,10 @@
 .heroContent h1 { margin: 0; font-size: 26px; line-height: 1.3; font-weight: 800; letter-spacing: 0.02em; white-space: nowrap; }
 .heroIntro { margin: 8px 0 0; font-size: 13px; line-height: 1.6; color: rgb(255 255 255 / 92%); white-space: pre-line; }
 .heroStats { display: flex; gap: 22px; margin: 14px 0 0; }
-.heroStats > div { display: flex; flex-direction: column; align-items: center; }
+.heroStats { gap: 0 !important; }
+.heroStats > div { display: flex; flex-direction: column; align-items: center; padding: 0 16px; }
+.heroStats > div:first-child { padding-left: 0; }
+.heroStats > div + div { border-left: 1px solid rgb(255 255 255 / 35%); }
 .heroStats dd { order: 1; margin: 0; font-size: 20px; font-weight: 800; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .heroStats dt { order: 2; font-size: 11px; color: rgb(255 255 255 / 88%); }
 .heroCredit { position: absolute; right: 8px; bottom: 40px; font-size: 8px; color: rgb(255 255 255 / 60%); }
@@ -115,8 +118,8 @@
 .atlas :global(.nature-atlas-index-link-disabled) { color: #d4d8de; }
 .indexActive { color: var(--atlas-blue) !important; font-weight: 800 !important; background: #eaf3ff; }
 .indexCollapse { display: grid; place-items: center; width: 20px; height: 20px; margin-bottom: 2px; border-radius: 6px; color: #b0b7c2; }
-.indexCollapsedWrap { position: sticky; top: 72px; flex-shrink: 0; width: 0; overflow: visible; }
-.indexToggle { position: relative; left: -30px; display: grid; place-items: center; min-width: 28px; height: 28px; padding: 0 5px; border-radius: 999px; background: rgb(255 255 255 / 92%); color: #6b7280; font-size: 10px; font-weight: 600; box-shadow: 0 1px 6px rgb(0 0 0 / 10%); }
+.indexCollapsedWrap { position: fixed; right: 6px; top: 42%; z-index: 20; }
+.indexToggle { display: grid; place-items: center; min-width: 28px; height: 28px; padding: 0 5px; border-radius: 999px; background: rgb(255 255 255 / 92%); color: #6b7280; font-size: 10px; font-weight: 600; box-shadow: 0 1px 6px rgb(0 0 0 / 10%); }
 .indexToggle:focus-visible, .indexCollapse:focus-visible { outline: 2px solid var(--atlas-blue); outline-offset: 2px; }
 .atlas :global(.nature-atlas-empty-all) { margin-top: 12px; }
 
@@ -147,7 +150,8 @@
   .tileInfo { padding: 12px 14px 14px; }
   .scientificName { font-size: 12px; }
   .atlas :global(.nature-atlas-letter-heading) h2 { font-size: 24px; }
-  .atlas :global(.nature-atlas-index), .indexCollapsedWrap { top: 88px; }
+  .atlas :global(.nature-atlas-index) { top: 88px; }
+  .heroStats > div { padding: 0 28px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .atlas :global(.nature-atlas-tile), .atlas :global(.nature-atlas-index-link) { transition: none; }
