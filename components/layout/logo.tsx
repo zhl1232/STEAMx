@@ -7,12 +7,12 @@ import { BRAND_NAME } from "@/lib/brand";
 
 /**
  * Header/footer mark: teal circle with white star+leaves.
- * Avoid logo-mark-white (white filled disc with cutouts) — it reads as a white square on dark UI.
+ * Share the canonical /logo.png asset with SEO and sharing surfaces.
  */
 export function SteamLogo({ className }: { className?: string }) {
     return (
         <Image
-            src="/logo-mark.png"
+            src="/logo.png"
             alt={BRAND_NAME}
             width={64}
             height={64}
