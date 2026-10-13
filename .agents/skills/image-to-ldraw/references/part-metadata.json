@@ -69192,6 +69192,29 @@
       "notes": [
         "Hand-authored 2026-10-13: wrapper of dev-129/4433c01 with exhaust axis scaled 0.6 to match 4-ya-lu-ji courseware p7 proportions. Not a physically measured part."
       ]
+    },
+    "dev-129/rotor-shou-tui-fei-ji.dat": {
+      "name": "Duplo Toolo slender rotor sheet (5-shou-tui-fei-ji local approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -361,
+        "xMax": 361,
+        "yMin": -2,
+        "yMax": 2,
+        "zMin": -53,
+        "zMax": 53
+      },
+      "heightLdu": 4,
+      "origin": {
+        "type": "hub-center",
+        "axis": "Y"
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Hand-authored 2026-10-13 from 5-shou-tui-fei-ji courseware p9-11 (lime two-blade sheet x2, crossed). Real part id not established; outline estimated."
+      ]
     }
   }
 }

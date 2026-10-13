@@ -3,7 +3,7 @@
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
-0 // INCOMPLETE DEV ONLY. Figures/windows omitted; rope route schematic, physical support unverified.
+0 // INCOMPLETE DEV ONLY. Figures/windows added 2026-10-13 (approx); rope route schematic, physical support unverified.
 0 // SOURCE PAGE 1
 1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
 1 14 -440 -48 40 0 0 1 0 1 0 -1 0 0 3011.dat
@@ -118,7 +118,23 @@
 1 4 0 -528 -80 1 0 0 0 1 0 0 0 1 4196.dat
 0 STEP
 0 // SOURCE PAGE 4
-0 // Two8-piece figure variants unresolved; not replaced with unrelated prints.
+0 // 2026-10-13 hand: two Duplo child figures from p4/p14 (upper red cap+shirt, lower blue); prints approximate.
+1 15 0 -624 -80 1 0 0 0 1 0 0 0 1 47205.dat
+1 15 0 -661 -74 1 0 0 0 1 0 0 0 1 47207.dat
+1 15 0 -661 -74 1 0 0 0 1 0 0 0 1 47204.dat
+1 4 0 -661 -74 1 0 0 0 1 0 0 0 1 47203p03.dat
+1 15 0 -688 -73.5 1 0 0 0 1 0 0 0 1 47198p03.dat
+1 15 0 -688 -73.5 -1 0 0 0 1 0 0 0 -1 47198p03.dat
+1 14 0 -703 -72 1 0 0 0 1 0 0 0 1 47206p01.dat
+1 4 0 -703 -72 1 0 0 0 1 0 0 0 1 47199.dat
+1 15 0 -360 -80 1 0 0 0 1 0 0 0 1 47205.dat
+1 15 0 -397 -74 1 0 0 0 1 0 0 0 1 47207.dat
+1 15 0 -397 -74 1 0 0 0 1 0 0 0 1 47204.dat
+1 1 0 -397 -74 1 0 0 0 1 0 0 0 1 47203p03.dat
+1 15 0 -424 -73.5 1 0 0 0 1 0 0 0 1 47198p03.dat
+1 15 0 -424 -73.5 -1 0 0 0 1 0 0 0 -1 47198p03.dat
+1 14 0 -439 -72 1 0 0 0 1 0 0 0 1 47206p01.dat
+1 1 0 -439 -72 1 0 0 0 1 0 0 0 1 47199.dat
 1 15 0 -360 -160 1 0 0 0 1 0 0 0 1 31021p01.dat
 1 15 0 -624 -160 1 0 0 0 1 0 0 0 1 31021p01.dat
 0 STEP
@@ -247,4 +263,12 @@
 1 14 320 -432 -20 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
 0 // SOURCE PAGE 13
-0 // Four red/white window assemblies omitted: exact leaf/frame identity and rear pair arrangement unresolved.
+0 // 2026-10-13 hand: four window assemblies per p13/p14 (white 61649 frame + red 90265 window) under each car, front and rear.
+1 15 -320 -384 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 4 -254.5 -312 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 15 -320 -384 0 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 4 -385.5 -312 40 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 15 320 -384 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 4 385.5 -312 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 15 320 -384 0 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 4 254.5 -312 40 -1 0 0 0 1 0 0 0 -1 90265.dat
