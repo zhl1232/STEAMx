@@ -1,6 +1,7 @@
 -- Platform safety ceilings, not a priced membership entitlement or an AI-credit debit.
 -- Apply only through the reviewed deployment/migration workflow. No client write grants.
-CREATE TABLE public.tutor_speech_usage_policy (
+-- Re-runnable: IF NOT EXISTS / CREATE OR REPLACE / ON CONFLICT DO NOTHING; adds new objects only.
+CREATE TABLE IF NOT EXISTS public.tutor_speech_usage_policy (
   kind text PRIMARY KEY CHECK (kind IN ('tts', 'asr')),
   user_daily_units bigint NOT NULL CHECK (user_daily_units > 0),
   global_daily_units bigint NOT NULL CHECK (global_daily_units >= user_daily_units),
@@ -8,29 +9,30 @@ CREATE TABLE public.tutor_speech_usage_policy (
 );
 INSERT INTO public.tutor_speech_usage_policy VALUES
   ('tts', 20000, 500000, 1600), -- characters; a legacy HTTP fallback can reserve 2 x 800
-  ('asr', 1800, 36000, 32);   -- seconds, rounded up from mono 16 kHz PCM16 bytes
+  ('asr', 1800, 36000, 32)    -- seconds, rounded up from mono 16 kHz PCM16 bytes
+ON CONFLICT (kind) DO NOTHING;
 
-CREATE TABLE public.tutor_speech_daily_usage (
+CREATE TABLE IF NOT EXISTS public.tutor_speech_daily_usage (
   usage_day date NOT NULL,
   scope text NOT NULL CHECK (scope = 'global' OR scope LIKE 'user:%'),
   kind text NOT NULL REFERENCES public.tutor_speech_usage_policy(kind),
   units bigint NOT NULL DEFAULT 0 CHECK (units >= 0),
   PRIMARY KEY (usage_day, scope, kind)
 );
-CREATE TABLE public.tutor_speech_usage_leases (
+CREATE TABLE IF NOT EXISTS public.tutor_speech_usage_leases (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   kind text NOT NULL REFERENCES public.tutor_speech_usage_policy(kind),
   expires_at timestamptz NOT NULL
 );
-CREATE INDEX tutor_speech_leases_user_expiry ON public.tutor_speech_usage_leases(user_id, expires_at);
+CREATE INDEX IF NOT EXISTS tutor_speech_leases_user_expiry ON public.tutor_speech_usage_leases(user_id, expires_at);
 ALTER TABLE public.tutor_speech_usage_policy ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.tutor_speech_daily_usage ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.tutor_speech_usage_leases ENABLE ROW LEVEL SECURITY;
 REVOKE ALL ON public.tutor_speech_usage_policy, public.tutor_speech_daily_usage,
   public.tutor_speech_usage_leases FROM PUBLIC, anon, authenticated, service_role;
 
-CREATE FUNCTION public.reserve_tutor_speech_usage(p_user_id uuid, p_kind text, p_units integer)
+CREATE OR REPLACE FUNCTION public.reserve_tutor_speech_usage(p_user_id uuid, p_kind text, p_units integer)
 RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path = '' AS $$
 DECLARE
   v_policy public.tutor_speech_usage_policy%ROWTYPE;
@@ -85,7 +87,7 @@ BEGIN
 END;
 $$;
 
-CREATE FUNCTION public.release_tutor_speech_usage(p_lease_id uuid)
+CREATE OR REPLACE FUNCTION public.release_tutor_speech_usage(p_lease_id uuid)
 RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path = '' AS $$
 BEGIN
   -- Idempotent concurrency release. Never refunds usage or changes a daily policy.
@@ -99,7 +101,7 @@ GRANT EXECUTE ON FUNCTION public.reserve_tutor_speech_usage(uuid, text, integer)
 
 -- Existing clients may identify a reply by its exact text; both paths are own-reply-only.
 -- INVOKER retains tutor_messages RLS in addition to the explicit owner predicate.
-CREATE FUNCTION public.resolve_tutor_speech_reply(p_message_id bigint DEFAULT NULL, p_text text DEFAULT NULL)
+CREATE OR REPLACE FUNCTION public.resolve_tutor_speech_reply(p_message_id bigint DEFAULT NULL, p_text text DEFAULT NULL)
 RETURNS text LANGUAGE plpgsql STABLE SECURITY INVOKER SET search_path = '' AS $$
 DECLARE v_text text;
 BEGIN

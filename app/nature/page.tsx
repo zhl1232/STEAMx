@@ -318,25 +318,6 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
   );
 }
 
-function MobileStatsBar({ stats }: { stats: NatureObservationStats }) {
-  const contributionStats = buildContributionStats(stats);
-
-  return (
-    <section aria-label="社区贡献统计" className="nature-section-card grid grid-cols-4 gap-2 md:hidden">
-      {contributionStats.map((stat) => {
-        const Icon = stat.icon;
-        return (
-          <div key={stat.label} className="flex min-w-0 flex-col items-center gap-1 text-center">
-            <Icon className="h-4 w-4 shrink-0 nature-icon-accent" />
-            <span className="text-sm font-bold leading-5 text-[hsl(var(--foreground))]">{stat.value}</span>
-            <span className="text-[11px] leading-4 nature-text-muted">{stat.label}</span>
-          </div>
-        );
-      })}
-    </section>
-  );
-}
-
 function DataStatusCard({
   stats,
   latestObservation,
@@ -476,8 +457,12 @@ export default async function NaturePage() {
 
           <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px] xl:gap-6">
             <main className="min-w-0 space-y-4 md:space-y-6">
-              <NatureHomeMapPair observations={homepage.recentObservations} mapObservations={homepage.mapObservations} />
-              <MobileStatsBar stats={homepage.stats} />
+              <NatureHomeMapPair
+                observations={homepage.recentObservations}
+                mapObservations={homepage.mapObservations}
+                totalObservationCount={homepage.stats.observationCount}
+                locationCount={homepage.stats.hotspotLocationCount}
+              />
             </main>
 
             <DesktopSidebar stats={homepage.stats} latestObservation={latestObservation} topHotspot={topHotspot} />
