@@ -3,7 +3,7 @@
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // INCOMPLETE: four large Toolo three-blade propellers missing geometry (6670c01 confirmed, alias86601).
+0 // 2026-10-13: propellers added as local approximation; arms switched to wider 28331 copy.
 0 // All9source PDF pages viewed; page9 no additions; Toolo geometry approximate.
 0 // SOURCE PAGE 1
 1 0 -160 -240 -80 0 0 1 0 1 0 -1 0 0 76395.dat
@@ -25,10 +25,10 @@
 1 72 160 -288 -160 -1 0 0 0 1 0 0 0 -1 28336.dat
 0 STEP
 0 // SOURCE PAGE 4
-1 72 608 -353 160 0 -1 0 1 0 0 0 0 1 dev-129/28331.dat
-1 72 -160 -353 608 0 0 -1 1 0 0 0 -1 0 dev-129/28331.dat
-1 72 -608 -353 -160 0 1 0 1 0 0 0 0 -1 dev-129/28331.dat
-1 72 160 -353 -608 0 0 1 1 0 0 0 1 0 dev-129/28331.dat
+1 72 608 -353 160 0 -1 0 1 0 0 0 0 1 dev-129/28331-wu-ren-ji.dat
+1 72 -160 -353 608 0 0 -1 1 0 0 0 -1 0 dev-129/28331-wu-ren-ji.dat
+1 72 -608 -353 -160 0 1 0 1 0 0 0 0 -1 dev-129/28331-wu-ren-ji.dat
+1 72 160 -353 -608 0 0 1 1 0 0 0 1 0 dev-129/28331-wu-ren-ji.dat
 0 STEP
 0 // SOURCE PAGE 5
 1 72 678 -353 160 0 -1 0 1 0 0 0 0 1 74957.dat
@@ -37,7 +37,11 @@
 1 72 160 -353 -678 0 0 1 1 0 0 0 1 0 74957.dat
 0 STEP
 0 // SOURCE PAGE 6
-0 // Missing large Toolo3blade propellers x4 at outward clutch top sidebores; no substitution.
+0 // Hand fix 2026-10-13: four large three-blade propellers (6670c01 local approximation) on top of outward clutches.
+1 71 643 -393 160 1 0 0 0 1 0 0 0 1 dev-129/6670c01-wu-ren-ji.dat
+1 71 -160 -393 643 1 0 0 0 1 0 0 0 1 dev-129/6670c01-wu-ren-ji.dat
+1 71 -643 -393 -160 1 0 0 0 1 0 0 0 1 dev-129/6670c01-wu-ren-ji.dat
+1 71 160 -393 -643 1 0 0 0 1 0 0 0 1 dev-129/6670c01-wu-ren-ji.dat
 0 STEP
 0 // SOURCE PAGE 7
 1 4 -336 -160 -80 0 1 0 1 0 0 0 0 -1 76057.dat
