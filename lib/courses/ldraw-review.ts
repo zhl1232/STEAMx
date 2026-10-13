@@ -315,6 +315,8 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '5-xiao-huo-che.ldr',
   '5-qi-dian-chuan.ldr',
   '5-yu-shua-qi.ldr',
+  '5-zhu-ge-lian-nu.ldr',
+  '5-xuan-zhuan-ka-fei-bei.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
