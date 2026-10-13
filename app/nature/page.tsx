@@ -48,7 +48,7 @@ const topicCardImages: Record<SpeciesAtlasTopicKey, string> = {
  * 苹果花：W.carter「Cluster of apple blossoms」CC0，已裁切。 */
 const topicCardMobileImages: Record<SpeciesAtlasTopicKey, string> = {
   birds: "/assets/nature-topic-mobile-birds.webp",
-  insects: "/assets/nature-topic-mobile-insects.webp",
+  insects: "/assets/nature-topic-mobile-insects-v2.webp",
   plants: "/assets/nature-topic-mobile-plants.webp",
 };
 
