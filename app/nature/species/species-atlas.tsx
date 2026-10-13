@@ -44,21 +44,21 @@ interface SpeciesAtlasProps {
 }
 
 type TileIcon = (props: { className?: string }) => React.JSX.Element
-/* 分类块图标：浅色圆角底 + 渐变实心图形，深浅色模式通用（底色用半透明色）。 */
+/* 分类块图标：无底色，统一的渐变实心图形，深浅色模式通用。 */
 function TileBadge({ id, from, to, children, className }: { id: string; from: string; to: string; children: React.ReactNode; className?: string }) {
   return (
     <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
       <defs><linearGradient id={id} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor={from} /><stop offset="1" stopColor={to} /></linearGradient></defs>
-      <rect x="0" y="0" width="40" height="40" rx="12" fill={to} fillOpacity=".14" />
       {children}
     </svg>
   )
 }
 function BirdTileIcon({ className }: { className?: string }) {
   return <TileBadge id="atlas-g-bird" from="#5aa9ff" to="#1667e8" className={className}>
-    <path fill="url(#atlas-g-bird)" d="M10 23.5c0-6 4.6-10.5 10.4-10.5 1.6 0 3 .3 4.3.9.9-2.2 3-3.6 5.3-3.4l3 1.6-2.6 1.1c.4 1 .6 2 .6 3.1C31 24.7 25.8 30 19 30h-1.5l-4 3.2.5-3.9C11.6 27.8 10 25.8 10 23.5Z" />
-    <path fill="#fff" fillOpacity=".55" d="M14.5 22.5c3.6-.1 6.7-1.6 8.6-4.2.9 4.2-1.6 7.6-6 8.3-1.9-.7-2.8-2.3-2.6-4.1Z" />
-    <circle cx="27.6" cy="15.6" r="1.6" fill="#0b2a5c" /><circle cx="28.1" cy="15.1" r=".5" fill="#fff" />
+    <path fill="url(#atlas-g-bird)" d="M24.5 8a5.2 5.2 0 0 1 5.1 4.1l3.9 1.4-3.8 1.3c-.6 7-5.4 12.2-12 12.2-4.3 0-7.3-1.7-8.5-4.4L4.5 25l2.6-5.6c1-4 5.4-6.3 12.2-5.9A5.2 5.2 0 0 1 24.5 8Z" />
+    <path fill="#fff" fillOpacity=".5" d="M11.6 18.6c3.6-1.6 8.6-1.2 11.2 1.8-2.4 3.6-7.6 4.2-10.8 2.6-1-1.3-1-3-.4-4.4Z" />
+    <circle cx="25.6" cy="12.4" r="1.5" fill="#fff" /><circle cx="26" cy="12.3" r=".85" fill="#0b2a5c" />
+    <path d="M16.5 27v4M20.5 26.6v4.4M13.5 31.2h11" stroke="#1667e8" strokeWidth="1.6" strokeLinecap="round" />
   </TileBadge>
 }
 function BugTileIcon({ className }: { className?: string }) {
@@ -74,7 +74,7 @@ function BugTileIcon({ className }: { className?: string }) {
 function LeafTileIcon({ className }: { className?: string }) {
   return <TileBadge id="atlas-g-leaf" from="#5fd47a" to="#1f9a45" className={className}>
     <path fill="url(#atlas-g-leaf)" d="M30.5 9.5C19 9.2 10.5 14.4 10.5 23.2c0 3.6 2.2 6.6 5.4 7.6 9.4.3 15.2-8.8 14.6-21.3Z" />
-    <path d="M12.5 31.5c3-6.4 7.6-11.6 14-16.2M17.5 23.5l-.6-4.4M21.6 19.8l4.1.3" stroke="#fff" strokeOpacity=".7" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+    <path d="M13 29.5C17 22.5 21.6 16.6 28 12.2M17.6 23.2h4.6M21.4 18.4l-.4-4.4" stroke="#fff" strokeOpacity=".7" strokeWidth="1.5" strokeLinecap="round" fill="none" />
   </TileBadge>
 }
 /** 带白点的蘑菇：用于「全部」分类块。 */
