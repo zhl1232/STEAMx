@@ -1,113 +1,119 @@
-0 4-ke-ji - source reconstruction, INCOMPLETE dev-only
+0 4-ke-ji - courseware reconstruction, local review draft
 0 Name: 4-ke-ji.ldr
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
-0 // Batch2 source review 2026-10-12: p7 cabin colour light blue9; tower p9-11 retains source8 red/yellow courses, source footprint retained. Canopy seating remains unresolved: raw checker reports overlap with cockpit; no collision exemption. Nose is -X; source-view camera must face -X. Toolo blue tail omitted, no fabricated wings.
+0 // 2026-10-13: pages 1-12 reviewed; local draft, not human accepted. Nose -X, near wing -Z; tower on +Z side.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source Library libfile_f6df9c75694881918d746cfa7e75e662, PDF SHA256 25cc2fb679437ef1003dc94cc7db86865f6f2a8c4414b315d71d425b0075f3fa
-0 // STATUS: INCOMPLETE; source pages 1-12 visually inspected, no human acceptance.
+0 // STATUS: local renderer review only; Toolo geometry is approximate, no human acceptance or physical fit certification.
 0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
-0 // No physical validation. Missing parts are omitted and recorded per source step.
+0 // 45117c01 reused unchanged; 31239c01-ke-ji is a source-shaped local approximation; both absent from preferred kits.
 0 // STEP 1 - five black 4x6 screw blocks: lower three, upper two centered
-1 0 -240 0 80 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 0 80 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 240 0 80 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 -120 -48 80 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 120 -48 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -160 0 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 80 0 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 320 0 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -40 -48 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 200 -48 80 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
 
-0 // STEP 2 - two double-thick landing-gear blocks and four wheel/tyre assemblies
-1 72 -240 48 80 0 0 -1 0 1 0 1 0 0 76057.dat
-1 72 -240 96 80 0 0 -1 0 1 0 1 0 0 76057.dat
-1 71 -240 120 -24 1 0 0 0 0 1 0 -1 0 99565.dat
-1 0 -240 120 -24 1 0 0 0 0 1 0 -1 0 44970.dat
-1 71 -240 120 184 1 0 0 0 0 -1 0 1 0 99565.dat
-1 0 -240 120 184 1 0 0 0 0 -1 0 1 0 44970.dat
-1 72 240 48 80 0 0 -1 0 1 0 1 0 0 76057.dat
-1 72 240 96 80 0 0 -1 0 1 0 1 0 0 76057.dat
-1 71 240 120 -24 1 0 0 0 0 1 0 -1 0 99565.dat
-1 0 240 120 -24 1 0 0 0 0 1 0 -1 0 44970.dat
-1 71 240 120 184 1 0 0 0 0 -1 0 1 0 99565.dat
-1 0 240 120 184 1 0 0 0 0 -1 0 1 0 44970.dat
+0 // STEP 2 - two double-thick longitudinal landing-gear blocks and four broad wheel/tyre assemblies
+0 // Page 2: short 2-stud faces point forward; wheels use side bores at X +/-40 from support centers.
+1 72 -200 48 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 -200 96 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 71 -240 120 8 1 0 0 0 0 1 0 -1 0 dev-129/99565-ke-ji.dat
+1 0 -240 120 8 1 0 0 0 0 1 0 -1 0 dev-129/44970-ke-ji.dat
+1 71 -240 120 152 1 0 0 0 0 -1 0 1 0 dev-129/99565-ke-ji.dat
+1 0 -240 120 152 1 0 0 0 0 -1 0 1 0 dev-129/44970-ke-ji.dat
+1 72 280 48 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 280 96 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 71 320 120 8 1 0 0 0 0 1 0 -1 0 dev-129/99565-ke-ji.dat
+1 0 320 120 8 1 0 0 0 0 1 0 -1 0 dev-129/44970-ke-ji.dat
+1 71 320 120 152 1 0 0 0 0 -1 0 1 0 dev-129/99565-ke-ji.dat
+1 0 320 120 152 1 0 0 0 0 -1 0 1 0 dev-129/44970-ke-ji.dat
 0 STEP
 
 0 // STEP 3 - eight sideways screw-brick swept wings, two angled tip brackets
-1 72 -160 -8 -48 1 0 0 0 0 -1 0 1 0 76057.dat
-1 72 -120 -8 -96 1 0 0 0 0 -1 0 1 0 76057.dat
-1 72 -80 -8 -144 1 0 0 0 0 -1 0 1 0 76057.dat
-1 72 -40 -8 -192 1 0 0 0 0 -1 0 1 0 76057.dat
-1 72 0 -8 -240 0 0 1 1 0 0 0 1 0 28336.dat
-1 72 -160 -8 208 1 0 0 0 0 1 0 -1 0 76057.dat
-1 72 -120 -8 256 1 0 0 0 0 1 0 -1 0 76057.dat
-1 72 -80 -8 304 1 0 0 0 0 1 0 -1 0 76057.dat
-1 72 -40 -8 352 1 0 0 0 0 1 0 -1 0 76057.dat
-1 72 0 -8 400 0 0 1 -1 0 0 0 -1 0 28336.dat
+1 72 -80 -8 -48 1 0 0 0 0 -1 0 1 0 76057.dat
+1 72 -40 -8 -96 1 0 0 0 0 -1 0 1 0 76057.dat
+1 72 0 -8 -144 1 0 0 0 0 -1 0 1 0 76057.dat
+1 72 40 -8 -192 1 0 0 0 0 -1 0 1 0 76057.dat
+1 72 80 -8 -240 0 0 1 1 0 0 0 1 0 28336.dat
+1 72 -80 -8 208 1 0 0 0 0 1 0 -1 0 76057.dat
+1 72 -40 -8 256 1 0 0 0 0 1 0 -1 0 76057.dat
+1 72 0 -8 304 1 0 0 0 0 1 0 -1 0 76057.dat
+1 72 40 -8 352 1 0 0 0 0 1 0 -1 0 76057.dat
+1 72 80 -8 400 0 0 1 -1 0 0 0 -1 0 28336.dat
 0 STEP
 
-0 // STEP 4 - blue cockpit and official pale-yellow canopy in previously reviewed relative seating pose
-1 1 -320 -24 80 0 0 1 0 1 0 -1 0 0 31196c01.dat
-1 46 -468 -58 80 0 1 0 0 0 1 1 0 0 6345.dat
+0 // STEP 4 - blue cockpit; opaque pale-yellow canopy as drawn on pages 4-12
+0 // Existing canopy/cockpit surface-bound collision remains; no exemption or shared geometry edits.
+1 1 -240 -24 80 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 226 -388 -58 80 0 1 0 0 0 1 1 0 0 6345.dat
 0 STEP
 
-0 // STEP 5 - UNRESOLVED blue Toolo transverse tail wing and rudder; omitted
+0 // STEP 5 - blue transverse tail wing and raised open-frame rear spoiler (source page 5)
+0 // Locally approximated 45117c01 and course-specific 31239c01; screw fits are unmeasured.
+1 1 360 0 80 0 -1 0 0 0 -1 1 0 0 dev-129/45117c01.dat
+1 1 360 -48 80 1 0 0 0 1 0 0 0 1 dev-129/31239c01-ke-ji.dat
 0 STEP
 
-0 // STEP 6 - seven blue 2x4 plates cover fuselage and rear shelf
-1 1 -160 -72 40 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 -160 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 0 -72 40 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 0 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 160 -72 40 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 160 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 280 -24 80 0 0 -1 0 1 0 1 0 0 40666.dat
+0 // STEP 6 - seven blue 2x4 plates cover fuselage and cockpit rear deck
+1 1 -80 -72 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -72 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -72 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -200 -72 80 0 0 -1 0 1 0 1 0 0 40666.dat
 0 STEP
 
-0 // STEP 7 - four light-blue 2x3 curved bricks down cabin centerline
-1 9 -160 -120 80 0 0 -1 0 1 0 1 0 0 2302.dat
-1 9 -80 -120 80 0 0 -1 0 1 0 1 0 0 2302.dat
-1 9 0 -120 80 0 0 -1 0 1 0 1 0 0 2302.dat
-1 9 80 -120 80 0 0 -1 0 1 0 1 0 0 2302.dat
+0 // STEP 7 - four cyan 2x3 curved bricks, 120 LDU pitch with one stud-row gaps (page 7)
+1 322 -160 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
+1 322 -40 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
+1 322 80 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
+1 322 200 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
 0 STEP
 
-0 // STEP 8 - green 24x24 airport base; aircraft rests on tyres rather than studs
-1 2 0 177.378574 0 1 0 0 0 1 0 0 0 1 4268.dat
+0 // STEP 8 - green 24x24 airport base; tyre lower envelope touches the 11-LDU-high stud tops
+1 2 0 188.378574 0 1 0 0 0 1 0 0 0 1 4268.dat
 0 STEP
 
 0 // STEP 9 - tower: eight alternating red/yellow courses; two 2x4 bricks per course
-1 4 -240 129.378574 -340 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -240 129.378574 -260 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 81.37857399999999 -340 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 81.37857399999999 -260 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -240 33.378573999999986 -340 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -240 33.378573999999986 -260 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 -14.621426000000014 -340 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 -14.621426000000014 -260 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -240 -62.621426000000014 -340 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -240 -62.621426000000014 -260 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 -110.62142600000001 -340 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 -110.62142600000001 -260 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -240 -158.621426 -340 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -240 -158.621426 -260 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 -206.621426 -340 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 -206.621426 -260 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 140.378574 340 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -200 140.378574 340 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -240 92.378574 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 92.378574 380 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 44.378574 340 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -200 44.378574 340 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -240 -3.621426 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -3.621426 380 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -51.621426 340 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -200 -51.621426 340 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -240 -99.621426 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -99.621426 380 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -147.621426 340 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -200 -147.621426 340 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -240 -195.621426 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -195.621426 380 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 
-0 // STEP 10 - two red window frames and white four-pane inserts
-1 4 -240 -350.62142600000004 -340 1 0 0 0 1 0 0 0 1 61649.dat
-1 15 -174.5 -278.62142600000004 -380 1 0 0 0 1 0 0 0 1 90265.dat
-1 4 -240 -350.62142600000004 -260 1 0 0 0 1 0 0 0 1 61649.dat
-1 15 -174.5 -278.62142600000004 -300 1 0 0 0 1 0 0 0 1 90265.dat
+0 // STEP 10 - two red window frames with outward-facing white four-pane inserts
+0 // Front window faces -X like the cockpit; rear window faces +X (inferred from two assemblies on page 10).
+1 4 -280 -339.621426 340 0 0 1 0 1 0 -1 0 0 61649.dat
+1 15 -320 -267.621426 274.5 0 0 1 0 1 0 -1 0 0 90265.dat
+1 4 -200 -339.621426 340 0 0 -1 0 1 0 1 0 0 61649.dat
+1 15 -160 -267.621426 405.5 0 0 -1 0 1 0 1 0 0 90265.dat
 0 STEP
 
 0 // STEP 11 - four yellow roof bricks, two red cap bricks, two stacked yellow 2x2 beacon bricks
-1 14 -280 -398.62142600000004 -380 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -160 -398.62142600000004 -340 0 0 -1 0 1 0 1 0 0 3011.dat
-1 14 -200 -398.62142600000004 -220 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -320 -398.62142600000004 -260 0 0 -1 0 1 0 1 0 0 3011.dat
-1 4 -240 -446.62142600000004 -340 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -240 -446.62142600000004 -260 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -240 -494.62142600000004 -300 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -240 -542.621426 -300 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -280 -387.621426 260 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -387.621426 300 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -200 -387.621426 420 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -387.621426 380 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -240 -435.621426 300 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -435.621426 380 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -483.621426 340 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -531.621426 340 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
 
 0 // STEP 12 - source final alternate view; no new parts
