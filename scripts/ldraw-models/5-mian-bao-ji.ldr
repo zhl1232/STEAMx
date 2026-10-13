@@ -1,4 +1,4 @@
-0 5+ Bread machine - source reconstruction draft
+0 mian-bao-ji night26 pillars 2x2x6 (was 3-wide orange walls)
 0 Name: 5-mian-bao-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
@@ -172,37 +172,26 @@
 1 14 120 -480 0 0 0 1 0 1 0 -1 0 0 40666.dat
 1 14 200 -480 0 0 0 1 0 1 0 -1 0 0 40666.dat
 0 STEP
-0 // Source page 15: bread slice:12 orange2x2 bricks and2 yellow2x4 plates. Lift support unresolved.
+0 // Source page 15: bread pillar 6×orange 2x2 + yellow 2x4 cap (night26: was 3-wide wall)
 1 14 80 -480 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 25 0 -528 -120 1 0 0 0 1 0 0 0 1 3437.dat
 1 25 80 -528 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 160 -528 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 0 -576 -120 1 0 0 0 1 0 0 0 1 3437.dat
 1 25 80 -576 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 160 -576 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 0 -624 -120 1 0 0 0 1 0 0 0 1 3437.dat
 1 25 80 -624 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 160 -624 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 0 -672 -120 1 0 0 0 1 0 0 0 1 3437.dat
 1 25 80 -672 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 160 -672 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 80 -696 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 25 80 -720 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 80 -768 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -792 -120 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
-0 // Source page 16: bread slice:12 orange2x2 bricks and2 yellow2x4 plates. Lift support unresolved.
+0 // Source page 16: bread pillar 6×orange 2x2 + yellow 2x4 cap (night26: was 3-wide wall)
 1 14 80 -480 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 25 0 -528 120 1 0 0 0 1 0 0 0 1 3437.dat
 1 25 80 -528 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 160 -528 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 0 -576 120 1 0 0 0 1 0 0 0 1 3437.dat
 1 25 80 -576 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 160 -576 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 0 -624 120 1 0 0 0 1 0 0 0 1 3437.dat
 1 25 80 -624 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 160 -624 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 0 -672 120 1 0 0 0 1 0 0 0 1 3437.dat
 1 25 80 -672 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 25 160 -672 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 80 -696 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 25 80 -720 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 80 -768 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -792 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
 0 // Source p17 final view. Top plate layout and axial depths inferred from oblique images.
 0 // Pending user confirmation. No final render or physical verification.
 0 // Batch5 source review 2026-10-12: p15-17 top small raised detail already present: yellow40666 cap at(80,-696,+/-120), orange3437 top atY-672 leaves exposed end studs. Source BOM12 orange2x2 +2 yellow2x4 plates per slice matches; do not duplicate caps.
