@@ -17,11 +17,12 @@ function props(): TutorMessageListProps {
 }
 
 describe('tutor reading experience', () => {
-  it('renders scene dividers without speech actions and leaves history detail separate', () => {
+  it('hides leftover browse-trail dividers and leaves history detail separate', () => {
     const initial = props()
-    const { rerender } = render(<TutorMessageList {...initial} messages={[{ role: 'divider', content: '现在在：小车' }]} />)
-    expect(screen.getByText('现在在：小车')).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: '朗读这条回复' })).not.toBeInTheDocument()
+    const { rerender } = render(<TutorMessageList {...initial} messages={[{ role: 'divider', content: '现在在：小车' }, { role: 'assistant', content: '正常回复' }]} />)
+    expect(screen.queryByText('现在在：小车')).not.toBeInTheDocument()
+    expect(screen.getByText('正常回复')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '朗读这条回复' })).toBeInTheDocument()
     rerender(<TutorMessageList {...initial} messages={[{ role: 'divider', content: '现在在：小车' }]} view="historyDetail" historyDetail={{ id: 'old', title: '历史', archivedAt: null, messages: [{ role: 'assistant', content: '历史回复' }] }} />)
     expect(screen.queryByText('现在在：小车')).not.toBeInTheDocument()
     expect(screen.getByText('历史回复')).toBeInTheDocument()
