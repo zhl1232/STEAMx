@@ -176,4 +176,29 @@ describe('useTutorVoice speech fallback', () => {
     expect(mocks.audioPlay).not.toHaveBeenCalled()
     expect(result.current.speechLoadingKey).toBeNull()
   })
+
+  it('keeps streamed playback when the sheet closes or quota refreshes', async () => {
+    mocks.pcmPlayer.resume.mockResolvedValue(undefined)
+    const opts = {
+      open: true, mounted: true, hideOnMobile: false, contextKey: 'global:',
+      contextKeyRef: { current: 'global:' }, busyRef: { current: false }, quota: null as null | { isMember: boolean },
+      onComposerTranscript: vi.fn(), onLongPressTranscript: vi.fn(),
+    }
+    const { result, rerender } = renderHook(
+      ({ open, quota }) => useTutorVoice({ ...opts, open, quota: quota as never }),
+      { initialProps: { open: true, quota: null as null | { isMember: boolean } } },
+    )
+
+    await act(async () => {
+      await result.current.beginStreamedSpeech('live-1')
+      expect(result.current.pushStreamedPcm('AQIDBA==', 24_000, 'live-1')).toBe(true)
+    })
+
+    rerender({ open: false, quota: null })
+    expect(result.current.pushStreamedPcm('AQIDBA==', 24_000, 'live-1')).toBe(true)
+
+    rerender({ open: false, quota: { isMember: false } })
+    expect(result.current.pushStreamedPcm('AQIDBA==', 24_000, 'live-1')).toBe(true)
+    expect(result.current.finishStreamedSpeech('live-1', true, '测试')).toBe(true)
+  })
 })

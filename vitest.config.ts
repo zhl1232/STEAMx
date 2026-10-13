@@ -24,6 +24,7 @@ const domOnlyTsTests = [
     'hooks/playground/use-game-room.test.ts',
     'hooks/playground/use-gomoku-online.test.ts',
     'hooks/playground/use-tangram.test.ts',
+    'lib/auth/pending-otp.test.ts',
     'lib/explore-scroll-restore.test.ts',
     'lib/explore/project-navigation-context.test.ts',
     'lib/navigation/return-href.test.ts',
