@@ -147,6 +147,7 @@
   .desktopBack { display: inline-flex; min-height: 40px; align-items: center; margin-bottom: 8px; font-size: 13px; color: hsl(var(--muted-foreground)); }
   .desktopBack:hover { color: hsl(var(--atlas-accent)); }
   .hero { min-height: 260px; margin-top: 0; }
+  .heroImage { left: 42% !important; width: 58% !important; object-position: 45% 30%; }
   .heroStats { gap: 12px; margin-top: 16px; }
   .heroStats > div { min-width: 96px; padding: 8px 14px; }
   .heroStats dt { font-size: 12px; }
