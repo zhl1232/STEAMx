@@ -61276,6 +61276,30 @@
         "Hand-authored 2026-10-13 from 4-wa-li courseware p12/p15 (orange scoop hand x2). Exact real part id not established; no LDraw geometry found.",
         "Pivot at origin on arm end pin, axis Z. Shape, size and teeth are image estimates."
       ]
+    },
+    "dev-129/44970-wu-shi.dat": {
+      "name": "Duplo Toolo chunky tyre (local approx for 4-chun-jie-wu-shi eyes)",
+      "bbox": {
+        "xMin": -64,
+        "xMax": 64,
+        "yMin": -22,
+        "yMax": 22,
+        "zMin": -64,
+        "zMax": 64
+      },
+      "heightLdu": 44,
+      "origin": {
+        "type": "axle-center",
+        "axis": "Y"
+      },
+      "notes": [
+        "Local CC BY 4.0 approximation, 2026-10-13: thick black knobby tyre per courseware 4-chun-jie-wu-shi slide-19/finished.",
+        "Body radius 50, 12 square tread blocks to radius 64, width 44; estimated, not measured. Inventory alias 44970."
+      ],
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual"
     }
   }
 }
