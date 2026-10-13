@@ -109,7 +109,7 @@ function HomeHero({ image }: { image: string }) {
           className="hidden object-cover object-[69%_center] md:block md:object-[70%_center] lg:object-[73%_center] xl:object-[75%_center] md:[mask-image:linear-gradient(90deg,transparent_0%,transparent_43%,black_76%,black_100%)] lg:[mask-image:linear-gradient(90deg,transparent_0%,transparent_32%,black_64%,black_100%)] xl:[mask-image:linear-gradient(90deg,transparent_0%,transparent_26%,black_58%,black_100%)]"
         />
         {/* 浅色：白卡向下融进照片；深色：只做很轻的压暗，避免乌云压顶把孩子照片盖死。 */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[124px] bg-[linear-gradient(180deg,hsl(var(--surface-raised))_0%,hsl(var(--surface-raised)/0.82)_18%,hsl(var(--surface-raised)/0.18)_44%,transparent_68%)] dark:bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.22)_0%,hsl(var(--surface-raised)/0.1)_16%,transparent_42%)] md:hidden" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[124px] bg-[linear-gradient(180deg,hsl(var(--surface-raised))_0%,hsl(var(--surface-raised)/0.82)_18%,hsl(var(--surface-raised)/0.18)_44%,transparent_68%)] dark:bg-[linear-gradient(180deg,rgba(0,0,0,0.14)_0%,rgba(0,0,0,0.05)_18%,transparent_40%)] md:hidden" />
 
         <div className="relative z-10 flex min-h-[200px] flex-col justify-start px-4 pb-[88px] pt-5 md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
           <div className="min-w-0 max-w-[440px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[550px]">
