@@ -38,6 +38,9 @@ export function formatTutorCredits(value: number): string {
 
 export function formatTutorQuota(quota: AiCreditStatus | null): string | null {
   if (!quota || quota.creditUnit !== 'credits') return null
+  if (quota.isMember && quota.freeDaily <= 0) {
+    return `本月 ${formatTutorCredits(quota.walletBalance)}/${formatTutorCredits(quota.monthlyGrant)} 代币`
+  }
   const daily = `今日赠送 ${formatTutorCredits(quota.freeRemainingToday)}/${formatTutorCredits(quota.freeDaily)} 代币`
   if (!quota.isMember || quota.walletBalance <= 0) {
     return `${daily}\n每次最多使用 ${formatTutorCredits(quota.dailyChargeCap)} 赠送代币`

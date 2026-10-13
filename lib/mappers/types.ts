@@ -397,6 +397,7 @@ export interface ObservationEvent {
     id: number
     userId: string
     authorDisplayName?: string | null
+    authorAvatarUrl?: string | null
     observedAt: string
     createdAt: string
     locationName: string

@@ -8,6 +8,7 @@ import { buildBreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { createClient } from "@/lib/supabase/server";
 import { getContentClassificationSettings } from "@/lib/content-classification";
+import { getStartCourseCategory } from "@/lib/product/onboarding";
 
 const COURSE_HUB_DESCRIPTION =
     "创探空间提供积木搭建、Scratch 编程、五子棋等免费技能课程，按步骤学会一项技能，把过程做成自己的作品。";
@@ -19,7 +20,11 @@ export const metadata = buildPageMetadata({
     keywords: ["创探空间 课程", "积木课程", "少儿编程", "Scratch 课程", "技能课程"],
 });
 
-export default async function CoursesPage() {
+export default async function CoursesPage({ searchParams }: {
+    searchParams?: Promise<{ category?: string | string[] }>;
+} = {}) {
+    const initialFilter = getStartCourseCategory((await searchParams)?.category);
+    const retryHref = initialFilter === 'recommended' ? '/courses' : `/courses?category=${initialFilter}`;
     let courses: CourseListItem[] | null = null;
     try {
         const supabase = await createClient();
@@ -52,7 +57,7 @@ export default async function CoursesPage() {
                             <p className="mt-1 text-sm text-muted-foreground">动手实践 · 掌握新技能 · 让创意变成作品</p>
                         </div>
                     </header>
-                    {courses ? <CourseBoard courses={courses} /> : <CourseBoardError retryHref="/courses" />}
+                    {courses ? <CourseBoard courses={courses} initialFilter={initialFilter} /> : <CourseBoardError retryHref={retryHref} />}
                 </main>
             </div>
         </>

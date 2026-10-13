@@ -31,7 +31,7 @@ export const LEARNING_QUICK_START = {
     materials: '熟悉且允许停留的安全地点；纸笔或手机可选，不必先买设备。',
     safety: '孩子由成人陪同，留在安全步道；不追赶、不投喂、不采摘，不触碰或品尝不认识的生物，不靠近巢穴。',
     steps: ['从安全的位置看叶片、花或果实，说出一处细节。', '画下来或拍张照片，记下时间、地点和一句发现。', '过几天回到同一位置，看看有什么变化。'],
-    action: '开始这次观察',
+    action: '看看观察方法',
     directActivity: true,
   },
 } satisfies Record<LearningTopicSlug, {
