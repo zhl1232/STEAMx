@@ -4,7 +4,7 @@ import {
   type ObservationMediaAnalysisResult,
   type SpeciesRow,
 } from '@/lib/ai/observation-media-analysis'
-import { DashScopeError, dashScopeChatComplete } from '@/lib/ai/dashscope'
+import { DASHSCOPE_COMPLETE_TIMEOUT_MS, DashScopeError, dashScopeChatComplete } from '@/lib/ai/dashscope'
 
 type ObservationVisionErrorCode =
   | 'missing_config'
@@ -129,6 +129,8 @@ export async function analyzeObservationImageWithQwen(
   try {
     result = await dashScopeChatComplete({
       role: 'vision',
+      // Image fetch + structured JSON; keep above the shared text default.
+      timeoutMs: Math.max(DASHSCOPE_COMPLETE_TIMEOUT_MS, 45_000),
       payload: {
         response_format: { type: 'json_object' },
         temperature: 0.1,
