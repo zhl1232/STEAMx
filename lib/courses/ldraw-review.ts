@@ -288,6 +288,9 @@ export const LDRAW_REVIEW_CANDIDATES = [
   // 2026-10-13 hand review, camera calibrated to courseware final page; main parts match.
   '5-zhan-chi-gao-fei.ldr',
   '5-shou-tui-fei-ji.ldr',
+  // 2026-10-13 rechecked against the real 5+ PDFs (camera-calibrated overlay).
+  '5-shui-jing.ldr',
+  '5-ta-diao.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
