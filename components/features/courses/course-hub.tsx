@@ -20,16 +20,27 @@ const COVER_OVERRIDES: Record<string, string> = {
   '/api/assets/courses/scratch-original/v1/cover.svg': '/assets/courses/scratch-course-cover.svg',
 }
 
+function withRetry(src: string, attempt: number) {
+  if (attempt === 0) return src
+  return `${src}${src.includes('?') ? '&' : '?'}retry=${attempt}`
+}
+
+/** 封面加载失败时自动重试两次（600ms、1200ms 退避），仍失败才显示「暂无封面」。 */
 function CourseCover({ course, priority }: { course: CourseListItem; priority: boolean }) {
-  const [failedSrc, setFailedSrc] = useState<string | null>(null)
   const raw = course.image_url?.trim() || null
-  const src = raw ? COVER_OVERRIDES[raw] ?? raw : null
+  const baseSrc = raw ? COVER_OVERRIDES[raw] ?? raw : null
+  const [state, setState] = useState<{ src: string | null; attempt: number; failed: boolean }>({ src: null, attempt: 0, failed: false })
+  const attempt = state.src === baseSrc ? state.attempt : 0
+  const failed = state.src === baseSrc && state.failed
   return (
     <div className={styles.cover} data-category={getCourseCategory(course)}>
-      {src && failedSrc !== src ? (
-        <OptimizedImage src={src} alt="" fill priority={priority} variant="thumbnail"
-          sizes="(min-width: 768px) 104px, 84px" className={styles.coverImage}
-          onError={() => setFailedSrc(src)} />
+      {baseSrc && !failed ? (
+        <OptimizedImage key={attempt} src={withRetry(baseSrc, attempt)} alt="" fill priority={priority} variant="thumbnail"
+          sizes="(min-width: 768px) 104px, 100px" className={styles.coverImage}
+          onError={() => {
+            if (attempt < 2) window.setTimeout(() => setState({ src: baseSrc, attempt: attempt + 1, failed: false }), 600 * (attempt + 1))
+            else setState({ src: baseSrc, attempt, failed: true })
+          }} />
       ) : (
         <span className={styles.coverFallback} role="img" aria-label={`${course.title}：暂无封面`}>
           {getCourseCategory(course) === 'brick' ? <Blocks size={28} aria-hidden="true" /> : <BookOpen size={28} aria-hidden="true" />}
@@ -68,7 +79,7 @@ const CourseCard = memo(function CourseCard({ course, featured = false, priority
                 aria-valuenow={percent} aria-valuetext={`已完成 ${progress.completed_lesson_count} / ${progress.total_lesson_count} 课时`}
                 className={styles.progressTrack}><span style={{ width: `${percent}%` }} /></div>
             </div>
-          ) : <span className={styles.modeLabel}>{completed ? '已完成' : course.lesson_count === 0 ? '内容准备中' : category === 'brick' ? '积木搭建' : '分步学习'}</span>}
+          ) : <span className={styles.modeLabel}>{completed ? '已完成' : course.lesson_count === 0 ? '内容准备中' : category === 'brick' ? '' : '分步学习'}</span>}
           <Link href={action.href} prefetch={false} aria-label={`${action.label}：${course.title}`}
             className={cn(styles.action, featured && styles.primaryAction)}>
             {action.label}<ChevronRight size={13} aria-hidden="true" />
