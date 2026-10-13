@@ -11,7 +11,7 @@ import styles from './species-atlas.module.css'
  * 已缩放为 1600px webp；按许可要求在头图角落署名。
  */
 const HERO_PHOTO = {
-  src: '/assets/nature-atlas-hero-kingfisher.webp',
+  src: '/assets/nature-atlas-hero-kingfisher-v2.webp',
   credit: '图：Andreas Trepte / CC BY-SA 2.5',
   sourceUrl: 'https://commons.wikimedia.org/wiki/File:Common_Kingfisher_Alcedo_atthis.jpg',
 }
