@@ -221,6 +221,7 @@ export const LDRAW_REVIEW_CANDIDATES = [
   // 2026-10-12: 129 课开发稿（docs/ldraw-rebuild-20261011/HANDOFF-129.md @4a0a4a90），供用户确认。
   // 54 个课件对照明显不对/小差异的已撤出待确认，见 scripts/ldraw-fixing-20261012.json（修复中）。
   '4-da-long-xia.ldr',
+  '4-da-xiang.ldr',
   '4-ci-xuan-fu-lie-che.ldr',
   '4-ji-guan-qiang.ldr',
   '4-jun-jian.ldr',
