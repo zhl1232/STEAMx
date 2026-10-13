@@ -28,8 +28,10 @@
 1 72 -410.842712 -491.842712 0 -0.7071067811865476 0.7071067811865476 0 0.7071067811865476 0.7071067811865476 0 0 0 -1 dev-129/28331.dat
 0 STEP
 0 // Source page 5: front fork and vertical long neck
-1 72 160 -144 0 0 0 1 0 1 0 -1 0 0 28336.dat
-1 72 208 -609 0 1 0 0 0 1 0 0 0 1 dev-129/28331.dat
+0 // night: tip neck/head ~18° forward around fork
+0 // night: neck/head +40 X total (was +96, backed off 56)
+1 72 200 -144 0 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 389.344 -571.408 0 0.951057 -0.309017 0 0.309017 0.951057 0 0 0 1 dev-129/28331.dat
 0 STEP
 0 // Source page 6: two side-built front foot brackets
 1 72 288 -24 -160 0 -1 0 0 0 1 -1 0 0 28336.dat
@@ -54,19 +56,19 @@
 1 25 -553 48 80 1 0 0 0 1 0 0 0 1 dev-129/rake-yi-long.dat
 0 STEP
 0 // Source page 11: neck clutch and two offset red Toolo jaw bricks
-1 72 208 -669 0 1 0 0 0 1 0 0 0 1 74957.dat
-1 4 328 -669 0 1 0 0 0 1 0 0 0 1 76057.dat
-1 4 248 -717 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 407.885 -628.472 0 0.951057 -0.309017 0 0.309017 0.951057 0 0 0 1 74957.dat
+1 4 522.011 -591.39 0 0.951057 -0.309017 0 0.309017 0.951057 0 0 0 1 76057.dat
+1 4 460.76 -661.762 0 0.951057 -0.309017 0 0.309017 0.951057 0 0 0 1 76057.dat
 0 STEP
 0 // Source page 12: two upper red Toolo bricks and paired wheel eyes
-1 4 248 -765 -40 1 0 0 0 1 0 0 0 1 76057.dat
-1 4 248 -765 40 1 0 0 0 1 0 0 0 1 76057.dat
-1 71 208 -741 -104 1 0 0 0 0 1 0 -1 0 99565.dat
-1 71 208 -741 104 1 0 0 0 0 -1 0 1 0 99565.dat
+1 4 475.593 -707.413 -40 0.951057 -0.309017 0 0.309017 0.951057 0 0 0 1 76057.dat
+1 4 475.593 -707.413 40 0.951057 -0.309017 0 0.309017 0.951057 0 0 0 1 76057.dat
+1 71 430.134 -696.948 -104 0.951057 0 -0.309017 0.309017 0 0.951057 0 -1 0 99565.dat
+1 71 430.134 -696.948 104 0.951057 0 0.309017 0.309017 0 -0.951057 0 1 0 99565.dat
 0 STEP
 0 // Source page 13: blue wing 45117c01 + spoiler 31239c01 crest on head top (hand fix 2026-10-13; copies of approved 4-ke-ji v2 approximations), swept backward
-1 1 248 -765 0 -1 0 0 0 1 0 0 0 -1 dev-129/45117c01-yi-long.dat
-1 1 248 -813 0 -1 0 0 0 1 0 0 0 -1 dev-129/31239c01-yi-long.dat
+1 1 475.593 -707.413 0 -0.951057 -0.309017 0 -0.309017 0.951057 0 0 0 -1 dev-129/45117c01-yi-long.dat
+1 1 490.425 -753.063 0 -0.951057 -0.309017 0 -0.309017 0.951057 0 0 0 -1 dev-129/31239c01-yi-long.dat
 0 STEP
 0 // Source page 14: six black Toolo bricks in two stepped wing rows
 1 0 0 -144 -200 0 0 1 0 1 0 -1 0 0 76395.dat
@@ -16799,7 +16801,7 @@
 
 0 FILE dev-129/45117c01-yi-long.dat
 0 Duplo Toolo Wings with Beam Center - 4-ke-ji v2 approximation of 45117c01
-0 Name: 45117c01-ke-ji-v2.dat
+0 Name: dev-129/45117c01-yi-long.dat
 0 Author: STEAMX local reconstruction
 0 !LDRAW_ORG Unofficial_Part
 0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
@@ -20948,7 +20950,7 @@
 
 0 FILE dev-129/31239c01-yi-long.dat
 0 Duplo Toolo Rear Spoiler - 4-ke-ji v2 approximation of 31239c01
-0 Name: 31239c01-ke-ji-v2.dat
+0 Name: dev-129/31239c01-yi-long.dat
 0 Author: STEAMX local reconstruction
 0 !LDRAW_ORG Unofficial_Part
 0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
