@@ -1,8 +1,9 @@
-0 Dock crane - unaccepted source reconstruction
+0 Dock crane - night15 WIP cabin lowered +96Y (not gated)
 0 Name: 5-ma-tou-diao-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // night15: p8+p9 cabin +96Y; IoU≈0.74 @ -1.05,0.7,1.75 — residual cam/boom, not gated
 0 // PDF SHA256 1f52aba69bf1b1b0bd89af111c672ffcd8c496809a75fe5bb98b7e3bff804baa; all fifteen source pages viewed.
 0 // BATCH2 page12-15 review: existing non-BOM rope connects boom-tip pulley to lower hook; old audit screenshot predates rope geometry. Retained, no duplicate rope/75536. Schematic route, not physical validation.
 0 // INCOMPLETE: cockpit/canopy fit, boom shaft depth, frame mould variant and string knots unresolved.
@@ -81,18 +82,19 @@
 1 14 -160 -540 0 1 0 0 0 0 1 0 -1 0 6527.dat
 0 STEP
 0 // SOURCE PAGE 8: four blue bricks form rear cockpit platform
-1 1 -40 -568 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 -40 -568 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 40 -568 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 40 -568 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // night15: cabin assembly +96Y toward red beams
+1 1 -40 -472.0000 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -40 -472.0000 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -472.0000 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 40 -472.0000 80 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 0 // SOURCE PAGE 9: red cockpit, pale yellow canopy, rear window, yellow cap and lime roof
-1 4 0 -592 0 0 0 1 0 1 0 -1 0 0 31196c01.dat
-1 46 -148 -626 0 0 1 0 0 0 1 1 0 0 6345.dat
-1 4 40 -760 0 0 0 1 0 1 0 -1 0 0 61649.dat
-1 15 0 -688 -65.5 0 0 1 0 1 0 -1 0 0 90265.dat
-1 14 40 -808 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -40 -832 0 1 0 0 0 1 0 0 0 1 4672b.dat
+1 4 0 -496.0000 0 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 46 -148 -530.0000 0 0 1 0 0 0 1 1 0 0 6345.dat
+1 4 40 -664.0000 0 0 0 1 0 1 0 -1 0 0 61649.dat
+1 15 0 -592.0000 -65.5 0 0 1 0 1 0 -1 0 0 90265.dat
+1 14 40 -712.0000 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -40 -736.0000 0 1 0 0 0 1 0 0 0 1 4672b.dat
 0 STEP
 0 // SOURCE PAGE 10: two inclined eleven-hole boom beams, two grey axles and four pulleys
 1 14 -514.715287 -659.830409 -80 0.819152044 0 -0.573576436 -0.573576436 0 -0.819152044 0 1 0 6525.dat
