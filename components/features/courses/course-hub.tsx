@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { memo, useMemo, useState } from 'react'
 import { Blocks, BookOpen, ChevronRight, Compass, FlaskConical, Leaf, Lightbulb } from 'lucide-react'
 import { OptimizedImage } from '@/components/ui/optimized-image'
-import { ContentClassification } from '@/components/ui/content-classification'
 import type { CourseListItem } from '@/lib/courses/types'
 import { cn } from '@/lib/utils'
 import {
@@ -51,10 +50,21 @@ function CourseCover({ course, priority }: { course: CourseListItem; priority: b
   )
 }
 
+// 积木课数据里没有年龄分级，按班级在代码里补；不改线上数据。
+const BRICK_AGE_BY_GRADE: Array<[string, string]> = [['小班', '3 岁起'], ['中班', '4 岁起'], ['大班', '5 岁起']]
+
+/** 只显示年龄和难度，不显示陪同/学习方式这类说明。 */
+function getAgeLine(course: CourseListItem) {
+  const c = course.classification
+  if (c) return [c.ageLabel, c.difficultyLabel].filter(Boolean).join(' · ')
+  return BRICK_AGE_BY_GRADE.find(([grade]) => course.title.includes(grade))?.[1] ?? null
+}
+
 const CourseCard = memo(function CourseCard({ course, featured = false, priority = false }: {
   course: CourseListItem; featured?: boolean; priority?: boolean
 }) {
   const category = getCourseCategory(course)
+  const ageLine = getAgeLine(course)
   const action = getCourseAction(course)
   const progress = course.progress
   const learning = isLearningCourse(course)
@@ -70,7 +80,7 @@ const CourseCard = memo(function CourseCard({ course, featured = false, priority
           <Link href={`/courses/${course.id}`} prefetch={false} title={course.title}>{course.title}</Link>
         </h3>
         <p className={styles.metadata}><BookOpen size={12} aria-hidden="true" />{course.lesson_count} 课时</p>
-        <ContentClassification classification={course.classification} variant="card" className={styles.classification} />
+        {ageLine ? <p className={styles.classification}>{ageLine}</p> : null}
         <div className={styles.cardBottom}>
           {learning && progress ? (
             <div className={styles.progress}>
@@ -79,7 +89,7 @@ const CourseCard = memo(function CourseCard({ course, featured = false, priority
                 aria-valuenow={percent} aria-valuetext={`已完成 ${progress.completed_lesson_count} / ${progress.total_lesson_count} 课时`}
                 className={styles.progressTrack}><span style={{ width: `${percent}%` }} /></div>
             </div>
-          ) : <span className={styles.modeLabel}>{completed ? '已完成' : course.lesson_count === 0 ? '内容准备中' : category === 'brick' ? '' : '分步学习'}</span>}
+          ) : <span className={styles.modeLabel}>{completed ? '已完成' : course.lesson_count === 0 ? '内容准备中' : ''}</span>}
           <Link href={action.href} prefetch={false} aria-label={`${action.label}：${course.title}`}
             className={cn(styles.action, featured && styles.primaryAction)}>
             {action.label}<ChevronRight size={13} aria-hidden="true" />
