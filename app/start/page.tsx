@@ -14,13 +14,13 @@ const ICONS = [Blocks, PencilRuler, FlaskConical, Leaf, Sprout, Gamepad2]
 
 export default function StartPage() {
   return (
-    <main className="mx-auto w-full max-w-4xl px-5 py-12 sm:px-8 sm:py-16">
+    <main className="app-shell-wide pb-28 pt-8 md:py-12">
       <div className="max-w-2xl space-y-4">
         <p className="text-sm font-semibold tracking-[0.18em] text-primary">创探空间</p>
         <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">从你感兴趣的方向开始</h1>
         <p className="text-base leading-8 text-muted-foreground sm:text-lg">创探空间陪孩子从好奇出发，在动手、观察、提问和反复尝试中找到自己的学习路径。先选一个想试试的方向，边做边发现下一步。</p>
       </div>
-      <div className="mt-10 grid gap-3 sm:grid-cols-2">
+      <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {PLATFORM_GUIDE_LINKS.map((item, index) => {
           const Icon = ICONS[index]
           return (
