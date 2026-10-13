@@ -13,7 +13,7 @@ import styles from './species-atlas.module.css'
  * 合成图按 CC BY-SA 2.0 提供；按许可要求在头图角落署名并链接原图。
  */
 const HERO_PHOTO = {
-  src: '/assets/nature-atlas-hero-kingfisher-v4.webp',
+  src: '/assets/nature-atlas-hero-kingfisher-v5.webp',
   credits: [
     { label: 'Alexis Lours / CC BY 2.0', href: 'https://commons.wikimedia.org/wiki/File:Common_kingfisher_on_a_branch_facing_right.jpg' },
     { label: 'Takashi Hososhima / CC BY-SA 2.0', href: 'https://commons.wikimedia.org/wiki/File:Spring_maple_leaves_(8689469096).jpg' },
