@@ -66,7 +66,7 @@ describe('物种图鉴的内容与筛选', () => {
     expect(container.querySelector('[data-topic="birds"]')).toHaveTextContent('4')
     expect(container.querySelector('[data-topic="insects"]')).toHaveTextContent('0')
     expect(container.querySelector('[aria-live="polite"]')).toHaveTextContent('4 种')
-    expect(container.querySelector('#species-letter-birds-a ul')).toHaveAttribute('data-singleton', 'true')
+    expect(container.querySelector('#species-letter-birds-a ul')).not.toHaveAttribute('data-singleton')
     expect(screen.getByRole('link', { name: '跳转到A开头物种' })).toHaveAttribute('href', '#species-letter-birds-a')
     expect(container.querySelectorAll('[data-species-slug]')).toHaveLength(4)
     expect(container.querySelector('[data-species-slug="bird-2"]')).toHaveAttribute('href', '/nature/species/bird-2')

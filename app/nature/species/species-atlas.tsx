@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { LayoutGrid, List, Bird, Bug, ListFilter, Search, Sprout, X } from 'lucide-react'
+import { ChevronRight, LayoutGrid, List, Bird, Bug, ListFilter, Search, Sprout, X } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useTransition } from 'react'
 import type { FormEvent } from 'react'
@@ -107,11 +107,59 @@ function buildSpeciesHref(filters: {
   return params.size ? `${basePath}?${params}` : basePath
 }
 
+/** 右侧 A–Z：可收起；无物种字母置灰不可点；滚动时高亮当前字母。手机默认收起。 */
+function AtlasLetterIndex({ topic, availableLetters }: { topic: SpeciesAtlasTopicFilter; availableLetters: Set<string> }) {
+  const [collapsed, setCollapsed] = useState(false)
+  const [active, setActive] = useState<string | null>(null)
+  useLayoutEffect(() => {
+    if (window.matchMedia('(max-width: 767px)').matches) setCollapsed(true)
+  }, [])
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return
+    const sections = SPECIES_ALPHABET.filter(letter => availableLetters.has(letter))
+      .map(letter => ({ letter, element: document.getElementById(buildSpeciesLetterId(topic, letter)) }))
+      .filter((entry): entry is { letter: string; element: HTMLElement } => Boolean(entry.element))
+    const visible = new Set<string>()
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        const letter = (entry.target as HTMLElement).dataset.letter
+        if (!letter) continue
+        if (entry.isIntersecting) visible.add(letter); else visible.delete(letter)
+      }
+      const first = sections.find(section => visible.has(section.letter))
+      if (first) setActive(first.letter)
+    }, { rootMargin: '-80px 0px -55% 0px' })
+    for (const section of sections) { section.element.dataset.letter = section.letter; observer.observe(section.element) }
+    return () => observer.disconnect()
+  }, [availableLetters, topic])
+  if (collapsed) {
+    return (
+      <div className={styles.indexCollapsedWrap}>
+        <button type="button" className={styles.indexToggle} onClick={() => setCollapsed(false)} aria-expanded="false" aria-label="展开字母索引" title="展开字母索引">
+          <span aria-hidden="true">{active === speciesAtlasOtherInitial ? '#' : active ?? 'A–Z'}</span>
+        </button>
+      </div>
+    )
+  }
+  return (
+    <nav className="nature-atlas-index" aria-label="按名称首字母跳转">
+      <button type="button" className={styles.indexCollapse} onClick={() => setCollapsed(true)} aria-expanded="true" aria-label="收起字母索引" title="收起字母索引">
+        <ChevronRight size={14} aria-hidden="true" />
+      </button>
+      {SPECIES_ALPHABET.map(letter => availableLetters.has(letter) ? (
+        <a key={letter} href={`#${buildSpeciesLetterId(topic, letter)}`} className={cn('nature-atlas-index-link', active === letter && styles.indexActive)} aria-current={active === letter ? 'true' : undefined} aria-label={`跳转到${getSpeciesLetterLabel(letter)}`} onClick={() => { setActive(letter); if (window.matchMedia('(max-width: 767px)').matches) setCollapsed(true) }}>{letter}</a>
+      ) : (
+        <span key={letter} className="nature-atlas-index-link nature-atlas-index-link-disabled" aria-hidden="true">{letter}</span>
+      ))}
+    </nav>
+  )
+}
+
 /** 布局只是外层 CSS 属性；输入草稿和切换图集/列表不重新执行整批卡片的 React 渲染。 */
 const AtlasResults = memo(function AtlasResults({ groups, topic, filtersKey, priorityIds }: {
   groups: SpeciesLetterGroup[]; topic: SpeciesAtlasTopicFilter; filtersKey: string; priorityIds: Set<number>
 }) {
-  const availableLetters = new Set(groups.map(group => group.initial))
+  const availableLetters = useMemo(() => new Set(groups.map(group => group.initial)), [groups])
   const resultsRef = useRef<HTMLDivElement>(null)
   useLayoutEffect(() => {
     const element = resultsRef.current
@@ -161,7 +209,7 @@ const AtlasResults = memo(function AtlasResults({ groups, topic, filtersKey, pri
                 <h2 id={`${id}-heading`}>{group.initial}</h2>
                 <span className={styles.letterCount}>{group.items.length} 种</span>
               </div>
-              <ul className="nature-atlas-grid" data-atlas-count={group.items.length} aria-label={`${getTopicSummaryLabel(topic)}${getSpeciesLetterLabel(group.initial)}`} data-singleton={group.items.length === 1 ? 'true' : undefined}>
+              <ul className="nature-atlas-grid" data-atlas-count={group.items.length} aria-label={`${getTopicSummaryLabel(topic)}${getSpeciesLetterLabel(group.initial)}`}>
                 {group.items.map(item => (
                   <li key={item.id} className={performanceStyles.tileCell}>
                     <SpeciesAtlasTile item={item} filtersKey={filtersKey} priority={priorityIds.has(item.id)} />
@@ -172,15 +220,7 @@ const AtlasResults = memo(function AtlasResults({ groups, topic, filtersKey, pri
           )
         })}
       </div>
-      {groups.length > 0 ? (
-        <nav className="nature-atlas-index" aria-label="按名称首字母跳转">
-          {SPECIES_ALPHABET.map(letter => availableLetters.has(letter) ? (
-            <a key={letter} href={`#${buildSpeciesLetterId(topic, letter)}`} className="nature-atlas-index-link" aria-label={`跳转到${getSpeciesLetterLabel(letter)}`}>{letter}</a>
-          ) : (
-            <span key={letter} className="nature-atlas-index-link nature-atlas-index-link-disabled" aria-hidden="true">{letter}</span>
-          ))}
-        </nav>
-      ) : null}
+      {groups.length > 0 ? <AtlasLetterIndex topic={topic} availableLetters={availableLetters} /> : null}
     </div>
   )
 })
@@ -334,7 +374,7 @@ export function SpeciesAtlas({
     <div className={cn('app-shell-wide pb-24 pt-0 md:px-8 md:pb-12 md:pt-8', styles.atlas, performanceStyles.performance)} data-layout={layout}>
       <MobilePageHeader title="自然观察" className="nature-atlas-mobile-header" contentClassName="nature-atlas-mobile-header-content" backButtonClassName="nature-atlas-mobile-header-back" titleClassName="nature-atlas-mobile-header-title" fallbackHref="/nature" />
       <Link href="/nature" className={styles.desktopBack}>返回自然观察首页</Link>
-      <AtlasHero topic={topic} heading={heading} introduction={introduction} />
+      <AtlasHero topic={topic} heading={heading} introduction={introduction} stats={statusCounts} />
       <section className="nature-atlas-toolbar" aria-label="物种筛选">
         <form onSubmit={handleSearchSubmit} className="nature-atlas-search-form">
           <label className="sr-only" htmlFor="species-atlas-search">搜索物种</label>
@@ -343,14 +383,17 @@ export function SpeciesAtlas({
           {searchDraft ? <button type="button" className="nature-atlas-icon-button" onClick={() => updateFilters({ query: '' })} aria-label="清除搜索" title="清除搜索"><X className="h-4 w-4" aria-hidden="true" /></button> : null}
           <Button type="submit" tone="brand" size="sm" className="shrink-0">搜索</Button>
         </form>
-        <div className="nature-atlas-topic-tabs" aria-label="专题筛选">
+        <div className={cn('nature-atlas-topic-tabs', styles.categoryCards)} aria-label="分类筛选">
           {([...data.groups.map(group => group.key), 'all'] as SpeciesAtlasTopicFilter[]).map(key => {
             const Icon = TOPIC_ICONS[key]
-            const label = key === 'all' ? '全部' : getTopicSummaryLabel(key)
-            const count = key === 'all' ? data.total : data.groups.find(group => group.key === key)?.total ?? 0
-            return <button key={key} type="button" className={cn('nature-atlas-topic-tab', topic === key && 'nature-atlas-topic-tab-active')} aria-label={label} data-topic={key} aria-pressed={topic === key} onClick={() => updateFilters({ topic: key })}>
-              <Icon className="h-4 w-4" aria-hidden="true" />
-              <span className={styles.topicText}><span>{label}</span><span className={styles.topicCount} aria-hidden="true">{count}</span></span>
+            const label = key === 'all' ? '全部物种' : getTopicSummaryLabel(key)
+            const group = data.groups.find(item => item.key === key)
+            const count = key === 'all' ? data.total : group?.total ?? 0
+            const observed = key === 'all' ? (progressReady ? data.groups.reduce((sum, item) => sum + (item.observedCount ?? 0), 0) : null) : progressReady ? group?.observedCount ?? null : null
+            return <button key={key} type="button" className={cn('nature-atlas-topic-tab', styles.categoryCard, topic === key && 'nature-atlas-topic-tab-active')} aria-label={label} data-topic={key} aria-pressed={topic === key} onClick={() => updateFilters({ topic: key })}>
+              <span className={styles.categoryIcon}><Icon className="h-5 w-5" aria-hidden="true" /></span>
+              <span className={styles.categoryLabel}>{label}</span>
+              <span className={styles.categoryCount}><strong>{count}</strong> 种{observed !== null ? <span className={styles.categoryObserved}> · 已观察 {observed}</span> : null}</span>
             </button>
           })}
         </div>
