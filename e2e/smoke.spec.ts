@@ -239,8 +239,11 @@ for (const width of [768, 1280, 1840]) {
     await expect(hero.getByText('从孩子想做的开始，跟着指导一步步尝试。', { exact: true })).toBeVisible()
     await expect(hero.getByRole('link', { name: '挑一节免费课程' })).toBeVisible()
     await expect(hero.getByRole('link', { name: '看看动手项目' })).toBeVisible()
-    await expect(hero.locator('a[href="/start"]')).toBeHidden()
-    await expect(page.getByRole('link', { name: '探索指南', exact: true })).toHaveCount(1)
+    await expect(hero.getByRole('link', { name: '探索指南', exact: true, includeHidden: true })).toBeHidden()
+    const guide = hero.getByRole('link', { name: '第一次来？看探索指南 →', exact: true })
+    await expect(guide).toBeVisible()
+    await expect(guide).toHaveAttribute('href', '/start')
+    await expect(page.getByRole('link', { name: /探索指南/ })).toHaveCount(1)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   })
 }

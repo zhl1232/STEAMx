@@ -277,6 +277,7 @@
 
 ### 3.3 首页 (`components/home/`)
 - `home-showcase.tsx` / `home-works-section.tsx` — 首页主体：Hero、「从这里开始」六方向入口、统一作品预览、最近公开自然观察、社区动态与本周挑战；本周挑战标题/摘要/封面来自 `getFeaturedPblChallenge()`，不再使用写死文案；Hero 简介精简为「从积木、科学到自然探索，让孩子在真实项目中学习与创造。」；作品区每批六件，PC（≥1024px）三列、图片 4:3，手机仅显示前四件、保持两列方图；SSR 首批后由客户端调用 `/api/explore/works?limit=6&offset=...` 换批，作品卡进入 `/works/[id]`，自然观察紧凑卡进入观察详情；桌面作品/自然双栏，移动端两列作品后顺序展示观察记录，并保留自然观察/排行榜横向快捷入口
+- 首页探索指南 `/start`：md 起在 Hero 两个按钮之后显示「第一次来？看探索指南 →」文字链接，移除 Hero 下方原桌面独立行；手机 Hero 内原「探索指南」链接及布局保持不变。
 - `mobile-shortcut-carousel.tsx` — 首页移动端自然频道/排行榜快捷卡横向 snap 轮播；整卡全宽（不再露半张 peek），滚动和点击分页点时同步当前指示点；分页点采用紧凑排列，减少与后续内容之间的空白
 - `compact-project-grid-styles.ts` — 首页热门 / 探索列表共用的两列竖版项目卡网格与卡片样式 class
 - `recommendation-panel.tsx` — 推荐项目面板
