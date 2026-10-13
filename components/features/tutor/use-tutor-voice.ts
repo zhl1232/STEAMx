@@ -406,7 +406,7 @@ export function useTutorVoice({
         if (cached) { await playMpegBlob(cached, speechKey, requestId); return }
         const response = await fetch('/api/tutor/speech/synthesize', {
           method: 'POST', signal: controller.signal, headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text, ...(previewVoice ? { voice: previewVoice } : {}) }),
+          body: JSON.stringify(previewVoice ? { preview: true, voice: previewVoice } : { text }),
         })
         if (speechRequestIdRef.current !== requestId) return
         if (!response.ok) throw new Error(await readTutorSpeechError(response, '朗读暂时不可用，请稍后重试。'))

@@ -206,7 +206,28 @@ describe('dashScopeChatComplete', () => {
     })
   })
 
-  it('discovers visible models and switches after a quota error', async () => {
+  it('does not switch models after account permission or free-tier exhaustion errors', async () => {
+    for (const [status, code] of [[403, 'AccessDenied'], [429, 'FreeTierLimitExceeded']] as const) {
+      fetchMock.mockReset().mockResolvedValue({ ok: false, status, json: async () => ({ code }) })
+      await expect(dashScopeChatComplete({ role: 'tutor-text', payload: { messages: [] } })).rejects.toMatchObject({ status })
+      expect(fetchMock).toHaveBeenCalledTimes(1)
+    }
+  })
+
+  it('never walks more than three unavailable model candidates', async () => {
+    fetchMock.mockResolvedValue({ ok: false, status: 404, json: async () => ({ code: 'ModelNotFound' }) })
+    await expect(dashScopeChatComplete({ role: 'tutor-text', payload: { messages: [] } })).rejects.toMatchObject({ status: 404 })
+    expect(fetchMock).toHaveBeenCalledTimes(3)
+  })
+
+  it('does not retry when Retry-After exceeds the remaining total deadline', async () => {
+    fetchMock.mockResolvedValue({ ok: false, status: 429, headers: new Headers({ 'Retry-After': '60' }),
+      json: async () => ({ code: 'Throttling.RateQuota' }) })
+    await expect(dashScopeChatComplete({ role: 'tutor-text', timeoutMs: 100, payload: { messages: [] } })).rejects.toMatchObject({ status: 429 })
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('discovers visible models and switches with backoff after a model rate limit', async () => {
     process.env.DASHSCOPE_MODEL_DISCOVERY = 'true'
     fetchMock
       .mockResolvedValueOnce({
@@ -216,7 +237,7 @@ describe('dashScopeChatComplete', () => {
       .mockResolvedValueOnce({
         ok: false,
         status: 429,
-        json: async () => ({ error: { code: 'FreeTierLimitExceeded', message: 'quota exhausted' } }),
+        json: async () => ({ error: { code: 'Throttling.RateQuota', message: 'Requests rate limit exceeded' } }),
       })
       .mockResolvedValueOnce({
         ok: true,
