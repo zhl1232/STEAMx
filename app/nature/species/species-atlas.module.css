@@ -131,7 +131,7 @@
 /* ---------- 桌面：同一风格放大 ---------- */
 @media (min-width: 768px) {
   .hero { margin-inline: 0; margin-top: 4px; border-radius: 20px; min-height: 380px; }
-  .heroImage { object-position: right center; }
+  .heroImage { object-position: right 30%; }
   .heroNav { display: none; }
   .heroContent { padding: 64px 48px 72px; max-width: 55%; }
   .kicker { font-size: 15px; }
@@ -140,10 +140,10 @@
   .heroStats { gap: 40px; margin-top: 24px; }
   .heroStats dd { font-size: 30px; }
   .heroStats dt { font-size: 13px; }
-  .hero { min-height: 420px; }
+  .hero { min-height: 470px; }
   .heroContent { padding-top: 80px; }
   .heroStats dt { font-size: 13px; }
-  .heroCredit { top: 12px; right: 16px; font-size: 10px; }
+  .heroCredit { top: 14px; left: 48px; right: auto; font-size: 10px; }
   .atlas :global(.nature-atlas-toolbar) { margin: -64px 40px 0; gap: 18px; }
   .atlas :global(.nature-atlas-search-form) { min-height: 52px; border-radius: 14px; }
   .atlas :global(.nature-atlas-search-form) button[type='submit'] { height: 40px; padding-inline: 20px; font-size: 14px; }
