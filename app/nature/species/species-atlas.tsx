@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronRight, LayoutGrid, List, Bird, Bug, ListFilter, Search, Sprout, X } from 'lucide-react'
+import { ArrowDownUp, ChevronRight, LayoutGrid, List, Bird, Bug, Search, Leaf as Sprout, X } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useTransition } from 'react'
 import type { FormEvent } from 'react'
@@ -44,8 +44,13 @@ interface SpeciesAtlasProps {
   introduction?: string
 }
 
-const TOPIC_ICONS: Record<SpeciesAtlasTopicFilter, LucideIcon> = {
-  all: ListFilter, birds: Bird, insects: Bug, plants: Sprout,
+type TileIcon = LucideIcon | ((props: { className?: string }) => React.JSX.Element)
+/** 实心蘑菇：用于「全部」分类块，对应设计稿紫色蘑菇。 */
+function MushroomIcon({ className }: { className?: string }) {
+  return <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true"><path d="M12 3C6.5 3 2.5 6.6 2.5 10.6c0 .8.6 1.4 1.4 1.4h16.2c.8 0 1.4-.6 1.4-1.4C21.5 6.6 17.5 3 12 3Z" /><path d="M9 13.5h6l.7 5.6A1.7 1.7 0 0 1 14 21h-4a1.7 1.7 0 0 1-1.7-1.9l.7-5.6Z" opacity=".75" /></svg>
+}
+const TOPIC_ICONS: Record<SpeciesAtlasTopicFilter, TileIcon> = {
+  all: MushroomIcon, birds: Bird, insects: Bug, plants: Sprout,
 }
 const STATUS_OPTIONS: Array<{ key: SpeciesAtlasStatusFilter; label: string }> = [
   { key: 'all', label: '全部' }, { key: 'observed', label: '已观察' }, { key: 'unobserved', label: '待观察' },
@@ -199,7 +204,7 @@ const AtlasResults = memo(function AtlasResults({ groups, topic, filtersKey, pri
     return () => { observer.disconnect(); window.removeEventListener('resize', onResize) }
   }, [groups])
   return (
-    <div className="nature-atlas-results mt-2 md:mt-8">
+    <div className="nature-atlas-results">
       <div ref={resultsRef} className="nature-atlas-results-main space-y-6">
         {groups.map(group => {
           const id = buildSpeciesLetterId(topic, group.initial)
@@ -372,28 +377,27 @@ export function SpeciesAtlas({
 
   return (
     <div className={cn('app-shell-wide pb-24 pt-0 md:px-8 md:pb-12 md:pt-8', styles.atlas, performanceStyles.performance)} data-layout={layout}>
-      <MobilePageHeader title="自然观察" className="nature-atlas-mobile-header" contentClassName="nature-atlas-mobile-header-content" backButtonClassName="nature-atlas-mobile-header-back" titleClassName="nature-atlas-mobile-header-title" fallbackHref="/nature" />
       <Link href="/nature" className={styles.desktopBack}>返回自然观察首页</Link>
-      <AtlasHero topic={topic} heading={heading} introduction={introduction} stats={statusCounts} />
+      <AtlasHero topic={topic} heading={heading} introduction={introduction} stats={statusCounts}>
+        <MobilePageHeader title="自然观察" sticky={false} borderless className={styles.heroNav} contentClassName={styles.heroNavContent} backButtonClassName={styles.heroNavBack} titleClassName={styles.heroNavTitle} fallbackHref="/nature" rightSlot={<button type="button" className={styles.heroNavSearch} aria-label="搜索物种" onClick={() => document.getElementById('species-atlas-search')?.focus()}><Search size={20} aria-hidden="true" /></button>} />
+      </AtlasHero>
       <section className="nature-atlas-toolbar" aria-label="物种筛选">
         <form onSubmit={handleSearchSubmit} className="nature-atlas-search-form">
           <label className="sr-only" htmlFor="species-atlas-search">搜索物种</label>
           <Search className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-          <input id="species-atlas-search" value={searchDraft} onChange={event => setSearchDraft(event.target.value)} placeholder="搜索名称、学名或科属" autoComplete="off" enterKeyHint="search" />
+          <input id="species-atlas-search" value={searchDraft} onChange={event => setSearchDraft(event.target.value)} placeholder={topic === 'all' ? '搜索物种名称、学名或科属' : `搜索${getTopicSummaryLabel(topic)}名称、学名或科属`} autoComplete="off" enterKeyHint="search" />
           {searchDraft ? <button type="button" className="nature-atlas-icon-button" onClick={() => updateFilters({ query: '' })} aria-label="清除搜索" title="清除搜索"><X className="h-4 w-4" aria-hidden="true" /></button> : null}
           <Button type="submit" tone="brand" size="sm" className="shrink-0">搜索</Button>
         </form>
         <div className={cn('nature-atlas-topic-tabs', styles.categoryCards)} aria-label="分类筛选">
           {([...data.groups.map(group => group.key), 'all'] as SpeciesAtlasTopicFilter[]).map(key => {
             const Icon = TOPIC_ICONS[key]
-            const label = key === 'all' ? '全部物种' : getTopicSummaryLabel(key)
-            const group = data.groups.find(item => item.key === key)
-            const count = key === 'all' ? data.total : group?.total ?? 0
-            const observed = key === 'all' ? (progressReady ? data.groups.reduce((sum, item) => sum + (item.observedCount ?? 0), 0) : null) : progressReady ? group?.observedCount ?? null : null
+            const label = key === 'all' ? '全部' : getTopicSummaryLabel(key)
+            const count = key === 'all' ? data.total : data.groups.find(item => item.key === key)?.total ?? 0
             return <button key={key} type="button" className={cn('nature-atlas-topic-tab', styles.categoryCard, topic === key && 'nature-atlas-topic-tab-active')} aria-label={label} data-topic={key} aria-pressed={topic === key} onClick={() => updateFilters({ topic: key })}>
-              <span className={styles.categoryIcon}><Icon className="h-5 w-5" aria-hidden="true" /></span>
+              <Icon className={styles.categoryIcon} aria-hidden="true" />
               <span className={styles.categoryLabel}>{label}</span>
-              <span className={styles.categoryCount}><strong>{count}</strong> 种{observed !== null ? <span className={styles.categoryObserved}> · 已观察 {observed}</span> : null}</span>
+              <span className={styles.categoryCount}>{count}</span>
             </button>
           })}
         </div>
@@ -401,10 +405,10 @@ export function SpeciesAtlas({
           {STATUS_OPTIONS.map(({ key, label }) => {
             const count = key === 'all' ? statusCounts.total : key === 'observed' ? statusCounts.observed : statusCounts.unobserved
             return <button key={key} type="button" className={cn('nature-atlas-status-button', key === 'unobserved' && 'nature-atlas-status-button-unobserved', status === key && 'nature-atlas-status-button-active')} aria-pressed={status === key} disabled={!progressReady && key !== 'all'} onClick={() => updateFilters({ status: key })}>
-              <span>{label}</span>{count !== null ? <span className="nature-atlas-status-count">{count}</span> : null}
+              <span>{label}</span>{count !== null ? <span className="sr-only">{count}</span> : null}
             </button>
           })}
-        </div></div>
+        </div><span className={styles.sortLabel}>名称排序<ArrowDownUp size={14} aria-hidden="true" /></span></div>
         {data.viewer.progressState === 'anonymous' ? <p className="nature-atlas-status-note"><Link href={`/login?next=${encodeURIComponent(buildSpeciesHref({ query, topic, status: requestedStatus, canonicalTopicPath }))}`} className="font-semibold text-primary hover:underline">登录</Link> 后可筛选已观察物种。</p> : null}
         {data.viewer.progressState === 'unavailable' || refreshError ? <p className="nature-atlas-status-note nature-atlas-status-note-warning">观察状态暂时不可用，物种仍可正常浏览。<button type="button" className="ml-1 font-semibold underline underline-offset-2" onClick={refreshAtlas} disabled={isRefreshing}>{isRefreshing ? '重试中' : '重试'}</button></p> : null}
       </section>
