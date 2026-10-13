@@ -79,30 +79,41 @@
 1 27 -280 96 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 0 // SOURCE PAGE 13
+0 // Four transverse 2 x 4 anchors: yellow 3, lime 1; bottom lime staggered one stud rearward.
 1 14 -440 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 -400 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 -440 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -440 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -480 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 0 // SOURCE PAGE 14
+0 // Stock: six 48-LDU courses, 4 studs across; every piece is a transverse 2 x 4.
+0 // Source p14/p15: 3,4,5,3,5,4 pieces per course; source p14 adds yellow 10 + lime 10.
+0 // Lower two courses remain 40 LDU rearward of the source seam alignment to clear the unchanged lower black receiver.
+0 // This one-stud connection/silhouette discrepancy is unresolved; other accepted placements are untouched.
+0 // STOCK COURSE 1: top Y=-288; front-to-rear colors yellow,lime,lime.
 1 14 -480 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 27 -560 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 27 -640 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STOCK COURSE 2: top Y=-240; front-to-rear colors yellow,lime,yellow,lime.
 1 27 -520 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 -600 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 27 -680 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STOCK COURSE 3: top Y=-192; front-to-rear colors yellow,lime,yellow,yellow,yellow.
 1 27 -480 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 -560 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -640 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -480 0 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -640 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -720 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STOCK COURSE 4: top Y=-144; front-to-rear colors yellow,lime,lime.
 1 14 -520 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -600 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -600 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 27 -680 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -520 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -600 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -520 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -600 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -680 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -560 0 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -640 0 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STOCK COURSE 5: top Y=-96; front-to-rear colors yellow,yellow,lime,yellow,lime.
+1 14 -520 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -600 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -680 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -760 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STOCK COURSE 6: top Y=-48; front-to-rear colors lime,yellow,yellow,lime.
+1 14 -560 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -640 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -720 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 // SOURCE PAGE 15: opposite finished view; no additional parts.

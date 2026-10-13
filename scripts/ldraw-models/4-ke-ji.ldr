@@ -7,7 +7,7 @@
 0 // Source Library libfile_f6df9c75694881918d746cfa7e75e662, PDF SHA256 25cc2fb679437ef1003dc94cc7db86865f6f2a8c4414b315d71d425b0075f3fa
 0 // STATUS: local renderer review only; Toolo geometry is approximate, no human acceptance or physical fit certification.
 0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
-0 // 45117c01 reused unchanged; 31239c01-ke-ji is a source-shaped local approximation; both absent from preferred kits.
+0 // V2: dedicated source-shaped 45117c01/31239c01 approximations; absent from preferred kits.
 0 // STEP 1 - five black 4x6 screw blocks: lower three, upper two centered
 1 0 -160 0 80 1 0 0 0 1 0 0 0 1 76395.dat
 1 0 80 0 80 1 0 0 0 1 0 0 0 1 76395.dat
@@ -53,8 +53,8 @@
 
 0 // STEP 5 - blue transverse tail wing and raised open-frame rear spoiler (source page 5)
 0 // Locally approximated 45117c01 and course-specific 31239c01; screw fits are unmeasured.
-1 1 360 0 80 0 -1 0 0 0 -1 1 0 0 dev-129/45117c01.dat
-1 1 360 -48 80 1 0 0 0 1 0 0 0 1 dev-129/31239c01-ke-ji.dat
+1 1 360 0 80 1 0 0 0 1 0 0 0 1 dev-129/45117c01-ke-ji-v2.dat
+1 1 360 -48 80 1 0 0 0 1 0 0 0 1 dev-129/31239c01-ke-ji-v2.dat
 0 STEP
 
 0 // STEP 6 - seven blue 2x4 plates cover fuselage and cockpit rear deck
@@ -67,11 +67,11 @@
 1 1 -200 -72 80 0 0 -1 0 1 0 1 0 0 40666.dat
 0 STEP
 
-0 // STEP 7 - four cyan 2x3 curved bricks, 120 LDU pitch with one stud-row gaps (page 7)
-1 322 -160 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
-1 322 -40 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
-1 322 80 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
-1 322 200 -120 80 0 0 1 0 1 0 -1 0 0 2302.dat
+0 // STEP 7 - four cyan 2x3 curved bricks: long axis X, curves descend aft (+X), contiguous at 120 LDU pitch (page 7)
+1 322 -160 -120 80 1 0 0 0 1 0 0 0 1 2302.dat
+1 322 -40 -120 80 1 0 0 0 1 0 0 0 1 2302.dat
+1 322 80 -120 80 1 0 0 0 1 0 0 0 1 2302.dat
+1 322 200 -120 80 1 0 0 0 1 0 0 0 1 2302.dat
 0 STEP
 
 0 // STEP 8 - green 24x24 airport base; tyre lower envelope touches the 11-LDU-high stud tops
