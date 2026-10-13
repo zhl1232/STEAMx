@@ -72,10 +72,11 @@
 1 0 -80 -160 0 0 0 -1 0 1 0 1 0 0 76395.dat
 0 STEP
 
-0 // STEP 8 - slide-14: red 2x4 tongue, v11: long side runs FRONT-BACK (X), offset to +Z with one stud margin,
-0 // one stud row overhanging the jaw front (X -360..-200, Z 0..80). Red 2x2 sits behind, -Z half (X -160..-80).
+0 // STEP 8 - slide-14/finished (v12, camera calibrated az140): red 2x4 tongue runs FRONT-BACK (long side X)
+0 // along the far (+Z) edge of the lower jaw, front end one stud row past the jaw front (X -360..-200, Z 40..120), as seen protruding on slide-17/finished;
+0 // red 2x2 behind it on the -Z side; two yellow 2x4 stacked behind that, long side along Z. Red 2x2 sits behind, -Z half (X -160..-80).
 0 // Two yellow 2x4 stacked directly behind the 2x2, long side along Z (X -80..0, Z -120..40).
-1 4 -280 -208 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -208 80 1 0 0 0 1 0 0 0 1 3011.dat
 1 4 -120 -208 -40 1 0 0 0 1 0 0 0 1 3437.dat
 1 14 -40 -208 -40 0 0 -1 0 1 0 1 0 0 3011.dat
 1 14 -40 -256 -40 0 0 -1 0 1 0 1 0 0 3011.dat
@@ -99,9 +100,10 @@
 0 // Its rear stud row bridges onto the crossbar; nose and rear-leaning crest follow this layer.
 1 14 -200 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
 1 14 -120 -352 0 0 0 1 0 1 0 -1 0 0 76057.dat
-0 // v11: slide-17/finished - red 2x2 nose on the front row (+Z half); grey fork crest one row behind on the -Z half, arms leaning back.
-1 4 -200 -400 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 72 -120 -400 -40 0.000000 -0.342020 0.939693 0.000000 0.939693 0.342020 -1.000000 0.000000 0.000000 28336.dat
+0 // v12: slide-17 (calibrated view) - red 2x2 nose centred (Z=0) on the front row of the top yellow step;
+0 // grey hinge crest directly behind it, also centred, arms up and tipped back ~20deg.
+1 4 -200 -400 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 72 -120 -400 0 0.000000 0.342020 0.939693 0.000000 0.939693 -0.342020 -1.000000 0.000000 0.000000 28336.dat
 0 STEP
 
 0 // STEP 12 - slide-18: two yellow 2x3x2 inside-curve ears, official 2301b.
