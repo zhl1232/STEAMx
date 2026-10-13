@@ -23,6 +23,7 @@
 |---|---|
 | [数据库连接与迁移](database-psql.md) | 连接诊断、正式迁移入口与执行边界 |
 | [应用部署](deployment.md) | Docker、CI 与生产发布操作 |
+| [维护入口退役与第二轮资源清理](maintenance/repository-cleanup-phase2.md) | 旧生产删除链停用、历史脚本入口说明、资源范围与验证边界 |
 | [手机认证](phone-auth.md) | 登录、提供商切换与历史排查状态 |
 | [注册资料补建](ensure-profile.md) | 触发器、服务端兜底与待核对的生产验收 |
 | [短信与手动用户](custom-sms-and-manual-users.md) | 短信配置和账号创建流程 |
