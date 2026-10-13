@@ -7,26 +7,31 @@ permissions:
   contents: read
 
 concurrency:
-  group: ops-readonly-media-inspect
+  group: ops-add-dashscope-ws
   cancel-in-progress: false
 
 jobs:
   inspect:
     runs-on: ubuntu-latest
     environment: Production
+    timeout-minutes: 15
     steps:
-      - name: Read-only prod env names + nginx mtime
+      - name: Add DASHSCOPE_WORKSPACE_ID to prod env + recreate steam-app (user-confirmed)
         uses: appleboy/ssh-action@v1.2.0
+        env:
+          WSID: ${{ secrets.DASHSCOPE_WORKSPACE_ID }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
-          script_stop: true
-          command_timeout: 5m
+          timeout: 30s
+          command_timeout: 12m
+          envs: WSID
           script: |
-            set -euo pipefail
-            echo 'IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKZWNobyAic3RlcDpzdGFydCBkYXRlPSQoZGF0ZSAtSXMpIgpmb3IgcCBpbiAvZXRjL25naW54L3NpdGVzLWF2YWlsYWJsZS9zdGVhbS1hcHAgL2V0Yy9uZ2lueC9zaXRlcy1lbmFibGVkL3N0ZWFtLWFwcCAvb3B0L3N0ZWFtLWFwcC9uZ2lueC5jb25mOyBkbwogIGlmIFsgLWUgIiRwIiBdOyB0aGVuCiAgICBlY2hvICJzdGVwOnBhdGg9JHAiCiAgICBscyAtbGEgLS10aW1lLXN0eWxlPWxvbmctaXNvICIkcCIKICAgIHN0YXQgLWMgJ3N0ZXA6bXRpbWU9JXkgaW5vZGU9JWknICIkcCIKICAgIGVjaG8gInN0ZXA6Y29udGVudF9iZWdpbjokcCIKICAgICMgZnVsbCBzbWFsbCBjb25mIGV4cGVjdGVkCiAgICBzZWQgLW4gJzEsMjAwcCcgIiRwIgogICAgZWNobyAic3RlcDpjb250ZW50X2VuZDokcCIKICBlbHNlCiAgICBlY2hvICJzdGVwOm1pc3Npbmc9JHAiCiAgZmkKZG9uZQplY2hvICJzdGVwOm5naW54X2NvbmZfbXRpbWVfYWxsIgpmaW5kIC9ldGMvbmdpbnggLXR5cGUgZiAtbmFtZSAnKi5jb25mJyAtcHJpbnRmICclVFktJVRtLSVUZCAlVEg6JVRNICVwXG4nIDI+L2Rldi9udWxsIHwgc29ydAplY2hvICJzdGVwOmRvbmUiCg==' | base64 -d > /tmp/readonly_media_inspect.sh
-            chmod +x /tmp/readonly_media_inspect.sh
-            bash /tmp/readonly_media_inspect.sh
-            rm -f /tmp/readonly_media_inspect.sh
+            set -eu
+            echo 'IyEvYmluL2Jhc2gKc2V0IC1ldQp1bWFzayAwNzcKY2QgL29wdC9zdGVhbS1hcHAKRj0uZW52LnByb2R1Y3Rpb24KWyAtbiAiJHtXU0lEOi19IiBdIHx8IHsgZWNobyAiV1NJRCBtaXNzaW5nIjsgZXhpdCAxOyB9CmVjaG8gIiRXU0lEIiB8IGdyZXAgLXFFICdeW2EtekEtWjAtOS1dKyQnIHx8IHsgZWNobyAiV1NJRCBpbnZhbGlkIGZvcm1hdCI7IGV4aXQgMTsgfQpUUz0kKGRhdGUgKyVZJW0lZFQlSCVNJVMpOyBCSz0vcm9vdC9vcHMtYmFja3Vwcy9kYXNoc2NvcGUtd3MtJFRTCm1rZGlyIC1wICIkQksiICYmIGNobW9kIDcwMCAvcm9vdC9vcHMtYmFja3VwcyAiJEJLIgpjcCAtcCAiJEYiICIkQksvLmVudi5wcm9kdWN0aW9uIjsgc2hhMjU2c3VtICIkQksvLmVudi5wcm9kdWN0aW9uIiB8IGN1dCAtYzEtMTIgPiAiJEJLL1NIQTI1Ni5wcmVmaXgiCmVjaG8gImJhY2t1cDogJEJLIjsgc3RhdCAtYyAncGVybSBiZWZvcmUgJWEgJVU6JUcnICIkRiIKZ3JlcCAtcSAnXkRBU0hTQ09QRV9BUElfS0VZPScgIiRGIiAmJiBlY2hvICJoYXMgREFTSFNDT1BFX0FQSV9LRVk6IHllcyIgfHwgZWNobyAiaGFzIERBU0hTQ09QRV9BUElfS0VZOiBubyIKZWNobyAiZXhpc3RpbmcgV1MgbGluZXM6ICQoZ3JlcCAtYyAnXkRBU0hTQ09QRV9XT1JLU1BBQ0VfSUQ9JyAiJEYiIHx8IHRydWUpIgpUPSQobWt0ZW1wIC1wIC9vcHQvc3RlYW0tYXBwIC5lbnZ0bXAuWFhYWCkKV1NJRD0iJFdTSUQiIGF3ayAnCiBCRUdJTnt2PUVOVklST05bIldTSUQiXTsgZG9uZT0wfQogL15EQVNIU0NPUEVfV09SS1NQQUNFX0lEPS8geyBpZighZG9uZSl7cHJpbnQgIkRBU0hTQ09QRV9XT1JLU1BBQ0VfSUQ9IiB2OyBkb25lPTF9OyBuZXh0IH0KIHsgcHJpbnQgfQogL15EQVNIU0NPUEVfQVBJX0tFWT0vICYmICFkb25lIHsgcHJpbnQgIkRBU0hTQ09QRV9XT1JLU1BBQ0VfSUQ9IiB2OyBkb25lPTEgfQogRU5EeyBpZighZG9uZSkgcHJpbnQgIkRBU0hTQ09QRV9XT1JLU1BBQ0VfSUQ9IiB2IH0nICIkRiIgPiAiJFQiCmNobW9kIC0tcmVmZXJlbmNlPSIkRiIgIiRUIjsgY2hvd24gLS1yZWZlcmVuY2U9IiRGIiAiJFQiOyBtdiAiJFQiICIkRiIKc3RhdCAtYyAncGVybSBhZnRlciAlYSAlVTolRycgIiRGIgplY2hvICJXUyBsaW5lcyBub3c6ICQoZ3JlcCAtYyAnXkRBU0hTQ09QRV9XT1JLU1BBQ0VfSUQ9JyAiJEYiKSI7IGVjaG8gImxpbmUgZGlmZiBjb3VudDogJChkaWZmICIkQksvLmVudi5wcm9kdWN0aW9uIiAiJEYiIHwgZ3JlcCAtYyAnXls8Pl0nIHx8IHRydWUpIgplY2hvICI9PSByZWNyZWF0ZSBzdGVhbS1hcHAgPT0iCmRvY2tlciBjb21wb3NlIHVwIC1kIC0tZm9yY2UtcmVjcmVhdGUgLS1uby1idWlsZCAtLXB1bGwgbmV2ZXIgLS13YWl0IC0td2FpdC10aW1lb3V0IDMwMCBzdGVhbS1hcHAKZG9ja2VyIHBzIC0tZm9ybWF0ICd7ey5OYW1lc319IHt7LlN0YXR1c319JyB8IGdyZXAgc3RlYW0KZWNobyAiPT0gdmVyaWZ5ID09Igpkb2NrZXIgZXhlYyBzdGVhbS1hcHAgc2ggLWMgJ2lmIFsgLW4gIiR7REFTSFNDT1BFX1dPUktTUEFDRV9JRDotfSIgXTsgdGhlbiBlY2hvICJpbiBjb250YWluZXI6IHllcyBsZW4gJHsjREFTSFNDT1BFX1dPUktTUEFDRV9JRH0iOyBlbHNlIGVjaG8gImluIGNvbnRhaW5lcjogbm8iOyBmaScKZG9ja2VyIGV4ZWMgc3RlYW0tYXBwIG5vZGUgLWUgJ2NvbnN0IHc9KHByb2Nlc3MuZW52LkRBU0hTQ09QRV9XT1JLU1BBQ0VfSUR8fCIiKS50cmltKCk7Y29uc29sZS5sb2coImNvZGUgcmVnZXggb2s6IiwgL15bYS16QS1aMC05LV0rJC8udGVzdCh3KSAmJiAhL14odHJpYWx8dG9rZW4tcGxhbnxjb2RpbmcpJC9pLnRlc3QodykpJwpmb3IgaSBpbiAxIDIgMyA0IDUgNjsgZG8gYz0kKGN1cmwgLXMgLW8gL2Rldi9udWxsIC13ICcle2h0dHBfY29kZX0nIC1tIDIwIGh0dHBzOi8vc3RlYW0uYmouY24vKTsgWyAiJGMiID0gMjAwIF0gJiYgYnJlYWs7IHNsZWVwIDU7IGRvbmU7IGVjaG8gImhvbWU6ICRjIgpmb3IgcCBpbiB2b2ljZXMgc3ludGhlc2l6ZSB0cmFuc2NyaWJlOyBkbwogYz0kKGN1cmwgLXMgLW8gL3RtcC9yLiRwIC13ICcle2h0dHBfY29kZX0nIC1tIDIwIC1YICQoIFsgJHAgPSB2b2ljZXMgXSAmJiBlY2hvIEdFVCB8fCBlY2hvIFBPU1QgKSAtSCAnQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9qc29uJyAtZCAneyJ0ZXh0Ijoi5L2g5aW9In0nIGh0dHBzOi8vc3RlYW0uYmouY24vYXBpL3R1dG9yL3NwZWVjaC8kcCkKIGVjaG8gIi9hcGkvdHV0b3Ivc3BlZWNoLyRwIGh0dHAgJGMgaW52YWxpZFdTX2luX2JvZHk9JChncmVwIC1jICdJbnZhbGlkIERBU0hTQ09QRV9XT1JLU1BBQ0VfSUQnIC90bXAvci4kcCB8fCB0cnVlKSBib2R5X2hlYWQ9JChoZWFkIC1jIDEyMCAvdG1wL3IuJHAgfCB0ciAtZCAnXG4nKSI7IHJtIC1mIC90bXAvci4kcApkb25lCnNsZWVwIDM7IGVjaG8gImxvZ3MgSW52YWxpZCBXUyBjb3VudCAoc2luY2UgcmVjcmVhdGUpOiAkKGRvY2tlciBsb2dzIHN0ZWFtLWFwcCAyPiYxIHwgZ3JlcCAtYyAnSW52YWxpZCBEQVNIU0NPUEVfV09SS1NQQUNFX0lEJyB8fCB0cnVlKSIKZWNobyAibG9ncyBJbnZhbGlkIEJlaWppbmcgZW5kcG9pbnQ6ICQoZG9ja2VyIGxvZ3Mgc3RlYW0tYXBwIDI+JjEgfCBncmVwIC1jICdJbnZhbGlkIEJlaWppbmcgYXVkaW8gZW5kcG9pbnQnIHx8IHRydWUpIgpmcmVlIC1tIHwgaGVhZCAtMgo=' | base64 -d > /tmp/ops_dsws.sh
+            chmod 700 /tmp/ops_dsws.sh
+            rc=0; WSID="$WSID" bash /tmp/ops_dsws.sh || rc=$?
+            rm -f /tmp/ops_dsws.sh
+            exit $rc
