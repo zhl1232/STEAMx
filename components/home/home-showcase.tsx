@@ -99,7 +99,7 @@ function HomeHero({ image }: { image: string }) {
           priority
           loading="eager"
           sizes="(max-width: 768px) 100vw, 1800px"
-          className="absolute inset-x-0 bottom-0 h-[210px] w-full object-cover object-[74%_center] dark:brightness-90 md:hidden"
+          className="absolute inset-x-0 bottom-0 h-[180px] w-full object-cover object-[74%_center] dark:brightness-90 md:hidden"
         />
         <Image
           src={heroWideImage}
@@ -110,32 +110,45 @@ function HomeHero({ image }: { image: string }) {
           sizes="1800px"
           className="hidden object-cover object-[69%_center] md:block md:object-[70%_center] lg:object-[73%_center] xl:object-[75%_center] md:[mask-image:linear-gradient(90deg,transparent_0%,transparent_43%,black_76%,black_100%)] lg:[mask-image:linear-gradient(90deg,transparent_0%,transparent_32%,black_64%,black_100%)] xl:[mask-image:linear-gradient(90deg,transparent_0%,transparent_26%,black_58%,black_100%)]"
         />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[210px] bg-[linear-gradient(180deg,hsl(var(--surface-raised))_0%,hsl(var(--surface-raised)/0.82)_18%,hsl(var(--surface-raised)/0.18)_44%,transparent_68%)] md:hidden" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[180px] bg-[linear-gradient(180deg,hsl(var(--surface-raised))_0%,hsl(var(--surface-raised)/0.82)_18%,hsl(var(--surface-raised)/0.18)_44%,transparent_68%)] md:hidden" />
 
-        <div className="relative z-10 flex min-h-[370px] flex-col justify-start px-4 pb-36 pt-5 md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
+        <div className="relative z-10 flex min-h-[280px] flex-col justify-start px-4 pb-32 pt-5 md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
           <div className="min-w-0 max-w-[440px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[550px]">
             <p className="hidden text-[12px] font-bold tracking-normal text-[hsl(var(--brand-blue))] md:block">
               {BRAND_FULL_NAME}
             </p>
+            {/* One H1; CSS selects the visible copy without a viewport-dependent hydration pass. */}
             <h1
-              aria-label={BRAND_HOME_HERO_TITLE}
-              className="font-heading text-[clamp(1.375rem,6.4vw,1.75rem)] font-black leading-[1.22] tracking-normal text-foreground md:mt-2.5 md:text-[32px] md:leading-[1.18] lg:text-[40px] xl:text-[44px]"
+              className="font-heading text-[clamp(1.375rem,6vw,1.5rem)] font-semibold leading-[1.3] tracking-normal text-foreground md:mt-2.5 md:text-[32px] md:font-black md:leading-[1.18] lg:text-[40px] xl:text-[44px]"
             >
-              {homeHeroTitleLines.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
+              <span className="md:hidden">陪孩子，一起动手做</span>
+              <span className="hidden md:block">
+                {homeHeroTitleLines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </span>
             </h1>
 
-            <p className="mt-3 max-w-[32rem] text-[14px] font-medium leading-6 text-foreground/85 md:text-[15px] md:leading-7 lg:text-[16px]">
-              {BRAND_HERO_SUBTITLE}
+            <p className="mt-2 max-w-[32rem] text-[14px] font-medium leading-6 text-foreground/85 md:mt-3 md:text-[15px] md:leading-7 lg:text-[16px]">
+              <span className="md:hidden">搭积木 · 做实验 · 学编程 · 观察自然</span>
+              <span className="hidden md:inline">{BRAND_HERO_SUBTITLE}</span>
             </p>
-            <p className="mt-1.5 max-w-[30rem] text-[13px] leading-5 text-muted-foreground md:text-[14px] md:leading-6">
+            <p className="mt-1.5 hidden max-w-[30rem] text-[13px] leading-5 text-muted-foreground md:block md:text-[14px] md:leading-6">
               {BRAND_HOME_HERO_GUIDE}
             </p>
 
-            <div className="mt-4 flex flex-wrap items-center gap-2 md:mt-5 md:gap-3">
+            {/* On phones the card below remains the direct free-course entry. */}
+            <Link
+              href="/start"
+              className="mt-1 inline-flex min-h-11 w-fit items-center gap-1 text-sm font-semibold text-[hsl(var(--brand-blue))] underline-offset-4 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:hidden"
+            >
+              探索指南
+              <ChevronRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+
+            <div className="mt-4 hidden flex-wrap items-center gap-2 md:mt-5 md:flex md:gap-3">
               <Link
                 href="/courses"
                 className={cn(
@@ -558,7 +571,7 @@ export function HomeShowcase({
           <LeaderboardEntry className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
         </MobileShortcutCarousel>
 
-        <Link href="/start" className="inline-flex min-h-11 w-fit items-center gap-1 text-sm font-semibold text-[hsl(var(--brand-blue))] hover:underline">
+        <Link href="/start" className="hidden min-h-11 w-fit items-center gap-1 text-sm font-semibold text-[hsl(var(--brand-blue))] hover:underline md:inline-flex">
           探索指南
           <ChevronRight className="h-4 w-4" aria-hidden="true" />
         </Link>
