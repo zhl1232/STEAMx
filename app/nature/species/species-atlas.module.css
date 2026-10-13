@@ -47,8 +47,8 @@
 :global(.dark) .heroShade {
   background:
     linear-gradient(180deg, transparent 58%, color-mix(in srgb, var(--atlas-page-bg) 50%, transparent) 78%, var(--atlas-page-bg) 100%),
-    linear-gradient(180deg, rgb(0 0 0 / 12%) 0%, rgb(0 0 0 / 0%) 22%),
-    linear-gradient(90deg, rgb(0 0 0 / 38%) 0%, rgb(0 0 0 / 18%) 42%, rgb(0 0 0 / 0%) 68%);
+    linear-gradient(180deg, rgb(0 0 0 / 6%) 0%, rgb(0 0 0 / 0%) 18%),
+    linear-gradient(90deg, rgb(0 0 0 / 28%) 0%, rgb(0 0 0 / 12%) 40%, rgb(0 0 0 / 0%) 66%);
 }
 .heroNav { position: absolute !important; inset: 0 0 auto 0; z-index: 2; background: transparent !important; }
 .heroNavContent { padding-right: 8px; }
