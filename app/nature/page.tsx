@@ -44,12 +44,12 @@ const topicCardImages: Record<SpeciesAtlasTopicKey, string> = {
 
 /* 移动端专用卡片图（桌面端仍用上面的图）：
  * 翠鸟：Alexis Lours「Common kingfisher on a branch facing right」CC BY 2.0，已裁切提亮；
- * 瓢虫：Link89「Coccinella septempunctata on a leaf」公有领域，已裁切；
+ * 瓢虫：Andrea Bonifazi「Close up of a Coccinella septempunctata on a leaf」CC BY-SA 4.0，已裁切；
  * 苹果花：W.carter「Cluster of apple blossoms」CC0，已裁切。 */
 const topicCardMobileImages: Record<SpeciesAtlasTopicKey, string> = {
-  birds: "/assets/nature-topic-mobile-birds.webp",
-  insects: "/assets/nature-topic-mobile-insects-v3.webp",
-  plants: "/assets/nature-topic-mobile-plants.webp",
+  birds: "/assets/nature-topic-m-birds-v4.webp",
+  insects: "/assets/nature-topic-m-insects-v4.webp",
+  plants: "/assets/nature-topic-m-plants-v4.webp",
 };
 
 export const metadata: Metadata = buildPageMetadata({
@@ -301,7 +301,7 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
           placeholder="blur"
           blurDataURL={natureBlurDataUrl}
           className="object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.03] md:hidden"
-          quality={90}
+          unoptimized
           sizes="(max-width: 767px) 40vw, 1px"
         />
         <Image
@@ -498,7 +498,7 @@ export default async function NaturePage() {
             图鉴配图：
             <a href="https://commons.wikimedia.org/wiki/File:Common_kingfisher_on_a_branch_facing_right.jpg" className="underline-offset-2 hover:underline">Alexis Lours / CC BY 2.0</a>
             {" · "}
-            <a href="https://commons.wikimedia.org/wiki/File:Coccinella_septempunctata_on_a_leaf.JPG" className="underline-offset-2 hover:underline">Link89 / 公有领域</a>
+            <a href="https://commons.wikimedia.org/wiki/File:Close_up_of_a_Coccinella_septempunctata_on_a_leaf.jpg" className="underline-offset-2 hover:underline">Andrea Bonifazi / CC BY-SA 4.0</a>
             {" · "}
             <a href="https://commons.wikimedia.org/wiki/File:Cluster_of_apple_blossoms.jpg" className="underline-offset-2 hover:underline">W.carter / CC0</a>
             （均已裁切）
