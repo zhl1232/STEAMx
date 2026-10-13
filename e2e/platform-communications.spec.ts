@@ -59,28 +59,28 @@ for (const viewport of [
   { name: '430', width: 430, height: 900 },
   { name: 'desktop', width: 1280, height: 900 },
 ]) {
-  test(`探索指南在 ${viewport.name} 视口保留六个方向和一个推荐活动且无横向溢出`, async ({ page }) => {
+  test(`探索指南在 ${viewport.name} 视口保留四个方向入口且无横向溢出`, async ({ page }) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height })
     await mockCommunications(page)
     await page.goto('/start', { waitUntil: 'domcontentloaded' })
 
-    await expect(page.getByRole('heading', { name: '从你感兴趣的方向开始' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: '今天想和孩子做点什么？' })).toBeVisible()
     const destinations = [
-      ['/learn/blocks', '积木与结构'],
-      ['/learn/scratch', 'Scratch 编程'],
-      ['/learn/science', '科学实验'],
-      ['/learn/nature', '自然观察'],
-      ['/pbl', '项目式学习'],
-      ['/playground', '游乐场'],
+      ['/courses?category=brick', '搭积木'],
+      ['/explore?category=科学', '做小实验'],
+      ['/courses?category=programming', '学编程'],
+      ['/nature', '去自然里观察'],
     ] as const
+    const nav = page.getByRole('navigation', { name: '选择开始方向' })
     for (const [href, label] of destinations) {
-      const destination = page.locator(`main a[href="${href}"]`)
+      const destination = nav.getByRole('link', { name: new RegExp(label) })
       await expect(destination).toHaveCount(1)
-      await expect(destination).toContainText(label)
+      await expect(destination).toHaveAttribute('href', href)
     }
-    await expect(page.locator('main a[href="/learn/nature#first-try"]')).toHaveCount(1)
-    await expect(page.locator('main a')).toHaveCount(8) // 六个方向、一个推荐活动和联系方式
-    await expect(page.getByRole('link', { name: announcement.title })).toBeVisible()
+    await expect(page.locator('main a[href="/learn/nature#first-try"]')).toHaveCount(0)
+    await expect(page.getByRole('link', { name: '先随便看看' })).toHaveAttribute('href', '/explore')
+    await expect(page.getByRole('link', { name: '联系客服' })).toHaveAttribute('href', '/about#support')
+    await expect(page.locator('main a')).toHaveCount(6) // 四个方向、先随便看看、联系客服
     await expectNoHorizontalOverflow(page)
     await page.screenshot({ path: `/tmp/platform-start-${viewport.name}.png`, fullPage: true })
   })

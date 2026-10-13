@@ -9,7 +9,7 @@
 | 模块 | 先看这些位置 | 规则与边界 |
 |---|---|---|
 | 品牌、首页和全站布局 | `lib/brand.ts`、`lib/seo/site.ts`、`components/home/`、`components/layout/` | [SEO 页面身份](docs/seo-indexing-checklist.md)、[设计规范](docs/design-system.md) |
-| 探索指南和入门专题 | `components/learning/`、`lib/product/`、`app/learn/` | [产品方向](docs/product-direction.md)、[内容质量](docs/content-quality.md) |
+| 新人开始、可选指南和入门专题 | `app/start/`、`components/learning/`、`lib/product/`、`app/learn/` | [产品方向](docs/product-direction.md)、[内容质量](docs/content-quality.md) |
 | 项目浏览、筛选、详情 | `app/explore/`、`app/project/`、`lib/project/`、`lib/explore/` | [产品架构](docs/product-architecture.md)、[探索记录](docs/EXPLORATION_RECORDS.md) |
 | 课程目录、课时和工作区 | `app/courses/`、`lib/courses/`、`components/features/courses/` | [课程进度与奖励](docs/COURSE_PROGRESS_REWARDS_AND_STEAM_IMPLEMENTATION.md) |
 | 积木模型、零件和套装核算 | `lib/courses/lesson-materials.ts`、`course-kit-config.ts`、`components/features/courses/lesson-materials-preparation.tsx`、`lib/utils/ldraw-*.ts` | [手机搭建](docs/courses/mobile-building-experience.md)、[小班材料覆盖](docs/courses/lesson-kit-coverage-small-class.md)、[中大班材料覆盖](docs/courses/lesson-kit-coverage-middle-senior.md) |
@@ -32,6 +32,7 @@
 | 身份、内容访问与审核 | `lib/access/`、`lib/content-classification/`、`lib/content-filter/`、`app/admin/` | [互动资格](docs/TRUST_AND_INTERACTION_ACCESS.md)、[内容分级](docs/CONTENT_CLASSIFICATION_IMPLEMENTATION.md) |
 | 个人中心、时间线和内容库 | `app/profile/`、`components/profile/`、`components/features/profile/`、`lib/profile/` | [产品架构](docs/product-architecture.md)、[设计规范](docs/design-system.md) |
 | 等级、徽章与奖励 | `lib/gamification/`、`components/features/gamification/` | [课程奖励契约](docs/COURSE_PROGRESS_REWARDS_AND_STEAM_IMPLEMENTATION.md) |
+| 欢迎消息与客服入口 | `components/features/communications/welcome-actions.tsx`、`lib/communications/types.ts`、`lib/product/support.ts`、`app/settings/about/` | [产品方向](docs/product-direction.md) |
 | 私信、通知和自动互动 | `lib/messages/`、`lib/notifications/`、`lib/communications/`、`lib/auto-interactions.ts` | [互动资格](docs/TRUST_AND_INTERACTION_ACCESS.md) |
 | 商品、供应商和订单 | `lib/store/`、`lib/store/service.ts` | [商城与履约](docs/STORE_CHANNEL_FULFILLMENT_DECISION.md) |
 | 会员资格与开售准备 | `lib/membership.ts`、`app/membership/` | [开售交接](docs/MEMBERSHIP_PAGE_HANDOFF.md)；额度不在交接页重复维护 |

@@ -127,8 +127,8 @@ describe('真实课程组件', () => {
   it('更多学习方向指向真实页面而非弹出预览说明', () => {
     render(<CourseBoard courses={catalog} />)
     const directions = within(screen.getByRole('region', { name: '更多学习方向' }))
-    expect(directions.getByRole('link', { name: /科学实验/ })).toHaveAttribute('href', '/learn/science')
-    expect(directions.getByRole('link', { name: /自然观察/ })).toHaveAttribute('href', '/learn/nature')
+    expect(directions.getByRole('link', { name: /科学实验/ })).toHaveAttribute('href', '/explore?category=科学')
+    expect(directions.getByRole('link', { name: /自然观察/ })).toHaveAttribute('href', '/nature')
     expect(directions.getByRole('link', { name: /动手项目/ })).toHaveAttribute('href', '/explore')
   })
   it('目录为空仍显示明确空状态和探索方向', () => {
