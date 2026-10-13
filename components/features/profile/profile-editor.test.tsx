@@ -269,3 +269,18 @@ describe('shared profile editor', () => {
     expect(mocks.push).toHaveBeenCalledWith('/settings/security')
   })
 })
+
+describe('edit profile dialog history', () => {
+  it('pushes a history marker on open so system back closes the dialog instead of leaving the page', async () => {
+    const pushState = vi.spyOn(window.history, 'pushState')
+    render(<EditProfileDialog><button>打开资料</button></EditProfileDialog>)
+    fireEvent.click(screen.getByRole('button', { name: '打开资料' }))
+    await screen.findByRole('dialog', { name: '编辑资料' })
+    expect(pushState).toHaveBeenCalledWith(
+      expect.objectContaining({ __steamxEditProfileDialog: true }),
+      '',
+    )
+    window.dispatchEvent(new PopStateEvent('popstate'))
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+  })
+})
