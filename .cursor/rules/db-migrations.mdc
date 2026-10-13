@@ -4,35 +4,10 @@ globs: supabase/migrations/**/*.sql, scripts/db-push.mjs
 alwaysApply: false
 ---
 
-# 数据库迁移规则
+# 数据库迁移规则入口
 
-本项目使用**自定义迁移工具**（`scripts/db-push.mjs`），因为数据库托管在第三方 Supabase（阿里云 opentrust.net），不支持官方 `supabase db push` CLI。
+先读 [数据库连接与迁移](../../docs/database-psql.md)。连接方式、配置、命令模式、副作用、首次接入和授权边界只在该文档维护，本文件不再复制一张容易过期的命令表。
 
-## 迁移文件
+本项目使用 `scripts/db-push.mjs`；禁止以官方 `supabase db push` 或逐个 `psql -f` 替代追踪流程。不要凭 `status` / `dry-run` 的名字判断只读，须核对是否为文档规定的限定模式。
 
-- **目录**：`supabase/migrations/`
-- **命名格式**：`YYYYMMDDHHMMSS_description.sql`（例如 `20260316100000_profiles_check_constraints.sql`）
-
-## 常用命令
-
-| 命令 | 说明 |
-|------|------|
-| `pnpm db:push` | 应用所有待执行的迁移（通过 Supabase pg-meta API，非直连 Postgres） |
-| `pnpm db:status` | 查看迁移状态（已执行 / 待执行）；会先尝试创建追踪表 |
-| `pnpm db:baseline` | 首次接入时，将所有现有迁移标记为「已执行」 |
-| `pnpm db:push -- --dry-run` | 不执行迁移 SQL，但会先尝试创建追踪表 |
-
-## 环境变量
-
-从 `.env.local` 读取：
-
-- `NEXT_PUBLIC_SUPABASE_URL`：Supabase 项目 URL
-- `SUPABASE_SERVICE_ROLE_KEY`：Service Role Key（在 Dashboard → API 中查找）
-
-## 重要提醒
-
-1. **禁止使用** `supabase db push`，在第三方托管环境下无法工作。
-2. 迁移追踪表：`public._schema_migrations`
-3. 创建迁移后，先检查目标环境、迁移状态和全部待执行迁移。用户已授权向该环境应用迁移，且全部待执行迁移均在授权范围内时，执行 `pnpm db:push` 并验证结果；同一授权无需重复确认。
-4. 用户仅要求生成迁移时，交付 SQL 和执行说明，不自动应用迁移。目标环境或执行范围不明时，先检查本地目标配置和迁移文件；如需远端状态，仅在已确定的任务范围内使用真正只读的查询，再就具体缺口提问。不得把未执行的迁移报告为已生效。
-5. 当前 `status` 和 `push --dry-run` 都会调用 `ensureTrackingTable()`，执行 `CREATE TABLE IF NOT EXISTS`，不能作为未获写授权时的只读检查。已有授权覆盖目标及该初始化写入后才使用这些命令；不要仅凭 `dry-run` 名称推断无副作用。
+生成迁移不等于应用迁移；执行必须落在用户已授权的环境与完整批次范围内。目标或范围未确定时先做允许的只读核对；不得自动 baseline、隐藏名单外待执行项，或把未执行的迁移报告为已生效。
