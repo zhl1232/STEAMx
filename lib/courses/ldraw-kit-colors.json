@@ -102,5 +102,9 @@
   "322": {
     "name": "Medium_Azure",
     "hex": "#36AEBF"
+  },
+  "135": {
+    "name": "Pearl_Light_Gray",
+    "hex": "#ABADAC"
   }
 }

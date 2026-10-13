@@ -1704,5 +1704,342 @@
         "quantity": 2
       }
     ]
+  },
+  "9206-1": {
+    "setNum": "9206-1",
+    "name": "Tech Machines Set / 科技机械套装（2008）",
+    "totalQuantity": 120,
+    "source": "rebrickable",
+    "parts": [
+      {
+        "partNum": "17562",
+        "name": "Duplo Windscreen 4 x 4 x 2 Curved",
+        "colorId": 46,
+        "colorName": "Trans-Yellow",
+        "quantity": 2
+      },
+      {
+        "partNum": "31184c01",
+        "name": "Duplo Toolo Brick 2 x 4 with Holes on Sides and Top and 1 Screw in Top",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 4
+      },
+      {
+        "partNum": "31184c01",
+        "name": "Duplo Toolo Brick 2 x 4 with Holes on Sides and Top and 1 Screw in Top",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 4
+      },
+      {
+        "partNum": "31184c01",
+        "name": "Duplo Toolo Brick 2 x 4 with Holes on Sides and Top and 1 Screw in Top",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 6
+      },
+      {
+        "partNum": "31184c01",
+        "name": "Duplo Toolo Brick 2 x 4 with Holes on Sides and Top and 1 Screw in Top",
+        "colorId": 72,
+        "colorName": "Dark Bluish Gray",
+        "quantity": 10
+      },
+      {
+        "partNum": "31196c01",
+        "name": "Duplo Toolo Cockpit 4 x 6",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "31196c01",
+        "name": "Duplo Toolo Cockpit 4 x 6",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 1
+      },
+      {
+        "partNum": "31196c01",
+        "name": "Duplo Toolo Cockpit 4 x 6",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 1
+      },
+      {
+        "partNum": "31196c01",
+        "name": "Duplo Toolo Cockpit 4 x 6",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 1
+      },
+      {
+        "partNum": "31239c01",
+        "name": "Duplo Toolo Rear Spoiler",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "31239c01",
+        "name": "Duplo Toolo Rear Spoiler",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "31350c01",
+        "name": "Duplo Toolo Wheel with Action Wheeler Screw",
+        "colorId": 71,
+        "colorName": "Light Bluish Gray",
+        "quantity": 12
+      },
+      {
+        "partNum": "4433c01",
+        "name": "Duplo Toolo Exhaust Pipe",
+        "colorId": 135,
+        "colorName": "Pearl Light Gray",
+        "quantity": 2
+      },
+      {
+        "partNum": "44970",
+        "name": "Duplo Toolo Tyre (Tire) with Deep Tread",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 8
+      },
+      {
+        "partNum": "45117c01",
+        "name": "Duplo Toolo Wings with 2 x 4 Brick Center",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 2
+      },
+      {
+        "partNum": "45117c01",
+        "name": "Duplo Toolo Wings with 2 x 4 Brick Center",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 2
+      },
+      {
+        "partNum": "45146",
+        "name": "Duplo Windscreen Roll Cage",
+        "colorId": 135,
+        "colorName": "Pearl Light Gray",
+        "quantity": 2
+      },
+      {
+        "partNum": "45202",
+        "name": "Duplo Toolo Brick 2 x 2 with Angled Bracket with Forks and Two Screws, Holes at Side",
+        "colorId": 72,
+        "colorName": "Dark Bluish Gray",
+        "quantity": 6
+      },
+      {
+        "partNum": "46321c02",
+        "name": "Duplo Winch Drum Narrow High with White String and Black Hook with Stud Case",
+        "colorId": 135,
+        "colorName": "Pearl Light Gray",
+        "quantity": 1
+      },
+      {
+        "partNum": "47510pr0002",
+        "name": "Duplo Figure Child with Pigtails Black, with Bright Green Legs",
+        "colorId": 212,
+        "colorName": "Bright Light Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "47511pr0005",
+        "name": "Duplo Figure Child with Cap Red, with Light Bright Blue Shirt under Green Coveralls - Dark Brown Face and Hands - Bright Green Legs",
+        "colorId": 212,
+        "colorName": "Bright Light Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "47511pr0006",
+        "name": "Duplo Figure Child with Cap Lime, with Blue Shirt with 'SKATE' Print - Medium Nougat Face and Hands - Medium Blue Legs",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "54189",
+        "name": "Storage Bin, Dacta, Large (new style)",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "54190",
+        "name": "Storage Bin Lid, Dacta [For New Style Trays]",
+        "colorId": 47,
+        "colorName": "Trans-Clear",
+        "quantity": 1
+      },
+      {
+        "partNum": "55007",
+        "name": "Duplo Winch Drum Holder 2 x 2 x 3",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 1
+      },
+      {
+        "partNum": "6294",
+        "name": "Duplo Toolo Scoop 6 x 4 x 3",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 2
+      },
+      {
+        "partNum": "6295",
+        "name": "Duplo Toolo Arm with Fake Pulley and Hook",
+        "colorId": 135,
+        "colorName": "Pearl Light Gray",
+        "quantity": 1
+      },
+      {
+        "partNum": "6310",
+        "name": "Duplo Toolo Digger Bucket with 3 teeth",
+        "colorId": 25,
+        "colorName": "Orange",
+        "quantity": 1
+      },
+      {
+        "partNum": "6311",
+        "name": "Duplo Toolo Tipper Bucket",
+        "colorId": 14,
+        "colorName": "Yellow",
+        "quantity": 1
+      },
+      {
+        "partNum": "6669c01",
+        "name": "Duplo Toolo Propeller Small with Yellow Center Screw",
+        "colorId": 135,
+        "colorName": "Pearl Light Gray",
+        "quantity": 4
+      },
+      {
+        "partNum": "71981",
+        "name": "Duplo Tread, Thick Cleats",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 2
+      },
+      {
+        "partNum": "74844",
+        "name": "Duplo Toolo Arm 2 x 11 with Triangular Set Screw End",
+        "colorId": 72,
+        "colorName": "Dark Bluish Gray",
+        "quantity": 4
+      },
+      {
+        "partNum": "74847",
+        "name": "Duplo Toolo Arm 2 x 6 with Triangular Set Screw and Clip Ends",
+        "colorId": 135,
+        "colorName": "Pearl Light Gray",
+        "quantity": 6
+      },
+      {
+        "partNum": "74864",
+        "name": "Duplo Toolo Tool Screwdriver",
+        "colorId": 4,
+        "colorName": "Red",
+        "quantity": 4
+      },
+      {
+        "partNum": "74957",
+        "name": "Duplo Toolo Brick 2 x 2 with Holes and Clip on Bottom",
+        "colorId": 72,
+        "colorName": "Dark Bluish Gray",
+        "quantity": 4
+      },
+      {
+        "partNum": "75121pr0008",
+        "name": "Duplo Figure Bob / Pageboy Hair Reddish Brown, with Medium Nougat Face - Bright Green Top with Buttons and Pockets - Orange Legs",
+        "colorId": 10,
+        "colorName": "Bright Green",
+        "quantity": 1
+      },
+      {
+        "partNum": "75126pr0004",
+        "name": "Duplo Figure Side Parted Hair Black, with Tan Legs, Blue Top, Black Vest",
+        "colorId": 1,
+        "colorName": "Blue",
+        "quantity": 1
+      },
+      {
+        "partNum": "86594",
+        "name": "Duplo Toolo Turntable 4 x 4 Base with Yellow Top Plate",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 1
+      },
+      {
+        "partNum": "86599",
+        "name": "Duplo Toolo Brick 4 x 6 with Holes on Sides and Top and 3 Screws in Top",
+        "colorId": 0,
+        "colorName": "Black",
+        "quantity": 6
+      },
+      {
+        "partNum": "86601",
+        "name": "Duplo Toolo, Propeller, 3 Blades",
+        "colorId": 135,
+        "colorName": "Pearl Light Gray",
+        "quantity": 1
+      },
+      {
+        "partNum": "cardupn0094pr0001",
+        "name": "Activity Card, Set 9206-1, Card 1",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "cardupn0094pr0002",
+        "name": "Activity Card, Set 9206-1, Card 2",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "cardupn0094pr0003",
+        "name": "Activity Card, Set 9206-1, Card 3",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "cardupn0094pr0004",
+        "name": "Activity Card, Set 9206-1, Card 4",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "cardupn0094pr0005",
+        "name": "Activity Card, Set 9206-1, Card 5",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "cardupn0094pr0006",
+        "name": "Activity Card, Set 9206-1, Card 6",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      },
+      {
+        "partNum": "cardupn0094pr0007",
+        "name": "Activity Card, Set 9206-1, Card 7",
+        "colorId": 9999,
+        "colorName": "[No Color/Any Color]",
+        "quantity": 1
+      }
+    ]
   }
 }

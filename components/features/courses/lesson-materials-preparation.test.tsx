@@ -69,7 +69,7 @@ it('steppers recalculate instantly and persist to localStorage', async () => {
   })
   expect(screen.getByText('先在下面填上你有几套积木')).toBeTruthy()
   expect((screen.getByRole('button', { name: '大颗粒基础套装减少一套' }) as HTMLButtonElement).disabled).toBe(true)
-  expect(screen.getAllByLabelText(/套数$/)).toHaveLength(5)
+  expect(screen.getAllByLabelText(/套数$/)).toHaveLength(6)
   await act(async () => {
     fireEvent.click(screen.getByRole('button', { name: '管道套装（2020）增加一套' }))
   })
@@ -83,6 +83,7 @@ it('restores saved counts after mount', async () => {
   render(<LessonMaterialsPreparation courseId={5} entries={entries} partCount={partCount} />)
   expect(await screen.findByText('还差 1 种、共 1 块')).toBeTruthy()
   expect(screen.getByLabelText('管道套装（2020）套数').textContent).toBe('0')
+  expect(screen.getByLabelText('科技机械套装（2008）套数').textContent).toBe('0')
 })
 
 
@@ -92,7 +93,7 @@ it.each([6, 7])('course %s starts with its mechanical kit plus both base kits', 
     fireEvent.click(screen.getByRole('button', { name: '大颗粒基础套装增加一套' }))
   })
   expect(JSON.parse(window.localStorage.getItem(kitCountsStorageKey(courseId))!)).toEqual({
-    '9090-2': 2, '9076-1': 1, '45026-1': 0, '45002-1': courseId === 6 ? 1 : 0, '9656-1': courseId === 7 ? 1 : 0,
+    '9090-2': 2, '9076-1': 1, '45026-1': 0, '9206-1': 0, '45002-1': courseId === 6 ? 1 : 0, '9656-1': courseId === 7 ? 1 : 0,
   })
 })
 
@@ -106,8 +107,19 @@ it('updates full and step row colors from the selected kit and restores model co
   expect(await screen.findAllByText('深灰色短连杆')).toHaveLength(2)
   expect(screen.queryByText('可以用其它颜色或零件代替')).toBeNull()
   await act(async () => {
-    fireEvent.click(screen.getByRole('button', { name: '科技机械套装减少一套' }))
+    fireEvent.click(screen.getByRole('button', { name: '科技机械套装（2013）减少一套' }))
   })
   expect(screen.getAllByText('浅灰色短连杆').length).toBeGreaterThanOrEqual(2)
   expect(screen.queryByText('深灰色短连杆')).toBeNull()
+})
+
+it('9206 can be selected, covers its exhaust pipe, and persists its count', async () => {
+  const exhaust = [entry('4433c01.dat', 7, 2, '排气管', '浅灰色')]
+  render(<LessonMaterialsPreparation courseId={5} entries={exhaust} partCount={2} />)
+  expect(screen.getByLabelText('科技机械套装（2008）套数').textContent).toBe('0')
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: '科技机械套装（2008）增加一套' }))
+  })
+  expect(screen.getByText('用你的套装可以搭完')).toBeTruthy()
+  expect(JSON.parse(window.localStorage.getItem(kitCountsStorageKey(5))!)).toMatchObject({ '9206-1': 1 })
 })
