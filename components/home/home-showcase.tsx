@@ -168,6 +168,12 @@ function HomeHero({ image }: { image: string }) {
               >
                 看看动手项目
               </Link>
+              <Link
+                href="/start"
+                className="hidden min-h-11 w-fit items-center text-sm font-semibold text-[hsl(var(--brand-blue))] underline-offset-4 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:inline-flex"
+              >
+                第一次来？看探索指南 →
+              </Link>
             </div>
           </div>
         </div>
@@ -571,10 +577,6 @@ export function HomeShowcase({
           <LeaderboardEntry className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
         </MobileShortcutCarousel>
 
-        <Link href="/start" className="hidden min-h-11 w-fit items-center gap-1 text-sm font-semibold text-[hsl(var(--brand-blue))] hover:underline md:inline-flex">
-          探索指南
-          <ChevronRight className="h-4 w-4" aria-hidden="true" />
-        </Link>
         <StartExploreSection categoryTileCounts={categoryTileCounts} />
 
         <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1.65fr)_minmax(320px,0.85fr)]">

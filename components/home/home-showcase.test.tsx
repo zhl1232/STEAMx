@@ -67,16 +67,16 @@ describe("HomeShowcase hero", () => {
     expect(screen.queryByText(/科创/)).not.toBeInTheDocument();
   });
 
-  it("moves the mobile guide into the hero with a 44px target and keeps the old position desktop-only", () => {
+  it("preserves the mobile guide and places the desktop guide after the hero buttons", () => {
     const { hero } = renderHome();
     const guide = hero.getByRole("link", { name: "探索指南" });
     expect(guide).toHaveAttribute("href", "/start");
     expect(guide).toHaveClass("inline-flex", "min-h-11", "md:hidden");
-    const guides = screen.getAllByRole("link", { name: "探索指南" });
-    expect(guides).toHaveLength(2);
-    expect(guides[0]).toBe(guide);
-    expect(guides[1]).toHaveAttribute("href", "/start");
-    expect(guides[1]).toHaveClass("hidden", "md:inline-flex");
+    const desktopGuide = hero.getByRole("link", { name: "第一次来？看探索指南 →" });
+    expect(desktopGuide).toHaveAttribute("href", "/start");
+    expect(desktopGuide).toHaveClass("hidden", "md:inline-flex");
+    expect(desktopGuide.previousElementSibling).toBe(hero.getByRole("link", { name: "看看动手项目" }));
+    expect(screen.getAllByRole("link", { name: /探索指南/ })).toEqual([guide, desktopGuide]);
   });
 
   it("keeps both original desktop buttons while removing them from the mobile layout", () => {
