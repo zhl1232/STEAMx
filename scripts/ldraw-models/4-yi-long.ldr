@@ -34,7 +34,9 @@
 1 72 288 -24 -160 0 -1 0 0 0 1 -1 0 0 28336.dat
 1 72 288 -24 160 0 -1 0 0 0 1 -1 0 0 28336.dat
 0 STEP
-0 // Source page 7: two orange rake blades: omitted until confirmed geometry
+0 // Source page 7: two orange rake feet under front brackets (hand fix 2026-10-13, local approximation)
+1 25 300 16 -160 1 0 0 0 1 0 0 0 1 dev-129/rake-yi-long.dat
+1 25 300 16 160 1 0 0 0 1 0 0 0 1 dev-129/rake-yi-long.dat
 0 STEP
 0 // Source page 8: two yellow lower rear Toolo bricks
 1 14 -160 48 -80 1 0 0 0 1 0 0 0 1 76057.dat
@@ -46,7 +48,9 @@
 1 72 -288 72 80 0 1 0 0 0 -1 -1 0 0 28336.dat
 1 72 -553 24 80 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
 0 STEP
-0 // Source page 10: two further orange rake blades: omitted until confirmed geometry
+0 // Source page 10: two orange rake feet on rear short-arm ends (hand fix 2026-10-13)
+1 25 -553 48 -80 1 0 0 0 1 0 0 0 1 dev-129/rake-yi-long.dat
+1 25 -553 48 80 1 0 0 0 1 0 0 0 1 dev-129/rake-yi-long.dat
 0 STEP
 0 // Source page 11: neck clutch and two offset red Toolo jaw bricks
 1 72 208 -669 0 1 0 0 0 1 0 0 0 1 74957.dat
@@ -59,7 +63,9 @@
 1 71 208 -741 -104 1 0 0 0 0 1 0 -1 0 99565.dat
 1 71 208 -741 104 1 0 0 0 0 -1 0 1 0 99565.dat
 0 STEP
-0 // Source page 13: known Toolo blue wing45117c01 and tail31239c01 omitted: missing verified geometry
+0 // Source page 13: blue wing 45117c01 + spoiler 31239c01 crest on head top (hand fix 2026-10-13; copies of approved 4-ke-ji v2 approximations), swept backward
+1 1 248 -765 0 -1 0 0 0 1 0 0 0 -1 dev-129/45117c01-yi-long.dat
+1 1 248 -813 0 -1 0 0 0 1 0 0 0 -1 dev-129/31239c01-yi-long.dat
 0 STEP
 0 // Source page 14: six black Toolo bricks in two stepped wing rows
 1 0 0 -144 -200 0 0 1 0 1 0 -1 0 0 76395.dat
