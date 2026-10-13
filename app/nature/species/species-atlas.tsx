@@ -44,19 +44,46 @@ interface SpeciesAtlasProps {
 }
 
 type TileIcon = (props: { className?: string }) => React.JSX.Element
-/* 分类块使用实心彩色图标（对应设计稿），颜色由 CSS 的 --tile-color 控制。 */
+/* 分类块图标：浅色圆角底 + 渐变实心图形，深浅色模式通用（底色用半透明色）。 */
+function TileBadge({ id, from, to, children, className }: { id: string; from: string; to: string; children: React.ReactNode; className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
+      <defs><linearGradient id={id} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor={from} /><stop offset="1" stopColor={to} /></linearGradient></defs>
+      <rect x="0" y="0" width="40" height="40" rx="12" fill={to} fillOpacity=".14" />
+      {children}
+    </svg>
+  )
+}
 function BirdTileIcon({ className }: { className?: string }) {
-  return <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M16 7h.01" /><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" fill="currentColor" fillOpacity=".14" /><path d="m20 7 2 .5-2 .5" /><path d="M10 18v3" /><path d="M14 17.75V21" /><path d="M7 18a6 6 0 0 0 3.84-10.61" /></svg>
+  return <TileBadge id="atlas-g-bird" from="#5aa9ff" to="#1667e8" className={className}>
+    <path fill="url(#atlas-g-bird)" d="M10 23.5c0-6 4.6-10.5 10.4-10.5 1.6 0 3 .3 4.3.9.9-2.2 3-3.6 5.3-3.4l3 1.6-2.6 1.1c.4 1 .6 2 .6 3.1C31 24.7 25.8 30 19 30h-1.5l-4 3.2.5-3.9C11.6 27.8 10 25.8 10 23.5Z" />
+    <path fill="#fff" fillOpacity=".55" d="M14.5 22.5c3.6-.1 6.7-1.6 8.6-4.2.9 4.2-1.6 7.6-6 8.3-1.9-.7-2.8-2.3-2.6-4.1Z" />
+    <circle cx="27.6" cy="15.6" r="1.6" fill="#0b2a5c" /><circle cx="28.1" cy="15.1" r=".5" fill="#fff" />
+  </TileBadge>
 }
 function BugTileIcon({ className }: { className?: string }) {
-  return <svg viewBox="0 0 32 32" className={className} aria-hidden="true"><g stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none"><path d="M12 6.5 10 4M20 6.5 22 4M8.5 14H4.5M27.5 14h-4M8.8 19.5l-3.8 2M23.2 19.5l3.8 2M10 24.5l-2.5 3M22 24.5l2.5 3" /></g><circle cx="16" cy="9" r="4" fill="currentColor" /><path fill="currentColor" d="M16 12.2c4.4 0 7.8 3.7 7.8 8.3 0 4.4-3.5 7.5-7.8 7.5s-7.8-3.1-7.8-7.5c0-4.6 3.4-8.3 7.8-8.3Z" /><path stroke="#fff" strokeOpacity=".55" strokeWidth="1.4" d="M16 13v15" /><circle cx="12.6" cy="18.5" r="1.3" fill="#fff" fillOpacity=".55" /><circle cx="19.4" cy="22.5" r="1.3" fill="#fff" fillOpacity=".55" /></svg>
+  return <TileBadge id="atlas-g-bug" from="#ff7a59" to="#e2382b" className={className}>
+    <g stroke="#3a2a28" strokeWidth="1.6" strokeLinecap="round" fill="none"><path d="M16.5 11.5 14.5 9M23.5 11.5 25.5 9M11 20H8.5M31.5 20H29M11.5 26l-2.5 1.8M28.5 26l2.5 1.8" /></g>
+    <circle cx="20" cy="14.2" r="3.6" fill="#2f2523" />
+    <ellipse cx="20" cy="23" rx="9.2" ry="9" fill="url(#atlas-g-bug)" />
+    <path d="M20 14.5v17.4" stroke="#2f2523" strokeWidth="1.4" />
+    <circle cx="16" cy="20" r="1.7" fill="#2f2523" /><circle cx="24" cy="20" r="1.7" fill="#2f2523" /><circle cx="15.6" cy="26" r="1.4" fill="#2f2523" /><circle cx="24.4" cy="26" r="1.4" fill="#2f2523" />
+    <ellipse cx="16" cy="17.4" rx="2" ry="1.1" fill="#fff" fillOpacity=".45" transform="rotate(-30 16 17.4)" />
+  </TileBadge>
 }
 function LeafTileIcon({ className }: { className?: string }) {
-  return <svg viewBox="0 0 32 32" className={className} aria-hidden="true"><path fill="currentColor" d="M27.5 4.5C14.8 4 5.5 9.8 5.5 19.4c0 2.4.7 4.6 1.9 6.4C9.8 19.5 14 15 20 12.3 14.6 16 11 20.5 9.4 27.6c1.5.6 3.2.9 4.9.9 9.8 0 14.8-9.8 13.2-24Z" /></svg>
+  return <TileBadge id="atlas-g-leaf" from="#5fd47a" to="#1f9a45" className={className}>
+    <path fill="url(#atlas-g-leaf)" d="M30.5 9.5C19 9.2 10.5 14.4 10.5 23.2c0 3.6 2.2 6.6 5.4 7.6 9.4.3 15.2-8.8 14.6-21.3Z" />
+    <path d="M12.5 31.5c3-6.4 7.6-11.6 14-16.2M17.5 23.5l-.6-4.4M21.6 19.8l4.1.3" stroke="#fff" strokeOpacity=".7" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+  </TileBadge>
 }
-/** 实心蘑菇：用于「全部」分类块，对应设计稿紫色蘑菇。 */
+/** 带白点的蘑菇：用于「全部」分类块。 */
 function MushroomIcon({ className }: { className?: string }) {
-  return <svg viewBox="0 0 32 32" className={className} aria-hidden="true"><path fill="currentColor" d="M16 3.5C8.8 3.5 3.5 8.4 3.5 14c0 1 .8 1.8 1.8 1.8h21.4c1 0 1.8-.8 1.8-1.8 0-5.6-5.3-10.5-12.5-10.5Z" /><circle cx="11" cy="9.5" r="1.8" fill="#fff" fillOpacity=".5" /><circle cx="19.5" cy="7.8" r="1.3" fill="#fff" fillOpacity=".5" /><path fill="currentColor" fillOpacity=".7" d="M12 17.5h8l.9 7.6a2.4 2.4 0 0 1-2.4 2.7h-5a2.4 2.4 0 0 1-2.4-2.7l.9-7.6Z" /></svg>
+  return <TileBadge id="atlas-g-mush" from="#c58bff" to="#8a4fe0" className={className}>
+    <path fill="#f3e6d8" d="M16.5 21.5h7l1 8.2a2.3 2.3 0 0 1-2.3 2.6h-4.4a2.3 2.3 0 0 1-2.3-2.6l1-8.2Z" />
+    <path fill="url(#atlas-g-mush)" d="M20 8.5c-6.9 0-12 4.8-12 10.6 0 1.3 1 2.4 2.3 2.4h19.4c1.3 0 2.3-1.1 2.3-2.4 0-5.8-5.1-10.6-12-10.6Z" />
+    <circle cx="15" cy="15" r="2" fill="#fff" fillOpacity=".85" /><circle cx="22.5" cy="12.6" r="1.5" fill="#fff" fillOpacity=".85" /><circle cx="26" cy="17.5" r="1.7" fill="#fff" fillOpacity=".85" /><circle cx="19.5" cy="18.4" r="1.1" fill="#fff" fillOpacity=".85" />
+  </TileBadge>
 }
 const TOPIC_ICONS: Record<SpeciesAtlasTopicFilter, TileIcon> = {
   all: MushroomIcon, birds: BirdTileIcon, insects: BugTileIcon, plants: LeafTileIcon,
