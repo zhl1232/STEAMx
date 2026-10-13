@@ -1,4 +1,5 @@
 import { logger } from '@/lib/logger'
+import { classifyProviderFailure, MAX_PROVIDER_ATTEMPTS, providerRetryDelayMs, waitForProviderRetry } from './provider-retry'
 
 const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
 const DEFAULT_TUTOR_TEXT_MODEL = 'qwen-flash'
@@ -220,9 +221,8 @@ function filterUnavailableModels(role: DashScopeModelRole, models: string[]) {
     return false
   })
 
-  // All candidates may be cooling down after a provider-wide incident. Probe the
-  // preferred one again instead of turning the whole application off for five minutes.
-  return available.length > 0 ? available : models.slice(0, 1)
+  // Fail closed until a cooldown expires; do not let every user probe a known outage.
+  return available
 }
 
 async function loadModelCatalog(apiKey: string, baseUrl: string): Promise<Set<string> | null> {
@@ -291,20 +291,8 @@ export function markDashScopeModelUnavailable(role: DashScopeModelRole, model: s
   unavailableModels.set(modelAvailabilityKey(role, model), Date.now() + MODEL_UNAVAILABLE_COOLDOWN_MS)
 }
 
-function providerErrorText(details: unknown) {
-  try {
-    return typeof details === 'string' ? details : JSON.stringify(details) || ''
-  } catch {
-    return ''
-  }
-}
-
 export function isDashScopeModelAvailabilityError(status: number, details?: unknown) {
-  if ([403, 404, 408, 409, 429, 500, 502, 503, 504].includes(status)) return true
-  if (status !== 400) return false
-  return /model|quota|rate.?limit|throttl|unavailable|not.?found|capacity|free.?tier|exhaust|exceed|arrearage|insufficient|resource/i.test(
-    providerErrorText(details),
-  )
+  return classifyProviderFailure(status, details) !== 'stop'
 }
 
 export function resetDashScopeModelState() {
@@ -413,6 +401,16 @@ export async function dashScopeChatCompletions(input: {
   usageObserver?: DashScopeUsageObserver
 }): Promise<{ response: Response; model: string; usageCapture?: DashScopeUsageHandle }> {
   const startedAt = Date.now()
+  if (!Number.isFinite(input.timeoutMs) || input.timeoutMs < 1) throw new RangeError('Invalid provider timeout')
+  const totalTimeoutMs = Math.ceil(Math.min(input.timeoutMs, DASHSCOPE_STREAM_TIMEOUT_MS))
+  const deadline = startedAt + totalTimeoutMs
+  // One deadline includes discovery, admission, retries, backoff and response-body streaming.
+  const chainSignal = AbortSignal.timeout(totalTimeoutMs)
+  const ensureDeadline = (capture?: DashScopeUsageHandle) => {
+    if (!chainSignal.aborted && Date.now() < deadline) return
+    capture?.finish({ usage: null, status: 'rejected' }) // Nothing dispatched for this attempt.
+    throw new DashScopeError({ code: 'timeout', message: 'DashScope request deadline exceeded', status: 504 })
+  }
   let apiKey: string
   let baseUrl: string
   let model: string
@@ -425,10 +423,11 @@ export async function dashScopeChatCompletions(input: {
     throw error
   }
 
-  const models = await getDashScopeModelCandidates(input.role)
+  const models = (await getDashScopeModelCandidates(input.role)).slice(0, MAX_PROVIDER_ATTEMPTS)
   let lastError: DashScopeError | null = null
 
   for (const candidate of models) {
+    ensureDeadline()
     model = candidate
     // Admission is synchronous so concurrent planners cannot spend the same budget.
     // A denied attempt never reaches the provider and is not a usage entry.
@@ -444,6 +443,7 @@ export async function dashScopeChatCompletions(input: {
         usageCapture = input.usageObserver.start(usageInput)
       }
     }
+    ensureDeadline(usageCapture)
     let response: Response
     try {
       response = await fetch(`${baseUrl}/chat/completions`, {
@@ -458,7 +458,7 @@ export async function dashScopeChatCompletions(input: {
           ...(usageCapture ? { max_tokens: usageCapture.maxOutputTokens } : {}),
           model,
         }),
-        signal: AbortSignal.timeout(input.timeoutMs),
+        signal: chainSignal,
       })
     } catch (error) {
       usageCapture?.finish({ usage: null, status: 'failed' })
@@ -514,8 +514,13 @@ export async function dashScopeChatCompletions(input: {
     })
     lastError = error
 
-    if (!isDashScopeModelAvailabilityError(response.status, details)) throw error
+    const decision = classifyProviderFailure(response.status, details)
+    if (decision === 'stop') throw error
     markDashScopeModelUnavailable(input.role, model)
+    if (decision === 'backoff' && candidate !== models[models.length - 1]) {
+      const delayMs = providerRetryDelayMs(models.indexOf(candidate), response.headers?.get('Retry-After') ?? null)
+      if (!await waitForProviderRetry(delayMs, deadline)) throw error
+    }
   }
 
   throw lastError ?? new DashScopeError({
