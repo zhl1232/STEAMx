@@ -60937,6 +60937,142 @@
         "Tyre/rim nesting and screw/bore fit require manual review."
       ],
       "collisionPolicy": "manual"
+    },
+    "dev-129/28331-ta-diao.dat": {
+      "name": "Duplo long fork arm (4-ta-diao isolated approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -36,
+        "xMax": 36,
+        "yMin": -24,
+        "yMax": 456,
+        "zMin": -39.2,
+        "zMax": 39.2
+      },
+      "origin": {
+        "type": "pivot-center",
+        "axis": "Z"
+      },
+      "heightLdu": 480,
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Adapted local CC BY 4.0 geometry from dev-129/28331-ju-ji-qiang.dat without changing that file.",
+        "User authorized source approximation 2026-10-13; tower crane p10/p11/p16 long arm, p17 short arm, p18 stand.",
+        "Confirmed identities: 28331 / 74844; 28334 / 74847; ladder stand 2223 (9090-2 black x1).",
+        "Widths, ribs, screw threads and hinge fit remain estimated.",
+        "Crane source p10/p11/p16 proportions require estimated pivot0/220/440 rather than prior400 clip spacing; only clip-side longitudinal interval extended40 LDU, circular screws and transverse width unchanged. Source-render proportion estimate, not a measured 74844 dimension."
+      ]
+    },
+    "dev-129/28334-ta-diao.dat": {
+      "name": "Duplo Toolo 2 x 6 fork arm (4-ta-diao isolated approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -24,
+        "xMax": 24,
+        "yMin": -24,
+        "yMax": 216,
+        "zMin": -42,
+        "zMax": 42
+      },
+      "origin": {
+        "type": "pivot-center",
+        "axis": "Z"
+      },
+      "heightLdu": 240,
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Adapted local CC BY 4.0 geometry from dev-129/28334-ci-xuan-fu-v4.dat without changing that file.",
+        "User authorized source approximation 2026-10-13; tower crane p10/p11/p16 long arm, p17 short arm, p18 stand.",
+        "Confirmed identities: 28331 / 74844; 28334 / 74847; ladder stand 2223 (9090-2 black x1).",
+        "Widths, ribs, screw threads and hinge fit remain estimated."
+      ]
+    },
+    "dev-129/2223-ta-diao.dat": {
+      "name": "Duplo Ladder Stand 2 x 2 (4-ta-diao isolated approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "studFootprint": {
+        "x": 2,
+        "z": 2
+      },
+      "heightLdu": 96,
+      "origin": {
+        "type": "bottom-center",
+        "originToTop": 96,
+        "originToBottom": 0
+      },
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": -96,
+        "yMax": 0,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "collisionVolumes": [
+        {
+          "xMin": -40,
+          "xMax": 40,
+          "yMin": -12,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": 40
+        },
+        {
+          "xMin": -40,
+          "xMax": 40,
+          "yMin": -96,
+          "yMax": -12,
+          "zMin": -40,
+          "zMax": -32
+        },
+        {
+          "xMin": -40,
+          "xMax": 40,
+          "yMin": -96,
+          "yMax": -12,
+          "zMin": 32,
+          "zMax": 40
+        }
+      ],
+      "supportPolicy": "structural",
+      "notes": [
+        "Adapted local CC BY 4.0 geometry from dev-129/2223-ju-ji-qiang.dat without changing that file.",
+        "User authorized source approximation 2026-10-13; tower crane p10/p11/p16 long arm, p17 short arm, p18 stand.",
+        "Confirmed identities: 28331 / 74844; 28334 / 74847; ladder stand 2223 (9090-2 black x1).",
+        "Widths, ribs, screw threads and hinge fit remain estimated."
+      ]
+    },
+    "dev-129/6295-ta-diao.dat": {
+      "name": "Duplo Toolo Arm with Fake Pulley and Hook (6295, 4-ta-diao approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -33.7,
+        "xMax": 33.7,
+        "yMin": -15,
+        "yMax": 171,
+        "zMin": -24,
+        "zMax": 24
+      },
+      "origin": {
+        "type": "pivot-center",
+        "axis": "Z"
+      },
+      "heightLdu": 186,
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Source tower-crane p11 and p19: one grey rigid hook with dummy pulley attached to lower screw of vertical long arm.",
+        "Confirmed catalog identity https://www.bricklink.com/v2/catalog/catalogitem.page?P=6295 ; not present in the four preferred kit inventories.",
+        "Official/unofficial library requests403 on2026-10-13; fixed mirror6295.dat404; no local geometry found.",
+        "User explicitly authorized course-based approximation2026-10-13. Authored locally under CC BY4.0.",
+        "Two moulded pulley faces, narrow tongue, open J tip; width, rib detail and dimensions estimated. Pivot/retention is manual because the screw and fork are also approximate; do not interpret checker pass as physical fit certification."
+      ]
     }
   }
 }
