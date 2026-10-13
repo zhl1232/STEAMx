@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { memo, useMemo, useState } from 'react'
 import { Blocks, BookOpen, ChevronRight, Compass, FlaskConical, Leaf, Lightbulb } from 'lucide-react'
 import { OptimizedImage } from '@/components/ui/optimized-image'
@@ -16,9 +15,15 @@ import styles from './course-hub.module.css'
 
 const CATEGORY_ORDER: CourseCategory[] = ['brick', 'programming', 'strategy', 'other']
 
+// 数据库里的旧封面地址在代码侧换成新图，不改线上数据。
+const COVER_OVERRIDES: Record<string, string> = {
+  '/api/assets/courses/scratch-original/v1/cover.svg': '/assets/courses/scratch-course-cover.svg',
+}
+
 function CourseCover({ course, priority }: { course: CourseListItem; priority: boolean }) {
   const [failedSrc, setFailedSrc] = useState<string | null>(null)
-  const src = course.image_url?.trim() || null
+  const raw = course.image_url?.trim() || null
+  const src = raw ? COVER_OVERRIDES[raw] ?? raw : null
   return (
     <div className={styles.cover} data-category={getCourseCategory(course)}>
       {src && failedSrc !== src ? (
@@ -89,10 +94,6 @@ export function CourseHub({ courses }: { courses: CourseListItem[] }) {
   ]
   return (
     <div className={styles.hub} data-course-hub>
-      <section className={styles.hero} aria-label="课程介绍">
-        <div className={styles.heroCopy}><p>动手做，<br />才能真正学会</p><span>挑一项技能，做一件作品。</span></div>
-        <Image src="/assets/courses-hero-art.webp" alt="" width={228} height={144} priority className={styles.heroArt} />
-      </section>
       {courses.length > 0 ? <>
         <div className={styles.filters} role="group" aria-label="课程分类">
           {filters.map(item => <button key={item.key} type="button" aria-pressed={filter === item.key} onClick={() => setFilter(item.key)}>{item.label}</button>)}
@@ -118,7 +119,6 @@ export function CourseHub({ courses }: { courses: CourseListItem[] }) {
       </> : <div className={styles.empty}><BookOpen size={28} aria-hidden="true" /><p>技能课程即将上线，敬请期待。</p></div>}
       <section className={styles.directions} aria-labelledby="course-directions-heading">
         <div className={styles.sectionHeading}><h2 id="course-directions-heading">更多学习方向</h2>
-          <Link href="/start">探索指南<ChevronRight size={14} aria-hidden="true" /></Link>
         </div>
         <div className={styles.directionGrid}>
           <Link href="/learn/science"><FlaskConical aria-hidden="true" /><strong>科学实验</strong><span>找个小实验</span></Link>
