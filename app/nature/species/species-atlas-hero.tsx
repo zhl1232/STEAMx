@@ -24,7 +24,7 @@ const SUMMARIES: Record<SpeciesAtlasTopicFilter, string> = {
   plants: '认识一株植物，观察四季里的变化。',
 }
 
-const UNIT: Record<SpeciesAtlasTopicFilter, string> = { all: '种物种', birds: '种鸟类', insects: '种昆虫', plants: '种植物' }
+const UNIT: Record<SpeciesAtlasTopicFilter, string> = { all: '物种总数', birds: '鸟类总数', insects: '昆虫总数', plants: '植物总数' }
 
 export function SpeciesAtlasHero({ topic, heading, introduction, stats }: {
   topic: SpeciesAtlasTopicFilter
