@@ -2,7 +2,7 @@
 
 本文维护选课、模型与材料展示、翻步和课程内有限口令体验。核对基线：2026-10-13，`0d322eda40dfdf81c7feb4f37703c9b38bea2b15`。代码存在和历史夹具测试不代表本次生产、供应商或真实家庭验收。
 
-语音模型、配置、共享预算、缓存和取消传递只在 [语音协议](../ai/voice-31-upgrade.md) 维护；计费只在 [代币规则](../ai/tutor-credit-accounting.md) 维护。2026-10-12 的成本估算和测试原文见 [历史快照](../archive/documentation/2026-10-13/README.md)。
+语音模型、配置、共享预算、缓存和取消传递只在 [语音协议](../ai/voice-31-upgrade.md) 维护；计费只在 [代币规则](../ai/tutor-credit-accounting.md) 维护。
 
 ## 使用场景与界面
 

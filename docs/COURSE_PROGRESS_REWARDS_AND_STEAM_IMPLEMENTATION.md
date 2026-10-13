@@ -23,7 +23,7 @@
 
 ## 维护入口
 
-数据库命令会通过 `scripts/db-push.mjs` 确保 `public._schema_migrations` 追踪表存在；即使 `db:status` 或 `--dry-run` 也可能创建该表。具体连接、迁移和权限边界遵循 [`database-psql.md`](./database-psql.md) 与 `.cursor/rules/db-migrations.mdc`，不要把这些命令当作无副作用的本地检查。
+数据库连接、迁移模式、副作用及执行授权统一遵循 [数据库连接与迁移](database-psql.md)。下列维护命令须分别按其实际副作用和已批准范围执行；不能把命令名含 `status` 或 `dry-run` 当作只读依据。
 
 每次课程结构、配置、审核奖励或雷达逻辑发布后运行：
 
