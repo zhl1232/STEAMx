@@ -14,7 +14,7 @@
   background: linear-gradient(120deg, #0f3d26, #1d6b40);
   color: #fff;
 }
-.heroImage { object-fit: cover; object-position: 70% 38%; z-index: -2; }
+.heroImage { object-fit: cover; object-position: 50% 22%; z-index: -2; }
 .heroShade {
   position: absolute;
   inset: 0;
