@@ -42,6 +42,17 @@ const topicCardImages: Record<SpeciesAtlasTopicKey, string> = {
   plants: "/assets/nature-topic-plants.webp",
 };
 
+/* 移动端专用卡片图（桌面端仍用上面的图）：
+ * 翠鸟：Alexis Lours「Common kingfisher on a branch facing right」CC BY 2.0，已裁切提亮；
+ * （作者与授权集中列在 /credits 图片来源页）
+ * 瓢虫：Andrea Bonifazi「Close up of a Coccinella septempunctata on a leaf」CC BY-SA 4.0，已裁切；
+ * 苹果花：W.carter「Cluster of apple blossoms」CC0，已裁切。 */
+const topicCardMobileImages: Record<SpeciesAtlasTopicKey, string> = {
+  birds: "/assets/nature-topic-m-birds-v4.webp",
+  insects: "/assets/nature-topic-m-insects-v4.webp",
+  plants: "/assets/nature-topic-m-plants-v4.webp",
+};
+
 export const metadata: Metadata = buildPageMetadata({
   title: "自然观察",
   description:
@@ -60,6 +71,8 @@ interface TopicCardBase {
   image: ImageSource;
   icon: LucideIcon;
   tint: string;
+  /** 移动端卡片文字区的浅色底 */
+  mobileTint: string;
 }
 
 interface TopicCard extends TopicCardBase {
@@ -75,6 +88,7 @@ const natureBlurDataUrl =
 const topicCardBase: TopicCardBase[] = [
   {
     key: "birds",
+    mobileTint: "bg-[#eaf4fd] dark:bg-[#15263a]",
     title: "鸟类",
     subtitle: "发现天空的精灵",
     href: "/nature/birds",
@@ -84,6 +98,7 @@ const topicCardBase: TopicCardBase[] = [
   },
   {
     key: "insects",
+    mobileTint: "bg-[#fdeeee] dark:bg-[#36191d]",
     title: "昆虫",
     subtitle: "微观世界的生命",
     href: "/nature/insects",
@@ -93,6 +108,7 @@ const topicCardBase: TopicCardBase[] = [
   },
   {
     key: "plants",
+    mobileTint: "bg-[#eef6e6] dark:bg-[#1b2c18]",
     title: "植物",
     subtitle: "读懂叶片、花果与种子",
     href: "/nature/plants",
@@ -253,11 +269,13 @@ function NatureHeroSection({ submitHref }: { submitHref: string }) {
 function TopicCardsSection({ topicCards }: { topicCards: TopicCard[] }) {
   return (
     <section aria-labelledby="nature-topics-heading">
-      <h2 id="nature-topics-heading" className="sr-only">选择观察专题</h2>
-      <div className="grid grid-cols-3 gap-2 md:gap-4">
+      <div>
+        <h2 id="nature-topics-heading" className="mb-2.5 px-1 text-[15px] font-bold text-foreground min-[390px]:text-[16px] md:sr-only">物种图鉴</h2>
+      <div className="relative grid grid-cols-3 gap-2 md:gap-4">
         {topicCards.map((topic) => (
           <TopicCardView key={topic.title} topic={topic} />
         ))}
+      </div>
       </div>
     </section>
   );
@@ -278,20 +296,29 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
     >
       <div className="relative h-20 overflow-hidden min-[390px]:h-24 md:absolute md:inset-0 md:h-full">
         <Image
+          src={topicCardMobileImages[topic.key]}
+          alt=""
+          fill
+          placeholder="blur"
+          blurDataURL={natureBlurDataUrl}
+          className="object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.03] md:hidden"
+          unoptimized
+          sizes="(max-width: 767px) 40vw, 1px"
+        />
+        <Image
           src={topicImage.src}
           alt=""
           fill
           unoptimized={topicImage.unoptimized}
           placeholder="blur"
           blurDataURL={natureBlurDataUrl}
-          className="object-cover object-right opacity-95 transition-transform duration-700 dark:brightness-[0.82] dark:saturate-[0.8] motion-safe:group-hover:scale-[1.03] md:mask-[linear-gradient(100deg,transparent_0%,transparent_40%,rgba(0,0,0,0.28)_56%,rgba(0,0,0,0.88)_72%,#000_86%)]"
+          className="hidden object-cover object-right opacity-95 md:block transition-transform duration-700 dark:brightness-[0.82] dark:saturate-[0.8] motion-safe:group-hover:scale-[1.03] md:mask-[linear-gradient(100deg,transparent_0%,transparent_40%,rgba(0,0,0,0.28)_56%,rgba(0,0,0,0.88)_72%,#000_86%)]"
           sizes="(max-width: 767px) 33vw, (max-width: 1536px) 32vw, 480px"
         />
-        <div aria-hidden className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.08)_30%,hsl(var(--surface-raised)/0.3)_70%,hsl(var(--surface-raised))_100%)] dark:block md:dark:hidden" />
         <div className={`absolute inset-0 hidden bg-linear-to-r md:block ${topic.tint}`} />
         <div className="absolute inset-0 hidden bg-[linear-gradient(100deg,hsl(var(--surface-raised)/0.94)_0%,hsl(var(--surface-raised)/0.82)_36%,hsl(var(--surface-raised)/0.34)_52%,transparent_70%)] md:block dark:bg-[linear-gradient(100deg,hsl(var(--surface-raised)/0.92)_0%,hsl(var(--surface-raised)/0.78)_38%,hsl(var(--surface-raised)/0.28)_54%,transparent_72%)]" />
       </div>
-      <div className="relative z-10 flex flex-col gap-1 p-2 min-[390px]:p-3 md:min-h-[188px] md:justify-between md:p-5">
+      <div className={`relative z-10 flex flex-1 flex-col gap-1 p-2 min-[390px]:p-3 md:bg-transparent md:dark:bg-transparent ${topic.mobileTint} md:min-h-[188px] md:justify-between md:p-5`}>
         <div>
           <div className="flex items-center justify-between gap-1 md:justify-start md:gap-2">
             <Icon className="hidden h-5 w-5 shrink-0 text-primary md:block" strokeWidth={2.2} />
@@ -303,7 +330,8 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
         <div className="flex items-end justify-between gap-2">
           <div className="min-w-0 flex-1 text-xs leading-5 text-muted-foreground">
             <p className="hidden md:block">{formatCount(topic.observationCount)} 条观察记录</p>
-            <p>{progressLabel}</p>
+            <p className="md:hidden">图鉴 {formatCount(topic.speciesCount)} 种</p>
+            <p className="hidden md:block">{progressLabel}</p>
             {topic.progressState === "anonymous" ? <p className="mt-0.5 hidden text-primary/80 md:block">登录后查看观察状态</p> : null}
           </div>
           <span
@@ -315,25 +343,6 @@ function TopicCardView({ topic }: { topic: TopicCard }) {
         </div>
       </div>
     </Link>
-  );
-}
-
-function MobileStatsBar({ stats }: { stats: NatureObservationStats }) {
-  const contributionStats = buildContributionStats(stats);
-
-  return (
-    <section aria-label="社区贡献统计" className="nature-section-card grid grid-cols-4 gap-2 md:hidden">
-      {contributionStats.map((stat) => {
-        const Icon = stat.icon;
-        return (
-          <div key={stat.label} className="flex min-w-0 flex-col items-center gap-1 text-center">
-            <Icon className="h-4 w-4 shrink-0 nature-icon-accent" />
-            <span className="text-sm font-bold leading-5 text-[hsl(var(--foreground))]">{stat.value}</span>
-            <span className="text-[11px] leading-4 nature-text-muted">{stat.label}</span>
-          </div>
-        );
-      })}
-    </section>
   );
 }
 
@@ -476,8 +485,12 @@ export default async function NaturePage() {
 
           <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px] xl:gap-6">
             <main className="min-w-0 space-y-4 md:space-y-6">
-              <NatureHomeMapPair observations={homepage.recentObservations} mapObservations={homepage.mapObservations} />
-              <MobileStatsBar stats={homepage.stats} />
+              <NatureHomeMapPair
+                observations={homepage.recentObservations}
+                mapObservations={homepage.mapObservations}
+                totalObservationCount={homepage.stats.observationCount}
+                locationCount={homepage.stats.hotspotLocationCount}
+              />
             </main>
 
             <DesktopSidebar stats={homepage.stats} latestObservation={latestObservation} topHotspot={topHotspot} />
