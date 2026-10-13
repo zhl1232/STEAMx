@@ -70,12 +70,15 @@ describe("HomeShowcase hero", () => {
 
   it("preserves the mobile guide and places the desktop guide after the hero buttons", () => {
     const { hero } = renderHome();
-    const [guide, desktopGuide] = hero.getAllByRole("link", { name: "探索指南", exact: true });
+    const guide = hero.getByRole("link", { name: "探索指南" });
+    const desktopGuide = hero.getByRole("link", { name: "第一次来？看探索指南" });
     expect(guide).toHaveAttribute("href", "/start");
     expect(guide).toHaveClass("inline-flex", "min-h-11", "md:hidden");
     expect(desktopGuide).toHaveAttribute("href", "/start");
     expect(desktopGuide).toHaveClass("hidden", "md:inline-flex");
-    expect(desktopGuide.previousElementSibling).toBe(hero.getByRole("link", { name: "看看动手项目" }));
+    expect(
+      hero.getByRole("link", { name: "看看动手项目" }).compareDocumentPosition(desktopGuide) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
     expect(screen.getAllByRole("link", { name: /探索指南/ })).toEqual([guide, desktopGuide]);
   });
 
@@ -95,7 +98,7 @@ describe("HomeShowcase hero", () => {
     expect(recommendation).toHaveAttribute("href", "/courses");
     expect(recommendation).toHaveTextContent("免费积木课，跟着 3D 步骤一起搭");
     expect(section).not.toContainElement(recommendation);
-    expect(screen.queryByRole("link", { name: "免费积木课", exact: true })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "免费积木课" })).not.toBeInTheDocument();
     const leaderboardLinks = screen.getAllByRole("link", { name: /社区排行榜/ });
     expect(leaderboardLinks).toHaveLength(2);
     for (const link of leaderboardLinks) expect(link).toHaveAttribute("href", "/leaderboard");

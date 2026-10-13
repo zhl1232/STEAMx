@@ -72,22 +72,26 @@ function ResourceCards({ resources }: { resources: LearningResource[] }) {
 export function LearningGuide({ topic, resources }: { topic: LearningTopicDefinition; resources: LearningResource[] }) {
   const quick = LEARNING_QUICK_START[topic.slug]
   const observation = topic.observationGuide
+  // 科学入门只能由实际项目承接；指南中的例子不作为独立推荐。
+  const catalogOnly = topic.slug === 'science'
   return (
     <>
       <header className="mb-5">
         <h1 className="text-3xl font-black tracking-tight text-foreground md:text-4xl">{topic.label}</h1>
-        <p className="mt-3 text-sm leading-7 text-foreground/85 md:text-base">{quick.summary}</p>
-        <a href={quick.directActivity ? '#first-try' : '#start-learning'} className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+        <p className="mt-3 text-sm leading-7 text-foreground/85 md:text-base">{catalogOnly && !resources.length ? '从一个想验证的问题开始，先确认材料和操作要求。' : quick.summary}</p>
+        {!catalogOnly || resources.length > 0 ? <a href={quick.directActivity ? '#first-try' : '#start-learning'} className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
           {quick.action}<ArrowRight className="h-4 w-4" aria-hidden="true" />
-        </a>
+        </a> : null}
       </header>
 
       {quick.directActivity ? <FirstTry topic={topic} /> : null}
 
       <section id="start-learning" aria-labelledby="learning-resources" className="scroll-mt-24 py-6 md:py-8">
+        {/* 旧纸桥入口的锚点改落到项目选择区，不再引导到独立示例。 */}
+        {catalogOnly ? <span id="first-try" className="block scroll-mt-24" aria-hidden="true" /> : null}
         {!quick.directActivity ? <div className="mb-5"><Preparation topic={topic} /></div> : null}
         <div className="flex flex-wrap items-end justify-between gap-2">
-          <h2 id="learning-resources" className="text-xl font-bold text-foreground">{topic.resourceHeading}</h2>
+          <h2 id="learning-resources" className="text-xl font-bold text-foreground">{catalogOnly ? '选一个科学项目开始' : topic.resourceHeading}</h2>
           <Link href={topic.browseHref} className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-[hsl(var(--nav-active))] hover:underline">{topic.browseLabel}<ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
         </div>
         {/* 自然观察的隐私提醒保留在发布入口之前，不放入折叠内容。 */}
@@ -95,12 +99,14 @@ export function LearningGuide({ topic, resources }: { topic: LearningTopicDefini
         {resources.length ? <>
           <ResourceCards resources={resources.slice(0, 3)} />
           {resources.length > 3 ? <div className="mt-3"><GuideDisclosure title={`再看 ${resources.length - 3} 个选择`}><ResourceCards resources={resources.slice(3)} /></GuideDisclosure></div> : null}
-        </> : <p className="rounded-sm border border-dashed border-border p-4 text-sm leading-7 text-muted-foreground">这个主题暂时没有可展示的{topic.slug === 'science' ? '项目' : '课程'}。可以先试试本页的小挑战，或选择其他方向。</p>}
+        </> : <p className="rounded-sm border border-dashed border-border p-4 text-sm leading-7 text-muted-foreground">
+          {catalogOnly ? <>暂时没有可展示的科学项目。<Link href="/explore" className="ml-1 inline-flex min-h-11 items-center font-semibold text-[hsl(var(--nav-active))] hover:underline">去探索其他项目</Link></> : '这个主题暂时没有可展示的课程。可以先试试本页的小挑战，或选择其他方向。'}
+        </p>}
       </section>
 
       <section aria-labelledby="guide-more-heading" className="space-y-3 border-t border-border py-6">
         <h2 id="guide-more-heading" className="text-base font-semibold text-foreground">需要时，再看这些</h2>
-        {!quick.directActivity ? <GuideDisclosure title={`先试个小挑战：${topic.firstQuestion}`}><FirstTry topic={topic} /></GuideDisclosure> : null}
+        {!quick.directActivity && !catalogOnly ? <GuideDisclosure title={`先试个小挑战：${topic.firstQuestion}`}><FirstTry topic={topic} /></GuideDisclosure> : null}
         <GuideDisclosure title={observation ? '出发准备和完整观察守则' : '材料和准备：查看完整说明'}>
           <section aria-labelledby="learning-preparation">
             <h3 id="learning-preparation" className="scroll-mt-24 font-bold text-foreground">开始前准备什么</h3>
@@ -138,7 +144,7 @@ export function LearningGuide({ topic, resources }: { topic: LearningTopicDefini
         <GuideDisclosure title="想再试一步？看看方法和提问"><section aria-labelledby="learning-method">
           <h3 id="learning-method" className="scroll-mt-24 font-bold text-foreground">可以这样一步步开始</h3>
           <p className="mt-2">{topic.introduction}</p>
-          <h4 className="mt-4 font-semibold text-foreground">{topic.firstQuestion}</h4>
+          <h4 className="mt-4 font-semibold text-foreground">{catalogOnly ? '方法示例（非站内项目）：' : null}{topic.firstQuestion}</h4>
           <p className="mt-2">{topic.firstChallenge}</p>
           <ol className="mt-4 list-decimal space-y-3 pl-5">{topic.sequence.map(step => <li key={step.title}><h4 className="font-semibold text-foreground">{step.title}</h4><p>{step.description}</p></li>)}</ol>
         </section></GuideDisclosure>
