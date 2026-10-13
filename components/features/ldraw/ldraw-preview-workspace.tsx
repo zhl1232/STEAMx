@@ -658,6 +658,8 @@ export function LdrawPreviewWorkspace() {
         body: JSON.stringify({ model: fileName, revision }),
       })
       const data = await res.json().catch(() => ({}))
+      if (res.status === 401) throw new Error('请先在本站登录管理员账号，再点确认')
+      if (res.status === 403 && data.code === 'LDRAW_CONFIRM_ADMIN_REQUIRED') throw new Error('当前账号不是管理员，只有管理员可以确认模型')
       if (!res.ok) throw new Error(data.error || '确认失败')
       setModels((items) => items.map((item) => item.name === fileName ? { ...item, reviewStatus: 'confirmed', legacyReviewStatus: 'confirmed', confirmedAt: data.confirmedAt ?? new Date().toISOString() } : item))
       setReviewRecordCount(data.reviewRecordCount)
