@@ -1,4 +1,5 @@
 import { expect, it } from 'vitest'
+import inventories from './ldraw-kit-inventories.json'
 import { isDuploEyePrint, resolveLdrawColor, resolveLdrawPart, VIRTUAL_CHILD_FIGURE } from './ldraw-part-mapping'
 
 it.each(['3437pe0', '3437pe1', '3437pe2', '3437pe12', '3437pr0049', '3437pr0067', '3437pr0113', '3437pr0123', 'parts\\3437PE3.DAT'])(
@@ -115,3 +116,19 @@ it.each([0, 19, 46, 47, 71, 72])('resolves exact color %s', (color) => {
 it('leaves unreviewed colors for substitution rules', () => {
   expect(resolveLdrawColor(9999)).toBeUndefined()
 })
+
+// 用库存逐项约束 9206 Toolo / 绞盘整件，避免 c01/c02 被遗漏或错误截断。
+it.each([...new Set(inventories['9206-1'].parts
+  .filter((part) => /Toolo|Winch|Roll Cage|Tread/.test(part.name))
+  .map((part) => part.partNum))])('9206 mechanical inventory part %s resolves unchanged', (partNum) => {
+  expect(resolveLdrawPart(`${partNum}.dat`)).toEqual({ partNums: [partNum], flags: { kitColor: true } })
+})
+
+it.each(['4433c01.dat', 'parts\\4433C01.DAT'])(
+  'exhaust pipe %s matches the 9206 inventory assembly', (partId) => {
+    const resolved = resolveLdrawPart(partId)
+    const matches = inventories['9206-1'].parts.filter((part) => resolved.partNums.includes(part.partNum))
+    expect(resolved.flags.unknown).toBeFalsy()
+    expect(matches).toEqual([expect.objectContaining({ partNum: '4433c01', quantity: 2, colorId: 135 })])
+  },
+)
