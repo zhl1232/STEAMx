@@ -21,11 +21,11 @@
 .category[data-category='strategy'] { color: hsl(var(--brand-green)); background: hsl(var(--brand-green) / .09); }
 .courseTitle { font-family: inherit; margin: 0; font-size: 15px; line-height: 1.45; font-weight: 700; overflow-wrap: anywhere; }
 .courseTitle a { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: inherit; text-decoration: none; }
-.metadata { display: flex; align-items: center; gap: 4px; margin: 2px 0 0; color: hsl(var(--muted-foreground)); font-size: 11px; line-height: 1.5; }
+.metadata { display: flex; align-items: center; gap: 4px; margin: 3px 0 0; color: hsl(var(--muted-foreground)); font-size: 11px; line-height: 1.5; }
 .classification { margin-top: 2px; font-size: 11px; line-height: 1.5; }
-.cardBottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 7px; margin-top: auto; padding-top: 6px; }
-.progress { flex: 1; min-width: 58px; max-width: 150px; color: hsl(var(--brand-blue)); font-size: 11px; line-height: 1.4; }
-.progressTrack { height: 5px; overflow: hidden; border-radius: 999px; background: hsl(var(--surface-muted)); margin-top: 4px; }
+.cardBottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 7px; margin-top: auto; padding-top: 8px; }
+.progress { display: flex; align-items: center; gap: 8px; margin-top: 8px; color: hsl(var(--brand-blue)); font-size: 11px; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.progressTrack { flex: 1; min-width: 0; height: 6px; overflow: hidden; border-radius: 999px; background: hsl(var(--surface-muted)); }
 .progressTrack > span { display: block; height: 100%; border-radius: inherit; background: hsl(var(--brand-blue)); }
 .modeLabel:empty { display: none; }
 .modeLabel { color: hsl(var(--muted-foreground)); font-size: 11px; line-height: 1.5; }
