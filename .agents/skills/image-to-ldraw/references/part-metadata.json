@@ -61073,6 +61073,184 @@
         "User explicitly authorized course-based approximation2026-10-13. Authored locally under CC BY4.0.",
         "Two moulded pulley faces, narrow tongue, open J tip; width, rib detail and dimensions estimated. Pivot/retention is manual because the screw and fork are also approximate; do not interpret checker pass as physical fit certification."
       ]
+    },
+    "dev-129/99565-tui-tu-ji.dat": {
+      "name": "Duplo Toolo rim with screw, wide source profile (Local simplified part)",
+      "bbox": {
+        "xMin": -42.0,
+        "xMax": 42.0,
+        "yMin": -35.0,
+        "yMax": 33.6,
+        "zMin": -42.0,
+        "zMax": 42.0
+      },
+      "heightLdu": 68.6,
+      "origin": {
+        "type": "axle-center",
+        "axis": "Y"
+      },
+      "notes": [
+        "2026-10-13 user authorized isolated approximation for 4-tui-tu-ji; shared geometry unchanged.",
+        "Locally authored CC BY 4.0. Geometry and interfaces image-estimated; no physical-fit acceptance.",
+        "Based on existing 99565.dat rim. Axial width x1.4, radius 42 unchanged; courseware pages 3-4.",
+        "Wheel barrel is paired with a radius-42 inner belt; screw cap and bore remain approximations."
+      ],
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "collisionShafts": [
+        {
+          "type": "cylinder",
+          "axis": "y",
+          "center": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "radiusLdu": 42,
+          "minLdu": -35,
+          "maxLdu": 33.6
+        }
+      ]
+    },
+    "dev-129/71981-tui-tu-ji.dat": {
+      "name": "Duplo caterpillar belt, fixed 160 LDU wheel spacing (Local simplified part)",
+      "bbox": {
+        "xMin": -133.9921,
+        "xMax": 133.9921,
+        "yMin": -54.0,
+        "yMax": 54.0,
+        "zMin": -32.0,
+        "zMax": 32.0
+      },
+      "heightLdu": 108.0,
+      "origin": {
+        "type": "loop-center",
+        "axis": "Z"
+      },
+      "notes": [
+        "2026-10-13 user authorized isolated approximation for 4-tui-tu-ji; shared geometry unchanged.",
+        "Locally authored CC BY 4.0. Geometry and interfaces image-estimated; no physical-fit acceptance.",
+        "Confirmed 71981: four in local 45002-1 inventory; courseware pages 3-4 each add two.",
+        "Source-fitted fixed hollow loop: wheel centers +/-80, inner radius42, outer50, rib54, width64. No belt articulation/tension simulation.",
+        "LDraw direct downloads returned403; fixed library mirror71981.dat returned404 (2026-10-13).",
+        "Material-free radius42 cylinders at both wheel centers; inner mesh radius42.2 (polygon inradius >42) and wheel whole-material radius42 certificate establish belt/rim clearance. Belt axial span[-32,32] lies inside rim certificate[-35,33.6]."
+      ],
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "collisionVoids": [
+        {
+          "type": "cylinder",
+          "axis": "z",
+          "center": {
+            "x": -80,
+            "y": 0,
+            "z": 0
+          },
+          "radiusLdu": 42
+        },
+        {
+          "type": "cylinder",
+          "axis": "z",
+          "center": {
+            "x": 80,
+            "y": 0,
+            "z": 0
+          },
+          "radiusLdu": 42
+        }
+      ]
+    },
+    "dev-129/45202-tui-tu-ji.dat": {
+      "name": "Duplo Toolo 2 x 2 fork bracket, low source profile (Local simplified part)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "studFootprint": {
+        "x": 2,
+        "z": 2
+      },
+      "heightLdu": 86.0,
+      "bbox": {
+        "xMin": -40.0,
+        "xMax": 40.0,
+        "yMin": -38.0,
+        "yMax": 48.0,
+        "zMin": -40.0,
+        "zMax": 68.0
+      },
+      "origin": {
+        "type": "base-stud-plane",
+        "originToTop": 85,
+        "originToBottom": 48
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "2026-10-13 user authorized isolated approximation for 4-tui-tu-ji; shared geometry unchanged.",
+        "Locally authored CC BY 4.0. Geometry and interfaces image-estimated; no physical-fit acceptance.",
+        "Inventory identity45202; source page5 low fork, not the tall prior28336 approximation.",
+        "Base and molded details derived from local28336.dat; cheek/collar lowered47 LDU, pivot(0,-18,48).",
+        "The enclosed cheek roots overlap the base as one molded part; pin/clip fit is manual.",
+        "LDraw official/unofficial45202 blocked403; fixed mirror404."
+      ]
+    },
+    "dev-129/6294-tui-tu-ji.dat": {
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "origin": {
+        "type": "pivot-center",
+        "axis": "X"
+      },
+      "name": "Duplo Toolo bulldozer scoop 6 x 4 x 3, source blade (Local simplified part)",
+      "bbox": {
+        "xMin": -120.0,
+        "xMax": 120.0,
+        "yMin": -18.0,
+        "yMax": 144.0,
+        "zMin": -63.0,
+        "zMax": 18.0
+      },
+      "heightLdu": 162.0,
+      "notes": [
+        "2026-10-13 user authorized isolated approximation for 4-tui-tu-ji; shared geometry unchanged.",
+        "Locally authored CC BY 4.0. Geometry and interfaces image-estimated; no physical-fit acceptance.",
+        "Confirmed inventory6294, orange25, 45002-1 quantity1; BrickLink6294 / alternate40875 Scoop6x4x3.",
+        "Courseware page5 and10: concave front blade, five lower cutouts, top/side ribs, central clip. No enclosed bucket side walls.",
+        "Width240, height152 plus central18-radius clip, thickness5; profile and molded fit estimated from source.",
+        "LDraw6294/40875 direct endpoints403 and fixed mirror404; no redistributable exact geometry obtained. Local existingdev-129/6294 is a deeper scoop, so new isolated filename used.",
+        "Three material envelopes for curved shell, central pivot ring and saddle avoid treating the empty rear of the blade as solid. The pivot ring and fork pin mate intentionally; exact molded retention remains unverified."
+      ],
+      "collisionVolumes": [
+        {
+          "xMin": -120,
+          "xMax": 120,
+          "yMin": -8,
+          "yMax": 144,
+          "zMin": -63,
+          "zMax": -31
+        },
+        {
+          "xMin": -23,
+          "xMax": 23,
+          "yMin": -18,
+          "yMax": 18,
+          "zMin": -18,
+          "zMax": 18
+        },
+        {
+          "xMin": -21,
+          "xMax": 21,
+          "yMin": 6,
+          "yMax": 38,
+          "zMin": -49,
+          "zMax": 4
+        }
+      ]
     }
   }
 }
