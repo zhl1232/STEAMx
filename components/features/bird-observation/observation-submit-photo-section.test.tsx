@@ -89,19 +89,15 @@ describe('ObservationSubmitPhotoSection', () => {
     expect(mocks.toast).toHaveBeenCalledWith(expect.objectContaining({ title: '1 张照片上传失败' }))
   })
 
-  it('offers an unrestricted file picker for original photos and checks login first', () => {
-    const { container, rerender } = render(<ObservationSubmitPhotoSection evidenceImages={[]} onEvidenceChange={vi.fn()} />)
-    const input = container.querySelector('input[aria-label="从文件选择原始照片"]') as HTMLInputElement
-    const choose = vi.spyOn(input, 'click')
-    expect(input).not.toHaveAttribute('accept')
-    fireEvent.click(screen.getByRole('button', { name: '从文件选择原图' }))
-    expect(choose).toHaveBeenCalledOnce()
-    mocks.user = null
-    choose.mockClear()
-    rerender(<ObservationSubmitPhotoSection evidenceImages={[]} onEvidenceChange={vi.fn()} />)
-    fireEvent.click(screen.getByRole('button', { name: '从文件选择原图' }))
-    expect(mocks.promptLogin).toHaveBeenCalledOnce()
-    expect(choose).not.toHaveBeenCalled()
+  it('keeps an unrestricted file input for Android GPS-friendly picks', () => {
+    const { container } = render(<ObservationSubmitPhotoSection evidenceImages={[]} onEvidenceChange={vi.fn()} />)
+    const originalInput = container.querySelector('input[aria-label="从文件选择原始照片"]') as HTMLInputElement
+    const photoInput = container.querySelector('input[aria-label="选择观察照片"]') as HTMLInputElement
+    expect(originalInput).not.toHaveAttribute('accept')
+    expect(photoInput).toHaveAttribute('accept')
+    expect(screen.queryByRole('button', { name: '从文件选择原图' })).toBeNull()
+    expect(screen.queryByText(/DCIM\/Camera/)).toBeNull()
+    expect(screen.queryByText(/优先选择相机原图/)).toBeNull()
   })
 
   it('forwards metadata read failures to the per-photo warning', async () => {

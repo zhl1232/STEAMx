@@ -121,7 +121,7 @@ export function ObservationSubmitPhotoSection({
     }
   }, [evidenceImages, onEvidenceChange])
 
-  const choosePhotos = (fromFiles = false) => {
+  const choosePhotos = () => {
     if (authLoading || uploadingRef.current) return
     if (!user) {
       promptLogin(undefined, {
@@ -130,9 +130,9 @@ export function ObservationSubmitPhotoSection({
       })
       return
     }
-    // Android media providers may redact GPS; prefer the original-file path
-    // without changing desktop/iOS pickers. The provider still controls the bytes.
-    const preferOriginalFile = fromFiles || /Android/i.test(navigator.userAgent)
+    // Android media providers may redact GPS; prefer the unrestricted file
+    // input so EXIF location survives. Desktop/iOS keep the image accept filter.
+    const preferOriginalFile = /Android/i.test(navigator.userAgent)
     const input = preferOriginalFile ? originalFileInputRef : fileInputRef
     input.current?.click()
   }
@@ -425,13 +425,6 @@ export function ObservationSubmitPhotoSection({
         </div>
       ) : null}
 
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs leading-5 text-(--obs-muted) md:hidden">
-        <span>需要读取拍摄地点时，优先选择相机原图。</span>
-        <button type="button" onClick={() => choosePhotos(true)} disabled={!canAddMore || isUploading || authLoading} className="inline-flex min-h-11 items-center font-semibold text-(--obs-accent-text) underline underline-offset-4 disabled:opacity-50">
-          从文件选择原图
-        </button>
-        <span>原图通常位于 DCIM/Camera 文件夹；选好后请核对实际观察地点。</span>
-      </div>
       <input
         ref={originalFileInputRef}
         type="file"
