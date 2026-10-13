@@ -26,7 +26,7 @@ import {
 } from '@/lib/nature-species-scroll-restore'
 import { cn } from '@/lib/utils'
 import { SpeciesAtlasTile } from './species-atlas-tile'
-import { SpeciesAtlasHero } from './species-atlas-hero'
+import { HERO_PHOTOS, SpeciesAtlasHero } from './species-atlas-hero'
 import styles from './species-atlas.module.css'
 import performanceStyles from './species-atlas-performance.module.css'
 
@@ -205,7 +205,7 @@ const AtlasResults = memo(function AtlasResults({ groups, topic, filtersKey, pri
       // 手机固定双列，离屏行数和图片高度必须与 CSS 的双列布局一致。
       const gridColumns = breakpoint >= 2 ? Math.max(1, Math.floor((width + gap) / (gridMin + gap))) : 2
       const listColumns = breakpoint >= 2 ? Math.max(1, Math.floor((width + gap) / (listMin + gap))) : 1
-      const mediaSize = ((width - gap * (gridColumns - 1)) / gridColumns - 2) * 0.625
+      const mediaSize = ((width - gap * (gridColumns - 1)) / gridColumns - 2) * 0.75
       element.style.setProperty('--atlas-grid-media-size', `${mediaSize}px`)
       element.style.setProperty('--atlas-grid-gap', `${gap}px`)
       for (const grid of element.querySelectorAll<HTMLElement>('[data-atlas-count]')) {
@@ -447,6 +447,7 @@ export function SpeciesAtlas({
         <AtlasResults groups={letterGroups} topic={topic} filtersKey={filtersKey} priorityIds={priorityItemIds} />
       </div>
       {visibleCount === 0 ? <div className="nature-atlas-empty-all"><Search className="h-5 w-5" aria-hidden="true" /><span>没有找到匹配的物种</span><button type="button" onClick={() => updateFilters({ query: '', topic: 'all', status: 'all' })}>清除筛选</button></div> : null}
+      <p className={styles.photoCredit}>头图：{HERO_PHOTOS[topic].credits.map((credit, index) => <span key={credit.href}>{index ? '；' : ''}<a href={credit.href} target="_blank" rel="noopener noreferrer">{credit.label}</a></span>)}{HERO_PHOTOS[topic].note}</p>
     </div>
   )
 }

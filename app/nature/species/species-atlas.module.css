@@ -48,8 +48,6 @@
 .heroStats > div + div { border-left: 1px solid rgb(255 255 255 / 35%); }
 .heroStats dd { order: 1; margin: 0; font-size: 17px; font-weight: 800; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .heroStats dt { order: 2; font-size: 10px; color: rgb(255 255 255 / 88%); }
-.heroCredit { position: absolute; right: 8px; top: 48px; margin: 0; font-size: 7px; color: rgb(255 255 255 / 55%); text-shadow: 0 1px 2px rgb(0 0 0 / 40%); }
-.heroCredit a:hover { color: #fff; text-decoration: underline; }
 
 /* ---------- 搜索框压住头图底边 ---------- */
 .atlas :global(.nature-atlas-toolbar) { position: relative; z-index: 3; display: flex; flex-direction: column; gap: 14px; margin-top: -44px; padding-top: 0; }
@@ -104,14 +102,14 @@
 .atlas :global(.nature-atlas-letter-heading) { display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px 10px; border: 0; }
 .atlas :global(.nature-atlas-letter-heading) h2 { font-size: 20px; font-weight: 800; color: #111827; font-family: var(--font-sans, system-ui), sans-serif; }
 .letterCount { color: var(--atlas-blue); font-size: 13px; font-weight: 500; }
-.atlas :global(.nature-atlas-grid) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 0; }
+.atlas :global(.nature-atlas-grid) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 12px; margin-top: 0; }
 .atlas :global(.nature-atlas-grid) > li { min-width: 0; }
-.atlas :global(.nature-atlas-tile) { display: flex; flex-direction: column; height: 100%; overflow: hidden; border: 0; border-radius: 14px; background: #fff; box-shadow: var(--atlas-card-shadow); }
-.atlas :global(.nature-atlas-tile-media) { position: relative; aspect-ratio: 16 / 10; border-radius: 0; background: #eef2f6; }
-.tileInfo { display: flex; flex: 1; min-width: 0; flex-direction: column; align-items: flex-start; gap: 3px; padding: 10px 10px 12px; }
+.atlas :global(.nature-atlas-tile) { display: flex; flex-direction: column; height: auto; overflow: hidden; border: 0; border-radius: 14px; background: #fff; box-shadow: var(--atlas-card-shadow); }
+.atlas :global(.nature-atlas-tile-media) { position: relative; aspect-ratio: 4 / 3; border-radius: 0; background: #eef2f6; }
+.tileInfo { display: flex; flex: none; min-width: 0; flex-direction: column; align-items: flex-start; gap: 2px; padding: 8px 10px 10px; }
 .atlas :global(.nature-atlas-tile-name) { display: block; min-height: 0; padding: 0; font-size: 15px; font-weight: 700; line-height: 1.4; color: #111827; }
 .scientificName { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; line-height: 1.5; color: #9aa3af; }
-.taxonTags { display: flex; flex-wrap: wrap; gap: 6px; max-width: 100%; max-height: 22px; margin-top: 4px; overflow: hidden; }
+.taxonTags { display: flex; flex-wrap: wrap; gap: 6px; max-width: 100%; max-height: 22px; margin-top: 3px; overflow: hidden; }
 .taxonGroup { display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border-radius: 999px; padding: 1px 9px; background: #f1f3f6; font-size: 11px; line-height: 20px; color: #6b7280; }
 .badge { position: absolute; top: 8px; left: 8px; display: inline-flex; align-items: center; gap: 2px; border-radius: 999px; padding: 3px 7px; background: #1677ff; color: #fff; font-size: 10px; font-weight: 600; line-height: 1.2; }
 .observedBadge { background: #1677ff; }
@@ -128,6 +126,9 @@
 .atlas :global(.nature-atlas-empty-all) { margin-top: 12px; }
 
 .atlas :global(.nature-atlas-index).indexPanel { position: fixed; right: 8px; top: 50%; z-index: 30; width: 30px; max-height: calc(100dvh - 160px); padding: 6px 0; transform: translateY(-50%); align-items: center; border-radius: 15px; background: rgb(255 255 255 / 96%); box-shadow: 0 6px 20px rgb(31 56 99 / 16%); opacity: 1; }
+
+.photoCredit { margin: 28px 0 0; text-align: center; font-size: 10px; line-height: 1.6; color: #a0a8b4; }
+.photoCredit a:hover { color: #6b7280; text-decoration: underline; }
 /* ---------- 桌面：同一风格放大 ---------- */
 @media (min-width: 768px) {
   .hero { margin-inline: 0; margin-top: 4px; border-radius: 20px; min-height: 380px; }
@@ -143,7 +144,6 @@
   .hero { min-height: 470px; }
   .heroContent { padding-top: 80px; }
   .heroStats dt { font-size: 13px; }
-  .heroCredit { top: 14px; left: 48px; right: auto; font-size: 10px; }
   .atlas :global(.nature-atlas-toolbar) { margin: -64px 40px 0; gap: 18px; }
   .atlas :global(.nature-atlas-search-form) { min-height: 52px; border-radius: 14px; }
   .atlas :global(.nature-atlas-search-form) button[type='submit'] { height: 40px; padding-inline: 20px; font-size: 14px; }
@@ -158,7 +158,7 @@
   .atlas :global(.nature-atlas-grid) { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 18px; }
   .atlas[data-layout='list'] :global(.nature-atlas-grid) { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
   .atlas :global(.nature-atlas-tile-name) { font-size: 16px; }
-  .tileInfo { padding: 12px 14px 14px; }
+  .tileInfo { padding: 10px 14px 12px; }
   .scientificName { font-size: 12px; }
   .atlas :global(.nature-atlas-letter-heading) h2 { font-size: 24px; }
   .atlas :global(.nature-atlas-index) { top: 88px; }
