@@ -3,13 +3,14 @@
 0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 // V3 source review 2026-10-13: p1-12; stepped back, layered head, open scoop ears and curled trunk. INCOMPLETE local draft.
-0 // Stock plan: 4 x 45002-1 supplies all placed parts in source colours (18 grey 31184c01; 5 forks; 3 clutches; 2 orange scoops).
-0 // Existing approved local DAT approximations only; no scaled parts, reflection or cross-system adapters.
+0 // V3b: add only blue 45117c01 x2 at p4 and blue 31239c01 x1 at p5; user-authorized local approximate shells.
+0 // Stock plan: 4 x 45002-1 supplies the v3 core; added wings/tail are absent from all four preferred kits and require separate stock.
+0 // Local DAT approximations; no scaled parts, reflection or cross-system adapters. All v3 core placements retained.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source Library libfile_f6df9c75694881918d746cfa7e75e662, PDF SHA256 f748fb3655a8c9b16016e4e414bf0629c82fc3f3860acd8e07c65166a0eaa78e
 0 // STATUS: INCOMPLETE; source pages 1-12 visually inspected, no human acceptance.
 0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
-0 // No physical validation. Missing parts are omitted and recorded per source step.
+0 // No physical validation. Blue shells are non-official inferred geometry; screw retention remains unverified.
 0 // STEP 1 - p1: seven black 4x6 screw blocks; 2 / 3 / 2 stagger, 8 / 12 / 8 studs long, 6 studs wide
 1 0 -80 0 0 0 0 -1 0 1 0 1 0 0 76395.dat
 1 0 80 0 0 0 0 -1 0 1 0 1 0 0 76395.dat
@@ -40,16 +41,21 @@
 1 0 120 158 144 1 0 0 0 1 0 0 0 1 44970.dat
 0 STEP
 
-0 // STEP 4 - p4: UNRESOLVED 45117c01 x2 blue Toolo wings; no local DAT and absent from all four preferred kits; omitted
-0 // Blue wings carry the four oval body outlines. Plain bricks cannot reproduce them without an invented substitute.
+0 // STEP 4 - p4: 45117c01 x2 blue Toolo wings; local approx, non-official geometry authorized 2026-10-13.
+0 // Beam roots meet body sides Z=+/-120 at Y=-72; outward studs, swept shells and four tall oval tips.
+0 // Side mounting is inferred from p4/p12; hidden screw retention and molded clearances are not physically verified.
+1 1 0 -72 120 1 0 0 0 1 0 0 0 1 dev-129/45117c01.dat
+1 1 0 -72 -120 -1 0 0 0 1 0 0 0 -1 dev-129/45117c01.dat
 0 STEP
 
 0 // STEP 5 - p5: front/rear screw bricks and outward-facing turntable
-0 // UNRESOLVED 31239c01 blue tail: no local DAT and absent from all four preferred kits; omitted.
+0 // 31239c01 blue rear spoiler/tail: local approx, root meets rear brick X=240; twin rails curve rearward/downward.
+0 // Tail silhouette from p5/p12; screw fit/hidden retention remain manual. Separate stock needed, not supplied by 45002.
 0 // Turntable uses black base colour 0; DAT supplies yellow disk. Front X=-280; rear boss X=-240 meets front brick bore.
 1 72 -200 -96 0 0 0 -1 0 1 0 1 0 0 76057.dat
 1 72 200 -96 0 0 0 -1 0 1 0 1 0 0 76057.dat
 1 0 -280 -72 0 0 1 0 0 0 1 1 0 0 60535.dat
+1 1 240 -72 0 1 0 0 0 1 0 0 0 1 dev-129/31239c01.dat
 0 STEP
 
 0 // STEP 6 - p6: eight grey 2x4 screw bricks, five crosswise below and three above; 4x10 / 4x6 stepped back
