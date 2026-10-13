@@ -87,6 +87,31 @@ function normalizePlanQueries(plan: TutorResourceSearchPlan) {
   return [...new Set(plan.queries.map(safeSearchPhrase).filter(Boolean))].slice(0, 4)
 }
 
+/**
+ * 站内实体积木课只有大颗粒（兼容乐高/得宝）。学生或澄清选项若用了同义叫法，
+ * 检索侧补上能命中课程标题/标签的规范短语，避免只搜「兼容乐高」等字面词时零命中。
+ * 不把单独的「积木」算进来，以免 Scratch 积木操作被误扩成实体积木课。
+ * 「乐高轮船」这类材料+主题粘连词仍交给 broaden 拆分，不强行当材料标签扩写。
+ */
+const BRICK_MATERIAL_SYNONYM_PATTERN = /大颗粒|乐高|得宝|duplo|通用积木|兼容乐高/iu
+
+function isBrickMaterialLabel(query: string) {
+  const text = query.trim()
+  if (!BRICK_MATERIAL_SYNONYM_PATTERN.test(text)) return false
+  if (/大颗粒|通用积木|兼容乐高/iu.test(text)) return true
+  const rest = text.replace(/^(乐高|得宝|duplo)/iu, '')
+  return rest === '' || /^(的)?(积木|零件|积木\/零件|积木零件)+$/u.test(rest)
+}
+
+export function expandBrickMaterialQueries(queries: string[]) {
+  if (!queries.some(isBrickMaterialLabel)) return queries
+  return [...new Set(['大颗粒积木', '乐高', ...queries])].slice(0, 4)
+}
+
+export function queriesMentionBrickMaterial(queries: string[]) {
+  return queries.some((query) => BRICK_MATERIAL_SYNONYM_PATTERN.test(query))
+}
+
 const HAN_ONLY_PATTERN = /^\p{Script=Han}+$/u
 
 /**
@@ -445,9 +470,12 @@ export async function searchTutorResources(
   // 澄清计划只是让学生先选范围，不能在选择前偷偷扩大检索范围。
   if (!plan.shouldSearch || plan.clarification) return null
 
-  const queries = normalizePlanQueries(plan)
+  const originalQueries = normalizePlanQueries(plan)
+  const queries = expandBrickMaterialQueries(originalQueries)
+  // 积木材料问法最终落点是站内大颗粒课程；即使模型只勾了 project，也要带上 course。
+  const includeBrickCourses = queriesMentionBrickMaterial(queries)
   const scope: ResourceSearchScope = {
-    includeCourses: plan.resourceTypes.includes('course') || plan.resourceTypes.length === 0,
+    includeCourses: plan.resourceTypes.includes('course') || plan.resourceTypes.length === 0 || includeBrickCourses,
     includeProjects: plan.resourceTypes.includes('project') || plan.resourceTypes.length === 0,
     includeChallenges: plan.resourceTypes.includes('challenge') || plan.resourceTypes.length === 0,
     includeResources: plan.resourceTypes.includes('resource') || plan.resourceTypes.length === 0,
@@ -461,7 +489,8 @@ export async function searchTutorResources(
   let broadenedQueries: string[] = []
 
   if (!pass.hasMatches && queries.length) {
-    const candidates = broadenResourceQueries(queries)
+    // 放宽拆词仍以学生原短语为准，避免材料同义词扩写污染「乐高轮船」这类组合词的滑窗结果。
+    const candidates = broadenResourceQueries(originalQueries.length ? originalQueries : queries)
     if (candidates.length) {
       const broadenedPass = await runResourceSearchPass(
         supabase,
