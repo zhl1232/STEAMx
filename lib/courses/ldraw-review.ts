@@ -297,6 +297,8 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '5-sheng-jiang-dian-ti.ldr',
   // 2026-10-13 night: orange scoops + side arm pose vs courseware p15; camera overlay approximate.
   '4-wa-li.ldr',
+  // 2026-10-13 night: v3 overlay vs p13; blue drums/cab/exhaust present; drum+exhaust geometry approximate.
+  '4-ya-lu-ji.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
