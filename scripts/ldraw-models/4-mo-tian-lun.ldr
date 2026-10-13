@@ -1,73 +1,74 @@
-0 4+ Ferris wheel - incomplete source reconstruction draft
+0 4+ Ferris wheel - source reconstruction development draft
 0 Name: 4-mo-tian-lun.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
-0 // BATCH4 source original12 (extracted page-04) requires8 red frames +8 white panes. Existing4 white90265 panes use documented closed-frame hinge offsets and are retained; second4 frame seating unresolved, NOT FIXED. Black tower matches source; do not recolor black bricks to disguise preview lighting.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // All13 source pages actually viewed. No physical verification or user acceptance.
-0 // INCOMPLETE: p12 four 61649+90265 window assemblies placed; four more known assemblies omitted pending seating/orientation evidence. Source radial forks andturntables use approved approximations; attachment fit and bearing retention unverified.
-0 // Existing approved Toolo approximations: fit, thread engagement and load support remain manual.
+0 NumOfBricks: 68
+0 // Source: all thirteen instruction pages reviewed 2026-10-13; page13 is final view, twelve construction steps.
+0 // Toolo geometry remains approximate; hinge retention, physical fit and rotating clearance are not verified.
+0 // Page12: two sideways window assemblies per gondola, windows facing opposite X sides, blue plate over their joined stud faces.
+0 // Pedestal steps run along X, perpendicular to the long face of the tower; top landing 320x240 supports the 240x160 tower with a one-stud ledge.
 0 // SOURCE PAGE 1 - green24x24 base andeight black Toolo blocks in stepped pedestal
 1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
-1 0 0 -48 -200 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -48 200 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -96 -160 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -96 160 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -144 -120 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -144 120 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -192 -80 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -192 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -200 -48 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 200 -48 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 -160 -96 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 160 -96 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 -120 -144 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 120 -144 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 -80 -192 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 80 -192 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
 0 STEP
 0 // SOURCE PAGE 2 - fourteen upright black Toolo tower layers
-1 0 0 -240 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -288 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -336 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -384 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -432 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -480 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -528 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -576 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -624 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -672 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -720 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -768 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -816 0 1 0 0 0 1 0 0 0 1 76395.dat
-1 0 0 -864 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -240 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
+1 0 0 -288 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
+1 0 0 -336 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
+1 0 0 -384 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
+1 0 0 -432 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
+1 0 0 -480 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
+1 0 0 -528 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
+1 0 0 -576 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
+1 0 0 -624 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
+1 0 0 -672 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
+1 0 0 -720 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
+1 0 0 -768 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
+1 0 0 -816 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
+1 0 0 -864 0 1 0 0 0 1 0 0 0 1 dev-129/76395.dat
 0 STEP
 0 // SOURCE PAGE 3 - six yellow bricks in3/2/1 cap
-1 14 0 -912 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -912 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -912 80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -960 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -960 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -1008 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -912 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -912 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -912 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -40 -960 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -960 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -1008 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 0 // SOURCE PAGE 4 - sideways black4x6 against tower front
-1 0 0 -784 128 1 0 0 0 0 1 0 -1 0 76395.dat
+1 0 0 -784 128 1 0 0 0 0 1 0 -1 0 dev-129/76395.dat
 0 STEP
 0 // SOURCE PAGE 5 - central turntable on sideblock
 1 0 0 -784 168 1 0 0 0 0 1 0 -1 0 60535.dat
 0 STEP
 0 // SOURCE PAGE 6 - front rotating4x6
-1 0 0 -784 216 1 0 0 0 0 1 0 -1 0 76395.dat
+1 0 0 -784 216 1 0 0 0 0 1 0 -1 0 dev-129/76395.dat
 0 STEP
 0 // SOURCE PAGE 7 - four2x2 base forks radially oriented
-1 71 -40 -744 264 1 0 0 0 0 1 0 -1 0 28336.dat
-1 71 -40 -824 264 0 0 -1 1 0 0 0 -1 0 28336.dat
-1 71 40 -824 264 -1 0 0 0 0 -1 0 -1 0 28336.dat
-1 71 40 -744 264 0 0 1 -1 0 0 0 -1 0 28336.dat
+1 72 -40 -744 264 1 0 0 0 0 1 0 -1 0 28336.dat
+1 72 -40 -824 264 0 0 -1 1 0 0 0 -1 0 28336.dat
+1 72 40 -824 264 -1 0 0 0 0 -1 0 -1 0 28336.dat
+1 72 40 -744 264 0 0 1 -1 0 0 0 -1 0 28336.dat
 0 STEP
 0 // SOURCE PAGE 8 - four2x6 radial arms
-1 71 -40 -696 329 0 0 1 0 1 0 -1 0 0 dev-129/28334.dat
-1 71 -88 -824 329 0 -1 0 0 0 1 -1 0 0 dev-129/28334.dat
-1 71 40 -872 329 0 0 -1 0 -1 0 -1 0 0 dev-129/28334.dat
-1 71 88 -744 329 0 1 0 0 0 -1 -1 0 0 dev-129/28334.dat
+1 72 -40 -696 329 0 0 1 0 1 0 -1 0 0 dev-129/74847.dat
+1 72 -88 -824 329 0 -1 0 0 0 1 -1 0 0 dev-129/74847.dat
+1 72 40 -872 329 0 0 -1 0 -1 0 -1 0 0 dev-129/74847.dat
+1 72 88 -744 329 0 1 0 0 0 -1 -1 0 0 dev-129/74847.dat
 0 STEP
 0 // SOURCE PAGE 9 - fourclutch blocks at radial end pivots
-1 71 -40 -496 353 1 0 0 0 0 1 0 -1 0 74957.dat
-1 71 -288 -824 353 1 0 0 0 0 1 0 -1 0 74957.dat
-1 71 40 -1072 353 1 0 0 0 0 1 0 -1 0 74957.dat
-1 71 288 -744 353 1 0 0 0 0 1 0 -1 0 74957.dat
+1 72 -40 -496 353 1 0 0 0 0 1 0 -1 0 74957.dat
+1 72 -288 -824 353 1 0 0 0 0 1 0 -1 0 74957.dat
+1 72 40 -1072 353 1 0 0 0 0 1 0 -1 0 74957.dat
+1 72 288 -744 353 1 0 0 0 0 1 0 -1 0 74957.dat
 0 STEP
 0 // SOURCE PAGE 10 - fourseat turntables
 1 0 -40 -496 393 1 0 0 0 0 1 0 -1 0 60535.dat
@@ -81,14 +82,21 @@
 1 1 40 -972 417 0 0 1 -1 0 0 0 -1 0 44524.dat
 1 1 288 -644 417 0 0 1 -1 0 0 0 -1 0 44524.dat
 0 STEP
-0 // SOURCE PAGE 12 - four source-visible lower window assemblies; four hidden second assemblies remain unplaced
-1 4 -40 -316 561 0 0 1 -1 0 0 0 -1 0 61649.dat
-1 15 -80 -381.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat
-1 4 -288 -644 561 0 0 1 -1 0 0 0 -1 0 61649.dat
-1 15 -328 -709.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat
-1 4 40 -892 561 0 0 1 -1 0 0 0 -1 0 61649.dat
-1 15 0 -957.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat
-1 4 288 -564 561 0 0 1 -1 0 0 0 -1 0 61649.dat
-1 15 248 -629.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat
-0 // KNOWN OMITTED p12 four additional61649+90265 assemblies: second frame seating/orientation remains unresolved. Source target8 each; placed4 each.
-0 // Inventory9090-2 has6 red61649 and6 white90265; complete target8 each needs2 extra ofeach; current4 each doesnot exceed that reference.
+0 // SOURCE PAGE 12 - eight red frames and eight white panes: four paired gondolas behind lower half of blue plates
+1 4 -80 -316 393 0 0 1 -1 0 0 0 -1 0 61649.dat
+1 15 -120.0 -381.5 321.0 0 0 1 -1 0 0 0 -1 0 90265.dat
+1 4 0 -316 393 0 0 -1 1 0 0 0 -1 0 61649.dat
+1 15 40.0 -250.5 321.0 0 0 -1 1 0 0 0 -1 0 90265.dat
+1 4 -328 -644 393 0 0 1 -1 0 0 0 -1 0 61649.dat
+1 15 -368.0 -709.5 321.0 0 0 1 -1 0 0 0 -1 0 90265.dat
+1 4 -248 -644 393 0 0 -1 1 0 0 0 -1 0 61649.dat
+1 15 -208.0 -578.5 321.0 0 0 -1 1 0 0 0 -1 0 90265.dat
+1 4 0 -892 393 0 0 1 -1 0 0 0 -1 0 61649.dat
+1 15 -40.0 -957.5 321.0 0 0 1 -1 0 0 0 -1 0 90265.dat
+1 4 80 -892 393 0 0 -1 1 0 0 0 -1 0 61649.dat
+1 15 120.0 -826.5 321.0 0 0 -1 1 0 0 0 -1 0 90265.dat
+1 4 248 -564 393 0 0 1 -1 0 0 0 -1 0 61649.dat
+1 15 208.0 -629.5 321.0 0 0 1 -1 0 0 0 -1 0 90265.dat
+1 4 328 -564 393 0 0 -1 1 0 0 0 -1 0 61649.dat
+1 15 368.0 -498.5 321.0 0 0 -1 1 0 0 0 -1 0 90265.dat
+0 // Source counts exceed a single default kit: 24 Toolo 4x6 blocks, 5 turntables, 4 clutch blocks, 8 frame/pane pairs. No parts omitted to fit one kit.

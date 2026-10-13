@@ -1,21 +1,22 @@
-0 4+ Brick toy sniper - source reconstruction draft
+0 4+ Brick toy - course-image reconstruction draft
 0 Name: 4-ju-ji-qiang.ldr
-0 Author: OpenAI
+0 Author: STEAMX local reconstruction
 0 !LDRAW_ORG Model
-0 // Batch2 source review 2026-10-12: p7 restored 3 omitted bricks; barrel tip advanced160LDU. p13/14 stock reoriented without duplicated volume. 2223 sight remains omitted: no verified local mesh; not replaced by13358.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // INCOMPLETE:2223 sight holder unavailable; stock grid and source reassembly order need review.
-0 // All15 PDF pages viewed; purely decorative brick toy, no functional mechanism.
+0 // Source: all 15 course pages, reviewed 2026-10-13. Local draft; not accepted or published.
+0 // Approximate Toolo meshes and 2223 stand; hidden stock seams and mechanical fits remain inferred.
+0 // X is longitudinal (positive toward front); Y down; Z transverse. Stud pitch 40 LDU.
+0 NumOfBricks: 71
 0 // SOURCE PAGE 1
-1 0 0 -96 0 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 -80 -144 0 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 80 -144 0 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 0 -192 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -96 0 0 0 1 0 1 0 -1 0 0 dev-129/76395-ju-ji-qiang.dat
+1 0 -120 -144 0 1 0 0 0 1 0 0 0 1 dev-129/76395-ju-ji-qiang.dat
+1 0 120 -144 0 1 0 0 0 1 0 0 0 1 dev-129/76395-ju-ji-qiang.dat
+1 0 0 -192 0 1 0 0 0 1 0 0 0 1 dev-129/76395-ju-ji-qiang.dat
 0 STEP
 0 // SOURCE PAGE 2
-1 0 -240 -96 0 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 -240 -144 0 0 0 1 0 1 0 -1 0 0 76395.dat
-1 0 -160 -192 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -280 -96 0 1 0 0 0 1 0 0 0 1 dev-129/76395-ju-ji-qiang.dat
+1 0 -360 -144 0 1 0 0 0 1 0 0 0 1 dev-129/76395-ju-ji-qiang.dat
+1 0 -240 -192 0 1 0 0 0 1 0 0 0 1 dev-129/76395-ju-ji-qiang.dat
 0 STEP
 0 // SOURCE PAGE 3
 1 72 40 -48 0 1 0 0 0 1 0 0 0 1 74957.dat
@@ -48,18 +49,17 @@
 1 14 1040 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 1120 -144 0 1 0 0 0 1 0 0 0 1 76057.dat
 1 14 1040 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-
 0 STEP
 0 // SOURCE PAGE 8
-1 14 1120 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 1160 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 1160 -192 0 1 0 0 0 1 0 0 0 1 dev-129/2223-ju-ji-qiang.dat
 1 71 1225 -120 0 0 1 0 -1 0 0 0 0 1 99565.dat
-0 // Missing2223 black ladder-holder sight atop front2x2 brick.
 0 STEP
 0 // SOURCE PAGE 9
-1 72 752 -120 -88 0 0 1 1 0 0 0 1 0 28336.dat
-1 72 800 280 -153 1 0 0 0 -1 0 0 0 -1 dev-129/28331.dat
-1 72 752 -120 88 0 0 1 -1 0 0 0 -1 0 28336.dat
-1 72 800 280 153 1 0 0 0 -1 0 0 0 -1 dev-129/28331.dat
+1 72 760 -144 -80 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 808 191 -80 1 0 0 0 -1 0 0 0 -1 dev-129/28331-ju-ji-qiang.dat
+1 72 760 -144 80 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 808 191 80 1 0 0 0 -1 0 0 0 -1 dev-129/28331-ju-ji-qiang.dat
 0 STEP
 0 // SOURCE PAGE 10
 1 27 160 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
@@ -73,38 +73,36 @@
 1 71 345 -336 0 0 1 0 -1 0 0 0 0 1 99565.dat
 0 STEP
 0 // SOURCE PAGE 12
-1 14 -200 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 27 -200 0 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -200 48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 27 -200 96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -280 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -280 0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -280 48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -280 96 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 0 // SOURCE PAGE 13
-1 14 -320 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -360 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -320 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -360 0 0 0 0 1 0 1 0 -1 0 0 3011.dat
-
+1 14 -440 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -400 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -440 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -440 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 0 // SOURCE PAGE 14
-0 // Source p14: 10 yellow +10 lime; stock across four studs, staggered two-stud rows. Hidden seam offsets inferred.
-1 14 -440 0 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -520 0 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -600 0 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -440 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -520 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -600 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -400 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -480 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -560 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -400 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -480 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -560 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -400 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -480 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -560 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -640 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -520 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -600 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -680 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 27 -480 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 -560 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -400 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -480 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -560 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -400 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 27 -480 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
-0 // SOURCE PAGE15 final opposite view, no additions.
+1 27 -640 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -480 0 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -520 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -600 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -680 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -520 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -600 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -520 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -600 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -680 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -560 0 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -640 0 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // SOURCE PAGE 15: opposite finished view; no additional parts.
