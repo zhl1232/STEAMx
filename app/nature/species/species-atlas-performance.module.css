@@ -43,3 +43,11 @@
     contain-intrinsic-block-size: calc(var(--atlas-info-size) + 2px);
   }
 }
+/* 网格接管离屏管理后取消嵌套的卡片跳过，避免浏览器同时切换两级
+   content-visibility 时短暂使用旧的子容器尺寸。 */
+@supports (content-visibility: auto) {
+  .performance.performance [data-atlas-measured='true'] :global(.nature-atlas-grid) :global(.nature-atlas-tile) {
+    content-visibility: visible;
+    contain-intrinsic-block-size: none;
+  }
+}
