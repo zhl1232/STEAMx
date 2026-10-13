@@ -277,7 +277,8 @@ export function TutorMessageList({
 
       {isAuthenticated && view === 'chat' &&
         messages.map((message, i) => {
-          if (message.role === 'divider') return <p key={i} className="py-1 text-center text-xs text-muted-foreground">{message.content}</p>
+          // Browse-trail dividers used to leak as「现在在：…」; skip any leftover in memory.
+          if (message.role === 'divider') return null
           const speechKey = message.speechKey ?? `chat-${i}`
           return message.role === 'assistant' ? (
             <TutorBubble
