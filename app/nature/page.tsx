@@ -44,6 +44,7 @@ const topicCardImages: Record<SpeciesAtlasTopicKey, string> = {
 
 /* 移动端专用卡片图（桌面端仍用上面的图）：
  * 翠鸟：Alexis Lours「Common kingfisher on a branch facing right」CC BY 2.0，已裁切提亮；
+ * （作者与授权集中列在 /credits 图片来源页）
  * 瓢虫：Andrea Bonifazi「Close up of a Coccinella septempunctata on a leaf」CC BY-SA 4.0，已裁切；
  * 苹果花：W.carter「Cluster of apple blossoms」CC0，已裁切。 */
 const topicCardMobileImages: Record<SpeciesAtlasTopicKey, string> = {
@@ -494,15 +495,6 @@ export default async function NaturePage() {
 
             <DesktopSidebar stats={homepage.stats} latestObservation={latestObservation} topHotspot={topHotspot} />
           </div>
-          <p className="px-1 text-[10px] leading-4 text-muted-foreground/70 md:hidden">
-            图鉴配图：
-            <a href="https://commons.wikimedia.org/wiki/File:Common_kingfisher_on_a_branch_facing_right.jpg" className="underline-offset-2 hover:underline">Alexis Lours / CC BY 2.0</a>
-            {" · "}
-            <a href="https://commons.wikimedia.org/wiki/File:Close_up_of_a_Coccinella_septempunctata_on_a_leaf.jpg" className="underline-offset-2 hover:underline">Andrea Bonifazi / CC BY-SA 4.0</a>
-            {" · "}
-            <a href="https://commons.wikimedia.org/wiki/File:Cluster_of_apple_blossoms.jpg" className="underline-offset-2 hover:underline">W.carter / CC0</a>
-            （均已裁切）
-          </p>
         </div>
       </div>
     </div>
