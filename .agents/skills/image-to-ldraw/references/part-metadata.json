@@ -51,6 +51,121 @@
     ]
   },
   "parts": {
+    "dev-129/76395-ju-ji-qiang.dat": {
+      "name": "Duplo receiver (4-ju-ji-qiang isolated approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "studFootprint": {
+        "x": 6,
+        "z": 4
+      },
+      "heightLdu": 48,
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "bbox": {
+        "xMin": -120,
+        "xMax": 120,
+        "yMin": -11,
+        "yMax": 48,
+        "zMin": -80,
+        "zMax": 80
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Isolated copy of dev-129/76395.dat; existing geometry preserved, source pages reviewed for this model.",
+        "User authorized course-image approximations 2026-10-13. Dimensions / joint fit remain estimates.",
+        "Existing train-only local approximation authored 2026-10-13; this change adds metadata only, geometry untouched.",
+        "Real part: BrickLink 31345c01 / 76395; course p1-p4 and p7; https://www.bricklink.com/v2/catalog/catalogitem.page?P=31345c01",
+        "User authorized this metadata addition in v4. Hollow underside, three screws, wall ports and socket grid; threads and fit are not measured.",
+        "Body 240 x 160 x 48 LDU; bbox measured from local DAT. Inherits the existing manual collision/support policy of shared 76395, not an automatic physical clearance proof."
+      ]
+    },
+    "dev-129/28331-ju-ji-qiang.dat": {
+      "name": "Duplo long fork arm (4-ju-ji-qiang isolated approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -36,
+        "xMax": 36,
+        "yMin": -24,
+        "yMax": 416,
+        "zMin": -39.2,
+        "zMax": 39.2
+      },
+      "origin": {
+        "type": "pivot-center",
+        "axis": "Z"
+      },
+      "heightLdu": 440,
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Real assembly74844 / BrickLink6273c01 / design28331; inventory45002-1 has2 darkgray.",
+        "Source p9/p15 and official LEGO photo https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162831.jpg viewed2026-10-13.",
+        "New isolated approximation authorized by user; profiled two cheeks with closed diamond relief, circular screw pivots0/220 and open clip400.",
+        "Existing shared arm and train-only part unchanged. Estimated width72, outside thickness78.4 and axialspan440 LDU. Threads and hinge fit not measured."
+      ]
+    },
+    "dev-129/2223-ju-ji-qiang.dat": {
+      "name": "Duplo Ladder Stand 2 x 2 (2223, isolated course approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "studFootprint": {
+        "x": 2,
+        "z": 2
+      },
+      "heightLdu": 96,
+      "origin": {
+        "type": "bottom-center",
+        "originToTop": 96,
+        "originToBottom": 0
+      },
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": -96,
+        "yMax": 0,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "collisionVolumes": [
+        {
+          "xMin": -40,
+          "xMax": 40,
+          "yMin": -12,
+          "yMax": 0,
+          "zMin": -40,
+          "zMax": 40
+        },
+        {
+          "xMin": -40,
+          "xMax": 40,
+          "yMin": -96,
+          "yMax": -12,
+          "zMin": -40,
+          "zMax": -32
+        },
+        {
+          "xMin": -40,
+          "xMax": 40,
+          "yMin": -96,
+          "yMax": -12,
+          "zMin": 32,
+          "zMax": 40
+        }
+      ],
+      "supportPolicy": "structural",
+      "notes": [
+        "Confirmed 2223 in 9090-2 inventory black x1; https://www.bricklink.com/v2/catalog/catalogitem.page?P=2223",
+        "Official/unofficial LDraw 2223.dat both HTTP404 on 2026-10-13; no existing local file.",
+        "User explicitly authorized missing geometry approximated from course pages; p8 enlarged and p15 inspected.",
+        "Two triangular cheeks, open center, circular pivot bores; dimensions, ribs and hidden underside are estimates. Not official CAD or measured physical fit."
+      ]
+    },
     "dev-129/76395.dat": {
       "name": "Duplo Toolo 4 x 6 with three screws (train isolated v3 geometry)",
       "category": "technic-duplo",
