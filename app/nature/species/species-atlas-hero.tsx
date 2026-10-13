@@ -4,27 +4,46 @@ import { Leaf } from 'lucide-react'
 import type { SpeciesAtlasTopicFilter } from '@/lib/nature-species-atlas'
 import styles from './species-atlas.module.css'
 
-/**
- * 头图为两张 Wikimedia Commons 图片的合成（已修改：抠出翠鸟与树枝、水平翻转、叠到虚化枫叶背景上）：
- * - 翠鸟与树枝：Alexis Lours，「File:Common kingfisher on a branch facing right.jpg」，CC BY 2.0
- *   https://commons.wikimedia.org/wiki/File:Common_kingfisher_on_a_branch_facing_right.jpg
- * - 绿叶虚化背景：Takashi Hososhima，「File:Spring maple leaves (8689469096).jpg」，CC BY-SA 2.0
- *   https://commons.wikimedia.org/wiki/File:Spring_maple_leaves_(8689469096).jpg
- * 合成图按 CC BY-SA 2.0 提供；按许可要求在头图角落署名并链接原图。
- */
-const HERO_PHOTO = {
+interface HeroPhoto { src: string; alt: string; note: string; credits: Array<{ label: string; href: string }> }
+
+const KINGFISHER: HeroPhoto = {
+  /* 两张 Wikimedia Commons 图片合成（抠出翠鸟与树枝、水平翻转、叠到虚化枫叶背景上），合成图按 CC BY-SA 2.0 提供：
+   * 翠鸟：Alexis Lours「File:Common kingfisher on a branch facing right.jpg」CC BY 2.0；
+   * 背景：Takashi Hososhima「File:Spring maple leaves (8689469096).jpg」CC BY-SA 2.0。 */
   src: '/assets/nature-atlas-hero-kingfisher-v5.webp',
+  alt: '停在树枝上的普通翠鸟',
+  note: '（合成）',
   credits: [
     { label: 'Alexis Lours / CC BY 2.0', href: 'https://commons.wikimedia.org/wiki/File:Common_kingfisher_on_a_branch_facing_right.jpg' },
     { label: 'Takashi Hososhima / CC BY-SA 2.0', href: 'https://commons.wikimedia.org/wiki/File:Spring_maple_leaves_(8689469096).jpg' },
   ],
 }
 
+/** 各图鉴头图与署名；署名显示在页面底部，不叠在照片上。 */
+export const HERO_PHOTOS: Record<SpeciesAtlasTopicFilter, HeroPhoto> = {
+  all: KINGFISHER,
+  birds: KINGFISHER,
+  insects: {
+    /* AntanO「File:Papilio demoleus (Lime Butterfly) on leaf.JPG」CC BY-SA 3.0；已水平翻转并裁成 1800×1000。 */
+    src: '/assets/nature-atlas-hero-insects.webp',
+    alt: '停在嫩叶上的达摩凤蝶',
+    note: '（已翻转裁切）',
+    credits: [{ label: 'AntanO / CC BY-SA 3.0', href: 'https://commons.wikimedia.org/wiki/File:Papilio_demoleus_(Lime_Butterfly)_on_leaf.JPG' }],
+  },
+  plants: {
+    /* Ashish2py「File:Match-stick-flower.jpg」CC BY-SA 4.0；已裁成 1800×1000。 */
+    src: '/assets/nature-atlas-hero-plants.webp',
+    alt: '绿叶虚化背景前的粉紫色花序',
+    note: '（已裁切）',
+    credits: [{ label: 'Ashish2py / CC BY-SA 4.0', href: 'https://commons.wikimedia.org/wiki/File:Match-stick-flower.jpg' }],
+  },
+}
+
 const SUMMARIES: Record<SpeciesAtlasTopicFilter, string> = {
   all: '认识身边的鸟类、昆虫和植物，留下自己的发现。',
   birds: '认识常见鸟类，学习识别特征\n查看社区的真实观察内容',
-  insects: '看看小小昆虫的细节，发现身边的生命。',
-  plants: '认识一株植物，观察四季里的变化。',
+  insects: '看看小小昆虫的细节\n发现身边的生命',
+  plants: '认识一株植物\n观察四季里的变化',
 }
 
 const UNIT: Record<SpeciesAtlasTopicFilter, string> = { all: '物种总数', birds: '鸟类总数', insects: '昆虫总数', plants: '植物总数' }
@@ -42,7 +61,7 @@ export function SpeciesAtlasHero({ topic, heading, stats, children }: {
 }) {
   return (
     <header className={styles.hero}>
-      <Image src={HERO_PHOTO.src} alt="停在树枝上的普通翠鸟" fill priority sizes="100vw" className={styles.heroImage} />
+      <Image src={HERO_PHOTOS[topic].src} alt={HERO_PHOTOS[topic].alt} fill priority sizes="100vw" className={styles.heroImage} />
       <div className={styles.heroShade} aria-hidden="true" />
       {children}
       <div className={styles.heroContent}>
@@ -55,7 +74,6 @@ export function SpeciesAtlasHero({ topic, heading, stats, children }: {
           <div><dd>{stats.unobserved ?? '—'}</dd><dt>待观察</dt></div>
         </dl>
       </div>
-      <p className={styles.heroCredit}>图：{HERO_PHOTO.credits.map((credit, index) => <span key={credit.href}>{index ? '；' : ''}<a href={credit.href} target="_blank" rel="noopener noreferrer">{credit.label}</a></span>)}（合成）</p>
     </header>
   )
 }

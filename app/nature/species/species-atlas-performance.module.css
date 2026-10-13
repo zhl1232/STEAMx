@@ -1,5 +1,6 @@
 /* 保留完整 DOM、原生查找和字母锚点。按卡片跳过离屏绘制，不给整组套固定高度。 */
-.performance { --atlas-info-size: 7rem; }
+.performance { --atlas-info-size: 5.4rem; }
+@media (min-width: 768px) { .performance { --atlas-info-size: 5.9rem; } }
 .tileCell { min-width: 0; }
 .performance.performance :global(.nature-atlas-tile) { height: auto; }
 /* 确定的照片比例 + 可容纳两行名称及学名/分类的文字区，避免图片解码后撑高。
@@ -12,7 +13,7 @@
 .performance.performance :global(.nature-atlas-tile-name) {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   overflow: hidden;
   max-width: 100%;
 }
@@ -20,7 +21,7 @@
   .tileCell { container-type: inline-size; }
   .performance.performance :global(.nature-atlas-tile) {
     content-visibility: auto;
-    contain-intrinsic-block-size: calc((100cqw - 2px) * 0.625 + var(--atlas-info-size));
+    contain-intrinsic-block-size: calc((100cqw - 2px) * 0.75 + var(--atlas-info-size));
   }
   /* 不用 auto 缓存高度：切换列表/图集后立即按新布局保留正确的空间。 */
   .performance.performance :global(.nature-atlas-grid)[data-singleton='true'] :global(.nature-atlas-tile),
