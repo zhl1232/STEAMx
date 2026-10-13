@@ -80,16 +80,15 @@ const CourseCard = memo(function CourseCard({ course, featured = false, priority
           <Link href={`/courses/${course.id}`} prefetch={false} title={course.title}>{course.title}</Link>
         </h3>
         <p className={styles.metadata}><BookOpen size={12} aria-hidden="true" />{[`${course.lesson_count} 课时`, ageLine].filter(Boolean).join(' · ')}</p>
-        {learning && progress ? (
-          <div className={styles.progress}>
-            <div role="progressbar" aria-label={`${course.title}学习进度`} aria-valuemin={0} aria-valuemax={100}
-              aria-valuenow={percent} aria-valuetext={`已完成 ${progress.completed_lesson_count} / ${progress.total_lesson_count} 课时`}
-              className={styles.progressTrack}><span style={{ width: `${percent}%` }} /></div>
-            <span>{progress.completed_lesson_count}/{progress.total_lesson_count}</span>
-          </div>
-        ) : null}
         <div className={styles.cardBottom}>
-          {!learning ? <span className={styles.modeLabel}>{completed ? '已完成' : course.lesson_count === 0 ? '内容准备中' : ''}</span> : null}
+          {learning && progress ? (
+            <div className={styles.progress}>
+              <div role="progressbar" aria-label={`${course.title}学习进度`} aria-valuemin={0} aria-valuemax={100}
+                aria-valuenow={percent} aria-valuetext={`已完成 ${progress.completed_lesson_count} / ${progress.total_lesson_count} 课时`}
+                className={styles.progressTrack}><span style={{ width: `${percent}%` }} /></div>
+              <span>{progress.completed_lesson_count}/{progress.total_lesson_count}</span>
+            </div>
+          ) : <span className={styles.modeLabel}>{completed ? '已完成' : course.lesson_count === 0 ? '内容准备中' : ''}</span>}
           <Link href={action.href} prefetch={false} aria-label={`${action.label}：${course.title}`}
             className={cn(styles.action, featured && styles.primaryAction)}>
             {action.label}<ChevronRight size={13} aria-hidden="true" />
