@@ -45,4 +45,9 @@ describe('public tutor credit receipts', () => {
     expect(formatTutorCredits(0.1 + 0.2)).toBe('0.3')
     expect(formatTutorCredits(1499.9)).toBe('1,499.9')
   })
+  it('shows only the monthly wallet for members without a daily grant', () => {
+    const quota = { isMember: true, walletBalance: 1500, monthlyGrant: 15000, grantPeriod: '2026-10', creditUnit: 'credits',
+      freeDaily: 0, freeUsedToday: 0, freeRemainingToday: 0, dailyChargeCap: 100, dailyPeriod: '2026-10-13' } as never
+    expect(formatTutorQuota(quota)).toBe('本月 1,500/15,000 代币')
+  })
 })
