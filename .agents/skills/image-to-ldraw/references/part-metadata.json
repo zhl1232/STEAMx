@@ -61300,6 +61300,56 @@
       "ldrawStatus": "Local simplified part",
       "supportPolicy": "manual",
       "collisionPolicy": "manual"
+    },
+    "dev-129/28331-wu-ren-ji.dat": {
+      "name": "Duplo long fork arm (4-ju-ji-qiang isolated approximation) [4-wu-ren-ji copy]",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -36,
+        "xMax": 36,
+        "yMin": -24,
+        "yMax": 416,
+        "zMin": -39.2,
+        "zMax": 39.2
+      },
+      "origin": {
+        "type": "pivot-center",
+        "axis": "Z"
+      },
+      "heightLdu": 440,
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Real assembly74844 / BrickLink6273c01 / design28331; inventory45002-1 has2 darkgray.",
+        "Source p9/p15 and official LEGO photo https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162831.jpg viewed2026-10-13.",
+        "New isolated approximation authorized by user; profiled two cheeks with closed diamond relief, circular screw pivots0/220 and open clip400.",
+        "Existing shared arm and train-only part unchanged. Estimated width72, outside thickness78.4 and axialspan440 LDU. Threads and hinge fit not measured."
+      ]
+    },
+    "dev-129/6670c01-wu-ren-ji.dat": {
+      "name": "Duplo Toolo large propeller 6670c01 (4-wu-ren-ji local approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -200,
+        "xMax": 200,
+        "yMin": -30,
+        "yMax": 0,
+        "zMin": -200,
+        "zMax": 200
+      },
+      "heightLdu": 30,
+      "origin": {
+        "type": "bottom-mount-center",
+        "originToTop": 30,
+        "originToBottom": 0
+      },
+      "supportPolicy": "manual",
+      "notes": [
+        "Hand-authored 2026-10-13 from 4-wu-ren-ji courseware p6; real part 6670c01 (alias 86601 per earlier review). No LDraw geometry found; blade radius/shape estimated."
+      ],
+      "collisionPolicy": "manual"
     }
   }
 }
