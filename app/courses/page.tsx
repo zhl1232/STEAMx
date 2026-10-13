@@ -45,30 +45,28 @@ export default async function CoursesPage() {
                     { name: "技能课程", url: "/courses" },
                 ])}
             />
-        <div className="min-h-screen app-canvas-community">
-            <MobileGlobalHeader variant="title" title="技能课程" showUserButton={false} />
-            <main className="app-shell-wide pb-28 pt-2 md:py-6">
-                <header className="mb-5 hidden flex-wrap items-end justify-between gap-3 px-1 md:flex">
-                    <div className="min-w-0">
-                        <h1 className="text-2xl font-black text-foreground">技能课程</h1>
-                        <p className="mt-1 text-base font-bold text-foreground/85">挑一项技能，做一件作品</p>
-                    </div>
-                </header>
-                {courses ? (
-                    <CourseBoard courses={courses} />
-                ) : (
-                    <CourseBoardError retryHref="/courses" />
-                )}
-                <nav aria-label="学习入门指南" className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-border px-1 pt-3 text-sm">
-                    <span className="text-muted-foreground">学习入门指南</span>
-                    {LEARNING_TOPICS.map((topic) => (
-                        <Link key={topic.slug} href={`/learn/${topic.slug}`} className="inline-flex min-h-11 items-center font-semibold text-[hsl(var(--nav-active))] hover:underline">
-                            {topic.label}
-                        </Link>
-                    ))}
-                </nav>
-            </main>
-        </div>
+            <div className="app-canvas-community">
+                <MobileGlobalHeader variant="title" title="技能课程" showUserButton={false} />
+                <main className="app-shell-wide pb-28 pt-2 md:py-6">
+                    <header className="mb-5 hidden flex-wrap items-end justify-between gap-3 px-1 md:flex">
+                        <div className="min-w-0">
+                            <h1 className="text-2xl font-black text-foreground">技能课程</h1>
+                            <p className="mt-1 text-sm text-muted-foreground">动手实践 · 掌握新技能 · 让创意变成作品</p>
+                        </div>
+                    </header>
+                    {courses ? <CourseBoard courses={courses} /> : <CourseBoardError retryHref="/courses" />}
+                    <details className="mt-5 border-t border-border px-1 pt-2 text-sm">
+                        <summary className="min-h-11 cursor-pointer py-3 text-muted-foreground">各方向入门指南</summary>
+                        <nav aria-label="学习入门指南" className="flex flex-wrap items-center gap-x-4 gap-y-1 pb-2">
+                            {LEARNING_TOPICS.map((topic) => (
+                                <Link key={topic.slug} href={`/learn/${topic.slug}`} className="inline-flex min-h-11 items-center font-semibold text-[hsl(var(--nav-active))] hover:underline">
+                                    {topic.label}
+                                </Link>
+                            ))}
+                        </nav>
+                    </details>
+                </main>
+            </div>
         </>
     );
 }
