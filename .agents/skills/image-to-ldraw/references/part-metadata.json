@@ -43895,6 +43895,32 @@
       "ldrawStatus": "Local simplified part",
       "supportPolicy": "manual",
       "collisionPolicy": "manual"
+    },
+    "dev-129/74847.dat": {
+      "name": "Duplo Toolo Arm 2 x 6 (Ferris wheel source-detail approximation)",
+      "category": "technic-duplo",
+      "ldrawStatus": "Local simplified part",
+      "bbox": {
+        "xMin": -30,
+        "xMax": 30,
+        "yMin": -30,
+        "yMax": 220,
+        "zMin": -25,
+        "zMax": 28.009999999999998
+      },
+      "origin": {
+        "type": "pivot-center",
+        "axis": "Z"
+      },
+      "heightLdu": 250,
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "notes": [
+        "Real inventory ID74847 / design28334; source pages7-10, LEGO element6162840 photo retrieved2026-10-13: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162840.jpg",
+        "User authorized new source-based approximate geometry2026-10-13. Local searches found only existing simplified28334/74847; official/unofficial library28334/74847 requests returned403, so no exact redistributable mesh was obtained.",
+        "Derived from local CC BY4.0 dev-129/28334.dat; Preserves200LDU pivot spacing and48LDU cheek separation; widens the gray cheek profile to60LDU (250LDU overall length) to follow the source and official product silhouette. Adds1LDU relief panels and native crease lines; these are image-based estimates, not measured dimensions.",
+        "Manual support/collision retained from original approximate Toolo geometry; screw threads, clipping retention, hinge fit and moving clearance are unverified."
+      ]
     }
   }
 }
