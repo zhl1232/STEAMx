@@ -857,7 +857,7 @@ Scratch 与 Tutor Agent：`scratch-hints.ts` 覆盖课程现有的移动、侦�
 
 ## 2026-10-11 model reconstruction development evidence
 
-- 2026-10-12 叉车 `4-cha-che`：托盘顶板改石灰绿；两根货叉用本地近似 `parts/dev-129/4433c01.dat`（官方 DAT 仍无）；报告 `/workspace/pending-fix-20261012/cha-che-report.md`。
+- 2026-10-12 叉车 `4-cha-che`：托盘顶板改石灰绿；两根货叉用本地近似 `parts/dev-129/4433c01.dat`（官方 DAT 仍无）；报告 `/workspace/pending-fix-20261012/cha-che-report.md`。 2026-10-13 v2 重写货叉圆筒/节段环/锥肩与螺钉座、移至铰座基座侧孔，人仔七件整体转向车头；14 步不变，报告 `/workspace/pending-fix-20261012/cha-che-v2-report.md`。
 - 2026-10-12 舞狮 v2 `4-chun-jie-wu-shi`：补官方 2301b 黄立耳两只；眼轮仍为近似；报告 `/workspace/pending-fix-20261012/wushi-v2-report.md`。
 
 - docs/ldraw-rebuild-20261011/README.md: 129-course source audit, per-course development status and unknown-part evidence; not a publication or approval record. Current evolving counts: COURSE-STATUS-CURRENT.md, progress-129.json and current-development-QA.json; files named69 remain historical snapshots.

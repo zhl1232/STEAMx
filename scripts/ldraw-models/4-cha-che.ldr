@@ -76,10 +76,11 @@
 
 0 // STEP 8 - lower angled fork joint + two Toolo exhaust-pipe forks (4433c01)
 0 // Official DAT unavailable; using local simplified mesh parts/dev-129/4433c01.dat (CC BY 4.0 approx).
-0 // Attachment at 28336 cheek pivots (~world 324,-16,±40); pipe extends +X toward pallet.
+0 // Transverse screw housings meet base side holes at world (372,73,+/-40); axes extend +X.
+0 // Existing 28336 local simplified hinge retained unchanged; screw fit is approximate.
 1 72 372 49 0 0 0 -1 0 1 0 1 0 0 28336.dat
-1 71 324 -16 40 0 0 1 0 1 0 -1 0 0 dev-129/4433c01.dat
-1 71 324 -16 -40 0 0 1 0 1 0 -1 0 0 dev-129/4433c01.dat
+1 71 372 73 62 0 0 1 0 1 0 -1 0 0 dev-129/4433c01.dat
+1 71 372 73 -62 0 0 1 0 1 0 -1 0 0 dev-129/4433c01.dat
 0 STEP
 
 0 // STEP 9 - rear red crossbar, two yellow pillar starts, blue curved seat
@@ -112,13 +113,14 @@
 0 STEP
 
 0 // STEP 13 - source child driver: red cap/8-shirt, white sleeves with brown hands and yellow legs
-1 14 -80 -144 0 0 0 1 0 1 0 -1 0 0 47205.dat
-1 15 -74 -181 0 0 0 1 0 1 0 -1 0 0 47204.dat
-1 4 -74 -181 0 0 0 1 0 1 0 -1 0 0 47203p03.dat
-1 15 -73.5 -208 0 0 0 1 0 1 0 -1 0 0 47198p03.dat
-1 15 -73.5 -208 0 0 0 -1 0 1 0 1 0 0 47198p03.dat
-1 14 -72 -223 0 0 0 1 0 1 0 -1 0 0 47206p01.dat
-1 4 -72 -223 0 0 0 1 0 1 0 -1 0 0 47199.dat
+0 // Entire seven-part figure rotated 180 degrees about vertical axis through (-80,0,0); face (-Z local) now +X.
+1 14 -80 -144 0 0 0 -1 0 1 0 1 0 0 47205.dat
+1 15 -86 -181 0 0 0 -1 0 1 0 1 0 0 47204.dat
+1 4 -86 -181 0 0 0 -1 0 1 0 1 0 0 47203p03.dat
+1 15 -86.5 -208 0 0 0 -1 0 1 0 1 0 0 47198p03.dat
+1 15 -86.5 -208 0 0 0 1 0 1 0 -1 0 0 47198p03.dat
+1 14 -88 -223 0 0 0 -1 0 1 0 1 0 0 47206p01.dat
+1 4 -88 -223 0 0 0 -1 0 1 0 1 0 0 47199.dat
 0 STEP
 
 0 // STEP 14 - separate pallet: four blue 2x4 bricks and lime 4x8 plate (source p14-15)
