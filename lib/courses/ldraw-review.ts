@@ -290,7 +290,6 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '5-shou-tui-fei-ji.ldr',
   // 2026-10-13 rechecked against the real 5+ PDFs (camera-calibrated overlay).
   '5-shui-jing.ldr',
-  '5-ta-diao.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
