@@ -36,7 +36,7 @@ describe('Scratch screenshot diagnosis', () => {
           images: [input.images[0]],
         },
       ],
-      { allowVisionFallback: false },
+      expect.objectContaining({ allowVisionFallback: false, maxTokens: 256 }),
     )
   })
 

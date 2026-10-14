@@ -1,4 +1,9 @@
 import { expect, test, type Page } from '@playwright/test'
+import { skipVisitLoginPrompt } from './visit-prompt'
+
+test.beforeEach(async ({ page }, testInfo) => {
+  if (!testInfo.title.startsWith('首次访问')) await skipVisitLoginPrompt(page)
+})
 
 async function expectHealthyPage(page: Page, path: string) {
   const pageErrors: string[] = []
@@ -19,7 +24,7 @@ async function expectHealthyPage(page: Page, path: string) {
 
 test('首页 smoke', async ({ page }) => {
   await expectHealthyPage(page, '/')
-  await expect(page).toHaveTitle('创探空间｜少儿 STEAM 项目式学习：积木、科学实验与编程')
+  await expect(page).toHaveTitle('创探空间｜积木搭建、科学小实验、少儿编程与自然观察')
 })
 
 test('探索页 smoke', async ({ page }) => {
@@ -188,3 +193,144 @@ for (const route of [
     }
   })
 }
+
+// Run against the real homepage and responsive CSS in the regular PR smoke job.
+for (const viewport of [
+  { width: 320, height: 740, dark: false },
+  { width: 360, height: 800, dark: false },
+  { width: 390, height: 844, dark: false },
+  { width: 430, height: 900, dark: false },
+  { width: 390, height: 844, dark: true },
+]) {
+  test(`手机首页 ${viewport.width}${viewport.dark ? ' 暗色' : ''} 精简首屏且免费课程仍可直达`, async ({ page }) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height })
+    await expectHealthyPage(page, '/')
+    await page.evaluate((dark) => document.documentElement.classList.toggle('dark', dark), viewport.dark)
+    const heading = page.getByRole('heading', { level: 1, name: '陪孩子，一起动手做', exact: true })
+    await expect(heading).toBeVisible()
+    await expect(page.locator('h1')).toHaveCount(1)
+    const hero = page.locator('section').filter({ has: heading })
+    await expect(hero.getByText('搭积木 · 做实验 · 学编程 · 观察自然', { exact: true })).toBeVisible()
+    await expect(hero.getByText('从孩子想做的开始，跟着指导一步步尝试。', { exact: true })).toBeHidden()
+    await expect(hero.locator('a[href="/courses"]')).toBeHidden()
+    await expect(hero.locator('a[href="/explore"]')).toBeHidden()
+    await expect(hero.getByRole('link')).toHaveCount(1)
+    const guide = hero.getByRole('link', { name: '探索指南', exact: true })
+    await expect(guide).toHaveAttribute('href', '/start')
+    await expect(page.getByRole('link', { name: '探索指南', exact: true })).toHaveCount(1)
+    const guideBox = await guide.boundingBox()
+    expect(guideBox).not.toBeNull()
+    expect(guideBox!.height).toBeGreaterThanOrEqual(44)
+    const heroBox = await hero.boundingBox()
+    expect(heroBox).not.toBeNull()
+    expect(heroBox!.height).toBeLessThanOrEqual(300)
+    const recommendation = page.getByRole('link', { name: /积木搭建，从这里开始/ })
+    await expect(recommendation).toHaveAttribute('href', '/courses')
+    await expect(recommendation).toContainText('免费积木课，跟着 3D 步骤一起搭')
+    await expect(recommendation).toBeInViewport()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  })
+}
+
+for (const viewport of [
+  { width: 768, dark: false },
+  { width: 1024, dark: false },
+  { width: 1280, dark: false },
+  { width: 1840, dark: false },
+  { width: 1840, dark: true },
+]) {
+  test(`首页 ${viewport.width}${viewport.dark ? ' 暗色' : ''} 精简重复信息并保留三个不同任务入口`, async ({ page }) => {
+    await page.setViewportSize({ width: viewport.width, height: 1000 })
+    await expectHealthyPage(page, '/')
+    await page.evaluate((dark) => document.documentElement.classList.toggle('dark', dark), viewport.dark)
+    const heading = page.getByRole('heading', { level: 1, name: /陪孩子找个有趣的项目，\s*一起动手做。/ })
+    await expect(heading).toBeVisible()
+    await expect(page.locator('h1')).toHaveCount(1)
+    const hero = page.locator('section').filter({ has: heading })
+    await expect(hero.getByText('陪孩子，一起动手做', { exact: true })).toBeHidden()
+    await expect(hero.getByText('创探空间', { exact: true })).toHaveCount(0)
+    await expect(hero.getByText('从孩子想做的开始，跟着指导一步步尝试。', { exact: true })).toHaveCount(0)
+    await expect(hero.getByRole('link', { name: '挑一节免费课程' })).toBeVisible()
+    await expect(hero.getByRole('link', { name: '看看动手项目' })).toBeVisible()
+    const guide = hero.getByRole('link', { name: '第一次来？看探索指南', exact: true })
+    await expect(guide).toBeVisible()
+    await expect(guide).toHaveAttribute('href', '/start')
+    await expect(page.getByRole('link', { name: /探索指南/ })).toHaveCount(1)
+    await expect(hero.getByRole('link')).toHaveCount(3)
+    await expect(hero.getByRole('link', { name: '挑一节免费课程' })).toHaveAttribute('href', '/courses')
+    await expect(hero.getByRole('link', { name: '看看动手项目' })).toHaveAttribute('href', '/explore')
+    const categories = page.locator('section[aria-labelledby="home-start-heading"]')
+    await expect(categories.getByRole('heading', { name: '按兴趣探索', exact: true })).toBeVisible()
+    await expect(categories.getByRole('link')).toHaveCount(6)
+    await expect(categories.locator('a[href="/courses"]')).toHaveCount(0)
+    await expect(page.getByText('社区正在创作', { exact: true })).toHaveCount(0)
+    await expect(page.getByText('身边的真实发现', { exact: true })).toHaveCount(0)
+    const nature = page.locator('section[aria-labelledby="home-nature-heading"]')
+    await expect(nature.getByRole('heading', { name: '自然观察', exact: true })).toBeVisible()
+    await expect(nature.getByRole('link', { name: '全部观察' })).toHaveAttribute('href', '/nature/observations')
+    await expect(nature.locator('a[href="/nature"]')).toHaveCount(0)
+    await expect(nature.getByText('立即进入', { exact: true })).toHaveCount(0)
+    const worksHeading = page.getByRole('heading', { name: '大家的作品', exact: true })
+    await expect(worksHeading).toBeVisible()
+    if (viewport.width >= 1024) {
+      const worksBox = await worksHeading.boundingBox()
+      const natureBox = await nature.getByRole('heading', { name: '自然观察', exact: true }).boundingBox()
+      expect(worksBox).not.toBeNull()
+      expect(natureBox).not.toBeNull()
+      expect(Math.abs(worksBox!.y - natureBox!.y)).toBeLessThanOrEqual(1)
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  })
+}
+
+test('手机首页探索指南和免费推荐分别直达对应页面', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await expectHealthyPage(page, '/')
+  await page.getByRole('link', { name: '探索指南', exact: true }).click()
+  await expect(page).toHaveURL(/\/start$/)
+  await expectHealthyPage(page, '/')
+  await page.getByRole('link', { name: /积木搭建，从这里开始/ }).click()
+  await expect(page).toHaveURL(/\/courses$/)
+})
+
+test('手机首屏放大文字仍保留完整标题和可点击指南', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 740 })
+  await expectHealthyPage(page, '/')
+  const hero = page.locator('section').filter({ has: page.locator('h1') })
+  // Enlarge only the affected content to isolate wrapping and clipping in the hero.
+  await hero.locator('h1, p, a').evaluateAll((elements) => {
+    const sizes = elements.map((element) => ({
+      fontSize: parseFloat(getComputedStyle(element).fontSize),
+      lineHeight: parseFloat(getComputedStyle(element).lineHeight),
+    }))
+    elements.forEach((element, index) => {
+      const style = (element as HTMLElement).style
+      style.fontSize = `${sizes[index].fontSize * 2}px`
+      style.lineHeight = `${sizes[index].lineHeight * 2}px`
+    })
+  })
+  const heading = hero.getByRole('heading', { level: 1, name: '陪孩子，一起动手做', exact: true })
+  const guide = hero.getByRole('link', { name: '探索指南', exact: true })
+  await expect(heading).toBeVisible()
+  await expect(guide).toBeVisible()
+  expect(await hero.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true)
+  const heroBox = await hero.boundingBox()
+  const guideBox = await guide.boundingBox()
+  expect(heroBox).not.toBeNull()
+  expect(guideBox).not.toBeNull()
+  expect(guideBox!.y + guideBox!.height).toBeLessThan(heroBox!.y + heroBox!.height)
+  await guide.click()
+  await expect(page).toHaveURL(/\/start$/)
+})
+
+test('首次访问自动弹出登录层，同一标签页刷新后不再弹出', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  const dialog = page.getByRole('dialog', { name: '登录或注册' })
+  await expect(dialog).toBeVisible()
+  await page.getByRole('button', { name: '先去探索，关闭登录层' }).click()
+  await expect(dialog).toBeHidden()
+  await page.reload({ waitUntil: 'domcontentloaded' })
+  await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible()
+  await page.waitForTimeout(1500)
+  await expect(dialog).toHaveCount(0)
+})

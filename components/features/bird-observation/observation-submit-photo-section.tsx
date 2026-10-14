@@ -21,7 +21,7 @@ import {
 export interface ObservationMediaAnalysis {
   id?: number
   imageUrl: string
-  status: "pending" | "passed" | "passed_no_identification" | "failed_unsafe" | "failed_low_quality" | "failed_unrecognized" | "error"
+  status: "pending" | "passed" | "passed_no_identification" | "failed_unsafe" | "failed_low_quality" | "failed_unrecognized" | "error" | "quota_exceeded"
   moderationPass: boolean | null
   moderationReason: string | null
   qualityPass: boolean | null
@@ -29,6 +29,13 @@ export interface ObservationMediaAnalysis {
   noteSuggestion: string | null
   speciesCandidates: Array<{
     speciesId: number
+    commonName: string
+    scientificName?: string | null
+    confidence: number
+    reason?: string | null
+  }>
+  /** Model candidates not in the species table (shown as 「其他」 suggestions). */
+  unmatchedSuggestions?: Array<{
     commonName: string
     scientificName?: string | null
     confidence: number
@@ -70,6 +77,11 @@ function getAnalysisBadge(status?: ObservationMediaAnalysis["status"]) {
         label: "请重拍",
         className: "border-amber-300/80 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300",
       }
+    case "quota_exceeded":
+      return {
+        label: "未识别",
+        className: "border-amber-300/80 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300",
+      }
     case "failed_unrecognized":
       return {
         label: "未识别",
@@ -104,6 +116,7 @@ export function ObservationSubmitPhotoSection({
   const { toast } = useToast()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const originalFileInputRef = useRef<HTMLInputElement>(null)
+  const [continuePhotos, setContinuePhotos] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
   const [uploadingCount, setUploadingCount] = useState(0)
   const imagesRef = useRef(evidenceImages)
@@ -121,18 +134,19 @@ export function ObservationSubmitPhotoSection({
     }
   }, [evidenceImages, onEvidenceChange])
 
-  const choosePhotos = (fromFiles = false) => {
+  const choosePhotos = () => {
     if (authLoading || uploadingRef.current) return
     if (!user) {
-      promptLogin(undefined, {
+      promptLogin(() => setContinuePhotos(true), {
         title: "登录后再上传照片",
         description: "登录后即可选择观察照片并发布记录。",
       })
       return
     }
-    // Android media providers may redact GPS; prefer the original-file path
-    // without changing desktop/iOS pickers. The provider still controls the bytes.
-    const preferOriginalFile = fromFiles || /Android/i.test(navigator.userAgent)
+    setContinuePhotos(false)
+    // Android media providers may redact GPS; prefer the unrestricted file
+    // input so EXIF location survives. Desktop/iOS keep the image accept filter.
+    const preferOriginalFile = /Android/i.test(navigator.userAgent)
     const input = preferOriginalFile ? originalFileInputRef : fileInputRef
     input.current?.click()
   }
@@ -150,7 +164,7 @@ export function ObservationSubmitPhotoSection({
           description: "请稍候一两秒后重新选择照片。",
         })
       } else {
-        promptLogin(undefined, {
+        promptLogin(() => setContinuePhotos(true), {
           title: "登录后再上传照片",
           description: "登录后即可上传观察照片并发布记录。",
         })
@@ -266,6 +280,11 @@ export function ObservationSubmitPhotoSection({
 
   return (
     <section className="space-y-4">
+      {continuePhotos && user ? (
+        <Button type="button" onClick={choosePhotos} disabled={isUploading || authLoading}>
+          继续选照片
+        </Button>
+      ) : null}
       {showHeader ? (
         <div>
           <div className="flex items-center justify-between gap-3">
@@ -425,13 +444,6 @@ export function ObservationSubmitPhotoSection({
         </div>
       ) : null}
 
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs leading-5 text-(--obs-muted) md:hidden">
-        <span>需要读取拍摄地点时，优先选择相机原图。</span>
-        <button type="button" onClick={() => choosePhotos(true)} disabled={!canAddMore || isUploading || authLoading} className="inline-flex min-h-11 items-center font-semibold text-(--obs-accent-text) underline underline-offset-4 disabled:opacity-50">
-          从文件选择原图
-        </button>
-        <span>原图通常位于 DCIM/Camera 文件夹；选好后请核对实际观察地点。</span>
-      </div>
       <input
         ref={originalFileInputRef}
         type="file"

@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight, Copy, FileText, Loader2, Mail, MessageCircle, MessageSquareHeart, ShieldAlert } from "lucide-react";
+import { ChevronRight, Copy, FileText, Loader2, Mail, MessageSquareHeart, ShieldAlert } from "lucide-react";
 
 import { SettingsSubpageShell } from "@/app/settings/_components/settings-subpage-shell";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,6 @@ import { useToast } from "@/hooks/use-toast";
 import {
   BRAND_CORE_STATEMENT,
   BRAND_FULL_NAME,
-  BRAND_HERO_TITLE,
 } from "@/lib/brand";
 import { BRAND_FAQ_ITEMS } from "@/lib/seo/brand-faq";
 import { SITE_DESCRIPTION } from "@/lib/seo/site";
@@ -163,9 +162,54 @@ export default function AboutSettingsPage() {
       title="关于与帮助"
       fallbackHref={user ? "/settings" : "/"}
       kicker="支持与规则"
-      description="了解我们的教育理念，找到帮助、反馈与平台规则。"
+      description="联系客服、提交反馈，或了解平台。"
     >
       <div className="space-y-6">
+        <section id="support" aria-labelledby="support-heading" className="scroll-mt-24 space-y-4">
+          {/* 保留旧消息和站外链接的锚点；它现在也落到客服而非公众号。 */}
+          <span id="contact" aria-hidden="true" className="block scroll-mt-24" />
+          <div className="space-y-2 px-1">
+            <h2 id="support-heading" className="settings-section-heading">联系客服</h2>
+            <p className="text-sm leading-6 text-muted-foreground">遇到问题可以直接反馈，回复会回到站内消息。</p>
+          </div>
+          <div className="settings-list">
+            <button id="feedback" type="button" className="settings-row min-h-11 scroll-mt-24" onClick={openFeedback}>
+              <div className="flex min-w-0 flex-1 items-start gap-3">
+                <div className="settings-icon">
+                  <MessageSquareHeart className="h-5 w-5" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold">问题反馈</div>
+                  <p className="settings-description">直接发给平台客服，回复会回到站内消息。</p>
+                </div>
+              </div>
+              <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+            </button>
+          </div>
+          <div id="wechat-support" className="scroll-mt-24 space-y-3 px-1">
+            <h3 className="text-sm font-semibold">微信客服</h3>
+            {supportWechat ? (
+              <div className="flex flex-wrap items-center gap-3">
+                <p className="min-w-0 break-all text-sm leading-6">微信号：<span className="select-all">{supportWechat}</span></p>
+                <Button type="button" variant="outline" className="min-h-11 shrink-0" onClick={() => void copyWechat()}>
+                  <Copy className="mr-2 h-4 w-4" aria-hidden="true" />复制微信号
+                </Button>
+              </div>
+            ) : null}
+            <details open={!supportWechat}>
+              <summary className="flex min-h-11 cursor-pointer items-center text-sm font-medium">查看微信客服二维码</summary>
+              <a href="/assets/contact-wechat.png" target="_blank" rel="noopener noreferrer" aria-label="查看微信客服二维码原图（新窗口）" className="mt-2 flex h-60 justify-center overflow-hidden rounded-md bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <Image src="/assets/contact-wechat.png" alt="添加创探空间微信客服的二维码" width={888} height={1131} unoptimized className="h-full w-auto object-contain" />
+              </a>
+              <p className="mt-2 text-xs leading-6 text-muted-foreground">点击图片查看、保存原图，再打开微信扫一扫，从相册选择这张二维码。</p>
+            </details>
+            <details id="join-group" className="scroll-mt-24 border-t border-border/60 pt-2">
+              <summary className="flex min-h-11 cursor-pointer items-center text-sm font-medium">申请加入交流社群</summary>
+              <p className="text-sm leading-6 text-muted-foreground">家长或老师需要入群时，添加上方微信客服并备注「入群」。普通使用咨询无需备注，也不需要先入群。</p>
+            </details>
+          </div>
+        </section>
+
         <section id="about" className="scroll-mt-24 space-y-2 px-1">
           <h2 className="settings-section-heading">关于 {BRAND_FULL_NAME}</h2>
           <p className="text-sm leading-7 text-muted-foreground">{SITE_DESCRIPTION}</p>
@@ -197,79 +241,23 @@ export default function AboutSettingsPage() {
           </p>
         </section>
 
-        <section id="contact" aria-labelledby="contact-heading" className="scroll-mt-24 space-y-5 border-t border-border/60 px-1 pt-6">
-          <div className="space-y-3">
-            <h2 id="contact-heading" className="settings-section-heading">联系我们</h2>
-            <p className="text-base font-semibold leading-7 text-foreground">让更多孩子，在兴趣中发现自己的可能</p>
-            <p className="text-sm leading-7 text-muted-foreground">如果你也认同「{BRAND_HERO_TITLE}」，愿意陪孩子在真实项目中动手探索、学会拆解问题、持续迭代，欢迎关注我们，一起交流教育想法、分享实践经验，探索合作的可能。</p>
-          </div>
-          <div className="grid gap-8 sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
-            <figure className="min-w-0 space-y-3">
-              <figcaption>
-                <h3 className="text-sm font-semibold">关注公众号</h3>
-                <p className="mt-1 text-sm leading-6 text-muted-foreground">获取项目灵感、课程更新与教育分享。</p>
-              </figcaption>
-              <a href="/assets/contact-official-account.png" target="_blank" rel="noopener noreferrer" aria-label="查看公众号二维码原图（新窗口）" className="flex min-h-[240px] items-center rounded-md bg-white p-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                <Image src="/assets/contact-official-account.png" alt="微信扫一扫，或搜索公众号「创探空间」" width={1710} height={624} unoptimized className="h-auto w-full" />
-              </a>
-              <p className="text-xs leading-6 text-muted-foreground">微信搜一搜「创探空间」，或点击图片查看原图。</p>
-            </figure>
-            <figure className="min-w-0 space-y-3">
-              <figcaption>
-                <h3 className="text-sm font-semibold">微信客服</h3>
-                <p className="mt-1 text-sm leading-6 text-muted-foreground">使用咨询、问题反馈与合作交流。</p>
-              </figcaption>
-              <a href="/assets/contact-wechat.png" target="_blank" rel="noopener noreferrer" aria-label="查看微信客服二维码原图（新窗口）" className="flex h-[240px] justify-center overflow-hidden rounded-md bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                <Image src="/assets/contact-wechat.png" alt="添加创探空间微信客服的二维码" width={888} height={1131} unoptimized className="h-full w-auto object-contain" />
-              </a>
-              <p className="text-xs leading-6 text-muted-foreground">家长或老师添加客服时，请备注「入群」，方便客服安排入群。点击图片可查看、保存原图。</p>
-            </figure>
-          </div>
+        <section id="official-account" aria-labelledby="official-account-heading" className="scroll-mt-24 space-y-3 border-t border-border/60 px-1 pt-6">
+          <h2 id="official-account-heading" className="settings-section-heading">关注公众号</h2>
+          <p className="text-sm leading-6 text-muted-foreground">获取项目灵感、课程更新与教育分享。</p>
+          <details className="group">
+            <summary className="flex min-h-11 cursor-pointer items-center text-sm font-medium">查看公众号二维码</summary>
+            <a href="/assets/contact-official-account.png" target="_blank" rel="noopener noreferrer" aria-label="查看公众号二维码原图（新窗口）" className="mt-2 flex items-center rounded-md bg-white p-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+              <Image src="/assets/contact-official-account.png" alt="微信扫一扫，或搜索公众号「创探空间」" width={1710} height={624} unoptimized className="h-auto w-full" />
+            </a>
+            <p className="mt-2 text-xs leading-6 text-muted-foreground">微信搜一搜「创探空间」，或保存图片后在微信扫一扫中从相册选择。</p>
+          </details>
         </section>
 
         <section aria-labelledby="help-heading" className="space-y-3">
           <div className="px-1">
-            <h2 id="help-heading" className="settings-section-heading">帮助入口</h2>
+            <h2 id="help-heading" className="settings-section-heading">平台规则与备用联系</h2>
           </div>
           <div className="settings-list">
-            <button id="feedback" type="button" className="settings-row scroll-mt-24" onClick={openFeedback}>
-              <div className="flex min-w-0 flex-1 items-start gap-3">
-                <div className="settings-icon">
-                  <MessageSquareHeart className="h-5 w-5" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-sm font-semibold">问题反馈</div>
-                  <p className="settings-description">直接发给平台客服，回复会回到站内消息。</p>
-                </div>
-              </div>
-              <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
-            </button>
-
-            {supportWechat ? (
-              <div className="settings-row cursor-default">
-                <div className="flex min-w-0 flex-1 items-start gap-3">
-                  <div className="settings-icon">
-                    <MessageCircle className="h-5 w-5" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-sm font-semibold">微信反馈（备用）</div>
-                    <p className="settings-description">站内提交优先，也可添加微信：{supportWechat}</p>
-                  </div>
-                </div>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="shrink-0"
-                  aria-label="复制微信号"
-                  title="复制微信号"
-                  onClick={() => void copyWechat()}
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </div>
-            ) : null}
-
             {linkItems.map((item) => (
               <Link
                 key={item.label}

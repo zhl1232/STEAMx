@@ -38,6 +38,7 @@ export async function generateMetadata({ params }: ObservationDetailPageProps): 
     observation.identifications || [],
     observation.identificationStatus,
     submitTopic,
+    observation,
   );
   const title = `${headline.title} · 自然观察记录`;
   const description = (observation.notes || `${observation.locationName} 的自然观察记录。`).slice(0, 160);
@@ -67,6 +68,7 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
     observation.identifications || [],
     observation.identificationStatus,
     submitTopic,
+    observation,
   );
   const title = `${headline.title} · 自然观察记录`;
   const primarySpecies = observation.species[0];

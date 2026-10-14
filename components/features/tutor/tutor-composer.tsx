@@ -108,7 +108,7 @@ export function TutorComposer({
               </button>
             </span>
           ))}
-          <span className="text-[10px] text-muted-foreground">图片不另收费</span>
+          <span className="text-[10px] text-muted-foreground">已添加 {pendingImages.length} 张图片</span>
         </div>
       )}
       {suggestedImages.some((image) => !pendingImages.includes(image)) && (
@@ -210,7 +210,7 @@ export function TutorComposer({
         </div>
       </div>
       <p className="px-1 text-[10px] leading-4 text-muted-foreground">
-        每 1,000 回答 token = 1 代币；输入、历史与图片不另收费
+        代币用于理解问题、准备资料和生成回答。
       </p>
       {showReviewAction && onReview ? (
         <button

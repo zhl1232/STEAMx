@@ -5,14 +5,14 @@ import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
 
 import { DELETE, GET, POST } from '@/app/api/tutor/chat/route'
 import { getAiCreditStatusForProfile } from '@/lib/api/ai-credits'
-import { archiveTutorChat, beginTutorRequest, completeTutorRequest, failTutorRequest, getTutorChatSession } from '@/lib/ai/tutor/requests'
+import { archiveTutorChat, beginTutorRequest, completeTutorRequest, failTutorRequest, fallbackTutorUsageToFree, getTutorChatSession } from '@/lib/ai/tutor/requests'
 import { AuthError, requireAuth } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import {
   validateContentSafeIfPresent,
   validateOwnedOrTrustedImageUrlFromSources,
 } from '@/lib/api/validation'
-import { finalizeReplyAudio } from '@/lib/ai/tutor/audio-tags'
+import { finalizeReplyAudio, findSpeciesAudiosForMessage, findSpeciesAudiosMentionedInText, planTutorAudioAttachment } from '@/lib/ai/tutor/audio-tags'
 import { buildTutorSceneContext } from '@/lib/ai/tutor/context-builders'
 import {
   getTutorEngineUserMessage,
@@ -22,6 +22,8 @@ import {
 } from '@/lib/ai/tutor/engine'
 import { buildTutorGreeting } from '@/lib/ai/tutor/greeting'
 import { loadTutorNotebook } from '@/lib/ai/tutor/memory'
+import { maybeUpdateTutorNotebook, maybeUpdateTutorConversationSummary } from '@/lib/ai/tutor/memory'
+import type { DashScopeTokenUsage, DashScopeUsageObserver } from '@/lib/ai/dashscope'
 import { planTutorResourceSearch } from '@/lib/ai/tutor/resource-search-planner'
 import { formatTutorResourceSearch, searchTutorResources } from '@/lib/ai/tutor/resource-search'
 import { buildTutorSystemPrompt } from '@/lib/ai/tutor/prompt'
@@ -40,6 +42,10 @@ vi.mock('next/server', async (importOriginal) => {
 })
 
 vi.mock('@/lib/ai/tutor/speech', () => ({ createTutorSpeechStreamer: vi.fn() }))
+vi.mock('@/lib/ai/tutor/guarded-speech', async () => {
+  const speech = await import('@/lib/ai/tutor/speech')
+  return { createGuardedTutorSpeechStreamer: (_userId: string, options: Parameters<typeof speech.createTutorSpeechStreamer>[0]) => speech.createTutorSpeechStreamer(options) }
+})
 
 vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn(),
@@ -61,7 +67,7 @@ vi.mock('@/lib/api/ai-credits', () => ({
   getAiCreditStatusForProfile: vi.fn(),
 }))
 
-vi.mock('@/lib/ai/tutor/requests', () => ({ archiveTutorChat: vi.fn(), beginTutorRequest: vi.fn(), completeTutorRequest: vi.fn(), failTutorRequest: vi.fn(), getTutorChatSession: vi.fn() }))
+vi.mock('@/lib/ai/tutor/requests', () => ({ archiveTutorChat: vi.fn(), beginTutorRequest: vi.fn(), completeTutorRequest: vi.fn(), failTutorRequest: vi.fn(), fallbackTutorUsageToFree: vi.fn(), getTutorChatSession: vi.fn() }))
 
 vi.mock('@/lib/api/validation', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/lib/api/validation')>()
@@ -141,6 +147,7 @@ vi.mock('@/lib/logger', () => ({
 
 const USER_ID = '11111111-1111-1111-1111-111111111111'
 const REQUEST_ID = '33333333-3333-4333-8333-333333333333'
+const EXECUTOR_ID = '44444444-4444-4444-8444-444444444444'
 let billingOverride: Record<string, unknown> | null = null
 const CONVERSATION_ID = '22222222-2222-2222-2222-222222222222'
 const PROFILE = {
@@ -150,12 +157,15 @@ const PROFILE = {
   membership_expires_at: null,
 }
 const QUOTA = {
+  creditUnit: 'credits' as const,
   isMember: false,
   walletBalance: 0,
-  monthlyGrant: 1500,
-  freeDaily: 5,
-  freeUsedToday: 1,
-  freeRemainingToday: 4,
+  monthlyGrant: 0,
+  freeDaily: 300,
+  freeUsedToday: 60,
+  freeRemainingToday: 240,
+  dailyChargeCap: 100,
+  dailyPeriod: '2026-10-12',
   grantPeriod: '',
   dayResetAt: 1_800_000_000,
   canChat: true,
@@ -203,6 +213,12 @@ type SupabaseOptions = {
   updateConversationError?: Error | null
 }
 
+function recordModelUsage(observer: DashScopeUsageObserver | undefined, usage: DashScopeTokenUsage | null, maxTokens = 8192) {
+  const handle = observer?.start({ role: 'tutor-text', model: 'qwen-flash',
+    payload: { messages: [{ role: 'user', content: 'model input' }], max_tokens: maxTokens } })
+  handle?.finish({ usage, status: 'completed' })
+}
+
 function createTutorSupabaseMock(options: SupabaseOptions = {}) {
   const user = options.user === undefined ? { id: USER_ID } : options.user
   const profile = options.profile === undefined ? PROFILE : options.profile
@@ -211,8 +227,7 @@ function createTutorSupabaseMock(options: SupabaseOptions = {}) {
   vi.mocked(getTutorChatSession).mockResolvedValue({ epoch: 0, conversation: conversation as never })
   vi.mocked(completeTutorRequest).mockImplementation(async (_userId, _requestId, input) => {
     if (options.insertError) throw options.insertError
-    const billing = billingOverride ?? { source: 'free', chargedCredits: 0, outputTokens: input.clarification ? null : input.outputTokens,
-      usageMissing: input.outputTokens == null && !input.clarification, receiptId: 41 }
+    const billing = billingOverride ?? { source: 'free', chargedCredits: 0, receiptId: 41 }
     return { status: 'completed', conversationId: CONVERSATION_ID,
       message: { role: 'assistant', content: input.reply, meta: { ...input.assistantMeta, billing } } as never }
   })
@@ -350,9 +365,10 @@ describe('/api/tutor/chat route', () => {
     requireRateLimitMock.mockResolvedValue(undefined)
     getAiCreditStatusMock.mockResolvedValue(QUOTA)
     billingOverride = null
-    beginMock.mockReset().mockResolvedValue({ status: 'started', conversation: CONVERSATION as never, receiptId: 41, maxOutputTokens: 8192 })
+    beginMock.mockReset().mockResolvedValue({ status: 'started', executorId: EXECUTOR_ID, conversation: CONVERSATION as never, receiptId: 41, maxOutputTokens: 8192, maxTotalTokens: 131072 })
     completeMock.mockReset()
     failMock.mockReset().mockResolvedValue({ status: 'failed' })
+    vi.mocked(fallbackTutorUsageToFree).mockReset().mockResolvedValue(null)
     vi.mocked(archiveTutorChat).mockResolvedValue({ epoch: 1 })
     buildStudentProfileMock.mockResolvedValue(STUDENT_PROFILE)
     buildTutorSceneContextMock.mockResolvedValue(SCENE)
@@ -367,13 +383,35 @@ describe('/api/tutor/chat route', () => {
     validateImageMock.mockReturnValue(undefined)
     findSpeciesHintsMock.mockResolvedValue([])
     shouldPlanToolMock.mockReturnValue(false)
+    vi.mocked(maybeUpdateTutorNotebook).mockReset().mockResolvedValue(undefined)
+    vi.mocked(maybeUpdateTutorConversationSummary).mockReset().mockResolvedValue(undefined)
     getTutorEngineUserMessageMock.mockReturnValue('小迪暂时不可用，请稍后再试。')
     streamChatWithTutorMock.mockImplementation(async function* (_prompt, _history, options) {
+      recordModelUsage(options?.usageObserver, { promptTokens: 2000, completionTokens: 100, totalTokens: 2100 }, options?.maxTokens)
       options?.onTelemetry?.({model: 'qwen-flash', usage: {promptTokens: 2000, completionTokens: 100, totalTokens: 2100}, visionFallback: false})
       yield '你好'
       yield '，一起探索吧！'
       return '你好，一起探索吧！'
     })
+  })
+
+  it('closes speech input before slow memory maintenance and only finishes it once', async () => {
+    const db = createTutorSupabaseMock()
+    createClientMock.mockResolvedValue(db.client as never)
+    let releaseMemory!: () => void
+    const memory = new Promise<void>(resolve => { releaseMemory = resolve })
+    vi.mocked(maybeUpdateTutorNotebook).mockReturnValue(memory)
+    const finish = vi.fn().mockResolvedValue(true)
+    vi.mocked(createTutorSpeechStreamer).mockReturnValue({ start: vi.fn(), push: vi.fn(), finish, abort: vi.fn() })
+    completeMock.mockResolvedValue({ status: 'completed', message: { content: '你好，一起探索吧！', meta: {} } } as never)
+    const draining = readSseEvents(await POST(createPostRequest({ contextType: 'global', content: '你好', speak: true })))
+    try {
+      await vi.waitFor(() => expect(maybeUpdateTutorNotebook).toHaveBeenCalled())
+      expect(finish).toHaveBeenCalledTimes(1)
+      expect(completeMock).not.toHaveBeenCalled()
+    } finally { releaseMemory() }
+    await draining
+    expect(finish).toHaveBeenCalledTimes(1)
   })
 
   it('reads only the authenticated previous active conversation and caps text at four messages / 1500 chars', async () => {
@@ -461,7 +499,7 @@ describe('/api/tutor/chat route', () => {
     beginMock.mockResolvedValue({ status: 'completed', conversationId: CONVERSATION_ID,
       message: { role: 'assistant', content: '原回复', meta: { billing } } as never })
     const events = await readSseEvents(await POST(createPostRequest({ content: '问题', speak: true })))
-    expect(events).toEqual([{ type: 'done', reply: '原回复', billing, replayed: true }])
+    expect(events).toEqual([{ type: 'done', reply: '原回复', billing: { source: 'wallet', chargedCredits: .1, receiptId: 41 }, replayed: true }])
     expect(streamChatWithTutorMock).not.toHaveBeenCalled()
     expect(completeMock).not.toHaveBeenCalled()
     expect(createTutorSpeechStreamer).not.toHaveBeenCalled()
@@ -649,7 +687,7 @@ describe('/api/tutor/chat route', () => {
 
     expect(response.status).toBe(402)
     await expect(response.json()).resolves.toMatchObject({
-      error: '今日免费次数或本月代币已用完。',
+      error: '可用代币不足，请明天使用新的赠送代币。',
       code: 'quota_exceeded',
       resetAt: 1_800_000_000,
     })
@@ -702,8 +740,9 @@ describe('/api/tutor/chat route', () => {
       }),
     )
     expect(completeMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID, expect.objectContaining({ content: '下一步做什么？', reply: '你好，一起探索吧！' }))
-    expect(afterMock).toHaveBeenCalledOnce()
-    expect(completeMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID, expect.objectContaining({ outputTokens: 100 }))
+    expect(afterMock).not.toHaveBeenCalled()
+    expect(vi.mocked(maybeUpdateTutorNotebook).mock.invocationCallOrder[0]).toBeLessThan(completeMock.mock.invocationCallOrder[0])
+    expect(completeMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID, expect.objectContaining({ usage: expect.objectContaining({ totalTokens: 2100, pendingCalls: 0 }) }))
   })
 
   it('emits a friendly SSE error and refunds credits exactly once when the model stream fails', async () => {
@@ -739,13 +778,13 @@ describe('/api/tutor/chat route', () => {
     expect(streamChatWithTutorMock).not.toHaveBeenCalled()
   })
 
-  it('bills only answer tokens without a vision surcharge when images fall back to text', async () => {
+  it('settles verified request usage after image fallback and keeps raw usage out of message metadata', async () => {
     const { client } = createTutorSupabaseMock()
     createClientMock.mockResolvedValue(client as never)
     beginMock.mockResolvedValue({
-      status: 'started', conversation: CONVERSATION as never,
+      status: 'started', executorId: EXECUTOR_ID, conversation: CONVERSATION as never,
       receiptId: 41,
-      maxOutputTokens: 8192,
+      maxOutputTokens: 8192, maxTotalTokens: 131072,
     })
     streamChatWithTutorMock.mockImplementation(async function* (
       _systemPrompt: string,
@@ -753,6 +792,7 @@ describe('/api/tutor/chat route', () => {
       options?: TutorEngineOptions,
     ): AsyncGenerator<string, string, undefined> {
       options?.onVisionFallback?.()
+      recordModelUsage(options?.usageObserver, { promptTokens: 221, completionTokens: 100, totalTokens: 321 })
       yield '我先按文字帮你分析。'
       options?.onTelemetry?.({
         model: 'qwen-flash',
@@ -768,25 +808,25 @@ describe('/api/tutor/chat route', () => {
     }))
     const events = await readSseEvents(response)
 
-    // 图片不另外收费，仅结算实际回答用量。
+    // The verified provider call includes both its input and output.
     expect(beginMock).toHaveBeenCalledWith(USER_ID, expect.objectContaining({ requestId: REQUEST_ID, epoch: 0 }))
     expect(completeMock).toHaveBeenCalledTimes(1)
-    expect(completeMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID, expect.objectContaining({ outputTokens: 100 }))
+    expect(completeMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID, expect.objectContaining({ usage: expect.objectContaining({ inputTokens: 221, outputTokens: 100, totalTokens: 321 }) }))
     expect(events).toContainEqual(
       expect.objectContaining({ type: 'warning', warning: expect.stringContaining('图片') }),
     )
     expect(events).toContainEqual(expect.objectContaining({ type: 'done', reply: '我先按文字帮你分析。' }))
-    // 模型、token 用量与 prompt 版本落在助手消息 meta 里
+    // Raw accounting goes through the private transaction argument only.
     const saved = completeMock.mock.calls[0][2]
     expect(saved.assistantMeta).toMatchObject({
       ai: {
         promptVersion: expect.stringMatching(/^\d{8}\.\d+$/),
         model: 'qwen-flash',
         visionFallback: true,
-        usage: { promptTokens: 221, completionTokens: 100, totalTokens: 321 },
       },
     })
     expect(saved.meta).not.toHaveProperty('ai')
+    expect(saved.assistantMeta.ai).not.toHaveProperty('usage')
   })
 
   it('does not create a conversation on GET when none is active', async () => {
@@ -808,7 +848,7 @@ describe('/api/tutor/chat route', () => {
   it('does not release an uncertain commit after image fallback', async () => {
     const { client } = createTutorSupabaseMock({ insertError: new Error('database unavailable') })
     createClientMock.mockResolvedValue(client as never)
-    beginMock.mockResolvedValue({ status: 'started', conversation: CONVERSATION as never, maxOutputTokens: 8192, receiptId: 42 })
+    beginMock.mockResolvedValue({ status: 'started', executorId: EXECUTOR_ID, conversation: CONVERSATION as never, maxOutputTokens: 8192, maxTotalTokens: 131072, receiptId: 42 })
     streamChatWithTutorMock.mockImplementation(async function* (_prompt, _history, options) {
       options?.onVisionFallback?.()
       yield '这次先按文字说明。'
@@ -837,52 +877,76 @@ describe('/api/tutor/chat route', () => {
     expect(conversationUpdate).not.toHaveBeenCalled()
     expect(afterMock).not.toHaveBeenCalled()
   })
-  it.each([100, 2500])('settles %i answer tokens, excluding prompt and reasoning tokens', async (tokens) => {
+  it.each([100, 2500])('settles input plus all output for %i visible-answer tokens without double counting reasoning', async (tokens) => {
     const { client } = createTutorSupabaseMock()
     createClientMock.mockResolvedValue(client as never)
-    beginMock.mockResolvedValue({ status: 'started', conversation: CONVERSATION as never, receiptId: 41, maxOutputTokens: 8192 })
-    const billing = { source: 'wallet' as const, chargedCredits: tokens / 1000, outputTokens: tokens, usageMissing: false, receiptId: 41 }
+    beginMock.mockResolvedValue({ status: 'started', executorId: EXECUTOR_ID, conversation: CONVERSATION as never, receiptId: 41, maxOutputTokens: 8192, maxTotalTokens: 131072 })
+    const totalTokens = 15000 + tokens + 500
+    const billing = { source: 'wallet' as const, chargedCredits: totalTokens / 100, receiptId: 41 }
     billingOverride = billing
     streamChatWithTutorMock.mockImplementation(async function* (_prompt, _history, options) {
+      recordModelUsage(options?.usageObserver, { promptTokens: 15000, completionTokens: tokens + 500, reasoningTokens: 500 })
       options?.onTelemetry?.({ model: 'qwen-flash', usage: { promptTokens: 15000, completionTokens: tokens + 500, reasoningTokens: 500 }, visionFallback: false })
       yield '这是回答'
       return '这是回答'
     })
     const events = await readSseEvents(await POST(createPostRequest({ content: '请解释', outputTokens: 999999 })))
-    expect(completeMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID, expect.objectContaining({ outputTokens: tokens }))
+    expect(completeMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID, expect.objectContaining({ usage: expect.objectContaining({ totalTokens }) }))
     expect(events).toContainEqual({ type: 'done', reply: '这是回答', billing })
     expect(completeMock.mock.calls[0][2].assistantMeta.ai).toMatchObject({ creditReceiptId: 41 })
+    expect(JSON.stringify(events)).not.toMatch(/inputTokens|outputTokens|totalTokens|usageMissing/)
   })
 
   it('does not charge guessed tokens when provider usage is missing', async () => {
     const { client } = createTutorSupabaseMock()
     createClientMock.mockResolvedValue(client as never)
-    beginMock.mockResolvedValue({ status: 'started', conversation: CONVERSATION as never, receiptId: 41, maxOutputTokens: 8192 })
-    billingOverride = { source: 'wallet', chargedCredits: 0, outputTokens: null, usageMissing: true, receiptId: 41 }
-    streamChatWithTutorMock.mockImplementation(async function* () { yield '回答'; return '回答' })
+    beginMock.mockResolvedValue({ status: 'started', executorId: EXECUTOR_ID, conversation: CONVERSATION as never, receiptId: 41, maxOutputTokens: 8192, maxTotalTokens: 131072 })
+    billingOverride = { source: 'wallet', chargedCredits: 0, receiptId: 41 }
+    streamChatWithTutorMock.mockImplementation(async function* (_prompt, _history, options) {
+      recordModelUsage(options?.usageObserver, null)
+      yield '回答'; return '回答'
+    })
     const events = await readSseEvents(await POST(createPostRequest({ content: '问一下' })))
-    expect(completeMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID, expect.objectContaining({ outputTokens: null }))
-    expect(events).toContainEqual(expect.objectContaining({ type: 'warning', warning: expect.stringContaining('不收取代币') }))
+    expect(completeMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID, expect.objectContaining({ usage: expect.objectContaining({ totalTokens: 0, usageMissing: true }) }))
+    expect(events).toContainEqual(expect.objectContaining({ type: 'warning', warning: expect.stringContaining('未收取代币') }))
   })
 
   it('passes the reserved low wallet budget to the model', async () => {
     const { client } = createTutorSupabaseMock()
     createClientMock.mockResolvedValue(client as never)
-    beginMock.mockResolvedValue({ status: 'started', conversation: CONVERSATION as never, receiptId: 41, maxOutputTokens: 125 })
+    beginMock.mockResolvedValue({ status: 'started', executorId: EXECUTOR_ID, conversation: CONVERSATION as never, receiptId: 41, maxOutputTokens: 125, maxTotalTokens: 131072 })
     await readSseEvents(await POST(createPostRequest({ content: '问一下' })))
     expect(streamChatWithTutorMock).toHaveBeenCalledWith(expect.any(String), expect.any(Array), expect.objectContaining({ maxTokens: 125 }))
     expect(completeMock).toHaveBeenCalledOnce()
   })
 
-  it('releases the reservation for a clarification without charging internal planner usage', async () => {
+  it('settles actual planner work for a successful clarification and returns only the credit receipt', async () => {
     const { client } = createTutorSupabaseMock()
     createClientMock.mockResolvedValue(client as never)
-    vi.mocked(planTutorResourceSearch).mockResolvedValueOnce({
-      status: 'model', shouldSearch: false, queries: [], resourceTypes: ['project'],
-      clarification: { prompt: '想做什么实验？', options: [{ id: 'science', label: '科学实验', value: '科学实验' }, { id: 'build', label: '搭建', value: '搭建' }] },
-    } as never)
-    await readSseEvents(await POST(createPostRequest({ content: '推荐一个' })))
-    expect(completeMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID, expect.objectContaining({ clarification: true, outputTokens: null }))
+    vi.mocked(planTutorResourceSearch).mockImplementationOnce(async (_content, options) => {
+      recordModelUsage(options?.usageObserver, { promptTokens: 100, completionTokens: 20 })
+      return { status: 'model', shouldSearch: false, queries: [], resourceTypes: ['project'],
+        clarification: { prompt: '想做什么实验？', options: [{ id: 'science', label: '科学实验', value: '科学实验' }, { id: 'build', label: '搭建', value: '搭建' }] } }
+    })
+    billingOverride = { source: 'wallet', chargedCredits: 1.2, receiptId: 41 }
+    const events = await readSseEvents(await POST(createPostRequest({ content: '推荐一个' })))
+    expect(completeMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID, expect.objectContaining({ clarification: true, usage: expect.objectContaining({ totalTokens: 120 }) }))
+    expect(events).toContainEqual({ type: 'done', reply: '想做什么实验？', billing: billingOverride })
+    expect(streamChatWithTutorMock).not.toHaveBeenCalled()
+  })
+
+  it('releases a clarification hold instead of committing a pending model attempt', async () => {
+    const { client } = createTutorSupabaseMock()
+    createClientMock.mockResolvedValue(client as never)
+    vi.mocked(planTutorResourceSearch).mockImplementationOnce(async (_content, options) => {
+      options?.usageObserver?.start({ role: 'tutor-planner', model: 'qwen-flash', payload: { messages: [], max_tokens: 100 } })
+      return { status: 'model', shouldSearch: false, queries: [], resourceTypes: ['project'],
+        clarification: { prompt: '想做什么实验？', options: [{ id: 'science', label: '科学实验', value: '科学实验' }, { id: 'build', label: '搭建', value: '搭建' }] } }
+    })
+    const response = await POST(createPostRequest({ content: '推荐一个' }))
+    expect(response.status).toBe(500)
+    expect(completeMock).not.toHaveBeenCalled()
+    expect(failMock).toHaveBeenCalledExactlyOnceWith(USER_ID, REQUEST_ID)
     expect(streamChatWithTutorMock).not.toHaveBeenCalled()
   })
 
@@ -901,28 +965,160 @@ describe('/api/tutor/chat route', () => {
     const { client } = createTutorSupabaseMock({ recentMessages: [{ role: 'assistant', content: '回答', meta: { billing } }] })
     createClientMock.mockResolvedValue(client as never)
     const payload = await (await GET(new NextRequest('http://localhost/api/tutor/chat'))).json()
-    expect(payload.messages[0].billing).toEqual(billing)
+    expect(payload.messages[0].billing).toEqual({ source: 'wallet', chargedCredits: 0.123, receiptId: 41 })
   })
 
-  it('waives charges for filtered reasoning without separately reported reasoning tokens', async () => {
+  it('includes verified total usage even when reasoning text was filtered without a separate reasoning count', async () => {
     const { client } = createTutorSupabaseMock()
     createClientMock.mockResolvedValue(client as never)
     streamChatWithTutorMock.mockImplementation(async function* (_prompt, _history, options) {
-      options?.onTelemetry?.({ model: 'qwen-flash', usage: { completionTokens: 500 }, visionFallback: false, outputSanitized: true })
+      recordModelUsage(options?.usageObserver, { promptTokens: 300, completionTokens: 500 })
+      options?.onTelemetry?.({ model: 'qwen-flash', usage: { promptTokens: 300, completionTokens: 500 }, visionFallback: false, outputSanitized: true })
       yield '可见回答'; return '可见回答'
     })
     await readSseEvents(await POST(createPostRequest({ content: '问题' })))
-    expect(completeMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID, expect.objectContaining({ outputTokens: null }))
+    expect(completeMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID, expect.objectContaining({ usage: expect.objectContaining({ totalTokens: 800 }) }))
   })
 
-  it('keeps a saved and settled answer successful if subsequent bookkeeping throws', async () => {
+  it('can save and settle the answer when optional memory maintenance fails', async () => {
     const { client } = createTutorSupabaseMock()
     createClientMock.mockResolvedValue(client as never)
-    afterMock.mockImplementationOnce(() => { throw new Error('bookkeeping unavailable') })
+    vi.mocked(maybeUpdateTutorNotebook).mockRejectedValueOnce(new Error('bookkeeping unavailable'))
     const events = await readSseEvents(await POST(createPostRequest({ content: '问题' })))
     expect(events.some(event => event.type === 'error')).toBe(false)
     expect(events).toContainEqual(expect.objectContaining({ type: 'done', reply: '你好，一起探索吧！' }))
     expect(completeMock).toHaveBeenCalledOnce()
+  })
+
+  it('includes resource planning and both memory calls in the same finalized request usage', async () => {
+    const { client } = createTutorSupabaseMock()
+    createClientMock.mockResolvedValue(client as never)
+    vi.mocked(planTutorResourceSearch).mockImplementationOnce(async (_content, options) => {
+      recordModelUsage(options?.usageObserver, { promptTokens: 300, completionTokens: 10 })
+      return { status: 'model', shouldSearch: false, queries: [], resourceTypes: ['project'] }
+    })
+    vi.mocked(maybeUpdateTutorNotebook).mockImplementationOnce(async (userId, options) => {
+      expect(userId).toBe(USER_ID)
+      recordModelUsage(options?.usageObserver, { promptTokens: 1000, completionTokens: 50 })
+    })
+    vi.mocked(maybeUpdateTutorConversationSummary).mockImplementationOnce(async (conversationId, userId, options) => {
+      expect([conversationId, userId]).toEqual([CONVERSATION_ID, USER_ID])
+      recordModelUsage(options?.usageObserver, { promptTokens: 500, completionTokens: 25 })
+    })
+    billingOverride = { source: 'wallet', chargedCredits: 39.85, receiptId: 41 }
+    const events = await readSseEvents(await POST(createPostRequest({ content: '继续解释' })))
+    const usage = completeMock.mock.calls[0][2].usage
+    expect(usage).toMatchObject({ inputTokens: 3800, outputTokens: 185, totalTokens: 3985, pendingCalls: 0, usageMissing: false })
+    expect(usage.calls.map(call => call.purpose)).toEqual(['resource_planner', 'main_reply', 'notebook_summary', 'conversation_summary'])
+    expect(events).toContainEqual(expect.objectContaining({ type: 'done', billing: billingOverride }))
+    expect(JSON.stringify(events)).not.toMatch(/totalTokens|inputTokens|outputTokens|usageMissing|notebook_summary/)
+    expect(afterMock).not.toHaveBeenCalled()
+  })
+
+  it('settles verified background work even when the answer provider omits usage', async () => {
+    const { client } = createTutorSupabaseMock()
+    createClientMock.mockResolvedValue(client as never)
+    vi.mocked(planTutorResourceSearch).mockImplementationOnce(async (_content, options) => {
+      recordModelUsage(options?.usageObserver, { promptTokens: 100, completionTokens: 20 })
+      return { status: 'model', shouldSearch: false, queries: [], resourceTypes: ['project'] }
+    })
+    streamChatWithTutorMock.mockImplementation(async function* (_prompt, _history, options) {
+      recordModelUsage(options?.usageObserver, null)
+      yield '回答'; return '回答'
+    })
+    billingOverride = { source: 'wallet', chargedCredits: 1.2, receiptId: 41 }
+    const events = await readSseEvents(await POST(createPostRequest({ content: '问一下' })))
+    expect(completeMock.mock.calls[0][2].usage).toMatchObject({ totalTokens: 120, usageMissing: true, pendingCalls: 0 })
+    expect(events).toContainEqual(expect.objectContaining({ type: 'warning', warning: expect.stringContaining('只收取已确认部分') }))
+    expect(events).toContainEqual({ type: 'done', reply: '回答', billing: billingOverride })
+  })
+
+  it('waits for an unused early audio planner and includes it with the replacement planner', async () => {
+    const { client } = createTutorSupabaseMock()
+    createClientMock.mockResolvedValue(client as never)
+    buildTutorSceneContextMock.mockResolvedValue({ ...SCENE, sceneCapabilities: ['speciesAudio'] })
+    vi.mocked(findSpeciesAudiosForMessage).mockResolvedValueOnce([{ slug: 'old', label: '旧鸟鸣', audioUrl: '/old.mp3' }])
+    vi.mocked(findSpeciesAudiosMentionedInText).mockResolvedValueOnce([{ slug: 'new', label: '新鸟鸣', audioUrl: '/new.mp3' }])
+    let finishEarly!: () => void
+    const earlyReady = new Promise<void>(resolve => { finishEarly = resolve })
+    vi.mocked(planTutorAudioAttachment).mockImplementationOnce(async (_content, _reply, _audios, options) => {
+      const handle = options?.usageObserver?.start({ role: 'tutor-planner', model: 'qwen-flash', payload: { messages: [], max_tokens: 120 } })
+      await earlyReady
+      handle?.finish({ usage: { promptTokens: 120, completionTokens: 10 }, status: 'completed' })
+      return null
+    }).mockImplementationOnce(async (_content, _reply, _audios, options) => {
+      recordModelUsage(options?.usageObserver, { promptTokens: 125, completionTokens: 15 }, 120)
+      return null
+    })
+    const reading = readSseEvents(await POST(createPostRequest({ content: '听听鸟鸣' })))
+    await vi.waitFor(() => expect(planTutorAudioAttachment).toHaveBeenCalledTimes(1))
+    expect(completeMock).not.toHaveBeenCalled()
+    finishEarly()
+    await reading
+    expect(planTutorAudioAttachment).toHaveBeenCalledTimes(2)
+    const usage = completeMock.mock.calls[0][2].usage
+    expect(usage).toMatchObject({ totalTokens: 2370, pendingCalls: 0 })
+    expect(usage.calls.filter(call => call.purpose === 'audio_planner')).toHaveLength(2)
+  })
+
+  it('does not commit a bill while a model attempt is still pending', async () => {
+    const { client } = createTutorSupabaseMock()
+    createClientMock.mockResolvedValue(client as never)
+    streamChatWithTutorMock.mockImplementation(async function* (_prompt, _history, options) {
+      options?.usageObserver?.start({ role: 'tutor-text', model: 'qwen-flash', payload: { messages: [], max_tokens: 100 } })
+      yield '回答'; return '回答'
+    })
+    const events = await readSseEvents(await POST(createPostRequest({ content: '问一下' })))
+    expect(events).toContainEqual(expect.objectContaining({ type: 'error', requestState: 'failed' }))
+    expect(completeMock).not.toHaveBeenCalled()
+    expect(failMock).toHaveBeenCalledWith(USER_ID, REQUEST_ID)
+  })
+
+  it.each([true, false])('uses the admitted executor for low-wallet free recovery (accepted: %s)', async (accepted) => {
+    const { client } = createTutorSupabaseMock()
+    createClientMock.mockResolvedValue(client as never)
+    beginMock.mockResolvedValue({ status: 'started', executorId: EXECUTOR_ID, conversation: CONVERSATION as never,
+      receiptId: 41, maxOutputTokens: 8192, maxTotalTokens: 2000 })
+    vi.mocked(fallbackTutorUsageToFree).mockResolvedValue(accepted ? { maxTotalTokens: 30000 } : null)
+    vi.mocked(planTutorResourceSearch).mockImplementationOnce(async (_content, options) => {
+      recordModelUsage(options?.usageObserver, { promptTokens: 1000, completionTokens: 50 }, 100)
+      return { status: 'model', shouldSearch: false, queries: [], resourceTypes: ['project'] }
+    })
+    let mainProviderCalls = 0
+    streamChatWithTutorMock.mockImplementation(async function* (_prompt, _history, options) {
+      const observer = options!.usageObserver!
+      const input: Parameters<DashScopeUsageObserver['start']>[0] = {
+        role: 'tutor-text', model: 'qwen-flash',
+        payload: { messages: [{ role: 'user', content: 'x'.repeat(2000) }], max_tokens: 8192 },
+      }
+      let handle
+      try { handle = observer.start(input) }
+      catch (error) {
+        if (!await observer.recoverBudget?.(input, error)) throw error
+        handle = observer.start(input)
+      }
+      mainProviderCalls += 1
+      handle.finish({ usage: { promptTokens: 2500, completionTokens: 100 }, status: 'completed' })
+      yield '恢复后的回答'; return '恢复后的回答'
+    })
+    billingOverride = { source: 'free', chargedCredits: 36.5, receiptId: 41 }
+    const events = await readSseEvents(await POST(createPostRequest({ content: '继续解释' })))
+    expect(fallbackTutorUsageToFree).toHaveBeenCalledExactlyOnceWith(USER_ID, REQUEST_ID, {
+      receiptId: 41, executorId: EXECUTOR_ID, minimumTotalTokens: expect.any(Number),
+    })
+    expect(vi.mocked(fallbackTutorUsageToFree).mock.calls[0][2].minimumTotalTokens).toBeGreaterThan(2000)
+    expect(mainProviderCalls).toBe(accepted ? 1 : 0)
+    if (accepted) {
+      expect(completeMock.mock.calls[0][2].usage).toMatchObject({ totalTokens: 3650, pendingCalls: 0 })
+      expect(completeMock.mock.calls[0][2].usage.calls.map(call => call.purpose)).toEqual(['resource_planner', 'main_reply'])
+      expect(events).toContainEqual({ type: 'done', reply: '恢复后的回答', billing: billingOverride })
+      expect(failMock).not.toHaveBeenCalled()
+    } else {
+      expect(completeMock).not.toHaveBeenCalled()
+      expect(failMock).toHaveBeenCalledExactlyOnceWith(USER_ID, REQUEST_ID)
+      expect(events).toContainEqual(expect.objectContaining({ type: 'error', requestState: 'failed' }))
+    }
+    expect(JSON.stringify(events)).not.toMatch(/executorId|minimumTotalTokens|totalTokens|budgetDeniedCalls/)
   })
 
 })

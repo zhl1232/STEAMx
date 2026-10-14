@@ -149,8 +149,7 @@ export function LessonMaterialsPreparation({
                   className="h-11 w-11 shrink-0 rounded-sm bg-white object-contain"
                 />
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-bold leading-5 text-foreground">{kit.name}</p>
-                  <p className="text-xs text-muted-foreground">{kit.code}</p>
+                  <p className="text-sm font-bold leading-5 text-foreground">{kit.name} <span className="tabular-nums">{kit.code}</span></p>
                 </div>
                 <div className="flex shrink-0 items-center gap-1">
                   <Button
@@ -158,14 +157,14 @@ export function LessonMaterialsPreparation({
                     variant="outline"
                     size="icon"
                     className="h-10 w-10 rounded-full"
-                    aria-label={`${kit.name}减少一套`}
+                    aria-label={`${kit.name} ${kit.code}减少一套`}
                     disabled={counts[kit.setNum] <= 0}
                     onClick={() => adjustCount(kit.setNum, -1)}
                   >
                     <Minus className="h-4 w-4" />
                   </Button>
                   <output
-                    aria-label={`${kit.name}套数`}
+                    aria-label={`${kit.name} ${kit.code}套数`}
                     className="w-6 text-center text-base font-black tabular-nums text-foreground"
                   >
                     {counts[kit.setNum]}
@@ -175,7 +174,7 @@ export function LessonMaterialsPreparation({
                     tone="brand"
                     size="icon"
                     className="h-10 w-10 rounded-full"
-                    aria-label={`${kit.name}增加一套`}
+                    aria-label={`${kit.name} ${kit.code}增加一套`}
                     disabled={counts[kit.setNum] >= MAX_KIT_COPIES}
                     onClick={() => adjustCount(kit.setNum, 1)}
                   >

@@ -1,4 +1,5 @@
 import { chatWithTutorComplete } from '@/lib/ai/tutor/engine'
+import type { DashScopeUsageObserver } from '@/lib/ai/dashscope'
 import type { ScratchBlockHintItem } from '@/lib/courses/scratch-hints'
 
 export type ScratchScreenshotDiagnosis = {
@@ -9,6 +10,7 @@ type ScratchScreenshotDiagnosisInput = {
   content: string
   images: string[]
   items: ScratchBlockHintItem[]
+  usageObserver?: DashScopeUsageObserver
 }
 
 function compact(value: string, max = 240) {
@@ -82,7 +84,7 @@ export async function diagnoseScratchScreenshot(input: ScratchScreenshotDiagnosi
           images: [image],
         },
       ],
-      { allowVisionFallback: false },
+      { allowVisionFallback: false, maxTokens: 256, usageObserver: input.usageObserver },
     )
     return parseDiagnosis(response, Math.min(input.items.length, 4))
   } catch {

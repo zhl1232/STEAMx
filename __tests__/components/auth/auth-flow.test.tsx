@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -32,8 +32,14 @@ vi.mock('@/hooks/use-toast', () => ({
 describe('AuthFlow', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    sessionStorage.clear()
     global.fetch = vi.fn()
     getSessionMock.mockResolvedValue({ data: { session: null } })
+  })
+
+  afterEach(() => {
+    cleanup()
+    sessionStorage.clear()
   })
 
   it('defaults to phone SMS login without email prompts', () => {
@@ -150,6 +156,25 @@ describe('AuthFlow', () => {
     expect(await screen.findByLabelText('验证码')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: '密码登录' }))
     await user.click(screen.getByRole('button', { name: '验证码登录' }))
+    expect(screen.getByLabelText('验证码')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /后重发/ })).toBeDisabled()
+    expect(global.fetch).toHaveBeenCalledOnce()
+  })
+
+  it('keeps the SMS verify step after closing and reopening the login layer', async () => {
+    const user = userEvent.setup()
+    vi.mocked(global.fetch).mockResolvedValue(Response.json({ ok: true }))
+    const { unmount } = render(<AuthFlow presentation="layer" title="登录后继续" />)
+    await user.type(screen.getByLabelText('手机号'), '13800138000')
+    await user.click(screen.getByRole('checkbox'))
+    await user.click(screen.getByRole('button', { name: '获取验证码' }))
+    expect(await screen.findByRole('heading', { name: '输入验证码' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /后重发/ })).toBeDisabled()
+    unmount()
+
+    render(<AuthFlow presentation="layer" title="登录后继续" />)
+    expect(screen.getByRole('heading', { name: '输入验证码' })).toBeInTheDocument()
+    expect(screen.getByText('已发送到 13800138000')).toBeInTheDocument()
     expect(screen.getByLabelText('验证码')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /后重发/ })).toBeDisabled()
     expect(global.fetch).toHaveBeenCalledOnce()

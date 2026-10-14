@@ -97,3 +97,12 @@ tmp
 
 # Local import run reports (may include environment URLs)
 scripts/.import-reports/
+
+# Unused editor integrations and local review screenshots
+/.kiro/
+/.trae/
+/.cursor/
+/.cursorignore
+/.cursorindexingignore
+/.cursorrules
+/.codex/*-check.png

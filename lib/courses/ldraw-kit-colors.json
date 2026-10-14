@@ -98,5 +98,13 @@
   "179": {
     "name": "Flat_Silver",
     "hex": "#898788"
+  },
+  "322": {
+    "name": "Medium_Azure",
+    "hex": "#36AEBF"
+  },
+  "135": {
+    "name": "Pearl_Light_Gray",
+    "hex": "#ABADAC"
   }
 }

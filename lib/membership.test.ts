@@ -3,7 +3,9 @@ import { describe, expect, it } from 'vitest'
 import {
   AI_CREDIT_COST_TEXT,
   AI_CREDIT_COST_VISION,
-  FREE_AI_DAILY_QUOTA,
+  FREE_AI_DAILY_CREDITS,
+  FREE_AI_PER_REQUEST_CREDIT_CAP,
+  FOUNDER_AI_MONTHLY_CREDITS,
   MEMBER_AI_MONTHLY_CREDITS,
   getAiChatCreditCost,
   getMembershipSummary,
@@ -21,7 +23,7 @@ describe('membership helpers', () => {
       period: 'none',
       isActive: false,
       label: '普通用户',
-      quota: FREE_AI_DAILY_QUOTA,
+      quota: FREE_AI_DAILY_CREDITS,
     })
   })
 
@@ -60,7 +62,7 @@ describe('membership helpers', () => {
       tier: 'free',
       period: 'none',
       isActive: false,
-      quota: FREE_AI_DAILY_QUOTA,
+      quota: FREE_AI_DAILY_CREDITS,
       expiresAt: null,
     })
   })
@@ -85,12 +87,20 @@ describe('membership helpers', () => {
       period: 'founder',
       isActive: true,
       label: '创始会员',
-      quota: MEMBER_AI_MONTHLY_CREDITS,
+      quota: FOUNDER_AI_MONTHLY_CREDITS,
     })
   })
 
   it('computes chat credit cost by image presence', () => {
     expect(getAiChatCreditCost(false)).toBe(AI_CREDIT_COST_TEXT)
     expect(getAiChatCreditCost(true)).toBe(AI_CREDIT_COST_VISION)
+  })
+
+  it('uses daily credits for free users and separate monthly grants for member tiers', () => {
+    expect(FREE_AI_DAILY_CREDITS).toBe(150)
+    expect(FREE_AI_PER_REQUEST_CREDIT_CAP).toBe(100)
+    expect(MEMBER_AI_MONTHLY_CREDITS).toBe(15_000)
+    expect(FOUNDER_AI_MONTHLY_CREDITS).toBe(20_000)
+    expect(getMembershipSummary({ membership_tier: 'founder', membership_period: 'monthly' }, now).quota).toBe(150)
   })
 })

@@ -7,9 +7,10 @@ import { createClient } from '@/lib/supabase/server'
 import {
   MAX_TUTOR_SPEECH_PCM_BYTES,
   TutorSpeechError,
-  transcribeTutorSpeechPcm16,
 } from '@/lib/ai/tutor/speech'
 import { logger } from '@/lib/logger'
+import { BodyReadError, readBoundedForm } from '@/lib/api/bounded-body'
+import { guardedTranscribeTutorSpeechPcm16 } from '@/lib/ai/tutor/guarded-speech'
 
 export const runtime = 'nodejs'
 
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
       windowMs: 60_000,
     })
 
-    const formData = await request.formData()
+    const formData = await readBoundedForm(request, MAX_TUTOR_SPEECH_PCM_BYTES + 16_384)
     const audio = formData.get('audio')
     const parsedMeta = TutorSpeechTranscribeMetaSchema.safeParse({
       durationMs: formData.get('durationMs'),
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '这段语音太长了，请控制在 30 秒以内。' }, { status: 400 })
     }
 
-    const transcript = await transcribeTutorSpeechPcm16(await audio.arrayBuffer())
+    const transcript = await guardedTranscribeTutorSpeechPcm16(user.id, await audio.arrayBuffer(), { signal: request.signal })
     logger.info('Tutor speech transcribed', {
       userId: user.id,
       elapsedMs: Date.now() - startedAt,
@@ -61,6 +62,7 @@ export async function POST(request: NextRequest) {
       durationMs: parsedMeta.data.durationMs,
     })
   } catch (error) {
+    if (error instanceof BodyReadError) return NextResponse.json({ error: error.message }, { status: error.status })
     if (error instanceof TutorSpeechError) {
       return NextResponse.json({ error: error.userMessage }, { status: error.status })
     }

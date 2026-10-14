@@ -1,35 +1,57 @@
 import { describe, expect, it } from 'vitest'
-import { parseDashScopeUsage } from '@/lib/ai/dashscope'
-import { formatTutorCredits, getTutorAnswerTokens, parseTutorBilling } from './billing'
+import { formatTutorCredits, formatTutorQuota, parseTutorBilling } from './billing'
+import type { AiCreditStatus } from './types'
 
-describe('tutor answer token billing', () => {
-  it('excludes prompts, history and reported reasoning from billable output', () => {
-    const usage = parseDashScopeUsage({ prompt_tokens: 12000, completion_tokens: 650,
-      total_tokens: 12650, completion_tokens_details: { reasoning_tokens: 550 } })
-    expect(getTutorAnswerTokens(usage)).toBe(100)
+describe('public tutor credit receipts', () => {
+  it('keeps historical charges and removes raw usage instead of applying the new tariff', () => {
+    expect(parseTutorBilling({ source: 'wallet', chargedCredits: 0.123, receiptId: 12,
+      outputTokens: 123, usageMissing: false, inputTokens: 9000, totalTokens: 9123,
+    })).toEqual({ source: 'wallet', chargedCredits: 0.123, receiptId: 12 })
   })
 
-  it('does not guess missing or malformed answer usage from total tokens', () => {
-    expect(getTutorAnswerTokens({ totalTokens: 2000 })).toBeNull()
-    expect(getTutorAnswerTokens(null)).toBeNull()
-    expect(getTutorAnswerTokens({ completionTokens: -1 })).toBeNull()
-    expect(getTutorAnswerTokens({ completionTokens: 5.2 })).toBeNull()
-    expect(getTutorAnswerTokens({ completionTokens: 5, reasoningTokens: 6 })).toBeNull()
-    expect(parseDashScopeUsage({ completion_tokens: -1 })).toBeNull()
-    expect(getTutorAnswerTokens(parseDashScopeUsage({ completion_tokens: 100,
-      completion_tokens_details: { reasoning_tokens: -1 } }))).toBeNull()
+  it('accepts current wallet and free receipts without exposing internal accounting fields', () => {
+    const receipt = { source: 'wallet', chargedCredits: 21.01, receiptId: 13 }
+    expect(parseTutorBilling(receipt)).toEqual(receipt)
+    expect(parseTutorBilling({ ...receipt, source: 'free', chargedCredits: 0, usageMissing: true }))
+      .toEqual({ source: 'free', chargedCredits: 0, receiptId: 13 })
+    expect(parseTutorBilling({ ...receipt, source: 'free', chargedCredits: 42.31, totalTokens: 4231 }))
+      .toEqual({ source: 'free', chargedCredits: 42.31, receiptId: 13 })
   })
 
-  it('preserves small charges instead of rounding every reply up to a credit', () => {
-    expect(formatTutorCredits(0.001)).toBe('0.001')
+  it('shows daily grant for free users and only the monthly wallet for members', () => {
+    const quota: AiCreditStatus = { creditUnit: 'credits', isMember: false, walletBalance: 0, monthlyGrant: 0,
+      freeDaily: 150, freeUsedToday: 12.34, freeRemainingToday: 137.66, dailyChargeCap: 100, dailyPeriod: '2026-10-13',
+      grantPeriod: '', dayResetAt: 0, canChat: true }
+    expect(formatTutorQuota(quota)).toBe('今日赠送 137.66/150 代币\n每次最多使用 100 赠送代币')
+    // Stale freeDaily>0 on a member must still hide the daily line.
+    expect(formatTutorQuota({ ...quota, isMember: true, walletBalance: 1314.494, monthlyGrant: 20000,
+      freeDaily: 300, freeRemainingToday: 300 }))
+      .toBe('本月 1,314.49/20,000 代币')
+    expect(formatTutorQuota({ ...quota, isMember: true, walletBalance: 0, monthlyGrant: 20000,
+      freeDaily: 300, freeRemainingToday: 300 }))
+      .toBe('本月 0/20,000 代币')
+    expect(formatTutorQuota({ ...quota, creditUnit: undefined } as unknown as AiCreditStatus)).toBeNull()
+  })
+
+  it('rejects invalid amounts, identities and sources', () => {
+    const receipt = { source: 'wallet', chargedCredits: 1, receiptId: 12 }
+    for (const patch of [{ source: 'unknown' }, { chargedCredits: -1 }, { chargedCredits: Infinity },
+      { chargedCredits: '1' }, { receiptId: 0 }, { receiptId: 1.5 }, { receiptId: Number.MAX_SAFE_INTEGER + 1 }]) {
+      expect(parseTutorBilling({ ...receipt, ...patch })).toBeUndefined()
+    }
+    expect(parseTutorBilling(null)).toBeUndefined()
+  })
+
+  it('shows at most two decimal places for credit amounts', () => {
+    expect(formatTutorCredits(0.001)).toBe('0')
+    expect(formatTutorCredits(0.01)).toBe('0.01')
     expect(formatTutorCredits(0.1 + 0.2)).toBe('0.3')
+    expect(formatTutorCredits(1314.494)).toBe('1,314.49')
     expect(formatTutorCredits(1499.9)).toBe('1,499.9')
   })
-
-  it('retains valid unknown usage and rejects invalid public billing metadata', () => {
-    const billing = { source: 'wallet', chargedCredits: 0, outputTokens: null, usageMissing: true, receiptId: 12 }
-    expect(parseTutorBilling(billing)).toEqual(billing)
-    expect(parseTutorBilling({ ...billing, chargedCredits: -1 })).toBeUndefined()
-    expect(parseTutorBilling({ ...billing, outputTokens: '100' })).toBeUndefined()
+  it('shows only the monthly wallet for members without a daily grant', () => {
+    const quota = { isMember: true, walletBalance: 1500, monthlyGrant: 15000, grantPeriod: '2026-10', creditUnit: 'credits',
+      freeDaily: 0, freeUsedToday: 0, freeRemainingToday: 0, dailyChargeCap: 100, dailyPeriod: '2026-10-13' } as never
+    expect(formatTutorQuota(quota)).toBe('本月 1,500/15,000 代币')
   })
 })

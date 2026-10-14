@@ -4,7 +4,10 @@ import {
   type ObservationMediaAnalysisResult,
   type SpeciesRow,
 } from '@/lib/ai/observation-media-analysis'
-import { DashScopeError, dashScopeChatComplete } from '@/lib/ai/dashscope'
+import { prepareVisionImageUrl } from '@/lib/ai/vision-image'
+import { DASHSCOPE_COMPLETE_TIMEOUT_MS, DashScopeError, dashScopeChatComplete } from '@/lib/ai/dashscope'
+
+export const OBSERVATION_VISION_MAX_TOKENS = 900
 
 type ObservationVisionErrorCode =
   | 'missing_config'
@@ -111,7 +114,10 @@ function buildPrompt() {
     '规则：',
     '- confidence 取值 0 到 1。',
     '- 低质、模糊、主体过远、逆光严重、遮挡严重时，quality_pass 必须为 false。',
-    '- 如果包含未成年人隐私风险、血腥、色情、违法等不适宜内容，moderation_pass 必须为 false。',
+    '- moderation 是本站对观察照片的唯一一次图片安全审核，必须认真判断。',
+    '- 如果包含色情、裸露、暴力、血腥、违法、仇恨、骚扰、毒品、赌博、政治极端、未成年人隐私风险（如清晰可辨的儿童正脸、证件、门牌）、二维码引流、广告诈骗等不适宜内容，moderation_pass 必须为 false。',
+    '- 如果图片明显不是可公开发布的自然观察素材（如截图、广告、与自然无关的内容），moderation_pass 必须为 false。',
+    '- moderation_pass 为 false 时 moderation_reason 用简短中文说明原因；通过时为 null。',
     '- note_suggestion 只在审核和质量都通过时填写，生成 40 到 90 字中文观察备注。',
     '- note_suggestion 必须使用第一人称观察记录语气，像用户自己写下的备注，例如“我看到……”。',
     '- note_suggestion 不要使用“画面展示了”“图片中”“照片里”“背景为”等第三方解说口吻。',
@@ -126,12 +132,18 @@ export async function analyzeObservationImageWithQwen(
   speciesRows: SpeciesRow[],
 ): Promise<ObservationMediaAnalysisResult> {
   let result: Awaited<ReturnType<typeof dashScopeChatComplete>>
+  const modelImageUrl = await prepareVisionImageUrl(imageUrl)
   try {
     result = await dashScopeChatComplete({
       role: 'vision',
+      // Image fetch + structured JSON; keep above the shared text default.
+      timeoutMs: Math.max(DASHSCOPE_COMPLETE_TIMEOUT_MS, 45_000),
       payload: {
         response_format: { type: 'json_object' },
         temperature: 0.1,
+        // JSON with <=3 candidates + a short note fits well under this; caps
+        // runaway output. Thinking is disabled in dashscope.ts for this role.
+        max_tokens: OBSERVATION_VISION_MAX_TOKENS,
         messages: [
           {
             role: 'system',
@@ -141,7 +153,7 @@ export async function analyzeObservationImageWithQwen(
             role: 'user',
             content: [
               { type: 'text', text: '请分析这张自然观察图片。' },
-              { type: 'image_url', image_url: { url: imageUrl } },
+              { type: 'image_url', image_url: { url: modelImageUrl } },
             ],
           },
         ],

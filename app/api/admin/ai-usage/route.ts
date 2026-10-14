@@ -24,6 +24,8 @@ type DailyRow = {
   day: string
   chats: number
   creditsUsed: number
+  dailyCreditsUsed: number
+  walletCreditsUsed: number
   freeChats: number
   memberChats: number
 }
@@ -41,9 +43,14 @@ function validNumber(value: unknown): value is number {
 
 function creditsUsedMilli(log: AiUsageLog): number | null {
   const meta = log.meta && typeof log.meta === 'object' ? log.meta as Record<string, unknown> : null
-  if (meta?.billing === 'tutor_output_tokens') {
+  if (meta?.billing === 'tutor_output_tokens' || meta?.billing === 'tutor_total_tokens') {
     if (meta.state !== 'settled' || !validNumber(meta.chargedCredits) || meta.chargedCredits < 0) return null
     return Math.round(meta.chargedCredits * 1000)
+  }
+  if (meta?.creditPolicy === 'daily_credits_v1' && ['free_chat', 'credit_chat'].includes(log.reason) && validNumber(log.amount)) {
+    const refundedCredits = meta.refundedCredits ?? 0
+    if (!validNumber(refundedCredits) || refundedCredits < 0 || refundedCredits > Math.abs(log.amount)) return null
+    return Math.round((Math.abs(log.amount) - refundedCredits) * 1000)
   }
   if (log.reason !== 'credit_chat' || !validNumber(log.amount)) return null
   return Math.round(Math.abs(log.amount) * 1000)
@@ -57,38 +64,52 @@ function summarizeAiUsage(logs: AiUsageLog[]): UsageSummary {
   for (const log of logs) {
     const creditsMilli = creditsUsedMilli(log)
     const meta = log.meta && typeof log.meta === 'object' ? log.meta as Record<string, unknown> : null
-    const isTutorReceipt = meta?.billing === 'tutor_output_tokens'
-    const isFree = log.reason === 'free_chat' && (!isTutorReceipt || creditsMilli !== null)
+    const isTutorReceipt = meta?.billing === 'tutor_output_tokens' || meta?.billing === 'tutor_total_tokens'
+    // Daily bookkeeping children are never independent usage. A wallet receipt
+    // can finish using daily credits while retaining its original credit_chat reason.
+    if (meta?.parentReceiptId != null) continue
+    if ((isTutorReceipt || meta?.creditPolicy === 'daily_credits_v1') && creditsMilli == null) continue
+    const isFree = isTutorReceipt && (meta?.source === 'free' || meta?.source === 'wallet')
+      ? meta.source === 'free'
+      : log.reason === 'free_chat'
     if (creditsMilli == null && !isFree) continue
 
-    const day = log.created_at.slice(0, 10)
-    const row = dailyMap.get(day) ?? { day, chats: 0, creditsUsed: 0, freeChats: 0, memberChats: 0 }
+    const day = new Date(log.created_at).toLocaleDateString('sv-SE', { timeZone: 'Asia/Shanghai' })
+    const row = dailyMap.get(day) ?? { day, chats: 0, creditsUsed: 0, dailyCreditsUsed: 0, walletCreditsUsed: 0, freeChats: 0, memberChats: 0 }
     row.chats += 1
-    if (isFree) row.freeChats += 1
+    row.creditsUsed += (creditsMilli ?? 0) / 1000
+    if (isFree) {
+      row.freeChats += 1
+      row.dailyCreditsUsed += (creditsMilli ?? 0) / 1000
+    }
     else {
       row.memberChats += 1
-      row.creditsUsed += (creditsMilli ?? 0) / 1000
+      row.walletCreditsUsed += (creditsMilli ?? 0) / 1000
     }
     dailyMap.set(day, row)
 
     const userStats = users.get(log.user_id) ?? { chats: 0, creditsUsedMilli: 0 }
     userStats.chats += 1
-    if (!isFree) userStats.creditsUsedMilli += creditsMilli ?? 0
+    userStats.creditsUsedMilli += creditsMilli ?? 0
     users.set(log.user_id, userStats)
   }
 
   const daily = [...dailyMap.values()].map((row) => ({
     ...row,
     creditsUsed: Math.round(row.creditsUsed * 1000) / 1000,
+    dailyCreditsUsed: Math.round(row.dailyCreditsUsed * 1000) / 1000,
+    walletCreditsUsed: Math.round(row.walletCreditsUsed * 1000) / 1000,
   })).sort((a, b) => a.day.localeCompare(b.day))
   const totals = daily.reduce(
     (acc, row) => ({
       chats: acc.chats + row.chats,
       creditsUsed: Math.round(acc.creditsUsed * 1000 + Math.round(row.creditsUsed * 1000)) / 1000,
+      dailyCreditsUsed: Math.round(acc.dailyCreditsUsed * 1000 + Math.round(row.dailyCreditsUsed * 1000)) / 1000,
+      walletCreditsUsed: Math.round(acc.walletCreditsUsed * 1000 + Math.round(row.walletCreditsUsed * 1000)) / 1000,
       freeChats: acc.freeChats + row.freeChats,
       memberChats: acc.memberChats + row.memberChats,
     }),
-    { chats: 0, creditsUsed: 0, freeChats: 0, memberChats: 0 },
+    { chats: 0, creditsUsed: 0, dailyCreditsUsed: 0, walletCreditsUsed: 0, freeChats: 0, memberChats: 0 },
   )
   return { daily, totals, users }
 }

@@ -10,7 +10,7 @@ const PRODUCTION_FALLBACK_SITE_URL = BRAND_OFFICIAL_URL;
 
 /** The formal site name used in metadata, structured data, and public copy. */
 export const SITE_NAME = BRAND_FULL_NAME;
-export const HOME_PAGE_TITLE = "少儿 STEAM 项目式学习：积木、科学实验与编程";
+export const HOME_PAGE_TITLE = "积木搭建、科学小实验、少儿编程与自然观察";
 export const HOME_DOCUMENT_TITLE = `${BRAND_FULL_NAME}｜${HOME_PAGE_TITLE}`;
 /** Default meta / Open Graph / Twitter description (also used on about & PWA). */
 export const SITE_DESCRIPTION = BRAND_DESCRIPTION;

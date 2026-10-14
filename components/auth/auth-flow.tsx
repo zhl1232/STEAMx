@@ -13,7 +13,6 @@ import {
   ShieldCheck,
   Smartphone,
   KeyRound,
-  X,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -27,10 +26,16 @@ import { ResetPasswordSchema } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 import { toE164 } from '@/lib/utils/phone'
+import {
+  clearPendingOtp,
+  OTP_COOLDOWN_SECONDS,
+  readPendingOtp,
+  savePendingOtp,
+  type RestoredPendingOtp,
+} from '@/lib/auth/pending-otp'
 
 const OTP_SEND_FAIL_DEFAULT = '发送验证码失败，请检查手机号或稍后重试。'
 const OTP_VERIFY_FAIL_DEFAULT = '验证失败，请检查验证码是否正确。'
-const OTP_COOLDOWN_SECONDS = 60
 
 export type AuthMode = 'sign_in' | 'sign_up' | 'forgot_password'
 export type AuthMethod = 'phone' | 'email'
@@ -120,6 +125,12 @@ function getAuthPhone(value: string) {
   return toE164(value)
 }
 
+/** Restore pending SMS OTP after the login dialog unmounts (sessionStorage). */
+function readBootPendingOtp(initialMode: AuthMode): RestoredPendingOtp | null {
+  if (initialMode === 'forgot_password') return null
+  return readPendingOtp()
+}
+
 export function AuthFlow({
   presentation,
   title,
@@ -132,28 +143,36 @@ export function AuthFlow({
   onSuccess,
 }: AuthFlowProps) {
   const supabase = createClient()
+  const activeRef = useRef(true)
+  useEffect(() => {
+    activeRef.current = true
+    return () => { activeRef.current = false }
+  }, [])
 
-  const [method, setMethod] = useState<AuthMethod>(initialMode === 'forgot_password' ? 'email' : initialMethod)
+  const [bootPending] = useState(() => readBootPendingOtp(initialMode))
+  const [method, setMethod] = useState<AuthMethod>(
+    initialMode === 'forgot_password' ? 'email' : (bootPending ? 'phone' : initialMethod),
+  )
   const [emailMode, setEmailMode] = useState<'sign_in' | 'sign_up'>(getInitialEmailMode(initialMode))
   const [isResetMode, setIsResetMode] = useState(initialMode === 'forgot_password')
   const [phoneRecoveryAfterOtp, setPhoneRecoveryAfterOtp] = useState(false)
 
-  const [phone, setPhone] = useState('')
+  const [phone, setPhone] = useState(() => bootPending?.displayPhone ?? '')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [otp, setOtp] = useState('')
-  const [otpStep, setOtpStep] = useState<OtpStep>('input')
+  const [otpStep, setOtpStep] = useState<OtpStep>(() => (bootPending ? 'verify' : 'input'))
 
-  const [termsAgreed, setTermsAgreed] = useState(false)
+  const [termsAgreed, setTermsAgreed] = useState(() => bootPending?.termsAgreed ?? false)
   const [consentOpen, setConsentOpen] = useState(false)
   const [consentActionLabel, setConsentActionLabel] = useState('获取验证码')
   const consentActionRef = useRef<(() => void) | null>(null)
   const consentReturnFocusRef = useRef<HTMLElement | null>(null)
   const consentCancelRef = useRef<HTMLButtonElement>(null)
   const consentContinuingRef = useRef(false)
-  const [otpCooldown, setOtpCooldown] = useState(0)
-  const [otpSentPhone, setOtpSentPhone] = useState('')
+  const [otpCooldown, setOtpCooldown] = useState(() => bootPending?.cooldownSeconds ?? 0)
+  const [otpSentPhone, setOtpSentPhone] = useState(() => bootPending?.phone ?? '')
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -209,11 +228,14 @@ export function AuthFlow({
 
   useEffect(() => {
     if (phoneRecoveryAfterOtp) return
+    // Keep verify UI while the typed phone still matches the number we already sent to
+    // (also protects session restore on remount — otherwise the first effect pass resets to input).
+    if (otpSentPhone && getAuthPhone(phoneValue) === otpSentPhone) return
     setOtp('')
     setOtpStep('input')
     setError(null)
     setMessage(null)
-  }, [phoneValue, phoneRecoveryAfterOtp])
+  }, [phoneValue, phoneRecoveryAfterOtp, otpSentPhone])
 
   useEffect(() => {
     if (presentation !== 'page') return
@@ -251,6 +273,9 @@ export function AuthFlow({
   }
 
   const completeSuccess = (options?: { isNewUser?: boolean }) => {
+    if (!activeRef.current) return
+    clearPendingOtp()
+
     if (phoneRecoveryAfterOtp) {
       window.location.href = getRecoveryHref()
       return
@@ -307,6 +332,12 @@ export function AuthFlow({
       setOtpStep('verify')
       setPhone(rawPhone)
       setMethod('phone')
+      savePendingOtp({
+        phone: nextFormattedPhone,
+        displayPhone: rawPhone.trim(),
+        sentAt: Date.now(),
+        termsAgreed: true,
+      })
     } catch (err: unknown) {
       logger.warn('OTP send error', { error: err })
       setError(getOtpErrorMessage(err))
@@ -339,6 +370,8 @@ export function AuthFlow({
       })
       const data = await res.json().catch(() => ({}))
 
+      if (!activeRef.current) return
+
       if (!res.ok) throw new Error(data.error || '验证失败')
 
       const isNewUser = data.isNewUser === true
@@ -363,6 +396,9 @@ export function AuthFlow({
       }
 
       if (data.redirectUrl) {
+        // A document redirect cannot carry in-memory drafts or callbacks. Keep
+        // the layer and explain retry instead of silently losing the activity.
+        if (presentation === 'layer') throw new Error('登录会话未建立，请重试；当前页面内容已保留。')
         const redirectUrl = new URL(data.redirectUrl)
         if (!['https:', 'http:'].includes(redirectUrl.protocol)) throw new Error('登录链接无效，请重新验证。')
         redirectUrl.searchParams.set('redirect_to', `${window.location.origin}${phoneRecoveryAfterOtp ? getRecoveryHref() : resolveSuccessTarget(isNewUser)}`)
@@ -527,33 +563,44 @@ export function AuthFlow({
       )}>
         <div className="space-y-5">
           <div className="flex items-start justify-between gap-4">
-            <div className="space-y-2">
-              <h1 id={titleId} className="font-sans text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            <div className="min-w-0 space-y-1.5">
+              <h1 id={titleId} className={cn('font-sans font-semibold tracking-tight text-foreground', presentation === 'layer' ? 'text-xl sm:text-2xl' : 'text-2xl sm:text-3xl')}>
                 {resolvedTitle}
               </h1>
               {resolvedDescription && (
-                <p id={descriptionId} className="max-w-136 text-sm leading-6 text-muted-foreground">
+                <p id={descriptionId} className="max-w-136 text-sm leading-5 text-muted-foreground text-pretty">
                   {resolvedDescription}
                 </p>
               )}
             </div>
 
-            <Button
-              type="button"
-              onClick={presentation === 'page' ? onBack : onClose}
-              variant="ghost"
-              size="icon"
-              aria-label={presentation === 'page' ? '返回' : '关闭登录层'}
-              className="h-11 w-11 shrink-0 text-foreground/82 hover:bg-muted"
-            >
-              {presentation === 'page' ? <ArrowLeft className="h-4 w-4" /> : <X className="h-5 w-5" />}
-            </Button>
+            {presentation === 'page' ? (
+              <Button
+                type="button"
+                onClick={onBack}
+                variant="ghost"
+                size="icon"
+                aria-label="返回"
+                className="-mr-2 -mt-1.5 h-10 w-10 shrink-0 rounded-full text-muted-foreground hover:bg-muted hover:text-foreground"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+            ) : (
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="先去探索，关闭登录层"
+                className="-mr-2 -mt-1 inline-flex h-9 shrink-0 items-center whitespace-nowrap rounded-full px-3 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:bg-muted focus-visible:text-foreground focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-border"
+              >
+                先去探索
+              </button>
+            )}
           </div>
 
           {!isResetMode && !phoneRecoveryAfterOtp && (
-            <div role="group" aria-label="登录方式" className="grid grid-cols-2 gap-1 rounded-lg border border-border/80 bg-muted p-1">
+            <div role="group" aria-label="登录方式" className="grid grid-cols-2 gap-1 rounded-xl bg-muted/70 p-1 dark:bg-muted/50">
               {([['phone', '验证码登录'], ['email', '密码登录']] as const).map(([value, label]) => (
-                <button key={value} type="button" aria-pressed={method === value} disabled={loading} onClick={() => switchLoginMethod(value)} className={cn('min-h-11 rounded-md px-3 py-2.5 text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60', method === value ? 'bg-background text-foreground shadow-xs' : 'text-muted-foreground hover:text-foreground')}>
+                <button key={value} type="button" aria-pressed={method === value} disabled={loading} onClick={() => switchLoginMethod(value)} className={cn('h-10 rounded-lg px-3 text-sm transition-all focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-60', method === value ? 'bg-background font-semibold text-foreground shadow-sm ring-1 ring-border/60 dark:bg-card dark:ring-white/10' : 'font-medium text-muted-foreground hover:text-foreground')}>
                   {label}
                 </button>
               ))}
@@ -590,7 +637,7 @@ export function AuthFlow({
                         value={phone}
                         onChange={(event) => setPhone(event.target.value)}
                         disabled={loading}
-                        className="h-12 rounded-md border-border/80 bg-background pl-10 text-base"
+                        className="h-12 rounded-xl border-border bg-background shadow-none transition-colors focus-visible:border-primary/60 dark:bg-muted/30 pl-10 text-base"
                         required
                       />
                     </div>
@@ -629,7 +676,7 @@ export function AuthFlow({
                         value={otp}
                         onChange={(event) => setOtp(event.target.value.replace(/\D/g, '').slice(0, 6))}
                         disabled={loading}
-                        className="h-12 rounded-md border-border/80 bg-background text-[16px] tracking-[0.28em]"
+                        className="h-12 rounded-xl border-border bg-background shadow-none transition-colors focus-visible:border-primary/60 dark:bg-muted/30 text-[16px] tracking-[0.28em]"
                         maxLength={6}
                         minLength={6}
                         pattern="[0-9]{6}"
@@ -667,7 +714,7 @@ export function AuthFlow({
                       value={email}
                       onChange={(event) => setEmail(event.target.value)}
                       disabled={loading}
-                      className="h-12 rounded-md border-border/80 bg-background pl-10 text-base"
+                      className="h-12 rounded-xl border-border bg-background shadow-none transition-colors focus-visible:border-primary/60 dark:bg-muted/30 pl-10 text-base"
                       required
                     />
                   </div>
@@ -703,7 +750,7 @@ export function AuthFlow({
                         disabled={loading}
                         autoComplete={emailMode === 'sign_in' ? 'current-password' : 'new-password'}
                         minLength={6}
-                        className="h-12 rounded-md border-border/80 bg-background pl-10 pr-12 text-base"
+                        className="h-12 rounded-xl border-border bg-background shadow-none transition-colors focus-visible:border-primary/60 dark:bg-muted/30 pl-10 pr-12 text-base"
                         required
                       />
                       <button type="button" aria-label={showPassword ? '隐藏密码' : '显示密码'} aria-pressed={showPassword} disabled={loading} onClick={() => setShowPassword((current) => !current)} className="absolute right-1 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-sm text-muted-foreground hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring">
@@ -737,7 +784,7 @@ export function AuthFlow({
 
             {showConsent && (
               <div>
-                <div className="flex items-start gap-2">
+                <div className="flex items-center gap-2">
                   <Checkbox
                     id={`${presentation}-terms`}
                     checked={termsAgreed}
@@ -745,9 +792,9 @@ export function AuthFlow({
                     onCheckedChange={(checked) => {
                       setTermsAgreed(checked === true)
                     }}
-                    className="mt-0.5"
+                    className="shrink-0"
                   />
-                  <label htmlFor={`${presentation}-terms`} className="text-xs leading-6 text-muted-foreground">
+                  <label htmlFor={`${presentation}-terms`} className="text-xs leading-5 text-muted-foreground">
                     我已阅读并同意
                     <Link href="/legal/terms" className="whitespace-nowrap text-primary hover:underline">《服务条款》</Link>
                     和
@@ -757,7 +804,7 @@ export function AuthFlow({
               </div>
             )}
 
-            <Button type="submit" shape="soft" className="h-12 w-full text-base font-semibold" disabled={loading || (isPhoneMethod && (otpStep === 'verify' ? otp.length !== 6 : otpCooldown > 0))}>
+            <Button type="submit" shape="soft" className="h-12 w-full rounded-xl text-base font-semibold shadow-sm" disabled={loading || (isPhoneMethod && (otpStep === 'verify' ? otp.length !== 6 : otpCooldown > 0))}>
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

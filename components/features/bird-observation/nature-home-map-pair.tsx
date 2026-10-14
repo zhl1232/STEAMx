@@ -1,17 +1,23 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
+import { getSuggestedSpeciesLabel } from "@/lib/observations/display"
 import Link from "next/link"
 import { Camera, ChevronRight, Leaf, MapPin } from "lucide-react"
 
 import { DomesticMiniMap } from "@/components/features/bird-observation/domestic-mini-map"
 import { OptimizedImage } from "@/components/ui/optimized-image"
+import { UserAvatar } from "@/components/ui/user-avatar"
 import type { ObservationEvent } from "@/lib/mappers/types"
 import { buildNatureSubmitHref } from "@/lib/utils/nature-navigation"
 
 interface NatureHomeMapPairProps {
   observations: ObservationEvent[]
   mapObservations: ObservationEvent[]
+  /** 公开记录总数（移动端地图下方摘要） */
+  totalObservationCount?: number
+  /** 观察地点数（移动端地图下方摘要） */
+  locationCount?: number
 }
 
 const BEIJING_CENTER = { lat: 39.9042, lon: 116.4074 }
@@ -24,7 +30,12 @@ function formatDate(dateString: string) {
   })
 }
 
-export function NatureHomeMapPair({ observations, mapObservations }: NatureHomeMapPairProps) {
+export function NatureHomeMapPair({
+  observations,
+  mapObservations,
+  totalObservationCount,
+  locationCount,
+}: NatureHomeMapPairProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const itemRefs = useRef<Map<string, HTMLAnchorElement | null>>(new Map())
 
@@ -58,8 +69,102 @@ export function NatureHomeMapPair({ observations, mapObservations }: NatureHomeM
 
   return (
     <>
-      {/* 移动端：完全解耦为【生态足迹地图】与【最新观察 2x2 对称网格】两大独立区块 */}
+      {/* 移动端：完全解耦为【生态足迹地图】与【大家的发现 2x2 网格】与【生态足迹地图】两大独立区块 */}
       <div className="space-y-4 md:hidden">
+        {/* 最新观察独立网格 */}
+        <section aria-labelledby="nature-mobile-obs-heading" className="space-y-2.5">
+          <div className="flex items-center justify-between px-1">
+            <h2 id="nature-mobile-obs-heading" className="text-[15px] font-bold text-foreground min-[390px]:text-[16px]">
+              大家的发现
+            </h2>
+            {observations.length > 0 ? (
+              <Link
+                href="/nature/observations"
+                className="inline-flex min-h-11 items-center justify-center gap-0.5 rounded-sm px-1 text-xs font-semibold text-[hsl(var(--primary))] transition-colors hover:text-[hsl(var(--primary)/0.85)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              >
+                查看全部记录
+                <ChevronRight className="h-3.5 w-3.5" />
+              </Link>
+            ) : null}
+          </div>
+
+          {observations.length === 0 ? (
+            <div className="flex min-h-[140px] flex-col items-center justify-center gap-2.5 rounded-sm border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.5)] px-6 py-6 text-center">
+              <Leaf className="h-6 w-6 text-muted-foreground" />
+              <p className="text-xs text-muted-foreground">
+                还没有公开观察。第一条由你来发布吧。
+              </p>
+              <Link href={submitHref} className="nature-action-link px-3 text-xs">
+                发布观察
+                <ChevronRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          ) : (
+              <div className="grid grid-cols-2 gap-2.5 min-[390px]:gap-3">
+                {mobileObservations.map((observation) => {
+                  const speciesName = observation.species[0]?.commonName
+                  const suggestedLabel = getSuggestedSpeciesLabel(observation)
+                  const isPending = !speciesName
+
+                  return (
+                    <Link
+                      key={observation.id}
+                      href={`/nature/observations/${observation.id}`}
+                      className="group block overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.8)] bg-[hsl(var(--surface-raised))] shadow-xs transition-all duration-300 hover:border-[hsl(var(--primary)/0.4)] hover:bg-[hsl(var(--surface-raised)/0.98)] hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                    >
+                      <div className="relative aspect-4/3 w-full overflow-hidden bg-muted/40">
+                        {observation.mediaUrls[0] ? (
+                          <OptimizedImage
+                            src={observation.mediaUrls[0]}
+                            alt={speciesName ?? suggestedLabel ?? "待鉴定观察"}
+                            fill
+                            variant="card"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            sizes="(max-width: 768px) 48vw, 240px"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+                            <Camera className="h-6 w-6" />
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                        {isPending ? (
+                          <div className="absolute left-2 top-2">
+                            <span className="inline-flex items-center rounded-xs bg-black/45 px-1.5 py-0.5 text-[10px] font-bold text-amber-300 backdrop-blur-md">
+                              待鉴定
+                            </span>
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="p-2.5 min-[390px]:p-3">
+                        <h3 className="truncate text-[13px] font-bold text-foreground transition-colors group-hover:text-[hsl(var(--primary))] min-[390px]:text-[14px]">
+                          {speciesName ?? suggestedLabel ?? "自然观察记录"}
+                        </h3>
+                        <p className="mt-1 flex items-center gap-1 truncate text-[11px] text-muted-foreground">
+                          <MapPin className="h-3 w-3 shrink-0 text-[hsl(var(--primary))]" />
+                          <span className="truncate">{observation.locationName || "未知地点"}</span>
+                        </p>
+                        <div className="mt-1.5 flex items-center justify-between border-t border-[hsl(var(--surface-border)/0.6)] pt-1.5 text-[10px] text-muted-foreground/85 min-[390px]:mt-2 min-[390px]:pt-2">
+                          <span className="flex min-w-0 items-center gap-1">
+                            <UserAvatar
+                              userId={observation.userId}
+                              name={observation.authorDisplayName || "自然观察者"}
+                              src={observation.authorAvatarUrl}
+                              href={null}
+                              className="h-4 w-4 shrink-0 text-[8px]"
+                            />
+                            <span className="truncate font-medium">{observation.authorDisplayName || "自然观察者"}</span>
+                          </span>
+                          <span className="shrink-0">{formatDate(observation.createdAt)}</span>
+                        </div>
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+          )}
+        </section>
+
         {/* 地图独立卡片 */}
         <section aria-labelledby="nature-mobile-map-heading" className="space-y-2">
           <div className="flex items-center justify-between px-1">
@@ -87,93 +192,12 @@ export function NatureHomeMapPair({ observations, mapObservations }: NatureHomeM
               onMarkerHover={setHoveredId}
             />
           </div>
-        </section>
-
-        {/* 最新观察独立网格 */}
-        <section aria-labelledby="nature-mobile-obs-heading" className="space-y-2.5">
-          <div className="px-1">
-            <h2 id="nature-mobile-obs-heading" className="text-[15px] font-bold text-foreground min-[390px]:text-[16px]">
-              最新观察
-            </h2>
-          </div>
-
-          {observations.length === 0 ? (
-            <div className="flex min-h-[140px] flex-col items-center justify-center gap-2.5 rounded-sm border border-dashed border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.5)] px-6 py-6 text-center">
-              <Leaf className="h-6 w-6 text-muted-foreground" />
-              <p className="text-xs text-muted-foreground">
-                还没有公开观察。第一条由你来发布吧。
-              </p>
-              <Link href={submitHref} className="nature-action-link px-3 text-xs">
-                发布观察
-                <ChevronRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-2 gap-2.5 min-[390px]:gap-3">
-                {mobileObservations.map((observation) => {
-                  const speciesName = observation.species[0]?.commonName
-                  const isPending = !speciesName
-
-                  return (
-                    <Link
-                      key={observation.id}
-                      href={`/nature/observations/${observation.id}`}
-                      className="group block overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.8)] bg-[hsl(var(--surface-raised))] shadow-xs transition-all duration-300 hover:border-[hsl(var(--primary)/0.4)] hover:bg-[hsl(var(--surface-raised)/0.98)] hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-                    >
-                      <div className="relative aspect-4/3 w-full overflow-hidden bg-muted/40">
-                        {observation.mediaUrls[0] ? (
-                          <OptimizedImage
-                            src={observation.mediaUrls[0]}
-                            alt={speciesName ?? "待鉴定观察"}
-                            fill
-                            variant="card"
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
-                            sizes="(max-width: 768px) 48vw, 240px"
-                          />
-                        ) : (
-                          <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                            <Camera className="h-6 w-6" />
-                          </div>
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                        {isPending ? (
-                          <div className="absolute left-2 top-2">
-                            <span className="inline-flex items-center rounded-xs bg-black/45 px-1.5 py-0.5 text-[10px] font-bold text-amber-300 backdrop-blur-md">
-                              待鉴定
-                            </span>
-                          </div>
-                        ) : null}
-                      </div>
-                      <div className="p-2.5 min-[390px]:p-3">
-                        <h3 className="truncate text-[13px] font-bold text-foreground transition-colors group-hover:text-[hsl(var(--primary))] min-[390px]:text-[14px]">
-                          {speciesName ?? "自然观察记录"}
-                        </h3>
-                        <p className="mt-1 flex items-center gap-1 truncate text-[11px] text-muted-foreground">
-                          <MapPin className="h-3 w-3 shrink-0 text-[hsl(var(--primary))]" />
-                          <span className="truncate">{observation.locationName || "未知地点"}</span>
-                        </p>
-                        <div className="mt-1.5 flex items-center justify-between border-t border-[hsl(var(--surface-border)/0.6)] pt-1.5 text-[10px] text-muted-foreground/85 min-[390px]:mt-2 min-[390px]:pt-2">
-                          <span className="truncate font-medium">{observation.authorDisplayName || "自然观察者"}</span>
-                          <span className="shrink-0">{formatDate(observation.createdAt)}</span>
-                        </div>
-                      </div>
-                    </Link>
-                  )
-                })}
-              </div>
-
-              <div>
-                <Link
-                  href="/nature/observations"
-                  className="flex min-h-11 items-center justify-center gap-1.5 rounded-sm border border-[hsl(var(--primary)/0.25)] bg-[hsl(var(--surface-raised))] px-4 text-xs font-bold text-[hsl(var(--primary))] shadow-2xs transition-all duration-300 hover:border-[hsl(var(--primary)/0.5)] hover:bg-[hsl(var(--status-info-surface)/0.5)] active:scale-[0.99]"
-                >
-                  查看全部观察记录
-                  <ChevronRight className="h-3.5 w-3.5" />
-                </Link>
-              </div>
-            </>
-          )}
+          {totalObservationCount != null ? (
+            <p className="px-1 text-[11px] text-muted-foreground">
+              {totalObservationCount} 条公开记录
+              {locationCount != null ? ` · ${locationCount} 个观察地点` : null}
+            </p>
+          ) : null}
         </section>
       </div>
 
@@ -221,6 +245,7 @@ export function NatureHomeMapPair({ observations, mapObservations }: NatureHomeM
                   const id = String(observation.id)
                   const isActive = id === hoveredId
                   const speciesName = observation.species[0]?.commonName
+                  const suggestedLabel = getSuggestedSpeciesLabel(observation)
 
                   return (
                     <li key={observation.id}>
@@ -242,7 +267,7 @@ export function NatureHomeMapPair({ observations, mapObservations }: NatureHomeM
                           {observation.mediaUrls[0] ? (
                             <OptimizedImage
                               src={observation.mediaUrls[0]}
-                              alt={speciesName ?? "待鉴定观察"}
+                              alt={speciesName ?? suggestedLabel ?? "待鉴定观察"}
                               fill
                               variant="thumbnail"
                               className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -262,7 +287,7 @@ export function NatureHomeMapPair({ observations, mapObservations }: NatureHomeM
                               ) : (
                                 <span className="inline-flex items-center gap-1.5">
                                   <span className="nature-chip">待鉴定</span>
-                                  <span className="text-muted-foreground">观察记录</span>
+                                  <span className="text-muted-foreground">{suggestedLabel ?? "观察记录"}</span>
                                 </span>
                               )}
                             </p>

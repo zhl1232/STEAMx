@@ -24,6 +24,7 @@ const domOnlyTsTests = [
     'hooks/playground/use-game-room.test.ts',
     'hooks/playground/use-gomoku-online.test.ts',
     'hooks/playground/use-tangram.test.ts',
+    'lib/auth/pending-otp.test.ts',
     'lib/explore-scroll-restore.test.ts',
     'lib/explore/project-navigation-context.test.ts',
     'lib/navigation/return-href.test.ts',
@@ -32,6 +33,13 @@ const domOnlyTsTests = [
     'lib/playground/minesweeper-stats.test.ts',
     'lib/playground/storage.test.ts',
 ]
+
+// Pin Supabase env to the CI values so local worktrees/hooks with real or
+// placeholder (non-URL) values behave like CI instead of failing at import
+// with "Invalid supabaseUrl" or reaching a live project.
+process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://example.com'
+process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'ci-placeholder-anon-key'
+delete process.env.SUPABASE_SERVICE_ROLE_KEY
 
 export default async () => {
     // Vitest Explorer may load this config via CommonJS `require`.

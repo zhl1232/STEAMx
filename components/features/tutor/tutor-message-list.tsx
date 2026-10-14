@@ -16,10 +16,8 @@ import type {
 } from '@/components/features/tutor/use-tutor-history'
 import { buildStartStagePrompt } from '@/lib/ai/tutor/greeting'
 import type { TutorResourceClarification } from '@/lib/ai/tutor/resource-clarification'
-import type { AiCreditStatus, TutorGreeting } from '@/lib/ai/tutor/types'
-import type { TutorBilling } from '@/lib/ai/tutor/types'
-import { formatTutorCredits } from '@/lib/ai/tutor/billing'
-import { MEMBER_AI_MONTHLY_CREDITS } from '@/lib/membership'
+import type { AiCreditStatus, TutorBilling, TutorGreeting } from '@/lib/ai/tutor/types'
+import { TUTOR_CREDIT_EXHAUSTED_MESSAGE } from '@/lib/ai/tutor/billing'
 import { cn } from '@/lib/utils'
 import { BRAND_FULL_NAME } from '@/lib/brand'
 
@@ -55,13 +53,9 @@ export type TutorMessageListProps = {
   ) => void
 }
 
-export function formatTutorBillingCaption(billing?: TutorBilling): string | null {
-  if (!billing) return null
-  const usage = typeof billing.outputTokens === 'number' && !billing.usageMissing
-    ? ` · ${billing.outputTokens} token`
-    : ''
-  if (billing.source === 'free') return `本次免费${usage}`
-  return `本次 ${formatTutorCredits(billing.chargedCredits)} 代币${usage}`
+/** Per-message charge captions are intentionally hidden from the chat UI. */
+export function formatTutorBillingCaption(_billing?: TutorBilling): string | null {
+  return null
 }
 
 /** 小迪面板滚动消息区：聊天 / 历史列表 / 历史详情三个视图 */
@@ -225,7 +219,6 @@ export function TutorMessageList({
                   {message.clarification ? (
                     <TutorClarificationOptions clarification={message.clarification} />
                   ) : null}
-                  {message.billing ? <BillingCaption billing={message.billing} /> : null}
                 </TutorBubble>
               ) : (
                 <UserBubble key={i} message={message} />
@@ -284,7 +277,8 @@ export function TutorMessageList({
 
       {isAuthenticated && view === 'chat' &&
         messages.map((message, i) => {
-          if (message.role === 'divider') return <p key={i} className="py-1 text-center text-xs text-muted-foreground">{message.content}</p>
+          // Browse-trail dividers used to leak as「现在在：…」; skip any leftover in memory.
+          if (message.role === 'divider') return null
           const speechKey = message.speechKey ?? `chat-${i}`
           return message.role === 'assistant' ? (
             <TutorBubble
@@ -316,7 +310,6 @@ export function TutorMessageList({
                   onSelect={onSendPrompt}
                 />
               ) : null}
-              {message.billing ? <BillingCaption billing={message.billing} /> : null}
               {message.stopped ? <p className="text-xs text-muted-foreground">已停止接收。回复可能仍会保存，可稍后重新打开对话查看。</p> : null}
               {message.streaming && !message.content ? <ThinkingIndicator phase={streamPhase} /> : null}
             </TutorBubble>
@@ -333,7 +326,7 @@ export function TutorMessageList({
 
       {isAuthenticated && view === 'chat' && quota && !quota.canChat && (
         <div className="rounded-sm border border-[hsl(var(--brand-blue)/0.25)] bg-[hsl(var(--status-info-surface)/0.35)] p-3 text-xs leading-5 text-foreground/85">
-          今日免费次数或本月代币已用完。开通会员每月可获 {MEMBER_AI_MONTHLY_CREDITS} 代币，绝大多数时间够用～
+          {TUTOR_CREDIT_EXHAUSTED_MESSAGE}
         </div>
       )}
       {isAuthenticated && view === 'chat' && recoveryAction && (
@@ -351,11 +344,6 @@ export function TutorMessageList({
     )}
     </div>
   )
-}
-
-function BillingCaption({ billing }: { billing: TutorBilling }) {
-  const caption = formatTutorBillingCaption(billing)
-  return caption ? <p className="mt-1 text-[10px] leading-4 text-muted-foreground">{caption}</p> : null
 }
 
 function UserBubble({ message }: { message: TutorChatMessage }) {

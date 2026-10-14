@@ -38,8 +38,6 @@ describe('readTutorStreamEvents', () => {
     const billing = {
       source: 'wallet' as const,
       chargedCredits: 0.123,
-      outputTokens: 123,
-      usageMissing: false,
       receiptId: 42,
     }
     await expect(collect([

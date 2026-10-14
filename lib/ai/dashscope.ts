@@ -1,4 +1,5 @@
 import { logger } from '@/lib/logger'
+import { classifyProviderFailure, MAX_PROVIDER_ATTEMPTS, providerRetryDelayMs, waitForProviderRetry } from './provider-retry'
 
 const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
 const DEFAULT_TUTOR_TEXT_MODEL = 'qwen-flash'
@@ -20,8 +21,8 @@ const DEFAULT_MODEL_CANDIDATES = {
   'pbl-text': ['qwen3.8-max', 'qwen3.7-plus', 'qwen3.7-flash', 'qwen-flash'],
   'pbl-vision': ['qwen3.7-plus', 'qwen3-vl-flash'],
   'tutor-tts': ['qwen3-tts-flash', 'qwen3-tts-flash-2025-11-27'],
-  'tutor-tts-realtime': ['qwen3-tts-flash-realtime', 'qwen3-tts-flash-realtime-2025-11-27'],
-  'tutor-asr': ['qwen3-asr-flash-realtime', 'qwen3-asr-flash-realtime-2025-10-27'],
+  'tutor-tts-realtime': ['qwen-audio-3.1-tts-flash'],
+  'tutor-asr': ['qwen-audio-3.1-asr-flash-streaming'],
 } as const
 
 type ModelCatalogState = {
@@ -58,6 +59,28 @@ export type DashScopeTokenUsage = {
   completionTokens?: number
   totalTokens?: number
   reasoningTokens?: number
+}
+
+export type DashScopeUsageStatus = 'completed' | 'failed' | 'rejected'
+
+/** A caller-owned handle for one physical provider attempt, never a global meter. */
+export type DashScopeUsageHandle = {
+  maxOutputTokens: number
+  finish: (result: { usage: DashScopeTokenUsage | null; status: DashScopeUsageStatus }) => void
+}
+
+export type DashScopeUsageObserver = {
+  start: (input: {
+    role: DashScopeModelRole
+    model: string
+    payload: Record<string, unknown>
+  }) => DashScopeUsageHandle
+  /** Optional admission recovery, before this provider attempt is sent. */
+  recoverBudget?: (input: {
+    role: DashScopeModelRole
+    model: string
+    payload: Record<string, unknown>
+  }, error: unknown) => Promise<boolean>
 }
 
 export class DashScopeError extends Error {
@@ -174,6 +197,19 @@ function getConfiguredModelCandidates(role: DashScopeModelRole) {
   const legacyModel = resolveModel(role)
   if (!isModelAutoSwitchEnabled()) return [legacyModel]
 
+  if (role === 'moderation') {
+    // An explicit moderation model (list or single) must win over the shared
+    // vision list; otherwise DASHSCOPE_MODERATION_MODEL was silently ignored
+    // and moderation ran on the (slow) vision model.
+    const explicit = uniqueModels([
+      ...parseModelList(process.env.DASHSCOPE_MODERATION_MODELS),
+      ...parseModelList(process.env.DASHSCOPE_MODERATION_MODEL),
+    ])
+    if (explicit.length > 0) {
+      return uniqueModels([...explicit, ...DEFAULT_MODEL_CANDIDATES[role], legacyModel])
+    }
+  }
+
   const configuredModels = modelListEnvKeys(role).flatMap((key) => parseModelList(process.env[key]))
   return uniqueModels([
     ...configuredModels,
@@ -198,9 +234,8 @@ function filterUnavailableModels(role: DashScopeModelRole, models: string[]) {
     return false
   })
 
-  // All candidates may be cooling down after a provider-wide incident. Probe the
-  // preferred one again instead of turning the whole application off for five minutes.
-  return available.length > 0 ? available : models.slice(0, 1)
+  // Fail closed until a cooldown expires; do not let every user probe a known outage.
+  return available
 }
 
 async function loadModelCatalog(apiKey: string, baseUrl: string): Promise<Set<string> | null> {
@@ -269,20 +304,8 @@ export function markDashScopeModelUnavailable(role: DashScopeModelRole, model: s
   unavailableModels.set(modelAvailabilityKey(role, model), Date.now() + MODEL_UNAVAILABLE_COOLDOWN_MS)
 }
 
-function providerErrorText(details: unknown) {
-  try {
-    return typeof details === 'string' ? details : JSON.stringify(details) || ''
-  } catch {
-    return ''
-  }
-}
-
 export function isDashScopeModelAvailabilityError(status: number, details?: unknown) {
-  if ([403, 404, 408, 409, 429, 500, 502, 503, 504].includes(status)) return true
-  if (status !== 400) return false
-  return /model|quota|rate.?limit|throttl|unavailable|not.?found|capacity|free.?tier|exhaust|exceed|arrearage|insufficient|resource/i.test(
-    providerErrorText(details),
-  )
+  return classifyProviderFailure(status, details) !== 'stop'
 }
 
 export function resetDashScopeModelState() {
@@ -329,6 +352,7 @@ export function parseDashScopeUsage(raw: unknown): DashScopeTokenUsage | null {
     completion_tokens_details?: { reasoning_tokens?: unknown } | null
   }
   const pick = (value: unknown) => (typeof value === 'number' && Number.isSafeInteger(value) && value >= 0 ? value : undefined)
+  if ([usage.prompt_tokens, usage.completion_tokens, usage.total_tokens].some((value) => value != null && pick(value) === undefined)) return null
   if (usage.completion_tokens_details?.reasoning_tokens != null &&
       pick(usage.completion_tokens_details.reasoning_tokens) === undefined) return null
   const parsed: DashScopeTokenUsage = {
@@ -371,12 +395,25 @@ function logFailure(input: {
   })
 }
 
-/** Only known hybrid tutor models accept false; fixed-thinking/custom models may reject it.
- * https://help.aliyun.com/en/model-studio/qwen-api-via-dashscope
+/** Hybrid Qwen3.5+ models default enable_thinking=true; turn it off for non-streaming
+ * JSON/vision calls so they finish inside DASHSCOPE_COMPLETE_TIMEOUT_MS.
+ * Fixed-thinking/custom models may reject the flag — skip those.
+ * https://help.aliyun.com/zh/model-studio/vision
  */
+const THINKING_OPTIONAL_ROLES: DashScopeModelRole[] = [
+  'tutor-text',
+  'tutor-planner',
+  'tutor-vision',
+  'vision',
+  'moderation',
+  'pbl-text',
+  'pbl-vision',
+]
+
 function tutorThinkingOptions(role: DashScopeModelRole, model: string) {
-  if (!['tutor-text', 'tutor-planner', 'tutor-vision'].includes(role)) return {}
-  const family = model.replace(/-(?:latest|\d{4}-\d{2}-\d{2})$/, '')
+  if (!THINKING_OPTIONAL_ROLES.includes(role)) return {}
+  // Strip snapshot suffixes: -latest, -2026-09-02, and short -0902 (e.g. qwen3.8-max-0902).
+  const family = model.replace(/-(?:latest|\d{4}-\d{2}-\d{2}|\d{4})$/, '')
   return /^(?:qwen3\.[78]-(?:max|plus|flash)|qwen3-vl-(?:plus|flash)|qwen-flash)$/.test(family)
     ? { enable_thinking: false }
     : {}
@@ -387,8 +424,19 @@ export async function dashScopeChatCompletions(input: {
   role: DashScopeModelRole
   timeoutMs: number
   payload: Record<string, unknown>
-}): Promise<{ response: Response; model: string }> {
+  usageObserver?: DashScopeUsageObserver
+}): Promise<{ response: Response; model: string; usageCapture?: DashScopeUsageHandle }> {
   const startedAt = Date.now()
+  if (!Number.isFinite(input.timeoutMs) || input.timeoutMs < 1) throw new RangeError('Invalid provider timeout')
+  const totalTimeoutMs = Math.ceil(Math.min(input.timeoutMs, DASHSCOPE_STREAM_TIMEOUT_MS))
+  const deadline = startedAt + totalTimeoutMs
+  // One deadline includes discovery, admission, retries, backoff and response-body streaming.
+  const chainSignal = AbortSignal.timeout(totalTimeoutMs)
+  const ensureDeadline = (capture?: DashScopeUsageHandle) => {
+    if (!chainSignal.aborted && Date.now() < deadline) return
+    capture?.finish({ usage: null, status: 'rejected' }) // Nothing dispatched for this attempt.
+    throw new DashScopeError({ code: 'timeout', message: 'DashScope request deadline exceeded', status: 504 })
+  }
   let apiKey: string
   let baseUrl: string
   let model: string
@@ -401,11 +449,27 @@ export async function dashScopeChatCompletions(input: {
     throw error
   }
 
-  const models = await getDashScopeModelCandidates(input.role)
+  const models = (await getDashScopeModelCandidates(input.role)).slice(0, MAX_PROVIDER_ATTEMPTS)
   let lastError: DashScopeError | null = null
 
   for (const candidate of models) {
+    ensureDeadline()
     model = candidate
+    // Admission is synchronous so concurrent planners cannot spend the same budget.
+    // A denied attempt never reaches the provider and is not a usage entry.
+    const usageInput = { role: input.role, model, payload: input.payload }
+    let usageCapture: DashScopeUsageHandle | undefined
+    if (input.usageObserver) {
+      try {
+        usageCapture = input.usageObserver.start(usageInput)
+      } catch (error) {
+        if (!input.usageObserver.recoverBudget || !await input.usageObserver.recoverBudget(usageInput, error)) throw error
+        // Retry admission once, never the provider call. Previously completed
+        // planners and in-flight reservations stay in the same request scope.
+        usageCapture = input.usageObserver.start(usageInput)
+      }
+    }
+    ensureDeadline(usageCapture)
     let response: Response
     try {
       response = await fetch(`${baseUrl}/chat/completions`, {
@@ -414,10 +478,16 @@ export async function dashScopeChatCompletions(input: {
           Authorization: `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...tutorThinkingOptions(input.role, model), ...input.payload, model }),
-        signal: AbortSignal.timeout(input.timeoutMs),
+        body: JSON.stringify({
+          ...tutorThinkingOptions(input.role, model),
+          ...input.payload,
+          ...(usageCapture ? { max_tokens: usageCapture.maxOutputTokens } : {}),
+          model,
+        }),
+        signal: chainSignal,
       })
     } catch (error) {
+      usageCapture?.finish({ usage: null, status: 'failed' })
       const latencyMs = Date.now() - startedAt
       if (isDashScopeTimeoutError(error)) {
         logFailure({ role: input.role, model, code: 'timeout', status: 504, latencyMs })
@@ -442,10 +512,19 @@ export async function dashScopeChatCompletions(input: {
           skippedModels: models.slice(0, models.indexOf(candidate)),
         })
       }
-      return { response, model }
+      return { response, model, ...(usageCapture ? { usageCapture } : {}) }
     }
 
     const details = await response.json().catch(() => null)
+    const errorUsage = details && typeof details === 'object' && 'usage' in details
+      ? parseDashScopeUsage((details as { usage?: unknown }).usage)
+      : null
+    usageCapture?.finish({
+      usage: errorUsage,
+      // Explicit request/model rejections did not produce a completion. Unknown
+      // network/server failures retain their execution reservation instead.
+      status: [400, 401, 403, 404, 409, 429].includes(response.status) ? 'rejected' : 'failed',
+    })
     logFailure({
       role: input.role,
       model,
@@ -461,8 +540,13 @@ export async function dashScopeChatCompletions(input: {
     })
     lastError = error
 
-    if (!isDashScopeModelAvailabilityError(response.status, details)) throw error
+    const decision = classifyProviderFailure(response.status, details)
+    if (decision === 'stop') throw error
     markDashScopeModelUnavailable(input.role, model)
+    if (decision === 'backoff' && candidate !== models[models.length - 1]) {
+      const delayMs = providerRetryDelayMs(models.indexOf(candidate), response.headers?.get('Retry-After') ?? null)
+      if (!await waitForProviderRetry(delayMs, deadline)) throw error
+    }
   }
 
   throw lastError ?? new DashScopeError({
@@ -476,16 +560,18 @@ export async function dashScopeChatComplete(input: {
   role: DashScopeModelRole
   timeoutMs?: number
   payload: Record<string, unknown>
+  usageObserver?: DashScopeUsageObserver
 }): Promise<{
   text: string
   model: string
   usage: DashScopeTokenUsage | null
   raw: unknown
 }> {
-  const { response, model } = await dashScopeChatCompletions({
+  const { response, model, usageCapture } = await dashScopeChatCompletions({
     role: input.role,
     timeoutMs: input.timeoutMs ?? DASHSCOPE_COMPLETE_TIMEOUT_MS,
     payload: input.payload,
+    usageObserver: input.usageObserver,
   })
 
   const raw = (await response.json().catch(() => null)) as {
@@ -493,10 +579,13 @@ export async function dashScopeChatComplete(input: {
     usage?: unknown
   } | null
 
+  const usage = parseDashScopeUsage(raw?.usage)
+  usageCapture?.finish({ usage, status: raw ? 'completed' : 'failed' })
+
   return {
     text: parseDashScopeContent(raw?.choices?.[0]?.message?.content).trim(),
     model,
-    usage: parseDashScopeUsage(raw?.usage),
+    usage,
     raw,
   }
 }

@@ -1,4 +1,5 @@
-import { after, NextRequest, NextResponse } from 'next/server'
+import { getTutorVoiceAccess } from '@/lib/ai/tutor/voice-access'
+import { NextRequest, NextResponse } from 'next/server'
 
 import { buildTutorSceneContext } from '@/lib/ai/tutor/context-builders'
 import {
@@ -51,8 +52,9 @@ import {
 } from '@/lib/ai/tutor/types'
 import { logger } from '@/lib/logger'
 import { getAiCreditStatusForProfile } from '@/lib/api/ai-credits'
-import { archiveTutorChat, beginTutorRequest, completeTutorRequest, failTutorRequest, getTutorChatSession, type TutorRequestResult } from '@/lib/ai/tutor/requests'
-import { getTutorAnswerTokens, parseTutorBilling } from '@/lib/ai/tutor/billing'
+import { archiveTutorChat, beginTutorRequest, completeTutorRequest, failTutorRequest, fallbackTutorUsageToFree, getTutorChatSession, type TutorRequestResult } from '@/lib/ai/tutor/requests'
+import { parseTutorBilling, TUTOR_CREDIT_EXHAUSTED_MESSAGE } from '@/lib/ai/tutor/billing'
+import { createTutorUsageCollector } from '@/lib/ai/tutor/usage'
 import type { TutorBilling } from '@/lib/ai/tutor/types'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
@@ -67,7 +69,7 @@ import {
 import { TutorSendSchema, type TutorSendInput } from '@/lib/schemas'
 import { createClient } from '@/lib/supabase/server'
 import type { Database } from '@/lib/supabase/types'
-import { createTutorSpeechStreamer } from '@/lib/ai/tutor/speech'
+import { createGuardedTutorSpeechStreamer as createTutorSpeechStreamer } from '@/lib/ai/tutor/guarded-speech'
 
 const HISTORY_LIMIT = 200
 const CONTEXT_TURNS = 12
@@ -252,7 +254,7 @@ function requestResultResponse(result: Exclude<TutorRequestResult, { status: 'st
     unavailable: '这条回复已删除，无法恢复。',
     conflict: '提问内容已变化，请重新发送。',
     stale_topic: '话题已更新，请重新打开对话后发送。',
-    rejected: '今日免费次数或本月代币已用完。',
+    rejected: TUTOR_CREDIT_EXHAUSTED_MESSAGE,
   }
   return NextResponse.json({ error: errors[result.status], requestState: result.status,
     ...(result.status === 'rejected' ? { code: result.error, resetAt: result.resetAt } : {}),
@@ -466,6 +468,18 @@ export async function POST(request: NextRequest) {
       }
     }
     pendingRefund = release
+    const usageCollector = createTutorUsageCollector({
+      maxTotalTokens: creditResult.maxTotalTokens,
+      onBudgetExceeded: (minimumTotalTokens) => fallbackTutorUsageToFree(user.id, parsed.data.requestId, {
+        receiptId, executorId: creditResult.executorId, minimumTotalTokens,
+      }),
+    })
+    const maintainMemory = () => Promise.allSettled([
+      maybeUpdateTutorNotebook(user.id, { usageObserver: usageCollector.forPurpose('notebook_summary') }),
+      maybeUpdateTutorConversationSummary(conversation.id, user.id, {
+        usageObserver: usageCollector.forPurpose('conversation_summary'),
+      }),
+    ])
     timing.mark('profile_credit')
 
     const [studentProfile, scene, notebook] = await Promise.all([
@@ -500,7 +514,8 @@ export async function POST(request: NextRequest) {
         items: sceneWithResources.scratchBlockItems ?? [],
       })
     const scratchScreenshotDiagnosisPromise = scratchScreenshotDiagnosisEligible
-      ? diagnoseScratchScreenshot({ content, images, items: scene.scratchBlockItems ?? [] })
+      ? diagnoseScratchScreenshot({ content, images, items: scene.scratchBlockItems ?? [],
+          usageObserver: usageCollector.forPurpose('scratch_diagnosis') })
       : null
     const messageAudiosPromise = canUseSpeciesAudio
       ? findSpeciesAudiosForMessage(supabase, content)
@@ -552,7 +567,8 @@ export async function POST(request: NextRequest) {
       content,
     }
     const runToolPlanner = () =>
-      planTutorToolDecision({ ...toolPlannerInput, previousMessages: plannerHistory }).catch((error) => {
+      planTutorToolDecision({ ...toolPlannerInput, previousMessages: plannerHistory,
+        usageObserver: usageCollector.forPurpose('tool_planner') }).catch((error) => {
         logger.warn('Tutor tool planner failed.', {
           contextType,
           contextId,
@@ -573,6 +589,7 @@ export async function POST(request: NextRequest) {
       hasImages: images.length > 0,
       hasCurrentLessonContext: contextType === 'course' && typeof lessonId === 'number',
       sceneSummary: scene.summary,
+      usageObserver: usageCollector.forPurpose('resource_planner'),
     })
     const resourceSearchPromise = resourcePlanPromise.then((plan) =>
       plan.shouldSearch && !plan.clarification ? searchTutorResources(supabase, plan) : null,
@@ -605,16 +622,16 @@ export async function POST(request: NextRequest) {
         ...clarificationMeta,
         clarification,
       }
+      await maintainMemory()
+      const usage = usageCollector.snapshot()
+      if (usage.pendingCalls > 0) throw new Error('Tutor usage is not finalized')
       commitAttempted = true
       const saved = await completeTutorRequest(user.id, parsed.data.requestId, {
         content: content || '请看看我的产出。', images, meta: clarificationMeta,
-        reply: clarificationReply, assistantMeta, outputTokens: null, clarification: true, title: scene.title,
+        reply: clarificationReply, assistantMeta, usage, clarification: true, title: scene.title,
       })
       pendingRefund = null
       if (saved.status !== 'completed') return requestResultResponse(saved as Exclude<TutorRequestResult, { status: 'started' }>)
-      after(async () => {
-        await Promise.all([maybeUpdateTutorNotebook(user.id), maybeUpdateTutorConversationSummary(conversation.id, user.id)])
-      })
       timing.mark('persist_clarification')
       timing.log('clarification', {
         contextType,
@@ -628,7 +645,8 @@ export async function POST(request: NextRequest) {
         events.push({ type: 'perf', phase: 'clarification', timings: timing.snapshot() })
       }
       events.push({ type: 'clarification', clarification })
-      events.push({ type: 'done', reply: clarificationReply })
+      const clarificationBilling = parseTutorBilling((saved.message.meta as Record<string, unknown>).billing)
+      events.push({ type: 'done', reply: clarificationReply, ...(clarificationBilling ? { billing: clarificationBilling } : {}) })
       const readable = new ReadableStream({
         start(controller) {
           for (const event of events) {
@@ -730,7 +748,7 @@ export async function POST(request: NextRequest) {
       scene: promptScene,
       profile: studentProfile,
       notebook,
-      // 会话滚动摘要：窗口外的早期对话内容（由 after() 里的后台任务滚动维护）
+      // 会话滚动摘要：前轮结算前维护的已保存消息，本轮新消息在后续请求中纳入。
       conversationSummary: conversation.summary,
       resourceSummary,
       replyFocusSummary,
@@ -741,7 +759,7 @@ export async function POST(request: NextRequest) {
     timing.mark('build_prompt')
     const earlyAudioPlanPromise =
       canUsePromptSpeciesAudio && availableAudios.length > 0
-        ? planTutorAudioAttachment(content, '', availableAudios)
+        ? planTutorAudioAttachment(content, '', availableAudios, { usageObserver: usageCollector.forPurpose('audio_planner') })
         : Promise.resolve<TutorAudioRef | null>(null)
 
     const encoder = new TextEncoder()
@@ -749,6 +767,7 @@ export async function POST(request: NextRequest) {
     // 客户端中途断开（关面板/刷新）后 enqueue 会抛错；用标记保证后续落库照常进行。
     let cancelled = false
     const speechRef: { current: ReturnType<typeof createTutorSpeechStreamer> | null } = { current: null }
+    let speechCompletion: Promise<boolean> | null = null
 
     const readable = new ReadableStream({
       cancel() {
@@ -783,15 +802,28 @@ export async function POST(request: NextRequest) {
               safeEnqueue({ type: 'perf', phase: 'server_ready', timings: timing.snapshot() })
             }
             if (wantSpeak) {
-              speechRef.current = createTutorSpeechStreamer({
+              const voiceAccess = await getTutorVoiceAccess(supabase, user).catch((error) => {
+                logger.warn('Tutor voice access failed before TTS', { error: String(error) })
+                return null
+              })
+              if (voiceAccess) {
+              speechRef.current = createTutorSpeechStreamer(user.id, {
+                voice: voiceAccess.voice,
+                signal: request.signal,
                 onAudio: (pcm, sampleRate) => {
-                  safeEnqueue({ type: 'audio', pcm, sampleRate })
+                  safeEnqueue({ type: 'audio', pcm, sampleRate, voice: voiceAccess.voice })
                 },
                 onError: (error) => {
+                  safeEnqueue({ type: 'audio_error', error: error.userMessage })
                   logger.warn('Tutor realtime TTS failed', { message: error.message })
                 },
               })
               // push() starts TTS lazily after a sanitized reply is available.
+              } else {
+                // Previously a profile lookup failure silently skipped TTS and the client only
+                // showed the generic "朗读未完成" toast with no actionable server error.
+                safeEnqueue({ type: 'audio_error', error: '暂时无法确认朗读设置，请重试。' })
+              }
             }
             for (const toolCall of toolCalls) {
               safeEnqueue({ type: 'tool_call', toolCall })
@@ -799,10 +831,11 @@ export async function POST(request: NextRequest) {
 
             const stream = streamChatWithTutor(systemPrompt, engineHistory, {
               maxTokens: creditResult.maxOutputTokens,
+              usageObserver: usageCollector.forPurpose('main_reply'),
               onVisionFallback: () => {
                 safeEnqueue({
                   type: 'warning',
-                  warning: '这次图片没能识别成功，小迪先按文字回复，仍只按回答 token 计费。',
+                  warning: '这次图片没能识别成功，小迪先根据文字回复。',
                 })
               },
               onTelemetry: (value) => {
@@ -831,6 +864,9 @@ export async function POST(request: NextRequest) {
                 speechRef.current?.push(safeContent)
               }
             }
+            // Close TTS input immediately; do not wait for memory, settlement or persistence.
+            // Observe rejection now so a fast audio failure cannot become unhandled.
+            speechCompletion = speechRef.current?.finish().catch(() => false) ?? null
             timing.mark('ai_stream_done')
           } catch (error) {
             speechRef.current?.abort()
@@ -861,14 +897,18 @@ export async function POST(request: NextRequest) {
             : []
           const availableAudioSlugs = new Set(availableAudios.map((audio) => audio.slug))
           const hasNewReplyAudios = replyAudios.some((audio) => !availableAudioSlugs.has(audio.slug))
+          // The early planner also consumed work when a later result replaces
+          // its choice. Wait for both so no request usage arrives after billing.
+          const earlyAudioPlan = await earlyAudioPlanPromise
           const selectedAudio = canUsePromptSpeciesAudio
             ? hasNewReplyAudios
               ? await planTutorAudioAttachment(
                   content,
                   fullReply,
                   mergeTutorAudios(availableAudios, replyAudios),
+                  { usageObserver: usageCollector.forPurpose('audio_planner') },
                 )
-              : await earlyAudioPlanPromise
+              : earlyAudioPlan
             : null
           fullReply = finalizeReplyAudio(fullReply, selectedAudio)
           timing.mark('finalize_audio')
@@ -883,7 +923,8 @@ export async function POST(request: NextRequest) {
             meta.scratchBlockTargetItemIndex = scratchBlockTargetItemIndex
           }
 
-          // 模型、token 用量与 prompt 版本只挂在助手消息上，供成本核对与提示词回归定位。
+          // Public messages keep only reply metadata. Raw per-call usage is
+          // stored by the settlement transaction in a service-only record.
           const assistantMeta: Record<string, unknown> = { ...meta }
           const finalTelemetry = telemetry as TutorEngineTelemetry | null
           assistantMeta.ai = {
@@ -893,16 +934,19 @@ export async function POST(request: NextRequest) {
               ? {
                   model: finalTelemetry.model,
                   visionFallback: finalTelemetry.visionFallback,
-                  ...(finalTelemetry.usage ? { usage: finalTelemetry.usage } : {}),
                 }
               : {}),
           }
 
+          // Fold previously saved messages before settlement, so this request
+          // owns all of its model work. Newly saved messages enter a later fold.
+          await maintainMemory()
+          const usage = usageCollector.snapshot()
+          if (usage.pendingCalls > 0) throw new Error('Tutor usage is not finalized')
           commitAttempted = true
           const saved = await completeTutorRequest(user.id, parsed.data.requestId, {
             content: content || '请看看我的产出。', images, meta, reply: fullReply, assistantMeta,
-            outputTokens: finalTelemetry?.outputSanitized && finalTelemetry.usage?.reasoningTokens == null
-              ? null : getTutorAnswerTokens(finalTelemetry?.usage),
+            usage,
             title: scene.title,
           })
           if (saved.status !== 'completed') {
@@ -911,12 +955,11 @@ export async function POST(request: NextRequest) {
           }
           replySaved = true
           billing = parseTutorBilling((saved.message.meta as Record<string, unknown>).billing) ?? undefined
-          if (billing?.usageMissing && billing.source === 'wallet') {
-            safeEnqueue({ type: 'warning', warning: '本次未取得准确的 token 用量，不收取代币。' })
+          if (usage.usageMissing && billing?.source === 'wallet') {
+            safeEnqueue({ type: 'warning', warning: usage.totalTokens > 0
+              ? '本次部分服务用量未能确认，只收取已确认部分的代币。'
+              : '本次费用未能准确核实，未收取代币。' })
           }
-          after(async () => {
-            await Promise.all([maybeUpdateTutorNotebook(user.id), maybeUpdateTutorConversationSummary(conversation.id, user.id)])
-          })
           timing.mark('persist_messages')
           timing.log('done', {
             contextType,
@@ -929,13 +972,14 @@ export async function POST(request: NextRequest) {
             safeEnqueue({ type: 'warning', warning: '本次回答已达到输出上限，可以继续提问。' })
           }
           safeEnqueue({ type: 'done', reply: fullReply, ...(billing ? { billing } : {}) })
-          if (speechRef.current) {
+          if (speechCompletion) {
+            let complete = false
             try {
-              await speechRef.current.finish()
+              complete = await speechCompletion
             } catch {
               // TTS 失败只静音，文字已经发出
             }
-            safeEnqueue({ type: 'audio_done' })
+            safeEnqueue({ type: 'audio_done', complete })
           }
         } catch (error) {
           speechRef.current?.abort()

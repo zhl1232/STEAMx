@@ -14,6 +14,7 @@ import {
 import { useProjects } from '@/lib/context/project-context';
 import { useAuth } from '@/lib/context/auth-context';
 import { useLoginPrompt } from '@/lib/context/login-prompt-context';
+import { useLoginContinuation } from '@/hooks/use-login-continuation';
 import { type Comment, type ReplyTarget } from "@/lib/mappers/types";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { getDisplayName } from "@/lib/utils/user";
@@ -316,6 +317,11 @@ export function ProjectComments({
     [profile, user],
   );
 
+  const submitComment = useLoginContinuation((
+    content: string, imageUrl?: string, parentId?: number,
+    replyToUserId?: string, replyToUsername?: string,
+  ) => addComment(projectId, buildCommentPayload(content, imageUrl, replyToUserId, replyToUsername), parentId));
+
   const handleSubmit = useCallback(
     async (
       e: React.FormEvent,
@@ -330,11 +336,7 @@ export function ProjectComments({
 
       const doSubmit = async () => {
         if (parentId != null) {
-          const addedReply = await addComment(
-            projectId,
-            buildCommentPayload(content, imageUrl, replyToUserId, replyToUsername),
-            parentId,
-          );
+          const addedReply = await submitComment(content, imageUrl, parentId, replyToUserId, replyToUsername);
           if (addedReply) {
             setComments((prev: Comment[]) => {
               const merged = new Map<string, Comment>();
@@ -353,10 +355,7 @@ export function ProjectComments({
             setSheetReplyTarget(null);
           }
         } else {
-          const addedComment = await addComment(
-            projectId,
-            buildCommentPayload(content, imageUrl),
-          );
+          const addedComment = await submitComment(content, imageUrl);
           if (addedComment) {
             setComments((prev: Comment[]) => {
               const merged = new Map<string, Comment>();
@@ -378,7 +377,7 @@ export function ProjectComments({
 
       if (!user) {
         promptLogin(
-          () => { doSubmit(); },
+          () => doSubmit(),
           {
             title: parentId != null ? "登录以回复评论" : "登录以发表评论",
             description: parentId != null
@@ -391,7 +390,7 @@ export function ProjectComments({
 
       doSubmit();
     },
-    [addComment, projectId, user, promptLogin, buildCommentPayload, triggerCommentHighlight, isSheetOpen, preserveScrollOnSubmit],
+    [submitComment, user, promptLogin, triggerCommentHighlight, isSheetOpen, preserveScrollOnSubmit],
   );
 
   const handleDeleteComment = useCallback(async (commentId: string | number) => {

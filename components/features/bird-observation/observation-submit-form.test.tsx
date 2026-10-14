@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { ObservationPhotoMetadata } from '@/lib/observation-photo-metadata'
@@ -94,6 +94,52 @@ describe('ObservationSubmitForm workflow', () => {
     renderForm()
     await waitFor(() => expect(mocks.photo!.analyses).toEqual([expect.objectContaining({ imageUrl, status: 'passed_no_identification' })]))
     expect(screen.queryByText('识别建议生成中')).not.toBeInTheDocument()
+  })
+
+  it('shows unmatched model candidates as 「其他」 suggestions instead of a failure', async () => {
+    const imageUrl = 'https://example.com/snail.jpg'
+    localStorage.setItem('steam:nature-observation-draft', JSON.stringify({
+      version: 2,
+      evidenceImages: [imageUrl],
+      photoDrafts: {},
+      mediaAnalyses: [{
+        imageUrl,
+        status: 'passed_no_identification',
+        moderationPass: true,
+        speciesCandidates: [],
+        unmatchedSuggestions: [{ commonName: '同型巴蜗牛', scientificName: 'Bradybaena similaris', confidence: 0.72, reason: null }],
+      }],
+    }))
+    renderForm()
+    const panel = await screen.findByTestId('unmatched-suggestions')
+    expect(panel).toHaveTextContent('其他·同型巴蜗牛')
+    expect(panel).toHaveTextContent('（Bradybaena similaris）')
+    expect(screen.queryByText(/没有匹配到可靠的物种候选/)).not.toBeInTheDocument()
+    const button = within(panel).getByRole('button', { name: /同型巴蜗牛/ })
+    fireEvent.click(button)
+    expect(button).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  it('shows the daily quota message and still allows publishing when identify quota is used up', async () => {
+    mocks.fetch.mockImplementation(async (url: string, init?: RequestInit) => {
+      if (url === '/api/observations/media-analysis') {
+        const { imageUrls } = JSON.parse(String(init?.body)) as { imageUrls: string[] }
+        return new Response(JSON.stringify({
+          analyses: imageUrls.map((imageUrl) => ({ imageUrl, status: 'quota_exceeded', moderationPass: null, speciesCandidates: [], unmatchedSuggestions: [] })),
+          quota: { isMember: false, limit: 5, used: 5, remaining: 0, exceeded: true },
+        }))
+      }
+      if (url === '/api/observations') return new Response(JSON.stringify({ observation: { id: 1 } }))
+      return new Response(JSON.stringify({ species: [] }))
+    })
+    renderForm()
+    addPhoto()
+    const notice = await screen.findByTestId('identify-quota-exceeded')
+    expect(notice).toHaveTextContent('今天的识别次数用完了，可以手动选物种或按待鉴定发布')
+    expect(within(notice).queryByRole('link')).not.toBeInTheDocument()
+    const analysisCalls = mocks.fetch.mock.calls.filter(([url]) => url === '/api/observations/media-analysis').length
+    await new Promise((resolve) => setTimeout(resolve, 50))
+    expect(mocks.fetch.mock.calls.filter(([url]) => url === '/api/observations/media-analysis').length).toBe(analysisCalls)
   })
 
   it('preserves manually edited time and location when slow EXIF lookup completes', async () => {

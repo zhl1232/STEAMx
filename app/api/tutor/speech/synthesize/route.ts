@@ -1,140 +1,67 @@
 import { NextRequest, NextResponse } from 'next/server'
-
+import { getTutorVoiceAccess } from '@/lib/ai/tutor/voice-access'
+import { isTutorVoice } from '@/lib/ai/tutor/voice-catalog'
+import { parseSpeechSource, resolveSpeechSource } from '@/lib/ai/tutor/speech-source'
+import { createGuardedTutorSpeechStreamer, guardedSynthesizeTutorSpeech } from '@/lib/ai/tutor/guarded-speech'
+import { sanitizeTutorSpeechText, TutorSpeechError } from '@/lib/ai/tutor/speech'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
-import { TutorSpeechSynthesizeSchema } from '@/lib/schemas'
+import { BodyReadError, readBoundedJson } from '@/lib/api/bounded-body'
 import { createClient } from '@/lib/supabase/server'
-import {
-  createTutorRealtimeTtsSession,
-  sanitizeTutorSpeechText,
-  synthesizeTutorSpeech,
-  TUTOR_TTS_PCM_SAMPLE_RATE,
-  TutorSpeechError,
-} from '@/lib/ai/tutor/speech'
-import { logger } from '@/lib/logger'
 
 export const runtime = 'nodejs'
-
-const SSE_HEADERS = {
-  'Content-Type': 'text/event-stream; charset=utf-8',
-  'Cache-Control': 'no-cache, no-transform',
-  Connection: 'keep-alive',
-} as const
-
-function mpegResponse(audio: ArrayBuffer, contentType: string) {
-  return new Response(audio, {
-    headers: {
-      'Content-Type': contentType,
-      'Cache-Control': 'no-store',
-    },
-  })
-}
+const HEADERS = { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store, no-transform' }
 
 export async function POST(request: NextRequest) {
-  const supabase = await createClient()
-  const startedAt = Date.now()
-
   try {
+    const supabase = await createClient()
     const user = await requireAuth(supabase)
-    await requireRateLimit(supabase, {
-      key: 'api-tutor-speech-synthesize',
-      limit: 20,
-      windowMs: 60_000,
-    })
-
-    const parsed = TutorSpeechSynthesizeSchema.safeParse(await request.json().catch(() => ({})))
-    if (!parsed.success) {
-      return NextResponse.json(
-        { error: parsed.error.issues.map((issue) => issue.message).join(', ') },
-        { status: 400 },
-      )
+    await requireRateLimit(supabase, { key: 'api-tutor-speech-synthesize', limit: 20, windowMs: 60_000 })
+    const input = parseSpeechSource(await readBoundedJson(request, 256 * 1024))
+    const access = await getTutorVoiceAccess(supabase, user)
+    if (input.voice && (!access.canChoose || !isTutorVoice(input.voice))) {
+      return NextResponse.json({ error: '当前账号不能使用该音色。' }, { status: access.canChoose ? 400 : 403 })
     }
-
-    const safeText = sanitizeTutorSpeechText(parsed.data.text)
-    if (!safeText) {
-      throw new TutorSpeechError('Empty speech text', '这条回复没有可朗读的内容。', 400)
+    const voice = input.voice ?? access.voice
+    const text = sanitizeTutorSpeechText(await resolveSpeechSource(supabase, input, access.canChoose))
+    if (!text) throw new TutorSpeechError('Empty speech text', '这条回复没有可朗读的内容。', 400)
+    if (input.fallback) {
+      const result = await guardedSynthesizeTutorSpeech(user.id, text, { voice, signal: request.signal })
+      return new Response(result.audio, { headers: { 'Content-Type': result.contentType, 'Cache-Control': 'no-store' } })
     }
-
-    if (parsed.data.fallback) {
-      const result = await synthesizeTutorSpeech(parsed.data.text)
-      logger.info('Tutor speech synthesized', {
-        userId: user.id,
-        elapsedMs: Date.now() - startedAt,
-        textLength: parsed.data.text.length,
-        audioBytes: result.audio.byteLength,
-        fallback: true,
-      })
-      return mpegResponse(result.audio, result.contentType)
-    }
-
     const encoder = new TextEncoder()
-    let session: ReturnType<typeof createTutorRealtimeTtsSession> | null = null
     let cancelled = false
+    let speech: ReturnType<typeof createGuardedTutorSpeechStreamer> | undefined
     const stream = new ReadableStream<Uint8Array>({
       async start(controller) {
         const send = (payload: Record<string, unknown>) => {
           if (cancelled) return
-          try {
-            controller.enqueue(encoder.encode(`data: ${JSON.stringify(payload)}\n\n`))
-          } catch {
-            cancelled = true
-          }
-        }
-        const safeClose = () => {
-          if (cancelled) return
-          cancelled = true
-          try {
-            controller.close()
-          } catch {
-            // already closed
-          }
+          try { controller.enqueue(encoder.encode(`data: ${JSON.stringify(payload)}\n\n`)) }
+          catch { cancelled = true; speech?.abort() }
         }
         try {
-          session = createTutorRealtimeTtsSession({
-            onAudio: (pcm) => {
-              if (pcm.byteLength <= 0) return
-              send({
-                type: 'audio',
-                pcm: pcm.toString('base64'),
-                sampleRate: TUTOR_TTS_PCM_SAMPLE_RATE,
-              })
-            },
-            signal: request.signal,
+          speech = createGuardedTutorSpeechStreamer(user.id, {
+            voice, signal: request.signal,
+            onAudio: (pcm, sampleRate) => send({ type: 'audio', pcm, sampleRate, voice }),
+            onError: error => send({ type: 'error', status: error.status, error: error.userMessage }),
           })
-          await session.ready
-          session.append(safeText)
-          await session.finish()
-          send({ type: 'audio_done' })
-          logger.info('Tutor speech realtime synthesized', {
-            userId: user.id,
-            elapsedMs: Date.now() - startedAt,
-            textLength: parsed.data.text.length,
-          })
-          safeClose()
+          speech.push(text)
+          const complete = await speech.finish()
+          if (complete) send({ type: 'audio_done', complete: true })
+          // Failure is never marked as a complete stream or eligible for replay caching.
         } catch (error) {
-          session?.abort()
-          send({
-            type: 'error',
-            error: error instanceof TutorSpeechError ? error.userMessage : '小迪语音暂时不可用，请稍后再试。',
-          })
-          logger.warn('Tutor realtime TTS synthesize failed', {
-            userId: user.id,
-            message: error instanceof Error ? error.message : String(error),
-          })
-          safeClose()
+          speech?.abort()
+          send({ type: 'error', error: error instanceof TutorSpeechError ? error.userMessage : '朗读暂时不可用，请稍后重试。' })
+        } finally {
+          if (!cancelled) { cancelled = true; controller.close() }
         }
       },
-      cancel() {
-        cancelled = true
-        session?.abort()
-      },
+      cancel() { cancelled = true; speech?.abort() },
     })
-
-    return new Response(stream, { headers: SSE_HEADERS })
+    return new Response(stream, { headers: HEADERS })
   } catch (error) {
-    if (error instanceof TutorSpeechError) {
-      return NextResponse.json({ error: error.userMessage }, { status: error.status })
-    }
+    if (error instanceof BodyReadError) return NextResponse.json({ error: error.message }, { status: error.status })
+    if (error instanceof TutorSpeechError) return NextResponse.json({ error: error.userMessage }, { status: error.status })
     return handleApiError(error)
   }
 }

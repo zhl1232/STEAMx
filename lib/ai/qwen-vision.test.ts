@@ -12,6 +12,10 @@ import { DashScopeError } from '@/lib/ai/dashscope'
 import { logger } from '@/lib/logger'
 import type { Database } from '@/lib/supabase/types'
 
+vi.mock('@/lib/ai/vision-image', () => ({
+  prepareVisionImageUrl: async (url: string) => url,
+}))
+
 type SpeciesRow = Database['public']['Tables']['species']['Row']
 
 const originalDashScopeApiKey = process.env.DASHSCOPE_API_KEY

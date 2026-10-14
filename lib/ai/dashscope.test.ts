@@ -94,6 +94,24 @@ describe('resolveDashScopeConfig', () => {
     expect(resolveDashScopeConfig('moderation').model).toBe('shared-vision')
   })
 
+  it('prefers an explicit DASHSCOPE_MODERATION_MODEL over the shared vision list', () => {
+    process.env.DASHSCOPE_VISION_MODELS = 'qwen3.8-max-0902,qwen3.8-flash'
+    process.env.DASHSCOPE_MODERATION_MODEL = 'qwen3.8-flash'
+    expect(resolveDashScopeConfig('moderation').model).toBe('qwen3.8-flash')
+  })
+
+  it('prefers DASHSCOPE_MODERATION_MODELS over DASHSCOPE_MODERATION_MODEL', () => {
+    process.env.DASHSCOPE_VISION_MODELS = 'qwen3.8-max-0902'
+    process.env.DASHSCOPE_MODERATION_MODEL = 'single'
+    process.env.DASHSCOPE_MODERATION_MODELS = 'list-a,list-b'
+    expect(resolveDashScopeConfig('moderation').model).toBe('list-a')
+  })
+
+  it('still falls back to the vision list when no moderation model is set', () => {
+    process.env.DASHSCOPE_VISION_MODELS = 'vision-a'
+    expect(resolveDashScopeConfig('moderation').model).toBe('vision-a')
+  })
+
   it('throws missing_config without an API key', () => {
     delete process.env.DASHSCOPE_API_KEY
     expect(() => resolveDashScopeConfig('vision')).toThrow(DashScopeError)
@@ -170,6 +188,24 @@ describe('dashScopeChatComplete', () => {
     expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ model, enable_thinking: false })
   })
 
+  it.each(['qwen3.8-max-0902', 'qwen3.8-flash', 'qwen3.8-max-2026-09-02'])('disables thinking for vision snapshot model %s', async (model) => {
+    process.env.DASHSCOPE_VISION_MODELS = model
+    fetchMock.mockResolvedValue({ ok: true, json: async () => ({ choices: [{ message: { content: '{}' } }] }) })
+    await dashScopeChatComplete({ role: 'vision', payload: { messages: [] } })
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ model, enable_thinking: false })
+  })
+
+  it.each(['vision', 'moderation', 'pbl-vision'] as const)('disables optional thinking for %s role JSON/vision calls', async (role) => {
+    process.env.DASHSCOPE_VISION_MODELS = 'qwen3.7-plus'
+    process.env.DASHSCOPE_MODERATION_MODELS = 'qwen3.7-plus'
+    fetchMock.mockResolvedValue({ ok: true, json: async () => ({ choices: [{ message: { content: '{}' } }] }) })
+    await dashScopeChatComplete({ role, payload: { messages: [] } })
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({
+      model: 'qwen3.7-plus',
+      enable_thinking: false,
+    })
+  })
+
   it('does not send an unsupported thinking option to a custom thinking model', async () => {
     process.env.DASHSCOPE_TUTOR_TEXT_MODELS = 'custom-thinking-model'
     fetchMock.mockResolvedValue({ ok: true, json: async () => ({ choices: [{ message: { content: '收到' } }] }) })
@@ -206,7 +242,28 @@ describe('dashScopeChatComplete', () => {
     })
   })
 
-  it('discovers visible models and switches after a quota error', async () => {
+  it('does not switch models after account permission or free-tier exhaustion errors', async () => {
+    for (const [status, code] of [[403, 'AccessDenied'], [429, 'FreeTierLimitExceeded']] as const) {
+      fetchMock.mockReset().mockResolvedValue({ ok: false, status, json: async () => ({ code }) })
+      await expect(dashScopeChatComplete({ role: 'tutor-text', payload: { messages: [] } })).rejects.toMatchObject({ status })
+      expect(fetchMock).toHaveBeenCalledTimes(1)
+    }
+  })
+
+  it('never walks more than three unavailable model candidates', async () => {
+    fetchMock.mockResolvedValue({ ok: false, status: 404, json: async () => ({ code: 'ModelNotFound' }) })
+    await expect(dashScopeChatComplete({ role: 'tutor-text', payload: { messages: [] } })).rejects.toMatchObject({ status: 404 })
+    expect(fetchMock).toHaveBeenCalledTimes(3)
+  })
+
+  it('does not retry when Retry-After exceeds the remaining total deadline', async () => {
+    fetchMock.mockResolvedValue({ ok: false, status: 429, headers: new Headers({ 'Retry-After': '60' }),
+      json: async () => ({ code: 'Throttling.RateQuota' }) })
+    await expect(dashScopeChatComplete({ role: 'tutor-text', timeoutMs: 100, payload: { messages: [] } })).rejects.toMatchObject({ status: 429 })
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('discovers visible models and switches with backoff after a model rate limit', async () => {
     process.env.DASHSCOPE_MODEL_DISCOVERY = 'true'
     fetchMock
       .mockResolvedValueOnce({
@@ -216,7 +273,7 @@ describe('dashScopeChatComplete', () => {
       .mockResolvedValueOnce({
         ok: false,
         status: 429,
-        json: async () => ({ error: { code: 'FreeTierLimitExceeded', message: 'quota exhausted' } }),
+        json: async () => ({ error: { code: 'Throttling.RateQuota', message: 'Requests rate limit exceeded' } }),
       })
       .mockResolvedValueOnce({
         ok: true,

@@ -43,16 +43,9 @@ describe('useTutorVoice speech fallback', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mocks.pcmPlayer.resume.mockRejectedValue(new Error('AudioContext unavailable'))
-    mocks.fetch
-      .mockResolvedValueOnce({
-        ok: true,
-        headers: { get: () => 'text/event-stream; charset=utf-8' },
-        body: {},
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        blob: async () => new Blob(['audio']),
-      })
+    mocks.fetch.mockReset().mockImplementation(async (url: string) => url.endsWith('/voices')
+      ? { ok: true, json: async () => ({ voice: 'yezhiqing_v3.1', canChoose: false }) }
+      : { ok: true, headers: { get: () => 'text/event-stream; charset=utf-8' }, body: {} })
     vi.stubGlobal('fetch', mocks.fetch)
     vi.stubGlobal(
       'Audio',
@@ -99,7 +92,6 @@ describe('useTutorVoice speech fallback', () => {
     expect(mocks.fetch).toHaveBeenCalledTimes(2)
     expect(JSON.parse(mocks.fetch.mock.calls[1]?.[1]?.body)).toEqual({
       text: '这是一段测试语音。',
-      fallback: true,
     })
     expect(mocks.audioPlay).toHaveBeenCalledOnce()
     expect(mocks.toast).not.toHaveBeenCalled()
@@ -146,7 +138,67 @@ describe('useTutorVoice speech fallback', () => {
 
     expect(mocks.pcmPlayer.enqueue).toHaveBeenCalledWith(expect.any(ArrayBuffer), 24_000)
     expect(mocks.pcmPlayer.markStreamComplete).toHaveBeenCalled()
-    expect(mocks.fetch).toHaveBeenCalledOnce()
+    expect(mocks.fetch).toHaveBeenCalledTimes(2)
     expect(mocks.audioPlay).not.toHaveBeenCalled()
+  })
+
+  it('replays complete audio without synthesis and invalidates on voice changes', async () => {
+    mocks.pcmPlayer.resume.mockResolvedValue(undefined)
+    const opts = {
+      open: true, mounted: true, hideOnMobile: false, contextKey: 'global:',
+      contextKeyRef: { current: 'global:' }, busyRef: { current: false }, quota: null,
+      onComposerTranscript: vi.fn(), onLongPressTranscript: vi.fn(),
+    }
+    const { result } = renderHook(() => useTutorVoice(opts))
+    await act(async () => { await result.current.playSpeech('相同内容', 'same') })
+    act(() => result.current.stopSpeechPlayback())
+    await act(async () => { await result.current.playSpeech('相同内容', 'same') })
+    expect(mocks.fetch.mock.calls.filter(([url]) => url.endsWith('/synthesize'))).toHaveLength(1)
+    expect(mocks.audioPlay).toHaveBeenCalledOnce()
+    act(() => window.dispatchEvent(new Event('tutor-voice-selection-changed')))
+    await act(async () => { await result.current.playSpeech('相同内容', 'same') })
+    expect(mocks.fetch.mock.calls.filter(([url]) => url.endsWith('/synthesize'))).toHaveLength(2)
+  })
+
+  it('does not retry a 429 response or download a second fallback', async () => {
+    mocks.pcmPlayer.resume.mockResolvedValue(undefined)
+    mocks.fetch.mockImplementation(async (url: string) => url.endsWith('/voices')
+      ? { ok: true, json: async () => ({ voice: 'yezhiqing_v3.1', canChoose: false }) }
+      : { ok: false, status: 429, json: async () => ({ error: '请求较多' }) })
+    const opts = {
+      open: true, mounted: true, hideOnMobile: false, contextKey: 'global:',
+      contextKeyRef: { current: 'global:' }, busyRef: { current: false }, quota: null,
+      onComposerTranscript: vi.fn(), onLongPressTranscript: vi.fn(),
+    }
+    const { result } = renderHook(() => useTutorVoice(opts))
+    await act(async () => { await result.current.playSpeech('测试', 'limited') })
+    expect(mocks.fetch.mock.calls.filter(([url]) => url.endsWith('/synthesize'))).toHaveLength(1)
+    expect(mocks.audioPlay).not.toHaveBeenCalled()
+    expect(result.current.speechLoadingKey).toBeNull()
+  })
+
+  it('keeps streamed playback when the sheet closes or quota refreshes', async () => {
+    mocks.pcmPlayer.resume.mockResolvedValue(undefined)
+    const opts = {
+      open: true, mounted: true, hideOnMobile: false, contextKey: 'global:',
+      contextKeyRef: { current: 'global:' }, busyRef: { current: false }, quota: null as null | { isMember: boolean },
+      onComposerTranscript: vi.fn(), onLongPressTranscript: vi.fn(),
+    }
+    const { result, rerender } = renderHook(
+      ({ open, quota }) => useTutorVoice({ ...opts, open, quota: quota as never }),
+      { initialProps: { open: true, quota: null as null | { isMember: boolean } } },
+    )
+
+    await act(async () => {
+      await result.current.beginStreamedSpeech('live-1')
+      expect(result.current.pushStreamedPcm('AQIDBA==', 24_000, 'live-1')).toBe(true)
+    })
+
+    rerender({ open: false, quota: null })
+    expect(result.current.pushStreamedPcm('AQIDBA==', 24_000, 'live-1')).toBe(true)
+
+    rerender({ open: false, quota: { isMember: false } })
+    expect(result.current.pushStreamedPcm('AQIDBA==', 24_000, 'live-1')).toBe(true)
+    expect(result.current.finishStreamedSpeech('live-1', true, '测试')).toBe(true)
   })
 })

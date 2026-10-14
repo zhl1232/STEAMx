@@ -1,3 +1,5 @@
+import { existsSync, readFileSync } from 'node:fs'
+
 import { afterEach, describe, expect, it } from 'vitest'
 
 import nextConfig, { buildScratchAssetDestination } from './next.config.mjs'
@@ -74,5 +76,37 @@ describe('retired project redirects', () => {
       { source: '/project/1010', destination: '/project/1098', statusCode: 301 },
       { source: '/project/1010/:path*', destination: '/project/1098/:path*', statusCode: 301 },
     ])
+  })
+})
+
+describe('repository asset cleanup', () => {
+  it('keeps old duplicate-logo URLs mapped to the canonical public logo', async () => {
+    const rewrites = await nextConfig.rewrites()
+
+    for (const source of ['/logo-mark.png', '/brand-kit/logo-avatar-transparent.png']) {
+      expect(rewrites).toContainEqual({ source, destination: '/logo.png' })
+      expect(existsSync(new URL(`./public${source}`, import.meta.url))).toBe(false)
+    }
+    expect(existsSync(new URL('./public/logo.png', import.meta.url))).toBe(true)
+  })
+
+  it('uses the canonical asset in the header and footer without old color variants', () => {
+    const source = readFileSync(new URL('./components/layout/logo.tsx', import.meta.url), 'utf8')
+
+    expect(source).toContain('src="/logo.png"')
+    expect(source).not.toContain('/logo-mark')
+  })
+
+  it('keeps runtime cache headers after removing the retired Cloudflare _headers file', async () => {
+    const rules = await nextConfig.headers()
+
+    expect(existsSync(new URL('./public/_headers', import.meta.url))).toBe(false)
+    expect(rules.find(rule => rule.source === '/sw.js')?.headers).toEqual(expect.arrayContaining([
+      { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
+      { key: 'Service-Worker-Allowed', value: '/' },
+    ]))
+    expect(rules.find(rule => rule.source === '/gomoku-rapfi/:path*')?.headers).toContainEqual({
+      key: 'Cache-Control', value: 'public, max-age=31536000, immutable',
+    })
   })
 })

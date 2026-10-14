@@ -1,4 +1,3 @@
-import Link from "next/link";
 
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { CourseBoard, CourseBoardError } from "@/components/features/courses/course-board";
@@ -9,7 +8,7 @@ import { buildBreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { createClient } from "@/lib/supabase/server";
 import { getContentClassificationSettings } from "@/lib/content-classification";
-import { LEARNING_TOPICS } from "@/lib/seo/learning-topics";
+import { getStartCourseCategory } from "@/lib/product/onboarding";
 
 const COURSE_HUB_DESCRIPTION =
     "创探空间提供积木搭建、Scratch 编程、五子棋等免费技能课程，按步骤学会一项技能，把过程做成自己的作品。";
@@ -21,7 +20,11 @@ export const metadata = buildPageMetadata({
     keywords: ["创探空间 课程", "积木课程", "少儿编程", "Scratch 课程", "技能课程"],
 });
 
-export default async function CoursesPage() {
+export default async function CoursesPage({ searchParams }: {
+    searchParams?: Promise<{ category?: string | string[] }>;
+} = {}) {
+    const initialFilter = getStartCourseCategory((await searchParams)?.category);
+    const retryHref = initialFilter === 'recommended' ? '/courses' : `/courses?category=${initialFilter}`;
     let courses: CourseListItem[] | null = null;
     try {
         const supabase = await createClient();
@@ -45,30 +48,18 @@ export default async function CoursesPage() {
                     { name: "技能课程", url: "/courses" },
                 ])}
             />
-        <div className="min-h-screen app-canvas-community">
-            <MobileGlobalHeader variant="title" title="技能课程" showUserButton={false} />
-            <main className="app-shell-wide pb-28 pt-2 md:py-6">
-                <header className="mb-5 hidden flex-wrap items-end justify-between gap-3 px-1 md:flex">
-                    <div className="min-w-0">
-                        <h1 className="text-2xl font-black text-foreground">技能课程</h1>
-                        <p className="mt-1 text-base font-bold text-foreground/85">挑一项技能，做一件作品</p>
-                    </div>
-                </header>
-                {courses ? (
-                    <CourseBoard courses={courses} />
-                ) : (
-                    <CourseBoardError retryHref="/courses" />
-                )}
-                <nav aria-label="学习入门指南" className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-border px-1 pt-3 text-sm">
-                    <span className="text-muted-foreground">学习入门指南</span>
-                    {LEARNING_TOPICS.map((topic) => (
-                        <Link key={topic.slug} href={`/learn/${topic.slug}`} className="inline-flex min-h-11 items-center font-semibold text-[hsl(var(--nav-active))] hover:underline">
-                            {topic.label}
-                        </Link>
-                    ))}
-                </nav>
-            </main>
-        </div>
+            <div className="app-canvas-community">
+                <MobileGlobalHeader variant="title" title="技能课程" showUserButton={false} />
+                <main className="app-shell-wide pb-28 pt-2 md:py-6">
+                    <header className="mb-5 hidden flex-wrap items-end justify-between gap-3 px-1 md:flex">
+                        <div className="min-w-0">
+                            <h1 className="text-2xl font-black text-foreground">技能课程</h1>
+                            <p className="mt-1 text-sm text-muted-foreground">动手实践 · 掌握新技能 · 让创意变成作品</p>
+                        </div>
+                    </header>
+                    {courses ? <CourseBoard courses={courses} initialFilter={initialFilter} /> : <CourseBoardError retryHref={retryHref} />}
+                </main>
+            </div>
         </>
     );
 }

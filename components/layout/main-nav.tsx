@@ -24,11 +24,6 @@ export function MainNav() {
                 pathname?.startsWith("/pbl/"),
         },
         {
-            href: "/leaderboard",
-            label: "排行榜",
-            active: pathname === "/leaderboard" || pathname?.startsWith("/leaderboard/"),
-        },
-        {
             href: "/nature",
             label: "自然观察",
             active: pathname === "/nature" || pathname?.startsWith("/nature/"),
