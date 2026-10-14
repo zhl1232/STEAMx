@@ -16,7 +16,7 @@ jobs:
     environment: Production
     timeout-minutes: 8
     steps:
-      - name: Readonly - hourly memcheck 20261014-0837
+      - name: Readonly - hourly memcheck 20261014-0937
         timeout-minutes: 7
         uses: appleboy/ssh-action@v1.2.0
         with:
