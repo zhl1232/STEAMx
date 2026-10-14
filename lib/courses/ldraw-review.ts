@@ -320,6 +320,8 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '5-da-cha-de-xiao-niu.ldr',
   // ji-gu 2026-10-14: yaw180 arms + blue curved cap re-oriented to courseware p11 (bill front); visual check passed.
   '5-ji-gu-shou.ldr',
+  // shou-yao-zuan 2026-10-14: p6 40T gear moved to courseware front, crank horizontal; p10 az190 el30 overlay checked.
+  '5-shou-yao-zuan-zi.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
