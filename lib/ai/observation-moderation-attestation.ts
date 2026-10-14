@@ -78,3 +78,48 @@ export function verifyObservationModerationPass(
 export function isObservationPhotoUpload(bucket: string, pathPrefix: string | null): boolean {
   return bucket === 'project-images' && pathPrefix === 'observations'
 }
+
+export const OBSERVATION_SUGGESTION_ATTESTATION_KEY = 'suggestion_attestation'
+
+function suggestionDigest(secret: string, userId: string, imageUrl: string, payload: string): string {
+  const key = createHmac('sha256', secret).update('observation-suggestion-attestation').digest()
+  return createHmac('sha256', key)
+    .update([ATTESTATION_VERSION, userId, imageUrl, payload].join('\n'))
+    .digest('hex')
+}
+
+function canonicalSuggestions(items: Array<{ commonName: string; scientificName: string | null }>): string {
+  return JSON.stringify(items.map((item) => [item.commonName, item.scientificName ?? null]))
+}
+
+/** Signs the unmatched 「其他」 suggestions produced by the server-side vision call. */
+export function signObservationSuggestions(
+  userId: string,
+  imageUrl: string,
+  items: Array<{ commonName: string; scientificName: string | null }>,
+): { version: string; sig: string } | null {
+  if (items.length === 0) return null
+  const secret = getSecret()
+  if (!secret) return null
+  return { version: ATTESTATION_VERSION, sig: suggestionDigest(secret, userId, imageUrl, canonicalSuggestions(items)) }
+}
+
+/** True only when the stored suggestions are exactly those the server signed. */
+export function verifyObservationSuggestions(
+  rawResponse: unknown,
+  userId: string,
+  imageUrl: string,
+  items: Array<{ commonName: string; scientificName: string | null }>,
+): boolean {
+  if (items.length === 0) return false
+  const secret = getSecret()
+  if (!secret) return false
+  if (!rawResponse || typeof rawResponse !== 'object' || Array.isArray(rawResponse)) return false
+  const att = (rawResponse as Record<string, unknown>)[OBSERVATION_SUGGESTION_ATTESTATION_KEY]
+  if (!att || typeof att !== 'object' || Array.isArray(att)) return false
+  const { version, sig } = att as Record<string, unknown>
+  if (version !== ATTESTATION_VERSION || typeof sig !== 'string') return false
+  const expected = Buffer.from(suggestionDigest(secret, userId, imageUrl, canonicalSuggestions(items)), 'hex')
+  const actual = Buffer.from(sig, 'hex')
+  return actual.length === expected.length && timingSafeEqual(actual, expected)
+}

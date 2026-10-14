@@ -14,7 +14,9 @@ import {
 } from '@/lib/ai/qwen-vision'
 import {
   OBSERVATION_MODERATION_ATTESTATION_KEY,
+  OBSERVATION_SUGGESTION_ATTESTATION_KEY,
   signObservationModerationPass,
+  signObservationSuggestions,
 } from '@/lib/ai/observation-moderation-attestation'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { requireInteractionAccess } from '@/lib/access/interaction-access'
@@ -132,9 +134,11 @@ export async function POST(request: NextRequest) {
           const attestation = result.moderationPass === true
             ? signObservationModerationPass(user.id, imageUrl, result.modelName)
             : null
+          const suggestionAttestation = signObservationSuggestions(user.id, imageUrl, result.unmatchedSuggestions)
           const rawResponse = {
             provider: result.rawResponse ?? null,
             ...(attestation ? { [OBSERVATION_MODERATION_ATTESTATION_KEY]: attestation } : {}),
+            ...(suggestionAttestation ? { [OBSERVATION_SUGGESTION_ATTESTATION_KEY]: suggestionAttestation } : {}),
           }
 
           const { error } = await supabase

@@ -1289,6 +1289,7 @@ export function ObservationSubmitForm({
           latitude: Number(draft.latitude),
           longitude: Number(draft.longitude),
           initial_species_id: draft.speciesId ? Number(draft.speciesId) : null,
+          suggested_species_name: !draft.speciesId ? chosenUnmatchedByImage[url] ?? null : null,
           lifecycle_stage: draft.lifecycleStage || null,
           sex: draft.sex || null,
         }

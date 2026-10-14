@@ -4,6 +4,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import {
   isObservationAnalysisSafetyBlocked,
   parseStoredSpeciesCandidates,
+  parseStoredUnmatchedSuggestions,
   type ObservationMediaAnalysisRow,
 } from '@/lib/ai/observation-media-analysis'
 import { selectAiIdentification } from '@/lib/observations/identifications'
@@ -23,7 +24,10 @@ import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { callRpc } from '@/lib/supabase/rpc'
 import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
-import { verifyObservationModerationPass } from '@/lib/ai/observation-moderation-attestation'
+import {
+  verifyObservationModerationPass,
+  verifyObservationSuggestions,
+} from '@/lib/ai/observation-moderation-attestation'
 import type { Database } from '@/lib/supabase/types'
 
 type DbClient = SupabaseClient<Database>
@@ -163,6 +167,34 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // A chosen 「其他」 suggestion must be one the server-side vision call
+    // produced (and signed) for this exact photo; users cannot type a name.
+    const suggestionByUrl = new Map<string, { name: string; scientificName: string | null }>()
+    for (const item of payload.items) {
+      const requested = item.suggested_species_name?.trim()
+      if (!requested) continue
+      if (item.initial_species_id) {
+        return NextResponse.json({ error: '已选择物种时不能同时提交待确认建议' }, { status: 400 })
+      }
+      const analysis = analysisMap.get(item.media_url)
+      const suggestions = parseStoredUnmatchedSuggestions(analysis?.species_candidates)
+      const match = suggestions.find((suggestion) => suggestion.commonName === requested)
+      if (
+        !analysis
+        || !match
+        || !verifyObservationSuggestions(analysis.raw_response, user.id, item.media_url, suggestions)
+      ) {
+        return NextResponse.json(
+          { error: '待确认建议必须来自这张照片的识别结果', code: 'INVALID_SUGGESTION' },
+          { status: 400 },
+        )
+      }
+      suggestionByUrl.set(item.media_url, { name: match.commonName, scientificName: match.scientificName })
+    }
+    if (suggestionByUrl.size > 0 && !supabaseAdmin) {
+      return NextResponse.json({ error: '服务端配置异常' }, { status: 500 })
+    }
+
     const topicLookupIds = Array.from(new Set(
       payload.items.flatMap((item) => {
         const selected = item.initial_species_id ?? null
@@ -257,6 +289,22 @@ export async function POST(request: NextRequest) {
           item,
           analysis: analysisMap.get(item.media_url),
         })
+      }
+
+      for (const [mediaUrl, suggestion] of suggestionByUrl) {
+        const observation = createdByUrl.get(mediaUrl)
+        if (!observation || !supabaseAdmin) throw new Error('Failed to save suggested species')
+        const { error: suggestionError } = await supabaseAdmin
+          .from('observation_events')
+          .update({
+            suggested_species_name: suggestion.name,
+            suggested_scientific_name: suggestion.scientificName,
+          })
+          .eq('id', observation.id)
+          .eq('user_id', user.id)
+        if (suggestionError) throw suggestionError
+        observation.suggested_species_name = suggestion.name
+        observation.suggested_scientific_name = suggestion.scientificName
       }
 
       if (moderation.state === 'pending') {

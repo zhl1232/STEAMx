@@ -19,6 +19,9 @@ export const ObservationCreateItemSchema = z.object({
   initial_species_id: z.number().int().positive().nullable().optional(),
   lifecycle_stage: z.enum(observationLifecycleStageValues).nullable().optional(),
   sex: z.enum(observationSexValues).nullable().optional(),
+  // Chosen 「其他」 suggestion (common name only). The server verifies it came
+  // from this photo's own signed analysis and copies the scientific name from there.
+  suggested_species_name: z.string().trim().min(1).max(60).nullable().optional(),
 })
 
 export const CreateObservationBatchSchema = z.object({

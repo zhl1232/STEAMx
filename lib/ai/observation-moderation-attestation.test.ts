@@ -3,6 +3,8 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import {
   isObservationPhotoUpload,
+  signObservationSuggestions,
+  verifyObservationSuggestions,
   signObservationModerationPass,
   verifyObservationModerationPass,
 } from '@/lib/ai/observation-moderation-attestation'
@@ -62,5 +64,15 @@ describe('observation moderation attestation', () => {
     expect(isObservationPhotoUpload('project-images', 'covers')).toBe(false)
     expect(isObservationPhotoUpload('project-images', null)).toBe(false)
     expect(isObservationPhotoUpload('avatars', 'observations')).toBe(false)
+  })
+
+  it('verifies only the exact server-signed 「其他」 suggestions', () => {
+    const items = [{ commonName: '同型巴蜗牛', scientificName: 'Bradybaena similaris' }]
+    const raw = { suggestion_attestation: signObservationSuggestions(USER, URL, items) }
+    expect(verifyObservationSuggestions(raw, USER, URL, items)).toBe(true)
+    expect(verifyObservationSuggestions(raw, USER, URL, [{ commonName: '随便写', scientificName: null }])).toBe(false)
+    expect(verifyObservationSuggestions(raw, 'user-2', URL, items)).toBe(false)
+    expect(verifyObservationSuggestions({}, USER, URL, items)).toBe(false)
+    expect(signObservationSuggestions(USER, URL, [])).toBeNull()
   })
 })
