@@ -12,7 +12,7 @@
 | 新人开始、可选指南和入门专题 | `app/start/`、`components/learning/`、`lib/product/`、`app/learn/` | [产品方向](docs/product-direction.md)、[内容质量](docs/content-quality.md) |
 | 项目浏览、筛选、详情 | `app/explore/`、`app/project/`、`lib/project/`、`lib/explore/` | [产品架构](docs/product-architecture.md)、[探索记录](docs/EXPLORATION_RECORDS.md) |
 | 课程目录、课时和工作区 | `app/courses/`、`lib/courses/`、`components/features/courses/` | [课程进度与奖励](docs/COURSE_PROGRESS_REWARDS_AND_STEAM_IMPLEMENTATION.md) |
-| 积木模型、零件和套装核算 | `lib/courses/lesson-materials.ts`、`course-kit-config.ts`、`components/features/courses/lesson-materials-preparation.tsx`、`lib/utils/ldraw-*.ts` | [手机搭建](docs/courses/mobile-building-experience.md)、[小班材料覆盖](docs/courses/lesson-kit-coverage-small-class.md)、[中大班材料覆盖](docs/courses/lesson-kit-coverage-middle-senior.md) |
+| 积木模型、零件和套装核算 | `lib/courses/lesson-materials.ts`、`course-kit-config.ts`、`components/features/courses/lesson-materials-preparation.tsx`、`lib/utils/ldraw-*.ts`、`e2e/building-outline/`、`playwright.building-outline.config.ts` | [手机搭建](docs/courses/mobile-building-experience.md)、[小班材料覆盖](docs/courses/lesson-kit-coverage-small-class.md)、[中大班材料覆盖](docs/courses/lesson-kit-coverage-middle-senior.md) |
 | Scratch 工作区与内容 | `packages/scratch-host/`、`components/features/courses/`、`lib/courses/` | [Scratch 维护与验收](docs/SCRATCH_CURRICULUM_ROLLOUT.md) |
 | PBL 挑战 | `app/create/`、`app/pbl/`、`lib/pbl/`、`components/features/challenge/` | [PBL 指南](docs/PBL_CHALLENGE_GUIDE.md) |
 | 一次实践与过程记录 | `lib/journeys/`、`lib/project/record-input.ts`、`record-draft.ts`、`app/api/journeys/` | [产品架构](docs/product-architecture.md)、[探索记录](docs/EXPLORATION_RECORDS.md) |
