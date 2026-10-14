@@ -144,6 +144,11 @@ export function AuthFlow({
   onSuccess,
 }: AuthFlowProps) {
   const supabase = createClient()
+  const activeRef = useRef(true)
+  useEffect(() => {
+    activeRef.current = true
+    return () => { activeRef.current = false }
+  }, [])
 
   const [bootPending] = useState(() => readBootPendingOtp(initialMode))
   const [method, setMethod] = useState<AuthMethod>(
@@ -269,6 +274,7 @@ export function AuthFlow({
   }
 
   const completeSuccess = (options?: { isNewUser?: boolean }) => {
+    if (!activeRef.current) return
     clearPendingOtp()
 
     if (phoneRecoveryAfterOtp) {
@@ -365,6 +371,8 @@ export function AuthFlow({
       })
       const data = await res.json().catch(() => ({}))
 
+      if (!activeRef.current) return
+
       if (!res.ok) throw new Error(data.error || '验证失败')
 
       const isNewUser = data.isNewUser === true
@@ -389,6 +397,9 @@ export function AuthFlow({
       }
 
       if (data.redirectUrl) {
+        // A document redirect cannot carry in-memory drafts or callbacks. Keep
+        // the layer and explain retry instead of silently losing the activity.
+        if (presentation === 'layer') throw new Error('登录会话未建立，请重试；当前页面内容已保留。')
         const redirectUrl = new URL(data.redirectUrl)
         if (!['https:', 'http:'].includes(redirectUrl.protocol)) throw new Error('登录链接无效，请重新验证。')
         redirectUrl.searchParams.set('redirect_to', `${window.location.origin}${phoneRecoveryAfterOtp ? getRecoveryHref() : resolveSuccessTarget(isNewUser)}`)
@@ -802,6 +813,12 @@ export function AuthFlow({
               )}
             </Button>
           </form>
+
+          {presentation === 'layer' && (
+            <Button type="button" variant="ghost" className="min-h-11 w-full" onClick={onClose}>
+              先去探索
+            </Button>
+          )}
 
           {phoneRecoveryAfterOtp && (
             <button type="button" disabled={loading} onClick={() => switchLoginMethod('email')} className="min-h-11 text-sm font-medium text-primary hover:underline disabled:opacity-60">

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import reviewed from '@/lib/project/science-reviewed.data.json'
 import { getScienceSample } from '@/lib/project/science-samples'
@@ -19,12 +19,14 @@ test('question queues text only, opens panel without sending, close cancels pend
  fireEvent.click(screen.getByText('关闭'))
  expect(JSON.parse(screen.getByTestId('draft').textContent!).draft).toBeNull()
 })
-test('guest gets login prompt without a queued draft or auto-send callback', () => {
+test('guest restores the chosen question after login without automatically sending', () => {
  state.user = null
  render(<TutorProvider><ScienceExtensionQuestions projectId={1213} questions={['为什么喷发？']} /><Probe /></TutorProvider>)
  fireEvent.click(screen.getByText('为什么喷发？'))
- expect(state.login.mock.calls[0][0]).toBeUndefined()
+ expect(state.login.mock.calls[0][0]).toEqual(expect.any(Function))
  expect(JSON.parse(screen.getByTestId('draft').textContent!).draft).toBeNull()
+ act(() => state.login.mock.calls[0][0]({ id: 'new-user' }))
+ expect(JSON.parse(screen.getByTestId('draft').textContent!)).toEqual({ draft: { text: '为什么喷发？', userId: 'new-user', projectId: '1213' }, send: null, open: true })
 })
 
 afterEach(() => vi.unstubAllEnvs())

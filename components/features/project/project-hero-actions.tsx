@@ -5,6 +5,7 @@ import { Bookmark, Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
+import { useLoginContinuation } from "@/hooks/use-login-continuation"
 import { useProjects } from "@/lib/context/project-context"
 import { useSyncProjectInteractions } from "@/hooks/use-sync-project-interactions"
 import { cn } from "@/lib/utils"
@@ -32,7 +33,7 @@ export function ProjectHeroActions({
 
   const handleLike = () => {
     if (!user) {
-      promptLogin(() => toggleLike(projectId), {
+      promptLogin(resumeLike, {
         title: "登录以点赞项目",
         description: "登录后即可点赞喜欢的项目",
       })
@@ -41,9 +42,12 @@ export function ProjectHeroActions({
     toggleLike(projectId)
   }
 
+  const resumeCollection = useLoginContinuation(() => toggleCollection(projectId))
+  const resumeLike = useLoginContinuation(() => toggleLike(projectId))
+
   const handleCollection = () => {
     if (!user) {
-      promptLogin(() => toggleCollection(projectId), {
+      promptLogin(resumeCollection, {
         title: "登录以收藏项目",
         description: "登录后即可收藏喜欢的项目，稍后继续制作",
       })

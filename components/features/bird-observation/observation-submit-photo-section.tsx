@@ -116,6 +116,7 @@ export function ObservationSubmitPhotoSection({
   const { toast } = useToast()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const originalFileInputRef = useRef<HTMLInputElement>(null)
+  const [continuePhotos, setContinuePhotos] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
   const [uploadingCount, setUploadingCount] = useState(0)
   const imagesRef = useRef(evidenceImages)
@@ -136,12 +137,13 @@ export function ObservationSubmitPhotoSection({
   const choosePhotos = () => {
     if (authLoading || uploadingRef.current) return
     if (!user) {
-      promptLogin(undefined, {
+      promptLogin(() => setContinuePhotos(true), {
         title: "登录后再上传照片",
         description: "登录后即可选择观察照片并发布记录。",
       })
       return
     }
+    setContinuePhotos(false)
     // Android media providers may redact GPS; prefer the unrestricted file
     // input so EXIF location survives. Desktop/iOS keep the image accept filter.
     const preferOriginalFile = /Android/i.test(navigator.userAgent)
@@ -162,7 +164,7 @@ export function ObservationSubmitPhotoSection({
           description: "请稍候一两秒后重新选择照片。",
         })
       } else {
-        promptLogin(undefined, {
+        promptLogin(() => setContinuePhotos(true), {
           title: "登录后再上传照片",
           description: "登录后即可上传观察照片并发布记录。",
         })
@@ -278,6 +280,11 @@ export function ObservationSubmitPhotoSection({
 
   return (
     <section className="space-y-4">
+      {continuePhotos && user ? (
+        <Button type="button" onClick={choosePhotos} disabled={isUploading || authLoading}>
+          继续选照片
+        </Button>
+      ) : null}
       {showHeader ? (
         <div>
           <div className="flex items-center justify-between gap-3">

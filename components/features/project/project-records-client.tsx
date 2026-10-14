@@ -19,6 +19,7 @@ import {
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
+import { useLoginContinuation } from "@/hooks/use-login-continuation"
 import { useProjects } from "@/lib/context/project-context"
 import { useSyncProjectInteractions } from "@/hooks/use-sync-project-interactions"
 import { ExplorationRecordGroupCard } from "@/components/features/project/exploration-record-group"
@@ -236,14 +237,7 @@ export function ProjectRecordsClient({
     setDialogOpen(true)
   }
 
-  const handleStartExploration = async () => {
-    if (!user) {
-      promptLogin(() => void handleStartExploration(), {
-        title: "登录以开始我的项目",
-        description: "登录后即可记录探索过程并提交作品",
-      })
-      return
-    }
+  const resumeStartExploration = useLoginContinuation(async () => {
     if (journeyActive) return
     try {
       await startExploration(projectId)
@@ -252,6 +246,17 @@ export function ProjectRecordsClient({
     } catch {
       showExplorationError()
     }
+  })
+
+  const handleStartExploration = async () => {
+    if (!user) {
+      promptLogin(resumeStartExploration, {
+        title: "登录以开始我的项目",
+        description: "登录后即可记录探索过程并提交作品",
+      })
+      return
+    }
+    await resumeStartExploration()
   }
 
   const headerTitle = (

@@ -11,6 +11,7 @@ const auth = vi.hoisted(() => ({
 }))
 const notifications = vi.hoisted(() => ({ unreadCount: 7 }))
 vi.mock('@/lib/context/auth-context', () => ({ useAuth: () => auth }))
+vi.mock('@/lib/context/login-prompt-context', () => ({ useLoginPrompt: () => ({ promptLogin: vi.fn() }) }))
 vi.mock('@/lib/context/notification-context', () => ({ useOptionalNotifications: () => notifications }))
 vi.mock('next/navigation', () => ({ usePathname: () => '/leaderboard' }))
 vi.mock('@/components/layout/login-dialog', () => ({ LoginDialog: () => null }))
