@@ -136,7 +136,7 @@ describe('ObservationSubmitForm workflow', () => {
     addPhoto()
     const notice = await screen.findByTestId('identify-quota-exceeded')
     expect(notice).toHaveTextContent('今天的识别次数用完了，可以手动选物种或按待鉴定发布')
-    expect(within(notice).getByRole('link', { name: '开通会员' })).toHaveAttribute('href', '/membership')
+    expect(within(notice).queryByRole('link')).not.toBeInTheDocument()
     const analysisCalls = mocks.fetch.mock.calls.filter(([url]) => url === '/api/observations/media-analysis').length
     await new Promise((resolve) => setTimeout(resolve, 50))
     expect(mocks.fetch.mock.calls.filter(([url]) => url === '/api/observations/media-analysis').length).toBe(analysisCalls)

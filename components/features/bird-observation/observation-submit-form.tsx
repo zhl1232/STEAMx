@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
@@ -1722,9 +1721,6 @@ export function ObservationSubmitForm({
                   {selectedFailedAnalysis.status === "quota_exceeded" ? (
                     <span data-testid="identify-quota-exceeded">
                       今天的识别次数用完了，可以手动选物种或按待鉴定发布。
-                      <Link href="/membership" className="ml-1 font-medium underline underline-offset-2 hover:opacity-80">
-                        开通会员
-                      </Link>
                     </span>
                   ) : selectedFailedAnalysis.status === "failed_unsafe"
                     ? selectedFailedAnalysis.moderationReason || "这张图片不适合用于自然观察提交，请更换照片。"
