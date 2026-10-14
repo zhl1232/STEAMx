@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { ObservationPhotoMetadata } from '@/lib/observation-photo-metadata'
@@ -94,6 +94,30 @@ describe('ObservationSubmitForm workflow', () => {
     renderForm()
     await waitFor(() => expect(mocks.photo!.analyses).toEqual([expect.objectContaining({ imageUrl, status: 'passed_no_identification' })]))
     expect(screen.queryByText('识别建议生成中')).not.toBeInTheDocument()
+  })
+
+  it('shows unmatched model candidates as 「其他」 suggestions instead of a failure', async () => {
+    const imageUrl = 'https://example.com/snail.jpg'
+    localStorage.setItem('steam:nature-observation-draft', JSON.stringify({
+      version: 2,
+      evidenceImages: [imageUrl],
+      photoDrafts: {},
+      mediaAnalyses: [{
+        imageUrl,
+        status: 'passed_no_identification',
+        moderationPass: true,
+        speciesCandidates: [],
+        unmatchedSuggestions: [{ commonName: '同型巴蜗牛', scientificName: 'Bradybaena similaris', confidence: 0.72, reason: null }],
+      }],
+    }))
+    renderForm()
+    const panel = await screen.findByTestId('unmatched-suggestions')
+    expect(panel).toHaveTextContent('其他·同型巴蜗牛')
+    expect(panel).toHaveTextContent('（Bradybaena similaris）')
+    expect(screen.queryByText(/没有匹配到可靠的物种候选/)).not.toBeInTheDocument()
+    const button = within(panel).getByRole('button', { name: /同型巴蜗牛/ })
+    fireEvent.click(button)
+    expect(button).toHaveAttribute('aria-pressed', 'true')
   })
 
   it('preserves manually edited time and location when slow EXIF lookup completes', async () => {

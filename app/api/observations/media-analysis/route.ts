@@ -3,6 +3,7 @@ import { z } from 'zod'
 
 import {
   mapAnalysisRowToResponse,
+  serializeSpeciesCandidatesForStorage,
   type ObservationMediaAnalysisRow,
   type ObservationMediaAnalysisStatus,
 } from '@/lib/ai/observation-media-analysis'
@@ -147,7 +148,7 @@ export async function POST(request: NextRequest) {
               quality_reason: result.qualityReason,
               note_suggestion: result.noteSuggestion,
               nature_topic: inferredTopic,
-              species_candidates: result.speciesCandidates as unknown as Json,
+              species_candidates: serializeSpeciesCandidatesForStorage(result) as unknown as Json,
               raw_response: rawResponse as unknown as Json,
             })
             .eq('user_id', user.id)

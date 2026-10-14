@@ -34,6 +34,13 @@ export interface ObservationMediaAnalysis {
     confidence: number
     reason?: string | null
   }>
+  /** Model candidates not in the species table (shown as 「其他」 suggestions). */
+  unmatchedSuggestions?: Array<{
+    commonName: string
+    scientificName?: string | null
+    confidence: number
+    reason?: string | null
+  }>
 }
 
 interface ObservationSubmitPhotoSectionProps {

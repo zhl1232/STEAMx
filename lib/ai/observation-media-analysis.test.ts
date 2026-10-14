@@ -6,6 +6,9 @@ import {
   mapVisionPayloadToAnalysisResult,
   parseObservationVisionPayload,
   isObservationAnalysisSafetyBlocked,
+  parseStoredSpeciesCandidates,
+  parseStoredUnmatchedSuggestions,
+  serializeSpeciesCandidatesForStorage,
 } from '@/lib/ai/observation-media-analysis'
 import type { Database } from '@/lib/supabase/types'
 
@@ -200,5 +203,34 @@ describe('mapVisionPayloadToAnalysisResult', () => {
     expect(result.status).toBe('passed_no_identification')
     expect(result.speciesCandidates).toEqual([])
     expect(result.noteSuggestion).toContain('我看到')
+    expect(result.unmatchedSuggestions).toEqual([
+      { commonName: '火烈鸟', scientificName: 'Phoenicopterus roseus', confidence: 0.76, reason: null },
+    ])
+  })
+
+  it('round-trips unmatched suggestions without leaking them into matched candidates', () => {
+    const stored = serializeSpeciesCandidatesForStorage({
+      speciesCandidates: [{ speciesId: 1, commonName: '麻雀', scientificName: null, confidence: 0.9, reason: null }],
+      unmatchedSuggestions: [{ commonName: '同型巴蜗牛', scientificName: 'Bradybaena similaris', confidence: 0.7, reason: null }],
+    })
+    expect(parseStoredSpeciesCandidates(stored).map((item) => item.speciesId)).toEqual([1])
+    expect(parseStoredUnmatchedSuggestions(stored)).toEqual([
+      { commonName: '同型巴蜗牛', scientificName: 'Bradybaena similaris', confidence: 0.7, reason: null },
+    ])
+  })
+
+  it('keeps no suggestions when moderation or quality fails', () => {
+    const base = {
+      moderation_reason: null,
+      quality_reason: null,
+      note_suggestion: null,
+      species_candidates: [{ common_name: '同型巴蜗牛', scientific_name: null, confidence: 0.7, reason: null }],
+    }
+    const unsafe = mapVisionPayloadToAnalysisResult({ ...base, moderation_pass: false, quality_pass: true }, speciesRows, 'm', {})
+    const blurry = mapVisionPayloadToAnalysisResult({ ...base, moderation_pass: true, quality_pass: false }, speciesRows, 'm', {})
+    expect(unsafe.status).toBe('failed_unsafe')
+    expect(unsafe.unmatchedSuggestions).toEqual([])
+    expect(blurry.status).toBe('failed_low_quality')
+    expect(blurry.unmatchedSuggestions).toEqual([])
   })
 })
