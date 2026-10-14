@@ -3,6 +3,7 @@ import { z } from 'zod'
 
 import {
   mapAnalysisRowToResponse,
+  serializeSpeciesCandidatesForStorage,
   type ObservationMediaAnalysisRow,
   type ObservationMediaAnalysisStatus,
 } from '@/lib/ai/observation-media-analysis'
@@ -11,6 +12,10 @@ import {
   getObservationVisionUserMessage,
   serializeObservationVisionError,
 } from '@/lib/ai/qwen-vision'
+import {
+  OBSERVATION_MODERATION_ATTESTATION_KEY,
+  signObservationModerationPass,
+} from '@/lib/ai/observation-moderation-attestation'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
@@ -121,6 +126,17 @@ export async function POST(request: NextRequest) {
           const inferredTopic =
             speciesTopicById.get(result.speciesCandidates[0]?.speciesId ?? -1) ?? null
 
+          // Single combined call: the same response carries the moderation
+          // verdict. Attest a pass server-side so submit can trust it without a
+          // second moderation call (rows are owner-updatable under RLS).
+          const attestation = result.moderationPass === true
+            ? signObservationModerationPass(user.id, imageUrl, result.modelName)
+            : null
+          const rawResponse = {
+            provider: result.rawResponse ?? null,
+            ...(attestation ? { [OBSERVATION_MODERATION_ATTESTATION_KEY]: attestation } : {}),
+          }
+
           const { error } = await supabase
             .from('observation_media_analyses')
             .update({
@@ -132,8 +148,8 @@ export async function POST(request: NextRequest) {
               quality_reason: result.qualityReason,
               note_suggestion: result.noteSuggestion,
               nature_topic: inferredTopic,
-              species_candidates: result.speciesCandidates as unknown as Json,
-              raw_response: result.rawResponse as Json,
+              species_candidates: serializeSpeciesCandidatesForStorage(result) as unknown as Json,
+              raw_response: rawResponse as unknown as Json,
             })
             .eq('user_id', user.id)
             .eq('image_url', imageUrl)
@@ -148,6 +164,7 @@ export async function POST(request: NextRequest) {
             .from('observation_media_analyses')
             .update({
               status: 'error',
+              moderation_pass: null,
               moderation_reason: failureReason,
               quality_reason: null,
               note_suggestion: null,

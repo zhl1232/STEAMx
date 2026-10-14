@@ -23,6 +23,7 @@ import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { callRpc } from '@/lib/supabase/rpc'
 import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
+import { verifyObservationModerationPass } from '@/lib/ai/observation-moderation-attestation'
 import type { Database } from '@/lib/supabase/types'
 
 type DbClient = SupabaseClient<Database>
@@ -129,12 +130,25 @@ export async function POST(request: NextRequest) {
     const analysisMap = new Map<string, ObservationMediaAnalysisRow>(
       analysisRows.map((row) => [row.image_url, row]),
     )
+    for (const imageUrl of uniqueMediaUrls) {
+      if (isObservationAnalysisSafetyBlocked(analysisMap.get(imageUrl))) {
+        return NextResponse.json(
+          { error: '图片未通过安全检查，请移除这张照片后再发布', code: 'CONTENT_REJECTED' },
+          { status: 422 },
+        )
+      }
+    }
+
+    // Images already cleared by the combined moderation+identify call (with a
+    // server-signed attestation) skip the standalone moderation model. Any
+    // image without a verified pass still goes through it, so an unmoderated
+    // image is never published.
+    const unattestedMediaUrls = uniqueMediaUrls.filter(
+      (url) => !verifyObservationModerationPass(analysisMap.get(url), user.id, url),
+    )
     const moderation = await moderateUserContent({
       text: payload.items.map((item) => item.location_name).join('\n'),
-      // The media-analysis result provides species suggestions. Run the
-      // server-side safety check for every image so a missing/failed quality
-      // analysis never weakens the publication safety gate.
-      imageSources: uniqueMediaUrls,
+      imageSources: unattestedMediaUrls,
     })
     if (moderation.state === 'rejected') {
       return NextResponse.json(
@@ -147,16 +161,6 @@ export async function POST(request: NextRequest) {
         { error: '审核服务暂时不可用，请稍后重试', code: 'MODERATION_UNAVAILABLE' },
         { status: 503 },
       )
-    }
-
-    for (const imageUrl of uniqueMediaUrls) {
-      const analysis = analysisMap.get(imageUrl)
-      if (isObservationAnalysisSafetyBlocked(analysis)) {
-        return NextResponse.json(
-          { error: '图片未通过安全检查，请移除这张照片后再发布', code: 'CONTENT_REJECTED' },
-          { status: 422 },
-        )
-      }
     }
 
     const topicLookupIds = Array.from(new Set(

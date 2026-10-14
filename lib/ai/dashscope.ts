@@ -197,6 +197,19 @@ function getConfiguredModelCandidates(role: DashScopeModelRole) {
   const legacyModel = resolveModel(role)
   if (!isModelAutoSwitchEnabled()) return [legacyModel]
 
+  if (role === 'moderation') {
+    // An explicit moderation model (list or single) must win over the shared
+    // vision list; otherwise DASHSCOPE_MODERATION_MODEL was silently ignored
+    // and moderation ran on the (slow) vision model.
+    const explicit = uniqueModels([
+      ...parseModelList(process.env.DASHSCOPE_MODERATION_MODELS),
+      ...parseModelList(process.env.DASHSCOPE_MODERATION_MODEL),
+    ])
+    if (explicit.length > 0) {
+      return uniqueModels([...explicit, ...DEFAULT_MODEL_CANDIDATES[role], legacyModel])
+    }
+  }
+
   const configuredModels = modelListEnvKeys(role).flatMap((key) => parseModelList(process.env[key]))
   return uniqueModels([
     ...configuredModels,
