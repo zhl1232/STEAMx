@@ -1,32 +1,26 @@
 name: Ops Readonly Media Inspect
-
 on:
   workflow_dispatch:
-
 permissions:
   contents: read
-
 concurrency:
-  group: ops-readonly-media-inspect
+  group: ops-readonly-moderation-logs
   cancel-in-progress: false
-
 jobs:
   inspect:
     runs-on: ubuntu-latest
     environment: Production
+    timeout-minutes: 10
     steps:
-      - name: Read-only prod env names + nginx mtime
+      - name: Read-only moderation/media-analysis logs
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
-          script_stop: true
-          command_timeout: 5m
+          timeout: 30s
+          command_timeout: 6m
           script: |
-            set -euo pipefail
-            echo 'IyEvYmluL2Jhc2gKc2V0IC1ldW8gcGlwZWZhaWwKZWNobyAic3RlcDpzdGFydCBkYXRlPSQoZGF0ZSAtSXMpIgpmb3IgcCBpbiAvZXRjL25naW54L3NpdGVzLWF2YWlsYWJsZS9zdGVhbS1hcHAgL2V0Yy9uZ2lueC9zaXRlcy1lbmFibGVkL3N0ZWFtLWFwcCAvb3B0L3N0ZWFtLWFwcC9uZ2lueC5jb25mOyBkbwogIGlmIFsgLWUgIiRwIiBdOyB0aGVuCiAgICBlY2hvICJzdGVwOnBhdGg9JHAiCiAgICBscyAtbGEgLS10aW1lLXN0eWxlPWxvbmctaXNvICIkcCIKICAgIHN0YXQgLWMgJ3N0ZXA6bXRpbWU9JXkgaW5vZGU9JWknICIkcCIKICAgIGVjaG8gInN0ZXA6Y29udGVudF9iZWdpbjokcCIKICAgICMgZnVsbCBzbWFsbCBjb25mIGV4cGVjdGVkCiAgICBzZWQgLW4gJzEsMjAwcCcgIiRwIgogICAgZWNobyAic3RlcDpjb250ZW50X2VuZDokcCIKICBlbHNlCiAgICBlY2hvICJzdGVwOm1pc3Npbmc9JHAiCiAgZmkKZG9uZQplY2hvICJzdGVwOm5naW54X2NvbmZfbXRpbWVfYWxsIgpmaW5kIC9ldGMvbmdpbnggLXR5cGUgZiAtbmFtZSAnKi5jb25mJyAtcHJpbnRmICclVFktJVRtLSVUZCAlVEg6JVRNICVwXG4nIDI+L2Rldi9udWxsIHwgc29ydAplY2hvICJzdGVwOmRvbmUiCg==' | base64 -d > /tmp/readonly_media_inspect.sh
-            chmod +x /tmp/readonly_media_inspect.sh
-            bash /tmp/readonly_media_inspect.sh
-            rm -f /tmp/readonly_media_inspect.sh
+            echo 'IyEvYmluL2Jhc2gKc2V0IC11CnJlZCgpeyBzZWQgLUUgLWUgJ3Mvc2stW0EtWmEtejAtOV8tXXs4LH0vc2stKioqL2cnIC1lICdzLyhCZWFyZXJbWzpzcGFjZTpdXSspW0EtWmEtejAtOS5fLV17MTIsfS9cMSoqKi9nJyAtZSAncy9leUpbQS1aYS16MC05Ll8tXXsyMCx9Lzxqd3Q+L2cnIC1lICdzL1tBLVphLXowLTlfXC8rPS1dezYwLH0vPGxvbmc+L2cnIHwgY3V0IC1jMS00MDA7IH0KUD0ndXBsb2FkfG1vZGVyYXR8bWVkaWEtYW5hbHlzaXN8bWVkaWFfYW5hbHlzaXN8ZGFzaHNjb3BlfHF3ZW58dmlzaW9ufHRpbWVvdXR8YWJvcnR8NDAzfDQwNHw0Mjl8ZXJyb3J8RVJST1J8V0FSTnxtb2RlbCcKZm9yIGMgaW4gJChkb2NrZXIgcHMgLWEgLS1mb3JtYXQgJ3t7Lk5hbWVzfX0nKTsgZG8gZWNobyAiPT0gY29udGFpbmVyICRjOiAkKGRvY2tlciBpbnNwZWN0IC1mICd7ey5TdGF0ZS5TdGF0dXN9fSBzdGFydGVkPXt7LlN0YXRlLlN0YXJ0ZWRBdH19IGltYWdlPXt7LkNvbmZpZy5JbWFnZX19JyAkYykiOyBkb25lCmZvciBjIGluIHN0ZWFtLWFwcCBzdGVhbS1hdXRvLWludGVyYWN0aW9ucy13b3JrZXIgc3RlYW0tY29tbXVuaWNhdGlvbnMtd29ya2VyOyBkbwogIGRvY2tlciBpbnNwZWN0ICRjID4vZGV2L251bGwgMj4mMSB8fCBjb250aW51ZQogIGVjaG8gIj09IGVudiAkYyI7IGRvY2tlciBleGVjICRjIHNoIC1jICdmb3IgbiBpbiBEQVNIU0NPUEVfTU9ERVJBVElPTl9NT0RFTCBEQVNIU0NPUEVfVklTSU9OX01PREVMIERBU0hTQ09QRV9WSVNJT05fTU9ERUxTIERBU0hTQ09QRV9NT0RFUkFUSU9OX01PREVMUzsgZG8gZXZhbCAidj1cJHskbjotfSI7IGVjaG8gIiRuPSR7djotPHVuc2V0Pn0iOyBkb25lOyBmb3IgbiBpbiBEQVNIU0NPUEVfQVBJX0tFWTsgZG8gZXZhbCAidj1cJHskbjotfSI7IFsgLW4gIiR2IiBdICYmIGVjaG8gIiRuIHByZXNlbnQiIHx8IGVjaG8gIiRuIGFic2VudCI7IGRvbmUnIDI+JjEKICBlY2hvICI9PSBsb2dzICRjIDAxOjU1Wi1ub3cgKGZpbHRlcmVkKSIKICBkb2NrZXIgbG9ncyAkYyAtLXNpbmNlIDIwMjYtMTAtMTRUMDE6NTU6MDBaIC0tdGltZXN0YW1wcyAyPiYxIHwgZ3JlcCAtaUUgIiRQIiAtQTYgfCByZWQgfCB0YWlsIC1uIDI1MApkb25lCmVjaG8gIj09IG5naW54IHVwbG9hZC9tZWRpYS1hbmFseXNpcyBhY2Nlc3MgMTA6MDArIgpncmVwIC1oRSAnMTQvT2N0LzIwMjY6MTA6MFswLTldJyAvdmFyL2xvZy9uZ2lueC8qYWNjZXNzKi5sb2cgMj4vZGV2L251bGwgfCBncmVwIC1FICcvYXBpLyh1cGxvYWR8b2JzZXJ2YXRpb25zKScgfCBhd2sgJ3twcmludCAkNCwkNiwkNywkOSwkMTAsJE5GfScgfCB0YWlsIC00MAo=' | base64 -d > /tmp/ops_ro_mod.sh
+            bash /tmp/ops_ro_mod.sh; rc=$?; rm -f /tmp/ops_ro_mod.sh; exit $rc
