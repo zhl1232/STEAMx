@@ -318,6 +318,8 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '5-zhu-ge-lian-nu.ldr',
   '5-xuan-zhuan-ka-fei-bei.ldr',
   '5-da-cha-de-xiao-niu.ldr',
+  // ji-gu 2026-10-14: yaw180 arms + blue curved cap re-oriented to courseware p11 (bill front); visual check passed.
+  '5-ji-gu-shou.ldr',
 ] as const
 
 export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
