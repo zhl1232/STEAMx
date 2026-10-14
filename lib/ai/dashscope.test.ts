@@ -94,6 +94,24 @@ describe('resolveDashScopeConfig', () => {
     expect(resolveDashScopeConfig('moderation').model).toBe('shared-vision')
   })
 
+  it('prefers an explicit DASHSCOPE_MODERATION_MODEL over the shared vision list', () => {
+    process.env.DASHSCOPE_VISION_MODELS = 'qwen3.8-max-0902,qwen3.8-flash'
+    process.env.DASHSCOPE_MODERATION_MODEL = 'qwen3.8-flash'
+    expect(resolveDashScopeConfig('moderation').model).toBe('qwen3.8-flash')
+  })
+
+  it('prefers DASHSCOPE_MODERATION_MODELS over DASHSCOPE_MODERATION_MODEL', () => {
+    process.env.DASHSCOPE_VISION_MODELS = 'qwen3.8-max-0902'
+    process.env.DASHSCOPE_MODERATION_MODEL = 'single'
+    process.env.DASHSCOPE_MODERATION_MODELS = 'list-a,list-b'
+    expect(resolveDashScopeConfig('moderation').model).toBe('list-a')
+  })
+
+  it('still falls back to the vision list when no moderation model is set', () => {
+    process.env.DASHSCOPE_VISION_MODELS = 'vision-a'
+    expect(resolveDashScopeConfig('moderation').model).toBe('vision-a')
+  })
+
   it('throws missing_config without an API key', () => {
     delete process.env.DASHSCOPE_API_KEY
     expect(() => resolveDashScopeConfig('vision')).toThrow(DashScopeError)
