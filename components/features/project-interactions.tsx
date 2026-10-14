@@ -7,6 +7,7 @@ import { CoinIcon } from "@/components/icons/coin-icon"
 import { useProjects } from '@/lib/context/project-context'
 import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
+import { useLoginContinuation } from "@/hooks/use-login-continuation"
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
 import { ReportDialog } from "@/components/ui/report-dialog"
 
@@ -72,7 +73,7 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
 
     const handleLike = () => {
         if (!user) {
-            promptLogin(() => toggleLike(projectId), {
+            promptLogin(resumeLike, {
                 title: '登录以点赞项目',
                 description: '登录后即可点赞并收藏喜欢的项目'
             })
@@ -81,9 +82,12 @@ export function ProjectInteractions({ projectId, projectTitle, likes: initialLik
         toggleLike(projectId)
     }
 
+    const resumeCollection = useLoginContinuation(() => toggleCollection(projectId))
+    const resumeLike = useLoginContinuation(() => toggleLike(projectId))
+
     const handleCollection = () => {
         if (!user) {
-            promptLogin(() => toggleCollection(projectId), {
+            promptLogin(resumeCollection, {
                 title: '登录以收藏项目',
                 description: '登录后即可收藏喜欢的项目'
             })

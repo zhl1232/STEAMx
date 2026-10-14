@@ -418,7 +418,7 @@ export function GlobalTutorFab({
   useEffect(() => {
     setGreeting(null)
     setSceneTitle('')
-    if (draftUserRef.current !== user?.id) {
+      if (draftUserRef.current != null && draftUserRef.current !== user?.id) {
       setPendingImages([])
       setInput('')
     }
@@ -731,6 +731,13 @@ export function GlobalTutorFab({
             />
           ) : (
             <div className="flex shrink-0 flex-col items-start gap-2 border-t border-[hsl(var(--brand-blue)/0.18)] bg-[hsl(var(--surface-raised)/0.7)] px-3.5 py-3">
+              <textarea
+                aria-label="想问小迪的问题"
+                placeholder="先写下问题，登录后可继续编辑和发送"
+                value={input}
+                onChange={event => setInput(event.target.value)}
+                className="min-h-20 w-full resize-y rounded-md border border-input bg-background px-3 py-2 text-sm"
+              />
               <p className="text-xs text-muted-foreground">登录后就能和小迪一对一聊。</p>
               <Button
                 type="button"

@@ -26,7 +26,7 @@
 
 | 模块 | 实现入口 | 唯一规则来源 |
 |---|---|---|
-| 登录、密码、短信 | `components/auth/auth-flow.tsx`、`app/login/`、`app/api/auth/sms/`、`lib/auth/phone-provider.ts`、`lib/sms/` | [登录与短信](docs/phone-auth.md) |
+| 登录、密码、短信 | `components/auth/auth-flow.tsx`、`lib/context/login-prompt-context.tsx`、`lib/auth/visit-prompt.ts`、`hooks/use-login-continuation.ts`、`app/login/`、`app/api/auth/sms/`、`lib/auth/phone-provider.ts`、`lib/sms/` | [登录与短信](docs/phone-auth.md) |
 | 管理员创建账号 | `app/api/admin/users/` | [管理员建号](docs/custom-sms-and-manual-users.md) |
 | 注册资料补建 | `lib/supabase/`、相关 `handle_new_user` 迁移 | [资料补建](docs/ensure-profile.md) |
 | 身份、内容访问与审核 | `lib/access/`、`lib/content-classification/`、`lib/content-filter/`、`app/admin/` | [互动资格](docs/TRUST_AND_INTERACTION_ACCESS.md)、[内容分级](docs/CONTENT_CLASSIFICATION_IMPLEMENTATION.md) |
