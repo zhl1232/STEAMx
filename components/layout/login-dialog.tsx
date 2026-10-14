@@ -35,7 +35,7 @@ export function LoginDialog({
           }}
           onCloseAutoFocus={(event) => {
             event.preventDefault()
-            returnFocusRef.current?.focus()
+            returnFocusRef.current?.focus({ preventScroll: true })
           }}
         >
           <DialogPrimitive.Title asChild>

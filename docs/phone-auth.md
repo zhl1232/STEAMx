@@ -68,3 +68,5 @@ custom 接口接收包含 `phone`、`code` 的 JSON POST，手机号按 E.164 �
 区分前端请求、应用接口、Auth 服务、短信受理和运营商送达；记录时间、请求 ID、耗时和错误码，隐藏手机号及敏感响应。控制台无记录不能单独证明网络或运营商故障，容器健康也不能证明短信送达。
 
 不得以自动确认手机号、静默降级、反复重发或单纯加大超时代替根因定位。迁移和建表规则见 [数据库连接与迁移](database-psql.md)，不在短信指南里要求无范围的 `db:push`。
+
+隔离回归可运行 `pnpm exec playwright test -c playwright.registration.config.ts`。该套件在本机加载真实 AuthFlow、LoginPromptProvider、AuthProvider 和 ProjectProvider，外部认证与 API 使用测试替身，分别验证桌面与移动视口。它不等同于真实短信/账号验收，也不依赖生产密钥。默认 Playwright 冒烟套件不包含该独立夹具。
