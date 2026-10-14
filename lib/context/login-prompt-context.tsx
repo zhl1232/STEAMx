@@ -51,7 +51,7 @@ export function LoginPromptProvider({ children }: { children: React.ReactNode })
     if (loading || !isVisitPromptRoute(pathname)) return
     if (user) { markVisitPrompt(); return }
     if (active.current || hasVisitedPrompt()) return
-    open(undefined, { title: '登录或注册', description: '未注册手机号验证后自动注册，也可以先探索。' }, true)
+    open(undefined, { title: '登录或注册', description: '未注册手机号验证后自动创建账号' }, true)
   }, [pathname, loading, user, open, cancel])
 
   useEffect(() => {
