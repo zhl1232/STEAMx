@@ -1921,6 +1921,8 @@ export interface Database {
           media_urls: string[]
           is_public: boolean
           status: string
+          suggested_scientific_name: string | null
+          suggested_species_name: string | null
           nature_topic: string | null
           identification_status: string
           observed_at_source: string | null
@@ -1948,6 +1950,8 @@ export interface Database {
           media_urls?: string[]
           is_public?: boolean
           status?: string
+          suggested_scientific_name?: string | null
+          suggested_species_name?: string | null
           nature_topic?: string | null
           identification_status?: string
           observed_at_source?: string | null
@@ -1975,6 +1979,8 @@ export interface Database {
           media_urls?: string[]
           is_public?: boolean
           status?: string
+          suggested_scientific_name?: string | null
+          suggested_species_name?: string | null
           nature_topic?: string | null
           identification_status?: string
           observed_at_source?: string | null

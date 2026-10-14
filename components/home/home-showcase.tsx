@@ -329,7 +329,7 @@ function NatureChannel({ className }: { className?: string }) {
 
 function HomeObservationCard({ observation, priority }: { observation: ObservationEvent; priority: boolean }) {
   const image = observation.mediaUrls[0];
-  const title = getObservationDisplayTitle(observation.species);
+  const title = getObservationDisplayTitle(observation.species, observation);
 
   return (
     <Link

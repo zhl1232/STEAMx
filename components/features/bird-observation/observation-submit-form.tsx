@@ -26,6 +26,7 @@ import {
 } from "lucide-react"
 
 import { ObservationLocationPicker } from "@/components/features/bird-observation/observation-location-picker"
+import { speciesAtlasOtherInitial } from "@/lib/nature-species-atlas"
 import { ObservationSubmitPhotoSection, type ObservationMediaAnalysis } from "@/components/features/bird-observation/observation-submit-photo-section"
 import { ObservationPhotoStrip } from "@/components/features/bird-observation/observation-photo-strip"
 import { ObservationSubmitSuccessDialog } from "@/components/features/bird-observation/observation-submit-success-dialog"
@@ -124,6 +125,9 @@ const MEDIA_ANALYSIS_FINAL_STATUSES = new Set<ObservationMediaAnalysis["status"]
   "failed_low_quality",
   "failed_unrecognized",
   "error",
+  // Client-only: no model call happened (daily quota). Not restored from drafts,
+  // so the photo is retried after the Beijing-day reset.
+  "quota_exceeded",
 ])
 
 type StepStatusTone = "neutral" | "success" | "warning" | "loading"
@@ -349,7 +353,7 @@ function getNextObserverThreshold(count: number) {
 }
 
 function isMediaAnalysisStatus(value: unknown): value is ObservationMediaAnalysis["status"] {
-  return MEDIA_ANALYSIS_STATUS_VALUES.includes(value as ObservationMediaAnalysis["status"])
+  return (MEDIA_ANALYSIS_STATUS_VALUES as readonly string[]).includes(value as string)
 }
 
 function normalizeDraftString(value: unknown, maxLength?: number) {
@@ -399,9 +403,25 @@ function normalizeMediaAnalysis(value: unknown, allowedImageUrls: Set<string>): 
     }
   }
 
+  const unmatchedSuggestions: NonNullable<ObservationMediaAnalysis["unmatchedSuggestions"]> = []
+  if (Array.isArray(row.unmatchedSuggestions)) {
+    for (const suggestion of row.unmatchedSuggestions) {
+      if (!suggestion || typeof suggestion !== "object") continue
+      const item = suggestion as Record<string, unknown>
+      if (typeof item.commonName !== "string" || !item.commonName.trim() || typeof item.confidence !== "number") continue
+      unmatchedSuggestions.push({
+        commonName: item.commonName.slice(0, 60),
+        scientificName: typeof item.scientificName === "string" ? item.scientificName.slice(0, 120) : null,
+        confidence: item.confidence,
+        reason: typeof item.reason === "string" ? item.reason : null,
+      })
+    }
+  }
+
   return {
     imageUrl,
     status: row.status,
+    unmatchedSuggestions,
     moderationPass: normalizeNullableBoolean(row.moderationPass),
     moderationReason: normalizeNullableString(row.moderationReason, 200),
     qualityPass: normalizeNullableBoolean(row.qualityPass),
@@ -658,6 +678,14 @@ export function ObservationSubmitForm({
     if (!analysis) return []
     return [...analysis.speciesCandidates].sort((left, right) => right.confidence - left.confidence)
   }, [analysisMap, selectedImageUrl])
+
+  const unmatchedSuggestions = useMemo(() => {
+    const analysis = selectedImageUrl ? analysisMap.get(selectedImageUrl) : null
+    if (!analysis?.unmatchedSuggestions?.length) return []
+    return [...analysis.unmatchedSuggestions].sort((left, right) => right.confidence - left.confidence).slice(0, 3)
+  }, [analysisMap, selectedImageUrl])
+  const [chosenUnmatchedByImage, setChosenUnmatchedByImage] = useState<Record<string, string>>({})
+  const chosenUnmatched = selectedImageUrl ? chosenUnmatchedByImage[selectedImageUrl] ?? null : null
 
   const analysisPendingCount = useMemo(
     () =>
@@ -973,6 +1001,7 @@ export function ObservationSubmitForm({
                 qualityReason: null,
                 noteSuggestion: null,
                 speciesCandidates: existing?.speciesCandidates ?? [],
+                unmatchedSuggestions: existing?.unmatchedSuggestions ?? [],
               })
             }
             return evidenceImages
@@ -1116,6 +1145,15 @@ export function ObservationSubmitForm({
     setSpeciesQuery(option.commonName)
   }
 
+  // Unmatched 「其他」 suggestions have no species row: choosing one keeps the
+  // photo on the existing 待鉴定 path (initial_species_id stays null).
+  const handleUnmatchedSelect = (commonName: string) => {
+    if (!selectedImageUrl) return
+    updatePhotoDraft(selectedImageUrl, { speciesId: "" })
+    setSpeciesQuery("")
+    setChosenUnmatchedByImage((prev) => ({ ...prev, [selectedImageUrl]: commonName }))
+  }
+
   const handleCandidateSelect = (candidate: SpeciesCandidate, closeSheet = false) => {
     const option = allSpecies.find((item) => item.id === candidate.speciesId)
     if (option) {
@@ -1254,6 +1292,7 @@ export function ObservationSubmitForm({
           latitude: Number(draft.latitude),
           longitude: Number(draft.longitude),
           initial_species_id: draft.speciesId ? Number(draft.speciesId) : null,
+          suggested_species_name: !draft.speciesId ? chosenUnmatchedByImage[url] ?? null : null,
           lifecycle_stage: draft.lifecycleStage || null,
           sex: draft.sex || null,
         }
@@ -1508,6 +1547,8 @@ export function ObservationSubmitForm({
     ? selectedSpecies.commonName
     : suggestedCandidates[0]
       ? `推荐：${suggestedCandidates[0].commonName}`
+      : unmatchedSuggestions[0]
+        ? `待确认：${speciesAtlasOtherInitial}·${unmatchedSuggestions[0].commonName}`
       : speciesStepLocked
         ? "上传照片后开始识别"
         : "可发布后请社区共同鉴定"
@@ -1677,7 +1718,11 @@ export function ObservationSubmitForm({
               ) : null}
               {selectedFailedAnalysis ? (
                 <div className="mb-4 rounded-xs border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-[#6d5c32] dark:bg-[#332d20] dark:text-[#f3d889]">
-                  {selectedFailedAnalysis.status === "failed_unsafe"
+                  {selectedFailedAnalysis.status === "quota_exceeded" ? (
+                    <span data-testid="identify-quota-exceeded">
+                      今天的识别次数用完了，可以手动选物种或按待鉴定发布。
+                    </span>
+                  ) : selectedFailedAnalysis.status === "failed_unsafe"
                     ? selectedFailedAnalysis.moderationReason || "这张图片不适合用于自然观察提交，请更换照片。"
                     : selectedFailedAnalysis.status === "failed_low_quality"
                       ? selectedFailedAnalysis.qualityReason || "图片不够清晰，请重拍后再试。"
@@ -1713,7 +1758,54 @@ export function ObservationSubmitForm({
                     {suggestedCandidates.slice(0, 3).map((candidate) => renderCandidateButton(candidate))}
                   </div>
                 </div>
-              ) : analysisFinished ? (
+              ) : null}
+
+              {suggestedCandidates.length === 0 && unmatchedSuggestions.length > 0 ? (
+                <div className={cn(subtlePanelClass, "mb-4 space-y-3")} data-testid="unmatched-suggestions">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 text-sm font-semibold text-(--obs-text)">
+                      <Info className="h-4 w-4 text-(--obs-accent)" />
+                      待确认建议
+                    </div>
+                    <span className="text-xs text-(--obs-muted-2)">图鉴暂未收录，选中后以待鉴定发布</span>
+                  </div>
+                  <div className="grid gap-2 md:grid-cols-3">
+                    {unmatchedSuggestions.map((suggestion) => {
+                      const active = chosenUnmatched === suggestion.commonName && !speciesId
+                      return (
+                        <button
+                          key={suggestion.commonName}
+                          type="button"
+                          aria-pressed={active}
+                          onClick={() => handleUnmatchedSelect(suggestion.commonName)}
+                          className={cn(
+                            "w-full rounded-xs border p-3 text-left transition",
+                            active
+                              ? "border-(--obs-accent) bg-(--obs-accent-soft)"
+                              : "border-dashed border-(--obs-border-strong) bg-(--obs-control) hover:border-(--obs-accent) hover:bg-(--obs-control-hover)",
+                          )}
+                        >
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="min-w-0 text-sm font-semibold text-(--obs-text)">
+                              <span className="text-(--obs-muted-2)">{speciesAtlasOtherInitial}·</span>
+                              {suggestion.commonName}
+                              {suggestion.scientificName ? (
+                                <span className="ml-1 text-xs font-normal italic text-(--obs-muted-2)">（{suggestion.scientificName}）</span>
+                              ) : null}
+                            </div>
+                            <span className="shrink-0 rounded-full bg-(--obs-accent-panel) px-2 py-0.5 text-xs font-semibold text-(--obs-accent-text)">
+                              {Math.round(suggestion.confidence * 100)}%
+                            </span>
+                          </div>
+                          {suggestion.reason ? (
+                            <p className="mt-2 line-clamp-2 text-[13px] leading-6 text-(--obs-muted-2)">{suggestion.reason}</p>
+                          ) : null}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              ) : suggestedCandidates.length === 0 && analysisFinished ? (
                 <div className="mb-4 rounded-xs border border-(--obs-border) bg-(--obs-control) px-4 py-3 text-sm text-(--obs-muted)">
                   当前图片没有匹配到可靠的物种候选。你仍可手动提交鉴定，或发布为待鉴定。
                 </div>

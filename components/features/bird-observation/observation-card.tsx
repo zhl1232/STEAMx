@@ -19,7 +19,7 @@ interface ObservationCardProps {
 
 export function ObservationCard({ observation, className, priority = false }: ObservationCardProps) {
   const heroImage = observation.mediaUrls[0];
-  const title = getObservationDisplayTitle(observation.species);
+  const title = getObservationDisplayTitle(observation.species, observation);
   const summary = observation.notes?.trim();
   const createdAtLabel = formatObservationDateTime(observation.createdAt);
 
