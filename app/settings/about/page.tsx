@@ -198,8 +198,8 @@ export default function AboutSettingsPage() {
             ) : null}
             <details open={!supportWechat}>
               <summary className="flex min-h-11 cursor-pointer items-center text-sm font-medium">查看微信客服二维码</summary>
-              <a href="/assets/contact-wechat.png" target="_blank" rel="noopener noreferrer" aria-label="查看微信客服二维码原图（新窗口）" className="mt-2 flex h-60 justify-center overflow-hidden rounded-md bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                <Image src="/assets/contact-wechat.png" alt="添加创探空间微信客服的二维码" width={888} height={1131} unoptimized className="h-full w-auto object-contain" />
+              <a href="/assets/contact-wechat-20261014.jpg" target="_blank" rel="noopener noreferrer" aria-label="查看微信客服二维码原图（新窗口）" className="mt-2 flex h-60 justify-center overflow-hidden rounded-md bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <Image src="/assets/contact-wechat-20261014.jpg" alt="添加微信客服「北京创探科技」的二维码" width={888} height={1131} unoptimized className="h-full w-auto object-contain" />
               </a>
               <p className="mt-2 text-xs leading-6 text-muted-foreground">点击图片查看、保存原图，再打开微信扫一扫，从相册选择这张二维码。</p>
             </details>
