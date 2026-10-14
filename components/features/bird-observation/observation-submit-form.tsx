@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
@@ -125,6 +126,9 @@ const MEDIA_ANALYSIS_FINAL_STATUSES = new Set<ObservationMediaAnalysis["status"]
   "failed_low_quality",
   "failed_unrecognized",
   "error",
+  // Client-only: no model call happened (daily quota). Not restored from drafts,
+  // so the photo is retried after the Beijing-day reset.
+  "quota_exceeded",
 ])
 
 type StepStatusTone = "neutral" | "success" | "warning" | "loading"
@@ -350,7 +354,7 @@ function getNextObserverThreshold(count: number) {
 }
 
 function isMediaAnalysisStatus(value: unknown): value is ObservationMediaAnalysis["status"] {
-  return MEDIA_ANALYSIS_STATUS_VALUES.includes(value as ObservationMediaAnalysis["status"])
+  return (MEDIA_ANALYSIS_STATUS_VALUES as readonly string[]).includes(value as string)
 }
 
 function normalizeDraftString(value: unknown, maxLength?: number) {
@@ -1715,7 +1719,14 @@ export function ObservationSubmitForm({
               ) : null}
               {selectedFailedAnalysis ? (
                 <div className="mb-4 rounded-xs border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-[#6d5c32] dark:bg-[#332d20] dark:text-[#f3d889]">
-                  {selectedFailedAnalysis.status === "failed_unsafe"
+                  {selectedFailedAnalysis.status === "quota_exceeded" ? (
+                    <span data-testid="identify-quota-exceeded">
+                      今天的识别次数用完了，可以手动选物种或按待鉴定发布。
+                      <Link href="/membership" className="ml-1 font-medium underline underline-offset-2 hover:opacity-80">
+                        开通会员
+                      </Link>
+                    </span>
+                  ) : selectedFailedAnalysis.status === "failed_unsafe"
                     ? selectedFailedAnalysis.moderationReason || "这张图片不适合用于自然观察提交，请更换照片。"
                     : selectedFailedAnalysis.status === "failed_low_quality"
                       ? selectedFailedAnalysis.qualityReason || "图片不够清晰，请重拍后再试。"

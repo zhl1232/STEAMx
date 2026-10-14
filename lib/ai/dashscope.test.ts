@@ -188,6 +188,13 @@ describe('dashScopeChatComplete', () => {
     expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ model, enable_thinking: false })
   })
 
+  it.each(['qwen3.8-max-0902', 'qwen3.8-flash', 'qwen3.8-max-2026-09-02'])('disables thinking for vision snapshot model %s', async (model) => {
+    process.env.DASHSCOPE_VISION_MODELS = model
+    fetchMock.mockResolvedValue({ ok: true, json: async () => ({ choices: [{ message: { content: '{}' } }] }) })
+    await dashScopeChatComplete({ role: 'vision', payload: { messages: [] } })
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ model, enable_thinking: false })
+  })
+
   it.each(['vision', 'moderation', 'pbl-vision'] as const)('disables optional thinking for %s role JSON/vision calls', async (role) => {
     process.env.DASHSCOPE_VISION_MODELS = 'qwen3.7-plus'
     process.env.DASHSCOPE_MODERATION_MODELS = 'qwen3.7-plus'

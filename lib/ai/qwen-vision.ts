@@ -4,7 +4,10 @@ import {
   type ObservationMediaAnalysisResult,
   type SpeciesRow,
 } from '@/lib/ai/observation-media-analysis'
+import { prepareVisionImageUrl } from '@/lib/ai/vision-image'
 import { DASHSCOPE_COMPLETE_TIMEOUT_MS, DashScopeError, dashScopeChatComplete } from '@/lib/ai/dashscope'
+
+export const OBSERVATION_VISION_MAX_TOKENS = 900
 
 type ObservationVisionErrorCode =
   | 'missing_config'
@@ -129,6 +132,7 @@ export async function analyzeObservationImageWithQwen(
   speciesRows: SpeciesRow[],
 ): Promise<ObservationMediaAnalysisResult> {
   let result: Awaited<ReturnType<typeof dashScopeChatComplete>>
+  const modelImageUrl = await prepareVisionImageUrl(imageUrl)
   try {
     result = await dashScopeChatComplete({
       role: 'vision',
@@ -137,6 +141,9 @@ export async function analyzeObservationImageWithQwen(
       payload: {
         response_format: { type: 'json_object' },
         temperature: 0.1,
+        // JSON with <=3 candidates + a short note fits well under this; caps
+        // runaway output. Thinking is disabled in dashscope.ts for this role.
+        max_tokens: OBSERVATION_VISION_MAX_TOKENS,
         messages: [
           {
             role: 'system',
@@ -146,7 +153,7 @@ export async function analyzeObservationImageWithQwen(
             role: 'user',
             content: [
               { type: 'text', text: '请分析这张自然观察图片。' },
-              { type: 'image_url', image_url: { url: imageUrl } },
+              { type: 'image_url', image_url: { url: modelImageUrl } },
             ],
           },
         ],

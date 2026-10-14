@@ -21,7 +21,7 @@ import {
 export interface ObservationMediaAnalysis {
   id?: number
   imageUrl: string
-  status: "pending" | "passed" | "passed_no_identification" | "failed_unsafe" | "failed_low_quality" | "failed_unrecognized" | "error"
+  status: "pending" | "passed" | "passed_no_identification" | "failed_unsafe" | "failed_low_quality" | "failed_unrecognized" | "error" | "quota_exceeded"
   moderationPass: boolean | null
   moderationReason: string | null
   qualityPass: boolean | null
@@ -75,6 +75,11 @@ function getAnalysisBadge(status?: ObservationMediaAnalysis["status"]) {
     case "failed_low_quality":
       return {
         label: "请重拍",
+        className: "border-amber-300/80 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300",
+      }
+    case "quota_exceeded":
+      return {
+        label: "未识别",
         className: "border-amber-300/80 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300",
       }
     case "failed_unrecognized":

@@ -412,7 +412,8 @@ const THINKING_OPTIONAL_ROLES: DashScopeModelRole[] = [
 
 function tutorThinkingOptions(role: DashScopeModelRole, model: string) {
   if (!THINKING_OPTIONAL_ROLES.includes(role)) return {}
-  const family = model.replace(/-(?:latest|\d{4}-\d{2}-\d{2})$/, '')
+  // Strip snapshot suffixes: -latest, -2026-09-02, and short -0902 (e.g. qwen3.8-max-0902).
+  const family = model.replace(/-(?:latest|\d{4}-\d{2}-\d{2}|\d{4})$/, '')
   return /^(?:qwen3\.[78]-(?:max|plus|flash)|qwen3-vl-(?:plus|flash)|qwen-flash)$/.test(family)
     ? { enable_thinking: false }
     : {}

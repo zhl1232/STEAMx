@@ -120,6 +120,28 @@ describe('ObservationSubmitForm workflow', () => {
     expect(button).toHaveAttribute('aria-pressed', 'true')
   })
 
+  it('shows the daily quota message and still allows publishing when identify quota is used up', async () => {
+    mocks.fetch.mockImplementation(async (url: string, init?: RequestInit) => {
+      if (url === '/api/observations/media-analysis') {
+        const { imageUrls } = JSON.parse(String(init?.body)) as { imageUrls: string[] }
+        return new Response(JSON.stringify({
+          analyses: imageUrls.map((imageUrl) => ({ imageUrl, status: 'quota_exceeded', moderationPass: null, speciesCandidates: [], unmatchedSuggestions: [] })),
+          quota: { isMember: false, limit: 5, used: 5, remaining: 0, exceeded: true },
+        }))
+      }
+      if (url === '/api/observations') return new Response(JSON.stringify({ observation: { id: 1 } }))
+      return new Response(JSON.stringify({ species: [] }))
+    })
+    renderForm()
+    addPhoto()
+    const notice = await screen.findByTestId('identify-quota-exceeded')
+    expect(notice).toHaveTextContent('今天的识别次数用完了，可以手动选物种或按待鉴定发布')
+    expect(within(notice).getByRole('link', { name: '开通会员' })).toHaveAttribute('href', '/membership')
+    const analysisCalls = mocks.fetch.mock.calls.filter(([url]) => url === '/api/observations/media-analysis').length
+    await new Promise((resolve) => setTimeout(resolve, 50))
+    expect(mocks.fetch.mock.calls.filter(([url]) => url === '/api/observations/media-analysis').length).toBe(analysisCalls)
+  })
+
   it('preserves manually edited time and location when slow EXIF lookup completes', async () => {
     let finish: (value: ObservationPhotoMetadataAutofillResult) => void = () => {}
     mocks.autofill.mockImplementation(() => new Promise((resolve) => { finish = resolve }))
