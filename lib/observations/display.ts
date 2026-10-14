@@ -2,6 +2,7 @@ import type {
   ObservationIdentification,
   ObservationSpeciesSummary,
 } from '@/lib/mappers/types'
+import { speciesAtlasOtherInitial } from '@/lib/nature-species-atlas'
 import {
   getObservationSubmitTopicCopy,
   type ObservationSubmitTopic,
@@ -23,10 +24,22 @@ export interface ObservationHeadline {
   scientificName?: string | null
 }
 
+export interface ObservationSuggestedSpecies {
+  suggestedSpeciesName?: string | null
+  suggestedScientificName?: string | null
+}
+
+/** 「其他·同型巴蜗牛（待确认）」 for an unmatched AI suggestion, else null. */
+export function getSuggestedSpeciesLabel(suggestion: ObservationSuggestedSpecies | null | undefined): string | null {
+  const name = suggestion?.suggestedSpeciesName?.trim()
+  return name ? `${speciesAtlasOtherInitial}·${name}（待确认）` : null
+}
+
 export function getObservationDisplayTitle(
   species: Pick<ObservationSpeciesSummary, 'commonName'>[] | undefined,
+  suggestion?: ObservationSuggestedSpecies | null,
 ): string {
-  return species?.[0]?.commonName?.trim() || '待鉴定观察'
+  return species?.[0]?.commonName?.trim() || getSuggestedSpeciesLabel(suggestion) || '待鉴定观察'
 }
 
 export function getUnknownSpeciesLabel(topic: ObservationSubmitTopic): string {
@@ -46,6 +59,7 @@ export function getObservationHeadline(
   identifications: ObservationIdentification[],
   identificationStatus: 'needs_id' | 'community_confirmed',
   topic: ObservationSubmitTopic,
+  suggestion?: ObservationSuggestedSpecies | null,
 ): ObservationHeadline {
   const confirmed = species[0]
   if (identificationStatus === 'community_confirmed' && confirmed?.commonName) {
@@ -71,6 +85,11 @@ export function getObservationHeadline(
       title: `${topAi.commonName}（AI 建议 ${pct}%）`,
       scientificName: topAi.scientificName,
     }
+  }
+
+  const suggestedLabel = getSuggestedSpeciesLabel(suggestion)
+  if (suggestedLabel) {
+    return { title: suggestedLabel, scientificName: suggestion?.suggestedScientificName ?? null }
   }
 
   return { title: getUnknownSpeciesLabel(topic) }

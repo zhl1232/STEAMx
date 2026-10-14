@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
+import { getSuggestedSpeciesLabel } from "@/lib/observations/display"
 import Link from "next/link"
 import { Camera, ChevronRight, Leaf, MapPin } from "lucide-react"
 
@@ -102,6 +103,7 @@ export function NatureHomeMapPair({
               <div className="grid grid-cols-2 gap-2.5 min-[390px]:gap-3">
                 {mobileObservations.map((observation) => {
                   const speciesName = observation.species[0]?.commonName
+                  const suggestedLabel = getSuggestedSpeciesLabel(observation)
                   const isPending = !speciesName
 
                   return (
@@ -114,7 +116,7 @@ export function NatureHomeMapPair({
                         {observation.mediaUrls[0] ? (
                           <OptimizedImage
                             src={observation.mediaUrls[0]}
-                            alt={speciesName ?? "待鉴定观察"}
+                            alt={speciesName ?? suggestedLabel ?? "待鉴定观察"}
                             fill
                             variant="card"
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -136,7 +138,7 @@ export function NatureHomeMapPair({
                       </div>
                       <div className="p-2.5 min-[390px]:p-3">
                         <h3 className="truncate text-[13px] font-bold text-foreground transition-colors group-hover:text-[hsl(var(--primary))] min-[390px]:text-[14px]">
-                          {speciesName ?? "自然观察记录"}
+                          {speciesName ?? suggestedLabel ?? "自然观察记录"}
                         </h3>
                         <p className="mt-1 flex items-center gap-1 truncate text-[11px] text-muted-foreground">
                           <MapPin className="h-3 w-3 shrink-0 text-[hsl(var(--primary))]" />
@@ -243,6 +245,7 @@ export function NatureHomeMapPair({
                   const id = String(observation.id)
                   const isActive = id === hoveredId
                   const speciesName = observation.species[0]?.commonName
+                  const suggestedLabel = getSuggestedSpeciesLabel(observation)
 
                   return (
                     <li key={observation.id}>
@@ -264,7 +267,7 @@ export function NatureHomeMapPair({
                           {observation.mediaUrls[0] ? (
                             <OptimizedImage
                               src={observation.mediaUrls[0]}
-                              alt={speciesName ?? "待鉴定观察"}
+                              alt={speciesName ?? suggestedLabel ?? "待鉴定观察"}
                               fill
                               variant="thumbnail"
                               className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -284,7 +287,7 @@ export function NatureHomeMapPair({
                               ) : (
                                 <span className="inline-flex items-center gap-1.5">
                                   <span className="nature-chip">待鉴定</span>
-                                  <span className="text-muted-foreground">观察记录</span>
+                                  <span className="text-muted-foreground">{suggestedLabel ?? "观察记录"}</span>
                                 </span>
                               )}
                             </p>

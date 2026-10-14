@@ -26,6 +26,18 @@ export interface ObservationSpeciesCandidate {
   reason: string | null
 }
 
+/**
+ * A model candidate that did not match the species table. Kept as a
+ * 「其他」 to-be-confirmed suggestion; choosing it publishes as 待鉴定
+ * (no species row is written).
+ */
+export interface ObservationUnmatchedSuggestion {
+  commonName: string
+  scientificName: string | null
+  confidence: number
+  reason: string | null
+}
+
 export interface ObservationMediaAnalysisResult {
   status: ObservationMediaAnalysisStatus
   modelName: string
@@ -35,6 +47,7 @@ export interface ObservationMediaAnalysisResult {
   qualityReason: string | null
   noteSuggestion: string | null
   speciesCandidates: ObservationSpeciesCandidate[]
+  unmatchedSuggestions: ObservationUnmatchedSuggestion[]
   rawResponse: unknown
 }
 
@@ -48,6 +61,7 @@ export interface ObservationMediaAnalysisResponse {
   qualityReason: string | null
   noteSuggestion: string | null
   speciesCandidates: ObservationSpeciesCandidate[]
+  unmatchedSuggestions: ObservationUnmatchedSuggestion[]
 }
 
 const ProviderCandidateSchema = z.object({
@@ -187,11 +201,23 @@ export function mapVisionPayloadToAnalysisResult(
 ): ObservationMediaAnalysisResult {
   const speciesMap = buildSpeciesLookupMap(speciesRows)
   const matchedCandidates: ObservationSpeciesCandidate[] = []
+  const unmatchedSuggestions: ObservationUnmatchedSuggestion[] = []
 
   if (payload.moderation_pass && payload.quality_pass) {
     for (const candidate of payload.species_candidates) {
       const matched = findSpeciesMatch(candidate, speciesRows, speciesMap)
-      if (!matched) continue
+      if (!matched) {
+        const commonName = candidate.common_name.trim().slice(0, 60)
+        if (commonName && !unmatchedSuggestions.some((item) => item.commonName === commonName)) {
+          unmatchedSuggestions.push({
+            commonName,
+            scientificName: candidate.scientific_name?.trim().slice(0, 120) || null,
+            confidence: Number(candidate.confidence.toFixed(2)),
+            reason: clipReason(candidate.reason),
+          })
+        }
+        continue
+      }
 
       if (matchedCandidates.some((item) => item.speciesId === matched.id)) continue
 
@@ -225,6 +251,7 @@ export function mapVisionPayloadToAnalysisResult(
     qualityReason: clipReason(payload.quality_reason),
     noteSuggestion: status === 'passed' || status === 'passed_no_identification' ? clipNoteSuggestion(payload.note_suggestion) : null,
     speciesCandidates: matchedCandidates.sort((left, right) => right.confidence - left.confidence).slice(0, 3),
+    unmatchedSuggestions: unmatchedSuggestions.sort((left, right) => right.confidence - left.confidence).slice(0, 3),
     rawResponse,
   }
 }
@@ -251,6 +278,32 @@ export function parseStoredSpeciesCandidates(value: unknown): ObservationSpecies
     .filter((item): item is ObservationSpeciesCandidate => Boolean(item))
 }
 
+/** Stored inside species_candidates as `{ unmatched: true, ... }` (no speciesId). */
+export function serializeSpeciesCandidatesForStorage(
+  result: Pick<ObservationMediaAnalysisResult, 'speciesCandidates' | 'unmatchedSuggestions'>,
+): unknown[] {
+  return [
+    ...result.speciesCandidates,
+    ...result.unmatchedSuggestions.map((item) => ({ ...item, unmatched: true })),
+  ]
+}
+
+export function parseStoredUnmatchedSuggestions(value: unknown): ObservationUnmatchedSuggestion[] {
+  if (!Array.isArray(value)) return []
+  return value.flatMap((item) => {
+    if (!item || typeof item !== 'object') return []
+    const row = item as Record<string, unknown>
+    if (row.unmatched !== true || typeof row.speciesId === 'number') return []
+    if (typeof row.commonName !== 'string' || !row.commonName.trim() || typeof row.confidence !== 'number') return []
+    return [{
+      commonName: row.commonName,
+      scientificName: typeof row.scientificName === 'string' ? row.scientificName : null,
+      confidence: row.confidence,
+      reason: typeof row.reason === 'string' ? row.reason : null,
+    }]
+  })
+}
+
 export function mapAnalysisRowToResponse(row: ObservationMediaAnalysisRow): ObservationMediaAnalysisResponse {
   return {
     id: row.id,
@@ -262,6 +315,7 @@ export function mapAnalysisRowToResponse(row: ObservationMediaAnalysisRow): Obse
     qualityReason: row.quality_reason,
     noteSuggestion: row.note_suggestion,
     speciesCandidates: parseStoredSpeciesCandidates(row.species_candidates),
+    unmatchedSuggestions: parseStoredUnmatchedSuggestions(row.species_candidates),
   }
 }
 

@@ -6,6 +6,7 @@ import { requireRateLimit } from '@/lib/api/rate-limit'
 import { validateUpload, ALLOWED_BUCKETS } from '@/lib/utils/file-validation'
 import { moderateUploadedImage } from '@/lib/ai/upload-content-moderation'
 import { logger } from '@/lib/logger'
+import { isObservationPhotoUpload } from '@/lib/ai/observation-moderation-attestation'
 
 const IMAGE_ONLY_BUCKETS = ALLOWED_BUCKETS.filter(b => b !== 'project-completion-videos')
 
@@ -83,6 +84,13 @@ export async function POST(request: NextRequest) {
     const { data: { publicUrl } } = supabaseAdmin.storage
       .from(bucket)
       .getPublicUrl(data.path)
+
+    if (isObservationPhotoUpload(bucket, pathPrefix)) {
+      // Observation photos are moderated inside the combined identify call
+      // (/api/observations/media-analysis) and re-checked at publish time, so
+      // upload does not block on a separate moderation model.
+      return NextResponse.json({ publicUrl, moderation: { state: 'deferred' } })
+    }
 
     try {
       const moderation = await moderateUploadedImage(publicUrl, '上传图片')

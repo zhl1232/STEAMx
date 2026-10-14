@@ -3,6 +3,7 @@ import { z } from 'zod'
 
 import {
   mapAnalysisRowToResponse,
+  serializeSpeciesCandidatesForStorage,
   type ObservationMediaAnalysisRow,
   type ObservationMediaAnalysisStatus,
 } from '@/lib/ai/observation-media-analysis'
@@ -11,7 +12,20 @@ import {
   getObservationVisionUserMessage,
   serializeObservationVisionError,
 } from '@/lib/ai/qwen-vision'
+import {
+  OBSERVATION_MODERATION_ATTESTATION_KEY,
+  OBSERVATION_SUGGESTION_ATTESTATION_KEY,
+  signObservationModerationPass,
+  signObservationSuggestions,
+} from '@/lib/ai/observation-moderation-attestation'
 import { handleApiError, requireAuth } from '@/lib/api/auth'
+import {
+  isObservationIdentifyMember,
+  OBSERVATION_IDENTIFY_QUOTA_MESSAGE,
+  refundObservationIdentifyQuota,
+  reserveObservationIdentifyQuota,
+  type ObservationIdentifyQuota,
+} from '@/lib/observations/identify-quota'
 import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { requireRateLimit } from '@/lib/api/rate-limit'
 import { isOwnedProjectImageUrl } from '@/lib/api/validation'
@@ -27,6 +41,22 @@ const relativeOrAbsoluteUrlSchema = z.union([
 const MediaAnalysisSchema = z.object({
   imageUrls: z.array(relativeOrAbsoluteUrlSchema).min(1).max(5),
 })
+
+/** Not persisted: no model was called, so there is no analysis row. */
+function buildQuotaExceededAnalysis(imageUrl: string) {
+  return {
+    id: 0,
+    imageUrl,
+    status: 'quota_exceeded' as const,
+    moderationPass: null,
+    moderationReason: null,
+    qualityPass: null,
+    qualityReason: OBSERVATION_IDENTIFY_QUOTA_MESSAGE,
+    noteSuggestion: null,
+    speciesCandidates: [],
+    unmatchedSuggestions: [],
+  }
+}
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
@@ -95,6 +125,23 @@ export async function POST(request: NextRequest) {
       return !finalStatuses.has(status)
     })
 
+    // Daily identify quota (free users). Counted per photo actually sent to the
+    // model; final-result duplicates were filtered out above. Over-quota photos
+    // skip the model entirely and are moderated separately at publish time.
+    let quota: ObservationIdentifyQuota = { isMember: true, limit: null, used: null, remaining: null, usageDate: null }
+    let quotaExceededUrls: string[] = []
+    if (toAnalyze.length > 0) {
+      const isMember = await isObservationIdentifyMember(supabase, user.id)
+      if (!isMember) {
+        const reservation = await reserveObservationIdentifyQuota(user.id, toAnalyze.length)
+        const { granted, ...rest } = reservation
+        quota = rest
+        quotaExceededUrls = toAnalyze.slice(granted)
+        toAnalyze.splice(granted)
+      }
+    }
+    let failedCount = 0
+
     if (toAnalyze.length > 0) {
       const { error: pendingError } = await supabase
         .from('observation_media_analyses')
@@ -121,6 +168,19 @@ export async function POST(request: NextRequest) {
           const inferredTopic =
             speciesTopicById.get(result.speciesCandidates[0]?.speciesId ?? -1) ?? null
 
+          // Single combined call: the same response carries the moderation
+          // verdict. Attest a pass server-side so submit can trust it without a
+          // second moderation call (rows are owner-updatable under RLS).
+          const attestation = result.moderationPass === true
+            ? signObservationModerationPass(user.id, imageUrl, result.modelName)
+            : null
+          const suggestionAttestation = signObservationSuggestions(user.id, imageUrl, result.unmatchedSuggestions)
+          const rawResponse = {
+            provider: result.rawResponse ?? null,
+            ...(attestation ? { [OBSERVATION_MODERATION_ATTESTATION_KEY]: attestation } : {}),
+            ...(suggestionAttestation ? { [OBSERVATION_SUGGESTION_ATTESTATION_KEY]: suggestionAttestation } : {}),
+          }
+
           const { error } = await supabase
             .from('observation_media_analyses')
             .update({
@@ -132,8 +192,8 @@ export async function POST(request: NextRequest) {
               quality_reason: result.qualityReason,
               note_suggestion: result.noteSuggestion,
               nature_topic: inferredTopic,
-              species_candidates: result.speciesCandidates as unknown as Json,
-              raw_response: result.rawResponse as Json,
+              species_candidates: serializeSpeciesCandidatesForStorage(result) as unknown as Json,
+              raw_response: rawResponse as unknown as Json,
             })
             .eq('user_id', user.id)
             .eq('image_url', imageUrl)
@@ -142,12 +202,14 @@ export async function POST(request: NextRequest) {
             throw error
           }
         } catch (error) {
+          failedCount += 1
           const failureReason = getObservationVisionUserMessage(error)
           logger.error('Observation media analysis failed', { error, imageUrl, userId: user.id })
           await supabase
             .from('observation_media_analyses')
             .update({
               status: 'error',
+              moderation_pass: null,
               moderation_reason: failureReason,
               quality_reason: null,
               note_suggestion: null,
@@ -158,6 +220,19 @@ export async function POST(request: NextRequest) {
         }
       }),
     )
+
+    // Provider errors / timeouts do not consume quota.
+    if (!quota.isMember && failedCount > 0) {
+      try {
+        await refundObservationIdentifyQuota(user.id, quota.usageDate, failedCount)
+        if (quota.used !== null && quota.limit !== null) {
+          quota.used = Math.max(0, quota.used - failedCount)
+          quota.remaining = Math.max(0, quota.limit - quota.used)
+        }
+      } catch (refundError) {
+        logger.error('Observation identify quota refund failed', { refundError, userId: user.id, failedCount })
+      }
+    }
 
     const { data: refreshedRows, error: refreshedError } = await supabase
       .from('observation_media_analyses')
@@ -173,8 +248,14 @@ export async function POST(request: NextRequest) {
       (left, right) => imageUrls.indexOf(left.image_url) - imageUrls.indexOf(right.image_url),
     )
 
+    const analyses = [
+      ...rows.map(mapAnalysisRowToResponse),
+      ...quotaExceededUrls.map((imageUrl) => buildQuotaExceededAnalysis(imageUrl)),
+    ].sort((left, right) => imageUrls.indexOf(left.imageUrl) - imageUrls.indexOf(right.imageUrl))
+
     return NextResponse.json({
-      analyses: rows.map(mapAnalysisRowToResponse),
+      analyses,
+      quota: { ...quota, exceeded: quotaExceededUrls.length > 0 },
     })
   } catch (error) {
     return handleApiError(error)

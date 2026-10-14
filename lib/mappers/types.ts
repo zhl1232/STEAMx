@@ -419,6 +419,9 @@ export interface ObservationEvent {
     commentsCount: number
     species: ObservationSpeciesSummary[]
     identifications?: ObservationIdentification[]
+    /** Unmatched 「其他」 AI suggestion chosen at publish time (待确认). */
+    suggestedSpeciesName?: string | null
+    suggestedScientificName?: string | null
 }
 
 export interface ObservationHotspotSpeciesSummary {
@@ -944,6 +947,8 @@ export function mapDbObservationEvent(
         likesCount: (dbObservationEvent as Record<string, unknown>).likes_count as number || 0,
         commentsCount: (dbObservationEvent as Record<string, unknown>).comments_count as number || 0,
         species,
+        suggestedSpeciesName: dbObservationEvent.suggested_species_name ?? null,
+        suggestedScientificName: dbObservationEvent.suggested_scientific_name ?? null,
     }
 }
 

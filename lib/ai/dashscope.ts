@@ -197,6 +197,19 @@ function getConfiguredModelCandidates(role: DashScopeModelRole) {
   const legacyModel = resolveModel(role)
   if (!isModelAutoSwitchEnabled()) return [legacyModel]
 
+  if (role === 'moderation') {
+    // An explicit moderation model (list or single) must win over the shared
+    // vision list; otherwise DASHSCOPE_MODERATION_MODEL was silently ignored
+    // and moderation ran on the (slow) vision model.
+    const explicit = uniqueModels([
+      ...parseModelList(process.env.DASHSCOPE_MODERATION_MODELS),
+      ...parseModelList(process.env.DASHSCOPE_MODERATION_MODEL),
+    ])
+    if (explicit.length > 0) {
+      return uniqueModels([...explicit, ...DEFAULT_MODEL_CANDIDATES[role], legacyModel])
+    }
+  }
+
   const configuredModels = modelListEnvKeys(role).flatMap((key) => parseModelList(process.env[key]))
   return uniqueModels([
     ...configuredModels,
@@ -399,7 +412,8 @@ const THINKING_OPTIONAL_ROLES: DashScopeModelRole[] = [
 
 function tutorThinkingOptions(role: DashScopeModelRole, model: string) {
   if (!THINKING_OPTIONAL_ROLES.includes(role)) return {}
-  const family = model.replace(/-(?:latest|\d{4}-\d{2}-\d{2})$/, '')
+  // Strip snapshot suffixes: -latest, -2026-09-02, and short -0902 (e.g. qwen3.8-max-0902).
+  const family = model.replace(/-(?:latest|\d{4}-\d{2}-\d{2}|\d{4})$/, '')
   return /^(?:qwen3\.[78]-(?:max|plus|flash)|qwen3-vl-(?:plus|flash)|qwen-flash)$/.test(family)
     ? { enable_thinking: false }
     : {}

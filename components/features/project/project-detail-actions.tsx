@@ -19,6 +19,7 @@ import {
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
+import { useLoginContinuation } from "@/hooks/use-login-continuation"
 import { useProjects } from "@/lib/context/project-context"
 import { useSyncProjectInteractions } from "@/hooks/use-sync-project-interactions"
 import { formatCount } from "@/lib/project/format-count"
@@ -174,10 +175,11 @@ export function ProjectDetailActions({
     finally { startingRef.current = false; setStarting(false) }
   }
 
+  const resumeStart = useLoginContinuation(startSafely)
   const handleStart = () => {
     if (!user) {
       promptLogin(() => {
-        void startSafely()
+        void resumeStart()
       }, {
         title: practicePending ? "登录记录探索过程" : viewingGuide ? "登录记录观看心得" : isObservation ? "登录以开始观察" : "登录以开始我的项目",
         description: practicePending ? "登录后可记录探索过程" : viewingGuide ? "登录后可记录观看中发现的现象与问题，无需制作或上传作品" : "登录后即可记录探索过程并上传作品",
@@ -187,9 +189,12 @@ export function ProjectDetailActions({
     void startSafely()
   }
 
+  const resumeCollection = useLoginContinuation(() => toggleCollection(projectId))
+  const resumeLike = useLoginContinuation(() => toggleLike(projectId))
+
   const handleCollection = () => {
     if (!user) {
-      promptLogin(() => toggleCollection(projectId), {
+      promptLogin(resumeCollection, {
         title: "登录以收藏项目",
         description: viewingGuide ? "登录后即可收藏，稍后继续观看" : "登录后即可收藏喜欢的项目，稍后继续制作",
       })
@@ -200,7 +205,7 @@ export function ProjectDetailActions({
 
   const handleLike = () => {
     if (!user) {
-      promptLogin(() => toggleLike(projectId), {
+      promptLogin(resumeLike, {
         title: "登录以点赞项目",
         description: "登录后即可点赞喜欢的项目",
       })

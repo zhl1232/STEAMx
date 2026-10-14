@@ -35,7 +35,7 @@ export function LoginDialog({
           }}
           onCloseAutoFocus={(event) => {
             event.preventDefault()
-            returnFocusRef.current?.focus()
+            returnFocusRef.current?.focus({ preventScroll: true })
           }}
         >
           <DialogPrimitive.Title asChild>
@@ -47,11 +47,10 @@ export function LoginDialog({
             description={description}
             onClose={() => onOpenChange(false)}
             onSuccess={(options) => {
-              onOpenChange(false)
               if (onSuccess) {
                 onSuccess(options)
-              } else if (options?.isNewUser) {
-                window.location.href = '/start'
+              } else {
+                onOpenChange(false)
               }
             }}
           />
