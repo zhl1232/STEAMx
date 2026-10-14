@@ -1,12 +1,25 @@
-import type { LineSegments, Material, Object3D } from 'three'
+import type { Color, LineSegments, Material, Object3D } from 'three'
 
 const PREVIOUS_STEP_EDGE_OPACITY = 0.25
-export const STEP_EDGE_PULSE_MS = 480
+export const STEP_EDGE_PULSE_MS = 1200
 
 type HighlightOptions = {
+  getFaceColor?: (code: string) => Color | undefined
   reducedMotion?: boolean
   invalidate?: () => void
   now?: () => number
+}
+
+/** Dark red faces need a light warm edge; coral remains legible on pale faces. */
+export function stepEdgePulseColor(face?: Color): string {
+  if (face && face.r > face.g * 1.5 && face.r > face.b * 1.3 &&
+      0.2126 * face.r + 0.7152 * face.g + 0.0722 * face.b < 0.35) return '#ffe3c4'
+  return '#e54b38'
+}
+
+function edgeColor(material: Material): Color | undefined {
+  const colored = material as Material & { color?: Color; uniforms?: { diffuse?: { value: Color } } }
+  return colored.color ?? colored.uniforms?.diffuse?.value
 }
 
 /** Reuse prepared, depth-tested edges. Never recolour faces or add draw calls. */
@@ -15,7 +28,7 @@ export function createLdrawStepHighlight(options: HighlightOptions = {}) {
   const variants = new Map<Material, Material>()
   const pulses = new Map<Material, Material>()
   const originals = new Map<LineSegments, Material | Material[]>()
-  const activePulses = new Map<Material, Material>()
+  const activePulses = new Map<Material, { source: Material; target?: Color }>()
   const now = options.now ?? (() => performance.now())
   let reducedMotion = options.reducedMotion ?? false
   let selectedStep: number | null = null
@@ -40,7 +53,10 @@ export function createLdrawStepHighlight(options: HighlightOptions = {}) {
       variant.depthWrite = false
       cache.set(source, variant)
     }
-    if (pulse) activePulses.set(variant, source)
+    if (pulse) activePulses.set(variant, {
+      source,
+      target: edgeColor(source)?.clone().set(stepEdgePulseColor(options.getFaceColor?.(String(source.userData.code ?? '')))),
+    })
     return variant
   }
 
@@ -104,9 +120,14 @@ export function createLdrawStepHighlight(options: HighlightOptions = {}) {
         finish()
         return false
       }
-      // One smooth breath, without flashes, colour shifts or hidden back edges.
-      const opacity = 1 - 0.55 * Math.sin(Math.PI * progress) ** 2
-      for (const [variant, source] of activePulses) variant.opacity = source.opacity * opacity
+      // One colour swell with continuous endpoints; no flashing or extra geometry.
+      const strength = Math.sin(Math.PI * progress) ** 2
+      for (const [variant, { source, target }] of activePulses) {
+        variant.opacity = source.opacity + (1 - source.opacity) * strength
+        const color = edgeColor(variant)
+        const original = edgeColor(source)
+        if (color && original && target) color.copy(original).lerp(target, strength)
+      }
       return true
     },
     finish,

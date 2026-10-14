@@ -1081,6 +1081,7 @@ export function Building3DWorkspace({
                 controls.maxDistance = 16;
                 const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
                 const stepHighlight = createLdrawStepHighlight({
+                    getFaceColor: (code) => (ldrawLoader?.getMaterial(code) as (import("three").Material & { color?: import("three").Color }) | undefined)?.color,
                     reducedMotion: motionPreference.matches,
                     invalidate: requestRender,
                 });

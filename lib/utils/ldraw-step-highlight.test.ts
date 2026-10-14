@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest'
 import type { Material } from 'three'
-import { BoxGeometry, BufferAttribute, BufferGeometry, Group, LineBasicMaterial, LineSegments, Mesh, MeshStandardMaterial } from 'three'
+import { Color, BoxGeometry, BufferAttribute, BufferGeometry, Group, LineBasicMaterial, LineSegments, Mesh, MeshStandardMaterial } from 'three'
 import { LDrawConditionalLineMaterial } from 'three/examples/jsm/materials/LDrawConditionalLineMaterial.js'
-import { createLdrawStepHighlight } from './ldraw-step-highlight'
+import { createLdrawStepHighlight, stepEdgePulseColor } from './ldraw-step-highlight'
 import { createLdrawEdgeRenderer } from './ldraw-edges'
 
 function makeStep<T extends Material = LineBasicMaterial>(edge: T = new LineBasicMaterial({ color: '#334155', opacity: 0.7, transparent: true }) as unknown as T) {
@@ -233,14 +233,15 @@ describe('current-step edge motion', () => {
     expect(animated.depthTest).toBe(true)
     expect(animated.depthWrite).toBe(false)
     expect(animated.color.equals(current.edge.color)).toBe(true)
-    time += 240
+    time += 600
     expect(hint.update()).toBe(true)
-    expect(animated.opacity).toBeCloseTo(current.edge.opacity * 0.45)
-    expect((extra.line.material as LineBasicMaterial).opacity).toBeCloseTo(extra.edge.opacity * 0.45)
+    expect(animated.opacity).toBeCloseTo(1)
+    expect(animated.color.getHexString()).toBe('e54b38')
+    expect((extra.line.material as LineBasicMaterial).opacity).toBeCloseTo(1)
     expect((old.line.material as LineBasicMaterial).opacity).toBeCloseTo(old.edge.opacity * 0.25)
     expect(current.face.toJSON()).toEqual(before)
     expect(current.mesh.material).toBe(current.face)
-    time += 240
+    time += 600
     expect(hint.update()).toBe(false)
     expect(current.line.material).toBe(current.edge)
     invalidate.mockClear()
@@ -260,10 +261,10 @@ describe('current-step edge motion', () => {
     expect(first.line.material).toBe(first.edge)
     expect(hint.update()).toBe(false)
     hint.registerStep(3, last.step)
-    time = 240
+    time = 600
     hint.registerStep(1, makeStep().step)
     hint.update()
-    expect((last.line.material as LineBasicMaterial).opacity).toBeCloseTo(last.edge.opacity * 0.45)
+    expect((last.line.material as LineBasicMaterial).opacity).toBeCloseTo(1)
     hint.setStep(0)
     expect(last.line.material).toBe(last.edge)
     hint.setStep(5)
@@ -285,9 +286,9 @@ describe('current-step edge motion', () => {
     hint.setStep(1)
     const animated = second.line.material as LDrawConditionalLineMaterial
     const dispose = vi.spyOn(animated, 'dispose')
-    time = 240
+    time = 600
     hint.update()
-    expect(animated.uniforms.opacity.value).toBeCloseTo(0.36)
+    expect(animated.uniforms.opacity.value).toBeCloseTo(1)
     expect(source.opacity).toBe(0.8)
     hint.setReducedMotion(true)
     expect(second.line.material).toBe(source)
@@ -301,4 +302,46 @@ describe('current-step edge motion', () => {
     expect(second.line.material).toBe(source)
     expect(hint.update()).toBe(false)
   })
+})
+
+it('uses a light warm edge on red faces and coral on pale faces without changing the source', () => {
+  const face = new Color('#b40000')
+  expect(stepEdgePulseColor(face)).toBe('#ffe3c4')
+  expect(stepEdgePulseColor(new Color('#720012'))).toBe('#ffe3c4')
+  expect(stepEdgePulseColor(new Color('#ffffff'))).toBe('#e54b38')
+  let time = 0
+  const current = makeStep()
+  current.edge.userData.code = '4'
+  const original = current.edge.color.clone()
+  const hint = createLdrawStepHighlight({ now: () => time, getFaceColor: code => code === '4' ? face : undefined })
+  hint.registerStep(0, current.step)
+  hint.setStep(0)
+  time = 600
+  hint.update()
+  expect((current.line.material as LineBasicMaterial).color.getHexString()).toBe('ffe3c4')
+  expect(current.edge.color.equals(original)).toBe(true)
+  expect(face.getHexString()).toBe('b40000')
+  time = 1200
+  expect(hint.update()).toBe(false)
+  expect(current.line.material).toBe(current.edge)
+  hint.dispose()
+})
+
+it('keeps face colour identity on generated fallback edges for red-part contrast', () => {
+  const face = new MeshStandardMaterial({ color: '#b40000' })
+  face.userData.code = '4'
+  const step = new Group()
+  step.add(new Mesh(new BoxGeometry(), face))
+  const renderer = createLdrawEdgeRenderer(() => face)
+  renderer.prepare(step)
+  let time = 0
+  const hint = createLdrawStepHighlight({now: () => time, getFaceColor: code => code === '4' ? face.color : undefined})
+  hint.registerStep(0, step)
+  hint.setStep(0)
+  time = 600
+  hint.update()
+  const line = step.children.find(object => (object as LineSegments).isLineSegments) as LineSegments
+  expect((line.material as LineBasicMaterial).color.getHexString()).toBe('ffe3c4')
+  hint.dispose()
+  renderer.dispose()
 })

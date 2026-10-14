@@ -58,6 +58,8 @@ export function createLdrawEdgeRenderer(getFace: (code: string) => Material | nu
     let material = materials.get(key)
     if (!material) {
       material = (conditional && source ? source.clone() : new LineBasicMaterial()) as ColoredMaterial
+      // Preserve face identity for contrast-aware step hints, including generated edges.
+      material.userData.code = code
       material.color.set(color)
       // Dark overrides need full opacity; #808080 at 0.7 still blends into black under ACES.
       material.opacity = light ? 1 : 0.7
