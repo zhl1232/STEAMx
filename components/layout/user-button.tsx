@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { useAuth } from '@/lib/context/auth-context'
 import { Button } from '@/components/ui/button'
 import {
@@ -22,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { UserAvatar } from "@/components/ui/user-avatar"
-import { LoginDialog } from '@/components/layout/login-dialog'
+import { useLoginPrompt } from '@/lib/context/login-prompt-context'
 import { getMembershipSummary } from '@/lib/membership'
 import { getDisplayName, getPublicEmail } from "@/lib/utils/user"
 
@@ -42,7 +41,7 @@ function formatMembershipExpiry(value: string | null) {
 
 export function UserButton({ compact = false }: UserButtonProps) {
   const { user, profile, loading, signOut, canReview } = useAuth()
-  const [loginOpen, setLoginOpen] = useState(false)
+  const { promptLogin } = useLoginPrompt()
 
   if (loading) {
     return (
@@ -58,7 +57,7 @@ export function UserButton({ compact = false }: UserButtonProps) {
         <Button
           variant="default"
           size="sm"
-          onClick={() => setLoginOpen(true)}
+          onClick={() => promptLogin(undefined, { title: '登录或注册' })}
           className={
             compact
               ? 'h-8 min-h-8 px-2.5 text-[13px] font-semibold leading-none'
@@ -67,14 +66,6 @@ export function UserButton({ compact = false }: UserButtonProps) {
         >
           登录
         </Button>
-        <LoginDialog
-          open={loginOpen}
-          onOpenChange={setLoginOpen}
-          onSuccess={(options) => {
-            if (options?.isNewUser) window.location.href = '/start'
-          }}
-          title="登录或注册"
-        />
       </>
     )
   }

@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { GlobalTutorFab } from './global-tutor-fab'
 import { TutorProvider, useTutorContext } from './tutor-context'
-const mock = vi.hoisted(() => ({ user: { id: 'a' }, send: vi.fn(), toast: vi.fn(), noop: vi.fn() }))
+const mock = vi.hoisted(() => ({ user: { id: 'a' } as { id: string } | null, send: vi.fn(), toast: vi.fn(), noop: vi.fn() }))
 vi.mock('@/lib/context/auth-context', () => ({ useAuth: () => ({ user: mock.user }) }))
 vi.mock('@/lib/context/login-prompt-context', () => ({ useLoginPrompt: () => ({ promptLogin: mock.noop }) }))
 vi.mock('@/hooks/use-toast', () => ({ useToast: () => ({ toast: mock.toast }) }))
@@ -16,7 +16,7 @@ vi.mock('./xiaodi', () => ({ XiaoDi: () => null }))
 vi.mock('./tutor-fab-mascot', () => ({ TutorFabMascot: () => null }))
 function Harness({ id = '1213' }: { id?: string }) {
  const tutor = useTutorContext()
- return <><button onClick={() => tutor.prefillDraft({ text: '为什么喷发？', projectId: id, userId: mock.user.id })}>选问题</button><GlobalTutorFab open={tutor.open} onToggle={() => tutor.setOpen(!tutor.open)} context={{ contextType: 'project', contextId: id }} /></>
+ return <><button onClick={() => tutor.prefillDraft({ text: '为什么喷发？', projectId: id, userId: mock.user?.id ?? "guest" })}>选问题</button><GlobalTutorFab open={tutor.open} onToggle={() => tutor.setOpen(!tutor.open)} context={{ contextType: 'project', contextId: id }} /></>
 }
 beforeEach(() => { mock.user = { id: 'a' }; vi.clearAllMocks() })
 test('real composer allows edit, keeps draft on close and protects an existing draft without auto-send', async () => {
@@ -51,4 +51,22 @@ test('real composer preserves text on project switch, clears on account switch a
  rerender(<TutorProvider><Harness id="1215" /></TutorProvider>)
  expect(screen.getByRole('textbox')).toHaveValue('')
  expect(mock.send).not.toHaveBeenCalled()
+})
+
+test('guest text survives login without sending and clears on account change', async () => {
+ mock.user = null
+ const element = <TutorProvider><GlobalTutorFab open onToggle={() => {}} context={{ contextType: 'project', contextId: '1213' }} /></TutorProvider>
+ const view = render(element)
+ const input = await screen.findByRole('textbox')
+ fireEvent.change(input, { target: { value: '先写下的问题' } })
+ fireEvent.click(screen.getByRole('button', { name: '登录后提问' }))
+ expect(mock.noop).toHaveBeenCalled()
+ expect(mock.send).not.toHaveBeenCalled()
+ mock.user = { id: 'new' }
+ view.rerender(<TutorProvider><GlobalTutorFab open onToggle={() => {}} context={{ contextType: 'project', contextId: '1213' }} /></TutorProvider>)
+ expect(await screen.findByRole('textbox')).toHaveValue('先写下的问题')
+ expect(mock.send).not.toHaveBeenCalled()
+ mock.user = { id: 'other' }
+ view.rerender(<TutorProvider><GlobalTutorFab open onToggle={() => {}} context={{ contextType: 'project', contextId: '1213' }} /></TutorProvider>)
+ expect(screen.getByRole('textbox')).toHaveValue('')
 })

@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Blocks, Compass, Leaf, Home, CircleUser } from "lucide-react";
 
-import { LoginDialog } from "@/components/layout/login-dialog";
+import { useLoginPrompt } from "@/lib/context/login-prompt-context";
 import { cn } from "@/lib/utils";
 import { useAuth } from '@/lib/context/auth-context';
 
@@ -13,8 +12,7 @@ export function BottomNav() {
     const pathname = usePathname();
     const router = useRouter();
     const { user } = useAuth();
-    const [loginOpen, setLoginOpen] = useState(false);
-    const [pendingHref, setPendingHref] = useState<string | null>(null);
+    const { promptLogin } = useLoginPrompt();
 
     const navItems = [
         {
@@ -86,8 +84,7 @@ export function BottomNav() {
                                 key={item.href}
                                 type="button"
                                 onClick={() => {
-                                    setPendingHref(item.href);
-                                    setLoginOpen(true);
+                                    promptLogin(() => router.push(item.href), { title: "登录后继续" });
                                 }}
                                 className="flex flex-1 items-stretch rounded-md"
                             >
@@ -106,25 +103,6 @@ export function BottomNav() {
                         </Link>
                     )
                 })}
-                <LoginDialog
-                    open={loginOpen}
-                    onOpenChange={(open) => {
-                        setLoginOpen(open);
-                        if (!open) {
-                            setPendingHref(null);
-                        }
-                    }}
-                    onSuccess={(options) => {
-                        const nextHref = pendingHref;
-                        setPendingHref(null);
-                        if (nextHref) {
-                            router.push(nextHref);
-                        } else if (options?.isNewUser) {
-                            router.push('/start');
-                        }
-                    }}
-                    title="登录后继续"
-                />
             </div>
         </>
     );
