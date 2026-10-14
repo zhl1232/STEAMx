@@ -1,4 +1,9 @@
 import { expect, test, type Page } from '@playwright/test'
+import { skipVisitLoginPrompt } from './visit-prompt'
+
+test.beforeEach(async ({ page }, testInfo) => {
+  if (!testInfo.title.startsWith('首次访问')) await skipVisitLoginPrompt(page)
+})
 
 async function expectHealthyPage(page: Page, path: string) {
   const pageErrors: string[] = []
@@ -316,4 +321,16 @@ test('手机首屏放大文字仍保留完整标题和可点击指南', async ({
   expect(guideBox!.y + guideBox!.height).toBeLessThan(heroBox!.y + heroBox!.height)
   await guide.click()
   await expect(page).toHaveURL(/\/start$/)
+})
+
+test('首次访问自动弹出登录层，同一标签页刷新后不再弹出', async ({ page }) => {
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  const dialog = page.getByRole('dialog', { name: '登录或注册' })
+  await expect(dialog).toBeVisible()
+  await page.getByRole('button', { name: '先去探索，关闭登录层' }).click()
+  await expect(dialog).toBeHidden()
+  await page.reload({ waitUntil: 'domcontentloaded' })
+  await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible()
+  await page.waitForTimeout(1500)
+  await expect(dialog).toHaveCount(0)
 })

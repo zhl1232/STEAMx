@@ -1,4 +1,9 @@
 import { expect, test } from '@playwright/test'
+import { skipVisitLoginPrompt } from './visit-prompt'
+
+test.beforeEach(async ({ page }, testInfo) => {
+  if (!testInfo.title.startsWith('首次访问')) await skipVisitLoginPrompt(page)
+})
 
 for (const width of [320, 390, 768, 1280, 1840]) {
   test(`自然观察指引 ${width}：先行动，详细说明可用键盘展开`, async ({ page }) => {
