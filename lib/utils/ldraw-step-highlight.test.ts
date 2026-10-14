@@ -1,10 +1,11 @@
 import { describe, expect, it, vi } from 'vitest'
-import { BoxGeometry, BufferAttribute, BufferGeometry, Group, LineBasicMaterial, LineSegments, Mesh, MeshStandardMaterial } from 'three'
+import type { Material } from 'three'
+import { Color, BoxGeometry, BufferAttribute, BufferGeometry, Group, LineBasicMaterial, LineSegments, Mesh, MeshStandardMaterial } from 'three'
 import { LDrawConditionalLineMaterial } from 'three/examples/jsm/materials/LDrawConditionalLineMaterial.js'
-import { createLdrawStepHighlight } from './ldraw-step-highlight'
+import { createLdrawStepHighlight, stepEdgePulseColor } from './ldraw-step-highlight'
 import { createLdrawEdgeRenderer } from './ldraw-edges'
 
-function makeStep(edge = new LineBasicMaterial({ color: '#334155', opacity: 0.7, transparent: true })) {
+function makeStep<T extends Material = LineBasicMaterial>(edge: T = new LineBasicMaterial({ color: '#334155', opacity: 0.7, transparent: true }) as unknown as T) {
   const step = new Group()
   const face = new MeshStandardMaterial({ color: '#1e5aa8' })
   const geometry = new BoxGeometry()
@@ -25,7 +26,7 @@ describe('LDraw current-step edge hint', () => {
     first.step.position.set(1, 2, 3)
     first.step.rotation.set(0.2, 0.4, 0.6)
     const transform = first.step.quaternion.clone()
-    const hint = createLdrawStepHighlight()
+    const hint = createLdrawStepHighlight({ reducedMotion: true })
     hint.registerStep(0, first.step)
     hint.registerStep(1, second.step)
 
@@ -60,7 +61,7 @@ describe('LDraw current-step edge hint', () => {
   it('keeps the latest requested step through late loads and clears hints on empty or out-of-model pages', () => {
     const first = makeStep()
     const last = makeStep()
-    const hint = createLdrawStepHighlight()
+    const hint = createLdrawStepHighlight({ reducedMotion: true })
     hint.setStep(2)
     hint.registerStep(0, first.step)
     expect(first.line.material).toBe(first.edge)
@@ -112,7 +113,7 @@ describe('LDraw current-step edge hint', () => {
     Object.assign(line, { isConditionalLine: true })
     const step = new Group()
     step.add(line)
-    const hint = createLdrawStepHighlight()
+    const hint = createLdrawStepHighlight({ reducedMotion: true })
     hint.registerStep(0, step)
     hint.registerStep(1, makeStep().step)
     hint.setStep(1)
@@ -146,7 +147,7 @@ describe('LDraw current-step edge hint', () => {
     const line = new LineSegments(geometry, source)
     const step = new Group()
     step.add(line)
-    const hint = createLdrawStepHighlight()
+    const hint = createLdrawStepHighlight({ reducedMotion: true })
     hint.registerStep(0, step)
     hint.registerStep(1, makeStep().step)
     hint.setStep(1)
@@ -169,7 +170,7 @@ describe('LDraw current-step edge hint', () => {
   it('restores a replaced earlier model and softens the replacement', () => {
     const oldStep = makeStep()
     const replacement = makeStep()
-    const hint = createLdrawStepHighlight()
+    const hint = createLdrawStepHighlight({ reducedMotion: true })
     hint.registerStep(0, oldStep.step)
     hint.registerStep(1, makeStep().step)
     hint.setStep(1)
@@ -201,7 +202,7 @@ describe('LDraw current-step edge hint', () => {
     expect(batched.material).toBe(edge)
 
     const previous = makeStep()
-    const hint = createLdrawStepHighlight()
+    const hint = createLdrawStepHighlight({ reducedMotion: true })
     hint.registerStep(0, previous.step)
     hint.registerStep(1, step)
     hint.setStep(1)
@@ -212,4 +213,135 @@ describe('LDraw current-step edge hint', () => {
     hint.dispose()
     edgeRenderer.dispose()
   })
+})
+
+describe('current-step edge motion', () => {
+  it('animates only new edges, keeps occlusion and original colours, then settles without more frames', () => {
+    let time = 100
+    const invalidate = vi.fn()
+    const hint = createLdrawStepHighlight({ now: () => time, invalidate })
+    const old = makeStep()
+    const current = makeStep()
+    const extra = makeStep()
+    current.step.add(extra.step)
+    const before = current.face.toJSON()
+    hint.registerStep(0, old.step)
+    hint.registerStep(1, current.step)
+    hint.setStep(1)
+    const animated = current.line.material as LineBasicMaterial
+    expect(animated).not.toBe(current.edge)
+    expect(animated.depthTest).toBe(true)
+    expect(animated.depthWrite).toBe(false)
+    expect(animated.color.equals(current.edge.color)).toBe(true)
+    time += 600
+    expect(hint.update()).toBe(true)
+    expect(animated.opacity).toBeCloseTo(1)
+    expect(animated.color.getHexString()).toBe('e54b38')
+    expect((extra.line.material as LineBasicMaterial).opacity).toBeCloseTo(1)
+    expect((old.line.material as LineBasicMaterial).opacity).toBeCloseTo(old.edge.opacity * 0.25)
+    expect(current.face.toJSON()).toEqual(before)
+    expect(current.mesh.material).toBe(current.face)
+    time += 600
+    expect(hint.update()).toBe(false)
+    expect(current.line.material).toBe(current.edge)
+    invalidate.mockClear()
+    expect(hint.update()).toBe(false)
+    expect(invalidate).not.toHaveBeenCalled()
+    hint.dispose()
+  })
+
+  it('cancels rapid navigation and ignores late non-selected steps without restarting the current pulse', () => {
+    let time = 0
+    const hint = createLdrawStepHighlight({ now: () => time })
+    const first = makeStep()
+    const last = makeStep()
+    hint.registerStep(0, first.step)
+    hint.setStep(0)
+    hint.setStep(3)
+    expect(first.line.material).toBe(first.edge)
+    expect(hint.update()).toBe(false)
+    hint.registerStep(3, last.step)
+    time = 600
+    hint.registerStep(1, makeStep().step)
+    hint.update()
+    expect((last.line.material as LineBasicMaterial).opacity).toBeCloseTo(1)
+    hint.setStep(0)
+    expect(last.line.material).toBe(last.edge)
+    hint.setStep(5)
+    expect(first.line.material).toBe(first.edge)
+    hint.registerStep(5, new Group())
+    expect(hint.update()).toBe(false)
+    hint.dispose()
+  })
+
+  it('immediately settles on reduced motion, restores on disposal and does not mutate shared conditional sources', () => {
+    let time = 0
+    const source = new LDrawConditionalLineMaterial()
+    source.opacity = 0.8
+    const first = makeStep(source)
+    const second = makeStep(source)
+    const hint = createLdrawStepHighlight({ now: () => time })
+    hint.registerStep(0, first.step)
+    hint.registerStep(1, second.step)
+    hint.setStep(1)
+    const animated = second.line.material as LDrawConditionalLineMaterial
+    const dispose = vi.spyOn(animated, 'dispose')
+    time = 600
+    hint.update()
+    expect(animated.uniforms.opacity.value).toBeCloseTo(1)
+    expect(source.opacity).toBe(0.8)
+    hint.setReducedMotion(true)
+    expect(second.line.material).toBe(source)
+    expect(hint.update()).toBe(false)
+    hint.setStep(0)
+    expect(first.line.material).toBe(source)
+    expect(hint.update()).toBe(false)
+    hint.dispose()
+    hint.dispose()
+    expect(dispose).toHaveBeenCalledOnce()
+    expect(second.line.material).toBe(source)
+    expect(hint.update()).toBe(false)
+  })
+})
+
+it('uses a light warm edge on red faces and coral on pale faces without changing the source', () => {
+  const face = new Color('#b40000')
+  expect(stepEdgePulseColor(face)).toBe('#ffe3c4')
+  expect(stepEdgePulseColor(new Color('#720012'))).toBe('#ffe3c4')
+  expect(stepEdgePulseColor(new Color('#ffffff'))).toBe('#e54b38')
+  let time = 0
+  const current = makeStep()
+  current.edge.userData.code = '4'
+  const original = current.edge.color.clone()
+  const hint = createLdrawStepHighlight({ now: () => time, getFaceColor: code => code === '4' ? face : undefined })
+  hint.registerStep(0, current.step)
+  hint.setStep(0)
+  time = 600
+  hint.update()
+  expect((current.line.material as LineBasicMaterial).color.getHexString()).toBe('ffe3c4')
+  expect(current.edge.color.equals(original)).toBe(true)
+  expect(face.getHexString()).toBe('b40000')
+  time = 1200
+  expect(hint.update()).toBe(false)
+  expect(current.line.material).toBe(current.edge)
+  hint.dispose()
+})
+
+it('keeps face colour identity on generated fallback edges for red-part contrast', () => {
+  const face = new MeshStandardMaterial({ color: '#b40000' })
+  face.userData.code = '4'
+  const step = new Group()
+  step.add(new Mesh(new BoxGeometry(), face))
+  const renderer = createLdrawEdgeRenderer(() => face)
+  renderer.prepare(step)
+  let time = 0
+  const hint = createLdrawStepHighlight({now: () => time, getFaceColor: code => code === '4' ? face.color : undefined})
+  hint.registerStep(0, step)
+  hint.setStep(0)
+  time = 600
+  hint.update()
+  const line = step.children.find(object => (object as LineSegments).isLineSegments) as LineSegments
+  expect((line.material as LineBasicMaterial).color.getHexString()).toBe('ffe3c4')
+  hint.dispose()
+  renderer.dispose()
 })

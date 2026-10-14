@@ -1068,6 +1068,9 @@ export function Building3DWorkspace({
                         calls: renderer.info.render.calls,
                         lines: renderer.info.render.lines,
                         geometries: renderer.info.memory.geometries,
+                        renderedFrames,
+                        camera: camera.position.toArray(),
+                        target: controls.target.toArray(),
                     });
                 }
 
@@ -1076,17 +1079,49 @@ export function Building3DWorkspace({
                 controls.dampingFactor = 0.08;
                 controls.minDistance = 4;
                 controls.maxDistance = 16;
-                const stepHighlight = createLdrawStepHighlight();
+                const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+                const stepHighlight = createLdrawStepHighlight({
+                    getFaceColor: (code) => (ldrawLoader?.getMaterial(code) as (import("three").Material & { color?: import("three").Color }) | undefined)?.color,
+                    reducedMotion: motionPreference.matches,
+                    invalidate: requestRender,
+                });
 
                 let frame = 0;
                 let resizeObserver: ResizeObserver | null = null;
                 let disposed = false;
+                let renderedFrames = 0;
+                function requestRender() {
+                    if (!disposed && !document.hidden && !frame) frame = requestAnimationFrame(renderFrame);
+                }
+                function renderFrame(time: number) {
+                    frame = 0;
+                    if (disposed || document.hidden) return;
+                    const moving = controls.update();
+                    const pulsing = stepHighlight.update(time);
+                    renderer.render(scene, camera);
+                    renderedFrames += 1;
+                    if (moving || pulsing) requestRender();
+                }
+                const onMotionChange = () => stepHighlight.setReducedMotion(motionPreference.matches);
+                const onVisibilityChange = () => {
+                    if (document.hidden) {
+                        cancelAnimationFrame(frame);
+                        frame = 0;
+                        stepHighlight.finish();
+                    } else requestRender();
+                };
+                controls.addEventListener("change", requestRender);
+                motionPreference.addEventListener("change", onMotionChange);
+                document.addEventListener("visibilitychange", onVisibilityChange);
                 let edgeRenderer: ReturnType<LoadedLdraw["createLdrawEdgeRenderer"]> | null = null;
                 const cleanupScene = () => {
                     if (disposed) return;
                     disposed = true;
                     cancelAnimationFrame(frame);
                     resizeObserver?.disconnect();
+                    controls.removeEventListener("change", requestRender);
+                    motionPreference.removeEventListener("change", onMotionChange);
+                    document.removeEventListener("visibilitychange", onVisibilityChange);
                     controls.dispose();
                     // Restore shared source edge materials before scene disposal.
                     stepHighlight.dispose();
@@ -1306,6 +1341,7 @@ export function Building3DWorkspace({
                 });
 
                 const focusStep = (stepIndex: number, resetCamera = false) => {
+                    requestRender();
                     if (ldrawAssembly) {
                         const contentStep = Math.min(Math.max(stepIndex, 0), content.steps3d.length - 1);
                         // Keep the content step, not the clamped model step: wrap-up
@@ -1359,6 +1395,7 @@ export function Building3DWorkspace({
                     renderer.setSize(width, height, true);
                     camera.aspect = width / height;
                     camera.updateProjectionMatrix();
+                    requestRender();
                 };
                 resizeObserver = new ResizeObserver(resize);
                 resizeObserver.observe(mount);
@@ -1380,12 +1417,7 @@ export function Building3DWorkspace({
                     if (cancelled) return;
                 }
 
-                const animate = () => {
-                    frame = requestAnimationFrame(animate);
-                    controls.update();
-                    renderer.render(scene, camera);
-                };
-                animate();
+                requestRender();
             } catch (error) {
                 cleanupIncompleteScene?.();
                 cleanupIncompleteScene = null;
