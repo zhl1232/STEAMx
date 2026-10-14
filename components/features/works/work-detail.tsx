@@ -17,6 +17,7 @@ import { UserAvatar } from "@/components/ui/user-avatar"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
+import { useLoginContinuation } from "@/hooks/use-login-continuation"
 import type { Work } from "@/lib/mappers/types"
 import {
   parseExplorationRecordNotes,
@@ -136,9 +137,10 @@ export function WorkDetail({
     },
   })
 
+  const resumeLike = useLoginContinuation(() => likeMutation.mutate())
   const handleLike = () => {
     if (!user) {
-      promptLogin(handleLike, { title: "登录以点赞", description: "登录后即可支持这件作品" })
+      promptLogin(resumeLike, { title: "登录以点赞", description: "登录后即可支持这件作品" })
       return
     }
     likeMutation.mutate()

@@ -38,6 +38,11 @@ export function GlobalTutorMount() {
   const { user } = useAuth()
   const { toast } = useToast()
   const [TutorFab, setTutorFab] = useState<GlobalTutorFabComponent | null>(null)
+  const [guestLoginDraft, setGuestLoginDraft] = useState<{ text: string; userId: string; pathname: string } | null>(null)
+  const consumeGuestLoginDraft = useCallback(() => setGuestLoginDraft(null), [])
+  // Keep the account key below: only an explicitly completed guest login may
+  // hand its text to the new instance. Never carry account data across remounts.
+  useEffect(() => { setGuestLoginDraft(null) }, [pathname, user?.id])
   const open = tutorCtx?.open ?? false
   const setOpen = tutorCtx?.setOpen ?? (() => undefined)
   const previousUserRef = useRef(user?.id)
@@ -177,6 +182,9 @@ export function GlobalTutorMount() {
   return (
     <TutorFab
       key={user?.id ?? 'anonymous'}
+      loginDraft={guestLoginDraft?.userId === user?.id && guestLoginDraft?.pathname === pathname ? guestLoginDraft : null}
+      onLoginDraftConsumed={consumeGuestLoginDraft}
+      onGuestLoginSuccess={(text, userId) => setGuestLoginDraft({ text, userId, pathname })}
       open={open}
       onToggle={() => setOpen(!open)}
       context={baseContext}

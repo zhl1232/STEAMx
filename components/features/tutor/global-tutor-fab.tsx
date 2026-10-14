@@ -89,6 +89,9 @@ function getTutorUploadToast(error: unknown): { title: string; description: stri
 }
 
 type TutorPanelProps = {
+  loginDraft?: { text: string; userId: string } | null
+  onLoginDraftConsumed?: () => void
+  onGuestLoginSuccess?: (text: string, userId: string) => void
   open: boolean
   onToggle: () => void
   context: ResolvedTutorContext
@@ -121,6 +124,9 @@ type TutorPanelProps = {
  * 这里只保留共享状态（quota、开场白、待发图片、吉祥物）与各模块间的接线。
  */
 export function GlobalTutorFab({
+  loginDraft,
+  onLoginDraftConsumed,
+  onGuestLoginSuccess,
   open,
   onToggle,
   context,
@@ -154,6 +160,11 @@ export function GlobalTutorFab({
 
   const [mounted, setMounted] = useState(false)
   const [input, setInput] = useState('')
+  useEffect(() => {
+    if (!loginDraft || loginDraft.userId !== user?.id) return
+    setInput(current => current || loginDraft.text)
+    onLoginDraftConsumed?.()
+  }, [loginDraft, user?.id, onLoginDraftConsumed])
   const [mascotFeedback, setMascotFeedback] = useState<TutorMascotFeedback | null>(null)
   const [quota, setQuota] = useState<AiCreditStatus | null>(null)
   const [greeting, setGreeting] = useState<TutorGreeting | null>(null)
@@ -743,7 +754,7 @@ export function GlobalTutorFab({
                 type="button"
                 size="sm"
                 onClick={() =>
-                  promptLogin(() => undefined, {
+                  promptLogin(authenticatedUser => onGuestLoginSuccess?.(input, authenticatedUser.id), {
                     title: '登录后找小迪',
                     description: '登录后即可和 AI 导师小迪聊天。',
                   })
