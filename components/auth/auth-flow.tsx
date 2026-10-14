@@ -13,7 +13,6 @@ import {
   ShieldCheck,
   Smartphone,
   KeyRound,
-  X,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -575,16 +574,27 @@ export function AuthFlow({
               )}
             </div>
 
-            <Button
-              type="button"
-              onClick={presentation === 'page' ? onBack : onClose}
-              variant="ghost"
-              size="icon"
-              aria-label={presentation === 'page' ? '返回' : '关闭登录层'}
-              className="-mr-2 -mt-1.5 h-10 w-10 shrink-0 rounded-full text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:bg-muted focus-visible:text-foreground focus-visible:ring-1 focus-visible:ring-border focus-visible:ring-offset-0"
-            >
-              {presentation === 'page' ? <ArrowLeft className="h-4 w-4" /> : <X className="h-5 w-5" />}
-            </Button>
+            {presentation === 'page' ? (
+              <Button
+                type="button"
+                onClick={onBack}
+                variant="ghost"
+                size="icon"
+                aria-label="返回"
+                className="-mr-2 -mt-1.5 h-10 w-10 shrink-0 rounded-full text-muted-foreground hover:bg-muted hover:text-foreground"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+            ) : (
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="先去探索，关闭登录层"
+                className="-mr-2 -mt-1 inline-flex h-9 shrink-0 items-center whitespace-nowrap rounded-full px-3 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:bg-muted focus-visible:text-foreground focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-border"
+              >
+                先去探索
+              </button>
+            )}
           </div>
 
           {!isResetMode && !phoneRecoveryAfterOtp && (
@@ -813,14 +823,6 @@ export function AuthFlow({
               )}
             </Button>
           </form>
-
-          {presentation === 'layer' && (
-            <div className="-mt-1 flex justify-center">
-              <button type="button" onClick={onClose} className="inline-flex h-10 items-center rounded-lg px-4 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring">
-                先去探索
-              </button>
-            </div>
-          )}
 
           {phoneRecoveryAfterOtp && (
             <button type="button" disabled={loading} onClick={() => switchLoginMethod('email')} className="min-h-11 text-sm font-medium text-primary hover:underline disabled:opacity-60">
