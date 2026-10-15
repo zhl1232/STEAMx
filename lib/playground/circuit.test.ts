@@ -24,6 +24,15 @@ describe('ideal DC node solver', () => {
     const c = exampleCircuit('series'); c.parts[2].value = 200; c.wires.push(c.wires[0])
     const r = solveCircuit(c); expect(r.current).toBeCloseTo(.02); expect(r.readings.extra.voltage).toBeCloseTo(4)
   })
+  it('solves a balanced bridge independently of wire count', () => {
+    const c = exampleCircuit('parallel')
+    c.parts.push({ id: 'r3', kind: 'resistor', value: 100, x: 0, y: 0 }, { id: 'r4', kind: 'resistor', value: 100, x: 0, y: 0 }, { id: 'bridge', kind: 'resistor', value: 37, x: 0, y: 0 })
+    c.wires = [{ a: 'battery:a', b: 'lamp1:a' }, { a: 'battery:a', b: 'extra:a' }, { a: 'lamp1:b', b: 'r3:a' }, { a: 'extra:b', b: 'r4:a' }, { a: 'r3:b', b: 'battery:b' }, { a: 'r4:b', b: 'battery:b' }, { a: 'bridge:a', b: 'lamp1:b' }, { a: 'bridge:b', b: 'extra:b' }]
+    const r = solveCircuit(c)
+    expect(r.current).toBeCloseTo(.06)
+    expect(r.readings.bridge.current).toBeCloseTo(0)
+    expect(r.readings.lamp1.voltage).toBeCloseTo(3)
+  })
   it('rejects invalid values, terminals and multiple sources', () => {
     const c = exampleCircuit(); c.parts[0].value = NaN; expect(solveCircuit(c).status).toBe('invalid')
     c.parts[0].value = 6; c.wires.push({ a: 'missing', b: 'battery:a' }); expect(solveCircuit(c).status).toBe('invalid')

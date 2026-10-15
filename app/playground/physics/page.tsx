@@ -9,7 +9,7 @@ const names = { battery: '电池', lamp: '灯泡', resistor: '电阻', switch: '
 const icons = { battery: Battery, lamp: Lightbulb, resistor: CircuitBoard, switch: ToggleLeft }
 const modes = { simple: '闭合回路', series: '串联', parallel: '并联', switch: '开关示例' } as const
 const format = (n: number | null, unit: string) => n === null ? '—' : `${Math.abs(n) < 1e-10 ? '0' : Number(n.toPrecision(4))} ${unit}`
-const clamp = (n: number, max: number) => Math.max(0, Math.min(max, n))
+const clamp = (n: number, max: number, min = 0) => Math.max(min, Math.min(max, n))
 
 export default function PhysicsLab() {
   const [circuit, setCircuit] = useState<Circuit>(() => exampleCircuit())
@@ -43,9 +43,9 @@ export default function PhysicsLab() {
     <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_280px]">
       <section className="min-w-0 space-y-3 rounded-xl border bg-card p-3" aria-label="实验台">
         <div className="flex flex-wrap gap-2">{(Object.keys(names) as Part['kind'][]).map(kind => <Button key={kind} variant="outline" disabled={circuit.parts.length >= 24 || kind === 'battery' && circuit.parts.some(p => p.kind === 'battery')} onClick={() => add(kind)}>添加{names[kind]}</Button>)}</div>
-        <p className="text-xs text-muted-foreground">拖动名称移动；键盘聚焦名称后用方向键移动。点两端接线，再点同一对端点断开。最多 24 个元件、1 节电池。</p>
+        <p className="text-xs text-muted-foreground">拖动名称移动；键盘聚焦名称后用方向键移动。点两端接线，再点同一对端点断开。交叉线不相连。最多 24 个元件、1 节电池。</p>
         <div ref={board} data-testid="circuit-board" className="relative h-[420px] overflow-hidden rounded-lg border bg-muted/30 md:h-[500px]">
-          <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">{circuit.wires.map((w, i) => { const a = point(w.a), b = point(w.b); return <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke="currentColor" className="text-primary" strokeWidth="2.5" vectorEffect="non-scaling-stroke" /> })}</svg>
+          <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">{circuit.wires.map((w, i) => { const a = point(w.a), b = point(w.b); const stubA = a.x + (w.a.endsWith(':a') ? -4 : 4), stubB = b.x + (w.b.endsWith(':a') ? -4 : 4); const rail = clamp(i % 2 ? Math.max(a.y, b.y) + 14 : Math.min(a.y, b.y) - 14, 97, 3); return <path key={i} d={`M ${a.x} ${a.y} H ${stubA} V ${rail} H ${stubB} V ${b.y} H ${b.x}`} fill="none" stroke="currentColor" className="text-primary" strokeWidth="2.5" vectorEffect="non-scaling-stroke" /> })}</svg>
           {circuit.parts.map((p, index) => {
             const Icon = icons[p.kind], reading = solution.readings[p.id]
             const brightness = p.kind === 'lamp' && reading.power !== null ? Math.min(1, reading.power / .36) : 0
@@ -53,9 +53,9 @@ export default function PhysicsLab() {
               <button type="button" aria-label={`移动${names[p.kind]} ${index + 1}`} aria-pressed={selected === p.id} className={`absolute inset-x-2 top-0 flex h-full touch-none select-none flex-col items-center justify-center rounded-lg border bg-card text-xs focus-visible:outline-2 focus-visible:outline-primary ${selected === p.id ? 'border-primary' : ''}`}
                 onClick={() => setSelected(p.id)}
                 onPointerDown={e => { setSelected(p.id); e.currentTarget.setPointerCapture(e.pointerId); drag.current = { id: p.id, x: p.x, y: p.y, px: e.clientX, py: e.clientY } }}
-                onPointerMove={e => { const d = drag.current, rect = board.current?.getBoundingClientRect(); if (d?.id === p.id && rect) update(p.id, { x: clamp(d.x + (e.clientX - d.px) / rect.width * 100, 70), y: clamp(d.y + (e.clientY - d.py) / rect.height * 100, 80) }) }}
+                onPointerMove={e => { const d = drag.current, rect = board.current?.getBoundingClientRect(); if (d?.id === p.id && rect) update(p.id, { x: clamp(d.x + (e.clientX - d.px) / rect.width * 100, 63, 7), y: clamp(d.y + (e.clientY - d.py) / rect.height * 100, 80) }) }}
                 onPointerUp={() => { drag.current = null }} onPointerCancel={() => { drag.current = null }} onLostPointerCapture={() => { drag.current = null }}
-                onKeyDown={e => { const delta: Record<string, number[]> = { ArrowLeft: [-2, 0], ArrowRight: [2, 0], ArrowUp: [0, -2], ArrowDown: [0, 2] }; if (delta[e.key]) { e.preventDefault(); update(p.id, { x: clamp(p.x + delta[e.key][0], 70), y: clamp(p.y + delta[e.key][1], 80) }) } }}>
+                onKeyDown={e => { const delta: Record<string, number[]> = { ArrowLeft: [-2, 0], ArrowRight: [2, 0], ArrowUp: [0, -2], ArrowDown: [0, 2] }; if (delta[e.key]) { e.preventDefault(); update(p.id, { x: clamp(p.x + delta[e.key][0], 63, 7), y: clamp(p.y + delta[e.key][1], 80) }) } }}>
                 <Icon size={25} className={brightness ? 'text-amber-500' : 'text-muted-foreground'} style={brightness ? { filter: `drop-shadow(0 0 ${brightness * 9}px currentColor)` } : undefined} />
                 <span>{names[p.kind]} {index + 1}</span><span>{p.kind === 'switch' ? p.closed ? '闭合' : '断开' : `${p.value} ${p.kind === 'battery' ? 'V' : 'Ω'}`}</span>
                 {p.kind === 'lamp' && <span>亮度 {Math.round(brightness * 100)}%</span>}

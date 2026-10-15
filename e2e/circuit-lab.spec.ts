@@ -1,7 +1,9 @@
 import { test, expect } from '@playwright/test'
+test.use({ hasTouch: true })
 for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844 }]) {
   test(`circuit lab ${viewport.width}px`, async ({ page }) => {
     await page.setViewportSize(viewport)
+    await page.addLocatorHandler(page.getByRole('button', { name: '先去探索，关闭登录层' }), async locator => { await locator.click() })
     await page.goto('/playground/physics')
     await expect(page.getByRole('heading', { name: '让电路亮起来' })).toBeVisible()
     await expect(page.getByTestId('source-current')).toHaveText('0.06 A')
@@ -12,17 +14,28 @@ for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844
     await page.getByRole('button', { name: '闭合开关', exact: true }).click()
     await expect(page.getByTestId('source-current')).toHaveText('0.06 A')
     await page.getByRole('button', { name: '重置实验', exact: true }).click()
-    await page.getByLabel('电池 1 A端点').click()
-    await page.getByLabel('电池 1 B端点').click()
+    await page.getByLabel('电池 1 A端点').tap()
+    await page.getByLabel('电池 1 B端点').tap()
     await expect(page.getByTestId('circuit-status')).toContainText('短路')
-    await page.getByLabel('电池 1 A端点').click()
-    await page.getByLabel('电池 1 B端点').click()
+    await page.getByLabel('电池 1 A端点').tap()
+    await page.getByLabel('电池 1 B端点').tap()
     const handle = page.getByLabel('移动灯泡 2')
     await handle.focus(); await page.keyboard.press('ArrowDown')
     const rect = await handle.boundingBox()
     if (!rect) throw new Error('Missing drag handle')
     await page.mouse.move(rect.x + rect.width / 2, rect.y + 15)
     await page.mouse.down(); await page.mouse.move(rect.x + rect.width / 2 - 20, rect.y + 55); await page.mouse.up()
+    if (viewport.width === 390) {
+      const client = await page.context().newCDPSession(page)
+      const touchRect = await handle.boundingBox()
+      if (!touchRect) throw new Error('Missing touch handle')
+      const x = touchRect.x + touchRect.width / 2, y = touchRect.y + 16
+      const oldTop = await handle.evaluate(el => el.parentElement!.style.top)
+      await client.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] })
+      await client.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y + 35 }] })
+      await client.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
+      expect(await handle.evaluate(el => el.parentElement!.style.top)).not.toBe(oldTop)
+    }
     await expect(page.getByTestId('source-current')).toHaveText('0.06 A')
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     await page.screenshot({ path: `/tmp/circuit-lab-${viewport.width}.png`, fullPage: true })

@@ -664,7 +664,7 @@ function GameMissionCards({ game }: { game: PlaygroundNavItem }) {
             <MissionHintCard kicker="操作提示" icon={Touchpad} tone="science">
                 {game.controls}
             </MissionHintCard>
-            <MissionHintCard kicker="下一枚徽章" icon={Medal} tone="engineering">
+            <MissionHintCard kicker={game.href === "/playground/physics" ? "自由实验" : "下一枚徽章"} icon={game.href === "/playground/physics" ? TestTubes : Medal} tone="engineering">
                 {game.badgeGoal}
             </MissionHintCard>
         </div>
