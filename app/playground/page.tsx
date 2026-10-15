@@ -544,6 +544,12 @@ export default function PlaygroundPage() {
                         />
                     </div>
 
+                    <Link href="/playground/physics" className="order-2 flex items-center gap-4 rounded-xl border bg-card p-5 transition-colors hover:bg-muted/50 focus-visible:outline-2 focus-visible:outline-primary md:col-span-full">
+                        <Beaker className="h-8 w-8 shrink-0 text-primary" aria-hidden="true" />
+                        <div><h2 className="font-semibold">物理实验室</h2><p className="text-sm text-muted-foreground">连接电池与灯泡，亲手探索串联、并联与电流。低压直流 · 自由实验</p></div>
+                        <ArrowRight className="ml-auto shrink-0" aria-hidden="true" />
+                    </Link>
+
                     <section className="order-3 space-y-3 md:hidden" aria-labelledby="playground-mobile-games-heading">
                         <div className="flex items-center justify-between px-1">
                             <h2 id="playground-mobile-games-heading" className="text-sm font-black tracking-tight text-foreground">全部游戏</h2>

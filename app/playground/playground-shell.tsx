@@ -56,6 +56,10 @@ const STEAM_DOT_META: Record<SteamTag, { label: string; tone: CategoryTone }> = 
 }
 
 const games: PlaygroundNavItem[] = [
+    { name: "物理实验室", href: "/playground/physics", icon: TestTubes,
+      description: "低压直流电路", mission: "连接电池和灯泡，观察电流与电压。",
+      controls: "点击两个端点接线；拖动名称或用方向键移动元件。",
+      badgeGoal: "自由探索，不设积分或徽章任务。", color: "text-primary", steamTags: ["Science", "Engineering"] },
     {
         name: "扫雷",
         nameEn: "Minesweeper",
