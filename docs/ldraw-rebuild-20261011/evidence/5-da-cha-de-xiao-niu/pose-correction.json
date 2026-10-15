@@ -1,0 +1,20 @@
+{
+  "beforeSha256": "b71dd4877573b70fa87df8030d6df7f2d0c728ca90984f85156fc415f690b143",
+  "afterSha256": "74a67928ad21ebbcc212eb274748729cc6f2701d4952bbb07670d844c3187a2a",
+  "observedOldRevision": "afc9a49a347806c7ea6e196e1040fefd2fbac6a8fcbba715a93226d698e9ac43",
+  "oldPixelsSeen": [
+    "final3 contact sheet",
+    "all13 cumulative step contact sheet",
+    "iso original",
+    "step6 original"
+  ],
+  "sourcePagesRechecked": [
+    6,
+    7,
+    14
+  ],
+  "change": "Yaw30 to60 degrees about unchanged grey-shaft pivots; upperposts unchanged. Source end/cymbals remain approximately within shoulder width unlike prior excessively wide pose. Angle is inferred, not measured. Step4 arms/carriers and step5 axles/cymbals affected; steps4-13 need rerender.",
+  "static": "Four raw proxy alarms retained; full vertex projection on6 axes found no separating interval, insufficient to label false positive or prove collision. post-arm-separation.json",
+  "newPixelReview": "Currentd08078cf final3+13 steps seen and recorded; unresolved4 alarms retained",
+  "accepted": false
+}

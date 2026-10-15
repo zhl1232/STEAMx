@@ -1,0 +1,25 @@
+# 人力水车
+
+状态：INCOMPLETE source reconstruction / pending diagnostic render / pending user confirmation。62 个主放置，11 个新增步骤，p12 为最终反向视图。没有实物或运动验证。
+
+源 PDF `D:/Codex-task-2-20261011/inputs/pdfbatch2/5+/5+人力水车搭建说明.pdf`，SHA256 `c69df5a42eb45faffb367f29164dead7e76f8180377eb43c179c634d16f3fbb1`。12页均实际查看像素，未靠课程名推形。
+
+逐页BOM：p1底板1+蓝3011×8+红3011×6+75349×2；p2轴6522×2、31625蓝管×2、6527×1；p3轴6521×1、6525×2、6526×2；p4蓝40666×4；p5黄6530×1、6526×1；p6红3011×2、75349×2、黄40666×1；p7灰轴2、6524×2、滑轮4；p8红75350、灰轴、滑轮2；p9黄板、眼睛头、蓝曲帽；p10灰轴、滑轮2、6524×2；p11绿轴、滑轮2、短曲柄。
+
+编号证据：官方9656库存及真实官方DAT。蓝接轴管是31625，用作联轴套；并未因为名称worm而添加源图没有的箱体。帽11170实际高72，旧metadata高48不正确；sidecar11170-metadata.json已给主整合。头部用官方4198精确无印刷主体，源图为4198pr9981大眼印刷，印刷仍缺，明确不是完成。未用73162可动眼替换。
+
+搭建几何：两塔相距560 LDU，塔轴线Y-384；中绿轴长320，灰轴各240，蓝管长120，轴端在管内相接。十字梁相隔40 LDU轴向。人体下支架7孔梁端距240，下孔到中孔120；头身倾角38.2219°为依照两根240 LDU臂长反解的静态姿态，源未给精确角度。臂端距数值240.000000000。raw checker62placements PASS，但机械使用manual，绝不等同机构验证。
+
+未闭合：p9大眼印刷；p4桨板与梁端可见贴合的真实卡接面；p5/p11遮挡的两短曲柄与同轴绿色轴连接。最后曲柄与主齿轮曲柄可能存在轴向重叠，本模型只供诊断，不能提交为自证完整机械。需渲染后继续检查人形与塔、桨板、蓝管等实际像素。
+
+库存9656仅参考：31625需2而库存1（额外1）；3011红8对4（额外4）、蓝8对4（额外4）；6524需4对2（额外2）；75349需4与参考4相符；蓝40666需4而参考黄色2，保留源色。绿大底板和蓝帽不在参考库存；印刷头ID需按最终映射核。无自动替换，无用户确认记录。
+
+印刷闭合更正：已换官方4198p01，其header明确RB4198pr9981，源p9大眼平印刷已闭合。仍62件。11170真实高72侧车已由主合并。最后双曲柄隐藏连接及桨板卡接仍待诊断。
+
+
+## 最新三视图像素复核
+已实际查看更新iso、iso-rear、top全部三视图。官方新件可见且对应源图，但已列隐藏机构/绳线缺口仍存在，状态保持INCOMPLETE。 pending user confirmation，未作实物验证。
+
+## D final review after proper-rotation correction
+Viewed original iso, iso-rear and top for source38eb303f/revision28a660b4 and compared source p12. Whole model framed; no visible reverse-facing or inside-out beam artifacts. Beam endpoints and paddle layout retained after the determinant correction. Hidden crank capture and synchronized drive still unresolved; static inferred pose does not prove mechanism operation. current-pixel-review.json records exact images with accepted=false and physicalValidation=false. Source unchanged; cumulative-step pixel review pending.
+

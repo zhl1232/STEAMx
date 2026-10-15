@@ -1,0 +1,314 @@
+{
+  "at": "2026-10-11T11:50:55.794800+00:00",
+  "part": "11198",
+  "sourceMPD": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd",
+  "sourceMPDSha256": "178660f5ef97ee11f5c7038fc17a2fd5a021037e85becf9a3b342e4256f1a17c",
+  "files": {
+    "11198.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\11198.dat",
+      "sha256": "f1d1455adca297c1e66047a8021795fc646c2e733921d6f758f67b5904c2202f",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE 11198.dat",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "s/11198s01.dat",
+        "48/2-4ndis.dat"
+      ]
+    },
+    "s/11198s01.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\s\\11198s01.dat",
+      "sha256": "d012232e829a6aa8cfa50d465b23caed442344a2f038b59dc63dbe83ce3d6d9f",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE s/11198s01.dat",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "s/76371s02.dat",
+        "s/76371s02.dat",
+        "rect.dat",
+        "box3u4a.dat",
+        "48/2-4cylo.dat",
+        "48/2-4ndis.dat",
+        "48/2-4cylo.dat",
+        "48/2-4ndis.dat",
+        "48/2-4ndis.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "recte4.dat",
+        "recte4.dat",
+        "stug7-1x4.dat",
+        "stug7-1x4.dat"
+      ]
+    },
+    "s/76371s02.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\s\\76371s02.dat",
+      "sha256": "af50fc5f5536570887a84c287eb073456765bb53130b451c6489837c99c4089f",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE s/76371s02.dat",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "box5.dat",
+        "stud4.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "box4-1.dat",
+        "rect.dat",
+        "rect3.dat",
+        "rect.dat",
+        "rect3.dat"
+      ]
+    },
+    "box5.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\box5.dat",
+      "sha256": "ccb7b8a1d36692335b10ea6aa196849afcad4b15331683ed8112a10b50977318",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE box5.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "stud4.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\stud4.dat",
+      "sha256": "871cdcab26e7f5113488a24c453d6fabda75b275b06de592e0bfaad4292c12a3",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE stud4.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "4-4cyli.dat",
+        "4-4ring3.dat"
+      ]
+    },
+    "4-4edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\4-4edge.dat",
+      "sha256": "54a52196e421fd1717d291ff52ea57553b1fb238907c1678cc1f1a84c698b1da",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE 4-4edge.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\4-4cyli.dat",
+      "sha256": "4a742c2765b6ebf98245baaf8a160a4ff587fc93d36c8ee2b9074712a2f968c4",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE 4-4cyli.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4ring3.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\4-4ring3.dat",
+      "sha256": "1f2835ac308154edc2d6f479d8e742a55be981f6167b20bfa100c195bc0731dd",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE 4-4ring3.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "box4-1.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\box4-1.dat",
+      "sha256": "2ed58df5da841827dfc5f9ac11c0bd7ffd8a455e46f166638e635f61a014b44d",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE box4-1.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "rect.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\rect.dat",
+      "sha256": "ffeb2dd3d9b83c38841f18f1f74800fbba9e90c5fb6badfff2a795f08a96cb71",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE rect.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "rect3.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\rect3.dat",
+      "sha256": "07ac46908b6668d993b6de0fb001a34cd996542106b80ebc7de63317d8dde865",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE rect3.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "box3u4a.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\box3u4a.dat",
+      "sha256": "15463f41f9947dd75486dc7af3231b1037704f1b654c2555e3ba705817a2db75",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE box3u4a.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "48/2-4cylo.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\48\\2-4cylo.dat",
+      "sha256": "8664bb8070cc7b44b3f60c6dde9c3a96b2ef5f20e6585d340d543441d356e50c",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE 48/2-4cylo.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "48/2-4edge.dat",
+        "48/2-4edge.dat",
+        "48/2-4cyli.dat"
+      ]
+    },
+    "48/2-4edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\48\\2-4edge.dat",
+      "sha256": "4f2b411ce4b7aca47545f67adf188ca495bd638384726e5fb66036b9d0e7f30a",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE 48/2-4edge.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "48/1-4edge.dat",
+        "48/1-4edge.dat"
+      ]
+    },
+    "48/1-4edge.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\48\\1-4edge.dat",
+      "sha256": "e4ebabd21711f16411b3c8b8b278995a56c5f25919cd424976357da5b19943c6",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE 48/1-4edge.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "48/2-4cyli.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\48\\2-4cyli.dat",
+      "sha256": "685652b02ba31d357cb53ab845f0256a3d1580f530d28e57e9a34fe00e82111b",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE 48/2-4cyli.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "48/2-4ndis.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\48\\2-4ndis.dat",
+      "sha256": "0719aafc6e1165f1e5421218badbc35933b00c3888d4d624d6087cf4319a8b19",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE 48/2-4ndis.dat",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "rect2p.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\rect2p.dat",
+      "sha256": "faac2b36241a9de0c0108471e59c45734df6c79813332d9cacf97f6391886acc",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE rect2p.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "recte4.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\recte4.dat",
+      "sha256": "183b28b7586ffce3049e9248301668b4e16a84671b0f423efd792fb84a969dfe",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE recte4.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "stug7-1x4.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\stug7-1x4.dat",
+      "sha256": "5ff4ae6d96a8aaceebd21bd5122177e5637e023202638efe6126aef54048fb5a",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE stug7-1x4.dat",
+      "license": [
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat"
+      ]
+    },
+    "stud7.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\stud7.dat",
+      "sha256": "250111864bb2492a8722544d1f09b5e45672ba3f8e93be769b77499e7ea3fb1a",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE stud7.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4ring3.dat",
+        "4-4cylo.dat",
+        "4-4cylo.dat"
+      ]
+    },
+    "4-4cylo.dat": {
+      "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\independent-qa\\11198-candidates\\4-4cylo.dat",
+      "sha256": "69c7e17ecea166079d5f36d4ac2a76cb77c5809cc5816a0c48b94a449b20e510",
+      "source": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\public\\courses\\ldraw\\3-jing-che.mpd#0 FILE 4-4cylo.dat",
+      "license": [
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat"
+      ]
+    }
+  },
+  "missing": [],
+  "closureComplete": true,
+  "scope": "Extracted embedded genuine DATs to scratch only; normalized LF bytes, not repo import. Root/subpart Official2022-01,CCAL2. All dependency license lines retained.",
+  "openingEvidence": {
+    "source": "root11198 ands/11198s01 analytic primitive transforms",
+    "outside": "X+-80,Z+-40,Ybody0..96",
+    "feet": "X[-80,-40] and[40,80],bottomY96",
+    "arch": "front and rear inner lip circle center(X0,Y72),radius40; boundaryY=72-sqrt(1600-X^2) for|X|<=40. ApexY32,sideY72. Opening is not a flat48LDU ceiling.",
+    "wall": "frontZ[-40,-36],rearZ[36,40],outercentralcavity beneath topY4 awayfromlip",
+    "supportCaution": "A2studwidth80 solid cannot simply contact archapex acrosswholewidth: atX+-40lipclearancestartsY72. Stud positions/radii and entire placed mesh must be checked; top/bottom metadatafullbox isinvalid."
+  },
+  "pixels": [
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-04.jpg",
+      "sha256": "759b7675a8fcea576aa5c9da9a77b68f3967d5ba54094a27665839287c4fa1e5",
+      "actuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-11.jpg",
+      "sha256": "d65edf96be99bb54e0fff5e9ddaed2d17cae41cf86f38c8cb78d65182a9f3c4d",
+      "actuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-12.jpg",
+      "sha256": "07124b9889834b8b4df04cfe2b600d92e56ec5501abaae0daacbd1556f8a7402",
+      "actuallyViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-13.jpg",
+      "sha256": "f426e2787204e9037039d441e8f86186da204be32f0c293ce6638edc77d53144",
+      "actuallyViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-long-men-diao\\page-14.jpg",
+      "sha256": "6b442940269c20c3df63f2b9409c098e16f36c403bcdbfa53bc2070e1fb235a6",
+      "actuallyViewed": true
+    }
+  ],
+  "sourceIdentity": "RETRACTED: sourcep4 has squarecutout;11198 realcirculararch does NOT match.6394 now supported. Do not import11198 for thiscourse.",
+  "accepted": false,
+  "physicalValidation": false,
+  "sharedPartsChanged": false,
+  "candidateUse": "exclusion evidence only"
+}

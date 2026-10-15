@@ -1,0 +1,98 @@
+{
+  "slug": "5-zha-lan-sheng-jiang-gan",
+  "sourceSha256": "f8ebb3fb6f005664e65b5044d1d3cfc2859c4adb946c9b9eca92d66a9449dc28",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 2,
+  "rawOutput": "\nFAIL [5-zha-lan-sheng-jiang-gan.ldr] 3 error(s), 68 placement(s):\n  - step 8: 5-zha-lan-sheng-jiang-gan_l78 overlaps 5-zha-lan-sheng-jiang-gan_l77\n  - step 8: 5-zha-lan-sheng-jiang-gan_l81 overlaps 5-zha-lan-sheng-jiang-gan_l80\n  - step 10: 5-zha-lan-sheng-jiang-gan_l94 overlaps 5-zha-lan-sheng-jiang-gan_l93\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "alarms": [
+    {
+      "step": 8,
+      "lines": [
+        78,
+        77
+      ],
+      "classification": "real_risk",
+      "raw": "  - step 8: 5-zha-lan-sheng-jiang-gan_l78 overlaps 5-zha-lan-sheng-jiang-gan_l77",
+      "evidence": "108 strict edge/triangle pairs in recursive geometry; see mesh-alarm-diagnostic.json. Crossings remain around nominal snap hinge even after resolving real door origin. Candidate identity supported by source four upper panes and solid bottom, but this geometry pairing is not accepted as a functioning hinge."
+    },
+    {
+      "step": 8,
+      "lines": [
+        81,
+        80
+      ],
+      "classification": "real_risk",
+      "raw": "  - step 8: 5-zha-lan-sheng-jiang-gan_l81 overlaps 5-zha-lan-sheng-jiang-gan_l80",
+      "evidence": "108 strict edge/triangle pairs in recursive geometry; see mesh-alarm-diagnostic.json. Crossings remain around nominal snap hinge even after resolving real door origin. Candidate identity supported by source four upper panes and solid bottom, but this geometry pairing is not accepted as a functioning hinge."
+    },
+    {
+      "step": 10,
+      "lines": [
+        94,
+        93
+      ],
+      "classification": "real_risk",
+      "raw": "  - step 10: 5-zha-lan-sheng-jiang-gan_l94 overlaps 5-zha-lan-sheng-jiang-gan_l93",
+      "evidence": "4 strict edge/triangle pairs in recursive geometry; see mesh-alarm-diagnostic.json. Four crossings at left lower official canopy rim against previously approved approximate cockpit. Existing approval does not erase this source-instance risk; no proxy exemption."
+    }
+  ],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "P2 fixed support shaft heights differ96LDU while beam hole pitch40. Lower shaft passes lowest beam hole; upper green shaft moved to adjacent side bore z40 to tie supports without intersecting stalk. This hidden layout is inferred; source does not prove both shafts cross stalk. Cantilever stability/stop remains unverified.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P2 long stalk interpreted6525; source occludes bottom holes.11-hole identity and support pose need render/source followup.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Worm output green axle, crank integral pin and11/7-hole parallelogram use actual40pitch; phase/retention/load and moving sweep unverified.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P8 92094+2205 candidates use actual hinge x65.5,frameY65/127/189 versus doorY29/91/153; exact frame back mould not shown.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P10 Toolo cockpit uses previously approved approximate geometry; no new approximation. Chassis cockpit clutch and hood retention not physically certified; parked car pose separate from stud base inferred.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Door hinge shaft radius2.5 centered3.5LDU ahead of framefront, between socketz-6..-1. Exact spring/snap interference remains diagnostic risk, not waived.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "Actual recursive mesh: door/frame108 strict crossing pairs per instance at hinges; approved cockpit/hood4 pairs at lower rim. Not classified as false positives; see full diagnostic.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "physicalValidation": false,
+  "overallAcceptance": false,
+  "additionalUnreportedChecks": [
+    {
+      "lines": [
+        92,
+        93
+      ],
+      "strictCrossingPairs": 0,
+      "interpretation": "No strict surface crossings found; excludes coplanar contacts and containment, not clutch validation."
+    }
+  ],
+  "pixelObservation": {
+    "sourceSha256": "f8ebb3fb6f005664e65b5044d1d3cfc2859c4adb946c9b9eca92d66a9449dc28",
+    "revision": "575b4905247033fcf489f5511ed114b428599450ec1637c91aa1c436effac48f",
+    "record": "current-pixel-review.json",
+    "finalViewsActuallyViewed": 3,
+    "cumulativeStepsActuallyViewed": 10,
+    "observations": "Actually viewed all13 current original PNGs individually: iso, iso-rear, top, step1 through step10; no stale contact sheet used. Compared short rail upper end and lower extensions against sourcep4/p11 already actually reviewed. Three6524 rails now use upper endpoint holes and extend two pitches below lower pivot, matching source shape; no additional definite pose error observed. Existing nominal door/frame108 strict crossing pairs per instance, cockpit/hood4pairs, hidden support shaft z40 tie, worm phase and retention remain unresolved. Pixel observation does not accept assembly or physical function.",
+    "accepted": false
+  }
+}

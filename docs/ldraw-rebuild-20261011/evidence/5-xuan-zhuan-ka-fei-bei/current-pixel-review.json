@@ -1,0 +1,80 @@
+{
+  "sourceSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+  "revision": "cf88da4daa7adec36d07884c493e629f679328cac2ffe763edd95ee05752eedc",
+  "reviewedAt": "2026-10-11T07:54:55.920749+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xuan-zhuan-ka-fei-bei",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "18a56f2a463c54b9230a53960118d3785eb1d40ab4584962d34114f629b12a55",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "aae2fefd2fa49d54255c6d8cc2ceea3cbadd3bf5413e7dd1b2b9984fb55f12ca",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "6865f82464beca553b99ad0ce20c0cac317db8d168f81099334130eed3cdcdea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "10ff7dd13c704b053c542d2b29e0dca3a196b255e4eea898301b658159d1c40b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "6b6a060337e84959c83e69a570789914d1e63da704951216d9d6fe8139ced69c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "1328a984eb688375addd89e06c21cbe8b5918b1785c0fd159c7f650eec623dbc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "d40b0431f7de1809d0aceb8039fc50546e2294d8bf06549150d1595096d2105a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "ccfab5bf3ba949183499045073fd3b5cac29f0f605e75fa44df66565a6cedb5d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "4b6816f29b9913fb4cbd5cc9749e2ca7c8c20b297c06ce760e216d84290ccba6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "08a292c979127687bda7bf7d0a5aa9ca275e70a56c41953e4867588f2eb9af08",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "18a56f2a463c54b9230a53960118d3785eb1d40ab4584962d34114f629b12a55",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "18a56f2a463c54b9230a53960118d3785eb1d40ab4584962d34114f629b12a55",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "18a56f2a463c54b9230a53960118d3785eb1d40ab4584962d34114f629b12a55",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "All10 cumulative D frames compared with source10-page contact; originalstep7 inspected for crossed support beams and5 gear tables. Figures absent atstep9:10 source people still need exact identities. Crank and gear phase, axle retention and operation under load remain unverified. No new source edits or physical acceptance."
+}

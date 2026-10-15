@@ -1,0 +1,135 @@
+{
+  "at": "2026-10-11T08:56:14.540Z",
+  "sourcePage": 12,
+  "sourceImageSha256": "d899a81de0569b8b5d0a1688f589bc367ed595e1d1dec5c06f2da8dbe0747903",
+  "beforeSourceSha256": "e87d58a01362ab1088a5ca94f53db37c0affe46646d699fc6348b2b8c7acbf21",
+  "renderRevision": "b93840be2cdfbaa248f67f32350e2904d9793522972d31c75e8650553291d3b0",
+  "actuallyViewed": [
+    "iso",
+    "iso-rear",
+    "top",
+    "step-1",
+    "step-2",
+    "step-3",
+    "step-4",
+    "step-5",
+    "step-6",
+    "step-7",
+    "step-8",
+    "step-9",
+    "step-10",
+    "step-11",
+    "step-12"
+  ],
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "04ca9f8a1e3b424b8faac91b99728024f3d831702832ad2cf415a4d2ef1e5873"
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "c16ebbfc9a7717ff51de1dd0cf92aee4dec9267ef1a0e27119b966b104f9675e"
+    },
+    {
+      "view": "top",
+      "sha256": "1e19d23ac528576f1cb9a68c893da511a6994dc9ad438bf6438ebf70e03ee4a3"
+    },
+    {
+      "view": "step-1",
+      "sha256": "4a729a538c2e2230df47066a71c74384f540be2657d79f3e93a54af56e218b8b"
+    },
+    {
+      "view": "step-2",
+      "sha256": "e0f4af46b9facb7e1ab66e105374e42134d6907c3b3e4e119c3a2f94076665b0"
+    },
+    {
+      "view": "step-3",
+      "sha256": "ed1bfa2caa06db88721ad0eccd1a0440b76267291f8a3a447f38f647b4ec3534"
+    },
+    {
+      "view": "step-4",
+      "sha256": "632cbc79f7f9371e053f859ab360327f6f78e54056d348b33acafa6b2c2551ee"
+    },
+    {
+      "view": "step-5",
+      "sha256": "f60f83a0f2f94212d8ee8286e970faa3c7d38620d962e4f4f092c91f9066fffb"
+    },
+    {
+      "view": "step-6",
+      "sha256": "73e7670b4afc66675b3cc53d8cbf885002b4feef306578097b132575e83979b2"
+    },
+    {
+      "view": "step-7",
+      "sha256": "fc8c93421dcc068340c5aec189750d46b84d2f6d5855f4da58be2b5f815a8f21"
+    },
+    {
+      "view": "step-8",
+      "sha256": "9539bdf1c4bb5ba1ade2c4ee30dd517751562b9bd00290036d3b4ec096a0efe8"
+    },
+    {
+      "view": "step-9",
+      "sha256": "dcb332e9485c2bad2e59e2bccee9f99596b11ceece4ee330b10bc8f369e1ae75"
+    },
+    {
+      "view": "step-10",
+      "sha256": "831156009d5868f24418aff7d2a519f350d5fd5b53fd645f9c17225bb409573e"
+    },
+    {
+      "view": "step-11",
+      "sha256": "dcca46eed5dc05463c25de056a0185107c31db6810fa67b742a3bfef9075edff"
+    },
+    {
+      "view": "step-12",
+      "sha256": "04ca9f8a1e3b424b8faac91b99728024f3d831702832ad2cf415a4d2ef1e5873"
+    }
+  ],
+  "finding": "Source p12 shows white four-pane face adjacent to visible blue stud face. Before iso-rear shows blue stud face with open red cavity and far-side white pane; before iso shows white face from opposite tower side. Four frame+pane assemblies face opposite source. All frames contain full model; hidden connections remain unverified.",
+  "accepted": false,
+  "afterSourceSha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d",
+  "changes": [
+    {
+      "before": "1 4 -40 -316 561 0 0 -1 1 0 0 0 -1 0 61649.dat",
+      "after": "1 4 -40 -316 561 0 0 1 -1 0 0 0 -1 0 61649.dat"
+    },
+    {
+      "before": "1 15 0 -250.5 489 0 0 -1 1 0 0 0 -1 0 90265.dat",
+      "after": "1 15 -80 -381.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat"
+    },
+    {
+      "before": "1 4 -288 -644 561 0 0 -1 1 0 0 0 -1 0 61649.dat",
+      "after": "1 4 -288 -644 561 0 0 1 -1 0 0 0 -1 0 61649.dat"
+    },
+    {
+      "before": "1 15 -248 -578.5 489 0 0 -1 1 0 0 0 -1 0 90265.dat",
+      "after": "1 15 -328 -709.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat"
+    },
+    {
+      "before": "1 4 40 -892 561 0 0 -1 1 0 0 0 -1 0 61649.dat",
+      "after": "1 4 40 -892 561 0 0 1 -1 0 0 0 -1 0 61649.dat"
+    },
+    {
+      "before": "1 15 80 -826.5 489 0 0 -1 1 0 0 0 -1 0 90265.dat",
+      "after": "1 15 0 -957.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat"
+    },
+    {
+      "before": "1 4 288 -564 561 0 0 -1 1 0 0 0 -1 0 61649.dat",
+      "after": "1 4 288 -564 561 0 0 1 -1 0 0 0 -1 0 61649.dat"
+    },
+    {
+      "before": "1 15 328 -498.5 489 0 0 -1 1 0 0 0 -1 0 90265.dat",
+      "after": "1 15 248 -629.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat"
+    }
+  ],
+  "correction": "Rotate frame+insert by 180 degrees around frame local Y (world Z), preserving frame origins, bottom planes and same eight support stud coordinates. Insert hinge offset follows rotated official closed assembly; no scale/reflection.",
+  "afterPixels": {
+    "sourceSha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d",
+    "revision": "87f98f7e87ada12f3ef6e88165267dd882e415e09ccab9f78383d0e3e9b0c508",
+    "reviewedAt": "2026-10-11T09:01:06.744431+00:00",
+    "final3ActuallyReviewed": true,
+    "all12StepsActuallyReviewed": true,
+    "visibleFacingMatchesSourceP12": true,
+    "observations": "Actually viewed corrected final iso/iso-rear/top and all 12 original cumulative PNGs. Reopened source p12: iso-rear now shows all four white four-pane faces beside visible blue stud faces, correcting the previous opposite-facing windows. Full model remains framed. Step12 adds four visible lower window assemblies; four additional known 61649+90265 assemblies remain omitted because second seating/orientation is unresolved. Rear cumulative camera obscures some hub/arm engagement. Approximate screw capture, pivots, bearing retention and full motion/load stability remain unverified. No physical or user acceptance.",
+    "accepted": false,
+    "physicalValidation": false
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "sourceSha256": "b7e4e587b6e82291d21feddf1e1f512d4713e8436f38dd862ab39506035dd238",
+  "revision": "1fd758cbe2defda2a4e5748765ada46be3ebd4b8cf4e7d4c0f2d43484067b26a",
+  "reviewedAt": "2026-10-11T06:53:53.957528+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-da-zhuang-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "4a5d9c408ab6b14fd7a256ad9d5114aa72452856bfc0fa8fcce25d7fde065ed2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "d2304eecfddab9943fb2cd91dbfad29d4c561f5a96034c8d43d714c470f4b429",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "58688d5b1d027158574652796fc68ca3042d935186c83b9d2397c6a64ae76f2f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "48ec248d35a52920894ded21d90b977e024b91c28f59eca6f08d28200a580937",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "04657c98637b0aca1fb45c26142ba990827723979e05c112dc61a8e62c3bb4f7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "edd3239c9d64f820a7f9445406001d32b0cd45854c606bb3aad923f4beb00e69",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "755405983363fd0d754ee9f043de59fc1881a8e8bc1679dcfd0b41246de9fcc0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "19171a87e29dc7db206e0da1a40de6a0d395d64021d327439879f30782909b9f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "cd0aae7d9edeeb35835906c29744bab2ec4ab9dfa1cf3b473baf25e5f3f62a92",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "5bfd77050b1258af28cf783841a05b5eb985d74a94d0eb7e04b2cb616f56818f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "50ce2d4824a008a4627d2847ecf6770a36389ad5b0076d601137d625ff6f22ea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "4699bcea2cbb0e52d64efc6dbd50bed6f1f6bbe8b968a634f0adf95278907eda",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "38aabfc400f2dcac60bb466e403ae3d4591369983f4ef48b262da6a81c8e4172",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "079ffe6f5798ba3d43cc54f63971d3d955adaa5afe4ccb77178df5e1f1f78fe4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "4a5d9c408ab6b14fd7a256ad9d5114aa72452856bfc0fa8fcce25d7fde065ed2",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual pixel-review coverage above records appearance only. The previous uniform tyre cavity clearance claim is revoked. ## Superseding actual tyre-mesh review\nUniform42.183LDU tyre cavity and1.183LDU clearance conclusion is INVALID/REVOKED:6292 has an asymmetric axial cavity. Current source SHA b7e4e587b6e82291d21feddf1e1f512d4713e8436f38dd862ab39506035dd238 has 4 tyre/pulley pairs with225 strict surface-crossing triangle pairs each and 4 pairs with zero strict crossings. Positive witnesses confirm current mesh intersections; zero does not rule out coplanar overlap, containment or contact. See tyre-current-transforms.json, tyre-current-triangles.json and static-alarm-review.json. Existing rendered pixel viewing remains valid as viewing only, not collision clearance. No source change; hidden source seating depth unresolved. No physical or user acceptance.",
+  "supersedingGeometryLimitations": "## Superseding actual tyre-mesh review\nUniform42.183LDU tyre cavity and1.183LDU clearance conclusion is INVALID/REVOKED:6292 has an asymmetric axial cavity. Current source SHA b7e4e587b6e82291d21feddf1e1f512d4713e8436f38dd862ab39506035dd238 has 4 tyre/pulley pairs with225 strict surface-crossing triangle pairs each and 4 pairs with zero strict crossings. Positive witnesses confirm current mesh intersections; zero does not rule out coplanar overlap, containment or contact. See tyre-current-transforms.json, tyre-current-triangles.json and static-alarm-review.json. Existing rendered pixel viewing remains valid as viewing only, not collision clearance. No source change; hidden source seating depth unresolved. No physical or user acceptance.",
+  "priorLimitationsSupersededForTyreClearance": "Actually screened every frame of latest D cumulative steps1-12 forb7e4e587; inspected step11 original PNG against source page11. Chassis/cab, wheels, staged tower, lower and upper beam pairs, red handle, hammer carrier/axles/retainers then blue hammer blocks accumulate visibly with no blank frames or crop. Prior final3 review retained by matching hashes. Source pivot-hole choice and192-vs200LDU linkage spacing remain inferred; slight lower-arm slope fits lengths but is not physical validation. Crank/handle retention, approved approximate cockpit/canopy fit and tyre/hub retention remain unresolved. No source modification or physical/user acceptance."
+}

@@ -1,38 +1,106 @@
-0 4+ 吊车 (Crane Truck) - DUPLO draft for manual repair
+0 Four-plus crane - incomplete source reconstruction
 0 Name: 4-diao-che.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+吊车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Boom, hook and cargo blocks are simplified.
-
-0 // STEP 1 - base and cargo area
-1 2 -360 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 -40 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 280 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 4 260 -72 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 420 -72 0 1 0 0 0 1 0 0 0 1 41989.dat
+0 // Lesson145 course6; PDF SHA256 88a0ee8c26df7d1c881539181144f5380b7f3abf259acfcaf5159070f2f20c21; all12 pages viewed.
+0 // INCOMPLETE: p8 Toolo hook identity/geometry absent; omitted, not replaced with string hook4663.
+0 // Previously approved45002 approximate geometry reused; no new invented IDs. Arm joint angles and canopy fit not physically verified.
+0 // SOURCE PAGE 1: three black Toolo4x6 chassis bricks
+1 0 -120 -48 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 120 -48 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 40 -96 0 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
-
-0 // STEP 2 - truck cab and bed
-1 4 260 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 420 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 420 -168 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 0 180 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 180 -216 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 2: three grey2x4 screw bricks complete upper deck
+1 72 -200 -96 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 72 -120 -96 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 72 200 -96 0 0 0 1 0 1 0 -1 0 0 76057.dat
 0 STEP
-
-0 // STEP 3 - crane boom
-1 0 120 -240 160 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 0 40 -312 160 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 0 -40 -384 160 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 14 -120 -456 160 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
+0 // SOURCE PAGE 3: six screw rims and six offroad tyres
+1 71 -160 -24 -104 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 -160 -24 -104 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 -160 -24 104 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 -160 -24 104 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 40 -24 -104 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 40 -24 -104 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 40 -24 104 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 40 -24 104 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 200 -24 -104 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 200 -24 -104 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 200 -24 104 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 200 -24 104 1 0 0 0 0 -1 0 1 0 44970.dat
 0 STEP
-
-0 // STEP 4 - hook and colored cargo
-1 8 -180 -320 160 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 -180 -368 160 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -360 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -200 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 -40 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // SOURCE PAGE 4: red forward cockpit with canopy and rear four-pane frame
+1 4 80 -120 0 0 0 -1 0 1 0 1 0 0 31196c01.dat
+1 46 228 -154 0 0 -1 0 0 0 1 -1 0 0 6345.dat
+1 4 40 -288 0 0 0 -1 0 1 0 1 0 0 61649.dat
+1 15 80 -216 65.5 0 0 -1 0 1 0 1 0 0 90265.dat
+0 STEP
+0 // SOURCE PAGE 5: rear turntable and upper black platform
+1 0 -160 -136 0 1 0 0 0 1 0 0 0 1 60535.dat
+1 0 -160 -184 0 1 0 0 0 1 0 0 0 1 76395.dat
+0 STEP
+0 // SOURCE PAGE 6: blue rear-facing crane cockpit with canopy and grey upper brick
+1 1 -120 -208 0 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 46 -268 -242 0 0 1 0 0 0 1 1 0 0 6345.dat
+1 72 -80 -280 0 0 0 1 0 1 0 -1 0 0 76057.dat
+0 STEP
+0 // SOURCE PAGE 7: hinged mount and first single-axle short Toolo arm
+1 72 -80 -328 0 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -242.715287 -556.830409 0 0.819152044 0.573576436 0 -0.573576436 0.819152044 0 0 0 1 dev-129/28334.dat
+0 STEP
+0 // SOURCE PAGE 8: two further short Toolo arms; final hook omitted
+1 72 -442.715287 -556.830409 0 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
+1 72 -635.900453 -505.0666 0 -0.258819045 0.965925826 0 -0.965925826 -0.258819045 0 0 0 1 dev-129/28334.dat
+0 // Unresolved hook attachment at approximately (-635.900,-505.067,0). Source hook has large side discs and fork attachment, not a cord eye.
+0 STEP
+0 // BATCH4 steps9-11: upper barrier courses interlock across the three lower bricks; 6x4 stud footprint, two courses and two striped fences per color unchanged. Boom has three200LDU pivot spans (35deg from vertical, horizontal, down15deg); matches source silhouette approximately, hook still omitted.
+0 // SOURCE PAGE 9: green24x24 base and two yellow two-layer barrier stands
+1 2 -280 33 -240 1 0 0 0 1 0 0 0 1 4268.dat
+1 14 -600 -15 -180 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -520 -15 -180 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -440 -15 -180 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -560 -63 -220 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -560 -63 -140 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -63 -180 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 -520 -159 -180 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 14 -280 -15 -180 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -200 -15 -180 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -15 -180 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -240 -63 -220 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -63 -140 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -63 -180 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 -200 -159 -180 1 0 0 0 1 0 0 0 1 31021p01.dat
+0 STEP
+0 // SOURCE PAGE 10: two blue two-layer barrier stands
+1 1 -600 -15 -380 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -520 -15 -380 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -440 -15 -380 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -560 -63 -420 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -560 -63 -340 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -440 -63 -380 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 -520 -159 -380 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 1 -280 -15 -380 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -200 -15 -380 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -15 -380 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -63 -420 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -240 -63 -340 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -63 -380 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 -200 -159 -380 1 0 0 0 1 0 0 0 1 31021p01.dat
+0 STEP
+0 // SOURCE PAGE 11: two red two-layer barrier stands
+1 4 -600 -15 -580 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -520 -15 -580 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -440 -15 -580 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -560 -63 -620 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -560 -63 -540 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -440 -63 -580 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 -520 -159 -580 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 4 -280 -15 -580 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -200 -15 -580 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -120 -15 -580 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -240 -63 -620 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -63 -540 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -120 -63 -580 0 0 1 0 1 0 -1 0 0 3011.dat
+1 15 -200 -159 -580 1 0 0 0 1 0 0 0 1 31021p01.dat
+0 // Source page12 finished view. Scene stand spacing and display boom angles estimated from source; set quantities unknown.

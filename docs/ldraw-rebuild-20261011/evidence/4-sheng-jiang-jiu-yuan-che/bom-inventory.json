@@ -1,0 +1,389 @@
+[
+  {
+    "id": "76395.dat",
+    "color": 0,
+    "colorName": "Black",
+    "required": 6,
+    "catalog": "86599",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "86599",
+        "name": "Duplo Toolo Brick 4 x 6 with Holes on Sides and Top and 3 Screws in Top",
+        "color": "Black",
+        "quantity": 7,
+        "part_url": "https://rebrickable.com/parts/86599/duplo-toolo-brick-4-x-6-with-holes-on-sides-and-top-and-3-screws-in-top/",
+        "raw_description": "86599 Duplo Toolo Brick 4 x 6 with Holes on Sides and Top and 3 Screws in Top in Black Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 0,
+    "quantityStatus": "matched exactcolour rows"
+  },
+  {
+    "id": "6490.dat",
+    "color": 2,
+    "colorName": "Green",
+    "required": 2,
+    "catalog": "6490",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown,no inferredzero"
+  },
+  {
+    "id": "99565.dat",
+    "color": 71,
+    "colorName": "Light Bluish Gray",
+    "required": 4,
+    "catalog": "99565",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown,no inferredzero"
+  },
+  {
+    "id": "44970.dat",
+    "color": 0,
+    "colorName": "Black",
+    "required": 4,
+    "catalog": "44970",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "44970",
+        "name": "Duplo Toolo Tyre (Tire) with Deep Tread",
+        "color": "Black",
+        "quantity": 8,
+        "part_url": "https://rebrickable.com/parts/44970/duplo-toolo-tyre-tire-with-deep-tread/",
+        "raw_description": "44970 Duplo Toolo Tyre (Tire) with Deep Tread in Black Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 0,
+    "quantityStatus": "matched exactcolour rows"
+  },
+  {
+    "id": "31196c01.dat",
+    "color": 4,
+    "colorName": "Red",
+    "required": 1,
+    "catalog": "31196c01",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "31196c01",
+        "name": "Duplo Toolo Cockpit 4 x 6",
+        "color": "Red",
+        "quantity": 1,
+        "part_url": "https://rebrickable.com/parts/31196c01/duplo-toolo-cockpit-4-x-6/",
+        "raw_description": "31196c01 Duplo Toolo Cockpit 4 x 6 in Red Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 0,
+    "quantityStatus": "matched exactcolour rows"
+  },
+  {
+    "id": "6345.dat",
+    "color": 226,
+    "colorName": "Bright Light Yellow",
+    "required": 1,
+    "catalog": "6345",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown,no inferredzero"
+  },
+  {
+    "id": "3011.dat",
+    "color": 14,
+    "colorName": "Yellow",
+    "required": 20,
+    "catalog": "3011",
+    "inventoryRows": [
+      {
+        "set": "9656-1",
+        "part_num": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "color": "Yellow",
+        "quantity": 5,
+        "part_url": "https://rebrickable.com/parts/3011/duplo-brick-2-x-4/",
+        "raw_description": "3011 Duplo Brick 2 x 4 in Yellow Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": "unknown",
+    "quantityStatus": "matched exactcolour rows"
+  },
+  {
+    "id": "61649.dat",
+    "color": 4,
+    "colorName": "Red",
+    "required": 4,
+    "catalog": "61649",
+    "inventoryRows": [
+      {
+        "set": "9090-2",
+        "part_num": "61649",
+        "name": "Duplo Door / Window Frame Flat Front Surface, Completely Open Back",
+        "color": "Red",
+        "quantity": 6,
+        "part_url": "https://rebrickable.com/parts/61649/duplo-door-window-frame-flat-front-surface-completely-open-back/",
+        "raw_description": "61649 Duplo Door / Window Frame Flat Front Surface, Completely Open Back in Red Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": "unknown",
+    "quantityStatus": "matched exactcolour rows"
+  },
+  {
+    "id": "90265.dat",
+    "color": 15,
+    "colorName": "White",
+    "required": 4,
+    "catalog": "90265",
+    "inventoryRows": [
+      {
+        "set": "9090-2",
+        "part_num": "90265",
+        "name": "Duplo Door / Window with Four Equal Square Cornered Panes",
+        "color": "White",
+        "quantity": 6,
+        "part_url": "https://rebrickable.com/parts/90265/duplo-door-window-with-four-equal-square-cornered-panes/",
+        "raw_description": "90265 Duplo Door / Window with Four Equal Square Cornered Panes in White Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": "unknown",
+    "quantityStatus": "matched exactcolour rows"
+  },
+  {
+    "id": "3437.dat",
+    "color": 14,
+    "colorName": "Yellow",
+    "required": 2,
+    "catalog": "3437",
+    "inventoryRows": [
+      {
+        "set": "9656-1",
+        "part_num": "3437",
+        "name": "Duplo Brick 2 x 2",
+        "color": "Yellow",
+        "quantity": 3,
+        "part_url": "https://rebrickable.com/parts/3437/duplo-brick-2-x-2/",
+        "raw_description": "3437 Duplo Brick 2 x 2 in Yellow Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": "unknown",
+    "quantityStatus": "matched exactcolour rows"
+  },
+  {
+    "id": "3011.dat",
+    "color": 15,
+    "colorName": "White",
+    "required": 1,
+    "catalog": "3011",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown,no inferredzero"
+  },
+  {
+    "id": "3011.dat",
+    "color": 1,
+    "colorName": "Blue",
+    "required": 1,
+    "catalog": "3011",
+    "inventoryRows": [
+      {
+        "set": "9090-2",
+        "part_num": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "color": "Blue",
+        "quantity": 26,
+        "part_url": "https://rebrickable.com/parts/3011/duplo-brick-2-x-4/",
+        "raw_description": "3011 Duplo Brick 2 x 4 in Blue Duplo, Quatro and Primo"
+      },
+      {
+        "set": "9076-1",
+        "part_num": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "color": "Blue",
+        "quantity": 4,
+        "part_url": "https://rebrickable.com/parts/3011/duplo-brick-2-x-4/",
+        "raw_description": "3011 Duplo Brick 2 x 4 in Blue Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": "unknown",
+    "quantityStatus": "matched exactcolour rows"
+  },
+  {
+    "id": "3011.dat",
+    "color": 4,
+    "colorName": "Red",
+    "required": 1,
+    "catalog": "3011",
+    "inventoryRows": [
+      {
+        "set": "9090-2",
+        "part_num": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "color": "Red",
+        "quantity": 20,
+        "part_url": "https://rebrickable.com/parts/3011/duplo-brick-2-x-4/",
+        "raw_description": "3011 Duplo Brick 2 x 4 in Red Duplo, Quatro and Primo"
+      },
+      {
+        "set": "9656-1",
+        "part_num": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "color": "Red",
+        "quantity": 4,
+        "part_url": "https://rebrickable.com/parts/3011/duplo-brick-2-x-4/",
+        "raw_description": "3011 Duplo Brick 2 x 4 in Red Duplo, Quatro and Primo"
+      },
+      {
+        "set": "9076-1",
+        "part_num": "3011",
+        "name": "Duplo Brick 2 x 4",
+        "color": "Red",
+        "quantity": 4,
+        "part_url": "https://rebrickable.com/parts/3011/duplo-brick-2-x-4/",
+        "raw_description": "3011 Duplo Brick 2 x 4 in Red Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": "unknown",
+    "quantityStatus": "matched exactcolour rows"
+  },
+  {
+    "id": "28336.dat",
+    "color": 72,
+    "colorName": "Dark Bluish Gray",
+    "required": 2,
+    "catalog": "45202",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "45202",
+        "name": "Duplo Toolo Brick 2 x 2 with Angled Bracket with Forks and Two Screws, Holes at Side",
+        "color": "Dark Bluish Gray",
+        "quantity": 4,
+        "part_url": "https://rebrickable.com/parts/45202/duplo-toolo-brick-2-x-2-with-angled-bracket-with-forks-and-two-screws-holes-at-side/",
+        "raw_description": "45202 Duplo Toolo Brick 2 x 2 with Angled Bracket with Forks and Two Screws, Holes at Side in Dark Bluish Gray Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 0,
+    "quantityStatus": "matched exactcolour rows"
+  },
+  {
+    "id": "dev-129/28334.dat",
+    "color": 72,
+    "colorName": "Dark Bluish Gray",
+    "required": 8,
+    "catalog": "74847",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "74847",
+        "name": "Duplo Toolo Arm 2 x 6 with Triangular Set Screw and Clip Ends",
+        "color": "Dark Bluish Gray",
+        "quantity": 5,
+        "part_url": "https://rebrickable.com/parts/74847/duplo-toolo-arm-2-x-6-with-triangular-set-screw-and-clip-ends/",
+        "raw_description": "74847 Duplo Toolo Arm 2 x 6 with Triangular Set Screw and Clip Ends in Dark Bluish Gray Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 3,
+    "quantityStatus": "matched exactcolour rows"
+  },
+  {
+    "id": "74957.dat",
+    "color": 72,
+    "colorName": "Dark Bluish Gray",
+    "required": 2,
+    "catalog": "74957",
+    "inventoryRows": [
+      {
+        "set": "45002-1",
+        "part_num": "74957",
+        "name": "Duplo Toolo Brick 2 x 2 with Holes and Clip on Bottom",
+        "color": "Dark Bluish Gray",
+        "quantity": 2,
+        "part_url": "https://rebrickable.com/parts/74957/duplo-toolo-brick-2-x-2-with-holes-and-clip-on-bottom/",
+        "raw_description": "74957 Duplo Toolo Brick 2 x 2 with Holes and Clip on Bottom in Dark Bluish Gray Duplo, Quatro and Primo"
+      }
+    ],
+    "extra45002": 0,
+    "quantityStatus": "matched exactcolour rows"
+  },
+  {
+    "id": "31021p01.dat",
+    "color": 15,
+    "colorName": "White",
+    "required": 2,
+    "catalog": "31021p01",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown,no inferredzero"
+  },
+  {
+    "id": "47205.dat",
+    "color": 15,
+    "colorName": "White",
+    "required": 1,
+    "catalog": "47205",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown,no inferredzero"
+  },
+  {
+    "id": "47207.dat",
+    "color": 15,
+    "colorName": "White",
+    "required": 1,
+    "catalog": "47207",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown,no inferredzero"
+  },
+  {
+    "id": "47204.dat",
+    "color": 15,
+    "colorName": "White",
+    "required": 1,
+    "catalog": "47204",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown,no inferredzero"
+  },
+  {
+    "id": "47203p03.dat",
+    "color": 4,
+    "colorName": "Red",
+    "required": 1,
+    "catalog": "47203p03",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown,no inferredzero"
+  },
+  {
+    "id": "47198p03.dat",
+    "color": 15,
+    "colorName": "White",
+    "required": 2,
+    "catalog": "47198p03",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown,no inferredzero"
+  },
+  {
+    "id": "47206p01.dat",
+    "color": 14,
+    "colorName": "Yellow",
+    "required": 1,
+    "catalog": "47206p01",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown,no inferredzero"
+  },
+  {
+    "id": "47199.dat",
+    "color": 4,
+    "colorName": "Red",
+    "required": 1,
+    "catalog": "47199",
+    "inventoryRows": [],
+    "extra45002": "unknown",
+    "quantityStatus": "unknown,no inferredzero"
+  }
+]

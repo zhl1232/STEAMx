@@ -1,0 +1,79 @@
+{
+  "sourceSha256": "ddc32886ea636f4e1721458b3daf9091056c23452236f85be27cf771f6e83aed",
+  "algorithmSha256": "ebf25f2d7add6f27a09157150799842c41555f602ba87b856ab49150f7125d7d",
+  "method": "Every recursive DAT type3/type4 polygon fan triangle against every transformed other triangle with AABB pruning. Strict segment/interior-triangle intersection (Moller-Trumbore). Positive witnesses establish geometric surface crossing. Zero does not exclude coplanar overlap, containment, contact or physical interference. No tolerance-based acceptance.",
+  "results": [
+    {
+      "tyreLine": 41,
+      "wheelLine": 29,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 41,
+      "wheelLine": 29,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 42,
+      "wheelLine": 29,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 42,
+      "wheelLine": 29,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 42,
+      "wheelLine": 41,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 42,
+      "wheelLine": 41,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 43,
+      "wheelLine": 29,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 43,
+      "wheelLine": 29,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 43,
+      "wheelLine": 41,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 43,
+      "wheelLine": 41,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 43,
+      "wheelLine": 42,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 43,
+      "wheelLine": 42,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    }
+  ]
+}

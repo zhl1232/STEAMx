@@ -1,0 +1,3466 @@
+{
+  "slug": "5-shui-zha",
+  "pages": 15,
+  "source": {
+    "name": "5+水闸搭建说明.pdf",
+    "relative_path": "5+/5+水闸搭建说明.pdf",
+    "pages": 15,
+    "bytes": 2281853,
+    "sha256": "cfa6a879bbb53535a3f21f9fe867ca6d8ad034b1f9cfdaf4a5279745edf20adc",
+    "source_url": "https://pan.quark.cn/list#/docpdf/25c34c90309348d2a1b78781578399f9",
+    "slug": "5-shui-zha",
+    "lesson_id": 290,
+    "course_id": 7,
+    "localPdf": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5+/5+水闸搭建说明.pdf",
+    "localBytesVerified": true,
+    "pagesDecoded": [
+      {
+        "page": 1,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-01.jpg",
+        "sha256": "26d99cfa81c778574e42b2e9183001bb1e1dbfafa4cdcc8d40325b7697615507",
+        "pixelsViewed": true
+      },
+      {
+        "page": 2,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-02.jpg",
+        "sha256": "7cb5dc8f829c487e5dfa15a2d059329e8072c2c66f5279528b7a5b8f0c0c58bd",
+        "pixelsViewed": true
+      },
+      {
+        "page": 3,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-03.jpg",
+        "sha256": "210ba9f289ba61d86d68a2cbde36a079096e003de34aa3bb1eac0c552511d4b3",
+        "pixelsViewed": true
+      },
+      {
+        "page": 4,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-04.jpg",
+        "sha256": "fb423e46b297ea872b2a9e8db07598f9a9b3216a9fa42bf05f69b804f39b31f8",
+        "pixelsViewed": true
+      },
+      {
+        "page": 5,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-05.jpg",
+        "sha256": "10b6757ecaf48de4aeab8b0b4dbd59c0e588f5140e40d113f5cfea890b97e6a1",
+        "pixelsViewed": true
+      },
+      {
+        "page": 6,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-06.jpg",
+        "sha256": "fad21ef35dfa1d456c90b160dcea9a4ef7411afb3cbd1e83c474a6e773e9d030",
+        "pixelsViewed": true
+      },
+      {
+        "page": 7,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-07.jpg",
+        "sha256": "b8b56539da53bd93a0d2b4afa87a8f0e09d9ca35e1acd558d6c288890e05deb1",
+        "pixelsViewed": true
+      },
+      {
+        "page": 8,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-08.jpg",
+        "sha256": "52e44c076e9e3ab367b34a5a2ebcced36b2cdaaa3172f401b6daf4651482a28a",
+        "pixelsViewed": true
+      },
+      {
+        "page": 9,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-09.jpg",
+        "sha256": "f0b1ceaec0403c9155409e616c6540a7c8353972b1e7de265cdcaa45891881ac",
+        "pixelsViewed": true
+      },
+      {
+        "page": 10,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-10.jpg",
+        "sha256": "f6eaf2b8c2cf1314d165b839a0ceff34101005f2a104772eadba3c4fb710d3e1",
+        "pixelsViewed": true
+      },
+      {
+        "page": 11,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-11.jpg",
+        "sha256": "17fb11094c77d3df096374c53a87ed66ea93fe987a7956962772f2ef0ed8ae72",
+        "pixelsViewed": true
+      },
+      {
+        "page": 12,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-12.jpg",
+        "sha256": "b5c431c455bf4baa7e4033984e504d24f8e0288e8e3216d3fa02a7991c6c444f",
+        "pixelsViewed": true
+      },
+      {
+        "page": 13,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-13.jpg",
+        "sha256": "82386252fb3e37f90b3114c8937d9d6f95c87d8ba0f692e2d30158c91c547031",
+        "pixelsViewed": true
+      },
+      {
+        "page": 14,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-14.jpg",
+        "sha256": "c03284ce33bb1dac1516ba440ee3d3965aea1f0bf7caeb2cf662e451e3bf082f",
+        "pixelsViewed": true
+      },
+      {
+        "page": 15,
+        "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-15.jpg",
+        "sha256": "4729e27614f4bfc9bfd973b2c32b403d9f7a66a187894e69dd40cca167114018",
+        "pixelsViewed": true
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "page": 1,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-01.jpg",
+      "sha256": "26d99cfa81c778574e42b2e9183001bb1e1dbfafa4cdcc8d40325b7697615507",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-02.jpg",
+      "sha256": "7cb5dc8f829c487e5dfa15a2d059329e8072c2c66f5279528b7a5b8f0c0c58bd",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-03.jpg",
+      "sha256": "210ba9f289ba61d86d68a2cbde36a079096e003de34aa3bb1eac0c552511d4b3",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-04.jpg",
+      "sha256": "fb423e46b297ea872b2a9e8db07598f9a9b3216a9fa42bf05f69b804f39b31f8",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-05.jpg",
+      "sha256": "10b6757ecaf48de4aeab8b0b4dbd59c0e588f5140e40d113f5cfea890b97e6a1",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-06.jpg",
+      "sha256": "fad21ef35dfa1d456c90b160dcea9a4ef7411afb3cbd1e83c474a6e773e9d030",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-07.jpg",
+      "sha256": "b8b56539da53bd93a0d2b4afa87a8f0e09d9ca35e1acd558d6c288890e05deb1",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-08.jpg",
+      "sha256": "52e44c076e9e3ab367b34a5a2ebcced36b2cdaaa3172f401b6daf4651482a28a",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-09.jpg",
+      "sha256": "f0b1ceaec0403c9155409e616c6540a7c8353972b1e7de265cdcaa45891881ac",
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-10.jpg",
+      "sha256": "f6eaf2b8c2cf1314d165b839a0ceff34101005f2a104772eadba3c4fb710d3e1",
+      "pixelsViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-11.jpg",
+      "sha256": "17fb11094c77d3df096374c53a87ed66ea93fe987a7956962772f2ef0ed8ae72",
+      "pixelsViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-12.jpg",
+      "sha256": "b5c431c455bf4baa7e4033984e504d24f8e0288e8e3216d3fa02a7991c6c444f",
+      "pixelsViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-13.jpg",
+      "sha256": "82386252fb3e37f90b3114c8937d9d6f95c87d8ba0f692e2d30158c91c547031",
+      "pixelsViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-14.jpg",
+      "sha256": "c03284ce33bb1dac1516ba440ee3d3965aea1f0bf7caeb2cf662e451e3bf082f",
+      "pixelsViewed": true
+    },
+    {
+      "page": 15,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch14/5-shui-zha/page-15.jpg",
+      "sha256": "4729e27614f4bfc9bfd973b2c32b403d9f7a66a187894e69dd40cca167114018",
+      "pixelsViewed": true
+    }
+  ],
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "Sidebuilt6x12gate:14yellow2x4plates,6bluebricks,2redholepegs,back6x12plate",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -88,
+            -48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottomrow,24LDU plate thickness inferred fromthinBOM andsourcefrontsideprofile",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            0,
+            -88,
+            -48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottomrow,24LDU plate thickness inferred fromthinBOM andsourcefrontsideprofile",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-3",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            160,
+            -88,
+            -48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Bottomrow,24LDU plate thickness inferred fromthinBOM andsourcefrontsideprofile",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-4",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -248,
+            -48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Topmiddle frame",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-5",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            80,
+            -248,
+            -48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Topmiddle frame",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-6",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -208,
+            -48
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Vertical4studframe sides",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-7",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            200,
+            -208,
+            -48
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Vertical4studframe sides",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-8",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -88,
+            48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Bottomrow,24LDU plate thickness inferred fromthinBOM andsourcefrontsideprofile",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-9",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            0,
+            -88,
+            48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Bottomrow,24LDU plate thickness inferred fromthinBOM andsourcefrontsideprofile",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-10",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            160,
+            -88,
+            48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Bottomrow,24LDU plate thickness inferred fromthinBOM andsourcefrontsideprofile",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-11",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -248,
+            48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Topmiddle frame",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-12",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            80,
+            -248,
+            48
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Topmiddle frame",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-13",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -208,
+            48
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "support": "Vertical4studframe sides",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-14",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            200,
+            -208,
+            48
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "support": "Vertical4studframe sides",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-15",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -88,
+            -24
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Middlebluebottomrow",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-16",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -88,
+            -24
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Middlebluebottomrow",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-17",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            160,
+            -88,
+            -24
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Middlebluebottomrow",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-18",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -208,
+            -24
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Middleblueverticalends",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-19",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -208,
+            -24
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Middleblueverticalends",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-20",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -248,
+            -24
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Middlebluecenter top",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-21",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -120,
+            -288,
+            -24
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Toppegs halfabovegate; nativeYcentralpassage takesZaxle",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-22",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            120,
+            -288,
+            -24
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Toppegs halfabovegate; nativeYcentralpassage takesZaxle",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-23",
+          "partId": "4196.dat",
+          "color": 4,
+          "position": [
+            0,
+            -168,
+            72
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Backplate bottomZ48 mates yellowback studs",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 23
+    },
+    {
+      "sourcePage": 2,
+      "note": "Front6x12plate closesframe",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "4196.dat",
+          "color": 4,
+          "position": [
+            0,
+            -168,
+            -72
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "BottomZ-48 matesfrontyellowplate",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 24
+    },
+    {
+      "sourcePage": 3,
+      "note": "24x24base andtwo2layerUguidefeet",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "4268.dat",
+          "color": 2,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Groundbase",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            -48,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-3",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            -48,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-4",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Uguide outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-5",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            -48,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-6",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            -48,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-7",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Uguide outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-8",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -96,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-9",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -96,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-10",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -96,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-11",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -96,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-12",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -96,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-13",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -96,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-14",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            240,
+            -96,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-15",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            240,
+            -96,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 39
+    },
+    {
+      "sourcePage": 4,
+      "note": "Threeadditionalguide layers",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            -144,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            -144,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-3",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Uguide outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-4",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            -144,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-5",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            -144,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-6",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Uguide outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-7",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -192,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-8",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -192,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-9",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -192,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-10",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -192,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-11",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -192,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-12",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -192,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-13",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            240,
+            -192,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-14",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            240,
+            -192,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-15",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            -240,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-16",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            -240,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-17",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -240,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Uguide outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-18",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            -240,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-19",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            -240,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-20",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -240,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Uguide outerspine",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 59
+    },
+    {
+      "sourcePage": 5,
+      "note": "Fouradditionalguide layers",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -288,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -288,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-3",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -288,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-4",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -288,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-5",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -288,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-6",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -288,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-7",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            240,
+            -288,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-8",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            240,
+            -288,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-9",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            -336,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-10",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            -336,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-11",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -336,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Uguide outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-12",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            -336,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-13",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            -336,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-14",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -336,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Uguide outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-15",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -384,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-16",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -384,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-17",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -384,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-18",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -384,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-19",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -384,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-20",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -384,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternatebond outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-21",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            240,
+            -384,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-22",
+          "partId": "3437.dat",
+          "color": 1,
+          "position": [
+            240,
+            -384,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Guidearm end,clear160LDUslot",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-23",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            -432,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-24",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            -432,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-25",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -432,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Uguide outerspine",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-26",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            -432,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-27",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            -432,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Uguide arms onpreviouslayer",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-28",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -432,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Uguide outerspine",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 87
+    },
+    {
+      "sourcePage": 6,
+      "note": "4x8limeguidecaps and10studheaderpair",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "4672.dat",
+          "color": 27,
+          "position": [
+            -280,
+            -456,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Capbottom-432 on9layers;source4x8 footprint",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "4672.dat",
+          "color": 27,
+          "position": [
+            280,
+            -456,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Capbottom-432 on9layers;source4x8 footprint",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-3",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -504,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Headerbelowcapblueclamps, bottom-456",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-4",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            200,
+            -504,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Headerbelowcapblueclamps, bottom-456",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 91
+    },
+    {
+      "sourcePage": 7,
+      "note": "Eightblue4studheaderclamps",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -280,
+            -504,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Flanksheader oncap;bodyedgeZ40 coincidentrailside",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -280,
+            -504,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Flanksheader oncap;bodyedgeZ40 coincidentrailside",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-3",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -320,
+            -552,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Topcrossbond joinsrail andsideclamps",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-4",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -552,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Topcrossbond joinsrail andsideclamps",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-5",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            280,
+            -504,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Flanksheader oncap;bodyedgeZ40 coincidentrailside",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-6",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            280,
+            -504,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Flanksheader oncap;bodyedgeZ40 coincidentrailside",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-7",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            240,
+            -552,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Topcrossbond joinsrail andsideclamps",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-8",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            320,
+            -552,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Topcrossbond joinsrail andsideclamps",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 99
+    },
+    {
+      "sourcePage": 8,
+      "note": "Center24LDUunderplate andtwoyellow4studbrick riser",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            0,
+            -456,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Headerseam undersideclamp",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-2",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -552,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gearboxsupportstack",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -600,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Gearboxsupportstack",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 102
+    },
+    {
+      "sourcePage": 9,
+      "note": "Officialgearbox withworm,24T andtwogray6Laxles",
+      "placements": [
+        {
+          "id": "p9-1",
+          "partId": "31624.dat",
+          "color": 15,
+          "position": [
+            0,
+            -600,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "ActualbottomoriginY0 sitsyellowtop",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-2",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -672,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "InputX throughrealbox lowerholeY-72",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-3",
+          "partId": "31625.dat",
+          "color": 1,
+          "position": [
+            0,
+            -672,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "WormnativeZ mapsX",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-4",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -768,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "OutputZ throughupperholeY-168",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-5",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            0,
+            -768,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "24T outputinsideframe, phasepending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 107
+    },
+    {
+      "sourcePage": 10,
+      "note": "Inputcrank andretainer",
+      "placements": [
+        {
+          "id": "p10-1",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            -100,
+            -672,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            1,
+            0,
+            0
+          ],
+          "support": "MainholeX,80up handle; inputshaftends+/-120",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-2",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            100,
+            -672,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Oppositeinputretainer",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 109
+    },
+    {
+      "sourcePage": 11,
+      "note": "Flexiblecord stock;no invented rigidgeometry",
+      "placements": [],
+      "cumulativePlacements": 109
+    },
+    {
+      "sourcePage": 12,
+      "note": "Twooutputpulleys andtwoofficialhooks from2xassembly callout",
+      "placements": [
+        {
+          "id": "p12-1",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            0,
+            -768,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Outputspool,cordwrapmissing",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-2",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            0,
+            -768,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Outputspool,cordwrapmissing",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-3",
+          "partId": "4663.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -366,
+            60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Sourcep13 hookhangsnearpeg; eye supportedbyomittedcord,hookcapture/retention notverified",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-4",
+          "partId": "4663.dat",
+          "color": 14,
+          "position": [
+            120,
+            -366,
+            -60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Sourcep13 hookhangsnearpeg; eye supportedbyomittedcord,hookcapture/retention notverified",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 113
+    },
+    {
+      "sourcePage": 13,
+      "note": "Placehookassemblies perfront/backsourceview;nocountduplication",
+      "placements": [],
+      "cumulativePlacements": 113
+    },
+    {
+      "sourcePage": 14,
+      "note": "Twogray6Lpegaxles andfourretainers",
+      "placements": [
+        {
+          "id": "p14-1",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            -120,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "CentralnativeY passageoftoppeg,axisZ",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p14-2",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -288,
+            -100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pegaxleretainer;hookcapture axialstackpending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p14-3",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -288,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pegaxleretainer;hookcapture axialstackpending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p14-4",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            120,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "CentralnativeY passageoftoppeg,axisZ",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p14-5",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            120,
+            -288,
+            -100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pegaxleretainer;hookcapture axialstackpending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p14-6",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            120,
+            -288,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pegaxleretainer;hookcapture axialstackpending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 119
+    }
+  ],
+  "pending": [
+    "Gate selectedslightlyraised48LDU pose matchinglater source; cordomitted meansno certifiedlifting/support,notfloating waiver.",
+    "P1 yellow14 pieces identifiedthin40666 fromBOM/profile; totalgate144LDUdepth fits160LDUguide slot,8LDUeachside. Blueframe/hiddenseams inferred withsourcecounts.",
+    "GuideU4x8 arrangement matchesred3bricks/blue2bricks+2squares perlayer; sourcehiddenbond inferred,sourceforward/backslot preserved.",
+    "31624 actuallowerX(-72)/upperZ(-168) interfaces used; worm/gear phase andinput/outputretention unverified.",
+    "Hooksactual4663,sourcefront/back layout preserved but cordpaths/pegcapture exactseat unresolved."
+  ],
+  "unknownIds": [
+    {
+      "sourcePages": [
+        11,
+        12,
+        13,
+        15
+      ],
+      "part": "Flexible liftingcord",
+      "candidate": "thread frompulley/hookassembly75536/6527c01",
+      "quantity": "two runs from2xassembly; stocklength/countunclear",
+      "missingEvidence": "Exactlength,diameter,turns andlicenseddeformablegeometry; source onlyschematic"
+    }
+  ],
+  "omitted": [
+    {
+      "sourcePage": 11,
+      "partId": null,
+      "quantity": 2,
+      "classification": "unknown_flexible_geometry",
+      "reason": "Two sourcehookcordruns notfabricated asrigidrod; lifting supportnotvalidated"
+    }
+  ],
+  "status": "INCOMPLETE dev-only source reconstruction",
+  "verification": "Awaiting raw/recursive checks and main rendering",
+  "inventory": "Verified9656/9090 colorrows; combined availability unknown if incomplete",
+  "modelSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-shui-zha.ldr",
+  "totalPlacements": 119,
+  "bom": {
+    "40666.dat|14": 15,
+    "3011.dat|1": 30,
+    "75349.dat|4": 2,
+    "4196.dat|4": 2,
+    "4268.dat|2": 1,
+    "3011.dat|4": 30,
+    "3437.dat|1": 16,
+    "4672.dat|27": 2,
+    "75350.dat|4": 2,
+    "3011.dat|14": 2,
+    "31624.dat|15": 1,
+    "6522.dat|7": 4,
+    "31625.dat|1": 1,
+    "6529.dat|4": 1,
+    "6526.dat|14": 1,
+    "6527.dat|14": 7,
+    "4663.dat|14": 2
+  },
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "knownApproximateGeometry": [],
+  "sourcePageBOM": [
+    {
+      "sourcePage": 1,
+      "installed": {
+        "40666.dat|14": 14,
+        "3011.dat|1": 6,
+        "75349.dat|4": 2,
+        "4196.dat|4": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 2,
+      "installed": {
+        "4196.dat|4": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 3,
+      "installed": {
+        "4268.dat|2": 1,
+        "3011.dat|4": 6,
+        "3011.dat|1": 4,
+        "3437.dat|1": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 4,
+      "installed": {
+        "3011.dat|4": 12,
+        "3011.dat|1": 4,
+        "3437.dat|1": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 5,
+      "installed": {
+        "3011.dat|1": 8,
+        "3437.dat|1": 8,
+        "3011.dat|4": 12
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 6,
+      "installed": {
+        "4672.dat|27": 2,
+        "75350.dat|4": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 7,
+      "installed": {
+        "3011.dat|1": 8
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 8,
+      "installed": {
+        "40666.dat|14": 1,
+        "3011.dat|14": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 9,
+      "installed": {
+        "31624.dat|15": 1,
+        "6522.dat|7": 2,
+        "31625.dat|1": 1,
+        "6529.dat|4": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 10,
+      "installed": {
+        "6526.dat|14": 1,
+        "6527.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 11,
+      "installed": {},
+      "omitted": [
+        {
+          "sourcePage": 11,
+          "partId": null,
+          "quantity": 2,
+          "classification": "unknown_flexible_geometry",
+          "reason": "Two sourcehookcordruns notfabricated asrigidrod; lifting supportnotvalidated"
+        }
+      ]
+    },
+    {
+      "sourcePage": 12,
+      "installed": {
+        "6527.dat|14": 2,
+        "4663.dat|14": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 13,
+      "installed": {},
+      "omitted": []
+    },
+    {
+      "sourcePage": 14,
+      "installed": {
+        "6522.dat|7": 2,
+        "6527.dat|14": 4
+      },
+      "omitted": []
+    }
+  ],
+  "inventoryByPart": [
+    {
+      "partId": "40666.dat",
+      "color": "Yellow",
+      "installedQuantity": 15,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 13,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Blue",
+      "installedQuantity": 30,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Blue",
+          "quantity": 26
+        },
+        {
+          "set": "9076-1",
+          "color": "Blue",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "75349.dat",
+      "color": "Red",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "4196.dat",
+      "color": "Red",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "4268.dat",
+      "color": "Green",
+      "installedQuantity": 1,
+      "verifiedRows": [],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Red",
+      "installedQuantity": 30,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 20
+        },
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 4
+        },
+        {
+          "set": "9076-1",
+          "color": "Red",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": 26,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "3437.dat",
+      "color": "Blue",
+      "installedQuantity": 16,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Blue",
+          "quantity": 40
+        },
+        {
+          "set": "9076-1",
+          "color": "Blue",
+          "quantity": 8
+        }
+      ],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "4672.dat",
+      "color": "Lime",
+      "installedQuantity": 2,
+      "verifiedRows": [],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "75350.dat",
+      "color": "Red",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Yellow",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 5
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "31624.dat",
+      "color": "White",
+      "installedQuantity": 1,
+      "verifiedRows": [],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "6522.dat",
+      "color": "Light Bluish Gray",
+      "installedQuantity": 4,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Light Bluish Gray",
+          "quantity": 7
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "31625.dat",
+      "color": "Blue",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Blue",
+          "quantity": 1
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "6529.dat",
+      "color": "Red",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "6526.dat",
+      "color": "Yellow",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 6
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "6527.dat",
+      "color": "Yellow",
+      "installedQuantity": 7,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 15
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    },
+    {
+      "partId": "4663.dat",
+      "color": "Yellow",
+      "installedQuantity": 2,
+      "verifiedRows": [],
+      "extraVsSingle9656": null,
+      "combinedAvailability": "unknown if no row;9090 incomplete"
+    }
+  ],
+  "rawCheck": {
+    "exitCode": 0,
+    "rawOutput": "OK   [5-shui-zha.ldr] 119 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  "recursiveGeometryEvidence": "recursive-geometry.json",
+  "knownConnectionsOmitted": [],
+  "pixelObservation": {
+    "sourceSha256": "5ba3864acfe83c7f0c33067c2b9dba1bb0a74b091b6e2f4b48526f8f277c41d4",
+    "revision": "d043bbf2f7826400e766bfdc4f8a3cba454eb741a78b82beb68fafd22491a57c",
+    "record": "current-pixel-review.json",
+    "finalViewsActuallyViewed": 3,
+    "cumulativeStepsActuallyViewed": 14,
+    "observations": "Actually viewed final three views and every cumulative step1-14 contact tile, iso original; rechecked source p12 and p15 original. Gate sandwich, alternating guide walls, top bridge and gearbox progression show no new definite source-placement error. Source two flexible cord runs remain omitted; hooks lack verified cord support/peg capture. Gate raised48LDU and hidden wall bond inferred; worm phase, pulley retention, guide clearance under motion unverified. Observation only, not assembly or physical acceptance.",
+    "accepted": false
+  }
+}

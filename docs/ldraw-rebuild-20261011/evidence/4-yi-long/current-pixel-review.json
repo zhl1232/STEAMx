@@ -1,0 +1,85 @@
+{
+  "sourceSha256": "89e33019f8a978d4391c2ee6271202c32aa6be79197a028e670892cd97fa4751",
+  "revision": "5a5950c94b601a8d3cf4dc477856d9998a922a10bc7edd7d8eecedddacccd0b7",
+  "reviewedAt": "2026-10-11T07:31:13.545439+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-yi-long",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "8df358e1df452a0e8de297294f72fba4140f3105820172550bb3ffcfa2ba95e6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "ae60a297e06119ebffa0eed2051595ca1991859e5a31628f8342ad241243596a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "f4a72382614a77cd0135c0a7f418d16dacfe9142c38d401d9f9d4129268eac8d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "302320592275c38316b63c659c66462d34651ae42ec6fc90e073554e6d3212d6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "bc7cfc049ea1be45e5092ec34b1938b7687ea364b288b544281df2425a0ed8ad",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "1fd9aef63ea90a87cc37768fa33632dca45254a9909bbeb349317f0f4e1fed85",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "1fd9aef63ea90a87cc37768fa33632dca45254a9909bbeb349317f0f4e1fed85",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "44105cadd9c28a0dbf2052d184c5c5b17a2d926717dc57d30b19146b91c7de03",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "a1feb0e865f3edc4f09ba19b8060d87214cf43c67d4fa8edd8d68cf47acb2a12",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "a1feb0e865f3edc4f09ba19b8060d87214cf43c67d4fa8edd8d68cf47acb2a12",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "d82b97f32dd28f0efbd810f2e0787686c60a747db011456539a399fbdc1c8004",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "7ea755d0e6f0e7a7929a768ab0d6533be6f91686db470fa624c1a3412171439e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "7ea755d0e6f0e7a7929a768ab0d6533be6f91686db470fa624c1a3412171439e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "bdf0257ed8b087671153935cfe90aefc15bdd1f8b435744232ce8bee2b7a8126",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected all14 cumulative step panels, enlarged step14 and compared source p14. Layered body, neck/tail, head/eyes and six stepped black wing bricks accumulate. Omitted orange rake blades and blue45117c01/31239c01 wing/tail components remain missing; empty steps retain source numbering, not completeness. Known Toolo dev geometry approximate; source posture and physical joints pending. D pack5a5950c9 matches C legacy final pack exactly; no new D final claimed. INCOMPLETE."
+}

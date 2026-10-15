@@ -1,0 +1,2219 @@
+{
+  "slug": "5-da-cha-de-xiao-niu",
+  "sourceSha256": "74a67928ad21ebbcc212eb274748729cc6f2701d4952bbb07670d844c3187a2a",
+  "partCount": 71,
+  "stepCount": 13,
+  "status": "INCOMPLETE",
+  "accepted": false,
+  "physicalValidation": false,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "title": "Rectangular plate and two blue legs on paired curved yellow feet",
+      "placements": [
+        {
+          "part": "6490.dat",
+          "color": 2,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "source8x16 stud plate; grounddatumY0",
+          "line": 10
+        },
+        {
+          "part": "2302.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -48,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "curve faces-Z; stud-bearing region supports front half of leg, bottom0 onplate",
+          "line": 11
+        },
+        {
+          "part": "2302.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -48,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "curve faces+Z; rear foot supports rear half of leg",
+          "line": 12
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "longaxisZ; paired80x80 foot tops support160LDU leg length",
+          "line": 13
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "longaxisZ; paired80x80 foot tops support160LDU leg length",
+          "line": 14
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "longaxisZ; paired80x80 foot tops support160LDU leg length",
+          "line": 15
+        },
+        {
+          "part": "2302.dat",
+          "color": 14,
+          "position": [
+            120,
+            -48,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "curve faces-Z; stud-bearing region supports front half of leg, bottom0 onplate",
+          "line": 16
+        },
+        {
+          "part": "2302.dat",
+          "color": 14,
+          "position": [
+            120,
+            -48,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "curve faces+Z; rear foot supports rear half of leg",
+          "line": 17
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            120,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "longaxisZ; paired80x80 foot tops support160LDU leg length",
+          "line": 18
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            120,
+            -144,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "longaxisZ; paired80x80 foot tops support160LDU leg length",
+          "line": 19
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            120,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "longaxisZ; paired80x80 foot tops support160LDU leg length",
+          "line": 20
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "6490.dat": 1,
+        "2302.dat": 4,
+        "3011.dat": 6
+      },
+      "sourceBom": {
+        "6490.dat": 1,
+        "2302.dat": 4,
+        "3011.dat": 6
+      }
+    },
+    {
+      "sourcePage": 2,
+      "title": "Twin red bearing beams, crown input and rear handle",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -240,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom-192 on two legtops; two parallel rows, sideaxisY-216",
+          "line": 23
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -240,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom-192 on two legtops; two parallel rows, sideaxisY-216",
+          "line": 24
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -216,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "axis+Z through matching central sidebore of both beams,240LDU long",
+          "line": 25
+        },
+        {
+          "part": "31622.dat",
+          "color": 1,
+          "position": [
+            0,
+            -216,
+            -104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "crown axisZ, nearestface-84 vs beamfront-80",
+          "line": 26
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            0,
+            -216,
+            104
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "rear mainholeaxis+Z; handle pointsup, source static phase",
+          "line": 27
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "75350.dat": 2,
+        "6522.dat": 1,
+        "31622.dat": 1,
+        "6526.dat": 1
+      },
+      "sourceBom": {
+        "75350.dat": 2,
+        "6522.dat": 1,
+        "31622.dat": 1,
+        "6526.dat": 1
+      }
+    },
+    {
+      "sourcePage": 3,
+      "title": "Two vertical shafts and red24 gears",
+      "placements": [
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            -60,
+            -324,
+            -20
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "localX→+Y; endsY-444..-204, vertical bore atfront row studZ-20",
+          "line": 30
+        },
+        {
+          "part": "6529.dat",
+          "color": 4,
+          "position": [
+            -60,
+            -264,
+            -20
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "gearaxis+Y, bottomY-244 near beamtop-240; source24tooth pitch120",
+          "line": 31
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            60,
+            -324,
+            -20
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "localX→+Y; endsY-444..-204, vertical bore atfront row studZ-20",
+          "line": 32
+        },
+        {
+          "part": "6529.dat",
+          "color": 4,
+          "position": [
+            60,
+            -264,
+            -20
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "gearaxis+Y, bottomY-244 near beamtop-240; source24tooth pitch120",
+          "line": 33
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "31622/6529",
+          "sourceQuantity": 3,
+          "location": "right-angle input gear train",
+          "missingEvidence": "Axial seating and tooth phase inferred from source; crown contact against both24 gears not physically tested",
+          "classification": "known-interface-unverified"
+        }
+      ],
+      "placedBom": {
+        "6522.dat": 2,
+        "6529.dat": 2
+      },
+      "sourceBom": {
+        "6522.dat": 2,
+        "6529.dat": 2
+      }
+    },
+    {
+      "sourcePage": 4,
+      "title": "Two pivoted red swing arms and top locking cranks",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            -167.320508,
+            -332,
+            -165.884573
+          ],
+          "matrix": [
+            0.5,
+            0,
+            -0.866025404,
+            0,
+            1,
+            0,
+            0.866025404,
+            0,
+            0.5
+          ],
+          "support": "sourcep4 enlarged: shaft in inner-end top stud column, front of two stud rows; localX=end180,localZ=-20. Bottom-284 at redgear top-284. Source open phase approximated60deg yaw, exact angle unmeasured",
+          "line": 37
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            -60,
+            -352,
+            -20
+          ],
+          "matrix": [
+            -0.866025404,
+            0,
+            -0.5,
+            0,
+            1,
+            0,
+            0.5,
+            0,
+            -0.866025404
+          ],
+          "support": "mainhole onverticalshaft; integralpin80LDU alongarm pointsdownY-332..-292 into arm. Same40LDU hole pitch, no translation scaling",
+          "line": 38
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            167.320508,
+            -332,
+            -165.884573
+          ],
+          "matrix": [
+            0.5,
+            0,
+            0.866025404,
+            0,
+            1,
+            0,
+            -0.866025404,
+            0,
+            0.5
+          ],
+          "support": "sourcep4 enlarged: shaft in inner-end top stud column, front of two stud rows; localX=end180,localZ=-20. Bottom-284 at redgear top-284. Source open phase approximated60deg yaw, exact angle unmeasured",
+          "line": 39
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            60,
+            -352,
+            -20
+          ],
+          "matrix": [
+            -0.866025404,
+            0,
+            0.5,
+            0,
+            1,
+            0,
+            -0.5,
+            0,
+            -0.866025404
+          ],
+          "support": "mainhole onverticalshaft; integralpin80LDU alongarm pointsdownY-332..-292 into arm. Same40LDU hole pitch, no translation scaling",
+          "line": 40
+        }
+      ],
+      "unknownOrUnverified": [
+        {
+          "partOrCandidate": "75350/6526",
+          "sourceQuantity": 2,
+          "location": "two moving arm pivots",
+          "missingEvidence": "60degree open pose inferred visually; gear driven phase and underside bearing/stud interference remain unverified",
+          "classification": "known-interface-unverified"
+        }
+      ],
+      "placedBom": {
+        "75350.dat": 2,
+        "6526.dat": 2
+      },
+      "sourceBom": {
+        "75350.dat": 2,
+        "6526.dat": 2
+      }
+    },
+    {
+      "sourcePage": 5,
+      "title": "Two cymbal gears on outer arm side axles",
+      "placements": [
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            -274.641016,
+            -308,
+            -311.769145
+          ],
+          "matrix": [
+            -0.866025404,
+            0.0,
+            -0.5,
+            0,
+            1,
+            0,
+            0.5,
+            0.0,
+            -0.866025404
+          ],
+          "support": "axis normal toarm side;8gear collar onoutside rear side of beam; exact source insertion depth uncertain",
+          "line": 44
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            -201.894882,
+            -308,
+            -353.769145
+          ],
+          "matrix": [
+            0.5,
+            0,
+            -0.866025404,
+            0,
+            1,
+            0,
+            0.866025404,
+            0,
+            0.5
+          ],
+          "support": "40tooth gearaxis normal toarm; backface atnormal-44 vs beam side-40 leaves4LDU",
+          "line": 45
+        },
+        {
+          "part": "6523.dat",
+          "color": 1,
+          "position": [
+            274.641016,
+            -308,
+            -311.769145
+          ],
+          "matrix": [
+            0.866025404,
+            0.0,
+            -0.5,
+            0,
+            1,
+            0,
+            0.5,
+            0.0,
+            0.866025404
+          ],
+          "support": "axis normal toarm side;8gear collar onoutside rear side of beam; exact source insertion depth uncertain",
+          "line": 46
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            201.894882,
+            -308,
+            -353.769145
+          ],
+          "matrix": [
+            0.5,
+            0,
+            0.866025404,
+            0,
+            1,
+            0,
+            -0.866025404,
+            0,
+            0.5
+          ],
+          "support": "40tooth gearaxis normal toarm; backface atnormal-44 vs beam side-40 leaves4LDU",
+          "line": 47
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "6523.dat": 2,
+        "6530.dat": 2
+      },
+      "sourceBom": {
+        "6523.dat": 2,
+        "6530.dat": 2
+      }
+    },
+    {
+      "sourcePage": 6,
+      "title": "Rear upper posts",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source upperposts shifted outward80 from legs; inner40LDU half bears lower beam end; no extra hidden support invented",
+          "line": 50
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -336,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source upperposts shifted outward80 from legs; inner40LDU half bears lower beam end; no extra hidden support invented",
+          "line": 51
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -200,
+            -384,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source upperposts shifted outward80 from legs; inner40LDU half bears lower beam end; no extra hidden support invented",
+          "line": 52
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -288,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source upperposts shifted outward80 from legs; inner40LDU half bears lower beam end; no extra hidden support invented",
+          "line": 53
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            200,
+            -336,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source upperposts shifted outward80 from legs; inner40LDU half bears lower beam end; no extra hidden support invented",
+          "line": 54
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            200,
+            -384,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "source upperposts shifted outward80 from legs; inner40LDU half bears lower beam end; no extra hidden support invented",
+          "line": 55
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 6
+      },
+      "sourceBom": {
+        "3011.dat": 6
+      }
+    },
+    {
+      "sourcePage": 7,
+      "title": "Upper crossbeams with end caps",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -432,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom-384 spans upperposts with40LDU overlap at each end; upper greyshaft passes vertical bores",
+          "line": 58
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -432,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "bottom-384 spans upperposts with40LDU overlap at each end; upper greyshaft passes vertical bores",
+          "line": 59
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            -240,
+            -432,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "innerhalf bears upperpost, closes source end-cap strip",
+          "line": 60
+        },
+        {
+          "part": "3011.dat",
+          "color": 14,
+          "position": [
+            240,
+            -432,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "innerhalf bears upperpost, closes source end-cap strip",
+          "line": 61
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "75350.dat": 2,
+        "3011.dat": 2
+      },
+      "sourceBom": {
+        "75350.dat": 2,
+        "3011.dat": 2
+      }
+    },
+    {
+      "sourcePage": 8,
+      "title": "Rounded shoulders and central roof",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-432 on crossbeams; standardstud rows",
+          "line": 64
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-432 on crossbeams; standardstud rows",
+          "line": 65
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-432 on crossbeams; standardstud rows",
+          "line": 66
+        },
+        {
+          "part": "3011.dat",
+          "color": 1,
+          "position": [
+            120,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-432 on crossbeams; standardstud rows",
+          "line": 67
+        },
+        {
+          "part": "2302.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -480,
+            -40
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "curved end facesoutward; stud-bearing80LDU overlaps crossbeam andcap",
+          "line": 68
+        },
+        {
+          "part": "2302.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -480,
+            40
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "curved end facesoutward; stud-bearing80LDU overlaps crossbeam andcap",
+          "line": 69
+        },
+        {
+          "part": "2302.dat",
+          "color": 14,
+          "position": [
+            200,
+            -480,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "curved end facesoutward; stud-bearing80LDU overlaps crossbeam andcap",
+          "line": 70
+        },
+        {
+          "part": "2302.dat",
+          "color": 14,
+          "position": [
+            200,
+            -480,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "curved end facesoutward; stud-bearing80LDU overlaps crossbeam andcap",
+          "line": 71
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 4,
+        "2302.dat": 4
+      },
+      "sourceBom": {
+        "3011.dat": 4,
+        "2302.dat": 4
+      }
+    },
+    {
+      "sourcePage": 9,
+      "title": "Blue4x8 head plate projects forward",
+      "placements": [
+        {
+          "part": "4672.dat",
+          "color": 1,
+          "position": [
+            0,
+            -504,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "bottom-480 overlaps centralroof; sourcefront overhang120LDU",
+          "line": 74
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "4672.dat": 1
+      },
+      "sourceBom": {
+        "4672.dat": 1
+      }
+    },
+    {
+      "sourcePage": 10,
+      "title": "Ten red bricks form stepped head and muzzle",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            0,
+            -552,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "front160wide muzzle on headplate, secondtier onfirst",
+          "line": 77
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            0,
+            -552,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "front160wide muzzle on headplate, secondtier onfirst",
+          "line": 78
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -552,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "rear240wide head; outer40LDU overhang eachside onto shoulder, sourcefive bricks per tier",
+          "line": 79
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            0,
+            -552,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "rear240wide head; outer40LDU overhang eachside onto shoulder, sourcefive bricks per tier",
+          "line": 80
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -552,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "rear240wide head; outer40LDU overhang eachside onto shoulder, sourcefive bricks per tier",
+          "line": 81
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            0,
+            -600,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "front160wide muzzle on headplate, secondtier onfirst",
+          "line": 82
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            0,
+            -600,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "front160wide muzzle on headplate, secondtier onfirst",
+          "line": 83
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -600,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "rear240wide head; outer40LDU overhang eachside onto shoulder, sourcefive bricks per tier",
+          "line": 84
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            0,
+            -600,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "rear240wide head; outer40LDU overhang eachside onto shoulder, sourcefive bricks per tier",
+          "line": 85
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -600,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "rear240wide head; outer40LDU overhang eachside onto shoulder, sourcefive bricks per tier",
+          "line": 86
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 10
+      },
+      "sourceBom": {
+        "3011.dat": 10
+      }
+    },
+    {
+      "sourcePage": 11,
+      "title": "Eye row and raised nose",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            0,
+            -648,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "nose ridge abovefrontmuzzle",
+          "line": 89
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            0,
+            -648,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "rearhead cap on priorred tier",
+          "line": 90
+        },
+        {
+          "part": "3437.dat",
+          "color": 14,
+          "position": [
+            0,
+            -648,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "between eyes, face row",
+          "line": 91
+        },
+        {
+          "part": "3437pe1.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -648,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "pattern face-Z; sourcewhitehighlight eyes, identity via9090 print alias, backprint also present",
+          "line": 92
+        },
+        {
+          "part": "3437pe1.dat",
+          "color": 14,
+          "position": [
+            80,
+            -648,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "pattern face-Z; sourcewhitehighlight eyes, identity via9090 print alias, backprint also present",
+          "line": 93
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 2,
+        "3437.dat": 1,
+        "3437pe1.dat": 2
+      },
+      "sourceBom": {
+        "3011.dat": 2,
+        "3437.dat": 1,
+        "3437pe1.dat": 2
+      }
+    },
+    {
+      "sourcePage": 12,
+      "title": "Four curved yellow forehead pieces",
+      "placements": [
+        {
+          "part": "2302.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -696,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "studblock centres pair over eye row/rearcap; rounded slopes outward",
+          "line": 96
+        },
+        {
+          "part": "2302.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -696,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "studblock centres pair over eye row/rearcap; rounded slopes outward",
+          "line": 97
+        },
+        {
+          "part": "2302.dat",
+          "color": 14,
+          "position": [
+            40,
+            -696,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "studblock centres pair over eye row/rearcap; rounded slopes outward",
+          "line": 98
+        },
+        {
+          "part": "2302.dat",
+          "color": 14,
+          "position": [
+            40,
+            -696,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "studblock centres pair over eye row/rearcap; rounded slopes outward",
+          "line": 99
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "2302.dat": 4
+      },
+      "sourceBom": {
+        "2302.dat": 4
+      }
+    },
+    {
+      "sourcePage": 13,
+      "title": "Red horn bridge, thin central plate and two concave horns",
+      "placements": [
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -744,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "inner80LDU half supportedby forehead studs; source horn bridge",
+          "line": 102
+        },
+        {
+          "part": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -744,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "inner80LDU half supportedby forehead studs; source horn bridge",
+          "line": 103
+        },
+        {
+          "part": "40666.dat",
+          "color": 4,
+          "position": [
+            0,
+            -768,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "24LDU thin plate on bridge top-744",
+          "line": 104
+        },
+        {
+          "part": "2301.dat",
+          "color": 14,
+          "position": [
+            -180,
+            -840,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "actualinsidecurvebodyX[-20,100], bottom96→-744; highendoutside,80LDU inner overlap",
+          "line": 105
+        },
+        {
+          "part": "2301.dat",
+          "color": 14,
+          "position": [
+            180,
+            -840,
+            40
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "180yaw reversesinsidecurve; no mirror or scale",
+          "line": 106
+        }
+      ],
+      "unknownOrUnverified": [],
+      "placedBom": {
+        "3011.dat": 2,
+        "40666.dat": 1,
+        "2301.dat": 2
+      },
+      "sourceBom": {
+        "3011.dat": 2,
+        "40666.dat": 1,
+        "2301.dat": 2
+      }
+    }
+  ],
+  "bom": {
+    "6490.dat": 1,
+    "2302.dat": 12,
+    "3011.dat": 32,
+    "75350.dat": 6,
+    "6522.dat": 3,
+    "31622.dat": 1,
+    "6526.dat": 3,
+    "6529.dat": 2,
+    "6523.dat": 2,
+    "6530.dat": 2,
+    "4672.dat": 1,
+    "3437.dat": 1,
+    "3437pe1.dat": 2,
+    "40666.dat": 1,
+    "2301.dat": 2
+  },
+  "inventoryReference": "inputs/inventory-evidence.json;9656 mechanical and9090 basic bricks. Source BOM defines use; missing inventory rows are unknown, not zero.",
+  "inventoryMechanicalComparison": [
+    {
+      "part": "2302.dat",
+      "sourceQuantity": 12,
+      "9656AllColors": 4,
+      "additionalAgainstOne9656IgnoringColor": 8
+    },
+    {
+      "part": "3011.dat",
+      "sourceQuantity": 32,
+      "9656AllColors": 12,
+      "additionalAgainstOne9656IgnoringColor": 20
+    },
+    {
+      "part": "75350.dat",
+      "sourceQuantity": 6,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 4
+    },
+    {
+      "part": "6522.dat",
+      "sourceQuantity": 3,
+      "9656AllColors": 7,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "31622.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6526.dat",
+      "sourceQuantity": 3,
+      "9656AllColors": 6,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6529.dat",
+      "sourceQuantity": 2,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6523.dat",
+      "sourceQuantity": 2,
+      "9656AllColors": 4,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "6530.dat",
+      "sourceQuantity": 2,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "3437.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 8,
+      "additionalAgainstOne9656IgnoringColor": 0
+    },
+    {
+      "part": "40666.dat",
+      "sourceQuantity": 1,
+      "9656AllColors": 2,
+      "additionalAgainstOne9656IgnoringColor": 0
+    }
+  ],
+  "directGeometryHashes": {
+    "6490.dat": "7eee5cad4e90cb77f3c7ef81160ae610c9feba2f222090e85c7e29bb6d204830",
+    "2302.dat": "0b58ec8fa002ceb8fb9329fd208cbbc876a1e8c7a01abe477694fd4a4302f5fd",
+    "3011.dat": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+    "75350.dat": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53",
+    "6522.dat": "f29f4610440ca4d651fb43bbec8e004770aa122289a25dc09f24ef764601d1ec",
+    "31622.dat": "f3f46ef936923e8bbbf3cc1f8105d6f72e42a827beaf08313bfcb383937fb30a",
+    "6526.dat": "c91f1ba1fd21011e8da554de0b9a5e7e63a450f9608f0250890f96df13cf04c4",
+    "6529.dat": "438a215bdb38efdc5f3f5de9b36ea9bfe8543a5074cfe8a863f84624606cdbea",
+    "6523.dat": "6dc8eed99ba38a806908f45c53e234ca83398f0007de7499ec5ce1316914d67c",
+    "6530.dat": "9037cefa788cb7f97424c6c5d4ff3c9cea63200ee7a8251d55aed32246028b48",
+    "4672.dat": "f6272bb4f95334769cfb0efaabe65d9f3edc51e9dfe3d019c6ecd11717a95f02",
+    "3437.dat": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902",
+    "3437pe1.dat": "1a20595792b07ebe8494bb1b02d0ce3add952af574e2b0444467928719f3e3c8",
+    "40666.dat": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5",
+    "2301.dat": "fb658e981dbc9131191c2b5260ffa20a44635e29dfad5387820b9aaa21e5b563"
+  },
+  "geometryMetadata": {
+    "6490.dat": {
+      "name": "Duplo Plate  8 x 16",
+      "bbox": {
+        "xMin": -320,
+        "xMax": 320,
+        "yMin": 0,
+        "yMax": 24,
+        "zMin": -160,
+        "zMax": 160
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 24
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "2302.dat": {
+      "name": "Duplo Brick 2 x 3 with Curved Top",
+      "bbox": {
+        "xMin": -40,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "3011.dat": {
+      "name": "Duplo Brick 2 x 4",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "75350.dat": {
+      "name": "Duplo Brick  2 x 10 with Holes",
+      "bbox": {
+        "xMin": -200,
+        "xMax": 200,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "6522.dat": {
+      "name": "Duplo Axle  6",
+      "bbox": {
+        "xMin": -120,
+        "xMax": 120,
+        "yMin": -9.000230793000002,
+        "yMax": 9.000230793000002,
+        "zMin": -9.000230793000002,
+        "zMax": 9.000230793000002
+      },
+      "origin": {
+        "type": "axle-center",
+        "axis": "X"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted unchanged from repository public/courses/ldraw/5-da-bai-chui.mpd on 2026-10-11; original author Philippe Hurbain, CC BY 4.0 license retained.",
+        "Identification supported by official LEGO 9656 Element Survey and catalog inventory materialized as inputs/inventory-evidence.json; element IDs are not used as DAT filenames.",
+        "bbox computed recursively from official triangle and quad vertices; contact holes/pins require manual assembly-level joint checks. No physical-fit or motion certification."
+      ]
+    },
+    "31622.dat": {
+      "name": "Duplo Gear 24 Tooth Crown",
+      "bbox": {
+        "xMin": -64.67,
+        "xMax": 64.67,
+        "yMin": -64.67,
+        "yMax": 64.67,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "gear-center",
+        "axis": "Z"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official Philippe Hurbain CC BY 4.0 geometry downloaded unchanged 2026-10-11 from https://library.ldraw.org/library/official/parts/31622.dat; original source headers retained.",
+        "Source-image identification: 31622 crown gear in 5-xuan-yi-fei-ji p5, 31624 gearbox in 5-huan-wei-che p4.",
+        "Recursive face-vertex bounding box and complete local dependency closure checked. Shaft/gear/box mating, gear phase and motion require manual assembly review, not physical certification."
+      ]
+    },
+    "6526.dat": {
+      "name": "Duplo Beam  3 x  0.5 Liftarm with Axle",
+      "bbox": {
+        "xMin": -24,
+        "xMax": 24,
+        "yMin": -20,
+        "yMax": 60,
+        "zMin": -24,
+        "zMax": 104
+      },
+      "origin": {
+        "type": "main-hole-center",
+        "holeAxis": "Y",
+        "integralPinOffset": [
+          0,
+          20,
+          80
+        ],
+        "integralPinAxis": "Y"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted unchanged from repository public/courses/ldraw/5-da-bai-chui.mpd on 2026-10-11; original author Philippe Hurbain, CC BY 4.0 license retained.",
+        "Identification supported by official LEGO 9656 Element Survey and catalog inventory materialized as inputs/inventory-evidence.json; element IDs are not used as DAT filenames.",
+        "bbox computed recursively from official triangle and quad vertices; contact holes/pins require manual assembly-level joint checks. No physical-fit or motion certification."
+      ]
+    },
+    "6529.dat": {
+      "name": "Duplo Gear 24 Tooth",
+      "bbox": {
+        "xMin": -64.14420731645001,
+        "xMax": 64.14420731645001,
+        "yMin": -64.14420731645001,
+        "yMax": 64.14420731645001,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "gear-center",
+        "axis": "Z"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted from existing repository 5-da-bai-chui.mpd / 5-du-lun-shou-tui-che.mpd on 2026-10-11; Philippe Hurbain CC BY4.0 source headers retained.",
+        "ID corroborated by official9656 Element Survey and complete set catalog in inputs/inventory-evidence.json.",
+        "bbox recursively calculated from official face vertices. Mechanical axle/gear joints require assembly-level manual review, not rectangular support assumptions.",
+        "Gear tooth contact, phase, friction and motion are not physically verified."
+      ]
+    },
+    "6523.dat": {
+      "name": "Duplo Axle 5 with Gear 8 Tooth",
+      "bbox": {
+        "xMin": -100,
+        "xMax": 100,
+        "yMin": -21.074868,
+        "yMax": 21.074868,
+        "zMin": -21.074868,
+        "zMax": 21.074868
+      },
+      "origin": {
+        "type": "axle-center",
+        "axis": "X",
+        "gearCenterX": 40
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official Philippe Hurbain CC BY 4.0 geometry UPDATE 2017-01 downloaded unchanged 2026-10-11 from https://library.ldraw.org/library/official/parts/6523.dat; original headers retained.",
+        "Recursive face-vertex bbox and dependency closure checked; gear engagement, phase, bearing clearance and physical fit require manual review.",
+        "Gear plane near X=40 (faces X=38..44); axle endpoints -100,+100."
+      ]
+    },
+    "6530.dat": {
+      "name": "Duplo Gear 40 Tooth",
+      "bbox": {
+        "xMin": -103.797666854,
+        "xMax": 103.797666854,
+        "yMin": -103.797666854,
+        "yMax": 103.797666854,
+        "zMin": -20,
+        "zMax": 20
+      },
+      "origin": {
+        "type": "gear-center",
+        "axis": "Z"
+      },
+      "ldrawStatus": "Official",
+      "notes": [
+        "Official geometry extracted from existing repository 5-da-bai-chui.mpd / 5-du-lun-shou-tui-che.mpd on 2026-10-11; Philippe Hurbain CC BY4.0 source headers retained.",
+        "ID corroborated by official9656 Element Survey and complete set catalog in inputs/inventory-evidence.json.",
+        "bbox recursively calculated from official face vertices. Mechanical axle/gear joints require assembly-level manual review, not rectangular support assumptions.",
+        "Gear tooth contact, phase, friction and motion are not physically verified."
+      ]
+    },
+    "4672.dat": {
+      "name": "Duplo Plate 4 x 8 with 11 Underside Studs without Supports",
+      "bbox": {
+        "xMin": -160,
+        "xMax": 160,
+        "yMin": 0,
+        "yMax": 24,
+        "zMin": -80,
+        "zMax": 80
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 24
+      },
+      "ldrawStatus": "Alias for local official 4672b.dat (moved-to variant)",
+      "notes": [
+        "Canonical filename is absent locally; geometry and dimensions match local official 4672b.dat, whose source is the moved-to 4672 variant."
+      ]
+    },
+    "3437.dat": {
+      "name": "Duplo Brick 2 x 2",
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "3437pe1.dat": {
+      "name": "Duplo Brick  2 x  2 with Eye with White Spot on 2 Sides Pattern",
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": 0,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "40666.dat": {
+      "name": "Duplo Plate 2 x 4",
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": 0,
+        "yMax": 24,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 24
+      },
+      "ldrawStatus": "Official",
+      "notes": null
+    },
+    "2301.dat": {
+      "name": "Duplo Brick  2 x  3 x  2 with Inside Curve",
+      "bbox": {
+        "xMin": -20,
+        "xMax": 100,
+        "yMin": 0,
+        "yMax": 96,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "origin": {
+        "type": "top-stud-center",
+        "originToTop": 0,
+        "originToBottom": 96
+      },
+      "ldrawStatus": "Official moved shortcut",
+      "notes": [
+        "User confirmed bulldozer inside-curve part as 2301 on 2026-09-09. Official 2301.dat, 2301b.dat and s/2301s01.dat downloaded from https://library.ldraw.org/library/official/parts/ under CC BY 4.0; unchanged geometry.",
+        "Legacy 2301 shortcut rotates 2301b: body X[-20,100], Z[-40,40], Y[0,96]; stud-bearing high top X[-20,20]. Conservative curve envelope retained."
+      ]
+    }
+  },
+  "render": "Current74a67928 revisiond08078cf final3/all13 cumulative steps actual pixel review recorded; no acceptance",
+  "validation": {
+    "sourceSha256": "74a67928ad21ebbcc212eb274748729cc6f2701d4952bbb07670d844c3187a2a",
+    "rawCheckerExit": 2,
+    "matrixInvalid": [],
+    "closureMissing": [],
+    "staticReport": "static-alarm-review.json",
+    "pixels": "Current16 image hashes in current-pixel-review.json"
+  },
+  "unknownIdentityParts": [],
+  "sourcePositionUncertainties": [
+    {
+      "partOrCandidate": "31622/6529",
+      "sourceQuantity": 3,
+      "location": "right-angle input gear train",
+      "missingEvidence": "Axial seating and tooth phase inferred from source; crown contact against both24 gears not physically tested",
+      "classification": "known-interface-unverified"
+    },
+    {
+      "partOrCandidate": "75350/6526",
+      "sourceQuantity": 2,
+      "location": "two moving arm pivots",
+      "missingEvidence": "60degree open pose inferred visually; gear driven phase and underside bearing/stud interference remain unverified",
+      "classification": "known-interface-unverified"
+    }
+  ]
+}

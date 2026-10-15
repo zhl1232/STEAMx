@@ -1,0 +1,28 @@
+{
+  "slug": "4-ya-lu-ji",
+  "modelSha256": "4e8c62fadc2ec6f1805cbed2795e64c116e49abb6cdd27ac1b968db5f191b51c",
+  "placements": 48,
+  "accepted": false,
+  "status": "incomplete-needs-source-geometry-and-step-acceptance",
+  "metadataUsedHash": "0260e99981382a38aa1bd12ce599d252f1db9ec2e7f93b836856b5d06f6e5df1",
+  "sourceSha256": "76dfe5eff752c0d0aec0a51a22081cec6398f1a34f038dc94631ae0ba2400746",
+  "sourcePages": 13,
+  "allSourcePixelsViewed": true,
+  "sourceStages": 12,
+  "missing": [
+    {
+      "id": "4433c01",
+      "count": 1,
+      "page": 7,
+      "role": "Toolo exhaust pipe, confirmed identity; no authorized geometry available"
+    },
+    {
+      "id": "unknown",
+      "count": 2,
+      "page": 12,
+      "role": "blue roller cylinder/barrel; source actual pixels supplied to parts researcher"
+    }
+  ],
+  "checker": "FAIL1: step 5: 4-ya-lu-ji_l40 overlaps 4-ya-lu-ji_l39",
+  "render": "awaiting rerender after source-guided cumulative-step correction"
+}

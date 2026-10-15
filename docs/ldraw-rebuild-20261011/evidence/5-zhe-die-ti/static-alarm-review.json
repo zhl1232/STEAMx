@@ -1,0 +1,56 @@
+{
+  "slug": "5-zhe-die-ti",
+  "modelSha256": "8e453a0c308d5055e8c568c3a096a7c03d3446821ceeffffb972de64597f2c8f",
+  "reviewedAt": "2026-10-11T14:42:01.596Z",
+  "originalCheck": {
+    "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-zhe-die-ti.ldr",
+    "sha256": "8e453a0c308d5055e8c568c3a096a7c03d3446821ceeffffb972de64597f2c8f",
+    "exit": 0,
+    "output": "OK   [5-zhe-die-ti.ldr] 111 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+    "stableDuringCheck": true
+  },
+  "alarms": [],
+  "rawPairCount": 0,
+  "matrixReview": {
+    "maximumOrthogonalityError": 6.5548401151360736e-09,
+    "maximumDeterminantError": 6.5548401151360736e-09
+  },
+  "sourceEvidence": "preparation/5-zhe-die-ti/ledger.json",
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "limitations": [
+    "P1 two grey240LDU shafts each pass two80LDU-thick hinge bricks and40LDU collars on either end. Front/rear rail pairs offset80LDU alongZ so they do not occupy same hinge slot; ladder front centreZ-40/rear+40. Source axle pair is nominally collinear, not joined; no rigid coupling is invented.",
+    "Static opened pose is30degrees from vertical per half (60degree included angle). Source perspective does not uniquely prescribe angle; choose source-supported reasonable pose without scaling. Feet touch ground by lowest yellow-core edge; no load or motion certification.",
+    "P2-P5 each yellow160LDU core extends rail; two24LDU red plates offset80LDU bridge successive core seams at front/back. Source count8plates+4bricks per page retained. Core normal thickness48; complete composite96. Back plate/underside sockets and initial hinge reinforcement remain manual connection review.",
+    "P6-P9 each face rung has two side-by-side yellow plates, two48LDU core bricks, two outer yellow plates; exact8plates+4bricks per page. Front and back run across their staggered rail centres. Cross-rung ends overlap two rails by80LDU, front/core/back seams align at the centre and do not establish a continuous cross-centre bond; no glue/added part. Source p9 two rear core bricks red75349 create axle holes.",
+    "P10 source string: only a type2 schematic line, not manufactured string geometry, and not counted as a rigid placement. Length/knot/attachment routing/tension unresolved; no fake ID or new custom geometry. P11 official4663 short hook used for source crossbar/string-hole silhouette; hookup to front rung is nominal/unsupported retention, no claim actual hook capture.",
+    "P12 two blue6523 shafts along rear-rung local bore direction share source lower location; collars and pulleys sit near external ends. Source perspective does not uniquely resolve which lower holes/string wrap is used, so current two central-bore locations and front hook point are explicit nominal layout. Pulley/gear interference, rope grip and folding limit require physical/interface confirmation.",
+    "Cross-rung front/core/back seams currently align at ladder centre. Each half is attached to one rail, but no verified continuous cross-centre bond is established by this nominal source arrangement. Rail spacing/lateral rigidity and top half-shaft coupling remain unverified; raw0 is not proof of one rigid ladder assembly."
+  ],
+  "accepted": false,
+  "userConfirmed": false,
+  "physicalValidation": false,
+  "checkerPassIsNotConnectionAcceptance": true,
+  "currentPixels": {
+    "sourceSha256": "8e453a0c308d5055e8c568c3a096a7c03d3446821ceeffffb972de64597f2c8f",
+    "revision": "0f48268de3a92e9e4a54e33b3d2aa07ba2fbcb6fe47477bc8a449e344b744620",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "evidence": "current-pixel-review.json",
+    "accepted": false,
+    "physicalValidation": false
+  }
+}

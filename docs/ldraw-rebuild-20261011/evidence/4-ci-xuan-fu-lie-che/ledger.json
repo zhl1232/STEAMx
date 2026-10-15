@@ -1,0 +1,2486 @@
+{
+  "slug": "4-ci-xuan-fu-lie-che",
+  "pages": 13,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "one green6x12 base, two underside-up black4x6 bricks and three red2x4 plates",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "4196.dat",
+          "color": 2,
+          "position": [
+            160,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6x12 base plate on ground; exact source seam registration remains unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            0,
+            -11,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source explicitly shows underside upward. Green-to-inverted-brick connection is unresolved, not certified stud stacking.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-3",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            220,
+            -11,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source explicitly shows underside upward. Green-to-inverted-brick connection is unresolved, not certified stud stacking.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-4",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            420,
+            -11,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source underside-up red plate; green base registration and inverted interface pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-5",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            420,
+            -11,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source underside-up red plate; green base registration and inverted interface pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-6",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            420,
+            -11,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source underside-up red plate; green base registration and inverted interface pending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 6
+    },
+    {
+      "sourcePage": 2,
+      "note": "extend with one green base, one inverted blackbrick and three red ties",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "4196.dat",
+          "color": 2,
+          "position": [
+            640,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6x12 base plate on ground; exact source seam registration remains unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            620,
+            -11,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source explicitly shows underside upward. Green-to-inverted-brick connection is unresolved, not certified stud stacking.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-3",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            820,
+            -11,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source underside-up red plate; green base registration and inverted interface pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-4",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            820,
+            -11,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source underside-up red plate; green base registration and inverted interface pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-5",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            820,
+            -11,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source underside-up red plate; green base registration and inverted interface pending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 11
+    },
+    {
+      "sourcePage": 3,
+      "note": "extend with one green base, one inverted blackbrick and three red ties",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "4196.dat",
+          "color": 2,
+          "position": [
+            1120,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6x12 base plate on ground; exact source seam registration remains unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            1020,
+            -11,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source explicitly shows underside upward. Green-to-inverted-brick connection is unresolved, not certified stud stacking.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-3",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            1220,
+            -11,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source underside-up red plate; green base registration and inverted interface pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-4",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            1220,
+            -11,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source underside-up red plate; green base registration and inverted interface pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-5",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            1220,
+            -11,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source underside-up red plate; green base registration and inverted interface pending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 16
+    },
+    {
+      "sourcePage": 4,
+      "note": "final two green bases, two inverted blackbricks and three red ties",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "4196.dat",
+          "color": 2,
+          "position": [
+            1600,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6x12 base plate on ground; exact source seam registration remains unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "4196.dat",
+          "color": 2,
+          "position": [
+            2080,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "6x12 base plate on ground; exact source seam registration remains unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-3",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            1420,
+            -11,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source explicitly shows underside upward. Green-to-inverted-brick connection is unresolved, not certified stud stacking.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-4",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            1820,
+            -11,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source explicitly shows underside upward. Green-to-inverted-brick connection is unresolved, not certified stud stacking.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-5",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            1620,
+            -11,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source underside-up red plate; green base registration and inverted interface pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-6",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            1620,
+            -11,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source underside-up red plate; green base registration and inverted interface pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-7",
+          "partId": "40666.dat",
+          "color": 4,
+          "position": [
+            1620,
+            -11,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source underside-up red plate; green base registration and inverted interface pending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 23
+    },
+    {
+      "sourcePage": 5,
+      "note": "six clutch blocks and six upright short arms",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            0,
+            -107,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottom tongues enter exposed base cavity; exact captive screw retention unknown.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            0,
+            -83,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Closed end aligned at clutch side holeY-83; open end200 above atY-283.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-3",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            220,
+            -107,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottom tongues enter exposed base cavity; exact captive screw retention unknown.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-4",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            220,
+            -83,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Closed end aligned at clutch side holeY-83; open end200 above atY-283.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-5",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            620,
+            -107,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottom tongues enter exposed base cavity; exact captive screw retention unknown.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-6",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            620,
+            -83,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Closed end aligned at clutch side holeY-83; open end200 above atY-283.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-7",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            1020,
+            -107,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottom tongues enter exposed base cavity; exact captive screw retention unknown.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-8",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            1020,
+            -83,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Closed end aligned at clutch side holeY-83; open end200 above atY-283.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-9",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            1420,
+            -107,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottom tongues enter exposed base cavity; exact captive screw retention unknown.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-10",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            1420,
+            -83,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Closed end aligned at clutch side holeY-83; open end200 above atY-283.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-11",
+          "partId": "74957.dat",
+          "color": 72,
+          "position": [
+            1820,
+            -107,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottom tongues enter exposed base cavity; exact captive screw retention unknown.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-12",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            1820,
+            -83,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Closed end aligned at clutch side holeY-83; open end200 above atY-283.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 35
+    },
+    {
+      "sourcePage": 6,
+      "note": "five chained long arms form rail plus one downward short end stop",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "dev-129/28331.dat",
+          "color": 72,
+          "position": [
+            0,
+            -283,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Long arm open400 meets next closed0; middle220 meets corresponding pillar. Approximate interfaces.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "dev-129/28331.dat",
+          "color": 72,
+          "position": [
+            400,
+            -283,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Long arm open400 meets next closed0; middle220 meets corresponding pillar. Approximate interfaces.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-3",
+          "partId": "dev-129/28331.dat",
+          "color": 72,
+          "position": [
+            800,
+            -283,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Long arm open400 meets next closed0; middle220 meets corresponding pillar. Approximate interfaces.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-4",
+          "partId": "dev-129/28331.dat",
+          "color": 72,
+          "position": [
+            1200,
+            -283,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Long arm open400 meets next closed0; middle220 meets corresponding pillar. Approximate interfaces.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-5",
+          "partId": "dev-129/28331.dat",
+          "color": 72,
+          "position": [
+            1600,
+            -283,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Long arm open400 meets next closed0; middle220 meets corresponding pillar. Approximate interfaces.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-6",
+          "partId": "dev-129/28334.dat",
+          "color": 72,
+          "position": [
+            2000,
+            -283,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Closed end at final rail openhook; extends downward as source end stop.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 41
+    },
+    {
+      "sourcePage": 7,
+      "note": "nine black4x6 train deck bricks: five lower and four crossing seams",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            720,
+            -351,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "BottomY-303 rests at nominal rail upper envelope; sliding/contact interface unresolved.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            880,
+            -351,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "BottomY-303 rests at nominal rail upper envelope; sliding/contact interface unresolved.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-3",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            1040,
+            -351,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "BottomY-303 rests at nominal rail upper envelope; sliding/contact interface unresolved.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-4",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            1200,
+            -351,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "BottomY-303 rests at nominal rail upper envelope; sliding/contact interface unresolved.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-5",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            1360,
+            -351,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "BottomY-303 rests at nominal rail upper envelope; sliding/contact interface unresolved.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-6",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            800,
+            -399,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "BottomY-351 stud seats across lower seams.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-7",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            960,
+            -399,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "BottomY-351 stud seats across lower seams.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-8",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            1120,
+            -399,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "BottomY-351 stud seats across lower seams.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-9",
+          "partId": "76395.dat",
+          "color": 0,
+          "position": [
+            1280,
+            -399,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "BottomY-351 stud seats across lower seams.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 50
+    },
+    {
+      "sourcePage": 8,
+      "note": "twelve red Toolo2x4 bricks in paired underside guides, two layers",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "76057.dat",
+          "color": 4,
+          "position": [
+            720,
+            -303,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Upper studs connect to train underside; rail remains between guide strips atz+/-40.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-2",
+          "partId": "76057.dat",
+          "color": 4,
+          "position": [
+            720,
+            -255,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Upper studs connect to train underside; rail remains between guide strips atz+/-40.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-3",
+          "partId": "76057.dat",
+          "color": 4,
+          "position": [
+            720,
+            -303,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Upper studs connect to train underside; rail remains between guide strips atz+/-40.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-4",
+          "partId": "76057.dat",
+          "color": 4,
+          "position": [
+            720,
+            -255,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Upper studs connect to train underside; rail remains between guide strips atz+/-40.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-5",
+          "partId": "76057.dat",
+          "color": 4,
+          "position": [
+            1040,
+            -303,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Upper studs connect to train underside; rail remains between guide strips atz+/-40.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-6",
+          "partId": "76057.dat",
+          "color": 4,
+          "position": [
+            1040,
+            -255,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Upper studs connect to train underside; rail remains between guide strips atz+/-40.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-7",
+          "partId": "76057.dat",
+          "color": 4,
+          "position": [
+            1040,
+            -303,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Upper studs connect to train underside; rail remains between guide strips atz+/-40.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-8",
+          "partId": "76057.dat",
+          "color": 4,
+          "position": [
+            1040,
+            -255,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Upper studs connect to train underside; rail remains between guide strips atz+/-40.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-9",
+          "partId": "76057.dat",
+          "color": 4,
+          "position": [
+            1360,
+            -303,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Upper studs connect to train underside; rail remains between guide strips atz+/-40.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-10",
+          "partId": "76057.dat",
+          "color": 4,
+          "position": [
+            1360,
+            -255,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Upper studs connect to train underside; rail remains between guide strips atz+/-40.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-11",
+          "partId": "76057.dat",
+          "color": 4,
+          "position": [
+            1360,
+            -303,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Upper studs connect to train underside; rail remains between guide strips atz+/-40.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-12",
+          "partId": "76057.dat",
+          "color": 4,
+          "position": [
+            1360,
+            -255,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Upper studs connect to train underside; rail remains between guide strips atz+/-40.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 62
+    },
+    {
+      "sourcePage": 9,
+      "note": "two Toolo cockpit bases with pale-yellow curved canopies",
+      "placements": [
+        {
+          "id": "p9-1",
+          "partId": "31196c01.dat",
+          "color": 4,
+          "position": [
+            640,
+            -375,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Rear deck bottomY-351 on exposed lower end of train; approved approximate cockpit geometry.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-2",
+          "partId": "6345.dat",
+          "color": 19,
+          "position": [
+            492,
+            -409,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "support": "Reuse metadata photo-reviewed canopy seating relative transform; physical snap retention not certified.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-3",
+          "partId": "31196c01.dat",
+          "color": 4,
+          "position": [
+            1440,
+            -375,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Rear deck bottomY-351 on exposed lower end of train; approved approximate cockpit geometry.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-4",
+          "partId": "6345.dat",
+          "color": 19,
+          "position": [
+            1588,
+            -409,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0
+          ],
+          "support": "Reuse metadata photo-reviewed canopy seating relative transform; physical snap retention not certified.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 66
+    },
+    {
+      "sourcePage": 10,
+      "note": "eight red2x4x3 window frames, each with one white four-pane insert",
+      "placements": [
+        {
+          "id": "p10-1",
+          "partId": "61649.dat",
+          "color": 4,
+          "position": [
+            800,
+            -543,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frame bottom-399 on upper deck; front toward outside.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-2",
+          "partId": "90265.dat",
+          "color": 15,
+          "position": [
+            865.5,
+            -471,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Official pane hinge offset from metadata, source four equal panes.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-3",
+          "partId": "61649.dat",
+          "color": 4,
+          "position": [
+            800,
+            -543,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Frame bottom-399 on upper deck; front toward outside.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-4",
+          "partId": "90265.dat",
+          "color": 15,
+          "position": [
+            734.5,
+            -471,
+            120
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Official pane hinge offset from metadata, source four equal panes.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-5",
+          "partId": "61649.dat",
+          "color": 4,
+          "position": [
+            960,
+            -543,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frame bottom-399 on upper deck; front toward outside.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-6",
+          "partId": "90265.dat",
+          "color": 15,
+          "position": [
+            1025.5,
+            -471,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Official pane hinge offset from metadata, source four equal panes.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-7",
+          "partId": "61649.dat",
+          "color": 4,
+          "position": [
+            960,
+            -543,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Frame bottom-399 on upper deck; front toward outside.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-8",
+          "partId": "90265.dat",
+          "color": 15,
+          "position": [
+            894.5,
+            -471,
+            120
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Official pane hinge offset from metadata, source four equal panes.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-9",
+          "partId": "61649.dat",
+          "color": 4,
+          "position": [
+            1120,
+            -543,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frame bottom-399 on upper deck; front toward outside.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-10",
+          "partId": "90265.dat",
+          "color": 15,
+          "position": [
+            1185.5,
+            -471,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Official pane hinge offset from metadata, source four equal panes.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-11",
+          "partId": "61649.dat",
+          "color": 4,
+          "position": [
+            1120,
+            -543,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Frame bottom-399 on upper deck; front toward outside.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-12",
+          "partId": "90265.dat",
+          "color": 15,
+          "position": [
+            1054.5,
+            -471,
+            120
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Official pane hinge offset from metadata, source four equal panes.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-13",
+          "partId": "61649.dat",
+          "color": 4,
+          "position": [
+            1280,
+            -543,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Frame bottom-399 on upper deck; front toward outside.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-14",
+          "partId": "90265.dat",
+          "color": 15,
+          "position": [
+            1345.5,
+            -471,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Official pane hinge offset from metadata, source four equal panes.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-15",
+          "partId": "61649.dat",
+          "color": 4,
+          "position": [
+            1280,
+            -543,
+            80
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Frame bottom-399 on upper deck; front toward outside.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-16",
+          "partId": "90265.dat",
+          "color": 15,
+          "position": [
+            1214.5,
+            -471,
+            120
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Official pane hinge offset from metadata, source four equal panes.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 82
+    },
+    {
+      "sourcePage": 11,
+      "note": "six yellow2x4 bricks close the carriage ends in three layers",
+      "placements": [
+        {
+          "id": "p11-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            680,
+            -447,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Lowest bottom-399 contacts end upper-deck edge/cockpit rear; exact overlap requires mesh review.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-2",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            680,
+            -495,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Lowest bottom-399 contacts end upper-deck edge/cockpit rear; exact overlap requires mesh review.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            680,
+            -543,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Lowest bottom-399 contacts end upper-deck edge/cockpit rear; exact overlap requires mesh review.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            1400,
+            -447,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Lowest bottom-399 contacts end upper-deck edge/cockpit rear; exact overlap requires mesh review.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            1400,
+            -495,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Lowest bottom-399 contacts end upper-deck edge/cockpit rear; exact overlap requires mesh review.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p11-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            1400,
+            -543,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Lowest bottom-399 contacts end upper-deck edge/cockpit rear; exact overlap requires mesh review.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 88
+    },
+    {
+      "sourcePage": 12,
+      "note": "two blue4x8 roofplates and two transverse blue2x4 endcaps",
+      "placements": [
+        {
+          "id": "p12-1",
+          "partId": "4672b.dat",
+          "color": 1,
+          "position": [
+            880,
+            -567,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottom-543 contacts inward studs of opposing frames.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-2",
+          "partId": "4672b.dat",
+          "color": 1,
+          "position": [
+            1200,
+            -567,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Bottom-543 contacts inward studs of opposing frames.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-3",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            680,
+            -567,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Bottom-543 seats on yellow end stack.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p12-4",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            1400,
+            -567,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Bottom-543 seats on yellow end stack.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 92
+    }
+  ],
+  "status": "INCOMPLETE dev-only source reconstruction",
+  "verification": "Source-based draft; final three views inspected, cumulative step acceptance pending; unresolved items remain in ledger.",
+  "source": {
+    "name": "4+磁悬浮列车搭建说明.pdf",
+    "relative_path": "4+/4+磁悬浮列车搭建说明.pdf",
+    "pages": 13,
+    "bytes": 2112573,
+    "sha256": "6b27d9e78963183d83a3909411633ad97d2337952efecf33bc03efbf9b952798",
+    "source_url": "https://pan.quark.cn/list#/docpdf/922c06119e4b4511b6bb59cacdea43be",
+    "slug": "4-ci-xuan-fu-lie-che",
+    "lesson_id": 137,
+    "course_id": 6
+  },
+  "evidence": [
+    {
+      "page": 1,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-01.jpg",
+      "sha256": "8dcbde82055e2f3d0f809c7fc27d53fb19be53fc779e02ccd2a06d7d8c5c03f3",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-02.jpg",
+      "sha256": "f8e8783e63cf69ce3a7b2eb5c840ebdfb6e465ea6ba6eda6e6753ec5e8abe62c",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-03.jpg",
+      "sha256": "bc2e6660a37883cf11987d7115276aa2a5005ea7a23718696b1518f0888e0af7",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-04.jpg",
+      "sha256": "fb8d69724cb047749370c9776ca17b15e8daa3c7407d7deb73507832a80cc60b",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-05.jpg",
+      "sha256": "1954c718b287978786d4f65b0f764bbd14f565e833aea16ecc60f7441bca4523",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-06.jpg",
+      "sha256": "11b8b416df441406dc2af73be2d32f281ffcd2ded0a228b6f68448e230b9653b",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-07.jpg",
+      "sha256": "6b001ae23400cc0afe8050c9c0b52a6f052515ed54fd71060dbfa6040a10bea8",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-08.jpg",
+      "sha256": "cb226b5c1dcfda486ffaadf2c80043158ef9b4de6e366d1094208f33aa0201ba",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-09.jpg",
+      "sha256": "4408542043143f4fd86d65f9bee65fab8c4ce3f9ce942053c0b1e87c31db8974",
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-10.jpg",
+      "sha256": "2896ae1efb06adecf71c23972fb94202d0376ba95f6b531a1fcbb4bdfe93d7d0",
+      "pixelsViewed": true
+    },
+    {
+      "page": 11,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-11.jpg",
+      "sha256": "c31ad61af6274763d37b11c18e96ccb7152cadd7088b513164835db01d5b7581",
+      "pixelsViewed": true
+    },
+    {
+      "page": 12,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-12.jpg",
+      "sha256": "eb42c27db09d73ef42470b2cb9c859e97ced99de19ef8c70e7a5ecb162e79f30",
+      "pixelsViewed": true
+    },
+    {
+      "page": 13,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\source-13.jpg",
+      "sha256": "5820c9b78c48a5fedb1b33ef475b36bc6852350d2122fc8ceac8f57c3026a96b",
+      "pixelsViewed": true
+    }
+  ],
+  "unknownIds": [],
+  "pending": [
+    "Base green plate seams, inverted black/red connections, and source pillar registration are unresolved. Base pose is explicitly provisional; no physical support claim.",
+    "Rail pitch400 and middle pivot220 follow dev arm approximation. Source base registration is not measured and must not be inferred as exact from this preview.",
+    "Train bottom at nominal rail envelope is a display/contact hypothesis; sliding guidance, pin clearances and vertical support need mesh/physical evidence.",
+    "Cockpit/canopy assembly reuses approved approximate base and known official canopy transform; exact moulded fit remains unverified."
+  ],
+  "inventory": "Combined 9090/45002 colour counts unknown; compare known45002 aliases separately.",
+  "inventoryDeficits": [
+    {
+      "id": "76395.dat",
+      "required": 15,
+      "in45002": 7,
+      "extraNeeded": 8
+    },
+    {
+      "id": "74957.dat",
+      "required": 6,
+      "in45002": 2,
+      "extraNeeded": 4
+    },
+    {
+      "id": "dev-129/28334.dat",
+      "required": 7,
+      "in45002": 5,
+      "extraNeeded": 2
+    },
+    {
+      "id": "dev-129/28331.dat",
+      "required": 5,
+      "in45002": 2,
+      "extraNeeded": 3
+    },
+    {
+      "id": "76057.dat",
+      "color": "Red",
+      "required": 12,
+      "in45002": 1,
+      "extraNeeded": 11
+    }
+  ],
+  "modelSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\4-ci-xuan-fu-lie-che.ldr",
+  "totalPlacements": 92,
+  "bom": {
+    "4196.dat|2": 5,
+    "76395.dat|0": 15,
+    "40666.dat|4": 12,
+    "74957.dat|72": 6,
+    "dev-129/28334.dat|72": 7,
+    "dev-129/28331.dat|72": 5,
+    "76057.dat|4": 12,
+    "31196c01.dat|4": 2,
+    "6345.dat|19": 2,
+    "61649.dat|4": 8,
+    "90265.dat|15": 8,
+    "3011.dat|14": 6,
+    "4672b.dat|1": 2,
+    "40666.dat|1": 2
+  },
+  "metadataSha256": "31d90a90b97c34070d086e792b344288598d3747ddae06c22499fe95f81d4006",
+  "knownApproximateGeometry": [
+    {
+      "id": "76395.dat",
+      "geometrySha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182798.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "74957.dat",
+      "geometrySha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6139202.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "Central roof bore radius10LDU restored; bottom tongues join the sidewalls via estimated internal bridges. No yellow screw insert assumed for this part."
+      ]
+    },
+    {
+      "id": "dev-129/28334.dat",
+      "geometrySha256": "992b9ff66aee403b2d4d816e0e0302f3618e46442ee8ba78c30d04207525680d",
+      "notes": [
+        "User-approved simplified model2026-09-12. Source official45002 element photo design28334.",
+        "40LDU stud grid only establishes reference scale; overall lengths, plate spacing48 and long-arm axle spacing100 are image estimates.",
+        "Two separated extruded cheek plates with actual open lower fork, yellow shafts and triangular screw indicators. Decorative relief and threads omitted.",
+        "Local authored CC BY4.0. Hidden fit and source-specific joint angles remain manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162840.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "2026-10-11 dev-only: inventory confirmed 74847 Arm 2 x 6; total span240LDU, pivots 0/open end200. Reuses approved approximate cheek mesh with remapped axial intervals, not an official mesh. Hole centers and mating fit still manual. No shared original DAT changed."
+      ]
+    },
+    {
+      "id": "dev-129/28331.dat",
+      "geometrySha256": "0fc09096db92f45add356c4f854b8a737049cf834210dee163467c76229876e0",
+      "notes": [
+        "User-approved simplified model2026-09-12. Source official45002 element photo design28331.",
+        "40LDU stud grid only establishes reference scale; overall lengths, plate spacing48 and long-arm axle spacing100 are image estimates.",
+        "Two separated extruded cheek plates with actual open lower fork, yellow shafts and triangular screw indicators. Decorative relief and threads omitted.",
+        "Local authored CC BY4.0. Hidden fit and source-specific joint angles remain manual.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162831.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search.",
+        "2026-10-11 dev-only: inventory confirmed 74844 Arm 2 x 11; total span 440LDU, pivots 0/220/open end400. Reuses approved approximate cheek mesh with remapped axial intervals, not an official mesh. Hole centers and mating fit still manual. No shared original DAT changed."
+      ]
+    },
+    {
+      "id": "76057.dat",
+      "geometrySha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a",
+      "notes": [
+        "User explicitly approved local simplified modelling on 2026-09-12.",
+        "Source: https://brickset.com/export/inventory/45002-1 and official LEGO element photo recorded in .tmp/45002/references/parts.",
+        "Authored locally under CC BY 4.0. Stud pitch40, body height48; bore diameter18 and wall4 are estimates.",
+        "Real circular side bores and hollow studs; screw slots drawn as dark triangular recess indicators; threads/underside retention not exact.",
+        "No measured physical fit, automatic connection or collision acceptance.",
+        "Reference image: https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6182720.jpg (retrieved 2026-09-12).",
+        "Source search: https://forums.ldraw.org/thread-22186.html and local official/unofficial library archives; no usable mesh found in this search."
+      ]
+    },
+    {
+      "id": "31196c01.dat",
+      "geometrySha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708",
+      "notes": [
+        "User confirmed 31196c01 and authorized local modelling/import on 2026-09-10; supplied eight photos and requested refinement on 2026-09-11.",
+        "Original local simplified geometry, CC BY 4.0; not official or dimensionally certified. Primary references are supplied red/orange/blue views, green views supplement nose shape. Photo hashes in .tmp/cockpit-photo-review-0911/source-hashes.json.",
+        "Collision regions follow shell/floor strips and preserve bore openings; adjacent regions are conservative approximations. No automatic collision exemption added.",
+        "2026-09-11 second revision after user rejected tall silhouette: overall height 120 LDU, rear deck thickness 48 LDU, continuous low arched panel with rear-facing ribs. Catalog dimensions 7.19 x 9.56 x 4.79 cm guide proportions only; not measured CAD.",
+        "Previous (0,-132,0) hinge datum withdrawn. Official canopy visual placement is provisional and mechanical fit unresolved. Underside sockets and exact snap geometry remain omitted.",
+        "2026-09-11 detail revision from tmp9697.png and tmpB28B.png: hollow rear shell with lateral circular bores, three interstitial deck holes, one rear yellow Toolo insert and one cockpit insert with triangular recesses. Insert positions follow top photo; photographs may show different movable screw placements. Wing undersides now taper toward nose. Interior threads and mechanical geometry remain approximate.",
+        "Both yellow captive screw heads reference the same original local subpart s/31196c01-local-screw.dat. This name is a project subpart identifier, not a confirmed standalone LEGO design ID. Toolo catalog assemblies include screws with their host; no verified downloadable screw geometry found.",
+        "Green side reference tmp9191.png: rounded D-section side housings with inset horizontal front grilles, scalloped lower edges and swept rear supports. Hole thread form/pitch not visible or verified; smooth bores do not assert that physical Toolo mating holes lack threads.",
+        "Supersedes prior smooth mating bores: user confirmed internal threads from tmp6659.png. Added approximate helical ridges in three rear interstitial holes, both side holes and central cockpit socket. Pitch5 LDU, crest1.2 LDU and sleeve depth are illustrative only; no physical mating certification. Hollow stud bores unchanged. Added two rectangular deck slots above side ports (X66..74 and -74..-66,Z32..48).",
+        "User frontal photo tmp2FA5.png: raised central recessed front console, folded bumper, twin stepped cockpit pegs and shoulder blocks. All internal threaded ports now use two helical turns as requested; pitch varies by illustrative socket depth and remains unmeasured.",
+        "2026-09-11 assembly correction: side housings and nose external width reduced from192 to160 LDU to fit source four-stud central bay; rear deck/stud pitch and120 LDU height unchanged. This supersedes earlier overhang dimensions and requires review of revised appearance.",
+        "Rear hollow studs y=-35..-24 are connection geometry and excluded from rigid collision regions, consistent with official stacking-brick metadata. Deck shell, threaded ports and all other solids remain checked.",
+        "Backrest assembly shifted4LDU toward nose so rear flutes end at deck boundaryz0, enabling adjacent source stacking; small fit correction requires updated appearance review.",
+        "Rear head above-deck3LDU is connection geometry: at submarine cockpitX=-240 it lies in3011 local(X40,Z0),Y45..48, below stud8 tube endY44; radius12 fits minimum bore13.73. Prior X=-280 sidewall-intersection pose rejected. Bus/ambulance had no head overlaps before this exclusion.",
+        "2026-09-11 user rejected floating canopy: added continuous seating sills from official6345 lower rim, front transition and rounded rear ends, following tmp3A6A.png/tmp20D2.png. Contact tops are mesh-derived; surrounding moulding remains approximate. Source references and contact proof in .tmp/cockpit-seat-0911. Previously certified only central contact was insufficient.",
+        "2026-09-11 assembled blue photo tmpC02A: replaced high infill walls with lower sills atY=-48; low console topY=-20.41158; flared nose up to192LDU wide only ahead ofZ=-120, rear4-stud deck unchanged. Shape remains photo approximation. Convex mesh check100 added solids vs700 canopy faces zero intersections; swept rear support bounding boxes are conservative. See .tmp/cockpit-low-0911."
+      ]
+    }
+  ],
+  "checks": {
+    "modelSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
+    "dependencyNodes": 69,
+    "missingDependencies": [],
+    "rawCheckerExitCode": 2,
+    "rawCheckerReport": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\4-ci-xuan-fu-lie-che\\collision.txt",
+    "physicalFit": false,
+    "rendering": "Central queue pending; no independent browser launched",
+    "rawLimitations": "Two cockpit/canopy conservative proxy overlaps; current fixed metadata records contact pose and earlier mesh clipping. No exemption, no new mesh proof, no overall pass claimed.",
+    "renderStatus": "See currentFinalPixelReview. Old step acceptance withdrawn after local-DAT resolver bug."
+  },
+  "currentFinalPixelReview": {
+    "sourceSha256": "034ec59f5cf229d461cba7d50500e87a6a9fd6f5a8f6122a46299c81c9a97417",
+    "packRevision": "6a7d07738072ac10aade007d611993f5fbf949852dd0e111e030adc1f2141487",
+    "localDatResolver": "Windows separator fix applied in parent scratch renderer",
+    "note": "Corrected local dev-part final views inspected against source page13. Track span, carriage, two cockpit ends, paired guide stacks, window and roof rows match macro layout. Baseplate registration and inverted-brick interfaces remain inferred. Two canopy/cockpit proxy overlaps remain unresolved; sliding or magnetic behaviour not verified. Earlier step renders are not accepted for current dependency geometry.",
+    "views": [
+      {
+        "view": "iso",
+        "sha256": "b44a3e99bef3b936f833360b13c5dee2b7b0d82897476e852989875db40f9ddf",
+        "pixelsViewed": true
+      },
+      {
+        "view": "iso-rear",
+        "sha256": "662f084bc1aff0844896b6256817bff04f565565d21b223db5851417db253fca",
+        "pixelsViewed": true
+      },
+      {
+        "view": "top",
+        "sha256": "fd38ded351728064e60c408f8529bed6db6c37dba9a10120d25e95eda6e1bfc8",
+        "pixelsViewed": true
+      }
+    ],
+    "steps": "pending new cumulative rendering with correct local dependencies",
+    "physicalValidation": false
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "5cd07261d9e51eff923d27d57a0d808666bbd95eefe7b34ea7eae99ae13bed8b",
+  "revision": "9281fb9b7b208cad02175a30ef6a4ee87c5cae5828f9b88f6360e8c302ddbc59",
+  "reviewedAt": "2026-10-11T07:14:55.366911+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-xiang-wei-she",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "780aeee8faf6b901a367534d60e748ef4ced0634383d79fcd221021782e3632e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "f839662ff9fde54b65be44b34d2d2f179bc309e9f02d99ea953d608bf7886359",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "70a90f9ff7f590dd44ca166f55e637ec97e8ccdb6ed27a31a7ff3292b17581d9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "5d90fc49c2d5d53c3ae6e6077a1e8caf4a385837009990b58ddb8cbe3676ddf3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "4f81a7568610e2e433eecd9d7c8cfa9961998d54732ed10fbb1c86ee8b5d59df",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "60a98855d22b4a9ee449fda4b524ae03a23e8001c333662ab5afb3e35f6c668e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "ef8039a3f9761091d328ae6863249d496e47e9e679f169bf6a62defc9fe3c83b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "ab9444f4115e22a748f5c7791cc6f78b1f85463dd9e56b7855cff705a5500ae8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "1406f9b340177c3661eb372974a76363fd3f8956bd86e52c5560a1b459d64d63",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "a5c46164553309ab904957b40d6d84aaec1ef592625dec2f71dd2373c0633ca8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "503bb94e5204d53f2ff7f3432adb04628c6dfba4cc8dfc6349131d1ec6ffb5a9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "e1469da90b2c5eb70a2caf07b266aaa14aa795a844545193290382ba95159bb6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "724e01a9d5dbe4febef19e606b1f591c52b1d8f721ae8734ed76a6ce3c8cf1fb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "6109685df5c857af132b7e371e8bc12333e1d9a20857781262052cecc20aca9b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "6109685df5c857af132b7e371e8bc12333e1d9a20857781262052cecc20aca9b",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually screened all 15 current cumulative step panels, enlarged steps 7 and 15, compared source page 7 and p15 detail. Head, articulated body, colored top rows and one rotated yellow tail subassembly remain visible and cumulative. Step15 equals step14 because source p15 additional 3437 remains omitted pending hidden connection. Neck/body joint offsets and Toolo approximate geometry remain provisional; pose and physical retention are not validated. This run records D steps only; old C final3 evidence is not claimed as D final3. INCOMPLETE, not physical validation."
+}

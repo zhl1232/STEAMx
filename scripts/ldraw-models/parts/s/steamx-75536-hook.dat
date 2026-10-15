@@ -1,0 +1,8 @@
+0 ~STEAMx 75536 hook (counted via 75536, non-BOM)
+0 Name: s/steamx-75536-hook.dat
+0 Author: STEAMx
+0 !LDRAW_ORG Unofficial_Subpart
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // Cord eye at origin; hook hangs toward +Y. The parent assembly 75536 accounts for this material.
+0 BFC CERTIFY CCW
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 4663.dat

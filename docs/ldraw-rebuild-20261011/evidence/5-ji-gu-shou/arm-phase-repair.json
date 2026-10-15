@@ -1,0 +1,15 @@
+{
+  "beforeSha256": "773572a1a6ffb7daf40ce5ed8ae9770b2eea70033f297483fcb4ca6e8738aa76",
+  "sourceSha256": "dee3c6f261ea8b9328ec96ae1d0f1fb7bcaa3d6b0ecc1d89a05578276ae7ec54",
+  "sourcePages": [
+    10,
+    11
+  ],
+  "changedSteps": [
+    9,
+    10
+  ],
+  "evidence": "Actual final3+10 step pixels reviewed against sourcep10/p11: pure-horizontal right drumstick too high. Corrected only crank and arm phase30degrees down/inward about unchanged driveaxis; endhole(100,-240,-47.8460969), integralpin remains80LDU. Drum strike/loaded motion not proven; source phase approximate.",
+  "tyrePairUnchanged": true,
+  "strictTyreTestReusedFromSha": "773572a1a6ffb7daf40ce5ed8ae9770b2eea70033f297483fcb4ca6e8738aa76"
+}

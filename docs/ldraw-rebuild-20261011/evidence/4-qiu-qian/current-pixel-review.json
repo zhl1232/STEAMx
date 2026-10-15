@@ -1,0 +1,65 @@
+{
+  "sourceSha256": "4dcfba18e7d66e664b7acc4403c29103b581ff98c1559388b6dbe096b7d83026",
+  "revision": "9a1bf196ca221ef95b508d6fbc77eafff70215769d063dfb3178a4066a291a61",
+  "reviewedAt": "2026-10-11T10:49:37.405831+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-qiu-qian",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "215c6d57844f4f15c2118a076086eba1d47f866d18c349c4b5c72ac0c8a1a583",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "a5efbbe16fb2148fee78f63c5362bcba1e9a093743fb689b8a8eff7cf6705ae4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "07dffafdf0f282f3c6bb4a3961d27440a6ffdfdc43b58eb3a62f7ca75c3f13cc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "fd5a099542ef1b0f6f8112e3cb35f73fbbddad648c2b38b358c63bd0455c0197",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "4d6d8bbecccd0316dec6f40abbf43ebaf243b4ab7b12a304c2c1113f5f6d6ca3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "f568919f20c71910cc6ed86d915f38c7ffc9fd4837cd734680cb3be37831db34",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "2202cc0e8b248058d4ee3ccbc0d0e1626fb1ee8b70a918a84b311b6c03c91108",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "d1ee15e3df068f53423f27ad6dc804758db704eb636db79c84a86741d5f07b4c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "3079ad38f6e9eb968c0e87386aeda98f0dee9e633051589fb0318b11e9926374",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "215c6d57844f4f15c2118a076086eba1d47f866d18c349c4b5c72ac0c8a1a583",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current final3 and all7 cumulative step frames, plus original step6 and iso PNG; revisited source p8 and compared prior p6/p7. Steps1-3 assemble symmetric stepped red/yellow A-frames and striped pillars; step4 adds black caps/red curves, step5 inward forks, step6 hanging short arms with inverted lower clutches and turned brackets, step7 supported black seat and child. Child remains upright on seat with red cap, white sleeves, yellow feet; opposing final views expose both sides. No new placement change identified. Nominal seat underside at Y=-356 contacts each bracket over73x40 LDU; this supports pose only. Approximate clutch tongue and screw locations require manual-fit review; no exact retention, swing clearance, complete collision or physical validation is claimed. Zero omitted source pieces is not interface acceptance."
+}

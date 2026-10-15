@@ -1,0 +1,125 @@
+{
+  "slug": "4-zhong-guo-long",
+  "sourceSha256": "7a4a0649f112ad7bc11e9f9c36f8046b21e0a2f1a4bf58533f8241de128b7039",
+  "beforeHeadSha256": "14c8714054d9fc138ab6f428102c477c9df93259959126740c442d4206f756c9",
+  "head": "0e1dc727eb87eef76981b38c5c23a599fcce1e29",
+  "stepsBefore": 12,
+  "stepsAfter": 12,
+  "placementsBefore": 42,
+  "placementsAfter": 42,
+  "maxOrthonormalError": 0,
+  "maxDeterminantError": 0,
+  "reflections": 0,
+  "collisionExitCode": 0,
+  "collisionErrors": 0,
+  "collisionLog": "/workspace/pending-fix-20261012/batch3-checks/4-zhong-guo-long-collision.log",
+  "date": "2026-10-12",
+  "title": "中国龙",
+  "status": "未修好",
+  "verificationLevel": "renderer-verified only",
+  "accepted": false,
+  "published": false,
+  "changedGeometrySteps": [
+    1,
+    5,
+    11,
+    12
+  ],
+  "reviewedRenderedSteps": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "changes": [
+    "结构灰色由 7 改为 72，眼轮保留浅灰；两眼改朝向上颌前面的螺丝面。",
+    "第 11–12 步八块橙色弧顶砖纠正为课件的 3437 方形 2×2 砖；保持 42 个零件位。",
+    "第 5 页明确是蓝色 Toolo 翼件，不是骑手；没有添加课件不存在的人仔。"
+  ],
+  "unresolved": [
+    "未修好：缺少蓝色 Toolo 头翼和前脚两片齿刃；翼件按要求省略并注释，齿刃真实编号未确认。",
+    "眼轮、脚叉、脚铲使用已有批准近似件，位置和实物接口仍需验收；不把零碰撞告警当作实体配合正确。"
+  ],
+  "landmarksAndSupport": [
+    "眼轮轴线 X 向；中心 (-273,-705,±40)，黄色螺丝端靠近上颌前面 X=-248。",
+    "八块腿饰保持原侧搭矩阵，3437 厚 48、足迹 80×80 LDU；连接受已有 Toolo 近似几何限制。"
+  ],
+  "sourcePages": [
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/4-zhong-guo-long/page-01.jpg",
+      "sha256": "2904c6b522227047e02edace9a4ae422cdf4ca78974f25a918a664bd5fba8479"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/4-zhong-guo-long/page-02.jpg",
+      "sha256": "05e8dcc5e0bfeced6f099589557642420fa9b8925690cd94b6335a95225d7c11"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/4-zhong-guo-long/page-03.jpg",
+      "sha256": "de8dc601039428d587196a224e65cc9a5e2bdbaad1e2142c48b00a5979945c78"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/4-zhong-guo-long/page-04.jpg",
+      "sha256": "5057e1eb57de40b4044360aa276b590fbec8aabc17ae9856c54e7da6aa2d71c2"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/4-zhong-guo-long/page-05.jpg",
+      "sha256": "52f52381c7fc9ff24763f8f90d23c7f2f476a4660e0c58422ca36b238905602f"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/4-zhong-guo-long/page-06.jpg",
+      "sha256": "adb2586586546425c0cb6c3df52e7dc9f58afbe0f5af99ab3c834339e09fbb4e"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/4-zhong-guo-long/page-07.jpg",
+      "sha256": "ae963121c2d970bdf23bdc7c6974d0c705594ab6e769c0ba6759b9b6d641a99c"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/4-zhong-guo-long/page-08.jpg",
+      "sha256": "358c5b82ceb0af203f8598dc78015d3cbace91133083246fd9ed9999e6e2ef52"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/4-zhong-guo-long/page-09.jpg",
+      "sha256": "1d0b3215e3da0d711cd400d8051869358a1f83400de7e8abe776049572f36fa9"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/4-zhong-guo-long/page-10.jpg",
+      "sha256": "63ab1c9c57ea34c766910c62bcec5fe63141108d35c1db136000781e64ab9be9"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/4-zhong-guo-long/page-11.jpg",
+      "sha256": "6b8a1f4b7795eb83ed1378548437be5db72e1d000d5c9cf6ba966ea939f1bcb7"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/4-zhong-guo-long/page-12.jpg",
+      "sha256": "a68841780302cd6376ec6677a594b0c9347c6c642d090e1bfced09615755b3dc"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/4-zhong-guo-long/page-13.jpg",
+      "sha256": "21550509492eeec39b267340bf364226ecc032671aefe6ab759a83491638b00c"
+    }
+  ],
+  "metadataSha256": "5cd85fcdca2090c092e3b9a73d34439a94ffe9bd8b41c316bea57ad8f2748e82",
+  "checkerSha256": "a9a61f7b501aba7a9bcf50750744c84df6c849a0b40a4100a29a844528fde4f7",
+  "validatorSha256": "11bd8fed6129d54a6bd78a26f3ef5619721bde35a6ddf660a3afd38d486f37cd",
+  "packedRevisionIncludingDependencies": "d44bf51e81b9a38024dace6b8bd04c0d311cdbe57898183e70bc38b09bbe56e3",
+  "missingParts": [],
+  "finalRender": {
+    "path": "/workspace/pending-fix-20261012/after/4-zhong-guo-long.png",
+    "sha256": "144561d18e32787a7c7a75eb54e5cd6a7edee7d40ef9a121d1877587d2699f0d"
+  },
+  "stepRenderDirectory": "/workspace/pending-fix-20261012/batch3-step-renders",
+  "previewRoute": "/ldraw-preview?model=4-zhong-guo-long.ldr",
+  "notes": [
+    "No Studio or physical validation performed.",
+    "Historical ledger/current-pixel-review records were not overwritten; this record applies only to the bound revision.",
+    "Camera and framing were adjusted in scratch renderer only; no production UI changed."
+  ]
+}

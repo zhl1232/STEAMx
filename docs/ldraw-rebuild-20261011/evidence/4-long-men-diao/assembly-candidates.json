@@ -1,0 +1,291 @@
+{
+  "generatedAt": "2026-10-11T06:23:39.830Z",
+  "sourcePagesActuallyReViewed": [
+    6,
+    7,
+    8,
+    9
+  ],
+  "modelSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+  "priorModelSha256": "4b7f0b3a8f5e2af2a7945cdeb1a366e9a7cf8ed1ed281095549f1d2c5840420e",
+  "adoptedChange": {
+    "id": "40666.dat",
+    "page": 7,
+    "position": [
+      0,
+      -932,
+      0
+    ],
+    "matrix": [
+      0,
+      0,
+      1,
+      0,
+      -1,
+      0,
+      1,
+      0,
+      0
+    ],
+    "determinant": 1,
+    "oldFootprint": {
+      "x": [
+        -80,
+        80
+      ],
+      "z": [
+        -40,
+        40
+      ]
+    },
+    "newFootprint": {
+      "x": [
+        -40,
+        40
+      ],
+      "z": [
+        -80,
+        80
+      ]
+    },
+    "evidence": "p7 invertedplate longedge transverse tobeamlongaxis; twofork bases lineupacrossbeam; p8longarms hangfront/back. Onlythisorientation is independently supported."
+  },
+  "fixedGeometry": {
+    "studPitch": 40,
+    "plateStudGridX": [
+      -20,
+      20
+    ],
+    "plateStudGridZ": [
+      -60,
+      -20,
+      20,
+      60
+    ],
+    "forkBaseFootprint": [
+      80,
+      80
+    ],
+    "forkStudGridRelative": [
+      -20,
+      20
+    ],
+    "forkPivotLocal": [
+      0,
+      -65,
+      48
+    ],
+    "shortArmCrossBeamHalfWidth": 20,
+    "beamHalfWidthZ": 80,
+    "beamUpperLayerY": [
+      -816,
+      -768
+    ]
+  },
+  "candidates": [
+    {
+      "name": "A_partial_source_orientation_adopted",
+      "basePositions": [
+        [
+          0,
+          -884,
+          -72
+        ],
+        [
+          0,
+          -884,
+          72
+        ]
+      ],
+      "pivots": [
+        [
+          0,
+          -819,
+          -120
+        ],
+        [
+          0,
+          -819,
+          120
+        ]
+      ],
+      "platePosition": [
+        0,
+        -932,
+        0
+      ],
+      "plateMatrix": [
+        0,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "topFootprintOverlapPerBaseLdu": 48,
+      "lowerRedBrickOverlapPerBaseLdu": 8,
+      "positiveBaseStudZ": [
+        52,
+        92
+      ],
+      "status": "Sourceplateaxis corrected only; not a connectedassembly",
+      "failure": "StudZ52/92 cannot register toplate20/60; outerstud92 outsideplateedge80. Red3437 foot±40 stillonly8LDUedgeoverlap. Rootspacing72 not40grid."
+    },
+    {
+      "name": "B_full_source_stud_grid",
+      "basePositions": [
+        [
+          0,
+          -884,
+          -40
+        ],
+        [
+          0,
+          -884,
+          40
+        ]
+      ],
+      "pivots": [
+        [
+          0,
+          -819,
+          -88
+        ],
+        [
+          0,
+          -819,
+          88
+        ]
+      ],
+      "upperArmPositions": [
+        [
+          0,
+          -819,
+          -88
+        ],
+        [
+          0,
+          -819,
+          88
+        ]
+      ],
+      "lowerClutchPositions": [
+        [
+          0,
+          -643,
+          -88
+        ],
+        [
+          0,
+          -643,
+          88
+        ]
+      ],
+      "platePosition": [
+        0,
+        -932,
+        0
+      ],
+      "plateMatrix": [
+        0,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "topFootprintOverlapPerBaseLdu": 80,
+      "lowerRedBrickOverlapPerBaseLdu": 40,
+      "positiveBaseStudZ": [
+        20,
+        60
+      ],
+      "status": "StudgridvalidbutrejectedwithcurrentapproximateDAT",
+      "failure": "Armprofile localX±20 putsinnerfaceZ68 insidebeamZ80 by12LDU. Atarm localY48, sidecheek triangle spanslocalX[-20,20]; itsworldplaneX=-24 crossesbeamwall atpoint[-24,-771,80]. BeamlocalY45 isoutsideboreY24radius9, so this isnotjustbboxoverlap. CurrentapproximatepivotZ48/armprofile cannotcertifythesourceassembly.",
+      "missingEvidence": "Measured/catalogue forkpivotreach andtruearmwidth/clearance, or sourceorthographic close-up; not permissiontoreshapeDAT."
+    },
+    {
+      "name": "C_clearance_compromise_not_source_supported",
+      "basePositions": [
+        [
+          0,
+          -884,
+          -60
+        ],
+        [
+          0,
+          -884,
+          60
+        ]
+      ],
+      "pivots": [
+        [
+          0,
+          -819,
+          -108
+        ],
+        [
+          0,
+          -819,
+          108
+        ]
+      ],
+      "upperArmPositions": [
+        [
+          0,
+          -819,
+          -108
+        ],
+        [
+          0,
+          -819,
+          108
+        ]
+      ],
+      "lowerClutchPositions": [
+        [
+          0,
+          -643,
+          -108
+        ],
+        [
+          0,
+          -643,
+          108
+        ]
+      ],
+      "platePosition": [
+        0,
+        -932,
+        0
+      ],
+      "plateMatrix": [
+        0,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "positiveBaseStudZ": [
+        40,
+        80
+      ],
+      "armToBeamClearanceLdu": 8,
+      "status": "Rejected",
+      "failure": "Halfstud20LDUregistration error versusplate20/60; anAABBclearance fix isnot astudconnection andhas nosourceproof."
+    }
+  ],
+  "conclusion": "SourcesupportsplateaxisZ correction. No completefork/plate/arm assembly canbeaccepted usingcurrentlyunmeasuredapproximatepivot andarmprofile. Do not addparts,scalegeometry orwaivecollision toforceclosure.",
+  "physicalVerified": false,
+  "accepted": false
+}

@@ -1,0 +1,65 @@
+{
+  "sourceSha256": "9a6f7f55774d0180af30c943343cfc62fce3f664372b123ccef55fc0221661b3",
+  "revision": "890dd0f5f02d368bc1fe6d79086b9ebf1d4e64cce9f0b16ba094c46c8741cfa8",
+  "reviewedAt": "2026-10-11T14:20:21.571201+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-zhan-chi-gao-fei",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "88c60c3fc3bd41c0b10f10bb0fab9bacd40d62ec8dc018a1f4fcf01d553d4849",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "aa20ea9e2c1202be2b82301d73332a7ba6248a3ebd8df10c069156d9139e7c61",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "9c6ff0648e06c48c194b1c1040d96c4338575882add374f1b58992f7b36991c1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "18bec07d6eb89aa97bfb7da28dd665ce499e5f3ea8b2eb5135d29b5561a3dee3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "a63ab1717009cdd69b1c02117f849bb54d9128c61cc96dabdc975cb22659b7d4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "8c4ed3313602bb49754362092202fa4b3341da901ed4caa41958b7ffb9268698",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "444e334ee0afdf965c452bd89db515c2f18bfe62237b50e74f4404a6fcba10de",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "18d944a7cbf477c1727141be99aa25b79b87b42bc93e211cf4a7205f834c8df3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "3f9b341ae0ecd9a443bab8a42f0e494ff845020012cc3da222040c4a062fbc85",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "88c60c3fc3bd41c0b10f10bb0fab9bacd40d62ec8dc018a1f4fcf01d553d4849",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed final iso/iso-rear/top originals and all seven cumulative steps, compared source p8 final. Twin alternating towers, paired long/short wing beams with three blue plates each, head facing forward and tail correspond. Display pose raises both wings 30 degrees. Eye/head identity candidate and shaft-bore mesh crossing, side-clutch/support limits remain; no physical validation."
+}

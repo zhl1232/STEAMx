@@ -1,0 +1,27 @@
+{
+  "slug": "5-xuan-zhuan-ka-fei-bei",
+  "sourceSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+  "checkpointSha256": "95e657e94a28d54da67fc22537ae2e332308c6b4f0b42fe3cffd222428a6c9b6",
+  "reviewedAt": "2026-10-11T07:19:33.061935+00:00",
+  "rawExit": 0,
+  "rawOutput": "OK   [5-xuan-zhuan-ka-fei-bei.ldr] 63 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarmPairCount": 0,
+  "classificationCounts": {},
+  "alarms": [],
+  "directPartFileSha256": {},
+  "noRawAlarmsMeaning": "No raw bounding-box alarms is not proof of source fidelity, support closure, dynamic operation or physical fit.",
+  "remainingSourceLimitations": [
+    {
+      "page": 9,
+      "part": "ten child figures",
+      "missing": "exact source torso/head/cap/leg variants; no substitution from unrelated driver"
+    },
+    {
+      "page": "3-8",
+      "part": "gear train and rides",
+      "missing": "source axes/gear-table layout only; tooth phase, locks and dynamic clearance not verified"
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

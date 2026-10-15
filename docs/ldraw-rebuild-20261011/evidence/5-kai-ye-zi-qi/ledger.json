@@ -1,0 +1,1800 @@
+{
+  "slug": "5-kai-ye-zi-qi",
+  "pages": 12,
+  "source": {
+    "name": "5+开椰子器搭建说明.pdf",
+    "relative_path": "5+/5+开椰子器搭建说明.pdf",
+    "pages": 12,
+    "bytes": 1541775,
+    "sha256": "15d623a43abdf57ce63b0f9d9bc34a2c8de1f20ad5837080be56997c340e7f89",
+    "source_url": "https://pan.quark.cn/list#/docpdf/05500e18ac8f4befacbbe1545eda863b",
+    "slug": "5-kai-ye-zi-qi",
+    "lesson_id": 266,
+    "course_id": 7,
+    "localPdf": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5+\\5+开椰子器搭建说明.pdf",
+    "pagesDecoded": [
+      {
+        "page": 1,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-01.jpg",
+        "sha256": "1b33c15b38d13c3b7b0eaa92d74520e2b7785bb82c6824669b6ea916f232b88e",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 2,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-02.jpg",
+        "sha256": "9fd34a513dd745bc4ca5ee12b1cc00a99c345b3d605aa856173940e91a94e917",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 3,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-03.jpg",
+        "sha256": "2d337d9d94de83a63db94d9fc2a092375dbd1d29ddeb6ad599989ee95a073ffd",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 4,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-04.jpg",
+        "sha256": "6bbe4eac8469f926d7190767f8be673776051faeaac01db12c4913e5273e24e5",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 5,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-05.jpg",
+        "sha256": "1129050838dfe71ec1c8a9f30d84cb04be0419dac17d8a2e8178d49f9e0c8b4a",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 6,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-06.jpg",
+        "sha256": "145b12d124bfe66a55032a6ebe70f2f3ce509033dcdd6e1f64924b2cdb9df0c9",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 7,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-07.jpg",
+        "sha256": "f1ccbf6e14585c2a76c4c2df78919d0d5969663a0c2dac5304a3e0a6dfc05448",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 8,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-08.jpg",
+        "sha256": "7b163f942872dd69aa312e0dc1e39c5687354f64c3d53bfc921c0bac36f7b122",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 9,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-09.jpg",
+        "sha256": "3805cf271fd136f7c98080ee7a4d7c9c542b83a27ea3f90fcc6d5276f094865e",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 10,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-10.jpg",
+        "sha256": "0b2c7c9829d551c465a0c9f704868b7462bddc723b4ecd85b8744279a235f39a",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 11,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-11.jpg",
+        "sha256": "091405d45a94f80e03f46dd53cbbfd6a9da01686492811d775a5de075e02ce66",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 12,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-12.jpg",
+        "sha256": "fbe31bdce1289651b0d4d9a84b348db43d732380ddf13e67c482b5cec4c8f1f8",
+        "width": 1500,
+        "height": 1062
+      }
+    ],
+    "localBytesVerified": true,
+    "libraryFileId": "libfile_2f7d19118b7c8191acf12b2484585011"
+  },
+  "evidence": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-01.jpg",
+      "sha256": "1b33c15b38d13c3b7b0eaa92d74520e2b7785bb82c6824669b6ea916f232b88e",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-02.jpg",
+      "sha256": "9fd34a513dd745bc4ca5ee12b1cc00a99c345b3d605aa856173940e91a94e917",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-03.jpg",
+      "sha256": "2d337d9d94de83a63db94d9fc2a092375dbd1d29ddeb6ad599989ee95a073ffd",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-04.jpg",
+      "sha256": "6bbe4eac8469f926d7190767f8be673776051faeaac01db12c4913e5273e24e5",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-05.jpg",
+      "sha256": "1129050838dfe71ec1c8a9f30d84cb04be0419dac17d8a2e8178d49f9e0c8b4a",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-06.jpg",
+      "sha256": "145b12d124bfe66a55032a6ebe70f2f3ce509033dcdd6e1f64924b2cdb9df0c9",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-07.jpg",
+      "sha256": "f1ccbf6e14585c2a76c4c2df78919d0d5969663a0c2dac5304a3e0a6dfc05448",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-08.jpg",
+      "sha256": "7b163f942872dd69aa312e0dc1e39c5687354f64c3d53bfc921c0bac36f7b122",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-09.jpg",
+      "sha256": "3805cf271fd136f7c98080ee7a4d7c9c542b83a27ea3f90fcc6d5276f094865e",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-10.jpg",
+      "sha256": "0b2c7c9829d551c465a0c9f704868b7462bddc723b4ecd85b8744279a235f39a",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-11.jpg",
+      "sha256": "091405d45a94f80e03f46dd53cbbfd6a9da01686492811d775a5de075e02ce66",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch12\\5-kai-ye-zi-qi\\page-12.jpg",
+      "sha256": "fbe31bdce1289651b0d4d9a84b348db43d732380ddf13e67c482b5cec4c8f1f8",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    }
+  ],
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "sixteen2x4 redbricks form four4x4 two-layer feet",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            0,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            0,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-3",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -48,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-4",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -240,
+            -48,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-5",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            0,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-6",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -280,
+            0,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-7",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -320,
+            -48,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-8",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -240,
+            -48,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-9",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            0,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-10",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            0,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-11",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            240,
+            -48,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-12",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -48,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-13",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            0,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-14",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            280,
+            0,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-15",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            240,
+            -48,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-16",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            320,
+            -48,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 16
+    },
+    {
+      "sourcePage": 2,
+      "note": "green8x16plate bridges fourfeet",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "6490.dat",
+          "color": 2,
+          "position": [
+            0,
+            -72,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 17
+    },
+    {
+      "sourcePage": 3,
+      "note": "fouryellow2x4 bricks form4x8 frontpad",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -280,
+            -120,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -280,
+            -120,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -120,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -200,
+            -120,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 21
+    },
+    {
+      "sourcePage": 4,
+      "note": "two bluebrick seats on left/right ofyellowpad",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -168,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -240,
+            -168,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 23
+    },
+    {
+      "sourcePage": 5,
+      "note": "eightbluebricks form fourtwo-high rearpiers",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -120,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -168,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-3",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -120,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-4",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            0,
+            -168,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-5",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            240,
+            -120,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-6",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            240,
+            -168,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-7",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            240,
+            -120,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-8",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            240,
+            -168,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 31
+    },
+    {
+      "sourcePage": 6,
+      "note": "two10hole-railbricks with two4studheadbricks",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            120,
+            -216,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            240,
+            -264,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-3",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            120,
+            -216,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-4",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            240,
+            -264,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 35
+    },
+    {
+      "sourcePage": 7,
+      "note": "green8L mainshaft, two innerbeltwheels, innercrank and outside24Tgear",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            40,
+            -192,
+            20
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "SpansZ-140..180;farwall partial insertion, nearoutsidegear engagement20",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            40,
+            -192,
+            -60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-3",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            40,
+            -192,
+            60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-4",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            40,
+            -192,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Mainholecoaxial; integratedpin80towardfront, endretention manual",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-5",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            40,
+            -192,
+            180
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 40
+    },
+    {
+      "sourcePage": 8,
+      "note": "shortgearedinputshaft withinsidebeltwheel andoutsidecrank",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            120,
+            -192,
+            140
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "GearcenterZ180, axis80LDUfrom24Tcenter;toothphasepending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-2",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            120,
+            -192,
+            60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-3",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            120,
+            -192,
+            220
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            0
+          ],
+          "support": "Crankaxiallyseated nearshaftend; retention unverified",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 43
+    },
+    {
+      "sourcePage": 9,
+      "note": "greenpivotshaft and twoinnerwheels carryinverted10studlever",
+      "placements": [
+        {
+          "id": "p9-1",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            200,
+            -240,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-2",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            200,
+            -240,
+            -60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-3",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            200,
+            -240,
+            60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-4",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            41.440697,
+            -272.1706,
+            0
+          ],
+          "matrix": [
+            0.939693,
+            0.34202,
+            0,
+            0.34202,
+            -0.939693,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Leverlocalhole(160,24,0)coincidentwithpivot;20degsourceposeinference,notforcedscale",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 47
+    },
+    {
+      "sourcePage": 10,
+      "note": "inverted4studextension with two8studyellow reinforcingbricks",
+      "placements": [
+        {
+          "id": "p10-1",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -221.673237,
+            -367.93624,
+            0
+          ],
+          "matrix": [
+            0.939693,
+            0.34202,
+            0,
+            0.34202,
+            -0.939693,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-2",
+          "partId": "4199.dat",
+          "color": 14,
+          "position": [
+            -162.914794,
+            -295.469383,
+            0
+          ],
+          "matrix": [
+            0.939693,
+            0.34202,
+            0,
+            0.34202,
+            -0.939693,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Oppositefaces of invertedlever;48LDUbrickthickness, seambridged",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p10-3",
+          "partId": "4199.dat",
+          "color": 14,
+          "position": [
+            -130.08086,
+            -385.679874,
+            0
+          ],
+          "matrix": [
+            0.939693,
+            0.34202,
+            0,
+            0.34202,
+            -0.939693,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Oppositefaces of invertedlever;48LDUbrickthickness, seambridged",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 50
+    },
+    {
+      "sourcePage": 11,
+      "note": "orange2x2x2 curvedtop hammerhead inverted onlever",
+      "placements": [
+        {
+          "id": "p11-1",
+          "partId": "3664.dat",
+          "color": 25,
+          "position": [
+            -283.886402,
+            -313.959205,
+            0
+          ],
+          "matrix": [
+            0.939693,
+            0.34202,
+            0,
+            0.34202,
+            -0.939693,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Actual3664s02 bottomplaneY24, notmetadata96: localorigin-72+bottom24=reinforcementtop-48. 72LDUgap removed without scale.",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 51
+    }
+  ],
+  "pending": [
+    "P7-8 cranks and 8T/24T teeth use realDAT, but exact toothphase, shaftretention and camcontact tolever are unvalidated.",
+    "P9 lever20deg is a source-visible free-pivot pose inference; dynamic sweep and crank-driven lift not certified.",
+    "P10 yellowlongparts interpreted4199 normal2x8 bricks48LDU fromsourceBOM/profile; rendered sourcecomparison required.",
+    "P11 orange3664 identity matches2x2 curvedtop silhouette, mold/color inventory needs comparison; no customgeometry.",
+    "3664 official nativebottomY24 and curvedtopY-64 differ frommetadata top-center96 assumption; localplacement corrected toactualDAT, sharedmetadata unchanged."
+  ],
+  "unknownIds": [],
+  "omitted": [],
+  "status": "INCOMPLETE source reconstruction; pending rendered and mechanical review",
+  "verification": "Current SHA-bound raw/static reports and final/all-step pixel observation are available in static-alarm-review.json and current-pixel-review.json; unresolved interfaces remain, no physical or user acceptance.",
+  "inventory": "Source BOM authoritative; 9656+9090 quantity check pending",
+  "modelSha256": "b423cf4f04a198290adf337b4cdf5387f4996bcbe18a6d349ff9a2624049420f",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-kai-ye-zi-qi.ldr",
+  "totalPlacements": 51,
+  "bom": {
+    "3011.dat|4": 16,
+    "6490.dat|2": 1,
+    "3011.dat|14": 4,
+    "3011.dat|1": 10,
+    "75350.dat|4": 3,
+    "75349.dat|4": 3,
+    "6521.dat|2": 2,
+    "6527.dat|14": 5,
+    "6526.dat|14": 2,
+    "6529.dat|4": 1,
+    "6523.dat|1": 1,
+    "4199.dat|14": 2,
+    "3664.dat|25": 1
+  },
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "knownApproximateGeometry": [],
+  "sourcePageBOM": [
+    {
+      "sourcePage": 1,
+      "installed": {
+        "3011.dat|4": 16
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 2,
+      "installed": {
+        "6490.dat|2": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 3,
+      "installed": {
+        "3011.dat|14": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 4,
+      "installed": {
+        "3011.dat|1": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 5,
+      "installed": {
+        "3011.dat|1": 8
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 6,
+      "installed": {
+        "75350.dat|4": 2,
+        "75349.dat|4": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 7,
+      "installed": {
+        "6521.dat|2": 1,
+        "6527.dat|14": 2,
+        "6526.dat|14": 1,
+        "6529.dat|4": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 8,
+      "installed": {
+        "6523.dat|1": 1,
+        "6527.dat|14": 1,
+        "6526.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 9,
+      "installed": {
+        "6521.dat|2": 1,
+        "6527.dat|14": 2,
+        "75350.dat|4": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 10,
+      "installed": {
+        "75349.dat|4": 1,
+        "4199.dat|14": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 11,
+      "installed": {
+        "3664.dat|25": 1
+      },
+      "omitted": []
+    }
+  ],
+  "inventoryEvidence": "inputs/inventory-evidence.json",
+  "inventoryByPart": [
+    {
+      "partId": "3011.dat",
+      "color": "Red",
+      "installedQuantity": 16,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Red",
+          "quantity": 20
+        },
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 4
+        },
+        {
+          "set": "9076-1",
+          "color": "Red",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": 12,
+      "combinedAvailability": "unknown; incomplete9090 data, no color substitution authorized"
+    },
+    {
+      "partId": "6490.dat",
+      "color": "Green",
+      "installedQuantity": 1,
+      "verifiedRows": [],
+      "extraVsSingle9656": "unknown",
+      "combinedAvailability": "unknown; incomplete9090 data, no color substitution authorized"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Yellow",
+      "installedQuantity": 4,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 5
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown; incomplete9090 data, no color substitution authorized"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Blue",
+      "installedQuantity": 10,
+      "verifiedRows": [
+        {
+          "set": "9090-2",
+          "color": "Blue",
+          "quantity": 26
+        },
+        {
+          "set": "9076-1",
+          "color": "Blue",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": "unknown",
+      "combinedAvailability": "unknown; incomplete9090 data, no color substitution authorized"
+    },
+    {
+      "partId": "75350.dat",
+      "color": "Red",
+      "installedQuantity": 3,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 1,
+      "combinedAvailability": "unknown; incomplete9090 data, no color substitution authorized"
+    },
+    {
+      "partId": "75349.dat",
+      "color": "Red",
+      "installedQuantity": 3,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown; incomplete9090 data, no color substitution authorized"
+    },
+    {
+      "partId": "6521.dat",
+      "color": "Green",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Green",
+          "quantity": 5
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown; incomplete9090 data, no color substitution authorized"
+    },
+    {
+      "partId": "6527.dat",
+      "color": "Yellow",
+      "installedQuantity": 5,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 15
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown; incomplete9090 data, no color substitution authorized"
+    },
+    {
+      "partId": "6526.dat",
+      "color": "Yellow",
+      "installedQuantity": 2,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Yellow",
+          "quantity": 6
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown; incomplete9090 data, no color substitution authorized"
+    },
+    {
+      "partId": "6529.dat",
+      "color": "Red",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown; incomplete9090 data, no color substitution authorized"
+    },
+    {
+      "partId": "6523.dat",
+      "color": "Blue",
+      "installedQuantity": 1,
+      "verifiedRows": [
+        {
+          "set": "9656-1",
+          "color": "Blue",
+          "quantity": 4
+        }
+      ],
+      "extraVsSingle9656": 0,
+      "combinedAvailability": "unknown; incomplete9090 data, no color substitution authorized"
+    },
+    {
+      "partId": "4199.dat",
+      "color": "Yellow",
+      "installedQuantity": 2,
+      "verifiedRows": [],
+      "extraVsSingle9656": "unknown",
+      "combinedAvailability": "unknown; incomplete9090 data, no color substitution authorized"
+    },
+    {
+      "partId": "3664.dat",
+      "color": "Orange",
+      "installedQuantity": 1,
+      "verifiedRows": [],
+      "extraVsSingle9656": "unknown",
+      "combinedAvailability": "unknown; incomplete9090 data, no color substitution authorized"
+    }
+  ],
+  "rawCheck": {
+    "exitCode": 2,
+    "rawOutput": "\nFAIL [5-kai-ye-zi-qi.ldr] 2 error(s), 51 placement(s):\n  - step 8: 5-kai-ye-zi-qi_l64 overlaps 5-kai-ye-zi-qi_l58\n  - step 9: 5-kai-ye-zi-qi_l70 overlaps 5-kai-ye-zi-qi_l64\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  "pixelCorrection": {
+    "reviewedSha": "75ae91edf870054d1f5cd22b9ef0a6c8c3cde18c43c6875674142fb4ee8b7d7c",
+    "reviewedRevision": "09b0b03e70c26f54526462dcf941ad37c67d94cdb5fe83ba68cd7688c9660da7",
+    "actualFinalViews": 3,
+    "actualSteps": 11,
+    "correction": "P11 orange3664 moved local+Y72 tojoin reinforcement actualface",
+    "pendingRerender": true
+  },
+  "highResolutionRenderRepair": {
+    "sourceSha256": "b423cf4f04a198290adf337b4cdf5387f4996bcbe18a6d349ff9a2624049420f",
+    "revision": "ccec6382f8d34cdd1106889ff11466853e5c603bbf744af90dc10032e85f15ea",
+    "reason": "Replaced invalid basename fallback ordinary2-4chrd with official48/2-4chrd; source unchanged, dependency revision changed.",
+    "primitiveSha256": "7e2992507dbdb62dc8797facc505fe10550a57e63c70502780f46b0a700c2fb5",
+    "pixelsActuallyViewed": {
+      "final": [
+        "iso",
+        "iso-rear",
+        "top"
+      ],
+      "steps": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "original": [
+        "step-11.png"
+      ]
+    },
+    "finding": "No new definite source-placement error; curved orange face continuous and attached to yellow support.",
+    "priorRiskDisposition": "Existing raw alarms/manual mechanical risks unchanged; not waived by dependency repair.",
+    "accepted": false
+  }
+}

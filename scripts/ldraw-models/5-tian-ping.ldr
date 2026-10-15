@@ -1,0 +1,129 @@
+0 5-tian-ping - local courseware reconstruction; INCOMPLETE dev-only
+0 Name: 5-tian-ping.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // OK-BATCH3 2026-10-12: current LDR follows local courseware; pairs depicts a different version.
+0 // Existing approved Toolo approximations reused unchanged; hidden screw fits are not measured. No new geometry or IDs invented.
+0 // No human acceptance, physical validation or publication.
+0 // LOCAL COURSEWARE PAGE 1: three open square base rings, eight yellow + six blue + four yellow bricks, on green base.
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 14 -120 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -48 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -48 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -48 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -80 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 120 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -40 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -144 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -144 40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // LOCAL COURSEWARE PAGE 2: ten alternating column layers; fifteen blue and fifteen yellow bricks.
+1 1 -80 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 80 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -80 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 80 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -80 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 80 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -80 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 80 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -80 -576 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -576 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 80 -576 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // LOCAL COURSEWARE PAGE 3: black Toolo block and yellow/blue column cap.
+1 0 0 -672 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 14 -80 -720 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -720 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 80 -720 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -80 -768 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -768 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 80 -768 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // LOCAL COURSEWARE PAGE 4: four yellow curved top bricks.
+1 14 -40 -816 40 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 14 40 -816 40 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 14 -40 -816 -40 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 14 40 -816 -40 0 0 -1 0 1 0 1 0 0 2302b.dat
+0 STEP
+0 // LOCAL COURSEWARE PAGE 5: two side turntables and four fork mounts; root pins vertical.
+1 14 0 -648 -120 1 0 0 0 0 -1 0 1 0 60535.dat
+1 72 -40 -648 -168 0 0 -1 -1 0 0 0 1 0 28336.dat
+1 72 40 -648 -168 0 0 1 1 0 0 0 1 0 28336.dat
+1 14 0 -648 120 1 0 0 0 0 1 0 -1 0 60535.dat
+1 72 -40 -648 168 0 0 -1 1 0 0 0 -1 0 28336.dat
+1 72 40 -648 168 0 0 1 -1 0 0 0 -1 0 28336.dat
+0 STEP
+0 // LOCAL COURSEWARE PAGE 6: four long horizontal Toolo links with unchanged 400-LDU hinge spacing.
+1 72 -88 -648 -233 0 -1 0 0 0 1 -1 0 0 dev-129/28331.dat
+1 72 88 -648 -233 0 1 0 0 0 1 1 0 0 dev-129/28331.dat
+1 72 -88 -648 233 0 -1 0 0 0 1 -1 0 0 dev-129/28331.dat
+1 72 88 -648 233 0 1 0 0 0 1 1 0 0 dev-129/28331.dat
+0 STEP
+0 // LOCAL COURSEWARE PAGE 7: two clutch ends and two vertical black Toolo plates form the tray carrier.
+1 72 -488 -672 -233 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 -488 -672 233 1 0 0 0 1 0 0 0 1 74957.dat
+1 0 -536 -648 -120 0 1 0 0 0 1 1 0 0 76395.dat
+1 0 -536 -648 120 0 1 0 0 0 1 1 0 0 76395.dat
+0 STEP
+0 // LOCAL COURSEWARE PAGE 8: two clutch ends and two vertical black Toolo plates form the tray carrier.
+1 72 488 -672 -233 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 488 -672 233 1 0 0 0 1 0 0 0 1 74957.dat
+1 0 536 -648 -120 0 -1 0 0 0 1 -1 0 0 76395.dat
+1 0 536 -648 120 0 -1 0 0 0 1 -1 0 0 76395.dat
+0 STEP
+0 // LOCAL COURSEWARE PAGE 9: blue tray: one 4x8 plate, eight 2x4 bricks and two 2x2 bricks.
+1 1 -440 -568 0 0 0 1 0 1 0 -1 0 0 4672.dat
+1 1 -440 -616 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -440 -664 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -440 -712 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -440 -616 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -440 -664 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -440 -712 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -480 -664 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -480 -664 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -480 -616 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -480 -712 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // LOCAL COURSEWARE PAGE 10: blue tray: one 4x8 plate, eight 2x4 bricks and two 2x2 bricks.
+1 1 440 -568 0 0 0 1 0 1 0 -1 0 0 4672.dat
+1 1 440 -616 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 440 -664 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 440 -712 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 440 -616 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 440 -664 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 440 -712 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 480 -664 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 480 -664 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 480 -616 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 480 -712 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // P11 final view adds no parts; P1-P10 boundaries preserved. Local courseware has rigid trays and no strings/fence pans.
+0 // UNFIXED: approved approximate Toolo fork/clutch models have unmeasured screw mating; tray-to-carrier fastening and top cap footprint need manual acceptance. No invented string or scaled part.

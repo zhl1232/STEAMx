@@ -1,0 +1,105 @@
+{
+  "sourceSha256": "72e2def3c1a77a52e65daae773735b1f7a86ecce2649b37d020a533b7d61d021",
+  "revision": "4f709d810d1dd5c66354eb4e13c15ea8e9919b6e4889b0d1924a4d5726e26282",
+  "reviewedAt": "2026-10-11T12:15:34.245620+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-la-ji-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "fc082785797348bc40c37c5d02ee8e42d839c657f0d31057871e798f410a542a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "0a2fb1a173821e8ff371a8a4f3c990da309a26c32f20d552b40fb73c541c4b2d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "3df1b0f924c49fd96f734683e24545a0c79e6973f7f2eddf10361f1a1158ea7e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "50b3ad8e10713ed88c7c30aebbf33de5a3abc8f9955af044ece88965107348f3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "8f3338ec15fe80e3a5a114c56b9f72554e3b9abd56dbfede0273485cd0f01b81",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "c3ccae36cb0f6bf039c51cda403c5d0a1842b45abc78b7d8206e1ae8d3747f25",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "38482d1b471e4b9767fd0dc2824e0fc1fcd31920fc1afef50f09ee91d117ea6f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "c2cb418c6f917e8610723bec812b137bd4543b04b61e51bc8eb3dbed05422739",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "9a0548c080f3d5b2d1038ce4877d29684beb688e121080ba3c36ab02433c98fd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "359c7d45e054ecf2b8c2a2782dcda3e45f265ca643160140165d2de11967c11a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "dd3cbdadbc0de43d8ca2854f03fa2dcad97c96340b177e07a0ed95730d516604",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "fae3e7bb411018cd5e15a40996b5447aadbb5c80ecf92d86b9a3a38f1af17123",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "fae3e7bb411018cd5e15a40996b5447aadbb5c80ecf92d86b9a3a38f1af17123",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "c632a2091b38183a436f01557fd66af3aed19d979ec69a74f8be2c84b6beda98",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "ba839e011924d44343da00a6224a9db3335e6bf7e38e7a1dcdc5f867d666186b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "4cad82ae2e508577b3a23a4704d6d0ad2739b62dbd4f28c24a912baa4b5c9e96",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "cdff04d8b70ea07e3a2f2537567a6859e9fc1735493d5b934771f67b75154820",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-15",
+      "sha256": "fc082785797348bc40c37c5d02ee8e42d839c657f0d31057871e798f410a542a",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed current 72e2def3 final iso/iso-rear/top and all15 cumulative step frames in updated sheets; additionally opened full step14 and iso-rear PNG. Compared with actually viewed source p14/p15: corrected blue rear crossbond, window-side columns and rear central roof support now included, 150placements/zero omissions; no new visible source-order or outline discrepancy found and frames uncropped. Source p14 eight small/five long blue bricks and p15 three long roof supports reconcile; rear strip beyond roof plates retained. Gate upright follows p6-15, not tilted p16 demonstration. Raw zero is not connection verification: orthogonal crown/red gear tooth phase and clearance, clamp retention/strength, cab-trailer snap coupling and moving swept collisions remain unverified. No physical acceptance."
+}

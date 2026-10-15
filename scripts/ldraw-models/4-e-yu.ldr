@@ -1,38 +1,91 @@
-0 4+ 鳄鱼 (Crocodile) - DUPLO draft for manual repair
+0 4+ Crocodile - source reconstruction draft
 0 Name: 4-e-yu.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+鳄鱼 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Long body, jaws and legs are simplified.
-
-0 // STEP 1 - long green body
-1 2 -240 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 -80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 240 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 400 -72 0 1 0 0 0 1 0 0 0 1 2302.dat
+0 // INCOMPLETE - source-matched draft; exact Toolo joints and inventory require review.
+0 // Uses existing user-approved 45002 simplified geometry; no physical-fit certification.
+0 // Source: inputs/source-2; all instruction page pixels reviewed 2026-10-11.
+0 // No human acceptance and no production authorization implied.
+0 // STEP 1 - source page 1: two 6x12 green plates and three 4x6 Toolo body bricks
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 480 0 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 0 -120 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 40 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 200 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 2 - back ridge
-1 2 -200 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 2 40 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 2 280 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 -360 -120 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 2 - source page 2: 4x8 tail plate, four green 2x4 bricks, two curved tips
+1 2 -400 0 0 1 0 0 0 1 0 0 0 1 10199.dat
+1 2 -440 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -280 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -560 -48 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 2 -440 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -280 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -560 -48 40 -1 0 0 0 1 0 0 0 -1 2302.dat
 0 STEP
-
-0 // STEP 3 - jaws and eyes
-1 15 -520 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 -520 -120 40 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 -700 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 -420 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -340 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - source page 3: four lateral feet; 28336 and 74957 are image-matched candidate interfaces
+1 72 -160 -24 -168 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 -160 24 -303 -1 0 0 0 0 1 0 1 0 74957.dat
+1 72 -160 -24 168 1 0 0 0 0 1 0 -1 0 28336.dat
+1 72 -160 24 303 1 0 0 0 0 1 0 -1 0 74957.dat
+1 72 240 -24 -168 -1 0 0 0 -0.819152044 0.573576436 0 0.573576436 0.819152044 28336.dat
+1 72 240 114.117194924 -206.113520781 -1 0 0 0 -0.819152044 0.573576436 0 0.573576436 0.819152044 74957.dat
+1 72 240 -24 168 1 0 0 0 -0.819152044 0.573576436 0 -0.573576436 -0.819152044 28336.dat
+1 72 240 114.117194924 206.113520781 1 0 0 0 -0.819152044 0.573576436 0 -0.573576436 -0.819152044 74957.dat
 0 STEP
-
-0 // STEP 4 - legs and tail
-1 0 -160 -48 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 160 -48 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -160 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 160 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 2 560 -72 0 0 0 1 0 1 0 -1 0 0 2302.dat
+0 // STEP 4 - source page 4: two lifting hinges with top clutch blocks
+1 72 280 -48 -80 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 232 -183 -80 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 280 -48 80 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 232 -183 80 1 0 0 0 1 0 0 0 1 74957.dat
+0 STEP
+0 // STEP 5 - source page 5: 4x6 Toolo upper jaw carrier
+1 0 280 -231 0 0 0 1 0 1 0 -1 0 0 76395.dat
+0 STEP
+0 // STEP 6 - source page 6: 6x12 upper jaw plate and two eye bricks with centre green brick
+1 2 480 -255 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 280 -303 -80 0 0 1 0 1 0 -1 0 0 3437pe1.dat
+1 14 280 -303 80 0 0 1 0 1 0 -1 0 0 3437pe1.dat
+1 2 280 -303 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 7 - source page 7: two red 2x4 tongue plates
+1 4 400 -24 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 560 -24 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // STEP 8 - source page 8: twelve white 2x2 teeth; upper teeth attach by studs beneath jaw plate
+1 15 360 -48 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 440 -231 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 520 -48 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 560 -231 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 680 -48 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 680 -231 -80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 360 -48 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 440 -231 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 520 -48 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 560 -231 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 680 -48 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 680 -231 80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 9 - source page 9: ten green back bricks and curved tail tip
+1 2 -120 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -120 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -120 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 40 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -440 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -280 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -440 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -280 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -560 -96 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 STEP
+0 // STEP 10 - source page 10: six lime back plates
+1 27 -440 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 27 -280 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 27 -120 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 27 40 -120 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 27 40 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 27 40 -120 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 11 is final view, adds no parts.
+0 // Unresolved: tail plate-to-body binding and exact hinge/clutch seating; see external ledger.
+0 // ok-batch4: p3/11 front legs folded down 55deg about body-side axis; angle inferred, Toolo fit remains manual.

@@ -1,0 +1,125 @@
+{
+  "note": "Official DAT recursive face radial sections every0.05LDU. Nominal cavity mismatch under0.02 may be tessellation; negative large gap means radial envelope penetration candidate, not physical test.",
+  "pairs": [
+    {
+      "tyreLine": 16,
+      "wheelLine": 14,
+      "relativeCenter": [
+        0,
+        0,
+        -30
+      ],
+      "worst": {
+        "z": -30.037699999999987,
+        "inner": 28.40622681506566,
+        "outer": 41.00248042496942,
+        "gap": -12.596253609903759
+      }
+    },
+    {
+      "tyreLine": 16,
+      "wheelLine": 15,
+      "relativeCenter": [
+        0,
+        0,
+        30
+      ],
+      "worst": {
+        "z": 30.012300000000597,
+        "inner": 40.99803625797216,
+        "outer": 41.00248042496942,
+        "gap": -0.004444166997259913
+      }
+    },
+    {
+      "tyreLine": 19,
+      "wheelLine": 17,
+      "relativeCenter": [
+        0,
+        0,
+        -30
+      ],
+      "worst": {
+        "z": -30.037699999999987,
+        "inner": 28.40622681506566,
+        "outer": 41.00248042496942,
+        "gap": -12.596253609903759
+      }
+    },
+    {
+      "tyreLine": 19,
+      "wheelLine": 18,
+      "relativeCenter": [
+        0,
+        0,
+        30
+      ],
+      "worst": {
+        "z": 30.012300000000597,
+        "inner": 40.99803625797216,
+        "outer": 41.00248042496942,
+        "gap": -0.004444166997259913
+      }
+    },
+    {
+      "tyreLine": 23,
+      "wheelLine": 21,
+      "relativeCenter": [
+        0,
+        0,
+        -30
+      ],
+      "worst": {
+        "z": -30.037699999999987,
+        "inner": 28.40622681506566,
+        "outer": 41.00248042496942,
+        "gap": -12.596253609903759
+      }
+    },
+    {
+      "tyreLine": 23,
+      "wheelLine": 22,
+      "relativeCenter": [
+        0,
+        0,
+        30
+      ],
+      "worst": {
+        "z": 30.012300000000597,
+        "inner": 40.99803625797216,
+        "outer": 41.00248042496942,
+        "gap": -0.004444166997259913
+      }
+    },
+    {
+      "tyreLine": 26,
+      "wheelLine": 24,
+      "relativeCenter": [
+        0,
+        0,
+        -30
+      ],
+      "worst": {
+        "z": -30.037699999999987,
+        "inner": 28.40622681506566,
+        "outer": 41.00248042496942,
+        "gap": -12.596253609903759
+      }
+    },
+    {
+      "tyreLine": 26,
+      "wheelLine": 25,
+      "relativeCenter": [
+        0,
+        0,
+        30
+      ],
+      "worst": {
+        "z": 30.012300000000597,
+        "inner": 40.99803625797216,
+        "outer": 41.00248042496942,
+        "gap": -0.004444166997259913
+      }
+    }
+  ]
+}

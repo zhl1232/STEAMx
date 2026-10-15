@@ -1,0 +1,166 @@
+{
+  "slug": "5-xiao-song-shu-qi-che",
+  "modelSha256": "67b03126353cc88daf363713d5c6b6d30f04cf8bd1ca948ec802f947f7098cbc",
+  "reviewedAt": "2026-10-11T13:36:57.151Z",
+  "originalCheck": {
+    "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-xiao-song-shu-qi-che.ldr",
+    "sha256": "67b03126353cc88daf363713d5c6b6d30f04cf8bd1ca948ec802f947f7098cbc",
+    "exit": 2,
+    "output": "\nFAIL [5-xiao-song-shu-qi-che.ldr] 2 error(s), 98 placement(s):\n  - step 9: 5-xiao-song-shu-qi-che_l91 overlaps 5-xiao-song-shu-qi-che_l79\n  - step 9: 5-xiao-song-shu-qi-che_l95 overlaps 5-xiao-song-shu-qi-che_l83\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+    "stableDuringCheck": true
+  },
+  "alarms": [
+    {
+      "lines": [
+        79,
+        91
+      ],
+      "step": 8,
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "sourceSha256": "67b03126353cc88daf363713d5c6b6d30f04cf8bd1ca948ec802f947f7098cbc",
+      "placements": [
+        {
+          "page": 8,
+          "line": 79,
+          "id": "6527.dat",
+          "color": 14,
+          "transform": [
+            -195.67969334,
+            -341.33301389,
+            -60,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "page": 9,
+          "line": 91,
+          "id": "6527.dat",
+          "color": 14,
+          "transform": [
+            -198.79698491,
+            -416,
+            -60,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        }
+      ],
+      "classification": "known_part_interface_requires_mesh_review",
+      "reason": "Raw overlap retained for manual per-interface assessment. Sources and exact local axes/plate thickness are documented in ledger; automatic bounds are not proof of clear mating or a physical collision.",
+      "resolution": "retained-unresolved-not-clear",
+      "accepted": false
+    },
+    {
+      "lines": [
+        83,
+        95
+      ],
+      "step": 8,
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "sourceSha256": "67b03126353cc88daf363713d5c6b6d30f04cf8bd1ca948ec802f947f7098cbc",
+      "placements": [
+        {
+          "page": 8,
+          "line": 83,
+          "id": "6527.dat",
+          "color": 14,
+          "transform": [
+            -195.67969334,
+            -341.33301389,
+            60,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "page": 9,
+          "line": 95,
+          "id": "6527.dat",
+          "color": 14,
+          "transform": [
+            -198.79698491,
+            -416,
+            60,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "classification": "known_part_interface_requires_mesh_review",
+      "reason": "Raw overlap retained for manual per-interface assessment. Sources and exact local axes/plate thickness are documented in ledger; automatic bounds are not proof of clear mating or a physical collision.",
+      "resolution": "retained-unresolved-not-clear",
+      "accepted": false
+    }
+  ],
+  "rawPairCount": 2,
+  "matrixReview": {
+    "maximumOrthogonalityError": 5.757753385182696e-9,
+    "maximumDeterminantError": 5.757753385182696e-9
+  },
+  "sourceEvidence": "preparation/5-xiao-song-shu-qi-che/ledger.json",
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "limitations": [
+    "P1 four underside plates are a source-obscured tie arrangement, three along spine and one transverse atrear. Rear outside short bricks overhang plate by40LDU laterally but each retains40LDU bearing width; no floating added pieces.",
+    "P2 front gears atZ+-60, cranks outside at+-100 so native crank pins reachZ+-120..160 and support connecting rods centred+-140. Rear wheels at+-140. Four road gears radius103.798 allY-104, approximately level without scaling.",
+    "P4 tail each4x4 layer moves+40LDU backward and48 upward, retaining120LDU overlap. Source alternating red/orange six layers counted12 bricks.",
+    "P7/P8 actual seven-hole rod endpoint distance240, crank80. With source48LDU layer heights, perfect horizontal+vertical pose is inconsistent: exact two-circle joint solution is explicitly used, no rod scaling. P7 lower arms and P8 connecting rods have small visible angle adjustment relative to source illustration.",
+    "P8 source BOM has2blue6523 but picture appears to show4blue tips. Two upper-joint blue axles placed per BOM, lower connection uses existing yellow6526fixed pins; do not invent two extra blue axles or assert source lower tip color accurate. Upper blue shaft inner end has partial pulley engagement; collars/retention require mesh/physical review.",
+    "P9 upper rods240 bridge24LDU bearing height difference. Front axle atX-198.7969849055888 is1.203LDU off nominal red holeX-200; explicit pose/clearance assumption, actual bore play not certified. This is kept as known connection risk, not unknown ID.",
+    "P10 red mouth is24LDU40666plate, yellow corner bricks48LDU; opening retained. P11 exact eye backside pattern not visible,3437pe1 chosen for visible white highlight face; pattern back remains unverified.",
+    "P12 source-obscured ear crossbond uses exact9small+1long count and supported stepped silhouette; lower row may differ in hidden seams. Each outer small overlaps underlying head by40LDU; ears top crossbond both supporting small bricks. Tip load and moving stability not verified."
+  ],
+  "accepted": false,
+  "userConfirmed": false,
+  "physicalValidation": false,
+  "checkerPassIsNotConnectionAcceptance": true,
+  "currentPixels": "pending"
+}

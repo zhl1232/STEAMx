@@ -3,14 +3,20 @@ import {
   listAllLdrawModels,
   packLdrawTextToMpd,
   packLocalLdrawModel,
+  readFrozenConfirmedLdrawModel,
 } from '@/lib/courses/ldraw-packer'
 import {
+  isProductionProtected,
   confirmLdrawModel,
   getLdrawReviewRecords,
   isLdrawReviewCandidate,
   reviewRecordFor,
   reviewStatusFor,
+  legacyReviewStatusFor,
 } from '@/lib/courses/ldraw-review'
+
+import { createClient } from '@/lib/supabase/server'
+import { AuthError, PermissionError, requireRole } from '@/lib/api/auth'
 
 export const runtime = 'nodejs'
 
@@ -26,14 +32,21 @@ export async function GET(request: NextRequest) {
 
       const result = await packLocalLdrawModel(sanitized, { forceFreshDependencies: true })
       const records = await getLdrawReviewRecords()
-      const reviewStatus = reviewStatusFor(sanitized, records, result.revision)
+      const record = reviewRecordFor(sanitized, records)
+      const frozen = result.revision !== record?.revision
+        ? await readFrozenConfirmedLdrawModel(sanitized, record)
+        : null
+      const reviewStatus = reviewStatusFor(sanitized, records, result.revision, frozen?.revision)
       return NextResponse.json(
         {
           modelName: sanitized.replace(/\.ldr$/, ''),
           fileName: sanitized,
-          ...result,
+          ...(frozen ?? result),
+          productionProtected: Boolean(record && isProductionProtected(sanitized)),
+          servedFrozenConfirmed: frozen !== null,
           reviewStatus,
-          confirmedAt: reviewStatus === 'confirmed' ? reviewRecordFor(sanitized, records)?.confirmedAt ?? null : null,
+          legacyReviewStatus: legacyReviewStatusFor(reviewStatus),
+          confirmedAt: record?.confirmedAt ?? null,
           canConfirm: process.env.NODE_ENV !== 'production' && reviewStatus !== 'confirmed' && isLdrawReviewCandidate(sanitized) && result.missingParts.length === 0,
         },
         {
@@ -44,11 +57,13 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const models = await listAllLdrawModels()
+    const records = await getLdrawReviewRecords()
+    const models = await listAllLdrawModels(records)
     return NextResponse.json(
       {
         models,
         total: models.length,
+        reviewRecordCount: Object.keys(records).length,
       },
       {
         headers: {
@@ -65,17 +80,39 @@ export async function GET(request: NextRequest) {
   }
 }
 
-function canWriteReview(request: NextRequest): boolean {
-  if (process.env.NODE_ENV === 'production') return false
+function isLoopbackHost(hostname: string): boolean {
+  return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]' || hostname === '::1'
+}
+
+function configuredConfirmOrigins(): string[] {
+  return (process.env.LDRAW_CONFIRM_ALLOWED_ORIGINS ?? '')
+    .split(',')
+    .map((item) => item.trim().replace(/\/+$/, ''))
+    .filter(Boolean)
+}
+
+/**
+ * 判断确认请求来源：
+ * - 'local'：本机同源请求（原有行为，无需登录）
+ * - 'remote'：LDRAW_CONFIRM_ALLOWED_ORIGINS 中配置的来源（如 https://dev.steamx.cc），必须是管理员
+ * - null：拒绝。生产环境（NODE_ENV=production）一律拒绝，与原有行为一致。
+ */
+function confirmOriginKind(request: NextRequest): 'local' | 'remote' | null {
+  if (process.env.NODE_ENV === 'production') return null
   const origin = request.headers.get('origin')
-  if (!origin) return false
+  if (!origin) return null
   try {
     const originUrl = new URL(origin)
     const requestUrl = new URL(request.url)
-    const loopback = originUrl.hostname === 'localhost' || originUrl.hostname === '127.0.0.1' || originUrl.hostname === '[::1]' || originUrl.hostname === '::1'
-    return loopback && originUrl.protocol === requestUrl.protocol && originUrl.host === requestUrl.host
+    if (isLoopbackHost(originUrl.hostname) && originUrl.protocol === requestUrl.protocol && originUrl.host === requestUrl.host) {
+      return 'local'
+    }
+    if (originUrl.protocol === 'https:' && configuredConfirmOrigins().includes(originUrl.origin)) {
+      return 'remote'
+    }
+    return null
   } catch {
-    return false
+    return null
   }
 }
 
@@ -103,8 +140,23 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
-  if (!canWriteReview(request)) {
-    return NextResponse.json({ error: '仅允许本地开发环境确认模型' }, { status: 403 })
+  const originKind = confirmOriginKind(request)
+  if (!originKind) {
+    return NextResponse.json({ error: '仅允许开发环境确认模型' }, { status: 403 })
+  }
+  if (originKind === 'remote') {
+    try {
+      const supabase = await createClient()
+      await requireRole(supabase, ['admin'])
+    } catch (error) {
+      if (error instanceof AuthError) {
+        return NextResponse.json({ error: '请先登录管理员账号再确认模型', code: 'LDRAW_CONFIRM_LOGIN_REQUIRED' }, { status: 401 })
+      }
+      if (error instanceof PermissionError) {
+        return NextResponse.json({ error: '只有管理员账号可以确认模型', code: 'LDRAW_CONFIRM_ADMIN_REQUIRED' }, { status: 403 })
+      }
+      return NextResponse.json({ error: '校验管理员身份失败' }, { status: 500 })
+    }
   }
 
   try {
@@ -127,7 +179,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const record = await confirmLdrawModel(model, current.revision)
-    return NextResponse.json({ model, revision: current.revision, reviewStatus: 'confirmed', confirmedAt: record.confirmedAt })
+    return NextResponse.json({ model, revision: current.revision, reviewStatus: 'confirmed', legacyReviewStatus: 'confirmed', confirmedAt: record.confirmedAt, reviewRecordCount: Object.keys(await getLdrawReviewRecords()).length })
   } catch (error) {
     const err = error as Error
     return NextResponse.json({ error: err.message || '确认模型失败' }, { status: 500 })

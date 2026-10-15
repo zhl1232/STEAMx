@@ -7,6 +7,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+const PROTECTED_SLUGS = new Set(JSON.parse(readFileSync(path.join(ROOT, 'scripts/ldraw-production-protected.json'), 'utf8')).models)
 const MODEL_DIR = path.join(ROOT, 'public/courses/ldraw')
 const REVIEW_DIR = path.join(ROOT, 'scripts/ldraw-reviews')
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
@@ -63,6 +64,7 @@ export async function makePlan({ modelDir = MODEL_DIR, reviewDir = REVIEW_DIR, o
   if (typeof only === 'string') only = only.split(',').map((slug) => slug.trim())
   const names = (await readdir(modelDir)).filter((name) => name.endsWith('.mpd') && !/-[a-f0-9]{64}\.mpd$/i.test(name))
   const slugs = (only ? only : names.map((name) => name.slice(0, -4)).filter((slug) => slug.startsWith(prefix))).slice().sort()
+  const skipped = []
   const errors = []
   if (!assetsBaseUrl) errors.push('NEXT_PUBLIC_ASSETS_BASE_URL is required')
   else {
@@ -76,6 +78,11 @@ export async function makePlan({ modelDir = MODEL_DIR, reviewDir = REVIEW_DIR, o
   if (!existsSync(configPath)) errors.push('LDConfig.ldr missing')
   const items = []
   for (const slug of slugs) {
+    if (PROTECTED_SLUGS.has(slug)) {
+      console.info(`${slug}: 跳过（线上已确认，受保护）`)
+      skipped.push(slug)
+      continue
+    }
     if (!SLUG_RE.test(slug)) { errors.push(`${slug}: invalid slug`); continue }
     const modelPath = path.join(modelDir, `${slug}.mpd`)
     if (!existsSync(modelPath)) { errors.push(`${slug}: canonical MPD missing`); continue }
@@ -93,7 +100,7 @@ export async function makePlan({ modelDir = MODEL_DIR, reviewDir = REVIEW_DIR, o
     const filename = `${slug}-${hash}.mpd`
     items.push({ slug, revision: hash, filename, objectKey: `${OSS_PREFIX}${filename}`, modelURL: urlFor(assetsBaseUrl, filename), body })
   }
-  if (items.length === 0 && errors.length === 0) errors.push('No canonical MPD matched selector')
+  if (items.length === 0 && skipped.length === 0 && errors.length === 0) errors.push('No canonical MPD matched selector')
   let color
   if (existsSync(configPath)) {
     const body = await readFile(configPath)
@@ -102,7 +109,7 @@ export async function makePlan({ modelDir = MODEL_DIR, reviewDir = REVIEW_DIR, o
     color = { revision, filename, objectKey: `${OSS_PREFIX}${filename}`, URL: urlFor(assetsBaseUrl, filename), body }
   }
   if (errors.length) throw Object.assign(new Error(`Preflight failed:\n${errors.join('\n')}`), { errors })
-  return { items, color, assetsBaseUrl, errors: [] }
+  return { items, color: items.length ? color : undefined, assetsBaseUrl, errors: [], skipped }
 }
 
 async function objectHash(client, key) {
@@ -136,7 +143,9 @@ export async function publishPlan(plan, { client, onProgress = async () => {} })
   const results = []
   try {
     if (plan.color) { const status = await putImmutable(client, plan.color); results.push({ filename: plan.color.filename, revision: plan.color.revision, colorURL: plan.color.URL, status }); await onProgress(results) }
-    for (const item of plan.items) { const status = await putImmutable(client, item); results.push({ slug: item.slug, revision: item.revision, modelURL: item.modelURL, colorURL: plan.color?.URL ?? null, status }); await onProgress(results) }
+    for (const item of plan.items) {
+      if (PROTECTED_SLUGS.has(item.slug)) { console.info(`${item.slug}: 跳过（线上已确认，受保护）`); continue }
+      const status = await putImmutable(client, item); results.push({ slug: item.slug, revision: item.revision, modelURL: item.modelURL, colorURL: plan.color?.URL ?? null, status }); await onProgress(results) }
   } catch (error) { error.partial = results; throw error }
   return results
 }

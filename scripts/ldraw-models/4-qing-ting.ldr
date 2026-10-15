@@ -1,42 +1,58 @@
-0 4+ 蜻蜓 (Dragonfly) - DUPLO draft for manual repair
+0 4-qing-ting - source-page reconstruction, dev-only draft
 0 Name: 4-qing-ting.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+蜻蜓 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Technic wings, legs and pins are replaced with coarse DUPLO tubes and plates.
-
-0 // STEP 1 - segmented body
-1 0 -160 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 8 0 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 160 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -280 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 280 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STATUS: INCOMPLETE - source-based draft, pending rendered comparison and mechanical interface review.
+0 // No user confirmation, physical validation or publication is claimed.
+0 // Known Toolo IDs use previously approved LOCAL SIMPLIFIED GEOMETRY; dimensions/threads/pivots remain approximate.
+0 // Source: 9 original instruction images; source steps and hashes recorded in preparation/4-qing-ting/ledger.json.
+0 // Inventory per set/colour unknown. Do not infer required parts from the replaced old approximation.
+0 // STEP 1 - p1: three black 4x6 Toolo bricks; two lower bricks and centred upper bridge
+1 0 -120 0 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 120 0 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -48 0 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
-
-0 // STEP 2 - head and tail
-1 0 -420 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 15 -420 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 340 -72 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 8 460 -72 0 0 0 1 0 1 0 -1 0 0 31452.dat
+0 // STEP 2 - p2: head fork base and clutch block
+1 72 200 -48 0 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 248 -173 0 0 0 1 0 1 0 -1 0 0 74957.dat
 0 STEP
-
-0 // STEP 3 - four long wings
-1 8 -120 -96 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 8 160 -96 -140 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 8 -120 -96 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 8 160 -96 140 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 7 -260 -160 -220 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 7 220 -160 -240 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 7 -260 -160 220 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 7 220 -160 240 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // STEP 3 - p3: two grey wheel rims and black tyres used as eyes
+1 71 248 -149 -64 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 248 -149 -64 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 248 -149 64 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 248 -149 64 1 0 0 0 0 -1 0 1 0 44970.dat
 0 STEP
-
-0 // STEP 4 - legs and eye spots
-1 0 -80 -72 -100 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 0 80 -72 -100 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 0 -80 -72 100 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 0 80 -72 100 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 14 -440 -192 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 -440 -192 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // STEP 4 - p4: tail fork base and long double-screw arm
+1 72 -200 -48 0 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -648 -113 0 0 1 0 -1 0 0 0 0 1 dev-129/28331.dat
+0 STEP
+0 // STEP 5 - p5: three far-side downward fork legs
+1 72 -160 24 128 1 0 0 0 0 1 0 -1 0 28336.dat
+1 72 0 24 128 1 0 0 0 0 1 0 -1 0 28336.dat
+1 72 160 24 128 1 0 0 0 0 1 0 -1 0 28336.dat
+0 STEP
+0 // STEP 6 - p6: three near-side downward fork legs
+1 72 -160 24 -128 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 0 24 -128 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 160 24 -128 -1 0 0 0 0 1 0 1 0 28336.dat
+0 STEP
+0 // STEP 7 - p7: four wing fork bases and one yellow 2x4 plate
+1 72 -40 -96 -40 -1 0 0 0 1 0 0 0 -1 28336.dat
+1 72 -40 -96 40 1 0 0 0 1 0 0 0 1 28336.dat
+1 72 40 -96 -40 -1 0 0 0 1 0 0 0 -1 28336.dat
+1 72 40 -96 40 1 0 0 0 1 0 0 0 1 28336.dat
+1 14 0 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // STEP 8 - p8: four long double-screw wing arms
+0 // night4: rear+25 front-10 milder asym
+1 72 -40 -292.905255609 -462.264683339 0 0 -1 -0.906307787 0.422618262 0 0.422618262 0.906307787 0 dev-129/28331.dat
+1 72 -40 -292.905255609 462.264683339 0 0 1 -0.906307787 0.422618262 0 -0.422618262 -0.906307787 0 dev-129/28331.dat
+1 72 40 -15.094270397 -498.839193399 0 0 -1 -0.984807753 -0.173648178 0 -0.173648178 0.984807753 0 dev-129/28331.dat
+1 72 40 -15.094270397 498.839193399 0 0 1 -0.984807753 -0.173648178 0 0.173648178 -0.984807753 0 dev-129/28331.dat
+0 // PENDING: All 12 fork-base interfaces use approximate 28336 geometry; source-backed intended attachments are not certified mechanical fits.
+0 // PENDING: dev-129/28331 arm geometry uses nominal2x11 length440, middle axle220 and hook400 from official photo/catalog; nonuniform segment reconstruction remains approximate, not measured fit.
+0 // PENDING: Rear wings15deg up/front wings15deg up are inferred from p8/9 silhouette and root clearance, not angle dimensions printed in source.
+0 // PENDING: Leg-ground contact and head clutch pin engagement require rendered/mesh inspection; raw checker manual policies cannot prove support.
+0 // Source page 9 is the finished view; no additional placement duplicated.
+0 // ok-batch4 p5..9: near leg forks turned down around side mounting axis; front wing pair raised25deg about unchanged fork pivots to clear yellow back plate. Angles inferred.

@@ -1,0 +1,67 @@
+{
+  "slug": "5-tuo-yuan-ji",
+  "sourceSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+  "checker": {
+    "exitCode": 0,
+    "rawLog": "raw-check.txt",
+    "rawSha256": "5680ba9a7dffcd365e223cda6d7408824ea2767b428180abd4246aad3e6f354d",
+    "placements": 45,
+    "reportedPairCount": 0,
+    "checkerSha256": "76838d6085b0e18f7fcec2e98eee9f2169a0637627f1a080b23b57a4937c5b10"
+  },
+  "rawPairs": [],
+  "alarms": [
+    {
+      "key": "source-bond",
+      "classification": "source-supported",
+      "evidence": "6490 green8x16 plate, tall six3011 courses plus75349 atX-200 and short threecourses plus75349 atX200, nominal shaftsY-312/-168. Sourcep3 single2302b blue cap rotatedE over3of4topstud columns. No reuse of old draft."
+    },
+    {
+      "key": "drive-stack",
+      "classification": "source-supported-with-axial-risk",
+      "evidence": "p4 grey6522 Z-axis span+/-120,6530 gearsZ+/-60 and6526 cranksZ+/-100. Local crank normal points outward, eccentric80LDU pins use opposite high/low phasesY-248/-88. Gear teeth have no mating gear in this source, no gear engagement claim."
+    },
+    {
+      "key": "handle-stack",
+      "classification": "source-supported",
+      "evidence": "p5 green6521 axle length320 holds inner6527 centresZ+/-60,11beams atZ+/-100 and outer6527 atZ+/-140. Each beam pivots at centrehole with lower extreme200LDU away. Base coordinates/pitch and proper matrices retained."
+    },
+    {
+      "key": "four-bar-solution",
+      "classification": "explicit-pose-inference",
+      "evidence": "joint-solution.json binds current source. Lower handle pin is intersection of radius200 about(-200,-312) and radius440 about its crank pin(200,-248/-88); choose lower branch. Result pins(-218.739227,-112.879832) and(-239.116925,-115.862634). Nominal200and440 distances close exactly. This is a reasonable source-like crank phase/pose inference, not validation of the complete swept mechanism."
+    },
+    {
+      "key": "pedal-bond",
+      "classification": "source-supported-with-hidden-layout-inference",
+      "evidence": "Each pedal comprises co-planar75350 longbrick and75349 shortbrick,14stud total. Joint atlocalX-200 cross-bonded by blue40666 above/below atX-200; yellow40666 pair atX120. Lower handle shaft throughshortcentreX-280 andcrank pin throughlongholeX160 yield440span. All source6parts per side retained. Source visible layered caps support this arrangement; exact hidden bond inferred."
+    },
+    {
+      "key": "crank-pin-retention",
+      "classification": "evidence-insufficient",
+      "evidence": "Pedal planesZ+/-160, body spansabsZ120..200. 6526 eccentric pins reachabsZ120..160, only40LDU nominal insertion into80LDUbrickdepth; sufficient grip is not proved. Lower axle centresabsZ160 span40..280 withinnerwheel60,beam100,pedal160 andouterwheels220/260. No axial stack collision inferred from bbox alone; retention/shaftholes require physical check."
+    },
+    {
+      "key": "validation",
+      "classification": "evidence-insufficient",
+      "evidence": "Raw checker exit0 does not prove exercise-machine operation, clearance throughout cycle, load stability or shaft retention. Static source-like pose only; no Studio/physical testing. Await final3 and all10 cumulative-step pixel inspection."
+    }
+  ],
+  "matrix": {
+    "count": 45,
+    "allProperRigidRotations": true,
+    "maxError": 7.793721223947614e-11
+  },
+  "conclusion": "Unresolved source/assembly risks remain; checker and matrix results are not physical acceptance.",
+  "accepted": false,
+  "physicalValidation": false,
+  "currentPixelReview": {
+    "file": "current-pixel-review.json",
+    "revision": "6a5858c3d71d57bf202cae7e70d79c072bd54362d9cce8330f486674f3f11f9b",
+    "sourceSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+    "finalViewsObserved": 3,
+    "cumulativeStepsObserved": 10,
+    "observationCoverageOnly": true,
+    "assemblyPass": false
+  }
+}

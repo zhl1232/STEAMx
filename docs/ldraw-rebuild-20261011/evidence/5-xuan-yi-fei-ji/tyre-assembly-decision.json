@@ -1,0 +1,22 @@
+{
+  "slug": "5-xuan-yi-fei-ji",
+  "sourceSha256": "04f09ef6131abe867fd52caecb06a89ff01838d3c97c2717b2aaadd8a2de92bf",
+  "candidateSha256": "bf1de3fc45dacd6939050c5479d1d82ae83331b3afd22c511441adf24c115c70",
+  "sourcePageActuallyViewed": "D:/Codex-task-2-20261011/inputs/pdfbatch2/5-xuan-yi-fei-ji/page-01.jpg",
+  "sourceSupport": "Source shows2 pulleys per tyre, common axle, outer wheel silhouette. Hidden tyre cavity and axle seating depth are not shown; exact axial locations cannot be uniquely derived.",
+  "currentInnerPairsStrictCrossings": 197,
+  "candidateInnerPairsStrictCrossings": 52,
+  "outerPairsStrictCrossings": 0,
+  "zeroMeaning": "Does not test coplanar contact or containment; not collision clearance or physical fit.",
+  "candidateOnlyChanges": "Outer6527 centres+/-120 to+/-100 and tyre centres+/-90 to+/-100; inner6527 at+/-60 unchanged. Source orientations unchanged. Derived from nominal asymmetric interfaces, not copied as verified source dimensions.",
+  "decision": "Do not apply candidate. Evidence does not establish exact source axial depth, and candidate still has strict surface intersections. Current source remains unchanged and INCOMPLETE.",
+  "oldExemption": "The former uniform42.183LDU inner cavity radius and1.183LDU clearance are invalid and revoked.",
+  "evidenceFiles": [
+    "tyre-current-profile.json",
+    "tyre-current-triangles.json",
+    "tyre-candidate.ldr",
+    "tyre-candidate-profile.json",
+    "tyre-candidate-triangles.json"
+  ],
+  "physicalValidation": false
+}

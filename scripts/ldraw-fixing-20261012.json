@@ -1,0 +1,479 @@
+{
+  "note": "2026-10-12 课件对照审计后从待确认撤出，正在修复。修好后放回 LDRAW_REVIEW_CANDIDATES。跳过 4-chun-jie-wu-shi / 4-da-long-xia（另有同事在改）。不覆盖 scripts/ldraw-production-protected.json 中的 63 个。",
+  "source": "/workspace/pending-audit-20261012/",
+  "status": "fixing",
+  "models": [
+    {
+      "slug": "4-da-xiang",
+      "class": "clearly_wrong",
+      "reason": "缺象鼻和蓝色装饰件（课件有）；身侧颜色也偏黑，Toolo 机翼/尾翼已知省略但主体仍明显不对",
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
+    },
+    {
+      "slug": "4-ju-ji-qiang",
+      "class": "clearly_wrong",
+      "reason": "枪管前段约一半缺失，枪口准星不见，整体轮廓明显变短",
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
+    },
+    {
+      "slug": "4-ke-ji",
+      "class": "clearly_wrong",
+      "reason": "飞机颜色偏黑、朝向相反，塔体比例也与课件差一截",
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
+    },
+    {
+      "slug": "4-sai-che",
+      "class": "clearly_wrong",
+      "reason": "中段车身/轮组与课件差很多，后翼等关键部位缺失或不完整（含已知省略的排气管/尾翼）",
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
+    },
+    {
+      "slug": "4-tuo-gua-che",
+      "class": "clearly_wrong",
+      "reason": "拖车围栏整块缺失，驾驶室颜色/细节也与课件不符",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "后墙与侧柱接合未解；围栏本已存在，驾驶室排气/人仔仍缺"
+    },
+    {
+      "slug": "4-wa-li",
+      "class": "clearly_wrong",
+      "reason": "胸前蓝色圆件缺失；橙色手爪件型不对（扁片而非挖斗）",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "挖斗无匹配几何；已移除错误弧壳替代；蓝圆门本已存在"
+    },
+    {
+      "slug": "4-xiang-wei-she",
+      "class": "clearly_wrong",
+      "reason": "尾段堆了多余黄砖块，头部姿态与课件不一致，另有散件感",
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
+    },
+    {
+      "slug": "4-ya-lu-ji",
+      "class": "clearly_wrong",
+      "reason": "前端蓝色滚筒总成整段缺失",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "蓝色滚筒无确认件号/几何"
+    },
+    {
+      "slug": "4-yi-long",
+      "class": "clearly_wrong",
+      "reason": "黄色翼面与头部彩色细节缺失，剪影明显不完整（含已知省略 Toolo 翼/尾）",
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
+    },
+    {
+      "slug": "4-you-wen",
+      "class": "clearly_wrong",
+      "reason": "抽油机顶部横梁/锤头机构缺失大半",
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
+    },
+    {
+      "slug": "4-zhi-zhu",
+      "class": "clearly_wrong",
+      "reason": "身色偏黑橙而非课件黄黑，前部灰杆眼睛缺失，腿结构也不同",
+      "uncertain": null,
+      "fixStatus": "fixed-batch2",
+      "returnedToPending": true
+    },
+    {
+      "slug": "4-zhong-guo-long",
+      "class": "clearly_wrong",
+      "reason": "几乎整模发灰/缺色，骑手人仔缺失（含已知省略翼件）",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "蓝色 Toolo 头翼与前脚齿刃仍无可靠几何"
+    },
+    {
+      "slug": "5-ce-feng-yi",
+      "class": "clearly_wrong",
+      "reason": "底座高度与课件差很多，整体明显偏矮偏简",
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-ce-ju-yi",
+      "class": "clearly_wrong",
+      "reason": "红色舱体与前端绿色大轮缺失，只剩细长平台",
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-da-zhuang-ji",
+      "class": "clearly_wrong",
+      "reason": "吊臂朝向/装配与课件相反或明显不同，臂长也不对",
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-fan-chuan",
+      "class": "clearly_wrong",
+      "reason": "前桅帆缺失，船体舱室布局也与课件不一致",
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-huan-wei-che",
+      "class": "clearly_wrong",
+      "reason": "黄斗侧板缺失，露出内部红结构",
+      "uncertain": null,
+      "fixStatus": "fixed-batch1",
+      "returnedToPending": true
+    },
+    {
+      "slug": "5-qing-ting",
+      "class": "clearly_wrong",
+      "reason": "（初看像缺翅膀）实核为整体相对课件翻转约180°；翅膀与底座齐全但朝向反了",
+      "uncertain": "零件齐全，主要是朝向反了；若只关心零件可降为 minor",
+      "fixStatus": "fixed-batch1",
+      "returnedToPending": true
+    },
+    {
+      "slug": "5-shou-tui-fei-ji",
+      "class": "clearly_wrong",
+      "reason": "整机竖放而非平放，螺旋桨叶片尺寸/颜色也明显不对",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "细长旋翼无匹配几何；底盘本水平，视角已调整"
+    },
+    {
+      "slug": "5-tui-tu-ji",
+      "class": "clearly_wrong",
+      "reason": "有零件悬浮/未装上，装配状态不对",
+      "uncertain": null,
+      "fixStatus": "fixed-batch1",
+      "returnedToPending": true
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "class": "clearly_wrong",
+      "reason": "上部翼臂比例与课件差很多，结构不像同一成品",
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-yu-shua-qi",
+      "class": "clearly_wrong",
+      "reason": "雨刷杆大幅后倾，姿态与课件竖直朝向不符",
+      "uncertain": null,
+      "fixStatus": "fixed-batch1",
+      "returnedToPending": true
+    },
+    {
+      "slug": "5-zha-lan-sheng-jiang-gan",
+      "class": "clearly_wrong",
+      "reason": "栏杆呈竖直而非课件水平；橙色小车缺失",
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-zhan-chi-gao-fei",
+      "class": "clearly_wrong",
+      "reason": "翅膀平展而非课件高举 V 形，躯干姿态也不对",
+      "uncertain": null,
+      "fixStatus": "fixed-batch1",
+      "returnedToPending": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "class": "clearly_wrong",
+      "reason": "尾旋翼叶片缺失；机身侧面多了一颗课件没有的大黄齿轮",
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-zhu-ge-lian-nu",
+      "class": "clearly_wrong",
+      "reason": "中央红色料斗方向转了90°，支腿尖端蓝色细节也缺",
+      "uncertain": null,
+      "fixStatus": "fixed-batch1",
+      "returnedToPending": true
+    },
+    {
+      "slug": "5-zhuan-wan-xiao-che",
+      "class": "clearly_wrong",
+      "reason": "缺小人仔、前部转向齿轮组和中部蜗杆等关键机构，后栏也不完整",
+      "uncertain": null,
+      "fixStatus": "fixed-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-diao-che",
+      "class": "minor",
+      "reason": "吊臂姿态/路障细节与课件略有差别",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "路障接缝已改但吊臂姿态/吊钩仍未证实"
+    },
+    {
+      "slug": "4-du-jiao-xian",
+      "class": "minor",
+      "reason": "翅膀偏小，整体比例略缩",
+      "uncertain": null,
+      "fixStatus": "fixed-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-kuai-ting",
+      "class": "minor",
+      "reason": "水面底板尺寸与花纹不同",
+      "uncertain": null,
+      "fixStatus": "fixed-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-mo-tian-lun",
+      "class": "minor",
+      "reason": "吊厢缺白窗格等细节，整体偏暗",
+      "uncertain": "主要是吊厢细节，整体轮廓接近",
+      "fixStatus": "unfixed-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "吊厢仅一半窗框；第二组座位朝向无法可靠确定"
+    },
+    {
+      "slug": "4-shou-ge-ji",
+      "class": "minor",
+      "reason": "颜色偏灰暗，收割刀盘表现不清（含已知省略排气管）",
+      "uncertain": "渲染偏暗，可能放大了颜色问题；建议在 dev 再看一眼",
+      "fixStatus": "unfixed-batch5",
+      "returnedToPending": false,
+      "unfixedReason": "刀盘无几何；颜色非 LDR 色号错误"
+    },
+    {
+      "slug": "4-tang-lang",
+      "class": "minor",
+      "reason": "整体偏灰，绿色不明显（含已知省略排气管）",
+      "uncertain": "渲染偏暗，可能放大了颜色问题",
+      "fixStatus": "unfixed-batch5",
+      "returnedToPending": false,
+      "unfixedReason": "绿色已在；排气管仍缺几何"
+    },
+    {
+      "slug": "4-tui-tu-ji",
+      "class": "minor",
+      "reason": "推土铲颜色偏灰而非橙色",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch5",
+      "returnedToPending": false,
+      "unfixedReason": "橙色铲刀仍缺身份/几何"
+    },
+    {
+      "slug": "4-wu-ren-ji",
+      "class": "minor",
+      "reason": "四片旋翼与前置镜头缺失（已知缺旋翼几何）；臂架也偏简",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch5",
+      "returnedToPending": false,
+      "unfixedReason": "镜头本已在；四片旋翼仍缺几何"
+    },
+    {
+      "slug": "4-xiao-tu-zi",
+      "class": "minor",
+      "reason": "耳朵直立而非后仰，胡萝卜未贴近前爪",
+      "uncertain": null,
+      "fixStatus": "fixed-batch5",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-xie-zi",
+      "class": "minor",
+      "reason": "钳爪朝向与刺尾细节略差",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch5",
+      "returnedToPending": false,
+      "unfixedReason": "尾姿已改善；钳爪朝向与尾钩仍未修好"
+    },
+    {
+      "slug": "4-xuan-zhuan-fei-ji",
+      "class": "minor",
+      "reason": "已知缺机翼/尾翼类件，其余主体大致像",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch5",
+      "returnedToPending": false,
+      "unfixedReason": "机翼/尾翼缺几何"
+    },
+    {
+      "slug": "5-mian-bao-ji",
+      "class": "minor",
+      "reason": "吐司顶端小凸起细节缺失",
+      "uncertain": null,
+      "fixStatus": "fixed-batch5",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-nian-yao-ren-zai",
+      "class": "minor",
+      "reason": "底座红块缺失",
+      "uncertain": null,
+      "fixStatus": "fixed-batch5",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-ping-heng-da-shi",
+      "class": "minor",
+      "reason": "头顶黄圆件缺失/变成红平片",
+      "uncertain": null,
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-qi-dian-chuan",
+      "class": "minor",
+      "reason": "前端米色圆顶缺失",
+      "uncertain": null,
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-qing-sao-che",
+      "class": "minor",
+      "reason": "前端米色圆顶缺失",
+      "uncertain": null,
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-re-qi-qiu",
+      "class": "minor",
+      "reason": "气球与吊篮之间连接杆/绳缺失（绳线示意可能未跟上）",
+      "uncertain": "绳线是否已按方案 C 更新需对照当前 dev",
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-ren-li-shui-che",
+      "class": "minor",
+      "reason": "视角接近侧翻，立柱表现不清",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch6",
+      "returnedToPending": false,
+      "unfixedReason": "已转 90° 仍与终页轮廓/遮挡不完全吻合"
+    },
+    {
+      "slug": "5-san-lun-che",
+      "class": "minor",
+      "reason": "前转向柱偏细/缺件感",
+      "uncertain": null,
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-sheng-jiang-dian-ti",
+      "class": "minor",
+      "reason": "顶部蓝拱与部分红色装饰缺失",
+      "uncertain": null,
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-shou-yao-zuan-zi",
+      "class": "minor",
+      "reason": "整体左右镜像感（朝向相反）",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch6",
+      "returnedToPending": false,
+      "unfixedReason": "已转 180° 钻头朝右，但摇柄侧与课件仍不符"
+    },
+    {
+      "slug": "5-tuo-gua-che",
+      "class": "minor",
+      "reason": "视角接近镜像，主体结构大致在",
+      "uncertain": null,
+      "fixStatus": "fixed-batch6",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-tuo-yuan-ji",
+      "class": "minor",
+      "reason": "整体旋转约180°",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch7",
+      "returnedToPending": false,
+      "unfixedReason": "试转180°反而更差已撤回；连杆相位/踏板倾角仍不完全一致"
+    },
+    {
+      "slug": "5-xiao-huo-che",
+      "class": "minor",
+      "reason": "视角偏后，后部颜色略暗",
+      "uncertain": null,
+      "fixStatus": "fixed-batch7",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-xuan-yi-fei-ji",
+      "class": "minor",
+      "reason": "整机水平旋转约90°",
+      "uncertain": null,
+      "fixStatus": "fixed-batch7",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-xuan-zhuan-deng-long",
+      "class": "minor",
+      "reason": "长臂朝向与课件不一致",
+      "uncertain": null,
+      "fixStatus": "fixed-batch7",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-zhe-die-ti",
+      "class": "minor",
+      "reason": "主体梯子正确，仅缺两腿间细黑拉线",
+      "uncertain": null,
+      "fixStatus": "unfixed-batch7",
+      "returnedToPending": false,
+      "unfixedReason": "已有细示意线但仍淡；清晰黑绳实体未恢复"
+    }
+  ]
+}

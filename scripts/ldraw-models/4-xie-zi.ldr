@@ -1,38 +1,89 @@
-0 4+ 蝎子 (Scorpion) - DUPLO draft for manual repair
+0 4-xie-zi - source-based dev-only reconstruction
 0 Name: 4-xie-zi.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+蝎子 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Legs, claws, segmented tail and curved stinger are simplified.
-
-0 // STEP 1 - black body and red back
-1 0 -120 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 40 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 200 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -80 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 80 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: seven transverse black Toolo bricks, four lower and three crossing seams
+1 0 -240 0 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -80 0 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 80 0 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 240 0 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -160 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 160 -48 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 2 - side legs
-1 0 -260 -48 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 0 -48 -140 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 260 -48 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 -260 -48 260 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 0 0 -48 280 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 0 260 -48 260 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+0 // Source page 2: two forward side-built fork mouthparts
+1 72 368 24 -40 0 -1 0 -1 0 0 0 0 -1 28336.dat
+1 72 368 24 40 0 -1 0 1 0 0 0 0 1 28336.dat
 0 STEP
-
-0 // STEP 3 - orange claws
-1 8 -320 -96 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 8 -320 -96 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 25 -460 -144 -160 0.866 0.500 0 -0.500 0.866 0 0 0 1 2302.dat
-1 25 -460 -144 160 0.866 -0.500 0 0.500 0.866 0 0 0 1 2302.dat
+0 // Source page 3: three grey Toolo bricks form head; two bare rims are eyes
+1 72 280 -48 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 72 240 -96 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 72 320 -96 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 71 384 -72 -40 0 -1 0 1 0 0 0 0 1 99565.dat
+1 71 384 -72 40 0 -1 0 1 0 0 0 0 1 99565.dat
 0 STEP
-
-0 // STEP 4 - raised tail and stinger
-1 0 260 -144 40 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 0 320 -240 220 1 0 0 0 0 -1 0 1 0 31452.dat
-1 0 120 -344 220 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 8 160 -416 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 4: eight side forks: six leg brackets and two forward claw brackets
+1 72 -240 24 -168 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 -240 24 168 -1 0 0 0 0 -1 0 -1 0 28336.dat
+1 72 -80 24 -168 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 -80 24 168 -1 0 0 0 0 -1 0 -1 0 28336.dat
+1 72 80 24 -168 -1 0 0 0 0 1 0 1 0 28336.dat
+1 72 80 24 168 -1 0 0 0 0 -1 0 -1 0 28336.dat
+1 72 240 24 -168 0 0 1 1 0 0 0 1 0 28336.dat
+1 72 240 24 168 0 0 1 -1 0 0 0 -1 0 28336.dat
+0 STEP
+0 // Source page 5: six short arms form downward walking legs
+1 72 -240 117.421356 -374.421356 0 0 -1 -0.707107 -0.707107 0 -0.707107 0.707107 0 dev-129/28334.dat
+1 72 -240 117.421356 374.421356 0 0 1 -0.707107 -0.707107 0 0.707107 -0.707107 0 dev-129/28334.dat
+1 72 -80 117.421356 -374.421356 0 0 -1 -0.707107 -0.707107 0 -0.707107 0.707107 0 dev-129/28334.dat
+1 72 -80 117.421356 374.421356 0 0 1 -0.707107 -0.707107 0 0.707107 -0.707107 0 dev-129/28334.dat
+1 72 80 117.421356 -374.421356 0 0 -1 -0.707107 -0.707107 0 -0.707107 0.707107 0 dev-129/28334.dat
+1 72 80 117.421356 374.421356 0 0 1 -0.707107 -0.707107 0 0.707107 -0.707107 0 dev-129/28334.dat
+0 STEP
+0 // Source page 6: two forward short forearms and two clutch blocks
+1 72 488 24 -233 0 -1 0 0 0 -1 1 0 0 dev-129/28334.dat
+1 72 548 24 -233 0 -1 0 1 0 0 0 0 1 74957.dat
+1 72 488 24 233 0 -1 0 0 0 1 -1 0 0 dev-129/28334.dat
+1 72 548 24 233 0 -1 0 1 0 0 0 0 1 74957.dat
+0 STEP
+0 // Source page 7: four fork bases make two opposed pincer pairs
+1 72 596 24 -273 0 -1 0 -1 0 0 0 0 -1 28336.dat
+1 72 596 24 -193 0 -1 0 1 0 0 0 0 1 28336.dat
+1 72 596 24 193 0 -1 0 -1 0 0 0 0 -1 28336.dat
+1 72 596 24 273 0 -1 0 1 0 0 0 0 1 28336.dat
+0 STEP
+0 // Source page 8: four orange Toolo scoops form pincer shells
+1 25 661 24 -321 0 1 0 1 0 0 0 0 -1 dev-129/6294.dat
+1 25 661 24 -145 0 1 0 -1 0 0 0 0 1 dev-129/6294.dat
+1 25 661 24 145 0 1 0 1 0 0 0 0 -1 dev-129/6294.dat
+1 25 661 24 321 0 1 0 -1 0 0 0 0 1 dev-129/6294.dat
+0 STEP
+0 // Source page 9: rear fork base and first raised short tail arm
+1 72 -280 -48 0 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -428.000000000 -286.205080757 0 -0.866025404 0.500000000 0.000000000 0.500000000 0.866025404 0.000000000 0.000000000 0.000000000 -1.000000000 dev-129/28334.dat
+0 STEP
+0 // Source page 10: two curled tail short arms; terminal hook not yet identified
+1 72 -254.794919243 -386.205080757 0 -0.500000000 -0.866025404 0.000000000 -0.866025404 0.500000000 0.000000000 0.000000000 0.000000000 -1.000000000 dev-129/28334.dat
+1 72 -61.609753985 -334.441271736 0 0.258819045 -0.965925826 0.000000000 -0.965925826 -0.258819045 0.000000000 0.000000000 0.000000000 -1.000000000 dev-129/28334.dat
+0 STEP
+0 // Source page 11: ten red2x3 curved bricks cover body in five opposing pairs
+1 4 -160 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 4 -160 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 4 -80 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 4 -80 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 4 0 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 4 0 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 4 80 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 4 80 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 4 160 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 4 160 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+0 // PENDING: Tail-end hook sourcep10 omitted pending confirmed ID and geometry.
+0 // PENDING: All Toolo pivots and scoop clamp fits remain source-inferred approximate geometry, not physical validation.
+0 // PENDING: Six leg angles45deg, horizontal claws and three tail segment angles are display poses inferred from source; central final/step pixel comparison required.
+0 // Source page 12: finished view, no duplicated placements.
+0 // Batch5 p9-10/p12: raised three-link curled tail, lower pivot fixed (-328,-113,0); adjacent 200LDU pivots coincide. Angles remain source-inferred.
+0 // Batch5 UNRESOLVED: terminal hook 6295 confirmed in existing source-identity research, licensed geometry unavailable; still omitted.
+0 // Batch5 UNRESOLVED: p8 scoop opening/clip pose cannot be certified from approved approximate 6294 geometry; do not invent or mirror shell geometry.

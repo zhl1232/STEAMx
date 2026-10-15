@@ -1,0 +1,119 @@
+{
+  "manifest": {
+    "name": "5+小火车搭建说明.pdf",
+    "relative_path": "5+/5+小火车搭建说明.pdf",
+    "pages": 17,
+    "bytes": 2825672,
+    "sha256": "2a2706ba910f056364bca47e58e62b2c664f86dea7d6a19f705de174ead45df8",
+    "source_url": "https://pan.quark.cn/list#/docpdf/3368d3333a8240018f4da1f28f523da3",
+    "slug": "5-xiao-huo-che",
+    "lesson_id": 303,
+    "course_id": 7
+  },
+  "hashVerified": true,
+  "currentModelSha256": "4af158358913e54f9c97876064aae79bebc9d88e4643e83910242605da308882",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-01.jpg",
+      "sha256": "2ed2493d541eec963c5a8ce036e9837ad0f13760991120dd8e0920059b94ef25",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-02.jpg",
+      "sha256": "42ebeb13c911c2608d679cfff8004f3f1177d9789bf66937316025178c20af32",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-03.jpg",
+      "sha256": "1266318dc2958fd4b00487cf8648f19ef5117c5d3836e56de96c2b6daf37dba3",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-04.jpg",
+      "sha256": "bf7ec47f92f15196ab6eed1a7a867b00119411fe7571477a8b092615b20a5d4e",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-05.jpg",
+      "sha256": "f1fdabbc1a6cb1e187c9d6f5d7366068493333c4e9ef8765795dc9013ae119b3",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-06.jpg",
+      "sha256": "2c5540a41347f278ef8a305df7eb58609c15269e7c5908d161214fb33c749bb5",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-07.jpg",
+      "sha256": "23cbeeefda2a1f5851a6aefa81fc3282c2bf88fec7f3ae3864b74a08c0c70b24",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-08.jpg",
+      "sha256": "5752331f79f6e0cc92604f0b1944a23f3540df38d3bdfc196cae8cfb1dc80a4c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-09.jpg",
+      "sha256": "8fb61ef38047827b45a680319a0c3c45022c09767ac393ba850bba3dc24f2607",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-10.jpg",
+      "sha256": "fe3b2030f17a56e1e6b1b69ede682b35040941d5322c5f891f29a08d89c439cc",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-11.jpg",
+      "sha256": "98d7d28739da628bd65ae83194cf4e5691bf6bfc4b2c23c449cea4121f6f4d7f",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-12.jpg",
+      "sha256": "b7fc0d926cee1c23a42e6400ade93e5ec615d32fe9b9d9dd6fe70587a8568706",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-13.jpg",
+      "sha256": "a140ee0a3a63e8f9a24b7c8005a2b99806a62b2682493f622c127d086f62450e",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-14.jpg",
+      "sha256": "6c2df509720ed3c3108e5a060df8479c4a2e7f587b39d9c111c5330adfa962da",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 15,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-15.jpg",
+      "sha256": "b3b9e0e7877fca3cdf95051707b56ccc8840bbc8bcc598eb017c906ca06b77a8",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 16,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-16.jpg",
+      "sha256": "9aeafbe8a88d01feb30dfb7a14129ff7f3e46d60a6952764f03edea4fa65744a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 17,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-xiao-huo-che\\page-17.jpg",
+      "sha256": "0fbdf8d34357f21312b7a792eec03bfabd98340d5f23c04a11c24405b87ecdb8",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "sourcePage": 7,
+  "partIdentities": [
+    "6526.dat",
+    "61898bc01.dat",
+    "31623.dat"
+  ],
+  "datEvidence": {
+    "6526MainHole": [
+      0,
+      0,
+      0
+    ],
+    "mainAxis": "Y",
+    "6526PinStart": [
+      0,
+      20,
+      80
+    ],
+    "6526PinEnd": [
+      0,
+      60,
+      80
+    ],
+    "61898bc01HoleCenters": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        80
+      ],
+      [
+        0,
+        0,
+        -80
+      ]
+    ]
+  },
+  "worldFit": {
+    "rotorAxisXZ": [
+      -80,
+      0
+    ],
+    "beamBottomY": -376,
+    "upperCarrierCenterY": -352,
+    "upperCarrierTopY": -372,
+    "beamGap": 4,
+    "sheetPlanesY": [
+      -332,
+      -330
+    ],
+    "lowerCarrierCenterY": -309,
+    "lowerCarrierBottomY": -289,
+    "blueShaftEndY": -284,
+    "shaftProtrusion": 5,
+    "upperPinAtSheet": [
+      -80,
+      -332,
+      80
+    ],
+    "lowerPinAtSheet": [
+      -160,
+      -329,
+      0
+    ],
+    "sheetThicknessLdu": 1,
+    "lowerPinYSpan": [
+      -369,
+      -329
+    ],
+    "upperPinYSpan": [
+      -332,
+      -292
+    ]
+  },
+  "limitations": [
+    "static assembly inferred from partly occluded source view",
+    "paper-form and thin sheet spacing do not prove friction fit",
+    "no physical validation",
+    "12LDU sheet lowering is assembly deduction from carrier clearance, not a measured source dimension"
+  ],
+  "surfaceCheck": {
+    "method": "Recursively expanded official face polygons; clip sheets inXZ to complete central brace footprint[-200,200]x[-40,40], compare minimumY to underside-376",
+    "results": [
+      {
+        "planeY": -332,
+        "minSurfaceYInsideBraceFootprint": -351.82255339944965,
+        "braceBottomY": -376,
+        "minimumGapToBraceBottom": 24.177446600550354
+      },
+      {
+        "planeY": -330,
+        "minSurfaceYInsideBraceFootprint": -338.6595562020479,
+        "braceBottomY": -376,
+        "minimumGapToBraceBottom": 37.340443797952105
+      }
+    ],
+    "missingDependencies": []
+  }
+}

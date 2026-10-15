@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "19fc8cda6dfb48f6fc7bce0507329b88887373f1d5b3a92bc4dd9839801c4007",
+  "revision": "19abb486598447fe71f1108e27bcef8c59c147ecaa8d5ad69fc49ab521bb473a",
+  "reviewedAt": "2026-10-11T08:00:22.546422+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-long-men-diao",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "c6e3c919e4b3caafb6602d25b7605d58c97887f779341ad5a737d3487ee7e3f6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "c3869a76e63a4c645983a5f1414f3895a1bd6b8f5dd8901118e91c1b19efc0b9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "c520b86f8f55474bf96b81833a25f044f1c5a231f56ff6f5fea78d13b7407c86",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "132cf686efb1f68526b1a664c25e7b15d01eaa554278bb60f147e68b23e1ede2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "b783aea56c6459e2de5b14cdb9e6184b8d80bc53071788b9eac9659199dcebba",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "b2ce8ff63026dc966151573a6d04ee52121b53d4523e12dabac44415fab7190e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "68a58dfca8da64764259bc76900784c07db7c95189f55d5f2e965ebee1a76044",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "ec3432fe7f5919753d50b4e18927d245552d17df0e6d1b2fa570e490e2563450",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "59d18c3d06532412770eed7bdc18b15e632a4bebb7767956bfd4834d9d9f035a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "6053d281a3caf9db0332eec810d1bcc657bc83921ed619d8f3820ddd613ef94e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "a3d2a55ae8de2c790f73ed248a5eb88b962318efc414786594f89bd6fb279aaa",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "c6e3c919e4b3caafb6602d25b7605d58c97887f779341ad5a737d3487ee7e3f6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "c6e3c919e4b3caafb6602d25b7605d58c97887f779341ad5a737d3487ee7e3f6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "c6e3c919e4b3caafb6602d25b7605d58c97887f779341ad5a737d3487ee7e3f6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "c6e3c919e4b3caafb6602d25b7605d58c97887f779341ad5a737d3487ee7e3f6",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected all12 original cumulative PNGs, alongside previous final3/sourcep7 and source-step ledger. Each frame fully contains its current model. Steps1-4 add wheel bases and striped piers;5 beam;6 red caps;7 transverse inverted plate and forks;8 hanging arms;9 lower red/gray carrier. Steps10-12 remain visually unchanged because missing cord/pulley/hook assemblies are deliberately omitted; this is incomplete, not evidence those source steps are built. Inverted40666 direction agrees with sourcep7. Lowerred3437/base8LDU edge overlap, stud registration and supplied approximate fork/arm interfaces remain provisional. No physical/load/motion/user acceptance."
+}

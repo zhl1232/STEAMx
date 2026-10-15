@@ -1,0 +1,100 @@
+{
+  "sourceSha256": "2b8694d9f89bca0a89cde234f2a9109b9e6a1cde0ab3dcdb58a53d500c95bb1b",
+  "revision": "88a44cbf11cd3bc9e215bd063cd3f760d61d191e5aeaad479238b3c8c76754c7",
+  "reviewedAt": "2026-10-11T08:13:55.207072+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-zhuan-wan-xiao-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "e1aa364db687e36076f5298bba5883965e36cef313db9ac8dc842ab1ea53afc2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "de01756862e9162a2aa66e8891c0d664b4c0e9b24e8d5ff35c743e1007b54bcc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "b5a97b333c72074914273bb90c0da500a4f3f6988e256baec1f3c83fc2325c78",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "00f39b3ecb085eccd1e3d9f91a36d6dfb38cb5868a977851173905a71635d608",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "02b8e1e3cdeeb23c81de7c97e96ce944c426b4e973a4660660ffdecbe57f8f61",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "59ae604a33f1573a07ffb8da9641f740bf0540c00fca93833f28bf0392683743",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "9e7ee320a3931f87dac84870b485542209ac354628dc27257ffa666979637de1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "9e4ea0d06423ac3fd40018722188de1bc1dcb6b3202e59bbc93ad962db315804",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "816131854e681ba33f9bd226ba9fd16cb8cc8b2f76ba73a48fe26f581cd6a1b5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "da51218f6cdfe36aaed57a2e013ab6a7b7a3f2e5555b32666707f8d20b62d5cb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "d67759a3eccc14b7f3e6585c02cbb71ca78b34de068b40ffb204c2e9acb11878",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "298d7089a020ec33c44176743c416d07b6f280a851eb2724b89a8891e201c163",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "9aac3c11912289e0c1cb5d84733b4212042d20425224755b076ed581e7ff1829",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "af3d2b72934e6cf380c58f92a55f42a6aac87495a1a97f06239d6a3d256cc0fe",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "1984739266d6f4db73a84548dd89b1b4789d69e291672da54c8e880467fc7c26",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "8bdfeb854ea27c7c3149c4399c33a72cf4436994d7bec3fa155c88e2b0c84923",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-14",
+      "sha256": "e1aa364db687e36076f5298bba5883965e36cef313db9ac8dc842ab1ea53afc2",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected all14 D contact frames plus original steps8,14 and source p8,p15. Rails, gears, kingpins, wheel axles, deck and rails added in source order. Static neutral steering only; driver omitted. Front transverse linkage/orthogonal pulley contacts and same-depth neighboring flange overlap risk persist; hidden kingpin capture and gear phase unverified. Existing final3 exact-hash evidence retained. Renderer pixel review does not certify fit, steering operation or physical validation; pending user confirmation."
+}

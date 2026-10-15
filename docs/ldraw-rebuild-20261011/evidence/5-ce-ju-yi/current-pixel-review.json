@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "ef4ae2663544dbf692d91d3bff4e2e91b0853f72b18f3ba54628cfa03b72daeb",
+  "revision": "a62425ff4f7f50bc7d9cd55d6a9d1f127577c90bf1fe9217ae453ad432b6ad80",
+  "reviewedAt": "2026-10-11T11:14:40.697421+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ce-ju-yi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "e313addb6821abba942f8477f9088ddd0816718e0c19da3eef06e35f48acee09",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "b9fe27d8b74f67a1f8a7d5c971a9dd64c31397c4415b222cf177e2017891df2a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "b0bb4efc94974f7a8ceff085884dd7f2e13bef2cf7d2ed89cf414b6db0a269a8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "4fb6bb7602486ebbed7721c2b95986524a2d1e4fab55fe302174cf728e81631e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "a2e8128e1e20c24a5669fe793972ac1178ced23b8d6197d917d924cbc2509ae5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "743084826565a77c76be531f25055a88dff762f44828000f7a4ff916aecbd8f4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "e6074de7dbac6db7cbc573bf79b50332d3088aabc819374aee2e8a2a83f20497",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "d972be39bc036e97f4a82b35e351e0f491fcb40c40dff2be22681156c0342fac",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "3dde492848dd19410b287615c30687b9272f381160eb1ae6958f7a632d9eea2b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "db4d14065e6a1a280b8116353a883abda2e205fc8744eff360c52301210b2b45",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "6503ac937ace772e994f1fceb8342549b979706d0ad6a09f25c4e1162be24598",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "e313addb6821abba942f8477f9088ddd0816718e0c19da3eef06e35f48acee09",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual final3/all9 frames and full step6PNG reviewed against all10 source pages. NOT accepted: four p3 short6526 cranks omitted; actual keyed daxlehole and bodyhole R9 prevent borrowing bicycle R15 clearance. Printed dial61898f unavailable; one dial-side crank unassembled. Retainer wheel centers80LDU vs real rim diameter82.005 leave potential radial intersection; tyre nesting alarms not waived without mesh check. Gear phase, pin retention and dynamic/physical fit unverified."
+}

@@ -1,0 +1,128 @@
+{
+  "sourceSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
+  "placedCount": 50,
+  "stepAdditions": [
+    2,
+    14,
+    3,
+    1,
+    5,
+    7,
+    5,
+    5,
+    8,
+    0,
+    0
+  ],
+  "sourceVisualFinding": "Page6 visibly has four support legs. Page7 visibly has two upper lever beams, but its material inset lists only1 axle and2 pulleys.",
+  "inventoryStatus": "6525 is a direct inventory ID match: one9656-1 contains4 yellow beams, current source-visible target and placed model need6, so2 extra beams beyond one standard set. Actual user holdings remain unknown. Additional direct-ID shortages are recorded separately; color/other-alias completeness not asserted.",
+  "omittedKnownParts": {
+    "6527.dat": 4,
+    "6522.dat": 2,
+    "6526.dat": 8,
+    "3437.dat": 1
+  },
+  "omittedCount": 15,
+  "badDeterminants": [],
+  "accepted": false,
+  "placedBOM": {
+    "75350.dat": 3,
+    "6521.dat": 4,
+    "6292.dat": 4,
+    "6527.dat": 24,
+    "3437.dat": 1,
+    "3011.dat": 2,
+    "6525.dat": 6,
+    "6522.dat": 4,
+    "6524.dat": 2
+  },
+  "targetVisibleBOM": {
+    "75350.dat": 3,
+    "6521.dat": 4,
+    "6292.dat": 4,
+    "6527.dat": 28,
+    "3437.dat": 2,
+    "3011.dat": 2,
+    "6525.dat": 6,
+    "6522.dat": 6,
+    "6524.dat": 2,
+    "6526.dat": 8
+  },
+  "targetVisibleCount": 65,
+  "materialCalloutDelta": {
+    "6525.dat": 2
+  },
+  "inventoryReference": {
+    "file": "inputs/inventory-evidence.json",
+    "set": "9656-1",
+    "complete": true,
+    "sourceUrl": "https://rebrickable.com/sets/9656-1/early-simple-machines-set/?inventory=1#parts",
+    "quantityScope": "one standard set, not user physical holdings",
+    "directIDComparison": [
+      {
+        "part": "6292.dat",
+        "color": "Black",
+        "referenceQuantity": 4,
+        "placedQuantity": 4,
+        "targetVisibleQuantity": 4,
+        "extraForPlaced": 0,
+        "extraForTargetVisible": 0
+      },
+      {
+        "part": "6521.dat",
+        "color": "Green",
+        "referenceQuantity": 5,
+        "placedQuantity": 4,
+        "targetVisibleQuantity": 4,
+        "extraForPlaced": 0,
+        "extraForTargetVisible": 0
+      },
+      {
+        "part": "6522.dat",
+        "color": "Light Bluish Gray",
+        "referenceQuantity": 7,
+        "placedQuantity": 4,
+        "targetVisibleQuantity": 6,
+        "extraForPlaced": 0,
+        "extraForTargetVisible": 0
+      },
+      {
+        "part": "6525.dat",
+        "color": "Yellow",
+        "referenceQuantity": 4,
+        "placedQuantity": 6,
+        "targetVisibleQuantity": 6,
+        "extraForPlaced": 2,
+        "extraForTargetVisible": 2
+      },
+      {
+        "part": "6524.dat",
+        "color": "Yellow",
+        "referenceQuantity": 2,
+        "placedQuantity": 2,
+        "targetVisibleQuantity": 2,
+        "extraForPlaced": 0,
+        "extraForTargetVisible": 0
+      },
+      {
+        "part": "6526.dat",
+        "color": "Yellow",
+        "referenceQuantity": 6,
+        "placedQuantity": 0,
+        "targetVisibleQuantity": 8,
+        "extraForPlaced": 0,
+        "extraForTargetVisible": 2
+      },
+      {
+        "part": "6527.dat",
+        "color": "Yellow",
+        "referenceQuantity": 15,
+        "placedQuantity": 24,
+        "targetVisibleQuantity": 28,
+        "extraForPlaced": 9,
+        "extraForTargetVisible": 13
+      }
+    ],
+    "assemblyCaveat": "6527 loose15 vs placed24/target28; extra9/13. If both75536 assembly pulleys are usable, extra7/11. No automatic disassembly/substitution."
+  }
+}

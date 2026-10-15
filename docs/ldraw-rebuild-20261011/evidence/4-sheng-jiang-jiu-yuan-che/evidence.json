@@ -1,0 +1,17 @@
+{
+  "slug": "4-sheng-jiang-jiu-yuan-che",
+  "lessonId": 189,
+  "courseId": 6,
+  "sourceSha256": "2c05b0fdec3a3a5632623c4f2c434e4ff7cc5c0a8fbb79709cedfbc2d9d0cb94",
+  "sourcePages": 13,
+  "allSourcePixelsViewed": true,
+  "modelSha256": "5f833583ab068a5fc42c0ae417dece0255c517359a783737834ecf79920155f0",
+  "placements": 73,
+  "sourceStages": 12,
+  "missing": [],
+  "checker": "FAIL2: canopy/cockpit conservative regions plus canopy/roof overlap. Roof overlap reappeared after shortening overhang and is unresolved, not waived. The source-front-overhang pose and current approximate cockpit/canopy assembly require further geometry/fit review.",
+  "metadataUsedHash": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "accepted": false,
+  "status": "draft-pending-geometry-source-step-acceptance",
+  "render": "current source final3 pixels actually reviewed; full cumulative steps pending"
+}

@@ -1,0 +1,70 @@
+{
+  "sourceSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+  "revision": "59a03c8aafbcaa6202cdc26f4061c6f5c586452bdf9bc6e63daa990582efb194",
+  "reviewedAt": "2026-10-11T07:16:50.313636+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-yu-hang-yuan-xun-lian-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "c64fab060d19a1c66c3248d2c5ff2f589a26c77358c465faaffe7dc2fd1abb9c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "2ed146bf6c0771fa17d00deef85187bb1308bbb39453218555fd00cf313d4c5b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "bc635bcaecccb5673311f6fea78acbfaa65dfa8ab23fcef79066a40f6b561df5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "e25798a523420590036d11fe18a0aedfdeddb0dd4b5f0180432175d1e95656da",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "b79a663f7bb9c4ef2509fb54c3a5ff7befee65a5e0dbc656cf09e51145e60c1f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "b64b51e3274362066ec991e6d507527031ae94201f60157a62c95bb674d67f22",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "e1d73127c1d074dbb43cbf01293886b3923b5f325388d8edd3e84628064f4878",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "193b277eaa4084366f2ac57dff3a9aaf48ef397d447ae9838ab11902484333f6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "193b277eaa4084366f2ac57dff3a9aaf48ef397d447ae9838ab11902484333f6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "c64fab060d19a1c66c3248d2c5ff2f589a26c77358c465faaffe7dc2fd1abb9c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "c64fab060d19a1c66c3248d2c5ff2f589a26c77358c465faaffe7dc2fd1abb9c",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed all8 cumulative contact panels, enlarged steps5/7 and compared source p5/p7. Restored p5 two red gears and short blue shaft appear; tilted frame remains complete in view. Central red beam introduced at step7 visibly floats because supporting transmission is unresolved. Step6 equals5 and8 equals7: known p6 IDs remain unassembled evidence only, p7 cranks and p8 transmission omitted; no inferred support credited. Source p7 demonstrates missing central mechanism. Existing final3 retained. INCOMPLETE; central shaft length, underside plate capture, gear mesh and physical validation pending."
+}

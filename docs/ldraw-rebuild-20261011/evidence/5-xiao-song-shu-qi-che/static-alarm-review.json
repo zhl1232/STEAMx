@@ -1,0 +1,57 @@
+{
+  "slug": "5-xiao-song-shu-qi-che",
+  "modelSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
+  "reviewedAt": "2026-10-11T13:50:25.563Z",
+  "originalCheck": {
+    "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-xiao-song-shu-qi-che.ldr",
+    "sha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
+    "exit": 0,
+    "output": "OK   [5-xiao-song-shu-qi-che.ldr] 96 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+    "stableDuringCheck": true
+  },
+  "alarms": [],
+  "rawPairCount": 0,
+  "matrixReview": {
+    "maximumOrthogonalityError": 9.704091308293528e-9,
+    "maximumDeterminantError": 9.704091308293528e-9
+  },
+  "sourceEvidence": "preparation/5-xiao-song-shu-qi-che/ledger.json",
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "limitations": [
+    "P1 four underside plates are a source-obscured tie arrangement, three along spine and one transverse atrear. Rear outside short bricks overhang plate by40LDU laterally but each retains40LDU bearing width; no floating added pieces.",
+    "P2 front gears atZ+-60, cranks outside at+-100 so native crank pins reachZ+-120..160 and support connecting rods centred+-140. Rear wheels at+-140. Four road gears radius103.798 allY-104, approximately level without scaling.",
+    "P4 tail each4x4 layer moves+40LDU backward and48 upward, retaining120LDU overlap. Source alternating red/orange six layers counted12 bricks.",
+    "P7/P8 actual seven-hole rod endpoint distance240, crank80. With source48LDU layer heights, perfect horizontal+vertical pose is inconsistent: exact two-circle joint solution with15degree crank phase is explicitly used, no rod scaling. Original zero-phase produced13.3LDU pulley radial envelope interference; current95.42LDU centre spacing exceeds two44LDU radii but does not verify dynamic sweep. P7 lower arms and P8 connecting rods have small visible angle adjustment relative to source illustration.",
+    "P8 actual BOM is4blue6523,2pulley6527,2beam6524. Previous reversed quantity reading is withdrawn. Two upper blue axles and two outer pulley collars placed; two lower blue axles are known-ID connection omissions. Lower rod holes are already occupied by integral6526pins; reversing crank would conflict with grey wheel shaft. Phase changes do not free a coaxial occupied hole. No invented coupler or shortened shaft. Upper shafts and retention remain unverified.",
+    "P9 upper rods240 bridge24LDU bearing height difference. Front axle atX-198.7969849055888 is1.203LDU off nominal red holeX-200; explicit pose/clearance assumption, actual bore play not certified. This is kept as known connection risk, not unknown ID.",
+    "P10 red mouth is24LDU40666plate, yellow corner bricks48LDU; opening retained. P11 exact eye backside pattern not visible,3437pe1 chosen for visible white highlight face; pattern back remains unverified.",
+    "P12 source-obscured ear crossbond uses exact9small+1long count and supported stepped silhouette; lower row may differ in hidden seams. Each outer small overlaps underlying head by40LDU; ears top crossbond both supporting small bricks. Tip load and moving stability not verified."
+  ],
+  "accepted": false,
+  "userConfirmed": false,
+  "physicalValidation": false,
+  "checkerPassIsNotConnectionAcceptance": true,
+  "currentPixels": {
+    "sourceSha256": "54c3552e86793715cb14fa4ca0e5b2cc5050102603798771718723fc9133dfdf",
+    "revision": "0141c013f7f4e6dd00f1f5c8b502a98d4a41d51b23af3db6fd5ad9606ae72f7d",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "evidence": "current-pixel-review.json",
+    "accepted": false,
+    "physicalValidation": false
+  }
+}

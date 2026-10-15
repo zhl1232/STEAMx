@@ -1,0 +1,418 @@
+{
+  "slug": "5-san-lun-che",
+  "modelSha256": "4d88bd6040d8958998b047849e7cab04bcf891aba1aa4131b1503c442995bff0",
+  "bom": [
+    {
+      "id": "75349.dat",
+      "color": "Red",
+      "colorCode": 4,
+      "quantity": 6,
+      "catalogId": "6517",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6517",
+          "color": "Red",
+          "quantity": 4,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 4,
+      "extraNeeded": 2,
+      "stockStatus": "extra_required",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "40666.dat",
+      "color": "Blue",
+      "colorCode": 1,
+      "quantity": 3,
+      "catalogId": "40666",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "40666",
+          "color": "Yellow",
+          "quantity": 2,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "40666",
+          "color": "Blue",
+          "quantity": 12,
+          "exactColor": true
+        },
+        {
+          "set": "9090-2",
+          "id": "40666",
+          "color": "Bright Green",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "40666",
+          "color": "Lime",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "40666",
+          "color": "Medium Blue",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "40666",
+          "color": "Orange",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "40666",
+          "color": "Red",
+          "quantity": 12,
+          "exactColor": false
+        }
+      ],
+      "referenceStock": 12,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "3011.dat",
+      "color": "Yellow",
+      "colorCode": 14,
+      "quantity": 12,
+      "catalogId": "3011",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "3011",
+          "color": "Green",
+          "quantity": 3,
+          "exactColor": false
+        },
+        {
+          "set": "9656-1",
+          "id": "3011",
+          "color": "Red",
+          "quantity": 4,
+          "exactColor": false
+        },
+        {
+          "set": "9656-1",
+          "id": "3011",
+          "color": "Yellow",
+          "quantity": 5,
+          "exactColor": true
+        },
+        {
+          "set": "9090-2",
+          "id": "3011",
+          "color": "Blue",
+          "quantity": 26,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3011",
+          "color": "Bright Green",
+          "quantity": 20,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3011",
+          "color": "Lime",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3011",
+          "color": "Medium Blue",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3011",
+          "color": "Orange",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "3011",
+          "color": "Red",
+          "quantity": 20,
+          "exactColor": false
+        }
+      ],
+      "referenceStock": 5,
+      "extraNeeded": 7,
+      "stockStatus": "extra_required",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "75350.dat",
+      "color": "Red",
+      "colorCode": 4,
+      "quantity": 1,
+      "catalogId": "6515",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6515",
+          "color": "Red",
+          "quantity": 2,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 2,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6525.dat",
+      "color": "Yellow",
+      "colorCode": 14,
+      "quantity": 2,
+      "catalogId": "6525",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6525",
+          "color": "Yellow",
+          "quantity": 4,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 4,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6522.dat",
+      "color": "Light Bluish Gray",
+      "colorCode": 7,
+      "quantity": 4,
+      "catalogId": "6522",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6522",
+          "color": "Light Bluish Gray",
+          "quantity": 7,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 7,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6527.dat",
+      "color": "Yellow",
+      "colorCode": 14,
+      "quantity": 10,
+      "catalogId": "6527",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6527",
+          "color": "Yellow",
+          "quantity": 15,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 15,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6529.dat",
+      "color": "Red",
+      "colorCode": 4,
+      "quantity": 1,
+      "catalogId": "6529",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6529",
+          "color": "Red",
+          "quantity": 2,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 2,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6526.dat",
+      "color": "Yellow",
+      "colorCode": 14,
+      "quantity": 4,
+      "catalogId": "6526",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6526",
+          "color": "Yellow",
+          "quantity": 6,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 6,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "2302.dat",
+      "color": "Blue",
+      "colorCode": 1,
+      "quantity": 1,
+      "catalogId": "2302",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "2302",
+          "color": "Red",
+          "quantity": 4,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "2302",
+          "color": "Blue",
+          "quantity": 10,
+          "exactColor": true
+        },
+        {
+          "set": "9090-2",
+          "id": "2302",
+          "color": "Bright Green",
+          "quantity": 10,
+          "exactColor": false
+        },
+        {
+          "set": "9090-2",
+          "id": "2302",
+          "color": "Red",
+          "quantity": 10,
+          "exactColor": false
+        }
+      ],
+      "referenceStock": 10,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6523.dat",
+      "color": "Blue",
+      "colorCode": 1,
+      "quantity": 2,
+      "catalogId": "6523",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6523",
+          "color": "Blue",
+          "quantity": 4,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 4,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6530.dat",
+      "color": "Yellow",
+      "colorCode": 14,
+      "quantity": 2,
+      "catalogId": "6530",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6530",
+          "color": "Yellow",
+          "quantity": 2,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 2,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "51262.dat",
+      "color": "Light Bluish Gray",
+      "colorCode": 7,
+      "quantity": 1,
+      "catalogId": "51262",
+      "referenceInventories": [
+        {
+          "set": "45002-1",
+          "id": "51262",
+          "color": "Dark Bluish Gray",
+          "quantity": 1,
+          "exactColor": false
+        }
+      ],
+      "referenceStock": null,
+      "extraNeeded": null,
+      "stockStatus": "color_or_identity_stock_unverified",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "6521.dat",
+      "color": "Green",
+      "colorCode": 2,
+      "quantity": 1,
+      "catalogId": "6521",
+      "referenceInventories": [
+        {
+          "set": "9656-1",
+          "id": "6521",
+          "color": "Green",
+          "quantity": 5,
+          "exactColor": true
+        }
+      ],
+      "referenceStock": 5,
+      "extraNeeded": 0,
+      "stockStatus": "within_one_matching_reference_set",
+      "physicalStockVerified": false
+    },
+    {
+      "id": "31021p01.dat",
+      "color": "White",
+      "colorCode": 15,
+      "quantity": 3,
+      "catalogId": "31021p01",
+      "referenceInventories": [],
+      "referenceStock": null,
+      "extraNeeded": null,
+      "stockStatus": "color_or_identity_stock_unverified",
+      "physicalStockVerified": false
+    }
+  ],
+  "note": "Quantity differences are against a single matching catalog set, not a claim about user physical stock. Source colors retained. Missing color/ID stock is unverified, never silently substituted."
+}

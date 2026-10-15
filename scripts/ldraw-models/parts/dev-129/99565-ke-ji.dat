@@ -1,0 +1,11 @@
+0 Duplo Toolo wheel rim - 4-ke-ji courseware width approximation
+0 Name: 99565-ke-ji.dat
+0 Author: STEAMX local reconstruction
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // User authorized courseware-based approximation 2026-10-13; pages 2 and 12.
+0 // Preserve existing 99565 diameter and tread/profile; axial width increased to match source proportions.
+0 // This is explicitly an unmeasured local geometry variant, not an official mold revision.
+0 // Local axle Y; source wheel face and tread are substantially wider than old thin disk approximation.
+0 BFC CERTIFY CCW
+1 16 0 0 0 1 0 0 0 1.500000000 0 0 0 1 99565.dat

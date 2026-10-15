@@ -1,0 +1,33 @@
+{
+  "slug": "4-da-long-xia",
+  "modelSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+  "reviewedAt": "2026-10-11T10:28:45.614Z",
+  "originalCheck": {
+    "path": "scripts/ldraw-models/4-da-long-xia.ldr",
+    "sha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+    "exit": 0,
+    "output": "OK   [4-da-long-xia.ldr] 27 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+    "stableDuringCheck": true
+  },
+  "accepted": false,
+  "physicalValidation": false,
+  "checkerPassIsNotConnectionAcceptance": true,
+  "limitations": [
+    "p4 continuous red back corrected using visible two sequential3-hole long sides. Tail upper curves overlap and bridge lower curved tiers; source physical stud retention remains unverified.",
+    "p2 eight missing legs mean intended ground stance cannot be reconstructed; body placed on plane for preview only, not claimed leg support.",
+    "p6-8 side fork/clutch chain angles and screw capture are source-pose approximations with unresolved hidden connection depth.",
+    "p9 missing tail wing leaves silhouette incomplete.",
+    "p7 four known fork bases omitted because exact mounting/support unresolved; not counted as unknown identities or missing geometry."
+  ],
+  "rawAlarmsStatus": "Raw pass only; manual Toolo interfaces not certified",
+  "sourceEvidence": "preparation/4-da-long-xia/ledger.json",
+  "currentPixels": {
+    "sourceSha256": "d1727e88b1fc360d468314b52c468067c94f5c7c3823d0625aa3350a6cda34de",
+    "revision": "6f2139891463180220d1386a292efec8371994edf8879d448bb863e39998b7ff",
+    "final3ActuallyReviewed": true,
+    "all10StepsActuallyReviewed": true,
+    "accepted": false
+  },
+  "matrixInvalid": [],
+  "currentPixelEvidence": "current-pixel-review.json"
+}

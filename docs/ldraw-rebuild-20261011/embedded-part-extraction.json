@@ -1,0 +1,57 @@
+[
+  {
+    "id": "4672.dat",
+    "sourceMpd": "STEAMx\\public\\courses\\ldraw\\3-kua-hai-da-qiao.mpd",
+    "sourceMpdSha256": "dbd2a90777e56282a6a9d54a681a0010e9b04564664410629e64141ab06b4b16",
+    "destination": "STEAMx\\scripts\\ldraw-models\\parts\\4672.dat",
+    "sha256": "f6272bb4f95334769cfb0efaabe65d9f3edc51e9dfe3d019c6ecd11717a95f02",
+    "license": "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+    "operation": "Exact embedded body extracted, no geometry or author/license edits; newline-normalized from repository source"
+  },
+  {
+    "id": "4672a.dat",
+    "sourceMpd": "STEAMx\\public\\courses\\ldraw\\3-kua-hai-da-qiao.mpd",
+    "sourceMpdSha256": "dbd2a90777e56282a6a9d54a681a0010e9b04564664410629e64141ab06b4b16",
+    "destination": "STEAMx\\scripts\\ldraw-models\\parts\\4672a.dat",
+    "sha256": "ecc4887b0f3c231d8c5f8542b347b159a93f30b66b018a8215e9c706cb0022c6",
+    "license": "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt",
+    "operation": "Exact embedded body extracted, no geometry or author/license edits; newline-normalized from repository source"
+  },
+  {
+    "id": "75350.dat",
+    "sourceMpd": "STEAMx\\public\\courses\\ldraw\\5-da-bai-chui.mpd",
+    "sourceMpdSha256": "51dd92e4b2ff7035e48a74e77b1715564325b864e64c90f856b08d802792e7b9",
+    "destination": "STEAMx\\scripts\\ldraw-models\\parts\\75350.dat",
+    "sha256": "9e1e875a6a76d4c49bd5ff84f92c088a66c0ef4f73dbadce95a356d8a5773a53",
+    "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+    "operation": "Exact embedded body extracted, no geometry or author/license edits; newline-normalized from repository source"
+  },
+  {
+    "id": "6516.dat",
+    "sourceMpd": "STEAMx\\public\\courses\\ldraw\\5-da-bai-chui.mpd",
+    "sourceMpdSha256": "51dd92e4b2ff7035e48a74e77b1715564325b864e64c90f856b08d802792e7b9",
+    "destination": "STEAMx\\scripts\\ldraw-models\\parts\\6516.dat",
+    "sha256": "fe40233cc54af0f327a7c2763bbca95cd0dca04138394b2183b3c04a4f479762",
+    "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+    "operation": "Exact embedded body extracted, no geometry or author/license edits; newline-normalized from repository source"
+  },
+  {
+    "id": "6515.dat",
+    "sourceMpd": "STEAMx\\public\\courses\\ldraw\\5-da-bai-chui.mpd",
+    "sourceMpdSha256": "51dd92e4b2ff7035e48a74e77b1715564325b864e64c90f856b08d802792e7b9",
+    "destination": "STEAMx\\scripts\\ldraw-models\\parts\\6515.dat",
+    "sha256": "fb0f7da6b4f603990d5512be8e1cba3c51b555fa3a413e3c8f9697ada70e6057",
+    "license": "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+    "operation": "Exact embedded body extracted, no geometry or author/license edits; newline-normalized from repository source"
+  },
+  {
+    "id": "44524.dat",
+    "sourceMpd": "STEAMx\\public\\courses\\ldraw\\4-ying-er-che.mpd",
+    "sourceMpdSha256": "0bd57af91cf8070b5a4b5e15a295a10e3027d2bcbb34abad95cc0c380db68d42",
+    "destination": "STEAMx\\scripts\\ldraw-models\\parts\\44524.dat",
+    "sha256": "4b92a1426880ef5ec20bb9aadc9dbaee596b9682cc7bef876defa0087dee4236",
+    "license": "0 !LICENSE Licensed under CC BY 2.0 and CC BY 4.0 : see CAreadme.txt",
+    "author": "0 Author: Paul Schelleman [schellie]",
+    "operation": "Exact embedded body extracted, no geometry or author/license edits; newline-normalized from repository source"
+  }
+]

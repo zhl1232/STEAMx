@@ -1,0 +1,66 @@
+0 Cobra - source reconstruction; unaccepted development draft
+0 // OK-BATCH3 2026-10-12: P1-P4 current five 6525 beams already make four 90-degree hinges; P5 plates follow the same path. P10 final agrees in a source-facing view. Old pairs long-chain appearance is not the current geometry; no rescaling or arbitrary hinge changes.
+0 Name: 5-yan-jing-she.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source ae7396acacdea000504ee90f0365bc75ae25959e6871516bb8633e1b608ec5ff; all10pages actually viewed
+0 // SOURCE PAGE 1 first two eleven-hole beams and grey vertical hinge with two pulley collars
+1 14 1000 -60 800 0 0 1 0 1 0 -1 0 0 6525.dat
+1 14 800 -100 600 1 0 0 0 1 0 0 0 1 6525.dat
+1 7 800 -120 800 0 0 1 1 0 0 0 1 0 6522.dat
+1 14 800 -20 800 1 0 0 0 0 1 0 -1 0 6527.dat
+1 14 800 -140 800 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 2 third beam and second hinge
+1 14 600 -60 400 0 0 1 0 1 0 -1 0 0 6525.dat
+1 7 800 -120 400 0 0 1 1 0 0 0 1 0 6522.dat
+1 14 800 -20 400 1 0 0 0 0 1 0 -1 0 6527.dat
+1 14 800 -140 400 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 3 fourth beam and third hinge
+1 14 400 -100 200 1 0 0 0 1 0 0 0 1 6525.dat
+1 7 400 -120 400 0 0 1 1 0 0 0 1 0 6522.dat
+1 14 400 -20 400 1 0 0 0 0 1 0 -1 0 6527.dat
+1 14 400 -140 400 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 4 fifth beam and fourth hinge
+1 14 200 -60 0 0 0 1 0 1 0 -1 0 0 6525.dat
+1 7 400 -120 0 0 0 1 1 0 0 0 1 0 6522.dat
+1 14 400 -20 0 1 0 0 0 0 1 0 -1 0 6527.dat
+1 14 400 -140 0 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 5 seven inverted red plates and one inverted orange tail plate
+1 4 200 -80 20 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 380 -120 120 0 0 1 0 -1 0 1 0 0 40666.dat
+1 4 380 -120 280 0 0 1 0 -1 0 1 0 0 40666.dat
+1 4 520 -80 420 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 680 -80 420 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 780 -120 520 0 0 1 0 -1 0 1 0 0 40666.dat
+1 4 780 -120 680 0 0 1 0 -1 0 1 0 0 40666.dat
+1 25 1000 -80 820 1 0 0 0 -1 0 0 0 -1 40666.dat
+0 STEP
+0 // SOURCE PAGE 6 vertical head shaft and lower collar, two side-built axle bricks and two reinforcing plates
+1 7 0 -120 0 0 0 1 1 0 0 0 1 0 6522.dat
+1 14 0 -20 0 1 0 0 0 0 1 0 -1 0 6527.dat
+1 4 -24 -80 0 0 1 0 0 0 1 1 0 0 75349.dat
+1 4 -24 -160 0 0 1 0 0 0 1 1 0 0 75349.dat
+1 4 -48 -120 0 0 1 0 0 0 1 1 0 0 40666.dat
+1 4 -48 -200 0 0 1 0 0 0 1 1 0 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 7 large upright red neck plate and lower front reinforcing plate
+1 4 -72 -200 0 0 1 0 1 0 0 0 0 -1 4672.dat
+1 4 -96 -80 0 0 1 0 0 0 1 1 0 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 8 three yellow neck plates and one yellow upper head brick
+1 14 -96 -160 0 0 1 0 0 0 1 1 0 0 40666.dat
+1 14 -96 -240 0 0 1 0 0 0 1 1 0 0 40666.dat
+1 14 -96 -320 0 0 1 0 0 0 1 1 0 0 40666.dat
+1 14 -144 -320 0 0 1 0 0 0 1 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 9 red head layers and yellow eye brick
+1 4 -192 -360 0 0 1 0 0 0 1 1 0 0 3011.dat
+1 4 -216 -360 0 0 1 0 0 0 1 1 0 0 40666.dat
+1 4 -264 -360 -40 0 1 0 0 0 1 1 0 0 3437.dat
+1 4 -264 -360 40 0 1 0 0 0 1 1 0 0 3437.dat
+1 14 -312 -360 0 0 1 0 -1 0 0 0 0 1 3437pe1.dat

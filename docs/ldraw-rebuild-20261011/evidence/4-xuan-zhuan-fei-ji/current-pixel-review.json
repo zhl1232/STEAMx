@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7",
+  "revision": "a0de6f67c9ba289878c13c65c44b3139cc4bd2f81100f3647b9aa309da833799",
+  "reviewedAt": "2026-10-11T07:49:34.921317+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-xuan-zhuan-fei-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "77996a038f1ccb116a7c95c1760a5069e2c659e0c67af9fa09ae68461aa3c9c7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "25b57493542320681b474571f78d45e4a75e457830c26717dfb882c9bd42e6fc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "412c85f32d964156299769536e664fc7b7df5a0a4b17f7ed8c318dda21b72793",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "4733ca030ceeba0794bc54030a82e776467a5d3c74bb0063a020ca66319c4962",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "702a2916c166d5f5f1cfdbae971c816fcab3481261c25958125c840bf14b22e2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "fd39d8971c989ab30b0c5dcee1f26ceeb1d02fde9dc745fd36bf9b2d950eb37f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "87a3a7be6e2e49d9f0fb44fd2b2d0c59a6ee181730c877ec7db745d6ef5007bc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "8f699cdf52a70ccb2cbfd849d43d872a1f00739f39838ea343d09fa2b10c36ca",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "a52996f4a77f91c07bc01e8ff8d402782c261fad4ad83d93f6c43ad565d52416",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "47dcd39da590d92f29a1efa0280aca2463a1abfc4e7c6b6b16725da76ca9b7db",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "44b8e0510ec9087a1a2bdbd102b7adc78897ab5101e437c1cc8e494d71a84e95",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "6e327ee4da1784850155037f50ff25f269c9d1815fd8da6bfd239f7023035b49",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "77996a038f1ccb116a7c95c1760a5069e2c659e0c67af9fa09ae68461aa3c9c7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "77996a038f1ccb116a7c95c1760a5069e2c659e0c67af9fa09ae68461aa3c9c7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "77996a038f1ccb116a7c95c1760a5069e2c659e0c67af9fa09ae68461aa3c9c7",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "All12 cumulative D frames viewed against source12-page contact, originalstep7 inspected for articulated four-arm supports. Blue wings and tails absent atstep11; finalstep repeats incomplete geometry. Dev shortarms use approved section and kit-length interpretation; exact hinge angles/retention unverified. Four cockpit/canopy overlap alarms remain evidence-insufficient. No physical acceptance."
+}

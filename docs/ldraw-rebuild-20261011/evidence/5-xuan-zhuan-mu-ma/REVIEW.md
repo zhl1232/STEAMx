@@ -1,0 +1,7 @@
+# Carousel - incomplete source-based draft
+
+All14 source pages actually viewed. Source SHA `0358a170f40167129a2a96348843adb084cae3ceeab2e447f18dfeaf547a1883`:81 placements,13 source steps,117 recursive geometry files,0 missing dependencies, proper rotations. Current render revision `fb34f7a6cff5f0cda89d8908eae82fae14ae6e61474080e4a084e244a2d61463`: all3final views and13cumulative steps actually reviewed;16image hashes recorded. No new proved source error found, source unchanged.
+
+Twelve patterned fences,20-brick10-layer tower,6long/7short beams,4complete brick-built horses retained. Official6394 rectangular legs and official eye/slope geometry used; no custom approximation. Centre8L shaft closes224LDU rotating stack plus fixedbeam bore engagement. Four8L hanging shafts retain uppercranks, lowercrank/beam/pulley stacks and inferred104LDU exposed gap. Axle length identity remains installed candidate; source icons cannot alone determine6L/8L. Horse radial display yaw and hidden shaft seating are inferred source-compatible static poses, not motion certification.
+
+Four checker alarms are real geometry risks: adjacent pulley R41 versus horse head wall beginning40LDU from shaft creates up to1LDU radial overlap. Source80LDU head/shaft offset retained rather than shifted to silence alarm. Shaft/clamp locking, bearing load and rotation clearance remain manual. No components omitted; no physical validation or human acceptance.

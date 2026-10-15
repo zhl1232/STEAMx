@@ -1,0 +1,78 @@
+{
+  "at": "2026-10-11T14:02:16.901959+00:00",
+  "method": "Coordinator actually viewed every final source page in the batch overview images through the image viewing tool. Shape/scope screening only, not full-page BOM review or acceptance. Owners separately inspect every source page.",
+  "pages": [
+    {
+      "slug": "5-ya-shui-jing",
+      "sourcePdfSha256": "5a434391134e2d71c4fd6ef52a1bec8bae759c64b2d8783dfa0f815fce41bb49",
+      "page": 13,
+      "imageSha256": "e40acd120e82200c1e5bcdd76947fe358ff9a8eeec813abfccbda3ff33508fa0",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-ya-lu-ji",
+      "sourcePdfSha256": "6ad779668123216e4478d3b1acd0e9deeb78fa6ab69b4d7b9d98f022fac183b1",
+      "page": 8,
+      "imageSha256": "3b640dd962461856765e8b7b0ebedce1d9b0797719bf19c4eb862ea8b01f86d0",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhan-chi-gao-fei",
+      "sourcePdfSha256": "87a6e2200c2b3ece0c38f2a12b083568604e0ef73ecc42988b6dfe86bbfe9fb3",
+      "page": 8,
+      "imageSha256": "3c8de0df657a5242c8378bcda54e97ca9a69f7025b672c72edd142a2e4e5ed49",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-xuan-zhuan-mu-ma",
+      "sourcePdfSha256": "c3deb8c53fee9c1d2e4e83f1974856d8afa8abe9dbdf4c986eb24fa665eedbd6",
+      "page": 14,
+      "imageSha256": "f815b2a90e908a812c525e71e37b2f7151a9d3d59c0938a0869ada8a86854e6d",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-xuan-zhuan-wu-tai",
+      "sourcePdfSha256": "e05d1bdd52518854e44969a6fb9ffd531aa834948e5751a6985c38bdcb19c0af",
+      "page": 7,
+      "imageSha256": "15d05a24bf556a4209d21e9d44fd4b2f57494a67b4671735c318a3d9f2a8d476",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-xuan-zhuan-men",
+      "sourcePdfSha256": "3b21d3707866902d602a5067694d49c4c25a83ebfdbc62ab100d85a039727c11",
+      "page": 12,
+      "imageSha256": "243cc7b040dd723049faf781f987de31d39a69c96c7c99ccf68dfcab20590a4b",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-xuan-zhuan-fei-yi",
+      "sourcePdfSha256": "02d4eff7a940029db28365edf47eec38f2c21f62626e38b0650b1176b6801f37",
+      "page": 10,
+      "imageSha256": "1552ab85ec123811b5e0f92d013c3275a9d6c2e4ae4adf189b7329b90cc7d4e0",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zha-lan-sheng-jiang-gan",
+      "sourcePdfSha256": "2c3d26be870bbdc34392c5d2128e8fd10a8b022517a002ccb9b041ee6e76bf25",
+      "page": 11,
+      "imageSha256": "2b1942cef3314d1b7d528a3f77d2fa3b31c6c8cbd6be2b7f67d32ed8127d1586",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-yan-jing-she",
+      "sourcePdfSha256": "ae7396acacdea000504ee90f0365bc75ae25959e6871516bb8633e1b608ec5ff",
+      "page": 10,
+      "imageSha256": "9b90ea978d20e4cba30b3e914109416e4d60407e5a85a3762feaae845b3e8822",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-yu-shua-qi",
+      "sourcePdfSha256": "eb52586266d475d4bf83965dd32813744a32ba0d5e276afebf04a9361c601af5",
+      "page": 13,
+      "imageSha256": "114a98bbd180e9881f3781cdb963be802d8e1f54d171fc0484d92b32e42ee428",
+      "actuallyViewed": true
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

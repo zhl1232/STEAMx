@@ -1,0 +1,56 @@
+{
+  "slug": "5-long-men-diao",
+  "sourceSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+  "checker": {
+    "exitCode": 0,
+    "reportedErrors": 0,
+    "placements": 112,
+    "rawLog": "raw-check.txt",
+    "sha256": "af4eaaebf784c24446ac1aef117a1b303fae85101b027afd3657fc391872fe58"
+  },
+  "rawPairs": [],
+  "alarms": [
+    {
+      "key": "track-carriage",
+      "classification": "evidence-insufficient",
+      "evidence": "p1 rails3011 topY-48; red75350 top-96/bottom-48 supported on rails. ShaftY-72; gear6529 radius64.145 is near base studs but not claimed to carry weight or roll without collision. Pulley guide flanges and track sliding require actual mesh/contact check."
+    },
+    {
+      "key": "6394-cutout",
+      "classification": "source-supported-with-contact-risk",
+      "evidence": "p4/7/10 square cutout shape matches official6394, not curved11198. Cutout X[-40,40],Y48..96; p4 top-144 makes cutout roof-96 equal carriage top. p7 top-768 ->cutout roof-720 equal lower rail top; p10 top-888 ->roof-840 equal upper rail. Feet96 and upper support heights preserved. Internal ribs/stud seating and capture remain manual, not bbox proof."
+    },
+    {
+      "key": "towers-and-bridge",
+      "classification": "source-supported",
+      "evidence": "p5 each4x4 tower uses eleven48LDU courses (6yellow+5blue), alternate brick directions. Two75350 span X[-400,400], columnsX+/-360 support outer120LDU each. Centre40666 underside tie joins bridge seam; upper bridge similarly top tie."
+    },
+    {
+      "key": "trolley",
+      "classification": "evidence-insufficient",
+      "evidence": "p11 two6524 seven-hole beams atZ+/-60, holeaxisZ, endholesX+/-120; two6L shafts and four6527 wheels. ShaftY-729 bottom-720 rests nominally above lower rail; static posture differs from unmeasured source phase. This is a source-aligned sliding candidate, not verified trolley rolling/contact or anti-derailment."
+    },
+    {
+      "key": "winch-shaft",
+      "classification": "evidence-insufficient",
+      "evidence": "p14 official6523 is5L axle with8T gear (not worm). AxisZ, centreZ-20, ends[-120,80], gearcentreZ+20; pulleyZ-100 fits front shaft, rear6526 centreZ80 has only partial engagement. Pin points upward. Gear mesh, crank retention and torque path unverified."
+    },
+    {
+      "key": "hanging-load",
+      "classification": "known-omission",
+      "evidence": "One source string and official4663 hook omitted; source p13 pulley appears in its source step but attaches to p14 shaft in final, an explicitly staged subassembly. No dangling hook claimed as completed load path."
+    }
+  ],
+  "conclusion": "Exit0 does not test axle/gear contact, motion, anti-derailment, or load path.",
+  "accepted": false,
+  "physicalValidation": false,
+  "currentPixelReview": {
+    "file": "current-pixel-review.json",
+    "revision": "e99773a7e94dc9b06aaa8768956dfed9e1baed5b6eecc04b355ee913f04d59e3",
+    "sourceSha256": "4ed2d939610054172b97baa0d91b2f9642570e97e845385ec6adca71d63e3bf7",
+    "finalViewsObserved": 3,
+    "cumulativeStepsObserved": 14,
+    "observationCoverageOnly": true,
+    "assemblyPass": false
+  }
+}

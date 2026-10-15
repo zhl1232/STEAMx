@@ -1,0 +1,74 @@
+{
+  "slug": "4-shou-ge-ji",
+  "manifest": {
+    "name": "4+收割机搭建说明.pdf",
+    "relative_path": "4+/4+收割机搭建说明.pdf",
+    "pages": 9,
+    "bytes": 1497533,
+    "sha256": "aa4ebf254d52ccabb40a7850c69810d3f5a9eabae7a166d3c051450e256805e5",
+    "source_url": "https://pan.quark.cn/list#/docpdf/43a7636b1d114ff49702a70bc7d2786a",
+    "slug": "4-shou-ge-ji",
+    "lesson_id": 191,
+    "course_id": 6
+  },
+  "sourceSha256": "a384a2a5fd9e97f5893f7d57ceb496724b2993ad448de7625a502133d5ba487a",
+  "allPagesActuallyViewed": true,
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-shou-ge-ji\\page-1.jpg",
+      "sha256": "7bb633a892eecdcd54c0d1d2c9d24cc36364e5969fbff8691af65ad34ff48685",
+      "actuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-shou-ge-ji\\page-2.jpg",
+      "sha256": "10731511af3cfcfd70fc28b280cc5d76bfe578c2c93598d9f2e14205c13814c8",
+      "actuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-shou-ge-ji\\page-3.jpg",
+      "sha256": "3f953eec21448a7f107e4ebb3e5af7cf73ae12d56595490e43c5865f343e1d89",
+      "actuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-shou-ge-ji\\page-4.jpg",
+      "sha256": "991c92753ca1008e25f0849a32fe2ee4dc6ccc6148eef517fdba096aa5b9439c",
+      "actuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-shou-ge-ji\\page-5.jpg",
+      "sha256": "2d6dc8ef24e2dc83b3a7de53a60c6a1a9b985298aaa8d53028d06dcfcf12366d",
+      "actuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-shou-ge-ji\\page-6.jpg",
+      "sha256": "01965d1b090ba44aee574a17764608e32b7781316dbafcb3a2745ca7d4791a0a",
+      "actuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-shou-ge-ji\\page-7.jpg",
+      "sha256": "c66863540063f501d9fcdb3b10fd63b03d5004833ba2d487ef0215291ccd07a8",
+      "actuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-shou-ge-ji\\page-8.jpg",
+      "sha256": "3903c913f1c6be35368d8bad5d7dcee79245972baa501965b56d0d12562c4251",
+      "actuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch10\\4-shou-ge-ji\\page-9.jpg",
+      "sha256": "d314ed5ba6d819835c0404d501818427a47175ac4d5acd06f601bc1d343e67b4",
+      "actuallyViewed": true
+    }
+  ],
+  "previousIntermediateSourceSha256": "47e8e5c8aad2cb5739ca3787a99fcf1e395b3a2529fc6b4dcc4aee92e057c569",
+  "originalOldDraft": "21 placements,4 steps, explicit simplified blades/auger/cab. Replaced entirely from9page PDF, never used as image evidence."
+}

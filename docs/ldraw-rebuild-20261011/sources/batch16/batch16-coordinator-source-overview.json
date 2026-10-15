@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-11T14:39:01.108626+00:00",
+  "method": "Coordinator actually viewed every final source page in the batch overview images through the image viewing tool. Shape/scope screening only, not full-page BOM review or acceptance. Owners separately inspect every source page.",
+  "pages": [
+    {
+      "slug": "5-zhe-die-ti",
+      "sourcePdfSha256": "dd38b3de4668b325ba237804f3d53b21ee98ee63434cff5b4073b4a66c9e0cce",
+      "page": 13,
+      "imageSha256": "e54cba25d632f10ac00a17acc6bd7a9e6b2c8f2a2697cd707b563fb69b443687",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhi-sheng-ji",
+      "sourcePdfSha256": "f4f953e358ea3a438d9f4a43a38383040843bfcdfcc173e4fa1c1b603bc82e87",
+      "page": 14,
+      "imageSha256": "653f2cccb0f4f1bac82616ac005a6765ffb077c05ca06894eb7fe201532142ed",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-zhu-ge-lian-nu",
+      "sourcePdfSha256": "127d34a5df345434dfc0005e37b4709409469379dd1fed0d500d7f238baa9f95",
+      "page": 7,
+      "imageSha256": "6347941e1a365855835d9f1305b01c623404d46fc77a2d1c174536cbf31d976f",
+      "actuallyViewed": true
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

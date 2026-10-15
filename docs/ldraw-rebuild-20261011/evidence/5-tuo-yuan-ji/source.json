@@ -1,0 +1,89 @@
+{
+  "slug": "5-tuo-yuan-ji",
+  "lessonId": 300,
+  "courseId": 7,
+  "sourceSha256": "1d4dacbe597d4c37d357288ba9b8bd9fa2f02a2667e2445816cf36040a5e5b28",
+  "pdf": {
+    "name": "5+椭圆机搭建说明.pdf",
+    "relative_path": "5+/5+椭圆机搭建说明.pdf",
+    "pages": 11,
+    "bytes": 1844678,
+    "sha256": "597995a745ca0125c063aba3aedc29a3231c4d833b54d7bb87bf866fa4f5cf61",
+    "source_url": "https://pan.quark.cn/list#/docpdf/d6ce927126a64b7eb4cd1b721cae7e3c",
+    "slug": "5-tuo-yuan-ji",
+    "lesson_id": 300,
+    "course_id": 7
+  },
+  "verifiedPdfHash": true,
+  "manifestSha256": "4fe46cb5de193be4c6647fa107532bf8b1a007ecdc2eaf62ab0b8978b33f9d83",
+  "assemblySteps": 10,
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-01.jpg",
+      "sha256": "d6b51096ff570cee541d629f3e237abcffc921f549bed620e3059fbf1da99eb0",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-02.jpg",
+      "sha256": "0303b91080e6e92927b80641a0c233b2cfcc8865df0946e14dce2469b0bfefdd",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-03.jpg",
+      "sha256": "37047220d2ce554cbaf4204fb7c27243ebc4bef29e6de2fff03e2c296c15ec6b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-04.jpg",
+      "sha256": "775058850ca040a2d3a362ba361bc2ca40e387fc1f1c6fd6fd0980bc72cfed17",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-05.jpg",
+      "sha256": "9ee7eeaa1d8d812186dbedce774adb14616c705647cd96c2b76ed5f303d47af2",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-06.jpg",
+      "sha256": "b3cdf3abc0f1749ecc2bd1f770d346cfe8b4a08e2215770a9f6731f3441699e0",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-07.jpg",
+      "sha256": "9aa52b9a61b0be36dba8c61b5f0dd317f803d22b144ab5e7d98f3ed037e411a3",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-08.jpg",
+      "sha256": "4bd1b1a487a9a90e4b863acf2ba7c181f0e77a7deb785ba20c59b3fd594a54bf",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-09.jpg",
+      "sha256": "fe9587c74013902cd2d527b90e75982c333af73b15a31c79bde5fe73e6dd0ccc",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-10.jpg",
+      "sha256": "0caefc7f51885cadcc0a957e257b3e39003af56b8561abca9b2ab142b0d5712d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tuo-yuan-ji\\page-11.jpg",
+      "sha256": "cda24d2a43633f3ca6e54d5c8c1245a75873ce2f0871504f665831c7228e6a4d",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "accepted": false
+}

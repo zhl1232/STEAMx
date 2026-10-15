@@ -1,0 +1,207 @@
+{
+  "slug": "5-tian-ping",
+  "sourceSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
+  "checker": {
+    "exitCode": 1,
+    "rawLog": "raw-check.txt",
+    "rawSha256": "faa1c98c9255a6377447c6aabcb421988d4cff65377e397aaaab7fbd8884ea71",
+    "placements": 74,
+    "reportedPairCount": 12,
+    "checkerSha256": "76838d6085b0e18f7fcec2e98eee9f2169a0637627f1a080b23b57a4937c5b10"
+  },
+  "rawPairs": [
+    {
+      "lines": [
+        32,
+        29
+      ],
+      "placements": [
+        "1 14 0 -432 -100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 0 -352 -100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    },
+    {
+      "lines": [
+        33,
+        30
+      ],
+      "placements": [
+        "1 14 0 -432 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 0 -352 100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    },
+    {
+      "lines": [
+        42,
+        39
+      ],
+      "placements": [
+        "1 14 0 -672 -100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 0 -592 -100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    },
+    {
+      "lines": [
+        43,
+        40
+      ],
+      "placements": [
+        "1 14 0 -672 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 0 -592 100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    },
+    {
+      "lines": [
+        60,
+        48
+      ],
+      "placements": [
+        "1 14 -80 -952 -100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 0 -952 -100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    },
+    {
+      "lines": [
+        60,
+        57
+      ],
+      "placements": [
+        "1 14 -80 -952 -100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 -160 -952 -100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    },
+    {
+      "lines": [
+        61,
+        49
+      ],
+      "placements": [
+        "1 14 -80 -952 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 0 -952 100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    },
+    {
+      "lines": [
+        61,
+        58
+      ],
+      "placements": [
+        "1 14 -80 -952 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 -160 -952 100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    },
+    {
+      "lines": [
+        63,
+        48
+      ],
+      "placements": [
+        "1 14 80 -952 -100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 0 -952 -100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    },
+    {
+      "lines": [
+        64,
+        49
+      ],
+      "placements": [
+        "1 14 80 -952 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 0 -952 100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    },
+    {
+      "lines": [
+        66,
+        63
+      ],
+      "placements": [
+        "1 14 160 -952 -100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 80 -952 -100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    },
+    {
+      "lines": [
+        67,
+        64
+      ],
+      "placements": [
+        "1 14 160 -952 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 80 -952 100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    }
+  ],
+  "alarms": [
+    {
+      "key": "foundation",
+      "classification": "source-supported",
+      "evidence": "p1 yellow3011 feetX+/-160 rotatedE, long75350 atY-96; centre yellow3011/blue40666/red75349 stack gives base/tower axesY-72 and-192 separated120, exactly3beam hole pitches. p2 adds24x24 base under subassembly."
+    },
+    {
+      "key": "upright-splice",
+      "classification": "source-supported-with-pose-inference",
+      "evidence": "Lower11beams centreY-272,Z+/-60; holesY-72/-192 hold foundation andY-352/-432 hold vertical long brick. Vertical75350 centreY-512,originX-24 maps localX to-Y and localY to+X. Upper11beams centreY-752; lower join holesY-592/-672 connect same verticalbrick, top holeY-952 holds crossbar. All selected hole offsets multiples40 and paired shaft lines nominally coincide. Exact separation inferred from visible source bonds; no scale changes."
+    },
+    {
+      "key": "crossbar",
+      "classification": "source-supported-with-hidden-placement-inference",
+      "evidence": "p5 top75350 axisY-952, centredX0. p6 four horizontal11beams centresX+/-280,Z+/-60, anchored atX+/-80 and+/-160. Inner ends leave central verticalbeam clearance; outermost holesX+/-480 hold suspension axles. Precise extension selected on40LDU hole grid from source; final sourcematching pixels pending."
+    },
+    {
+      "key": "adjacent-wheels",
+      "classification": "real-mesh-risk",
+      "evidence": "All raw pairs are same-plane6527 at80LDU radial centre spacing; official actualradius41.00248. Prior independently tested same-part80LDU configuration has strict surface crossings. No bbox-only exemption; current physical interference/clearance and rotation phase unresolved. Nominal source quantity and close hole spacing retained."
+    },
+    {
+      "key": "trays-and-hooks",
+      "classification": "source-backed-support-exception",
+      "evidence": "Four known4663 hooks atX+/-480,Z+/-100,Y-420; two51262 8x8 trays topY-300. Eight31021p01 fences use outer plate studrowsX/Z+/-140, ends+/-100 to avoid colliding corner posts. Rope winds atY-952; precise hanging height and hook contact are inferred. p8 isolated hooks/trays need temporary handling; final source suspension retained although rope mesh absent. No claim that displayed trays float independently or that hook/fence connection carries load."
+    },
+    {
+      "key": "motion",
+      "classification": "evidence-insufficient",
+      "evidence": "Central linkage constraints, pulley retention, string travel and actual balance response not physically tested. No Studio use, no physical pass. Await final3 plus all10 cumulative-step pixels."
+    }
+  ],
+  "matrix": {
+    "count": 74,
+    "allProperRigidRotations": true,
+    "maxError": 0
+  },
+  "conclusion": "Unresolved source/assembly risks remain; checker and matrix results are not physical acceptance.",
+  "accepted": false,
+  "physicalValidation": false,
+  "currentPixelReview": {
+    "file": "current-pixel-review.json",
+    "revision": "2c0b7a80978fc0ecc7ebb214b61c0ba91cb56979410ff43349521b60ddd502cc",
+    "sourceSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
+    "finalViewsObserved": 3,
+    "cumulativeStepsObserved": 10,
+    "observationCoverageOnly": true,
+    "assemblyPass": false
+  }
+}

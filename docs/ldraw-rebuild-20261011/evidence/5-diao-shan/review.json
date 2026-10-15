@@ -1,0 +1,72 @@
+{
+  "slug": "5-diao-shan",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 10,
+  "sourcePixels": "10-page contact sheet and enlarged structural pages viewed",
+  "modelSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+  "unknown": [
+    {
+      "page": 7,
+      "part": "two official6526 blade carriers and61898bc01 cross stack",
+      "missing": "IDs and80LDU offset hole correspondence confirmed; opposed clamp depth/rotor phase inferred, friction and physical clamp retention untested"
+    },
+    {
+      "page": 8,
+      "part": "gear mesh and crank retention",
+      "missing": "source-backed axes and120LDU spacing; physical mesh/retention untested"
+    }
+  ],
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
+  "knownApproximate": [],
+  "render": {
+    "sourceSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+    "viewsActuallyInspected": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "cumulativeStepsActuallyInspected": false,
+    "finding": "D full-frame final3 and original iso/rear inspected against sourcep7. Two6526 carriers added to67-part source08253354. Carrier, shaft and crossed formed61898bc01 paper placement visible without new gross intersection. Official hole/pin geometry establishes static alignment;12LDU sheet displacement is assembly inference, not source measurement. Min beam-to-paper surface gaps24.177/37.340LDU, upper carrier-to-beam4LDU; lower shaft protrudes5LDU. See blade-carrier-evidence.json. Clamp phase/depth and physical friction remain unverified; current cumulative steps not reviewed."
+  },
+  "rawCollisionChecker": "PASS",
+  "inventoryMechanicalDeficits": [
+    {
+      "part": "6522.dat",
+      "sourceQuantity": 9,
+      "9656DesignTotal": 7,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    },
+    {
+      "part": "6527.dat",
+      "sourceQuantity": 17,
+      "9656DesignTotal": 15,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    },
+    {
+      "part": "75349.dat",
+      "sourceQuantity": 7,
+      "9656DesignTotal": 4,
+      "additionalBeyondSingle9656IgnoringColor": 3
+    },
+    {
+      "part": "75350.dat",
+      "sourceQuantity": 4,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    }
+  ],
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "partIdentityEvidence": "D:/Codex-task-2-20261011/inputs/pdfbatch1/5-diao-shan/bom-detail-7.jpg and bom-detail-8.jpg actually viewed",
+  "currentCumulativePixelReview": {
+    "sourceSha256": "08253354d156030a2822543dcc1651ee8fdf985e9f630767404b0b89aa53ea3c",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 10,
+    "currentDfinalActuallyReviewed": true,
+    "limitations": "All10 cumulative D frames compared with source10-page contact; originalstep7 inspected. Current67-part source includes two6526 carriers and crossed formed paper leaves before step8 drive gear. Rotor phase, opposed clamp depth and12LDU paper shift remain assembly inference, not source measurement or physical proof. See blade-carrier-evidence.json for static axes/gaps; hidden clamp faces partially occluded in step view. No physical acceptance."
+  }
+}

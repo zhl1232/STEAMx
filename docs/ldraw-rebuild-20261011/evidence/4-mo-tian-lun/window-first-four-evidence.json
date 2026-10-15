@@ -1,0 +1,195 @@
+{
+  "at": "2026-10-11T08:36:17.831Z",
+  "status": "Applied common four assemblies; corrected facing actually reviewed in current final3 and all12 steps; INCOMPLETE and no physical acceptance",
+  "sourceSha256": "6c174f6c3ccbe3d33dae7e8dc48cdebfb379d116cd460848d8c59ea55d442424",
+  "candidateSha256": "c4dad2b6e73dba5e9910b24bca1ec2a7ceb4190740a19810ca979dc6ad0133c0",
+  "sourcePage": 12,
+  "sourceImage": "preparation/4-mo-tian-lun/source-12.jpg",
+  "sourceImageSha256": "d899a81de0569b8b5d0a1688f589bc367ed595e1d1dec5c06f2da8dbe0747903",
+  "identity": {
+    "ids": [
+      "61649.dat",
+      "90265.dat"
+    ],
+    "basis": "9090-2 inventory exact red frame6/white four-equal-pane window6, plus sourcep12 flat front and equal4pane window geometry.",
+    "oldFrameAlternatives": "2332ac01/4253c01 complete frame+back plate; neither includes white90265."
+  },
+  "commonSubset": {
+    "description": "The visible window in each seat aligns with lower end of blue2x8 plate; lower four stud rows support one2x4 underside footprint. Both competing layouts for hidden second frame preserve this first assembly.",
+    "plates": [
+      {
+        "x": -40,
+        "blueCentreY": -396,
+        "plateStudPlaneZ": 417,
+        "usedStudX": [
+          -60,
+          -20
+        ],
+        "usedStudY": [
+          -376,
+          -336,
+          -296,
+          -256
+        ],
+        "frameOrigin": [
+          -40,
+          -316,
+          561
+        ],
+        "frameBottomPlaneZ": 417,
+        "frameWidthY": [
+          -396,
+          -236
+        ],
+        "windowHingeOffsetLocal": [
+          65.5,
+          72,
+          -40
+        ]
+      },
+      {
+        "x": -288,
+        "blueCentreY": -724,
+        "plateStudPlaneZ": 417,
+        "usedStudX": [
+          -308,
+          -268
+        ],
+        "usedStudY": [
+          -704,
+          -664,
+          -624,
+          -584
+        ],
+        "frameOrigin": [
+          -288,
+          -644,
+          561
+        ],
+        "frameBottomPlaneZ": 417,
+        "frameWidthY": [
+          -724,
+          -564
+        ],
+        "windowHingeOffsetLocal": [
+          65.5,
+          72,
+          -40
+        ]
+      },
+      {
+        "x": 40,
+        "blueCentreY": -972,
+        "plateStudPlaneZ": 417,
+        "usedStudX": [
+          20,
+          60
+        ],
+        "usedStudY": [
+          -952,
+          -912,
+          -872,
+          -832
+        ],
+        "frameOrigin": [
+          40,
+          -892,
+          561
+        ],
+        "frameBottomPlaneZ": 417,
+        "frameWidthY": [
+          -972,
+          -812
+        ],
+        "windowHingeOffsetLocal": [
+          65.5,
+          72,
+          -40
+        ]
+      },
+      {
+        "x": 288,
+        "blueCentreY": -644,
+        "plateStudPlaneZ": 417,
+        "usedStudX": [
+          268,
+          308
+        ],
+        "usedStudY": [
+          -624,
+          -584,
+          -544,
+          -504
+        ],
+        "frameOrigin": [
+          288,
+          -564,
+          561
+        ],
+        "frameBottomPlaneZ": 417,
+        "frameWidthY": [
+          -644,
+          -484
+        ],
+        "windowHingeOffsetLocal": [
+          65.5,
+          72,
+          -40
+        ]
+      }
+    ],
+    "rotation": [
+      0,
+      0,
+      1,
+      -1,
+      0,
+      0,
+      0,
+      -1,
+      0
+    ],
+    "rows": [
+      "1 4 -40 -316 561 0 0 1 -1 0 0 0 -1 0 61649.dat",
+      "1 15 -80 -381.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat",
+      "1 4 -288 -644 561 0 0 1 -1 0 0 0 -1 0 61649.dat",
+      "1 15 -328 -709.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat",
+      "1 4 40 -892 561 0 0 1 -1 0 0 0 -1 0 61649.dat",
+      "1 15 0 -957.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat",
+      "1 4 288 -564 561 0 0 1 -1 0 0 0 -1 0 61649.dat",
+      "1 15 248 -629.5 489 0 0 1 -1 0 0 0 -1 0 90265.dat"
+    ]
+  },
+  "remainingFour": {
+    "identityKnown": true,
+    "unresolved": "Whether second frame occupies upper four blueplate rows or stacks outward on first frame top studs; reverse window facing not resolved. Do not double-place or count as complete."
+  },
+  "inventory": {
+    "set": "9090-2",
+    "reference": {
+      "61649.dat": 6,
+      "90265.dat": 6
+    },
+    "sourceTarget": {
+      "61649.dat": 8,
+      "90265.dat": 8
+    },
+    "candidatePlaced": {
+      "61649.dat": 4,
+      "90265.dat": 4
+    },
+    "extraForCompleteTarget": {
+      "61649.dat": 2,
+      "90265.dat": 2
+    },
+    "userPhysicalStock": "unknown"
+  },
+  "limitations": [
+    "Visible lower-row placement is inferred from source bottom alignment, not measured physical mating.",
+    "White window face corrected toward world-X after source/render comparison; corrected rendering pending.",
+    "Original tower/turntable/arm interfaces remain provisional; four assemblies still omitted."
+  ],
+  "accepted": false,
+  "appliedAt": "2026-10-11T08:48:08.400Z",
+  "appliedSourceSha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d"
+}

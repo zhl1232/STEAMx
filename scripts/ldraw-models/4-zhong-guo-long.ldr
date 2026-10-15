@@ -1,43 +1,81 @@
-0 4+ 中国龙 (Chinese Dragon) - DUPLO draft for manual repair
+0 Chinese dragon - INCOMPLETE unaccepted source reconstruction
 0 Name: 4-zhong-guo-long.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
+0 // BATCH4 source p5/p10 rechecked: blue Toolo head wings/tail and two orange toothed front blades remain omitted. Candidate catalog IDs are not confirmed placements; no matching usable geometry established. NOT FIXED.
+0 // BATCH3 2026-10-12: P5 shows blue Toolo head wings, NOT a rider. Unsupported blue wings remain explicitly omitted. P11-12 orange decorations are square 2x2 bricks; dark-gray structural bodies retained as source gray, light-gray eyes face the front jaw screw plane. Eye screw seating remains approximate.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+中国龙 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Sinuous body, legs, crest, horns and whiskers are simplified.
-
-0 // STEP 1 - long black/orange body
-1 0 -360 -96 0 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 25 -240 -144 0 0.866 0.500 0 -0.500 0.866 0 0 0 1 3437.dat
-1 0 -120 -192 0 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 25 0 -240 0 0.866 0.500 0 -0.500 0.866 0 0 0 1 3437.dat
-1 0 120 -288 0 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 25 240 -336 0 0.866 0.500 0 -0.500 0.866 0 0 0 1 3437.dat
+0 // Source PDF SHA256 de176ffaf6642f30107e5511bc9a7dd9a77c3d1bb0ba8e66cd8e63c658a30bb3; all source pages actually viewed. Existing approved Toolo approximations only; no physical validation.
+0 // SOURCE PAGE 1: four eleven-stud long fork arms form straight segmented spine
+1 72 0 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-zhong-guo-long.dat
+1 72 400 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-zhong-guo-long.dat
+1 72 800 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-zhong-guo-long.dat
+1 72 1200 -400 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-zhong-guo-long.dat
 0 STEP
-
-0 // STEP 2 - legs and claws
-1 0 -160 -72 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 120 -216 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 -160 -72 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 0 120 -216 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 25 -240 -24 -180 1 0 0 0 1 0 0 0 1 40666.dat
-1 25 40 -168 -180 1 0 0 0 1 0 0 0 1 40666.dat
-1 25 -240 -24 180 1 0 0 0 1 0 0 0 1 40666.dat
-1 25 40 -168 180 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE 2: two clutch cubes and neck fork
+1 72 0 -460 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 0 -508 0 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -48 -633 0 1 0 0 0 1 0 0 0 1 74957.dat
 0 STEP
-
-0 // STEP 3 - raised neck and head
-1 0 320 -384 0 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 0 400 -456 0 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 4 480 -528 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 560 -576 -80 1 0 0 0 1 0 0 0 1 2302.dat
-1 15 520 -624 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 3: three gray Toolo2x4 form staggered upper jaw
+1 72 -88 -681 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 -248 -681 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 72 -168 -729 0 1 0 0 0 1 0 0 0 1 76057.dat
 0 STEP
-
-0 // STEP 4 - blue crest and tail
-1 1 520 -744 -160 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 1 700 -744 -160 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 0 -640 -48 40 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 0 -780 0 80 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 25 560 -528 -160 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE 4: yellow spacer and lower jaw
+1 14 -168 -633 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 72 -168 -585 0 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+0 // SOURCE PAGE 5: two screw rims form eyes; unsupported wing/tail substitutes prohibited
+1 7 -273 -705 -40 0 -1 0 1 0 0 0 0 1 99565.dat
+1 7 -273 -705 40 0 -1 0 1 0 0 0 0 1 99565.dat
+0 // Hand fix 2026-10-13: blue head crest = 45117c01 wing + 31239c01 spoiler (copies of approved 4-ke-ji v2 approximations), spoiler sweeping back (+X).
+1 1 -168 -729 0 1 0 0 0 1 0 0 0 1 dev-129/45117c01-zhong-guo-long.dat
+1 1 -168 -777 0 1 0 0 0 1 0 0 0 1 dev-129/31239c01-zhong-guo-long.dat
+0 STEP
+0 // SOURCE PAGE 6: two spine clutch supports and four upper vertical leg bricks
+1 72 220 -460 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 220 -380 -88 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 220 -380 88 0 0 -1 1 0 0 0 -1 0 76057.dat
+1 72 1020 -460 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 1020 -380 -88 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 1020 -380 88 0 0 -1 1 0 0 0 -1 0 76057.dat
+0 STEP
+0 // SOURCE PAGE 7: four lower leg bricks offset outward on upper stud faces
+1 72 220 -300 -136 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 220 -300 136 0 0 -1 1 0 0 0 -1 0 76057.dat
+1 72 1020 -300 -136 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 1020 -300 136 0 0 -1 1 0 0 0 -1 0 76057.dat
+0 STEP
+0 // SOURCE PAGE 8: two fork ankles and two short toe arms
+1 72 220 -200 -136 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -28 -265 -136 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
+1 72 220 -200 136 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -28 -265 136 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
+0 STEP
+0 // SOURCE PAGE 9: two fork ankles and two short toe arms
+1 72 1020 -200 -136 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 772 -265 -136 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
+1 72 1020 -200 136 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 772 -265 136 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
+0 STEP
+0 // SOURCE PAGE 10: two rear scoop toes; two front wide toothed blades lack verified geometry
+0 // Hand fix 2026-10-13: rear toe scoops resized (1.3x small scoop), opening forward (-X).
+1 25 772 -265 -136 -1 0 0 0 1 0 0 0 -1 dev-129/scoop-zhong-guo-long.dat
+1 25 772 -265 136 -1 0 0 0 1 0 0 0 -1 dev-129/scoop-zhong-guo-long.dat
+0 // Hand fix 2026-10-13: two front orange toothed rake feet on front toe-arm ends (copy of 4-yi-long rake approximation).
+1 25 -28 -245 -136 1 0 0 0 1 0 0 0 1 dev-129/rake-zhong-guo-long.dat
+1 25 -28 -245 136 -1 0 0 0 1 0 0 0 -1 dev-129/rake-zhong-guo-long.dat
+0 STEP
+0 // SOURCE PAGE 11: four orange 2x2 square leg decorations on outward-facing studs
+1 25 220 -420 -136 0 0 1 1 0 0 0 1 0 3437.dat
+1 25 220 -340 -184 0 0 1 1 0 0 0 1 0 3437.dat
+1 25 220 -420 136 0 0 -1 1 0 0 0 -1 0 3437.dat
+1 25 220 -340 184 0 0 -1 1 0 0 0 -1 0 3437.dat
+0 STEP
+0 // SOURCE PAGE 12: four orange 2x2 square leg decorations on outward-facing studs
+1 25 1020 -420 -136 0 0 1 1 0 0 0 1 0 3437.dat
+1 25 1020 -340 -184 0 0 1 1 0 0 0 1 0 3437.dat
+1 25 1020 -420 136 0 0 -1 1 0 0 0 -1 0 3437.dat
+1 25 1020 -340 184 0 0 -1 1 0 0 0 -1 0 3437.dat
+0 // Source13 finished view: no additions. Source angles and hidden Toolo screw engagement remain manual; all geometry is official or previously approved approximation.

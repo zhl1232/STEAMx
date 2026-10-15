@@ -1,39 +1,182 @@
-0 5+ 地球仪 (Globe) - DUPLO draft for manual repair
+0 5-di-qiu-yi - source-based dev-only reconstruction
 0 Name: 5-di-qiu-yi.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+地球仪 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Globe layers, latitude colors, support arc and stand are simplified.
-
-0 // STEP 1 - green base and stand
-1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 0 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -168 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: green24x24 base; ten yellow and ten red bricks form lower stepped support
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 14 -80 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -80 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -160 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -240 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -240 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -320 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -336 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -400 -432 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -400 -432 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -480 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -400 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 2 - colorful globe stack
-1 14 -120 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 40 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -160 -264 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -264 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 160 -264 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 2 -120 -312 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -312 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -40 -360 -160 1 0 0 0 1 0 0 0 1 2302.dat
+0 // Source page 2: eight yellow and eight red bricks bend upper support back toward globe
+1 14 -400 -528 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -400 -528 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -576 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -576 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -320 -624 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -624 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -672 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -240 -672 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -240 -720 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -240 -720 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -768 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -160 -768 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -816 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -816 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -864 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -80 -864 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 3 - red/yellow meridian arc
-1 4 -220 -216 240 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 14 -300 -288 0 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 4 -360 -360 -160 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 14 -400 -432 -200 1 0 0 0 0 -1 0 1 0 31452.dat
-1 4 -320 -520 -40 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
+0 // Source page 3: two red bearings on base and short blue geared pivot axle
+1 4 160 -48 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 160 -96 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 160 -120 0 0 1 0 -1 0 0 0 0 1 6523.dat
 0 STEP
-
-0 // STEP 4 - top cap and pointer
-1 14 -40 -408 -200 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 120 -360 -160 0 0 1 0 1 0 -1 0 0 40666.dat
-1 14 220 -360 -160 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // Source page 4: one rotating lower red bearing brick
+1 4 160 -192 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // Source page 5: two blue bottom bricks and four lightblue ring bricks
+1 1 160 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 9 120 -288 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 9 240 -288 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 9 200 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 9 80 -288 40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 6: 8stud hollow square course; source BOM 6 bricks
+1 14 40 -336 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -336 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -336 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 280 -336 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -336 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -336 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // Source page 7: 10stud hollow square course; source BOM 8 bricks
+1 27 40 -384 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 200 -384 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 320 -384 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 320 -384 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 280 -384 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 120 -384 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 0 -384 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 0 -384 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 8: 12stud hollow square course; source BOM 10 bricks
+1 27 -40 -432 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 -40 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -40 -432 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 80 -432 -200 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 2 240 -432 -200 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 27 360 -432 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 360 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 360 -432 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 240 -432 200 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 2 80 -432 200 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // Source page 9: 14stud hollow square course; source BOM 12 bricks
+1 14 -40 -480 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 120 -480 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -480 -240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 400 -480 -200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 400 -480 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 400 -480 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 360 -480 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 200 -480 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -480 240 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 -80 -480 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -480 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 -80 -480 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 10: 14stud hollow square course; source BOM 12 bricks
+1 25 -80 -528 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -528 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 -80 -528 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -40 -528 -240 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 25 120 -528 -240 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 280 -528 -240 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 25 400 -528 -200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 400 -528 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 400 -528 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 360 -528 240 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 25 200 -528 240 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 40 -528 240 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // Source page 11: 12stud hollow square course; source BOM 10 bricks
+1 2 0 -576 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 160 -576 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 320 -576 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 360 -576 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 360 -576 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 320 -576 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 160 -576 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 0 -576 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 2 -40 -576 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -40 -576 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 12: 10stud hollow square course; source BOM 8 bricks
+1 27 0 -624 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 0 -624 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 40 -624 -160 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 2 200 -624 -160 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 27 320 -624 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 2 320 -624 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 280 -624 160 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 2 120 -624 160 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // Source page 13: 8stud hollow square course; source BOM 6 bricks
+1 14 80 -672 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -672 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -672 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -672 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -672 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -672 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 14: 6stud hollow square course; source BOM 4 bricks
+1 9 80 -720 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 9 120 -720 -80 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 9 240 -720 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 9 200 -720 80 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // Source page 15: two blue bricks close upper pole
+1 1 120 -768 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 200 -768 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 16: red upper rotating bearing
+1 4 160 -816 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // Source page 17: four yellow caps secure one long red support beam
+1 14 -120 -960 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -960 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -1008 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -1008 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -912 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // Source page 18: upper grey six-stud axle and two yellow pulley collars
+1 7 160 -848 0 0 -1 0 1 0 0 0 0 1 6522.dat
+1 14 160 -840 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 160 -932 0 1 0 0 0 0 -1 0 1 0 6527.dat
+0 // PENDING: Lower geared shaft and upper shaft pass through stud/tube apertures rather than side holes; exact locking and free rotation require review.
+0 // PENDING: SourceBOM and every ring width retained; rear-facing seam/colour assignment partly inferred from visible alternation.
+0 // PENDING: Support arm is a cantilever; checker cannot certify physical balance or free spinning.
+0 // PENDING: Axle lengths match source silhouettes but no dimensioned drawing; upper six-stud choice remains provisional.
+0 // PENDING: Sourcep18 pixel correction: upper shaft now protrudes16LDU above collar; axial capture remains provisional. Upper cap shifted one stud rearwards. Rerender required.
+0 // Source page 19: finished view, no duplicated placements.

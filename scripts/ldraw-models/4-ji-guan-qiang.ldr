@@ -1,35 +1,76 @@
-0 4+ 机关枪 (Machine Gun) - DUPLO draft for manual repair
+0 4+ Brick toy machine gun - source reconstruction draft
 0 Name: 4-ji-guan-qiang.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+机关枪 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Tripod, receiver and long barrel are simplified.
-
-0 // STEP 1 - green base and tripod
-1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 0 -120 -96 80 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 0 120 -96 80 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 0 0 -96 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // INCOMPLETE: source p10 black2223Uholder unavailable and omitted; red14094tipper imported.
+0 // All 13 PDF source pages actually viewed; page13 adds no parts.
+0 // Toolo geometry remains approved approximation; hidden joints require review.
+0 // SOURCE PAGE 1
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 0 0 -48 -160 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -48 160 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -96 -160 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -96 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -96 160 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 -144 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -192 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 2 - black support tower
-1 0 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 2
+1 0 0 -232 0 1 0 0 0 1 0 0 0 1 60535.dat
 0 STEP
-
-0 // STEP 3 - gun body
-1 0 80 -264 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 240 -264 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -312 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 160 -312 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 3
+1 0 0 -280 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -80 -328 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 80 -328 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 4 - barrel and stock
-1 14 400 -264 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 14 520 -264 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 8 640 -264 -40 0 0 1 0 1 0 -1 0 0 40666.dat
-1 4 -140 -288 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 4 -240 -336 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4
+1 0 -80 -376 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -80 -424 0 0 0 1 0 1 0 -1 0 0 76395.dat
+0 STEP
+0 // SOURCE PAGE 5
+1 72 -80 -472 -80 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -120 -280 -80 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 -80 -472 80 0 0 -1 0 1 0 1 0 0 28336.dat
+1 72 -120 -280 80 1 0 0 0 1 0 0 0 1 74957.dat
+0 STEP
+0 // SOURCE PAGE 6
+1 72 -288 -657 -80 0.6 0.8 0 -0.8 0.6 0 0 0 1 dev-129/28334.dat
+1 72 -316.355596 -258.006316 -80 -0.9974842109990903 0.07088898932501465 0 -0.07088898932501465 -0.9974842109990903 0 0 0 1 dev-129/28331.dat
+1 72 -316.355596 -258.006316 -80 0.19003157800181925 0.9817779786500292 0 -0.9817779786500292 0.19003157800181925 0 0 0 1 dev-129/28334.dat
+1 72 -288 -657 80 0.6 0.8 0 -0.8 0.6 0 0 0 1 dev-129/28334.dat
+1 72 -316.355596 -258.006316 80 -0.9974842109990903 0.07088898932501465 0 -0.07088898932501465 -0.9974842109990903 0 0 0 1 dev-129/28331.dat
+1 72 -316.355596 -258.006316 80 0.19003157800181925 0.9817779786500292 0 -0.9817779786500292 0.19003157800181925 0 0 0 1 dev-129/28334.dat
+0 STEP
+0 // SOURCE PAGE 7
+1 72 120 -376 0 0 0 1 0 1 0 -1 0 0 76057.dat
+0 STEP
+0 // SOURCE PAGE 8
+1 14 240 -328 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 160 -376 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -328 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 320 -376 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 560 -328 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 480 -376 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 720 -328 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 640 -376 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 9
+1 72 800 -376 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 71 905 -352 0 0 1 0 -1 0 0 0 0 1 99565.dat
+0 STEP
+0 // SOURCE PAGE 10
+0 // UNRESOLVED black U holder x1 at barrel front; omitted, do not replace with hinge-base.
+0 STEP
+0 // SOURCE PAGE 11
+1 14 80 -400 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 240 -400 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 400 -400 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 560 -400 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 720 -400 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // SOURCE PAGE 12
+0 // Source red14094tipper: real unofficial CC BY4 mesh; bottomY5 meets yellow cap plane.
+1 4 0 -405 0 0 0 -1 0 1 0 1 0 0 14094.dat
+0 // SOURCE PAGE13 final presentation, no added parts.
+0 // ok-batch4 UNFIXED: p10 black2223 ladder stand has no confirmed available mesh; omitted, no substitute.

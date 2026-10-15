@@ -1,0 +1,2781 @@
+{
+  "slug": "4-tui-tu-ji",
+  "modelSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c",
+  "checkpointSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c",
+  "matchesCheckpoint": true,
+  "reviewedAt": "2026-10-11T07:10:56.478978+00:00",
+  "rawExit": 0,
+  "alarms": [],
+  "manualWarnings": [
+    {
+      "message": "4-tui-tu-ji_l9 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 9,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -240.0,
+            -77.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l10 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 10,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -80.0,
+            -77.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l11 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 11,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            80.0,
+            -77.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l12 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 12,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            240.0,
+            -77.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l13 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 13,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l13 overlaps 4-tui-tu-ji_l9; manual collision accepted",
+      "placements": [
+        {
+          "line": 13,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 9,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -240.0,
+            -77.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l13 overlaps 4-tui-tu-ji_l10; manual collision accepted",
+      "placements": [
+        {
+          "line": 13,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 10,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -80.0,
+            -77.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l14 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l14 overlaps 4-tui-tu-ji_l10; manual collision accepted",
+      "placements": [
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 10,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -80.0,
+            -77.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l14 overlaps 4-tui-tu-ji_l11; manual collision accepted",
+      "placements": [
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 11,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            80.0,
+            -77.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l15 76395.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l15 overlaps 4-tui-tu-ji_l11; manual collision accepted",
+      "placements": [
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 11,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            80.0,
+            -77.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l15 overlaps 4-tui-tu-ji_l12; manual collision accepted",
+      "placements": [
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        },
+        {
+          "line": 12,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            240.0,
+            -77.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l18 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 18,
+          "part": "3011.dat",
+          "sourcePage": 2,
+          "transform": [
+            -280.0,
+            -125.08421408,
+            -40.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l18 overlaps 4-tui-tu-ji_l9; manual collision accepted",
+      "placements": [
+        {
+          "line": 18,
+          "part": "3011.dat",
+          "sourcePage": 2,
+          "transform": [
+            -280.0,
+            -125.08421408,
+            -40.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 9,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -240.0,
+            -77.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l19 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 19,
+          "part": "3437.dat",
+          "sourcePage": 2,
+          "transform": [
+            -280.0,
+            -125.08421408,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l19 overlaps 4-tui-tu-ji_l9; manual collision accepted",
+      "placements": [
+        {
+          "line": 19,
+          "part": "3437.dat",
+          "sourcePage": 2,
+          "transform": [
+            -280.0,
+            -125.08421408,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        },
+        {
+          "line": 9,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -240.0,
+            -77.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l22 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 22,
+          "part": "99565.dat",
+          "sourcePage": 3,
+          "transform": [
+            -240.0,
+            -53.08421408,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l23 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 23,
+          "part": "99565.dat",
+          "sourcePage": 3,
+          "transform": [
+            -240.0,
+            -53.08421408,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l24 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 24,
+          "part": "99565.dat",
+          "sourcePage": 3,
+          "transform": [
+            -80.0,
+            -53.08421408,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l25 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 25,
+          "part": "99565.dat",
+          "sourcePage": 3,
+          "transform": [
+            -80.0,
+            -53.08421408,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l29 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 29,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            80.0,
+            -53.08421408,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l30 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 30,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            80.0,
+            -53.08421408,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l31 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 31,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            240.0,
+            -53.08421408,
+            -145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l32 99565.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 32,
+          "part": "99565.dat",
+          "sourcePage": 4,
+          "transform": [
+            240.0,
+            -53.08421408,
+            145.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l36 28336.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 36,
+          "part": "28336.dat",
+          "sourcePage": 5,
+          "transform": [
+            280.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l36 overlaps 4-tui-tu-ji_l12; manual collision accepted",
+      "placements": [
+        {
+          "line": 36,
+          "part": "28336.dat",
+          "sourcePage": 5,
+          "transform": [
+            280.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc"
+        },
+        {
+          "line": 12,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            240.0,
+            -77.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l40 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 40,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -200.0,
+            -173.08421408,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l40 overlaps 4-tui-tu-ji_l13; manual collision accepted",
+      "placements": [
+        {
+          "line": 40,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -200.0,
+            -173.08421408,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 13,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l41 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 41,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -40.0,
+            -173.08421408,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l41 overlaps 4-tui-tu-ji_l13; manual collision accepted",
+      "placements": [
+        {
+          "line": 41,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -40.0,
+            -173.08421408,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 13,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l41 overlaps 4-tui-tu-ji_l14; manual collision accepted",
+      "placements": [
+        {
+          "line": 41,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -40.0,
+            -173.08421408,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l42 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 42,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            120.0,
+            -173.08421408,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l42 overlaps 4-tui-tu-ji_l14; manual collision accepted",
+      "placements": [
+        {
+          "line": 42,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            120.0,
+            -173.08421408,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l42 overlaps 4-tui-tu-ji_l15; manual collision accepted",
+      "placements": [
+        {
+          "line": 42,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            120.0,
+            -173.08421408,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l43 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 43,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -200.0,
+            -173.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l43 overlaps 4-tui-tu-ji_l13; manual collision accepted",
+      "placements": [
+        {
+          "line": 43,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -200.0,
+            -173.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 13,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l44 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 44,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -40.0,
+            -173.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l44 overlaps 4-tui-tu-ji_l13; manual collision accepted",
+      "placements": [
+        {
+          "line": 44,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -40.0,
+            -173.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 13,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l44 overlaps 4-tui-tu-ji_l14; manual collision accepted",
+      "placements": [
+        {
+          "line": 44,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -40.0,
+            -173.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l45 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 45,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            120.0,
+            -173.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l45 overlaps 4-tui-tu-ji_l14; manual collision accepted",
+      "placements": [
+        {
+          "line": 45,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            120.0,
+            -173.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l45 overlaps 4-tui-tu-ji_l15; manual collision accepted",
+      "placements": [
+        {
+          "line": 45,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            120.0,
+            -173.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l46 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 46,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -200.0,
+            -173.08421408,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l46 overlaps 4-tui-tu-ji_l13; manual collision accepted",
+      "placements": [
+        {
+          "line": 46,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -200.0,
+            -173.08421408,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 13,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l47 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 47,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -40.0,
+            -173.08421408,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l47 overlaps 4-tui-tu-ji_l13; manual collision accepted",
+      "placements": [
+        {
+          "line": 47,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -40.0,
+            -173.08421408,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 13,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            -160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l47 overlaps 4-tui-tu-ji_l14; manual collision accepted",
+      "placements": [
+        {
+          "line": 47,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            -40.0,
+            -173.08421408,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l48 3011.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 48,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            120.0,
+            -173.08421408,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l48 overlaps 4-tui-tu-ji_l14; manual collision accepted",
+      "placements": [
+        {
+          "line": 48,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            120.0,
+            -173.08421408,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 14,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            0.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l48 overlaps 4-tui-tu-ji_l15; manual collision accepted",
+      "placements": [
+        {
+          "line": 48,
+          "part": "3011.dat",
+          "sourcePage": 6,
+          "transform": [
+            120.0,
+            -173.08421408,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6"
+        },
+        {
+          "line": 15,
+          "part": "76395.dat",
+          "sourcePage": 1,
+          "transform": [
+            160.0,
+            -125.08421408,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "collisionPolicy": "manual",
+          "supportPolicy": "manual",
+          "collisionRegionCount": 0,
+          "actualDatSha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Collision automatically downgraded under existing manual part policy; not mesh-clearance proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l51 4198.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 51,
+          "part": "4198.dat",
+          "sourcePage": 7,
+          "transform": [
+            120.0,
+            -269.08421408,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "676462ff7a3b9d09bd02c092fdc1aee0ef8d4e5826c4ef2f466cadcf9e983412"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l52 4198.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 52,
+          "part": "4198.dat",
+          "sourcePage": 7,
+          "transform": [
+            120.0,
+            -269.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "676462ff7a3b9d09bd02c092fdc1aee0ef8d4e5826c4ef2f466cadcf9e983412"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l53 4198.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 53,
+          "part": "4198.dat",
+          "sourcePage": 7,
+          "transform": [
+            120.0,
+            -269.08421408,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "676462ff7a3b9d09bd02c092fdc1aee0ef8d4e5826c4ef2f466cadcf9e983412"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l57 61649.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 57,
+          "part": "61649.dat",
+          "sourcePage": 8,
+          "transform": [
+            -200.0,
+            -317.08421408,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l59 61649.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 59,
+          "part": "61649.dat",
+          "sourcePage": 8,
+          "transform": [
+            -40.0,
+            -317.08421408,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l61 61649.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 61,
+          "part": "61649.dat",
+          "sourcePage": 8,
+          "transform": [
+            -200.0,
+            -317.08421408,
+            80.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l63 61649.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 63,
+          "part": "61649.dat",
+          "sourcePage": 8,
+          "transform": [
+            -40.0,
+            -317.08421408,
+            80.0,
+            -1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "92acfec51ced5defecf1bd2916285b14b30fc44b1f91989db4fe450a6781a9a8"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l65 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 65,
+          "part": "3437.dat",
+          "sourcePage": 8,
+          "transform": [
+            -240.0,
+            -221.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l66 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 66,
+          "part": "3437.dat",
+          "sourcePage": 8,
+          "transform": [
+            -240.0,
+            -269.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l67 3437.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 67,
+          "part": "3437.dat",
+          "sourcePage": 8,
+          "transform": [
+            -240.0,
+            -317.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l70 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 70,
+          "part": "40666.dat",
+          "sourcePage": 9,
+          "transform": [
+            -200.0,
+            -341.08421408,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l71 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 71,
+          "part": "40666.dat",
+          "sourcePage": 9,
+          "transform": [
+            -40.0,
+            -341.08421408,
+            -80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l72 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 72,
+          "part": "40666.dat",
+          "sourcePage": 9,
+          "transform": [
+            -200.0,
+            -341.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l73 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 73,
+          "part": "40666.dat",
+          "sourcePage": 9,
+          "transform": [
+            -40.0,
+            -341.08421408,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l74 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 74,
+          "part": "40666.dat",
+          "sourcePage": 9,
+          "transform": [
+            -200.0,
+            -341.08421408,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    },
+    {
+      "message": "4-tui-tu-ji_l75 40666.dat support manually accepted: Raw LDR draft check; source model has no reviewed assembly support graph.",
+      "placements": [
+        {
+          "line": 75,
+          "part": "40666.dat",
+          "sourcePage": 9,
+          "transform": [
+            -40.0,
+            -341.08421408,
+            80.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "collisionPolicy": "checked",
+          "supportPolicy": "structural",
+          "collisionRegionCount": 1,
+          "actualDatSha256": "152b2ad0fd855f91ca2067076b8a3ae80df2b8f39db6367088fd6321266da4a5"
+        }
+      ],
+      "classification": "insufficient-evidence",
+      "meaning": "Raw-LDR loader assigns manual support; no support graph, retention or stability proof.",
+      "evidence": "Checker ldraww-common resolveAssembly policy and exact placements above; source-page/final-pixel observations in ledger/current-pixel-review do not validate hidden interfaces. Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+      "reliableFixAvailable": false,
+      "action": "Retain for cumulative-step/source-interface review; do not guess or suppress."
+    }
+  ],
+  "noErrorMeaning": "Exit0 only means no unsuppressed checker errors. All raw placements are manual support; some parts also manual collision. Not assembly acceptance.",
+  "remainingCourseLimitations": "Four tracks and blade absent; rim-only support cannot demonstrate ground contact;4198 identity source-inferred.",
+  "geometryDiagnostic": "../owned-mesh-alarm-diagnostic.json",
+  "sourceEvidence": "source pages actually viewed previously, plus relevant source final/interface pages in current review; see ledger.md",
+  "modelEdited": false,
+  "accepted": false,
+  "physicalValidation": false
+}

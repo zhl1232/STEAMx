@@ -1,0 +1,24 @@
+{
+  "beforeSha256": "6714080ea3549bf745f2952368002e6e7af3db6abaa2594153de6c1536b5dfc0",
+  "afterSha256": "ae839b2861358adafaabf3396188062f08735f590c502d03f60d4298111b1772",
+  "oldRevisionSeen": "fd2b31f2cad9e45672139348fe85d1780801a128cec8a82d1a072ac96199d32b",
+  "actuallySeen": [
+    "final3 contact sheet",
+    "all17 cumulative step contact sheet",
+    "step3/14/16 andiso originals",
+    "sourcep3/8/14 originals",
+    "enlarged sourcep3 fork detail"
+  ],
+  "sourceCrop": "D:/Codex-task-2-20261011/rendered-evidence/source-pages/cable-p3-fork-detail.png",
+  "correction": "Lowfork redplates were incorrectly below bearingbeams; source shows above andrearward bridging yellowfiller. Movebeamtop-456 to-432, thinplate top-408 to-456 andXlow-80 tolow. LowshaftY-432 to-408; rederive railandcarriage rigidtransforms, no scaling. Sourcepartcount unchanged.",
+  "affectedSteps": "1 loosebasealignment;2-3 lowtower/fork;4-6rail;9retainers;15-17carriage; fresh all17 required",
+  "newReview": {
+    "revision": "2256d4fd4797edbfd692402beee193d35dfe7bb2c7f4dfb7220512c83bc850fb",
+    "images": 21,
+    "final3": true,
+    "all17steps": true,
+    "right": true,
+    "result": "Sourcep3 cap-above-beam layer correction visibly confirmed; no additional definite source error identified; all unresolved risks retained."
+  },
+  "accepted": false
+}

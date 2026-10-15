@@ -1,0 +1,80 @@
+{
+  "sourceSha256": "7f553094f5606a443730f4d0bf6a100e9c9ec260acb36140ae986358c0102159",
+  "revision": "fe789caab9601d63ce52aa46c2e1e7c763a5678069d4562df330dff3fa9b3180",
+  "reviewedAt": "2026-10-11T07:49:31.984286+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-qian-shui-ting",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "9263febd5e947d48107f64a2fec5136ec16ebe7379b1c24fdd2cc3224da22486",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "f96f5a70b7cc228b223f505d6d756727c0c2fe4a63d276bc380bc5ebcecfb68b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "b046ab1842b6f1ca8370a8780ad0d1926d992f6858d5ddcc8e136a06031cc129",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "bfad00d72139d694c4048553a86d9ba23da262913a232201152c42581daa918d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "3fcd9937b07968c4f0573aac34feda379538289ad82ae072b5b9f30c728098d1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "cd6c3bdfe4959823cc39be37dc0f44980db0e47b6964bc8c209683aab6a26df4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "29f70e1bb16af625c83415008bbf2b9095cb13e782ab3ba6416732376344a5a1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "3c23f3c8526cef872d4369d84b7dacb4e70db1ae243489ad1c147be54a500d93",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "18d3e806c1a4b612fcf7e1beeea8778f3e3d997d853ceb2b4c0b1131372f16ce",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "8a2c6c686cdb323d73b8a87d099d9215af36e7bf4ef62932a086bc73c7f1a8f2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "79ce781d23d8b0e7be123458d00e3a040de119badc7e5f2073fc8d454a6a0feb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "9263febd5e947d48107f64a2fec5136ec16ebe7379b1c24fdd2cc3224da22486",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "9263febd5e947d48107f64a2fec5136ec16ebe7379b1c24fdd2cc3224da22486",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "All10 cumulative D frames viewed against source10-page contact, originalstep8 inspected. Corrected longarm open end visibly joins lower periscope bracket. Missing sourcep6 propeller remains absent. Approved approximate Toolo parts, inferred hinge retention and cockpit/canopy overlap remain unresolved. No physical acceptance."
+}

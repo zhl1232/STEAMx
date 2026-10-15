@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "93e2f677d17f64e8b3f15a78121c937b253a0af9c983ee2ed4079817aebe2e17",
+  "revision": "18bd8d41a44d42df1bf13c33b6c664b64a9133d2d3a8831995712c277b908583",
+  "reviewedAt": "2026-10-11T14:25:26.101159+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-yu-shua-qi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "78221bcb1ab36bb1a708c2580bb0ee91f0fc4eff835d1bd787453dcf5ec6e0c9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "cb90962aa8ea9015b4cf5a3550ece9e7e9a41cd4959ecc23b1f40a97fa429a03",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "3168805076dec45dd36e989d60dc7ae9b11ae3ba4650b45d64981adf85b68abc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "bcdae8682df78c3483a77452fb0a921c91d1b0e270d3365e1dbe9fd24ff20437",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "1364606f438ece1ceeb8a9616212b64a8b44f47bcc1df4436783dcbe6434d2c5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "d741e8654acafe18f3d030941be63144307c3417aaa40fdb77e3ce93144e3e17",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "f03d77750ce48921ddce2b99e710c4d5805e005cc8c485b07974fb70634c5519",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "c02d7809ee097f44a1e3037b997136d88023610021bd4c2a32f07122cb25a5fc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "832b8da1f6c6c5f3966fef123b49760f843b4589179108e4f97f9c114a2ea56b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "ab9d0a26b39703244487f329b57b1e4243c36ed7ca479bea590996f3cd7ddbfc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "9fd79eddfb0d6d88d7625c162555620c411b2b445f0c677ff13cbf104aca9a06",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "4e53f1aa6d339270bcf67f63567b1c0afaf29eac316acf9005875c64000dbf4c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "e456bc68f1c7a29b9674eda7f0ae6b7aa485a570f1ad348d4d933dae54436b2b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "99a5313464b12abd83ac772192c06deb06fc7ebe257139ccc0f55bb80578d6fa",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "78221bcb1ab36bb1a708c2580bb0ee91f0fc4eff835d1bd787453dcf5ec6e0c9",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected final contact sheet, all three original final PNGs and twelve cumulative frames, compared with all thirteen source pages previously viewed. Wiper bars, crosslink, crank/gear arrangement and source additions are visible. Figure eight components remain omitted. Original underside-view steps are represented in final upright pose. Four tyre/rim alarms remain unresolved. Current underside braces reachY144 versus tyre treadY105, so rolling ground clearance is not verified and brace layer arrangement needs further source review. Sideways blueplate grip, gear phase and moving-shaft retention are unproven. This records observation coverage only, not source-exact assembly or physical pass."
+}

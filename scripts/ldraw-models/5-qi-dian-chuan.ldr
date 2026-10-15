@@ -1,0 +1,142 @@
+0 5-qi-dian-chuan - night17g skirt-55 + rails tucked
+0 Name: 5-qi-dian-chuan.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // PDF SHA256 abe42b8e0fadf121cf46fab360cfea8b5d9d36454fce9967bbcdd3afd0994e55
+0 // All8 source pages actually viewed; final page is presentation only.
+0 // No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.
+0 // SOURCE PAGE 1 - Two long red rails, two blue shafts and yellow outside retainers; lime U-skirt
+0 // night17: craft p1-6 +70Y toward water; shallow U lime skirt (local approx)
+1 27 0 -55 0 1 0 0 0 1 0 0 0 1 dev-129/61898d-qi-dian-chuan.dat
+1 4 0 -96 -120 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 0 -72 -120 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 0 -72 -184 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 4 0 -96 120 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 0 -72 120 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 0 -72 184 1 0 0 0 1 0 0 0 1 6527.dat
+0 // Skirt: dev-129/61898d-qi-dian-chuan.dat shallow U approx; official flat 61898d vendored; formed boat unofficial.
+0 // Rail/skirt fastener seating unresolved; U geometry approximate.
+0 STEP
+0 // SOURCE PAGE 2 - Green eight by sixteen deck
+1 2 0.0000 -98.0000 0.0000 1 0 0 0 1 0 0 0 1 6490.dat
+0 STEP
+0 // SOURCE PAGE 3 - Yellow perimeter and source cockpit with existing known approximation
+1 14 -200.0000 -146.0000 -120.0000 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 14 -80.0000 -146.0000 -120.0000 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80.0000 -146.0000 -120.0000 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240.0000 -146.0000 -120.0000 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200.0000 -146.0000 120.0000 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 14 -80.0000 -146.0000 120.0000 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80.0000 -146.0000 120.0000 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240.0000 -146.0000 120.0000 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280.0000 -146.0000 0.0000 0 0 -1 0 1 0 1 0 0 3011.dat
+1 25 -120.0000 -122.0000 0.0000 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 19 -268.0000 -156.0000 0.0000 0 1 0 0 0 1 1 0 0 6345.dat
+0 // UNVERIFIED 31196c01 - Known identity family but existing local simplified geometry; exact official cockpit unavailable, approximate width may overlap adjacent source bricks. Not a new accepted assembly.
+0 STEP
+0 // SOURCE PAGE 4 - Raised stern short beam and two corner blocks
+1 14 280.0000 -194.0000 -120.0000 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280.0000 -194.0000 120.0000 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 280.0000 -194.0000 0.0000 0 0 -1 0 1 0 1 0 0 75349.dat
+0 STEP
+0 // SOURCE PAGE 5 - Blue curved rim and two stern plates
+1 1 -120.0000 -194.0000 0.0000 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -120.0000 -194.0000 -80.0000 1 0 0 0 1 0 0 0 1 2302b.dat
+1 1 -120.0000 -194.0000 80.0000 -1 0 0 0 1 0 0 0 -1 2302b.dat
+1 1 0.0000 -194.0000 -120.0000 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 1 80.0000 -194.0000 -120.0000 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160.0000 -194.0000 -120.0000 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 1 0.0000 -194.0000 120.0000 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 1 80.0000 -194.0000 120.0000 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160.0000 -194.0000 120.0000 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 1 280.0000 -218.0000 -80.0000 0 0 -1 0 1 0 1 0 0 40666.dat
+1 1 280.0000 -218.0000 80.0000 0 0 -1 0 1 0 1 0 0 40666.dat
+0 // UNVERIFIED blue rim seams - Source BOM6curves3small2plates exactly matched. Hidden front crossbar joint placement inferred from3+2+3stud width; requires rendered-source comparison.
+0 STEP
+0 // SOURCE PAGE 6 - Rear cross-shaped seven-hole paddles on long shaft
+1 0 320.0000 -170.0000 0.0000 1 0 0 0 1 0 0 0 1 6521.dat
+1 14 220.0000 -170.0000 0.0000 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 340.0000 -170.0000 0.0000 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 380.0000 -170.0000 0.0000 0 1 0 0 0 1 1 0 0 6524.dat
+1 14 420.0000 -170.0000 0.0000 0 1 0 -1 0 0 0 0 1 6524.dat
+1 14 460.0000 -170.0000 0.0000 0 1 0 0 0 1 1 0 0 6526.dat
+1 14 180.0000 -170.0000 0.0000 0 -1 0 0 0 1 -1 0 0 6526.dat
+0 // UNVERIFIED tail axle stack - Positions inferred from exact80LDU stern thickness + two40LDU wheels + two40LDU beams + two40LDU handles along320LDU shaft. Full locking/rotational clearance and pin retention remain manual.
+0 STEP
+0 // SOURCE PAGE 7 - Seventy-two alternating water plates on square base
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 -400 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 -24 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 -24 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -24 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 -24 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -24 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 -24 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 -24 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -24 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 -24 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -24 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 -24 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -24 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 -24 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -24 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 -24 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -24 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 -24 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -24 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 -24 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 -24 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -24 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 -24 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -24 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 -24 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 -24 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 -24 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -24 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 -24 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -24 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 -24 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 -24 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -24 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 -24 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -24 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 -24 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -24 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 -24 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 -24 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -24 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 -24 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -24 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 -24 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 -24 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -24 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 -24 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -24 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 -24 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -24 440 1 0 0 0 1 0 0 0 1 40666.dat
+0 // UNVERIFIED paper hull water contact - Hull height places omitted paper belowrails overwater; no invented support or claim of flotation/physicalvalidation.
+0 // Source final page adds no parts.

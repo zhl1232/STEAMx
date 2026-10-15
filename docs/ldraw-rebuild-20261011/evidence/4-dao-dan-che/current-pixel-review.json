@@ -1,0 +1,95 @@
+{
+  "sourceSha256": "3ed137779ce88ed34b8e0462105c7ce3acbb99a5ddbbd0cde11f0cfc29b32644",
+  "revision": "66d19e61b46ea7a4295fdd7d7b42b7ee0435e17bc0e50a4388c557f4d78b625c",
+  "reviewedAt": "2026-10-11T08:53:42.890059+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-dao-dan-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "aa2865ec67053ee62207319d3607017efbee616a273607d404c05756f0f5c77e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "d426e21f62e22b019e5dc4b9b07d74540a1dfe7b69647236bf1f006ffad805d8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "40a8d7f01a1b0c4b026875ed90c0f7f6351d1959ca5967d6d6c4ec580ebf2d8f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "ea06f3337f91964e0065736eea8ccc54b6ca6c135c79b13a978b9348fc53557e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "33fd0bac3fd1d8574de1f503416f1231af13b2c6ccf81ba7a65cb4a48020a6f8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "7f277efe3caa890d6213ef878f92cf11dbef6fcc92986d28369dd261f3f1a396",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "977dd294041c139a268388f037232cad32d9ba2b2b167ae23adb8de7e512d71c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "56187b1a8c6ec17861213ffec75b68a5dc375f6f3b84b60d3628c7f571fdca0c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "54fb6758067bb79bd678269292446b906df4e6206db5a2b7f6c542e776831032",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "857a4fca7c8ffe6219d8adbae232cb0e0385e57ed83291d2b3018214910b214c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "6a32a0df1bab532a7caea6d13dc9bffcb0394f4db33bb222ac75522c997101ee",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "b3ac1f06669217c07d09654e000f57876b22992df34cb0e236618320133bb8a6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "e2281ae34da2c3681d0dc3c15a333e7a124a9228af8c65022a33378e02a7d767",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "1e85e6f297a8d253e0682db7d77ad36f410ebe95d8981f529b04c089c692bc8b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "3f963cfb9820eb51bd5fc56ce464ede102bcf0948e40e7268ee04ac74746ab65",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "aa2865ec67053ee62207319d3607017efbee616a273607d404c05756f0f5c77e",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "After source3ed13777 window repair, actually viewed final contact and original iso/iso-rear/top, all13 cumulative contact frames and original step6/8; reopened source p6. Three red61649 frames/white90265 panes visible with outward fronts, open backs, correct blue-base seating and roof-height match. Rear cross-frame orientation agrees with source. No visible new window seating discrepancy found. Cab/canopy absent; approved approximate Toolo fork/clip fit and adjacent hub flange risk remain unresolved. Renderer pixels reviewed only, pending user confirmation and no physical validation."
+}

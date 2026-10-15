@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "eef44da2cfe8d5a6742811d4a7f3fb7d242492dd6eb0b7630db9457548b7c228",
+  "revision": "44344e83001738c3139f00600adc932445e285faee6ad211b052fae5bf84fe6a",
+  "reviewedAt": "2026-10-11T13:49:13.822338+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xuan-zhuan-can-ting",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "54149183cafe4b90bdad05183702fcefcc9657ea768dee1154f377244a28cbdc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "b2986f1b9d76af5e9bb3b94f8a95a21258d7715cd5b0fa7c6f4f624ed68e990c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "0d40f79dd3428a467a1462727886295c3a19eb3f8966e32cb1387e6e38a12376",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "0a1d736b181aa2b9a04d91a55d12e9370d1e61aea26bb7e92a4773397ccccecb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "3262628130841c5798d54a50ec84c10555a295cd93317d0e3ea2e0a97742e671",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "b4b949375aa421ba1a14c207d76260fa7ff53f96d6c363bcb9e9a400459845b7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "872ad1866db1f85ec0bf235e563bc0b14454b78681a6e3a748a002382c98448c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "022219ecde14b2863eac29f13ace5428e54226e760b82593b5c7766b8b83d732",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "184549807c7cb3445d0523ac00e918b66a619e0154b41dae94fe4dd8d31f697c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "79603dc647dd2d0eb5eb265bb43b8faf2bafa358b371f0d846ebfd842a8a4c0c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "e3a7149b5ee6ea7a5fa7847c7beea0bb3a4ae2d2c2c4a9575821db7a3cfaed63",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "54149183cafe4b90bdad05183702fcefcc9657ea768dee1154f377244a28cbdc",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual current final3 and all9 cumulative steps viewed, including full step4/8 and source p9/10. Six official installed window candidates retain pane-proportion/5LDU hinge variant uncertainty; gear engagement and flag clip fit remain manual. Source p9/10 shows whole flagpole base and ball; official51708 unscaled placement retained, no proved height error. This is pixel observation, not physical acceptance."
+}

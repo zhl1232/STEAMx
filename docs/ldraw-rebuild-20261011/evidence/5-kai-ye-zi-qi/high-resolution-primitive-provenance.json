@@ -1,0 +1,84 @@
+{
+  "url": "https://library.ldraw.org/library/official/p/48/2-4chrd.dat",
+  "status": 200,
+  "finalUrl": "https://library.ldraw.org/library/official/p/48/2-4chrd.dat",
+  "checkedAt": "2026-10-11T12:33:12.850Z",
+  "bytes": 1047,
+  "sha256": "7e2992507dbdb62dc8797facc505fe10550a57e63c70502780f46b0a700c2fb5",
+  "headers": [
+    "0 Hi-Res Chord 0.5",
+    "0 Name: 48\\2-4chrd.dat",
+    "0 Author: Philippe Hurbain [Philo]",
+    "0 !LDRAW_ORG 48_Primitive UPDATE 2017-01",
+    "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+    "0 BFC CERTIFY CCW",
+    "0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01"
+  ],
+  "dependencies": [],
+  "saved": true,
+  "geometryRecords": 12,
+  "geometryProof": {
+    "officialHighResolution": {
+      "quads": 11,
+      "triangles": 1,
+      "uniqueVertices": 25,
+      "bounds": [
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "arcFirstPositiveVertex": [
+        0.9914,
+        0,
+        0.1305
+      ],
+      "halfCircleBoundarySegments": 24
+    },
+    "ordinaryLocal": {
+      "quads": 3,
+      "triangles": 1,
+      "uniqueVertices": 9,
+      "bounds": [
+        [
+          -1,
+          1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "arcFirstPositiveVertex": [
+        0.9239,
+        0,
+        0.3827
+      ],
+      "halfCircleBoundarySegments": 8
+    },
+    "ordinarySha256": "1d467b20e425d329fa4831d5734b9b677afee1f16e07d907403ef94dadd81fec",
+    "bytesDiffer": true,
+    "conclusion": "Official high-res is11quads+1triangle,25 boundary vertices/24 half-circle segments; ordinary is3quads+1triangle,9vertices/8segments. Both unit semicircle bbox[-1,1]x{0}x[0,1], but highres adds7.5degree arc vertices. Not a copied low-resolution file."
+  },
+  "closure": {
+    "type1DependencyCount": 0,
+    "complete": true,
+    "files": [
+      "p/48/2-4chrd.dat"
+    ]
+  },
+  "repositoryLibraryModified": false,
+  "integrationRequired": "Parent copy candidate to scripts/ldraw-models/p/48/2-4chrd.dat preserving full relative name; repack highres closure and rerender affected coconut step11/final; prior packed geometry invalidated."
+}

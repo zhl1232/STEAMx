@@ -1,0 +1,38 @@
+{
+  "slug": "5-ce-feng-yi",
+  "sourceSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 0,
+  "rawOutput": "OK   [5-ce-feng-yi.ldr] 96 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarms": [],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "P1 hidden blue pad2x2void location/tiling inferred to satisfy source12brick count; top remains fully supported by surrounding tiles.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P3-4 central vertical axle passage and insertion depth through ordinary/hole brick top structure require mechanical review; no spinning/retention claim.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P6 red98220 official geometry matches visible4x4stud top/round underbody; underside axle retention and gear clearance remain unvalidated.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "98220 real DAT underside central tube extends toY72, whereas metadata body bound says48; current cup orientation uses real open underside and nested6527. Exact axle retention and geometry depth must be checked in pixel/mesh review.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "P2 source staggered red/yellow ledges restored with one-stud40LDU alternate-layer X offset. This source-view pose inference preserves studgrid and2stud-or-more overlapping support; exact hidden ring layout remains inferred, verify revised pixels.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "physicalValidation": false,
+  "overallAcceptance": false
+}

@@ -1,0 +1,58 @@
+{
+  "slug": "4-da-xiang",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 12,
+  "sourcePixels": "12-page contact sheet and enlarged structural pages viewed",
+  "modelSha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950",
+  "unknown": [
+    {
+      "page": 4,
+      "part": "two blue airplane wing elements",
+      "candidate": "45117c01 confirmed",
+      "missing": "licensed geometry"
+    },
+    {
+      "page": 5,
+      "part": "blue tail",
+      "candidate": "31239c01 confirmed",
+      "missing": "licensed geometry"
+    },
+    {
+      "page": "9-11",
+      "part": "trunk interfaces",
+      "missing": "manual hinge pose and retention need rendered/physical review"
+    },
+    {
+      "page": 8,
+      "part": "ear pivot pose",
+      "missing": "confirmed6294 uses prior approximation; source pose inferred, physical clip engagement not verified"
+    }
+  ],
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
+  "knownApproximate": [
+    "76395",
+    "76057",
+    "99565",
+    "44970",
+    "60535",
+    "28336",
+    "74957",
+    "dev-129/6294"
+  ],
+  "render": "Latest iso pixels inspected against source; known source silhouette and omitted-part boundary reviewed. Elephant also iso-rear inspected. Does not constitute full step/physical acceptance.",
+  "rawCollisionChecker": "PASS",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "inventoryMechanicalDeficits": [],
+  "currentCumulativePixelReview": {
+    "sourceSha256": "096e8c2f33bef375664536672ade6de87687339ba6a5358fdc21a06dadcbd950",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 12,
+    "currentDfinalActuallyReviewed": false,
+    "limitations": "All12 cumulative D frames screened against source12-page contact; originalstep8 and11 inspected. Sourcep4 blue wings andp5 tail absent; empty step4 expected. Two dev6294 ears use prior approved approximation; ear angular pose remains inferred. Trunk/ear increments seen but cumulative rear camera occludes several front interfaces, so no new support-clearance acceptance. This records only D steps, not D final views. Existing source-matched C final evidence handled separately by main. No physical validation."
+  }
+}

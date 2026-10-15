@@ -1,0 +1,27 @@
+{
+  "slug": "4-chun-jie-wu-shi",
+  "sourceSha256": "846331ba67892fa0b58dce432682696569e7e320f0ba25bf7d5f52a2eb268b39",
+  "checkpointSha256": "846331ba67892fa0b58dce432682696569e7e320f0ba25bf7d5f52a2eb268b39",
+  "reviewedAt": "2026-10-11T07:19:33.075930+00:00",
+  "rawExit": 0,
+  "rawOutput": "OK   [4-chun-jie-wu-shi.ldr] 58 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarmPairCount": 0,
+  "classificationCounts": {},
+  "alarms": [],
+  "directPartFileSha256": {},
+  "noRawAlarmsMeaning": "No raw bounding-box alarms is not proof of source fidelity, support closure, dynamic operation or physical fit.",
+  "remainingSourceLimitations": [
+    {
+      "page": 10,
+      "part": "two yellow concave2x3x2 ears",
+      "missing": "exact design ID not identified; not replaced with convex slopes; omitted"
+    },
+    {
+      "page": "2-3,6,12",
+      "part": "legs, tail and cheek screws",
+      "missing": "articulated poses and joints inferred from source, exact fit and load bearing unverified"
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

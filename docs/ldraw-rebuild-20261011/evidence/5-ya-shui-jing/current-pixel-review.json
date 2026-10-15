@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "6545fa7d70a314b78ff9be5eea3a7f18afdcccf060e96931604395d07fd73462",
+  "revision": "93569731d0997072415b519034004f2598e5757b6960fd0a714c5ec46b29324c",
+  "reviewedAt": "2026-10-11T14:29:45.907824+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ya-shui-jing",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "bb528735434751f273c7db1492b570ec062239369625dc45f6d2bc8639760142",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "6c386f8104fb0775da758260b1febbd475573d1198bfa92c5d6a37fef1a183d3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "d0efc4cb2f647c8c9b6714fa3db98b98db9453c45baee6b219e77ede6c3133d8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "2edeac14fbe0391e5979ae3d7fb93c58340e1756c03402ff4268314f42067c72",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "f05871d9ff8ec3d5f4ed766b62e51d625aeabbcfc16a7362340e67e36c8aecd9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "81a1ac637883345bc773172ed1a26b8a04c13de1089c1a9c2c4516a4d9ad0abb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "c10d4302c98926fd5626140832d7cbf97ea7f869ec359325521cc3e660e55f3e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "9432c4f988aa6abcb88d5f7578311777e1a4e0869b070b37f7e8f9ba44e78721",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "663edb801c236372a38e75eec530951272c7232b80e1976a961e42bb696a8f61",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "8fcd3156b8e07a09b84772581f10c1ccfe35eeaf84667e96600bf5c50dd151e6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "8fcd3156b8e07a09b84772581f10c1ccfe35eeaf84667e96600bf5c50dd151e6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "15380e74ff63cd57772d0830526a9624343ea2e2d3f2e330038d8c125385caf6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "041e968de49e505460554b7b7946a59710f2cb096a4cde9f72d6b17c9db20312",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "4c8f868044946b41289bb3301ed9572c2bc3fe3887c5df1481220bf32638befe",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "bb528735434751f273c7db1492b570ec062239369625dc45f6d2bc8639760142",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected current final contact sheet, all three original final PNGs and all twelve cumulative frames against thirteen source pages; reinspected original p2/3/10/11/12. Restored p11 ninthbluebrick bridge is present; no additional unambiguous placement error observed. The preview retains explicit outward bearing adjustment and inferred lever phase, hidden piston layout and ring seams. Two known p12 bluebricks remain omitted with frame/lever candidate conflicts recorded; visible open frame-side top is not source completion. Nominal stud support and tube socket seating, hookless mechanism pin retention and swept pump motion are unverified; checker0 is not physical acceptance."
+}

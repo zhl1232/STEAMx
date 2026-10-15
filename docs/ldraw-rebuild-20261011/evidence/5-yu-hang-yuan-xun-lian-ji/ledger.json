@@ -1,0 +1,2734 @@
+{
+  "slug": "5-yu-hang-yuan-xun-lian-ji",
+  "pages": 9,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "two stepped arches on24x24 plates:38yellow32red bricks",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "4268.dat",
+          "color": 2,
+          "position": [
+            -480,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Ground base",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "4268.dat",
+          "color": 2,
+          "position": [
+            480,
+            0,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Ground base",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-3",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -640,
+            -48,
+            -360
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-4",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -560,
+            -48,
+            -360
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -640,
+            -48,
+            360
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -560,
+            -48,
+            360
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-7",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -640,
+            -96,
+            -320
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-8",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -560,
+            -96,
+            -320
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-9",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -640,
+            -96,
+            320
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-10",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -560,
+            -96,
+            320
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-11",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -640,
+            -144,
+            -280
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-12",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -560,
+            -144,
+            -280
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-13",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -640,
+            -144,
+            280
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-14",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -560,
+            -144,
+            280
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-15",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -640,
+            -192,
+            -240
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-16",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -560,
+            -192,
+            -240
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-17",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -640,
+            -192,
+            240
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-18",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -560,
+            -192,
+            240
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-19",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -640,
+            -240,
+            -200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-20",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -560,
+            -240,
+            -200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-21",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -640,
+            -240,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-22",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -560,
+            -240,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-23",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -640,
+            -288,
+            -160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-24",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -560,
+            -288,
+            -160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-25",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -640,
+            -288,
+            160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-26",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -560,
+            -288,
+            160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-27",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -640,
+            -336,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-28",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -560,
+            -336,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-29",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -640,
+            -336,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-30",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -560,
+            -336,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-31",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -640,
+            -384,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-32",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -560,
+            -384,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-33",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -640,
+            -384,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-34",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -560,
+            -384,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-35",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -600,
+            -432,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Three-brick arch crown bridges both inclined legs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-36",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -600,
+            -432,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Three-brick arch crown bridges both inclined legs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-37",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -600,
+            -432,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Three-brick arch crown bridges both inclined legs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-38",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            560,
+            -48,
+            -360
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-39",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            640,
+            -48,
+            -360
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-40",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            560,
+            -48,
+            360
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-41",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            640,
+            -48,
+            360
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-42",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            560,
+            -96,
+            -320
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-43",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            640,
+            -96,
+            -320
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-44",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            560,
+            -96,
+            320
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-45",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            640,
+            -96,
+            320
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-46",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            560,
+            -144,
+            -280
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-47",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            640,
+            -144,
+            -280
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-48",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            560,
+            -144,
+            280
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-49",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            640,
+            -144,
+            280
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-50",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            560,
+            -192,
+            -240
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-51",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            640,
+            -192,
+            -240
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-52",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            560,
+            -192,
+            240
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-53",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            640,
+            -192,
+            240
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-54",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            560,
+            -240,
+            -200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-55",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            640,
+            -240,
+            -200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-56",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            560,
+            -240,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-57",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            640,
+            -240,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-58",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            560,
+            -288,
+            -160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-59",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            640,
+            -288,
+            -160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-60",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            560,
+            -288,
+            160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-61",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            640,
+            -288,
+            160
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-62",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            560,
+            -336,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-63",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            640,
+            -336,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-64",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            560,
+            -336,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-65",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            640,
+            -336,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-66",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            560,
+            -384,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-67",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            640,
+            -384,
+            -80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-68",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            560,
+            -384,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-69",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            640,
+            -384,
+            80
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Each course steps inwardone stud, overlaps prior by120LDU",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-70",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            600,
+            -432,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Three-brick arch crown bridges both inclined legs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-71",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            600,
+            -432,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Three-brick arch crown bridges both inclined legs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-72",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            600,
+            -432,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Three-brick arch crown bridges both inclined legs",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 72
+    },
+    {
+      "sourcePage": 2,
+      "note": "four red bearing bricks, two green axles, four pulleys and two cranks",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -600,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two high on arch crown; upper holeX atY-504",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-2",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            -600,
+            -528,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two high on arch crown; upper holeX atY-504",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-3",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            -540,
+            -504,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Nominal8L axle axisX between pier and tiltedframe Shift20LDU inward so320LDU axle spans X380..700 (mirrored left): innergear/crank bore and outercrank hole are captured.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-4",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -500,
+            -504,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two pulley spacers between bearing and frame",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-5",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -540,
+            -504,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two pulley spacers between bearing and frame",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-6",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            -720,
+            -504,
+            0
+          ],
+          "matrix": [
+            -1.2246467991473532e-16,
+            -1,
+            0,
+            0,
+            0,
+            -1,
+            1,
+            -1.2246467991473532e-16,
+            0
+          ],
+          "support": "Outside crank; pin direction inferred Mirror left crank to place its axle bore atX-700, on shaft endpoint.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-7",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            600,
+            -480,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two high on arch crown; upper holeX atY-504",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-8",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            600,
+            -528,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two high on arch crown; upper holeX atY-504",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-9",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            540,
+            -504,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Nominal8L axle axisX between pier and tiltedframe Shift20LDU inward so320LDU axle spans X380..700 (mirrored left): innergear/crank bore and outercrank hole are captured.",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-10",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            500,
+            -504,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two pulley spacers between bearing and frame",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-11",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            540,
+            -504,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Two pulley spacers between bearing and frame",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-12",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            720,
+            -504,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1,
+            -1,
+            0,
+            0
+          ],
+          "support": "Outside crank; pin direction inferred",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 84
+    },
+    {
+      "sourcePage": 3,
+      "note": "six long red beams and twelve blue2x4 plate cross ties form tilted rectangular frame",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -321.169344,
+            -157.317994
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0.573576,
+            -0.819152,
+            0,
+            0.819152,
+            0.573576
+          ],
+          "support": "Source-visible subassembly on55degree tiltedframe; exact linkage pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -714.362325,
+            117.998696
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0.573576,
+            -0.819152,
+            0,
+            0.819152,
+            0.573576
+          ],
+          "support": "Source-visible subassembly on55degree tiltedframe; exact linkage pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-3",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            200,
+            -321.169344,
+            -157.317994
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0.573576,
+            -0.819152,
+            0,
+            0.819152,
+            0.573576
+          ],
+          "support": "Source-visible subassembly on55degree tiltedframe; exact linkage pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-4",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            200,
+            -714.362325,
+            117.998696
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0.573576,
+            -0.819152,
+            0,
+            0.819152,
+            0.573576
+          ],
+          "support": "Source-visible subassembly on55degree tiltedframe; exact linkage pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-5",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            -440,
+            -517.765834,
+            -19.659649
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.819152,
+            0.573576,
+            0,
+            -0.573576,
+            0.819152,
+            0
+          ],
+          "support": "Long end beams: holeaxisX, originY24 follows main hinge axis",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-6",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            440,
+            -517.765834,
+            -19.659649
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.819152,
+            0.573576,
+            0,
+            -0.573576,
+            0.819152,
+            0
+          ],
+          "support": "Long end beams: holeaxisX, originY24 follows main hinge axis",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-7",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            -400,
+            -334.935178,
+            -176.977643
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.819152,
+            0.573576,
+            0,
+            -0.573576,
+            0.819152,
+            0
+          ],
+          "support": "Front cross tie on beam studs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-8",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            -400,
+            -279.87184,
+            -98.339047
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.819152,
+            -0.573576,
+            0,
+            0.573576,
+            -0.819152,
+            0
+          ],
+          "support": "Back cross tie inverted: bottom atframeY48; attachment unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-9",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            -400,
+            -728.12816,
+            98.339047
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.819152,
+            0.573576,
+            0,
+            -0.573576,
+            0.819152,
+            0
+          ],
+          "support": "Front cross tie on beam studs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-10",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            -400,
+            -673.064822,
+            176.977643
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.819152,
+            -0.573576,
+            0,
+            0.573576,
+            -0.819152,
+            0
+          ],
+          "support": "Back cross tie inverted: bottom atframeY48; attachment unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-11",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            0,
+            -334.935178,
+            -176.977643
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0.573576,
+            -0.819152,
+            0,
+            0.819152,
+            0.573576
+          ],
+          "support": "Front cross tie on beam studs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-12",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            0,
+            -279.87184,
+            -98.339047
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -0.573576,
+            0.819152,
+            0,
+            -0.819152,
+            -0.573576
+          ],
+          "support": "Back cross tie inverted: bottom atframeY48; attachment unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-13",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            0,
+            -728.12816,
+            98.339047
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0.573576,
+            -0.819152,
+            0,
+            0.819152,
+            0.573576
+          ],
+          "support": "Front cross tie on beam studs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-14",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            0,
+            -673.064822,
+            176.977643
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -0.573576,
+            0.819152,
+            0,
+            -0.819152,
+            -0.573576
+          ],
+          "support": "Back cross tie inverted: bottom atframeY48; attachment unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-15",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            400,
+            -334.935178,
+            -176.977643
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.819152,
+            0.573576,
+            0,
+            -0.573576,
+            0.819152,
+            0
+          ],
+          "support": "Front cross tie on beam studs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-16",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            400,
+            -279.87184,
+            -98.339047
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.819152,
+            -0.573576,
+            0,
+            0.573576,
+            -0.819152,
+            0
+          ],
+          "support": "Back cross tie inverted: bottom atframeY48; attachment unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-17",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            400,
+            -728.12816,
+            98.339047
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.819152,
+            0.573576,
+            0,
+            -0.573576,
+            0.819152,
+            0
+          ],
+          "support": "Front cross tie on beam studs",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-18",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            400,
+            -673.064822,
+            176.977643
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            -0.819152,
+            -0.573576,
+            0,
+            0.573576,
+            -0.819152,
+            0
+          ],
+          "support": "Back cross tie inverted: bottom atframeY48; attachment unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 102
+    },
+    {
+      "sourcePage": 4,
+      "note": "one internal yellow crank",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "6526.dat",
+          "color": 14,
+          "position": [
+            400,
+            -504,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -0.573576,
+            0,
+            -0.819152,
+            -0.819152,
+            0,
+            0.573576
+          ],
+          "support": "Inner side of right end-bearing shaft; retention pending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 103
+    },
+    {
+      "sourcePage": 5,
+      "note": "sourcep5 two red24tooth gears and one short blue5L geared axle on left side",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            -380,
+            -504,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.819152,
+            0.573576,
+            0,
+            -0.573576,
+            0.819152,
+            0
+          ],
+          "support": "Sourcep5 red gear pair inside left beam,120LDU axis separation; gear atX-380 meets beam faceX-400. Teeth phase and actual rotation are unverified.",
+          "confidence": "source-identified"
+        },
+        {
+          "id": "p5-2",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            -380,
+            -602.298245,
+            68.829172
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0.819152,
+            0.573576,
+            0,
+            -0.573576,
+            0.819152,
+            0
+          ],
+          "support": "Sourcep5 red gear pair inside left beam,120LDU axis separation; gear atX-380 meets beam faceX-400. Teeth phase and actual rotation are unverified.",
+          "confidence": "source-identified"
+        },
+        {
+          "id": "p5-3",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            -440,
+            -602.298245,
+            68.829172
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0.573576,
+            0.819152,
+            0,
+            0.819152,
+            -0.573576
+          ],
+          "support": "Sourcep5 short geared shaft alongX through upper left beam hole. Geared end points outward, ordinary end captures inner red gear; retention provisional.",
+          "confidence": "source-identified"
+        }
+      ],
+      "cumulativePlacements": 106
+    },
+    {
+      "sourcePage": 6,
+      "note": "P6 known red/crown gears and two short geared shafts omitted. Historical red-left/blue-right and80LDU candidate layout REJECTED; current evidence and precise missing views: omission-repair-20261011.json.",
+      "placements": [],
+      "cumulativePlacements": 106
+    },
+    {
+      "sourcePage": 7,
+      "note": "central red bar and two yellow end plates; drive cranks/shaft unresolved",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -517.765834,
+            -19.659649
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0.573576,
+            -0.819152,
+            0,
+            0.819152,
+            0.573576
+          ],
+          "support": "Central suspendedbar; support depends on omitted drive linkage",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -490.234166,
+            19.659649
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0.573576,
+            -0.819152,
+            0,
+            0.819152,
+            0.573576
+          ],
+          "support": "Plate top supports underside of centralbar; linkage support pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-3",
+          "partId": "40666.dat",
+          "color": 14,
+          "position": [
+            160,
+            -490.234166,
+            19.659649
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0.573576,
+            -0.819152,
+            0,
+            0.819152,
+            0.573576
+          ],
+          "support": "Plate top supports underside of centralbar; linkage support pending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 109
+    },
+    {
+      "sourcePage": 8,
+      "note": "central worm, four pulley spacers and shaft: connection pending, omitted",
+      "placements": [],
+      "cumulativePlacements": 109
+    }
+  ],
+  "status": "INCOMPLETE dev-only source reconstruction",
+  "verification": "awaiting raw check and central rendering",
+  "source": {
+    "name": "5+宇航员训练机搭建说明.pdf",
+    "relative_path": "5+/5+宇航员训练机搭建说明.pdf",
+    "pages": 9,
+    "bytes": 1357780,
+    "sha256": "9481fbb6dd62a2b37cd13a9291eefa41c113ad9d2889aa0d42987add2b741fed",
+    "source_url": "https://pan.quark.cn/list#/docpdf/c2764d5b99a44a6da2f95fb3bae807bc",
+    "slug": "5-yu-hang-yuan-xun-lian-ji",
+    "lesson_id": 322,
+    "course_id": 7
+  },
+  "evidence": [
+    {
+      "page": 1,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-1.jpg",
+      "sha256": "f84df3c3f2bca36a9bc6b817fd194a2f19ea5073ac78088345d34a8d9096ab43",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-2.jpg",
+      "sha256": "adacbb74f6de5f5f0741467e3e39cca69aa9851120e0d5a8f148a74a435d0b59",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-3.jpg",
+      "sha256": "0af90ba10e4fd47b17e8c27c8c4855148321c63574d76c3f8183e8b3d6cc5e70",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-4.jpg",
+      "sha256": "be4c313c1e67c837e2d07ba5e3f1bbd2e7c120a35f1997b11094c6e8df694016",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-5.jpg",
+      "sha256": "f372904b4873fc40cb99ba1a1b489c003f2ce72c42bd40eb8e70cf1edecb4403",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-6.jpg",
+      "sha256": "7cf31e4bb75bfb9977ea7a2975452125dc493008f46dc16269322fdd6c25d523",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-7.jpg",
+      "sha256": "5b77acd7b218cb7cf44edd6f63ab4137444a2fd02efa1bfd45dbe1d8e3801406",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-8.jpg",
+      "sha256": "f4c2383f42a0feaca07295d613038aed20b205f6f33d1d43921e8e939b11c718",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "file": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\source-9.jpg",
+      "sha256": "4996758a1eab2242485234d0c943df3e70487913e6305f24cae7dc50cfa6b58b",
+      "pixelsViewed": true
+    }
+  ],
+  "unknownIds": [
+    {
+      "sourcePage": 8,
+      "location": "central ordinary grey axle",
+      "candidates": [
+        "6522",
+        "6521"
+      ],
+      "missingEvidence": "Length and exact axial endpoints not dimensioned; must support centerbar without arbitrary overlap"
+    }
+  ],
+  "pending": [
+    "Tilt55degrees and frame dimensions derived from oblique source; exact rotation angle is inferred.",
+    "Central bar is shown in source position but not yet supported because drive linkage unresolved; intentionally incomplete preview.",
+    "Sourcepage5-8 mechanical gear/shaft assembly not accepted; parts/axis evidence must be resolved before adding.",
+    "All source pages actually viewed; counts for base arches and frame retained; inventory colour availability unknown.",
+    "Final full-frame review confirms floating central bar. Known omitted gears/short geared shafts reclassified from unknown IDs; adding them requires a defensible connection pose.",
+    "Sourcep5 red gear pair restored using left-frame X-axis holes120LDU apart. Main8L green axles moved20LDU inward to capture inner gear/right inner crank; left outercrank mirrored to its shaft endpoint. Gear phase and dynamic fit unverified.",
+    "Sourcep6 red/crown gears and two short geared shafts remain UNASSEMBLED evidence only; they do not support the floating centerbar.",
+    "REJECTED historical placement hypotheses: red-left/blue-right ordering and 80LDU paired center spacing are superseded by fresh P6 enlarged/P8 source review. Never instantiate these coordinates. See omission-repair-20261011.json for current itemized evidence and unresolved interfaces."
+  ],
+  "inventory": "Combined 9090/45002 colour counts unknown; compare known45002 aliases separately.",
+  "knownOmitted": [
+    {
+      "sourcePage": 7,
+      "id": "6526",
+      "count": 2,
+      "reason": "Drive side and pin insertion unresolved"
+    },
+    {
+      "sourcePage": 8,
+      "id": "31625",
+      "count": 1,
+      "reason": "Central drive shaft endpoint unresolved"
+    },
+    {
+      "sourcePage": 8,
+      "id": "6527",
+      "count": 4,
+      "reason": "Requires central shaft registration"
+    },
+    {
+      "sourcePage": 6,
+      "id": "31622.dat",
+      "count": 1,
+      "reason": "Crown tooth profile confirmed; transverse gear mesh/shaft position unresolved"
+    },
+    {
+      "sourcePage": 6,
+      "id": "6529.dat",
+      "count": 1,
+      "reason": "Identified but shaft-relative axial position unresolved; separate evidence only"
+    },
+    {
+      "sourcePage": 6,
+      "id": "6523.dat",
+      "count": 2,
+      "reason": "Identified short geared shafts; top frame hole choices and pinion direction unresolved; separate evidence only"
+    }
+  ],
+  "modelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-yu-hang-yuan-xun-lian-ji.ldr",
+  "totalPlacements": 109,
+  "bom": {
+    "4268.dat|2": 2,
+    "3011.dat|14": 38,
+    "3011.dat|4": 32,
+    "75349.dat|4": 4,
+    "6521.dat|2": 2,
+    "6527.dat|14": 4,
+    "6526.dat|14": 3,
+    "75350.dat|4": 7,
+    "40666.dat|1": 12,
+    "6529.dat|4": 2,
+    "6523.dat|1": 1,
+    "40666.dat|14": 2
+  },
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "knownApproximateGeometry": [],
+  "checks": {
+    "modelSha256": "4cb0310facd4a7a76880322d3ca1bf95e3ae0fc5f85ab52c4b0eb8d340ac7f43",
+    "dependencyNodes": 105,
+    "missingDependencies": [],
+    "rawCheckerExitCode": 0,
+    "rawCheckerReport": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\preparation\\5-yu-hang-yuan-xun-lian-ji\\collision.txt",
+    "physicalFit": false,
+    "rendering": "Central queue pending; no independent browser launched"
+  },
+  "p6EvidenceStatus": {
+    "status": "unassembled_pending",
+    "currentReport": "omission-repair-20261011.json",
+    "rejectedHistoricalFile": "unassembled-p6-evidence.json",
+    "rejectedHypotheses": [
+      "red-left/blue-right ordering",
+      "80LDU paired spacing and associated old coordinates"
+    ],
+    "currentPlacementCandidate": false
+  }
+}

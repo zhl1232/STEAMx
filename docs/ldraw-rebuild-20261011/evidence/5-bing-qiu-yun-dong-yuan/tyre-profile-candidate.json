@@ -1,0 +1,20 @@
+{
+  "note": "Official DAT recursive face radial sections every0.05LDU. Nominal cavity mismatch under0.02 may be tessellation; negative large gap means radial envelope penetration candidate, not physical test.",
+  "pairs": [
+    {
+      "tyreLine": 59,
+      "wheelLine": 57,
+      "relativeCenter": [
+        0,
+        0,
+        0
+      ],
+      "worst": {
+        "z": 0.01230000000030583,
+        "inner": 40.99803625797216,
+        "outer": 41.00248042496942,
+        "gap": -0.004444166997259913
+      }
+    }
+  ]
+}

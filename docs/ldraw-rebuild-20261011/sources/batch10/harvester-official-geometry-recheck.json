@@ -1,0 +1,186 @@
+{
+  "scope": "Public official/unofficial45146 availability only, no import or source identity approval",
+  "rows": [
+    {
+      "url": "https://library.ldraw.org/library/official/parts/45146.dat",
+      "checkedAt": "2026-10-11T10:26:54.752Z",
+      "status": 404,
+      "responseSha256": "f823429386d0c1d3c0237903f570bf17fbc0b7e462f474ef258017b92e16118c",
+      "bytes": 9449,
+      "headers": null,
+      "returnedDatUrls": []
+    },
+    {
+      "url": "https://library.ldraw.org/library/unofficial/parts/45146.dat",
+      "checkedAt": "2026-10-11T10:26:56.614Z",
+      "status": 404,
+      "responseSha256": "12f71c6ace6b7be6abea5c01c62f1805f5e8344f2fcbb133500080e01c437ad5",
+      "bytes": 9449,
+      "headers": null,
+      "returnedDatUrls": []
+    },
+    {
+      "url": "https://library.ldraw.org/parts/list?tableSearch=45146",
+      "checkedAt": "2026-10-11T10:26:57.287Z",
+      "status": 200,
+      "responseSha256": "8300a100f2e3051820f6f377a8d1709acc9bb32800adc4fd1582258fd6e44263",
+      "bytes": 190494,
+      "headers": null,
+      "returnedDatUrls": []
+    }
+  ],
+  "86601": {
+    "evidenceFile": "preparation\\official-geometry-recheck-20261011.json",
+    "evidenceSha256": "3cd71aa0c6424e2ff16a195ca0a02a92f031ccd18a2687ad53c0a92692c000b3",
+    "family": "6670c01",
+    "registeredAliases": [
+      "86601",
+      "17215",
+      "47191",
+      "75573"
+    ],
+    "requests": [
+      {
+        "key": "6670c01",
+        "id": "86601",
+        "lib": "official",
+        "url": "https://library.ldraw.org/library/official/parts/86601.dat",
+        "checkedAt": "2026-10-11T08:24:39.394Z",
+        "status": 404,
+        "finalUrl": "https://library.ldraw.org/library/official/parts/86601.dat",
+        "bytes": 9449,
+        "responseSha256": "33019aa86d34f15d62e1e5630617d11f05e4d3d395d97cb1cec87bb44880393e",
+        "contentType": "text/html; charset=utf-8",
+        "header": null
+      },
+      {
+        "key": "6670c01",
+        "id": "6670c01",
+        "lib": "official",
+        "url": "https://library.ldraw.org/library/official/parts/6670c01.dat",
+        "checkedAt": "2026-10-11T08:24:39.224Z",
+        "status": 404,
+        "finalUrl": "https://library.ldraw.org/library/official/parts/6670c01.dat",
+        "bytes": 9449,
+        "responseSha256": "5634a71574bd103b189028a309891fb6d5c10dfa85fcb71e944a109d22b04b12",
+        "contentType": "text/html; charset=utf-8",
+        "header": null
+      },
+      {
+        "key": "6670c01",
+        "id": "6670c01",
+        "lib": "unofficial",
+        "url": "https://library.ldraw.org/library/unofficial/parts/6670c01.dat",
+        "checkedAt": "2026-10-11T08:24:39.367Z",
+        "status": 404,
+        "finalUrl": "https://library.ldraw.org/library/unofficial/parts/6670c01.dat",
+        "bytes": 9449,
+        "responseSha256": "63568b5e8afe42638c05ec81a8f87001e92b38876b7ec6b64991f0c687d0e954",
+        "contentType": "text/html; charset=utf-8",
+        "header": null
+      },
+      {
+        "key": "6670c01",
+        "id": "86601",
+        "lib": "unofficial",
+        "url": "https://library.ldraw.org/library/unofficial/parts/86601.dat",
+        "checkedAt": "2026-10-11T08:24:39.901Z",
+        "status": 404,
+        "finalUrl": "https://library.ldraw.org/library/unofficial/parts/86601.dat",
+        "bytes": 9449,
+        "responseSha256": "ed155a65871d162d9b113d6e4abc4da557aa3d0b085593a996c55748973cb6d9",
+        "contentType": "text/html; charset=utf-8",
+        "header": null
+      },
+      {
+        "key": "6670c01",
+        "id": "17215",
+        "lib": "official",
+        "url": "https://library.ldraw.org/library/official/parts/17215.dat",
+        "checkedAt": "2026-10-11T08:24:39.927Z",
+        "status": 404,
+        "finalUrl": "https://library.ldraw.org/library/official/parts/17215.dat",
+        "bytes": 9449,
+        "responseSha256": "370a3030a8c83a83b11a6093a62903df8015f274a3e5b1a0ca439d3f8876c8f8",
+        "contentType": "text/html; charset=utf-8",
+        "header": null
+      },
+      {
+        "key": "6670c01",
+        "id": "17215",
+        "lib": "unofficial",
+        "url": "https://library.ldraw.org/library/unofficial/parts/17215.dat",
+        "checkedAt": "2026-10-11T08:24:40.064Z",
+        "status": 404,
+        "finalUrl": "https://library.ldraw.org/library/unofficial/parts/17215.dat",
+        "bytes": 9449,
+        "responseSha256": "06eaea7d0440bf1d720c290616c82fa1cfa518621b843e4e4080aaa30efab94b",
+        "contentType": "text/html; charset=utf-8",
+        "header": null
+      },
+      {
+        "key": "6670c01",
+        "id": "47191",
+        "lib": "official",
+        "url": "https://library.ldraw.org/library/official/parts/47191.dat",
+        "checkedAt": "2026-10-11T08:24:40.574Z",
+        "status": 404,
+        "finalUrl": "https://library.ldraw.org/library/official/parts/47191.dat",
+        "bytes": 9449,
+        "responseSha256": "e2bdedd2dab1251eff1189eba7b41f9dd1300e12df8187997ccf572bf8f34299",
+        "contentType": "text/html; charset=utf-8",
+        "header": null
+      },
+      {
+        "key": "6670c01",
+        "id": "75573",
+        "lib": "official",
+        "url": "https://library.ldraw.org/library/official/parts/75573.dat",
+        "checkedAt": "2026-10-11T08:24:40.750Z",
+        "status": 404,
+        "finalUrl": "https://library.ldraw.org/library/official/parts/75573.dat",
+        "bytes": 9449,
+        "responseSha256": "ddad2d783e48c8a0666f917894717979384129b5caa9fb77e5aa77e36852f647",
+        "contentType": "text/html; charset=utf-8",
+        "header": null
+      },
+      {
+        "key": "6670c01",
+        "id": "47191",
+        "lib": "unofficial",
+        "url": "https://library.ldraw.org/library/unofficial/parts/47191.dat",
+        "checkedAt": "2026-10-11T08:24:40.615Z",
+        "status": 404,
+        "finalUrl": "https://library.ldraw.org/library/unofficial/parts/47191.dat",
+        "bytes": 9449,
+        "responseSha256": "58400a87ae324d505d790c23123dc213273a6ef57cbe4444048176267c5d5c36",
+        "contentType": "text/html; charset=utf-8",
+        "header": null
+      },
+      {
+        "key": "6670c01",
+        "id": "75573",
+        "lib": "unofficial",
+        "url": "https://library.ldraw.org/library/unofficial/parts/75573.dat",
+        "checkedAt": "2026-10-11T08:24:41.074Z",
+        "status": 404,
+        "finalUrl": "https://library.ldraw.org/library/unofficial/parts/75573.dat",
+        "bytes": 9449,
+        "responseSha256": "35f474c137511b3f1b594a3d6d8004aa4b05ca4ea3fdbf61cd5212bc4fd55918",
+        "contentType": "text/html; charset=utf-8",
+        "header": null
+      }
+    ],
+    "result": "Registered family official/unofficial DATs all404 in earlier same-day actual GET; no licensed matching geometry obtained.",
+    "harvesterOwnerClaim": "Owner identifies86601 sourcep5x4;45002stock1 extra3, not independently source-pixel verified in this availability audit.",
+    "oldSubmarineBoundary": "Do not close candidate:three-blade-propeller across courses. Old submarine source not viewed in this audit; its shape/scale/hub must be individually checked."
+  },
+  "45146": {
+    "result": "Official/unofficial direct endpoints404; public PartsList200 with no DAT download links for45146. No matching root geometry or file-specific license obtained.",
+    "geometryLicense": null,
+    "dependencyClosure": "Not applicable: no matching rootDAT",
+    "nextAction": "Source owner to confirm shape/ID/assembly aliases from inventory. Obtain licensed exact geometry or dimensioned multi-view evidence before authoring; no arbitrary roll-cage substitution."
+  },
+  "repositoryPartsChanged": false,
+  "accepted": false
+}

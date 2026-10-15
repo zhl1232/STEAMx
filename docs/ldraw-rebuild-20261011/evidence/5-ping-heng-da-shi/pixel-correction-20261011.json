@@ -1,0 +1,21 @@
+{
+  "previousSourceSha256": "bba24756da35eeb50b973d93d81359ed28e00e4321b87f46aed2995d7e285295",
+  "currentSourceSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+  "previousRevision": "277b12cd",
+  "observed": [
+    "three final original PNGs",
+    "all10 cumulative frames in contact sheet"
+  ],
+  "sourcePages": [
+    9,
+    10,
+    11
+  ],
+  "finding": "Blue weights pointed up from lower red brackets rather than down as source. Perspective also raised the far side visually despite equal world-Y ranges.",
+  "change": "Rotate each lower red bracket and4blue bricks180deg about local shaft Z; retain same unordered endpoint hole centres and beam/shaft placements.",
+  "countUnchanged": 117,
+  "stepsUnchanged": 10,
+  "staticPairsUnchanged": 9,
+  "requiresNewRender": true,
+  "accepted": false
+}

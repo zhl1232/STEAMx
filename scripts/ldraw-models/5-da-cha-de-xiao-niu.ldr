@@ -1,39 +1,107 @@
-0 5+ 打镲的小牛 (Cymbal Calf) - DUPLO draft for manual repair
+0 5-da-cha-de-xiao-niu - night19a arms close ~10° (45→35)
 0 Name: 5-da-cha-de-xiao-niu.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+打镲的小牛 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Cow face, horns, side cymbals, gear wheels and arms are simplified.
-
-0 // STEP 1 - green stage and legs
-1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 1 -80 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 80 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -80 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 80 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // PDF SHA256 71dba90ed91847011f2edb9365cc82a931560aaf1c8d1c0431146b79d4455d11
+0 // All14 source pages actually viewed; final page is presentation only.
+0 // No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.
+0 // SOURCE PAGE 1 - Rectangular plate and two blue legs on paired curved yellow feet
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 14 -120 -48 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 -120 -48 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 1 -120 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -120 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -120 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 120 -48 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 120 -48 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 1 120 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 120 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 120 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
 0 STEP
-
-0 // STEP 2 - red/yellow torso
-1 4 -80 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 0 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE 2 - Twin red bearing beams, crown input and rear handle
+1 4 0 -240 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 -240 40 1 0 0 0 1 0 0 0 1 75350.dat
+1 7 0 -216 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 1 0 -216 -104 1 0 0 0 1 0 0 0 1 31622.dat
+1 14 0 -216 104 1 0 0 0 0 -1 0 1 0 6526.dat
 0 STEP
-
-0 // STEP 3 - head, horns and cymbals
-1 14 0 -312 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -360 -120 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 -120 -408 -160 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 14 120 -408 -160 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 14 -240 -216 -80 0 0 1 0 1 0 -1 0 0 42029.dat
-1 14 240 -216 -80 0 0 1 0 1 0 -1 0 0 42029.dat
+0 // SOURCE PAGE 3 - Two vertical shafts and red24 gears
+1 7 -60 -324 -20 0 -1 0 1 0 0 0 0 1 6522.dat
+1 4 -60 -264 -20 1 0 0 0 0 -1 0 1 0 6529.dat
+1 7 60 -324 -20 0 -1 0 1 0 0 0 0 1 6522.dat
+1 4 60 -264 -20 1 0 0 0 0 -1 0 1 0 6529.dat
+0 // UNVERIFIED 31622/6529 - Axial seating and tooth phase inferred from source; crown contact against both24 gears not physically tested
 0 STEP
-
-0 // STEP 4 - arms and face details
-1 4 -180 -240 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 4 180 -240 -120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 15 -60 -360 -240 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 60 -360 -240 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4 - Two pivoted red swing arms and top locking cranks
+1 4 -179.626799 -332.000000 -155.975840 0.573576436 0.000000000 -0.819152044 0.000000000 1.000000000 0.000000000 0.819152044 0.000000000 0.573576436 75350.dat
+1 14 -60.000000 -352.000000 -20.000000 -0.819152044 0.000000000 -0.573576436 0.000000000 1.000000000 0.000000000 0.573576436 0.000000000 -0.819152044 6526.dat
+1 4 179.626799 -332.000000 -155.975840 0.573576436 0.000000000 0.819152044 0.000000000 1.000000000 0.000000000 -0.819152044 0.000000000 0.573576436 75350.dat
+1 14 60.000000 -352.000000 -20.000000 -0.819152044 0.000000000 0.573576436 0.000000000 1.000000000 0.000000000 -0.573576436 0.000000000 -0.819152044 6526.dat
+0 // night19a: arms closed ~10° about pivots ±60,-324,-20; IoU≈0.822 @ 0.1,1.0,1.5
+0 STEP
+0 // SOURCE PAGE 5 - Two cymbal gears on outer arm side axles
+1 1 -299.253599 -308.000000 -291.951678 -0.819152044 0.000000000 -0.573576436 0.000000000 1.000000000 0.000000000 0.573576436 0.000000000 -0.819152044 6523.dat
+1 14 -230.444827 -308.000000 -340.132099 0.573576436 0.000000000 -0.819152044 0.000000000 1.000000000 0.000000000 0.819152044 0.000000000 0.573576436 6530.dat
+1 1 299.253599 -308.000000 -291.951678 0.819152044 0.000000000 -0.573576436 0.000000000 1.000000000 0.000000000 0.573576436 0.000000000 0.819152044 6523.dat
+1 14 230.444827 -308.000000 -340.132099 0.573576436 0.000000000 0.819152044 0.000000000 1.000000000 0.000000000 -0.819152044 0.000000000 0.573576436 6530.dat
+0 STEP
+0 // SOURCE PAGE 6 - Rear upper posts
+1 1 -200 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -200 -336 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -200 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 200 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 200 -336 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 200 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 7 - Upper crossbeams with end caps
+1 4 0 -432 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 -432 40 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 -240 -432 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 240 -432 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 8 - Rounded shoulders and central roof
+1 1 -120 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -40 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 40 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 120 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -200 -480 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 -200 -480 40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 200 -480 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 200 -480 40 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+0 // SOURCE PAGE 9 - Blue4x8 head plate projects forward
+1 1 0 -504 -40 0 0 -1 0 1 0 1 0 0 4672.dat
+0 STEP
+0 // SOURCE PAGE 10 - Ten red bricks form stepped head and muzzle
+1 4 0 -552 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -552 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -552 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 0 -552 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 80 -552 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 0 -600 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -600 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -600 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 0 -600 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 80 -600 40 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 11 - Eye row and raised nose
+1 4 0 -648 -120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 0 -648 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -648 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -648 0 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 14 80 -648 0 1 0 0 0 1 0 0 0 1 3437pe1.dat
+0 STEP
+0 // SOURCE PAGE 12 - Four curved yellow forehead pieces
+1 14 -40 -696 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 -40 -696 80 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 40 -696 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 40 -696 80 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+0 // SOURCE PAGE 13 - Red horn bridge, thin central plate and two concave horns
+1 4 -80 -744 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -744 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -768 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -180 -840 40 1 0 0 0 1 0 0 0 1 2301.dat
+1 14 180 -840 40 -1 0 0 0 1 0 0 0 -1 2301.dat
+0 // Source final page adds no parts.

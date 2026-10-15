@@ -1,0 +1,17 @@
+{
+  "sourceSha256": "c462e4562f2e8ed72b26ca914c875a7df15f7155363dfd3f67155efc728bb2c5",
+  "pagesActuallyReinspected": [5, 7],
+  "sourceDirectory": "D:/Codex-task-2-20261011/inputs/pdfbatch1/5-qing-ting",
+  "observations": [
+    "Page5 shows two grey square axles through the tail beam and upper red beam; two retainers above and two below, source BOM4 pulleys/2 axles/1 beam.",
+    "Upper retainers appear on the same seating level, on holes separated by80LDU. Source does not show a deliberate axial stagger or a different pulley type.",
+    "Page7 preserves this tail assembly. The source drawing itself depicts near-overlapping flange edges, so shifting holes or inventing spacers would change its construction."
+  ],
+  "risks": [
+    {"lines": [50, 47], "finding": "Coplanar82LDU flange diameters at80LDU centres leave2LDU radial interference risk."},
+    {"lines": [51, 48], "finding": "Same80LDU spacing and82LDU diameter on lower retainers; hidden axial relief not evidenced."},
+    {"lines": [51, 11], "finding": "Nearer lower retainer centreX-240 and R41 reachesX-199 while underlying body endsX-200. Potential1LDU edge interference; hidden cutout/contact cannot be certified from source."}
+  ],
+  "decision": "No reliable source-backed correction established. Do not move axles off source holes, scale parts or invent staggered spacers. Keep all3 risks open and preserve source for review.",
+  "physicalValidation": false
+}

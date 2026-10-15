@@ -1,0 +1,56 @@
+{
+  "slug": "5-ping-heng-da-shi",
+  "sourceSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+  "allRecursiveFacesLoaded": true,
+  "parts": [
+    {
+      "id": "4268.dat",
+      "faceCount": 18410
+    },
+    {
+      "id": "3011.dat",
+      "faceCount": 590
+    },
+    {
+      "id": "2302b.dat",
+      "faceCount": 454
+    },
+    {
+      "id": "75350.dat",
+      "faceCount": 7502
+    },
+    {
+      "id": "6523.dat",
+      "faceCount": 330
+    },
+    {
+      "id": "6527.dat",
+      "faceCount": 1029
+    },
+    {
+      "id": "75349.dat",
+      "faceCount": 2726
+    },
+    {
+      "id": "40666.dat",
+      "faceCount": 590
+    },
+    {
+      "id": "6394.dat",
+      "faceCount": 574
+    },
+    {
+      "id": "4198p01.dat",
+      "faceCount": 674
+    },
+    {
+      "id": "6522.dat",
+      "faceCount": 34
+    },
+    {
+      "id": "6525.dat",
+      "faceCount": 1804
+    }
+  ],
+  "physicalValidation": false
+}

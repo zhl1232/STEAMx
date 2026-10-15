@@ -1,0 +1,18 @@
+{
+  "slug": "4-wu-ren-ji",
+  "modelSha256": "6fbd18c0e366258df33ad88e862c986f781fd7559ccd356f9ecb25cc6ff4408c",
+  "placements": 32,
+  "status": "incomplete-needs-source-geometry-and-step-acceptance",
+  "accepted": false,
+  "metadataUsedHash": "515a517d04928afa2f0d7403de49c7f962a2fb14cfe2152019648f338d4b3f8f",
+  "source": {
+    "path": "D:/Codex-task-2-20261011/inputs/pdfbatch3/4+/4+无人机搭建说明.pdf",
+    "sha256": "7a0159eb5e973e2367c4b38b9990efe799fdcbeb183bd295ea02345d0129ee5e",
+    "pages": 9,
+    "allPixelsViewed": true
+  },
+  "additiveStages": 8,
+  "checker": "PASS rawLDR; Toolo manual-policy parts require explicit review",
+  "render": "current D cumulative steps actually reviewed; final3=False in D record; prior C final evidence remains separate",
+  "remaining": "Four propellers missing. All9sourcepages actually viewed. RawcheckerPASS32placements. No rendered pixels yet. Body tiling/leg positions/camera should be checked against source once rendered."
+}

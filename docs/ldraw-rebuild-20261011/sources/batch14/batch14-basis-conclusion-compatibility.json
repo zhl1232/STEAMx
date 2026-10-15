@@ -1,0 +1,107 @@
+{
+  "at": "2026-10-11T13:56:42.509500+00:00",
+  "staticPath": "preparation\\5-ta-diao\\static-alarm-review.json",
+  "staticSha256": "44b5461de8585c1d72af263313629b65ff8f0a87fd4e6a0ade19fb5711ac0b6a",
+  "sourceSha256": "8dd5b1de00632b412ef9d49fa3d99195474de01176a421f1c747c32c3420c4aa",
+  "exactPairs": [
+    [
+      61,
+      64
+    ],
+    [
+      62,
+      65
+    ],
+    [
+      71,
+      74
+    ],
+    [
+      72,
+      75
+    ]
+  ],
+  "allClassifications": "real_risk",
+  "evidence": [
+    {
+      "lineA": 64,
+      "lineB": 61,
+      "classification": "real_risk",
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "centreDistanceLdu": 80,
+      "meshCrossSection": "Official6527 annular flange at localZ17..18, inner36.9 outer41. Both equal-orientation wheels have worldmidpoint at localradius40 andlocalZ17.5.",
+      "overlapWitnessWorld": [
+        200.0,
+        -600.0,
+        -121.5
+      ],
+      "witnessLocalEach": "X±40,Y0,Z17.5 (properH negative-side mapping preserves radial40)",
+      "basis": "6527.dat ring9 atZ18 withscale4.1=>R36.9..41; innercylinderR36.9 atZ18 height-1 and outercylinderR41 Z18 height-4 enclose this annulus. At angle0/pi the polygonvertices exactly boundthese radii.",
+      "conclusion": "Positive interior-overlap witness in current officialmesh model, not onlyAABB/radialenvelope. Does not measure real plastic tolerances. Sourceholepitch80 retained; cannotdeclareclear without supportedaxialrepositioning."
+    },
+    {
+      "lineA": 65,
+      "lineB": 62,
+      "classification": "real_risk",
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "centreDistanceLdu": 80,
+      "meshCrossSection": "Official6527 annular flange at localZ17..18, inner36.9 outer41. Both equal-orientation wheels have worldmidpoint at localradius40 andlocalZ17.5.",
+      "overlapWitnessWorld": [
+        200.0,
+        -600.0,
+        121.5
+      ],
+      "witnessLocalEach": "X±40,Y0,Z17.5 (properH negative-side mapping preserves radial40)",
+      "basis": "6527.dat ring9 atZ18 withscale4.1=>R36.9..41; innercylinderR36.9 atZ18 height-1 and outercylinderR41 Z18 height-4 enclose this annulus. At angle0/pi the polygonvertices exactly boundthese radii.",
+      "conclusion": "Positive interior-overlap witness in current officialmesh model, not onlyAABB/radialenvelope. Does not measure real plastic tolerances. Sourceholepitch80 retained; cannotdeclareclear without supportedaxialrepositioning."
+    },
+    {
+      "lineA": 74,
+      "lineB": 71,
+      "classification": "real_risk",
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "centreDistanceLdu": 80,
+      "meshCrossSection": "Official6527 annular flange at localZ17..18, inner36.9 outer41. Both equal-orientation wheels have worldmidpoint at localradius40 andlocalZ17.5.",
+      "overlapWitnessWorld": [
+        -40.0,
+        -600.0,
+        -121.5
+      ],
+      "witnessLocalEach": "X±40,Y0,Z17.5 (properH negative-side mapping preserves radial40)",
+      "basis": "6527.dat ring9 atZ18 withscale4.1=>R36.9..41; innercylinderR36.9 atZ18 height-1 and outercylinderR41 Z18 height-4 enclose this annulus. At angle0/pi the polygonvertices exactly boundthese radii.",
+      "conclusion": "Positive interior-overlap witness in current officialmesh model, not onlyAABB/radialenvelope. Does not measure real plastic tolerances. Sourceholepitch80 retained; cannotdeclareclear without supportedaxialrepositioning."
+    },
+    {
+      "lineA": 75,
+      "lineB": 72,
+      "classification": "real_risk",
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "centreDistanceLdu": 80,
+      "meshCrossSection": "Official6527 annular flange at localZ17..18, inner36.9 outer41. Both equal-orientation wheels have worldmidpoint at localradius40 andlocalZ17.5.",
+      "overlapWitnessWorld": [
+        -40.0,
+        -600.0,
+        121.5
+      ],
+      "witnessLocalEach": "X±40,Y0,Z17.5 (properH negative-side mapping preserves radial40)",
+      "basis": "6527.dat ring9 atZ18 withscale4.1=>R36.9..41; innercylinderR36.9 atZ18 height-1 and outercylinderR41 Z18 height-4 enclose this annulus. At angle0/pi the polygonvertices exactly boundthese radii.",
+      "conclusion": "Positive interior-overlap witness in current officialmesh model, not onlyAABB/radialenvelope. Does not measure real plastic tolerances. Sourceholepitch80 retained; cannotdeclareclear without supportedaxialrepositioning."
+    }
+  ],
+  "compatibility": "lineA/B pair recognized only with classification plus existing reason/evidence OR both basis AND conclusion. Real risks are retained, no model/static edits.",
+  "scriptSha256Before": "7176088ad7e6f892e5c555f6a8aeaac68d9e93e60a7050d419c85b9fe28e70e9",
+  "scriptSha256After": "0c445fe7b3c1f441b64b9f173863eaf2a93b3d5e2a1bb2603c378c8e5ed3dfdc",
+  "physicalValidation": false
+}

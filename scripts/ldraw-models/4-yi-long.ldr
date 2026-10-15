@@ -1,42 +1,87 @@
-0 4+ 翼龙 (Pterodactyl) - DUPLO draft for manual repair
+0 4-yi-long - source-based dev-only reconstruction
 0 Name: 4-yi-long.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // Batch2 source review 2026-10-12: p12 eyes lifted to upper red head and moved to outer4-stud sides. p14 source wings are BLACK, p8 yellow bricks retained. No yellow wing skin in source. Blue Toolo shells and4 unidentified orange rakes remain omitted.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+翼龙 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Wing panels, head crest, claws, tail and Technic hinges are simplified.
-
-0 // STEP 1 - black body and legs
-1 0 -80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 240 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 8 -80 -48 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 8 120 -48 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 25 -180 -24 -180 1 0 0 0 1 0 0 0 1 40666.dat
-1 25 220 -24 180 1 0 0 0 1 0 0 0 1 40666.dat
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: three black Toolo bricks form the T footprint
+1 0 0 0 -80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 0 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 200 0 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 2 - wide dark wings
-1 0 -220 -168 -160 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 0 -360 -240 -220 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 0 -500 -312 -280 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 0 -220 -168 160 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
-1 0 -500 -300 240 0.866 -0.500 0 0.500 0.866 0 0 0 1 3011.dat
-1 0 -640 -380 340 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // Source page 2: four black Toolo bricks tie the T and broaden its forward crossbar
+1 0 -40 -48 -80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -40 -48 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 160 -48 -120 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 160 -48 120 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 3 - neck and head
-1 0 -160 -192 -40 1 0 0 0 0 -1 0 1 0 31452.dat
-1 0 -160 -312 -40 1 0 0 0 0 -1 0 1 0 31452.dat
-1 4 -160 -400 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -220 -448 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -260 -496 -160 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 3: three black upper bricks
+1 0 -40 -96 -80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 -40 -96 80 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 160 -96 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 4 - tail, crest and claws
-1 0 320 -120 300 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 0 440 -168 420 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 1 -240 -520 -300 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 25 -260 -24 -300 1 0 0 0 1 0 0 0 1 40666.dat
-1 25 260 -24 300 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 4: rear fork and long tail arm
+0 // night3c: rear fork offset to -Z (side wing silhouette)
+1 72 -80 -144 -120 0 0 -1 0 1 0 1 0 0 28336.dat
+0 // night3f: rear arm 45° on -Z side (best IoU 0.65)
+1 72 -419.553 -483.553 -120 -0.707107 0.707107 0 0.707107 0.707107 0 0 0 -1 dev-129/28331.dat
+0 STEP
+0 // Source page 5: front fork and vertical long neck
+0 // night3b: neck fork 280→200
+0 // night2g: neck fork 240→280 (near front edge)
+0 // night2f: neck +80 X (fork 160→240, toward front edge)
+0 // night2e: neck restored vertical at fork x=160 (courseware p15 neck is upright)
+1 72 200 -144 0 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 248 -609 0 1 0 0 0 1 0 0 0 1 dev-129/28331.dat
+0 STEP
+0 // Source page 6: two side-built front foot brackets
+1 72 288 -24 -160 0 -1 0 0 0 1 -1 0 0 28336.dat
+1 72 288 -24 160 0 -1 0 0 0 1 -1 0 0 28336.dat
+0 STEP
+0 // Source page 7: two orange rake feet under front brackets (hand fix 2026-10-13, local approximation)
+1 25 300 16 -160 1 0 0 0 1 0 0 0 1 dev-129/rake-yi-long.dat
+1 25 300 16 160 1 0 0 0 1 0 0 0 1 dev-129/rake-yi-long.dat
+0 STEP
+0 // Source page 8: two yellow lower rear Toolo bricks
+1 14 -160 48 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -160 48 80 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+0 // Source page 9: two rear forks and two horizontal short arms
+1 72 -288 72 -80 0 1 0 0 0 -1 -1 0 0 28336.dat
+1 72 -553 24 -80 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
+1 72 -288 72 80 0 1 0 0 0 -1 -1 0 0 28336.dat
+1 72 -553 24 80 0 1 0 -1 0 0 0 0 1 dev-129/28334.dat
+0 STEP
+0 // Source page 10: two orange rake feet on rear short-arm ends (hand fix 2026-10-13)
+1 25 -553 48 -80 1 0 0 0 1 0 0 0 1 dev-129/rake-yi-long.dat
+1 25 -553 48 80 1 0 0 0 1 0 0 0 1 dev-129/rake-yi-long.dat
+0 STEP
+0 // Source page 11: neck clutch and two offset red Toolo jaw bricks
+1 72 248 -669 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 4 368 -669 0 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 288 -717 0 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+0 // Source page 12: two upper red Toolo bricks and paired wheel eyes
+1 4 288 -765 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 288 -765 40 1 0 0 0 1 0 0 0 1 76057.dat
+1 71 248 -741 -104 1 0 0 0 0 1 0 -1 0 99565.dat
+1 71 248 -741 104 1 0 0 0 0 -1 0 1 0 99565.dat
+0 STEP
+0 // Source page 13: blue wing 45117c01 + spoiler 31239c01 crest on head top
+0 // night4: crest face +X (IoU 0.654→0.674)
+1 1 288 -765 0 0 0 1 0 1 0 -1 0 0 dev-129/45117c01-yi-long.dat
+1 1 288 -813 0 0 0 1 0 1 0 -1 0 0 dev-129/31239c01-yi-long.dat
+0 STEP
+0 // Source page 14: six black Toolo bricks in two stepped wing rows
+1 0 0 -144 -200 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -192 -360 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -240 -520 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -144 200 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -192 360 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -240 520 0 0 1 0 1 0 -1 0 0 76395.dat
+0 // PENDING: Orange rake blades4 and confirmed Toolo blue wing/tail shells omitted.
+0 // PENDING: T footprint, head brick stagger and rear/foot joint positions inferred from oblique source; must compare central render.
+0 // PENDING: Known fork/arm geometry remains approximate; no physical stability or screw engagement claimed.
+0 // Source page 15: finished view, no duplicated placements.

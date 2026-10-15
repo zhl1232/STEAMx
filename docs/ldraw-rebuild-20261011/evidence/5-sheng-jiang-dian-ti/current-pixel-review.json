@@ -1,0 +1,95 @@
+{
+  "sourceSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+  "revision": "46f8d88989e2e5c99f4f09177d55cb30c73b38d81c2faff92b669c15a3846a91",
+  "reviewedAt": "2026-10-11T13:10:28.928808+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-sheng-jiang-dian-ti",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "a78750c888adf6a114a416df567298e38969dd9b5e9a67bbb19bcd43414dd67a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "56af9ae4deabcf4637b91cdf9abee2c82cce7387a9952905447bcac30f9e67e5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "c005201de30a678ef2e004ee688492bc53f942c7bb98ecb138a7a38117d674b6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "d136fff991ad1c67c112d72bf9e164d9db756575bea298788592a07c2e2c7b27",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "3b959148e2a5746dfe9e0f162eea584a58d737cb27468f8a5c66e4a0a0af8179",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "155d0d578c925e9e8e550c402e004f2e4f02d94172fdcd4eee7640b4f21d8f25",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "b0aafc48c1b4d40e338ab983e1b9c1340ba4809fe6099b089253fc932b26746d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "7f3cb2c405fec40e244fa0aa903326f3c330b0e723376127ab5af41bbcae95a1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "9b64f66478680c22f698299ad7c8aa633b57275d6a0f2c1a4547e8b9ecea2a49",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "824c75eae10e2ce34b409c4d6e43b23fee6ec63e8d0d60dfdaffba765e8fe835",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "824c75eae10e2ce34b409c4d6e43b23fee6ec63e8d0d60dfdaffba765e8fe835",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "6abf3c7768a6db0a16bf6b696fc8bb562474585cc0bc8a910581212696aa8674",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "d076c145c71350683570492729f3889579d95807b1f19ba2edc0f21b15270fa0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "0cc2305398057a591e76871684da22fbcd8eed3de9d12a3148186fcad44d60bc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "a78750c888adf6a114a416df567298e38969dd9b5e9a67bbb19bcd43414dd67a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "a78750c888adf6a114a416df567298e38969dd9b5e9a67bbb19bcd43414dd67a",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current final3 original PNGs and all13 cumulative frames in step contact sheet, compared with all14 source pages. Tower U courses, three platforms, cross-bonded header, front winding wheels/back crank gears and inferred angled guides are visually present. Hooks/carriages retained in source-backed hanging pose; omitted rope mesh makes apparent suspension unsupported in rendered geometry, not assembly pass. Hook grip, exact depth/height, shaft retention and guide travel remain unverified. Figure16components, rope2 and window8pieces omitted. No new confirmed source-placement error found in this render; incomplete development preview, not accepted."
+}

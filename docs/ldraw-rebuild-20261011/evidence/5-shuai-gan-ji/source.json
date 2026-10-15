@@ -1,0 +1,69 @@
+{
+  "name": "5+甩干机搭建说明.pdf",
+  "relative_path": "5+/5+甩干机搭建说明.pdf",
+  "pages": 9,
+  "bytes": 1279093,
+  "sha256": "7184a89bc3f0fc94af200f6dbd128636e36244b3d5a538ff56b1f10297341f73",
+  "source_url": "https://pan.quark.cn/list#/docpdf/90f5f4f0be0949b9b69c842847f018cf",
+  "slug": "5-shuai-gan-ji",
+  "lesson_id": 287,
+  "course_id": 7,
+  "localPdf": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5+/5+甩干机搭建说明.pdf",
+  "localBytesVerified": true,
+  "pagesDecoded": [
+    {
+      "page": 1,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-1.jpg",
+      "sha256": "83fd54a7df76eee50baacdad2adcb4b0b2367accdb8f5dad2953c66a7d5b080e",
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-2.jpg",
+      "sha256": "e7df4a982507da57b4b4021c8757ee9bd8a3467f74eafad3d7b9b707076a16d4",
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-3.jpg",
+      "sha256": "eb1e8ac1e72e4bfde69ff32062ab880886a2d0116717a4f9ada52c60248cd653",
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-4.jpg",
+      "sha256": "e2f84fd89dcafe5cbd222ef27ddd7eceebaa9009b460d708a2238f0aa48e4656",
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-5.jpg",
+      "sha256": "8aa62c65c21e87455d119f4e4657ce579e08fd4f8c3fb71ba571a1a70ec9797c",
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-6.jpg",
+      "sha256": "abea001a963f2e13255e9dd06635d9b3bd799af6614f6590eabcefd2b3f67802",
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-7.jpg",
+      "sha256": "d97a64efdae1f7a5f87d0e636965d5d5a7b72d2563b308438d197a60ed8d94c9",
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-8.jpg",
+      "sha256": "4762f4efd59cfbb5daa925d012c535d6b01b69f01a5304e3fa84da42334c3214",
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:/Codex-task-2-20261011/inputs/pdfbatch13/5-shuai-gan-ji/page-9.jpg",
+      "sha256": "e37797290703589b3d009c73a67b1a6263004e4c7d423576ffb0d09da7f8dd89",
+      "pixelsViewed": true
+    }
+  ]
+}

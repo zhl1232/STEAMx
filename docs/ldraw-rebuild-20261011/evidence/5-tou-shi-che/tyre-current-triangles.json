@@ -1,0 +1,758 @@
+{
+  "sourceSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c",
+  "dependencyHashes": {
+    "6292.dat": "cde0daf6b533785bda13a5091830d59a3b0e828b69a2c7c7baeba5d2f076995e",
+    "s/6292s02.dat": "c7e29e2ba32c9ba8b74cda3d0568b2b2c7f22c4e5f271e157dc76b30507c4190",
+    "s/6292s01.dat": "04d1a86b98b1aa4602ae321dfd7bd4fa4803897392c36a0fe2238aa2e0267162",
+    "rect2p.dat": "faac2b36241a9de0c0108471e59c45734df6c79813332d9cacf97f6391886acc",
+    "rect3.dat": "07ac46908b6668d993b6de0fb001a34cd996542106b80ebc7de63317d8dde865",
+    "1-4cyli.dat": "5a7168952a5a3570327873b9a5802fa7b3be40967ab78c03b6a2bfd4419a1f10",
+    "1-4edge.dat": "9ce2de7e67bbac575d52cfdc771b9d00856efc9b88002d97db8e665e50f4d467",
+    "1-4ring6.dat": "a9e3166db4cd6769e0f5e63421f791351184d13db5353d0d7f6b98e478e8b43b",
+    "1-4con7.dat": "bc528d486a6535e6df4fd85fed64a1b4f49f86c195a304a3318c50f7d900d26a",
+    "1-4ring5.dat": "ade62f37ed8b6a69f49a5d12722de1dddcbef93def88094e5217b8b23ab814c4",
+    "48/1-4cyli.dat": "e2ed297feaf608b7319c2e54cd81dcb653fbb3d87b5a8e48ab2f54b32953fc6b",
+    "48/1-4edge.dat": "e4ebabd21711f16411b3c8b8b278995a56c5f25919cd424976357da5b19943c6",
+    "48/1-4con9.dat": "b1f75a240cf315c7c8e7a768cd8c67262768e9d9e70524b27033ce4213f9eebb",
+    "t04i2500.dat": "16a0e74be0e6e149ea99ffd6aff98b3406c19fc7727d0453b1fe1572cf4e40bb",
+    "1-4ring4.dat": "6fed0ef17eaca407c7b17efc82bb7dc8860324b79817da345ebf32f7911dbbba",
+    "6527.dat": "01d003ca6446c9cb0dfa3f31e8b9a170c4ecc415a6d46cfa5dfa88cfd1fd0a1b",
+    "4-4cylo.dat": "d6ca97ee2e75918b3309a5c88aafcd2455b3a316f7cef8963517c19f1d86b38f",
+    "4-4edge.dat": "54a52196e421fd1717d291ff52ea57553b1fb238907c1678cc1f1a84c698b1da",
+    "4-4cyli.dat": "4a742c2765b6ebf98245baaf8a160a4ff587fc93d36c8ee2b9074712a2f968c4",
+    "4-4ring5.dat": "ca5a04efffaad8671c935fed492ee397b1b91f854079257b033e87fcca3580b1",
+    "48/4-4cylo.dat": "ce018b080f8d657ed514164b995e119e9ea104a03cd84e6a6f736b40f58252a6",
+    "48/4-4edge.dat": "db8fd751c8c6b1f72211903adbff3aa90be6808cc4fcff391f1c320adced5da7",
+    "48/4-4cyli.dat": "6c466cd94f69ecdb3a5a83faee52ad2e5ecd9d1560975feaf854c3433de6e6a2",
+    "48/4-4aring.dat": "4c0d575f91df941b5d3313427d699813cc3cf9f09c334cbad7a0eceeaf98f573",
+    "48/4-4ring9.dat": "d8de1753705319aa11a189b579323b778c9b6cf4869360e698c64a8a0cdbf3d2",
+    "48/1-4ring9.dat": "08cf8697a97526c9636b00578b792ef8452d3f74d7615e3a1d5644417908b42a",
+    "1-4chrd.dat": "ccba3a97b5cc358754e476b78b4ce61cce5f404cd15e37471b73df3e81784aec",
+    "4-4ndis.dat": "21202dc15823f4336bc2544244d0b539b76745c89f7a59ad18cdd03ad45cc543",
+    "t04i1304.dat": "e23d62de56e98c40060f11106d93688dd6a53d5d92507673c4d3690184769cfc",
+    "t02i1111.dat": "827358bfc070521d4cfafac88fb7f74c41bd75e4ca712e13e28afc34c3533e40",
+    "3-16chrd.dat": "2bb493e8b5b56a5d63bfa7356a0ed5d6403a68e5e9a983e13a57541783ad19c1",
+    "1-8chrd.dat": "7694157b725563188a6efd69b3f558b00533b375b8a4e82f469497a03e471e74",
+    "1-16chrd.dat": "e429dd760eb6f0cf460a74e6ebf52c023bedbdea82de7801efa1694b5a1a82e8",
+    "empty.dat": "192c9b9ee2e425cfbc9e9b12ff61ee0f05ae1cb0c12dc37d5590adb6abb65128",
+    "1-8cylo.dat": "870bbbf6052e075598de7dce7efe7a139ea5189820e7a296442fe2b3318c18bf",
+    "1-8edge.dat": "50436a0bce461198c342dccbccb658a1bffae13e44b7c48689b158c946c2c2ab",
+    "1-8cyli.dat": "46def63dc8293ad9a2dd1d1a5cb720b9ba883850e65d3280d2093c664a6140c4",
+    "rect.dat": "ffeb2dd3d9b83c38841f18f1f74800fbba9e90c5fb6badfff2a795f08a96cb71",
+    "3-8cylo.dat": "f5e90ea29201b4cea569e2effe32eee5fe95146e3eadcddc054a881ef4f839bd",
+    "3-8edge.dat": "a590f230678d592d514a9c5e307c6a30945e50e4c529fc06accf37530d0e0ed5",
+    "3-8cyli.dat": "9224d4e5edc6f5b0f75f6fa358fd1368a4fd65f676b74fe1bb6e3bbb05046206"
+  },
+  "algorithmSha256": "3a719ba417378a0f1dfd378c6033fdebaad1f474ea3197d615bdcfb900f766d4",
+  "method": "Every recursive DAT type3/type4 polygon fan triangle against every transformed other triangle with AABB pruning. Strict segment/interior-triangle intersection (Moller-Trumbore). Positive witnesses establish geometric surface crossing. Zero does not exclude coplanar overlap, containment, contact or physical interference. No tolerance-based acceptance.",
+  "results": [
+    {
+      "tyreLine": 14,
+      "wheelLine": 15,
+      "strictSurfaceCrossingTrianglePairs": 225,
+      "witnesses": [
+        {
+          "point": [
+            -23.50189090909091,
+            -2.504945454545454,
+            -20
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -22.173599999999993,
+              -9.184799999999996,
+              -20
+            ],
+            [
+              -41,
+              0,
+              -20
+            ],
+            [
+              -22.173599999999993,
+              9.1848,
+              -20
+            ]
+          ]
+        },
+        {
+          "point": [
+            -22.1736,
+            -9.1848,
+            -16
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -9.184799999999996,
+              -22.1736,
+              -16
+            ],
+            [
+              -24,
+              0,
+              -16
+            ],
+            [
+              -32.80000000000001,
+              0,
+              -16
+            ]
+          ]
+        },
+        {
+          "point": [
+            -23.50189090909091,
+            -2.504945454545455,
+            -20
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ],
+            [
+              -24,
+              0,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -22.173599999999993,
+              -9.184799999999996,
+              -20
+            ],
+            [
+              -41,
+              0,
+              -20
+            ],
+            [
+              -22.173599999999993,
+              9.1848,
+              -20
+            ]
+          ]
+        },
+        {
+          "point": [
+            -22.837745454545455,
+            -5.844872727272728,
+            -16
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ],
+            [
+              -24,
+              0,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -9.184799999999996,
+              -22.1736,
+              -16
+            ],
+            [
+              -24,
+              0,
+              -16
+            ],
+            [
+              -32.80000000000001,
+              0,
+              -16
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "tyreLine": 14,
+      "wheelLine": 16,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 17,
+      "wheelLine": 18,
+      "strictSurfaceCrossingTrianglePairs": 225,
+      "witnesses": [
+        {
+          "point": [
+            -23.50189090909091,
+            -2.504945454545454,
+            -20
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -22.173599999999993,
+              -9.184799999999996,
+              -20
+            ],
+            [
+              -41,
+              0,
+              -20
+            ],
+            [
+              -22.173599999999993,
+              9.1848,
+              -20
+            ]
+          ]
+        },
+        {
+          "point": [
+            -22.1736,
+            -9.1848,
+            -16
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -9.184799999999996,
+              -22.1736,
+              -16
+            ],
+            [
+              -24,
+              0,
+              -16
+            ],
+            [
+              -32.80000000000001,
+              0,
+              -16
+            ]
+          ]
+        },
+        {
+          "point": [
+            -23.50189090909091,
+            -2.504945454545455,
+            -20
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ],
+            [
+              -24,
+              0,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -22.173599999999993,
+              -9.184799999999996,
+              -20
+            ],
+            [
+              -41,
+              0,
+              -20
+            ],
+            [
+              -22.173599999999993,
+              9.1848,
+              -20
+            ]
+          ]
+        },
+        {
+          "point": [
+            -22.837745454545455,
+            -5.844872727272728,
+            -16
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ],
+            [
+              -24,
+              0,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -9.184799999999996,
+              -22.1736,
+              -16
+            ],
+            [
+              -24,
+              0,
+              -16
+            ],
+            [
+              -32.80000000000001,
+              0,
+              -16
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "tyreLine": 17,
+      "wheelLine": 19,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 21,
+      "wheelLine": 22,
+      "strictSurfaceCrossingTrianglePairs": 225,
+      "witnesses": [
+        {
+          "point": [
+            -23.50189090909091,
+            -2.504945454545454,
+            -20
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -22.173599999999993,
+              -9.184799999999996,
+              -20
+            ],
+            [
+              -41,
+              0,
+              -20
+            ],
+            [
+              -22.173599999999993,
+              9.1848,
+              -20
+            ]
+          ]
+        },
+        {
+          "point": [
+            -22.1736,
+            -9.1848,
+            -16
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -9.184799999999996,
+              -22.1736,
+              -16
+            ],
+            [
+              -24,
+              0,
+              -16
+            ],
+            [
+              -32.8,
+              0,
+              -16
+            ]
+          ]
+        },
+        {
+          "point": [
+            -23.50189090909091,
+            -2.504945454545455,
+            -20
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ],
+            [
+              -24,
+              0,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -22.173599999999993,
+              -9.184799999999996,
+              -20
+            ],
+            [
+              -41,
+              0,
+              -20
+            ],
+            [
+              -22.173599999999993,
+              9.1848,
+              -20
+            ]
+          ]
+        },
+        {
+          "point": [
+            -22.837745454545455,
+            -5.844872727272728,
+            -16
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ],
+            [
+              -24,
+              0,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -9.184799999999996,
+              -22.1736,
+              -16
+            ],
+            [
+              -24,
+              0,
+              -16
+            ],
+            [
+              -32.8,
+              0,
+              -16
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "tyreLine": 21,
+      "wheelLine": 23,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    },
+    {
+      "tyreLine": 24,
+      "wheelLine": 25,
+      "strictSurfaceCrossingTrianglePairs": 225,
+      "witnesses": [
+        {
+          "point": [
+            -23.50189090909091,
+            -2.504945454545454,
+            -20
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -22.173599999999993,
+              -9.184799999999996,
+              -20
+            ],
+            [
+              -41,
+              0,
+              -20
+            ],
+            [
+              -22.173599999999993,
+              9.1848,
+              -20
+            ]
+          ]
+        },
+        {
+          "point": [
+            -22.1736,
+            -9.1848,
+            -16
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -9.184799999999996,
+              -22.1736,
+              -16
+            ],
+            [
+              -24,
+              0,
+              -16
+            ],
+            [
+              -32.8,
+              0,
+              -16
+            ]
+          ]
+        },
+        {
+          "point": [
+            -23.50189090909091,
+            -2.504945454545455,
+            -20
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ],
+            [
+              -24,
+              0,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -22.173599999999993,
+              -9.184799999999996,
+              -20
+            ],
+            [
+              -41,
+              0,
+              -20
+            ],
+            [
+              -22.173599999999993,
+              9.1848,
+              -20
+            ]
+          ]
+        },
+        {
+          "point": [
+            -22.837745454545455,
+            -5.844872727272728,
+            -16
+          ],
+          "tyreTriangle": [
+            [
+              -24,
+              0,
+              -23
+            ],
+            [
+              -22.1736,
+              -9.1848,
+              -12
+            ],
+            [
+              -24,
+              0,
+              -12
+            ]
+          ],
+          "wheelTriangle": [
+            [
+              -9.184799999999996,
+              -22.1736,
+              -16
+            ],
+            [
+              -24,
+              0,
+              -16
+            ],
+            [
+              -32.8,
+              0,
+              -16
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "tyreLine": 24,
+      "wheelLine": 26,
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "witnesses": []
+    }
+  ]
+}

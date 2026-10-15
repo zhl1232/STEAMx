@@ -1,42 +1,111 @@
-0 5+ 打地鼠 (Whack-a-Mole) - DUPLO draft for manual repair
+0 5-da-di-shu - source reconstruction; INCOMPLETE dev-only
 0 Name: 5-da-di-shu.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+打地鼠 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Pop-up moles, gear linkages and strike levers are simplified.
-
-0 // STEP 1 - green base and red platform
-1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 4 -160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 320 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // PDF SHA256 fad0f9695b509dc78b30a403cca4b8f5c0f810d223e6940ffc87e59c7e05d054
+0 // BATCH2: raised supported phase. Rotate three eccentric cranks180deg about world Z through gear centres Y=-216; lower pins move Y=-136 to -296, lifting followers and balls160LDU. Existing parts only. Phase differs from low-crank depiction in source; dynamic operation not certified.
+0 // All10 source pages actually viewed; final page is presentation only.
+0 // No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.
+0 // SOURCE PAGE 1 - Square base and three striped wall tiers
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 4 -320 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -96 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -96 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 2 - yellow gear line and front cranks
-1 14 -200 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 200 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 360 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -120 -168 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 14 120 -168 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 14 300 -168 -120 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // SOURCE PAGE 2 - Second yellow tier and red bearing beams
+1 14 -360 -192 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -192 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -200 -240 80 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 200 -240 80 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
-
-0 // STEP 3 - three blue pop-up moles
-1 1 -160 -168 -40 1 0 0 0 0 -1 0 1 0 31452.dat
-1 1 40 -168 -40 1 0 0 0 0 -1 0 1 0 31452.dat
-1 1 240 -168 -40 1 0 0 0 0 -1 0 1 0 31452.dat
-1 1 -160 -272 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 4 40 -272 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 1 240 -272 -40 1 0 0 0 1 0 0 0 1 2302.dat
+0 // SOURCE PAGE 3 - Five alternating meshed gears and rear retainers
+1 7 -320 -216 80 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 -320 -216 16 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 -320 -216 144 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 0 -216 80 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 0 -216 16 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 0 -216 144 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 320 -216 80 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 320 -216 16 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 320 -216 144 1 0 0 0 1 0 0 0 1 6527.dat
+1 1 -160 -216 100 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 -160 -216 16 1 0 0 0 1 0 0 0 1 6529.dat
+1 1 160 -216 100 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 160 -216 16 1 0 0 0 1 0 0 0 1 6529.dat
+0 // UNVERIFIED 6530/6529 - Nominal40/24 pitch centres160; static teeth phase/contact and manual rotation not certified
 0 STEP
-
-0 // STEP 4 - hammer markers
-1 0 -280 -192 -280 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 0 360 -192 -280 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 4 -360 -240 -320 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 440 -240 -320 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4 - Three eccentric crank and seven-hole follower assemblies
+1 14 -320 -216 -24 -1 0 0 0 0 -1 0 -1 0 6526.dat
+1 14 -320 -416 -64 1 0 0 0 0 -1 0 1 0 6524.dat
+1 1 -320 -296 -104 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 0 -216 -24 -1 0 0 0 0 -1 0 -1 0 6526.dat
+1 14 0 -416 -64 1 0 0 0 0 -1 0 1 0 6524.dat
+1 1 0 -296 -104 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 320 -216 -24 -1 0 0 0 0 -1 0 -1 0 6526.dat
+1 14 320 -416 -64 1 0 0 0 0 -1 0 1 0 6524.dat
+1 1 320 -296 -104 0 0 1 0 1 0 -1 0 0 6523.dat
+0 // UNVERIFIED 6526+6523 - Coaxial layout follows source but integral carrier pin and inserted axle hidden engagement need sectional/physical evidence; not an automatically solved linkage
+0 STEP
+0 // SOURCE PAGE 5 - Two blue wall tiers and rear operating crank
+1 1 -320 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -360 -336 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 360 -336 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -216 184 1 0 0 0 0 -1 0 1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 6 - Three red tube supports and two red wall fillers
+1 4 -320 -336 -9.3765 1 0 0 0 1 0 0 0 1 42029.dat
+1 4 0 -336 -9.3765 1 0 0 0 1 0 0 0 1 42029.dat
+1 4 320 -336 -9.3765 1 0 0 0 1 0 0 0 1 42029.dat
+1 4 -160 -384 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -384 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // UNVERIFIED 42029 - Existing CCAL2-labelled locally repaired mesh; independent provenance report does not independently close original upstream licensing; no new repair; dimensions and ring seat manual
+0 STEP
+0 // SOURCE PAGE 7 - Staggered red top tier
+1 4 -360 -432 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 360 -432 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -240 -432 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -432 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -432 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -432 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 8 - Six blue straight tubes, two per ring
+1 1 -320 -392.414 -42.6075 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 -320 -512.414 -42.6075 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 0 -392.414 -42.6075 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 0 -512.414 -42.6075 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 320 -392.414 -42.6075 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 320 -512.414 -42.6075 1 0 0 0 0 -1 0 1 0 31452.dat
+0 // UNVERIFIED 31452/42029 - Tube localZ flange and historic holder axis inferred numerically; radial/depth tolerance and freedom of movement require actual mesh/physical check
+0 STEP
+0 // SOURCE PAGE 9 - Three source balls at raised follower-supported phase; yellow, red, blue.
+1 14 -320 -625 -42.6075 1 0 0 0 1 0 0 0 1 22119.dat
+1 4 0 -625 -42.6075 1 0 0 0 1 0 0 0 1 22119.dat
+1 1 320 -625 -42.6075 1 0 0 0 1 0 0 0 1 22119.dat
+0 // UNVERIFIED dynamics: raised follower top Y=-560, ball centre Y=-625 (radius65), nearest top Z offset1.3925LDU, conservative spherical contact gap0.0149LDU. Balls are supported by followers, not the wider tube bore. Tube rim Y=-632.414, ball top=-690; visible cap57.586LDU. Source p4 shows another crank phase; static high phase chosen to expose targets without floating them.
+0 // Source final page adds no parts.

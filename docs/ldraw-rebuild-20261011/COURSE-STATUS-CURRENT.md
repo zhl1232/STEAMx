@@ -1,0 +1,135 @@
+# Current course development status
+
+Hash-bound local development checks. Reviewed pixels and static explanations are not user approval or physical validation. Source-shaped omissions, geometric approximations and connection limitations remain in the linked reports.
+
+| Course | Source draft | Final views | All steps | Static interpretation | Problems / limits | User confirmed |
+|---|---|---|---|---|---|---|
+| 叉车 (4-cha-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-cha-che/static-alarm-review.json) | [Recorded limitations](evidence/4-cha-che/) | No |
+| 春节舞狮 (4-chun-jie-wu-shi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-chun-jie-wu-shi/static-alarm-review.json) | [Recorded limitations](evidence/4-chun-jie-wu-shi/) | No |
+| 磁悬浮列车 (4-ci-xuan-fu-lie-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-ci-xuan-fu-lie-che/static-alarm-review.json) | [Recorded limitations](evidence/4-ci-xuan-fu-lie-che/) | No |
+| 大龙虾 (4-da-long-xia) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-da-long-xia/static-alarm-review.json) | [Recorded limitations](evidence/4-da-long-xia/) | No |
+| 大象 (4-da-xiang) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-da-xiang/static-alarm-review.json) | [Recorded limitations](evidence/4-da-xiang/) | No |
+| 导弹车 (4-dao-dan-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-dao-dan-che/static-alarm-review.json) | [Recorded limitations](evidence/4-dao-dan-che/) | No |
+| 吊车 (4-diao-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-diao-che/static-alarm-review.json) | [Recorded limitations](evidence/4-diao-che/) | No |
+| 独角仙 (4-du-jiao-xian) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-du-jiao-xian/static-alarm-review.json) | [Recorded limitations](evidence/4-du-jiao-xian/) | No |
+| 鳄鱼 (4-e-yu) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-e-yu/static-alarm-review.json) | [Recorded limitations](evidence/4-e-yu/) | No |
+| 机关枪 (4-ji-guan-qiang) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-ji-guan-qiang/static-alarm-review.json) | [Recorded limitations](evidence/4-ji-guan-qiang/) | No |
+| 狙击枪 (4-ju-ji-qiang) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-ju-ji-qiang/static-alarm-review.json) | [Recorded limitations](evidence/4-ju-ji-qiang/) | No |
+| 军舰 (4-jun-jian) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-jun-jian/static-alarm-review.json) | [Recorded limitations](evidence/4-jun-jian/) | No |
+| 客机 (4-ke-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-ke-ji/static-alarm-review.json) | [Recorded limitations](evidence/4-ke-ji/) | No |
+| 快艇 (4-kuai-ting) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-kuai-ting/static-alarm-review.json) | [Recorded limitations](evidence/4-kuai-ting/) | No |
+| 龙门吊 (4-long-men-diao) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-long-men-diao/static-alarm-review.json) | [Recorded limitations](evidence/4-long-men-diao/) | No |
+| 摩天轮 (4-mo-tian-lun) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-mo-tian-lun/static-alarm-review.json) | [Recorded limitations](evidence/4-mo-tian-lun/) | No |
+| 潜水艇 (4-qian-shui-ting) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-qian-shui-ting/static-alarm-review.json) | [Recorded limitations](evidence/4-qian-shui-ting/) | No |
+| 蜻蜓 (4-qing-ting) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-qing-ting/static-alarm-review.json) | [Recorded limitations](evidence/4-qing-ting/) | No |
+| 秋千 (4-qiu-qian) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-qiu-qian/static-alarm-review.json) | [Recorded limitations](evidence/4-qiu-qian/) | No |
+| 赛车 (4-sai-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-sai-che/static-alarm-review.json) | [Recorded limitations](evidence/4-sai-che/) | No |
+| 升降救援车 (4-sheng-jiang-jiu-yuan-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-sheng-jiang-jiu-yuan-che/static-alarm-review.json) | [Recorded limitations](evidence/4-sheng-jiang-jiu-yuan-che/) | No |
+| 收割机 (4-shou-ge-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-shou-ge-ji/static-alarm-review.json) | [Recorded limitations](evidence/4-shou-ge-ji/) | No |
+| 孙悟空 (4-sun-wu-kong) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-sun-wu-kong/static-alarm-review.json) | [Recorded limitations](evidence/4-sun-wu-kong/) | No |
+| 塔吊 (4-ta-diao) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-ta-diao/static-alarm-review.json) | [Recorded limitations](evidence/4-ta-diao/) | No |
+| 螳螂 (4-tang-lang) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-tang-lang/static-alarm-review.json) | [Recorded limitations](evidence/4-tang-lang/) | No |
+| 推土机 (4-tui-tu-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-tui-tu-ji/static-alarm-review.json) | [Recorded limitations](evidence/4-tui-tu-ji/) | No |
+| 拖挂车 (4-tuo-gua-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-tuo-gua-che/static-alarm-review.json) | [Recorded limitations](evidence/4-tuo-gua-che/) | No |
+| 瓦力 (4-wa-li) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-wa-li/static-alarm-review.json) | [Recorded limitations](evidence/4-wa-li/) | No |
+| 无人机 (4-wu-ren-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-wu-ren-ji/static-alarm-review.json) | [Recorded limitations](evidence/4-wu-ren-ji/) | No |
+| 响尾蛇 (4-xiang-wei-she) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-xiang-wei-she/static-alarm-review.json) | [Recorded limitations](evidence/4-xiang-wei-she/) | No |
+| 小兔子 (4-xiao-tu-zi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-xiao-tu-zi/static-alarm-review.json) | [Recorded limitations](evidence/4-xiao-tu-zi/) | No |
+| 蝎子 (4-xie-zi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-xie-zi/static-alarm-review.json) | [Recorded limitations](evidence/4-xie-zi/) | No |
+| 旋转飞机 (4-xuan-zhuan-fei-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-xuan-zhuan-fei-ji/static-alarm-review.json) | [Recorded limitations](evidence/4-xuan-zhuan-fei-ji/) | No |
+| 压路机 (4-ya-lu-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-ya-lu-ji/static-alarm-review.json) | [Recorded limitations](evidence/4-ya-lu-ji/) | No |
+| 摇摇马 (4-yao-yao-ma) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-yao-yao-ma/static-alarm-review.json) | [Recorded limitations](evidence/4-yao-yao-ma/) | No |
+| 翼龙 (4-yi-long) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-yi-long/static-alarm-review.json) | [Recorded limitations](evidence/4-yi-long/) | No |
+| 幼蚊 (4-you-wen) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-you-wen/static-alarm-review.json) | [Recorded limitations](evidence/4-you-wen/) | No |
+| 直升机 (4-zhi-sheng-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-zhi-sheng-ji/static-alarm-review.json) | [Recorded limitations](evidence/4-zhi-sheng-ji/) | No |
+| 蜘蛛 (4-zhi-zhu) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-zhi-zhu/static-alarm-review.json) | [Recorded limitations](evidence/4-zhi-zhu/) | No |
+| 中国龙 (4-zhong-guo-long) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-zhong-guo-long/static-alarm-review.json) | [Recorded limitations](evidence/4-zhong-guo-long/) | No |
+| 钻土车 (4-zuan-tu-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/4-zuan-tu-che/static-alarm-review.json) | [Recorded limitations](evidence/4-zuan-tu-che/) | No |
+| 冰球运动员 (5-bing-qiu-yun-dong-yuan) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-bing-qiu-yun-dong-yuan/static-alarm-review.json) | [Recorded limitations](evidence/5-bing-qiu-yun-dong-yuan/) | No |
+| 测风仪 (5-ce-feng-yi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ce-feng-yi/static-alarm-review.json) | [Recorded limitations](evidence/5-ce-feng-yi/) | No |
+| 测距仪 (5-ce-ju-yi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ce-ju-yi/static-alarm-review.json) | [Recorded limitations](evidence/5-ce-ju-yi/) | No |
+| 叉车 (5-cha-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-cha-che/static-alarm-review.json) | [Recorded limitations](evidence/5-cha-che/) | No |
+| 抽油机 (5-chou-you-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-chou-you-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-chou-you-ji/) | No |
+| 磁悬浮列车 (5-ci-xuan-fu-lie-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ci-xuan-fu-lie-che/static-alarm-review.json) | [Recorded limitations](evidence/5-ci-xuan-fu-lie-che/) | No |
+| 打镲的小牛 (5-da-cha-de-xiao-niu) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-da-cha-de-xiao-niu/static-alarm-review.json) | [Recorded limitations](evidence/5-da-cha-de-xiao-niu/) | No |
+| 打地鼠 (5-da-di-shu) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-da-di-shu/static-alarm-review.json) | [Recorded limitations](evidence/5-da-di-shu/) | No |
+| 打桩机 (5-da-zhuang-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-da-zhuang-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-da-zhuang-ji/) | No |
+| 单车 (5-dan-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-dan-che/static-alarm-review.json) | [Recorded limitations](evidence/5-dan-che/) | No |
+| 单杆运动员 (5-dan-gan-yun-dong-yuan) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-dan-gan-yun-dong-yuan/static-alarm-review.json) | [Recorded limitations](evidence/5-dan-gan-yun-dong-yuan/) | No |
+| 地球仪 (5-di-qiu-yi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-di-qiu-yi/static-alarm-review.json) | [Recorded limitations](evidence/5-di-qiu-yi/) | No |
+| 吊车 (5-diao-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-diao-che/static-alarm-review.json) | [Recorded limitations](evidence/5-diao-che/) | No |
+| 吊扇 (5-diao-shan) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-diao-shan/static-alarm-review.json) | [Recorded limitations](evidence/5-diao-shan/) | No |
+| 鳄鱼 (5-e-yu) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-e-yu/static-alarm-review.json) | [Recorded limitations](evidence/5-e-yu/) | No |
+| 帆船 (5-fan-chuan) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-fan-chuan/static-alarm-review.json) | [Recorded limitations](evidence/5-fan-chuan/) | No |
+| 翻斗车 (5-fan-dou-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-fan-dou-che/static-alarm-review.json) | [Recorded limitations](evidence/5-fan-dou-che/) | No |
+| 风车房 (5-feng-che-fang) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-feng-che-fang/static-alarm-review.json) | [Recorded limitations](evidence/5-feng-che-fang/) | No |
+| 割草机 (5-ge-cao-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ge-cao-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-ge-cao-ji/) | No |
+| 海盗船 (5-hai-dao-chuan) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-hai-dao-chuan/static-alarm-review.json) | [Recorded limitations](evidence/5-hai-dao-chuan/) | No |
+| 蝴蝶 (5-hu-die) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-hu-die/static-alarm-review.json) | [Recorded limitations](evidence/5-hu-die/) | No |
+| 滑板车 (5-hua-ban-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-hua-ban-che/static-alarm-review.json) | [Recorded limitations](evidence/5-hua-ban-che/) | No |
+| 环卫车 (5-huan-wei-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-huan-wei-che/static-alarm-review.json) | [Recorded limitations](evidence/5-huan-wei-che/) | No |
+| 火箭 (5-huo-jian) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-huo-jian/static-alarm-review.json) | [Recorded limitations](evidence/5-huo-jian/) | No |
+| 击鼓手 (5-ji-gu-shou) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ji-gu-shou/static-alarm-review.json) | [Recorded limitations](evidence/5-ji-gu-shou/) | No |
+| 机械手 (5-ji-xie-shou) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ji-xie-shou/static-alarm-review.json) | [Recorded limitations](evidence/5-ji-xie-shou/) | No |
+| 搅拌器 (5-jiao-ban-qi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-jiao-ban-qi/static-alarm-review.json) | [Recorded limitations](evidence/5-jiao-ban-qi/) | No |
+| 开椰子器 (5-kai-ye-zi-qi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-kai-ye-zi-qi/static-alarm-review.json) | [Recorded limitations](evidence/5-kai-ye-zi-qi/) | No |
+| 垃圾车 (5-la-ji-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-la-ji-che/static-alarm-review.json) | [Recorded limitations](evidence/5-la-ji-che/) | No |
+| 缆车 (5-lan-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-lan-che/static-alarm-review.json) | [Recorded limitations](evidence/5-lan-che/) | No |
+| 龙门吊 (5-long-men-diao) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-long-men-diao/static-alarm-review.json) | [Recorded limitations](evidence/5-long-men-diao/) | No |
+| 码头吊机 (5-ma-tou-diao-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ma-tou-diao-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-ma-tou-diao-ji/) | No |
+| 面包机 (5-mian-bao-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-mian-bao-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-mian-bao-ji/) | No |
+| 碾药人仔 (5-nian-yao-ren-zai) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-nian-yao-ren-zai/static-alarm-review.json) | [Recorded limitations](evidence/5-nian-yao-ren-zai/) | No |
+| 平衡秤 (5-ping-heng-cheng) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ping-heng-cheng/static-alarm-review.json) | [Recorded limitations](evidence/5-ping-heng-cheng/) | No |
+| 平衡大师 (5-ping-heng-da-shi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ping-heng-da-shi/static-alarm-review.json) | [Source layout adjusted](evidence/5-ping-heng-da-shi/) | No |
+| 气垫船 (5-qi-dian-chuan) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-qi-dian-chuan/static-alarm-review.json) | [Support unresolved; Approximate geometry](evidence/5-qi-dian-chuan/) | No |
+| 清扫车 (5-qing-sao-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-qing-sao-che/static-alarm-review.json) | [Approximate geometry](evidence/5-qing-sao-che/) | No |
+| 蜻蜓 (5-qing-ting) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-qing-ting/static-alarm-review.json) | [Recorded limitations](evidence/5-qing-ting/) | No |
+| 秋千 (5-qiu-qian) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-qiu-qian/static-alarm-review.json) | [Installed identity candidate](evidence/5-qiu-qian/) | No |
+| 热气球 (5-re-qi-qiu) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-re-qi-qiu/static-alarm-review.json) | [Support unresolved](evidence/5-re-qi-qiu/) | No |
+| 人力水车 (5-ren-li-shui-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ren-li-shui-che/static-alarm-review.json) | [Recorded limitations](evidence/5-ren-li-shui-che/) | No |
+| 三轮车 (5-san-lun-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-san-lun-che/static-alarm-review.json) | [Recorded limitations](evidence/5-san-lun-che/) | No |
+| 升降电梯 (5-sheng-jiang-dian-ti) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-sheng-jiang-dian-ti/static-alarm-review.json) | [Support unresolved](evidence/5-sheng-jiang-dian-ti/) | No |
+| 手推飞机 (5-shou-tui-fei-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-shou-tui-fei-ji/static-alarm-review.json) | [Installed identity candidate](evidence/5-shou-tui-fei-ji/) | No |
+| 手摇钻子 (5-shou-yao-zuan-zi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-shou-yao-zuan-zi/static-alarm-review.json) | [Recorded limitations](evidence/5-shou-yao-zuan-zi/) | No |
+| 甩干机 (5-shuai-gan-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-shuai-gan-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-shuai-gan-ji/) | No |
+| 双开大门 (5-shuang-kai-da-men) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-shuang-kai-da-men/static-alarm-review.json) | [Recorded limitations](evidence/5-shuang-kai-da-men/) | No |
+| 水井 (5-shui-jing) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-shui-jing/static-alarm-review.json) | [Recorded limitations](evidence/5-shui-jing/) | No |
+| 水闸 (5-shui-zha) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-shui-zha/static-alarm-review.json) | [Source layout adjusted; Support unresolved](evidence/5-shui-zha/) | No |
+| 四驱车 (5-si-qu-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-si-qu-che/static-alarm-review.json) | [Approximate geometry](evidence/5-si-qu-che/) | No |
+| 塔吊 (5-ta-diao) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ta-diao/static-alarm-review.json) | [Support unresolved; Installed identity candidate](evidence/5-ta-diao/) | No |
+| 提线木偶 (5-ti-xian-mu-ou) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ti-xian-mu-ou/static-alarm-review.json) | [Recorded limitations](evidence/5-ti-xian-mu-ou/) | No |
+| 天平 (5-tian-ping) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-tian-ping/static-alarm-review.json) | [Support unresolved](evidence/5-tian-ping/) | No |
+| 投篮机 (5-tou-lan-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-tou-lan-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-tou-lan-ji/) | No |
+| 投石车 (5-tou-shi-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-tou-shi-che/static-alarm-review.json) | [Recorded limitations](evidence/5-tou-shi-che/) | No |
+| 推土机 (5-tui-tu-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-tui-tu-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-tui-tu-ji/) | No |
+| 拖挂车 (5-tuo-gua-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-tuo-gua-che/static-alarm-review.json) | [Recorded limitations](evidence/5-tuo-gua-che/) | No |
+| 椭圆机 (5-tuo-yuan-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-tuo-yuan-ji/static-alarm-review.json) | [Source layout adjusted](evidence/5-tuo-yuan-ji/) | No |
+| 蜗轮吊桥 (5-wo-lun-diao-qiao) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-wo-lun-diao-qiao/static-alarm-review.json) | [Recorded limitations](evidence/5-wo-lun-diao-qiao/) | No |
+| 洗衣机 (5-xi-yi-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xi-yi-ji/static-alarm-review.json) | [Source layout adjusted](evidence/5-xi-yi-ji/) | No |
+| 小火车 (5-xiao-huo-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xiao-huo-che/static-alarm-review.json) | [Installed identity candidate](evidence/5-xiao-huo-che/) | No |
+| 小鸟的翅膀 (5-xiao-niao-de-chi-bang) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xiao-niao-de-chi-bang/static-alarm-review.json) | [Recorded limitations](evidence/5-xiao-niao-de-chi-bang/) | No |
+| 小松鼠骑车 (5-xiao-song-shu-qi-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xiao-song-shu-qi-che/static-alarm-review.json) | [Source layout adjusted](evidence/5-xiao-song-shu-qi-che/) | No |
+| 旋翼飞机 (5-xuan-yi-fei-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xuan-yi-fei-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-xuan-yi-fei-ji/) | No |
+| 旋转爱心 (5-xuan-zhuan-ai-xin) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xuan-zhuan-ai-xin/static-alarm-review.json) | [Recorded limitations](evidence/5-xuan-zhuan-ai-xin/) | No |
+| 旋转餐厅 (5-xuan-zhuan-can-ting) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xuan-zhuan-can-ting/static-alarm-review.json) | [Installed identity candidate](evidence/5-xuan-zhuan-can-ting/) | No |
+| 旋转灯笼 (5-xuan-zhuan-deng-long) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xuan-zhuan-deng-long/static-alarm-review.json) | [Recorded limitations](evidence/5-xuan-zhuan-deng-long/) | No |
+| 旋转飞椅 (5-xuan-zhuan-fei-yi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xuan-zhuan-fei-yi/static-alarm-review.json) | [Source layout adjusted](evidence/5-xuan-zhuan-fei-yi/) | No |
+| 旋转咖啡杯 (5-xuan-zhuan-ka-fei-bei) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xuan-zhuan-ka-fei-bei/static-alarm-review.json) | [Recorded limitations](evidence/5-xuan-zhuan-ka-fei-bei/) | No |
+| 旋转门 (5-xuan-zhuan-men) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xuan-zhuan-men/static-alarm-review.json) | [Recorded limitations](evidence/5-xuan-zhuan-men/) | No |
+| 旋转木马 (5-xuan-zhuan-mu-ma) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xuan-zhuan-mu-ma/static-alarm-review.json) | [Installed identity candidate](evidence/5-xuan-zhuan-mu-ma/) | No |
+| 旋转舞台 (5-xuan-zhuan-wu-tai) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-xuan-zhuan-wu-tai/static-alarm-review.json) | [Recorded limitations](evidence/5-xuan-zhuan-wu-tai/) | No |
+| 压路机 (5-ya-lu-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ya-lu-ji/static-alarm-review.json) | [Source layout adjusted; Approximate geometry; Installed identity candidate](evidence/5-ya-lu-ji/) | No |
+| 压面机 (5-ya-mian-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ya-mian-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-ya-mian-ji/) | No |
+| 压水井 (5-ya-shui-jing) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-ya-shui-jing/static-alarm-review.json) | [Recorded limitations](evidence/5-ya-shui-jing/) | No |
+| 眼镜蛇 (5-yan-jing-she) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-yan-jing-she/static-alarm-review.json) | [Source layout adjusted](evidence/5-yan-jing-she/) | No |
+| 摇摇车 (5-yao-yao-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-yao-yao-che/static-alarm-review.json) | [Recorded limitations](evidence/5-yao-yao-che/) | No |
+| 移动广告牌 (5-yi-dong-guang-gao-pai) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-yi-dong-guang-gao-pai/static-alarm-review.json) | [Recorded limitations](evidence/5-yi-dong-guang-gao-pai/) | No |
+| 鱼儿的尾巴 (5-yu-er-de-wei-ba) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-yu-er-de-wei-ba/static-alarm-review.json) | [Recorded limitations](evidence/5-yu-er-de-wei-ba/) | No |
+| 宇航员训练机 (5-yu-hang-yuan-xun-lian-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-yu-hang-yuan-xun-lian-ji/static-alarm-review.json) | [Recorded limitations](evidence/5-yu-hang-yuan-xun-lian-ji/) | No |
+| 雨刷器 (5-yu-shua-qi) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-yu-shua-qi/static-alarm-review.json) | [Recorded limitations](evidence/5-yu-shua-qi/) | No |
+| 栅栏升降杆 (5-zha-lan-sheng-jiang-gan) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-zha-lan-sheng-jiang-gan/static-alarm-review.json) | [Approximate geometry; Installed identity candidate](evidence/5-zha-lan-sheng-jiang-gan/) | No |
+| 展翅高飞 (5-zhan-chi-gao-fei) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-zhan-chi-gao-fei/static-alarm-review.json) | [Recorded limitations](evidence/5-zhan-chi-gao-fei/) | No |
+| 折叠梯 (5-zhe-die-ti) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-zhe-die-ti/static-alarm-review.json) | [Source layout adjusted; Flexible item represented schematically](evidence/5-zhe-die-ti/) | No |
+| 直升机 (5-zhi-sheng-ji) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-zhi-sheng-ji/static-alarm-review.json) | [Approximate geometry](evidence/5-zhi-sheng-ji/) | No |
+| 诸葛连弩 (5-zhu-ge-lian-nu) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-zhu-ge-lian-nu/static-alarm-review.json) | [Recorded limitations](evidence/5-zhu-ge-lian-nu/) | No |
+| 转弯小车 (5-zhuan-wan-xiao-che) | Rebuilt | Reviewed | Reviewed | [Current report](evidence/5-zhuan-wan-xiao-che/static-alarm-review.json) | [Recorded limitations](evidence/5-zhuan-wan-xiao-che/) | No |

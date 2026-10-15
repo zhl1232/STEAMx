@@ -1,0 +1,95 @@
+{
+  "sourceSha256": "42a6865eac5eec0ea80f6fbf538f0280e1b8009f62333e3f73b4a6740030c069",
+  "revision": "9fe3c40d7c6a7f4b1587a0b0bcd8077a1a612b6393b70f0cff927bca3312597e",
+  "reviewedAt": "2026-10-11T14:27:06.308048+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-tang-lang",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "fef7e36a87c91f2226f3f692860bad2a3c79fca2710ca134fe90b4047ec2b8f7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "5404888b5cb448d2581ebb1e770c83ce4feca7f437df8cbe19476ad652bcc738",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "eea45b23c8d1227e64fdd674d425379da400c0b78cbc8b062ab4aa413ada3715",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "bf82dc08d0e1634eca80e9aac83705c2213b203b57a1a5162134542930215b9d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "f97b2455b5b6d9288056bc96138afd4aaca36a2b83f0c45a5f25be11ca4457b7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "cf2c7d669e25ff67566440a40520327e74edab30c2434cc4b4b7b9024650e0a8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "f2a6253c3292c50117e8356f682ede4701406f1293acc91c042068b13defe860",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "2049a41febf1bc2d67465e06eef1b6a316e6fd52e9f79753c4a7e014dc709919",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "d4c1071859e3db3a2115d7125156ced02ca7168fd42525886df1be4abd070820",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "2ade7697ae0bf3258c4ea1d11dbf8ae98ea5ee7d985a2801f48062d4676f4d1a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "109075023b236caa6a575deb993ce221bba8dae5cce952341cf8eabe604d4759",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "5d734c435f5ae83651b87d8481e649e662103e764f0991e92a815b90508a7a64",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "c0b399a3e4577a350a0ce23ee3c8bde866a55846f8d639f2554ba1f490f681bd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "0f43c84b5b1835b42fb346b31c7d927d3c8869f958eb1d6c648731db7183a783",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "8b39e9fe0181b6ca32e00b99f89bb642b9647c63da4ea9c1677eb94ace39a03b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "fef7e36a87c91f2226f3f692860bad2a3c79fca2710ca134fe90b4047ec2b8f7",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed final iso/iso-rear/top originals, all thirteen cumulative frames, and original step 5/6/13; re-viewed source p5/p6/p13/p14. Upright proximal and horizontal distal bricks restore raised elbow silhouette compared with rejected straight b106 layout; fork/clutch terminals and two green distal caps follow visibly. Current display is more compact and horizontal than source angled terminal assembly; hidden thread mapping and six-body-cover allocation remain inference. Missing two4433c01 exhausts explain absent hanging tips. Keep 20LDU screw mismatch and strict crossing counts614/620/372; no mechanical or physical acceptance."
+}

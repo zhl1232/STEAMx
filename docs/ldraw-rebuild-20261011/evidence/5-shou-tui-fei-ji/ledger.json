@@ -1,0 +1,1281 @@
+{
+  "slug": "5-shou-tui-fei-ji",
+  "sourceSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+  "previousDraftSha256": null,
+  "placementCount": 45,
+  "stepCount": 10,
+  "steps": [
+    {
+      "sourcePage": 1,
+      "description": "Two upper long red beams bonded by lower central long beam",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            -24,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 6,
+          "step": 1
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -72,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 7,
+          "step": 1
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            200,
+            -72,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 8,
+          "step": 1
+        }
+      ],
+      "placedBOM": {
+        "75350.dat": 3
+      }
+    },
+    {
+      "sourcePage": 2,
+      "description": "Front6L shaft and two tyres each with opposed inner/outer hubs",
+      "placements": [
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            -160,
+            0,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 11,
+          "step": 2
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -160,
+            0,
+            -60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 12,
+          "step": 2
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -160,
+            0,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 13,
+          "step": 2
+        },
+        {
+          "part": "6292.dat",
+          "color": 0,
+          "position": [
+            -160,
+            0,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 14,
+          "step": 2
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -160,
+            0,
+            60
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 15,
+          "step": 2
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -160,
+            0,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 16,
+          "step": 2
+        },
+        {
+          "part": "6292.dat",
+          "color": 0,
+          "position": [
+            -160,
+            0,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 17,
+          "step": 2
+        }
+      ],
+      "placedBOM": {
+        "6522.dat": 1,
+        "6527.dat": 4,
+        "6292.dat": 2
+      }
+    },
+    {
+      "sourcePage": 3,
+      "description": "Rear6L shaft with two40T gears and two outer retainers",
+      "placements": [
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            240,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 20,
+          "step": 3
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            240,
+            -48,
+            -60
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 21,
+          "step": 3
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            240,
+            -48,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 22,
+          "step": 3
+        },
+        {
+          "part": "6530.dat",
+          "color": 14,
+          "position": [
+            240,
+            -48,
+            60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 23,
+          "step": 3
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            240,
+            -48,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 24,
+          "step": 3
+        }
+      ],
+      "placedBOM": {
+        "6522.dat": 1,
+        "6530.dat": 2,
+        "6527.dat": 2
+      }
+    },
+    {
+      "sourcePage": 4,
+      "description": "Short red bearing and upright8L axle with blue24T gear",
+      "placements": [
+        {
+          "part": "75349.dat",
+          "color": 4,
+          "position": [
+            240,
+            -120,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 27,
+          "step": 4
+        },
+        {
+          "part": "6521.dat",
+          "color": 2,
+          "position": [
+            240,
+            -220,
+            0
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 28,
+          "step": 4
+        },
+        {
+          "part": "6529.dat",
+          "color": 1,
+          "position": [
+            240,
+            -144,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 29,
+          "step": 4
+        }
+      ],
+      "placedBOM": {
+        "75349.dat": 1,
+        "6521.dat": 1,
+        "6529.dat": 1
+      }
+    },
+    {
+      "sourcePage": 5,
+      "description": "Three thin yellow plates under front long red bearing",
+      "placements": [
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            -320,
+            -96,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 32,
+          "step": 5
+        },
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            -160,
+            -96,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 33,
+          "step": 5
+        },
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            0,
+            -96,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 34,
+          "step": 5
+        },
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            -200,
+            -144,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 35,
+          "step": 5
+        }
+      ],
+      "placedBOM": {
+        "40666.dat": 3,
+        "75350.dat": 1
+      }
+    },
+    {
+      "sourcePage": 6,
+      "description": "Two11hole push arms on staggered source frame holes;82.365/80 eccentric fit",
+      "placements": [
+        {
+          "part": "6525.dat",
+          "color": 14,
+          "position": [
+            -417.1285862357264,
+            -222.83145522430755,
+            -60
+          ],
+          "matrix": [
+            0.8741572761215377,
+            0,
+            -0.48564293117863205,
+            -0.48564293117863205,
+            0,
+            -0.8741572761215377,
+            0,
+            1,
+            0
+          ],
+          "line": 38,
+          "step": 6
+        },
+        {
+          "part": "6525.dat",
+          "color": 14,
+          "position": [
+            -417.1285862357264,
+            -222.83145522430755,
+            60
+          ],
+          "matrix": [
+            0.8741572761215377,
+            0,
+            -0.48564293117863205,
+            -0.48564293117863205,
+            0,
+            -0.8741572761215377,
+            0,
+            1,
+            0
+          ],
+          "line": 39,
+          "step": 6
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            -320,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 40,
+          "step": 6
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -320,
+            -48,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 41,
+          "step": 6
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -320,
+            -48,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 42,
+          "step": 6
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            -360,
+            -120,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 43,
+          "step": 6
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -360,
+            -120,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 44,
+          "step": 6
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -360,
+            -120,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 45,
+          "step": 6
+        }
+      ],
+      "placedBOM": {
+        "6525.dat": 2,
+        "6522.dat": 2,
+        "6527.dat": 4
+      }
+    },
+    {
+      "sourcePage": 7,
+      "description": "Upper red handle bearing attached through yellow arms at240/320 holes",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            -535.2369470983697,
+            -386.00748010032794,
+            0
+          ],
+          "matrix": [
+            -0.48564293117863205,
+            0.8741572761215377,
+            0,
+            -0.8741572761215377,
+            -0.48564293117863205,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 48,
+          "step": 7
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            -436.55430348287166,
+            -257.797746269169,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 49,
+          "step": 7
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -436.55430348287166,
+            -257.797746269169,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 50,
+          "step": 7
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -436.55430348287166,
+            -257.797746269169,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 51,
+          "step": 7
+        },
+        {
+          "part": "6522.dat",
+          "color": 7,
+          "position": [
+            -475.4057379771623,
+            -327.73032835889205,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 52,
+          "step": 7
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -475.4057379771623,
+            -327.73032835889205,
+            -100
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 53,
+          "step": 7
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            -475.4057379771623,
+            -327.73032835889205,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 54,
+          "step": 7
+        }
+      ],
+      "placedBOM": {
+        "75350.dat": 1,
+        "6522.dat": 2,
+        "6527.dat": 4
+      }
+    },
+    {
+      "sourcePage": 8,
+      "description": "End-to-end red extension with yellow plate underside seam bridge",
+      "placements": [
+        {
+          "part": "75350.dat",
+          "color": 4,
+          "position": [
+            -729.4941195698225,
+            -735.670390548943,
+            0
+          ],
+          "matrix": [
+            -0.48564293117863205,
+            0.8741572761215377,
+            0,
+            -0.8741572761215377,
+            -0.48564293117863205,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 57,
+          "step": 8
+        },
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            -570.9802668331171,
+            -549.1835049763483,
+            0
+          ],
+          "matrix": [
+            -0.48564293117863205,
+            0.8741572761215377,
+            0,
+            -0.8741572761215377,
+            -0.48564293117863205,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 58,
+          "step": 8
+        },
+        {
+          "part": "40666.dat",
+          "color": 14,
+          "position": [
+            -648.6831358216982,
+            -689.0486691557943,
+            0
+          ],
+          "matrix": [
+            -0.48564293117863205,
+            0.8741572761215377,
+            0,
+            -0.8741572761215377,
+            -0.48564293117863205,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 59,
+          "step": 8
+        }
+      ],
+      "placedBOM": {
+        "75350.dat": 1,
+        "40666.dat": 2
+      }
+    },
+    {
+      "sourcePage": 9,
+      "description": "First official formed green rotor sheet on up-facing carrier pin",
+      "placements": [
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            240,
+            -272,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "line": 62,
+          "step": 9
+        },
+        {
+          "part": "61898cc01.dat",
+          "color": 27,
+          "position": [
+            240,
+            -294,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "line": 63,
+          "step": 9
+        }
+      ],
+      "placedBOM": {
+        "6526.dat": 1,
+        "61898cc01.dat": 1
+      }
+    },
+    {
+      "sourcePage": 10,
+      "description": "Second crossed rotor sheet with opposite carrier and top hub;p11 final",
+      "placements": [
+        {
+          "part": "61898cc01.dat",
+          "color": 27,
+          "position": [
+            240,
+            -296,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 66,
+          "step": 10
+        },
+        {
+          "part": "6526.dat",
+          "color": 14,
+          "position": [
+            240,
+            -317,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "line": 67,
+          "step": 10
+        },
+        {
+          "part": "6527.dat",
+          "color": 14,
+          "position": [
+            240,
+            -357,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "line": 68,
+          "step": 10
+        }
+      ],
+      "placedBOM": {
+        "61898cc01.dat": 1,
+        "6526.dat": 1,
+        "6527.dat": 1
+      }
+    }
+  ],
+  "placedBOM": {
+    "75350.dat": 6,
+    "6522.dat": 6,
+    "6527.dat": 15,
+    "6292.dat": 2,
+    "6530.dat": 2,
+    "75349.dat": 1,
+    "6521.dat": 1,
+    "6529.dat": 1,
+    "40666.dat": 5,
+    "6525.dat": 2,
+    "6526.dat": 2,
+    "61898cc01.dat": 2
+  },
+  "targetVisibleBOM": {
+    "75350.dat": 6,
+    "6522.dat": 6,
+    "6527.dat": 15,
+    "6292.dat": 2,
+    "6530.dat": 2,
+    "75349.dat": 1,
+    "6521.dat": 1,
+    "6529.dat": 1,
+    "40666.dat": 5,
+    "6525.dat": 2,
+    "6526.dat": 2,
+    "61898cc01.dat": 2
+  },
+  "targetVisibleCount": 45,
+  "omitted": [],
+  "omittedCount": 0,
+  "limitations": [
+    "All11 source pages actually viewed;p11 final adds noBOM. Sourcep1-10 counts retained.",
+    "Handle two redbores distance82.365041 vs beam nominal80. Actual6525 boreR15 minus axleR9.000237 minus eccentricity2.365041 leaves3.634722 clearance; only beam bore allowance, not redbrick. Axial body40..80/retainer80..120 on6Lshaft. Physical retention unverified.",
+    "Upper handle seam layout inferred: end-to-end longbeams with160LDU underside plate spanning seam, ordinary stud engagement. Rotor sheets official61898cc01; opposed6526 pins match80LDU off-axis sheet holes.2LDU sheet separation and carrierphase inferred, not physical clamping proof.",
+    "Front tyre/rear rolling gear radii produce roughly9LDU bottom difference in level chassis pose. Loaded rolling support and perpendicular gears meshing/rotor motion unverified.",
+    "No new approximate geometry; no human acceptance or physical verification.0omissions does not establish functional assembly.",
+    "Current tyre mesh: two innerhub pairs52strict crossings each; outerhub pairs0but contact/containment not proven. Upper handle same-depth80pitch hub pairs22strict crossings each. Retain real mesh risks, never call uniform tyre radius a clearance proof."
+  ],
+  "accepted": false,
+  "physicalValidation": false,
+  "inventoryComparison": [
+    {
+      "part": "75350.dat",
+      "referencePart": "6515",
+      "targetQuantity": 6,
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 4,
+      "note": "missingrow unknown, notzero"
+    },
+    {
+      "part": "6522.dat",
+      "referencePart": "6522",
+      "targetQuantity": 6,
+      "reference9656AllColors": 7,
+      "extraIgnoringColor": 0,
+      "note": "missingrow unknown, notzero"
+    },
+    {
+      "part": "6527.dat",
+      "referencePart": "6527",
+      "targetQuantity": 15,
+      "reference9656AllColors": 15,
+      "extraIgnoringColor": 0,
+      "note": "missingrow unknown, notzero"
+    },
+    {
+      "part": "6292.dat",
+      "referencePart": "6292",
+      "targetQuantity": 2,
+      "reference9656AllColors": 4,
+      "extraIgnoringColor": 0,
+      "note": "missingrow unknown, notzero"
+    },
+    {
+      "part": "6530.dat",
+      "referencePart": "6530",
+      "targetQuantity": 2,
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 0,
+      "note": "missingrow unknown, notzero"
+    },
+    {
+      "part": "75349.dat",
+      "referencePart": "6517",
+      "targetQuantity": 1,
+      "reference9656AllColors": 4,
+      "extraIgnoringColor": 0,
+      "note": "missingrow unknown, notzero"
+    },
+    {
+      "part": "6521.dat",
+      "referencePart": "6521",
+      "targetQuantity": 1,
+      "reference9656AllColors": 5,
+      "extraIgnoringColor": 0,
+      "note": "missingrow unknown, notzero"
+    },
+    {
+      "part": "6529.dat",
+      "referencePart": "6529",
+      "targetQuantity": 1,
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 0,
+      "note": "missingrow unknown, notzero"
+    },
+    {
+      "part": "40666.dat",
+      "referencePart": "40666",
+      "targetQuantity": 5,
+      "reference9656AllColors": 2,
+      "extraIgnoringColor": 3,
+      "note": "missingrow unknown, notzero"
+    },
+    {
+      "part": "6525.dat",
+      "referencePart": "6525",
+      "targetQuantity": 2,
+      "reference9656AllColors": 4,
+      "extraIgnoringColor": 0,
+      "note": "missingrow unknown, notzero"
+    },
+    {
+      "part": "6526.dat",
+      "referencePart": "6526",
+      "targetQuantity": 2,
+      "reference9656AllColors": 6,
+      "extraIgnoringColor": 0,
+      "note": "missingrow unknown, notzero"
+    },
+    {
+      "part": "61898cc01.dat",
+      "referencePart": "61898",
+      "targetQuantity": 2,
+      "reference9656AllColors": null,
+      "extraIgnoringColor": null,
+      "note": "formed sheet is component of61898 multishape pack; pack quantity not per-propeller count"
+    }
+  ],
+  "validation": {
+    "sourceSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+    "rawAlarmPairCount": 14,
+    "matrixInvalid": [],
+    "closureMissing": [],
+    "pixels": "current final3 and all10 cumulative steps actually viewed; candidate identity/manual fit still unresolved",
+    "propellerMeshEvidence": "propeller-mesh-results.json",
+    "pixelReview": {
+      "file": "current-pixel-review.json",
+      "sourceSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+      "revision": "c37c5f53ba6a72aa92a2921cfc5069c1923f0a1bba807276a4c5f6c77494dc3b",
+      "finalAllThreeViewsReviewed": true,
+      "allCumulativeStepsReviewed": true
+    }
+  },
+  "propellerCorrection": {
+    "previousSourceSha256": "6b5a98045ca9ae5e0a3334ab410a5a768eb9d7b50f39bccc3f32e67e9ee61aa4",
+    "sourceSha256": "d029708aab7975edf08a3dfdf31fa6f8269e634a325a34a3df3234c3f6fae522",
+    "sourcePages": [
+      9,
+      10,
+      11
+    ],
+    "change": "Two official formed propeller placements changed from 61898bc01 to longer 61898cc01; unchanged rigid transforms and 0/80 hole locations. No scaling or new approximate DAT.",
+    "identityStatus": "Strong longer-blade candidate, exact source sheet identity not uniquely proven by oblique illustration.",
+    "observations": "Actual old final and step10 pixels showed short broad paddles. Source p9-p11 has substantially longer blades relative to 80 LDU carrier holes. cc formed Z span722 vs bc526. Whole XZ AABB is misleading because opposed leaves are laterally offset; independent rotated bounding widths ratio cc3.46 vs bc3.30.",
+    "independentEvidence": "../batch13-propeller-oriented-width.json",
+    "officialSource": "https://library.ldraw.org/library/official/parts/61898cc01.dat",
+    "license": "CC BY 4.0",
+    "unchangedGeometry": "All wheel and handle transforms unchanged. Existing mesh findings remain applicable to those unchanged pairs; original mesh output retains original source binding.",
+    "currentPixels": "Reviewed current final3/all10; longer span closer, broad top silhouette remains candidate uncertainty",
+    "risks": [
+      "Exact blade shape/identity remains candidate",
+      "Tyre inner hubs 52 strict crossings each; upper handle hubs22 each remain",
+      "Sheet fold, separation, carrier clamping and motion not physically validated",
+      "Two formed cc sheets in source cross phase have 56 strict triangle crossings near bent central bands; flexible sheet/contact retention is unverified, no source-unfounded separation added."
+    ]
+  }
+}

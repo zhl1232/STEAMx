@@ -1,0 +1,85 @@
+{
+  "sourceSha256": "a96e9aa223a5d061446bbb2f856452097beaf880ffc8af33414192d1afb64797",
+  "revision": "9371aa10dc15a1def754833861f78ce89665a3c7180c33d0f0fda3087fb4e676",
+  "reviewedAt": "2026-10-11T14:17:28.361446+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xuan-zhuan-men",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "a2110c86582e8cae2dab0553974be798770745f12f7d5600ac0ed5b569791868",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "ccd7b56650dbe54357de226510967be896e10a3cdbcd204ac21086766221a7c3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "13c687c6c2da80d50e850231a3656eb23d4030eb4f38eb997933ddb07b4a8be3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "697f2be4e720a569cc82ce14e406f1441872b1104868eaac65594a4cc5dad7d4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "7760260f3135edc45f564cc71f5d0f827d9b901194f1227ebdccc5afcfc799c2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "6c82903424023030155be50897b94f5d868ecd215beb6eac969e9f4c460ebce4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "585eee99e0c8232c4fa861e2434e5d98ce90d0cf5d8ed44f9bb1d629c1cb7133",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "06d5c3e280927e6b8680566b2a49621eb71784ea4a92efa8a0dad921ca578ae9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "8042cf13c22c751de6c953816fd7c1f34a3266ef6b353e9227ac122a4f52e816",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "3f85e3ab2939c60579188aa44f3880f2cbb78a37914200f090c4c9344753dc7a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "38c821ce7e383a055a8edd7b750ab50f757a976dd52a802bb994dc38395ff955",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "47668776b73c66ab1e19444188bb46b6f1ecb23a52e1518a1c7d129ffe0ff184",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "a16cd135aecf0c71d4af0b37a9ceaba10060aafad0c0c141d1bc6379867ab7ec",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "a2110c86582e8cae2dab0553974be798770745f12f7d5600ac0ed5b569791868",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed current iso/iso-rear/top original PNGs and all11 cumulative contact tiles, step4 original; rechecked source final p12. Crossed door wings, alternating towers, header stack and inclined right bearing correspond in overall arrangement; no new definite source error observed. Door thrust seat8LDU correction retained. Hidden header thin-plate bond, rotating sweep, upper/lower pivot retention, crown/red gear phase/depth and30degree bearing pose remain nominal and unverified. This is pixel observation, not physical or functional acceptance."
+}

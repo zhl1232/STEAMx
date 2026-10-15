@@ -1,0 +1,23 @@
+{
+  "slug": "5-ti-xian-mu-ou",
+  "sourceSha256": "57e05392dbf92be27a566118396110214288fdb2c8e8b34e81ad4f6ae84360b7",
+  "checkedAtUTC": "2026-10-11T07:07:36.554694+00:00",
+  "checkpointFile": "preparation/checkpoint-checks.json",
+  "rawCheckerExit": 0,
+  "rawCheckerOutput": "OK   [5-ti-xian-mu-ou.ldr] 56 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "sourceStableDuringOriginalCheck": true,
+  "sourceHashRechecked": true,
+  "alarms": [],
+  "alarmCount": 0,
+  "classificationCounts": {
+    "false_positive_aabb": 0,
+    "true_risk": 0,
+    "insufficient_evidence": 0
+  },
+  "remainingNonAlarmLimitations": "String is schematic; exact lengths, knots and hook retention unresolved.",
+  "sourceAndPixelEvidence": "Existing per-course REVIEW and current-pixel-review; this pass reused those actual pixel reviews and inspected alarm placement lines and actual DAT geometry. No new pixel-review completion claimed.",
+  "rawPassDoesNotProveSupportOrSourceFidelity": true,
+  "accepted": false,
+  "physicalValidation": false,
+  "sourceModified": false
+}

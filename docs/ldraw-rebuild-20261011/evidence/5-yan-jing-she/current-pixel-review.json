@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "2fc291f36a6595324a0e2f431cbd70b0a8e84afc102243f4ad1de2a6cf7dc2d8",
+  "revision": "98a539effbce79f029161af1b1c353d800efdeb82c3f5cea535b650dd33b5a10",
+  "reviewedAt": "2026-10-11T14:26:36.931864+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-yan-jing-she",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "75e748b672f4327cc4fa067e930218b1d087a59c324a26ce02aa9da18d111e2e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "e0da9b161dee7da08f2ff973127df179c95f221c1553db61ff2e2f01da44d8fe",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "e93122d5c69969f068d2ecdf490bf5983d6cd464bef41e4f975a9a755e1c6d78",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "e0f255ba6e8a4ea91d35cacd6c3f9deb2c173a0ce8dec9559ea9cb2c1d55d16c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "fe4c8561774adb18f8a9bd947b31904e4b0cd45115ce1d9c7dde3e998cd1691f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "403d7c4b34bffb98620eeae67b12ee741e2e15f6d83de383fda06d370ec64315",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "50c46446443e2723374474634b542f86dbab68f804a82aaa8cead56eee7901e0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "78cb8144401e239149a4d1a196101d850ea6e08e66846c93cfbb9990b8ccbb66",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "243e1b8533c07d43eab3f9ff39760e17b9c6d765303c30acc5b6046f3c7a53f1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "3174b98be64cef129c1a107a7f7bf099e95969c662d640046e97c02f4dddb390",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "f294568aea2abafa499f93d67beb06825966dc01c9bd9407fbb8afeb83f24fe9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "75e748b672f4327cc4fa067e930218b1d087a59c324a26ce02aa9da18d111e2e",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual individual original PNG inspection of all3 final views and9 cumulative stages; no previous contact sheet reused.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual original PNG inspection of iso,iso-rear,top and all9 cumulative steps for current2fc291f3 source. Old contact sheets not used. Eye now on side worldZ as sourcep9/10, no longer top; support and centre unchanged. All parts within frames. Existing4 inverted-plate/pulley envelope alarms, stud-to-beam fit, head side-layer hidden crossbond and cantilever/eye backside remain unresolved.42placements,0omissions; no physical/user acceptance."
+}

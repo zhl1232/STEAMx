@@ -1,0 +1,31 @@
+{
+  "slug": "4-kuai-ting",
+  "lessonId": 172,
+  "courseId": 6,
+  "sourceSha256": "0e20cda098dfc97b9d819a6c2950e511a154c94aba05bf7e5b868d08d8060484",
+  "sourcePages": 13,
+  "allSourcePixelsViewed": true,
+  "modelSha256": "1bb9c6ff364b591750d559d7645866f394b99749e11246d9e477f2f412c30318",
+  "placements": 118,
+  "sourceStages": 12,
+  "missing": [
+    {
+      "id": "unknown",
+      "count": 2,
+      "page": 8,
+      "role": "blue opposed Toolo wing/claw pair, same source visual family as beetle horn; candidate identity not verified"
+    },
+    {
+      "id": "unknown",
+      "candidate": "6669c01/6670c01",
+      "count": 2,
+      "page": 11,
+      "role": "three-blade bow propellers; source-family distinction unresolved, no geometry substituted"
+    }
+  ],
+  "checker": "PASS118",
+  "metadataUsedHash": "6c497186318f7e398a76162647ca579325329e7b3ef7fc53773b98ca95f7c2b7",
+  "accepted": false,
+  "status": "draft-pending-geometry-source-step-acceptance",
+  "render": "current D cumulative steps actually reviewed; final3=True in D record; prior C final evidence remains separate"
+}

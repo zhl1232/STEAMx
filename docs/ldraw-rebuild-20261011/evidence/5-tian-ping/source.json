@@ -1,0 +1,89 @@
+{
+  "slug": "5-tian-ping",
+  "lessonId": 294,
+  "courseId": 7,
+  "sourceSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
+  "pdf": {
+    "name": "5+天平搭建说明.pdf",
+    "relative_path": "5+/5+天平搭建说明.pdf",
+    "pages": 11,
+    "bytes": 1526808,
+    "sha256": "4d03f36ce07e98de12d786e463046963a9097a9ee564713ac86a5e5e17e6dff1",
+    "source_url": "https://pan.quark.cn/list#/docpdf/539381e888044949897656ee741ff946",
+    "slug": "5-tian-ping",
+    "lesson_id": 294,
+    "course_id": 7
+  },
+  "verifiedPdfHash": true,
+  "manifestSha256": "4fe46cb5de193be4c6647fa107532bf8b1a007ecdc2eaf62ab0b8978b33f9d83",
+  "assemblySteps": 10,
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-01.jpg",
+      "sha256": "4f1fe5951d7024e10549d7f438e231ca79cc98203ea12ce9ffc387ec76419b39",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-02.jpg",
+      "sha256": "ea182748eadc400093f7def7ec22fc2d7761f4cdb001911e276d255570a7baae",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-03.jpg",
+      "sha256": "f38cfff21ed3fc715ad421c3c824055f6c7f5b8588a3da3cc0ecd881b7129c5c",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-04.jpg",
+      "sha256": "278fac685b6a768b293cb4b8e0f0a61d7c34c2f4b1c2715ca69744e3ec9cfbfc",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-05.jpg",
+      "sha256": "320b86444962064216f04baa30c957aa86cef63437c2741bd0591abe70a3027b",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-06.jpg",
+      "sha256": "4fc67ffc1385e5760ccbaf0a274b6de8b4e556d884985b46004d8a7312f5d214",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-07.jpg",
+      "sha256": "d23bdf4cc29c59c35dc5b7a782eac45137f081ca369d94a6255a5df8d933a582",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-08.jpg",
+      "sha256": "3d95f87d44d915553507178511e3bdc978c84310e0c326b460040c1eea79fa94",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-09.jpg",
+      "sha256": "47193999514904fc8b0cedd0ebc442cbb065164d8dcf7caa5c852b44eca2db0d",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-10.jpg",
+      "sha256": "50eaa2c37dffe5c1971f2b62f4cba3e82d79577c5497fa7891be295ed3a3f524",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch14\\5-tian-ping\\page-11.jpg",
+      "sha256": "b8f478a1bd6a9e8e637a6e44dc15cd9362a7b37e88f294c7a41a7f0d14d07a40",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "accepted": false
+}

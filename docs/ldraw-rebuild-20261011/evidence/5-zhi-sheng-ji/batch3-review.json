@@ -1,0 +1,117 @@
+{
+  "slug": "5-zhi-sheng-ji",
+  "sourceSha256": "027e5c97a6f76fb81450daf04dc94dff65877bdf531d5a98c9c5028b1b9ac2e9",
+  "beforeHeadSha256": "9df10d986740a29bcbd605a81b13336e11fb06cc21987a7ab8570c0febaf947a",
+  "head": "0e1dc727eb87eef76981b38c5c23a599fcce1e29",
+  "stepsBefore": 13,
+  "stepsAfter": 13,
+  "placementsBefore": 43,
+  "placementsAfter": 42,
+  "maxOrthonormalError": 0,
+  "maxDeterminantError": 0,
+  "reflections": 0,
+  "collisionExitCode": 2,
+  "collisionErrors": 1,
+  "collisionLog": "/workspace/pending-fix-20261012/batch3-checks/5-zhi-sheng-ji-collision.log",
+  "date": "2026-10-12",
+  "title": "直升机",
+  "status": "未修好",
+  "verificationLevel": "renderer-verified only",
+  "accepted": false,
+  "published": false,
+  "changedGeometrySteps": [
+    6
+  ],
+  "reviewedRenderedSteps": [
+    6,
+    11,
+    13
+  ],
+  "changes": [
+    "按用户明确要求移除第 6 步黄色 6530 大齿轮，保留步骤边界并注明偏离源图。",
+    "第 11 步两片 7 孔尾旋翼本来存在，位于机身另一侧；新预览显示完整十字尾旋翼。",
+    "源第 6–9 页确实画有大黄齿轮，末页从相反方向看不到；报告保留这一冲突，不称其为课件无此件。"
+  ],
+  "unresolved": [
+    "未修好：移除齿轮后传动链有意不完整；第 12–13 步两条柔性传动仍缺失。",
+    "座舱与罩保留 1 条碰撞错误，未验证尾旋翼夹持或旋转间隙。"
+  ],
+  "landmarksAndSupport": [
+    "两片尾旋翼主孔均在 X=-360,Y=-264，分别位于 Z=140/180，40 LDU 分层。",
+    "移除的是 (-40,-168,-80) 的 6530，灰轴与相反面的黄色皮带轮保留。"
+  ],
+  "sourcePages": [
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-01.jpg",
+      "sha256": "1b560f24b552078fec90812756525cbd01ef68ffa4adfd12433bb10ae79d93e3"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-02.jpg",
+      "sha256": "cb0e5da2bf767bb3407ccc5e3b7e5d4fcd729d91ff9269dc3ad5d169e14ffb0a"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-03.jpg",
+      "sha256": "d591a051c47e684d1c32b2f9efbb91e5e560be3b02ea19af568d5bff4b86da3f"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-04.jpg",
+      "sha256": "b7fc1fcc39ad6c67fbcd149d0bd4327b4e6eea5ac9d00197da2c231852d642c7"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-05.jpg",
+      "sha256": "b9d15e83762e93d85d807fb83f2406be225163b241c6ca6a20b6ace001ad0d52"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-06.jpg",
+      "sha256": "49645a67d2c7929e2419d9f705f656abb44fe468cef8133b38ba890130c92ba5"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-07.jpg",
+      "sha256": "9eef8953c3f7f60d826a3c180699ae4f830432e5d13763cc9e05e049bdb8f47a"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-08.jpg",
+      "sha256": "a2ff9523626f011a3e2c4417488d3b3f7c287d0cfdea537c6c501e4d765b67fe"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-09.jpg",
+      "sha256": "d451e7f8c5da288c86a3600edfcf1937ca519042ef36bb272d0d42fd6beea4a1"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-10.jpg",
+      "sha256": "8be584e45a7292e4b0a3c13a5b8c940421f2b7ceca5e55fc6cda018dca0f04bc"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-11.jpg",
+      "sha256": "9d5b8cccf0a1bbed3e2964a75d88867e01969e5633c8738d2e4fa615e2daa089"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-12.jpg",
+      "sha256": "c95f1bbf66e2fecee1f6442b2c09651a0f7135139a17c9b1462efcbd5f51b09c"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-13.jpg",
+      "sha256": "0a4eb11a131e9bcf3b4d23fb87afef4db015f015a372c588fd2208b5b0e20627"
+    },
+    {
+      "path": "/workspace/pending-fix-20261012/courseware/5-zhi-sheng-ji/page-14.jpg",
+      "sha256": "8fe94fa0dc44a51e35a3d57fb29d3b461da564cb8f76b0ed66bae700a0bca777"
+    }
+  ],
+  "metadataSha256": "5cd85fcdca2090c092e3b9a73d34439a94ffe9bd8b41c316bea57ad8f2748e82",
+  "checkerSha256": "a9a61f7b501aba7a9bcf50750744c84df6c849a0b40a4100a29a844528fde4f7",
+  "validatorSha256": "11bd8fed6129d54a6bd78a26f3ef5619721bde35a6ddf660a3afd38d486f37cd",
+  "packedRevisionIncludingDependencies": "6058c3a8090fe23321da946cbafc83ff7d4cc4e63c9a101d067c2aae710512ad",
+  "missingParts": [],
+  "finalRender": {
+    "path": "/workspace/pending-fix-20261012/after/5-zhi-sheng-ji.png",
+    "sha256": "8668627337379384fddb0d9ce6668de1ecdc61da945895e0d65d3dc6ac1b7e6f"
+  },
+  "stepRenderDirectory": "/workspace/pending-fix-20261012/batch3-step-renders",
+  "previewRoute": "/ldraw-preview?model=5-zhi-sheng-ji.ldr",
+  "notes": [
+    "No Studio or physical validation performed.",
+    "Historical ledger/current-pixel-review records were not overwritten; this record applies only to the bound revision.",
+    "Camera and framing were adjusted in scratch renderer only; no production UI changed."
+  ]
+}

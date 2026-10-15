@@ -1,42 +1,113 @@
-0 4+ 大象 (Elephant) - DUPLO draft for manual repair
+0 4-da-xiang - source reconstruction, INCOMPLETE dev-only
 0 Name: 4-da-xiang.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // V3 source review 2026-10-13: p1-12; stepped back, layered head, open scoop ears and curled trunk. INCOMPLETE local draft.
+0 // V3b: add only blue 45117c01 x2 at p4 and blue 31239c01 x1 at p5; user-authorized local approximate shells.
+0 // Stock plan: 4 x 45002-1 supplies the v3 core; added wings/tail are absent from all four preferred kits and require separate stock.
+0 // Local DAT approximations; no scaled parts, reflection or cross-system adapters. All v3 core placements retained.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+大象 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Trunk, ears and tusks are simplified.
-
-0 // STEP 1 - four legs
-1 8 -160 -48 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 -160 -96 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 160 -48 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 160 -96 -100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 -160 -48 100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 -160 -96 100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 160 -48 100 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 160 -96 100 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source Library libfile_f6df9c75694881918d746cfa7e75e662, PDF SHA256 f748fb3655a8c9b16016e4e414bf0629c82fc3f3860acd8e07c65166a0eaa78e
+0 // STATUS: INCOMPLETE; source pages 1-12 visually inspected, no human acceptance.
+0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
+0 // No physical validation. Blue shells are non-official inferred geometry; screw retention remains unverified.
+0 // STEP 1 - p1: seven black 4x6 screw blocks; 2 / 3 / 2 stagger, 8 / 12 / 8 studs long, 6 studs wide
+1 0 -80 0 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 80 0 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 -160 -48 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 0 -48 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 160 -48 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 -80 -96 0 0 0 -1 0 1 0 1 0 0 76395.dat
+1 0 80 -96 0 0 0 -1 0 1 0 1 0 0 76395.dat
 0 STEP
 
-0 // STEP 2 - body
-1 0 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 -80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -160 -240 -80 1 0 0 0 1 0 0 0 1 2302.dat
-1 1 160 -240 -80 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 // STEP 2 - p2: four sideways 2x4 legs at X=+/-120, moved one stud inward from the old endmost positions
+0 // Inner faces Z=+/-120 meet lower black body sides; source Toolo screw support, simplified bore offsets unmeasured.
+1 72 -120 56 -168 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 -120 56 168 0 0 -1 1 0 0 0 -1 0 76057.dat
+1 72 120 56 -168 0 0 1 1 0 0 0 1 0 76057.dat
+1 72 120 56 168 0 0 -1 1 0 0 0 -1 0 76057.dat
 0 STEP
 
-0 // STEP 3 - head and ears
-1 0 -320 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 -440 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -320 -240 -120 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 -320 -240 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STEP 3 - p3: four wheel-rim/tyre feet with vertical axes; rim body top Y=136 meets leg end Y=136
+0 // Yellow collar enters the end bore by 3 LDU; tyre/rim width is the existing unmeasured approximation.
+1 71 -120 158 -144 1 0 0 0 1 0 0 0 1 99565.dat
+1 0 -120 158 -144 1 0 0 0 1 0 0 0 1 44970.dat
+1 71 -120 158 144 1 0 0 0 1 0 0 0 1 99565.dat
+1 0 -120 158 144 1 0 0 0 1 0 0 0 1 44970.dat
+1 71 120 158 -144 1 0 0 0 1 0 0 0 1 99565.dat
+1 0 120 158 -144 1 0 0 0 1 0 0 0 1 44970.dat
+1 71 120 158 144 1 0 0 0 1 0 0 0 1 99565.dat
+1 0 120 158 144 1 0 0 0 1 0 0 0 1 44970.dat
 0 STEP
 
-0 // STEP 4 - trunk and tail
-1 0 -520 -168 -40 0.866 0.500 0 -0.500 0.866 0 0 0 1 31195.dat
-1 0 -560 -96 -40 1 0 0 0 1 0 0 0 1 31452.dat
-1 15 -440 -216 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 15 -440 -216 40 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 300 -216 40 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // STEP 4 - p4: 45117c01 x2 blue Toolo wings; local approx, non-official geometry authorized 2026-10-13.
+0 // Beam roots meet body sides Z=+/-120 at Y=-72; outward studs, swept shells and four tall oval tips.
+0 // Side mounting is inferred from p4/p12; hidden screw retention and molded clearances are not physically verified.
+1 1 0 -72 120 1 0 0 0 1 0 0 0 1 dev-129/45117c01.dat
+1 1 0 -72 -120 -1 0 0 0 1 0 0 0 -1 dev-129/45117c01.dat
+0 STEP
+
+0 // STEP 5 - p5: front/rear screw bricks and outward-facing turntable
+0 // 31239c01 blue rear spoiler/tail: local approx, root meets rear brick X=240; twin rails curve rearward/downward.
+0 // Tail silhouette from p5/p12; screw fit/hidden retention remain manual. Separate stock needed, not supplied by 45002.
+0 // Turntable uses black base colour 0; DAT supplies yellow disk. Front X=-280; rear boss X=-240 meets front brick bore.
+1 72 -200 -96 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 72 200 -96 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 0 -280 -72 0 0 1 0 0 0 1 1 0 0 60535.dat
+1 1 240 -72 0 1 0 0 0 1 0 0 0 1 dev-129/31239c01.dat
+0 STEP
+
+0 // STEP 6 - p6: eight grey 2x4 screw bricks, five crosswise below and three above; 4x10 / 4x6 stepped back
+1 72 -160 -144 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 72 -80 -144 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 72 0 -144 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 72 80 -144 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 72 160 -144 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 72 -80 -192 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 72 0 -192 0 0 0 -1 0 1 0 1 0 0 76057.dat
+1 72 80 -192 0 0 0 -1 0 1 0 1 0 0 76057.dat
+0 STEP
+
+0 // STEP 7 - p7: two sideways horizontal backing bricks, one front vertical brick, one top crossbar
+0 // Head backing bottoms X=-280 seat on turntable; front vertical brick bottom X=-328 seats on backing studs.
+0 // Top crossbar bottom Y=-152 rests on backing end faces; Toolo screw retention remains manual.
+1 72 -328 -112 0 0 1 0 0 0 1 1 0 0 76057.dat
+1 72 -328 -32 0 0 1 0 0 0 1 1 0 0 76057.dat
+1 72 -376 -72 0 0 1 0 1 0 0 0 0 -1 76057.dat
+1 72 -304 -200 0 0 0 -1 0 1 0 1 0 0 76057.dat
+0 STEP
+
+0 // STEP 8 - p8: two side forks and two orange 6294 scoops; open/clip sides face forward, ears lean outward in projection
+0 // Same approved 6294 mesh; two scoops are covered by the four-set stock plan. No new geometry.
+0 // Fork bases meet crossbar sides Z=+/-80. Both scoop origins coincide with fork pins; local X axes are collinear.
+0 // Ear fork swivel is 30 degrees around the side mounting bore; scoop swivels -40 degrees about its pin.
+0 // Both angles are inferred from p8/p12; molded clip clearance and screw retention remain unverified.
+1 72 -304 -176 -128 0.50000000 0 -0.86602540 -0.86602540 0 -0.50000000 0 1 0 28336.dat
+1 25 -345.56921938 -200 -193 -0.50000000 0.55667040 -0.66341395 0.86602540 0.32139380 -0.38302222 0 -0.76604444 -0.64278761 dev-129/6294.dat
+1 72 -304 -176 128 -0.50000000 0 -0.86602540 0.86602540 0 -0.50000000 0 -1 0 28336.dat
+1 25 -345.56921938 -200 193 0.50000000 0.55667040 -0.66341395 -0.86602540 0.32139380 -0.38302222 0 0.76604444 0.64278761 dev-129/6294.dat
+0 STEP
+
+0 // STEP 9 - p9: two lateral wheel-rim eyes and descending first trunk fork
+0 // Eye axes coincide with the front vertical brick side bores (X=-352,Y=-112,Z=+/-40); collars enter by 3 LDU.
+1 71 -352 -112 -62 1 0 0 0 0 -1 0 1 0 99565.dat
+1 71 -352 -112 62 1 0 0 0 0 1 0 -1 0 99565.dat
+1 72 -424 -112 0 0 1 0 0 0 1 1 0 0 28336.dat
+0 STEP
+
+0 // STEP 10 - p10: forward clutch then up-facing second fork; first pin (-489,-64,0)
+0 // Clutch local (0,60,0) meets the preceding fork pin; next fork bottom seats on its top studs.
+1 72 -549 -64 0 0 1 0 0 0 1 1 0 0 74957.dat
+1 72 -597 -64 0 0 1 0 0 0 -1 -1 0 0 28336.dat
+0 STEP
+
+0 // STEP 11 - p11-12: diagonally raised clutch, near-vertical final fork, tilted nose tip
+0 // All trunk hinge axes stay along Z. Pin centres use fork (0,-65,48) and clutch (0,60,0).
+0 // Angles follow final silhouette; local fork/clutch meshes and real holding strength remain unmeasured.
+1 72 -704.42640687 -154.42640687 0 0 0.70710678 -0.70710678 0 0.70710678 0.70710678 1 0 0 74957.dat
+1 72 -738.36753237 -188.36753237 0 0 0.70710678 0.70710678 0 0.70710678 -0.70710678 -1 0 0 28336.dat
+1 72 -792.81475452 -310.69700551 0 0 0.70710678 -0.70710678 0 0.70710678 0.70710678 1 0 0 74957.dat
+0 STEP
+
+0 // STEP 12 - source final alternate view; no new parts

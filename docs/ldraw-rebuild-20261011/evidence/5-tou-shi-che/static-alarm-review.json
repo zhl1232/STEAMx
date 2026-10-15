@@ -1,0 +1,512 @@
+{
+  "slug": "5-tou-shi-che",
+  "sourceSha256": "acd8d1b5451d954968a071274d9114f41da603dfc65c377e26221c1db91a8960",
+  "checkedAtUTC": "2026-10-11T08:29:13.690154+00:00",
+  "checkpointFile": "Prior checkpoint superseded; current raw checker run2026-10-11 after local p9 addition",
+  "rawCheckerExit": 1,
+  "rawCheckerOutput": "\nFAIL [5-tou-shi-che.ldr] 14 error(s), 50 placement(s):\n  - step 2: 5-tou-shi-che_l15 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l16 overlaps 5-tou-shi-che_l14\n  - step 2: 5-tou-shi-che_l18 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l19 overlaps 5-tou-shi-che_l17\n  - step 2: 5-tou-shi-che_l22 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l23 overlaps 5-tou-shi-che_l21\n  - step 2: 5-tou-shi-che_l25 overlaps 5-tou-shi-che_l24\n  - step 2: 5-tou-shi-che_l26 overlaps 5-tou-shi-che_l24\n  - step 5: 5-tou-shi-che_l40 overlaps 5-tou-shi-che_l14\n  - step 5: 5-tou-shi-che_l41 overlaps 5-tou-shi-che_l17\n  - step 6: 5-tou-shi-che_l47 overlaps 5-tou-shi-che_l21\n  - step 6: 5-tou-shi-che_l50 overlaps 5-tou-shi-che_l24\n  - step 9: 5-tou-shi-che_l75 overlaps 5-tou-shi-che_l72\n  - step 9: 5-tou-shi-che_l76 overlaps 5-tou-shi-che_l73\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "sourceStableDuringOriginalCheck": true,
+  "sourceHashRechecked": true,
+  "alarms": [
+    {
+      "step": 2,
+      "lines": [
+        15,
+        14
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 -160 -24 -140 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 0 -160 -24 -120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "true_risk",
+      "evidence": [
+        "preparation/5-tou-shi-che/tyre-current-transforms.json",
+        "preparation/5-tou-shi-che/tyre-current-triangles.json",
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 225 strict surface-crossing triangle pairs. Positive noncoplanar interior witnesses establish current mesh intersection, not just AABB overlap. Geometry is a real modelling risk; does not quantify rubber deformation or physical assembly.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      },
+      "strictSurfaceCrossingTrianglePairs": 225,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
+    },
+    {
+      "step": 2,
+      "lines": [
+        16,
+        14
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 -160 -24 -100 -1 0 0 0 1 0 0 0 -1 6527.dat",
+        "1 0 -160 -24 -120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "evidence": [
+        "preparation/5-tou-shi-che/tyre-current-transforms.json",
+        "preparation/5-tou-shi-che/tyre-current-triangles.json",
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 0 strict surface-crossing triangle pairs. Zero strict intersections does not exclude coplanar overlaps, containment, contact or real physical interference; no clearance exemption.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      },
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
+    },
+    {
+      "step": 2,
+      "lines": [
+        18,
+        17
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 -160 -24 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 0 -160 -24 120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "true_risk",
+      "evidence": [
+        "preparation/5-tou-shi-che/tyre-current-transforms.json",
+        "preparation/5-tou-shi-che/tyre-current-triangles.json",
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 225 strict surface-crossing triangle pairs. Positive noncoplanar interior witnesses establish current mesh intersection, not just AABB overlap. Geometry is a real modelling risk; does not quantify rubber deformation or physical assembly.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      },
+      "strictSurfaceCrossingTrianglePairs": 225,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
+    },
+    {
+      "step": 2,
+      "lines": [
+        19,
+        17
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 -160 -24 140 -1 0 0 0 1 0 0 0 -1 6527.dat",
+        "1 0 -160 -24 120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "evidence": [
+        "preparation/5-tou-shi-che/tyre-current-transforms.json",
+        "preparation/5-tou-shi-che/tyre-current-triangles.json",
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 0 strict surface-crossing triangle pairs. Zero strict intersections does not exclude coplanar overlaps, containment, contact or real physical interference; no clearance exemption.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      },
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
+    },
+    {
+      "step": 2,
+      "lines": [
+        22,
+        21
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 160 -24 -140 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 0 160 -24 -120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "true_risk",
+      "evidence": [
+        "preparation/5-tou-shi-che/tyre-current-transforms.json",
+        "preparation/5-tou-shi-che/tyre-current-triangles.json",
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 225 strict surface-crossing triangle pairs. Positive noncoplanar interior witnesses establish current mesh intersection, not just AABB overlap. Geometry is a real modelling risk; does not quantify rubber deformation or physical assembly.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      },
+      "strictSurfaceCrossingTrianglePairs": 225,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
+    },
+    {
+      "step": 2,
+      "lines": [
+        23,
+        21
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 160 -24 -100 -1 0 0 0 1 0 0 0 -1 6527.dat",
+        "1 0 160 -24 -120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "evidence": [
+        "preparation/5-tou-shi-che/tyre-current-transforms.json",
+        "preparation/5-tou-shi-che/tyre-current-triangles.json",
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 0 strict surface-crossing triangle pairs. Zero strict intersections does not exclude coplanar overlaps, containment, contact or real physical interference; no clearance exemption.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      },
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
+    },
+    {
+      "step": 2,
+      "lines": [
+        25,
+        24
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 160 -24 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 0 160 -24 120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "true_risk",
+      "evidence": [
+        "preparation/5-tou-shi-che/tyre-current-transforms.json",
+        "preparation/5-tou-shi-che/tyre-current-triangles.json",
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 225 strict surface-crossing triangle pairs. Positive noncoplanar interior witnesses establish current mesh intersection, not just AABB overlap. Geometry is a real modelling risk; does not quantify rubber deformation or physical assembly.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      },
+      "strictSurfaceCrossingTrianglePairs": 225,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
+    },
+    {
+      "step": 2,
+      "lines": [
+        26,
+        24
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 160 -24 140 -1 0 0 0 1 0 0 0 -1 6527.dat",
+        "1 0 160 -24 120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "evidence": [
+        "preparation/5-tou-shi-che/tyre-current-transforms.json",
+        "preparation/5-tou-shi-che/tyre-current-triangles.json",
+        "preparation/independent-qa/tyre-profile-independent.json"
+      ],
+      "reason": "Actual current placement matrices, recursively loaded official DAT triangle geometry: 0 strict surface-crossing triangle pairs. Zero strict intersections does not exclude coplanar overlaps, containment, contact or real physical interference; no clearance exemption.",
+      "remainingRisk": "Source drawings do not resolve hidden tyre cavity seating/axial depth; no blind coordinate transfer or source change.",
+      "supersededConclusion": {
+        "classification": "false_positive_aabb",
+        "reason": "Transforms put pulley and tyre on the same axis; axial shift20LDU lies inside a tyre AABB but the actual annular tyre material is radially outside the pulley. Sibling official-face projection min tyre inner radius42.183LDU; independently flattened pulley max radius41.002480425LDU (slightly above nominal41 from rounded tessellation). Thus conservative radial separation about1.1805LDU; bounding boxes overlap without surface-material collision.",
+        "geometry": {
+          "coaxial": true,
+          "axisOffsetLDU": 20,
+          "tyreInnerRadiusEvidenceLDU": 42.183,
+          "pulleyMaxRadiusLDU": 41.00248042496941,
+          "nominalRadialGapLDU": 1.180519575030587
+        }
+      },
+      "strictSurfaceCrossingTrianglePairs": 0,
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
+    },
+    {
+      "step": 5,
+      "lines": [
+        40,
+        14
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 -120 -120 -100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 0 -160 -24 -120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "false_positive_aabb",
+      "evidence": [
+        "preparation/5-tou-shi-che/static-radial-evidence.json DAT-recursive max radius and dependency hashes",
+        "preparation/5-xuan-yi-fei-ji/review.json collisionAssessment and official6292s01 face-boundary evidence",
+        "preparation/5-tou-shi-che/REVIEW.md source/visual record"
+      ],
+      "reason": "Both axes parallel worldZ. XY centers differ40 and96LDU (distance104). Recursively transformed official DAT face vertices bound tyre radius57.000589172 and pulley radius41.002480425; every convex triangle/quad lies within those disks. The projected disks have5.996930403LDU separation regardless of axial thickness, proving these specific AABB overlaps are not mesh collisions.",
+      "geometry": {
+        "centerDelta": [
+          40.0,
+          -96.0,
+          20.0
+        ],
+        "projectedCenterDistanceLDU": 104.0,
+        "tyreMaxRadiusLDU": 57.000589172109315,
+        "pulleyMaxRadiusLDU": 41.00248042496941,
+        "conservativeGapLDU": 5.996930402921272
+      },
+      "remainingRisk": "This establishes only static mesh separation for this pair; no moving mechanism or physical retention verified.",
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
+    },
+    {
+      "step": 5,
+      "lines": [
+        41,
+        17
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 -120 -120 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 0 -160 -24 120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "false_positive_aabb",
+      "evidence": [
+        "preparation/5-tou-shi-che/static-radial-evidence.json DAT-recursive max radius and dependency hashes",
+        "preparation/5-xuan-yi-fei-ji/review.json collisionAssessment and official6292s01 face-boundary evidence",
+        "preparation/5-tou-shi-che/REVIEW.md source/visual record"
+      ],
+      "reason": "Both axes parallel worldZ. XY centers differ40 and96LDU (distance104). Recursively transformed official DAT face vertices bound tyre radius57.000589172 and pulley radius41.002480425; every convex triangle/quad lies within those disks. The projected disks have5.996930403LDU separation regardless of axial thickness, proving these specific AABB overlaps are not mesh collisions.",
+      "geometry": {
+        "centerDelta": [
+          40.0,
+          -96.0,
+          -20.0
+        ],
+        "projectedCenterDistanceLDU": 104.0,
+        "tyreMaxRadiusLDU": 57.000589172109315,
+        "pulleyMaxRadiusLDU": 41.00248042496941,
+        "conservativeGapLDU": 5.996930402921272
+      },
+      "remainingRisk": "This establishes only static mesh separation for this pair; no moving mechanism or physical retention verified.",
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
+    },
+    {
+      "step": 6,
+      "lines": [
+        47,
+        21
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 120 -120 -140 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 0 160 -24 -120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "false_positive_aabb",
+      "evidence": [
+        "preparation/5-tou-shi-che/static-radial-evidence.json DAT-recursive max radius and dependency hashes",
+        "preparation/5-xuan-yi-fei-ji/review.json collisionAssessment and official6292s01 face-boundary evidence",
+        "preparation/5-tou-shi-che/REVIEW.md source/visual record"
+      ],
+      "reason": "Both axes parallel worldZ. XY centers differ40 and96LDU (distance104). Recursively transformed official DAT face vertices bound tyre radius57.000589172 and pulley radius41.002480425; every convex triangle/quad lies within those disks. The projected disks have5.996930403LDU separation regardless of axial thickness, proving these specific AABB overlaps are not mesh collisions.",
+      "geometry": {
+        "centerDelta": [
+          -40.0,
+          -96.0,
+          -20.0
+        ],
+        "projectedCenterDistanceLDU": 104.0,
+        "tyreMaxRadiusLDU": 57.000589172109315,
+        "pulleyMaxRadiusLDU": 41.00248042496941,
+        "conservativeGapLDU": 5.996930402921272
+      },
+      "remainingRisk": "This establishes only static mesh separation for this pair; no moving mechanism or physical retention verified.",
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
+    },
+    {
+      "step": 6,
+      "lines": [
+        50,
+        24
+      ],
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "placements": [
+        "1 14 120 -120 140 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 0 160 -24 120 1 0 0 0 1 0 0 0 1 6292.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "false_positive_aabb",
+      "evidence": [
+        "preparation/5-tou-shi-che/static-radial-evidence.json DAT-recursive max radius and dependency hashes",
+        "preparation/5-xuan-yi-fei-ji/review.json collisionAssessment and official6292s01 face-boundary evidence",
+        "preparation/5-tou-shi-che/REVIEW.md source/visual record"
+      ],
+      "reason": "Both axes parallel worldZ. XY centers differ40 and96LDU (distance104). Recursively transformed official DAT face vertices bound tyre radius57.000589172 and pulley radius41.002480425; every convex triangle/quad lies within those disks. The projected disks have5.996930403LDU separation regardless of axial thickness, proving these specific AABB overlaps are not mesh collisions.",
+      "geometry": {
+        "centerDelta": [
+          -40.0,
+          -96.0,
+          20.0
+        ],
+        "projectedCenterDistanceLDU": 104.0,
+        "tyreMaxRadiusLDU": 57.000589172109315,
+        "pulleyMaxRadiusLDU": 41.00248042496941,
+        "conservativeGapLDU": 5.996930402921272
+      },
+      "remainingRisk": "This establishes only static mesh separation for this pair; no moving mechanism or physical retention verified.",
+      "revalidation": "Both exact type1 placements and dependency geometry unchanged from previous SHA; previous local-pair witnesses/bounds remain applicable, not reused for any new pair."
+    },
+    {
+      "step": 9,
+      "lines": [
+        75,
+        72
+      ],
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "placements": [
+        "1 14 103.923048 -561.575681 -100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 173.205081 -601.575681 -100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "true_risk",
+      "strictSurfaceCrossingTrianglePairs": 22,
+      "reason": "Source-restored adjacent retainers at actual axis sites have22 strict triangle crossing witnesses. Kept source-supported positions; no artificial coordinate adjustment to suppress overlap. This is a current mesh issue, not evidence of rubber/physical compliance.",
+      "evidence": [
+        "preparation/5-tou-shi-che/p9-pulley-pair-transforms.json",
+        "preparation/5-tou-shi-che/p9-pulley-triangles.json"
+      ],
+      "action": "Preserve warning and request exact axial seating/phase evidence."
+    },
+    {
+      "step": 9,
+      "lines": [
+        76,
+        73
+      ],
+      "parts": [
+        "6527.dat",
+        "6527.dat"
+      ],
+      "placements": [
+        "1 14 103.923048 -561.575681 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 173.205081 -601.575681 100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "true_risk",
+      "strictSurfaceCrossingTrianglePairs": 22,
+      "reason": "Source-restored adjacent retainers at actual axis sites have22 strict triangle crossing witnesses. Kept source-supported positions; no artificial coordinate adjustment to suppress overlap. This is a current mesh issue, not evidence of rubber/physical compliance.",
+      "evidence": [
+        "preparation/5-tou-shi-che/p9-pulley-pair-transforms.json",
+        "preparation/5-tou-shi-che/p9-pulley-triangles.json"
+      ],
+      "action": "Preserve warning and request exact axial seating/phase evidence."
+    }
+  ],
+  "alarmCount": 14,
+  "classificationCounts": {
+    "false_positive_aabb": 4,
+    "true_risk": 6,
+    "insufficient_evidence": 4
+  },
+  "remainingNonAlarmLimitations": "15 known-ID basket/shaft/retainer/payload parts still omitted; four tyre/rim pairs and two newly restored neighbouring pulley pairs have strict mesh crossings. No physical validation. Upper mechanism depths remain unresolved.",
+  "sourceAndPixelEvidence": "Existing per-course REVIEW and current-pixel-review; this pass reused those actual pixel reviews and inspected alarm placement lines and actual DAT geometry. No new pixel-review completion claimed.",
+  "rawPassDoesNotProveSupportOrSourceFidelity": true,
+  "accepted": false,
+  "physicalValidation": false,
+  "sourceModified": true,
+  "uniformRadiusExemptionWithdrawnAt": "2026-10-11T07:23:43.612419+00:00",
+  "previousSourceSha256": "74298d1ad267c8cf8cbf199396a5a64277ddedb973b2de8e18a500f7c921331c"
+}

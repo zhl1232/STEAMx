@@ -1,0 +1,80 @@
+{
+  "sourceSha256": "f4b44486e458084e68729a090f3c41cb49e78f9cb28447cd3149623b38801bc8",
+  "revision": "2c0b7a80978fc0ecc7ebb214b61c0ba91cb56979410ff43349521b60ddd502cc",
+  "reviewedAt": "2026-10-11T13:39:56.770214+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-tian-ping",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "68cb1ebf35d027f3f9b0ac834053d353d44253955da654d394399dcd2f194493",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "7a98e6f4d41bf8001334040c7392732ae808d69218140b4179c9f610a31b8f03",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "ad2c563aafa5556d8f8de584ef5ddcbf46bcaabf600464aa9a0ea4edd0e17a91",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "539b95a0bbc6346f74dd806471fdf84725527e5b162623af28137a636a8d14f3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "687337ea2a8a8dc80d5e4a8dfff1161febc26d963df8b9fac9b2458215e12a67",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "a073a6f5f70367a5cae541d3d65c18cd950f7ebfe03b6b1f9d93b9bb3fab83b8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "7bf7b8ba618aaf4266a6fc74747e732c1a86cdb26e51957c6c884ef81821feff",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "497316741d0cd1d69fb3cdbc480d263ab44506ce7de311b458328d3a4b1d73d0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "91bf5c71e64a31d878c7ca1f08e63459d40ff613c75671eefff38b637a3eac8a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "91bf5c71e64a31d878c7ca1f08e63459d40ff613c75671eefff38b637a3eac8a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "bbef67e06fe35188e6c7fdd7c2e4a242993d1fb10adffe743e607071f2c4ef1e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "f62c1f083475ee3598a31488a0b52197e9f92b90e78c154f1b750cadd1257543",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "68cb1ebf35d027f3f9b0ac834053d353d44253955da654d394399dcd2f194493",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected current final contact sheet, all three original final PNGs and all ten cumulative step frames against the previously inspected eleven source pages. Mast splice, paired crossbar, four hook positions and two fenced trays retain source correspondence; no new unambiguous placement error observed. Step7 has no added geometry because four ropes are omitted. Suspended trays and hooks remain a source-backed support exception with inferred hanging height and unverified hook/fence grip. Twelve adjacent pulley pair alarms, winding/retention and physical balance response remain unresolved; coverage is observation only, not assembly acceptance."
+}

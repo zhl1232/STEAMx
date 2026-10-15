@@ -1,0 +1,54 @@
+{
+  "slug": "4-xuan-zhuan-fei-ji",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 12,
+  "sourcePixels": "All12 source pages contact inspected; enlarged structural pages inspected",
+  "modelSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7",
+  "unknown": [
+    {
+      "page": 11,
+      "part": "45117c01 x4 and31239c01 x4",
+      "missing": "identity visually confirmed in earlier source; licensed/approved exact geometry absent, omitted"
+    },
+    {
+      "page": "5-10",
+      "part": "Toolo articulated support",
+      "missing": "45degree outer joints and screw seating inferred from source; rotational clearance and physical retention unverified"
+    }
+  ],
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
+  "knownApproximate": [
+    "76395",
+    "60535",
+    "28336",
+    "dev-129/28334",
+    "74957",
+    "76057",
+    "31196c01"
+  ],
+  "render": "Pending full-bounding-box static render and actual pixel inspection; prior cropped renders cannot establish acceptance",
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "inventoryMechanicalDeficits": [],
+  "rawCollisionChecker": "4 cockpit-windscreen pairs, same relative pose as passenger-plane thin surface issue; unresolved",
+  "inventoryAdditional45002": [
+    {
+      "part": "dev-129/28334.dat",
+      "catalogAlias": "74847",
+      "sourceQuantity": 8,
+      "45002Quantity": 5,
+      "additionalIgnoringColor": 3
+    }
+  ],
+  "currentCumulativePixelReview": {
+    "sourceSha256": "f7f85b0207ad35b74c6b71330ddf771c1fbe1892939afa0403cc8f535258ced7",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 12,
+    "currentDfinalActuallyReviewed": true,
+    "limitations": "All12 cumulative D frames viewed against source12-page contact, originalstep7 inspected for articulated four-arm supports. Blue wings and tails absent atstep11; finalstep repeats incomplete geometry. Dev shortarms use approved section and kit-length interpretation; exact hinge angles/retention unverified. Four cockpit/canopy overlap alarms remain evidence-insufficient. No physical acceptance."
+  }
+}

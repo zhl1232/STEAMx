@@ -1,0 +1,80 @@
+{
+  "sourceSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+  "revision": "d06f4489e6b1d2389a099cb89b52d8968a18626660fc5c555e70d4ccf2b10aab",
+  "reviewedAt": "2026-10-11T13:18:05.336941+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ping-heng-da-shi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "5e5515d7fe2ead3f4f9a92534862393083f812b476527e6d17c385509c8a6280",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "e5bd4a921687440dd7c2d05592cdd86bc3eabfc49ba712713720400af7ebfd11",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "cd410a602737ee74c59acb7675362c686abda584fb8803905bd917dc15c44e05",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "2853872053757ba4e21212d94af03ecbf3fa24f2e30e895c1bbe05570c8e3037",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "0ea98cec2032b08545b9ffff17f7f5c27f7ae569b6a7216e83b030180171b86c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "26d365189c72ca6d8f1f9e9c983553c38e978c0c15c0b1cc08a7c1b4e3713829",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "e1fe2169c59763aae5fa043d232cc2231d85e5daa5a50b2579cab6ed96017825",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "8bc36540cf39549770fd6036b8a90894b062c33d0db7cb9c215a5dc6a2764bff",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "860d52e1ff559fea0da7db8690526377e8320a23a71ff62cc04d4e69d2b5db03",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "f442f570ea518eb518d7a6d51d2c4bc5bcd2917e04b84a3a94dc0d6ae6fc520c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "1d29702d77c8eac3181e9317de3f2e0b26547b24d40ed4aa15c48b1bec8a4305",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "43a8249ccf52216f8d33b8094bbfab7334815f26a0ae18aa8d6d65aea9f09ff6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "5e5515d7fe2ead3f4f9a92534862393083f812b476527e6d17c385509c8a6280",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually reviewed current final3 original PNGs and all10 cumulative frames in current contact sheet against source sequence. Step9 bracket and step10 weights now face down; both weight groups lie below their own lower red brackets and avoid waist in visible views. This confirms correction of prior upward stacking only, not assembly acceptance. Eighteen-stud shoulder span, outer2stud red tops exposed by offset blue caps, inferred waist bond and altered linkage/weight tilt remain explicit source deviations or inferences. Nine original static pairs retained: eight neighbouring wheel pairs at72/80LDU spacing and arch opening80 versus wheel diameter82.005; no visual clearance claim. Vertical pivot, axle retention and motion unverified. No new clearly established source-placement error observed in current rendered views; pending user confirmation."
+}

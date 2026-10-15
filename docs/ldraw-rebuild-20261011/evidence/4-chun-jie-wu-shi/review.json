@@ -1,0 +1,55 @@
+{
+  "slug": "4-chun-jie-wu-shi",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 13,
+  "sourcePixels": "All13 source pages contact inspected; enlarged structural pages inspected",
+  "modelSha256": "846331ba67892fa0b58dce432682696569e7e320f0ba25bf7d5f52a2eb268b39",
+  "unknown": [
+    {
+      "page": 10,
+      "part": "two yellow concave2x3x2 ears",
+      "missing": "exact design ID not identified; not replaced with convex slopes; omitted"
+    },
+    {
+      "page": "2-3,6,12",
+      "part": "legs, tail and cheek screws",
+      "missing": "articulated poses and joints inferred from source, exact fit and load bearing unverified"
+    }
+  ],
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
+  "knownApproximate": [
+    "76395",
+    "76057",
+    "60535",
+    "28336",
+    "74957",
+    "99565",
+    "44970"
+  ],
+  "render": {
+    "sourceSha256": "846331ba67892fa0b58dce432682696569e7e320f0ba25bf7d5f52a2eb268b39",
+    "viewsActuallyInspected": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "cumulativeStepsActuallyInspected": false,
+    "finding": "Forward jaw correction visually clears yellow rear stop; source-layer height restored. Missing concave ears and Toolo joint approximations remain. See current-pixel-review.json for exact PNG hashes."
+  },
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "inventoryMechanicalDeficits": [],
+  "rawCollisionChecker": "PASS",
+  "pixelRevisionReason": "Sourcep8 red3437 same course as tongue; sourcep9 upper jaw shifts forward80LDU and rear edge(-80) abuts yellow stopfront(-80), rather than raising jaw. Upper face follows forward shift with original height.",
+  "currentCumulativePixelReview": {
+    "sourceSha256": "846331ba67892fa0b58dce432682696569e7e320f0ba25bf7d5f52a2eb268b39",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 13,
+    "currentDfinalActuallyReviewed": true,
+    "limitations": "All13 cumulative D frames actually screened against source13-page contact; originalstep9 and12 inspected. Previously corrected upper-jaw forward placement stays clear of yellow rear stop. Body/leg layers and head additions follow source. Two concave yellow ears remain omitted, approved Toolo approximation and inferred hinge poses retained. No physical or human acceptance."
+  }
+}

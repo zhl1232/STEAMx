@@ -1,36 +1,96 @@
-0 4+ 小兔子 (Rabbit) - DUPLO draft for manual repair
+0 4+ Rabbit - source reconstruction draft
 0 Name: 4-xiao-tu-zi.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+小兔子 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Long ears, face, feet and carrot are simplified.
-
-0 // STEP 1 - black body and yellow feet
-1 0 -80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 240 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -120 -24 -100 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 160 -24 -100 1 0 0 0 1 0 0 0 1 40666.dat
+0 // INCOMPLETE - source-matched draft; exact Toolo joints and inventory require review.
+0 // Uses existing user-approved 45002 simplified geometry; no physical-fit certification.
+0 // Source: inputs/source-2; all instruction page pixels reviewed 2026-10-11.
+0 // No human acceptance and no production authorization implied.
+0 // STEP 1 - source page 1: six 4x6 Toolo body bricks, second layer offset one stud
+1 0 -160 -231 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 0 -231 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 160 -231 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 -120 -279 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 40 -279 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 200 -279 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 2 - head and face
-1 0 -180 -120 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -260 -168 -80 1 0 0 0 1 0 0 0 1 2302.dat
-1 15 -300 -216 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -220 -216 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 2 - source page 2: two upper body bricks
+1 0 -40 -327 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 120 -327 0 0 0 1 0 1 0 -1 0 0 76395.dat
 0 STEP
-
-0 // STEP 3 - tall black ears and tail
-1 0 -300 -288 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 0 -160 -288 -120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 0 -360 -368 -160 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 0 -100 -368 -160 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 15 320 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - source page 3: four inclined leg bases and four clutch blocks
+1 72 -160 -183 -80 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 -208 -48 -80 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 -160 -183 80 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 -208 -48 80 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 160 -183 -80 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 112 -48 -80 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 160 -183 80 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 112 -48 80 0 0 1 0 1 0 -1 0 0 28336.dat
 0 STEP
-
-0 // STEP 4 - carrot marker
-1 25 -460 -72 120 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 25 -620 24 120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 2 -600 -120 100 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - source page 4: four yellow 2x4 Toolo feet
+1 14 -168 0 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 -168 0 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 152 0 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 152 0 80 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+0 // STEP 5 - source page 5: rear hinge tail
+1 72 -288 -207 0 0 1 0 0 0 1 1 0 0 28336.dat
+0 STEP
+0 // STEP 6 - source page 6: red 2x4 neck
+1 4 240 -327 0 0 0 1 0 1 0 -1 0 0 76057.dat
+0 STEP
+0 // STEP 7 - source page 7: two stacked 4x6 head support bricks
+1 0 240 -375 0 0 0 1 0 1 0 -1 0 0 76395.dat
+1 0 240 -423 0 0 0 1 0 1 0 -1 0 0 76395.dat
+0 STEP
+0 // STEP 8 - source page 8: four yellow 2x4 head bricks; crossed layers
+1 14 240 -471 -40 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 240 -471 40 1 0 0 0 1 0 0 0 1 76057.dat
+1 14 200 -519 0 0 0 1 0 1 0 -1 0 0 76057.dat
+1 14 280 -519 0 0 0 1 0 1 0 -1 0 0 76057.dat
+0 STEP
+0 // STEP 9 - source page 9: two curved head caps
+1 14 240 -567 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 240 -567 40 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+0 // STEP 10 - source page 10: two rim and tyre eyes attached to lateral head holes
+1 71 260 -495 -105 1 0 0 0 0 1 0 -1 0 99565.dat
+1 0 260 -495 -105 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 260 -495 105 1 0 0 0 0 -1 0 1 0 99565.dat
+1 0 260 -495 105 1 0 0 0 0 -1 0 1 0 44970.dat
+0 STEP
+0 // STEP 11 - source page 11: ear bases visible on rear of head; short 2x6 fork arms; catalogue alias 74847; simplified dimensions provisional
+1 72 112 -479 -40 0 1 0 0 0 -1 -1 0 0 28336.dat
+0 // night2b: ears ease +8° toward upright (~42° recline)
+1 72 -91.1983 -667.472 -40 0.743145 0.66913 0 -0.66913 0.743145 0 0 0 1 dev-129/28334.dat
+1 72 112 -479 40 0 1 0 0 0 -1 -1 0 0 28336.dat
+0 // night2b: ears ease +8° toward upright (~42° recline)
+1 72 -91.1983 -667.472 40 0.743145 0.66913 0 -0.66913 0.743145 0 0 0 1 dev-129/28334.dat
+0 STEP
+0 // STEP 12 - source page 12: separate carrot assembly; four thin plates around two offset thick bricks
+0 // night4: carrot +80X (between +40 and +120)
+1 25 420 -14.7903 -0.000000000 -0.422618262 -0.906307787 -0.000000000 -0.9063077870366499 0.42261826174069944 0 -0.000000000 -0.000000000 -1.000000000 3011.dat
+1 25 352.381 -159.8 -0.000000000 -0.422618262 -0.906307787 -0.000000000 -0.9063077870366499 0.42261826174069944 0 -0.000000000 -0.000000000 -1.000000000 3011.dat
+1 25 441.751 -24.933 -0.000000000 -0.422618262 -0.906307787 -0.000000000 -0.9063077870366499 0.42261826174069944 0 -0.000000000 -0.000000000 -1.000000000 40666.dat
+1 25 359.592 -30.757 -0.000000000 -0.422618262 -0.906307787 -0.000000000 -0.9063077870366499 0.42261826174069944 0 -0.000000000 -0.000000000 -1.000000000 40666.dat
+1 25 374.132 -169.942 -0.000000000 -0.422618262 -0.906307787 -0.000000000 -0.9063077870366499 0.42261826174069944 0 -0.000000000 -0.000000000 -1.000000000 40666.dat
+1 25 291.974 -175.766 -0.000000000 -0.422618262 -0.906307787 -0.000000000 -0.9063077870366499 0.42261826174069944 0 -0.000000000 -0.000000000 -1.000000000 40666.dat
+0 STEP
+0 // STEP 13 - source page 13: carrot top: orange connector, five 2x2 greens and four green plates
+1 25 284.762 -304.809 -0.000000000 -0.422618262 -0.906307787 -0.000000000 -0.9063077870366499 0.42261826174069944 0 -0.000000000 -0.000000000 -1.000000000 3011.dat
+0 // night2: removed wide green 2x2 (slim carrot leaves)
+1 2 311.36 -361.347 -0.000000000 -0.422618262 -0.906307787 -0.000000000 -0.9063077870366499 0.42261826174069944 0 -0.000000000 -0.000000000 -1.000000000 3437.dat
+0 // night2: removed wide green 2x2 (slim carrot leaves)
+1 2 277.551 -433.851 40.000000000 -0.422618262 -0.906307787 -0.000000000 -0.9063077870366499 0.42261826174069944 0 -0.000000000 -0.000000000 -1.000000000 3437.dat
+1 2 277.551 -433.851 -40.000000000 -0.422618262 -0.906307787 -0.000000000 -0.9063077870366499 0.42261826174069944 0 -0.000000000 -0.000000000 -1.000000000 3437.dat
+0 // night2: removed green plate (courseware has compact carrot top)
+0 // night2: removed green plate (courseware has compact carrot top)
+0 // night2: removed green plate (courseware has compact carrot top)
+0 // night2: removed green plate (courseware has compact carrot top)
+0 // Source page 14 is final view, adds no parts.
+0 // Carrot top hidden sandwich and ear/leg pivot seating remain inferred, not accepted.
+0 // Batch5 p11/p14: ears reclined 35deg from upright about unchanged lower pivots (48,-527,+/-40); angle inferred from finished view.
+0 // Batch5 p12-14: complete separate carrot turned 180deg about world Y, translated X=1130-oldX/Y=oldY-74.790299526/Z=-oldZ; studs face away from rabbit and top leans toward front feet. Lowest solid point at foot-bottom Y48; no paw stud connection claimed.
+0 // night4: carrot +80X (between +40 and +120)

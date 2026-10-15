@@ -1,0 +1,55 @@
+{
+  "sourceSha256": "10c6230f7159f6e014e1a54d742c54f2b3f73892866e1ebd592181075594e1f3",
+  "revision": "6bb9a2f9845eeb55bc2f6a756bdb1e72faf7ab594a9ec012ebeb799ef1c35958",
+  "reviewedAt": "2026-10-11T06:53:51.236321+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ya-mian-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "ea3612d41c3979796bd5436ca72bb1220bf56ca94f8285f38b222dd009946ced",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "e53c9f6cdf4e58f1bfd308a7f539949366d77b1f8bcb0d69e109d8276673d667",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "37c6e12a07df5bb3fb2ad3b4d8f84355329b51e6fd4e791085064706f53150dc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "f6d9d9d3e0eff3ffb75e74a48caec4e7d35aecee159b3bfc1040ce81b251865d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "1506f98bb6cc5c2b0e6340af971887975fe2183f40506b7197d38ce68a7ab67a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "0fff9417ab54c06c7c2548c032cfd3eaa073cdb75131c65d23a4ff1776f168b0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "87aaae82cd7e5aa5310b01f9b31abe55903083e1d478c972617331cad4e38ec3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "ea3612d41c3979796bd5436ca72bb1220bf56ca94f8285f38b222dd009946ced",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually screened every frame of latest D cumulative steps1-5 for10c6230f; inspected step4 original PNG and source pages4/5. Pillars, stepped supports/red rails, roller gears/axles, retainers/crank then tray accumulate visibly without blank frames or cropped components. Prior final3 review retained by matching hashes. Tray still lacks two loose shafts: candidate6521/6522 source color/length conflict remains explicit. Gear phase, source hole selection, crank-pin retention and exact shaft support unresolved; this pixel review is not physical or user acceptance."
+}

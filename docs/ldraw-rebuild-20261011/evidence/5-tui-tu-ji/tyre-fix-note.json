@@ -1,0 +1,73 @@
+{
+  "sourceSha256": "580ef7d6553dc6bf81d0f5cd95eb8018fb49659441889c0ec75f3a57bb2ea88b",
+  "change": "Outer hub and asymmetrical tyre local Z point outward; inner hub reversed at relative localZ=-40. No DAT modification, no expanded collision tolerance.",
+  "witnessLocations": [
+    {
+      "z": -23.001203020250358,
+      "radius": 23.655388492590337
+    },
+    {
+      "z": -23.004817650132665,
+      "radius": 24.000519936724487
+    },
+    {
+      "z": -23.005671111111074,
+      "radius": 23.99722749855868
+    },
+    {
+      "z": -23.005671111111074,
+      "radius": 23.65670704267899
+    },
+    {
+      "z": -23.001203020250358,
+      "radius": 23.655388492590337
+    },
+    {
+      "z": -23.004817650132665,
+      "radius": 24.000519936724487
+    },
+    {
+      "z": -23.005671111111074,
+      "radius": 23.99722749855868
+    },
+    {
+      "z": -23.005671111111074,
+      "radius": 23.65670704267899
+    },
+    {
+      "z": -23.001203020250358,
+      "radius": 23.655388492590337
+    },
+    {
+      "z": -23.004817650132665,
+      "radius": 24.000519936724487
+    },
+    {
+      "z": -23.005671111111074,
+      "radius": 23.99722749855868
+    },
+    {
+      "z": -23.005671111111074,
+      "radius": 23.65670704267899
+    },
+    {
+      "z": -23.001203020250358,
+      "radius": 23.655388492590337
+    },
+    {
+      "z": -23.004817650132665,
+      "radius": 24.000519936724487
+    },
+    {
+      "z": -23.005671111111074,
+      "radius": 23.99722749855868
+    },
+    {
+      "z": -23.005671111111074,
+      "radius": 23.65670704267899
+    }
+  ],
+  "conclusion": "Original17LDU gross radial mismatch corrected. Remaining strict mesh crossings lie around nominalR24 contact; may reflect polygon phase/press fit. Actual physical interference is unresolved, not claimed. No further center move without source evidence.",
+  "requiresNewFinalAndSteps": true,
+  "physicalValidation": false
+}

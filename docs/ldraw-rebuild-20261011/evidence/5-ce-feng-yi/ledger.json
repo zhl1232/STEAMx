@@ -1,0 +1,2653 @@
+{
+  "slug": "5-ce-feng-yi",
+  "pages": 7,
+  "source": {
+    "name": "5+测风仪搭建说明.pdf",
+    "relative_path": "5+/5+测风仪搭建说明.pdf",
+    "pages": 7,
+    "bytes": 982699,
+    "sha256": "7e4c23d30090f789ac7ee1533121fa7c4f4c88223d4966d0214736869dce1fa0",
+    "source_url": "https://pan.quark.cn/list#/docpdf/6e8b6566c5f14470b761bdb2e5b0be85",
+    "slug": "5-ce-feng-yi",
+    "lesson_id": 235,
+    "course_id": 7,
+    "localPdf": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5+\\5+测风仪搭建说明.pdf",
+    "pagesDecoded": [
+      {
+        "page": 1,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-1.jpg",
+        "sha256": "c585f2ad4f60e24a4b8d5b2e7aff1581e87361c1a1a09a6d81c297bb2e9bf257",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 2,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-2.jpg",
+        "sha256": "832c322e9dbb773fb9f277d079d3bd5de614dabc35df01948df5e795297977e0",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 3,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-3.jpg",
+        "sha256": "33abb7b5b0b246b7819c7c87608dc744a7b4aa8470bb15b25434b0ffda5b312e",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 4,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-4.jpg",
+        "sha256": "d15d1c57f3da70e00b24cd33e4f8941aa36dec685733cbdab51422c22817b409",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 5,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-5.jpg",
+        "sha256": "b8b387eae834891dc7066d0bb15afe41d3f7ae771a96804f263876d510d4fb40",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 6,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-6.jpg",
+        "sha256": "012799d2e6923bfae7cacb0ee5750d47c419c9f182598bbdddd4041bb9f8da99",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 7,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-7.jpg",
+        "sha256": "01d707e5de6a6351b83879a46daa5dd3d51ba7c3f928b91b18fa3236ad07edba",
+        "width": 1500,
+        "height": 1062
+      }
+    ],
+    "localBytesVerified": true,
+    "libraryFileId": "libfile_a51226cb6bb481919c9fca3ca46c74f4"
+  },
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "two6x12 red plates; blue12brick10x10 pad with hidden2x2void; yellow8brick8x8 pad",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "4196.dat",
+          "color": 4,
+          "position": [
+            0,
+            0,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "4196.dat",
+          "color": 4,
+          "position": [
+            0,
+            0,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-3",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -48,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pad tile placement inferred under closed yellow pad; source count12 preserved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-4",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -48,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pad tile placement inferred under closed yellow pad; source count12 preserved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-5",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pad tile placement inferred under closed yellow pad; source count12 preserved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-6",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -48,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pad tile placement inferred under closed yellow pad; source count12 preserved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-7",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            -120,
+            -48,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pad tile placement inferred under closed yellow pad; source count12 preserved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-8",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            40,
+            -48,
+            -160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pad tile placement inferred under closed yellow pad; source count12 preserved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-9",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            40,
+            -48,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pad tile placement inferred under closed yellow pad; source count12 preserved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-10",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            40,
+            -48,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pad tile placement inferred under closed yellow pad; source count12 preserved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-11",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            40,
+            -48,
+            160
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pad tile placement inferred under closed yellow pad; source count12 preserved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-12",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            120,
+            -48,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Pad tile placement inferred under closed yellow pad; source count12 preserved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-13",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            160,
+            -48,
+            -120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Pad tile placement inferred under closed yellow pad; source count12 preserved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-14",
+          "partId": "3011.dat",
+          "color": 1,
+          "position": [
+            160,
+            -48,
+            120
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Pad tile placement inferred under closed yellow pad; source count12 preserved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-15",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -96,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-16",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -96,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-17",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -96,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-18",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -96,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-19",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -96,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-20",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -96,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-21",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -96,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-22",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -96,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 22
+    },
+    {
+      "sourcePage": 2,
+      "note": "40 ordinary2x4 bricks: ten alternating red/yellow four-brick6x6 hollow rings; yellow rings offset one40LDUstud alongX relative to red, source staggered ledges",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -144,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-2",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -144,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-3",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -144,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-4",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -144,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-5",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -192,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-6",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -192,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-7",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -192,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-8",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -192,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-9",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -240,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-10",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -240,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-11",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -240,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-12",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -240,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-13",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -288,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-14",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -288,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-15",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -288,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-16",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -288,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-17",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -336,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-18",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -336,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-19",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -336,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-20",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -336,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-21",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -384,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-22",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -384,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-23",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -384,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-24",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -384,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-25",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -432,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-26",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -432,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-27",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -432,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-28",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -432,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-29",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -480,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-30",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -480,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-31",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -480,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-32",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -480,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-33",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -528,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-34",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            80,
+            -528,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-35",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -528,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-36",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -528,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-37",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            120,
+            -576,
+            -40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-38",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            80,
+            -576,
+            80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-39",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -40,
+            -576,
+            40
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-40",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            0,
+            -576,
+            -80
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Alternating ring overlaps prior layer at corners; no central infill",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 62
+    },
+    {
+      "sourcePage": 3,
+      "note": "three red2x4 cap bricks, two hole bricks; green8L mast axle and lower yellow belt wheel",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -40,
+            -624,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            40,
+            -624,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-3",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            120,
+            -624,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-4",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            40,
+            -672,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-5",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            40,
+            -720,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-6",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            40,
+            -780,
+            0
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Mast alongY; source lower insertion depth not measurable",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-7",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            40,
+            -740,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Wheel lowerface nominally at tower top; axle centerline coaxial",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 69
+    },
+    {
+      "sourcePage": 4,
+      "note": "two crossing2x10 hole beams at successive48LDU levels and upper belt wheel",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            40,
+            -808,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            40,
+            -856,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-3",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            40,
+            -876,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 72
+    },
+    {
+      "sourcePage": 5,
+      "note": "four2x10 beam extensions, eight blue2x4 plates sandwich each butt seam",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            440,
+            -808,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            240,
+            -832,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Four studs overlap each side of seam; plate24LDU, not brick48",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-3",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            240,
+            -760,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Four studs overlap each side of seam; plate24LDU, not brick48",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-4",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            40,
+            -856,
+            -400
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-5",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            40,
+            -880,
+            -200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Four studs overlap each side of seam; plate24LDU, not brick48",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-6",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            40,
+            -808,
+            -200
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Four studs overlap each side of seam; plate24LDU, not brick48",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-7",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            -360,
+            -808,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-8",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -832,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Four studs overlap each side of seam; plate24LDU, not brick48",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-9",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            -160,
+            -760,
+            0
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Four studs overlap each side of seam; plate24LDU, not brick48",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-10",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            40,
+            -856,
+            400
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-11",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            40,
+            -880,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Four studs overlap each side of seam; plate24LDU, not brick48",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-12",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            40,
+            -808,
+            200
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Four studs overlap each side of seam; plate24LDU, not brick48",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 84
+    },
+    {
+      "sourcePage": 6,
+      "note": "four short geared axles, belt wheels and red4x4 curved round cup bricks",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            600,
+            -784,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Axle through terminal beam side hole; integral gear opposite cup",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            600,
+            -784,
+            60
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-3",
+          "partId": "98220.dat",
+          "color": 4,
+          "position": [
+            600,
+            -784,
+            128
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ],
+          "support": "Round cup axis tangent to rotor; exact axle-to-cup underside retention pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-4",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            40,
+            -832,
+            -560
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Axle through terminal beam side hole; integral gear opposite cup",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-5",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            100,
+            -832,
+            -560
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-6",
+          "partId": "98220.dat",
+          "color": 4,
+          "position": [
+            168,
+            -832,
+            -560
+          ],
+          "matrix": [
+            0,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            -1,
+            0,
+            0
+          ],
+          "support": "Round cup axis tangent to rotor; exact axle-to-cup underside retention pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-7",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            -520,
+            -784,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Axle through terminal beam side hole; integral gear opposite cup",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-8",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -520,
+            -784,
+            -60
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-9",
+          "partId": "98220.dat",
+          "color": 4,
+          "position": [
+            -520,
+            -784,
+            -128
+          ],
+          "matrix": [
+            -1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0
+          ],
+          "support": "Round cup axis tangent to rotor; exact axle-to-cup underside retention pending",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-10",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            40,
+            -832,
+            560
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Axle through terminal beam side hole; integral gear opposite cup",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-11",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -20,
+            -832,
+            560
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-12",
+          "partId": "98220.dat",
+          "color": 4,
+          "position": [
+            -88,
+            -832,
+            560
+          ],
+          "matrix": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
+          ],
+          "support": "Round cup axis tangent to rotor; exact axle-to-cup underside retention pending",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 96
+    }
+  ],
+  "evidence": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-1.jpg",
+      "sha256": "c585f2ad4f60e24a4b8d5b2e7aff1581e87361c1a1a09a6d81c297bb2e9bf257",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-2.jpg",
+      "sha256": "832c322e9dbb773fb9f277d079d3bd5de614dabc35df01948df5e795297977e0",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-3.jpg",
+      "sha256": "33abb7b5b0b246b7819c7c87608dc744a7b4aa8470bb15b25434b0ffda5b312e",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-4.jpg",
+      "sha256": "d15d1c57f3da70e00b24cd33e4f8941aa36dec685733cbdab51422c22817b409",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-5.jpg",
+      "sha256": "b8b387eae834891dc7066d0bb15afe41d3f7ae771a96804f263876d510d4fb40",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-6.jpg",
+      "sha256": "012799d2e6923bfae7cacb0ee5750d47c419c9f182598bbdddd4041bb9f8da99",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-feng-yi\\page-7.jpg",
+      "sha256": "01d707e5de6a6351b83879a46daa5dd3d51ba7c3f928b91b18fa3236ad07edba",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    }
+  ],
+  "unknownIds": [],
+  "pending": [
+    "P1 hidden blue pad2x2void location/tiling inferred to satisfy source12brick count; top remains fully supported by surrounding tiles.",
+    "P3-4 central vertical axle passage and insertion depth through ordinary/hole brick top structure require mechanical review; no spinning/retention claim.",
+    "P6 red98220 official geometry matches visible4x4stud top/round underbody; underside axle retention and gear clearance remain unvalidated.",
+    "P2 source staggered red/yellow ledges restored with one-stud40LDU alternate-layer X offset. This source-view pose inference preserves studgrid and2stud-or-more overlapping support; exact hidden ring layout remains inferred, verify revised pixels."
+  ],
+  "status": "INCOMPLETE dev-only source reconstruction; awaiting render and interface validation",
+  "inventory": "9656/9090 inventory cross-check pending; source counts authoritative, not limited by single kit",
+  "verification": "awaiting raw check and main rendering",
+  "modelSha256": "c969267a91a98de950be1d2e1b3a7bcce4548fdf3af7a23f6308dc2f165b1cea",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-ce-feng-yi.ldr",
+  "totalPlacements": 96,
+  "bom": {
+    "4196.dat|4": 2,
+    "3011.dat|1": 12,
+    "3011.dat|14": 28,
+    "3011.dat|4": 23,
+    "75349.dat|4": 2,
+    "6521.dat|2": 1,
+    "6527.dat|14": 6,
+    "75350.dat|4": 6,
+    "40666.dat|1": 8,
+    "6523.dat|1": 4,
+    "98220.dat|4": 4
+  },
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "knownApproximateGeometry": [],
+  "inventoryEvidence": "inputs/inventory-evidence.json",
+  "inventoryByPart": [
+    {
+      "partId": "4196.dat",
+      "color": "Red",
+      "installedQuantity": 2,
+      "inventoryRows": [
+        {
+          "set": "9090-2",
+          "part_num": "4196",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "additionalVsSingle9656": "unknown",
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Blue",
+      "installedQuantity": 12,
+      "inventoryRows": [
+        {
+          "set": "9090-2",
+          "part_num": "3011",
+          "color": "Blue",
+          "quantity": 26
+        },
+        {
+          "set": "9076-1",
+          "part_num": "3011",
+          "color": "Blue",
+          "quantity": 4
+        }
+      ],
+      "additionalVsSingle9656": "unknown",
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Yellow",
+      "installedQuantity": 28,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "3011",
+          "color": "Yellow",
+          "quantity": 5
+        }
+      ],
+      "additionalVsSingle9656": 23,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Red",
+      "installedQuantity": 23,
+      "inventoryRows": [
+        {
+          "set": "9090-2",
+          "part_num": "3011",
+          "color": "Red",
+          "quantity": 20
+        },
+        {
+          "set": "9656-1",
+          "part_num": "3011",
+          "color": "Red",
+          "quantity": 4
+        },
+        {
+          "set": "9076-1",
+          "part_num": "3011",
+          "color": "Red",
+          "quantity": 4
+        }
+      ],
+      "additionalVsSingle9656": 19,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "75349.dat",
+      "color": "Red",
+      "installedQuantity": 2,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6517",
+          "color": "Red",
+          "quantity": 4
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim",
+      "aliasEvidence": "Official shortcut DAT directly references6515/6517 lower and6516/6518 upper; kit alias not a geometry substitution"
+    },
+    {
+      "partId": "6521.dat",
+      "color": "Green",
+      "installedQuantity": 1,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6521",
+          "color": "Green",
+          "quantity": 5
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "6527.dat",
+      "color": "Yellow",
+      "installedQuantity": 6,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6527",
+          "color": "Yellow",
+          "quantity": 15
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "75350.dat",
+      "color": "Red",
+      "installedQuantity": 6,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6515",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "additionalVsSingle9656": 4,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim",
+      "aliasEvidence": "Official shortcut DAT directly references6515/6517 lower and6516/6518 upper; kit alias not a geometry substitution"
+    },
+    {
+      "partId": "40666.dat",
+      "color": "Blue",
+      "installedQuantity": 8,
+      "inventoryRows": [
+        {
+          "set": "9090-2",
+          "part_num": "40666",
+          "color": "Blue",
+          "quantity": 12
+        }
+      ],
+      "additionalVsSingle9656": "unknown",
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "6523.dat",
+      "color": "Blue",
+      "installedQuantity": 4,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6523",
+          "color": "Blue",
+          "quantity": 4
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "98220.dat",
+      "color": "Red",
+      "installedQuantity": 4,
+      "inventoryRows": [],
+      "additionalVsSingle9656": "unknown",
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    }
+  ],
+  "sourcePageBOM": [
+    {
+      "sourcePage": 1,
+      "installed": {
+        "4196.dat|4": 2,
+        "3011.dat|1": 12,
+        "3011.dat|14": 8
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 2,
+      "installed": {
+        "3011.dat|4": 20,
+        "3011.dat|14": 20
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 3,
+      "installed": {
+        "3011.dat|4": 3,
+        "75349.dat|4": 2,
+        "6521.dat|2": 1,
+        "6527.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 4,
+      "installed": {
+        "75350.dat|4": 2,
+        "6527.dat|14": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 5,
+      "installed": {
+        "75350.dat|4": 4,
+        "40666.dat|1": 8
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 6,
+      "installed": {
+        "6523.dat|1": 4,
+        "6527.dat|14": 4,
+        "98220.dat|4": 4
+      },
+      "omitted": []
+    }
+  ],
+  "rawCheck": {
+    "exitCode": 0,
+    "rawOutput": "OK   [5-ce-feng-yi.ldr] 96 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n"
+  },
+  "pixelReviewCorrection": {
+    "previousSha": "49ce7c07677ec3a19550fdc11f3702c1012d506ff8c0bff9c79f2f6f335a3839",
+    "viewedFinal": true,
+    "viewedAllSteps": 6,
+    "change": "P2 aligned outer tower faces differed from source staggered silhouette; offset yellow layers and center upperassembly on final yellowlayer",
+    "awaitingRerender": true
+  }
+}

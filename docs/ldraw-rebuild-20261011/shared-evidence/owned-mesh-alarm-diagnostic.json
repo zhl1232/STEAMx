@@ -1,0 +1,146 @@
+{
+  "rescue-canopy-cockpit": {
+    "properSurfaceCrossingCount": 4,
+    "witnessPoints": [
+      [
+        -395.81222066333737,
+        -181.55967686476308,
+        44.071947550742536
+      ],
+      [
+        -395.8119338648847,
+        -181.560233261074,
+        44.07153983147442
+      ],
+      [
+        -395.81222066333737,
+        -181.55967686476308,
+        44.071947550742536
+      ],
+      [
+        -395.8119338648847,
+        -181.560233261074,
+        44.07153983147442
+      ]
+    ],
+    "triangleCounts": [
+      1414,
+      22892
+    ],
+    "limitation": "Not a watertight solid boolean: zero crossings alone does not exclude containment or coplanar overlap."
+  },
+  "rescue-canopy-roof": {
+    "properSurfaceCrossingCount": 2000,
+    "witnessPoints": [
+      [
+        -293.4110959142061,
+        -308.52073930269,
+        42.96154525142333
+      ],
+      [
+        -293.4110959142061,
+        -308.52073930269,
+        42.96154525142333
+      ],
+      [
+        -293.4110959142061,
+        -308.52073930269,
+        42.96154525142333
+      ],
+      [
+        -293.4110959142061,
+        -308.52073930269,
+        42.96154525142333
+      ],
+      [
+        -295.1322803413862,
+        -306.8313375264548,
+        44.363683486879175
+      ],
+      [
+        -295.1322803413862,
+        -306.8313375264548,
+        44.363683486879175
+      ]
+    ],
+    "triangleCounts": [
+      1414,
+      107244
+    ],
+    "limitation": "Not a watertight solid boolean: zero crossings alone does not exclude containment or coplanar overlap."
+  },
+  "flag-pole": {
+    "properSurfaceCrossingCount": 0,
+    "witnessPoints": [],
+    "triangleCounts": [
+      1194,
+      664
+    ],
+    "limitation": "Not a watertight solid boolean: zero crossings alone does not exclude containment or coplanar overlap."
+  },
+  "dependencySha256": {
+    "STEAMx\\scripts\\ldraw-models\\parts\\6345.dat": "0f117d48592d3254ea63c28ff6c7b0216f7d3f534a2a9615a17af7b44c9daee4",
+    "STEAMx\\scripts\\ldraw-models\\parts\\s\\6345s01.dat": "0f7799bca7f673e8927a33dc2c290dbcb7fe905e90ac2cf00fa29f31f0f4656b",
+    "render-mpd:5-16chrd.dat": "1148c9cbd1baf0501c7da42415c26dc478237060bf327e2a6b78c4b3f2bb8f5d",
+    "render-mpd:8/2-4chrd.dat": "fdf685ae0e4c1a81fc766d4951e184c4d970c19bda721ab72c84851c4f749e4e",
+    "render-mpd:3-16cylo.dat": "d2511d499b99f33dbf4d96dd7d5178b16460f617ae7f869f5f486b4fd1ef477b",
+    "render-mpd:3-16edge.dat": "bf779de4a4010ec5edb804fab0e26088f8740df75a6f72fc70e1643f191a8914",
+    "render-mpd:3-16cyli.dat": "63aaeb0fcb002974366e178e185069edf7c3c6cdf309fa12a90c273953960ac0",
+    "render-mpd:3-16chrd.dat": "d948f147d1452b65c23c834c0fb9e5ba6a14f5103b0aece1f3ca08f73113ca3f",
+    "render-mpd:3-4cylo.dat": "cf883f2b54f8bd8ea2da5523956ebd03b7e66ff5e9b4ed352c4acaf768a97b50",
+    "render-mpd:3-4edge.dat": "1016c834bd372080f5d276e71ead380e25e5f8025163029d5f20d02b0e389290",
+    "render-mpd:3-4cyli.dat": "91997a6c00a7399c6f24c11acec0aba91a89a4c54fd27758f3c5de4a2013cfac",
+    "render-mpd:1-4cylo.dat": "49b0dca9c76833969edbc429a7702607b4bd213fc391da20c4b0f3b9779f0080",
+    "render-mpd:1-4edge.dat": "564a4d84de1f89729bac127fac6a4436002d762e2d4f2a501960dd5598d4fb9a",
+    "render-mpd:1-4cyli.dat": "0b43a9eed172ef331d67e79f5fd95c71c74c69e54edb977a6c75a695ebde1adc",
+    "render-mpd:4-4ndis.dat": "afd3fbb29acfe191e296714c984a61d82fefe6928c9da2c9c2d133c246f390ef",
+    "render-mpd:1-4chrd.dat": "cb4e82f164e567e3ae46f79d9b8c3ca4b91135e45b4d7c1c68126143b990baaa",
+    "render-mpd:rect3.dat": "a47f236c01ccf72ba30bdedea0a2f5394ee8a771cf916fa943fa09ac8f6453fd",
+    "render-mpd:2-4ndis.dat": "7b1898ff2789d7142beeb23db96eaca16cb7747a70fb0537cb7456084044b0dc",
+    "render-mpd:1-8ndis.dat": "0d533e1a99fbee97591e3fa13051bf914629a18da7595fe05f6b67426b48c58e",
+    "render-mpd:rect1.dat": "67f7297ace8c2f35bb21e76afa8f6621c8bf3e90747106bc957252ecd993ed34",
+    "render-mpd:4-4cylo.dat": "299d688f63d1199c1449ef9a17b65f04ab696a2edd108029fab4255436db7cae",
+    "render-mpd:4-4edge.dat": "85218accdf8eb44cbbbf6388889aa945739c85b1b1f0a0bbcd13779944b00c86",
+    "render-mpd:4-4cyli.dat": "ee1a3edb0cbaef2e452cdef9b0236e67e2148696c202bf61bac5675a108b1f0d",
+    "render-mpd:4-4con0.dat": "8f8800dc4eb630f824f91dcee53c09b136b670178e59905c7ae5c224d9bf7987",
+    "render-mpd:1-16cylo.dat": "91ac2a4df369b312f93fe72eca610175c45c8de70bf05d91772fec0e56a9ea90",
+    "render-mpd:1-16cyli.dat": "716dde22e4df357ec84e3aee2189ea91f6b273f7f682b77a220863ff3bc9e496",
+    "render-mpd:1-16edge.dat": "8d6441a1ddf985f13483a63f2afffe9eeb37708089f238b3cd7149194e326f13",
+    "render-mpd:5-16cylo.dat": "1685097201de27b1be57be595514687403851e09df3057ced71b84a9cf4514ce",
+    "render-mpd:5-16cyli.dat": "d0969213f32d6d7c8ca2ac21eb32a225788d037aca6a1f61da7fef914ba98c11",
+    "render-mpd:5-16edge.dat": "079657485c6d81d17e35ac6223411a5cf3291df561c39092b18b58bbb36865ec",
+    "render-mpd:8/2-4cylo.dat": "3cd2a62133cebaf2f0bc5d8dc98ef95c9c26c1d28fea87609f3dc5b757dfe099",
+    "render-mpd:8/2-4edge.dat": "324beaa5ded362254647eb95c0f1146fad043ecf72385011c65b23baf5845294",
+    "render-mpd:8/2-4cyli.dat": "d173a2336f5f67648df72410a92026cdd8a82d785922420bdb273bef5e23b629",
+    "STEAMx\\scripts\\ldraw-models\\parts\\31196c01.dat": "fdaeb4874fd1039d1f1fb15da97408d6ad1e708ccfd37ffd08b20c553581c350",
+    "STEAMx\\scripts\\ldraw-models\\parts\\s\\31196c01-local-screw.dat": "013539255bc337e72bf2cc918ac0b2e0e43990c60bcedeca32336a1eb1dcb81f",
+    "render-mpd:stud7.dat": "180dd91e194e50f7590572d64d0cf20b422cabeedbf657e56ff5e9af7630bf52",
+    "render-mpd:4-4ring3.dat": "28dfd0c2d7ee2805aea43090c82c0eaac9f9b35a3010dda780a2dc09a218e825",
+    "STEAMx\\scripts\\ldraw-models\\parts\\6490.dat": "c4bdb4ba0ad00aeb5f2d6592c2b5d1ca057db2c6f1c64f52ca20da0be683ecfe",
+    "render-mpd:stud8.dat": "1c25abad08171a2fce2e9ba12b6347d5c4fa60008ccbc8f8177447e3f84057b1",
+    "render-mpd:4-4ring7.dat": "a2640114ef258abd1306a12e6c44ee1fb3db00777a3da591e90d38619f336300",
+    "render-mpd:box5.dat": "fff8a478d4808f5150f28831e3a614d7657a6830f3c59003a4bf69f33681a1f5",
+    "render-mpd:box3u2p.dat": "bd36159bfbec91b472facb86e794a98fedfa1d57a23ddc915b912e987dc621cc",
+    "render-mpd:box4-1.dat": "2c2d18e2b1e83532e806aade09e80293e0ac276a2be7888a137bc8c9902ca460",
+    "STEAMx\\scripts\\ldraw-models\\parts\\51725.dat": "c3f9e240ce2fe4f90a0986c683baf2d8944b986149801ee8d5e2193aa110a4a7",
+    "STEAMx\\scripts\\ldraw-models\\parts\\s\\51725s00.dat": "4042b48d220f2c6a79e24907ca35984b7a2321d3c0159d3deca48a8338c5c5a0",
+    "STEAMx\\scripts\\ldraw-models\\parts\\s\\51725s02.dat": "bfd0d3a1cec40aefc2ac9dedada808b1369d59bc8621e78ea0fd97798f744969",
+    "render-mpd:2-4cylo.dat": "27c21e40f9f27983d5360f62e1827a988540d6e66d67f358432c38ee9dd80809",
+    "render-mpd:2-4edge.dat": "6511a5edcf00e3292da92f8efb7118f96a38057c77c302408ffbc200920d641c",
+    "render-mpd:2-4cyli.dat": "770b3155eb745daff291b66233fe414ad09c84357ce1533c630b5a45b5c29c63",
+    "render-mpd:2-4chrd.dat": "bd6de005dfc31e89588cdbeee0629625c282028e1d2797c376fa35bde330e7a9",
+    "render-mpd:rect2a.dat": "599026765f6fe6fb01fb54567ed6106be61d914e13d1cb646ffd145815fd59ba",
+    "render-mpd:1-8cylo.dat": "c349788e355c59f187649f1978fb9103630d927e8e59b616f25489fc31d8edb2",
+    "render-mpd:1-8edge.dat": "b522e9dc121095eeec17e066cc0c16ed9d7e6ff3fde483bef1c36b39a248970e",
+    "render-mpd:1-8cyli.dat": "bf41b9f3d5c66097062f16217f2879f58217f2e4f57085c75b32fcba792fb017",
+    "STEAMx\\scripts\\ldraw-models\\parts\\p\\1-8chrd.dat": "fdd22f8c7da6b6cc1dccec40fb900dd9382b8de0bd27844df6a8be82f8905116",
+    "render-mpd:rect.dat": "bbe9e72c9af2f17b2b1cf84576d344ced5eba4f53f818409de758e801b98259a",
+    "STEAMx\\scripts\\ldraw-models\\parts\\s\\51725s01.dat": "2e53930f0d571ab69575d767833150ebb82fd20fff9807b0dad7995f99380d07",
+    "STEAMx\\scripts\\ldraw-models\\parts\\51708.dat": "a99d79b88a1e1c1b2447974619aa5d63419dd3008797e51fcbc61d87daab7160",
+    "render-mpd:stud28.dat": "2bf18d8018f7235f11924f780326cba26b06f5d24ecba5a6cf17593bb9ba4006",
+    "render-mpd:4-4con1.dat": "a756e203b939c424ea1424bba9424621b30525d2ac61a68dc4fe1b05a6f4f0d2",
+    "render-mpd:4-4disc.dat": "ea4bc4347526c2b116a9ed0873d16ba0d4f8fcea60a0f2f5503278b8aab4231a",
+    "render-mpd:8-8sphe.dat": "58b82aa5eb6396397c1192f73ad93d90669696c1ef824ffc0cdfefbb70361442",
+    "render-mpd:1-8sphe.dat": "56f0a3a39cf524edd9c637e84213aced270f841878b5b09b673efa9ba638958e"
+  }
+}

@@ -1,0 +1,296 @@
+{
+  "slug": "5-ge-cao-ji",
+  "modelSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+  "reviewedAt": "2026-10-11T11:57:02.578Z",
+  "originalCheck": {
+    "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-ge-cao-ji.ldr",
+    "sha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+    "exit": 2,
+    "output": "\nFAIL [5-ge-cao-ji.ldr] 2 error(s), 52 placement(s):\n  - step 6: 5-ge-cao-ji_l39 overlaps 5-ge-cao-ji_l37; 5-ge-cao-ji_l39 overlaps 5-ge-cao-ji_l38\n  - step 6: 5-ge-cao-ji_l42 overlaps 5-ge-cao-ji_l40; 5-ge-cao-ji_l42 overlaps 5-ge-cao-ji_l41\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+    "stableDuringCheck": true
+  },
+  "alarms": [
+    {
+      "lines": [
+        37,
+        39
+      ],
+      "step": 6,
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "sourceSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+      "placements": [
+        {
+          "page": 6,
+          "line": 37,
+          "id": "6527.dat",
+          "color": 14,
+          "transform": [
+            -200,
+            -57,
+            -60,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "page": 6,
+          "line": 39,
+          "id": "6292.dat",
+          "color": 0,
+          "transform": [
+            -200,
+            -57,
+            -100,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        }
+      ],
+      "classification": "confirmed_mesh_surface_crossing_known_parts",
+      "reason": "Sourcep6 specifies two6527 per6292. Actual current recursive DAT strict surface intersections=52. Positive establishes mesh crossing; zero does not exclude coplanarity/containment. Neither is a physical acceptance result.",
+      "resolution": "retained-unresolved-not-clear",
+      "accepted": false,
+      "meshEvidence": {
+        "path": "preparation/5-ge-cao-ji/tyre-triangles.json",
+        "sourceSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+        "strictSurfaceCrossingTrianglePairs": 52
+      }
+    },
+    {
+      "lines": [
+        38,
+        39
+      ],
+      "step": 6,
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "sourceSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+      "placements": [
+        {
+          "page": 6,
+          "line": 38,
+          "id": "6527.dat",
+          "color": 14,
+          "transform": [
+            -200,
+            -57,
+            -100,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "page": 6,
+          "line": 39,
+          "id": "6292.dat",
+          "color": 0,
+          "transform": [
+            -200,
+            -57,
+            -100,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        }
+      ],
+      "classification": "raw_alarm_not_confirmed_by_strict_surface_test",
+      "reason": "Sourcep6 specifies two6527 per6292. Actual current recursive DAT strict surface intersections=0. Positive establishes mesh crossing; zero does not exclude coplanarity/containment. Neither is a physical acceptance result.",
+      "resolution": "retained-unresolved-not-clear",
+      "accepted": false,
+      "meshEvidence": {
+        "path": "preparation/5-ge-cao-ji/tyre-triangles.json",
+        "sourceSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+        "strictSurfaceCrossingTrianglePairs": 0
+      }
+    },
+    {
+      "lines": [
+        40,
+        42
+      ],
+      "step": 6,
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "sourceSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+      "placements": [
+        {
+          "page": 6,
+          "line": 40,
+          "id": "6527.dat",
+          "color": 14,
+          "transform": [
+            -200,
+            -57,
+            60,
+            -1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        {
+          "page": 6,
+          "line": 42,
+          "id": "6292.dat",
+          "color": 0,
+          "transform": [
+            -200,
+            -57,
+            100,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "classification": "confirmed_mesh_surface_crossing_known_parts",
+      "reason": "Sourcep6 specifies two6527 per6292. Actual current recursive DAT strict surface intersections=52. Positive establishes mesh crossing; zero does not exclude coplanarity/containment. Neither is a physical acceptance result.",
+      "resolution": "retained-unresolved-not-clear",
+      "accepted": false,
+      "meshEvidence": {
+        "path": "preparation/5-ge-cao-ji/tyre-triangles.json",
+        "sourceSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+        "strictSurfaceCrossingTrianglePairs": 52
+      }
+    },
+    {
+      "lines": [
+        41,
+        42
+      ],
+      "step": 6,
+      "parts": [
+        "6527.dat",
+        "6292.dat"
+      ],
+      "sourceSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+      "placements": [
+        {
+          "page": 6,
+          "line": 41,
+          "id": "6527.dat",
+          "color": 14,
+          "transform": [
+            -200,
+            -57,
+            100,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "page": 6,
+          "line": 42,
+          "id": "6292.dat",
+          "color": 0,
+          "transform": [
+            -200,
+            -57,
+            100,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "classification": "raw_alarm_not_confirmed_by_strict_surface_test",
+      "reason": "Sourcep6 specifies two6527 per6292. Actual current recursive DAT strict surface intersections=0. Positive establishes mesh crossing; zero does not exclude coplanarity/containment. Neither is a physical acceptance result.",
+      "resolution": "retained-unresolved-not-clear",
+      "accepted": false,
+      "meshEvidence": {
+        "path": "preparation/5-ge-cao-ji/tyre-triangles.json",
+        "sourceSha256": "be7d30f4d162762dbb9919e7da76866ad358e6e2a50be7a1ba7f4bd3946a537c",
+        "strictSurfaceCrossingTrianglePairs": 0
+      }
+    }
+  ],
+  "rawPairCount": 4,
+  "matrixReview": {
+    "maximumOrthogonalityError": 0,
+    "maximumDeterminantError": 0
+  },
+  "sourceEvidence": "preparation/5-ge-cao-ji/ledger.json",
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "limitations": [
+    "The blade is a source toy gear disc, not functional cutting hardware. Vertical spindle and horizontal crown gear use visible source axes; tooth phase/contact and bore clearance are not physically verified.",
+    "6527/6292 asymmetric tyre cavity risk retained; actual mesh triangle check will be recorded separately.",
+    "Handle upright endpoint spacing400 LDU, support-axle spacing120 LDU; 6526 integral pins enter neighbouring40LDU beam layers. Axial locks and loaded handle stiffness remain provisional.",
+    "p9 flower count12 comes from BOM. Lawn is24x24 and flower distribution is illustrative from two source views; exact coordinates of occluded flowers are not asserted."
+  ],
+  "accepted": false,
+  "userConfirmed": false,
+  "physicalValidation": false,
+  "checkerPassIsNotConnectionAcceptance": true,
+  "currentPixels": "current final3 and all9 cumulative steps actually reviewed; see current-pixel-review.json",
+  "pixelReviewFile": "preparation/5-ge-cao-ji/current-pixel-review.json"
+}

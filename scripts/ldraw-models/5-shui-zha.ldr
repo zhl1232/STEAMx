@@ -1,0 +1,167 @@
+0 5-shui-zha - source-based dev-only reconstruction
+0 Name: 5-shui-zha.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // BATCH2 page11-15 review: both existing non-BOM ropes connect top pulley grooves to gate hooks. Old audit screenshot predates rope geometry. Schematic routes retained; manual linkage review remains.
+0 // INCOMPLETE: source-based draft; other unresolved interfaces remain recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: Sidebuilt6x12gate:14yellow2x4plates,6bluebricks,2redholepegs,back6x12plate
+1 14 -160 -88 -48 1 0 0 0 0 -1 0 1 0 40666.dat
+1 14 0 -88 -48 1 0 0 0 0 -1 0 1 0 40666.dat
+1 14 160 -88 -48 1 0 0 0 0 -1 0 1 0 40666.dat
+1 14 -80 -248 -48 1 0 0 0 0 -1 0 1 0 40666.dat
+1 14 80 -248 -48 1 0 0 0 0 -1 0 1 0 40666.dat
+1 14 -200 -208 -48 0 0 1 1 0 0 0 1 0 40666.dat
+1 14 200 -208 -48 0 0 1 1 0 0 0 1 0 40666.dat
+1 14 -160 -88 48 1 0 0 0 0 1 0 -1 0 40666.dat
+1 14 0 -88 48 1 0 0 0 0 1 0 -1 0 40666.dat
+1 14 160 -88 48 1 0 0 0 0 1 0 -1 0 40666.dat
+1 14 -80 -248 48 1 0 0 0 0 1 0 -1 0 40666.dat
+1 14 80 -248 48 1 0 0 0 0 1 0 -1 0 40666.dat
+1 14 -200 -208 48 0 0 -1 1 0 0 0 -1 0 40666.dat
+1 14 200 -208 48 0 0 -1 1 0 0 0 -1 0 40666.dat
+1 1 -160 -88 -24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 1 0 -88 -24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 1 160 -88 -24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 1 -200 -208 -24 0 0 1 1 0 0 0 1 0 3011.dat
+1 1 200 -208 -24 0 0 1 1 0 0 0 1 0 3011.dat
+1 1 0 -248 -24 1 0 0 0 0 -1 0 1 0 3011.dat
+1 4 -120 -288 -24 0 0 1 1 0 0 0 1 0 75349.dat
+1 4 120 -288 -24 0 0 1 1 0 0 0 1 0 75349.dat
+1 4 0 -168 72 1 0 0 0 0 1 0 -1 0 4196.dat
+0 STEP
+0 // Source page 2: Front6x12plate closesframe
+1 4 0 -168 -72 1 0 0 0 0 -1 0 1 0 4196.dat
+0 STEP
+0 // Source page 3: 24x24base andtwo2layerUguidefeet
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 4 -280 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 280 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 280 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 320 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 320 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 240 -96 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // Source page 4: Threeadditionalguide layers
+1 4 -280 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 280 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 280 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -192 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -192 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -192 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 320 -192 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 320 -192 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 240 -192 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -192 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -280 -240 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 280 -240 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 280 -240 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 5: Fouradditionalguide layers
+1 1 -320 -288 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -288 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -288 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -288 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 320 -288 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 320 -288 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 240 -288 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -288 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -280 -336 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -336 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 280 -336 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 280 -336 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -384 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -384 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -384 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -384 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 320 -384 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 320 -384 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 240 -384 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 240 -384 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -280 -432 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -280 -432 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 280 -432 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 280 -432 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 6: 4x8limeguidecaps and10studheaderpair
+1 27 -280 -456 0 0 0 1 0 1 0 -1 0 0 4672.dat
+1 27 280 -456 0 0 0 1 0 1 0 -1 0 0 4672.dat
+1 4 -200 -504 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 200 -504 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // Source page 7: Eightblue4studheaderclamps
+1 1 -280 -504 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -280 -504 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -320 -552 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -240 -552 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -504 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 280 -504 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -552 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 320 -552 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 8: Center24LDUunderplate andtwoyellow4studbrick riser
+1 14 0 -456 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 0 -552 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -600 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 9: Officialgearbox withworm,24T andtwogray6Laxles
+1 15 0 -600 0 1 0 0 0 1 0 0 0 1 31624.dat
+1 7 0 -672 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 1 0 -672 0 0 0 1 0 1 0 -1 0 0 31625.dat
+1 7 0 -768 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 4 0 -768 0 1 0 0 0 1 0 0 0 1 6529.dat
+0 STEP
+0 // Source page 10: Inputcrank andretainer
+1 14 -100 -672 0 0 -1 0 0 0 -1 1 0 0 6526.dat
+1 14 100 -672 0 0 0 1 0 1 0 -1 0 0 6527.dat
+0 STEP
+0 // Source page 11 - Rope preparation / assembly; non-BOM schematic route.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // Groove departure uses effective radius 35.6536 at local Z=9 (6527 mesh); schematic radius 3 LDU.
+0 // ROPE ENDPOINTS: (10.950999, -734.069854, -89) -> (122, -390, -60) LDU.
+1 0 10.950999 -734.069854 -89 2.854983 111.049001 -0.073674 -0.92145 344.069854 -0.228268 0 29 2.990396 s/steamx-rope.dat
+0 // ROPE ENDPOINTS: (-10.624324, -733.96615, 89) -> (-118, -390, 60) LDU.
+1 0 -10.624324 -733.96615 89 2.863709 -107.375676 -0.071715 0.893962 343.96615 0.22973 0 -29 2.990331 s/steamx-rope.dat
+0 STEP
+0 // Source page 12: Twooutputpulleys andtwoofficialhooks from2xassembly callout
+1 14 0 -768 -80 -1 0 0 0 1 0 0 0 -1 75536.dat
+1 14 0 -768 80 1 0 0 0 1 0 0 0 1 75536.dat
+1 14 -118 -390 60 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
+1 14 122 -390 -60 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
+0 STEP
+0 // Source page 13: Placehookassemblies perfront/backsourceview;nocountduplication
+0 STEP
+0 // Source page 14: Twogray6Lpegaxles andfourretainers
+1 7 -120 -288 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -120 -288 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -120 -288 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 120 -288 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 120 -288 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 120 -288 100 1 0 0 0 1 0 0 0 1 6527.dat
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // PENDING: P1 yellow14 pieces identifiedthin40666 fromBOM/profile; totalgate144LDUdepth fits160LDUguide slot,8LDUeachside. Blueframe/hiddenseams inferred withsourcecounts.
+0 // PENDING: GuideU4x8 arrangement matchesred3bricks/blue2bricks+2squares perlayer; sourcehiddenbond inferred,sourceforward/backslot preserved.
+0 // PENDING: 31624 actuallowerX(-72)/upperZ(-168) interfaces used; worm/gear phase andinput/outputretention unverified.
+0 // PENDING: Hooksactual4663,sourcefront/back layout preserved but cordpaths/pegcapture exactseat unresolved.
+0 // Source page 15: finished view, no duplicated placements.

@@ -1,0 +1,27 @@
+{
+  "slug": "5-fan-chuan",
+  "sourceSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
+  "checkpointSha256": "b29eb7f846a926c54599d55eda541ed74a63b6fd22de8809b7e71282812606f3",
+  "stableSinceCheckpoint": true,
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 0,
+  "rawOutput": "OK   [5-fan-chuan.ldr] 107 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarms": [],
+  "unreportedManualRisks": [
+    {
+      "classification": "real_risk",
+      "description": "Six mast rods are omitted; sails/pulleys/worm connectors are shown without complete structural mast support.",
+      "reportedByRawChecker": false
+    },
+    {
+      "classification": "insufficient_evidence",
+      "description": "6521 versus6522 rod lengths and end coupling unresolved; no axle overlap invented to force fit.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "sourceModified": false,
+  "physicalValidation": false,
+  "overallAcceptance": false,
+  "method": "Each actual raw alarm reviewed against source image and real DAT geometry. No alarm is inferred for manual-policy parts; rawPASS is not structural/physical acceptance."
+}

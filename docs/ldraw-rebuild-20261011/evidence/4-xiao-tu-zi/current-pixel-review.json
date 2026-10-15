@@ -1,0 +1,95 @@
+{
+  "sourceSha256": "03cf5c97a231318dc0cd2d3fafc5a206a75bcca1b756a090f4bfcad2f70550f6",
+  "revision": "7d041650503807614b9036de54c592657cc2c41d8a863b4a65f6070c374312bc",
+  "reviewedAt": "2026-10-11T05:46:55.326661+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-xiao-tu-zi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "b0b4070075076a55db87a68f745c0dac7e62d4392566f1e67c1683d9f7008913",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "30b86662629dc9019edc96452185f8d3bfc68d36c2ae29062533b0e030564c73",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "7f35b27c29bdd77ad39df474edbcd1b4961d61d0bc256b8316f1c47261c2efbe",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "0382cd8743daee9efac4b7022b2c3746f9dcc40b3fb63f9f1e28e1af4b5e7829",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "8ff27149cfe47f9bd84dcfa0fbc99edde2cfeef3bb9114f56a7b134ed1d78b7c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "5b47a16a352278526b6e5802f53ce59d60f5d566a5df4f7e93c471dc2e3c8d7e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "1701e7dd62de24228ac607e097bb98e123c652a54d5df11c8574159461242469",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "0dc1b31e310d833790610216101305a9d094812a23fc76f28ef806d485367e9f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "45b85fd26ec6754edfc36f0f0a6684b0af7e83420c89cccb644ba68f542f3002",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "6d7af531aa8bc687889f93d132d2dc33dbd69a50b58ba23d8e9ef4c0a5ecd902",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "bc3594486ccd64a2ffb1511081cc9ebcd54391056ff151a6b1ec130b8747d382",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "7e156fc4dc53b9226e7b6529a2d228495ffa669fb3db33c2f24c1e8bfb331946",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "3675a3233d6114208b2a41ebde20f9254b4c7c9feb5ac68ef91c3ba2ff9fb67d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "2769aefd23a2e2a143928ced84cbe49ba55934972792d70afe2cd95249499803",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "0763959b98a780402c79e7bb33a57b7108f3874cf033386139d3cc50ce23acf1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-13",
+      "sha256": "b0b4070075076a55db87a68f745c0dac7e62d4392566f1e67c1683d9f7008913",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually screened new D-drive full-bbox final3 and all13 cumulative step contact cells; inspected original iso-rear for grey ear-base/yellow-head interface. No framing crop, blank stage, or obvious new ear/head penetration observed. Step12-13 carrot is a deliberate independent source accessory. Dev short arms and existing Toolo parts remain approximate; hidden screw engagement, foot support, and carrot leaf sandwich are inferred and not physically validated. This is pixel evidence, not human acceptance."
+}

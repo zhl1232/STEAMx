@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "38a00ef6285bf348d611c68d5b662100b877cfb82daf3d2f01788029d212e270",
+  "revision": "d63cf52b29b29ed79f84cbfd24e94c690aaf73a4fa2474c45c5b8317d77d33ce",
+  "reviewedAt": "2026-10-11T07:13:36.592625+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-ji-guan-qiang",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "e79c8731561d5e995f892e60be5cdf86b40e55030b094c851a7ec864c375c612",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "03001a5847617d2637442b940ad671074d9cd0aa30474e26140f6e603d3d7c53",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "20c9aaf39b2785a214a56a4e0d30b62b10daba19c54a374eadd006aff2d89911",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "9890e2087ec72e35a59c2a96c1c84015770de44c34dd305375dff76fd51019fa",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "129d825a319c1fefce6438705a13d188ff6d20bcf6b144651745dfed9a64e359",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "655a6a00573763316931bbb837ecd75e6c7f07e1d2158054fd67e887e5b59834",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "429ff75631bc460dd59e992861a24d16d264286d684f8ab94f24b8a70c8f62b6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "4d61080dde82fe02b47710ce41b7e7db705094164058ab207b1eb9a7cb06a843",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "c0bdcfef5ea3e67a8708979f85de0666134378e2bd62e3ff624768c5fe43bf14",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "2195d2617c0c91b96e44e9f1c7af3245319e9bb638cf998717449cff8b532c73",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "40e8fb2da762fc407cd5403d960df773e378e0151bb05a91ae1179b485108711",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "2e3189b147d7bae405a4f2fa0c911eb30db7402d9559cddea29236bc62393514",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "2e3189b147d7bae405a4f2fa0c911eb30db7402d9559cddea29236bc62393514",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "19f79326f97911caa3cf3ff13e14828c0cbc94bcdf405e6f3c8a8e17a981d6f7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "e79c8731561d5e995f892e60be5cdf86b40e55030b094c851a7ec864c375c612",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected all12 cumulative step cells and compared source p8/p13 plus earlier source-page evidence. Stages1-9 show base/turntable/cradle/handles/decorative barrel; stage10 intentionally unchanged because2223 omitted; stage11 capplates and12 real14094 bucket appear. No blank or cropped stages. Temporary lower-bridge handling, barrel support and manual joint fit remain unverified; missing2223 persists. Current final3 review retained; no acceptance."
+}

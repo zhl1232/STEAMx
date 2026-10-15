@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "146a2e5788cef0a710bd4846217701ebcfa7b0a0bcf2b639226dd21f1ea9667a",
+  "revision": "9f4ae1ccee7b0406163727527dd51a7c513f7ef2b951d079e0157d03f1f05cbf",
+  "reviewedAt": "2026-10-11T05:47:36.858942+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-ping-heng-cheng",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "b9d62a17f4b6e6c6b88f2d7f1d858066b752ef7bb567239cb9bc277d9e9c99a7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "38cdf9e80e0251dd7c57e3e7c5e7845f07930f96d37a1830c878f29fbb82cb4c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "b7f91702ce1ac8c6fa88a635a3407c1d874fd7d10d669718a94d406cf3b3a998",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "828189ec951b13b4a8a8e9e001e8bad2964b944b4372ef5cc34742ec3eb8dbc5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "da2ee0ed85bf396e981c12466f2260c67a6098a6ca857696d52e57c53983e5ca",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "410d294d71b720d3da33832f861262417800a7c877346a553cfce9d03225efd3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "f3ff86da6198b544689952f7f33039beebd394e3d580dce663c150945c14aac5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "109ce51b2b0da1045b264afb3e39c559d7394c038bb6bebe5488ecb1583108c6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "761b99369ed371fe299db97a003d52d46f982271d94b5f2c60eaaa85f06f33c1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "9c9c87cbed4424b0c7eab2bb70d4816c7b3dac1ab41e3532a4f5205543526a9d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "fabfe0f72111503bb87df491a97db19aa5ee0d400874865a00b96f37f9297290",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "b9d62a17f4b6e6c6b88f2d7f1d858066b752ef7bb567239cb9bc277d9e9c99a7",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Viewed both D-drive contact sheets: iso, iso-rear, top and cumulative steps 1-9; also inspected original iso-rear.png for rear tray/crank/beam connections. Entire base, beam endpoints and tray guardrails fit frame; cumulative additions agree with previously reviewed source pages. No newly visible gap/intersection found. Occluded axle capture, movement clearance, load-bearing and balance behavior are not physically validated. Renderer-verified only; pending user confirmation. Supersedes cropped-camera evidence for this exact source/revision."
+}

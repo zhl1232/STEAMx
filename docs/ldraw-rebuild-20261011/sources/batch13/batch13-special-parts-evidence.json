@@ -1,0 +1,1970 @@
+{
+  "at": "2026-10-11T12:51:32.535726+00:00",
+  "scope": "Independent source pixel/real localDAT/header/inventory evidence. No sharedparts/model modifications; no physicalacceptance",
+  "sourceImages": [
+    {
+      "slug": "5-sheng-jiang-dian-ti",
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-05.jpg",
+      "sha256": "506a7af2f7967eb9cc04e49debc225b43ad69593ccedfa93d605ad3cfe160899",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-sheng-jiang-dian-ti",
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-06.jpg",
+      "sha256": "268ac486c0bafa2b4dea8759d4acdc250de4efce8a32dea4742ee5f3da2871f7",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-sheng-jiang-dian-ti",
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-07.jpg",
+      "sha256": "5f42882f7ca7a39ef994f18c6f6d83d016a5518b4562d92013c946e207985179",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-sheng-jiang-dian-ti",
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-08.jpg",
+      "sha256": "57abe378c46a52f22a91386d6a30359e7355c488ddaee5127388a1afed59dce1",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-sheng-jiang-dian-ti",
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-10.jpg",
+      "sha256": "fb6f02589a9125b008a41e4e487d8cc4113a6f70fc285d493aab99976556c0cb",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-sheng-jiang-dian-ti",
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-12.jpg",
+      "sha256": "e9c058bb0294a7d4a3f896b2f21e061b486be787f0945860a524b990e2b313d3",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-sheng-jiang-dian-ti",
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-13.jpg",
+      "sha256": "1d930af443e33091ba0cc49915f5f27896405304961df6664a8aaf05b4988de0",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-sheng-jiang-dian-ti",
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-14.jpg",
+      "sha256": "0d3cdd07f8b50b7db2aae2d8f26b74be7f422c39faa91bfdc2a58c8c523172fc",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-re-qi-qiu",
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-re-qi-qiu\\page-02.jpg",
+      "sha256": "add4a91a750b3a0a50a459afaacabf8695f3ca15a970a56b7d4a6a708799b541",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-re-qi-qiu",
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-re-qi-qiu\\page-10.jpg",
+      "sha256": "26a497d39554a64893187885960f159d6b3f8784d1111251640eeca3939456a2",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-re-qi-qiu",
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-re-qi-qiu\\page-11.jpg",
+      "sha256": "5c6a93d16c272691b72863902fef11cbe45ee63536a39473a172a0868c0fc0a3",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-re-qi-qiu",
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-re-qi-qiu\\page-12.jpg",
+      "sha256": "067f1944c02eaf9bebc337e666bad4ecbf155233a4b2f2b10cee21f48d02744d",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-re-qi-qiu",
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-re-qi-qiu\\page-13.jpg",
+      "sha256": "c22d1327bb377cb944abc2db912e5b9a6c1427b8e6d5f37050bbd63158276f72",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-qi-dian-chuan",
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qi-dian-chuan\\page-1.jpg",
+      "sha256": "185dcdfd8f2806bac95624ec8884076981c45a8a0f4f26e8f8f85d5970c39ec2",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-qi-dian-chuan",
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qi-dian-chuan\\page-4.jpg",
+      "sha256": "0e4a312ac448cb642f05106562c93e5dfb5ef0cf0985f794de3afa3ed790c89c",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-qi-dian-chuan",
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qi-dian-chuan\\page-5.jpg",
+      "sha256": "2d28d35e9c1e9bc362806c9a5b7607d3cb56632a213daa3026a792fdf7243c06",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-qi-dian-chuan",
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qi-dian-chuan\\page-6.jpg",
+      "sha256": "0a583382919bfae8162354e7827d21dbc656d9ca1bd4a3a34f07edcfde67f69a",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-qi-dian-chuan",
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qi-dian-chuan\\page-7.jpg",
+      "sha256": "8e789853c3f9d40b22696d2bca5d1528f361f2dd2cb2cd4d7c86174dadad2ec0",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-qing-sao-che",
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qing-sao-che\\page-06.jpg",
+      "sha256": "f1d5c9eabecd05090df98d479c5965604a1311e69b1ed053aed61ccfb0cda5ba",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-qing-sao-che",
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qing-sao-che\\page-12.jpg",
+      "sha256": "4ad77bc8708d7f287af2cff5c7f1c92b0755e1b6b3351542ca0c0df0399111fa",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-qiu-qian",
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qiu-qian\\page-5.jpg",
+      "sha256": "9c520af1abfc60073c0f36bcd0222ede3572ccd44962c4cd2af3e87d9bc1d59d",
+      "actuallyViewed": true
+    },
+    {
+      "slug": "5-qiu-qian",
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-qiu-qian\\page-9.jpg",
+      "sha256": "506929dd0a3a8f828c189146d7d6ffb578cd46f361a8b750ad42a99e93c57efa",
+      "actuallyViewed": true
+    }
+  ],
+  "files": {
+    "31625.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\31625.dat",
+      "sha256": "5ab61278f8b7c3164bd8dc806aca4a22bd242629030add1d59531abfb4662439",
+      "headers": [
+        "0 Name: 31625.dat",
+        "0 !LDRAW_ORG Part UPDATE 2019-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4cylo.dat",
+        "4-4cylo.dat",
+        "4-4ring7.dat",
+        "4-4ring7.dat",
+        "1-8cylo.dat",
+        "1-8cylo.dat",
+        "box2-5.dat",
+        "box2-5.dat",
+        "box2-5.dat",
+        "box2-5.dat",
+        "3-16chrd.dat",
+        "3-16edge.dat",
+        "1-8edge.dat",
+        "3-16chrd.dat",
+        "3-16edge.dat",
+        "3-16chrd.dat",
+        "3-16edge.dat",
+        "1-8edge.dat",
+        "3-16chrd.dat",
+        "3-16edge.dat",
+        "1-8cylo.dat",
+        "1-8cylo.dat",
+        "box2-5.dat",
+        "box2-5.dat",
+        "box2-5.dat",
+        "box2-5.dat",
+        "3-16chrd.dat",
+        "3-16edge.dat",
+        "1-8edge.dat",
+        "3-16chrd.dat",
+        "3-16edge.dat",
+        "3-16chrd.dat",
+        "3-16edge.dat",
+        "1-8edge.dat",
+        "3-16chrd.dat",
+        "3-16edge.dat"
+      ]
+    },
+    "4-4cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4cylo.dat",
+      "sha256": "d6ca97ee2e75918b3309a5c88aafcd2455b3a316f7cef8963517c19f1d86b38f",
+      "headers": [
+        "0 Name: 4-4cylo.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat"
+      ]
+    },
+    "4-4edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4edge.dat",
+      "sha256": "54a52196e421fd1717d291ff52ea57553b1fb238907c1678cc1f1a84c698b1da",
+      "headers": [
+        "0 Name: 4-4edge.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4cyli.dat",
+      "sha256": "4a742c2765b6ebf98245baaf8a160a4ff587fc93d36c8ee2b9074712a2f968c4",
+      "headers": [
+        "0 Name: 4-4cyli.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4ring7.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4ring7.dat",
+      "sha256": "67b27c082eec7286888ac427f11db06c5eca6c9bcec76c7e2b2014841afa83f3",
+      "headers": [
+        "0 Name: 4-4ring7.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-8cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-8cylo.dat",
+      "sha256": "870bbbf6052e075598de7dce7efe7a139ea5189820e7a296442fe2b3318c18bf",
+      "headers": [
+        "0 Name: 1-8cylo.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "1-8edge.dat",
+        "1-8edge.dat",
+        "1-8cyli.dat"
+      ]
+    },
+    "1-8edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-8edge.dat",
+      "sha256": "50436a0bce461198c342dccbccb658a1bffae13e44b7c48689b158c946c2c2ab",
+      "headers": [
+        "0 Name: 1-8edge.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-8cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-8cyli.dat",
+      "sha256": "46def63dc8293ad9a2dd1d1a5cb720b9ba883850e65d3280d2093c664a6140c4",
+      "headers": [
+        "0 Name: 1-8cyli.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "box2-5.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\box2-5.dat",
+      "sha256": "8f297b754f87da1dbe19eec8704a5ce03a23b794ccd7cd015508e3758a206174",
+      "headers": [
+        "0 Name: box2-5.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2003-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-16chrd.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-16chrd.dat",
+      "sha256": "2bb493e8b5b56a5d63bfa7356a0ed5d6403a68e5e9a983e13a57541783ad19c1",
+      "headers": [
+        "0 Name: 3-16chrd.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-16edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-16edge.dat",
+      "sha256": "c08dd83bb7fe90b61f7cd0b10ebef0d9a9ba33b497676dedd2e2e968cb8248f9",
+      "headers": [
+        "0 Name: 3-16edge.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "31196c01.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\31196c01.dat",
+      "sha256": "a36fee129b2ff06af9a983f07ec1430c717e751ccf5c4cd0685b3928b108f708",
+      "headers": [
+        "0 Name: 31196c01.dat",
+        "0 !LDRAW_ORG Unofficial_Part",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "s/31196c01-local-screw.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "stud7.dat",
+        "s/31196c01-local-screw.dat"
+      ]
+    },
+    "s/31196c01-local-screw.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\s\\31196c01-local-screw.dat",
+      "sha256": "7b3c0700fd3c5d5248976012f4f9afc1d54cb3d1e00a3b92114dab27443a850d",
+      "headers": [
+        "0 Name: s/31196c01-local-screw.dat",
+        "0 !LDRAW_ORG Unofficial_Subpart",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "stud7.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\stud7.dat",
+      "sha256": "250111864bb2492a8722544d1f09b5e45672ba3f8e93be769b77499e7ea3fb1a",
+      "headers": [
+        "0 Name: stud7.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4ring3.dat",
+        "4-4cylo.dat",
+        "4-4cylo.dat"
+      ]
+    },
+    "4-4ring3.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4ring3.dat",
+      "sha256": "1f2835ac308154edc2d6f479d8e742a55be981f6167b20bfa100c195bc0731dd",
+      "headers": [
+        "0 Name: 4-4ring3.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "6345.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\6345.dat",
+      "sha256": "58d36994073c27ed1dbd8fad58382acd302d281aa7e3f76efaa1447b9725e179",
+      "headers": [
+        "0 Name: 6345.dat",
+        "0 !LDRAW_ORG Part UPDATE 2023-05",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "s\\6345s01.dat",
+        "s\\6345s01.dat",
+        "rect1.dat",
+        "4-4cylo.dat",
+        "4-4con0.dat",
+        "4-4ndis.dat",
+        "1-16cylo.dat",
+        "3-16cylo.dat",
+        "1-4cylo.dat",
+        "5-16cylo.dat",
+        "8\\2-4cylo.dat"
+      ]
+    },
+    "s/6345s01.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\s\\6345s01.dat",
+      "sha256": "2d0bcf43911c18fcb2d4f0a711cdeca6a43a80e246986f9bb34f5ff4a065184f",
+      "headers": [
+        "0 Name: s\\6345s01.dat",
+        "0 !LDRAW_ORG Subpart UPDATE 2023-05",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "5-16chrd.dat",
+        "8\\2-4chrd.dat",
+        "3-16cylo.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "3-16cylo.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "3-4cylo.dat",
+        "1-4cylo.dat",
+        "4-4ndis.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "rect3.dat",
+        "1-4chrd.dat",
+        "2-4ndis.dat",
+        "1-8ndis.dat",
+        "1-8ndis.dat",
+        "rect3.dat"
+      ]
+    },
+    "5-16chrd.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\5-16chrd.dat",
+      "sha256": "53926ed51a8b6757ef36240cd7520ac1f8db16e4650e3618a09d8146f89ddd98",
+      "headers": [
+        "0 Name: 5-16chrd.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "8/2-4chrd.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\8\\2-4chrd.dat",
+      "sha256": "2caebc5de687f190e7ef2f25724665284bf0139e4db42844d0e2691128b9c0ea",
+      "headers": [
+        "0 Name: 8\\2-4chrd.dat",
+        "0 !LDRAW_ORG 8_Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-16cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-16cylo.dat",
+      "sha256": "a5c8370842299035a9cc14308301614c6fb169fb873a7950c888928cd8d9181c",
+      "headers": [
+        "0 Name: 3-16cylo.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2013-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "3-16edge.dat",
+        "3-16edge.dat",
+        "3-16cyli.dat"
+      ]
+    },
+    "3-16cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-16cyli.dat",
+      "sha256": "f50d12a37a22ae4a5f37a017b8e39d1e729577b0a4aa376ca685b210806b49c8",
+      "headers": [
+        "0 Name: 3-16cyli.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-4cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-4cylo.dat",
+      "sha256": "b7ff6f92e06cea3815be42f757f17cd28350f2a4ff18dd1a11de0db3626ec44b",
+      "headers": [
+        "0 Name: 3-4cylo.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2011-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "3-4edge.dat",
+        "3-4edge.dat",
+        "3-4cyli.dat"
+      ]
+    },
+    "3-4edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-4edge.dat",
+      "sha256": "d7f5aff979bc227b601abbb8e0226d6055d08eafb5faaf507b3055f712cd4c04",
+      "headers": [
+        "0 Name: 3-4edge.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-4cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-4cyli.dat",
+      "sha256": "4a54732476cf4eaad2c9f7b40a3cef24db025132004328e4e84c0666cd217533",
+      "headers": [
+        "0 Name: 3-4cyli.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-4cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-4cylo.dat",
+      "sha256": "792a01362608c3f385dd7f01a1bd7d19cf9ed8a40f793266345cc86d1d98f3af",
+      "headers": [
+        "0 Name: 1-4cylo.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "1-4edge.dat",
+        "1-4edge.dat",
+        "1-4cyli.dat"
+      ]
+    },
+    "1-4edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-4edge.dat",
+      "sha256": "9ce2de7e67bbac575d52cfdc771b9d00856efc9b88002d97db8e665e50f4d467",
+      "headers": [
+        "0 Name: 1-4edge.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-4cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-4cyli.dat",
+      "sha256": "5a7168952a5a3570327873b9a5802fa7b3be40967ab78c03b6a2bfd4419a1f10",
+      "headers": [
+        "0 Name: 1-4cyli.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4ndis.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4ndis.dat",
+      "sha256": "21202dc15823f4336bc2544244d0b539b76745c89f7a59ad18cdd03ad45cc543",
+      "headers": [
+        "0 Name: 4-4ndis.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-4chrd.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-4chrd.dat",
+      "sha256": "ccba3a97b5cc358754e476b78b4ce61cce5f404cd15e37471b73df3e81784aec",
+      "headers": [
+        "0 Name: 1-4chrd.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2023-05",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "rect3.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\rect3.dat",
+      "sha256": "07ac46908b6668d993b6de0fb001a34cd996542106b80ebc7de63317d8dde865",
+      "headers": [
+        "0 Name: rect3.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2-4ndis.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4ndis.dat",
+      "sha256": "7557eae598be3f530b840471535198e6b07b03486ffbcc18a00e862c3d25d925",
+      "headers": [
+        "0 Name: 2-4ndis.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-8ndis.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-8ndis.dat",
+      "sha256": "97e394834789794c8635261fa604ad8e69b4c6872d0cd8d7506408b80023f408",
+      "headers": [
+        "0 Name: 1-8ndis.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "rect1.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\rect1.dat",
+      "sha256": "48fdcd3181587b4bdc89d356a5aee21268688f3f2fcdd4d6f5c1a3d49b1a1ceb",
+      "headers": [
+        "0 Name: rect1.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4con0.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4con0.dat",
+      "sha256": "b9e568215ff9786203c7d8e7ee4b7f99b72222a097c7663c732c4ecae77eaf9c",
+      "headers": [
+        "0 Name: 4-4con0.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-16cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-16cylo.dat",
+      "sha256": "6cef884c4f96ec15f5bd1428264af2efba4443cb1e47ead116a8a094febefc67",
+      "headers": [
+        "0 Name: 1-16cylo.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2014-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "1-16cyli.dat",
+        "1-16edge.dat",
+        "1-16edge.dat"
+      ]
+    },
+    "1-16cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-16cyli.dat",
+      "sha256": "b60f031d9dfd0995c1741992a5695ee3789419886e8189dead961d05f75f7bfc",
+      "headers": [
+        "0 Name: 1-16cyli.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-16edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-16edge.dat",
+      "sha256": "42fc4d69af1281b71cb2eb9546e99e8bca2fc231d05a0379e71d4e1c9a60c95c",
+      "headers": [
+        "0 Name: 1-16edge.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "5-16cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\5-16cylo.dat",
+      "sha256": "3468b4f9bf29026d7266da964f4298eea5d4bfa30f09d80e11abfb39cc9df797",
+      "headers": [
+        "0 Name: 5-16cylo.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2013-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "5-16cyli.dat",
+        "5-16edge.dat",
+        "5-16edge.dat"
+      ]
+    },
+    "5-16cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\5-16cyli.dat",
+      "sha256": "3a46e175cd13f2343645b5ba1be54f1f2fdf446cf28392383d511d85eaa7665a",
+      "headers": [
+        "0 Name: 5-16cyli.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "5-16edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\5-16edge.dat",
+      "sha256": "17a9ae47e68e98286d27fc7be4a48e1110d1cae0d3abff658f3378a552857fc3",
+      "headers": [
+        "0 Name: 5-16edge.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "8/2-4cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\8\\2-4cylo.dat",
+      "sha256": "cf7a9969c8d7396d17966b65c8ea48ea36445e98580dc76d18e5aa1fc5afd54f",
+      "headers": [
+        "0 Name: 8\\2-4cylo.dat",
+        "0 !LDRAW_ORG 8_Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "8\\2-4edge.dat",
+        "8\\2-4cyli.dat",
+        "8\\2-4edge.dat"
+      ]
+    },
+    "8/2-4edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\8\\2-4edge.dat",
+      "sha256": "3154ed3f142d644552b2533457c13c56ef326b0f7d31ea425585d6cdde2a3129",
+      "headers": [
+        "0 Name: 8\\2-4edge.dat",
+        "0 !LDRAW_ORG 8_Primitive UPDATE 2016-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "8/2-4cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\8\\2-4cyli.dat",
+      "sha256": "9e5869a3bf444fcda1cc9908ef96ce782b53fc68f94eaf6903a0dbca6c582215",
+      "headers": [
+        "0 Name: 8\\2-4cyli.dat",
+        "0 !LDRAW_ORG 8_Primitive UPDATE 2016-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "31021p01.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\31021p01.dat",
+      "sha256": "d31be5a8b9c85733c3e992a9c6f25580e75e90d7c1742e38a6c14392f2baacb1",
+      "headers": [
+        "0 Name: 31021p01.dat",
+        "0 !LDRAW_ORG Part UPDATE 2010-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "stud7.dat",
+        "stud7.dat",
+        "box5.dat",
+        "box5.dat",
+        "box5.dat",
+        "box5.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "box.dat",
+        "box.dat",
+        "box.dat",
+        "box.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "rect.dat",
+        "box4.dat",
+        "box4.dat",
+        "box5.dat",
+        "box5.dat",
+        "box5.dat",
+        "box5.dat",
+        "box5.dat",
+        "box5.dat",
+        "box5.dat",
+        "box5.dat"
+      ]
+    },
+    "box5.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\box5.dat",
+      "sha256": "ccb7b8a1d36692335b10ea6aa196849afcad4b15331683ed8112a10b50977318",
+      "headers": [
+        "0 Name: box5.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "rect.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\rect.dat",
+      "sha256": "ffeb2dd3d9b83c38841f18f1f74800fbba9e90c5fb6badfff2a795f08a96cb71",
+      "headers": [
+        "0 Name: rect.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "box.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\box.dat",
+      "sha256": "03017649e3f7d5a4546c098d82d8088820d565a91de934fb1be8a297ca9d6f17",
+      "headers": [
+        "0 Name: box.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2002-05",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "box4.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\box4.dat",
+      "sha256": "72e1169ec1b2f11d44a6aaf6e87e15ec82a6cb35b5c56dcf7b1185d6b8b954aa",
+      "headers": [
+        "0 Name: box4.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4663.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\4663.dat",
+      "sha256": "f46190bd1202d61315334de27fc1a067025ef3b631a7aab8a7a0053e78055f51",
+      "headers": [
+        "0 Name: 4663.dat",
+        "0 !LDRAW_ORG Part UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "7-8cyli.dat",
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4cylc.dat",
+        "4-4ring3.dat",
+        "3-4cylo.dat",
+        "3-4chrd.dat",
+        "3-4ring3.dat",
+        "1-4chrd.dat",
+        "4-4cyli.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "1-4cyls.dat",
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4ndis.dat",
+        "2-4ndis.dat",
+        "4-4edge.dat",
+        "4-4ndis.dat",
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "2-4cylc.dat",
+        "2-4ring1.dat",
+        "2-4cylc.dat",
+        "2-4ring1.dat",
+        "rect2p.dat",
+        "2-4cylc.dat",
+        "2-4ring1.dat",
+        "2-4cylc.dat",
+        "2-4ring1.dat",
+        "rect2p.dat",
+        "1-4cylc.dat",
+        "rect2p.dat",
+        "1-4cylo.dat",
+        "1-4ndis.dat",
+        "1-4ndis.dat",
+        "rect1.dat",
+        "1-4cylc.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "1-16cylo.dat",
+        "1-16edge.dat",
+        "1-16ring2.dat",
+        "1-16ring2.dat",
+        "1-16cylo.dat",
+        "1-16cylo.dat",
+        "1-16ring4.dat",
+        "1-16ring4.dat",
+        "1-16cylo.dat",
+        "1-16cylo.dat",
+        "2-4cylo.dat",
+        "1-16cylo.dat",
+        "2-4cylo.dat",
+        "1-16cylo.dat",
+        "1-4cylc.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "1-4cylc.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect2p.dat",
+        "rect3.dat",
+        "1-16edge.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "1-16cylo.dat",
+        "1-16cylo.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "2-4cylc.dat",
+        "2-4ring1.dat",
+        "2-4cylo.dat",
+        "2-4ring3.dat",
+        "1-16cylo.dat",
+        "1-16ring3.dat",
+        "2-4cylo.dat",
+        "3-8ring6.dat",
+        "1-16cylo.dat",
+        "3-16ring6.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "2-4cylc.dat",
+        "2-4ring1.dat",
+        "2-4cylo.dat",
+        "2-4ring3.dat",
+        "1-16cylo.dat",
+        "1-16ring3.dat",
+        "2-4cylo.dat",
+        "3-8ring6.dat",
+        "1-16cylo.dat",
+        "3-16ring6.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "3-16chrd.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "1-8edge.dat",
+        "1-8edge.dat"
+      ]
+    },
+    "7-8cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\7-8cyli.dat",
+      "sha256": "65877ef8bdc2f6162bc5db53d62e6bde48349969e3370afa99623e082d6eee23",
+      "headers": [
+        "0 Name: 7-8cyli.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4cylc.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4cylc.dat",
+      "sha256": "0183cffc7f56a2f3e5e3511f0d07ac484d3039c2d41bee802a94344ec95ec8bd",
+      "headers": [
+        "0 Name: 4-4cylc.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4edge.dat",
+        "4-4edge.dat",
+        "4-4disc.dat",
+        "4-4cyli.dat"
+      ]
+    },
+    "4-4disc.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4disc.dat",
+      "sha256": "a00b5547776f61a7389d303616987c76b3c4de86ad8ec32f22857e1bd5e5e40f",
+      "headers": [
+        "0 Name: 4-4disc.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2002-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-4chrd.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-4chrd.dat",
+      "sha256": "0d6ab4757a7825257f175b7eb5457897bb93487d3b1b938e1ca0ab760fb8ed9a",
+      "headers": [
+        "0 Name: 3-4chrd.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2015-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-4ring3.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-4ring3.dat",
+      "sha256": "540acda3cc2567820cbba2ea67320bab8c80a99cc94d974cf70b58c1c32573cd",
+      "headers": [
+        "0 Name: 3-4ring3.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-4cyls.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-4cyls.dat",
+      "sha256": "aaee6ffe6e4a191d6cad4496677132eb0349303d6e48c13c7a2240dcea1db621",
+      "headers": [
+        "0 Name: 1-4cyls.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2-4edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4edge.dat",
+      "sha256": "665400f76566b161c28303cdadce40d17d979a8ff9a8a133675af2d17fbe6763",
+      "headers": [
+        "0 Name: 2-4edge.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2-4cylo.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4cylo.dat",
+      "sha256": "f68766ac03c28204320ae288bc10450627c09baaf14e003eceeda5a8e203f22f",
+      "headers": [
+        "0 Name: 2-4cylo.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-03",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4cyli.dat"
+      ]
+    },
+    "2-4cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4cyli.dat",
+      "sha256": "d486780f0f84893899d9eadcd13150f13a42e15e77a3cda38cdf24ded98862c6",
+      "headers": [
+        "0 Name: 2-4cyli.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2-4cylc.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4cylc.dat",
+      "sha256": "b172c10584f59fa091f454276ecd5c0c707eba007934a23ccac9307007b1a1e9",
+      "headers": [
+        "0 Name: 2-4cylc.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "2-4edge.dat",
+        "2-4edge.dat",
+        "2-4disc.dat",
+        "2-4cyli.dat"
+      ]
+    },
+    "2-4disc.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4disc.dat",
+      "sha256": "dcb05df95858362d5d6581c2ad7cf92e7e054cab60e580a2240ae043b07b9f2c",
+      "headers": [
+        "0 Name: 2-4disc.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2002-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2-4ring1.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4ring1.dat",
+      "sha256": "a04bfc7ffeeb56f92a83aaa60429939e896facb5a407f93a50f24fd1b2b1706d",
+      "headers": [
+        "0 Name: 2-4ring1.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2003-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "rect2p.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\rect2p.dat",
+      "sha256": "faac2b36241a9de0c0108471e59c45734df6c79813332d9cacf97f6391886acc",
+      "headers": [
+        "0 Name: rect2p.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-4cylc.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-4cylc.dat",
+      "sha256": "fdcb54ba2e2731cbb86ea6b2fddb25c7dda060a7780629a72003e0278805dd30",
+      "headers": [
+        "0 Name: 1-4cylc.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "1-4edge.dat",
+        "1-4edge.dat",
+        "1-4disc.dat",
+        "1-4cyli.dat"
+      ]
+    },
+    "1-4disc.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-4disc.dat",
+      "sha256": "cf481d56b2c13dc2a6bcfe5eadb6577f2435b3f2f50fcdca199be76525d773ca",
+      "headers": [
+        "0 Name: 1-4disc.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2002-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-4ndis.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-4ndis.dat",
+      "sha256": "ff6685838636e7ab6152356d8f09e4f00a38af0d878b0881423f5c45fb868f0c",
+      "headers": [
+        "0 Name: 1-4ndis.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-16ring2.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-16ring2.dat",
+      "sha256": "c8fd7bff229ffc832496ae5e7e1bcbb0c246629abbf72a660699772ab87d91a6",
+      "headers": [
+        "0 Name: 1-16ring2.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-16ring4.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-16ring4.dat",
+      "sha256": "9a5cc68e4201eff6d1172793a09a9b11f6ded5fe41c3cd9042a8dc4648831042",
+      "headers": [
+        "0 Name: 1-16ring4.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2-4ring3.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4ring3.dat",
+      "sha256": "83daf728f0285b7471139e3fd5335603e548300307c0bb8615a4d3f76ca8dde0",
+      "headers": [
+        "0 Name: 2-4ring3.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-16ring3.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-16ring3.dat",
+      "sha256": "fc42cc8def33dca0ba2bf372688e5c373d54783041e693ec6ed79da5974e48b7",
+      "headers": [
+        "0 Name: 1-16ring3.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-8ring6.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-8ring6.dat",
+      "sha256": "0cf20ca63e4428e0c7e6c9b54933845d1354b584546b53304455235012457477",
+      "headers": [
+        "0 Name: 3-8ring6.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-16ring6.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-16ring6.dat",
+      "sha256": "d022cec8faeaf430893137b3c0fc5b31eccfa5aba98571cefc7f785507a63335",
+      "headers": [
+        "0 Name: 3-16ring6.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "47203p03.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\47203p03.dat",
+      "sha256": "8abe47b8a51fb78b49adeb2cae925bd01b565e8401ed59f91bbf68c0ce199597",
+      "headers": [
+        "0 Name: 47203p03.dat",
+        "0 !LDRAW_ORG Part UPDATE 2022-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "s\\47203s01.dat",
+        "1-8cyli.dat",
+        "1-8cyli.dat",
+        "3-16cyli.dat"
+      ]
+    },
+    "s/47203s01.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\s\\47203s01.dat",
+      "sha256": "240e779804fc0b38cfb357a541b43ca17fbc9e0877c13449da93d183fbef5cba",
+      "headers": [
+        "0 Name: s\\47203s01.dat",
+        "0 !LDRAW_ORG Subpart UPDATE 2022-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "1-4edge.dat",
+        "1-4chrd.dat",
+        "1-4edge.dat",
+        "1-4chrd.dat",
+        "4-4edge.dat",
+        "1-8cylo.dat",
+        "1-8ndis.dat",
+        "4-4ndis.dat",
+        "4-4cylo.dat",
+        "4-4ndis.dat",
+        "4-4cylo.dat",
+        "4-4ndis.dat",
+        "rect.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "rect.dat",
+        "rect3.dat",
+        "rect2p.dat",
+        "1-4ndis.dat",
+        "3-8edge.dat",
+        "1-4ndis.dat",
+        "3-8edge.dat",
+        "3-8cyli.dat",
+        "3-8cyli.dat",
+        "4-4ndis.dat",
+        "1-4cyli.dat",
+        "1-8sphe.dat",
+        "1-4cyli.dat",
+        "1-8cyli.dat",
+        "4-4ndis.dat",
+        "4-4cylo.dat",
+        "4-4cylo.dat",
+        "4-4ring3.dat",
+        "4-4con4.dat",
+        "4-4cylo.dat",
+        "4-4ring4.dat",
+        "4-4cylo.dat",
+        "4-4ndis.dat",
+        "rect.dat",
+        "rect2a.dat",
+        "rect2a.dat",
+        "rect2a.dat",
+        "rect1.dat",
+        "1-4edge.dat",
+        "1-4chrd.dat",
+        "1-4edge.dat",
+        "1-4chrd.dat",
+        "4-4edge.dat",
+        "1-8cylo.dat",
+        "1-8ndis.dat",
+        "4-4ndis.dat",
+        "4-4cylo.dat",
+        "4-4ndis.dat",
+        "4-4cylo.dat",
+        "4-4ndis.dat",
+        "rect.dat",
+        "rect2a.dat",
+        "rect3.dat",
+        "rect2a.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "rect1.dat",
+        "1-4ndis.dat",
+        "3-8edge.dat",
+        "1-4ndis.dat",
+        "3-8edge.dat",
+        "3-8cyli.dat",
+        "3-8cyli.dat",
+        "4-4ndis.dat",
+        "1-4cyli.dat",
+        "1-8sphe.dat",
+        "1-8cyli.dat"
+      ]
+    },
+    "3-8edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-8edge.dat",
+      "sha256": "a590f230678d592d514a9c5e307c6a30945e50e4c529fc06accf37530d0e0ed5",
+      "headers": [
+        "0 Name: 3-8edge.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-8cyli.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-8cyli.dat",
+      "sha256": "9224d4e5edc6f5b0f75f6fa358fd1368a4fd65f676b74fe1bb6e3bbb05046206",
+      "headers": [
+        "0 Name: 3-8cyli.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2005-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-8sphe.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-8sphe.dat",
+      "sha256": "635e0daee43d2c6a5839efb4ed5b4845c0b8ca830fcb4e97b4ffd98659d8ac55",
+      "headers": [
+        "0 Name: 1-8sphe.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-03",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4con4.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4con4.dat",
+      "sha256": "7d83c25b45efa93af88e5b544badb4b26b2d6e86818ef5f8ca4be653a6c30293",
+      "headers": [
+        "0 Name: 4-4con4.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4ring4.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4ring4.dat",
+      "sha256": "e046737f05ca843c7fc32bbfe9f5b26f3409c5b42b786d8809aa789faf761154",
+      "headers": [
+        "0 Name: 4-4ring4.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "rect2a.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\rect2a.dat",
+      "sha256": "6d75ffb88e705a35f34e095ec0848a7bb70b577a376fdae05804da214b0d6369",
+      "headers": [
+        "0 Name: rect2a.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "47198p03.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\47198p03.dat",
+      "sha256": "cb5e3ed1e170b954000eb696f8a8d78ff3c304d6f9f4910c5dc571f59079c6e8",
+      "headers": [
+        "0 Name: 47198p03.dat",
+        "0 !LDRAW_ORG Part UPDATE 2022-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "s\\47198s01.dat",
+        "s\\47198s02.dat"
+      ]
+    },
+    "s/47198s01.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\s\\47198s01.dat",
+      "sha256": "8a9b91a75f162e2d28297f776b574ab12f443721ea99f7a287ac83ec6b3f8ca7",
+      "headers": [
+        "0 Name: s\\47198s01.dat",
+        "0 !LDRAW_ORG Subpart UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "5-8edge.dat",
+        "5-8disc.dat",
+        "4-4edge.dat",
+        "3-8cyli.dat",
+        "3-8edge.dat",
+        "3-8disc.dat",
+        "4-4cyli.dat",
+        "4-4edge.dat",
+        "rect.dat",
+        "rect3.dat",
+        "5-16cylo.dat",
+        "1-8cylo.dat",
+        "5-16cylo.dat",
+        "1-8cylo.dat",
+        "4-4cylc.dat",
+        "4-4cylo.dat",
+        "4-4cyli.dat",
+        "4-4disc.dat",
+        "4-4edge.dat",
+        "5-16ring2.dat",
+        "5-16ring8.dat",
+        "1-8ring2.dat",
+        "1-8ring8.dat",
+        "5-16ring2.dat",
+        "5-16ring8.dat",
+        "1-8ring2.dat",
+        "1-8ring8.dat",
+        "rect.dat"
+      ]
+    },
+    "5-8edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\5-8edge.dat",
+      "sha256": "ecac980b3e5486dda1363611cd2cbba5e3309b2fccc255363b6d9858f00ce583",
+      "headers": [
+        "0 Name: 5-8edge.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "5-8disc.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\5-8disc.dat",
+      "sha256": "2fe9d3a64c5aef0a4eed15b9f303d82636fcde14aee741a968cc885ea293e0ad",
+      "headers": [
+        "0 Name: 5-8disc.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-8disc.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-8disc.dat",
+      "sha256": "08ad1f7fd7666355123258217bfcfaf92da91487fbd49e0a60ad07f3cd467327",
+      "headers": [
+        "0 Name: 3-8disc.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "5-16ring2.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\5-16ring2.dat",
+      "sha256": "c6268787eafe45d5082db9a27d11c384ff85c7844c566b4f1dcfc071920cd214",
+      "headers": [
+        "0 Name: 5-16ring2.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "5-16ring8.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\5-16ring8.dat",
+      "sha256": "9dbab639a3edea4452e3b8a10982d9594111545cefab8549d51e768bb5f606ad",
+      "headers": [
+        "0 Name: 5-16ring8.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2020-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-8ring2.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-8ring2.dat",
+      "sha256": "e455551969062c34d061d1b74df9b18f63deffb3efdbeb175a4a80a674f5ff68",
+      "headers": [
+        "0 Name: 1-8ring2.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2024-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-8ring8.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-8ring8.dat",
+      "sha256": "6166b3c447f674cfb20d21eb4fcaa5e3c0ab20d9aee25a1c6d981f38ec09e496",
+      "headers": [
+        "0 Name: 1-8ring8.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "s/47198s02.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\s\\47198s02.dat",
+      "sha256": "ac92ec74c5ab55e026a1562bdae8235f1c557fefd6c7391a0df8c2265b31ab7f",
+      "headers": [
+        "0 Name: s\\47198s02.dat",
+        "0 !LDRAW_ORG Subpart UPDATE 2022-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4cyli.dat",
+        "4-4edge.dat",
+        "4-4disc.dat",
+        "4-4edge.dat",
+        "4-4disc.dat"
+      ]
+    },
+    "47206p01.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\47206p01.dat",
+      "sha256": "e42abcb06a228459e46938918e0398c445ba261c142b99f3a8bfc3bf40284a40",
+      "headers": [
+        "0 Name: 47206p01.dat",
+        "0 !LDRAW_ORG Part UPDATE 2022-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "s\\47206s01.dat",
+        "s\\47206s01.dat"
+      ]
+    },
+    "s/47206s01.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\s\\47206s01.dat",
+      "sha256": "1e965b7cf23fa09e80ebc6758fdb85fd8f65b478630f417d403308dd27f025e2",
+      "headers": [
+        "0 Name: s\\47206s01.dat",
+        "0 !LDRAW_ORG Subpart UPDATE 2022-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "2-4cylo.dat",
+        "2-4cylo.dat",
+        "2-4ring5.dat",
+        "2-4ring3.dat",
+        "2-4cylo.dat",
+        "2-4ring3.dat",
+        "2-4cylo.dat",
+        "2-8sphe.dat",
+        "2-8sphe.dat",
+        "2-4edge.dat",
+        "2-4chrd.dat",
+        "2-4edge.dat"
+      ]
+    },
+    "2-4ring5.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4ring5.dat",
+      "sha256": "acf918ddea2d0d23ce7f01c344709dec8763bceccc1edafb704f4611fcb43753",
+      "headers": [
+        "0 Name: 2-4ring5.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2-8sphe.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-8sphe.dat",
+      "sha256": "c87d9b56c4ea5e6acbb40340a555bd4905710ff6d5b1a56639165becda5de87c",
+      "headers": [
+        "0 Name: 2-8sphe.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2003-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2-4chrd.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4chrd.dat",
+      "sha256": "1d467b20e425d329fa4831d5734b9b677afee1f16e07d907403ef94dadd81fec",
+      "headers": [
+        "0 Name: 2-4chrd.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2014-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "47205.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\47205.dat",
+      "sha256": "34ad25c4a266f7b17ded77a04bf8c312b5d9a7e5ccdf7ad047b60c7150f8f016",
+      "headers": [
+        "0 Name: 47205.dat",
+        "0 !LDRAW_ORG Part UPDATE 2022-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "s\\47205s01.dat",
+        "s\\47205s01.dat",
+        "s\\47205s02.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat"
+      ]
+    },
+    "s/47205s01.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\s\\47205s01.dat",
+      "sha256": "7e8fb8516af8bc51bed2cc4f85384cb3680c78e89aabdb9f8815addfea30d88a",
+      "headers": [
+        "0 Name: s\\47205s01.dat",
+        "0 !LDRAW_ORG Subpart UPDATE 2022-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4cylo.dat",
+        "2-4cylc.dat",
+        "2-4cyli.dat",
+        "t02o4286.dat",
+        "2-4disc.dat",
+        "2-4edge.dat",
+        "2-4ring4.dat",
+        "rect3.dat",
+        "1-4cyli.dat",
+        "1-16cyli.dat",
+        "1-16edge.dat",
+        "1-4cyli.dat",
+        "1-8cyli.dat",
+        "1-8chrd.dat",
+        "1-8edge.dat",
+        "5-16edge.dat",
+        "5-16chrd.dat",
+        "4-4ndis.dat",
+        "rect1.dat",
+        "4-4ndis.dat",
+        "rect2a.dat",
+        "3-16cylo.dat",
+        "3-16chrd.dat",
+        "rect.dat",
+        "3-16chrd.dat",
+        "rect2a.dat",
+        "1-16edge.dat",
+        "1-16edge.dat"
+      ]
+    },
+    "t02o4286.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\t02o4286.dat",
+      "sha256": "affa0fee64dfb9a61d4ad3817c36686abf01fb2450775a8d4fa3d415fe148d9c",
+      "headers": [
+        "0 Name: t02o4286.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2018-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "2-4ring4.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4ring4.dat",
+      "sha256": "d9675f0dce5ac65cf1100b4dfaf01cc0561a8913e4899d8860a86c352b73ab04",
+      "headers": [
+        "0 Name: 2-4ring4.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-8chrd.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-8chrd.dat",
+      "sha256": "7694157b725563188a6efd69b3f558b00533b375b8a4e82f469497a03e471e74",
+      "headers": [
+        "0 Name: 1-8chrd.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2023-05",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "s/47205s02.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\s\\47205s02.dat",
+      "sha256": "9358967a119e3cb349f37e4b6dc906115e234a1f6739099d4b8025d9190cc860",
+      "headers": [
+        "0 Name: s\\47205s02.dat",
+        "0 !LDRAW_ORG Subpart UPDATE 2022-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "5-16cyli.dat",
+        "3-16cyls.dat",
+        "5-16cyli.dat",
+        "3-16cyls.dat",
+        "2-4cyli.dat"
+      ]
+    },
+    "3-16cyls.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-16cyls.dat",
+      "sha256": "166309d0dba474780d13a812b58b952b790512f6036dbfb93cf43ab53401be0a",
+      "headers": [
+        "0 Name: 3-16cyls.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "47204.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\47204.dat",
+      "sha256": "31b646768bd0f55c880c8bc2cadf8538be62d8dc060c06e907f1e67a4137273f",
+      "headers": [
+        "0 Name: 47204.dat",
+        "0 !LDRAW_ORG Part UPDATE 2022-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "s\\47204s01.dat",
+        "s\\47204s01.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect2p.dat",
+        "rect1.dat",
+        "rect1.dat",
+        "rect2p.dat"
+      ]
+    },
+    "s/47204s01.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\s\\47204s01.dat",
+      "sha256": "d79b01b840913629f02478becff1773aa4cef95bac1410aff9b865b9f4a08859",
+      "headers": [
+        "0 Name: s\\47204s01.dat",
+        "0 !LDRAW_ORG Subpart UPDATE 2022-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "1-4con0.dat",
+        "4-4edge.dat",
+        "4-4ndis.dat",
+        "4-4edge.dat",
+        "4-4cyli.dat",
+        "4-4cyls.dat",
+        "1-4chrd.dat",
+        "1-4edge.dat",
+        "2-4cylo.dat",
+        "2-4ndis.dat",
+        "2-4ndis.dat",
+        "rect.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "rect.dat",
+        "rect2p.dat",
+        "rect.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "1-4cylo.dat",
+        "1-4chrd.dat",
+        "1-4chrd.dat",
+        "rect1.dat",
+        "1-4cylo.dat",
+        "3-4ndis.dat",
+        "1-4ring1.dat",
+        "rect3.dat",
+        "rect.dat",
+        "rect3.dat",
+        "rect2a.dat",
+        "rect3.dat",
+        "rect3.dat",
+        "rect1.dat"
+      ]
+    },
+    "1-4con0.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-4con0.dat",
+      "sha256": "d7527d5e31775fe7a45993d56b656fe5b67298bb226ce9b455d35bf3868ddfab",
+      "headers": [
+        "0 Name: 1-4con0.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4cyls.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4cyls.dat",
+      "sha256": "ca950cd575e4b49c4bf67c63c586471c10275ac831ce0e590cbb810593fbb486",
+      "headers": [
+        "0 Name: 4-4cyls.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "3-4ndis.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\3-4ndis.dat",
+      "sha256": "c343cdb5d839040d346818adc6aa39586338c5b0a6a9d2ab7162c60e4caba5f0",
+      "headers": [
+        "0 Name: 3-4ndis.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "1-4ring1.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\1-4ring1.dat",
+      "sha256": "5d34b5bae7e8a8f7c7100d61e8cf2e4c2d7a4758edeee66911d968114bed9cad",
+      "headers": [
+        "0 Name: 1-4ring1.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "47207.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\47207.dat",
+      "sha256": "ab779f3077bb7b138bb6a009b4ad27f34dd04ee9ff2e437e5854d6b20cc6ff35",
+      "headers": [
+        "0 Name: 47207.dat",
+        "0 !LDRAW_ORG Part UPDATE 2018-02",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "4-4cylc.dat",
+        "4-4cylc.dat",
+        "4-4cylo.dat",
+        "4-4rin10.dat",
+        "4-4rin10.dat"
+      ]
+    },
+    "4-4rin10.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4rin10.dat",
+      "sha256": "27049129625b7166ec82e54fb9e69e9e17e03df4b47962ba885e996e341c9159",
+      "headers": [
+        "0 Name: 4-4rin10.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-03",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "47199.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\47199.dat",
+      "sha256": "45f077702f1a974e0d15d2227f744168188a162382f54c5013e400c60d97f452",
+      "headers": [
+        "0 Name: 47199.dat",
+        "0 !LDRAW_ORG Part UPDATE 2022-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "s\\47199s01.dat",
+        "s\\47199s01.dat",
+        "4-4cylo.dat",
+        "4-4ring2.dat",
+        "4-4cylo.dat",
+        "4-4con2.dat",
+        "4-4edge.dat",
+        "4-4ring8.dat",
+        "4-4cylo.dat",
+        "8\\4-8sphe.dat",
+        "8\\4-4edge.dat",
+        "8\\4-8sphe.dat",
+        "8\\4-4edge.dat",
+        "8\\4-8sphe.dat",
+        "8\\4-4edge.dat",
+        "8\\4-8sphe.dat",
+        "8\\4-4edge.dat"
+      ]
+    },
+    "s/47199s01.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\parts\\s\\47199s01.dat",
+      "sha256": "929877cd310be35b06ce11047d9723c55ceed9f9f08a11987972a1af75d21cbf",
+      "headers": [
+        "0 Name: s\\47199s01.dat",
+        "0 !LDRAW_ORG Subpart UPDATE 2022-02",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "2-4chrd.dat",
+        "2-4edge.dat",
+        "2-4cyli.dat",
+        "2-4edge.dat",
+        "2-4con0.dat"
+      ]
+    },
+    "2-4con0.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\2-4con0.dat",
+      "sha256": "a74d82aec7f856cc294d7707dd69ebd68f1d1947fc9b0f9801003a70a7e57c82",
+      "headers": [
+        "0 Name: 2-4con0.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2010-03",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4ring2.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4ring2.dat",
+      "sha256": "139356afc4b0289687767438580880c830e96210e1ceab27e8f537415a3b6133",
+      "headers": [
+        "0 Name: 4-4ring2.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2009-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4con2.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4con2.dat",
+      "sha256": "e411fd1903615ad0d1a7c10ff9f6bacd114e46a3e06a3bd0d68693b3e469b846",
+      "headers": [
+        "0 Name: 4-4con2.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "4-4ring8.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\4-4ring8.dat",
+      "sha256": "9701c3b35792f1f8d3fac6f9d0351260aea293ff60761c5d485175fba2b8d038",
+      "headers": [
+        "0 Name: 4-4ring8.dat",
+        "0 !LDRAW_ORG Primitive UPDATE 2012-01",
+        "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "8/4-8sphe.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\8\\4-8sphe.dat",
+      "sha256": "0a6b5a5c00775408d85626f74cff40b3e0a940e0e0aa0a809383d053e1974b2c",
+      "headers": [
+        "0 Name: 8\\4-8sphe.dat",
+        "0 !LDRAW_ORG 8_Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": [
+        "8\\1-8sphe.dat",
+        "8\\1-8sphe.dat",
+        "8\\1-8sphe.dat",
+        "8\\1-8sphe.dat"
+      ]
+    },
+    "8/1-8sphe.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\8\\1-8sphe.dat",
+      "sha256": "e3227b1d5255603bae9963eb4f5c464063743d62f78acccb712008358b47f6f7",
+      "headers": [
+        "0 Name: 8\\1-8sphe.dat",
+        "0 !LDRAW_ORG 8_Primitive UPDATE 2017-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    },
+    "8/4-4edge.dat": {
+      "path": "STEAMx\\scripts\\ldraw-models\\p\\8\\4-4edge.dat",
+      "sha256": "af15f29b74742a37356fed18a64c005e053980b391aa743ea1c52f56388c0487",
+      "headers": [
+        "0 Name: 8\\4-4edge.dat",
+        "0 !LDRAW_ORG 8_Primitive UPDATE 2016-01",
+        "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt"
+      ],
+      "refs": []
+    }
+  },
+  "closureMissing": [],
+  "findings": [
+    {
+      "slug": "5-qiu-qian",
+      "page": 5,
+      "quantity": 1,
+      "id": "31625",
+      "classification": "known_official_geometry_source_shape_match",
+      "evidence": "Actually viewedp5/p9:blue hollow tube and central slanted paired rim; matches31625 worm tube, not invented generic coupler. Owner independently concurs. Actual DAT Z axis ends±60, outer cylinderR30 innerR26.25; worm extremity~R40.",
+      "inventory": "9656 blue31625×1. Source uses1; userstockunknown.",
+      "limitation": "Blue gearshaft collar insertion and worm bore holding force/manual assembly remain unverified."
+    },
+    {
+      "slug": "5-sheng-jiang-dian-ti",
+      "page": 13,
+      "quantity": 4,
+      "id": "candidate:four-pane-window",
+      "classification": "identity_variant_unresolved_geometry_candidates_available",
+      "evidence": "p13 inset explicitly4 assemblies; front view shows2. Upper panes taller, nearflat top roundcorners same feature conflict as batch12.4809/31022 candidate officialgeometry exists; no arbitrary sourceidentity confirmation.",
+      "followup": "cable-window-candidate-comparison.json"
+    },
+    {
+      "slugs": [
+        "5-sheng-jiang-dian-ti",
+        "5-re-qi-qiu",
+        "5-qing-sao-che"
+      ],
+      "id": "31021p01",
+      "classification": "existing_official_patterned_fence_source_match",
+      "evidence": "Actual source white posts/2horizontal rails with alternating red rectangles match local31021p01 redstripe pattern. Balloonp12 inset4. Othercourse totals must follow complete owner sourceBOM.",
+      "inventory": "No direct matching ID row found in supplied inventories; unknown quantity, not zero."
+    },
+    {
+      "slug": "5-sheng-jiang-dian-ti",
+      "pages": [
+        5,
+        7,
+        10,
+        13
+      ],
+      "id": "child_figure_components",
+      "classification": "known_component_geometry_assembly_variant_still_requires_owner_review",
+      "evidence": "Two source cappedchildren have green chest and white8, red/blueoutershirt, matching available47203p03 motif. Local official legs47205/hips47204+47207/head47206p01/cap47199 available. Do not substitute adult63710.",
+      "limitation": "Source full figure catalog variant and face/hand color/arm geometry not uniquely proven from partially occluded final illustration. Inventory modernSKATE child47511pr0006 is not identical8shirt; do not use stock name as exact source identity."
+    },
+    {
+      "slug": "5-re-qi-qiu",
+      "page": 10,
+      "quantity": 4,
+      "id": "75536/6527c01 assembly,4663 hook",
+      "classification": "known_hook_geometry_flexible_path_unverified",
+      "evidence": "p10 explicit pulley6527+shortcrossbarhook4663 repeated4; p11 fourcords,p12fourcornerhookbasket.4663 officialgeometry available; rope curvature/length/knot specific course unresolved.",
+      "inventory": "9656 75536assembly×2 vs visible4 =>extra2assemblies relativetoone9656; actual holdingsunknown. Hook/pulley notdouble-counted as duplicate assembly inphysicalBOM."
+    },
+    {
+      "slugs": [
+        "5-qing-sao-che",
+        "5-qi-dian-chuan"
+      ],
+      "pages": {
+        "5-qing-sao-che": [
+          6,
+          12
+        ],
+        "5-qi-dian-chuan": [
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "ids": [
+        "6345",
+        "31196c01"
+      ],
+      "classification": "windscreen_official_and_cockpit_known_local_approximation",
+      "evidence": "Both source illustrations show same creamcurvedshell/orangeseatfamily. Hovercraft rearview shows tallside/backuprights.31196c01 localheader explicitlyphoto-informed simplified, notofficial;6345 officialCCBY4. Cannot certify exactfootprint variant orfit byprojection.",
+      "officialRecheck": "batch13-cockpit-official-recheck.json",
+      "limitation": "6344 and31196c01 official/unofficial exactendpoints404; no newcorrectgeometryfound. Existingapproximate overlap must remain diagnostic, no stretching beams."
+    },
+    {
+      "slug": "5-qi-dian-chuan",
+      "page": 1,
+      "quantity": 1,
+      "id": "candidate61898d",
+      "classification": "flat_official_geometry_available_formed_boat_shape_unresolved",
+      "evidence": "Actualp1 broadlimeU-bentrectangularsheet withopposedfastenerholes.Official61898d flatrectangle24x25 downloadedCCBY4;actualcornersX±243/Z±258 andholecentersZ±220. Existingdc01 sailformed doesnotmatchsourceboat.",
+      "recheck": "batch13-formed-sheet-recheck.json",
+      "limitation": "Officialdc02/dc03/ec02 endpoints404 only; not global absence. No formedboat geometry created, no flatpart forcefit. LDraw andinventory61898 suffix mapping differs, need directimageevidence beforeidentityclosure."
+    }
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

@@ -1,38 +1,93 @@
-0 4+ 响尾蛇 (Rattlesnake) - DUPLO draft for manual repair
+0 4-xiang-wei-she - source-page reconstruction, dev-only draft
 0 Name: 4-xiang-wei-she.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // Batch2 source review 2026-10-12: p14/15 yellow objects moved clear of tail; two source-visible separate objects, not connected snake structure. Head remains raised as p2-4; joint fit unresolved.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+响尾蛇 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Curving body, raised head, rattle and red/yellow back pattern are simplified.
-
-0 // STEP 1 - long black body
-1 0 -300 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 -140 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 20 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 180 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 340 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STATUS: INCOMPLETE - source-based draft, pending rendered comparison and mechanical interface review.
+0 // No user confirmation, physical validation or publication is claimed.
+0 // Known Toolo IDs use previously approved LOCAL SIMPLIFIED GEOMETRY; dimensions/threads/pivots remain approximate.
+0 // Source: 16 original instruction images; source steps and hashes recorded in preparation/4-xiang-wei-she/ledger.json.
+0 // Inventory per set/colour unknown. Do not infer required parts from the replaced old approximation.
+0 // STEP 1 - p1: two black 4x6 jaw bricks with two-stud stagger
+1 0 80 48 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 0 0 0 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
-
-0 // STEP 2 - red and yellow back plates
-1 4 -260 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 -100 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 4 60 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 220 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 4 380 -120 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 // STEP 2 - p2: two paired fork bases and two clutch blocks form raised jaw hinge
+1 72 160 0 -40 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 208 -125 -40 0 0 1 0 1 0 -1 0 0 74957.dat
+1 72 160 0 40 0 0 1 0 1 0 -1 0 0 28336.dat
+1 72 208 -125 40 0 0 1 0 1 0 -1 0 0 74957.dat
 0 STEP
-
-0 // STEP 3 - raised head and open mouth
-1 0 -420 -120 -40 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 0 -500 -192 -40 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 0 -560 -264 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -620 -312 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 15 -460 -312 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - p3: two black upper jaw bricks in the same stagger
+1 0 128 -173 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 48 -221 0 1 0 0 0 1 0 0 0 1 76395.dat
 0 STEP
-
-0 // STEP 4 - tail and rattle
-1 14 500 -72 40 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 14 580 -120 80 0.866 -0.500 0 0.500 0.866 0 0 0 1 3437.dat
-1 7 660 -168 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 3437.dat
-1 8 740 -216 160 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // STEP 4 - p4: two bare grey wheel-rim eyes and two yellow 2x4 mouth bricks
+1 71 -32 -197 -104 1 0 0 0 0 1 0 -1 0 99565.dat
+1 71 -32 -197 104 1 0 0 0 0 -1 0 1 0 99565.dat
+1 14 -32 -125 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -32 -125 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // STEP 5 - p5: two red 2x4 tongue plates
+1 4 -80 -24 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 80 -24 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // STEP 6 - p6: first body brick and side-mounted grey connection brick
+1 0 320 48 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 72 200 72 128 1 0 0 0 0 1 0 -1 0 76057.dat
+0 STEP
+0 // STEP 7 - p7: first upper body brick; articulated next lower segment and connector
+1 0 320 0 0 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 661.421356 48 141.421356 0.7071067811865476 0 -0.7071067811865476 0 1 0 0.7071067811865476 0 0.7071067811865476 76395.dat
+1 72 480 72 88 0.9238795325112867 0.3826834323650898 0 0 0 1 0.3826834323650898 -0.9238795325112867 0 76057.dat
+0 STEP
+0 // STEP 8 - p8: second upper body brick, next lower segment and connector
+1 0 604.852814 0 84.852814 0.7071067811865476 0 -0.7071067811865476 0 1 0 0.7071067811865476 0 0.7071067811865476 76395.dat
+1 0 922.842712 48 282.842712 1 0 0 0 1 0 0 0 1 76395.dat
+1 72 802.842712 72 322.842712 0.9238795325112867 0.3826834323650898 0 0 0 1 0.3826834323650898 -0.9238795325112867 0 76057.dat
+0 STEP
+0 // STEP 9 - p9: third upper body brick, bent lower tail and connector
+1 0 842.842712 0 282.842712 1 0 0 0 1 0 0 0 1 76395.dat
+1 0 962.842712 48 482.842712 0 0 -1 0 1 0 1 0 0 76395.dat
+1 72 1090.842712 72 362.842712 0.7071067811865476 0.7071067811865476 0 0 0 1 0.7071067811865476 -0.7071067811865476 0 76057.dat
+0 STEP
+0 // STEP 10 - p10: tail-end side connector and small fork
+1 72 962.842712 72 650.842712 1 0 0 0 0 1 0 -1 0 76057.dat
+1 72 962.842712 72 698.842712 -1 0 0 0 0 -1 0 -1 0 28336.dat
+0 STEP
+0 // STEP 11 - p11: red/lime/yellow 2x4 plates across first upper segment
+1 4 240 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 27 320 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 400 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // STEP 12 - p12: red/lime/yellow 2x4 plates across second upper segment
+1 4 548.284271 -24 28.284271 0.7071067811865476 0 0.7071067811865476 0 1 0 -0.7071067811865476 0 0.7071067811865476 40666.dat
+1 27 604.852814 -24 84.852814 0.7071067811865476 0 0.7071067811865476 0 1 0 -0.7071067811865476 0 0.7071067811865476 40666.dat
+1 14 661.421356 -24 141.421356 0.7071067811865476 0 0.7071067811865476 0 1 0 -0.7071067811865476 0 0.7071067811865476 40666.dat
+0 STEP
+0 // STEP 13 - p13: three colour plates on third upper segment and two yellow curved tail bricks
+1 4 762.842712 -24 282.842712 0 0 1 0 1 0 -1 0 0 40666.dat
+1 27 842.842712 -24 282.842712 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 922.842712 -24 282.842712 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 922.842712 0 562.842712 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 1002.842712 0 562.842712 0 0 -1 0 1 0 1 0 0 2302.dat
+0 STEP
+0 // STEP 14 - p14: separate six-piece yellow teaching object; NOT attached to snake tail
+1 14 240 -72 -420.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -24 -460.0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -24 -380.0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 24 -420.0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 24 -420.0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 72 -420.0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // STEP 15 - p15: second six-piece teaching object displayed on its side, separated from tail
+1 14 540 40 -392.0 1 0 0 0 0 -1 0 1 0 3437.dat
+1 14 540 80 -344.0 1 0 0 0 0 -1 0 1 0 3011.dat
+1 14 540 0 -344.0 1 0 0 0 0 -1 0 1 0 3011.dat
+1 14 500 40 -296.0 0 0 1 1 0 0 0 1 0 3011.dat
+1 14 580 40 -296.0 0 0 1 1 0 0 0 1 0 3011.dat
+1 14 540 40 -248.0 1 0 0 0 0 -1 0 1 0 3437.dat
+0 // Source p14 and p15 each specify2x3437+4x3011; p16 shows both separate teaching objects. No yellow brick is added to tail.
+0 // PENDING: articulated body connector angles and head fork fits still approximate, not physical acceptance.
+0 // Source p16 final view, no additions.

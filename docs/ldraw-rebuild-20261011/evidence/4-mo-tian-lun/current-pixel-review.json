@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "4c5d24735bf867d7689c8d89490d36555c94cf54b2b89836701ea317caf58d3d",
+  "revision": "87f98f7e87ada12f3ef6e88165267dd882e415e09ccab9f78383d0e3e9b0c508",
+  "reviewedAt": "2026-10-11T09:01:06.744431+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-mo-tian-lun",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "e5164d80cea78e08f8549c7c991f17da17094d3f77c45313634ab9b77ba8eea4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "1a71724f39e21d40b28b40a77102ac0c84b8b2d29a0e3904b385fee93794a538",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "b450ce09ddac013ccc993a574389d2adbef705123298c81e66ac12eb99ab5e17",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "4a729a538c2e2230df47066a71c74384f540be2657d79f3e93a54af56e218b8b",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "e0f4af46b9facb7e1ab66e105374e42134d6907c3b3e4e119c3a2f94076665b0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "ed1bfa2caa06db88721ad0eccd1a0440b76267291f8a3a447f38f647b4ec3534",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "632cbc79f7f9371e053f859ab360327f6f78e54056d348b33acafa6b2c2551ee",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "f60f83a0f2f94212d8ee8286e970faa3c7d38620d962e4f4f092c91f9066fffb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "73e7670b4afc66675b3cc53d8cbf885002b4feef306578097b132575e83979b2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "fc8c93421dcc068340c5aec189750d46b84d2f6d5855f4da58be2b5f815a8f21",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "9539bdf1c4bb5ba1ade2c4ee30dd517751562b9bd00290036d3b4ec096a0efe8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "dcb332e9485c2bad2e59e2bccee9f99596b11ceece4ee330b10bc8f369e1ae75",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "831156009d5868f24418aff7d2a519f350d5fd5b53fd645f9c17225bb409573e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "dcca46eed5dc05463c25de056a0185107c31db6810fa67b742a3bfef9075edff",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "e5164d80cea78e08f8549c7c991f17da17094d3f77c45313634ab9b77ba8eea4",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual original-resolution inspection of all three final PNGs and every one of twelve cumulative-step PNGs, with source p12 reopened for facing comparison; not inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed corrected final iso/iso-rear/top and all 12 original cumulative PNGs. Reopened source p12: iso-rear now shows all four white four-pane faces beside visible blue stud faces, correcting the previous opposite-facing windows. Full model remains framed. Step12 adds four visible lower window assemblies; four additional known 61649+90265 assemblies remain omitted because second seating/orientation is unresolved. Rear cumulative camera obscures some hub/arm engagement. Approximate screw capture, pivots, bearing retention and full motion/load stability remain unverified. No physical or user acceptance."
+}

@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "0f74ae940476e4548b12921d9bdc7978841228489a864b113f880eacb30dbfc4",
+  "revision": "2d1941c35500c0abe7afac983913611fc4dbf17abb8acae6bdd47f653a4c4d39",
+  "reviewedAt": "2026-10-11T13:02:04.363365+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-re-qi-qiu",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "edde4555462c12870d92ce502d5419abfeaf934c5a20e22fc5db3230d2065626",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "7da5246fe8494a8a4e4c7f5880a508200e1bef61b53c2babfc9245a93872f6d9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "57c0828b9802a898afa997eddc6ce3d0e85186330a32eb76cd50bbb4f70f3da4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "3b3f67ac13775e061c4895223d28cc9f74d6107ac01aef18cb8cbbc14db8a910",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "eb356743baa732084de0a42f9536ecac6988851064e2bd68f0981133ba76167f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "e2ab64f19018bd9e24042c2a29b80d925d6534219dc0ad54aaabcf8df4689253",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "c173e6b44221e0fb48df19a140d5918644bc2b00d848b887b471d757de2a9436",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "53e2ca3cca67f8bcf07dabc889b13e089da550b30b5c6cb2c9a835b5dc6aa273",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "6d06c93c242f830fcc01c4e4e7dd46569c27941becd5fde0a6ce2fc7569a4608",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "7a7373304502a89a0f2206fb8a521216f8ed7ea858067fdd1778696028a19f95",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "9300906d389fbe49b4aede912c409a67db4f8fce342761b505d7fc271b6df926",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "9300906d389fbe49b4aede912c409a67db4f8fce342761b505d7fc271b6df926",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "d1773b9759b2c15815096ea924fbcd53002161678896f359545cb17e0d45fd5a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "d1773b9759b2c15815096ea924fbcd53002161678896f359545cb17e0d45fd5a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "edde4555462c12870d92ce502d5419abfeaf934c5a20e22fc5db3230d2065626",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual final3 and all12 step pixels reviewed. Found definite basket-floor identity error:4672 is4x8, sourcep12/13 shows8x8, leaving fence overhang unsupported. Review records defect, not acceptance. Four cord meshes absent; hook/fence seating and upper support remain manual."
+}

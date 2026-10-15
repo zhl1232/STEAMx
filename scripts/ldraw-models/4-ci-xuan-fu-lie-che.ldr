@@ -1,46 +1,137 @@
-0 4+ 磁悬浮列车 (Maglev Train) - DUPLO draft for manual repair
+0 4-ci-xuan-fu-lie-che - source-based dev-only reconstruction
 0 Name: 4-ci-xuan-fu-lie-che.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+磁悬浮列车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Track pylons and streamlined train nose are simplified.
-
-0 // STEP 1 - long green base and rails
-1 2 -480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 480 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 0 -480 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 -240 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 0 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 240 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 480 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // 2026-10-13 v3: all 13 source pages reviewed; evidence/report stored outside the repository.
+0 // The green plates AND the six track foundation bricks face underside-up (p1-p4).
+0 // dev-129/76395.dat isolates the three-screw, hollow-bottom approximation from other models.
+0 // P8 explicitly contains twelve red undercarriage bricks; retain three paired two-layer guides.
+0 // Stud-down black/red parts insert into the stud-down green plates: mating rim is y=-24.
+0 // Rail/train/pillars shifted together by -13 to preserve their existing relative registration.
+0 // v4: isolated photo-informed arms; local pivot axes 0/196 (short), 0/220/400 (long).
+0 // Rail lowered 4 LDU to keep its wider profile tangent to unchanged deck underside.
+0 // Upright roots stay at clutch bore Y=-96; clip pitch196 LDU is an image/assembly estimate.
+0 // PENDING: clutch blocks and lower mounting fit remain approximate; no physical retention/rolling certification.
+0 // PENDING: five green plates are kept non-overlapping. Source exact plate-joint/rail registration is unresolved; right base tail remains longer than the visible source crop.
+0 // PENDING: underside socket depths and thread profiles are image estimates, not measured physical fits.
+0 // PENDING: cockpit/canopy retain two collision-proxy alarms; forward-shift trial rejected visually.
+0 // Canopies remain transparent yellow46 (inventory17562); original cockpit and canopy poses retained.
+0 // Source page 1: one inverted green6x12 base, two underside-up black4x6 bricks and three red2x4 plates
+1 2 160 0 0 1 0 0 0 -1 0 0 0 -1 4196.dat
+1 0 0 -24 0 0 0 1 0 -1 0 1 0 0 dev-129/76395.dat
+1 0 220 -24 0 0 0 1 0 -1 0 1 0 0 dev-129/76395.dat
+1 4 420 -24 -80 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 420 -24 0 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 420 -24 80 1 0 0 0 -1 0 0 0 -1 40666.dat
 0 STEP
-
-0 // STEP 2 - pylons
-1 0 -360 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -360 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 360 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 360 -168 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source page 2: extend with one inverted green base, one inverted blackbrick and three red ties
+1 2 640 0 0 1 0 0 0 -1 0 0 0 -1 4196.dat
+1 0 620 -24 0 0 0 1 0 -1 0 1 0 0 dev-129/76395.dat
+1 4 820 -24 -80 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 820 -24 0 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 820 -24 80 1 0 0 0 -1 0 0 0 -1 40666.dat
 0 STEP
-
-0 // STEP 3 - train body
-1 4 -320 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -160 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 320 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 -220 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 15 20 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 15 260 -264 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 3: extend with one inverted green base, one inverted blackbrick and three red ties
+1 2 1120 0 0 1 0 0 0 -1 0 0 0 -1 4196.dat
+1 0 1020 -24 0 0 0 1 0 -1 0 1 0 0 dev-129/76395.dat
+1 4 1220 -24 -80 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 1220 -24 0 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 1220 -24 80 1 0 0 0 -1 0 0 0 -1 40666.dat
 0 STEP
-
-0 // STEP 4 - roof and noses
-1 1 -240 -312 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 1 240 -312 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 14 -480 -240 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 480 -240 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 // Source page 4: final two inverted green bases, two inverted blackbricks and three red ties
+1 2 1600 0 0 1 0 0 0 -1 0 0 0 -1 4196.dat
+1 2 2080 0 0 1 0 0 0 -1 0 0 0 -1 4196.dat
+1 0 1420 -24 0 0 0 1 0 -1 0 1 0 0 dev-129/76395.dat
+1 0 1820 -24 0 0 0 1 0 -1 0 1 0 0 dev-129/76395.dat
+1 4 1620 -24 -80 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 1620 -24 0 1 0 0 0 -1 0 0 0 -1 40666.dat
+1 4 1620 -24 80 1 0 0 0 -1 0 0 0 -1 40666.dat
+0 STEP
+0 // Source page 5: six clutch blocks and six upright short arms
+1 72 0 -120 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 0 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334-ci-xuan-fu-v4.dat
+1 72 220 -120 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 220 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334-ci-xuan-fu-v4.dat
+1 72 620 -120 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 620 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334-ci-xuan-fu-v4.dat
+1 72 1020 -120 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 1020 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334-ci-xuan-fu-v4.dat
+1 72 1420 -120 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 1420 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334-ci-xuan-fu-v4.dat
+1 72 1820 -120 0 1 0 0 0 1 0 0 0 1 74957.dat
+1 72 1820 -96 0 1 0 0 0 -1 0 0 0 -1 dev-129/28334-ci-xuan-fu-v4.dat
+0 STEP
+0 // Source page 6: five chained long arms form rail plus one downward short end stop
+1 72 0 -292 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-ci-xuan-fu-v4.dat
+1 72 400 -292 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-ci-xuan-fu-v4.dat
+1 72 800 -292 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-ci-xuan-fu-v4.dat
+1 72 1200 -292 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-ci-xuan-fu-v4.dat
+1 72 1600 -292 0 0 1 0 -1 0 0 0 0 1 dev-129/28331-ci-xuan-fu-v4.dat
+1 72 2000 -292 0 1 0 0 0 1 0 0 0 1 dev-129/28334-ci-xuan-fu-v4.dat
+0 STEP
+0 // Source page 7: nine black4x6 train deck bricks: five lower and four crossing seams
+1 0 720 -364 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 880 -364 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 1040 -364 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 1200 -364 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 1360 -364 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 800 -412 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 960 -412 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 1120 -412 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+1 0 1280 -412 0 0 0 1 0 1 0 -1 0 0 dev-129/76395.dat
+0 STEP
+0 // Source page 8: twelve red Toolo2x4 bricks in paired underside guides, two layers
+1 4 720 -316 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 720 -268 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 720 -316 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 720 -268 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1040 -316 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1040 -268 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1040 -316 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1040 -268 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1360 -316 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1360 -268 -80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1360 -316 80 1 0 0 0 1 0 0 0 1 76057.dat
+1 4 1360 -268 80 1 0 0 0 1 0 0 0 1 76057.dat
+0 STEP
+0 // Source page 9: two Toolo cockpit bases with transparent-yellow curved canopies
+1 4 640 -388 0 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 46 492 -422 0 0 1 0 0 0 1 1 0 0 6345.dat
+1 4 1440 -388 0 0 0 -1 0 1 0 1 0 0 31196c01.dat
+1 46 1588 -422 0 0 -1 0 0 0 1 -1 0 0 6345.dat
+0 STEP
+0 // Source page 10: eight red2x4x3 window frames, each with one white four-pane insert
+1 4 800 -556 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 865.5 -484 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 800 -556 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 734.5 -484 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 960 -556 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 1025.5 -484 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 960 -556 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 894.5 -484 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 1120 -556 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 1185.5 -484 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 1120 -556 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 1054.5 -484 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 1280 -556 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 1345.5 -484 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 1280 -556 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 1214.5 -484 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+0 STEP
+0 // Source page 11: six yellow2x4 bricks close the carriage ends in three layers
+1 14 680 -460 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 680 -508 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 680 -556 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 1400 -460 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 1400 -508 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 1400 -556 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 12: two blue4x8 roofplates and two transverse blue2x4 endcaps
+1 1 880 -580 0 1 0 0 0 1 0 0 0 1 4672b.dat
+1 1 1200 -580 0 1 0 0 0 1 0 0 0 1 4672b.dat
+1 1 680 -580 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 1400 -580 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // Source page 13: finished view, no duplicated placements.

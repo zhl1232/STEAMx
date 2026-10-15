@@ -1,0 +1,90 @@
+{
+  "sourceSha256": "3d21cdd7c13110ddadb2d6207a9afa00e68ea9fcd3b378739d92287d0e544e6b",
+  "revision": "fc4386c65b316bd137762f4d05c36bdc90e2558bee1ddb5142d4c29afc2b02fc",
+  "reviewedAt": "2026-10-11T08:09:05.077770+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-chou-you-ji",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "d4d90890ef6298fa97b7dc1a174ac606e15052f2ff7410e4edcd7eb1fd9aa0b4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "764d57da0db082a3c77d6c4899d96d297fa0327e804e04d71bde10bd79991f76",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "da1398cbf14c3698cb0dd889a14bf47d6de33ecbf21e4b17687bd75af4a9017f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "9c358f19520cae09dceb01f3c9886d74e785316f367a9b5cbb0bcc6c962ecbc2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "256de9d7cfee0a70c1096296ba249bf530b73d4a6a4cf261756f531375cc4c34",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "34236b0b599d4433d57da71e5c20f82f8f9f1e1434b94dd21d4793c206955daf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "34236b0b599d4433d57da71e5c20f82f8f9f1e1434b94dd21d4793c206955daf",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "574324a5a2e29a4936f093979b8457959eedbd870dca0be47b9af7591262b1a9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "79689b56b3a23c581b8468c0bbdc0de9cab95480225e9732c56af475ef558e56",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "9d81d982c1a74bb52d1debffc5033310fd9477a52bb34707cbec11c0b9fb9394",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "1d9577354f1331d47d9dc0cfdf6c8fe42b02b8b03e38da79c4793d129e407fb2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "0b6d20e74f8af36160db3d4bad6e6f20ae1d4b0ede6cc21b55f8c75df3263a2d",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "14b093124f259d48da1e6e6401c079351a94abf623ca38fb29749f415eb5443c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "9f18b5a2442b912c6816dcac4b7a53e097d2c219c7d05f95e691385a24e357dd",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "d4d90890ef6298fa97b7dc1a174ac606e15052f2ff7410e4edcd7eb1fd9aa0b4",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected all twelve D cumulative original PNGs and reopened source p4,p5,p9,p11,p13. A-frame/rocker/well/drive additions follow source sequence; source cord remains omitted so step4 adds no visible geometry and step5 hook lacks modeled suspension. Source p9-13 eccentric-to-flywheel axial depth and link capture differ/incomplete in current static draft; no working transmission claimed. Existing final3 review retained only by same source/revision/image hashes. INCOMPLETE, pending user confirmation, no physical validation."
+}

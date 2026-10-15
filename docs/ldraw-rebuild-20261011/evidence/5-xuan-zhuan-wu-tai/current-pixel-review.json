@@ -1,0 +1,60 @@
+{
+  "sourceSha256": "5015bfbbb964d5a624f2b8ed30171bac68b0adf4c2157e345ed8bd6c6315a9f6",
+  "revision": "6f0fb57be77ba84d42d8893da0866b8eb6f6872534c53788eeb9f53cd460861b",
+  "reviewedAt": "2026-10-11T14:20:21.445971+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-xuan-zhuan-wu-tai",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "de972933b2466c06a51d9ccce411c55f4a3011a7ca3bf0d346e8ae2f93a6ba69",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "743e603c479bc1547442f98ddb1a51fe084f49d5cc680eb1eef02ebbd2b33240",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "22994137ead2194fe5b763c238dea093c2a8aa5a30beadbaf3f47cf534c3d0e2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "100211e8b2497d27f5497a9fd714bd0bff4ba053c236bca9bbe08ba46d8d65bc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "fd8b4721f72bd0aafc6eee305489cecf203eec5d4536f7f91697df0a108a9bae",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "f3f0eff674a196f6eb2981598e42252beb90324a5027a481f0b9d9fd887095ab",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "54831439f905e7bf6c08349000e1c14e7f30de193e26883e08bff330efdfe87f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "e17e5293507b4e323f7caffb1b58c7042e833b58df810f756aa5fe4db7b431e5",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "de972933b2466c06a51d9ccce411c55f4a3011a7ca3bf0d346e8ae2f93a6ba69",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed final iso/iso-rear/top originals and all six cumulative steps, compared source p7 final. Three gears, twin platforms, support pillars and crank sequence correspond. Deliberate 7.5 degree satellite phase retained. Existing shaft/gear strict mesh crossing and motion/support limitations remain; pixels do not clear interfaces."
+}

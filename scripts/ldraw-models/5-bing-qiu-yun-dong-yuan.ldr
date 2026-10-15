@@ -1,37 +1,84 @@
-0 5+ 冰球运动员 (Ice Hockey Player) - DUPLO draft for manual repair
+0 5+ Ice Hockey Player - source reconstruction draft
 0 Name: 5-bing-qiu-yun-dong-yuan.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
-0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+冰球运动员 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Player pose, gear details, stick blade and puck are simplified.
-
-0 // STEP 1 - skates and legs
-1 14 -80 -48 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 80 -48 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -80 -96 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 80 -96 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 -120 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 7 120 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // DEV-ONLY all13 PDF pages visually inspected; p13 finalpose. Pending renderer/joint review and user confirmation.
+0 // Source p5 head uses11169 insidecurve72LDU/two topstuds, not11344 four-stud convex part.
+0 // Source page 1: two wheeled car bases, each carrying two yellow2x4 bricks.
+1 4 -120 -72 0 1 0 0 0 1 0 0 0 1 10715p02.dat
+1 14 -120 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -168 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -72 0 1 0 0 0 1 0 0 0 1 10715p02.dat
+1 14 120 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -168 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 2 - blue/red torso and shoulders
-1 1 0 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -160 -168 -80 0 0 1 0 1 0 -1 0 0 40666.dat
-1 1 160 -168 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // Source page 2: two2x4 holed bricks bridge feet; blue plate under seam and red torso brick over seam.
+1 4 -80 -216 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 80 -216 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 0 -168 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 3 - yellow head and helmet
-1 14 0 -240 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -288 -160 1 0 0 0 1 0 0 0 1 2302.dat
-1 0 -60 -336 -200 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 0 160 -384 -220 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+0 // Source page 3: blue red blue torso stack.
+1 1 0 -312 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -360 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 4 - hockey stick and puck
-1 14 -180 -168 -120 1 0 0 0 0 -1 0 1 0 31452.dat
-1 14 -180 -300 -120 1 0 0 0 0 -1 0 1 0 31452.dat
-1 14 -260 -24 -160 0 0 1 0 1 0 -1 0 0 40666.dat
-1 4 -420 -24 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source page 4: 2x10 shoulder bar, blue brick andplate, red2x4 head bearing.
+1 4 0 -456 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 0 -504 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -528 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -576 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // Source page 5: two opposing yellow11169 insidecurve bricks.
+1 14 -20 -648 0 0 0 1 0 1 0 -1 0 0 11169.dat
+1 14 20 -648 0 0 0 -1 0 1 0 1 0 0 11169.dat
+0 STEP
+0 // Source page 6: two11-hole front beams, lower shafts and four3-hole cranks.
+1 14 -40 -392 60 1 0 0 0 0 1 0 -1 0 6525.dat
+1 71 -40 -192 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -40 -192 100 -1 0 0 0 0 -1 0 -1 0 6526.dat
+1 14 -40 -192 -60 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 14 40 -392 60 1 0 0 0 0 1 0 -1 0 6525.dat
+1 71 40 -192 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 40 -192 100 -1 0 0 0 0 -1 0 -1 0 6526.dat
+1 14 40 -192 -60 0 0 1 1 0 0 0 1 0 6526.dat
+0 STEP
+0 // Source page 7: upper shafts, two rear pulleys and two front cranks brace beams through80LDU pin offsets.
+1 71 -40 -552 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -40 -552 -60 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -40 -552 100 1 0 0 0 0 1 0 -1 0 6526.dat
+1 71 40 -552 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 40 -552 -80 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 40 -552 100 1 0 0 0 0 1 0 -1 0 6526.dat
+0 STEP
+0 // Source page 8: tyre and two pulley hubs on shoulder axle; red24tooth gear on reverse.
+1 71 0 -432 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 0 -432 120 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -432 80 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 0 -432 120 1 0 0 0 1 0 0 0 1 6292.dat
+1 4 0 -432 -60 -1 0 0 0 1 0 0 0 -1 6529.dat
+0 // Tyre/pulley fit is source-supported; exact nested solids and shaft depth pending manual renderer check.
+0 STEP
+0 // Source page 9: two perpendicular red forearm bearings, each clamped to shoulder by blue plates above/below.
+1 4 -160 -456 -120 0 0 1 0 1 0 -1 0 0 75349.dat
+1 1 -160 -480 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 -160 -408 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 160 -456 -120 0 0 1 0 1 0 -1 0 0 75349.dat
+1 1 160 -480 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 160 -408 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // Source page 10: greenAxle8 through left forearm with two pulleys and blue31622 crown gear perpendicular to redgear.
+1 2 -160 -432 -120 1 0 0 0 1 0 0 0 1 6521.dat
+1 14 -220 -432 -120 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -100 -432 -120 0 0 1 0 1 0 -1 0 0 6527.dat
+1 1 -60 -432 -120 0 0 1 0 1 0 -1 0 0 31622.dat
+0 // Crown/red gear axes perpendicular: nominal pitch contact atX-60,Z-60; phase and mechanical clearance pending.
+0 STEP
+0 // Source page 11: 11-hole hockey stick and short crank on outer end of green axle.
+1 14 -300 -232 -120 0 -1 0 0 0 1 -1 0 0 6525.dat
+1 14 -260 -432 -120 0 -1 0 0 0 1 -1 0 0 6526.dat
+0 STEP
+0 // Source page 12: red ball rests on same floor plane; finalpage13 adds no parts.
+1 4 -480 -65 -220 1 0 0 0 1 0 0 0 1 41250.dat
+0 // ok-batch4 p8: second yellow hub moved to rear tyre side (Z80); front red gear remains exposed.

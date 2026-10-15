@@ -1,0 +1,23 @@
+{
+  "slug": "4-yao-yao-ma",
+  "sourceSha256": "94c88cdb081ad992efb7368225ca6465cbe135fb5e06e7214d5e1caad1b4f13f",
+  "checkedAtUTC": "2026-10-11T07:07:36.547295+00:00",
+  "checkpointFile": "preparation/checkpoint-checks.json",
+  "rawCheckerExit": 0,
+  "rawCheckerOutput": "OK   [4-yao-yao-ma.ldr] 81 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "sourceStableDuringOriginalCheck": true,
+  "sourceHashRechecked": true,
+  "alarms": [],
+  "alarmCount": 0,
+  "classificationCounts": {
+    "false_positive_aabb": 0,
+    "true_risk": 0,
+    "insufficient_evidence": 0
+  },
+  "remainingNonAlarmLimitations": "Approved dev short Toolo arms, ear orientation and support fit remain approximate; no physical validation.",
+  "sourceAndPixelEvidence": "Existing per-course REVIEW and current-pixel-review; this pass reused those actual pixel reviews and inspected alarm placement lines and actual DAT geometry. No new pixel-review completion claimed.",
+  "rawPassDoesNotProveSupportOrSourceFidelity": true,
+  "accepted": false,
+  "physicalValidation": false,
+  "sourceModified": false
+}

@@ -1,0 +1,173 @@
+0 5-shui-jing - source reconstruction, INCOMPLETE dev-only
+0 Name: 5-shui-jing.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source PDF batch04 manifest, SHA256 c74be14c5416e50d7cdcb0dad0dcea4896b00836eef15e4306d487494aebc96f
+0 // BATCH2: current steps3-4 include two ropes/hooks into the well. Local page13 shows a DIFFERENT tall red/blue lever well; audit pair is the striped square winch well. Source-version match remains NOT FIXED.
+0 // STATUS: INCOMPLETE; source pages 1-13 visually inspected, no human acceptance.
+0 // Known Toolo mesh approximations are retained from prior approval; all screw fits remain manual.
+0 // No physical validation. Missing parts are omitted and recorded per source step.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // STEP 1 - four blue bricks form suspended counterweight
+1 1 0 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 2 - two red holed bricks on counterweight
+1 4 0 -144 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 0 -192 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+
+0 // STEP 3 - Rope preparation / assembly; non-BOM schematic route.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // Groove departure uses effective radius 35.6536 at local Z=9 (6527 mesh); schematic radius 3 LDU.
+0 // ROPE ENDPOINTS: (0.188641, -612.346899, -89) -> (2, -270, -100) LDU.
+1 0 0.188641 -612.346899 -89 2.999958 1.811359 0.00051 -0.015873 342.346899 0.096341 0 -11 2.998453 s/steamx-rope.dat
+0 // ROPE ENDPOINTS: (0.188641, -612.346899, 89) -> (2, -270, 100) LDU.
+1 0 0.188641 -612.346899 89 2.999958 1.811359 -0.00051 -0.015873 342.346899 -0.096341 0 11 2.998453 s/steamx-rope.dat
+0 STEP
+
+0 // STEP 4 - two rope assemblies; source upper pulleys are placed when support shaft exists in step11
+1 14 2 -270 -100 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
+1 14 2 -270 100 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
+0 STEP
+
+0 // STEP 5 - grey lower axle and two lower pulley attachment points
+1 71 0 -168 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 0 -168 -60 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 0 -168 60 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+
+0 // STEP 6 - two6x12 red floor plates, first yellow/red wall courses
+1 4 0 0 -120 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 0 0 120 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -160 -48 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -48 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -48 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -48 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -48 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -200 -48 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 200 -48 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 200 -48 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 200 -96 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 200 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 200 -96 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -96 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -96 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 80 -96 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -96 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -96 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -96 200 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 7 - three more alternating wall courses
+1 14 -160 -144 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -144 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -144 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -144 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -200 -144 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 200 -144 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 200 -144 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 200 -192 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 200 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 200 -192 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -192 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -192 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 80 -192 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -192 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -192 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -192 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -240 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -240 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -240 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -240 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -240 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -240 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -240 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -200 -240 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 200 -240 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 200 -240 80 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+
+0 // STEP 8 - final three alternating wall courses
+1 4 200 -288 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 200 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 200 -288 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -288 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -288 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 80 -288 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -288 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -288 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -288 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -336 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -336 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -336 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -336 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -336 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -336 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -336 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -200 -336 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 200 -336 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 200 -336 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 200 -384 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 200 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 200 -384 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -384 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -200 -384 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 80 -384 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -384 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -384 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -384 200 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 9 - two six-brick yellow winch towers
+1 14 -80 -432 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -432 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -480 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -528 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -576 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -624 -200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -432 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -432 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -480 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -528 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -576 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -624 200 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+
+0 // STEP 10 - red long holed crossbars on towers
+1 4 0 -672 -200 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 -672 200 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+
+0 // STEP 11 - two green winch shafts coupled with official31625; source rope-end pulleys; rear gear/crank
+1 2 0 -648 -160 0 0 1 0 1 0 -1 0 0 6521.dat
+1 2 0 -648 160 0 0 1 0 1 0 -1 0 0 6521.dat
+1 1 0 -648 0 1 0 0 0 1 0 0 0 1 31625.dat
+1 14 0 -648 -80 -1 0 0 0 1 0 0 0 -1 75536.dat
+1 14 0 -648 80 1 0 0 0 1 0 0 0 1 75536.dat
+1 14 0 -648 -260 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 4 0 -648 260 1 0 0 0 1 0 0 0 1 6529.dat
+1 14 0 -648 300 1 0 0 0 0 -1 0 1 0 6526.dat
+0 STEP
+
+0 // STEP 12 - tilted red brake block on short transverse axle with two retainers
+1 71 120 -648 240 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 120 -648 140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 120 -648 340 1 0 0 0 1 0 0 0 1 6527.dat
+1 4 120.7846 -694.641 280 0.5 -0.866025 0 0.866025 0.5 0 0 0 1 75349.dat
+0 STEP
+
+0 // STEP 13 - alternate final view

@@ -1,0 +1,289 @@
+{
+  "at": "2026-10-11T08:28:21.113Z",
+  "results": [
+    {
+      "id": "2223",
+      "requests": [
+        {
+          "url": "https://library.ldraw.org/library/official/parts/2223.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        },
+        {
+          "url": "https://library.ldraw.org/library/unofficial/parts/2223.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        }
+      ]
+    },
+    {
+      "id": "31193",
+      "requests": [
+        {
+          "url": "https://library.ldraw.org/library/official/parts/31193.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        },
+        {
+          "url": "https://library.ldraw.org/library/unofficial/parts/31193.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        }
+      ]
+    },
+    {
+      "id": "58629",
+      "requests": [
+        {
+          "url": "https://library.ldraw.org/library/official/parts/58629.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        },
+        {
+          "url": "https://library.ldraw.org/library/unofficial/parts/58629.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        }
+      ]
+    },
+    {
+      "id": "6344",
+      "requests": [
+        {
+          "url": "https://library.ldraw.org/library/official/parts/6344.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        },
+        {
+          "url": "https://library.ldraw.org/library/unofficial/parts/6344.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        }
+      ]
+    },
+    {
+      "id": "17562",
+      "requests": [
+        {
+          "url": "https://library.ldraw.org/library/official/parts/17562.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        },
+        {
+          "url": "https://library.ldraw.org/library/unofficial/parts/17562.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        }
+      ]
+    },
+    {
+      "id": "2332ac01",
+      "requests": [
+        {
+          "url": "https://library.ldraw.org/library/official/parts/2332ac01.dat",
+          "status": 200,
+          "looksLikeDat": true,
+          "header": [
+            "0 Duplo Door Frame  2 x  4 x  3 with Raised Door Outline (Complete)",
+            "0 Name: 2332ac01.dat",
+            "0 Author: Philippe Hurbain [Philo]",
+            "0 !LDRAW_ORG Shortcut UPDATE 2022-06",
+            "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+            "",
+            "0 BFC CERTIFY CCW",
+            "",
+            "0 !CATEGORY Door",
+            "0 !KEYWORDS BrickLink 2332, Rebrickable 2332",
+            "",
+            "0 !HISTORY 2022-12-20 [PTadmin] Official Update 2022-06",
+            "",
+            "",
+            "1 16 0 0 0 1 0 0 0 1 0 0 0 1 2332a.dat"
+          ]
+        },
+        {
+          "url": "https://library.ldraw.org/library/unofficial/parts/2332ac01.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        }
+      ]
+    },
+    {
+      "id": "4253c01",
+      "requests": [
+        {
+          "url": "https://library.ldraw.org/library/official/parts/4253c01.dat",
+          "status": 200,
+          "looksLikeDat": true,
+          "header": [
+            "0 Duplo Door Frame  2 x  4 x  3 with Flat Rim (Complete)",
+            "0 Name: 4253c01.dat",
+            "0 Author: Philippe Hurbain [Philo]",
+            "0 !LDRAW_ORG Shortcut UPDATE 2022-06",
+            "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+            "",
+            "0 BFC CERTIFY CCW",
+            "",
+            "0 !CATEGORY Door",
+            "0 !KEYWORDS BrickLink 4253, Rebrickable 4253",
+            "",
+            "0 !HISTORY 2022-12-20 [PTadmin] Official Update 2022-06",
+            "",
+            "",
+            "1 16 0 0 0 1 0 0 0 1 0 0 0 1 4253.dat"
+          ]
+        },
+        {
+          "url": "https://library.ldraw.org/library/unofficial/parts/4253c01.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        }
+      ]
+    },
+    {
+      "id": "74656",
+      "requests": [
+        {
+          "url": "https://library.ldraw.org/library/official/parts/74656.dat",
+          "status": 200,
+          "looksLikeDat": true,
+          "header": [
+            "0 Duplo Car Base  2 x  6 with Wheels",
+            "0 Name: 74656.dat",
+            "0 Author: Philippe Hurbain [Philo]",
+            "0 !LDRAW_ORG Shortcut UPDATE 2024-02",
+            "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+            "",
+            "0 BFC CERTIFY CCW",
+            "",
+            "0 !CATEGORY Vehicle",
+            "",
+            "0 !HISTORY 2024-03-24 [OrionP] Official Update 2024-02",
+            "",
+            "1 16 0 0 0 1 0 0 0 1 0 0 0 1 2312.dat",
+            "1 16 -40 38 80 0 0 1 0 1 0 -1 0 0 2313a.dat",
+            "1 16 -40 38 -80 0 0 1 0 1 0 -1 0 0 2313a.dat"
+          ]
+        },
+        {
+          "url": "https://library.ldraw.org/library/unofficial/parts/74656.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        }
+      ]
+    },
+    {
+      "id": "10715p01",
+      "requests": [
+        {
+          "url": "https://library.ldraw.org/library/official/parts/10715p01.dat",
+          "status": 200,
+          "looksLikeDat": true,
+          "header": [
+            "0 Duplo Car Base  2 x  6 with Red Wheels with Fake Bolts",
+            "0 Name: 10715p01.dat",
+            "0 Author: Philippe Hurbain [Philo]",
+            "0 !LDRAW_ORG Shortcut UPDATE 2020-03",
+            "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+            "",
+            "0 BFC CERTIFY CCW",
+            "",
+            "0 !CATEGORY Vehicle",
+            "0 !KEYWORDS BrickLink 11248c02, Rebrickable 11248c02, Set 10894",
+            "",
+            "0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03",
+            "",
+            "",
+            "1 16 0 0 0 1 0 0 0 1 0 0 0 1 2312.dat"
+          ]
+        },
+        {
+          "url": "https://library.ldraw.org/library/unofficial/parts/10715p01.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        }
+      ]
+    },
+    {
+      "id": "10715p02",
+      "requests": [
+        {
+          "url": "https://library.ldraw.org/library/official/parts/10715p02.dat",
+          "status": 200,
+          "looksLikeDat": true,
+          "header": [
+            "0 Duplo Car Base  2 x  6 with Yellow Wheels with Fake Bolts",
+            "0 Name: 10715p02.dat",
+            "0 Author: Philippe Hurbain [Philo]",
+            "0 !LDRAW_ORG Shortcut UPDATE 2020-03",
+            "0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt",
+            "",
+            "0 BFC CERTIFY CCW",
+            "",
+            "0 !CATEGORY Vehicle",
+            "0 !KEYWORDS BrickLink 11248c01, Rebrickable 11248c01, Set 10555",
+            "",
+            "0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03",
+            "",
+            "",
+            "1 16 0 0 0 1 0 0 0 1 0 0 0 1 2312.dat"
+          ]
+        },
+        {
+          "url": "https://library.ldraw.org/library/unofficial/parts/10715p02.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        }
+      ]
+    },
+    {
+      "id": "71059",
+      "requests": [
+        {
+          "url": "https://library.ldraw.org/library/official/parts/71059.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        },
+        {
+          "url": "https://library.ldraw.org/library/unofficial/parts/71059.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        }
+      ]
+    },
+    {
+      "id": "6669c01",
+      "requests": [
+        {
+          "url": "https://library.ldraw.org/library/official/parts/6669c01.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        },
+        {
+          "url": "https://library.ldraw.org/library/unofficial/parts/6669c01.dat",
+          "status": 404,
+          "looksLikeDat": false,
+          "header": null
+        }
+      ]
+    }
+  ]
+}

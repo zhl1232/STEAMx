@@ -1,0 +1,34 @@
+{
+  "sourceSha256": "74a67928ad21ebbcc212eb274748729cc6f2701d4952bbb07670d844c3187a2a",
+  "method": "Projection of all recursively expanded face vertices on world and arm local axes; positive interval gap proves these meshes disjoint in static pose. Does not prove full motion/support.",
+  "pairs": [
+    {
+      "lines": [
+        50,
+        37
+      ],
+      "separating": []
+    },
+    {
+      "lines": [
+        51,
+        37
+      ],
+      "separating": []
+    },
+    {
+      "lines": [
+        53,
+        39
+      ],
+      "separating": []
+    },
+    {
+      "lines": [
+        54,
+        39
+      ],
+      "separating": []
+    }
+  ]
+}

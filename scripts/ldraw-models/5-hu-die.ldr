@@ -1,0 +1,147 @@
+0 5-hu-die - source reconstruction; INCOMPLETE dev-only
+0 Name: 5-hu-die.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // PDF SHA256 eb42c3a3e877bb28d12e12476f9c2871ab7ebf7cbb4b10b2ce1ae946327f5a44
+0 // All12 source pages actually viewed; final page is presentation only.
+0 // No physical verification or human acceptance. Mechanical phases and hidden retention remain unresolved.
+0 // SOURCE PAGE 1 - Square green base and four-tier striped body root
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 0 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 40 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 2 - Lower long hinge beam and six full body tiers
+1 4 0 -192 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 0 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 40 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -336 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 40 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -432 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -432 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 40 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 3 - Upper hinge crossbeam and two head bricks
+1 4 0 -528 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 0 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -624 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 4 - Two eyes and stair-stepped antennae
+1 14 -40 -672 -40 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 14 40 -672 -40 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 1 0 -720 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -768 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 -120 -816 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -160 -864 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -768 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 25 120 -816 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -864 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // SOURCE PAGE 5 - Lower pair of vertical-axis wing hinges
+1 0 -160 -168 -40 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 -160 -312 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 -160 -216 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 -160 -120 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 -160 -24 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 -200 -288 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -200 -96 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 0 160 -168 -40 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 160 -312 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 160 -216 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 160 -120 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 160 -24 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 200 -288 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 200 -96 -40 1 0 0 0 1 0 0 0 1 75349.dat
+0 // UNVERIFIED 6521/6527/75349 - Axle origin and48LDU arm spacing inferred from three48LDU wing-column layers; pulley depth/retention and full swing clearance require physical or section evidence. No tyre used.
+0 STEP
+0 // SOURCE PAGE 6 - Lower-wing inner blue columns and caps
+1 1 -280 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -280 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -280 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -320 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -320 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 280 -240 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 280 -192 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 280 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 320 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 7 - Lower-wing alternating yellow and blue outer panels
+1 14 -360 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -400 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 8 - Upper pair of vertical-axis wing hinges
+1 0 -160 -504 -40 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 -160 -648 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 -160 -552 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 -160 -456 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 -160 -360 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 -200 -624 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -200 -432 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 0 160 -504 -40 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 160 -648 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 160 -552 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 160 -456 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 160 -360 -40 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 200 -624 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 200 -432 -40 1 0 0 0 1 0 0 0 1 75349.dat
+0 // UNVERIFIED 6521/6527/75349 - Axle origin and48LDU arm spacing inferred from three48LDU wing-column layers; pulley depth/retention and full swing clearance require physical or section evidence. No tyre used.
+0 STEP
+0 // SOURCE PAGE 9 - Upper-wing inner blue columns and yellow caps
+1 1 -280 -576 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -280 -528 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -280 -480 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -320 -672 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -320 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 280 -576 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 280 -528 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 280 -480 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -672 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 320 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 10 - Upper-wing yellow panels and blue binding layers
+1 1 -360 -624 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -360 -432 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -400 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -400 -528 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -400 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 360 -624 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 360 -432 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -528 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 400 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 11 - Rounded stepped upper-wing ends from small bricks
+1 14 -440 -672 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -440 -384 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -480 -624 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -480 -432 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -520 -576 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -520 -528 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -520 -480 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 440 -672 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 440 -384 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 480 -624 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 480 -432 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 520 -576 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 520 -528 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 520 -480 -40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source final page adds no parts.

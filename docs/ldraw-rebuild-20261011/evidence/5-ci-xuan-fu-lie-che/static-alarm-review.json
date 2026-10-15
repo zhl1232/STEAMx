@@ -1,0 +1,73 @@
+{
+  "slug": "5-ci-xuan-fu-lie-che",
+  "sourceSha256": "be82bc9d0bf0113bf9f05a6e551af6a909e42ef5927af30f9d2afe8397b69f49",
+  "rawCheckerExit": 2,
+  "rawCheckerOutput": "\nFAIL [5-ci-xuan-fu-lie-che.ldr] 2 error(s), 158 placement(s):\n  - step 9: 5-ci-xuan-fu-lie-che_l135 overlaps 5-ci-xuan-fu-lie-che_l134\n  - step 9: 5-ci-xuan-fu-lie-che_l137 overlaps 5-ci-xuan-fu-lie-che_l136\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "rawAlarms": [
+    {
+      "step": 9,
+      "lines": [
+        135,
+        134
+      ],
+      "parts": [
+        "6345.dat",
+        "31196c01.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "evidence": "Approved cockpit-relative canopy R=[-1,0,0;0,0,1;0,1,0],t=(0,-34,-148). Proxy overlap remains; no fresh pair mesh intersection proof or physical retention claim."
+    },
+    {
+      "step": 9,
+      "lines": [
+        137,
+        136
+      ],
+      "parts": [
+        "6345.dat",
+        "31196c01.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "evidence": "Approved cockpit-relative canopy R=[-1,0,0;0,0,1;0,1,0],t=(0,-34,-148). Proxy overlap remains; no fresh pair mesh intersection proof or physical retention claim."
+    }
+  ],
+  "alarms": [
+    {
+      "step": 9,
+      "lines": [
+        135,
+        134
+      ],
+      "parts": [
+        "6345.dat",
+        "31196c01.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "evidence": "Approved cockpit-relative canopy R=[-1,0,0;0,0,1;0,1,0],t=(0,-34,-148). Proxy overlap remains; no fresh pair mesh intersection proof or physical retention claim."
+    },
+    {
+      "step": 9,
+      "lines": [
+        137,
+        136
+      ],
+      "parts": [
+        "6345.dat",
+        "31196c01.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "evidence": "Approved cockpit-relative canopy R=[-1,0,0;0,0,1;0,1,0],t=(0,-34,-148). Proxy overlap remains; no fresh pair mesh intersection proof or physical retention claim."
+    }
+  ],
+  "alarmCount": 2,
+  "remainingNonAlarmLimitations": [
+    "All16 original pages actually viewed. Four green deck plates bridge five six-layer piers. Blue4x8 deck segments and transverse2x4 connectors follow p8 layout; source has no magnets, maglev is the course title not a verified levitation mechanism.",
+    "Each chassis side has40LDU thick guide beam centeredZ60, then40LDU inner/outer crank bodies centeredZ100/140 on8L shaft endingZ160. Source p5/6/7 shows8cranks per chassis but hides far-side pin indexing: chosen inner horizontal / outer downward phase is manual and needs an underside/end view. No magnetic, rotating or retention function certified.",
+    "Two cockpit meshes are existing approved approximations; canopy uses approved relative R and offset(0,-34,-148). Exact molded fit not certified.",
+    "Twelve61649 frames plus twelve90265 panes represent12source window assemblies; mold revision hidden in source. Official closed-pane relative offset retained, not an invented12extra sourcepieces."
+  ],
+  "matrixInvalid": [],
+  "pixelReview": "Current final3 and all15 cumulative frames actually viewed; step5 original/source page5 compared. current-pixel-review.json records SHA-bound review. Existing manual and2canopy alarm limits remain.",
+  "accepted": false,
+  "physicalValidation": false
+}

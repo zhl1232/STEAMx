@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "36048b3b2e1724439581595e9113d437b57d625e43528045e5e0492884fe7d94",
+  "revision": "ae4f343c773a5bad18cffda4df47099f68cefa41c986aa3119c26ff5498b65a6",
+  "reviewedAt": "2026-10-11T07:29:54.599291+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-sai-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "step-1",
+      "sha256": "2c4543755d30041cf1dc8ec6f3447748a5dc61310d20e85885a3f2dcd72e83e3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "12a801daeab37993f44fdd5d07c750833920f67aa26e90c1be162c6ddb703dba",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "12a801daeab37993f44fdd5d07c750833920f67aa26e90c1be162c6ddb703dba",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "b3ae32580bdad756cf32ff32b60081dee40e763761fe0dc4550428995972211e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "8a8f9672e0a0ac43dd3efe0fa01f233c8f9a8549612bfad1d1d1efd72906ae97",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "3dcf754c91cb903c2e43f1f3fa476a672b50584e04d7d896b396e302b67f1d0c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "b7ee650974280b810bae59f308fafaf69684279cd08355100b5f55206cc1348f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "9e88c9fd97cc519ba0670bada368191e99f035da760fb9bfbb9b57ee4a7496d7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "79af4079f54b6d78b4408fbf4de52bad89bf71ebc4b94f69fc90a76ed9dbc751",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "d5210878cfc83894232b1fa70261fbf34dbec73571d015023c416a8dfe5742a1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "5bb9bf78122228cac50322624908ec1536937f74bf6e4a790fddd0ff04270f60",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-12",
+      "sha256": "dd9f9bf19d900d415d69ce7cb7f0deb6fffcd1a63e3d590a2dc84e549efd9558",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": false,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected12 cumulative cells against all previously viewed source pages and re-opened source13. Body/wheels/rear stack/roof linkage and side panels appear in expected order. Stage3 exhaust4433c01 x2 omitted;6 spoiler45117c01 omitted. No new clear wrong-direction or floating assembly found at this scale; approximate roof-arm joints and axle fits remain unverified. Records D steps only, not new D final3; C final evidence remains separate. No physical validation or acceptance."
+}

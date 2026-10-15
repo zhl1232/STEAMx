@@ -1,0 +1,22 @@
+{
+  "slug": "5-wo-lun-diao-qiao",
+  "sourceSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
+  "checkpointSha256": "c633fc257cc278e3012d8274b789f8998ff004c7242a1756903d153583419f57",
+  "stableSinceCheckpoint": true,
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawExitCode": 0,
+  "rawOutput": "OK   [5-wo-lun-diao-qiao.ldr] 176 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+  "alarms": [],
+  "unreportedManualRisks": [
+    {
+      "classification": "insufficient_evidence",
+      "description": "32LDU endpoint mismatch resolved by rigid two-link pose; actual LDR axes have400LDU hole spacing and orthonormal matrices. Gear phase, shaft retention, travel collision/load and omitted car variants remain unverified.",
+      "reportedByRawChecker": false
+    }
+  ],
+  "automaticExemptionAdded": false,
+  "sourceModified": false,
+  "physicalValidation": false,
+  "overallAcceptance": false,
+  "method": "Each actual raw alarm reviewed against source image and real DAT geometry. No alarm is inferred for manual-policy parts; rawPASS is not structural/physical acceptance."
+}

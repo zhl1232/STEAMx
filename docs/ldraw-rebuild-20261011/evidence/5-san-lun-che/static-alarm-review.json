@@ -1,0 +1,46 @@
+{
+  "slug": "5-san-lun-che",
+  "modelSha256": "4d88bd6040d8958998b047849e7cab04bcf891aba1aa4131b1503c442995bff0",
+  "reviewedAt": "2026-10-11T12:47:15.849Z",
+  "originalCheck": {
+    "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-san-lun-che.ldr",
+    "sha256": "4d88bd6040d8958998b047849e7cab04bcf891aba1aa4131b1503c442995bff0",
+    "exit": 0,
+    "output": "OK   [5-san-lun-che.ldr] 53 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+    "stableDuringCheck": true
+  },
+  "alarms": [],
+  "rawPairCount": 0,
+  "matrixReview": {
+    "maximumOrthogonalityError": 0,
+    "maximumDeterminantError": 0
+  },
+  "sourceEvidence": "preparation/5-san-lun-che/ledger.json",
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "limitations": [
+    "Front wheel uses6529 actual radius64.144 atY-64; rear6530 radius103.798 atY-104: approximate common floor within0.2LDU, not tire scaling.",
+    "48LDU red/yellow bricks and24LDU blue plate give120LDU fork shaft separation; front fork endpointsY-464/-64, bearing rows-304/-184. All transforms rigid det+1.",
+    "P7 vertical pivot chosen X140 Z20 through actual hollow stud rows; source obscures exact row, this is a reasonable hidden-layout adjustment. Two middle pulleys occupy80LDU gap[-280,-200]; top and lower washers are40LDU each. Axle through brick internal tubes, retention, rotation/swept clearance require physical/mesh review; stud holes are not a fit certification.",
+    "P7 red coupling brick overhangs grey plate by80LDU; its rear half bears on deck. Lower pulley radius44 endsX184 before plate edgeX200; no invented spacer/support.",
+    "Rear two blue6523 endpoints meet atZ0 but remain independent shafts; not claimed fused. Gear end face offsets X40 used for inward collars.",
+    "P4 cranks are two inward vertical braces plus two outward grips. Pin tips and socket engagement need verification. Source final steering angle straightened for review."
+  ],
+  "accepted": false,
+  "userConfirmed": false,
+  "physicalValidation": false,
+  "checkerPassIsNotConnectionAcceptance": true,
+  "currentPixels": "final3 and all10steps actually viewed; see current-pixel-review.json",
+  "pixelReviewFile": "preparation/5-san-lun-che/current-pixel-review.json"
+}

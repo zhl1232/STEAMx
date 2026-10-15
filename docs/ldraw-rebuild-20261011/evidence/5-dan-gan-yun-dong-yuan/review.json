@@ -1,0 +1,59 @@
+{
+  "slug": "5-dan-gan-yun-dong-yuan",
+  "status": "INCOMPLETE",
+  "verification": "structurally checked only",
+  "sourcePages": 11,
+  "sourcePixels": "11-page contact sheet and enlarged structural pages viewed",
+  "modelSha256": "45c42ce48bb244b3c82b007441bab20cca5df875a21dc18ec89228ad35b444f3",
+  "unknown": [
+    {
+      "page": "1-4",
+      "part": "side-built foundation and pillar splice",
+      "missing": "hidden support/overlap order inferred; renderer must compare source before approval"
+    },
+    {
+      "page": 10,
+      "part": "shoe on beam-end",
+      "missing": "underside-tube retention not verified"
+    }
+  ],
+  "inventoryQuantity": "See BOM kit rows; mechanical extras against single9656 ignorecolor, not combined-kit shortages",
+  "knownApproximate": [],
+  "render": {
+    "sourceSha256": "45c42ce48bb244b3c82b007441bab20cca5df875a21dc18ec89228ad35b444f3",
+    "viewsActuallyInspected": [
+      "iso",
+      "iso-rear",
+      "top"
+    ],
+    "cumulativeStepsActuallyInspected": false,
+    "finding": "Current full-frame render compared with sourcep6/p10 and all sourcecontact pages. No new visible float/interference; shoe underside and hidden splice retention still unverified. Current image hashes in current-pixel-review.json."
+  },
+  "rawCollisionChecker": "PASS",
+  "inventoryMechanicalDeficits": [
+    {
+      "part": "6524.dat",
+      "sourceQuantity": 4,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    },
+    {
+      "part": "75350.dat",
+      "sourceQuantity": 4,
+      "9656DesignTotal": 2,
+      "additionalBeyondSingle9656IgnoringColor": 2
+    }
+  ],
+  "matrixCheck": {
+    "status": "PASS",
+    "invalid": []
+  },
+  "currentCumulativePixelReview": {
+    "sourceSha256": "45c42ce48bb244b3c82b007441bab20cca5df875a21dc18ec89228ad35b444f3",
+    "evidence": "current-pixel-review.json",
+    "allCumulativeStepsActuallyReviewed": true,
+    "stepCount": 11,
+    "currentDfinalActuallyReviewed": true,
+    "limitations": "All11 cumulative D frames compared with source11-page contact; originalstep6 inspected. Pillar/splice additions, two arms joined by31625 sleeve, torso/head/legs/shoes sequence correspond. Source title maps to this website slug. Foundation hidden retention and shoes tube-on-beam connection remain unverified; no dynamic or physical acceptance."
+  }
+}

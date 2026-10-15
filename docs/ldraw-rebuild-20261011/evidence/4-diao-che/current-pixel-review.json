@@ -1,0 +1,85 @@
+{
+  "sourceSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a",
+  "revision": "cb96b1e420517551801fee83a9fdaa004eee433feda4c4ea6abd6b25fd1d867e",
+  "reviewedAt": "2026-10-11T08:02:55.123071+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\4-diao-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "ee8e42b657e1f39bdb07f72071f959447eff7f12c2300fc856cf565233bf1fe3",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "bf6a2509db1c31e1452bb4f2a76e1d0f34f0f23cb30d999459898546c5f1996e",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "61499a34564d637034c2920cccec8e430438330d6e2631c6726403e1ca8f4ddc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "f8ce672e7e83c5d4f889aeb341c996eaa6151a1f1680385bbf6163034c4c3eea",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "68e9e4aa2950b7d3021f90beab08a8d1c451461163ec999eef6434a1f1a37634",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "8cc54e59991062c8c8470bd9a37f5ca96ccfd5fcf1128d81de75bbc4a567c555",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "d800ad67a526c50bf87399717dcb8dab966695fb956e2bc5699d14095c202a28",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "6b6e27a601a941b583be11e2d6ac24766b511cfd65030c3dc9bd715ec5d6a232",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "7f12537b13bde7862134c5988f416fd648b345589cd9aae98d054993f1567601",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "201a47810bb3437c603c34c7055ba5823db93c8504bf0cf90cf7ba25fdc3f6d2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "53a9181159bf68f5f9afaf381d04c632412af4f5cdab0247bad3b45eb30e8ed0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "7dcb5cd0b49822772a7daf60c67c975d60be323c9b9ea8f1d802ee07bbc2eee7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "1b409d26a1a64fb0949d0c4ba38b86464d608377c1c2fe0935f4a0422b860fc2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-11",
+      "sha256": "ee8e42b657e1f39bdb07f72071f959447eff7f12c2300fc856cf565233bf1fe3",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually viewed all11 current D original cumulative PNGs for9df21f9c. Chassis/grey mounts, six wheels, front red cab, turntable, rear blue cab, first rising short arm, other two bent arms then yellow/blue/red barrier pairs accumulate without blank frames or crop. Short-arm dimensions are approved approximations; visual pivot continuity does not prove physical interfaces. Large grey Toolo hook remains absent/unidentified. Both cockpit/windscreen static overlaps remain insufficient evidence; no user or physical acceptance."
+}

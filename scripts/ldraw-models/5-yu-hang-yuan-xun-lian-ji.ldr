@@ -1,0 +1,145 @@
+0 5-yu-hang-yuan-xun-lian-ji - source-based dev-only reconstruction
+0 Name: 5-yu-hang-yuan-xun-lian-ji.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // INCOMPLETE: source-based draft; unknown/omitted parts and interface questions recorded below.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: two stepped arches on24x24 plates:38yellow32red bricks
+1 2 -480 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 2 480 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 14 -640 -48 -360 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -560 -48 -360 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -640 -48 360 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -560 -48 360 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -640 -96 -320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -560 -96 -320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -640 -96 320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -560 -96 320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -640 -144 -280 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -560 -144 -280 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -640 -144 280 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -560 -144 280 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -640 -192 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -560 -192 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -640 -192 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -560 -192 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -640 -240 -200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -560 -240 -200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -640 -240 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -560 -240 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -640 -288 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -560 -288 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -640 -288 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -560 -288 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -640 -336 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -560 -336 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -640 -336 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -560 -336 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -640 -384 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -560 -384 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -640 -384 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -560 -384 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -600 -432 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -600 -432 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -600 -432 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 560 -48 -360 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 640 -48 -360 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 560 -48 360 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 640 -48 360 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 560 -96 -320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 640 -96 -320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 560 -96 320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 640 -96 320 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 560 -144 -280 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 640 -144 -280 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 560 -144 280 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 640 -144 280 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 560 -192 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 640 -192 -240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 560 -192 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 640 -192 240 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 560 -240 -200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 640 -240 -200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 560 -240 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 640 -240 200 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 560 -288 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 640 -288 -160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 560 -288 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 640 -288 160 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 560 -336 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 640 -336 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 560 -336 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 640 -336 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 560 -384 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 640 -384 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 560 -384 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 640 -384 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 600 -432 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 600 -432 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 600 -432 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 2: four red bearing bricks, two green axles, four pulleys and two cranks
+1 4 -600 -480 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 -600 -528 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 2 -540 -504 0 1 0 0 0 1 0 0 0 1 6521.dat
+1 14 -500 -504 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -540 -504 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -720 -504 0 -1.2246467991473532e-16 -1 0 0 0 -1 1 -1.2246467991473532e-16 0 6526.dat
+1 4 600 -480 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 600 -528 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 2 540 -504 0 1 0 0 0 1 0 0 0 1 6521.dat
+1 14 500 -504 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 540 -504 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 720 -504 0 0 1 0 0 0 -1 -1 0 0 6526.dat
+0 STEP
+0 // Source page 3: six long red beams and twelve blue2x4 plate cross ties form rectangular frame; upright final P9 pose, rotation about the unchanged support X axis
+1 4 -200 -264 -24 1 0 0 0 0 -1 0 1 0 75350.dat
+1 4 -200 -744 -24 1 0 0 0 0 -1 0 1 0 75350.dat
+1 4 200 -264 -24 1 0 0 0 0 -1 0 1 0 75350.dat
+1 4 200 -744 -24 1 0 0 0 0 -1 0 1 0 75350.dat
+1 4 -440 -504 -24 0 0 1 1 0 0 0 1 0 75350.dat
+1 4 440 -504 -24 0 0 1 1 0 0 0 1 0 75350.dat
+1 1 -400 -264 -48 0 0 1 1 0 0 0 1 0 40666.dat
+1 1 -400 -264 48 0 0 1 -1 0 0 0 -1 0 40666.dat
+1 1 -400 -744 -48 0 0 1 1 0 0 0 1 0 40666.dat
+1 1 -400 -744 48 0 0 1 -1 0 0 0 -1 0 40666.dat
+1 1 0 -264 -48 1 0 0 0 0 -1 0 1 0 40666.dat
+1 1 0 -264 48 1 0 0 0 0 1 0 -1 0 40666.dat
+1 1 0 -744 -48 1 0 0 0 0 -1 0 1 0 40666.dat
+1 1 0 -744 48 1 0 0 0 0 1 0 -1 0 40666.dat
+1 1 400 -264 -48 0 0 1 1 0 0 0 1 0 40666.dat
+1 1 400 -264 48 0 0 1 -1 0 0 0 -1 0 40666.dat
+1 1 400 -744 -48 0 0 1 1 0 0 0 1 0 40666.dat
+1 1 400 -744 48 0 0 1 -1 0 0 0 -1 0 40666.dat
+0 STEP
+0 // Source page 4: one internal yellow crank
+1 14 400 -504 0 0 1 0 0 0 -1 -1 0 0 6526.dat
+0 STEP
+0 // Source page 5: sourcep5 two red24tooth gears and one short blue5L geared axle on left side
+1 4 -380 -504 0 0 0 1 1 0 0 0 1 0 6529.dat
+1 4 -380 -624 0 0 0 1 1 0 0 0 1 0 6529.dat
+1 1 -440 -624 0 -1 0 0 0 0 1 0 1 0 6523.dat
+0 STEP
+0 // Source page 6: red and blue gears plus two geared axles: omitted until axes are resolved
+0 STEP
+0 // Source page 7: inner crossbar, plates and central 8L geared axle; inner crossbar raised to P9 upper half.
+0 // Central shaft X=0 runs Y=-784..-464; both frame and inner-bar side holes are coaxial.
+1 1 0 -624 0 0 1 0 1 0 0 0 0 -1 31623.dat
+1 14 0 -684 0 0 0 1 0 1 0 -1 0 0 6526.dat
+1 14 0 -564 0 0 0 -1 0 1 0 1 0 0 6526.dat
+1 4 0 -624 -24 1 0 0 0 0 -1 0 1 0 75350.dat
+1 14 -160 -624 24 1 0 0 0 0 -1 0 1 0 40666.dat
+1 14 160 -624 24 1 0 0 0 0 -1 0 1 0 40666.dat
+0 STEP
+0 // Source page 8: official blue worm and four yellow pulley spacers on the central vertical axis.
+0 // Upper 31623 ends at Y=-464; lower 6522 begins at Y=-464 inside the worm. No axial shaft overlap.
+1 7 0 -344 0 0 1 0 1 0 0 0 0 -1 6522.dat
+1 1 0 -464 0 1 0 0 0 0 -1 0 1 0 31625.dat
+1 14 0 -544 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 0 -384 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 0 -324 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 0 -204 0 1 0 0 0 0 -1 0 1 0 6527.dat
+0 // UNFIXED: P6 red/crown gears and two short blue input shafts remain omitted. Their intersecting axes and gear phase are not resolved; no floating substitute gears added.
+0 // Upper/lower shafts meet within the worm sleeve; inner crossbar is retained between P7 crank collars. Static source interpretation only, no physical motion verification.
+0 // Source P9 upright final pose supersedes the earlier 55-degree intermediate pose. Steps 1-8 retained.

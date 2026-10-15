@@ -1,0 +1,264 @@
+{
+  "note": "ok-reaudit clearly_wrong+minor fixes",
+  "models": [
+    {
+      "slug": "4-ci-xuan-fu-lie-che",
+      "batch": "ok-batch1",
+      "fixStatus": "unfixed-ok-batch1",
+      "returnedToPending": false,
+      "unfixedReason": "高架连杆轮廓/配准仍简化，未宣称外形正确"
+    },
+    {
+      "slug": "4-dao-dan-che",
+      "batch": "ok-batch1",
+      "fixStatus": "fixed-ok-batch1",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-jun-jian",
+      "batch": "ok-batch1",
+      "fixStatus": "unfixed-ok-batch1",
+      "returnedToPending": false,
+      "unfixedReason": "船尾黄弧装置缺件号/几何；臂角仅近似"
+    },
+    {
+      "slug": "4-long-men-diao",
+      "batch": "ok-batch1",
+      "fixStatus": "fixed-ok-batch1",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-qian-shui-ting",
+      "batch": "ok-batch1",
+      "fixStatus": "unfixed-ok-batch1",
+      "returnedToPending": false,
+      "unfixedReason": "课件版本错配风险；尾桨仍缺几何"
+    },
+    {
+      "slug": "4-ta-diao",
+      "batch": "ok-batch1",
+      "fixStatus": "unfixed-ok-batch1",
+      "returnedToPending": false,
+      "unfixedReason": "末端吊具6295与顶黑件2223仍缺几何"
+    },
+    {
+      "slug": "4-yao-yao-ma",
+      "batch": "ok-batch1",
+      "fixStatus": "fixed-ok-batch1",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-zhi-sheng-ji",
+      "batch": "ok-batch1",
+      "fixStatus": "unfixed-ok-batch1",
+      "returnedToPending": false,
+      "unfixedReason": "尾桨6670c01仍缺几何"
+    },
+    {
+      "slug": "5-chou-you-ji",
+      "batch": "ok-batch1",
+      "fixStatus": "fixed-ok-batch1",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-da-cha-de-xiao-niu",
+      "batch": "ok-batch2",
+      "fixStatus": "fixed-ok-batch2",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-da-di-shu",
+      "batch": "ok-batch2",
+      "fixStatus": "fixed-ok-batch2",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-diao-che",
+      "batch": "ok-batch2",
+      "fixStatus": "unfixed-ok-batch2",
+      "returnedToPending": false,
+      "unfixedReason": "课件/对照版本错配（Toolo vs Technic），绳虽已在但未整课验收"
+    },
+    {
+      "slug": "5-la-ji-che",
+      "batch": "ok-batch2",
+      "fixStatus": "fixed-ok-batch2",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-lan-che",
+      "batch": "ok-batch2",
+      "fixStatus": "unfixed-ok-batch2",
+      "returnedToPending": false,
+      "unfixedReason": "车厢框体已补，白色窗扇仍缺可靠件"
+    },
+    {
+      "slug": "5-long-men-diao",
+      "batch": "ok-batch2",
+      "fixStatus": "unfixed-ok-batch2",
+      "returnedToPending": false,
+      "unfixedReason": "绳钩已在；课件/对照版本错配"
+    },
+    {
+      "slug": "5-ma-tou-diao-ji",
+      "batch": "ok-batch2",
+      "fixStatus": "fixed-ok-batch2",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-shui-jing",
+      "batch": "ok-batch2",
+      "fixStatus": "unfixed-ok-batch2",
+      "returnedToPending": false,
+      "unfixedReason": "绳已在；课件/对照版本错配（杠杆井 vs 卷扬井）"
+    },
+    {
+      "slug": "5-shui-zha",
+      "batch": "ok-batch2",
+      "fixStatus": "fixed-ok-batch2",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-ta-diao",
+      "batch": "ok-batch3",
+      "fixStatus": "unfixed-ok-batch3",
+      "returnedToPending": false,
+      "unfixedReason": "已按本地 Toolo 课件重建；夹爪/斜撑/顶件缺可靠几何；舱罩碰撞仍在。课件版本：LDR 跟随本地 courseware；pairs 为另一绳钩版本"
+    },
+    {
+      "slug": "5-tian-ping",
+      "batch": "ok-batch3",
+      "fixStatus": "unfixed-ok-batch3",
+      "returnedToPending": false,
+      "unfixedReason": "已按本地刚性连杆托盘重建；叉座锁接与托盘固定仍待核实。课件版本：LDR 跟随本地 courseware；pairs 为另一绳吊秤盘版本"
+    },
+    {
+      "slug": "5-tou-lan-ji",
+      "batch": "ok-batch3",
+      "fixStatus": "fixed-ok-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-tou-shi-che",
+      "batch": "ok-batch3",
+      "fixStatus": "unfixed-ok-batch3",
+      "returnedToPending": false,
+      "unfixedReason": "延长梁与端部托架已改；外侧限位轮因轴长不足省略，原碰撞仍在"
+    },
+    {
+      "slug": "5-xiao-song-shu-qi-che",
+      "batch": "ok-batch3",
+      "fixStatus": "unfixed-ok-batch3",
+      "returnedToPending": false,
+      "unfixedReason": "尾巴/肢杆姿态已符合课件；第8步两根蓝下轴连接仍未解"
+    },
+    {
+      "slug": "5-xuan-zhuan-ka-fei-bei",
+      "batch": "ok-batch3",
+      "fixStatus": "fixed-ok-batch3",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-yan-jing-she",
+      "batch": "ok-batch3",
+      "fixStatus": "unfixed-ok-batch3",
+      "returnedToPending": false,
+      "unfixedReason": "蛇身折线已按课件排列；关节板/轮碰撞仍在"
+    },
+    {
+      "slug": "5-yu-hang-yuan-xun-lian-ji",
+      "batch": "ok-batch3",
+      "fixStatus": "unfixed-ok-batch3",
+      "returnedToPending": false,
+      "unfixedReason": "中央蓝轴与黄轮已补、外框直立；第6步顶部传动仍缺"
+    },
+    {
+      "slug": "4-e-yu",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-ji-guan-qiang",
+      "batch": "ok-batch4",
+      "fixStatus": "unfixed-ok-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "黑色准星对应 2223，本地无几何且官方/非官方 DAT 404，未代用"
+    },
+    {
+      "slug": "4-qing-ting",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "4-qiu-qian",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-bing-qiu-yun-dong-yuan",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-e-yu",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-hai-dao-chuan",
+      "batch": "ok-batch4",
+      "fixStatus": "unfixed-ok-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "本地分步明确下层为黄船体；外轮廓黄缘差异未解清，未擅自改蓝"
+    },
+    {
+      "slug": "5-huo-jian",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-ji-gu-shou",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-xiao-niao-de-chi-bang",
+      "batch": "ok-batch4",
+      "fixStatus": "fixed-ok-batch4",
+      "returnedToPending": true,
+      "unfixedReason": null
+    },
+    {
+      "slug": "5-ya-mian-ji",
+      "batch": "ok-batch4",
+      "fixStatus": "unfixed-ok-batch4",
+      "returnedToPending": false,
+      "unfixedReason": "绿色短十字轴缺可靠轴长/编号，6521 过长，继续省略"
+    }
+  ]
+}

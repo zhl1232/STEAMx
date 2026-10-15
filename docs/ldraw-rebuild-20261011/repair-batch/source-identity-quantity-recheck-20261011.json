@@ -1,0 +1,72 @@
+{
+  "checkedAt": "2026-10-11T08:29:11.923237+00:00",
+  "scope": "Owner source-pixel recheck only; no shared registry or LDR changes",
+  "accepted": false,
+  "items": [
+    {
+      "slug": "4-ya-lu-ji",
+      "partId": "4433c01",
+      "sourcePage": 7,
+      "sourceImage": "preparation/4-ya-lu-ji/source/page-07.png",
+      "sourceImageSha256": "2240b97efff322bc037858d6c386e1a21b6f9f5a18505e7ea6617ca9b8493af7",
+      "actualPixelsViewed": true,
+      "resolvedQuantity": 1,
+      "visualEvidence": [
+        "Source p7 inset explicitly says1x beside one gray exhaust assembly.",
+        "Main image red outline highlights one vertical exhaust left of canopy above yellow front.",
+        "No second exhaust is depicted in this addition."
+      ],
+      "registryOccurrencesInterpretation": "Three entries describe the SAME course/page/part addition: evidence.json missing/0 count1; LDR line6 exhaust x1; supplemental prior-message row quantity2 is a factual quantity error, not a second occurrence. Do not sum these records.",
+      "recommendedRegistryCorrection": {
+        "match": {
+          "key": "4433c01",
+          "slug": "4-ya-lu-ji",
+          "sourcePage": 7,
+          "source": "Prior missing-parts research and author messages in this task",
+          "oldQuantity": 2
+        },
+        "newQuantity": 1,
+        "deduplicateCoursePartAddition": true
+      },
+      "remainingBlocker": "Geometry absent; current source already correctly saysx1, so no model change."
+    },
+    {
+      "slug": "4-tui-tu-ji",
+      "issueKey": "candidate:double-curved-brick",
+      "sourcePage": 7,
+      "sourceImage": "preparation/4-tui-tu-ji/source/page-07.png",
+      "sourceImageSha256": "484c08245579b39059cd9cf4883f54063d8cdf5eca26282735553f38a177e34a",
+      "actualPixelsViewed": true,
+      "resolvedPartId": "4198",
+      "resolvedQuantity": 3,
+      "recommendedCategory": "confirmed_identity_geometry_available",
+      "closureRecommendation": "Close4198 candidate-identity item; existing official4198 placements are appropriate. Not a course acceptance or fit certification.",
+      "visualEvidence": [
+        "Inset says3x and shows four top studs in2x2grid on flat central land.",
+        "Both longitudinal ends rounded with flat broad side, approximately2brick heights,2stud width and4stud overall length.",
+        "Main image shows three identical unprinted red pieces side-by-side; all distinctive visible features match official4198."
+      ],
+      "officialGeometry": {
+        "path": "STEAMx/scripts/ldraw-models/parts/4198.dat",
+        "sha256": "676462ff7a3b9d09bd02c092fdc1aee0ef8d4e5826c4ef2f466cadcf9e983412",
+        "url": "https://library.ldraw.org/library/official/parts/4198.dat",
+        "status": "Official Part UPDATE2018-01",
+        "author": "Tony Hafner [hafhead]",
+        "license": "CC BY4.0",
+        "subpart": "s/4198s01.dat",
+        "subpartSha256": "8950d14b9754a5ff5bb7cdfd32db7d63d7388648547e73dcc02aea6baee2edac",
+        "geometryEvidence": [
+          "Official root title identifies Duplo Brick2x4x2 with Rounded Ends.",
+          "Body topY0,bottomY96:two48LDUbrick heights; endpointsX+/-80 and widthZ+/-40.",
+          "Subpart explicitly places four studs atX+/-20,Z+/-20 onY0, matching inset central2x2top.",
+          "Root/subpart curved chord/cylinder surfaces form both rounded ends; unprinted root matches source."
+        ]
+      },
+      "limits": [
+        "Source picture does not show molded numerical ID; confirmation is distinctive visible shape plus official named geometry, sufficient for this reconstruction identity issue.",
+        "Does not close missing4tracks/orangeblade or Toolo connection/stability checks.",
+        "Current LDR already has3official4198; no geometry addition/change required."
+      ]
+    }
+  ]
+}

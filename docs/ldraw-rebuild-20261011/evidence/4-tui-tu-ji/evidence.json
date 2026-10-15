@@ -1,0 +1,31 @@
+{
+  "slug": "4-tui-tu-ji",
+  "lessonId": 201,
+  "courseId": 6,
+  "sourceSha256": "d665224a4ae78d02b7ac5332425e24fac436839ca2c25aa26da8b37a32af44fe",
+  "sourcePages": 10,
+  "allSourcePixelsViewed": true,
+  "modelSha256": "e86d685215ec96cd815c5bd023e028a8dc7e10f1ec2ed9fe8b741c1aca8e6c6c",
+  "placements": 47,
+  "sourceStages": 9,
+  "missing": [
+    {
+      "id": "unknown",
+      "candidate": "71981",
+      "count": 4,
+      "page": "3,4",
+      "role": "caterpillar tracks; local approved mesh exists but source identity not independently certified"
+    },
+    {
+      "id": "unknown",
+      "count": 1,
+      "page": 5,
+      "role": "orange Toolo bulldozer blade; no geometry loaded"
+    }
+  ],
+  "checker": "PASS47",
+  "metadataUsedHash": "6daf42baa444910cad96c9eaaa1b39bce0ef59c13ab20a60579692c67cbb8047",
+  "accepted": false,
+  "status": "incomplete-needs-geometry-source-step-acceptance",
+  "render": "current source final3 pixels actually reviewed; cumulative steps pending"
+}

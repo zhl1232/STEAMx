@@ -1,0 +1,80 @@
+{
+  "sourceSha256": "94b8a3ad96eaa9ce14acc0454706dda5627470390beb482b25d0947719e07f2b",
+  "revision": "3081f6aca354fc12719a4f0e6d690798dd128a98c477e7af8f2b40ea6367c4ba",
+  "reviewedAt": "2026-10-11T06:58:05.675023+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-jiao-ban-qi",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "385abc8b8a159e68f35f19fd19af08d5a9372f8f97a2390e236c48ddf8fbacdb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "2a782aa6c04b9ff827d3f693d3cd4c769459b94bb5b5116c27932a068005a100",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "b5aa3758bc3c24b936a206512057cc3be66bb7b2b590e6a4ee652465fcae3538",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "ccd2492813a33a460e1b40584d53d37979a3bfcce07d65f292ed94423bc35dd1",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "98327765e28447ee2ee3ec84443c348d65477ebe53ae5cc029b1d646e55ca794",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "4087c67b5cb4fbd5e0d4df97f36b22276bda75476579643a4e51bb9062f1f5ab",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "9424713e92ae4c53848660bb9e228895aed9d3b3c1df10a9fc0298e440da52bc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "ba141f5820e7685cac5f9a16998329cd8f14ac119b8d73a39efa49f51c58ea4c",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "9a7d200bd800fb8e96bf1a781aad777e3f8e7b980bb8d231fda3fb78747d7cbb",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "2495c52e198793bf52e478595b2235b9ac8f21bc9c48a9faf687df4d93a233dc",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "7026057891de3ae9c8e90e7454480787c17ba67f1ec1ece4d9cd8cc049e9aca4",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "66cd0af480f465a83ed05db96df538558b2c0b3c1b1b64744f2b709942c4f452",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-10",
+      "sha256": "385abc8b8a159e68f35f19fd19af08d5a9372f8f97a2390e236c48ddf8fbacdb",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually screened all10 cumulative step panels for source94b8a3ad; opened original step6 and re-opened source p5, with previously viewed p6/p11. Additions follow source order: pillar/base, red bearing, cap, beams, upper bearing/retainers, crank/large gear, green spindle/red gear, mixing cranks, two vessel courses then remaining courses. Raised-head static pose retained. Axial retainer depth, nominal gear contact, tiny beam/bearing clearance and full blade/vessel movement are not physical validation. Final3 previously observed remain valid; all cumulative pixels now reviewed. Pending user confirmation, accepted=false; no source edits."
+}

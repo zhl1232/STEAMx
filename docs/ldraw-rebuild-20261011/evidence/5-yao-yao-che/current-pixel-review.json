@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "2845da5bc5021692a84c20f4e3bf59d3a3566d407f514151a82318ccd9bc0c18",
+  "revision": "4bb808bd5ae6442b4d1afebb18f6eaae0cc43e7a9347d1234769466bf16027b8",
+  "reviewedAt": "2026-10-11T06:13:10.152621+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-yao-yao-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "690ac3928a3ee10358e729336e977f450fe78ad89336ff1a3c38a03c5ce1f8e7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "eef6f1dae26dd293626881754937076ebaee28217c126de430280291df3dd1ec",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "5fe4ce4cba6332d6d6df883eb22a9b182611f46991ed2bd3906cd5781b122217",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "99f33067a146122c5af6a3c4bb8fde8c269245995d59a45cd08206084057830a",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "759fd420cf0a97bb780ad4aa2573bd03e9ed945de8e0fc3ec2557aee1f214fc6",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "3f16ee7c18b73b214202668a3378635d464cf51f6a59d77c87c6b5321d50d2c7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "540a96e96649dde5584c4fb074db03250c52fcbff06b2c32d09082d47c6d03d2",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "cfb66f61cf0dcf93a5927a0262fd857a0fe2833b299be141a61badcff7e572e8",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "f66bb81e1c18df949876bb998d4e732bfdf283d3a8f3365f5e95388da71db246",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "e5297346ad3960faec57356c1463ad0e5ce5ec3de7e5067264abf25dca171bb9",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "49fed067ce958292da9c78ffcd86cbff37f75aafa455ec7585349ba5823aa82f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "690ac3928a3ee10358e729336e977f450fe78ad89336ff1a3c38a03c5ce1f8e7",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actually inspected D-drive final3 contact sheet and every cumulative panel1-9, plus original step-5.png and iso-rear.png against source pages5 and10. Entire base, gears, cranks, seat back and driver are in frame; no blank/clipped panel. Four inner cranks point downward with pins toward moving deck, corrected proper rotations preserved. Source order side walls, red rails, both gear trains, cranks, moving red supports, blue deck, seat/body and driver matches visible sequence. Driver brown hands/white sleeves match source. Axle insertion depth, gear phase/mesh and actual rocking/load retention remain manual and not physically validated; no user acceptance."
+}

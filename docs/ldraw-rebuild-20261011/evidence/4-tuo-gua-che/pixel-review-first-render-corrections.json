@@ -1,0 +1,34 @@
+{
+  "reviewedSourceSha256": "b156b9457850417d3429996a623b6a402c6ec4e94978be2c1348e705224b615e",
+  "revision": "7642c2a727ad816f209ebc21df38b1f896dbf17144ed33c100ca2aa270725961",
+  "finalOriginalsViewed": [
+    "iso",
+    "iso-rear",
+    "top"
+  ],
+  "cumulativeContactStepsViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "sourcePagesReopened": [
+    4,
+    5,
+    14
+  ],
+  "outcome": "rejected-for-visible-pose-errors-corrected-awaiting-rerender",
+  "correction": "Pixel correction after b156b render: sourcep5 has central driver opening; side-built groups moved Z±40 to Z±80 (80LDU gap), sourcep6 roof76395 rotated90 degrees to span6 studs across cab width. Sourcep4 fork yellow pins are vertical: corrected localX axes to world±Y, horizontal cheeks, symmetric inward fork tips. Sourcep4 hidden capture still unverified; predicted fork pivots now(23,-170,±32), not matched to clutch estimated(-100,-170,±80). No physical connection acceptance.",
+  "newSourceSha256": "6330a89311c8d8065bd6152a197c2f1dd004510392cad895851376966917b31f",
+  "accepted": false,
+  "physicalValidation": false
+}

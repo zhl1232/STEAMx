@@ -1,0 +1,96 @@
+{
+  "slug": "5-yu-er-de-wei-ba",
+  "sourceSha256": "2f7ea51d8834ec51771278ff4848b33ae73f3ec35f4035b51739456d258d68c9",
+  "checkerSha256": "76838d6085b0e18f7fcec2e98eee9f2169a0637627f1a080b23b57a4937c5b10",
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "rawCheckerLog": "static-checker.log",
+  "rawAlarmPairs": 4,
+  "alarms": [
+    {
+      "lines": [
+        24,
+        22
+      ],
+      "parts": [
+        "6292.dat",
+        "6527.dat"
+      ],
+      "classification": "real_mesh_risk",
+      "reason": "6292 has asymmetric localZ cavity; uniform42.183-radius exemption is invalid. Endpoint-only radial minima are insufficient and superseded. Corrected outward tyre/outer hub and reversed inner hub remove original17LDU gross mismatch. Current strict triangle surface crossings=52. Positive intersections are mesh evidence, not proof of real physical interference; nominal R24 contacts may reflect tessellation/press fit. Zero excludes neither coplanar overlap nor containment.",
+      "evidence": [
+        "before-profile.json",
+        "after-profile.json",
+        "after-triangles.json"
+      ]
+    },
+    {
+      "lines": [
+        24,
+        23
+      ],
+      "parts": [
+        "6292.dat",
+        "6527.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "6292 has asymmetric localZ cavity; uniform42.183-radius exemption is invalid. Endpoint-only radial minima are insufficient and superseded. Corrected outward tyre/outer hub and reversed inner hub remove original17LDU gross mismatch. Current strict triangle surface crossings=0. Positive intersections are mesh evidence, not proof of real physical interference; nominal R24 contacts may reflect tessellation/press fit. Zero excludes neither coplanar overlap nor containment.",
+      "evidence": [
+        "before-profile.json",
+        "after-profile.json",
+        "after-triangles.json"
+      ]
+    },
+    {
+      "lines": [
+        27,
+        25
+      ],
+      "parts": [
+        "6292.dat",
+        "6527.dat"
+      ],
+      "classification": "real_mesh_risk",
+      "reason": "6292 has asymmetric localZ cavity; uniform42.183-radius exemption is invalid. Endpoint-only radial minima are insufficient and superseded. Corrected outward tyre/outer hub and reversed inner hub remove original17LDU gross mismatch. Current strict triangle surface crossings=52. Positive intersections are mesh evidence, not proof of real physical interference; nominal R24 contacts may reflect tessellation/press fit. Zero excludes neither coplanar overlap nor containment.",
+      "evidence": [
+        "before-profile.json",
+        "after-profile.json",
+        "after-triangles.json"
+      ]
+    },
+    {
+      "lines": [
+        27,
+        26
+      ],
+      "parts": [
+        "6292.dat",
+        "6527.dat"
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "6292 has asymmetric localZ cavity; uniform42.183-radius exemption is invalid. Endpoint-only radial minima are insufficient and superseded. Corrected outward tyre/outer hub and reversed inner hub remove original17LDU gross mismatch. Current strict triangle surface crossings=0. Positive intersections are mesh evidence, not proof of real physical interference; nominal R24 contacts may reflect tessellation/press fit. Zero excludes neither coplanar overlap nor containment.",
+      "evidence": [
+        "before-profile.json",
+        "after-profile.json",
+        "after-triangles.json"
+      ]
+    }
+  ],
+  "additionalFindings": [
+    {
+      "classification": "real_risk",
+      "finding": "6526 fin exact world bbox reaches Y=-39.43166 while pool plate surface is Y=-48: visible/source-inferred45deg pose has fin/water geometric penetration risk; not cleared by manual policy."
+    },
+    {
+      "classification": "insufficient_evidence",
+      "finding": "Tail hidden bearing retention and exact source fin angle remain inferred."
+    }
+  ],
+  "sourceEvidence": "source-review.md plus existing source page files/ledger; no new source pixel inspection claimed in this static review",
+  "limits": [
+    "Raw checker manual support/collision policies do not certify support, clearance or assembly. Exit0 does not prove assembly correctness.",
+    "No physical validation. Inventory reference is not the user actual color inventory.",
+    "Pending user confirmation; incomplete mechanisms/omitted source components are not publishable."
+  ],
+  "accepted": false,
+  "physicalValidation": false
+}

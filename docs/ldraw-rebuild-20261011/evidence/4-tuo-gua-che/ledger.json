@@ -1,0 +1,393 @@
+{
+  "slug": "4-tuo-gua-che",
+  "sourceSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+  "status": "incomplete-source-reconstruction-awaiting-render-and-user-confirmation",
+  "sourcePhysicalCount": 69,
+  "implementedPlacements": 53,
+  "omittedPhysicalCount": 16,
+  "pages": [
+    {
+      "page": 1,
+      "sourceBOM": [
+        "76395 black",
+        4
+      ],
+      "implemented": 4
+    },
+    {
+      "page": 2,
+      "sourceBOM": [
+        "76057 gray",
+        2,
+        "99565 gray",
+        4,
+        "44970 black",
+        4
+      ],
+      "implemented": 10
+    },
+    {
+      "page": 3,
+      "sourceBOM": [
+        "3011 lime",
+        3,
+        "2302b lime",
+        2,
+        "76057 yellow",
+        1
+      ],
+      "implemented": 6
+    },
+    {
+      "page": 4,
+      "sourceBOM": [
+        "74957 gray",
+        2,
+        "28336 gray",
+        2,
+        "exhaust/tool candidate4433c01",
+        1
+      ],
+      "implemented": 4
+    },
+    {
+      "page": 5,
+      "sourceBOM": [
+        "3011 lime side-built",
+        2,
+        "3437 yellow side-built",
+        2
+      ],
+      "implemented": 4
+    },
+    {
+      "page": 6,
+      "sourceBOM": [
+        "3011 lime",
+        3,
+        "3011 yellow",
+        2,
+        "76395 black",
+        1
+      ],
+      "implemented": 1
+    },
+    {
+      "page": 7,
+      "sourceBOM": [
+        "split figure axle",
+        1,
+        "split figure arm",
+        2,
+        "head",
+        1,
+        "torso",
+        1,
+        "hip",
+        1,
+        "legs",
+        1,
+        "cap",
+        1
+      ],
+      "implemented": 0
+    },
+    {
+      "page": 8,
+      "sourceBOM": [
+        "40666 white",
+        2,
+        "4199 green",
+        1
+      ],
+      "implemented": 1
+    },
+    {
+      "page": 9,
+      "sourceBOM": [
+        "76395 black",
+        2,
+        "4196 green 6x12",
+        1
+      ],
+      "implemented": 3
+    },
+    {
+      "page": 10,
+      "sourceBOM": [
+        "99565 gray",
+        4,
+        "44970 black",
+        4
+      ],
+      "implemented": 8
+    },
+    {
+      "page": 11,
+      "sourceBOM": [
+        "60535 black/yellow",
+        1,
+        "76395 black",
+        1
+      ],
+      "implemented": 2
+    },
+    {
+      "page": 12,
+      "sourceBOM": [
+        "3011 green",
+        6
+      ],
+      "implemented": 6
+    },
+    {
+      "page": 13,
+      "sourceBOM": [
+        "31021p01 white/red",
+        4
+      ],
+      "implemented": 4
+    }
+  ],
+  "implementedBOM": [
+    {
+      "id": "2302b.dat",
+      "color": 27,
+      "quantity": 2
+    },
+    {
+      "id": "28336.dat",
+      "color": 72,
+      "quantity": 2
+    },
+    {
+      "id": "3011.dat",
+      "color": 2,
+      "quantity": 6
+    },
+    {
+      "id": "3011.dat",
+      "color": 27,
+      "quantity": 5
+    },
+    {
+      "id": "31021p01.dat",
+      "color": 15,
+      "quantity": 4
+    },
+    {
+      "id": "3437.dat",
+      "color": 14,
+      "quantity": 2
+    },
+    {
+      "id": "4196.dat",
+      "color": 2,
+      "quantity": 1
+    },
+    {
+      "id": "4199.dat",
+      "color": 2,
+      "quantity": 1
+    },
+    {
+      "id": "44970.dat",
+      "color": 0,
+      "quantity": 8
+    },
+    {
+      "id": "60535.dat",
+      "color": 0,
+      "quantity": 1
+    },
+    {
+      "id": "74957.dat",
+      "color": 72,
+      "quantity": 2
+    },
+    {
+      "id": "76057.dat",
+      "color": 14,
+      "quantity": 1
+    },
+    {
+      "id": "76057.dat",
+      "color": 72,
+      "quantity": 2
+    },
+    {
+      "id": "76395.dat",
+      "color": 0,
+      "quantity": 8
+    },
+    {
+      "id": "99565.dat",
+      "color": 71,
+      "quantity": 8
+    }
+  ],
+  "unknowns": [
+    {
+      "page": 4,
+      "quantity": 1,
+      "part": "vertical exhaust/tool",
+      "candidateIds": [
+        "4433c01"
+      ],
+      "status": "omitted",
+      "missingEvidence": "Candidate screwdriver assembly shape; exact matching source identity and approved mesh absent. Not represented by a cylinder."
+    },
+    {
+      "page": 6,
+      "quantity": 5,
+      "part": "rear cab ordinary bricks: lime3011 x3, yellow3011 x2",
+      "candidateIds": [
+        "3011"
+      ],
+      "status": "known identity, placement omitted",
+      "missingEvidence": "Source rear wall visible but hidden arrangement under roof is not uniquely resolved. 3 horizontal courses144 versus side-built green160 creates16LDU difference; no stretching or invented shim. Roof is supported at side-built topsY=-290, rear wall remains missing."
+    },
+    {
+      "page": 7,
+      "quantity": 8,
+      "part": "split seated figure",
+      "candidateIds": [],
+      "status": "omitted",
+      "missingEvidence": "No independently identified axle,2 arms,head,torso,hip,legs,cap matching source parts and torso3 print. Generic complete figure not substituted."
+    },
+    {
+      "page": 8,
+      "quantity": 2,
+      "part": "white reinforcing plates",
+      "candidateIds": [
+        "40666"
+      ],
+      "status": "known identity, placement omitted",
+      "missingEvidence": "One white2x4 plate above and one below green tow beam visible, but cab attachment depends on unclosed rear-wall geometry; not floated or driven into side-built green bricks."
+    }
+  ],
+  "connectionRisks": [
+    {
+      "key": "p4-capture",
+      "classification": "evidence-insufficient",
+      "detail": "Pixel correction after b156b render: sourcep5 has central driver opening; side-built groups moved Z±40 to Z±80 (80LDU gap), sourcep6 roof76395 rotated90 degrees to span6 studs across cab width. Sourcep4 fork yellow pins are vertical: corrected localX axes to world±Y, horizontal cheeks, symmetric inward fork tips. Sourcep4 hidden capture still unverified; predicted fork pivots now(23,-170,±32), not matched to clutch estimated(-100,-170,±80). No physical connection acceptance."
+    },
+    {
+      "key": "p5-p6-height",
+      "classification": "real-incomplete-structure",
+      "detail": "Roof supported by the tops of two sideways green3011 atY=-290. Five rear-wall bricks omitted;160 side dimension versus144 three-course height leaves16LDU mismatch. No rear support acceptance."
+    },
+    {
+      "key": "p8-tow-support",
+      "classification": "real-incomplete-connection",
+      "detail": "Tow beam bottomY=-194 rests on turntable topY=-194 atx=-400; its front endX=-160 abuts side-built rear stud plane. White reinforcement and tractor attachment absent: trailer assembly is supported but the tractor/trailer joint is not structurally closed. Sourcep8 is temporary subassembly untilp11, no standalone support claim."
+    },
+    {
+      "key": "toolo-wheel-mating",
+      "classification": "evidence-insufficient",
+      "detail": "Eight99565/44970 assemblies share axes and bottomground radius57.379; hubs and tires are approved approximate meshes. Screw bore retention, tread fit and turning freedom unverified."
+    },
+    {
+      "key": "p13-fence",
+      "classification": "source-supported",
+      "detail": "Official31021p01 matches two white rails with red rectangular stripes. Four fences sitY=-154 cargo brick top; posts occupy neighboring40LDU studs, no fence floating."
+    }
+  ],
+  "inventory": {
+    "referenceSets": [
+      "45002-1",
+      "9090-2"
+    ],
+    "notCourseBOM": true,
+    "userStock": "unknown",
+    "knownReferenceDelta": [
+      {
+        "id": "76395 /86599",
+        "sourceNeeds": 8,
+        "reference45002Black": 7,
+        "extraComparedToOneReferenceSet": 1
+      }
+    ],
+    "colorSpecificAvailability": "Not fully reconciled; unknown is not absent"
+  },
+  "partGeometry": [
+    {
+      "id": "2302b.dat",
+      "sha256": "b914434b9d8763495fa0fc65f634d94c59642fb1c3f24cb6335234f7f426fbb2",
+      "type": "official-local-DAT"
+    },
+    {
+      "id": "28336.dat",
+      "sha256": "e543fc099efca5a257054c45cfd1bfc5b328a31075fe36b764082f03710e5bdc",
+      "type": "previously-approved-approximate"
+    },
+    {
+      "id": "3011.dat",
+      "sha256": "84b92442a5dbbdea85194fb5f7386e9032fb1581c5d9f9f41a6e78c5ca3ed4a6",
+      "type": "official-local-DAT"
+    },
+    {
+      "id": "31021p01.dat",
+      "sha256": "d31be5a8b9c85733c3e992a9c6f25580e75e90d7c1742e38a6c14392f2baacb1",
+      "type": "official-local-DAT"
+    },
+    {
+      "id": "3437.dat",
+      "sha256": "b04457235ceed01ddb7cecb4fbb8f8bb3c8d1879614eac269e7549b143327902",
+      "type": "official-local-DAT"
+    },
+    {
+      "id": "4196.dat",
+      "sha256": "ef8c75cd6d3df465054dd39e5ddfd357e320102f61ec3b4d72b0d16e7a494317",
+      "type": "official-local-DAT"
+    },
+    {
+      "id": "4199.dat",
+      "sha256": "d8f3c3200067eaacf8364ddbdcee91a543185e0a008beb8bffc7859f82d3850d",
+      "type": "official-local-DAT"
+    },
+    {
+      "id": "44970.dat",
+      "sha256": "20811a8a82100784a1e73855b5fc90ff85db7bf6a5764aefc0dd15b7a023abdd",
+      "type": "previously-approved-approximate"
+    },
+    {
+      "id": "60535.dat",
+      "sha256": "762a186dc809bc334756e59e78c0f17e85dbd5bb8a9a1fc5d7a36475c9591ea6",
+      "type": "previously-approved-approximate"
+    },
+    {
+      "id": "74957.dat",
+      "sha256": "19ea9ba89477d19314102bcc0b36c112544b2678278c484613475ab71e6b7ac2",
+      "type": "previously-approved-approximate"
+    },
+    {
+      "id": "76057.dat",
+      "sha256": "33b9882af220c174320421d478ccbc88b21046d27db27a391af544d4f931700a",
+      "type": "previously-approved-approximate"
+    },
+    {
+      "id": "76395.dat",
+      "sha256": "bda1132301227ac9b49edf27727cca0f7cb9849aad5cce96dc3e0a58fa21b2b3",
+      "type": "previously-approved-approximate"
+    },
+    {
+      "id": "99565.dat",
+      "sha256": "95e2629b64f861893d6f385cc869f84ae00e2ff70e594291734c533f66e651a8",
+      "type": "previously-approved-approximate"
+    }
+  ],
+  "physicalValidation": false,
+  "accepted": false,
+  "pixelDrivenCorrection": "Pixel correction after b156b render: sourcep5 has central driver opening; side-built groups moved Z±40 to Z±80 (80LDU gap), sourcep6 roof76395 rotated90 degrees to span6 studs across cab width. Sourcep4 fork yellow pins are vertical: corrected localX axes to world±Y, horizontal cheeks, symmetric inward fork tips. Sourcep4 hidden capture still unverified; predicted fork pivots now(23,-170,±32), not matched to clutch estimated(-100,-170,±80). No physical connection acceptance.",
+  "secondPixelDrivenCorrection": "Second render actual inspection: green3011 lower body overlapped gray74957 due shared side-built studplaneX=-160. Corrected green3011 originX=-208: its bottomplaneX=-160 seats gray top/studplaneX=-160. Yellow3437 originX=-160 now seats the same green bottomplane on the upper half. Both colors shifted rearwards48LDU, preserving orthonormal SIDE matrix and source cavity-facing-forward direction. Manual stud/underside capture still unverified; no DAT changes.",
+  "currentPixelReview": {
+    "file": "current-pixel-review.json",
+    "sourceSha256": "f4c0641f387c9abc196c1a851a05e775e1d9f00df8f30f4eb464e0b023df0480",
+    "revision": "f80ad667b6e2d702568b05c2048249ea71eda6d279b82ed6ee2e4a1c50d3e862",
+    "finalAllThreeViewsReviewed": true,
+    "allCumulativeStepsReviewed": true,
+    "accepted": false,
+    "physicalValidation": false
+  }
+}

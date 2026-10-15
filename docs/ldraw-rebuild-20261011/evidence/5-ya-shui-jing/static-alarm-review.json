@@ -1,0 +1,72 @@
+{
+  "slug": "5-ya-shui-jing",
+  "sourceSha256": "6545fa7d70a314b78ff9be5eea3a7f18afdcccf060e96931604395d07fd73462",
+  "checker": {
+    "exitCode": 0,
+    "rawLog": "raw-check.txt",
+    "rawSha256": "4fdac5fbd63cea727eb120c64c6c35bcdce9eebb9b9c149c6eed559282092d15",
+    "placements": 136,
+    "reportedPairCount": 0,
+    "checkerSha256": "76838d6085b0e18f7fcec2e98eee9f2169a0637627f1a080b23b57a4937c5b10"
+  },
+  "rawPairs": [],
+  "alarms": [
+    {
+      "key": "source-count",
+      "classification": "visible-with-hidden-seam-inference",
+      "evidence": "All13 sourcepagesactuallyviewed. p1 24red2x4+green8x16; p2 24red2x4; p3 30yellow2x4+two2x2. p7 two7hole6524 confirmedbyholes. p11 9blue2x4+four2x2; p12 11blue2x4+three2x2. No sourcecountcontradiction asserted."
+    },
+    {
+      "key": "well-seams",
+      "classification": "source-supported-with-inferred-hidden-layout",
+      "evidence": "p1 six6x6pinwheelcourses of4bricks,2x2hole. p2 four8x8perimetercourses of6bricks,4x4hole,40LDUoverhang supported onlowercourse. p3 three10x10pinwheelcourses of8bricks,6x6opening. Topsidewalls4long+2square, twoadditionalyellowplatforms extendmechanism. Eachplatform atX240,Y-672,Z+/-80 overlaps40LDUontoexistingouterringX120..200; actualcantileverload capacityunverified. Followup p2 pixels rechecked: outeredge stud count remains8, fourheightcourses consistent with24bricks; temporary10x10threecourse suspicion notadopted. Not a count-onlyproof."
+    },
+    {
+      "key": "pivot-adjustment",
+      "classification": "explicit-reasonable-layout-adjustment",
+      "evidence": "Toavoidbluewall/6527intersection, pairedbluesquares andredshortbearings centreX280,Z+/-80; shaftY-744. Green6521 spansZ+/-160, wheels+/-140. Lever75350 pivotuseslocalholeX80, innerpinlocal-160,240LDUspan; chosen10degreehandle-downphase. Thiswidenssourcehiddenbearingplacement; sourcepreciseholes/offsetsnotunique. No piece scaling orinventedspacers."
+    },
+    {
+      "key": "pump-linkage",
+      "classification": "source-backed-pose-with-motion-unverified",
+      "evidence": "Innerleverpin=(280-240cos10,-744-240sin10), outer7holebeamsZ+/-60 withtop/bottomholes240LDUapart. Gray6Lshafts bothends. Two6526 externalcaps atZ+/-100 haveintegralpin80belowtop, inwardinto7beam. Nominalaxescoincide; shaftretention andcompletepumptravel notvalidated."
+    },
+    {
+      "key": "piston",
+      "classification": "explicit-hidden-layout-adjustment",
+      "evidence": "Verticalred75349 localX->+Y/localY->+X, topstudsface-X, originat(innerpinX-24,lowerpinY+40). p9 threeorange2x4,twoorange2x2 andyellow2x4 retained ininterlockedsidebuiltlayers, shiftedinwardtoavoidwellwall. Precisesourcehiddenpistonlayoutnotuniquelyvisible; colours/count/externalgroupretained, nohydraulicfunctionclaim."
+    },
+    {
+      "key": "tube-identity-and-seating",
+      "classification": "official-geometry-candidate-installation",
+      "evidence": "p10 sixstudroundframe/45degreeelbow/twostraights matchofficial31191,31195,31452 visiblefeatures andexistinglicensedDAT. Frame240LDUhigh seatedonendwalltop-624 sooriginY-864; roundholecentreY-754. ElboworiginatframeplaneX-160, orientationmapslocalZoutward-X/localXup-Y. Actualelbowexit(-35.148,0,84.852), tangent45degrees usedtoattachstraight120LDUsegments. Rim78/80 nominalseating andsocketfit/intersections requiremesh/physicalconfirmation; no resizedframe/tubes."
+    },
+    {
+      "key": "upper-blue-omissions",
+      "classification": "known-connection/layout",
+      "evidence": "p11 ninthblue3011 restored at(160,-720,0),E. ItsbottomY-672 bridges two sourceyellowplatforms centred(240,-672,+/-80), with40x40LDU bearing overlaps atX160..200/Z40..80 andZ-80..-40, fournominalstudcentres total. Partialbearing/loadretention unverified. Two p12blue3011 remainomitted: farendX-160,Y-816/-864 intersectsactual31191frame; nearendX160,Y-816 intrudeslever. A highercap needsdifferentheight orchanges sourceopening andisnot silentlysubstituted. Detailedcandidates: blue-local-second-look.json."
+    },
+    {
+      "key": "static-limit",
+      "classification": "evidence-insufficient",
+      "evidence": "Correctedknownwall/piston andwall/pulleyintersections beforecurrentchecker. Exit0 isnot assemblysupport, retention, fullmotion, liquidpump,orphysicalacceptance. Currentfinal3/all12stepactualpixelreviewpending; noChrome/Studio used."
+    }
+  ],
+  "matrix": {
+    "count": 136,
+    "allProperRigidRotations": true,
+    "maxError": 3.804934145534844e-11
+  },
+  "conclusion": "Unresolved source/assembly risks remain; checker and matrix results are not physical acceptance.",
+  "accepted": false,
+  "physicalValidation": false,
+  "currentPixelReview": {
+    "file": "current-pixel-review.json",
+    "revision": "93569731d0997072415b519034004f2598e5757b6960fd0a714c5ec46b29324c",
+    "sourceSha256": "6545fa7d70a314b78ff9be5eea3a7f18afdcccf060e96931604395d07fd73462",
+    "finalViewsObserved": 3,
+    "cumulativeStepsObserved": 12,
+    "observationCoverageOnly": true,
+    "assemblyPass": false
+  }
+}

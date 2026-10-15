@@ -1,0 +1,181 @@
+{
+  "slug": "5-ping-heng-da-shi",
+  "sourceSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+  "checker": {
+    "exitCode": 1,
+    "rawLog": "raw-check.txt",
+    "rawSha256": "2717f7d241f320fc1485c2cb70504c1e8214e589fea217be32ba6c69808028b0",
+    "placements": 117,
+    "reportedPairCount": 9,
+    "checkerSha256": "76838d6085b0e18f7fcec2e98eee9f2169a0637627f1a080b23b57a4937c5b10"
+  },
+  "rawPairs": [
+    {
+      "lines": [
+        97,
+        84
+      ],
+      "placements": [
+        "1 4 0 -960 0 1 0 0 0 1 0 0 0 1 6394.dat",
+        "1 14 0 -884 0 1 0 0 0 0 -1 0 1 0 6527.dat"
+      ],
+      "classification": "real-geometry-risk",
+      "evidence": "6394 source arch cutoutX+/-40,Y48..96. Horizontal6527 wheel radius41.00248 lies atarch localY76 with20halfthickness: width nominally2.00496LDU too wide at central radial extremity. Exact angular faces/physical fit pending; NOT cleared as bbox false positive."
+    },
+    {
+      "lines": [
+        106,
+        102
+      ],
+      "placements": [
+        "1 14 -280 -768 -60 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 -280 -840 -60 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "Four upper wheel pairs72LDU apart and four lower pairs80LDU apart in same axial planes, actual6527 radius41.00248. Earlier exact same-part80LDU witness established surface crossings;72LDU is also unresolved. Keep source quantity/nominal shafts, no collision exemption or claim of physical failure/success."
+    },
+    {
+      "lines": [
+        107,
+        103
+      ],
+      "placements": [
+        "1 14 -280 -768 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 -280 -840 100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "Four upper wheel pairs72LDU apart and four lower pairs80LDU apart in same axial planes, actual6527 radius41.00248. Earlier exact same-part80LDU witness established surface crossings;72LDU is also unresolved. Keep source quantity/nominal shafts, no collision exemption or claim of physical failure/success."
+    },
+    {
+      "lines": [
+        114,
+        110
+      ],
+      "placements": [
+        "1 14 280 -768 -60 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 280 -840 -60 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "Four upper wheel pairs72LDU apart and four lower pairs80LDU apart in same axial planes, actual6527 radius41.00248. Earlier exact same-part80LDU witness established surface crossings;72LDU is also unresolved. Keep source quantity/nominal shafts, no collision exemption or claim of physical failure/success."
+    },
+    {
+      "lines": [
+        115,
+        111
+      ],
+      "placements": [
+        "1 14 280 -768 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 280 -840 100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "Four upper wheel pairs72LDU apart and four lower pairs80LDU apart in same axial planes, actual6527 radius41.00248. Earlier exact same-part80LDU witness established surface crossings;72LDU is also unresolved. Keep source quantity/nominal shafts, no collision exemption or claim of physical failure/success."
+    },
+    {
+      "lines": [
+        123,
+        120
+      ],
+      "placements": [
+        "1 14 -540.156757 -464.160467 -60 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 -462.69709 -484.160467 -60 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "Four upper wheel pairs72LDU apart and four lower pairs80LDU apart in same axial planes, actual6527 radius41.00248. Earlier exact same-part80LDU witness established surface crossings;72LDU is also unresolved. Keep source quantity/nominal shafts, no collision exemption or claim of physical failure/success."
+    },
+    {
+      "lines": [
+        124,
+        121
+      ],
+      "placements": [
+        "1 14 -540.156757 -464.160467 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 -462.69709 -484.160467 100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "Four upper wheel pairs72LDU apart and four lower pairs80LDU apart in same axial planes, actual6527 radius41.00248. Earlier exact same-part80LDU witness established surface crossings;72LDU is also unresolved. Keep source quantity/nominal shafts, no collision exemption or claim of physical failure/success."
+    },
+    {
+      "lines": [
+        130,
+        127
+      ],
+      "placements": [
+        "1 14 540.156757 -464.160467 -60 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 462.69709 -484.160467 -60 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "Four upper wheel pairs72LDU apart and four lower pairs80LDU apart in same axial planes, actual6527 radius41.00248. Earlier exact same-part80LDU witness established surface crossings;72LDU is also unresolved. Keep source quantity/nominal shafts, no collision exemption or claim of physical failure/success."
+    },
+    {
+      "lines": [
+        131,
+        128
+      ],
+      "placements": [
+        "1 14 540.156757 -464.160467 100 1 0 0 0 1 0 0 0 1 6527.dat",
+        "1 14 462.69709 -484.160467 100 1 0 0 0 1 0 0 0 1 6527.dat"
+      ],
+      "classification": "real-mesh-risk",
+      "evidence": "Four upper wheel pairs72LDU apart and four lower pairs80LDU apart in same axial planes, actual6527 radius41.00248. Earlier exact same-part80LDU witness established surface crossings;72LDU is also unresolved. Keep source quantity/nominal shafts, no collision exemption or claim of physical failure/success."
+    }
+  ],
+  "alarms": [
+    {
+      "key": "waist-hidden-bond",
+      "classification": "explicit-layout-adjustment",
+      "evidence": "p3 eight blue3011 arranged as14x6 perimeter with hidden10x2 opening; each has40LDU overlap onto lower12x4 red platform. Top12x4 red course cross-bonds. Visible outer one-stud ledge preserved, hidden exact bond not uniquely shown."
+    },
+    {
+      "key": "upper-bar-expanded",
+      "classification": "explicit-layout-adjustment",
+      "evidence": "p6 source top blue appears to fully cover short red ends, whereas implemented18stud span leaves outer2stud red tops exposed. Same-axis75349 and75350 confirmed by independent source inspection. Upper short centresX+/-280 adjacent to long ends+/-200; blue caps centred+/-200 overlap each80LDU. Lower blue centre+/-280 and short red atY+72. Fourteen-stud co-planar version overlaps solid parts; no reliable hidden stagger established. Parent approved this physically cross-bonded development candidate under user's reasonable-shape-adjustment authorization, not exact source or acceptance."
+    },
+    {
+      "key": "vertical-pivot",
+      "classification": "evidence-insufficient",
+      "evidence": "6523 axis maps toY, centreY-808, endpoints-908/-708; source p5 upright gear shaft through long brick and torso stud gap. True bore/clutch/gear retention not proved; generic brick bbox does not validate it."
+    },
+    {
+      "key": "arch-wheel",
+      "classification": "real-geometry-risk",
+      "evidence": "6394 source arch cutoutX+/-40,Y48..96. Horizontal6527 wheel radius41.00248 lies atarch localY76 with20halfthickness: width nominally2.00496LDU too wide at central radial extremity. Exact angular faces/physical fit pending; NOT cleared as bbox false positive."
+    },
+    {
+      "key": "four-bar",
+      "classification": "explicit-pose-adjustment",
+      "evidence": "Upper side pins72LDU apart vertically. Lower red brick end holes80LDU apart transformed to(77.459667,20) inXY. Solving equal400LDU beam endpoint distances yields exact nominal four-bar closure. ShaftsZ span+/-120; red bodiesZ+/-40, back wheelsZ-60, front beamZ60 and front wheelZ100. Two independent source columns are inferred; chosen tilt clears waist and does not claim exact source angle or moving validation."
+    },
+    {
+      "key": "adjacent-wheels",
+      "classification": "real-mesh-risk",
+      "evidence": "Four upper wheel pairs72LDU apart and four lower pairs80LDU apart in same axial planes, actual6527 radius41.00248. Earlier exact same-part80LDU witness established surface crossings;72LDU is also unresolved. Keep source quantity/nominal shafts, no collision exemption or claim of physical failure/success."
+    },
+    {
+      "key": "weights",
+      "classification": "source-supported-with-layout-inference",
+      "evidence": "p10 four3011 per end stacked4courses on2x4 red weight brick. First rendered candidate incorrectly stacked upward. Actual current-source comparison p10/11 prompted180degree rotation about each lower Z-axis: lower red block and4blue bricks now point down; its unordered pair of80LDU end-hole centres stays identical. Both blue weight centres shift inward48LDU but remain well beyond waist edgeX280. Source exact hidden seam and pivot angle still inferred."
+    },
+    {
+      "key": "validation",
+      "classification": "evidence-insufficient",
+      "evidence": "No Studio/physical testing. Static endpoint registration and current DAT closure do not prove torque stability, axle retention, full rotation or safe movement. Await current final3+all10 cumulative steps pixel review."
+    }
+  ],
+  "matrix": {
+    "count": 117,
+    "allProperRigidRotations": true,
+    "maxError": 8.678306961940052e-10
+  },
+  "conclusion": "Unresolved source/assembly risks remain; checker and matrix results are not physical acceptance.",
+  "accepted": false,
+  "physicalValidation": false,
+  "currentPixelReview": {
+    "file": "current-pixel-review.json",
+    "revision": "d06f4489e6b1d2389a099cb89b52d8968a18626660fc5c555e70d4ccf2b10aab",
+    "sourceSha256": "90f43779f9e3266bb4f5e00dfa33d4d21a0e89bb67862dcf4711ae6c6b932f99",
+    "finalViewsObserved": 3,
+    "cumulativeStepsObserved": 10,
+    "observationCoverageOnly": true,
+    "assemblyPass": false
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "slug": "5-sheng-jiang-dian-ti",
+  "lessonId": 283,
+  "courseId": 7,
+  "sourceSha256": "7bb77e8e75ecf858045e73d114063c3ab4645ea81bde803e385bcd59ff936203",
+  "pdf": {
+    "name": "5+升降电梯搭建说明.pdf",
+    "relative_path": "5+/5+升降电梯搭建说明.pdf",
+    "pages": 14,
+    "bytes": 2171735,
+    "sha256": "42aa622e8d63164fddd755d898c0c228c5d5d6e615368361ef2491a708084c94",
+    "source_url": "https://pan.quark.cn/list#/docpdf/33daf1f8b9d3417b88a6fc29eeb641c4",
+    "slug": "5-sheng-jiang-dian-ti",
+    "lesson_id": 283,
+    "course_id": 7
+  },
+  "verifiedPdfHash": true,
+  "manifestSha256": "0e86c663773e0e38fb6cac5728f5e352bf6a4f122fd7cda9cf9ab25f3c0f8c99",
+  "assemblySteps": 13,
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-01.jpg",
+      "sha256": "c03fb78a41fa3e864ff91cda423f3bb2b2fcebb9c40270b389c9b8fc14a5f8a3",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-02.jpg",
+      "sha256": "ca0b44eeb062c42e0781f2323a58f8f20a15d28c5f8e7ad7a36bda538d7ebd20",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-03.jpg",
+      "sha256": "9cbf1e5f6bd96d548acdac7a2897e020e8234466e3e6745ed58d0ecde82cdae5",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-04.jpg",
+      "sha256": "838a28c54be3051dc2cd0cb4183ca315d52fa56cf923a08e5ee389e9db0c5448",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-05.jpg",
+      "sha256": "506a7af2f7967eb9cc04e49debc225b43ad69593ccedfa93d605ad3cfe160899",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-06.jpg",
+      "sha256": "268ac486c0bafa2b4dea8759d4acdc250de4efce8a32dea4742ee5f3da2871f7",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-07.jpg",
+      "sha256": "5f42882f7ca7a39ef994f18c6f6d83d016a5518b4562d92013c946e207985179",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-08.jpg",
+      "sha256": "57abe378c46a52f22a91386d6a30359e7355c488ddaee5127388a1afed59dce1",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-09.jpg",
+      "sha256": "45f93f82df38abd53b71bcb5a374f4964b07d56676bef4d3c2dbdbceefa2a0d6",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-10.jpg",
+      "sha256": "fb6f02589a9125b008a41e4e487d8cc4113a6f70fc285d493aab99976556c0cb",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-11.jpg",
+      "sha256": "ebd4578b0922857e5e407c93684bcee8c1f2e40f8e6d792951213cb22c58f639",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-12.jpg",
+      "sha256": "e9c058bb0294a7d4a3f896b2f21e061b486be787f0945860a524b990e2b313d3",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-13.jpg",
+      "sha256": "1d930af443e33091ba0cc49915f5f27896405304961df6664a8aaf05b4988de0",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch13\\5-sheng-jiang-dian-ti\\page-14.jpg",
+      "sha256": "0d3cdd07f8b50b7db2aae2d8f26b74be7f422c39faa91bfdc2a58c8c523172fc",
+      "pixelsActuallyViewed": true
+    }
+  ],
+  "accepted": false
+}

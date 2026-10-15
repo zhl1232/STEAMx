@@ -1,0 +1,106 @@
+{
+  "sourceSha256": "32b72dad7d71f322f266701116dd4cd2c88ab2829b92a31d02c071005e30d538",
+  "rawGroups": 5,
+  "rawPairs": [
+    [
+      23,
+      32
+    ],
+    [
+      27,
+      32
+    ],
+    [
+      32,
+      33
+    ],
+    [
+      32,
+      42
+    ],
+    [
+      32,
+      43
+    ],
+    [
+      33,
+      43
+    ],
+    [
+      32,
+      44
+    ],
+    [
+      33,
+      44
+    ]
+  ],
+  "pairReviews": [
+    {
+      "pair": [
+        23,
+        32
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "Known simplified31196c01 cockpit envelope or its canopy interface intersects source neighbouring bricks. Actual official cockpit missing; no mesh certificate establishes false-positive or physicalclearance. Keep source-relative layout pending rendered-source comparison."
+    },
+    {
+      "pair": [
+        27,
+        32
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "Known simplified31196c01 cockpit envelope or its canopy interface intersects source neighbouring bricks. Actual official cockpit missing; no mesh certificate establishes false-positive or physicalclearance. Keep source-relative layout pending rendered-source comparison."
+    },
+    {
+      "pair": [
+        32,
+        33
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "Known simplified31196c01 cockpit envelope or its canopy interface intersects source neighbouring bricks. Actual official cockpit missing; no mesh certificate establishes false-positive or physicalclearance. Keep source-relative layout pending rendered-source comparison."
+    },
+    {
+      "pair": [
+        32,
+        42
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "Known simplified31196c01 cockpit envelope or its canopy interface intersects source neighbouring bricks. Actual official cockpit missing; no mesh certificate establishes false-positive or physicalclearance. Keep source-relative layout pending rendered-source comparison."
+    },
+    {
+      "pair": [
+        32,
+        43
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "Known simplified31196c01 cockpit envelope or its canopy interface intersects source neighbouring bricks. Actual official cockpit missing; no mesh certificate establishes false-positive or physicalclearance. Keep source-relative layout pending rendered-source comparison."
+    },
+    {
+      "pair": [
+        33,
+        43
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "Known simplified31196c01 cockpit envelope or its canopy interface intersects source neighbouring bricks. Actual official cockpit missing; no mesh certificate establishes false-positive or physicalclearance. Keep source-relative layout pending rendered-source comparison."
+    },
+    {
+      "pair": [
+        32,
+        44
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "Known simplified31196c01 cockpit envelope or its canopy interface intersects source neighbouring bricks. Actual official cockpit missing; no mesh certificate establishes false-positive or physicalclearance. Keep source-relative layout pending rendered-source comparison."
+    },
+    {
+      "pair": [
+        33,
+        44
+      ],
+      "classification": "insufficient_evidence",
+      "reason": "Known simplified31196c01 cockpit envelope or its canopy interface intersects source neighbouring bricks. Actual official cockpit missing; no mesh certificate establishes false-positive or physicalclearance. Keep source-relative layout pending rendered-source comparison."
+    }
+  ],
+  "uncovered": [],
+  "policy": "Field compatibility only; all8 insufficient_evidence findings preserved."
+}

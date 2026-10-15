@@ -1,0 +1,72 @@
+{
+  "slug": "4-diao-che",
+  "sourceSha256": "9df21f9c5569adbf9a2d536f2b0ddaadd532a270c888409aa559eb8170a8624a",
+  "checkedAtUTC": "2026-10-11T07:07:36.544297+00:00",
+  "checkpointFile": "preparation/checkpoint-checks.json",
+  "rawCheckerExit": 2,
+  "rawCheckerOutput": "\nFAIL [4-diao-che.ldr] 2 error(s), 74 placement(s):\n  - step 4: 4-diao-che_l35 overlaps 4-diao-che_l34\n  - step 6: 4-diao-che_l45 overlaps 4-diao-che_l44\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n",
+  "sourceStableDuringOriginalCheck": true,
+  "sourceHashRechecked": true,
+  "alarms": [
+    {
+      "step": 4,
+      "lines": [
+        35,
+        34
+      ],
+      "parts": [
+        "6345.dat",
+        "31196c01.dat"
+      ],
+      "placements": [
+        "1 46 228 -154 0 0 -1 0 0 0 1 -1 0 0 6345.dat",
+        "1 4 80 -120 0 0 0 -1 0 1 0 1 0 0 31196c01.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "reason": "Local31196c01 DAT explicitly says simplified/photo-informed and hinge fit unverified;6345 is official. Source shows cockpit+canopy together, but renderer silhouette and an approximate cavity do not prove exact surface clearance or hinge engagement. Cannot safely dismiss AABB warning or choose a source-faithful corrective offset.",
+      "evidence": [
+        "STEAMx/scripts/ldraw-models/parts/31196c01.dat header lines1-9",
+        "STEAMx/scripts/ldraw-models/parts/6345.dat official header",
+        "preparation/4-diao-che/REVIEW.md source/visual record"
+      ],
+      "nextCheck": "Exact cockpit cavity/hinge measurements or authoritative geometry; pairwise exact geometry only establishes current approximation, not physical fit."
+    },
+    {
+      "step": 6,
+      "lines": [
+        45,
+        44
+      ],
+      "parts": [
+        "6345.dat",
+        "31196c01.dat"
+      ],
+      "placements": [
+        "1 46 -268 -242 0 0 1 0 0 0 1 1 0 0 6345.dat",
+        "1 1 -120 -208 0 0 0 1 0 1 0 -1 0 0 31196c01.dat"
+      ],
+      "action": "No LDR change; raw checker result preserved.",
+      "classification": "insufficient_evidence",
+      "reason": "Local31196c01 DAT explicitly says simplified/photo-informed and hinge fit unverified;6345 is official. Source shows cockpit+canopy together, but renderer silhouette and an approximate cavity do not prove exact surface clearance or hinge engagement. Cannot safely dismiss AABB warning or choose a source-faithful corrective offset.",
+      "evidence": [
+        "STEAMx/scripts/ldraw-models/parts/31196c01.dat header lines1-9",
+        "STEAMx/scripts/ldraw-models/parts/6345.dat official header",
+        "preparation/4-diao-che/REVIEW.md source/visual record"
+      ],
+      "nextCheck": "Exact cockpit cavity/hinge measurements or authoritative geometry; pairwise exact geometry only establishes current approximation, not physical fit."
+    }
+  ],
+  "alarmCount": 2,
+  "classificationCounts": {
+    "false_positive_aabb": 0,
+    "true_risk": 0,
+    "insufficient_evidence": 2
+  },
+  "remainingNonAlarmLimitations": "Large gray Toolo hook remains unidentified/omitted; short-arm geometry and cockpit are approved approximations, not exact mechanical verification.",
+  "sourceAndPixelEvidence": "Existing per-course REVIEW and current-pixel-review; this pass reused those actual pixel reviews and inspected alarm placement lines and actual DAT geometry. No new pixel-review completion claimed.",
+  "rawPassDoesNotProveSupportOrSourceFidelity": true,
+  "accepted": false,
+  "physicalValidation": false,
+  "sourceModified": false
+}

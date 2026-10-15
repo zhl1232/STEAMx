@@ -1,0 +1,103 @@
+{
+  "slug": "5-da-cha-de-xiao-niu",
+  "sourceSha256": "74a67928ad21ebbcc212eb274748729cc6f2701d4952bbb07670d844c3187a2a",
+  "previousDraftSha256": "b71dd4877573b70fa87df8030d6df7f2d0c728ca90984f85156fc415f690b143",
+  "manifest": {
+    "name": "5+打镲的小牛搭建说明.pdf",
+    "relative_path": "5+/5+打镲的小牛搭建说明.pdf",
+    "pages": 14,
+    "bytes": 2287656,
+    "sha256": "71dba90ed91847011f2edb9365cc82a931560aaf1c8d1c0431146b79d4455d11",
+    "source_url": "https://pan.quark.cn/list#/docpdf/0da933878213480697b2d255de636a26",
+    "slug": "5-da-cha-de-xiao-niu",
+    "lesson_id": 243,
+    "course_id": 7
+  },
+  "materializationEvidence": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\materialization-verification.json",
+  "pages": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-01.jpg",
+      "sha256": "488a038574e6ffe6d85c7a0aab5d36e0390b7c645fa6bae8badefe93103c7224",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-02.jpg",
+      "sha256": "9e11226a17da7480c9ab2ba46c65d51a81a4b19da62b264e881b2054b86c8f26",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-03.jpg",
+      "sha256": "d1d2ee39354371b67ab609d128e51a1396d0146aa590ab12011dec78f1a70332",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-04.jpg",
+      "sha256": "94606570d602092eae0706d6ded91039569b314bf8c7dcf6db94c366fdd59b78",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-05.jpg",
+      "sha256": "29e51de9f0e0f006a8a02b0b8f48e18ed50b0c6ce994267877e85a57899c64aa",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-06.jpg",
+      "sha256": "e0f444196ac77fcf256d1466e5a4206f51b55a90552a7c486194cf8de840c77a",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-07.jpg",
+      "sha256": "60271331793ab804696b9f4a0cec4f1b5c422fa0da70d9119fdd70484e9017d7",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-08.jpg",
+      "sha256": "286aa3b6b6b9dc6c2bfa952ce90eef2402a0182f765c935d91dbff2cc3bb06b7",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-09.jpg",
+      "sha256": "bad77674f355d92407a3dcb9492648ce39f62965a90ef3bc2cb3b9f48012fe63",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-10.jpg",
+      "sha256": "6212dd4c941f685f73bdd75da5e305ec11da06d90d2926c68ee308dc611bef89",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 11,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-11.jpg",
+      "sha256": "81806ca7ddeee067a89d8666ba02b44f691e85a9f9ac1171de817991df7bd791",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 12,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-12.jpg",
+      "sha256": "81dfebd2659816a9dc1108c7dce92a8a450296f667431166c42ef538a9d22bf0",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 13,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-13.jpg",
+      "sha256": "52cdf45468f38be1d2a4e01d479934a2ccbf69e78994af34a043e067259ec7e5",
+      "pixelsActuallyViewed": true
+    },
+    {
+      "page": 14,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-da-cha-de-xiao-niu\\page-14.jpg",
+      "sha256": "0c147d37389d10092f5278623d1913d3d359cf7aa867f624ea387239464c047d",
+      "pixelsActuallyViewed": true
+    }
+  ]
+}

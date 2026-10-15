@@ -1,0 +1,51 @@
+{
+  "slug": "5-la-ji-che",
+  "modelSha256": "72e2def3c1a77a52e65daae773735b1f7a86ecce2649b37d020a533b7d61d021",
+  "reviewedAt": "2026-10-11T12:06:33.086Z",
+  "originalCheck": {
+    "path": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-la-ji-che.ldr",
+    "sha256": "72e2def3c1a77a52e65daae773735b1f7a86ecce2649b37d020a533b7d61d021",
+    "exit": 0,
+    "output": "OK   [5-la-ji-che.ldr] 150 placement(s)\n\nChecked 1 requested LDR source model(s).\n1 passed, 0 failed.\n",
+    "stableDuringCheck": true
+  },
+  "alarms": [],
+  "rawPairCount": 0,
+  "matrixReview": {
+    "maximumOrthogonalityError": 0,
+    "maximumDeterminantError": 0
+  },
+  "sourceEvidence": "preparation/5-la-ji-che/ledger.json",
+  "sourcePagesActuallyViewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "limitations": [
+    "Side gate uses source pages6-15 upright pose, not tilted p16 final action. Dynamic rotation, tooth engagement and swept collisions have not been verified.",
+    "Side normal+Z. Pivot is at frontmost brick holeZ200, not centre holeZ160. Red bodies thickness48 occupyZ176..224; plate layers24 at224..248 and248..272. Plate rows stagger40 LDU to tie separate red pieces, not scaled.",
+    "Blue crown gear and red orthogonal gears: axes worldX/worldY, source shows intended engagement but exact tooth phase/vertical clearance remains unresolved.",
+    "Side clamp blue reinforcement uses source stagger and cantilever; clamp clearance, shaft retention and loaded strength remain unverified.",
+    "Six10715p02 chassis match source identity; cab/trailer snap coupling position provisional, no claimed physical connection test.",
+    "All source blue cab bricks placed after p14 rear crossbond and p15 exposed rear stud-row reconciliation; brick counts do not establish physical acceptance."
+  ],
+  "accepted": false,
+  "userConfirmed": false,
+  "physicalValidation": false,
+  "checkerPassIsNotConnectionAcceptance": true,
+  "currentPixels": "current72e2def3 final3 and all15 cumulative steps actually reviewed, revision4f709d810d1dd5c66354eb4e13c15ea8e9919b6e4889b0d1924a4d5726e26282",
+  "pixelReviewFile": "preparation/5-la-ji-che/current-pixel-review.json"
+}

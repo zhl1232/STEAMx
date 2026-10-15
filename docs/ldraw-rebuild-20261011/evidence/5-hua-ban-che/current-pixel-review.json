@@ -1,0 +1,75 @@
+{
+  "sourceSha256": "9a5875f0f4fbda8bf14373e594c9e30d8e7f533c7b9d602a92b80c1a051b6868",
+  "revision": "aa8fc7da0b53a0b8e623c46c878bbb80a14dd04171cbc213d58b59dc35d27ae7",
+  "reviewedAt": "2026-10-11T12:15:58.217425+00:00",
+  "evidenceDirectory": "D:\\Codex-task-2-20261011\\rendered-evidence\\5-hua-ban-che",
+  "cameraFraming": "all eight bounding-box corners fit perspective frustum with 14% margin",
+  "images": [
+    {
+      "view": "iso",
+      "sha256": "79243f6c81b391ffade16a9f56de7156b905173e718dc112da6a32eaf629c13f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "iso-rear",
+      "sha256": "657de7f697b9bba551b0241dabddf3f70eac8635bc2812e602fbaf947dbfc577",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "top",
+      "sha256": "5d6c28bad7ba7357cb7b1ceb40ac4a9882b8195c7c4feca6dc4e440b2cb7f38f",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-1",
+      "sha256": "c4953c8e4c8cdae37c4f2918f3d9a5eadf1d961c56c7203ef3b0b3ff41646bc7",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-2",
+      "sha256": "e85fb68f56d4f588fbf9599f663d9c93f6f362db72771c428e42555746203374",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-3",
+      "sha256": "e9d11ea238bd95578a1daa77ae01aff63b2fe8407722dcd64c547cfb0a0b4ba0",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-4",
+      "sha256": "093c865241164305a593a9c14a4af62969479ad990b572f1859f1a31b0477201",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-5",
+      "sha256": "7da5939d57eaab6ab30ba7392116d0163509c1e36c91d69989392bc7b7d43125",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-6",
+      "sha256": "c0022446f5ec33c8e79e538a730d907b503776952e0b2750a37557bc6d685341",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-7",
+      "sha256": "16f6f0347a69439cfaf4247ac0937d7bd0135e5847f4261511ee208cbb953f64",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-8",
+      "sha256": "b66c97c109455b4ffaede54244ba9674cd0bb5b3e2b001285d797ef0f64f0d36",
+      "pixelsActuallyReviewed": true
+    },
+    {
+      "view": "step-9",
+      "sha256": "79243f6c81b391ffade16a9f56de7156b905173e718dc112da6a32eaf629c13f",
+      "pixelsActuallyReviewed": true
+    }
+  ],
+  "finalAllThreeViewsReviewed": true,
+  "allCumulativeStepsReviewed": true,
+  "method": "Actual contact-sheet screening plus original-resolution inspection of uncertain details; records explicit human/model observation, never inferred from PNG existence.",
+  "accepted": false,
+  "physicalValidation": false,
+  "limitations": "Actual current final3 and all9 cumulative frames viewed, plus original step9/iso-rear and sourcep9/p10. Eleven-hole transverse handle restored; front crank rises80LDU from mainshaft to beam while rear crank drops80LDU into stem, matching source qualitative front/back relationship. Exact shaft row/stack and handle height remain inferred, not uniquely measurable from perspectives. No additional definite source placement error established. Original7 raw alarms, brace11.660LDU closure/support limitation and nominal coaxial mesh intersections176/156/80 retained; no physical or full acceptance."
+}

@@ -1,0 +1,1788 @@
+{
+  "slug": "5-ce-ju-yi",
+  "pages": 10,
+  "source": {
+    "name": "5+测距仪搭建说明.pdf",
+    "relative_path": "5+/5+测距仪搭建说明.pdf",
+    "pages": 10,
+    "bytes": 1483120,
+    "sha256": "93e3f9df8531910c38b3ea9fc658f74fb05ff22cf8bcd6a4afd1ebf6cdfa1485",
+    "source_url": "https://pan.quark.cn/list#/docpdf/c00c9c4c45aa4e798af8f56d6ff87081",
+    "slug": "5-ce-ju-yi",
+    "lesson_id": 236,
+    "course_id": 7,
+    "localPdf": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5+\\5+测距仪搭建说明.pdf",
+    "pagesDecoded": [
+      {
+        "page": 1,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-01.jpg",
+        "sha256": "bd3d980792b126173a6c41613082b020d15779cf1e9e2344d681acb56d6ae1d6",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 2,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-02.jpg",
+        "sha256": "4c4c9d66e3cae576417163e3130417e75b4007ba5fbbbb6d9d2940d7df7d7c8c",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 3,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-03.jpg",
+        "sha256": "6a6ea450967e8d836b9a89ade55e656bc8b6bd24c4391b7115f4770e8a2edf43",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 4,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-04.jpg",
+        "sha256": "db1a669d63338fc0eaf9c1d66ee0e95f47e63da280ac694fc8ac68921778ae04",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 5,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-05.jpg",
+        "sha256": "9912363111da4ace3006a0bd72839fb337c590a058986a293ddf2a814b61fa19",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 6,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-06.jpg",
+        "sha256": "f3dbc958ee9ce7b6590b1a6dc8667b8b9276704a3ac4d8e828fd906bf0823b41",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 7,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-07.jpg",
+        "sha256": "af5694cc3749acaa14abf4cde2abc96cbe1ae9f8b22ad35d18621a64b2debde8",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 8,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-08.jpg",
+        "sha256": "292fe7f85d0aee802a311ed0884228e72c141dfe55d4e0513ccacd04dc554573",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 9,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-09.jpg",
+        "sha256": "e941d99e7445cf0b077eddf4487e8a1db0aef6fcfa59056275dbda140a024606",
+        "width": 1500,
+        "height": 1062
+      },
+      {
+        "page": 10,
+        "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-10.jpg",
+        "sha256": "29115b60d897605e9209b8eb40199e230f409d6dc63e2258a4238151e88548e4",
+        "width": 1500,
+        "height": 1062
+      }
+    ],
+    "localBytesVerified": true,
+    "libraryFileId": "libfile_a51226cb6bb481919c9fca3ca46c74f4"
+  },
+  "steps": [
+    {
+      "sourcePage": 1,
+      "note": "two parallel2x10 hole bricks and three blue2x4 plates",
+      "placements": [
+        {
+          "id": "p1-1",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            0,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-2",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            0,
+            0,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-3",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            0,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-4",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            80,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p1-5",
+          "partId": "40666.dat",
+          "color": 1,
+          "position": [
+            160,
+            -24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 5
+    },
+    {
+      "sourcePage": 2,
+      "note": "two yellow bricks, front redbrick and two upper overhanging hole beams",
+      "placements": [
+        {
+          "id": "p2-1",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -48,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-2",
+          "partId": "3011.dat",
+          "color": 14,
+          "position": [
+            -120,
+            -48,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-3",
+          "partId": "3011.dat",
+          "color": 4,
+          "position": [
+            -160,
+            -96,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-4",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            160,
+            -72,
+            -40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p2-5",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            160,
+            -72,
+            40
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 10
+    },
+    {
+      "sourcePage": 3,
+      "note": "two grey6L axles; four short cranks identified but omitted for unresolved lower-pin closure",
+      "placements": [
+        {
+          "id": "p3-1",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            0,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Through upper rail hole, lower integral crank pin alignment unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p3-2",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            80,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Through upper rail hole, lower integral crank pin alignment unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 12
+    },
+    {
+      "sourcePage": 4,
+      "note": "front green8L axle, four belt wheels and two tyres",
+      "placements": [
+        {
+          "id": "p4-1",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            -160,
+            24,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-2",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -160,
+            24,
+            -140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-3",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -160,
+            24,
+            -100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-4",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -160,
+            24,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-5",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -160,
+            24,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-6",
+          "partId": "6292.dat",
+          "color": 0,
+          "position": [
+            -160,
+            24,
+            -120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p4-7",
+          "partId": "6292.dat",
+          "color": 0,
+          "position": [
+            -160,
+            24,
+            120
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 19
+    },
+    {
+      "sourcePage": 5,
+      "note": "first pair11-hole liftarms, two green8L throughaxles and four retaining belt wheels",
+      "placements": [
+        {
+          "id": "p5-1",
+          "partId": "6525.dat",
+          "color": 14,
+          "position": [
+            440,
+            -48,
+            -100
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Hole positions240..640 at40pitch; plane thickness40 outside rail; anchor pair240/320, skip one40LDUhole per source separation",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-2",
+          "partId": "6525.dat",
+          "color": 14,
+          "position": [
+            440,
+            -48,
+            100
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "Hole positions240..640 at40pitch; plane thickness40 outside rail; anchor pair240/320, skip one40LDUhole per source separation",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-3",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            240,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; anchor pair240/320, skip one40LDUhole per source separation",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-4",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            240,
+            -48,
+            -140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; anchor pair240/320, skip one40LDUhole per source separation",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-5",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            240,
+            -48,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; anchor pair240/320, skip one40LDUhole per source separation",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-6",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            320,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; anchor pair240/320, skip one40LDUhole per source separation",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-7",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            320,
+            -48,
+            -140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; anchor pair240/320, skip one40LDUhole per source separation",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p5-8",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            320,
+            -48,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; anchor pair240/320, skip one40LDUhole per source separation",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 27
+    },
+    {
+      "sourcePage": 6,
+      "note": "second pair11-hole liftarms overlap distal first pair; middle2x4 holebrick",
+      "placements": [
+        {
+          "id": "p6-1",
+          "partId": "6525.dat",
+          "color": 14,
+          "position": [
+            760,
+            -48,
+            -60
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "First pairhole600/640 coincides secondpairhole600/640; planes touch atZ80; overlap anchors560/640, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-2",
+          "partId": "6525.dat",
+          "color": 14,
+          "position": [
+            760,
+            -48,
+            60
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "support": "First pairhole600/640 coincides secondpairhole600/640; planes touch atZ80; overlap anchors560/640, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-3",
+          "partId": "75349.dat",
+          "color": 4,
+          "position": [
+            600,
+            -72,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; overlap anchors560/640, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-4",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            560,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; overlap anchors560/640, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-5",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            560,
+            -48,
+            -140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; overlap anchors560/640, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-6",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            560,
+            -48,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; overlap anchors560/640, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-7",
+          "partId": "6521.dat",
+          "color": 2,
+          "position": [
+            640,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; overlap anchors560/640, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-8",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            640,
+            -48,
+            -140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; overlap anchors560/640, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p6-9",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            640,
+            -48,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; overlap anchors560/640, 80LDUapart",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 36
+    },
+    {
+      "sourcePage": 7,
+      "note": "distal2x10 holebrick, two grey6L axles and four belt wheels",
+      "placements": [
+        {
+          "id": "p7-1",
+          "partId": "75350.dat",
+          "color": 4,
+          "position": [
+            1040,
+            -72,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; distal anchors880/960, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-2",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            960,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; distal anchors880/960, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-3",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            960,
+            -48,
+            -100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; distal anchors880/960, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-4",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            960,
+            -48,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; distal anchors880/960, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-5",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            880,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; distal anchors880/960, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-6",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            880,
+            -48,
+            -100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; distal anchors880/960, 80LDUapart",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p7-7",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            880,
+            -48,
+            100
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved; distal anchors880/960, 80LDUapart",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 43
+    },
+    {
+      "sourcePage": 8,
+      "note": "white gearbox, greyinputaxle/worm, blue short outputaxle and red24T gear",
+      "placements": [
+        {
+          "id": "p8-1",
+          "partId": "31624.dat",
+          "color": 15,
+          "position": [
+            -80,
+            -48,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Bottom center on yellow ledge; localinputX becomesworldZ, outputZ becomesworldX",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-2",
+          "partId": "6522.dat",
+          "color": 7,
+          "position": [
+            -80,
+            -120,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            -1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-3",
+          "partId": "31625.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -120,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-4",
+          "partId": "6523.dat",
+          "color": 1,
+          "position": [
+            -80,
+            -216,
+            0
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p8-5",
+          "partId": "6529.dat",
+          "color": 4,
+          "position": [
+            -80,
+            -216,
+            0
+          ],
+          "matrix": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 48
+    },
+    {
+      "sourcePage": 9,
+      "note": "two belt-wheel retainers; printed dial omitted, short crank identified but dial-side axial stack unresolved",
+      "placements": [
+        {
+          "id": "p9-1",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -120,
+            -140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        },
+        {
+          "id": "p9-2",
+          "partId": "6527.dat",
+          "color": 14,
+          "position": [
+            -80,
+            -120,
+            140
+          ],
+          "matrix": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "support": "Source-visible placement; precise mechanical fit unresolved",
+          "confidence": "inferred"
+        }
+      ],
+      "cumulativePlacements": 50
+    }
+  ],
+  "evidence": [
+    {
+      "page": 1,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-01.jpg",
+      "sha256": "bd3d980792b126173a6c41613082b020d15779cf1e9e2344d681acb56d6ae1d6",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 2,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-02.jpg",
+      "sha256": "4c4c9d66e3cae576417163e3130417e75b4007ba5fbbbb6d9d2940d7df7d7c8c",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 3,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-03.jpg",
+      "sha256": "6a6ea450967e8d836b9a89ade55e656bc8b6bd24c4391b7115f4770e8a2edf43",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 4,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-04.jpg",
+      "sha256": "db1a669d63338fc0eaf9c1d66ee0e95f47e63da280ac694fc8ac68921778ae04",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 5,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-05.jpg",
+      "sha256": "9912363111da4ace3006a0bd72839fb337c590a058986a293ddf2a814b61fa19",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 6,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-06.jpg",
+      "sha256": "f3dbc958ee9ce7b6590b1a6dc8667b8b9276704a3ac4d8e828fd906bf0823b41",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 7,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-07.jpg",
+      "sha256": "af5694cc3749acaa14abf4cde2abc96cbe1ae9f8b22ad35d18621a64b2debde8",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 8,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-08.jpg",
+      "sha256": "292fe7f85d0aee802a311ed0884228e72c141dfe55d4e0513ccacd04dc554573",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 9,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-09.jpg",
+      "sha256": "e941d99e7445cf0b077eddf4487e8a1db0aef6fcfa59056275dbda140a024606",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    },
+    {
+      "page": 10,
+      "path": "D:\\Codex-task-2-20261011\\inputs\\pdfbatch11\\5-ce-ju-yi\\page-10.jpg",
+      "sha256": "29115b60d897605e9209b8eb40199e230f409d6dc63e2258a4238151e88548e4",
+      "width": 1500,
+      "height": 1062,
+      "pixelsViewed": true
+    }
+  ],
+  "unknownIds": [],
+  "pending": [
+    "P3 four source cranks omitted because candidate upper/lower hole closure not exact; explicit deficit not hidden.",
+    "P5-7 rods/axles share documented exact hole lines; source selected hole indices inferred by visible two neighboringholes, requiring visual confirmation.",
+    "P8 gearbox input/output axes taken from real31624 subfile; gear tooth phase, physical rotation and short-geared axle clearance unverified.",
+    "P9 digital graduation sheet61898f missing licensed localgeometry; one short crank not installed without axialstack proof.",
+    "P5-7 adjacent belt-wheel centers80LDU; realDAT rims radius41 create potential2LDU radial interference at equal depth; retain alarm pending source-facing orientation/axial stagger review, do not move axles off holegrid."
+  ],
+  "status": "INCOMPLETE dev-only source reconstruction; awaiting render and interface validation",
+  "inventory": "9656/9090 inventory cross-check pending; source counts authoritative, not limited by single kit",
+  "verification": "awaiting raw check and main rendering",
+  "omitted": [
+    {
+      "partId": "6526.dat",
+      "quantity": 4,
+      "sourcePage": 3,
+      "classification": "known_ID_connection_unresolved",
+      "reason": "Upper rail axleY-48 versus lower railholeY24 gives72 vertical. Integral pin offset80 requires34.871 horizontal; bodyholes40pitch cannot close using assumed holes; need exact chosen source hole and crank angle. Do not stretch."
+    },
+    {
+      "partId": "61898f.dat",
+      "quantity": 1,
+      "sourcePage": 9,
+      "classification": "known_ID_geometry_unavailable",
+      "reason": "Green1-10dial matches9656sheet survey; catalog metadata only, no localDAT. No placeholder authorized."
+    },
+    {
+      "partId": "6526.dat",
+      "quantity": 1,
+      "sourcePage": 9,
+      "classification": "known_ID_connection_unresolved",
+      "reason": "Dial-side crank mating stack/axial seat pending absent dial geometry."
+    }
+  ],
+  "modelSha256": "ef4ae2663544dbf692d91d3bff4e2e91b0853f72b18f3ba54628cfa03b72daeb",
+  "modelPath": "C:\\Users\\arron\\Documents\\Codex\\2026-10-11\\task-2\\STEAMx\\scripts\\ldraw-models\\5-ce-ju-yi.ldr",
+  "totalPlacements": 50,
+  "bom": {
+    "75350.dat|4": 5,
+    "40666.dat|1": 3,
+    "3011.dat|14": 2,
+    "3011.dat|4": 1,
+    "6522.dat|7": 5,
+    "6521.dat|2": 5,
+    "6527.dat|14": 18,
+    "6292.dat|0": 2,
+    "6525.dat|14": 4,
+    "75349.dat|4": 1,
+    "31624.dat|15": 1,
+    "31625.dat|1": 1,
+    "6523.dat|1": 1,
+    "6529.dat|4": 1
+  },
+  "metadataSha256": "fa173ad613bf4396884d8fe0264245e9494448f6ee722704b429e5501164fe25",
+  "knownApproximateGeometry": [],
+  "inventoryEvidence": "inputs/inventory-evidence.json",
+  "inventoryByPart": [
+    {
+      "partId": "75350.dat",
+      "color": "Red",
+      "installedQuantity": 5,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6515",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "additionalVsSingle9656": 3,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim",
+      "aliasEvidence": "Official shortcut DAT directly references6515/6517 lower and6516/6518 upper; kit alias not a geometry substitution"
+    },
+    {
+      "partId": "40666.dat",
+      "color": "Blue",
+      "installedQuantity": 3,
+      "inventoryRows": [
+        {
+          "set": "9090-2",
+          "part_num": "40666",
+          "color": "Blue",
+          "quantity": 12
+        }
+      ],
+      "additionalVsSingle9656": "unknown",
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Yellow",
+      "installedQuantity": 2,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "3011",
+          "color": "Yellow",
+          "quantity": 5
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "3011.dat",
+      "color": "Red",
+      "installedQuantity": 1,
+      "inventoryRows": [
+        {
+          "set": "9090-2",
+          "part_num": "3011",
+          "color": "Red",
+          "quantity": 20
+        },
+        {
+          "set": "9656-1",
+          "part_num": "3011",
+          "color": "Red",
+          "quantity": 4
+        },
+        {
+          "set": "9076-1",
+          "part_num": "3011",
+          "color": "Red",
+          "quantity": 4
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "6522.dat",
+      "color": "Light Bluish Gray",
+      "installedQuantity": 5,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6522",
+          "color": "Light Bluish Gray",
+          "quantity": 7
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "6521.dat",
+      "color": "Green",
+      "installedQuantity": 5,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6521",
+          "color": "Green",
+          "quantity": 5
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "6527.dat",
+      "color": "Yellow",
+      "installedQuantity": 18,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6527",
+          "color": "Yellow",
+          "quantity": 15
+        }
+      ],
+      "additionalVsSingle9656": 3,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "6292.dat",
+      "color": "Black",
+      "installedQuantity": 2,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6292",
+          "color": "Black",
+          "quantity": 4
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "6525.dat",
+      "color": "Yellow",
+      "installedQuantity": 4,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6525",
+          "color": "Yellow",
+          "quantity": 4
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "75349.dat",
+      "color": "Red",
+      "installedQuantity": 1,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6517",
+          "color": "Red",
+          "quantity": 4
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim",
+      "aliasEvidence": "Official shortcut DAT directly references6515/6517 lower and6516/6518 upper; kit alias not a geometry substitution"
+    },
+    {
+      "partId": "31624.dat",
+      "color": "White",
+      "installedQuantity": 1,
+      "inventoryRows": [],
+      "additionalVsSingle9656": "unknown",
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "31625.dat",
+      "color": "Blue",
+      "installedQuantity": 1,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "31625",
+          "color": "Blue",
+          "quantity": 1
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "6523.dat",
+      "color": "Blue",
+      "installedQuantity": 1,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6523",
+          "color": "Blue",
+          "quantity": 4
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    },
+    {
+      "partId": "6529.dat",
+      "color": "Red",
+      "installedQuantity": 1,
+      "inventoryRows": [
+        {
+          "set": "9656-1",
+          "part_num": "6529",
+          "color": "Red",
+          "quantity": 2
+        }
+      ],
+      "additionalVsSingle9656": 0,
+      "combinedAvailability": "unknown; 9090 inventory incomplete; no procurement claim"
+    }
+  ],
+  "sourcePageBOM": [
+    {
+      "sourcePage": 1,
+      "installed": {
+        "75350.dat|4": 2,
+        "40666.dat|1": 3
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 2,
+      "installed": {
+        "3011.dat|14": 2,
+        "3011.dat|4": 1,
+        "75350.dat|4": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 3,
+      "installed": {
+        "6522.dat|7": 2
+      },
+      "omitted": [
+        {
+          "partId": "6526.dat",
+          "quantity": 4,
+          "sourcePage": 3,
+          "classification": "known_ID_connection_unresolved",
+          "reason": "Upper rail axleY-48 versus lower railholeY24 gives72 vertical. Integral pin offset80 requires34.871 horizontal; bodyholes40pitch cannot close using assumed holes; need exact chosen source hole and crank angle. Do not stretch."
+        }
+      ]
+    },
+    {
+      "sourcePage": 4,
+      "installed": {
+        "6521.dat|2": 1,
+        "6527.dat|14": 4,
+        "6292.dat|0": 2
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 5,
+      "installed": {
+        "6525.dat|14": 2,
+        "6521.dat|2": 2,
+        "6527.dat|14": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 6,
+      "installed": {
+        "6525.dat|14": 2,
+        "75349.dat|4": 1,
+        "6521.dat|2": 2,
+        "6527.dat|14": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 7,
+      "installed": {
+        "75350.dat|4": 1,
+        "6522.dat|7": 2,
+        "6527.dat|14": 4
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 8,
+      "installed": {
+        "31624.dat|15": 1,
+        "6522.dat|7": 1,
+        "31625.dat|1": 1,
+        "6523.dat|1": 1,
+        "6529.dat|4": 1
+      },
+      "omitted": []
+    },
+    {
+      "sourcePage": 9,
+      "installed": {
+        "6527.dat|14": 2
+      },
+      "omitted": [
+        {
+          "partId": "61898f.dat",
+          "quantity": 1,
+          "sourcePage": 9,
+          "classification": "known_ID_geometry_unavailable",
+          "reason": "Green1-10dial matches9656sheet survey; catalog metadata only, no localDAT. No placeholder authorized."
+        },
+        {
+          "partId": "6526.dat",
+          "quantity": 1,
+          "sourcePage": 9,
+          "classification": "known_ID_connection_unresolved",
+          "reason": "Dial-side crank mating stack/axial seat pending absent dial geometry."
+        }
+      ]
+    }
+  ],
+  "rawCheck": {
+    "exitCode": 2,
+    "rawOutput": "\nFAIL [5-ce-ju-yi.ldr] 8 error(s), 50 placement(s):\n  - step 4: 5-ce-ju-yi_l32 overlaps 5-ce-ju-yi_l28; 5-ce-ju-yi_l32 overlaps 5-ce-ju-yi_l29\n  - step 4: 5-ce-ju-yi_l33 overlaps 5-ce-ju-yi_l30; 5-ce-ju-yi_l33 overlaps 5-ce-ju-yi_l31\n  - step 5: 5-ce-ju-yi_l42 overlaps 5-ce-ju-yi_l39\n  - step 5: 5-ce-ju-yi_l43 overlaps 5-ce-ju-yi_l40\n  - step 6: 5-ce-ju-yi_l53 overlaps 5-ce-ju-yi_l50\n  - step 6: 5-ce-ju-yi_l54 overlaps 5-ce-ju-yi_l51\n  - step 7: 5-ce-ju-yi_l62 overlaps 5-ce-ju-yi_l59\n  - step 7: 5-ce-ju-yi_l63 overlaps 5-ce-ju-yi_l60\n\nChecked 1 requested LDR source model(s).\n0 passed, 1 failed.\n"
+  },
+  "p3ClearanceRecheck": {
+    "reference": "preparation/5-dan-che/static-alarm-review.json",
+    "sameInterface": false,
+    "partsInspected": [
+      "parts/6526.dat",
+      "p/daxlehole.dat",
+      "p/daxle.dat",
+      "parts/s/6517s01.dat"
+    ],
+    "evidence": [
+      "6526 main hole is keyed daxlehole primitive, integral pin is daxle; not beam circularR15 hole.",
+      "6517s01 receiving bodyhole throat references radius9 4-4cyli at localY24,Z-38 through axial29LDU.",
+      "daxlehole limiting arc references localradial9 and other key contours, so generic R15 minus R9 clearance cannot be borrowed."
+    ],
+    "distance": 82.365041127896,
+    "integralPinOffset": 80,
+    "decision": "Keep four6526 omitted until actual keyed-hole clearance and required face/shaft phase demonstrated; no unsupported3.6347 clearance claim."
+  }
+}

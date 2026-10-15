@@ -1,8 +1,98 @@
-import { mkdir, readFile, rename, writeFile } from 'node:fs/promises'
+import protectedModels from '../../scripts/ldraw-production-protected.json'
+import { mkdir, readdir, readFile, rename, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { randomUUID } from 'node:crypto'
 
 export const LDRAW_REVIEW_CANDIDATES = [
+  // 151 pieces / 8 source steps; 10 classified native mating contacts; axle lengths and hidden color seams inferred.
+  '5-tuo-luo-da-zhan.ldr',
+  // 70 pieces / 10 source steps; 48 classified static mating contacts; axle length and hidden base seams inferred.
+  '5-ping-heng-cheng.ldr',
+  // 68 pieces / 9 steps; 14 classified mating contacts; axle length and hidden seams inferred.
+  '5-du-lun-shou-tui-che.ldr',
+  // 139 pieces / 10 steps; exact native contact classification, inferred rear roof bonding.
+  '5-shen-suo-men.ldr',
+  // 56 pieces / 10 source steps; 22 classified mating contacts; inferred insertion depths.
+  '5-shi-zi-zha-men.ldr',
+  // 98 pieces / 11 source steps; 24 classified mating contacts; physical retention untested.
+  '5-da-bai-chui.ldr',
+  // 26 pieces/9 steps; 24 joint/support checks; documented source-seated hinge/plate mesh-fit exception.
+  '4-tai-yang-neng-re-shui-qi.ldr',
+  '4-tian-ping.ldr',
+  '4-ji-ta.ldr',
+  '4-gong-jian.ldr',
+  '4-zhang-yu.ldr',
+  '4-er-tong-hua-ban-che.ldr',
+  '4-luo-tuo.ldr',
+  '4-hu-die.ldr',
+  '4-xian-wei-jing.ldr',
+  '4-fei-die.ldr',
+  '4-wan-long.ldr',
+  '4-la-ji-fen-lei.ldr',
+  // 299 pieces/14 steps; inferred water layout and documented eccentric simplified joints.
+  '4-xie-la-qiao.ldr',
+  '4-da-zha-xie.ldr',
+  '4-feng-che-fang.ldr',
+  '4-gou-wu-che.ldr',
+  '4-wang-yuan-jing.ldr',
+  '4-ying-er-che.ldr',
+  '4-wai-xing-tan-ce-qi.ldr',
+  '4-han-xue-bao-ma.ldr',
+  '4-fan-chuan.ldr',
+  '4-sun-wu-kong.ldr',
+  '4-tuo-niao.ldr',
+  '4-pang-xie.ldr',
+  '4-re-qi-qiu.ldr',
+  '4-she-xiang-ji.ldr',
+  '4-huang-bao-che.ldr',
+  '4-jiu-hu-che.ldr',
+  '4-hua-kai-hua-luo.ldr',
+  '4-gao-tie-zhan.ldr',
+  '4-tan-ke.ldr',
+  '4-hai-shi.ldr',
+  '4-lan-qiu-jia.ldr',
+  '4-shuang-ceng-ba-shi.ldr',
+  '4-long-zhou.ldr',
+  '4-xuan-zhuan-mu-ma.ldr',
+  '4-wa-tu-ji.ldr',
+  '4-fan-dou-che.ldr',
+  '4-shi-zi-wang.ldr',
+  // 123 pieces/15 source steps; gravity contacts and documented rim/canopy fit exceptions.
+  '4-huo-jian.ldr',
+  '4-tai-deng.ldr',
+  // 64 pieces/13 steps; 264 mesh pairs clear, 14 joint/mount checks; inferred 25-degree pose.
+  '4-lei-da.ldr',
+  // 49 pieces/9 steps; 123 mesh pairs clear and 18 anchors aligned; inferred rear screw seating.
+  '4-shu-bao.ldr',
+  // 72 pieces/17 steps; tripod and holder contacts checked; documented elbow connector exception.
+  '4-zhao-xiang-ji.ldr',
+  // 106 pieces/11 steps; 324 mesh pairs clear and four axes aligned; inferred concealed bonds.
+  '4-lu-yin-ji.ldr',
+  // 90 pieces/13 steps; full mesh clear, eight joint/mount checks; inferred side fastening.
+  '4-xing-li-xiang.ldr',
+  // 46 pieces/10 steps; four mesh contacts; three documented pipe connector mating exceptions.
+  '4-dian-hua-ji.ldr',
+  // 72 pieces/9 steps; tripod/panel joints checked; separate flat palette, inferred poses.
+  '4-hua-ban.ldr',
+  // 74 pieces/13 steps; 272 mesh pairs clear; enclosure corner fasteners inferred.
+  '4-deng-long.ldr',
+  // 60 pieces/11 source steps; six hinge axes aligned, full 198-pair mesh clear; hidden bonds inferred.
+  // 2026-09-27: 77 placements/12 steps; repaired arms, outward hubs and child facing; documented mating-mesh exceptions.
+  '4-ban-gong-yi.ldr',
+  // 145 parts/18 source steps; three tripod joints aligned, full 379-pair mesh clear; inferred foot locations.
+  '4-dong-fang-ming-zhu.ldr',
+  // 53 parts/11 source steps; complete local candidate, separate handheld bow and inferred screw fits.
+  '4-er-hu.ldr',
+  // 2026-09-27: 56 placements/11 source steps; 40 joint checks and full mesh reviewed, approximate Toolo fit.
+  '4-da-wen-zi.ldr',
+  // 2026-09-27: 42 placements/13 source steps; authorized6294 ears, inferred hidden cover pair; one45002 kit short1 scoop.
+  '4-chong-wu-gou.ldr',
+  // 2026-09-27: 52 placements/9 source steps; approximate Toolo joints, centre curve height inferred.
+  '4-bao-jian.ldr',
+  // 2026-09-27: 29 placements/13 source steps; corrected turntable pedestal, inferred Toolo retention.
+  '4-ba-wang-long.ldr',
+  // 2026-09-27: 78 placements/10 source steps; inferred hinge-retained ramp and fixed-belt geometry.
+  '4-an-jian-ji.ldr',
   // User requested visual acceptance, 2026-09-15.
   '3-da-xiang.ldr',
   '3-da-xiong-mao.ldr',
@@ -128,10 +218,118 @@ export const LDRAW_REVIEW_CANDIDATES = [
   '3-liang-ting.ldr',
   '3-lun-chuan.ldr',
   '3-mao-mao-chong.ldr',
-
+  // 2026-10-12: 129 课开发稿（docs/ldraw-rebuild-20261011/HANDOFF-129.md @4a0a4a90），供用户确认。
+  // 54 个课件对照明显不对/小差异的已撤出待确认，见 scripts/ldraw-fixing-20261012.json（修复中）。
+  '4-da-long-xia.ldr',
+  '4-da-xiang.ldr',
+  '4-ci-xuan-fu-lie-che.ldr',
+  '4-mo-tian-lun.ldr',
+  '4-yao-yao-ma.ldr',
+  '4-ju-ji-qiang.ldr',
+  '4-ke-ji.ldr',
+  '4-shou-ge-ji.ldr',
+  '4-tui-tu-ji.ldr',
+  '4-tang-lang.ldr',
+  '4-ji-guan-qiang.ldr',
+  '4-jun-jian.ldr',
+  '4-qian-shui-ting.ldr',
+  '4-sheng-jiang-jiu-yuan-che.ldr',
+  '4-ta-diao.ldr',
+  '4-zhi-sheng-ji.ldr',
+  '4-zuan-tu-che.ldr',
+  '5-cha-che.ldr',
+  '5-ci-xuan-fu-lie-che.ldr',
+  '5-dan-che.ldr',
+  '5-dan-gan-yun-dong-yuan.ldr',
+  '5-di-qiu-yi.ldr',
+  '5-diao-che.ldr',
+  '5-diao-shan.ldr',
+  '5-fan-dou-che.ldr',
+  '5-feng-che-fang.ldr',
+  '5-ge-cao-ji.ldr',
+  '5-hai-dao-chuan.ldr',
+  '5-hu-die.ldr',
+  '5-hua-ban-che.ldr',
+  '5-ji-xie-shou.ldr',
+  '5-jiao-ban-qi.ldr',
+  '5-kai-ye-zi-qi.ldr',
+  '5-lan-che.ldr',
+  '5-long-men-diao.ldr',
+  '5-qiu-qian.ldr',
+  '5-shuai-gan-ji.ldr',
+  '5-shuang-kai-da-men.ldr',
+  '5-si-qu-che.ldr',
+  '5-ti-xian-mu-ou.ldr',
+  '5-tian-ping.ldr',
+  '5-tou-shi-che.ldr',
+  '5-wo-lun-diao-qiao.ldr',
+  '5-xi-yi-ji.ldr',
+  '5-xiao-song-shu-qi-che.ldr',
+  '5-xuan-zhuan-ai-xin.ldr',
+  '5-xuan-zhuan-can-ting.ldr',
+  '5-xuan-zhuan-men.ldr',
+  '5-xuan-zhuan-mu-ma.ldr',
+  '5-xuan-zhuan-wu-tai.ldr',
+  '5-ya-lu-ji.ldr',
+  '5-ya-mian-ji.ldr',
+  '5-ya-shui-jing.ldr',
+  '5-yan-jing-she.ldr',
+  '5-yao-yao-che.ldr',
+  '5-yi-dong-guang-gao-pai.ldr',
+  '5-yu-er-de-wei-ba.ldr',
+  '5-yu-hang-yuan-xun-lian-ji.ldr',
+  // 2026-10-12 batch1 修好放回待确认：
+  // 2026-10-12 batch2 修好放回待确认：
+  // 2026-10-12 batch3 修好放回待确认：
+  // 2026-10-12 batch4 修好放回待确认：
+  // 2026-10-12 batch5 修好放回待确认：
+  // 2026-10-12 batch6 修好放回待确认：
+  // 2026-10-12 batch7 修好放回待确认：
+  // 2026-10-13 hand review, camera calibrated to courseware final page; main parts match.
+  '5-zhan-chi-gao-fei.ldr',
+  '5-shou-tui-fei-ji.ldr',
+  // 2026-10-13 rechecked against the real 5+ PDFs (camera-calibrated overlay).
+  '5-shui-jing.ldr',
+  '5-ta-diao.ldr',
+  // 2026-10-13 night: v3 overlay vs courseware p16; side lever moved; main body/arm match.
+  '5-huan-wei-che.ldr',
+  // 2026-10-13 night: figures lowered, panes white; front overlay vs p14 matches main structure.
+  '5-sheng-jiang-dian-ti.ldr',
+  // 2026-10-13 night: orange scoops + side arm pose vs courseware p15; camera overlay approximate.
+  '4-wa-li.ldr',
+  // 2026-10-13 night: v3 overlay vs p13; blue drums/cab/exhaust present; drum+exhaust geometry approximate.
+  '4-ya-lu-ji.ldr',
+  // 2026-10-13 night: body/arms match courseware final; propeller blade angle slightly off.
+  '4-wu-ren-ji.ldr',
+  // 2026-10-13 night: parts/colors match courseware final; camera overlay still approximate.
+  '4-zhong-guo-long.ldr',
+  // 2026-10-13 night: parts/colors match; camera pitch slightly flatter than courseware.
+  '4-e-yu.ldr',
+  // 2026-10-13 night: body/tail match; front claws angle slightly off.
+  '4-xie-zi.ldr',
+  // night5: camera 1.3,1.05,-1.3; wings 40°/48°, probe 60°; overlay OK, minor tail/probe ghost
+  '4-you-wen.ldr',
+  // night13: cam 1.25,1.05,1.3 IoU≈0.824; tubes -24Y/|Z|-20 inward; arch residual foreshortening
+  '4-qiu-qian.ldr',
+  // night14: cam 1.0,0.7,1.2 IoU≈0.866; chimney stack +48Y
+  '5-xiao-huo-che.ldr',
+  '5-qi-dian-chuan.ldr',
+  '5-yu-shua-qi.ldr',
+  '5-zhu-ge-lian-nu.ldr',
+  '5-xuan-zhuan-ka-fei-bei.ldr',
+  '5-da-cha-de-xiao-niu.ldr',
+  // ji-gu 2026-10-14: yaw180 arms + blue curved cap re-oriented to courseware p11 (bill front); visual check passed.
+  '5-ji-gu-shou.ldr',
+  // shou-yao-zuan 2026-10-14: p6 40T gear moved to courseware front, crank horizontal; p10 az190 el30 overlay checked.
+  '5-shou-yao-zuan-zi.ldr',
 ] as const
 
-export type LdrawReviewStatus = 'pending' | 'confirmed' | 'untracked'
+export type LdrawReviewStatus = 'confirmed' | 'changed' | 'unconfirmed' | 'untracked'
+
+/** Compatibility for consumers of the former two review outcomes. */
+export function legacyReviewStatusFor(status: LdrawReviewStatus): 'confirmed' | 'pending' {
+  return status === 'confirmed' ? 'confirmed' : 'pending'
+}
 export interface LdrawReviewRecord {
   revision: string
   confirmedAt: string
@@ -154,7 +352,14 @@ async function readRecord(fileName: string): Promise<LdrawReviewRecord | null> {
 }
 
 async function readRecords(): Promise<Record<string, LdrawReviewRecord>> {
-  const entries = await Promise.all(LDRAW_REVIEW_CANDIDATES.map(async (fileName) => ({ fileName, record: await readRecord(fileName) })))
+  let files: string[]
+  try {
+    files = (await readdir(REVIEW_DIR)).filter((name) => name.endsWith('.ldr.json')).map((name) => name.slice(0, -5))
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+    return {}
+  }
+  const entries = await Promise.all(files.map(async (fileName) => ({ fileName, record: await readRecord(fileName) })))
   return entries.reduce<Record<string, LdrawReviewRecord>>((records, entry) => {
     if (entry.record) records[entry.fileName] = entry.record
     return records
@@ -175,10 +380,15 @@ export async function confirmLdrawModel(fileName: string, revision: string): Pro
   return record
 }
 
-export function reviewStatusFor(fileName: string, records: Record<string, LdrawReviewRecord>, revision?: string): LdrawReviewStatus {
-  if (!isLdrawReviewCandidate(fileName)) return 'untracked'
+export function isProductionProtected(fileName: string): boolean {
+  return protectedModels.models.includes(fileName.replace(/\.ldr$/, ''))
+}
+
+export function reviewStatusFor(fileName: string, records: Record<string, LdrawReviewRecord>, revision?: string, frozenRevision?: string): LdrawReviewStatus {
   const record = records[fileName]
-  return record && (!revision || record.revision === revision) ? 'confirmed' : 'pending'
+  if (!record) return isLdrawReviewCandidate(fileName) ? 'unconfirmed' : 'untracked'
+  if (isProductionProtected(fileName)) return 'confirmed'
+  return record.revision === revision || record.revision === frozenRevision ? 'confirmed' : 'changed'
 }
 
 export function reviewRecordFor(fileName: string, records: Record<string, LdrawReviewRecord>) {
