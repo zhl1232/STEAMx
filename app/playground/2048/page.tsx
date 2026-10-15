@@ -120,10 +120,10 @@ export default function Game2048Page() {
             <div className="playground-game-page">
                 {/* 左侧游戏区 */}
                 <div className="playground-game-main playground-game-center relative overflow-hidden">
-                    <div className="max-w-full lg:max-w-max w-full playground-game-board relative">
+                    <div className="w-full max-w-[568px] playground-game-board relative">
 
                         {/* Header: Score & Controls */}
-                        <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-sm border border-border shadow-inner">
+                        <div className="flex items-center justify-between flex-wrap gap-2 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-sm border border-border shadow-inner">
                             <div className="flex items-center gap-3 sm:gap-4">
                                 <div className="flex flex-col items-center bg-primary/10 px-4 py-2 rounded-xs border border-primary/20">
                                     <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">得分</span>
@@ -167,14 +167,14 @@ export default function Game2048Page() {
 
                         {/* Game Grid */}
                         <div
-                            className="relative w-full max-w-[360px] sm:max-w-[420px] mx-auto aspect-square touch-none select-none bg-muted/20 rounded-md p-2 sm:p-3 border border-border shadow-xl"
+                            className="relative w-full max-w-[360px] sm:max-w-[clamp(280px,calc(100svh-340px),520px)] mx-auto aspect-square touch-none select-none bg-muted rounded-md p-2 sm:p-3 border border-border shadow-xl"
                             onTouchStart={onTouchStart}
                             onTouchEnd={onTouchEnd}
                         >
                             <div className="grid grid-cols-4 grid-rows-4 gap-2 sm:gap-3 w-full h-full">
                                 {/* Background cells */}
                                 {Array.from({ length: 16 }).map((_, i) => (
-                                    <div key={`bg-${i}`} className="bg-muted/30 rounded-sm" />
+                                    <div key={`bg-${i}`} className="rounded-sm border border-foreground/25 bg-background/80" />
                                 ))}
                             </div>
 
