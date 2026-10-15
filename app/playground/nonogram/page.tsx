@@ -40,6 +40,12 @@ export default function NonogramPage() {
         setOverride: setTutorOverride,
         clearOverride: clearTutorOverride,
     } = useTutorContext()
+    const onlineDetailsRef = useRef<HTMLDetailsElement>(null)
+    useEffect(() => {
+        if (onlineDetailsRef.current && (race.phase !== "idle" || new URLSearchParams(window.location.search).has("room"))) {
+            onlineDetailsRef.current.open = true
+        }
+    }, [race.phase])
     const boardRef = useRef<HTMLDivElement>(null)
     const paintingRef = useRef(false)
     const prevStatusRef = useRef(game.status)
@@ -223,7 +229,14 @@ export default function NonogramPage() {
                         })}
                     </div>
 
-                    <RaceOnlinePanel className="mb-4 xl:hidden" online={race} gamePath="/playground/nonogram" />
+                    <details className="mb-3 rounded-sm border border-border bg-background/80" ref={onlineDetailsRef}>
+                        <summary className="cursor-pointer px-3 py-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-primary">
+                            联机竞速 · 邀请好友
+                        </summary>
+                        <div className="p-3 pt-0">
+                            <RaceOnlinePanel online={race} gamePath="/playground/nonogram" />
+                        </div>
+                    </details>
 
                     <div className="mb-3 flex flex-wrap items-center justify-end gap-2">
                         <button
@@ -290,7 +303,7 @@ export default function NonogramPage() {
                         ref={boardRef}
                         role="application"
                         aria-label="数织棋盘"
-                        className="mx-auto w-full max-w-[min(100%,36rem)] scroll-mt-[calc(var(--mobile-global-header-height,0px)+4.5rem)] select-none touch-none rounded-md border border-slate-300/70 bg-slate-100/80 p-2 dark:border-slate-600/50 dark:bg-slate-900/40 sm:p-3"
+                        className="mx-auto w-full max-w-[min(100%,36rem)] sm:max-w-[clamp(280px,calc(100svh-440px),36rem)] scroll-mt-[calc(var(--mobile-global-header-height,0px)+4.5rem)] select-none touch-none rounded-md border border-slate-300/70 bg-slate-100/80 p-2 dark:border-slate-600/50 dark:bg-slate-900/40 sm:p-3"
                         onPointerDown={(event) => {
                             if (game.status !== "playing") return
                             if (event.pointerType === "mouse" && event.button === 2) return
@@ -528,7 +541,6 @@ export default function NonogramPage() {
 
             <aside className="hidden w-full border-t border-border bg-card/50 p-6 xl:block xl:w-80 xl:border-l xl:border-t-0">
                 <div className="space-y-5">
-                    <RaceOnlinePanel online={race} gamePath="/playground/nonogram" />
                     <section>
                         <h2 className="mb-2 flex items-center gap-2 font-bold">
                             <Trophy className="h-4 w-4 text-slate-500" />
