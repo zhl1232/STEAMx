@@ -139,32 +139,38 @@ export function SpeciesImageGallery({
       <div
         className={`relative overflow-hidden bg-muted/40 sm:rounded-lg sm:border sm:border-border/70 sm:shadow-xs ${
           activeImageUrl && activeImageSrc
-            ? "aspect-4/3 min-h-[220px] sm:aspect-[1.42] lg:aspect-[1.34]"
+            ? "h-[clamp(220px,60vw,420px)] md:h-[clamp(260px,42vh,420px)]"
             : "h-[240px] sm:h-[320px] lg:h-[360px]"
         }`}
       >
-        <SpeciesImageFallback
+        {!isActiveImageLoaded ? <SpeciesImageFallback
           speciesName={speciesName}
           scientificName={scientificName}
           speciesNamePinyin={speciesNamePinyin}
           topicKey={topicKey}
-        />
+        /> : null}
         {activeImageUrl && activeImageSrc ? (
           <Image
             key={activeImageUrl}
             src={activeImageSrc}
             alt={speciesName}
             fill
-            className={`object-cover transition-opacity duration-200 ${
+            className={`object-contain transition-opacity duration-200 ${
               isActiveImageLoaded ? "opacity-100" : "opacity-0"
             }`}
-            sizes="(max-width: 1024px) 100vw, 660px"
+            sizes="(max-width: 767px) 100vw, 50vw"
             quality={72}
             priority
             unoptimized={shouldBypassAssetDisplayOptimization(activeImageUrl)}
             onLoad={() => markImageLoaded(activeImageUrl, setLoadedMainImageUrls)}
             onError={() => handleImageError(activeImageUrl)}
           />
+        ) : null}
+        {activeImageSrc ? (
+          <a href={activeImageSrc} target="_blank" rel="noopener noreferrer"
+            className="absolute bottom-3 right-3 rounded-full bg-background/95 px-3 py-2 text-xs font-semibold text-foreground shadow-sm focus-visible:outline-2 focus-visible:outline-primary">
+            查看完整图片
+          </a>
         ) : null}
         {/* 移动端图片计数器 */}
         {availableImageItems.length > 1 ? (

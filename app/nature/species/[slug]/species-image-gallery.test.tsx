@@ -4,6 +4,19 @@ import { describe, expect, it } from 'vitest'
 import { SpeciesImageGallery } from './species-image-gallery'
 
 describe('SpeciesImageGallery', () => {
+  it('opens the active full image and updates the link when that image fails', () => {
+    render(<SpeciesImageGallery speciesName="日本鹌鹑" imageItems={[
+      { url: '/birds/images/first.jpg' }, { url: '/birds/images/second.jpg' },
+    ]} />)
+    const link = screen.getByRole('link', { name: '查看完整图片' })
+    expect(link.getAttribute('href')).toContain('first.jpg')
+    expect(link).toHaveAttribute('target', '_blank')
+    fireEvent.error(screen.getByAltText('日本鹌鹑'))
+    expect(link.getAttribute('href')).toContain('second.jpg')
+    fireEvent.load(screen.getByAltText('日本鹌鹑'))
+    expect(screen.queryByText('暂无图片')).not.toBeInTheDocument()
+  })
+
   it('shows a species placeholder when no image is available', () => {
     render(
       <SpeciesImageGallery
