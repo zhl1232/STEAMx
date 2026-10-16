@@ -303,7 +303,7 @@ export default function NonogramPage() {
                         ref={boardRef}
                         role="application"
                         aria-label="数织棋盘"
-                        className="mx-auto w-full max-w-[min(100%,36rem)] sm:max-w-[clamp(280px,calc(100svh-440px),36rem)] scroll-mt-[calc(var(--mobile-global-header-height,0px)+4.5rem)] select-none touch-none rounded-md border border-slate-300/70 bg-slate-100/80 p-2 dark:border-slate-600/50 dark:bg-slate-900/40 sm:p-3"
+                        className="mx-auto w-full max-w-[min(100%,36rem)] scroll-mt-[calc(var(--mobile-global-header-height,0px)+4.5rem)] select-none touch-none rounded-md border border-slate-300/70 bg-slate-100/80 p-2 dark:border-slate-600/50 dark:bg-slate-900/40 sm:p-3"
                         onPointerDown={(event) => {
                             if (game.status !== "playing") return
                             if (event.pointerType === "mouse" && event.button === 2) return
