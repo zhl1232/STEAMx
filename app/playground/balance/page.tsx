@@ -7,7 +7,7 @@ import { BALANCE_LEVELS, useBalance, type WeighResult } from "@/hooks/playground
 import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
-import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
+import { RaceOnlineDisclosure, RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import { cn } from "@/lib/utils"
 
 type PanSide = "left" | "right"
@@ -328,7 +328,9 @@ export default function BalancePage() {
                         })}
                     </div>
 
-                    <RaceOnlinePanel className="mb-4 xl:hidden" online={race} gamePath="/playground/balance" />
+                    <RaceOnlineDisclosure phase={race.phase}>
+                        <RaceOnlinePanel online={race} gamePath="/playground/balance" />
+                    </RaceOnlineDisclosure>
 
                     <div
                         className={cn(
