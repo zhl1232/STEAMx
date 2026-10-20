@@ -5,7 +5,7 @@ import { Check, CircleHelp, Heart, Lock, PaintBucket, RotateCcw, Sparkles, Table
 import { NONOGRAM_LEVELS, useNonogram, type NonogramTool } from "@/hooks/playground/use-nonogram"
 import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { NonogramVictoryArt } from "@/components/features/playground/nonogram-victory-art"
-import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
+import { RaceOnlineDisclosure, RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
@@ -40,12 +40,6 @@ export default function NonogramPage() {
         setOverride: setTutorOverride,
         clearOverride: clearTutorOverride,
     } = useTutorContext()
-    const onlineDetailsRef = useRef<HTMLDetailsElement>(null)
-    useEffect(() => {
-        if (onlineDetailsRef.current && (race.phase !== "idle" || new URLSearchParams(window.location.search).has("room"))) {
-            onlineDetailsRef.current.open = true
-        }
-    }, [race.phase])
     const boardRef = useRef<HTMLDivElement>(null)
     const paintingRef = useRef(false)
     const prevStatusRef = useRef(game.status)
@@ -229,14 +223,9 @@ export default function NonogramPage() {
                         })}
                     </div>
 
-                    <details className="mb-3 rounded-sm border border-border bg-background/80" ref={onlineDetailsRef}>
-                        <summary className="cursor-pointer px-3 py-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-primary">
-                            联机竞速 · 邀请好友
-                        </summary>
-                        <div className="p-3 pt-0">
-                            <RaceOnlinePanel online={race} gamePath="/playground/nonogram" />
-                        </div>
-                    </details>
+                    <RaceOnlineDisclosure phase={race.phase}>
+                        <RaceOnlinePanel online={race} gamePath="/playground/nonogram" />
+                    </RaceOnlineDisclosure>
 
                     <div className="mb-3 flex flex-wrap items-center justify-end gap-2">
                         <button
@@ -541,6 +530,7 @@ export default function NonogramPage() {
 
             <aside className="hidden w-full border-t border-border bg-card/50 p-6 xl:block xl:w-80 xl:border-l xl:border-t-0">
                 <div className="space-y-5">
+                    <RaceOnlinePanel online={race} gamePath="/playground/nonogram" />
                     <section>
                         <h2 className="mb-2 flex items-center gap-2 font-bold">
                             <Trophy className="h-4 w-4 text-slate-500" />
