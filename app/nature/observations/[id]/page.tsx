@@ -132,6 +132,32 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
       />
 
       <div className="md:surface-panel overflow-hidden md:rounded-(--radius-lg)">
+        <div className="px-4 py-5 sm:px-7 sm:py-6">
+          <div className="flex flex-wrap items-start gap-x-3 gap-y-1">
+            {primarySpeciesHref ? (
+              <Link
+                href={primarySpeciesHref}
+                aria-label={`查看${headline.title}物种百科`}
+                className="group -m-1 inline-flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-sm p-1 transition-colors hover:bg-muted/35 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)]"
+              >
+                <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">{headline.title}</h1>
+                {headline.scientificName ? (
+                  <span className="pb-0.5 text-base italic text-muted-foreground transition-colors group-hover:text-foreground/75">
+                    {headline.scientificName}
+                  </span>
+                ) : null}
+                <ArrowUpRight className="h-4 w-4 self-center text-muted-foreground transition-colors group-hover:text-foreground" />
+              </Link>
+            ) : (
+              <>
+                <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">{headline.title}</h1>
+                {headline.scientificName ? (
+                  <p className="pb-0.5 text-base italic text-muted-foreground">{headline.scientificName}</p>
+                ) : null}
+              </>
+            )}
+          </div>
+        </div>
         <div className="-mx-4 md:mx-0">
           {hasMedia ? (
             <ObservationMediaCarousel mediaUrls={observation.mediaUrls} alt={headline.title} />
@@ -178,31 +204,6 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
               <span className={`inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-medium ${reviewStatusClassName}`}>
                 {reviewStatusLabel}
               </span>
-            </div>
-
-            <div className="flex flex-wrap items-start gap-x-3 gap-y-1">
-              {primarySpeciesHref ? (
-                <Link
-                  href={primarySpeciesHref}
-                  aria-label={`查看${headline.title}物种百科`}
-                  className="group -m-1 inline-flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-sm p-1 transition-colors hover:bg-muted/35 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[hsl(var(--primary)/0.35)]"
-                >
-                  <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">{headline.title}</h1>
-                  {headline.scientificName ? (
-                    <span className="pb-0.5 text-base italic text-muted-foreground transition-colors group-hover:text-foreground/75">
-                      {headline.scientificName}
-                    </span>
-                  ) : null}
-                  <ArrowUpRight className="h-4 w-4 self-center text-muted-foreground transition-colors group-hover:text-foreground" />
-                </Link>
-              ) : (
-                <>
-                  <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">{headline.title}</h1>
-                  {headline.scientificName ? (
-                    <p className="pb-0.5 text-base italic text-muted-foreground">{headline.scientificName}</p>
-                  ) : null}
-                </>
-              )}
             </div>
 
             <p className="flex flex-wrap items-center gap-x-1.5 text-sm text-muted-foreground">

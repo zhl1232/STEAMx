@@ -281,7 +281,10 @@ export default function SudokuPage() {
                     </div>
 
                     {/* Board */}
-                    <div className="w-full overflow-x-auto no-scrollbar touch-pan-x pb-2" aria-label="数独棋盘，可横向滑动查看完整 9×9 棋盘">
+                    <p id="sudoku-scroll-hint" className="mb-2 text-center text-xs leading-5 text-muted-foreground sm:hidden">
+                        左右滑动棋盘可查看全部 9 列，格子保持原大小。
+                    </p>
+                    <div className="w-full overflow-x-auto touch-pan-x pb-2" tabIndex={0} role="region" aria-describedby="sudoku-scroll-hint" aria-label="数独棋盘，可横向滑动查看完整 9×9 棋盘">
                         <div className="relative w-max bg-background/40 rounded-md p-1.5 sm:p-2.5 border border-border shadow-xl">
                             <div
                                 className="grid"

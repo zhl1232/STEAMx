@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { Check, Copy, Loader2, LogOut, RotateCcw, Trophy, Users } from "lucide-react";
 
@@ -12,6 +12,28 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 type RaceOnlineApi = ReturnType<typeof useRaceOnline>;
+
+/** Keep the panel mounted so invite/login/reconnect effects also run while collapsed. */
+export function RaceOnlineDisclosure({ phase, children }: { phase: RaceOnlineApi["phase"]; children: ReactNode }) {
+    const detailsRef = useRef<HTMLDetailsElement>(null);
+    useEffect(() => {
+        if (detailsRef.current && (phase !== "idle" || new URLSearchParams(window.location.search).has("room"))) {
+            detailsRef.current.open = true;
+        }
+    }, [phase]);
+
+    return (
+        <details ref={detailsRef} className="mb-4 rounded-sm border border-border bg-background/80 xl:hidden"
+            onToggle={() => {
+                if (phase !== "idle" && detailsRef.current && !detailsRef.current.open) detailsRef.current.open = true;
+            }}>
+            <summary className="min-h-11 cursor-pointer px-3 py-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-primary">
+                联机竞速 · 邀请好友
+            </summary>
+            <div className="p-3 pt-0">{children}</div>
+        </details>
+    );
+}
 
 function readInitialRoomCode(): string | null {
     if (typeof window === "undefined") return null;
