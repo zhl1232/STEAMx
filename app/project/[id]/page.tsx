@@ -1,4 +1,5 @@
 import { getScienceSampleForProject } from '@/lib/project/science-samples'
+import { effectiveUpdatedAt } from '@/lib/project/effective-updated-at'
 import { ScienceProjectNotes, ScienceProjectSafety } from '@/components/features/project/science-project-notes'
 import type { ReactNode } from 'react'
 
@@ -570,7 +571,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     coverCaption: Number(project.id) === 149 ? 'AI 生成的成品示意图；制作方法见步骤。' : project.title,
   }).slice(0, 1)
   const createdAt = validProjectDate(project.createdAt)
-  const updatedAt = validProjectDate(project.updatedAt)
+  const updatedAt = effectiveUpdatedAt(project)
   const dateFormatter = new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai" })
   const heroImages = heroGallery.map((item) => item.url)
   const heroCaptions = heroGallery.map((item) => item.caption)

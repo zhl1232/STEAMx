@@ -1,7 +1,6 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { expect, it } from 'vitest'
-import releasedModels from '../../docs/releases/2026-10-20/ldraw-manifest.json'
 import { describeLdrawColorName, parseLdrawColorTable, summarizePackedLdrawBom } from '../utils/ldraw-bom'
 import { createPackedLdrawStep } from '../utils/ldraw-mpd'
 import { KIT_CATALOG } from './course-kit-config'
@@ -13,6 +12,14 @@ const colors = parseLdrawColorTable(readFileSync(`${directory}/LDConfig.ldr`, 'u
 const files = readdirSync(directory).filter((file) => /^[345]-.*\.mpd$/.test(file) && !/-[a-f0-9]{8,}\.mpd$/.test(file))
 
 it('the 60 added models match their confirmed release and have usable steps and BOMs', () => {
+  // docs are intentionally absent from the production Docker build context.
+  // Read test evidence only when this check runs, without a compile-time import.
+  const releasedModels = JSON.parse(readFileSync('docs/releases/2026-10-20/ldraw-manifest.json', 'utf8')) as Array<{
+    slug: string
+    revision: string
+    confirmedAt: string
+    stepCount: number
+  }>
   expect(releasedModels).toHaveLength(60)
   expect(new Set(releasedModels.map(({ slug }) => slug)).size).toBe(60)
   for (const model of releasedModels) {

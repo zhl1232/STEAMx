@@ -52,6 +52,16 @@ Google、百度、Bing 等各自验证新主域并记录结果，不能互相替
 
 分享图片和 JSON-LD image 必须公开可访问；迁移资源使用正确公共图片路径。公开图片放行不扩大私有 API 或视频权限；创建时间不冒充独立发布时间。
 
+### 项目更新时间与卡片链接
+
+`lib/project/effective-updated-at.ts` 取有效数据库 `updated_at` 与已确认发布的覆盖内容日期的较晚者。LED / 科学覆盖内容的映射、详情页可见 `<time>`、Article `dateModified` 与 sitemap 共用该函数；`createdAt` / `dateCreated` 保持原含义，不生成 `datePublished`。科学覆盖继续要求 ID、标题和“科学”分类匹配；无发布证据或未发布草稿只保留数据库日期，两者都无有效日期则省略。
+
+`lib/project/published-content-dates.json` 按实际变更项目分组记录内容提交、成功发布的 Actions run ID 和 `Deploy on server` 成功步骤的完成时间（UTC，作为可核查的发布时刻）。更新清单前逐项比较上一次已发布内容与新版本正文、扩展或配图，核对该提交包含在实际成功部署的版本中；失败、取消、跳过部署、仅进入 main 或仅改 UI 的提交均不能刷新内容日期。内容变更提交与部署版本不同时须保留两者证据，不用作者时间、文件时间、构建时间或今天补齐缺项。原始日志和当次核查结果保留在 Actions / PR，不复制到索引。
+
+`ProjectCard` 的 default / featured / compact / explore 变体使用同一个包含可见标题的 `Link`，以伪元素扩展全卡点击范围，保留 `href`、`scroll`、搜索高亮与原有可访问名称。标题至卡片之间不新增定位容器；独立操作保持为链接外的更高层级控件，避免嵌套链接及重复 Tab 焦点。检查真实命中区域、焦点轮廓、右键链接菜单和独立控件，而非只检查 `href` / `aria-label` 是否存在。
+
+回归入口：`lib/project/effective-updated-at.test.ts`、`app/project/[id]/dates.test.tsx`、`app/sitemap.test.ts`、`components/features/project-card.test.tsx`；浏览器隔离夹具用 `pnpm exec playwright test -c playwright.project-card.config.ts`，覆盖桌面、手机与 compact 布局。组件单测渲染 Next Link；浏览器夹具使用真实卡片和样式，以原生锚点代替 Next 路由并替代数据上下文与图片加载，验证 CSS 命中区域及交互，不等同完整站点或生产验收。以上修复补足日期和锚文本语义，尚不能认定为 Bing 搜索展示问题的根因。
+
 ## 检查结果怎么使用
 
 自动脚本是有限抽样，不是全站爬取或生产业务验收。执行方式、错误处理、平台分别记录及实际排名/索引判断统一见 [日常运营](seo-daily-operations.md)。本页不记录滚动“今日收录量”或把仓库中存在的文件当成平台验证已成功。

@@ -1,4 +1,5 @@
 import type { Project, ProjectFaqItem } from '@/lib/mappers/types'
+import { effectiveUpdatedAt } from './effective-updated-at'
 
 export const LED_CARD_REFERENCE_NOTE = '开合行程、接触稳定性和亮度尚未实物验证，需按所用材料试装调整。'
 export const LED_CARD_REFERENCES = [
@@ -26,6 +27,7 @@ export function applyLedCardContent(project: Project): Project {
   if (Number(project.id) !== 149) return project
   return {
     ...project,
+    updatedAt: effectiveUpdatedAt(project),
     image: '/projects/generated/project-0149-led-star-cover-20261008.webp',
     description: '用铜箔、LED 和纽扣电池做一张打开会亮、合上会灭的贺卡，把亲手制作的祝福送给家人朋友。',
     videoUrl: null,

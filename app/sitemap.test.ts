@@ -135,5 +135,6 @@ describe("sitemap generation failures", () => {
     await expect(sitemap()).resolves.toEqual(buildSitemapEntries());
     expect(select).toHaveBeenCalledWith("completed_projects", "id, completed_at, reviewed_at, project_id, course_lesson_id");
     expect(select).toHaveBeenCalledWith("species", "slug, nature_topic, updated_at");
+    expect(select).toHaveBeenCalledWith("projects", "id, title, category, updated_at");
   });
 });
