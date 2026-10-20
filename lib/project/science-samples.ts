@@ -1,4 +1,5 @@
 import type { Project } from '@/lib/mappers/types'
+import { effectiveUpdatedAt } from './effective-updated-at'
 import samplesData from './science-samples.data.json'
 import reviewedData from './science-reviewed.data.json'
 
@@ -43,6 +44,7 @@ export function applyScienceSample(project: Project): Project {
   if (!sample) return project
   return {
     ...project,
+    updatedAt: effectiveUpdatedAt(project),
     description: sample.description,
     materials: sample.materials,
     steps: sample.steps,
