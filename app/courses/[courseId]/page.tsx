@@ -150,7 +150,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
                 <section className="surface-card overflow-hidden rounded-xl">
                     <div className="grid gap-0 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
                         {/* 移动端：棋盘在上、文字在下；桌面端：文字在左、棋盘在右 */}
-                        <div className="relative order-first min-h-[200px] border-border md:order-2 md:min-h-[260px] md:border-l lg:min-h-[320px]">
+                        <div className="relative order-first h-[clamp(200px,65vw,320px)] border-border md:order-2 md:h-auto md:min-h-[320px] md:border-l">
                             {isGomoku ? (
                                 <GomokuHeroVisual />
                             ) : (
@@ -159,7 +159,9 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                     alt={course.title}
                                     fill
                                     variant="cover"
-                                    className="object-cover"
+                                    className="object-contain p-3 sm:p-4"
+                                    sizes="(max-width: 767px) 100vw, (max-width: 1920px) 45vw, 828px"
+                                    loading="eager"
                                 />
                             )}
                         </div>

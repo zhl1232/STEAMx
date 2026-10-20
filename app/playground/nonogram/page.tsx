@@ -5,7 +5,7 @@ import { Check, CircleHelp, Heart, Lock, PaintBucket, RotateCcw, Sparkles, Table
 import { NONOGRAM_LEVELS, useNonogram, type NonogramTool } from "@/hooks/playground/use-nonogram"
 import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { NonogramVictoryArt } from "@/components/features/playground/nonogram-victory-art"
-import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
+import { RaceOnlineDisclosure, RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
@@ -223,7 +223,9 @@ export default function NonogramPage() {
                         })}
                     </div>
 
-                    <RaceOnlinePanel className="mb-4 xl:hidden" online={race} gamePath="/playground/nonogram" />
+                    <RaceOnlineDisclosure phase={race.phase}>
+                        <RaceOnlinePanel online={race} gamePath="/playground/nonogram" />
+                    </RaceOnlineDisclosure>
 
                     <div className="mb-3 flex flex-wrap items-center justify-end gap-2">
                         <button

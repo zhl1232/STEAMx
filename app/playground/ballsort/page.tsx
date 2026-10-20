@@ -7,7 +7,7 @@ import { BALL_SORT_LEVELS, canPour, getTopRun, useBallSort } from "@/hooks/playg
 import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
-import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
+import { RaceOnlineDisclosure, RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import { cn } from "@/lib/utils"
 
 type BallPalette = {
@@ -263,7 +263,9 @@ export default function BallSortPage() {
                         })}
                     </div>
 
-                    <RaceOnlinePanel className="mb-4 xl:hidden" online={race} gamePath="/playground/ballsort" />
+                    <RaceOnlineDisclosure phase={race.phase}>
+                        <RaceOnlinePanel online={race} gamePath="/playground/ballsort" />
+                    </RaceOnlineDisclosure>
 
                     <div
                         className={cn(

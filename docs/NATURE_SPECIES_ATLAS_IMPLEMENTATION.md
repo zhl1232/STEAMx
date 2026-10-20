@@ -46,3 +46,9 @@ node scripts/migrate-public-to-oss.mjs --only=birds-atlas,insects-atlas,trees-at
 纯函数和 DTO 测试在 `lib/nature-species-atlas.test.ts` 及相邻 API 测试；发布验收覆盖匿名/登录状态、搜索和深链、详情返回、响应缓存头、缩略图 404、无原图请求、移动端布局和浏览器前进/后退恢复。重点监控 atlas API p95、响应字节、progress unavailable、缩略图缺失/404 和公共缓存串用户。
 
 发现点亮 RPC 失败时，保留 catalog 并显示 unavailable；不要把错误降级为 false。发现 manifest 与 active 物种不一致时，先 `--check`，确认源图和 OSS 上传组，再发布 manifest。回滚应回退到上一个已验证的应用版本；当前代码未发现专用于图鉴的 feature flag。RPC、manifest 和缩略图均为 additive，不删除历史观察数据。
+
+## 详情首屏布局
+
+详情页不再按是否有观察统计切换全宽大图：平板及桌面将图集与名称、分类、识别特征并列，统计与其余详情放在下方。主图等比完整展示并限制高度，提供「查看完整图片」原图入口；缩略图切换、来源观察链接和缺图回退保留。
+
+观察记录详情将名称、学名及物种百科链接放在照片之前，保持唯一主标题；照片尺寸、轮播和大图预览不变，状态和时间仍在正文头部。

@@ -138,7 +138,6 @@ export default async function SpeciesDetailPage({ params }: SpeciesDetailPagePro
     : species.topicKey === "insects"
       ? "/assets/species-detail/insect"
       : "/assets/species-detail/tree";
-  const identificationIllustrationUrl = `${topicAssetPrefix}-identification.png`;
   const habitatIllustrationUrl = `${topicAssetPrefix}-habitat.png`;
   const seasonalityIllustrationUrl = `${topicAssetPrefix}-seasonality.png`;
   const audioIllustrationUrl = "/assets/species-detail/bird-audio.png";
@@ -152,7 +151,6 @@ export default async function SpeciesDetailPage({ params }: SpeciesDetailPagePro
     },
   ].filter((item): item is { rank: string; name: string } => Boolean(item));
   const detailInfoCardCount = [
-    species.identificationNotes,
     species.habitatNotes,
     species.seasonalityNotes,
     isBirdSpecies,
@@ -203,77 +201,78 @@ export default async function SpeciesDetailPage({ params }: SpeciesDetailPagePro
     />
   ) : null;
 
-  const detailsBlock = (
-    <div className="space-y-7">
-      <section className="surface-subtle relative isolate overflow-hidden rounded-lg bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] sm:p-6">
-        <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_minmax(280px,0.72fr)] md:items-start">
-          <div className="min-w-0">
-            <p className="inline-flex rounded-xs bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-              {archiveLabel}
+  const identityBlock = (
+    <section className="surface-subtle relative isolate overflow-hidden rounded-lg bg-background/92 p-5 shadow-[0_20px_54px_-42px_hsl(var(--surface-shadow)/0.48)] sm:p-6">
+      <div className="grid gap-4">
+        <div className="min-w-0">
+          <p className="inline-flex rounded-xs bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+            {archiveLabel}
+          </p>
+          {commonNamePinyin ? (
+            <p className="mt-3 text-xs font-semibold tracking-[0.18em] text-primary/78 md:text-sm">
+              {commonNamePinyin}
             </p>
-            {commonNamePinyin ? (
-              <p className="mt-5 text-xs font-semibold tracking-[0.18em] text-primary/78 md:text-sm">
-                {commonNamePinyin}
-              </p>
-            ) : null}
-            <h1 className="mt-1.5 flex flex-wrap items-center gap-3 text-3xl font-semibold tracking-tight md:text-5xl">
-              {species.commonName}
-              {species.topicKey === "plants" ? <Leaf className="h-6 w-6 text-primary/60" aria-hidden /> : null}
-            </h1>
-            {species.scientificName ? (
-              <p className="mt-2 text-base italic leading-7 text-muted-foreground md:mt-3 md:text-lg">
-                {species.scientificName}
-              </p>
-            ) : null}
-
-            {species.aliases.length > 0 ? (
-              <div className="mt-4 inline-flex min-w-0 max-w-full flex-wrap items-baseline gap-x-2 rounded-sm bg-muted/45 px-3 py-1.5 text-sm leading-6 text-muted-foreground md:mt-5">
-                <span className="shrink-0 text-xs font-medium text-foreground/70">别名</span>
-                {species.aliases.map((alias, i) => {
-                  const py = toSpeciesPinyinLabel(alias);
-                  return (
-                    <span key={alias} className="inline-flex items-baseline gap-x-0.5">
-                      {i > 0 ? <span className="mr-0.5 text-muted-foreground/50">、</span> : null}
-                      <span className="inline-flex flex-col items-center">
-                        {py ? <span className="text-[10px] leading-tight text-primary/70">{py}</span> : null}
-                        <span>{alias}</span>
-                      </span>
-                    </span>
-                  );
-                })}
-              </div>
-            ) : null}
-            <p data-testid="species-intro" className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">
-              {speciesIntro}
+          ) : null}
+          <h1 className="mt-1.5 flex flex-wrap items-center gap-3 text-3xl font-semibold tracking-tight lg:text-4xl">
+            {species.commonName}
+            {species.topicKey === "plants" ? <Leaf className="h-6 w-6 text-primary/60" aria-hidden /> : null}
+          </h1>
+          {species.scientificName ? (
+            <p className="mt-2 text-base italic leading-7 text-muted-foreground md:mt-3 md:text-lg">
+              {species.scientificName}
             </p>
-          </div>
+          ) : null}
 
-          {taxonomyRankItems.length > 0 ? (
-            <div className="border-t border-border/60 pt-4 md:border-l md:border-t-0 md:pl-5 md:pt-1">
-              <p className="text-xs font-medium text-muted-foreground">分类</p>
-              <dl className="mt-3 grid grid-cols-3 gap-2">
-                {taxonomyRankItems.map((item) => (
-                  <div key={item.rank} className="min-w-0 rounded-sm bg-muted/40 px-2.5 py-2.5 text-center">
-                    <dt className="text-[11px] font-medium text-muted-foreground">{item.rank}</dt>
-                    <dd className="mt-1 truncate text-sm font-semibold text-foreground">{item.name}</dd>
-                  </div>
-                ))}
-              </dl>
+          {species.identificationNotes ? (
+            <div className="mt-4 border-t border-border/60 pt-4">
+              <h2 className="text-sm font-semibold">识别特征</h2>
+              <p className="mt-2 text-sm leading-7 text-muted-foreground">{species.identificationNotes}</p>
             </div>
           ) : null}
+
+          {species.aliases.length > 0 ? (
+            <div className="mt-4 inline-flex min-w-0 max-w-full flex-wrap items-baseline gap-x-2 rounded-sm bg-muted/45 px-3 py-1.5 text-sm leading-6 text-muted-foreground md:mt-5">
+              <span className="shrink-0 text-xs font-medium text-foreground/70">别名</span>
+              {species.aliases.map((alias, i) => {
+                const py = toSpeciesPinyinLabel(alias);
+                return (
+                  <span key={alias} className="inline-flex items-baseline gap-x-0.5">
+                    {i > 0 ? <span className="mr-0.5 text-muted-foreground/50">、</span> : null}
+                    <span className="inline-flex flex-col items-center">
+                      {py ? <span className="text-[10px] leading-tight text-primary/70">{py}</span> : null}
+                      <span>{alias}</span>
+                    </span>
+                  </span>
+                );
+              })}
+            </div>
+          ) : null}
+          <p data-testid="species-intro" className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">
+            {speciesIntro}
+          </p>
         </div>
-      </section>
 
-      <div className={`grid gap-4 ${detailInfoGridColumnsClass}`}>
-        {species.identificationNotes ? (
-          <TextInfoCard
-            icon={<Leaf className="h-5 w-5 text-emerald-600" />}
-            title="识别特征"
-            text={species.identificationNotes}
-            illustrationSrc={identificationIllustrationUrl}
-          />
+        {taxonomyRankItems.length > 0 ? (
+          <div className="border-t border-border/60 pt-4">
+            <p className="text-xs font-medium text-muted-foreground">分类</p>
+            <dl className="mt-3 grid grid-cols-3 gap-2">
+              {taxonomyRankItems.map((item) => (
+                <div key={item.rank} className="min-w-0 rounded-sm bg-muted/40 px-2.5 py-2.5 text-center">
+                  <dt className="text-[11px] font-medium text-muted-foreground">{item.rank}</dt>
+                  <dd className="mt-1 truncate text-sm font-semibold text-foreground">{item.name}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         ) : null}
+      </div>
 
+    </section>
+  );
+
+  const detailsBlock = (
+    <div className="space-y-7">
+      <div className={`grid gap-4 ${detailInfoGridColumnsClass}`}>
         {species.habitatNotes ? (
           <TextInfoCard
             icon={<MapPin className="h-5 w-5 text-emerald-600" />}
@@ -362,18 +361,11 @@ export default async function SpeciesDetailPage({ params }: SpeciesDetailPagePro
 
       <div className="md:surface-panel overflow-hidden md:rounded-(--radius-lg)">
         <div className="px-4 pb-5 pt-2 sm:p-7">
-          <div
-            className={
-              hasObservationStats
-                ? "grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(360px,1fr)] lg:gap-7"
-                : "mx-auto grid max-w-5xl gap-6"
-            }
-          >
-            <div className={hasObservationStats ? "lg:row-start-1 lg:col-start-1" : ""}>{galleryBlock}</div>
-            {hasObservationStats ? (
-              <div className="order-last lg:order-0 lg:row-start-1 lg:col-start-2">{statsBlock}</div>
-            ) : null}
-            <div className={hasObservationStats ? "lg:col-span-2 lg:row-start-2" : ""}>{detailsBlock}</div>
+          <div className="grid min-w-0 gap-6 md:grid-cols-2 md:items-start lg:gap-7">
+            <div className="min-w-0">{galleryBlock}</div>
+            <div className="min-w-0">{identityBlock}</div>
+            {hasObservationStats ? <div className="md:col-span-2">{statsBlock}</div> : null}
+            <div className="min-w-0 md:col-span-2">{detailsBlock}</div>
           </div>
         </div>
       </div>
