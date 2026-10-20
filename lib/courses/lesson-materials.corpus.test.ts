@@ -1,6 +1,9 @@
 import { readdirSync, readFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
 import { expect, it } from 'vitest'
+import releasedModels from '../../docs/releases/2026-10-20/ldraw-manifest.json'
 import { describeLdrawColorName, parseLdrawColorTable, summarizePackedLdrawBom } from '../utils/ldraw-bom'
+import { createPackedLdrawStep } from '../utils/ldraw-mpd'
 import { KIT_CATALOG } from './course-kit-config'
 import { mergeLessonMaterialPreferences } from './lesson-material-preferences'
 import { compareLessonMaterials, mergeKitInventories, prepareLessonBomForCourse, substituteDetail } from './lesson-materials'
@@ -9,8 +12,31 @@ const directory = 'public/courses/ldraw'
 const colors = parseLdrawColorTable(readFileSync(`${directory}/LDConfig.ldr`, 'utf8'))
 const files = readdirSync(directory).filter((file) => /^[345]-.*\.mpd$/.test(file) && !/-[a-f0-9]{8,}\.mpd$/.test(file))
 
-it('all 160 lessons render only meaningful substitutions with default and all-catalog-kit inventories', () => {
-  expect(files).toHaveLength(160)
+it('the 60 added models match their confirmed release and have usable steps and BOMs', () => {
+  expect(releasedModels).toHaveLength(60)
+  expect(new Set(releasedModels.map(({ slug }) => slug)).size).toBe(60)
+  for (const model of releasedModels) {
+    const file = `${model.slug}.mpd`
+    expect(files, file).toContain(file)
+    // Git checkout may convert line endings on Windows; release bytes use LF.
+    const mpd = readFileSync(`${directory}/${file}`, 'utf8').replace(/\r\n/g, '\n')
+    const review = JSON.parse(readFileSync(`scripts/ldraw-reviews/${model.slug}.ldr.json`, 'utf8'))
+    expect(createHash('sha256').update(mpd).digest('hex'), file).toBe(model.revision)
+    expect(review.revision, file).toBe(model.revision)
+    expect(review.confirmedAt, file).toBe(model.confirmedAt)
+    const bom = summarizePackedLdrawBom(mpd, colors)
+    expect(bom.partCount, file).toBeGreaterThan(0)
+    expect(bom.stepCount, file).toBe(model.stepCount)
+    expect(bom.steps.reduce((total, step) => total + step.partCount, 0), file).toBe(bom.partCount)
+    for (const step of bom.steps) {
+      expect(() => createPackedLdrawStep(mpd, step.stepIndex), `${file}: step ${step.stepIndex}`).not.toThrow()
+    }
+  }
+}, 30_000)
+
+it('all 220 lessons render only meaningful substitutions with default and all-catalog-kit inventories', () => {
+  expect(files).toHaveLength(220)
+  expect(['3-', '4-', '5-'].map((prefix) => files.filter((file) => file.startsWith(prefix)).length)).toEqual([100, 79, 41])
   const failures: string[] = []
   for (const file of files) {
     const courseId = Number(file[0]) + 2

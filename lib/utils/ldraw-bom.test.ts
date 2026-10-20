@@ -185,6 +185,30 @@ describe('describeLdrawPartName', () => {
     ['75349.dat', 'Duplo Brick 2 x 4 with Holes', '2×4 带孔积木'],
     ['6517.dat', '', '2×4 带孔积木'],
     ['6524.dat', '', '7 孔梁'],
+    ['76395-001.dat', 'Toolo76395 independent captive screw states 001', '4×6 螺丝积木'],
+    ['76395-010.dat', 'Toolo76395 independent captive screw states 010', '4×6 螺丝积木'],
+    ['76395-011.dat', 'Toolo76395 independent captive screw states 011', '4×6 螺丝积木'],
+    ['76395-100.dat', 'Toolo76395 independent captive screw states 100', '4×6 螺丝积木'],
+    ['76395-110.dat', 'Toolo76395 independent captive screw states 110', '4×6 螺丝积木'],
+    ['76395-001-p001.dat', 'Toolo76395 captive states001 phase001', '4×6 螺丝积木'],
+    ['76395-110-p110.dat', 'Toolo76395 captive states110 phase110', '4×6 螺丝积木'],
+    ['76395-110-phase01.dat', 'Toolo76395 independent captive screw states 110', '4×6 螺丝积木'],
+    ['76395-110-phase10.dat', 'Toolo76395 independent captive screw states 110', '4×6 螺丝积木'],
+    ['31196c01-qst.dat', 'Duplo Toolo Cockpit 4 x 6 - submarine courseware outer-wing approximation', '驾驶舱'],
+    ['31239c01.dat', 'Toolo 31239c01 fixed-axis captive assembly', '尾翼'],
+    ['14094.dat', 'Duplo Small Tipper Bucket Bed with Lip and Cutout', '翻斗车斗'],
+    ['2223.dat', 'Duplo2223 ladder stand source-approved approximation with underside stud recesses', '梯子支架'],
+    ['6669c01.dat', 'Toolo SMALL three-blade propeller6669c01 candidate', '小号三叶螺旋桨'],
+    ['6670c01.dat', 'Toolo LARGE three-blade propeller candidate', '大号三叶螺旋桨'],
+    ['4433c01-shou-ge-ji.dat', 'Duplo Toolo Exhaust Pipe (local approx of 4433c01)', '排气管'],
+    ['45146-shou-ge-ji.dat', 'Duplo Windscreen Roll Cage 45146 (4-shou-ge-ji local approximation)', '挡风护架'],
+    ['6295-ta-diao.dat', 'Duplo Toolo Arm with Fake Pulley and Hook (6295) - LOCAL APPROXIMATION', '带吊钩起重臂'],
+    ['6310.dat', 'Duplo Toolo 6310 three-tooth scoop hand (local approximation)', '三齿铲斗'],
+    ['31623.dat', 'Duplo Axle 8 with Gear 8 Tooth', '8 格轴（带 8 齿齿轮）'],
+    ['31624.dat', 'Duplo Gearbox', '齿轮箱'],
+    ['31625.dat', 'Duplo Worm Gear', '蜗杆'],
+    ['61898b.dat', 'Sheet Plastic 13 x 26 Propeller', '13×26 塑料片螺旋桨'],
+    ['61898bc01.dat', 'Sheet Plastic 13 x 26 Propeller (Formed)', '13×26 塑料片螺旋桨（成形）'],
   ])('按零件号 %s 优先使用家长可读名称', (id, description, expected) => {
     expect(describeLdrawPartName(description, id)).toBe(expected)
   })
@@ -192,6 +216,7 @@ describe('describeLdrawPartName', () => {
   it('表外零件继续使用通用描述器', () => {
     expect(describeLdrawPartName('Duplo Brick 2 x 4', '3011.dat')).toBe('2×4 积木')
     expect(describeLdrawPartName('Unknown Part', 'unknown.dat')).toBe('Unknown Part')
+    expect(describeLdrawPartName('Unknown Toolo variant', '76395-unverified.dat')).toBe('Unknown Toolo variant')
   })
 
   it.each([
