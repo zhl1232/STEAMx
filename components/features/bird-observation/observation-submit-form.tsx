@@ -1944,7 +1944,7 @@ export function ObservationSubmitForm({
                 <StepHeader
                   index={3}
                   title="确认时间和地点"
-                  description="逐张核对实际观察时间与地点；自动读取的照片信息也请检查。家附近只公开大概区域。"
+                  description="逐张核对实际观察时间与地点；自动读取的照片信息也请检查。家附近只公开到街道/镇附近。"
                   icon={MapPin}
                   status={locationStepStatus}
                   statusTone={locationStepTone}
@@ -1981,7 +1981,7 @@ export function ObservationSubmitForm({
                     <Button type="button" variant="outline" className="mt-3 h-11" onClick={() => openMobilePanel("photo")}>去选择照片</Button>
                   </div>
                 ) : <div className="space-y-4">
-                  <p className="text-xs leading-5 text-(--obs-muted)">照片信息仅作参考，请确认实际观察时间和地点。公园等公共场所会公开具体地点，家附近只显示大概区域。</p>
+                  <p className="text-xs leading-5 text-(--obs-muted)">照片信息仅作参考，请确认实际观察时间和地点。公园等公共场所会公开具体地点，家附近只显示到街道/镇附近。</p>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="space-y-2">
                       <FieldLabel htmlFor="observedDate">观察日期</FieldLabel>
