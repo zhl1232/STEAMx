@@ -38,7 +38,9 @@ describe('resolvePlacePrivacy', () => {
 
 describe('回填脚本与服务端规则一致', () => {
   it('同样的输入得到同样的分级', async () => {
-    const script = (await import('../../scripts/backfill-observation-location-privacy.mjs')) as unknown as {
+    // 用变量路径：Docker 构建不含 scripts/，避免 next build 类型检查找不到模块
+    const scriptPath = '../../scripts/backfill-observation-location-privacy.mjs'
+    const script = (await import(/* @vite-ignore */ scriptPath)) as unknown as {
       classifyPlace: typeof classifyPlace
     }
     const samples = [
