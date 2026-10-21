@@ -438,16 +438,16 @@ export function LessonPageClient({
                                     <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-foreground/[0.06] md:hidden">
                                         <ArrowLeft className="h-5 w-5" />
                                     </Link>
-                                    <span className="flex min-w-0 items-center gap-1">
+                                    <span data-testid="lesson-breadcrumb" className="flex min-w-0 items-center gap-1 text-[15px] leading-5">
                                         <Link
                                             href={`/courses/${courseId}`}
                                             title={courseTitle}
-                                            className="hidden min-w-0 max-w-[14rem] shrink-[2] truncate rounded-md px-1.5 py-1.5 text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-[hsl(var(--brand-blue))] hover:underline md:block"
+                                            className="hidden min-w-0 max-w-[14rem] shrink-[2] truncate rounded-md px-1.5 py-1.5 text-[15px] leading-5 text-muted-foreground underline-offset-4 transition-colors hover:text-[hsl(var(--brand-blue))] hover:underline md:block"
                                         >
                                             {courseTitle}
                                         </Link>
-                                        <ChevronRight className="hidden h-4 w-4 shrink-0 text-muted-foreground/60 md:block" aria-hidden />
-                                        <span title={lesson.title} className="min-w-0 truncate text-base font-bold leading-snug text-foreground md:text-[15px]">{lesson.title}</span>
+                                        <ChevronRight className="hidden h-4 w-4 shrink-0 self-center text-muted-foreground/60 md:block" aria-hidden />
+                                        <span title={lesson.title} className="min-w-0 truncate py-1.5 text-base font-semibold leading-5 text-foreground md:text-[15px]">{lesson.title}</span>
                                     </span>
                                 </span>
                             }
