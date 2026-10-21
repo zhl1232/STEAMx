@@ -48,6 +48,7 @@ const work = { id: 42, userId: 'owner', projectId: 7, author: '作者', complete
 function tree(kind: string) { return <StrictMode><QueryClientProvider client={new QueryClient({defaultOptions:{queries:{retry:false}}})}><AuthProvider><LoginPromptProvider><ProjectProvider>{kind==='work' ? <WorkDetail work={work as unknown as import('@/lib/mappers/types').Work} canShare={false}/> : <ProjectComments projectId={7} initialComments={[]} initialLikedCommentIds={[]} preserveScrollOnSubmit/>}</ProjectProvider></LoginPromptProvider></AuthProvider></QueryClientProvider></StrictMode> }
 function auth(id: string | null) { act(() => mocks.changed?.('SIGNED_IN', id ? {user:{id}} : null)) }
 beforeEach(() => {
+  localStorage.setItem('steamx:login-nudge:dismissed-day', new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Shanghai' }).format(new Date()))
  vi.clearAllMocks(); sessionStorage.clear(); sessionStorage.setItem('visited','1'); mocks.path='/project/7'; window.history.replaceState({},'',mocks.path)
  vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({count:0,isLiked:false}),{status:200})))
 })

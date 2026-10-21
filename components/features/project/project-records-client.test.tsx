@@ -40,7 +40,7 @@ const renderRecords = (mode: "project" | "observation" = "project") => render(
 
 it.each(['记录按钮', '卡片本体', '卡片标题'])('无记录时通过%s打开记录类型选择', async (entry) => {
  renderRecords()
- const button = screen.getByRole('button', {name:'记录'})
+ const button = screen.getAllByRole('button', {name:'记录我的发现'})[0]
  const card = button.closest('section')!
  expect(card).toHaveClass('cursor-pointer', 'hover:shadow-md')
  fireEvent.click(entry === '记录按钮' ? button : entry === '卡片本体' ? card : screen.getByText('记录我的项目过程'))
@@ -48,13 +48,15 @@ it.each(['记录按钮', '卡片本体', '卡片标题'])('无记录时通过%s�
  expect(screen.queryByRole('dialog', {name:'final dialog'})).not.toBeInTheDocument()
 })
 
-it('桌面标题区有独立记录入口，手机隐藏且页面只有一个 h1', async () => {
+it('记录入口只有一个，手机桌面共用；页面只有一个 h1', async () => {
+ mocks.read.mockResolvedValue({id:1,status:'active',records:[]})
  const {container} = renderRecords()
  const header = screen.getByTestId('desktop-records-header')
  expect(header).toHaveClass('hidden', 'md:flex')
  expect(header).toHaveTextContent('探索记录 · 贺卡')
  expect(container.querySelectorAll('h1')).toHaveLength(1)
- fireEvent.click(screen.getByRole('button', {name:'+ 记录'}))
+ fireEvent.click((await screen.findAllByRole('button', {name:'记录我的发现'}))[0])
+ expect(screen.queryByRole('button', {name:'+ 记录'})).not.toBeInTheDocument()
  expect(await screen.findByRole('dialog', {name:'记录类型选择'})).toBeInTheDocument()
 })
 
@@ -65,7 +67,7 @@ it.each([
  mocks.read.mockResolvedValue({id:1,status:'active',records:[{record_kind,status,notes:'已有记录'}]})
  renderRecords()
  const finalButton = await screen.findByRole('button', {name:label})
- expect(screen.getByRole('button', {name:'记录'})).toBeInTheDocument()
+ expect(screen.getAllByRole('button', {name:'记录我的发现'})[0]).toBeInTheDocument()
  fireEvent.click(finalButton)
  expect(await screen.findByRole('dialog', {name:'final dialog'})).toBeInTheDocument()
  expect(screen.queryByRole('dialog', {name:'记录类型选择'})).not.toBeInTheDocument()
@@ -75,7 +77,7 @@ it.each(['记录按钮', '卡片本体'])('有过程记录时通过%s继续记�
  mocks.read.mockResolvedValue({id:1,status:'active',records:[{record_kind:'progress',notes:'已有记录'}]})
  renderRecords()
  await screen.findByRole('button', {name:'总结最终作品'})
- const button = screen.getByRole('button', {name:'记录'})
+ const button = screen.getAllByRole('button', {name:'记录我的发现'})[0]
  fireEvent.click(entry === '记录按钮' ? button : button.closest('section')!)
  expect(await screen.findByRole('dialog', {name:'记录类型选择'})).toBeInTheDocument()
  expect(screen.queryByRole('dialog', {name:'final dialog'})).not.toBeInTheDocument()
@@ -88,7 +90,7 @@ it('未开始时只有开始按钮，开始成功后可记录', async () => {
  await waitFor(()=>expect(mocks.read).toHaveBeenCalledOnce())
  expect(screen.queryByRole('button', {name:/^(\+ )?记录$/})).not.toBeInTheDocument()
  fireEvent.click(screen.getAllByRole('button', {name:'开始我的项目'})[0])
- expect(await screen.findByRole('button', {name:'记录'})).toBeInTheDocument()
+ expect((await screen.findAllByRole('button', {name:'记录我的发现'}))[0]).toBeInTheDocument()
  expect(mocks.start).toHaveBeenCalledExactlyOnceWith(149)
 })
 

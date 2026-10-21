@@ -323,14 +323,17 @@ test('手机首屏放大文字仍保留完整标题和可点击指南', async ({
   await expect(page).toHaveURL(/\/start$/)
 })
 
-test('首次访问自动弹出登录层，同一标签页刷新后不再弹出', async ({ page }) => {
+test('首次访问不自动弹登录层，只显示首页横幅；看到第 2 个页面后轻弹一次，关掉当天不再弹', async ({ page }) => {
   await page.goto('/', { waitUntil: 'domcontentloaded' })
   const dialog = page.getByRole('dialog', { name: '登录或注册' })
+  await expect(page.getByTestId('home-login-banner')).toBeVisible()
+  await page.waitForTimeout(1500)
+  await expect(dialog).toHaveCount(0)
+  await page.goto('/explore', { waitUntil: 'domcontentloaded' })
   await expect(dialog).toBeVisible()
   await page.getByRole('button', { name: '先去探索，关闭登录层' }).click()
   await expect(dialog).toBeHidden()
-  await page.reload({ waitUntil: 'domcontentloaded' })
-  await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible()
+  await page.goto('/nature', { waitUntil: 'domcontentloaded' })
   await page.waitForTimeout(1500)
   await expect(dialog).toHaveCount(0)
 })

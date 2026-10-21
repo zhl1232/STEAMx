@@ -51,6 +51,9 @@ function isPathOrDescendant(pathname: string, root: string) {
   return pathname === root || pathname.startsWith(`${root}/`)
 }
 
+// 列表页底部多留白，免得右下角小迪挡住最后一张卡片。
+const MOBILE_LIST_PATHS = new Set(['/explore', '/nature', '/nature/observations', '/courses', '/playground'])
+
 export function hasPageOwnedMobileHeader(pathname: string) {
   return (
     pathname === '/explore' ||
@@ -204,7 +207,9 @@ export function ConditionalAppShell({
           id="main-content"
           className={cn(
             'flex-1',
-            mainNeedsMobileNavPadding ? 'pb-[calc(5rem+env(safe-area-inset-bottom))]' : 'pb-0',
+            mainNeedsMobileNavPadding
+              ? (MOBILE_LIST_PATHS.has(pathname ?? '') ? 'pb-[calc(10rem+env(safe-area-inset-bottom))]' : 'pb-[calc(5rem+env(safe-area-inset-bottom))]')
+              : 'pb-0',
             'md:pb-0',
           )}
         >

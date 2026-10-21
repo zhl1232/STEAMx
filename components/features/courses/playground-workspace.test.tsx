@@ -90,9 +90,9 @@ describe("PlaygroundWorkspace", () => {
     expect(screen.queryByTestId("playground-link")).not.toBeInTheDocument();
     expect(screen.queryByText("去和 AI 下一局")).not.toBeInTheDocument();
 
-    // 首步不显示「完成这课」，显示「下一步」
+    // 首步不显示「完成本课」，显示「下一步」
     expect(screen.getByRole("button", { name: /下一步/ })).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: /完成这课/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /完成本课/ })).not.toBeInTheDocument();
   });
 
   it("shows checklist items for the active step", () => {
@@ -230,11 +230,11 @@ describe("PlaygroundWorkspace", () => {
       />,
     );
 
-    expect(screen.getByRole("button", { name: /完成这课/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /完成本课/ })).toBeInTheDocument();
     expect(screen.getByTestId("playground-link")).toHaveAttribute("href", "/playground/gomoku");
     expect(screen.getByText("去和 AI 下一局")).toBeInTheDocument();
 
-    await fireEvent.click(screen.getByRole("button", { name: /完成这课/ }));
+    await fireEvent.click(screen.getByRole("button", { name: /完成本课/ }));
 
     await waitFor(() => {
       expect(fetchSpy).toHaveBeenCalledWith(
@@ -311,8 +311,8 @@ describe("PlaygroundWorkspace", () => {
       />,
     );
 
-    // 0 步课时应直接出现「完成这课」，而不是只显示「下一步」
-    expect(screen.getByRole("button", { name: /完成这课/ })).toBeInTheDocument();
+    // 0 步课时应直接出现「完成本课」，而不是只显示「下一步」
+    expect(screen.getByRole("button", { name: /完成本课/ })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /下一步/ })).not.toBeInTheDocument();
   });
 });

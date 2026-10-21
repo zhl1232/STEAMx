@@ -17,6 +17,7 @@ import {
     Package,
     Presentation,
     RotateCcw,
+    PartyPopper,
     RotateCw,
     Sparkles,
     ZoomIn,
@@ -26,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { buildBuildingLessonFlow } from "@/lib/courses/building-lesson-flow";
 import { getLessonCompletionFeedback } from "@/lib/courses/progress";
 import { toLessonCompletionToast } from "./lesson-completion-toast";
+import type { LessonCompletionResult } from "./lesson-completion-dialog";
 import { cn } from "@/lib/utils";
 import { resolveAssetDisplayUrl, toForcedAssetProxyUrl } from "@/lib/utils/asset-url";
 import { parsePackedLdrawModelText, splitPackedMpd } from "@/lib/utils/ldraw-mpd";
@@ -798,7 +800,7 @@ export function Building3DWorkspace({
     activeStepIndex: number;
     onStepChange: (index: number) => void;
     initialCompleted?: boolean;
-    onCompleted?: () => void;
+    onCompleted?: (result: LessonCompletionResult) => void;
     navigationSlot?: ReactNode;
     voiceControlsSlot?: ReactNode;
 }) {
@@ -1461,11 +1463,12 @@ export function Building3DWorkspace({
                 error?: string;
                 alreadyCompleted?: boolean;
                 courseCompletionState?: "not_complete" | "created" | "already_recorded" | "configuration_error";
+                courseProgress?: LessonCompletionResult["courseProgress"];
             };
             if (!res.ok) throw new Error(data.error || "完成失败");
             setCompleted(true);
-            toast(toLessonCompletionToast(getLessonCompletionFeedback({ ...data, courseId })));
-            onCompleted?.();
+            if (onCompleted) onCompleted(data);
+            else toast(toLessonCompletionToast(getLessonCompletionFeedback({ ...data, courseId })));
         } catch (error) {
             toast({
                 title: "无法标记完成",
@@ -1561,7 +1564,7 @@ export function Building3DWorkspace({
                         ) : (
                             <Check className="mr-1 h-4 w-4" />
                         )}
-                        {completed ? "已完成" : "完成这课"}
+                        {completed ? "已完成" : "完成本课"}
                     </Button>
                 ) : (
                     <Button
@@ -1696,6 +1699,18 @@ export function Building3DWorkspace({
                                     onError={() => setFailedVideos((previous) => new Set(previous).add(videoUrl))}
                                     className="absolute inset-0 h-full w-full bg-black object-contain"
                                 />
+                            ) : activePage.kind === "slide" && isFinalPage && activePage.title === "完成本课" ? (
+                                // 课件最后一页是老师口吻的「授课完毕」，在线学习时换成学生视角的完成页，原课件不动。
+                                <div data-testid="building-final-page" className="absolute inset-0 flex flex-col items-center justify-center gap-3 overflow-y-auto bg-gradient-to-b from-[#1e293b] to-[#0f172a] p-4 text-center text-white">
+                                    {content.finishedImageUrl ? (
+                                        /* eslint-disable-next-line @next/next/no-img-element */
+                                        <img src={content.finishedImageUrl} alt={`${lesson.title}成品`} className="max-h-[45%] max-w-[70%] rounded-sm bg-white object-contain p-2" />
+                                    ) : (
+                                        <PartyPopper className="h-12 w-12 text-amber-300" aria-hidden />
+                                    )}
+                                    <p className="text-2xl font-bold sm:text-3xl">{completed ? "这节课你已完成！" : "你完成啦！"}</p>
+                                    <p className="text-sm text-white/75">{completed ? "可以去学下一课，或再看看作品。" : "点下方「完成本课」，记下这次的进步。"}</p>
+                                </div>
                             ) : activePage.kind === "slide" ? (
                                 /* eslint-disable-next-line @next/next/no-img-element */
                                 <img

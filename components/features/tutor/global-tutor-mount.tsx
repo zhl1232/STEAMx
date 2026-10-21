@@ -62,6 +62,9 @@ export function GlobalTutorMount() {
     || pathname === '/nature/submit'
     || pathname === '/nature/species'
     || pathname.startsWith('/users/')
+    // 手机上课件页、发布记录页不默认显示小迪，避免挡住「下一页」和发布按钮。
+    || /^\/courses\/[^/]+\/lessons\//.test(pathname)
+    || /^\/project\/[^/]+\/records/.test(pathname)
     || Boolean(tutorCtx?.override.hideFabOnMobile)
   const visible = shouldShowGlobalTutor(pathname) && !tutorCtx?.override.hideFab && Boolean(baseContext)
   const fabBottomInset = tutorCtx?.override.fabBottomInset ?? 0

@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react"
+
 import Image, { ImageProps } from "next/image"
 import {
   resolveAssetDisplayUrl,
@@ -174,6 +176,8 @@ export function OptimizedImage({
   unoptimized,
   ...rest
 }: OptimizedImageProps) {
+  // fill 图片在加载完成前铺一层骨架，避免首屏只看到灰块。
+  const [loaded, setLoaded] = useState(false)
   const sizes = sizesProp ?? SIZE_PRESETS[variant]
   const quality = qualityProp ?? QUALITY_PRESETS[variant]
   // priority 与 loading="lazy" 互斥，只能二选一
@@ -199,9 +203,18 @@ export function OptimizedImage({
   const useUnoptimizedImage =
     unoptimized ||
     (typeof src === "string" && shouldUseUnoptimizedImage(src, useDirectSupabaseTransform))
-  return (
+  const showSkeleton = Boolean(rest.fill) && !loaded && !priority
+  const image = (
     <Image
       {...rest}
+      onLoad={(event) => {
+        setLoaded(true)
+        rest.onLoad?.(event)
+      }}
+      onError={(event) => {
+        setLoaded(true)
+        rest.onError?.(event)
+      }}
       src={src}
       sizes={sizes}
       quality={quality}
@@ -212,5 +225,12 @@ export function OptimizedImage({
       blurDataURL={useBlur ? (blurDataURL ?? DEFAULT_BLUR_DATA_URL) : blurDataURL}
       className={cn(className)}
     />
+  )
+  if (!showSkeleton) return image
+  return (
+    <>
+      <span aria-hidden data-image-skeleton className="pointer-events-none absolute inset-0 animate-pulse bg-muted" />
+      {image}
+    </>
   )
 }

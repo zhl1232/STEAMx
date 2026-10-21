@@ -5,11 +5,21 @@ import { usePathname, useRouter } from 'next/navigation'
 import type { User } from '@supabase/supabase-js'
 import { LoginDialog } from '@/components/layout/login-dialog'
 import { useAuth } from './auth-context'
-import { hasVisitedPrompt, markVisitPrompt, isVisitPromptRoute } from '@/lib/auth/visit-prompt'
+import { markVisitPrompt, isVisitPromptRoute } from '@/lib/auth/visit-prompt'
+import {
+  dismissLoginNudgeForToday,
+  isLoginNudgeBlockedPath,
+  isLoginNudgeDismissedToday,
+  LOGIN_NUDGE_DELAY_MS,
+  LOGIN_NUDGE_MIN_PAGE_VIEWS,
+  recordLoginNudgePageView,
+  trackLoginPrompt,
+  type LoginPromptSource,
+} from '@/lib/auth/login-nudge'
 import { toast } from '@/hooks/use-toast'
 
 type Continuation = (user: User) => void | Promise<unknown>
-type PromptOptions = { title?: string; description?: string }
+type PromptOptions = { title?: string; description?: string; source?: LoginPromptSource }
 interface LoginPromptContextType {
   promptLogin: (callback?: Continuation, options?: PromptOptions) => void
 }
@@ -39,6 +49,7 @@ export function LoginPromptProvider({ children }: { children: React.ReactNode })
   const open = useCallback((callback?: Continuation, options?: PromptOptions, onboarding = false) => {
     markVisitPrompt()
     const next = { ...options, callback, onboarding, id: ++sequence.current, href: currentHref() }
+    trackLoginPrompt(options?.source ?? 'action', 'show')
     active.current = next
     setRequest(next)
   }, [])
@@ -46,12 +57,23 @@ export function LoginPromptProvider({ children }: { children: React.ReactNode })
     open(callback, options)
   }, [open])
 
+  // 不再首次访问就自动弹登录：看到第 2 个页面或停留约 30 秒后轻弹一次，关掉后当天不再弹。
+  const nudgedRef = useRef(false)
   useEffect(() => {
     if (active.current && active.current.href !== currentHref()) cancel()
     if (loading || !isVisitPromptRoute(pathname)) return
     if (user) { markVisitPrompt(); return }
-    if (active.current || hasVisitedPrompt()) return
-    open(undefined, { title: '登录或注册', description: '未注册手机号验证后自动创建账号' }, true)
+    const views = recordLoginNudgePageView(pathname)
+    if (nudgedRef.current || isLoginNudgeDismissedToday() || isLoginNudgeBlockedPath(pathname)) return
+    const fire = () => {
+      if (nudgedRef.current || active.current || isLoginNudgeDismissedToday()) return
+      if (isLoginNudgeBlockedPath(window.location.pathname)) return
+      nudgedRef.current = true
+      open(undefined, { title: '登录或注册', description: '登录后保存孩子的作品和进度', source: 'delayed' }, true)
+    }
+    if (views >= LOGIN_NUDGE_MIN_PAGE_VIEWS) { fire(); return }
+    const timer = window.setTimeout(fire, LOGIN_NUDGE_DELAY_MS)
+    return () => window.clearTimeout(timer)
   }, [pathname, loading, user, open, cancel])
 
   useEffect(() => {
@@ -86,15 +108,20 @@ export function LoginPromptProvider({ children }: { children: React.ReactNode })
       {request ? <LoginDialog
         key={request.id}
         open
-        onOpenChange={value => { if (!value && active.current?.id === request.id) cancel() }}
+        onOpenChange={value => {
+          if (value || active.current?.id !== request.id) return
+          if (request.source === 'delayed') dismissLoginNudgeForToday()
+          cancel()
+        }}
         onSuccess={result => {
           if (active.current?.id !== request.id || active.current.success) return
+          trackLoginPrompt(request.source ?? 'action', result?.isNewUser ? 'signup' : 'login')
           const next = { ...active.current, success: result ?? {} }
           active.current = next
           setRequest(next)
         }}
         title={request.title ?? '登录以继续'}
-        description={request.description ?? '登录后继续刚才的操作'}
+        description={request.description ?? '登录后可以保存进度'}
       /> : null}
     </LoginPromptContext.Provider>
   )

@@ -201,6 +201,7 @@ function TutorOverrideCapture({
 
 describe('LessonPageClient', () => {
   beforeEach(() => {
+    window.localStorage.clear()
     window.history.replaceState({}, '', '/courses/7/lessons/42')
     voiceControls.props = null
   })

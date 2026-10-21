@@ -20,6 +20,7 @@ import {
 import { useScratchEditorAvailability } from "@/lib/courses/device";
 import { getLessonCompletionFeedback } from "@/lib/courses/progress";
 import { toLessonCompletionToast } from "./lesson-completion-toast";
+import type { LessonCompletionResult } from "./lesson-completion-dialog";
 import { cn } from "@/lib/utils";
 import {
     getScratchHostUrl,
@@ -183,7 +184,7 @@ export function ScratchWorkspace({
     onFocusStepCheckItem?: (targetItemIndex: number) => void;
     onEditorContextChange?: (context: ScratchEditorContext) => void;
     onProjectSaved?: () => void;
-    onCompleted?: () => void;
+    onCompleted?: (result: LessonCompletionResult) => void;
 }) {
     const sharedHost = useScratchHost();
 
@@ -631,6 +632,7 @@ export function ScratchWorkspace({
                 missing?: string[];
                 alreadyCompleted?: boolean;
                 courseCompletionState?: "not_complete" | "created" | "already_recorded" | "configuration_error";
+                courseProgress?: LessonCompletionResult["courseProgress"];
             };
             if (res.status === 422) {
                 const missing = Array.isArray(data.missing) ? data.missing : [];
@@ -646,8 +648,8 @@ export function ScratchWorkspace({
                 throw new Error(data.error || "完成失败");
             }
             setCompleted(true);
-            toast(toLessonCompletionToast(getLessonCompletionFeedback({ ...data, courseId })));
-            onCompleted?.();
+            if (onCompleted) onCompleted(data);
+            else toast(toLessonCompletionToast(getLessonCompletionFeedback({ ...data, courseId })));
         } catch (e) {
             toast({
                 title: "无法标记完成",

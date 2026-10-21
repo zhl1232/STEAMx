@@ -1,8 +1,12 @@
 import type { Page } from '@playwright/test'
 
-/** 首次访问会自动弹登录层（每个标签页一次）；只测页面本身的用例先标记为已提示。 */
+/** 未登录看到第 2 个页面或停留 30 秒会轻弹一次登录层；只测页面本身的用例先标记为「今天已关闭」。 */
 export async function skipVisitLoginPrompt(page: Page) {
   await page.addInitScript(() => {
-    try { sessionStorage.setItem('steamx:visit-prompt:v1', '1') } catch { /* ignore */ }
+    try {
+      sessionStorage.setItem('steamx:visit-prompt:v1', '1')
+      const today = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Shanghai' }).format(new Date())
+      localStorage.setItem('steamx:login-nudge:dismissed-day', today)
+    } catch { /* ignore */ }
   })
 }

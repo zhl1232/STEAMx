@@ -2,13 +2,19 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Download, Share, X } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import { BRAND_NAME } from '@/lib/brand'
+import { useAuth } from '@/lib/context/auth-context'
 import {
   detectInAppBrowser,
   detectIosSafari,
+  hasCompletedLessonForPwa,
   isPwaInstallCooldownActive,
+  isPwaPromptEligible,
+  PWA_ELIGIBILITY_EVENT,
+  recordPwaVisit,
   isStandaloneDisplay,
   writePwaInstallDismissedAt,
 } from '@/lib/pwa/install'
@@ -25,6 +31,20 @@ export function PwaInstallPrompt() {
   const [mode, setMode] = useState<PromptMode>(null)
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [visible, setVisible] = useState(false)
+  const pathname = usePathname()
+  const { user } = useAuth()
+  const [visitCount, setVisitCount] = useState(0)
+  const [lessonCompleted, setLessonCompleted] = useState(false)
+
+  useEffect(() => {
+    setVisitCount(recordPwaVisit())
+    const sync = () => setLessonCompleted(hasCompletedLessonForPwa())
+    sync()
+    window.addEventListener(PWA_ELIGIBILITY_EVENT, sync)
+    return () => window.removeEventListener(PWA_ELIGIBILITY_EVENT, sync)
+  }, [])
+
+  const eligible = isPwaPromptEligible({ loggedIn: Boolean(user), pathname, visitCount, lessonCompleted })
 
   const dismiss = useCallback(() => {
     writePwaInstallDismissedAt()
@@ -126,7 +146,7 @@ export function PwaInstallPrompt() {
     }
   }, [deferredPrompt])
 
-  if (!visible || !mode) return null
+  if (!visible || !mode || !eligible) return null
 
   return (
     <div

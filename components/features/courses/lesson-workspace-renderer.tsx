@@ -1,4 +1,5 @@
 "use client";
+import type { LessonCompletionResult } from "@/components/features/courses/lesson-completion-dialog";
 
 import { Play, Smartphone } from "lucide-react";
 import Link from "next/link";
@@ -50,7 +51,7 @@ export function LessonWorkspaceRenderer({
     onScratchEditorContextChange?: (context: ScratchEditorContext) => void;
     onStepChange: (index: number) => void;
     initialCompleted: boolean;
-    onCompleted: () => void;
+    onCompleted: (result: LessonCompletionResult) => void;
     buildingNavigationSlot?: ReactNode;
     buildingVoiceControlsSlot?: ReactNode;
 }) {

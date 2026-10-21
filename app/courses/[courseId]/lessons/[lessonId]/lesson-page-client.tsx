@@ -12,6 +12,11 @@ import { BuildingVoiceControls } from "@/components/features/courses/building-vo
 import { getTutorSceneCapabilities } from "@/components/features/tutor/tool-handler-registry";
 import type { ScratchWorkspaceBlockHint } from "@/components/features/courses/scratch-workspace";
 import { useTutorContext } from "@/components/features/tutor/tutor-context";
+import { LessonCompletionDialog, type LessonCompletionResult } from "@/components/features/courses/lesson-completion-dialog";
+import { useOptionalGamification } from "@/lib/context/gamification-context";
+import { rememberLessonStep, readRememberedLessonStep } from "@/lib/courses/lesson-step-memory";
+import { isWorkSubmissionEnabled } from "@/lib/works/capability";
+import { markPwaLessonCompleted } from "@/lib/pwa/install";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import type { TutorToolCall } from "@/lib/ai/tutor/tool-calls";
 import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
@@ -131,6 +136,25 @@ export function LessonPageClient({
     const navigationEpochRef = useRef(0);
     const [navigationEpoch, setNavigationEpoch] = useState(0);
     const [completed, setCompleted] = useState(initialCompleted);
+    const [completionResult, setCompletionResult] = useState<LessonCompletionResult | null>(null);
+    const refetchStats = useOptionalGamification()?.refetchStats;
+    const handleCompleted = useCallback((result: LessonCompletionResult) => {
+        setCompleted(true);
+        setCompletionResult(result);
+        markPwaLessonCompleted();
+        // 立刻重算成就，徽章当场弹出，不用等刷新。
+        refetchStats?.();
+        router.refresh();
+    }, [refetchStats, router]);
+    const completionDialog = (
+        <LessonCompletionDialog
+            open={completionResult !== null}
+            onOpenChange={(open) => { if (!open) setCompletionResult(null); }}
+            courseId={courseId}
+            result={completionResult}
+            uploadWorkHref={isWorkSubmissionEnabled(lesson) ? `/courses/${courseId}/lessons/${lesson.id}?view=works` : null}
+        />
+    );
     const [focusedStep, setFocusedStep] = useState<number | null>(null);
     const [scratchBlockHint, setScratchBlockHint] = useState<ScratchWorkspaceBlockHint | null>(null);
     const [scratchStepCheckResult, setScratchStepCheckResult] = useState<ScratchStepCheckResult | null>(null);
@@ -151,13 +175,14 @@ export function LessonPageClient({
         setActiveStep(nextStep);
         if (lessonWorkspace === "building_3d") {
             replaceBuildingStepInUrl(nextStep);
+            rememberLessonStep(lesson.id, nextStep, courseId);
             // 连续搭建时保留家长已经找到的画布位置；跨到课件或视频时仍从页首阅读。
             const staysInBuild = buildingPages[clampedActiveStep]?.kind === "build" && buildingPages[nextStep]?.kind === "build";
             if (!staysInBuild && window.matchMedia("(max-width: 1023px)").matches && document.body.style.overflow !== "hidden") {
                 window.scrollTo({ top: 0, behavior: "instant" });
             }
         }
-    }, [buildingPages, clampedActiveStep, lessonWorkspace, steps.length]);
+    }, [buildingPages, clampedActiveStep, courseId, lesson.id, lessonWorkspace, steps.length]);
 
     const handleVoiceStepChange = useCallback((index: number) => {
         // Reject a result even in the gap before a manual navigation rerenders.
@@ -182,7 +207,12 @@ export function LessonPageClient({
 
         const restoreStepFromUrl = () => {
             if (window.location.pathname !== lessonPath) return;
-            const routeStep = readBuildingStepFromUrl(steps.length);
+            const hasRouteStep = new URLSearchParams(window.location.search).has(BUILDING_STEP_QUERY_PARAM);
+            const remembered = hasRouteStep ? null : readRememberedLessonStep(lesson.id);
+            const routeStep = remembered !== null
+                ? clampStepIndex(remembered, steps.length)
+                : readBuildingStepFromUrl(steps.length);
+            rememberLessonStep(lesson.id, routeStep, courseId);
             navigationEpochRef.current += 1;
             setNavigationEpoch(navigationEpochRef.current);
             setActiveStep(routeStep);
@@ -350,6 +380,7 @@ export function LessonPageClient({
                 data-building-lesson
             >
                 <div className="shrink-0 border-b border-border bg-card">
+                    {completionDialog}
                     <MobileGlobalHeader
                         variant="title"
                         title={
@@ -426,7 +457,7 @@ export function LessonPageClient({
                             }
                             onStepChange={handleStepChange}
                             initialCompleted={initialCompleted}
-                            onCompleted={() => { setCompleted(true); router.refresh(); }}
+                            onCompleted={handleCompleted}
                         />
                     </div>
                 </div>
@@ -443,6 +474,7 @@ export function LessonPageClient({
             )}
             style={{ maxWidth: "var(--shell-wide)" }}
         >
+            {completionDialog}
             <MobileGlobalHeader variant="title" title={lesson.title} />
             <div className="flex items-center gap-2 border-b border-border bg-card px-3 py-2 md:hidden">
                 <Link
@@ -500,10 +532,7 @@ export function LessonPageClient({
                         onScratchEditorContextChange={handleScratchEditorContextChange}
                         onStepChange={handleStepChange}
                         initialCompleted={initialCompleted}
-                        onCompleted={() => {
-                            setCompleted(true);
-                            router.refresh();
-                        }}
+                        onCompleted={handleCompleted}
                     />
                 </div>
             </div>

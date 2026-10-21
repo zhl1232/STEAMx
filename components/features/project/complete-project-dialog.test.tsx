@@ -107,7 +107,7 @@ it('keeps an unfinished project record open after a failed save and allows retry
   expect(screen.getByText('1/9')).toBeInTheDocument()
   fireEvent.click(screen.getByRole('button', {name: '发布记录'}))
   await waitFor(() => expect(onSuccess).toHaveBeenCalledWith({id: 19, status: 'pending', recordKind: 'progress'}))
-  expect(toast).toHaveBeenCalledWith(expect.objectContaining({title: '探索记录已提交审核', description: expect.stringContaining('审核通过后')}))
+  expect(toast).toHaveBeenCalledWith(expect.objectContaining({title: '审核中', description: expect.stringContaining('AI 审核通过后自动公开')}))
   expect(submitExplorationPost).toHaveBeenLastCalledWith(149, expect.objectContaining({images: ['https://assets.example.com/project-completions/user-1/sketch.webp']}), expect.objectContaining({kind: 'progress'}))
 })
 
@@ -127,7 +127,7 @@ it('publishes text only, blocks duplicate submissions, clears recovered text on 
   expect(submitExplorationPost).toHaveBeenCalledWith(149,expect.objectContaining({notes:'我预测会亮',images:[],isPublic:true}),expect.objectContaining({kind:'progress'}))
   finish({id:30,status:'pending',recordKind:'progress'})
   await waitFor(()=>expect(onSuccess).toHaveBeenCalled())
-  expect(toast).toHaveBeenCalledWith(expect.objectContaining({description:expect.stringContaining('审核通过后')}))
+  expect(toast).toHaveBeenCalledWith(expect.objectContaining({description:expect.stringContaining('AI 审核通过后自动公开')}))
   expect(sessionStorage.getItem('steamx:record-draft:user-1:149')).toBeNull()
 })
 it('recovers text after close and remount, but does not expose it to another account', () => {

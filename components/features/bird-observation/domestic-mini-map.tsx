@@ -354,14 +354,25 @@ export function DomesticMiniMap({
   }, [updateMarkerStyles])
 
   return (
-    <div
-      ref={containerRef}
-      className={cn(
-        heightClassName,
-        "nature-mini-map nature-leaflet-map relative z-0 w-full overflow-hidden rounded-xs border border-[#cfe3d5] bg-[#e8f1e9] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] dark:border-[#274d37] dark:bg-[#0b1710] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
-        className,
-      )}
-      aria-label="自然观察地图"
-    />
+    <div className={cn(heightClassName, "relative w-full")}>
+      <div
+        ref={containerRef}
+        className={cn(
+          "nature-mini-map nature-leaflet-map relative z-0 h-full w-full overflow-hidden rounded-xs border border-[#cfe3d5] bg-[#e8f1e9] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] dark:border-[#274d37] dark:bg-[#0b1710] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
+          className,
+        )}
+        aria-label="自然观察地图"
+      />
+      {!isReady ? (
+        <div
+          data-testid="nature-map-skeleton"
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-[1] flex items-center justify-center overflow-hidden rounded-xs bg-[#e8f1e9] dark:bg-[#0b1710]"
+        >
+          <div className="absolute inset-0 animate-pulse bg-[linear-gradient(110deg,transparent_30%,rgba(255,255,255,0.55)_50%,transparent_70%)] dark:bg-[linear-gradient(110deg,transparent_30%,rgba(255,255,255,0.08)_50%,transparent_70%)]" />
+          <span className="relative text-xs font-medium text-[#4b6b55] dark:text-[#9cc5a8]">地图加载中…</span>
+        </div>
+      ) : null}
+    </div>
   )
 }
