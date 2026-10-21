@@ -33,7 +33,7 @@ async function fetchObservationLocations(
 
   const eventIds = [...new Set(linkedRows.map((row) => row.observation_event_id))]
   const { data: eventRows, error: eventError } = await supabase
-    .from('observation_events')
+    .from('observation_events_public')
     .select('location_name')
     .in('id', eventIds)
     .eq('status', 'approved')

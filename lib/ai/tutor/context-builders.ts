@@ -753,7 +753,7 @@ async function buildObservationContext(
   }
 
   const { data: observation } = await supabase
-    .from('observation_events')
+    .from('observation_events_public')
     .select('user_id, notes, location_name, nature_topic, media_urls, habitat, weather, lifecycle_stage, sex')
     .eq('id', observationId)
     .maybeSingle()

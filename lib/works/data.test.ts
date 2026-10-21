@@ -55,6 +55,8 @@ function mockClient({ completions = [], submissions = [], observations = [] }: R
       case 'challenge_submissions':
         return queryFor({ data: submissions, error: null, count: submissions.length })
       case 'observation_events':
+      case 'observation_events_owner':
+      case 'observation_events_public':
         return queryFor({ data: observations, error: null, count: observations.length })
       case 'profiles': {
         const profile = { id: USER_ID, display_name: '小星', xp: 400 }

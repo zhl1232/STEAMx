@@ -296,7 +296,7 @@ export default function AdminPage() {
 
   const fetchPendingObservations = useCallback(async () => {
     const { data, error } = await supabase
-      .from('observation_events')
+      .from('observation_events_owner')
       .select(`
         id, user_id, observed_at, created_at, location_name,
         habitat, weather, notes, media_urls, is_public, status,

@@ -22,6 +22,9 @@ import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { logger } from '@/lib/logger'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
+import { applyPublicPlaceConfirmation, resolvePlacePrivacy } from '@/lib/geo/place-privacy'
+
+const OBSERVATION_INSERT_RETURNING = 'id, user_id, observed_at, media_urls, is_public, status, moderation_state, nature_topic, identification_status, location_precision, place_category, public_district, public_location_name, public_latitude, public_longitude, suggested_species_name, suggested_scientific_name, created_at, updated_at'
 import { callRpc } from '@/lib/supabase/rpc'
 import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
 import {
@@ -249,16 +252,32 @@ export async function POST(request: NextRequest) {
       }
     })
 
+    // 位置隐私分级在服务端计算（高德逆地理编码），入库后由 service_role 写入；
+    // 查询失败时保持默认 unknown（按家附近处理）。
+    const placePrivacyPromise = Promise.all(payload.items.map(async (item) => {
+      const resolved = await resolvePlacePrivacy({
+        latitude: item.latitude,
+        longitude: item.longitude,
+        locationName: item.location_name,
+      })
+      return {
+        mediaUrl: item.media_url,
+        category: applyPublicPlaceConfirmation(resolved.category, item.place_public_confirmed),
+        district: resolved.district,
+      }
+    }))
+
     const { data: observations, error: observationError } = await supabase
       .from('observation_events')
       .insert(insertRows)
-      .select('*')
+      // 原始地点/坐标列对登录用户不可读（列权限），这里只取安全列。
+      .select(OBSERVATION_INSERT_RETURNING)
 
     if (observationError || !observations || observations.length !== payload.items.length) {
       throw observationError || new Error('Failed to create observations')
     }
 
-    const created = observations as ObservationEventRow[]
+    const created = observations as unknown as ObservationEventRow[]
     const createdIds = created.map((row) => row.id)
     const createdByUrl = new Map(created.map((row) => [row.media_urls[0], row]))
 
@@ -305,6 +324,20 @@ export async function POST(request: NextRequest) {
         if (suggestionError) throw suggestionError
         observation.suggested_species_name = suggestion.name
         observation.suggested_scientific_name = suggestion.scientificName
+      }
+
+      if (supabaseAdmin) {
+        const placePrivacy = await placePrivacyPromise
+        for (const entry of placePrivacy) {
+          const observation = createdByUrl.get(entry.mediaUrl)
+          if (!observation) continue
+          const { error: privacyError } = await supabaseAdmin
+            .from('observation_events')
+            .update({ place_category: entry.category, public_district: entry.district } as never)
+            .eq('id', observation.id)
+            .eq('user_id', user.id)
+          if (privacyError) logger.warn('Failed to save observation place privacy', { error: privacyError, id: observation.id })
+        }
       }
 
       if (moderation.state === 'pending') {

@@ -607,7 +607,7 @@ export const getSpeciesBySlug = cache(async function getSpeciesBySlug(slug: stri
   }
 
   const { data: eventRows, error: eventError } = await supabase
-    .from('observation_events')
+    .from('observation_events_public')
     .select('*')
     .in('id', eventIds)
     .eq('status', 'approved')

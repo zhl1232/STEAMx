@@ -29,6 +29,7 @@ import { ObservationLocationPicker } from "@/components/features/bird-observatio
 import { speciesAtlasOtherInitial } from "@/lib/nature-species-atlas"
 import { ObservationSubmitPhotoSection, type ObservationMediaAnalysis } from "@/components/features/bird-observation/observation-submit-photo-section"
 import { ObservationPhotoStrip } from "@/components/features/bird-observation/observation-photo-strip"
+import { ObservationPlacePrivacyHint } from "@/components/features/bird-observation/observation-place-privacy-hint"
 import { ObservationSubmitSuccessDialog } from "@/components/features/bird-observation/observation-submit-success-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -591,6 +592,8 @@ export function ObservationSubmitForm({
   const [mediaAnalyses, setMediaAnalyses] = useState<ObservationMediaAnalysis[]>([])
   const [isAnalyzingImages, setIsAnalyzingImages] = useState(false)
   const [draftReady, setDraftReady] = useState(false)
+  /** 地点类型不明时，提交者确认「这是公共场所」的照片。 */
+  const [publicPlaceConfirmedByImage, setPublicPlaceConfirmedByImage] = useState<Record<string, boolean>>({})
   const [draftSaveStatus, setDraftSaveStatus] = useState<DraftSaveStatus>("idle")
   const [isLocating, setIsLocating] = useState(false)
   const [activeMobilePanel, setActiveMobilePanel] = useState<MobilePanelKey>("photo")
@@ -1293,6 +1296,7 @@ export function ObservationSubmitForm({
           longitude: Number(draft.longitude),
           initial_species_id: draft.speciesId ? Number(draft.speciesId) : null,
           suggested_species_name: !draft.speciesId ? chosenUnmatchedByImage[url] ?? null : null,
+          place_public_confirmed: publicPlaceConfirmedByImage[url] === true,
           lifecycle_stage: draft.lifecycleStage || null,
           sex: draft.sex || null,
         }
@@ -1513,7 +1517,7 @@ export function ObservationSubmitForm({
     toast({ title: "已用到其余未定位的照片" })
   }, [evidenceImages, markManualLocation, selectedDraft, selectedImageUrl, toast])
 
-  const visibilityLabel = "公开记录 · 准确位置"
+  const visibilityLabel = "提交后审核通过即公开"
   const precisionLabel = "准确位置"
   const previewImage = selectedImageUrl ?? evidenceImages[0] ?? null
   const previewSpeciesName = selectedSpecies?.commonName || speciesQuery.trim() || "待共同鉴定"
@@ -1940,7 +1944,7 @@ export function ObservationSubmitForm({
                 <StepHeader
                   index={3}
                   title="确认时间和地点"
-                  description="逐张核对实际观察时间与地点；自动读取的照片信息也请检查。记录会公开显示准确位置。"
+                  description="逐张核对实际观察时间与地点；自动读取的照片信息也请检查。家附近只公开大概区域。"
                   icon={MapPin}
                   status={locationStepStatus}
                   statusTone={locationStepTone}
@@ -1977,7 +1981,7 @@ export function ObservationSubmitForm({
                     <Button type="button" variant="outline" className="mt-3 h-11" onClick={() => openMobilePanel("photo")}>去选择照片</Button>
                   </div>
                 ) : <div className="space-y-4">
-                  <p className="text-xs leading-5 text-(--obs-muted)">照片信息仅作参考，请确认实际观察时间和地点。记录会公开显示准确位置。</p>
+                  <p className="text-xs leading-5 text-(--obs-muted)">照片信息仅作参考，请确认实际观察时间和地点。公园等公共场所会公开具体地点，家附近只显示大概区域。</p>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="space-y-2">
                       <FieldLabel htmlFor="observedDate">观察日期</FieldLabel>
@@ -2023,6 +2027,17 @@ export function ObservationSubmitForm({
                     onLocationNameSuggestion={handleLocationNameSuggestion}
                     onUseCurrentLocation={() => void tryLocate(true)}
                     controlClassName={controlClass}
+                  />
+
+                  <ObservationPlacePrivacyHint
+                    latitude={latitude}
+                    longitude={longitude}
+                    locationName={locationName}
+                    confirmedPublic={selectedImageUrl ? publicPlaceConfirmedByImage[selectedImageUrl] === true : false}
+                    onConfirmedPublicChange={(value) => {
+                      if (!selectedImageUrl) return
+                      setPublicPlaceConfirmedByImage((prev) => ({ ...prev, [selectedImageUrl]: value }))
+                    }}
                   />
 
                   {selectedDraft && isPhotoLocated(selectedDraft) && otherUnlocatedCount > 0 ? (

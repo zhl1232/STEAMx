@@ -203,7 +203,7 @@ async function loadProjects(
   queries: string[],
   enforceReviewed: boolean,
 ): Promise<SearchQueryResult> {
-  const applyProjectVisibility = (query: ReturnType<typeof supabase.from>) => {
+  const applyProjectVisibility = <Q extends { eq: (column: string, value: string) => Q }>(query: Q) => {
     let visible = query.eq('status', 'approved').eq('moderation_state', 'approved')
     if (enforceReviewed) visible = visible.eq('classification_status', 'reviewed')
     return visible
@@ -220,7 +220,7 @@ async function loadProjects(
     metadataQuery = metadataQuery.or(buildResourceOrFilter({ text: ['title', 'description'], array: ['tags'] }, queries))
   }
   const metadataPromise = recoverSearchQuery(
-    metadataQuery.order('created_at', { ascending: false }).limit(RESOURCE_SEARCH_LIMIT) as Promise<SearchQueryResult>,
+    metadataQuery.order('created_at', { ascending: false }).limit(RESOURCE_SEARCH_LIMIT) as unknown as Promise<SearchQueryResult>,
   )
 
   if (!queries.length) {
@@ -240,7 +240,7 @@ async function loadProjects(
   const [metadataResult, materialResult] = await Promise.all([
     metadataPromise,
     recoverSearchQuery(
-      materialQuery.order('created_at', { ascending: false }).limit(RESOURCE_SEARCH_LIMIT) as Promise<SearchQueryResult>,
+      materialQuery.order('created_at', { ascending: false }).limit(RESOURCE_SEARCH_LIMIT) as unknown as Promise<SearchQueryResult>,
     ),
   ])
   const rowsById = new Map<number, SearchRow>()
