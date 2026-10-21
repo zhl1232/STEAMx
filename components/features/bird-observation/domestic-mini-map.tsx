@@ -68,7 +68,7 @@ function formatPopupDate(dateString: string | undefined) {
   const date = new Date(dateString)
   if (Number.isNaN(date.getTime())) return null
 
-  return date.toLocaleDateString("zh-CN", {
+  return date.toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai",
     month: "2-digit",
     day: "2-digit",
   })

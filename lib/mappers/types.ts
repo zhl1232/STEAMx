@@ -762,7 +762,7 @@ export function mapDbDiscussion(
         authorAvatarFrameId: dbDiscussion.profiles?.equipped_avatar_frame_id ?? undefined,
         authorNameColorId: dbDiscussion.profiles?.equipped_name_color_id ?? undefined,
         content: dbDiscussion.content,
-        date: new Date(dbDiscussion.created_at).toLocaleString('zh-CN', {
+        date: new Date(dbDiscussion.created_at).toLocaleString('zh-CN', { timeZone: "Asia/Shanghai",
             year: 'numeric',
             month: 'long',
             day: 'numeric'
@@ -990,7 +990,7 @@ export function mapDbCompletion(
         avatar: dbCompletion.profiles?.avatar_url || undefined,
         avatarFrameId: dbCompletion.profiles?.equipped_avatar_frame_id ?? undefined,
         nameColorId: dbCompletion.profiles?.equipped_name_color_id ?? undefined,
-        completedAt: new Date(dbCompletion.completed_at || '').toLocaleDateString('zh-CN'),
+        completedAt: new Date(dbCompletion.completed_at || '').toLocaleDateString('zh-CN', { timeZone: "Asia/Shanghai" }),
         completedAtIso: dbCompletion.completed_at || undefined,
         authorLevel: dbCompletion.profiles?.xp != null
             ? Math.floor(Math.sqrt(Number(dbCompletion.profiles.xp) / 100)) + 1

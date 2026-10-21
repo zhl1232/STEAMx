@@ -138,7 +138,7 @@ function getStatusLabel(log: CoinLogEntry): string {
 }
 
 function formatTime(iso: string): string {
-  return new Date(iso).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" });
+  return new Date(iso).toLocaleTimeString("zh-CN", { timeZone: "Asia/Shanghai", hour: "2-digit", minute: "2-digit" });
 }
 
 function formatEntryTime(log: CoinLogEntry): string {
@@ -154,7 +154,7 @@ function formatDateGroup(log: CoinLogEntry): string {
   const yesterday = new Date(now);
   yesterday.setDate(now.getDate() - 1);
 
-  const day = date.toLocaleDateString("zh-CN", {
+  const day = date.toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",

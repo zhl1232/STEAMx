@@ -28,3 +28,11 @@ describe('observation suggested 「其他」 species display', () => {
     })
   })
 })
+
+describe('observation times use Beijing time regardless of server zone', async () => {
+  const { formatObservationDateTime, formatObservationDateKey } = await import('./display')
+  it('formats a UTC instant as Asia/Shanghai', () => {
+    expect(formatObservationDateTime('2026-10-21T03:24:00Z')).toContain('11:24')
+    expect(formatObservationDateKey('2026-10-20T17:00:00Z')).toContain('21')
+  })
+})

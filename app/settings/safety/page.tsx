@@ -97,7 +97,7 @@ function statusTone(status: string) {
 function formatDate(value: string | null) {
   if (!value) return '暂未结束'
   const date = new Date(value)
-  return Number.isNaN(date.getTime()) ? '时间未知' : date.toLocaleString('zh-CN')
+  return Number.isNaN(date.getTime()) ? '时间未知' : date.toLocaleString('zh-CN', { timeZone: "Asia/Shanghai" })
 }
 
 export default function SafetySettingsPage() {

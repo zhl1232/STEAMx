@@ -8,7 +8,7 @@ import {
   type ObservationSubmitTopic,
 } from '@/lib/observations/submit-topic'
 
-const observationDateFormatter = new Intl.DateTimeFormat('zh-CN', {
+const observationDateFormatter = new Intl.DateTimeFormat('zh-CN', { timeZone: "Asia/Shanghai",
   year: 'numeric',
   month: '2-digit',
   day: '2-digit',
@@ -100,7 +100,7 @@ export function formatObservationDateTime(iso: string): string {
 }
 
 export function formatObservationDateKey(iso: string): string {
-  return new Intl.DateTimeFormat('zh-CN', {
+  return new Intl.DateTimeFormat('zh-CN', { timeZone: "Asia/Shanghai",
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',

@@ -151,7 +151,8 @@ function mergeAtlasProgress(catalog: SpeciesAtlasCatalog, lookup: Awaited<Return
         observedCount += 1
         groupObservedCount += 1
       }
-      return { ...item, observedByCurrentUser: observed }
+      const pendingReview = isReady && !observed && lookup.status === 'ready' && Boolean(lookup.pendingSpeciesIds?.has(item.id))
+      return { ...item, observedByCurrentUser: observed, ...(pendingReview ? { pendingReview: true } : {}) }
     })
 
     return {

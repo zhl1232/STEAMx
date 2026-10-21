@@ -18,7 +18,7 @@ function recordStatus(record: JourneyRecord) {
 function formatRecordDate(value: string) {
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return "刚刚"
-  return date.toLocaleString("zh-CN", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })
+  return date.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })
 }
 
 export function JourneyRecordTimeline({

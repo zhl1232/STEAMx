@@ -30,6 +30,13 @@ export async function GET(request: NextRequest) {
       throw error
     }
 
+    // 本人待审核条数：个人页显示「待审核 N 条」。
+    const { count: pendingCount } = await supabase
+      .from('observation_events')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', user.id)
+      .eq('status', 'pending')
+
     const rows = (data || []) as Array<Record<string, unknown>>
     const eventIds = rows.map((row) => row.id as number)
     const speciesByEvent = await loadObservationSpeciesForEvents(eventIds)
@@ -42,6 +49,7 @@ export async function GET(request: NextRequest) {
       observations,
       total: count || 0,
       hasMore: (count || 0) > to + 1,
+      pendingCount: pendingCount || 0,
     })
   } catch (error) {
     return handleApiError(error)

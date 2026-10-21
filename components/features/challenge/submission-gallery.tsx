@@ -143,7 +143,7 @@ export function SubmissionGallery({ challengeId, challengeType }: SubmissionGall
                       </div>
                       <div className="mt-1 flex items-center gap-2 text-xs text-white/80">
                         <Clock3 className="h-3.5 w-3.5" />
-                        {new Date(submission.updatedAt).toLocaleDateString('zh-CN')}
+                        {new Date(submission.updatedAt).toLocaleDateString('zh-CN', { timeZone: "Asia/Shanghai" })}
                       </div>
                     </div>
                   </div>
@@ -312,7 +312,7 @@ function SubmissionDetail({
               />
               <div className="min-w-0">
                 <p className="truncate font-semibold">{submission.author}</p>
-                <p className="text-sm text-muted-foreground">{new Date(submission.updatedAt).toLocaleString('zh-CN')}</p>
+                <p className="text-sm text-muted-foreground">{new Date(submission.updatedAt).toLocaleString('zh-CN', { timeZone: "Asia/Shanghai" })}</p>
               </div>
             </div>
             <span className="hidden items-center gap-1 rounded-full bg-background/82 px-3 py-1 text-sm font-medium sm:inline-flex">

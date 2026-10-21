@@ -37,7 +37,7 @@ function parseMessageContext(metadata: Record<string, unknown> | null | undefine
 
 function formatDate(value: string) {
   const date = new Date(value)
-  return Number.isNaN(date.getTime()) ? "时间未知" : date.toLocaleString("zh-CN")
+  return Number.isNaN(date.getTime()) ? "时间未知" : date.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })
 }
 
 export function MessageContext({ metadata, contentId }: MessageContextProps) {

@@ -1,5 +1,7 @@
 "use client";
 
+import { PendingObservationsChip } from "@/components/features/profile/pending-observations-chip";
+
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
@@ -279,6 +281,7 @@ export function MobileProfilePage({
                     </div>
                   ))}
                 </div>
+                <PendingObservationsChip className="mt-3" />
               </div>
             </div>
           </section>

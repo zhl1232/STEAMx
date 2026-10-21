@@ -5,6 +5,7 @@ import { enqueueAutoInteractionsForTarget } from "@/lib/auto-interactions"
 import { buildObservationRewardSummary, rollbackObservationGamification } from "@/lib/api/observation-gamification"
 import { handleApiError, requireRole } from "@/lib/api/auth"
 import { logger } from "@/lib/logger"
+import { buildObservationApprovedNotice } from "@/lib/observations/approval-notification"
 import { supabaseAdmin } from "@/lib/supabase/admin"
 import { createClient } from "@/lib/supabase/server"
 
@@ -80,6 +81,37 @@ export async function PATCH(
           context: "Observation reward failed after approval",
           observationId,
         })
+      }
+
+      // 审核通过：站内通知本人（经验、图鉴点亮、下一次去找什么）。失败不影响审核结果。
+      try {
+        const { data: detail } = await supabaseAdmin
+          .from("observation_events")
+          .select("nature_topic, suggested_species_name, observation_event_species(species(common_name))")
+          .eq("id", observationId)
+          .maybeSingle()
+        const row = detail as {
+          nature_topic?: string | null
+          suggested_species_name?: string | null
+          observation_event_species?: { species?: { common_name?: string | null } | null }[] | null
+        } | null
+        const speciesName = row?.observation_event_species?.[0]?.species?.common_name ?? row?.suggested_species_name ?? null
+        const notice = buildObservationApprovedNotice({
+          speciesName,
+          topic: row?.nature_topic ?? null,
+          xpAwarded: rewardSummary?.xpAwarded ?? null,
+        })
+        const { error: notifyError } = await supabaseAdmin.from("notifications").insert({
+          user_id: existing.user_id,
+          type: "system",
+          title: notice.title,
+          content: notice.content,
+          related_type: "observation",
+          related_id: observationId,
+        } as never)
+        if (notifyError) throw notifyError
+      } catch (notifyError) {
+        logger.error(notifyError, { context: "Observation approval notification failed", observationId })
       }
 
       try {

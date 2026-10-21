@@ -19,7 +19,7 @@ export type Notification = {
   user_id: string;
   type: "mention" | "reply" | "like" | "follow" | "system" | "creator_update" | "tip";
   content: string;
-  related_type?: "comment" | "discussion_reply" | "project" | "discussion";
+  related_type?: "comment" | "discussion_reply" | "project" | "discussion" | "observation";
   related_id?: number;
   project_id?: number; // For comment notifications
   discussion_id?: number; // For discussion_reply notifications

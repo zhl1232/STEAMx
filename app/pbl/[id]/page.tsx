@@ -90,7 +90,7 @@ export default function PblChallengeDetailPage({ params }: { params: Promise<{ i
         .sort(([, a], [, b]) => b - a)
     : []
   const formatCompactDate = (value: string) =>
-    new Date(value).toLocaleDateString("zh-CN", { month: "numeric", day: "numeric" })
+    new Date(value).toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai", month: "numeric", day: "numeric" })
   const challengeStatusLabel = isEnded ? "已结束" : isTimed ? "进行中" : "长期开放"
   const participationValue = isTimed ? challenge.participants : challenge.submissionsCount || 0
   const participationLabel = isTimed ? "人已参与" : "件公开作品"

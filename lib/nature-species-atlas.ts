@@ -30,6 +30,8 @@ export interface SpeciesAtlasItem {
   initial: string
   thumbnailUrl: string | null
   observedByCurrentUser: boolean | null
+  /** 本人有待审核记录、尚未点亮。 */
+  pendingReview?: boolean
 }
 
 export interface SpeciesAtlasGroup {

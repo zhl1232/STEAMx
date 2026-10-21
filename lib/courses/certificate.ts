@@ -109,7 +109,7 @@ export async function getCourseCertificate(
 }
 
 export function formatCertificateDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('zh-CN', {
+  return new Date(iso).toLocaleDateString('zh-CN', { timeZone: "Asia/Shanghai",
     year: 'numeric',
     month: 'long',
     day: 'numeric',
