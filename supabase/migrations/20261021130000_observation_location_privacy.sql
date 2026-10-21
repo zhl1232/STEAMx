@@ -91,7 +91,7 @@ CREATE TRIGGER observation_events_public_location
 -- 列级权限：原始地点名和坐标只有 service_role / 视图属主能读。
 REVOKE SELECT ON public.observation_events FROM anon, authenticated;
 GRANT SELECT (
-  id, user_id, project_id, challenge_id, observed_at, location_precision, habitat, weather, notes,
+  id, user_id, observed_at, location_precision, habitat, weather, notes,
   media_urls, is_public, status, created_at, updated_at, likes_count, comments_count, nature_topic,
   identification_status, observed_at_source, location_source, coordinate_system, lifecycle_stage, sex,
   moderation_state, suggested_species_name, suggested_scientific_name,
@@ -103,7 +103,7 @@ DROP VIEW IF EXISTS public.observation_events_public;
 CREATE VIEW public.observation_events_public
 WITH (security_invoker = true) AS
 SELECT
-  id, user_id, project_id, challenge_id, observed_at,
+  id, user_id, observed_at,
   COALESCE(public_location_name, '大概区域') AS location_name,
   public_latitude AS latitude,
   public_longitude AS longitude,
@@ -131,7 +131,7 @@ GRANT SELECT ON public.observation_events_owner TO authenticated, service_role;
 -- 写入权限：登录用户不能自己改分类和公开位置字段（只能由服务端 service_role 写）。
 REVOKE INSERT, UPDATE ON public.observation_events FROM anon, authenticated;
 GRANT INSERT (
-  user_id, project_id, challenge_id, observed_at, location_name, latitude, longitude, location_precision,
+  user_id, observed_at, location_name, latitude, longitude, location_precision,
   habitat, weather, notes, media_urls, is_public, status, nature_topic, identification_status,
   observed_at_source, location_source, coordinate_system, lifecycle_stage, sex, moderation_state,
   suggested_species_name, suggested_scientific_name
