@@ -22,6 +22,8 @@ import {
     RotateCw,
     Sparkles,
     Mic,
+    PanelLeftClose,
+    PanelLeftOpen,
     X,
     ZoomIn,
 } from "lucide-react";
@@ -49,6 +51,7 @@ import {
     PORTRAIT_PHONE_QUERY,
     shouldAutoEnterImmersive,
     ROTATE_TIP_STORAGE_KEY,
+    keyboardPageDelta,
     tapZoneAction,
     OVERLAY_AUTO_HIDE_MS,
     PAGE_INDICATOR_MS,
@@ -831,6 +834,7 @@ export function Building3DWorkspace({
     navigationSlot,
     voiceControlsSlot,
     mobileHeaderSlot,
+    sidebar,
 }: {
     courseId: number;
     lesson: CourseLessonRow;
@@ -842,6 +846,8 @@ export function Building3DWorkspace({
     voiceControlsSlot?: ReactNode;
     /** 手机顶栏左侧：返回 + 课名（手机上取代页面原来的标题栏） */
     mobileHeaderSlot?: ReactNode;
+    /** 电脑端左侧目录的收起/展开（≥1280px 才有侧栏） */
+    sidebar?: { collapsed: boolean; onToggle: () => void };
 }) {
     const workspaceRef = useRef<HTMLElement>(null);
     const mountRef = useRef<HTMLDivElement>(null);
@@ -1662,6 +1668,21 @@ export function Building3DWorkspace({
         }
     }, [enterImmersive, exitImmersive, isImmersive, isSlidePage, phoneOrientation]);
 
+    // 键盘 ← / → 翻页（在输入框里打字时不翻）
+    const goPageRef = useRef(goPage);
+    goPageRef.current = goPage;
+    useEffect(() => {
+        if (view !== "lesson") return;
+        const onKeyDown = (event: KeyboardEvent) => {
+            const delta = keyboardPageDelta(event);
+            if (delta === 0) return;
+            event.preventDefault();
+            goPageRef.current(delta);
+        };
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, [view]);
+
     const isFinalPage = flow.length > 0 && clampedPageIndex === flow.length - 1;
     // 手机「目录」菜单里的额外入口：作品、零件清单
     const lessonMenuExtras: LessonMenuExtra[] = [
@@ -1794,9 +1815,21 @@ export function Building3DWorkspace({
                 </>
             ) : null}
             <div className={cn("relative z-40 flex h-14 shrink-0 items-center gap-2 border-b border-border/60 bg-background px-3 max-md:px-2", hideChrome && "hidden")}>
-                {mobileHeaderSlot ? <div className="flex min-w-0 flex-1 items-center md:hidden">{mobileHeaderSlot}</div> : null}
+                {sidebar ? (
+                    <button
+                        type="button"
+                        data-testid="sidebar-toggle"
+                        aria-label={sidebar.collapsed ? "展开目录" : "收起目录"}
+                        title={sidebar.collapsed ? "展开目录" : "收起目录"}
+                        className={cn(pill, pillQuiet, circle, "hidden xl:inline-flex")}
+                        onClick={sidebar.onToggle}
+                    >
+                        {sidebar.collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+                    </button>
+                ) : null}
+                {mobileHeaderSlot ? <div className="flex min-w-0 flex-1 items-center md:max-w-[40%] md:flex-none">{mobileHeaderSlot}</div> : null}
                 {hasWorks ? (
-                    <div className="flex items-center gap-2 max-md:hidden">
+                    <div className="ml-2 flex items-center gap-2 max-md:hidden">
                     <button
                         type="button"
                         onClick={() => setView("lesson")}
@@ -1829,17 +1862,29 @@ export function Building3DWorkspace({
                             data-testid="voice-toggle"
                             aria-label={voiceExpanded ? "收起语音搭建" : "语音搭建"}
                             aria-pressed={voiceExpanded}
-                            className={cn(pill, circle, "relative md:hidden", voiceActive ? pillPrimary : pillQuiet, voiceExpanded && !voiceActive && "bg-foreground/15 ring-1 ring-foreground/20")}
+                            className={cn(pill, circle, "relative", voiceActive ? pillPrimary : pillQuiet, voiceExpanded && !voiceActive && "bg-foreground/15 ring-1 ring-foreground/20")}
                             onClick={() => setVoiceExpanded((open) => !open)}
                         >
                             <Mic className="h-4 w-4" />
                             {voiceActive ? <span aria-hidden className="absolute right-1.5 top-1.5 h-2 w-2 animate-pulse rounded-full bg-emerald-400 ring-2 ring-background" /> : null}
                         </button>
                     ) : null}
+                    {view === "lesson" && content.ldrawModelUrl ? (
+                        <Link
+                            href={`/courses/${courseId}/lessons/${lesson.id}/parts`}
+                            prefetch={false}
+                            aria-label="本课零件清单"
+                            title="本课零件清单"
+                            className={cn(pill, pillQuiet, circle, "max-md:hidden")}
+                        >
+                            <Package className="h-4 w-4" />
+                        </Link>
+                    ) : null}
                     {view === "lesson" ? (isValidElement(navigationSlot)
                         ? cloneElement(navigationSlot as ReactElement<{ mobileExtras?: LessonMenuExtra[]; className?: string }>, {
                             mobileExtras: lessonMenuExtras,
-                            className: "max-md:w-auto",
+                            // 电脑端左侧目录展开时，顶栏的「目录」按钮重复了，藏起来
+                            className: sidebar && !sidebar.collapsed ? "xl:hidden" : undefined,
                         })
                         : navigationSlot) : null}
                     {view === "lesson" ? (
@@ -1858,7 +1903,7 @@ export function Building3DWorkspace({
 
             {/* 沉浸式时只藏起来不卸载，正在进行的语音搭建不中断 */}
             {view === "lesson" ? (
-                <div data-voice-slot-wrapper className={cn("contents", (hideChrome || !voiceExpanded) && "max-md:hidden", hideChrome && "hidden")}>
+                <div data-voice-slot-wrapper className={cn("contents", (hideChrome || !voiceExpanded) && "hidden")}>
                     {isValidElement(voiceControlsSlot)
                         ? cloneElement(voiceControlsSlot as ReactElement<{ onStatusChange?: (status: string) => void }>, { onStatusChange: setVoiceStatus })
                         : voiceControlsSlot}

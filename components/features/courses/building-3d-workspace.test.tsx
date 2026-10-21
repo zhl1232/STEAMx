@@ -383,12 +383,27 @@ describe("Building3DWorkspace", () => {
             />,
         );
         const wrapper = screen.getByTestId("voice-probe").closest("[data-voice-slot-wrapper]");
-        expect(wrapper).toHaveClass("max-md:hidden");
+        expect(wrapper).toHaveClass("hidden");
         fireEvent.click(screen.getByTestId("voice-toggle"));
-        expect(wrapper).not.toHaveClass("max-md:hidden");
+        expect(wrapper).not.toHaveClass("hidden");
         expect(screen.getByTestId("voice-toggle")).toHaveAttribute("aria-pressed", "true");
         fireEvent.click(screen.getByRole("button", { name: "看看大家的作品" }));
         expect(screen.getByRole("button", { name: /回到课程/ })).toBeInTheDocument();
+    });
+
+    it("pages with arrow keys and ignores keys typed in inputs", () => {
+        const onStepChange = vi.fn();
+        render(<Building3DWorkspace courseId={7} lesson={baseLesson} activeStepIndex={1} onStepChange={onStepChange} />);
+        fireEvent.keyDown(window, { key: "ArrowRight" });
+        expect(onStepChange).toHaveBeenLastCalledWith(2);
+        fireEvent.keyDown(window, { key: "ArrowLeft" });
+        expect(onStepChange).toHaveBeenLastCalledWith(0);
+        const input = document.createElement("input");
+        document.body.appendChild(input);
+        onStepChange.mockClear();
+        fireEvent.keyDown(input, { key: "ArrowRight" });
+        expect(onStepChange).not.toHaveBeenCalled();
+        input.remove();
     });
 
     it("hides all chrome in slide fullscreen and shows controls only on demand", async () => {

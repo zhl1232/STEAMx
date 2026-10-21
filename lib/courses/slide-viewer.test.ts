@@ -6,6 +6,7 @@ import {
   shouldAutoEnterImmersive,
   shouldShowRotateHint,
   tapZoneAction,
+  keyboardPageDelta,
   swipePageDelta,
 } from "./slide-viewer"
 
@@ -51,5 +52,14 @@ describe("slide-viewer", () => {
     expect(tapZoneAction(0.5, false)).toBe("toggle")
     expect(tapZoneAction(0.1, true)).toBe("toggle")
     expect(tapZoneAction(0.9, true)).toBe("toggle")
+  })
+
+  it("pages with arrow keys but not while typing or with modifiers", () => {
+    expect(keyboardPageDelta({ key: "ArrowLeft" })).toBe(-1)
+    expect(keyboardPageDelta({ key: "ArrowRight" })).toBe(1)
+    expect(keyboardPageDelta({ key: "ArrowUp" })).toBe(0)
+    expect(keyboardPageDelta({ key: "ArrowRight", target: { tagName: "INPUT" } as unknown as EventTarget })).toBe(0)
+    expect(keyboardPageDelta({ key: "ArrowRight", target: { tagName: "DIV", isContentEditable: true } as unknown as EventTarget })).toBe(0)
+    expect(keyboardPageDelta({ key: "ArrowRight", metaKey: true })).toBe(0)
   })
 })

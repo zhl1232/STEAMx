@@ -41,6 +41,7 @@ import { cn } from "@/lib/utils";
  */
 const LESSON_PAGE_HEIGHT = "max-md:min-h-screen md:h-[calc(100dvh-4rem)]";
 const BUILDING_STEP_QUERY_PARAM = "step";
+const SIDEBAR_COLLAPSED_KEY = "steamx:lesson-sidebar-collapsed";
 
 function clampStepIndex(index: number, stepCount: number) {
     if (stepCount <= 0) return 0;
@@ -136,6 +137,11 @@ export function LessonPageClient({
     const navigationEpochRef = useRef(0);
     const [navigationEpoch, setNavigationEpoch] = useState(0);
     const [completed, setCompleted] = useState(initialCompleted);
+    // 电脑端左侧目录可收起，记在本机
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+    useEffect(() => {
+        try { setSidebarCollapsed(window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "1"); } catch { /* ignore */ }
+    }, []);
     const [completionResult, setCompletionResult] = useState<LessonCompletionResult | null>(null);
     const refetchStats = useOptionalGamification()?.refetchStats;
     const handleCompleted = useCallback((result: LessonCompletionResult) => {
@@ -372,6 +378,14 @@ export function LessonPageClient({
         setScratchStepCheckResult(null);
     }, [clampedActiveStep]);
 
+    const toggleSidebar = () => {
+        setSidebarCollapsed((collapsed) => {
+            const next = !collapsed;
+            try { window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, next ? "1" : "0"); } catch { /* 无痕模式等 */ }
+            return next;
+        });
+    };
+
     if (lessonWorkspace === "building_3d") {
         return (
             <div
@@ -379,30 +393,13 @@ export function LessonPageClient({
                 style={{ maxWidth: "var(--shell-wide)" }}
                 data-building-lesson
             >
-                <div className="shrink-0 border-b border-border bg-card max-md:border-b-0">
+                <div className="shrink-0 bg-card">
                     {completionDialog}
                     {/* 手机：不再单独占一行标题栏，返回+课名并入课件工具栏（见 buildingMobileHeaderSlot） */}
-                    <div className="hidden min-h-16 items-center gap-4 px-5 md:flex">
-                        <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-border hover:bg-muted">
-                            <ArrowLeft className="h-5 w-5" />
-                        </Link>
-                        <div className="min-w-0 flex-1 py-2">
-                            <p className="truncate text-xs text-muted-foreground">{courseTitle}</p>
-                            <h1 className="truncate text-xl font-bold leading-snug">{lesson.title}</h1>
-                        </div>
-                        {completed ? <span className="shrink-0 text-sm font-semibold text-[hsl(var(--status-success))]">已完成</span> : null}
-                    </div>
                     {noticeSlot}
-                    <div className="hidden flex-wrap items-center gap-x-3 gap-y-1 px-4 pb-2 text-xs text-muted-foreground md:flex md:px-5">
-                        {classificationSlot}
-                        {lesson.duration_minutes ? <span>约 {lesson.duration_minutes} 分钟</span> : null}
-                        {lesson.content?.building3d?.ldrawModelUrl ? (
-                            <Link href={`/courses/${courseId}/lessons/${lesson.id}/parts`} prefetch={false} className="inline-flex min-h-11 items-center text-[hsl(var(--nav-active))] underline underline-offset-4">查看本课零件清单</Link>
-                        ) : null}
-                    </div>
                 </div>
                 <div className="flex min-h-0 flex-1">
-                    <div className="hidden w-56 shrink-0 border-r border-border xl:flex">
+                    <div className={cn("hidden w-56 shrink-0 border-r border-border [&>aside]:w-full", !sidebarCollapsed && "xl:flex")}>
                         <LessonSidebar
                             courseId={courseId}
                             courseTitle={courseTitle}
@@ -435,12 +432,16 @@ export function LessonPageClient({
                                     onNavigate={handleVoiceStepChange}
                                 />
                             }
+                            buildingSidebar={{ collapsed: sidebarCollapsed, onToggle: toggleSidebar }}
                             buildingMobileHeaderSlot={
                                 <span className="flex min-w-0 items-center gap-1">
                                     <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-foreground/[0.06]">
                                         <ArrowLeft className="h-5 w-5" />
                                     </Link>
-                                    <span className="truncate text-base font-bold">{lesson.title}</span>
+                                    <span className="min-w-0">
+                                        <span className="hidden truncate text-xs text-muted-foreground md:block">{courseTitle}</span>
+                                        <span className="block truncate text-base font-bold leading-snug">{lesson.title}</span>
+                                    </span>
                                 </span>
                             }
                             buildingNavigationSlot={
@@ -449,7 +450,6 @@ export function LessonPageClient({
                                     activeStepIndex={clampedActiveStep}
                                     introduction={typeof lesson.content?.summary === "string" ? lesson.content.summary : undefined}
                                     onStepClick={handleStepChange}
-                                    desktopLabel="目录与提示"
                                 />
                             }
                             onStepChange={handleStepChange}

@@ -86,3 +86,22 @@ export function tapZoneAction(xRatio: number, zoomed: boolean): "prev" | "next" 
   if (xRatio > 1 - EDGE_TAP_RATIO) return "next"
   return "toggle"
 }
+
+/** 键盘翻页：← 上一页，→ 下一页；在输入框/可编辑区域里或按着修饰键时不翻 */
+export function keyboardPageDelta(event: {
+  key: string
+  target?: EventTarget | null
+  altKey?: boolean
+  ctrlKey?: boolean
+  metaKey?: boolean
+  shiftKey?: boolean
+  defaultPrevented?: boolean
+}): -1 | 0 | 1 {
+  if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return 0
+  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return 0
+  const target = event.target as (HTMLElement & { isContentEditable?: boolean }) | null | undefined
+  const tag = target && typeof target === "object" && "tagName" in target ? String(target.tagName).toUpperCase() : ""
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || target?.isContentEditable) return 0
+  if (target && typeof (target as HTMLElement).closest === "function" && (target as HTMLElement).closest('[role="slider"],[contenteditable="true"]')) return 0
+  return event.key === "ArrowLeft" ? -1 : 1
+}

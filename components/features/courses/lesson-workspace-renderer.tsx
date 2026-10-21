@@ -39,6 +39,7 @@ export function LessonWorkspaceRenderer({
     buildingNavigationSlot,
     buildingVoiceControlsSlot,
     buildingMobileHeaderSlot,
+    buildingSidebar,
 }: {
     courseId: number;
     lesson: CourseLessonRow;
@@ -56,6 +57,7 @@ export function LessonWorkspaceRenderer({
     buildingNavigationSlot?: ReactNode;
     buildingVoiceControlsSlot?: ReactNode;
     buildingMobileHeaderSlot?: ReactNode;
+    buildingSidebar?: { collapsed: boolean; onToggle: () => void };
 }) {
     const lessonType = getLessonTypeDefinition(lesson.lesson_type);
 
@@ -124,6 +126,7 @@ export function LessonWorkspaceRenderer({
                 navigationSlot={buildingNavigationSlot}
                 voiceControlsSlot={buildingVoiceControlsSlot}
                 mobileHeaderSlot={buildingMobileHeaderSlot}
+                sidebar={buildingSidebar}
                 courseId={courseId}
                 lesson={lesson}
                 activeStepIndex={activeStepIndex}
