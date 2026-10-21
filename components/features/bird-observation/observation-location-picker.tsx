@@ -64,16 +64,16 @@ export function ObservationLocationPicker({
               ) : null}
             </div>
             {placeResults.length > 0 ? (
-              <div className="overflow-hidden rounded-xs border border-(--obs-border) bg-(--obs-control)">
+              <div className="max-w-full overflow-hidden rounded-xs border border-(--obs-border) bg-(--obs-control)" data-testid="place-suggestions">
                 {placeResults.map((place) => (
                   <button
                     key={place.id}
                     type="button"
                     onClick={() => onPlaceSelect(place)}
-                    className="block min-h-11 w-full border-b border-(--obs-border) px-3 py-2 text-left last:border-b-0 hover:bg-(--obs-control-hover)"
+                    className="block min-h-11 w-full max-w-full min-w-0 border-b border-(--obs-border) px-3 py-2 text-left last:border-b-0 hover:bg-(--obs-control-hover)"
                   >
-                    <span className="block truncate text-sm font-medium text-(--obs-text)">{place.name}</span>
-                    <span className="block truncate text-xs text-(--obs-muted)">{place.address || "地点搜索结果"}</span>
+                    <span className="block wrap-break-word text-sm font-medium text-(--obs-text)">{place.name}</span>
+                    <span className="block wrap-break-word text-xs leading-5 text-(--obs-muted)">{place.address || "地点搜索结果"}</span>
                   </button>
                 ))}
               </div>

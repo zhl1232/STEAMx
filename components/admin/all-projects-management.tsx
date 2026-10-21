@@ -71,7 +71,7 @@ function formatDifficulty(stars: number | null) {
 }
 
 function formatDate(date: string) {
-  return new Date(date).toLocaleString("zh-CN")
+  return new Date(date).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })
 }
 
 export function AllProjectsManagement({ projects }: AllProjectsManagementProps) {
@@ -177,7 +177,7 @@ export function AllProjectsManagement({ projects }: AllProjectsManagementProps) 
                             <div className="flex flex-wrap gap-2 text-xs text-muted-foreground sm:text-sm">
                               <Badge variant="outline">{project.category || "未分类"}</Badge>
                               <Badge variant="outline">作者：{authorName}</Badge>
-                              <Badge variant="outline">{new Date(project.created_at).toLocaleDateString("zh-CN")}</Badge>
+                              <Badge variant="outline">{new Date(project.created_at).toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai" })}</Badge>
                             </div>
                           </div>
 

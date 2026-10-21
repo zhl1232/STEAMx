@@ -90,7 +90,7 @@ export function TopicHotspotPanel({ locations, topicLabel = "鸟类" }: TopicHot
                   })()}
                 </div>
                 <div className="mt-2 text-xs text-muted-foreground">
-                  记录 {location.observationCount} 次 · 最近一次 {new Date(location.latestObservedAt).toLocaleString("zh-CN")}
+                  记录 {location.observationCount} 次 · 最近一次 {new Date(location.latestObservedAt).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })}
                 </div>
               </button>
 

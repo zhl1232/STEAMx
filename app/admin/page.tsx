@@ -573,7 +573,7 @@ export default function AdminPage() {
   )
   const adminName = profile?.display_name || profile?.username || '管理员'
   const roleLabel = isAdmin ? '超级管理员' : '审核员'
-  const todayLabel = new Date().toLocaleDateString('zh-CN', {
+  const todayLabel = new Date().toLocaleDateString('zh-CN', { timeZone: "Asia/Shanghai",
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',

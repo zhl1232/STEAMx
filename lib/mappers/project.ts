@@ -114,7 +114,7 @@ export function mapComment(c: DbComment): Comment {
     userId: c.author_id,
     avatar: c.profiles?.avatar_url,
     content: c.content,
-    date: new Date(c.created_at).toLocaleString('zh-CN', {
+    date: new Date(c.created_at).toLocaleString('zh-CN', { timeZone: "Asia/Shanghai",
       year: 'numeric',
       month: 'long',
       day: 'numeric',

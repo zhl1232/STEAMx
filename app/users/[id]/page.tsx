@@ -22,7 +22,7 @@ function formatJoinDate(date: string) {
   const parsed = new Date(date);
   if (Number.isNaN(parsed.getTime())) return "未知";
 
-  return parsed.toLocaleDateString("zh-CN", {
+  return parsed.toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai",
     year: "numeric",
     month: "long",
   });

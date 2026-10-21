@@ -246,7 +246,7 @@ export function ReportsList() {
                         {report.reporter?.display_name || report.reporter?.username || "未知"}
                       </TableCell>
                       <TableCell className="text-xs">
-                        {new Date(report.created_at).toLocaleDateString("zh-CN")}
+                        {new Date(report.created_at).toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai" })}
                       </TableCell>
                       <TableCell>
                         <Badge
@@ -348,7 +348,7 @@ export function ReportsList() {
               <div className="flex gap-2">
                 <span className="text-muted-foreground shrink-0">举报时间：</span>
                 <span>
-                  {new Date(reviewReport.created_at).toLocaleString("zh-CN")}
+                  {new Date(reviewReport.created_at).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })}
                 </span>
               </div>
               {reviewReport.reviewer_note && (

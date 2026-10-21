@@ -95,7 +95,7 @@ function formatRelativeTime(iso: string): string {
   if (hours < 24) return `${hours} 小时前`
   const days = Math.floor(hours / 24)
   if (days < 7) return `${days} 天前`
-  return new Date(iso).toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" })
+  return new Date(iso).toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai", month: "2-digit", day: "2-digit" })
 }
 
 function initials(name: string | null | undefined): string {

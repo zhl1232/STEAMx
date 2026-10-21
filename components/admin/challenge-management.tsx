@@ -572,7 +572,7 @@ export function ChallengeManagement() {
                           : `${ch.completions_count} 人完成`
                         }
                       </TableCell>
-                      <TableCell>{new Date(ch.created_at).toLocaleDateString('zh-CN')}</TableCell>
+                      <TableCell>{new Date(ch.created_at).toLocaleDateString('zh-CN', { timeZone: "Asia/Shanghai" })}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
                           {renderStatusActions(ch)}

@@ -204,7 +204,7 @@ function CommentItem({
   onReply: (id: number, name: string) => void
 }) {
   const displayName = comment.author || "匿名用户"
-  const created = comment.created_at ? new Date(comment.created_at).toLocaleString("zh-CN") : comment.date
+  const created = comment.created_at ? new Date(comment.created_at).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" }) : comment.date
 
   return (
     <div className="rounded-md border border-border/70 bg-background/80 p-3">

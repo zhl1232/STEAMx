@@ -50,7 +50,7 @@ export const SpeciesAtlasTile = memo(function SpeciesAtlasTile({ item, filtersKe
       href={href}
       prefetch={false}
       data-species-slug={item.slug}
-      className={cn('nature-atlas-tile group', item.observedByCurrentUser === true && 'nature-atlas-tile-observed')}
+      className={cn('nature-atlas-tile group', item.observedByCurrentUser === true && 'nature-atlas-tile-observed', item.pendingReview && 'grayscale-[60%]')}
       aria-label={`${item.commonName}，${topicLabel}，${statusLabel}`}
       title={item.scientificName || item.commonName}
       onClick={(event) => saveScrollPosition(event.currentTarget)}
@@ -76,7 +76,7 @@ export const SpeciesAtlasTile = memo(function SpeciesAtlasTile({ item, filtersKe
         )}
         {item.observedByCurrentUser !== null ? (
           <span className={cn(styles.badge, item.observedByCurrentUser && styles.observedBadge)}>
-            {item.observedByCurrentUser ? <Check size={11} aria-hidden="true" /> : null}{statusLabel}
+            {item.observedByCurrentUser ? <Check size={11} aria-hidden="true" /> : null}{item.pendingReview ? '审核中' : statusLabel}
           </span>
         ) : null}
       </span>
@@ -84,7 +84,7 @@ export const SpeciesAtlasTile = memo(function SpeciesAtlasTile({ item, filtersKe
         <span className="nature-atlas-tile-name" title={item.commonName}>{item.commonName}</span>
         {item.scientificName ? <i className={styles.scientificName} title={item.scientificName}>{item.scientificName}</i> : null}
         {item.taxonGroup ? <span className={styles.taxonTags} title={item.taxonGroup}>{item.taxonGroup.split(/\s+/).filter(Boolean).map(tag => <span key={tag} className={styles.taxonGroup}>{tag}</span>)}</span> : null}
-        <span className="sr-only">{statusLabel}</span>
+        <span className="sr-only">{item.pendingReview ? '审核中' : statusLabel}</span>
       </span>
     </Link>
   )
