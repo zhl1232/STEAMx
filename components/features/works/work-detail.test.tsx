@@ -325,7 +325,7 @@ describe("WorkDetail content and support actions", () => {
 
     expect(records).toHaveLength(3)
     expect(records[0]).toHaveTextContent("观察记录")
-    expect(records[1]).toHaveTextContent("心得分享")
+    expect(records[1]).toHaveTextContent("成果展示")
     expect(records[2]).toHaveTextContent("最终作品")
     expect(records[2]).toHaveTextContent("当前作品")
     expect(screen.getByText("最近记录（部分展示）")).toBeInTheDocument()
