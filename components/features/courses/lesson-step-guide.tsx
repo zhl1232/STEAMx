@@ -147,7 +147,7 @@ export function LessonStepGuide({
             onKeyDown={(event) => { if (event.key === "Escape" && navigable) { event.preventDefault(); close(); } }}
             className={cn(navigable ? "relative hidden shrink-0 md:block" : "shrink-0 border-b border-border bg-card", className)}
         >
-            <summary aria-label={navigable ? "桌面课程目录" : undefined} className={cn("min-h-11 cursor-pointer px-4 py-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[hsl(var(--brand-blue))]", navigable && "flex list-none items-center gap-1.5 rounded-sm px-2 hover:bg-muted [&::-webkit-details-marker]:hidden")}>
+            <summary aria-label={navigable ? "桌面课程目录" : undefined} className={cn("min-h-11 cursor-pointer px-4 py-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[hsl(var(--brand-blue))]", navigable && "flex h-10 min-h-0 list-none items-center gap-1.5 rounded-full bg-foreground/[0.06] px-3 py-0 font-semibold hover:bg-foreground/10 [&::-webkit-details-marker]:hidden")}>
                 {navigable ? <List className="h-4 w-4" aria-hidden /> : null}
                 <h2 className="inline font-semibold">
                     {navigable && desktopLabel ? <><span className="xl:hidden">目录</span><span className="hidden xl:inline">{desktopLabel}</span></> : navigable ? "目录" : "本课步骤与提示"}

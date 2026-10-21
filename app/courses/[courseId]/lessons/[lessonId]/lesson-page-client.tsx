@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronLeft } from "lucide-react";
 
 import { LessonSidebar } from "@/components/features/courses/lesson-sidebar";
 import { LessonStepGuide } from "@/components/features/courses/lesson-step-guide";
@@ -435,11 +435,11 @@ export function LessonPageClient({
                             buildingSidebar={{ collapsed: sidebarCollapsed, onToggle: toggleSidebar }}
                             buildingMobileHeaderSlot={
                                 <span className="flex min-w-0 items-center gap-1">
-                                    <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-foreground/[0.06]">
+                                    <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-foreground/[0.06] md:hidden">
                                         <ArrowLeft className="h-5 w-5" />
                                     </Link>
                                     <span className="min-w-0">
-                                        <span className="hidden truncate text-xs text-muted-foreground md:block">{courseTitle}</span>
+                                        <Link href={`/courses/${courseId}`} className="hidden max-w-full items-center gap-0.5 truncate text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline md:inline-flex"><ChevronLeft className="h-3 w-3 shrink-0" aria-hidden /><span className="truncate">{courseTitle}</span></Link>
                                         <span className="block truncate text-base font-bold leading-snug">{lesson.title}</span>
                                     </span>
                                 </span>

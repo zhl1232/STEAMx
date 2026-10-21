@@ -1821,10 +1821,11 @@ export function Building3DWorkspace({
                         data-testid="sidebar-toggle"
                         aria-label={sidebar.collapsed ? "展开目录" : "收起目录"}
                         title={sidebar.collapsed ? "展开目录" : "收起目录"}
-                        className={cn(pill, pillQuiet, circle, "hidden xl:inline-flex")}
+                        className={cn(pill, pillQuiet, "hidden px-3 xl:inline-flex")}
                         onClick={sidebar.onToggle}
                     >
                         {sidebar.collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+                        {sidebar.collapsed ? "展开目录" : "收起目录"}
                     </button>
                 ) : null}
                 {mobileHeaderSlot ? <div className="flex min-w-0 flex-1 items-center md:max-w-[40%] md:flex-none">{mobileHeaderSlot}</div> : null}
@@ -1862,10 +1863,11 @@ export function Building3DWorkspace({
                             data-testid="voice-toggle"
                             aria-label={voiceExpanded ? "收起语音搭建" : "语音搭建"}
                             aria-pressed={voiceExpanded}
-                            className={cn(pill, circle, "relative", voiceActive ? pillPrimary : pillQuiet, voiceExpanded && !voiceActive && "bg-foreground/15 ring-1 ring-foreground/20")}
+                            className={cn(pill, "relative px-3 max-md:w-10 max-md:px-0", voiceActive ? pillPrimary : pillQuiet, voiceExpanded && !voiceActive && "bg-foreground/15 ring-1 ring-foreground/20")}
                             onClick={() => setVoiceExpanded((open) => !open)}
                         >
                             <Mic className="h-4 w-4" />
+                            <span className="max-md:hidden">语音</span>
                             {voiceActive ? <span aria-hidden className="absolute right-1.5 top-1.5 h-2 w-2 animate-pulse rounded-full bg-emerald-400 ring-2 ring-background" /> : null}
                         </button>
                     ) : null}
@@ -1875,9 +1877,9 @@ export function Building3DWorkspace({
                             prefetch={false}
                             aria-label="本课零件清单"
                             title="本课零件清单"
-                            className={cn(pill, pillQuiet, circle, "max-md:hidden")}
+                            className={cn(pill, pillQuiet, "px-3 max-md:hidden")}
                         >
-                            <Package className="h-4 w-4" />
+                            <Package className="h-4 w-4" />零件清单
                         </Link>
                     ) : null}
                     {view === "lesson" ? (isValidElement(navigationSlot)
