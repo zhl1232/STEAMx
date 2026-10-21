@@ -367,6 +367,30 @@ describe("Building3DWorkspace", () => {
         }
     });
 
+    it("collapses voice into a mic toggle and passes works/parts entries into the menu slot", () => {
+        const Menu = ({ mobileExtras }: { mobileExtras?: { key: string; label: string; onSelect?: () => void }[] }) => (
+            <div data-testid="menu-probe">{mobileExtras?.map((extra) => <button key={extra.key} type="button" onClick={extra.onSelect}>{extra.label}</button>)}</div>
+        );
+        const lesson = { ...baseLesson, content: { ...baseLesson.content, workSubmission: { enabled: true } } };
+        render(
+            <Building3DWorkspace
+                courseId={7}
+                lesson={lesson}
+                activeStepIndex={0}
+                onStepChange={vi.fn()}
+                navigationSlot={<Menu />}
+                voiceControlsSlot={<div data-testid="voice-probe" />}
+            />,
+        );
+        const wrapper = screen.getByTestId("voice-probe").closest("[data-voice-slot-wrapper]");
+        expect(wrapper).toHaveClass("max-md:hidden");
+        fireEvent.click(screen.getByTestId("voice-toggle"));
+        expect(wrapper).not.toHaveClass("max-md:hidden");
+        expect(screen.getByTestId("voice-toggle")).toHaveAttribute("aria-pressed", "true");
+        fireEvent.click(screen.getByRole("button", { name: "看看大家的作品" }));
+        expect(screen.getByRole("button", { name: /回到课程/ })).toBeInTheDocument();
+    });
+
     it("hides all chrome in slide fullscreen and shows controls only on demand", async () => {
         render(
             <Building3DWorkspace

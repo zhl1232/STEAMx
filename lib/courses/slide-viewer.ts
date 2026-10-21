@@ -51,6 +51,9 @@ export function swipePageDelta(start: Point, end: Point, scale: number): -1 | 0 
   return dx < 0 ? 1 : -1
 }
 
+/** 第一次竖屏看课件的「横过来看更清楚」轻提示只弹一次 */
+export const ROTATE_TIP_STORAGE_KEY = "steamx:lesson-rotate-tip-shown"
+
 /** 是否该显示「横过来看更清楚」提示 */
 export function shouldShowRotateHint(input: {
   isPortraitPhone: boolean

@@ -379,20 +379,9 @@ export function LessonPageClient({
                 style={{ maxWidth: "var(--shell-wide)" }}
                 data-building-lesson
             >
-                <div className="shrink-0 border-b border-border bg-card">
+                <div className="shrink-0 border-b border-border bg-card max-md:border-b-0">
                     {completionDialog}
-                    <MobileGlobalHeader
-                        variant="title"
-                        title={
-                            <span className="flex min-w-0 items-center gap-2">
-                                <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm hover:bg-muted">
-                                    <ArrowLeft className="h-5 w-5" />
-                                </Link>
-                                <span className="truncate">{lesson.title}</span>
-                            </span>
-                        }
-                        className="[&>div]:px-2 [&>div]:py-1"
-                    />
+                    {/* 手机：不再单独占一行标题栏，返回+课名并入课件工具栏（见 buildingMobileHeaderSlot） */}
                     <div className="hidden min-h-16 items-center gap-4 px-5 md:flex">
                         <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-border hover:bg-muted">
                             <ArrowLeft className="h-5 w-5" />
@@ -404,7 +393,7 @@ export function LessonPageClient({
                         {completed ? <span className="shrink-0 text-sm font-semibold text-[hsl(var(--status-success))]">已完成</span> : null}
                     </div>
                     {noticeSlot}
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 pb-2 text-xs text-muted-foreground md:px-5">
+                    <div className="hidden flex-wrap items-center gap-x-3 gap-y-1 px-4 pb-2 text-xs text-muted-foreground md:flex md:px-5">
                         {classificationSlot}
                         {lesson.duration_minutes ? <span>约 {lesson.duration_minutes} 分钟</span> : null}
                         {lesson.content?.building3d?.ldrawModelUrl ? (
@@ -445,6 +434,14 @@ export function LessonPageClient({
                                     onCloseTutor={() => setTutorOpen(false)}
                                     onNavigate={handleVoiceStepChange}
                                 />
+                            }
+                            buildingMobileHeaderSlot={
+                                <span className="flex min-w-0 items-center gap-1">
+                                    <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-foreground/[0.06]">
+                                        <ArrowLeft className="h-5 w-5" />
+                                    </Link>
+                                    <span className="truncate text-base font-bold">{lesson.title}</span>
+                                </span>
                             }
                             buildingNavigationSlot={
                                 <LessonStepGuide

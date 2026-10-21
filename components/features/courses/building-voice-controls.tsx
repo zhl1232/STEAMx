@@ -16,14 +16,20 @@ export type BuildingVoiceControlsProps = {
   tutorOpen: boolean
   onCloseTutor: () => void
   onNavigate: (index: number) => void
+  /** 状态变化时通知外层（手机顶栏麦克风图标显示是否正在听） */
+  onStatusChange?: (status: string) => void
 }
 
-export function BuildingVoiceControls({ tutorOpen, onCloseTutor, ...navigation }: BuildingVoiceControlsProps) {
+export function BuildingVoiceControls({ tutorOpen, onCloseTutor, onStatusChange, ...navigation }: BuildingVoiceControlsProps) {
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
   const control = useBuildingVoiceControls({ ...navigation, userId: user?.id ?? null })
   const [pauseReason, setPauseReason] = useState('')
   const { isActive, pause, status } = control
+
+  useEffect(() => {
+    onStatusChange?.(status)
+  }, [onStatusChange, status])
 
   useEffect(() => {
     if (tutorOpen && isActive) {

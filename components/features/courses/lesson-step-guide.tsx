@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { List, X } from "lucide-react";
+import { List, Package, Sparkles, X } from "lucide-react";
 
 import type { CourseLessonStep } from "@/lib/courses/types";
 import { LessonRichText } from "./lesson-rich-text";
@@ -10,6 +10,14 @@ import { cn } from "@/lib/utils";
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 /** Native disclosure keeps every step in the initial HTML and works before hydration. */
+export type LessonMenuExtra = {
+    key: string;
+    label: string;
+    icon: "works" | "parts";
+    href?: string;
+    onSelect?: () => void;
+};
+
 export function LessonStepGuide({
     steps,
     partsHref,
@@ -18,6 +26,7 @@ export function LessonStepGuide({
     className,
     introduction,
     desktopLabel,
+    mobileExtras,
 }: {
     steps: CourseLessonStep[];
     partsHref?: string;
@@ -26,6 +35,8 @@ export function LessonStepGuide({
     className?: string;
     introduction?: string;
     desktopLabel?: string;
+    /** 手机目录菜单顶部的额外入口（如作品、零件清单） */
+    mobileExtras?: LessonMenuExtra[];
 }) {
     const detailsRef = useRef<HTMLDetailsElement>(null);
     const [open, setOpen] = useState(false);
@@ -100,6 +111,23 @@ export function LessonStepGuide({
                         <SheetTitle className="text-base">课程目录 <span className="text-sm font-normal text-muted-foreground">· {steps.length} 页</span></SheetTitle>
                         <SheetClose asChild><button type="button" aria-label="关闭课程目录" className="inline-flex h-11 w-11 items-center justify-center rounded-sm hover:bg-muted"><X className="h-5 w-5" aria-hidden /></button></SheetClose>
                     </div>
+                    {mobileExtras && mobileExtras.length > 0 ? (
+                        <div className="flex shrink-0 gap-2 border-b border-border px-3 py-2.5">
+                            {mobileExtras.map((extra) => {
+                                const Icon = extra.icon === "works" ? Sparkles : Package;
+                                const cls = "inline-flex h-10 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-full bg-foreground/[0.06] px-3 text-sm font-semibold hover:bg-foreground/10";
+                                return extra.href ? (
+                                    <Link key={extra.key} href={extra.href} prefetch={false} className={cls} onClick={() => setMobileOpen(false)}>
+                                        <Icon className="h-4 w-4 shrink-0" aria-hidden /><span className="truncate">{extra.label}</span>
+                                    </Link>
+                                ) : (
+                                    <button key={extra.key} type="button" className={cls} onClick={() => { setMobileOpen(false); extra.onSelect?.(); }}>
+                                        <Icon className="h-4 w-4 shrink-0" aria-hidden /><span className="truncate">{extra.label}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    ) : null}
                     <ol ref={mobileListRef} className="min-h-0 overflow-y-auto overscroll-contain p-3">
                         {steps.map((step, index) => (
                             <li key={`${step.title}-${index}`}>

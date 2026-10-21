@@ -2,8 +2,9 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
-import type { ReactNode } from "react";
+import { cloneElement, isValidElement, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import type { ReactElement, ReactNode } from "react";
+import type { LessonMenuExtra } from "./lesson-step-guide";
 import {
     Box,
     Check,
@@ -20,7 +21,7 @@ import {
     PartyPopper,
     RotateCw,
     Sparkles,
-    Smartphone,
+    Mic,
     X,
     ZoomIn,
 } from "lucide-react";
@@ -47,7 +48,7 @@ import {
     LANDSCAPE_PHONE_QUERY,
     PORTRAIT_PHONE_QUERY,
     shouldAutoEnterImmersive,
-    shouldShowRotateHint,
+    ROTATE_TIP_STORAGE_KEY,
     tapZoneAction,
     OVERLAY_AUTO_HIDE_MS,
     PAGE_INDICATOR_MS,
@@ -829,6 +830,7 @@ export function Building3DWorkspace({
     onCompleted,
     navigationSlot,
     voiceControlsSlot,
+    mobileHeaderSlot,
 }: {
     courseId: number;
     lesson: CourseLessonRow;
@@ -838,6 +840,8 @@ export function Building3DWorkspace({
     onCompleted?: (result: LessonCompletionResult) => void;
     navigationSlot?: ReactNode;
     voiceControlsSlot?: ReactNode;
+    /** 手机顶栏左侧：返回 + 课名（手机上取代页面原来的标题栏） */
+    mobileHeaderSlot?: ReactNode;
 }) {
     const workspaceRef = useRef<HTMLElement>(null);
     const mountRef = useRef<HTMLDivElement>(null);
@@ -892,7 +896,9 @@ export function Building3DWorkspace({
         getPhoneOrientationServerSnapshot,
     );
     const isPortraitPhone = phoneOrientation === "portrait";
-    const [rotateHintDismissed, setRotateHintDismissed] = useState(false);
+    const [voiceExpanded, setVoiceExpanded] = useState(false);
+    const [voiceStatus, setVoiceStatus] = useState<string>("idle");
+    const voiceActive = voiceStatus === "listening" || voiceStatus === "processing" || voiceStatus === "starting";
     const [partsDrawerOpen, setPartsDrawerOpen] = useState(false);
     const autoImmersiveRef = useRef(false);
     const [overlayVisible, setOverlayVisible] = useState(false);
@@ -1586,12 +1592,17 @@ export function Building3DWorkspace({
     }, []);
 
     const isSlidePage = view === "lesson" && (activePage?.kind === "slide" || activePage?.kind === "video");
-    const showRotateHint = shouldShowRotateHint({
-        isPortraitPhone,
-        isImmersive,
-        isSlidePage,
-        dismissed: rotateHintDismissed,
-    });
+    // 手机竖屏第一次看课件时轻提示一次「横过来看更清楚」，之后不再打扰
+    useEffect(() => {
+        if (!isPortraitPhone || !isSlidePage || isImmersive) return;
+        try {
+            if (window.localStorage.getItem(ROTATE_TIP_STORAGE_KEY)) return;
+            window.localStorage.setItem(ROTATE_TIP_STORAGE_KEY, "1");
+        } catch {
+            return;
+        }
+        toast({ title: "横过来看更清楚", description: "也可以双指放大、左右滑动翻页。" });
+    }, [isImmersive, isPortraitPhone, isSlidePage, toast]);
     // 3D 搭建页的手机全屏：画布占满，零件收进底部抽屉（横竖屏都能用）
     const buildFullscreen = isImmersive && showBuildPage && isMobileViewport;
     // 沉浸式看课件：只留课件本身，其它界面全藏，点中间呼出控制条
@@ -1652,6 +1663,11 @@ export function Building3DWorkspace({
     }, [enterImmersive, exitImmersive, isImmersive, isSlidePage, phoneOrientation]);
 
     const isFinalPage = flow.length > 0 && clampedPageIndex === flow.length - 1;
+    // 手机「目录」菜单里的额外入口：作品、零件清单
+    const lessonMenuExtras: LessonMenuExtra[] = [
+        ...(hasWorks ? [{ key: "works", label: "看看大家的作品", icon: "works" as const, onSelect: () => { void exitImmersive(); setView("works"); } }] : []),
+        ...(content.ldrawModelUrl ? [{ key: "parts", label: "本课零件清单", icon: "parts" as const, href: `/courses/${courseId}/lessons/${lesson.id}/parts` }] : []),
+    ];
     const flowControls = (
         <div className={cn(
             "relative z-30 shrink-0 border-t border-border/60 bg-background/90 px-3 py-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] backdrop-blur-md",
@@ -1777,9 +1793,10 @@ export function Building3DWorkspace({
                     ) : null}
                 </>
             ) : null}
-            <div className={cn("relative z-40 flex h-14 shrink-0 items-center gap-2 border-b border-border/60 bg-background px-3", hideChrome && "hidden")}>
+            <div className={cn("relative z-40 flex h-14 shrink-0 items-center gap-2 border-b border-border/60 bg-background px-3 max-md:px-2", hideChrome && "hidden")}>
+                {mobileHeaderSlot ? <div className="flex min-w-0 flex-1 items-center md:hidden">{mobileHeaderSlot}</div> : null}
                 {hasWorks ? (
-                    <>
+                    <div className="flex items-center gap-2 max-md:hidden">
                     <button
                         type="button"
                         onClick={() => setView("lesson")}
@@ -1798,10 +1815,33 @@ export function Building3DWorkspace({
                         <Sparkles className="h-4 w-4" />
                         作品
                     </button>
-                    </>
+                    </div>
                 ) : null}
-                <div className="ml-auto flex items-center gap-2">
-                    {view === "lesson" ? navigationSlot : null}
+                <div className="ml-auto flex shrink-0 items-center gap-2 max-md:gap-1.5">
+                    {view === "works" ? (
+                        <button type="button" className={cn(pill, pillQuiet, "md:hidden")} onClick={() => setView("lesson")}>
+                            <Presentation className="h-4 w-4" />回到课程
+                        </button>
+                    ) : null}
+                    {view === "lesson" && voiceControlsSlot ? (
+                        <button
+                            type="button"
+                            data-testid="voice-toggle"
+                            aria-label={voiceExpanded ? "收起语音搭建" : "语音搭建"}
+                            aria-pressed={voiceExpanded}
+                            className={cn(pill, circle, "relative md:hidden", voiceActive ? pillPrimary : pillQuiet, voiceExpanded && !voiceActive && "bg-foreground/15 ring-1 ring-foreground/20")}
+                            onClick={() => setVoiceExpanded((open) => !open)}
+                        >
+                            <Mic className="h-4 w-4" />
+                            {voiceActive ? <span aria-hidden className="absolute right-1.5 top-1.5 h-2 w-2 animate-pulse rounded-full bg-emerald-400 ring-2 ring-background" /> : null}
+                        </button>
+                    ) : null}
+                    {view === "lesson" ? (isValidElement(navigationSlot)
+                        ? cloneElement(navigationSlot as ReactElement<{ mobileExtras?: LessonMenuExtra[]; className?: string }>, {
+                            mobileExtras: lessonMenuExtras,
+                            className: "max-md:w-auto",
+                        })
+                        : navigationSlot) : null}
                     {view === "lesson" ? (
                         <button
                             type="button"
@@ -1817,7 +1857,13 @@ export function Building3DWorkspace({
             </div>
 
             {/* 沉浸式时只藏起来不卸载，正在进行的语音搭建不中断 */}
-            {view === "lesson" ? <div data-voice-slot-wrapper className={cn("contents", hideChrome && "hidden")}>{voiceControlsSlot}</div> : null}
+            {view === "lesson" ? (
+                <div data-voice-slot-wrapper className={cn("contents", (hideChrome || !voiceExpanded) && "max-md:hidden", hideChrome && "hidden")}>
+                    {isValidElement(voiceControlsSlot)
+                        ? cloneElement(voiceControlsSlot as ReactElement<{ onStatusChange?: (status: string) => void }>, { onStatusChange: setVoiceStatus })
+                        : voiceControlsSlot}
+                </div>
+            ) : null}
 
             {view === "works" && hasWorks ? (
                 <LessonWorksGallery
@@ -1847,18 +1893,6 @@ export function Building3DWorkspace({
                         // 方案 B：竖屏手机上课件占满剩余高度
                         isPortraitPhone && !isImmersive && "flex-1 p-1",
                     )}>
-                        {showRotateHint ? (
-                            <div data-testid="rotate-hint" className="mb-2 flex w-full items-center gap-2 pl-1 text-white">
-                                <Smartphone className="h-4 w-4 shrink-0 rotate-90 text-white/70" aria-hidden />
-                                <span className="min-w-0 flex-1 text-xs text-white/80">横过来看更清楚</span>
-                                <button type="button" className={cn(pill, pillOnDark, "h-8 px-3 text-xs")} onClick={() => void enterImmersive()}>
-                                    <Maximize2 className="h-3.5 w-3.5" />全屏
-                                </button>
-                                <button type="button" aria-label="关闭提示" className={cn(pill, pillOnDark, "h-8 w-8 px-0")} onClick={() => setRotateHintDismissed(true)}>
-                                    <X className="h-3.5 w-3.5" />
-                                </button>
-                            </div>
-                        ) : null}
                         <div
                             aria-label="课程媒体"
                             className={cn(

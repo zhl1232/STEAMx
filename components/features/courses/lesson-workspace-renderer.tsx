@@ -38,6 +38,7 @@ export function LessonWorkspaceRenderer({
     onCompleted,
     buildingNavigationSlot,
     buildingVoiceControlsSlot,
+    buildingMobileHeaderSlot,
 }: {
     courseId: number;
     lesson: CourseLessonRow;
@@ -54,6 +55,7 @@ export function LessonWorkspaceRenderer({
     onCompleted: (result: LessonCompletionResult) => void;
     buildingNavigationSlot?: ReactNode;
     buildingVoiceControlsSlot?: ReactNode;
+    buildingMobileHeaderSlot?: ReactNode;
 }) {
     const lessonType = getLessonTypeDefinition(lesson.lesson_type);
 
@@ -121,6 +123,7 @@ export function LessonWorkspaceRenderer({
             <Building3DWorkspace
                 navigationSlot={buildingNavigationSlot}
                 voiceControlsSlot={buildingVoiceControlsSlot}
+                mobileHeaderSlot={buildingMobileHeaderSlot}
                 courseId={courseId}
                 lesson={lesson}
                 activeStepIndex={activeStepIndex}
