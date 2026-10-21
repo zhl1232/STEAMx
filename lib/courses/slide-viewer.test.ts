@@ -5,6 +5,7 @@ import {
   pinchScale,
   shouldAutoEnterImmersive,
   shouldShowRotateHint,
+  tapZoneAction,
   swipePageDelta,
 } from "./slide-viewer"
 
@@ -42,5 +43,13 @@ describe("slide-viewer", () => {
     expect(shouldAutoEnterImmersive(base)).toBe(true)
     expect(shouldAutoEnterImmersive({ ...base, wasPortrait: false })).toBe(false)
     expect(shouldAutoEnterImmersive({ ...base, isSlidePage: false })).toBe(false)
+  })
+
+  it("maps taps to prev / next / toggle, and never pages while zoomed", () => {
+    expect(tapZoneAction(0.1, false)).toBe("prev")
+    expect(tapZoneAction(0.9, false)).toBe("next")
+    expect(tapZoneAction(0.5, false)).toBe("toggle")
+    expect(tapZoneAction(0.1, true)).toBe("toggle")
+    expect(tapZoneAction(0.9, true)).toBe("toggle")
   })
 })

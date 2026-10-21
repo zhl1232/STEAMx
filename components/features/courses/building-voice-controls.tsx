@@ -67,7 +67,7 @@ export function BuildingVoiceControls({ tutorOpen, onCloseTutor, ...navigation }
   const feedback = status === 'paused' && pauseReason ? pauseReason : control.feedback
 
   return (
-    <section aria-label="语音搭建" className="sticky top-0 z-50 shrink-0 border-b border-border bg-background/95 px-3 py-1.5 backdrop-blur md:px-5" data-building-voice-controls>
+    <section aria-label="语音搭建" className="sticky top-0 z-50 shrink-0 border-b border-border/60 bg-background/90 px-3 py-1.5 backdrop-blur-md md:px-5" data-building-voice-controls>
       <div className="flex min-h-11 min-w-0 items-center gap-2">
         <div className="flex min-w-0 flex-1 items-center gap-2">
           {waiting ? <LoaderCircle aria-hidden="true" className="h-4 w-4 shrink-0 animate-spin text-muted-foreground" /> : <Mic aria-hidden="true" className={`h-4 w-4 shrink-0 ${status === 'listening' ? 'text-emerald-600' : 'text-muted-foreground'}`} />}
@@ -77,16 +77,16 @@ export function BuildingVoiceControls({ tutorOpen, onCloseTutor, ...navigation }
           </div>
         </div>
         {status === 'idle' || canResume ? (
-          <Button type="button" size="sm" className="min-h-11 shrink-0 gap-1.5" onClick={start}>
+          <Button type="button" size="sm" className="h-10 shrink-0 gap-1.5 rounded-full px-4" onClick={start}>
             <Play aria-hidden="true" className="h-4 w-4" />{canResume ? '继续' : '开启'}
           </Button>
         ) : (
-          <Button type="button" size="sm" variant="outline" className="min-h-11 shrink-0 gap-1.5" onClick={() => { setPauseReason(''); pause() }}>
+          <Button type="button" size="sm" variant="ghost" className="h-10 shrink-0 gap-1.5 rounded-full bg-foreground/[0.06] px-4" onClick={() => { setPauseReason(''); pause() }}>
             <Pause aria-hidden="true" className="h-4 w-4" />暂停
           </Button>
         )}
         {status !== 'idle' ? (
-          <Button type="button" size="icon" variant="ghost" className="h-11 w-11 shrink-0" aria-label="退出语音搭建" onClick={() => { setPauseReason(''); control.exit() }}>
+          <Button type="button" size="icon" variant="ghost" className="h-10 w-10 shrink-0 rounded-full" aria-label="退出语音搭建" onClick={() => { setPauseReason(''); control.exit() }}>
             <X aria-hidden="true" className="h-4 w-4" />
           </Button>
         ) : null}

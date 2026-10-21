@@ -82,7 +82,7 @@ export function LessonStepGuide({
         {navigable ? (
             <Sheet open={mobileOpen} onOpenChange={handleMobileOpenChange}>
                 <SheetTrigger asChild>
-                    <button type="button" aria-label="课程目录" className={cn("inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-sm px-2 text-sm font-semibold hover:bg-muted md:hidden", className)}>
+                    <button type="button" aria-label="课程目录" className={cn("inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-foreground/[0.06] px-4 text-sm font-semibold hover:bg-foreground/10 md:hidden", className)}>
                         <List className="h-4 w-4" aria-hidden />目录
                     </button>
                 </SheetTrigger>

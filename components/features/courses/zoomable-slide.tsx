@@ -23,12 +23,15 @@ export function ZoomableSlide({
     alt,
     onError,
     onSwipe,
+    onTap,
     className,
 }: {
     src: string;
     alt: string;
     onError?: () => void;
     onSwipe?: (delta: -1 | 1) => void;
+    /** 单击（已排除双击）：xRatio = 点按位置占宽度比例，zoomed = 当前是否放大 */
+    onTap?: (xRatio: number, zoomed: boolean) => void;
     className?: string;
 }) {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -41,6 +44,7 @@ export function ZoomableSlide({
         pinched: boolean;
     } | null>(null);
     const lastTap = useRef(0);
+    const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [scale, setScale] = useState(SLIDE_MIN_ZOOM);
     const [offset, setOffset] = useState<Point>({ x: 0, y: 0 });
 
@@ -105,6 +109,8 @@ export function ZoomableSlide({
             // 双击还原 / 放大
             const now = Date.now();
             if (now - lastTap.current < 300 && pointerDistance(g.start, end) < 10) {
+                if (tapTimer.current) clearTimeout(tapTimer.current);
+                tapTimer.current = null;
                 const next = scale > SLIDE_MIN_ZOOM ? SLIDE_MIN_ZOOM : clampZoom(2);
                 setScale(next);
                 setOffset({ x: 0, y: 0 });
@@ -112,6 +118,17 @@ export function ZoomableSlide({
                 return;
             }
             lastTap.current = now;
+            if (onTap && pointerDistance(g.start, end) < 10) {
+                const rect = containerRef.current?.getBoundingClientRect();
+                const xRatio = rect && rect.width > 0 ? (end.x - rect.left) / rect.width : 0.5;
+                const zoomed = scale > SLIDE_MIN_ZOOM + 0.01;
+                // 等一下，确认不是双击再算单击
+                if (tapTimer.current) clearTimeout(tapTimer.current);
+                tapTimer.current = setTimeout(() => {
+                    tapTimer.current = null;
+                    onTap(xRatio, zoomed);
+                }, 260);
+            }
         }
     };
 

@@ -70,3 +70,16 @@ export function shouldAutoEnterImmersive(input: {
 }): boolean {
   return input.wasPortrait && input.isLandscapePhone && !input.isImmersive && input.isSlidePage
 }
+
+/** 全屏时点按位置：左边 25% = 上一页，右边 25% = 下一页，中间 = 显示/隐藏控制条 */
+export const EDGE_TAP_RATIO = 0.25
+export const OVERLAY_AUTO_HIDE_MS = 3000
+export const PAGE_INDICATOR_MS = 1200
+
+export function tapZoneAction(xRatio: number, zoomed: boolean): "prev" | "next" | "toggle" {
+  // 放大时点按只切换控制条，不翻页
+  if (zoomed) return "toggle"
+  if (xRatio < EDGE_TAP_RATIO) return "prev"
+  if (xRatio > 1 - EDGE_TAP_RATIO) return "next"
+  return "toggle"
+}

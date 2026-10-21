@@ -367,6 +367,24 @@ describe("Building3DWorkspace", () => {
         }
     });
 
+    it("hides all chrome in slide fullscreen and shows controls only on demand", async () => {
+        render(
+            <Building3DWorkspace
+                courseId={7}
+                lesson={baseLesson}
+                activeStepIndex={0}
+                onStepChange={vi.fn()}
+                voiceControlsSlot={<div data-testid="voice-probe" />}
+            />,
+        );
+        fireEvent.click(screen.getByRole("button", { name: "全屏横向展示" }));
+        const overlay = await screen.findByTestId("immersive-overlay");
+        expect(overlay).toHaveAttribute("data-visible", "false");
+        expect(screen.queryByRole("button", { name: "下一页" })).not.toBeNull();
+        expect(screen.getByTestId("voice-probe").closest("[data-voice-slot-wrapper]")).toHaveClass("hidden");
+        expect(screen.queryByText(/^课程 \d+\/\d+ 页$/)).toBeNull();
+    });
+
     it("keeps the voice slot inside fullscreen without remounting and releases it when viewing works", async () => {
         const fullscreenDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "requestFullscreen");
         const requestFullscreen = vi.fn().mockResolvedValue(undefined);
@@ -390,7 +408,7 @@ describe("Building3DWorkspace", () => {
             const slot = screen.getByTestId("voice-controls-slot");
             const workspace = slot.closest("section");
             expect(workspace).toBe(screen.getByRole("button", { name: "全屏横向展示" }).closest("section"));
-            expect(slot.previousElementSibling).toContainElement(screen.getByRole("button", { name: "全屏横向展示" }));
+            expect(slot.closest("[data-voice-slot-wrapper]")?.previousElementSibling).toContainElement(screen.getByRole("button", { name: "全屏横向展示" }));
             fireEvent.click(screen.getByRole("button", { name: "开启语音监听" }));
             fireEvent.click(screen.getByRole("button", { name: "全屏横向展示" }));
             await waitFor(() => expect(requestFullscreen).toHaveBeenCalledOnce());
