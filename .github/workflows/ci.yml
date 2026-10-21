@@ -54,6 +54,10 @@ jobs:
         if: github.event_name == 'pull_request'
         run: pnpm run build
 
+      - name: Verify production and development route boundaries
+        if: github.event_name == 'pull_request'
+        run: pnpm exec playwright test -c playwright.internal-routes.config.ts
+
       - name: Verify retained interface assets
         run: pnpm exec playwright test e2e/repository-cleanup-phase2.spec.ts --project=chromium
 

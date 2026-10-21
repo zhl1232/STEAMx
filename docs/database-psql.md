@@ -4,6 +4,8 @@
 
 ## 当前接入方式
 
+`/migrate` 仅展示 CLI/SQL 说明，不执行迁移；该页面仅在 `NODE_ENV=development` 可用，其他模式服务端返回 404。页面可访问不授予任何数据库操作权限，验收入口见 [SEO 索引清单](seo-indexing-checklist.md#内部开发入口与关闭的商城)。
+
 项目使用第三方托管的 Supabase 兼容服务。正式迁移由自定义工具通过 pg-meta `/pg/query` API 执行，不是 PostgreSQL 直连，也不使用官方 `supabase db push`。不能假定新建一个官方 Supabase 项目就具备此 API、认证头及权限。
 
 迁移在 `supabase/migrations/`，文件名为 `YYYYMMDDHHMMSS_description.sql`；追踪表为 `public._schema_migrations`。保留完整迁移目录和已执行历史；不要逐个重跑旧 SQL、清空 schema、改写旧 ID/哈希或删减目录来隐藏待执行项。

@@ -17,6 +17,14 @@
 
 ## 发现与结构化数据
 
+### 内部开发入口与关闭的商城
+
+`/design-system`、`/ldraw-preview`、`/migrate` 在服务端仅允许 `NODE_ENV=development`，其他模式在渲染内部内容前返回 404；`dev.*` 域名不能启用 production 构建中的工具。`/api/ldraw-preview` 使用相同环境条件，在解析请求、扫描模型或打包前拒绝访问。noindex 只是索引声明，不是访问控制，也不新增生产管理员入口。
+
+商城关闭时 `/store` 保持真正的 404 与 noindex，标题为“页面未找到”；开启时为“材料包商城”。订单分支独立使用“本站材料包订单”，具体开关与权限边界见 [商城决策](STORE_CHANNEL_FULFILLMENT_DECISION.md)。
+
+回归：先运行 `pnpm build`，再运行 `pnpm exec playwright test -c playwright.internal-routes.config.ts`。该配置启动两个真实 `next start`（商城关闭/开启）及一个 `next dev`，使用本地占位 Supabase 配置，覆盖 HTTP/HTML/RSC、浏览器标题、匿名订单保护、预览 API 与课程 step/BOM。浏览器启用 Chromium sandbox；使用系统 Chrome 时设置 `PLAYWRIGHT_USE_SYSTEM_CHROME=1`。占位配置与鉴权单测不替代真实账号、数据库及售后交易验收。
+
 核对 `/robots.txt`、`/sitemap.xml`、`/llms.txt`，首页 canonical 与 og:url 使用带尾斜杠的规范首页 URL。公开页面和允许的公开图片可抓取；不要整体放开私有 API、管理、登录或视频签名访问。
 
 首页 JSON-LD 的组织与网站图谱共用真实品牌和 `/logo.png`，WebSite 指向组织；关于页的 AboutPage/FAQ 必须与可见正文一致。官网账号和 `sameAs` 仅填已取得且可公开访问的真实主页，不拿二维码、假链接或计划账号占位。
