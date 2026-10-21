@@ -1828,9 +1828,9 @@ export function Building3DWorkspace({
                         {sidebar.collapsed ? "展开目录" : "收起目录"}
                     </button>
                 ) : null}
-                {mobileHeaderSlot ? <div className="flex min-w-0 flex-1 items-center md:max-w-[40%] md:flex-none">{mobileHeaderSlot}</div> : null}
+                {mobileHeaderSlot ? <div className="flex min-w-0 flex-1 items-center md:max-w-[50%] md:flex-none">{mobileHeaderSlot}</div> : null}
                 {hasWorks ? (
-                    <div className="ml-2 flex items-center gap-2 max-md:hidden">
+                    <div className="ml-3 flex items-center gap-2 max-md:hidden">
                     <button
                         type="button"
                         onClick={() => setView("lesson")}
