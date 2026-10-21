@@ -1,0 +1,46 @@
+import { describe, expect, it } from "vitest"
+import {
+  clampPan,
+  clampZoom,
+  pinchScale,
+  shouldAutoEnterImmersive,
+  shouldShowRotateHint,
+  swipePageDelta,
+} from "./slide-viewer"
+
+describe("slide-viewer", () => {
+  it("clamps zoom between 1 and 4", () => {
+    expect(clampZoom(0.5)).toBe(1)
+    expect(clampZoom(9)).toBe(4)
+    expect(clampZoom(Number.NaN)).toBe(1)
+    expect(pinchScale(1, 100, 250)).toBe(2.5)
+  })
+
+  it("clamps pan to the zoomed image bounds", () => {
+    expect(clampPan({ x: 500, y: -500 }, 2, { width: 200, height: 100 })).toEqual({ x: 100, y: -50 })
+    expect(clampPan({ x: 30, y: 30 }, 1, { width: 200, height: 100 })).toEqual({ x: 0, y: 0 })
+  })
+
+  it("swipes pages only when not zoomed and mostly horizontal", () => {
+    expect(swipePageDelta({ x: 200, y: 0 }, { x: 100, y: 10 }, 1)).toBe(1)
+    expect(swipePageDelta({ x: 100, y: 0 }, { x: 200, y: 10 }, 1)).toBe(-1)
+    expect(swipePageDelta({ x: 100, y: 0 }, { x: 130, y: 0 }, 1)).toBe(0)
+    expect(swipePageDelta({ x: 100, y: 0 }, { x: 200, y: 90 }, 1)).toBe(0)
+    expect(swipePageDelta({ x: 200, y: 0 }, { x: 0, y: 0 }, 2)).toBe(0)
+  })
+
+  it("shows the rotate hint only on portrait phones viewing slides", () => {
+    const base = { isPortraitPhone: true, isImmersive: false, isSlidePage: true, dismissed: false }
+    expect(shouldShowRotateHint(base)).toBe(true)
+    expect(shouldShowRotateHint({ ...base, dismissed: true })).toBe(false)
+    expect(shouldShowRotateHint({ ...base, isImmersive: true })).toBe(false)
+    expect(shouldShowRotateHint({ ...base, isSlidePage: false })).toBe(false)
+  })
+
+  it("auto enters fullscreen when a phone rotates to landscape on a slide", () => {
+    const base = { wasPortrait: true, isLandscapePhone: true, isImmersive: false, isSlidePage: true }
+    expect(shouldAutoEnterImmersive(base)).toBe(true)
+    expect(shouldAutoEnterImmersive({ ...base, wasPortrait: false })).toBe(false)
+    expect(shouldAutoEnterImmersive({ ...base, isSlidePage: false })).toBe(false)
+  })
+})

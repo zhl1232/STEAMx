@@ -20,6 +20,8 @@ import {
     PartyPopper,
     RotateCw,
     Sparkles,
+    Smartphone,
+    X,
     ZoomIn,
 } from "lucide-react";
 
@@ -39,6 +41,13 @@ import { useAuth } from "@/lib/context/auth-context";
 import { useLoginPrompt } from "@/lib/context/login-prompt-context";
 import { isWorkSubmissionEnabled } from "@/lib/works/capability";
 import { PartThumbnail } from "./part-thumbnail";
+import { ZoomableSlide } from "./zoomable-slide";
+import {
+    LANDSCAPE_PHONE_QUERY,
+    PORTRAIT_PHONE_QUERY,
+    shouldAutoEnterImmersive,
+    shouldShowRotateHint,
+} from "@/lib/courses/slide-viewer";
 import type {
     Building3DBrickInstance,
     Building3DLessonContent,
@@ -137,6 +146,28 @@ function getMobileViewportSnapshot() {
 
 function getMobileViewportServerSnapshot() {
     return false;
+}
+
+function subscribeToOrientation(onChange: () => void) {
+    const portrait = window.matchMedia?.(PORTRAIT_PHONE_QUERY);
+    const landscape = window.matchMedia?.(LANDSCAPE_PHONE_QUERY);
+    portrait?.addEventListener?.("change", onChange);
+    landscape?.addEventListener?.("change", onChange);
+    return () => {
+        portrait?.removeEventListener?.("change", onChange);
+        landscape?.removeEventListener?.("change", onChange);
+    };
+}
+
+/** "portrait" = 竖着拿的手机，"landscape" = 横着拿的手机，"other" = 平板/电脑 */
+function getPhoneOrientationSnapshot(): "portrait" | "landscape" | "other" {
+    if (window.matchMedia?.(PORTRAIT_PHONE_QUERY).matches) return "portrait";
+    if (window.matchMedia?.(LANDSCAPE_PHONE_QUERY).matches) return "landscape";
+    return "other";
+}
+
+function getPhoneOrientationServerSnapshot(): "portrait" | "landscape" | "other" {
+    return "other";
 }
 
 function isVector3(value: unknown): value is [number, number, number] {
@@ -851,6 +882,16 @@ export function Building3DWorkspace({
         getMobileViewportSnapshot,
         getMobileViewportServerSnapshot,
     );
+    const phoneOrientation = useSyncExternalStore(
+        subscribeToOrientation,
+        getPhoneOrientationSnapshot,
+        getPhoneOrientationServerSnapshot,
+    );
+    const isPortraitPhone = phoneOrientation === "portrait";
+    const [rotateHintDismissed, setRotateHintDismissed] = useState(false);
+    const [partsDrawerOpen, setPartsDrawerOpen] = useState(false);
+    const autoImmersiveRef = useRef(false);
+    const previousOrientationRef = useRef(phoneOrientation);
     // null = 跟随默认（搭建第一步展开全部零件，后续步骤收起）
     const [allPartsExpanded, setAllPartsExpanded] = useState<boolean | null>(null);
     const showBuildPage = view === "lesson" && activePage?.kind === "build";
@@ -1485,13 +1526,15 @@ export function Building3DWorkspace({
         onStepChange(next);
     };
 
-    const enterImmersive = useCallback(async () => {
+    const enterImmersive = useCallback(async (options?: { silent?: boolean; keepOrientation?: boolean }) => {
         const workspace = workspaceRef.current;
         if (!workspace) return;
+        const silent = options?.silent ?? false;
 
         immersiveScrollYRef.current = window.scrollY;
         setIsImmersive(true);
         if (!workspace.requestFullscreen) {
+            if (silent) return;
             toast({
                 title: "已进入横向展示",
                 description: "将设备横放即可全屏查看课程内容。",
@@ -1504,10 +1547,11 @@ export function Building3DWorkspace({
             await workspace.requestFullscreen();
             try {
                 const isDesktopViewport = window.matchMedia?.("(min-width: 1024px)").matches ?? false;
-                if (!isDesktopViewport) {
+                if (!isDesktopViewport && !options?.keepOrientation) {
                     await getScreenOrientation()?.lock?.("landscape");
                 }
             } catch {
+                if (silent) return;
                 toast({
                     title: "已进入全屏",
                     description: "当前浏览器不能自动旋转，请将设备横放。",
@@ -1515,6 +1559,8 @@ export function Building3DWorkspace({
             }
         } catch {
             nativeFullscreenSessionRef.current = false;
+            // 转屏不算用户点击，浏览器多半不让真全屏；这时安静地用页面内全屏
+            if (silent) return;
             toast({
                 title: "已进入横向展示",
                 description: "当前浏览器不支持页面全屏，请将设备横放。",
@@ -1524,12 +1570,44 @@ export function Building3DWorkspace({
 
     const exitImmersive = useCallback(async () => {
         nativeFullscreenSessionRef.current = false;
+        autoImmersiveRef.current = false;
+        setPartsDrawerOpen(false);
         getScreenOrientation()?.unlock?.();
         setIsImmersive(false);
         if (document.fullscreenElement === workspaceRef.current) {
             await document.exitFullscreen().catch(() => undefined);
         }
     }, []);
+
+    const isSlidePage = view === "lesson" && (activePage?.kind === "slide" || activePage?.kind === "video");
+    const showRotateHint = shouldShowRotateHint({
+        isPortraitPhone,
+        isImmersive,
+        isSlidePage,
+        dismissed: rotateHintDismissed,
+    });
+    // 3D 搭建页的手机全屏：画布占满，零件收进底部抽屉（横竖屏都能用）
+    const buildFullscreen = isImmersive && showBuildPage && isMobileViewport;
+
+    // 方案 A：看课件时手机横过来自动全屏，竖回去自动退出（只退自动进入的那次）
+    useEffect(() => {
+        const previous = previousOrientationRef.current;
+        previousOrientationRef.current = phoneOrientation;
+        if (previous === phoneOrientation) return;
+        if (shouldAutoEnterImmersive({
+            wasPortrait: previous === "portrait",
+            isLandscapePhone: phoneOrientation === "landscape",
+            isImmersive,
+            isSlidePage,
+        })) {
+            autoImmersiveRef.current = true;
+            void enterImmersive({ silent: true });
+            return;
+        }
+        if (phoneOrientation === "portrait" && autoImmersiveRef.current && isImmersive) {
+            void exitImmersive();
+        }
+    }, [enterImmersive, exitImmersive, isImmersive, isSlidePage, phoneOrientation]);
 
     const isFinalPage = flow.length > 0 && clampedPageIndex === flow.length - 1;
     const flowControls = (
@@ -1592,7 +1670,7 @@ export function Building3DWorkspace({
             {nextSlideImageUrl ? (
                 <link rel="preload" as="image" href={nextSlideImageUrl} />
             ) : null}
-            {isImmersive ? (
+            {isImmersive && !buildFullscreen ? (
                 <div className="absolute inset-0 z-30 hidden flex-col items-center justify-center gap-3 bg-[#0f172a] text-white portrait:flex landscape:hidden lg:hidden">
                     <RotateCw className="h-9 w-9" />
                     <p className="text-sm font-semibold">请将设备横放</p>
@@ -1674,14 +1752,38 @@ export function Building3DWorkspace({
                 };
                 return (
                     <div className={cn(
-                        "flex min-h-0 flex-none items-center justify-center bg-[#0f172a] p-3 lg:flex-1 lg:p-6",
+                        "flex min-h-0 flex-none flex-col items-center justify-center bg-[#0f172a] p-3 lg:flex-1 lg:p-6",
                         isImmersive && "flex-1 p-2 lg:p-2",
+                        // 方案 B：竖屏手机上课件占满剩余高度
+                        isPortraitPhone && !isImmersive && "flex-1 p-1",
                     )}>
+                        {showRotateHint ? (
+                            <div data-testid="rotate-hint" className="mb-1 flex w-full items-center gap-2 rounded-sm bg-white/10 px-2.5 py-1.5 text-xs text-white">
+                                <Smartphone className="h-4 w-4 shrink-0 rotate-90" aria-hidden />
+                                <span className="min-w-0 flex-1">横过来看更清楚，也可以双指放大、左右滑翻页</span>
+                                <button
+                                    type="button"
+                                    className="h-8 shrink-0 rounded-sm bg-white px-2.5 font-semibold text-[#0f172a]"
+                                    onClick={() => void enterImmersive()}
+                                >
+                                    全屏看
+                                </button>
+                                <button
+                                    type="button"
+                                    aria-label="关闭提示"
+                                    className="grid h-8 w-8 shrink-0 place-items-center rounded-sm text-white/70"
+                                    onClick={() => setRotateHintDismissed(true)}
+                                >
+                                    <X className="h-4 w-4" />
+                                </button>
+                            </div>
+                        ) : null}
                         <div
                             aria-label="课程媒体"
                             className={cn(
                                 "relative aspect-video w-full max-w-[900px] overflow-hidden rounded-sm lg:aspect-auto lg:h-full",
                                 isImmersive && "h-full max-w-none",
+                                isPortraitPhone && !isImmersive && "aspect-auto min-h-[208px] flex-1",
                             )}
                         >
                             {failed ? (
@@ -1712,13 +1814,12 @@ export function Building3DWorkspace({
                                     <p className="text-sm text-white/75">{completed ? "可以去学下一课，或再看看作品。" : "点下方「完成本课」，记下这次的进步。"}</p>
                                 </div>
                             ) : activePage.kind === "slide" ? (
-                                /* eslint-disable-next-line @next/next/no-img-element */
-                                <img
+                                <ZoomableSlide
                                     key={activePage.imageUrl}
                                     src={activePage.imageUrl}
                                     alt={activePage.title}
                                     onError={() => setFailedSlides((previous) => new Set(previous).add(activePage.sourceIndex))}
-                                    className="absolute inset-0 h-full w-full object-contain"
+                                    onSwipe={(delta) => goPage(delta)}
                                 />
                             ) : null}
                         </div>
@@ -1742,6 +1843,7 @@ export function Building3DWorkspace({
                 "grid min-h-0 flex-1 grid-rows-[minmax(320px,1fr)_auto] max-lg:grid-rows-[clamp(220px,42dvh,380px)_auto] lg:grid-cols-[minmax(0,1fr)_272px] lg:grid-rows-1",
                 isImmersive &&
                     "grid-cols-[minmax(0,1fr)_minmax(260px,32vw)] grid-rows-1 max-lg:grid-rows-1",
+                buildFullscreen && "relative grid-cols-1 max-lg:grid-rows-1",
                 !showBuildPage && "hidden",
             )}>
                 <div className={cn(
@@ -1790,6 +1892,19 @@ export function Building3DWorkspace({
                             <RotateCcw className="mr-1 h-4 w-4" />
                             视角
                         </Button>
+                        {isMobileViewport && !isImmersive ? (
+                            <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                className="h-11 bg-card/90"
+                                data-testid="build-fullscreen"
+                                onClick={() => void enterImmersive({ keepOrientation: true })}
+                            >
+                                <Maximize2 className="mr-1 h-4 w-4" />
+                                全屏搭建
+                            </Button>
+                        ) : null}
                         <div className="hidden items-center gap-1 rounded-sm border border-border bg-card/90 px-2 py-1 text-xs text-muted-foreground md:flex">
                             <ZoomIn className="h-3.5 w-3.5" />
                             拖动旋转 · 滚轮缩放
@@ -1802,11 +1917,38 @@ export function Building3DWorkspace({
                     ) : null}
                 </div>
 
-                <aside className={cn(
-                    "min-h-0 border-t border-border bg-card lg:border-l lg:border-t-0",
-                    isImmersive && "overflow-hidden border-l border-t-0",
-                )}>
-                    <div className={cn("flex h-full min-h-0 flex-col", !isImmersive && "max-lg:max-h-[min(28dvh,14rem)]")}>
+                <aside
+                    data-testid="build-parts-panel"
+                    data-drawer={buildFullscreen ? (partsDrawerOpen ? "open" : "closed") : undefined}
+                    className={cn(
+                        "min-h-0 border-t border-border bg-card lg:border-l lg:border-t-0",
+                        isImmersive && !buildFullscreen && "overflow-hidden border-l border-t-0",
+                        // 方案 C：全屏搭建时零件清单是可上拉的底部抽屉
+                        buildFullscreen &&
+                            "absolute inset-x-0 bottom-0 z-20 flex flex-col overflow-hidden rounded-t-lg border-x border-t shadow-[0_-8px_24px_rgb(0_0_0/0.18)] transition-[max-height] duration-200",
+                        buildFullscreen && (partsDrawerOpen ? "max-h-[65%]" : "max-h-14"),
+                    )}
+                >
+                    {buildFullscreen ? (
+                        <button
+                            type="button"
+                            aria-expanded={partsDrawerOpen}
+                            aria-controls="building-3d-step-parts"
+                            onClick={() => setPartsDrawerOpen((open) => !open)}
+                            className="flex min-h-14 w-full shrink-0 flex-col items-center justify-center gap-1 px-3 text-sm font-semibold text-foreground"
+                        >
+                            <span aria-hidden className="h-1 w-10 rounded-full bg-muted-foreground/40" />
+                            <span className="flex items-center gap-1">
+                                <Box className="h-4 w-4" />
+                                {partsDrawerOpen ? "收起零件" : `本步零件${bomStep ? ` ${bomStep.partCount} 块` : ""} · 上拉查看`}
+                            </span>
+                        </button>
+                    ) : null}
+                    <div className={cn(
+                        "flex h-full min-h-0 flex-col",
+                        !isImmersive && "max-lg:max-h-[min(28dvh,14rem)]",
+                        buildFullscreen && !partsDrawerOpen && "hidden",
+                    )}>
                         {(() => {
                             const desc = activeStep?.description?.trim();
                             const isGeneric = !desc || desc.includes("按照三维示范") || desc.includes("添加本步零件") || desc === activeStep?.title;
