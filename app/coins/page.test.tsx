@@ -123,7 +123,7 @@ describe("CoinsPage", () => {
 
   it("renders today's transaction time only once to keep desktop and mobile metadata consistent", async () => {
     const createdAt = new Date(Date.now() - 60_000).toISOString();
-    const expectedTime = new Date(createdAt).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" });
+    const expectedTime = new Date(createdAt).toLocaleTimeString("zh-CN", { timeZone: "Asia/Shanghai", hour: "2-digit", minute: "2-digit" });
 
     mockRange.mockResolvedValue({
       data: [
