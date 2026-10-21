@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { stripImageLocationMetadata } from '@/lib/utils/strip-image-location'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
@@ -70,7 +71,7 @@ export async function POST(request: NextRequest) {
 
     const { data, error } = await supabaseAdmin.storage
       .from(bucket)
-      .upload(path, Buffer.from(buffer), {
+      .upload(path, Buffer.from(stripImageLocationMetadata(new Uint8Array(buffer), result.mime)), {
         contentType: result.mime,
         cacheControl: '3600',
         upsert: false,

@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const to = from + pageSize - 1
 
     const { data, error, count } = await supabase
-      .from('observation_events')
+      .from('observation_events_owner')
       .select('*', { count: 'exact' })
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })

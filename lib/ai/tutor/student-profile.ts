@@ -471,7 +471,7 @@ export async function buildStudentProfile(
       .order('completed_at', { ascending: false })
       .limit(3),
     supabase
-      .from('observation_events')
+      .from('observation_events_public')
       .select('observed_at, location_name, nature_topic')
       .eq('user_id', userId)
       .eq('status', 'approved')

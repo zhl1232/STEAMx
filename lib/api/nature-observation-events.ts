@@ -90,7 +90,7 @@ export async function getObservations(
     .match(PUBLIC_OBSERVATION_FILTERS)
 
   const dataQuery = supabase
-    .from('observation_events')
+    .from('observation_events_public')
     .select('*')
     .match(PUBLIC_OBSERVATION_FILTERS)
     .order('created_at', { ascending: false })
@@ -144,7 +144,7 @@ export const getObservationById = cache(async function getObservationById(
   const { data: authData } = await supabase.auth.getUser()
 
   const { data, error } = await supabase
-    .from('observation_events')
+    .from('observation_events_public')
     .select('*')
     .eq('id', observationId)
     .maybeSingle()
@@ -157,6 +157,15 @@ export const getObservationById = cache(async function getObservationById(
   if (!data) return null
 
   const isOwner = authData.user?.id === data.user_id
+  // 本人看原始地点和坐标（本人视图）；其他人只拿到公开视图里的分级位置。
+  if (isOwner) {
+    const { data: ownerRow } = await supabase
+      .from('observation_events_owner')
+      .select('location_name, latitude, longitude')
+      .eq('id', observationId)
+      .maybeSingle()
+    if (ownerRow) Object.assign(data, ownerRow)
+  }
   if (!isOwner && data.moderation_state !== 'approved') return null
   if (data.status !== 'approved') {
     if (!isOwner) return null

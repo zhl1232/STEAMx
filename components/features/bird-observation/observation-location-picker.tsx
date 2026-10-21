@@ -86,7 +86,7 @@ export function ObservationLocationPicker({
           </div>
 
           <p className="text-xs leading-5 text-(--obs-muted)">
-            地址来自照片 GPS 或地图选点，发布后会公开准确位置。
+            地址来自照片 GPS 或地图选点。家附近只公开到「某某街道/镇附近」，精确位置只有你能看到。
           </p>
 
           {metadataWarning ? (
