@@ -59,3 +59,6 @@ jobs:
 
       - name: Run smoke E2E
         run: pnpm exec playwright test e2e/smoke.spec.ts e2e/learning-guides.spec.ts e2e/asset-cleanup.spec.ts --project=chromium
+
+      - name: Verify project video presentation pilot
+        run: pnpm exec playwright test -c playwright.project-video-pilot.config.ts

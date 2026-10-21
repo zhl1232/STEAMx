@@ -1,0 +1,59 @@
+[
+  {
+    "id": 1301,
+    "title": "自制电动机",
+    "category": "技术",
+    "author": "测试作者",
+    "author_id": "00000000-0000-4000-8000-000000000001",
+    "image": "https://spb-bp1n04y14st4y299.supabase.opentrust.net/storage/v1/object/public/project-images/covers/explore-reviewed-20260922/1301-70562d3be0e7748a.webp",
+    "likes": 0,
+    "status": "approved",
+    "moderation_state": "approved",
+    "description": "《自制电动机》是创探空间「技术·电子制作」分类下的实践项目，适合11岁起，难度入门，建议成人陪同。需要准备《自制电动机》对应实验材料包。页面附实验演示视频，可边看边做。",
+    "videoUrl": "https://assets.steamx.cc/kejiao16a/六年级/013_自制电动机/video_1.mp4",
+    "materials": [
+      "《自制电动机》对应实验材料包 1 套（需自行购买）"
+    ],
+    "steps": [
+      {
+        "title": "观看实验视频",
+        "description": "请准备好对应实验材料包，跟随本页视频完成操作。"
+      }
+    ]
+  },
+  {
+    "id": 892,
+    "title": "逃出手心",
+    "category": "科学",
+    "author": "测试作者",
+    "author_id": "00000000-0000-4000-8000-000000000001",
+    "image": "https://spb-bp1n04y14st4y299.supabase.opentrust.net/storage/v1/object/public/project-images/covers/explore-reviewed-20260922/892-ca8f9e4bdff9235d.webp",
+    "likes": 0,
+    "status": "approved",
+    "moderation_state": "approved",
+    "description": "两人配合，用铁环和细链练习视频中的交叉与脱环动作。",
+    "videoUrl": "https://assets.steamx.cc/jichu-haohua/069_252.逃出手心/video_1.mp4",
+    "materials": [
+      "铁环 1 个",
+      "与铁环配套的细链 1 条"
+    ],
+    "steps": [
+      {
+        "title": "两人配合准备",
+        "description": "一人握拳并竖起拇指。另一人按视频将铁环和细链挂在其拇指处，向外拉出两股细链；链条保持松弛，不勒住手指。"
+      },
+      {
+        "title": "第一次交叉",
+        "description": "按照视频约 10—16 秒的方向，将拉出的两股细链交叉，用一根食指撑住远端形成的链圈。"
+      },
+      {
+        "title": "第二次交叉",
+        "description": "将另一只手的食指放进拇指与远端食指之间的链圈，按视频约 16—24 秒的方向再交叉一次；保持两根食指的位置，不把链条拉紧。"
+      },
+      {
+        "title": "让细链脱出",
+        "description": "将靠近同伴的食指与同伴的拇指相对，另一只手轻轻向后拉，观察细链如何脱出。若未成功，先松开复位，再暂停视频核对两次交叉的方向，不要用力拽。"
+      }
+    ]
+  }
+]
