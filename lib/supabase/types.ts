@@ -1936,7 +1936,9 @@ export interface Database {
           likes_count?: number
           comments_count?: number
           place_category?: string
+          public_township?: string | null
           public_district?: string | null
+          public_city?: string | null
           public_location_name?: string | null
           public_latitude?: number | null
           public_longitude?: number | null
@@ -4012,7 +4014,9 @@ export interface Database {
           likes_count?: number
           comments_count?: number
           place_category?: string
+          public_township?: string | null
           public_district?: string | null
+          public_city?: string | null
         }
         Relationships: []
       }
@@ -4049,7 +4053,9 @@ export interface Database {
           likes_count?: number
           comments_count?: number
           place_category?: string
+          public_township?: string | null
           public_district?: string | null
+          public_city?: string | null
         }
         Relationships: []
       }

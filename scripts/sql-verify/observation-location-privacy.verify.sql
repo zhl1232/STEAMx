@@ -1,8 +1,10 @@
 \set ON_ERROR_STOP on
 -- 服务端写入：公园精确公开；小区只给区县 + 模糊点
-INSERT INTO public.observation_events (user_id, location_name, latitude, longitude, location_precision, place_category, public_district)
-VALUES ('00000000-0000-0000-0000-00000000000a', '玉渊潭公园', 39.916620, 116.319932, 'exact', 'public_place', '海淀区'),
-       ('00000000-0000-0000-0000-00000000000a', '某某小区3号楼', 39.990001, 116.300001, 'exact', 'private_area', '海淀区');
+INSERT INTO public.observation_events (user_id, location_name, latitude, longitude, location_precision, place_category, public_township, public_district, public_city)
+VALUES ('00000000-0000-0000-0000-00000000000a', '玉渊潭公园', 39.916620, 116.319932, 'exact', 'public_place', '八里庄街道', '海淀区', '北京市'),
+       ('00000000-0000-0000-0000-00000000000a', '某某小区3号楼', 39.990001, 116.300001, 'exact', 'private_area', '学院路街道', '海淀区', '北京市'),
+       ('00000000-0000-0000-0000-00000000000a', '河边', 39.900001, 116.650001, 'exact', 'unknown', NULL, '通州区', '北京市'),
+       ('00000000-0000-0000-0000-00000000000a', '野外', 39.900001, 116.650001, 'exact', 'unknown', NULL, NULL, '北京市');
 SELECT id, location_name, place_category, public_location_name, public_latitude, public_longitude FROM public.observation_events ORDER BY id;
 
 SET ROLE anon;

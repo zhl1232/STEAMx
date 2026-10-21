@@ -21,7 +21,20 @@ export interface AmapPlaceCandidate {
 
 export interface PlacePrivacyResult {
   category: PlaceCategory
+  /** 街道/乡镇（高德 township） */
+  township: string | null
+  /** 区县 */
   district: string | null
+  /** 城市（直辖市取省名） */
+  city: string | null
+}
+
+/** 对外显示的地点文字：街道/乡镇附近 → 区县附近 → 城市 → 大概区域（与数据库触发器一致）。 */
+export function publicAreaLabel(place: Partial<Pick<PlacePrivacyResult, 'township' | 'district' | 'city'>> | null | undefined) {
+  const t = place?.township?.trim(); if (t) return `${t}附近`
+  const d = place?.district?.trim(); if (d) return `${d}附近`
+  const c = place?.city?.trim(); if (c) return c
+  return '大概区域'
 }
 
 const PUBLIC_TYPECODE_PREFIXES = ['1101', '1102']
@@ -78,7 +91,7 @@ export function applyPublicPlaceConfirmation(category: PlaceCategory, confirmed:
 interface AmapRegeoResponse {
   status?: string
   regeocode?: {
-    addressComponent?: { city?: string | string[]; district?: string | string[]; province?: string }
+    addressComponent?: { city?: string | string[]; district?: string | string[]; township?: string | string[]; province?: string | string[] }
     pois?: AmapPlaceCandidate[]
     aois?: AmapPlaceCandidate[]
   }
@@ -100,7 +113,7 @@ export async function resolvePlacePrivacy(input: {
   const key = process.env.AMAP_WEB_SERVICE_KEY || process.env.GAODE_WEB_SERVICE_KEY
   const { latitude, longitude } = input
   if (!key || latitude == null || longitude == null || !Number.isFinite(latitude) || !Number.isFinite(longitude)) {
-    return { category: classifyPlace({ locationName: input.locationName }) === 'private_area' ? 'private_area' : 'unknown', district: null }
+    return { category: classifyPlace({ locationName: input.locationName }) === 'private_area' ? 'private_area' : 'unknown', township: null, district: null, city: null }
   }
 
   const controller = new AbortController()
@@ -113,18 +126,20 @@ export async function resolvePlacePrivacy(input: {
     url.searchParams.set('radius', String(PRIVATE_RADIUS_M))
     url.searchParams.set('output', 'json')
     const response = await (input.fetchImpl ?? fetch)(url, { signal: controller.signal })
-    if (!response.ok) return { category: 'unknown', district: null }
+    if (!response.ok) return { category: 'unknown', township: null, district: null, city: null }
     const data = (await response.json()) as AmapRegeoResponse
-    if (data.status !== '1' || !data.regeocode) return { category: 'unknown', district: null }
+    if (data.status !== '1' || !data.regeocode) return { category: 'unknown', township: null, district: null, city: null }
     const component = data.regeocode.addressComponent ?? {}
-    const district = text(component.district) ?? text(component.city) ?? text(component.province)
+    const township = text(component.township)
+    const district = text(component.district)
+    const city = text(component.city) ?? text(component.province)
     const candidates = [
       ...(data.regeocode.aois ?? []).map((item) => ({ ...item, distance: item.distance ?? 0 })),
       ...(data.regeocode.pois ?? []),
     ]
-    return { category: classifyPlace({ locationName: input.locationName, candidates }), district }
+    return { category: classifyPlace({ locationName: input.locationName, candidates }), township, district, city }
   } catch {
-    return { category: 'unknown', district: null }
+    return { category: 'unknown', township: null, district: null, city: null }
   } finally {
     clearTimeout(timer)
   }

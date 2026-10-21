@@ -24,7 +24,7 @@ import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { applyPublicPlaceConfirmation, resolvePlacePrivacy } from '@/lib/geo/place-privacy'
 
-const OBSERVATION_INSERT_RETURNING = 'id, user_id, observed_at, media_urls, is_public, status, moderation_state, nature_topic, identification_status, location_precision, place_category, public_district, public_location_name, public_latitude, public_longitude, suggested_species_name, suggested_scientific_name, created_at, updated_at'
+const OBSERVATION_INSERT_RETURNING = 'id, user_id, observed_at, media_urls, is_public, status, moderation_state, nature_topic, identification_status, location_precision, place_category, public_township, public_district, public_city, public_location_name, public_latitude, public_longitude, suggested_species_name, suggested_scientific_name, created_at, updated_at'
 import { callRpc } from '@/lib/supabase/rpc'
 import { createModerationCase, moderateUserContent } from '@/lib/safety/server'
 import {
@@ -263,7 +263,9 @@ export async function POST(request: NextRequest) {
       return {
         mediaUrl: item.media_url,
         category: applyPublicPlaceConfirmation(resolved.category, item.place_public_confirmed),
+        township: resolved.township,
         district: resolved.district,
+        city: resolved.city,
       }
     }))
 
@@ -333,7 +335,7 @@ export async function POST(request: NextRequest) {
           if (!observation) continue
           const { error: privacyError } = await supabaseAdmin
             .from('observation_events')
-            .update({ place_category: entry.category, public_district: entry.district } as never)
+            .update({ place_category: entry.category, public_township: entry.township, public_district: entry.district, public_city: entry.city } as never)
             .eq('id', observation.id)
             .eq('user_id', user.id)
           if (privacyError) logger.warn('Failed to save observation place privacy', { error: privacyError, id: observation.id })

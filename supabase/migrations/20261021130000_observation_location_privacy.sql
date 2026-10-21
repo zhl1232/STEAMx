@@ -2,12 +2,13 @@
 -- 自然观察位置隐私分级（第 15 条）
 --
 -- 对正式库的影响（合并发布后会在 prod 执行）：
---   1. observation_events 新增 5 列：place_category（默认 'unknown'）、
---      public_district、public_location_name、public_latitude、public_longitude。
+--   1. observation_events 新增 7 列：place_category（默认 'unknown'）、
+--      public_township、public_district、public_city、public_location_name、public_latitude、public_longitude。
 --      新增列对已有行为 NULL / 'unknown'，**本迁移不回填、不改历史行的原有列**。
 --   2. 新增触发器：写入或修改位置/分类时，由数据库计算对外公开的位置：
 --        public_place  → 公开地点名 + 精确点
---        其他/未知     → 只公开区县名 + 约 500m 网格中心点
+--        其他/未知     → 只公开「街道/乡镇附近」（退而「区县附近」→ 城市 → 大概区域）
+--                         + 约 500m 网格中心点
 --        hidden        → 不公开
 --   3. 收回 anon / authenticated 对整张表的 SELECT，再按列授予
 --      （不含 location_name / latitude / longitude 三个原始列）。
@@ -20,7 +21,9 @@
 
 ALTER TABLE public.observation_events
   ADD COLUMN IF NOT EXISTS place_category text NOT NULL DEFAULT 'unknown',
+  ADD COLUMN IF NOT EXISTS public_township text,
   ADD COLUMN IF NOT EXISTS public_district text,
+  ADD COLUMN IF NOT EXISTS public_city text,
   ADD COLUMN IF NOT EXISTS public_location_name text,
   ADD COLUMN IF NOT EXISTS public_latitude numeric(9, 6),
   ADD COLUMN IF NOT EXISTS public_longitude numeric(9, 6);
@@ -61,7 +64,12 @@ BEGIN
     NEW.public_latitude := NEW.latitude;
     NEW.public_longitude := NEW.longitude;
   ELSE
-    NEW.public_location_name := COALESCE(NULLIF(btrim(NEW.public_district), ''), '大概区域');
+    NEW.public_location_name := COALESCE(
+      NULLIF(btrim(NEW.public_township), '') || '附近',
+      NULLIF(btrim(NEW.public_district), '') || '附近',
+      NULLIF(btrim(NEW.public_city), ''),
+      '大概区域'
+    );
     NEW.public_latitude := public.observation_fuzz_coordinate(NEW.latitude, 0.005);
     lng_step := CASE
       WHEN NEW.latitude IS NULL THEN NULL
@@ -75,7 +83,7 @@ $$;
 
 DROP TRIGGER IF EXISTS observation_events_public_location ON public.observation_events;
 CREATE TRIGGER observation_events_public_location
-  BEFORE INSERT OR UPDATE OF location_name, latitude, longitude, location_precision, place_category, public_district
+  BEFORE INSERT OR UPDATE OF location_name, latitude, longitude, location_precision, place_category, public_township, public_district, public_city
   ON public.observation_events
   FOR EACH ROW
   EXECUTE FUNCTION public.observation_compute_public_location();
@@ -87,7 +95,7 @@ GRANT SELECT (
   media_urls, is_public, status, created_at, updated_at, likes_count, comments_count, nature_topic,
   identification_status, observed_at_source, location_source, coordinate_system, lifecycle_stage, sex,
   moderation_state, suggested_species_name, suggested_scientific_name,
-  place_category, public_district, public_location_name, public_latitude, public_longitude
+  place_category, public_township, public_district, public_city, public_location_name, public_latitude, public_longitude
 ) ON public.observation_events TO anon, authenticated;
 
 -- 对外视图：列名与原表一致，位置换成公开值；security_invoker 让原有 RLS 照常生效。
@@ -102,7 +110,7 @@ SELECT
   location_precision, habitat, weather, notes, media_urls, is_public, status, created_at, updated_at,
   likes_count, comments_count, nature_topic, identification_status, observed_at_source, location_source,
   coordinate_system, lifecycle_stage, sex, moderation_state, suggested_species_name, suggested_scientific_name,
-  place_category, public_district
+  place_category, public_township, public_district, public_city
 FROM public.observation_events;
 
 GRANT SELECT ON public.observation_events_public TO anon, authenticated, service_role;

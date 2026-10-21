@@ -6,7 +6,7 @@
  * 对每条 observation_events（place_category='unknown' 且 public_district 为空）：
  *   1. 用高德逆地理编码（extensions=all）取区县与附近 POI/AOI 类型；
  *   2. 按 lib/geo/place-privacy.ts 同一规则分级（public_place / private_area / unknown）；
- *   3. --apply 时以 service_role 写回 place_category、public_district，
+ *   3. --apply 时以 service_role 写回 place_category、public_township、public_district、public_city，
  *      由数据库触发器重算 public_location_name / public_latitude / public_longitude。
  * 不修改 location_name / latitude / longitude 等原始列。
  *
@@ -48,11 +48,13 @@ async function regeo(key, lat, lng) {
   url.searchParams.set('radius', String(PRIVATE_RADIUS_M))
   const response = await fetch(url)
   const data = await response.json()
-  if (data.status !== '1' || !data.regeocode) return { district: null, candidates: [] }
+  if (data.status !== '1' || !data.regeocode) return { township: null, district: null, city: null, candidates: [] }
   const c = data.regeocode.addressComponent ?? {}
   const pick = (v) => (typeof v === 'string' && v.trim() ? v.trim() : null)
   return {
-    district: pick(c.district) ?? pick(c.city) ?? pick(c.province),
+    township: pick(c.township),
+    district: pick(c.district),
+    city: pick(c.city) ?? pick(c.province),
     candidates: [...(data.regeocode.aois ?? []).map((a) => ({ ...a, distance: a.distance ?? 0 })), ...(data.regeocode.pois ?? [])],
   }
 }
@@ -78,15 +80,15 @@ async function main() {
   const summary = { public_place: 0, private_area: 0, unknown: 0 }
   for (const row of rows) {
     const located = row.latitude != null && row.longitude != null
-    const geo = located ? await regeo(AMAP_WEB_SERVICE_KEY, row.latitude, row.longitude) : { district: null, candidates: [] }
+    const geo = located ? await regeo(AMAP_WEB_SERVICE_KEY, row.latitude, row.longitude) : { township: null, district: null, city: null, candidates: [] }
     const category = classifyPlace({ locationName: row.location_name, candidates: geo.candidates })
     summary[category] += 1
-    console.log(`#${row.id}\t${category}\t${geo.district ?? '-'}`)
+    console.log(`#${row.id}\t${category}\t${geo.township ?? '-'}\t${geo.district ?? '-'}\t${geo.city ?? '-'}`)
     if (apply) {
       const response = await fetch(`${SUPABASE_URL}/rest/v1/observation_events?id=eq.${row.id}`, {
         method: 'PATCH',
         headers: { ...headers, Prefer: 'return=minimal' },
-        body: JSON.stringify({ place_category: category, public_district: geo.district }),
+        body: JSON.stringify({ place_category: category, public_township: geo.township, public_district: geo.district, public_city: geo.city }),
       })
       if (!response.ok) console.error(`#${row.id} 写入失败 ${response.status}`)
     }

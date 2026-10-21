@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import { ShieldCheck } from "lucide-react"
 
+import { publicAreaLabel } from "@/lib/geo/place-privacy"
+
 type PlaceCategory = "public_place" | "private_area" | "unknown"
 
 interface ObservationPlacePrivacyHintProps {
@@ -21,7 +23,7 @@ export function ObservationPlacePrivacyHint({
   confirmedPublic,
   onConfirmedPublicChange,
 }: ObservationPlacePrivacyHintProps) {
-  const [result, setResult] = useState<{ key: string; category: PlaceCategory; district: string | null } | null>(null)
+  const [result, setResult] = useState<{ key: string; category: PlaceCategory; township: string | null; district: string | null; city: string | null } | null>(null)
   const key = latitude && longitude ? `${latitude},${longitude},${locationName.trim()}` : ""
 
   useEffect(() => {
@@ -32,7 +34,7 @@ export function ObservationPlacePrivacyHint({
       fetch(`/api/geo/place-privacy?${params}`, { signal: controller.signal })
         .then((response) => (response.ok ? response.json() : null))
         .then((data) => {
-          if (data && typeof data.category === "string") setResult({ key, category: data.category, district: data.district ?? null })
+          if (data && typeof data.category === "string") setResult({ key, category: data.category, township: data.township ?? null, district: data.district ?? null, city: data.city ?? null })
         })
         .catch(() => {})
     }, 400)
@@ -45,7 +47,7 @@ export function ObservationPlacePrivacyHint({
   if (!key) return null
   const current = result?.key === key ? result : null
   const category: PlaceCategory = current?.category ?? "unknown"
-  const area = current?.district ? `「${current.district}」` : "大概区域"
+  const area = `「${publicAreaLabel(current)}」`
 
   return (
     <div
@@ -57,10 +59,10 @@ export function ObservationPlacePrivacyHint({
         {category === "public_place"
           ? "公共场所，会公开地点名称和位置"
           : category === "private_area"
-            ? `这里像是家附近，只显示${area}`
+            ? `这里像是家附近，公开时只显示${area}，精确位置只有你自己能看到`
             : confirmedPublic
               ? "已确认是公共场所，会公开地点名称和位置"
-              : `只显示${area}，精确位置只有你自己能看到`}
+              : `公开时只显示${area}，精确位置只有你自己能看到`}
       </p>
       {category === "unknown" ? (
         <label className="mt-2 flex min-h-9 items-center gap-2">
