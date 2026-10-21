@@ -16,6 +16,7 @@ export default defineConfig({
   use: {
     baseURL,
     trace: 'on-first-retry',
+    launchOptions: { chromiumSandbox: true },
     ...(browserChannel ? { channel: browserChannel } : {}),
   },
   projects: [
