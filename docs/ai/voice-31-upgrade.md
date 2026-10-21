@@ -25,7 +25,7 @@
 
 任务握手完成才发送数据；TTS 以一致 UUID 运行、追加和结束，取消通知任务并关闭连接。ASR 等待最终结果，按句子 ID 去重和排序，不将中间识别或心跳当最终文本。连接、整体超时、提前关闭和空流均失败退出。
 
-`transcribeTutorSpeechPcm16` 已接受 `signal?: AbortSignal`，普通转写和课程控制端点传入 `request.signal`；task 与 legacy 路径都传递取消信号。客户端停止会丢弃迟到结果、释放对应会话，但不能保证撤销供应商已发生的费用。
+`transcribeTutorSpeechPcm16` 已接受 `signal?: AbortSignal`，普通转写端点传入 `request.signal`；task 与 legacy 路径都传递取消信号。客户端停止会丢弃迟到结果、释放对应会话，但不能保证撤销供应商已发生的费用。
 
 当聊天正文仍在生成时，单独“停止朗读”不关闭整条聊天请求；已启动的聊天 TTS 可能继续到任务结束。整段清洗边界仍保留，不为逐 token 朗读放行推理、控制标记或工具 JSON。
 
@@ -33,7 +33,7 @@
 
 ## 共享预算与发布依赖
 
-全应用共享预算由数据库 RPC 原子准入：TTS 每滚动 60 秒 180 次、ASR 600 次。它不覆盖其他应用对同一供应商账户的调用，也不代替端点的每用户限制。课程控制自己的准入规则只在 [手机搭建](../courses/mobile-building-experience.md) 维护。
+全应用共享预算由数据库 RPC 原子准入：TTS 每滚动 60 秒 180 次、ASR 600 次。它不覆盖其他应用对同一供应商账户的调用，也不代替端点的每用户限制。课程控制已改为端侧固定口令，不再消耗此 ASR 预算；资格续查只在 [手机搭建](../courses/mobile-building-experience.md) 维护。
 
 所需迁移为 `20261013090000_tutor_speech_budget.sql`。该文件已进入本核对基线的 Release 白名单，详情见 [运行时迁移配置快照](../releases/2026-10-13/runtime-migrations.md)；不再写“白名单不包含”。缺少限流 RPC 时语音失败关闭，不能用移除预算检查来恢复服务。实际执行状态仍须核验。
 
@@ -43,7 +43,15 @@
 
 mock、PGlite、协议构造、缓存和生命周期测试只能证明相应隔离行为。当前待核验：业务空间与新模型连通、真实额度/账单、默认及会员音色听感、儿童与家长短命令准确率、端到端延迟、桌面/手机播放和多实例预算。
 
-分别验证自动朗读、停止、重播、录音开始结束、课内暂停/退出和会员过期回退；保留明确按钮操作，不宣称已完成持续开放语音对话、离线识别或本地唤醒。
+分别验证自动朗读、停止、重播、录音开始结束、课内暂停/退出和会员过期回退；保留明确按钮操作，小迪问答不宣称已完成持续开放语音对话、离线识别或本地唤醒；课程端侧口令是独立有限协议。
+
+## 课程端侧固定口令资源
+
+课程监听直接替换为 sherpa-onnx v1.12.15（Apache-2.0）WASM KWS，中文模型为 `sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01`、epoch12/avg2/chunk16/left64，encoder/decoder/joiner 均选 INT8。权重与 tokens 原始字节、SHA-256 在 `public/courses/kws/v1/model-source.json`，生成运行包摘要在 `assets.js`。
+
+实际下载检查了模型包内 README 的 Apache-2.0 声明，保留原文及完整运行时依赖 notices 于 [资源 NOTICE](../../public/courses/kws/v1/NOTICE.md)。该模型未包含外部英语 lexicon；不将框架许可直接推定为其他模型许可，未采用 #3802 中仍有附带资源疑问的 zh-en 模型。资源随普通 PR 置于同源 public 目录，不新增 OSS/CDN/第三方服务；合并/部署需要另行授权。
+
+重建：先取得源提交 `b68e69dd1a41dff6bcb8d31bf91dd3ba6b0dc568`（v1.12.15）、官方模型压缩包并解压；安装 Emscripten 3.1.53/CMake。设 `KWS_SOURCE`、`KWS_MODEL`、`EMSCRIPTEN` 后运行 `bash scripts/build-building-kws.sh`。脚本校验模型摘要、限定两路编译，并复用上游 checksum-pinned CMake 依赖；构建输出不自行发布。正常应用构建使用已附带的运行包，无需在线下载模型或安装编译器。
 
 ## 协议参考
 
@@ -51,3 +59,5 @@ mock、PGlite、协议构造、缓存和生命周期测试只能证明相应隔�
 
 - [TTS WebSocket](https://help.aliyun.com/zh/model-studio/qwen-audio-tts-websocket-api)、[客户端事件](https://help.aliyun.com/zh/model-studio/qwen-audio-tts-client-events)、[服务端事件](https://help.aliyun.com/zh/model-studio/qwen-audio-tts-server-events)、[音色](https://help.aliyun.com/zh/model-studio/qwen-audio-tts-voice-list)。
 - [ASR 客户端](https://help.aliyun.com/zh/model-studio/qwen-audio-asr-streaming-client-events)、[ASR 服务端](https://help.aliyun.com/zh/model-studio/qwen-audio-asr-streaming-server-events)、[地域](https://help.aliyun.com/zh/model-studio/regions)、[北京接入](https://help.aliyun.com/zh/model-studio/beijing-access-information)。
+
+运行包（含 notices）约 16.2 MB，其中模型数据 5,025,604 字节、WASM 10,609,441 字节；测试 WAV 约 9.1 MB，不进入模型下载包。同模型 FP32 三份权重共 13,081,319 字节，INT8 共 5,023,977 字节；FP32 对照没有解决目标短口令漏检，当前保留小型 INT8，识别验收阻碍见课程专题及草稿 PR。

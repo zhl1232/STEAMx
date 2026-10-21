@@ -1,240 +1,163 @@
-import { describe, expect, it, vi } from 'vitest'
-import {
-  createBuildingVoiceCapture,
-  createBuildingVoiceSegmenter,
-  type BuildingVoiceAudioEnvironment,
-} from './building-voice-capture'
+import { readFileSync } from 'node:fs'
+import { runInNewContext } from 'node:vm'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { createBuildingVoiceCapture, type BuildingVoiceAudioEnvironment } from './building-voice-capture'
 
-function tone(ms: number, amplitude = 0.1, sampleRate = 16_000) {
-  return Float32Array.from({ length: Math.round(ms * sampleRate / 1_000) }, (_, index) =>
-    amplitude * Math.sin(2 * Math.PI * 400 * index / sampleRate))
+function fixture() {
+  const track = Object.assign(new EventTarget(), { readyState: 'live', muted: false, stop: vi.fn() })
+  const stream = { getTracks: () => [track], getAudioTracks: () => [track] } as unknown as MediaStream
+  const node = { connect: vi.fn(), disconnect: vi.fn() }
+  const port = () => ({ postMessage: vi.fn(), close: vi.fn(), onmessage: null as ((event: { data: unknown }) => void) | null })
+  const worklet = { ...node, port: port(), onprocessorerror: null }
+  const worker = { terminate: vi.fn(), onmessage: null as ((event: { data: unknown }) => void) | null, onerror: null,
+    postMessage: vi.fn((message: { type: string }) => { if (message.type === 'init') queueMicrotask(() => worker.onmessage?.({ data: { type: 'ready' } })) }) }
+  const context = Object.assign(new EventTarget(), { state: 'running', sampleRate: 48000, destination: {},
+    audioWorklet: { addModule: vi.fn().mockResolvedValue(undefined) }, resume: vi.fn().mockResolvedValue(undefined),
+    close: vi.fn().mockResolvedValue(undefined), createMediaStreamSource: vi.fn(() => node) })
+  const env = { createAudioContext: () => context, getUserMedia: vi.fn().mockResolvedValue(stream),
+    createWorker: vi.fn(() => worker), createWorklet: () => worklet, createChannel: () => ({ port1: port(), port2: port() }) } as unknown as BuildingVoiceAudioEnvironment
+  const controller = new AbortController()
+  const onCommand = vi.fn()
+  const onError = vi.fn()
+  const options = { signal: controller.signal, authorized: Promise.resolve(), onCommand, onError }
+  return { track, stream, worker, worklet, context, env, controller, onCommand, onError, options }
 }
-
-function feed(segmenter: ReturnType<typeof createBuildingVoiceSegmenter>, samples: Float32Array, chunkSize = 2_048) {
-  for (let index = 0; index < samples.length; index += chunkSize) segmenter.push(samples.subarray(index, index + chunkSize))
-}
-
-function segmenterFixture(sampleRate = 16_000) {
-  const onSegment = vi.fn()
-  const segmenter = createBuildingVoiceSegmenter({ sampleRate, onSegment })
-  segmenter.setListening(true)
-  return { segmenter, onSegment }
-}
-
-describe('building voice local segmentation', () => {
-  it('never emits quiet background or a short transient as a paid recognition request', () => {
-    const { segmenter, onSegment } = segmenterFixture()
-    feed(segmenter, tone(30_000, 0.003))
-    feed(segmenter, tone(80))
-    feed(segmenter, tone(2_000, 0))
-    expect(onSegment).not.toHaveBeenCalled()
-    feed(segmenter, tone(400))
-    feed(segmenter, tone(660, 0))
-    expect(onSegment).toHaveBeenCalledOnce()
+beforeEach(() => vi.useFakeTimers())
+afterEach(() => vi.useRealTimers())
+describe('AudioWorklet + Worker capture', () => {
+  it('waits for eligibility before mic/model and closes resources on abort', async () => {
+    const f = fixture()
+    let authorize!: () => void
+    const pending = createBuildingVoiceCapture({ ...f.options, authorized: new Promise((resolve) => { authorize = resolve }) }, f.env)
+    expect(f.context.resume).toHaveBeenCalledOnce()
+    expect(f.env.getUserMedia).not.toHaveBeenCalled()
+    authorize()
+    const capture = await pending
+    expect(f.env.createWorker).toHaveBeenCalledOnce()
+    capture.setListening(true)
+    expect(f.worklet.port.postMessage).toHaveBeenLastCalledWith({ type: 'state', epoch: 1, enabled: true })
+    f.controller.abort()
+    await capture.close()
+    expect(f.track.stop).toHaveBeenCalledOnce()
+    expect(f.worker.terminate).toHaveBeenCalledOnce()
+    expect(f.context.close).toHaveBeenCalledOnce()
+    expect(vi.getTimerCount()).toBe(0)
   })
-
-  it('keeps the quiet beginning before the amplitude gate so the wake name is not clipped', () => {
-    const { segmenter, onSegment } = segmenterFixture()
-    const beginning = tone(300, 0.006)
-    feed(segmenter, beginning, 153)
-    feed(segmenter, tone(400), 997)
-    feed(segmenter, tone(640, 0), 333)
-    expect(onSegment).not.toHaveBeenCalled()
-    feed(segmenter, tone(20, 0))
-    expect(onSegment).toHaveBeenCalledOnce()
-    const captured: Float32Array = onSegment.mock.calls[0][0]
-    expect(captured.length).toBe(16_000 * 1.36)
-    expect(captured.slice(0, beginning.length)).toEqual(beginning)
+  it('rejects unsupported AudioWorklet without microphone access', async () => {
+    const f = fixture()
+    Object.assign(f.context, { audioWorklet: undefined })
+    await expect(createBuildingVoiceCapture(f.options, f.env)).rejects.toThrow('不支持')
+    expect(f.env.getUserMedia).not.toHaveBeenCalled()
+    expect(f.context.close).toHaveBeenCalledOnce()
   })
-
-  it('keeps a natural short pause within the same utterance', () => {
-    const { segmenter, onSegment } = segmenterFixture()
-    feed(segmenter, tone(240))
-    feed(segmenter, tone(400, 0))
-    feed(segmenter, tone(240))
-    expect(onSegment).not.toHaveBeenCalled()
-    feed(segmenter, tone(660, 0))
-    expect(onSegment).toHaveBeenCalledOnce()
-    expect(onSegment.mock.calls[0][0].length).toBe(16_000 * 1.54)
+  it('releases a late permission grant after cancellation', async () => {
+    const f = fixture()
+    let grant!: (stream: MediaStream) => void
+    vi.mocked(f.env.getUserMedia).mockImplementation(() => new Promise((resolve) => { grant = resolve }))
+    const pending = createBuildingVoiceCapture(f.options, f.env)
+    await Promise.resolve()
+    f.controller.abort()
+    grant(f.stream)
+    await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
+    expect(f.track.stop).toHaveBeenCalledOnce()
   })
-
-  it('bounds continuous speech at eight seconds and applies backpressure before another audio frame', () => {
-    const { segmenter, onSegment } = segmenterFixture(48_000)
-    feed(segmenter, tone(300, 0, 48_000))
-    // One callback contains more than one potential segment: only the first is emitted.
-    segmenter.push(tone(18_000, 0.1, 48_000))
-    expect(onSegment).toHaveBeenCalledOnce()
-    expect(onSegment.mock.calls[0][0].length).toBe(48_000 * 8)
-    feed(segmenter, tone(2_000, 0.1, 48_000))
-    expect(onSegment).toHaveBeenCalledOnce()
-    segmenter.setListening(true)
-    feed(segmenter, tone(400, 0.1, 48_000))
-    feed(segmenter, tone(660, 0, 48_000))
-    expect(onSegment).toHaveBeenCalledOnce()
-    feed(segmenter, tone(400, 0.1, 48_000))
-    feed(segmenter, tone(660, 0, 48_000))
-    expect(onSegment).toHaveBeenCalledTimes(2)
+  it.each(['ended', 'mute', 'suspended', 'stalled'])('fails visibly on actual %s interruption', async (event) => {
+    const f = fixture()
+    const capture = await createBuildingVoiceCapture(f.options, f.env)
+    if (event === 'suspended') { f.context.state = 'suspended'; f.context.dispatchEvent(new Event('statechange')) }
+    else if (event === 'stalled') { vi.advanceTimersByTime(6000) }
+    else { f.track.dispatchEvent(new Event(event)) }
+    expect(f.onError).toHaveBeenCalledOnce()
+    expect(f.track.stop).toHaveBeenCalledOnce()
+    await capture.close()
   })
-
-  it('does not turn persistent noise into repeated uploads after recognition resumes', () => {
-    const { segmenter, onSegment } = segmenterFixture()
-    feed(segmenter, tone(12_000))
-    expect(onSegment).toHaveBeenCalledOnce()
-    segmenter.setListening(true)
-    for (let index = 0; index < 4; index += 1) feed(segmenter, tone(10_000))
-    feed(segmenter, tone(400, 0))
-    feed(segmenter, tone(1_000))
-    expect(onSegment).toHaveBeenCalledOnce()
-    feed(segmenter, tone(660, 0))
-    feed(segmenter, tone(400))
-    feed(segmenter, tone(660, 0))
-    expect(onSegment).toHaveBeenCalledTimes(2)
+  it('does not mistake a delayed UI timer for stopped audio on return', async () => {
+    const f = fixture()
+    const capture = await createBuildingVoiceCapture(f.options, f.env)
+    vi.setSystemTime(Date.now() + 60_000)
+    capture.checkHealth()
+    expect(f.onError).not.toHaveBeenCalled()
+    vi.advanceTimersByTime(2000)
+    f.worklet.port.onmessage?.({ data: { type: 'heartbeat', at: Date.now() } })
+    vi.advanceTimersByTime(2000)
+    expect(f.onError).not.toHaveBeenCalled()
+    await capture.close()
   })
-
-  it('throws away an unfinished utterance and pre-roll when navigation resets it', () => {
-    const { segmenter, onSegment } = segmenterFixture()
-    feed(segmenter, tone(500))
-    segmenter.reset()
-    feed(segmenter, tone(1_000, 0))
-    expect(onSegment).not.toHaveBeenCalled()
-    segmenter.setListening(false)
-    feed(segmenter, tone(1_000))
-    segmenter.setListening(true)
-    feed(segmenter, tone(1_000, 0))
-    expect(onSegment).not.toHaveBeenCalled()
+  it('closes after WASM failure and does not upload or fall back', async () => {
+    const f = fixture()
+    f.worker.postMessage.mockImplementation((message) => {
+      if (message.type === 'init') queueMicrotask(() => f.worker.onmessage?.({ data: { type: 'error' } }))
+    })
+    await expect(createBuildingVoiceCapture(f.options, f.env)).rejects.toBeDefined()
+    expect(f.onError).toHaveBeenCalledOnce()
+    expect(f.worker.terminate).toHaveBeenCalledOnce()
+  })
+  it('drops stale epochs, expired results, and anything received while disabled', async () => {
+    const f = fixture()
+    const capture = await createBuildingVoiceCapture(f.options, f.env)
+    capture.setListening(true)
+    const observation = { rejected: false, speechStart: 0.3, speechEnd: 1.5, duration: 2.16,
+      hits: [{ keyword: 'wake', start_time: 0, tokens: Array(4).fill('token'), timestamps: [0.32, 0.4, 0.56, 0.64] }, { keyword: 'next', start_time: 0, tokens: Array(6).fill('token'), timestamps: [0.8, 0.92, 1.04, 1.16, 1.28, 1.4] }] }
+    const emit = (epoch: number, capturedAt = Date.now()) => f.worker.onmessage?.({ data: { type: 'result', observation, epoch, capturedAt } })
+    emit(1)
+    expect(f.onCommand).toHaveBeenCalledExactlyOnceWith('next')
+    capture.reset()
+    emit(1)
+    emit(2, Date.now() - 2001)
+    capture.setListening(false)
+    emit(3)
+    expect(f.onCommand).toHaveBeenCalledOnce()
+    await capture.close()
   })
 })
 
-function deferred<T>() {
-  let resolve!: (value: T) => void
-  const promise = new Promise<T>((resolvePromise) => { resolve = resolvePromise })
-  return { promise, resolve }
-}
-
-function audioFixture(sampleRate = 48_000) {
-  const track = Object.assign(new EventTarget(), { stop: vi.fn() })
-  const stream = { getTracks: () => [track] } as unknown as MediaStream
-  const source = { connect: vi.fn(), disconnect: vi.fn() }
-  const processor = { connect: vi.fn(), disconnect: vi.fn(), onaudioprocess: null as ((event: AudioProcessingEvent) => void) | null }
-  const gain = {
-    gain: { setValueAtTime: vi.fn(), linearRampToValueAtTime: vi.fn() }, connect: vi.fn(), disconnect: vi.fn(),
-  }
-  const oscillator = {
-    frequency: { value: 0 }, connect: vi.fn(), disconnect: vi.fn(), start: vi.fn(), stop: vi.fn(), onended: null,
-  }
-  const context = Object.assign(new EventTarget(), {
-    sampleRate,
-    state: 'suspended',
-    currentTime: 1,
-    destination: {},
-    resume: vi.fn(async () => { context.state = 'running' }),
-    close: vi.fn(async () => { context.state = 'closed' }),
-    createMediaStreamSource: vi.fn(() => source),
-    createScriptProcessor: vi.fn(() => processor),
-    createOscillator: vi.fn(() => oscillator),
-    createGain: vi.fn(() => gain),
+function workletFixture(sampleRate = 16000) {
+  type Processor = { buffer: Float32Array; pre: Float32Array;
+    port: { onmessage: (event: { data: unknown }) => void };
+    process: (inputs: Float32Array[][], outputs: Float32Array[][]) => boolean }
+  let Constructor!: new () => Processor
+  runInNewContext(readFileSync('public/courses/kws/v1/capture-worklet.js', 'utf8'), {
+    AudioWorkletProcessor: class { port = { onmessage: null, postMessage: vi.fn() } },
+    sampleRate, Float32Array, Date,
+    registerProcessor: (_name: string, value: new () => Processor) => { Constructor = value },
   })
-  const getUserMedia = vi.fn().mockResolvedValue(stream)
-  const environment: BuildingVoiceAudioEnvironment = {
-    getUserMedia,
-    createAudioContext: vi.fn(() => context as unknown as AudioContext),
-  }
-  const controller = new AbortController()
-  const onSegment = vi.fn()
-  const onError = vi.fn()
-  function process(samples: Float32Array) {
-    const output = new Float32Array(samples.length).fill(1)
-    processor.onaudioprocess?.({
-      inputBuffer: { getChannelData: () => samples },
-      outputBuffer: { numberOfChannels: 1, getChannelData: () => output },
-    } as unknown as AudioProcessingEvent)
-    return output
-  }
-  return { track, stream, source, processor, context, environment, getUserMedia, controller, onSegment, onError, process, oscillator, gain }
-}
-
-describe('building microphone lifecycle', () => {
-  it('reuses a single mic/context across segments and outputs muted 16kHz mono PCM16', async () => {
-    const test = audioFixture()
-    const capture = await createBuildingVoiceCapture({ signal: test.controller.signal, onSegment: test.onSegment, onError: test.onError }, test.environment)
-    capture.setListening(true)
-    const output = test.process(tone(400, 0.1, 48_000))
-    expect(output.every((sample) => sample === 0)).toBe(true)
-    test.process(tone(660, 0, 48_000))
-    expect(test.onSegment).toHaveBeenCalledOnce()
-    const recording = test.onSegment.mock.calls[0][0]
-    expect(recording.durationMs).toBe(1_060)
-    expect(recording.blob.type).toBe('audio/pcm')
-    expect(recording.blob.size).toBe(16_960 * 2)
-    const pcm = new Int16Array(await recording.blob.arrayBuffer())
-    expect(Math.max(...pcm)).toBeGreaterThan(3_000)
-    capture.playCue()
-    expect(test.oscillator.start).toHaveBeenCalledOnce()
-    expect(test.oscillator.stop).toHaveBeenCalledWith(1.12)
-    test.process(tone(1_000, 0.1, 48_000))
-    test.process(tone(660, 0, 48_000))
-    expect(test.onSegment).toHaveBeenCalledOnce()
-    capture.setListening(true)
-    test.process(tone(400, 0.1, 48_000))
-    test.process(tone(660, 0, 48_000))
-    expect(test.onSegment).toHaveBeenCalledTimes(2)
-    expect(test.getUserMedia).toHaveBeenCalledOnce()
-    expect(test.environment.createAudioContext).toHaveBeenCalledOnce()
-    await capture.close()
-    await capture.close()
-    expect(test.track.stop).toHaveBeenCalledOnce()
-    expect(test.context.close).toHaveBeenCalledOnce()
-    expect(test.processor.onaudioprocess).toBeNull()
-  })
-
-  it('stops the context immediately on abort and releases a late permission result', async () => {
-    const test = audioFixture()
-    const permission = deferred<MediaStream>()
-    test.getUserMedia.mockReturnValue(permission.promise)
-    const pending = createBuildingVoiceCapture({ signal: test.controller.signal, onSegment: test.onSegment, onError: test.onError }, test.environment)
-    const rejected = expect(pending).rejects.toMatchObject({ name: 'AbortError' })
-    test.controller.abort()
-    expect(test.context.close).toHaveBeenCalledOnce()
-    permission.resolve(test.stream)
-    await rejected
-    expect(test.track.stop).toHaveBeenCalledOnce()
-    expect(test.onSegment).not.toHaveBeenCalled()
-    expect(test.onError).not.toHaveBeenCalled()
-  })
-
-  it('releases an acquired microphone and context if browser audio setup fails', async () => {
-    const test = audioFixture()
-    test.context.createScriptProcessor.mockImplementation(() => { throw new Error('unsupported processor') })
-    await expect(createBuildingVoiceCapture({ signal: test.controller.signal, onSegment: test.onSegment, onError: test.onError }, test.environment)).rejects.toThrow('unsupported processor')
-    expect(test.track.stop).toHaveBeenCalledOnce()
-    expect(test.context.close).toHaveBeenCalledOnce()
-    expect(test.source.disconnect).toHaveBeenCalledOnce()
-  })
-
-  it.each(['track', 'context'])('fails closed when the %s is interrupted, and never restarts itself', async (target) => {
-    const test = audioFixture()
-    const capture = await createBuildingVoiceCapture({ signal: test.controller.signal, onSegment: test.onSegment, onError: test.onError }, test.environment)
-    capture.setListening(true)
-    if (target === 'track') test.track.dispatchEvent(new Event('ended'))
-    else {
-      test.context.state = 'suspended'
-      test.context.dispatchEvent(new Event('statechange'))
+  const worklet = new Constructor()
+  const worker = { postMessage: vi.fn(), onmessage: null as unknown as (event: { data: { type: string } }) => void }
+  worklet.port.onmessage({ data: { type: 'connect', port: worker } })
+  worklet.port.onmessage({ data: { type: 'state', epoch: 1, enabled: true } })
+  const feed = (ms: number, amplitude = 0) => {
+    for (let i = 0; i < sampleRate * ms / 1000; i += 128) {
+      const input = Float32Array.from({ length: 128 }, (_, n) => amplitude * Math.sin(2 * Math.PI * 440 * (i + n) / sampleRate))
+      worklet.process([[input]], [[new Float32Array(128)]])
     }
-    expect(test.onError).toHaveBeenCalledOnce()
-    expect(test.track.stop).toHaveBeenCalledOnce()
-    expect(test.context.close).toHaveBeenCalledOnce()
-    capture.setListening(true)
-    test.process(tone(2_000, 0.1, 48_000))
-    expect(test.onSegment).not.toHaveBeenCalled()
-    await capture.close()
-    expect(test.onError).toHaveBeenCalledOnce()
+  }
+  return { worklet, worker, feed }
+}
+describe('bounded capture processor', () => {
+  it('requires quiet arming, complete speech and trailing silence; enforces one in-flight segment', () => {
+    const { worklet, worker, feed } = workletFixture()
+    feed(1000, 0.1) // session starts mid-sentence, rejected
+    feed(1000)
+    feed(1000, 0.1)
+    feed(800)
+    expect(worker.postMessage).toHaveBeenCalledOnce()
+    expect(worker.postMessage.mock.calls[0][0].samples.length).toBeLessThanOrEqual(80000)
+    for (let i = 0; i < 10; i++) { feed(1000); feed(1000, 0.1) }
+    expect(worker.postMessage).toHaveBeenCalledOnce()
+    worker.onmessage({ data: { type: 'ack' } })
+    feed(1000); feed(1000, 0.1); feed(800)
+    expect(worker.postMessage).toHaveBeenCalledTimes(2)
+    expect(worklet.buffer.length).toBe(80000)
   })
-
-  it('does not even acquire audio for a previously cancelled session', async () => {
-    const test = audioFixture()
-    test.controller.abort()
-    await expect(createBuildingVoiceCapture({ signal: test.controller.signal, onSegment: test.onSegment, onError: test.onError }, test.environment)).rejects.toMatchObject({ name: 'AbortError' })
-    expect(test.environment.createAudioContext).not.toHaveBeenCalled()
-    expect(test.getUserMedia).not.toHaveBeenCalled()
+  it('rejects duration cuts, continuous noise and reset fragments instead of executing a prefix', () => {
+    const { worklet, worker, feed } = workletFixture(48000)
+    feed(1000); feed(30000, 0.1); feed(1000)
+    expect(worker.postMessage).not.toHaveBeenCalled()
+    feed(700, 0.1)
+    worklet.port.onmessage({ data: { type: 'state', epoch: 2, enabled: true } })
+    feed(1000)
+    expect(worker.postMessage).not.toHaveBeenCalled()
+    expect(worklet.buffer.length).toBe(240000)
+    expect(worklet.pre.length).toBe(14400)
   })
 })

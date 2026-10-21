@@ -162,6 +162,14 @@ const nextConfig = {
         ],
       },
       {
+        // KWS runtime/model URLs are versioned together; never replace a shipped version in place.
+        source: '/courses/kws/v1/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+          { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
+        ],
+      },
+      {
         source: '/gomoku-rapfi/:path*',
         headers: [
           {

@@ -62,7 +62,7 @@ export function BuildingVoiceControls({ tutorOpen, onCloseTutor, ...navigation }
 
   if (navigation.stepCount <= 0) return null
 
-  const waiting = status === 'starting' || status === 'processing'
+  const waiting = status === 'starting'
   const canResume = status === 'paused' || status === 'error'
   const feedback = status === 'paused' && pauseReason ? pauseReason : control.feedback
 
@@ -72,8 +72,8 @@ export function BuildingVoiceControls({ tutorOpen, onCloseTutor, ...navigation }
         <div className="flex min-w-0 flex-1 items-center gap-2">
           {waiting ? <LoaderCircle aria-hidden="true" className="h-4 w-4 shrink-0 animate-spin text-muted-foreground" /> : <Mic aria-hidden="true" className={`h-4 w-4 shrink-0 ${status === 'listening' ? 'text-emerald-600' : 'text-muted-foreground'}`} />}
           <div className="min-w-0">
-            <p className="text-sm font-medium">语音搭建{status === 'listening' ? ' · 正在听' : status === 'processing' ? ' · 识别中' : canResume ? ' · 已暂停' : ''}</p>
-            {status === 'idle' ? <p className="text-xs text-muted-foreground">会员权益 · 目前免费体验</p> : null}
+            <p className="text-sm font-medium">语音搭建{status === 'listening' ? ' · 正在听' : canResume ? ' · 已暂停' : ''}</p>
+            {status === 'idle' ? <p className="text-xs text-muted-foreground">会员权益 · 目前免费体验 · 设备内识别</p> : null}
           </div>
         </div>
         {status === 'idle' || canResume ? (
