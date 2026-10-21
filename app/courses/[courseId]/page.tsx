@@ -6,6 +6,7 @@ import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import { JsonLd } from "@/components/seo/json-ld";
 import { CourseLessonCatalog } from "@/components/features/courses/course-lesson-catalog";
 import { CourseShareButton } from "@/components/features/courses/course-share-button";
+import { ContinueLastLesson } from "@/components/features/courses/continue-last-lesson";
 import { CourseSuccessorBanner } from "@/components/features/courses/course-successor-banner";
 import { ContextualStoreProducts } from "@/components/store/contextual-store-products";
 import { GomokuBoard } from "@/components/features/courses/gomoku-board";
@@ -253,6 +254,8 @@ export default async function CourseDetailPage({ params }: PageProps) {
                                         </Link>
                                     </Button>
                                 ) : null}
+
+                                <ContinueLastLesson courseId={course.id} lessonIds={course.lessons.map((l) => l.id)} />
 
                                 {isBuildingCatalog ? (
                                     <Button

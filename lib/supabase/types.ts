@@ -1933,6 +1933,15 @@ export interface Database {
           created_at: string
           updated_at: string
           moderation_state: string
+          likes_count?: number
+          comments_count?: number
+          place_category?: string
+          public_township?: string | null
+          public_district?: string | null
+          public_city?: string | null
+          public_location_name?: string | null
+          public_latitude?: number | null
+          public_longitude?: number | null
         }
         Insert: {
           id?: number
@@ -3972,7 +3981,84 @@ export interface Database {
       }
     }
     Views: {
-      [_ in never]: never
+      /** 对外：位置列已换成公开值（公共场所精确，其余为区县 + 约 500m 模糊点） */
+      observation_events_public: {
+        Row: {
+          id: number
+          user_id: string
+          project_id: number | null
+          challenge_id: number | null
+          observed_at: string
+          location_name: string
+          latitude: number | null
+          longitude: number | null
+          location_precision: string | null
+          habitat: string | null
+          weather: string | null
+          notes: string | null
+          media_urls: string[]
+          is_public: boolean
+          status: string
+          suggested_scientific_name: string | null
+          suggested_species_name: string | null
+          nature_topic: string | null
+          identification_status: string
+          observed_at_source: string | null
+          location_source: string | null
+          coordinate_system: string | null
+          lifecycle_stage: string | null
+          sex: string | null
+          created_at: string
+          updated_at: string
+          moderation_state: string
+          likes_count?: number
+          comments_count?: number
+          place_category?: string
+          public_township?: string | null
+          public_district?: string | null
+          public_city?: string | null
+        }
+        Relationships: []
+      }
+      /** 本人 + 版主/管理员：原始地点与坐标 */
+      observation_events_owner: {
+        Row: {
+          id: number
+          user_id: string
+          project_id: number | null
+          challenge_id: number | null
+          observed_at: string
+          location_name: string
+          latitude: number | null
+          longitude: number | null
+          location_precision: string | null
+          habitat: string | null
+          weather: string | null
+          notes: string | null
+          media_urls: string[]
+          is_public: boolean
+          status: string
+          suggested_scientific_name: string | null
+          suggested_species_name: string | null
+          nature_topic: string | null
+          identification_status: string
+          observed_at_source: string | null
+          location_source: string | null
+          coordinate_system: string | null
+          lifecycle_stage: string | null
+          sex: string | null
+          created_at: string
+          updated_at: string
+          moderation_state: string
+          likes_count?: number
+          comments_count?: number
+          place_category?: string
+          public_township?: string | null
+          public_district?: string | null
+          public_city?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       platform_announcement_stats_service: { Args: Record<string, never>; Returns: { announcement_id: number; target: number; delivered: number; read: number; failed: number; pending: number }[] }

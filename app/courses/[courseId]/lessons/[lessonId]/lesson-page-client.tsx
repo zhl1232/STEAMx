@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronRight } from "lucide-react";
 
 import { LessonSidebar } from "@/components/features/courses/lesson-sidebar";
 import { LessonStepGuide } from "@/components/features/courses/lesson-step-guide";
@@ -12,6 +12,11 @@ import { BuildingVoiceControls } from "@/components/features/courses/building-vo
 import { getTutorSceneCapabilities } from "@/components/features/tutor/tool-handler-registry";
 import type { ScratchWorkspaceBlockHint } from "@/components/features/courses/scratch-workspace";
 import { useTutorContext } from "@/components/features/tutor/tutor-context";
+import { LessonCompletionDialog, type LessonCompletionResult } from "@/components/features/courses/lesson-completion-dialog";
+import { useOptionalGamification } from "@/lib/context/gamification-context";
+import { rememberLessonStep, readRememberedLessonStep } from "@/lib/courses/lesson-step-memory";
+import { isWorkSubmissionEnabled } from "@/lib/works/capability";
+import { markPwaLessonCompleted } from "@/lib/pwa/install";
 import { MobileGlobalHeader } from "@/components/layout/mobile-global-header";
 import type { TutorToolCall } from "@/lib/ai/tutor/tool-calls";
 import { getLessonTypeDefinition } from "@/lib/courses/lesson-types";
@@ -36,6 +41,7 @@ import { cn } from "@/lib/utils";
  */
 const LESSON_PAGE_HEIGHT = "max-md:min-h-screen md:h-[calc(100dvh-4rem)]";
 const BUILDING_STEP_QUERY_PARAM = "step";
+const SIDEBAR_COLLAPSED_KEY = "steamx:lesson-sidebar-collapsed";
 
 function clampStepIndex(index: number, stepCount: number) {
     if (stepCount <= 0) return 0;
@@ -131,6 +137,30 @@ export function LessonPageClient({
     const navigationEpochRef = useRef(0);
     const [navigationEpoch, setNavigationEpoch] = useState(0);
     const [completed, setCompleted] = useState(initialCompleted);
+    // 电脑端左侧目录可收起，记在本机
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+    useEffect(() => {
+        try { setSidebarCollapsed(window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "1"); } catch { /* ignore */ }
+    }, []);
+    const [completionResult, setCompletionResult] = useState<LessonCompletionResult | null>(null);
+    const refetchStats = useOptionalGamification()?.refetchStats;
+    const handleCompleted = useCallback((result: LessonCompletionResult) => {
+        setCompleted(true);
+        setCompletionResult(result);
+        markPwaLessonCompleted();
+        // 立刻重算成就，徽章当场弹出，不用等刷新。
+        refetchStats?.();
+        router.refresh();
+    }, [refetchStats, router]);
+    const completionDialog = (
+        <LessonCompletionDialog
+            open={completionResult !== null}
+            onOpenChange={(open) => { if (!open) setCompletionResult(null); }}
+            courseId={courseId}
+            result={completionResult}
+            uploadWorkHref={isWorkSubmissionEnabled(lesson) ? `/courses/${courseId}/lessons/${lesson.id}?view=works` : null}
+        />
+    );
     const [focusedStep, setFocusedStep] = useState<number | null>(null);
     const [scratchBlockHint, setScratchBlockHint] = useState<ScratchWorkspaceBlockHint | null>(null);
     const [scratchStepCheckResult, setScratchStepCheckResult] = useState<ScratchStepCheckResult | null>(null);
@@ -151,13 +181,14 @@ export function LessonPageClient({
         setActiveStep(nextStep);
         if (lessonWorkspace === "building_3d") {
             replaceBuildingStepInUrl(nextStep);
+            rememberLessonStep(lesson.id, nextStep, courseId);
             // 连续搭建时保留家长已经找到的画布位置；跨到课件或视频时仍从页首阅读。
             const staysInBuild = buildingPages[clampedActiveStep]?.kind === "build" && buildingPages[nextStep]?.kind === "build";
             if (!staysInBuild && window.matchMedia("(max-width: 1023px)").matches && document.body.style.overflow !== "hidden") {
                 window.scrollTo({ top: 0, behavior: "instant" });
             }
         }
-    }, [buildingPages, clampedActiveStep, lessonWorkspace, steps.length]);
+    }, [buildingPages, clampedActiveStep, courseId, lesson.id, lessonWorkspace, steps.length]);
 
     const handleVoiceStepChange = useCallback((index: number) => {
         // Reject a result even in the gap before a manual navigation rerenders.
@@ -182,7 +213,12 @@ export function LessonPageClient({
 
         const restoreStepFromUrl = () => {
             if (window.location.pathname !== lessonPath) return;
-            const routeStep = readBuildingStepFromUrl(steps.length);
+            const hasRouteStep = new URLSearchParams(window.location.search).has(BUILDING_STEP_QUERY_PARAM);
+            const remembered = hasRouteStep ? null : readRememberedLessonStep(lesson.id);
+            const routeStep = remembered !== null
+                ? clampStepIndex(remembered, steps.length)
+                : readBuildingStepFromUrl(steps.length);
+            rememberLessonStep(lesson.id, routeStep, courseId);
             navigationEpochRef.current += 1;
             setNavigationEpoch(navigationEpochRef.current);
             setActiveStep(routeStep);
@@ -342,6 +378,14 @@ export function LessonPageClient({
         setScratchStepCheckResult(null);
     }, [clampedActiveStep]);
 
+    const toggleSidebar = () => {
+        setSidebarCollapsed((collapsed) => {
+            const next = !collapsed;
+            try { window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, next ? "1" : "0"); } catch { /* 无痕模式等 */ }
+            return next;
+        });
+    };
+
     if (lessonWorkspace === "building_3d") {
         return (
             <div
@@ -349,40 +393,13 @@ export function LessonPageClient({
                 style={{ maxWidth: "var(--shell-wide)" }}
                 data-building-lesson
             >
-                <div className="shrink-0 border-b border-border bg-card">
-                    <MobileGlobalHeader
-                        variant="title"
-                        title={
-                            <span className="flex min-w-0 items-center gap-2">
-                                <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm hover:bg-muted">
-                                    <ArrowLeft className="h-5 w-5" />
-                                </Link>
-                                <span className="truncate">{lesson.title}</span>
-                            </span>
-                        }
-                        className="[&>div]:px-2 [&>div]:py-1"
-                    />
-                    <div className="hidden min-h-16 items-center gap-4 px-5 md:flex">
-                        <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-border hover:bg-muted">
-                            <ArrowLeft className="h-5 w-5" />
-                        </Link>
-                        <div className="min-w-0 flex-1 py-2">
-                            <p className="truncate text-xs text-muted-foreground">{courseTitle}</p>
-                            <h1 className="truncate text-xl font-bold leading-snug">{lesson.title}</h1>
-                        </div>
-                        {completed ? <span className="shrink-0 text-sm font-semibold text-[hsl(var(--status-success))]">已完成</span> : null}
-                    </div>
+                <div className="shrink-0 bg-card">
+                    {completionDialog}
+                    {/* 手机：不再单独占一行标题栏，返回+课名并入课件工具栏（见 buildingMobileHeaderSlot） */}
                     {noticeSlot}
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 pb-2 text-xs text-muted-foreground md:px-5">
-                        {classificationSlot}
-                        {lesson.duration_minutes ? <span>约 {lesson.duration_minutes} 分钟</span> : null}
-                        {lesson.content?.building3d?.ldrawModelUrl ? (
-                            <Link href={`/courses/${courseId}/lessons/${lesson.id}/parts`} prefetch={false} className="inline-flex min-h-11 items-center text-[hsl(var(--nav-active))] underline underline-offset-4">查看本课零件清单</Link>
-                        ) : null}
-                    </div>
                 </div>
                 <div className="flex min-h-0 flex-1">
-                    <div className="hidden w-56 shrink-0 border-r border-border xl:flex">
+                    <div className={cn("hidden w-56 shrink-0 border-r border-border [&>aside]:w-full", !sidebarCollapsed && "xl:flex")}>
                         <LessonSidebar
                             courseId={courseId}
                             courseTitle={courseTitle}
@@ -415,18 +432,36 @@ export function LessonPageClient({
                                     onNavigate={handleVoiceStepChange}
                                 />
                             }
+                            buildingSidebar={{ collapsed: sidebarCollapsed, onToggle: toggleSidebar }}
+                            buildingMobileHeaderSlot={
+                                <span className="flex min-w-0 items-center gap-1">
+                                    <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-foreground/[0.06] md:hidden">
+                                        <ArrowLeft className="h-5 w-5" />
+                                    </Link>
+                                    <span data-testid="lesson-breadcrumb" className="flex min-w-0 items-center gap-1 text-[15px] leading-5">
+                                        <Link
+                                            href={`/courses/${courseId}`}
+                                            title={courseTitle}
+                                            className="hidden min-w-0 max-w-[14rem] shrink-[2] truncate rounded-md px-1.5 py-1.5 text-[15px] leading-5 text-muted-foreground underline-offset-4 transition-colors hover:text-[hsl(var(--brand-blue))] hover:underline md:block"
+                                        >
+                                            {courseTitle}
+                                        </Link>
+                                        <ChevronRight className="hidden h-4 w-4 shrink-0 self-center text-muted-foreground/60 md:block" aria-hidden />
+                                        <span title={lesson.title} className="min-w-0 truncate py-1.5 text-base font-semibold leading-5 text-foreground md:text-[15px]">{lesson.title}</span>
+                                    </span>
+                                </span>
+                            }
                             buildingNavigationSlot={
                                 <LessonStepGuide
                                     steps={steps}
                                     activeStepIndex={clampedActiveStep}
                                     introduction={typeof lesson.content?.summary === "string" ? lesson.content.summary : undefined}
                                     onStepClick={handleStepChange}
-                                    desktopLabel="目录与提示"
                                 />
                             }
                             onStepChange={handleStepChange}
                             initialCompleted={initialCompleted}
-                            onCompleted={() => { setCompleted(true); router.refresh(); }}
+                            onCompleted={handleCompleted}
                         />
                     </div>
                 </div>
@@ -443,6 +478,7 @@ export function LessonPageClient({
             )}
             style={{ maxWidth: "var(--shell-wide)" }}
         >
+            {completionDialog}
             <MobileGlobalHeader variant="title" title={lesson.title} />
             <div className="flex items-center gap-2 border-b border-border bg-card px-3 py-2 md:hidden">
                 <Link
@@ -500,10 +536,7 @@ export function LessonPageClient({
                         onScratchEditorContextChange={handleScratchEditorContextChange}
                         onStepChange={handleStepChange}
                         initialCompleted={initialCompleted}
-                        onCompleted={() => {
-                            setCompleted(true);
-                            router.refresh();
-                        }}
+                        onCompleted={handleCompleted}
                     />
                 </div>
             </div>

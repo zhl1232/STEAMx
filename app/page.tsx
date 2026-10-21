@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { HomeLoginBanner } from "@/components/home/home-login-banner";
 import { HomeShowcase } from "@/components/home/home-showcase";
 import { HomepageCanonicalTags } from "@/components/seo/homepage-canonical";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -47,6 +48,7 @@ export default async function Home() {
     <>
       <HomepageCanonicalTags />
       <JsonLd data={buildWebsiteJsonLd()} />
+      <HomeLoginBanner />
       <HomeShowcase
         works={works}
         worksNextOffset={worksNextOffset}

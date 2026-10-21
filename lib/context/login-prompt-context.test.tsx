@@ -53,17 +53,34 @@ function tree() { return <StrictMode><AuthProvider><LoginPromptProvider><Project
 function auth(id: string | null) { act(() => mocks.changed?.(id ? 'SIGNED_IN' : 'INITIAL_SESSION', id ? { user: { id } } : null)) }
 function success(isNewUser = false) { act(() => mocks.dialog?.onSuccess({ isNewUser })) }
 beforeEach(() => {
-  vi.clearAllMocks(); sessionStorage.clear(); mocks.path = '/project/7'
+  vi.clearAllMocks(); sessionStorage.clear(); localStorage.clear(); mocks.path = '/project/7'
   window.history.replaceState({}, '', '/project/7')
   vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ collected: true, action: 'collected' }), { status: 200 })))
 })
 
 describe('tab prompt and authenticated continuations', () => {
-  it.each(['/project/7', '/nature', '/explore', '/courses'])('prompts guests landing at %s only after auth initializes', path => {
-    mocks.path = path; render(tree())
+  it.each(['/project/7', '/nature', '/explore', '/courses'])('does not auto prompt guests on the first page %s', path => {
+    mocks.path = path; render(tree()); auth(null)
     expect(screen.queryByRole('dialog')).toBeNull()
-    auth(null)
+  })
+  it('prompts guests once on the second page, after auth initializes', () => {
+    const view = render(tree()); auth(null)
+    expect(screen.queryByRole('dialog')).toBeNull()
+    mocks.path = '/nature'; window.history.pushState({}, '', '/nature'); view.rerender(tree())
     expect(screen.getByRole('dialog', { name: '登录或注册' })).toBeInTheDocument()
+  })
+  it('prompts guests after about 30 seconds on one page', () => {
+    vi.useFakeTimers()
+    try {
+      render(tree()); auth(null)
+      expect(screen.queryByRole('dialog')).toBeNull()
+      act(() => { vi.advanceTimersByTime(30_000) })
+      expect(screen.getByRole('dialog', { name: '登录或注册' })).toBeInTheDocument()
+    } finally { vi.useRealTimers() }
+  })
+  it('does not prompt on lesson pages', () => {
+    mocks.path = '/courses/5/lessons/30'; sessionStorage.setItem('steamx:login-nudge:views', '3'); render(tree()); auth(null)
+    expect(screen.queryByRole('dialog')).toBeNull()
   })
   it('does not flash for an existing session', () => {
     render(tree()); auth('existing'); expect(screen.queryByRole('dialog')).toBeNull()
@@ -71,10 +88,11 @@ describe('tab prompt and authenticated continuations', () => {
   it.each(['/login','/auth/callback','/settings/security','/legal/privacy','/admin'])('excludes %s', path => {
     mocks.path = path; render(tree()); auth(null); expect(screen.queryByRole('dialog')).toBeNull()
   })
-  it.each(['先探索','关闭'])('does not repeat after %s, rerender, route change or provider remount', name => {
+  it.each(['先探索','关闭'])('does not repeat the same day after %s, route change or provider remount', name => {
     const view = render(tree()); auth(null)
-    fireEvent.click(screen.getByText(name)); view.rerender(tree())
     mocks.path = '/nature'; window.history.pushState({}, '', '/nature'); view.rerender(tree())
+    fireEvent.click(screen.getByText(name)); view.rerender(tree())
+    mocks.path = '/explore'; window.history.pushState({}, '', '/explore'); view.rerender(tree())
     expect(screen.queryByRole('dialog')).toBeNull()
     view.unmount(); render(tree()); auth(null)
     expect(screen.queryByRole('dialog')).toBeNull()
@@ -84,7 +102,7 @@ describe('tab prompt and authenticated continuations', () => {
     expect(screen.getByRole('dialog', { name: '手动登录' })).toBeInTheDocument()
   })
   it('waits for committed user state, invokes once and retains the draft', async () => {
-    render(tree()); auth(null); fireEvent.click(screen.getByText('先探索'))
+    render(tree()); auth(null)
     fireEvent.change(screen.getByLabelText('草稿'), { target: { value: '还未发送' } })
     fireEvent.click(screen.getByText('手动')); const completed = mocks.dialog!.onSuccess
     act(() => { completed({ isNewUser: true }); completed({ isNewUser: true }) })
@@ -95,7 +113,7 @@ describe('tab prompt and authenticated continuations', () => {
     expect(mocks.push).not.toHaveBeenCalled(); expect(screen.getByLabelText('草稿')).toHaveValue('还未发送')
   })
   it.each(['收藏','开始'])('resumes %s through the real ProjectProvider after the real AuthProvider updates', async action => {
-    render(tree()); auth(null); fireEvent.click(screen.getByText('先探索'))
+    render(tree()); auth(null)
     fireEvent.click(screen.getByText(action)); success(true)
     expect(fetch).not.toHaveBeenCalled(); auth('new')
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1))
@@ -103,7 +121,7 @@ describe('tab prompt and authenticated continuations', () => {
     expect(mocks.push).not.toHaveBeenCalled()
   })
   it('cancels an intent and ignores a late success even after another login opens', async () => {
-    render(tree()); auth(null); fireEvent.click(screen.getByText('先探索'))
+    render(tree()); auth(null)
     fireEvent.click(screen.getByText('手动')); const late = mocks.dialog!.onSuccess
     fireEvent.click(screen.getByText('关闭')); fireEvent.click(screen.getByText('普通登录'))
     act(() => late({ isNewUser: true })); auth('new'); success(true)
@@ -111,14 +129,17 @@ describe('tab prompt and authenticated continuations', () => {
     expect(mocks.callback).not.toHaveBeenCalled(); expect(mocks.push).not.toHaveBeenCalled()
   })
   it('cancels the old action when navigating during login', async () => {
-    const view = render(tree()); auth(null); fireEvent.click(screen.getByText('先探索'))
+    localStorage.setItem('steamx:login-nudge:dismissed-day', new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Shanghai' }).format(new Date()))
+    const view = render(tree()); auth(null)
     fireEvent.click(screen.getByText('手动')); const late = mocks.dialog!.onSuccess
     mocks.path = '/nature'; window.history.pushState({}, '', '/nature'); view.rerender(tree())
     act(() => late()); auth('new'); await act(async () => {})
     expect(mocks.callback).not.toHaveBeenCalled(); expect(screen.queryByRole('dialog')).toBeNull()
   })
-  it.each([true, false])('only the initial new registration enters onboarding (new=%s)', async isNew => {
-    render(tree()); auth(null); auth('person'); success(isNew)
+  it.each([true, false])('only the delayed onboarding prompt enters onboarding (new=%s)', async isNew => {
+    const view = render(tree()); auth(null)
+    mocks.path = '/nature'; window.history.pushState({}, '', '/nature'); view.rerender(tree())
+    auth('person'); success(isNew)
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull())
     expect(mocks.push).toHaveBeenCalledTimes(isNew ? 1 : 0)
     if (isNew) expect(mocks.push).toHaveBeenCalledWith('/start')

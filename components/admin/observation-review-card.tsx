@@ -145,7 +145,7 @@ export function ObservationReviewCard({ observation, onReview }: ObservationRevi
             <span>作者：{authorName}</span>
             <span className="inline-flex items-center gap-1">
               <Clock3 className="h-3.5 w-3.5" />
-              {new Date(observation.created_at).toLocaleString('zh-CN', {
+              {new Date(observation.created_at).toLocaleString('zh-CN', { timeZone: "Asia/Shanghai",
                 month: '2-digit',
                 day: '2-digit',
                 hour: '2-digit',
@@ -197,11 +197,11 @@ export function ObservationReviewCard({ observation, onReview }: ObservationRevi
                 </div>
                 <div>
                   <span className="text-muted-foreground">观察时间：</span>
-                  {new Date(observation.observed_at).toLocaleString('zh-CN')}
+                  {new Date(observation.observed_at).toLocaleString('zh-CN', { timeZone: "Asia/Shanghai" })}
                 </div>
                 <div>
                   <span className="text-muted-foreground">提交时间：</span>
-                  {new Date(observation.created_at).toLocaleString('zh-CN')}
+                  {new Date(observation.created_at).toLocaleString('zh-CN', { timeZone: "Asia/Shanghai" })}
                 </div>
                 <div className="sm:col-span-2">
                   <span className="text-muted-foreground">地点：</span>

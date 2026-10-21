@@ -11,5 +11,5 @@ export function formatRelativeTime(iso?: string | null) {
   if (hours < 24) return `${hours} 小时前`
   const days = Math.floor(hours / 24)
   if (days < 30) return `${days} 天前`
-  return date.toLocaleDateString("zh-CN")
+  return date.toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai" })
 }

@@ -289,7 +289,7 @@ export function ResourceManagement() {
                           {STATUS_LABELS[resource.status].label}
                         </Badge>
                       </TableCell>
-                      <TableCell>{new Date(resource.updated_at).toLocaleDateString('zh-CN')}</TableCell>
+                      <TableCell>{new Date(resource.updated_at).toLocaleDateString('zh-CN', { timeZone: "Asia/Shanghai" })}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
                           {resource.status === 'draft' ? (

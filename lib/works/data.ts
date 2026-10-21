@@ -306,7 +306,7 @@ function journeyRowToWorkRecord(
     : null
   return {
     id: displayId,
-    completedAt: new Date(row.created_at).toLocaleDateString('zh-CN'),
+    completedAt: new Date(row.created_at).toLocaleDateString('zh-CN', { timeZone: "Asia/Shanghai" }),
     completedAtIso: row.created_at,
     proofImages: row.images,
     proofCaptions: row.image_captions ?? undefined,
@@ -455,7 +455,7 @@ function authorFields(author: ProfileRow | undefined) {
 }
 
 function toDisplayDate(iso: string) {
-  return new Date(iso || '').toLocaleDateString('zh-CN')
+  return new Date(iso || '').toLocaleDateString('zh-CN', { timeZone: "Asia/Shanghai" })
 }
 
 function challengeSubmissionToWork(row: ChallengeSubmissionRow, author: ProfileRow | undefined): Work {
@@ -556,7 +556,8 @@ export async function getUserWorks(args: {
     .order('created_at', { ascending: false })
     .range(0, headSize - 1)
   let observationsQuery = client
-    .from('observation_events')
+    // 公开页走公开视图（位置已按隐私分级处理）；本人内容库走本人视图看原始位置。
+    .from(args.publicOnly ? 'observation_events_public' : 'observation_events_owner')
     .select('*', { count: 'exact' })
     .eq('user_id', args.userId)
     .order('created_at', { ascending: false })

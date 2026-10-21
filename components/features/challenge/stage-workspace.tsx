@@ -1012,7 +1012,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                                     <p className="text-[12px] font-semibold text-[hsl(var(--brand-blue))]">{result.title}</p>
                                     {result.generatedAt && (
                                       <span className="text-[10px] text-muted-foreground">
-                                        {new Date(result.generatedAt).toLocaleTimeString("zh-CN", {
+                                        {new Date(result.generatedAt).toLocaleTimeString("zh-CN", { timeZone: "Asia/Shanghai",
                                           hour: "2-digit",
                                           minute: "2-digit",
                                         })}
@@ -1101,7 +1101,7 @@ export function StageWorkspace({ challengeId, stages, isActive }: StageWorkspace
                             </div>
                             {saved.aiFeedback.generatedAt && (
                               <span className="text-[11px] text-muted-foreground">
-                                {new Date(saved.aiFeedback.generatedAt).toLocaleString("zh-CN", {
+                                {new Date(saved.aiFeedback.generatedAt).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai",
                                   month: "numeric",
                                   day: "numeric",
                                   hour: "2-digit",

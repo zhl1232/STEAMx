@@ -210,7 +210,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                 <span className="hidden sm:inline">·</span>
                 <span className="inline-flex items-center gap-1">
                   <Clock3 className="h-3.5 w-3.5" />
-                  {new Date(project.created_at).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                  {new Date(project.created_at).toLocaleString('zh-CN', { timeZone: "Asia/Shanghai", month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                 </span>
               </CardDescription>
             </div>
@@ -291,7 +291,7 @@ export function ProjectReviewCard({ project, onReview }: ProjectReviewCardProps)
                             <span>{project.profiles.display_name}</span>
                           </div>
                         </div>
-                        <div><span className="text-muted-foreground">提交时间:</span> {new Date(project.created_at).toLocaleString('zh-CN')}</div>
+                        <div><span className="text-muted-foreground">提交时间:</span> {new Date(project.created_at).toLocaleString('zh-CN', { timeZone: "Asia/Shanghai" })}</div>
                         <div><span className="text-muted-foreground">分类:</span> {project.category} / {project.sub_category || '-'}</div>
                         <div><span className="text-muted-foreground">难度:</span> {project.difficulty}</div>
                       </div>

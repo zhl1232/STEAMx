@@ -195,6 +195,11 @@ function CompleteProjectDialogSession({
     const totalImages = proofImages.length + uploading.length;
     const canAddMore = totalImages < MAX_IMAGES;
     const isImageUploadInProgress = uploading.some((u) => !u.error);
+    const activeUploads = uploading.filter((u) => !u.error);
+    const imageUploadPercent = activeUploads.length
+        ? Math.round(activeUploads.reduce((sum, u) => sum + u.progress, 0) / activeUploads.length)
+        : 0;
+    const imageUploadLabel = `图片上传中 ${imageUploadPercent}%`;
     const isVideoUploading = videoUploadStatus === "uploading" || videoUploadStatus === "compressing" || videoUploadStatus === "validating";
 
     // ─── Image upload logic ───
@@ -488,8 +493,8 @@ function CompleteProjectDialogSession({
             }
 
             toast({
-                title: result.status === "approved" ? "已发布" : isProgress ? "探索记录已提交审核" : "作品已提交审核",
-                description: result.status === "approved" ? "审核已通过，可在探索记录中查看" : "审核通过后公开展示，可在探索记录中查看状态",
+                title: result.status === "approved" ? "已通过审核，已公开" : "审核中",
+                description: result.status === "approved" ? "可在探索记录中查看" : "AI 审核通过后自动公开，可在探索记录中查看状态",
             });
 
             if (draftKey) writeRecordDraft(draftKey, "");
@@ -527,12 +532,12 @@ function CompleteProjectDialogSession({
 
     return (
         <Dialog open={open} onOpenChange={(v) => { if (submittingRef.current) return; if (!v) resetForm(); onOpenChange(v); }}>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-2xl max-h-[90dvh] overflow-y-auto pb-0 max-sm:top-auto max-sm:bottom-0 max-sm:translate-y-0 max-sm:rounded-t-lg max-sm:data-[state=open]:slide-in-from-bottom-4 max-sm:data-[state=closed]:slide-out-to-bottom-4">
                 <DialogHeader>
                     <DialogTitle>{isProgress ? "发布探索记录" : "提交作品"}</DialogTitle>
                     <DialogDescription>
                         {isProgress
-                            ? "写下预测、提问或观察，也可以添加图片。发布后先审核，通过后公开展示。"
+                            ? "写下预测、提问或观察，也可以添加图片。AI 审核通过后自动公开。"
                             : "分享你的成果，审核通过后可获得 20 XP"}
                     </DialogDescription>
                     {/* Stepper indicator */}
@@ -841,17 +846,17 @@ function CompleteProjectDialogSession({
                             />
                         </div>
 
-                        <p className="text-sm text-muted-foreground">提交后先审核，通过后公开展示。</p>
+                        <p className="text-sm text-muted-foreground">AI 审核通过后自动公开。</p>
                     </div>
                 )}
 
-                <DialogFooter className="flex-col sm:flex-row gap-2">
+                <DialogFooter className="sticky bottom-0 z-10 -mx-6 flex-row justify-end gap-2 border-t border-border bg-background px-6 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] [&_button]:min-h-11">
                     {step === 1 ? (
                         <>
                             <Button variant="outline" disabled={isSubmitting} onClick={() => { resetForm(); onOpenChange(false); }}>
                                 取消
                             </Button>
-                            {isProgress ? <Button onClick={handleSubmit} disabled={isSubmitting || isImageUploadInProgress || isVideoUploading || (!notes.trim() && proofImages.length === 0)}>{isSubmitting ? "正在提交…" : "发布记录"}</Button> : <div className="flex gap-2 flex-1 sm:flex-initial">
+                            {isProgress ? <Button onClick={handleSubmit} disabled={isSubmitting || isImageUploadInProgress || isVideoUploading || (!notes.trim() && proofImages.length === 0)}>{isSubmitting ? "正在提交…" : isImageUploadInProgress ? imageUploadLabel : isVideoUploading ? `视频上传中 ${videoUploadProgress}%` : "发布记录"}</Button> : <div className="flex gap-2 flex-1 sm:flex-initial">
                                 {proofImages.length > 0 && (
                                     <Button
                                         variant="ghost"
@@ -869,7 +874,7 @@ function CompleteProjectDialogSession({
                                     {isImageUploadInProgress || isVideoUploading ? (
                                         <>
                                             <Loader2 className="h-4 w-4 mr-1 animate-spin" />
-                                            上传中...
+                                            {isImageUploadInProgress ? imageUploadLabel : `视频上传中 ${videoUploadProgress}%`}
                                         </>
                                     ) : (
                                         <>

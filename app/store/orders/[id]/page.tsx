@@ -87,7 +87,7 @@ export default async function StoreOrderDetailPage({
               <p className="font-semibold text-foreground">订单进度</p>
               {order.events.map((event) => (
                 <p key={event.id} className="mt-2">
-                  {new Date(event.created_at).toLocaleString('zh-CN')} ·{' '}
+                  {new Date(event.created_at).toLocaleString('zh-CN', { timeZone: "Asia/Shanghai" })} ·{' '}
                   {event.message || event.event_type}
                 </p>
               ))}

@@ -145,7 +145,7 @@ const observationRows = [
 
 function createFluentClient(records: QueryRecord[]) {
   const responseFor = (table: string, select = '', filters: Record<string, unknown> = {}) => {
-    if (table === 'observation_events') {
+    if (table === 'observation_events' || table === 'observation_events_public') {
       if (select === 'id' && filters.head) {
         return { data: null, count: filters.weekly ? 1 : 3, error: null }
       }

@@ -2,8 +2,9 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
-import type { ReactNode } from "react";
+import { cloneElement, isValidElement, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import type { ReactElement, ReactNode } from "react";
+import type { LessonMenuExtra } from "./lesson-step-guide";
 import {
     Box,
     Check,
@@ -17,8 +18,13 @@ import {
     Package,
     Presentation,
     RotateCcw,
+    PartyPopper,
     RotateCw,
     Sparkles,
+    Mic,
+    PanelLeftClose,
+    PanelLeftOpen,
+    X,
     ZoomIn,
 } from "lucide-react";
 
@@ -26,6 +32,7 @@ import { Button } from "@/components/ui/button";
 import { buildBuildingLessonFlow } from "@/lib/courses/building-lesson-flow";
 import { getLessonCompletionFeedback } from "@/lib/courses/progress";
 import { toLessonCompletionToast } from "./lesson-completion-toast";
+import type { LessonCompletionResult } from "./lesson-completion-dialog";
 import { cn } from "@/lib/utils";
 import { resolveAssetDisplayUrl, toForcedAssetProxyUrl } from "@/lib/utils/asset-url";
 import { parsePackedLdrawModelText, splitPackedMpd } from "@/lib/utils/ldraw-mpd";
@@ -37,6 +44,18 @@ import { useAuth } from "@/lib/context/auth-context";
 import { useLoginPrompt } from "@/lib/context/login-prompt-context";
 import { isWorkSubmissionEnabled } from "@/lib/works/capability";
 import { PartThumbnail } from "./part-thumbnail";
+import { ZoomableSlide } from "./zoomable-slide";
+import { circle, pill, pillGlass, pillOnDark, pillPrimary, pillQuiet } from "./lesson-control-styles";
+import {
+    LANDSCAPE_PHONE_QUERY,
+    PORTRAIT_PHONE_QUERY,
+    shouldAutoEnterImmersive,
+    ROTATE_TIP_STORAGE_KEY,
+    keyboardPageDelta,
+    tapZoneAction,
+    OVERLAY_AUTO_HIDE_MS,
+    PAGE_INDICATOR_MS,
+} from "@/lib/courses/slide-viewer";
 import type {
     Building3DBrickInstance,
     Building3DLessonContent,
@@ -135,6 +154,28 @@ function getMobileViewportSnapshot() {
 
 function getMobileViewportServerSnapshot() {
     return false;
+}
+
+function subscribeToOrientation(onChange: () => void) {
+    const portrait = window.matchMedia?.(PORTRAIT_PHONE_QUERY);
+    const landscape = window.matchMedia?.(LANDSCAPE_PHONE_QUERY);
+    portrait?.addEventListener?.("change", onChange);
+    landscape?.addEventListener?.("change", onChange);
+    return () => {
+        portrait?.removeEventListener?.("change", onChange);
+        landscape?.removeEventListener?.("change", onChange);
+    };
+}
+
+/** "portrait" = 竖着拿的手机，"landscape" = 横着拿的手机，"other" = 平板/电脑 */
+function getPhoneOrientationSnapshot(): "portrait" | "landscape" | "other" {
+    if (window.matchMedia?.(PORTRAIT_PHONE_QUERY).matches) return "portrait";
+    if (window.matchMedia?.(LANDSCAPE_PHONE_QUERY).matches) return "landscape";
+    return "other";
+}
+
+function getPhoneOrientationServerSnapshot(): "portrait" | "landscape" | "other" {
+    return "other";
 }
 
 function isVector3(value: unknown): value is [number, number, number] {
@@ -792,15 +833,21 @@ export function Building3DWorkspace({
     onCompleted,
     navigationSlot,
     voiceControlsSlot,
+    mobileHeaderSlot,
+    sidebar,
 }: {
     courseId: number;
     lesson: CourseLessonRow;
     activeStepIndex: number;
     onStepChange: (index: number) => void;
     initialCompleted?: boolean;
-    onCompleted?: () => void;
+    onCompleted?: (result: LessonCompletionResult) => void;
     navigationSlot?: ReactNode;
     voiceControlsSlot?: ReactNode;
+    /** 手机顶栏左侧：返回 + 课名（手机上取代页面原来的标题栏） */
+    mobileHeaderSlot?: ReactNode;
+    /** 电脑端左侧目录的收起/展开（≥1280px 才有侧栏） */
+    sidebar?: { collapsed: boolean; onToggle: () => void };
 }) {
     const workspaceRef = useRef<HTMLElement>(null);
     const mountRef = useRef<HTMLDivElement>(null);
@@ -849,6 +896,20 @@ export function Building3DWorkspace({
         getMobileViewportSnapshot,
         getMobileViewportServerSnapshot,
     );
+    const phoneOrientation = useSyncExternalStore(
+        subscribeToOrientation,
+        getPhoneOrientationSnapshot,
+        getPhoneOrientationServerSnapshot,
+    );
+    const isPortraitPhone = phoneOrientation === "portrait";
+    const [voiceExpanded, setVoiceExpanded] = useState(false);
+    const [voiceStatus, setVoiceStatus] = useState<string>("idle");
+    const voiceActive = voiceStatus === "listening" || voiceStatus === "processing" || voiceStatus === "starting";
+    const [partsDrawerOpen, setPartsDrawerOpen] = useState(false);
+    const autoImmersiveRef = useRef(false);
+    const [overlayVisible, setOverlayVisible] = useState(false);
+    const [pageIndicatorVisible, setPageIndicatorVisible] = useState(false);
+    const previousOrientationRef = useRef(phoneOrientation);
     // null = 跟随默认（搭建第一步展开全部零件，后续步骤收起）
     const [allPartsExpanded, setAllPartsExpanded] = useState<boolean | null>(null);
     const showBuildPage = view === "lesson" && activePage?.kind === "build";
@@ -1461,11 +1522,12 @@ export function Building3DWorkspace({
                 error?: string;
                 alreadyCompleted?: boolean;
                 courseCompletionState?: "not_complete" | "created" | "already_recorded" | "configuration_error";
+                courseProgress?: LessonCompletionResult["courseProgress"];
             };
             if (!res.ok) throw new Error(data.error || "完成失败");
             setCompleted(true);
-            toast(toLessonCompletionToast(getLessonCompletionFeedback({ ...data, courseId })));
-            onCompleted?.();
+            if (onCompleted) onCompleted(data);
+            else toast(toLessonCompletionToast(getLessonCompletionFeedback({ ...data, courseId })));
         } catch (error) {
             toast({
                 title: "无法标记完成",
@@ -1482,13 +1544,15 @@ export function Building3DWorkspace({
         onStepChange(next);
     };
 
-    const enterImmersive = useCallback(async () => {
+    const enterImmersive = useCallback(async (options?: { silent?: boolean; keepOrientation?: boolean }) => {
         const workspace = workspaceRef.current;
         if (!workspace) return;
+        const silent = options?.silent ?? false;
 
         immersiveScrollYRef.current = window.scrollY;
         setIsImmersive(true);
         if (!workspace.requestFullscreen) {
+            if (silent) return;
             toast({
                 title: "已进入横向展示",
                 description: "将设备横放即可全屏查看课程内容。",
@@ -1501,10 +1565,11 @@ export function Building3DWorkspace({
             await workspace.requestFullscreen();
             try {
                 const isDesktopViewport = window.matchMedia?.("(min-width: 1024px)").matches ?? false;
-                if (!isDesktopViewport) {
+                if (!isDesktopViewport && !options?.keepOrientation) {
                     await getScreenOrientation()?.lock?.("landscape");
                 }
             } catch {
+                if (silent) return;
                 toast({
                     title: "已进入全屏",
                     description: "当前浏览器不能自动旋转，请将设备横放。",
@@ -1512,6 +1577,8 @@ export function Building3DWorkspace({
             }
         } catch {
             nativeFullscreenSessionRef.current = false;
+            // 转屏不算用户点击，浏览器多半不让真全屏；这时安静地用页面内全屏
+            if (silent) return;
             toast({
                 title: "已进入横向展示",
                 description: "当前浏览器不支持页面全屏，请将设备横放。",
@@ -1521,6 +1588,8 @@ export function Building3DWorkspace({
 
     const exitImmersive = useCallback(async () => {
         nativeFullscreenSessionRef.current = false;
+        autoImmersiveRef.current = false;
+        setPartsDrawerOpen(false);
         getScreenOrientation()?.unlock?.();
         setIsImmersive(false);
         if (document.fullscreenElement === workspaceRef.current) {
@@ -1528,50 +1597,131 @@ export function Building3DWorkspace({
         }
     }, []);
 
+    const isSlidePage = view === "lesson" && (activePage?.kind === "slide" || activePage?.kind === "video");
+    // 手机竖屏第一次看课件时轻提示一次「横过来看更清楚」，之后不再打扰
+    useEffect(() => {
+        if (!isPortraitPhone || !isSlidePage || isImmersive) return;
+        try {
+            if (window.localStorage.getItem(ROTATE_TIP_STORAGE_KEY)) return;
+            window.localStorage.setItem(ROTATE_TIP_STORAGE_KEY, "1");
+        } catch {
+            return;
+        }
+        toast({ title: "横过来看更清楚", description: "也可以双指放大、左右滑动翻页。" });
+    }, [isImmersive, isPortraitPhone, isSlidePage, toast]);
+    // 3D 搭建页的手机全屏：画布占满，零件收进底部抽屉（横竖屏都能用）
+    const buildFullscreen = isImmersive && showBuildPage && isMobileViewport;
+    // 沉浸式看课件：只留课件本身，其它界面全藏，点中间呼出控制条
+    const slideImmersive = isImmersive && isSlidePage;
+    const hideChrome = slideImmersive || buildFullscreen;
+    // 只有普通课件图能点按呼出控制条；视频页、完成页、加载失败页一直显示控制条
+    const slideTappable =
+        activePage?.kind === "slide" &&
+        !(activePage.sourceIndex === videoSlide0 && content.videoUrl) &&
+        !(clampedPageIndex === flow.length - 1 && activePage.title === "完成本课") &&
+        !failedSlides.has(activePage.sourceIndex);
+    const overlayShown = overlayVisible || buildFullscreen || (slideImmersive && !slideTappable);
+
+    // 控制条 3 秒后自动隐藏
+    useEffect(() => {
+        if (!overlayVisible) return;
+        const timer = setTimeout(() => setOverlayVisible(false), OVERLAY_AUTO_HIDE_MS);
+        return () => clearTimeout(timer);
+    }, [overlayVisible, clampedPageIndex]);
+
+    // 翻页后短暂显示页码
+    const pageIndicatorKeyRef = useRef(clampedPageIndex);
+    useEffect(() => {
+        if (pageIndicatorKeyRef.current === clampedPageIndex) return;
+        pageIndicatorKeyRef.current = clampedPageIndex;
+        if (!isImmersive) return;
+        setPageIndicatorVisible(true);
+        const timer = setTimeout(() => setPageIndicatorVisible(false), PAGE_INDICATOR_MS);
+        return () => clearTimeout(timer);
+    }, [clampedPageIndex, isImmersive]);
+
+    const handleSlideTap = (xRatio: number, zoomed: boolean) => {
+        if (!slideImmersive) return;
+        const action = tapZoneAction(xRatio, zoomed);
+        if (action === "prev") goPage(-1);
+        else if (action === "next") goPage(1);
+        else setOverlayVisible((visible) => !visible);
+    };
+
+    // 方案 A：看课件时手机横过来自动全屏，竖回去自动退出（只退自动进入的那次）
+    useEffect(() => {
+        const previous = previousOrientationRef.current;
+        previousOrientationRef.current = phoneOrientation;
+        if (previous === phoneOrientation) return;
+        if (shouldAutoEnterImmersive({
+            wasPortrait: previous === "portrait",
+            isLandscapePhone: phoneOrientation === "landscape",
+            isImmersive,
+            isSlidePage,
+        })) {
+            autoImmersiveRef.current = true;
+            void enterImmersive({ silent: true });
+            return;
+        }
+        if (phoneOrientation === "portrait" && autoImmersiveRef.current && isImmersive) {
+            void exitImmersive();
+        }
+    }, [enterImmersive, exitImmersive, isImmersive, isSlidePage, phoneOrientation]);
+
+    // 键盘 ← / → 翻页（在输入框里打字时不翻）
+    const goPageRef = useRef(goPage);
+    goPageRef.current = goPage;
+    useEffect(() => {
+        if (view !== "lesson") return;
+        const onKeyDown = (event: KeyboardEvent) => {
+            const delta = keyboardPageDelta(event);
+            if (delta === 0) return;
+            event.preventDefault();
+            goPageRef.current(delta);
+        };
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, [view]);
+
     const isFinalPage = flow.length > 0 && clampedPageIndex === flow.length - 1;
+    // 手机「目录」菜单里的额外入口：作品、零件清单
+    const lessonMenuExtras: LessonMenuExtra[] = [
+        ...(hasWorks ? [{ key: "works", label: "看看大家的作品", icon: "works" as const, onSelect: () => { void exitImmersive(); setView("works"); } }] : []),
+        ...(content.ldrawModelUrl ? [{ key: "parts", label: "本课零件清单", icon: "parts" as const, href: `/courses/${courseId}/lessons/${lesson.id}/parts` }] : []),
+    ];
     const flowControls = (
         <div className={cn(
-            "relative z-30 shrink-0 border-t border-border bg-card p-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))] lg:p-3",
+            "relative z-30 shrink-0 border-t border-border/60 bg-background/90 px-3 py-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] backdrop-blur-md",
             !isImmersive && "max-lg:fixed max-lg:bottom-0 max-lg:left-0 max-lg:right-0",
-            isImmersive && "p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]",
         )}>
-            <div className="mx-auto grid w-full max-w-2xl grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2">
-                <Button
+            <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-3">
+                <button
                     type="button"
-                    variant="outline"
-                    className="h-11 min-w-0 px-2 sm:px-3"
+                    className={cn(pill, pillQuiet)}
                     disabled={clampedPageIndex === 0}
                     onClick={() => goPage(-1)}
                 >
-                    <ChevronLeft className="mr-1 h-4 w-4" />
+                    <ChevronLeft className="h-4 w-4" />
                     上一页
-                </Button>
-                <span className="min-w-14 text-center text-xs font-semibold tabular-nums text-muted-foreground min-[360px]:text-sm">
+                </button>
+                <span className="text-sm font-semibold tabular-nums text-muted-foreground">
                     {`课程 ${clampedPageIndex + 1}/${flow.length} 页`}
                 </span>
                 {isFinalPage ? (
-                    <Button
+                    <button
                         type="button"
-                        className="h-11 min-w-0 px-2 sm:px-3"
+                        className={cn(pill, pillPrimary)}
                         disabled={completing || completed}
                         onClick={() => void handleComplete()}
                     >
-                        {completing ? (
-                            <Loader2 className="mr-1 h-4 w-4 animate-spin" />
-                        ) : (
-                            <Check className="mr-1 h-4 w-4" />
-                        )}
-                        {completed ? "已完成" : "完成这课"}
-                    </Button>
+                        {completing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+                        {completed ? "已完成" : "完成本课"}
+                    </button>
                 ) : (
-                    <Button
-                        type="button"
-                        className="h-11 min-w-0 px-2 sm:px-3"
-                        onClick={() => goPage(1)}
-                    >
+                    <button type="button" className={cn(pill, pillPrimary)} onClick={() => goPage(1)}>
                         下一页
-                        <ChevronRight className="ml-1 h-4 w-4" />
-                    </Button>
+                        <ChevronRight className="h-4 w-4" />
+                    </button>
                 )}
             </div>
         </div>
@@ -1589,24 +1739,102 @@ export function Building3DWorkspace({
             {nextSlideImageUrl ? (
                 <link rel="preload" as="image" href={nextSlideImageUrl} />
             ) : null}
-            {isImmersive ? (
+            {isImmersive && !buildFullscreen ? (
                 <div className="absolute inset-0 z-30 hidden flex-col items-center justify-center gap-3 bg-[#0f172a] text-white portrait:flex landscape:hidden lg:hidden">
                     <RotateCw className="h-9 w-9" />
                     <p className="text-sm font-semibold">请将设备横放</p>
                 </div>
             ) : null}
-            <div className="relative z-40 flex h-12 shrink-0 items-center gap-1 border-b border-border bg-card px-2">
+            {hideChrome ? (
+                <>
+                    {/* 沉浸式控制条：顶部退出 + 页码；底部上一页/下一页 */}
+                    <div
+                        data-testid="immersive-overlay"
+                        data-visible={overlayShown ? "true" : "false"}
+                        className={cn(
+                            "pointer-events-none absolute inset-x-0 top-0 z-50 flex items-center justify-between gap-2 bg-gradient-to-b from-black/70 to-transparent px-3 pb-6 pt-[max(0.5rem,env(safe-area-inset-top))] text-white transition-opacity duration-200",
+                            overlayShown ? "opacity-100" : "opacity-0",
+                            buildFullscreen && "bg-none from-transparent pb-0",
+                        )}
+                    >
+                        <button
+                            type="button"
+                            aria-label="关闭全屏"
+                            className={cn(
+                                pill, pillOnDark, circle,
+                                (overlayShown) && "pointer-events-auto",
+                            )}
+                            onClick={() => { setOverlayVisible(false); void exitImmersive(); }}
+                        >
+                            <X className="h-5 w-5" />
+                        </button>
+                        <span className={cn(pill, pillOnDark, "pointer-events-none tabular-nums", buildFullscreen && "invisible")}>
+                            {clampedPageIndex + 1} / {flow.length}
+                        </span>
+                    </div>
+                    {slideImmersive ? (
+                        <div
+                            className={cn(
+                                "pointer-events-none absolute inset-x-0 bottom-0 z-50 flex items-center justify-center gap-3 bg-gradient-to-t from-black/70 to-transparent px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-6 transition-opacity duration-200",
+                                overlayShown ? "opacity-100" : "opacity-0",
+                            )}
+                        >
+                            <button
+                                type="button"
+                                disabled={clampedPageIndex === 0}
+                                className={cn(pill, pillOnDark, overlayShown && "pointer-events-auto")}
+                                onClick={() => goPage(-1)}
+                            >
+                                <ChevronLeft className="h-4 w-4" />上一页
+                            </button>
+                            {isFinalPage ? (
+                                <button
+                                    type="button"
+                                    disabled={completing || completed}
+                                    className={cn(pill, pillPrimary, overlayShown && "pointer-events-auto")}
+                                    onClick={() => void handleComplete()}
+                                >
+                                    <Check className="h-4 w-4" />{completed ? "已完成" : "完成本课"}
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    className={cn(pill, pillPrimary, overlayShown && "pointer-events-auto")}
+                                    onClick={() => goPage(1)}
+                                >
+                                    下一页<ChevronRight className="h-4 w-4" />
+                                </button>
+                            )}
+                        </div>
+                    ) : null}
+                    {slideImmersive && pageIndicatorVisible && !overlayShown ? (
+                        <div data-testid="page-indicator" className={cn(pill, pillOnDark, "pointer-events-none absolute bottom-4 left-1/2 z-50 -translate-x-1/2 tabular-nums animate-in fade-in")}>
+                            {clampedPageIndex + 1} / {flow.length}
+                        </div>
+                    ) : null}
+                </>
+            ) : null}
+            <div className={cn("relative z-40 flex h-14 shrink-0 items-center gap-2 border-b border-border/60 bg-background px-3 max-md:px-2", hideChrome && "hidden")}>
+                {sidebar ? (
+                    <button
+                        type="button"
+                        data-testid="sidebar-toggle"
+                        aria-label={sidebar.collapsed ? "展开目录" : "收起目录"}
+                        title={sidebar.collapsed ? "展开目录" : "收起目录"}
+                        className={cn(pill, pillQuiet, "hidden px-3 xl:inline-flex")}
+                        onClick={sidebar.onToggle}
+                    >
+                        {sidebar.collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+                        {sidebar.collapsed ? "展开目录" : "收起目录"}
+                    </button>
+                ) : null}
+                {mobileHeaderSlot ? <div className="flex min-w-0 flex-1 items-center md:max-w-[50%] md:flex-none">{mobileHeaderSlot}</div> : null}
                 {hasWorks ? (
-                    <>
+                    <div className="ml-3 flex items-center gap-2 max-md:hidden">
                     <button
                         type="button"
                         onClick={() => setView("lesson")}
-                        className={cn(
-                            "inline-flex h-11 items-center gap-1.5 rounded-sm px-3 text-sm font-semibold transition-colors",
-                            view === "lesson"
-                                ? "bg-[hsl(var(--brand-blue))] text-white"
-                                : "text-muted-foreground hover:bg-muted",
-                        )}
+                        className={cn(pill, view === "lesson" ? pillPrimary : "text-muted-foreground hover:bg-foreground/[0.06]")}
                         aria-pressed={view === "lesson"}
                     >
                         <Presentation className="h-4 w-4" />
@@ -1615,38 +1843,74 @@ export function Building3DWorkspace({
                     <button
                         type="button"
                         onClick={() => { void exitImmersive(); setView("works"); }}
-                        className={cn(
-                            "inline-flex h-11 items-center gap-1.5 rounded-sm px-3 text-sm font-semibold transition-colors",
-                            view === "works"
-                                ? "bg-[hsl(var(--brand-blue))] text-white"
-                                : "text-muted-foreground hover:bg-muted",
-                        )}
+                        className={cn(pill, view === "works" ? pillPrimary : "text-muted-foreground hover:bg-foreground/[0.06]")}
                         aria-pressed={view === "works"}
                     >
                         <Sparkles className="h-4 w-4" />
                         作品
                     </button>
-                    </>
+                    </div>
                 ) : null}
-                <div className="ml-auto flex items-center gap-2">
-                    {view === "lesson" ? navigationSlot : null}
-                    {view === "lesson" ? (
-                        <Button
+                <div className="ml-auto flex shrink-0 items-center gap-2 max-md:gap-1.5">
+                    {view === "works" ? (
+                        <button type="button" className={cn(pill, pillQuiet, "md:hidden")} onClick={() => setView("lesson")}>
+                            <Presentation className="h-4 w-4" />回到课程
+                        </button>
+                    ) : null}
+                    {view === "lesson" && voiceControlsSlot ? (
+                        <button
                             type="button"
-                            size="icon"
-                            variant="outline"
-                            className="h-11 w-11"
+                            data-testid="voice-toggle"
+                            aria-label={voiceExpanded ? "收起语音搭建" : "语音搭建"}
+                            aria-pressed={voiceExpanded}
+                            className={cn(pill, "relative px-3 max-md:w-10 max-md:px-0", voiceActive ? pillPrimary : pillQuiet, voiceExpanded && !voiceActive && "bg-foreground/15 ring-1 ring-foreground/20")}
+                            onClick={() => setVoiceExpanded((open) => !open)}
+                        >
+                            <Mic className="h-4 w-4" />
+                            <span className="max-md:hidden">语音</span>
+                            {voiceActive ? <span aria-hidden className="absolute right-1.5 top-1.5 h-2 w-2 animate-pulse rounded-full bg-emerald-400 ring-2 ring-background" /> : null}
+                        </button>
+                    ) : null}
+                    {view === "lesson" && content.ldrawModelUrl ? (
+                        <Link
+                            href={`/courses/${courseId}/lessons/${lesson.id}/parts`}
+                            prefetch={false}
+                            aria-label="本课零件清单"
+                            title="本课零件清单"
+                            className={cn(pill, pillQuiet, "px-3 max-md:hidden")}
+                        >
+                            <Package className="h-4 w-4" />零件清单
+                        </Link>
+                    ) : null}
+                    {view === "lesson" ? (isValidElement(navigationSlot)
+                        ? cloneElement(navigationSlot as ReactElement<{ mobileExtras?: LessonMenuExtra[]; className?: string }>, {
+                            mobileExtras: lessonMenuExtras,
+                            // 电脑端左侧目录展开时，顶栏的「目录」按钮重复了，藏起来
+                            className: sidebar && !sidebar.collapsed ? "xl:hidden" : undefined,
+                        })
+                        : navigationSlot) : null}
+                    {view === "lesson" ? (
+                        <button
+                            type="button"
+                            className={cn(pill, pillQuiet, circle)}
                             aria-label={isImmersive ? "退出全屏" : "全屏横向展示"}
                             title={isImmersive ? "退出全屏" : "全屏横向展示"}
                             onClick={() => void (isImmersive ? exitImmersive() : enterImmersive())}
                         >
                             {isImmersive ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
-                        </Button>
+                        </button>
                     ) : null}
                 </div>
             </div>
 
-            {view === "lesson" ? voiceControlsSlot : null}
+            {/* 沉浸式时只藏起来不卸载，正在进行的语音搭建不中断 */}
+            {view === "lesson" ? (
+                <div data-voice-slot-wrapper className={cn("contents", (hideChrome || !voiceExpanded) && "hidden")}>
+                    {isValidElement(voiceControlsSlot)
+                        ? cloneElement(voiceControlsSlot as ReactElement<{ onStatusChange?: (status: string) => void }>, { onStatusChange: setVoiceStatus })
+                        : voiceControlsSlot}
+                </div>
+            ) : null}
 
             {view === "works" && hasWorks ? (
                 <LessonWorksGallery
@@ -1671,14 +1935,17 @@ export function Building3DWorkspace({
                 };
                 return (
                     <div className={cn(
-                        "flex min-h-0 flex-none items-center justify-center bg-[#0f172a] p-3 lg:flex-1 lg:p-6",
-                        isImmersive && "flex-1 p-2 lg:p-2",
+                        "flex min-h-0 flex-none flex-col items-center justify-center bg-[#0f172a] p-3 lg:flex-1 lg:p-6",
+                        isImmersive && "flex-1 p-0 lg:p-0 bg-black",
+                        // 方案 B：竖屏手机上课件占满剩余高度
+                        isPortraitPhone && !isImmersive && "flex-1 p-1",
                     )}>
                         <div
                             aria-label="课程媒体"
                             className={cn(
                                 "relative aspect-video w-full max-w-[900px] overflow-hidden rounded-sm lg:aspect-auto lg:h-full",
-                                isImmersive && "h-full max-w-none",
+                                isImmersive && "h-full max-w-none rounded-none",
+                                isPortraitPhone && !isImmersive && "aspect-auto min-h-[208px] flex-1",
                             )}
                         >
                             {failed ? (
@@ -1696,14 +1963,26 @@ export function Building3DWorkspace({
                                     onError={() => setFailedVideos((previous) => new Set(previous).add(videoUrl))}
                                     className="absolute inset-0 h-full w-full bg-black object-contain"
                                 />
+                            ) : activePage.kind === "slide" && isFinalPage && activePage.title === "完成本课" ? (
+                                // 课件最后一页是老师口吻的「授课完毕」，在线学习时换成学生视角的完成页，原课件不动。
+                                <div data-testid="building-final-page" className="absolute inset-0 flex flex-col items-center justify-center gap-3 overflow-y-auto bg-gradient-to-b from-[#1e293b] to-[#0f172a] p-4 text-center text-white">
+                                    {content.finishedImageUrl ? (
+                                        /* eslint-disable-next-line @next/next/no-img-element */
+                                        <img src={content.finishedImageUrl} alt={`${lesson.title}成品`} className="max-h-[45%] max-w-[70%] rounded-sm bg-white object-contain p-2" />
+                                    ) : (
+                                        <PartyPopper className="h-12 w-12 text-amber-300" aria-hidden />
+                                    )}
+                                    <p className="text-2xl font-bold sm:text-3xl">{completed ? "这节课你已完成！" : "你完成啦！"}</p>
+                                    <p className="text-sm text-white/75">{completed ? "可以去学下一课，或再看看作品。" : "点下方「完成本课」，记下这次的进步。"}</p>
+                                </div>
                             ) : activePage.kind === "slide" ? (
-                                /* eslint-disable-next-line @next/next/no-img-element */
-                                <img
+                                <ZoomableSlide
                                     key={activePage.imageUrl}
                                     src={activePage.imageUrl}
                                     alt={activePage.title}
                                     onError={() => setFailedSlides((previous) => new Set(previous).add(activePage.sourceIndex))}
-                                    className="absolute inset-0 h-full w-full object-contain"
+                                    onSwipe={(delta) => goPage(delta)}
+                                    onTap={handleSlideTap}
                                 />
                             ) : null}
                         </div>
@@ -1727,6 +2006,7 @@ export function Building3DWorkspace({
                 "grid min-h-0 flex-1 grid-rows-[minmax(320px,1fr)_auto] max-lg:grid-rows-[clamp(220px,42dvh,380px)_auto] lg:grid-cols-[minmax(0,1fr)_272px] lg:grid-rows-1",
                 isImmersive &&
                     "grid-cols-[minmax(0,1fr)_minmax(260px,32vw)] grid-rows-1 max-lg:grid-rows-1",
+                buildFullscreen && "relative grid-cols-1 max-lg:grid-rows-1",
                 !showBuildPage && "hidden",
             )}>
                 <div className={cn(
@@ -1764,17 +2044,26 @@ export function Building3DWorkspace({
                             </div>
                         </div>
                     ) : null}
-                    <div className="absolute left-3 top-3 flex gap-2">
-                        <Button
+                    <div className={cn("absolute left-3 top-3 flex gap-2", buildFullscreen && "left-auto right-3 top-[max(0.75rem,env(safe-area-inset-top))]")}>
+                        <button
                             type="button"
-                            size="sm"
-                            variant="outline"
-                            className="h-11 bg-card/90"
+                            className={cn(pill, pillGlass)}
                             onClick={() => sceneRef.current?.focusStep(activeBuildStepIndex, true)}
                         >
-                            <RotateCcw className="mr-1 h-4 w-4" />
+                            <RotateCcw className="h-4 w-4" />
                             视角
-                        </Button>
+                        </button>
+                        {isMobileViewport && !isImmersive ? (
+                            <button
+                                type="button"
+                                className={cn(pill, pillGlass)}
+                                data-testid="build-fullscreen"
+                                onClick={() => void enterImmersive({ keepOrientation: true })}
+                            >
+                                <Maximize2 className="h-4 w-4" />
+                                全屏
+                            </button>
+                        ) : null}
                         <div className="hidden items-center gap-1 rounded-sm border border-border bg-card/90 px-2 py-1 text-xs text-muted-foreground md:flex">
                             <ZoomIn className="h-3.5 w-3.5" />
                             拖动旋转 · 滚轮缩放
@@ -1787,11 +2076,38 @@ export function Building3DWorkspace({
                     ) : null}
                 </div>
 
-                <aside className={cn(
-                    "min-h-0 border-t border-border bg-card lg:border-l lg:border-t-0",
-                    isImmersive && "overflow-hidden border-l border-t-0",
-                )}>
-                    <div className={cn("flex h-full min-h-0 flex-col", !isImmersive && "max-lg:max-h-[min(28dvh,14rem)]")}>
+                <aside
+                    data-testid="build-parts-panel"
+                    data-drawer={buildFullscreen ? (partsDrawerOpen ? "open" : "closed") : undefined}
+                    className={cn(
+                        "min-h-0 border-t border-border bg-card lg:border-l lg:border-t-0",
+                        isImmersive && !buildFullscreen && "overflow-hidden border-l border-t-0",
+                        // 方案 C：全屏搭建时零件清单是可上拉的底部抽屉
+                        buildFullscreen &&
+                            "absolute inset-x-0 bottom-0 z-20 flex flex-col overflow-hidden rounded-t-lg border-x border-t shadow-[0_-8px_24px_rgb(0_0_0/0.18)] transition-[max-height] duration-200",
+                        buildFullscreen && (partsDrawerOpen ? "max-h-[65%]" : "max-h-14"),
+                    )}
+                >
+                    {buildFullscreen ? (
+                        <button
+                            type="button"
+                            aria-expanded={partsDrawerOpen}
+                            aria-controls="building-3d-step-parts"
+                            onClick={() => setPartsDrawerOpen((open) => !open)}
+                            className="flex min-h-14 w-full shrink-0 flex-col items-center justify-center gap-1 px-3 text-sm font-semibold text-foreground"
+                        >
+                            <span aria-hidden className="h-1 w-10 rounded-full bg-muted-foreground/40" />
+                            <span className="flex items-center gap-1">
+                                <Box className="h-4 w-4" />
+                                {partsDrawerOpen ? "收起零件" : `本步零件${bomStep ? ` ${bomStep.partCount} 块` : ""} · 上拉查看`}
+                            </span>
+                        </button>
+                    ) : null}
+                    <div className={cn(
+                        "flex h-full min-h-0 flex-col",
+                        !isImmersive && "max-lg:max-h-[min(28dvh,14rem)]",
+                        buildFullscreen && !partsDrawerOpen && "hidden",
+                    )}>
                         {(() => {
                             const desc = activeStep?.description?.trim();
                             const isGeneric = !desc || desc.includes("按照三维示范") || desc.includes("添加本步零件") || desc === activeStep?.title;
@@ -1909,7 +2225,7 @@ export function Building3DWorkspace({
                     />
                 </div>
             ) : null}
-            {view === "lesson" && activePage ? flowControls : null}
+            {view === "lesson" && activePage && !slideImmersive ? flowControls : null}
         </section>
     );
 }

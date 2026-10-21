@@ -198,3 +198,8 @@ export function useGamification() {
     }
     return context;
 }
+
+/** 不在 GamificationProvider 内时返回 null（例如单测、独立预览页）。 */
+export function useOptionalGamification() {
+    return useContext(GamificationContext) ?? null;
+}

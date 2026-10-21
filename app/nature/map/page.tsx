@@ -16,7 +16,7 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString("zh-CN", {
+  return new Date(dateString).toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",

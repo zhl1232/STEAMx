@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ChangeEvent
 import { Camera, CheckCircle2, Loader2, Plus, X } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { useToast } from "@/hooks/use-toast"
@@ -54,6 +55,11 @@ interface ObservationSubmitPhotoSectionProps {
 }
 
 const MAX_IMAGES = 5
+export const BLOCKED_PHOTO_HINT = "这张看起来不是自然照片，换一张吧"
+
+export function isBlockedObservationPhoto(analysis?: ObservationMediaAnalysis | null) {
+  return Boolean(analysis && (analysis.status === "failed_unsafe" || analysis.moderationPass === false))
+}
 
 function getAnalysisBadge(status?: ObservationMediaAnalysis["status"]) {
   switch (status) {
@@ -272,6 +278,8 @@ export function ObservationSubmitPhotoSection({
   const heroImage = evidenceImages[0] ?? null
   const galleryImages = evidenceImages.slice(1)
   const heroBadge = heroImage ? getAnalysisBadge(analysisByImage.get(heroImage)?.status) : null
+  const heroBlocked = heroImage ? isBlockedObservationPhoto(analysisByImage.get(heroImage)) : false
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const pendingCount = evidenceImages.filter((url) => {
     const status = analysisByImage.get(url)?.status
     return !status || status === "pending"
@@ -317,14 +325,22 @@ export function ObservationSubmitPhotoSection({
         <div className="overflow-hidden rounded-xs border border-(--obs-border-strong) bg-(--obs-control) text-(--obs-text) [box-shadow:var(--obs-panel-shadow)]">
           {heroImage ? (
             <>
-              <div className="relative aspect-16/11 min-h-[180px] sm:min-h-[210px] md:aspect-16/10">
-                <OptimizedImage
-                  src={heroImage}
-                  alt="观察照片"
-                  fill
-                  variant="cover"
-                  className="object-cover"
-                />
+              <div className="relative h-30 sm:h-auto sm:aspect-16/11 sm:min-h-[210px] md:aspect-16/10">
+                <button
+                  type="button"
+                  onClick={() => setPreviewUrl(heroImage)}
+                  className="absolute inset-0 block cursor-zoom-in"
+                  aria-label="查看大图"
+                  data-testid="observation-photo-thumb"
+                >
+                  <OptimizedImage
+                    src={heroImage}
+                    alt="观察照片"
+                    fill
+                    variant="cover"
+                    className={heroBlocked ? "object-cover opacity-60 grayscale" : "object-cover"}
+                  />
+                </button>
                 <Button
                   type="button"
                   variant="secondary"
@@ -344,6 +360,7 @@ export function ObservationSubmitPhotoSection({
                   </Badge>
                 ) : null}
               </div>
+              {heroBlocked ? <BlockedPhotoNotice onRemove={() => handleRemove(0)} /> : null}
             </>
         ) : (
           <button
@@ -405,21 +422,23 @@ export function ObservationSubmitPhotoSection({
         <div className="grid grid-cols-4 gap-2 sm:grid-cols-5 lg:grid-cols-6">
           {galleryImages.map((url, index) => {
             const badge = getAnalysisBadge(analysisByImage.get(url)?.status)
+            const blocked = isBlockedObservationPhoto(analysisByImage.get(url))
             return (
               <div key={`${url}-${index}`} className="group relative overflow-hidden rounded-xs border border-(--obs-border-strong) bg-(--obs-control)">
-                <div className="relative aspect-square">
+                <button type="button" onClick={() => setPreviewUrl(url)} className="relative block aspect-square w-full cursor-zoom-in" aria-label={`查看第 ${index + 2} 张大图`}>
                   <OptimizedImage
                     src={url}
                     alt={`观察照片 ${index + 2}`}
                     fill
                     variant="cover"
-                    className="object-cover"
+                    className={blocked ? "object-cover opacity-60 grayscale" : "object-cover"}
                   />
-                </div>
+                </button>
                 <div className="flex min-h-9 items-center gap-1.5 border-t border-(--obs-border) px-2 py-1.5 text-[11px]">
                   <span className="font-semibold text-(--obs-text)">第 {index + 2} 张</span>
                   {badge ? <Badge variant="outline" className={badge.className}>{badge.label}</Badge> : null}
                 </div>
+                {blocked ? <BlockedPhotoNotice compact onRemove={() => handleRemove(index + 1)} /> : null}
                 <button
                   type="button"
                   onClick={() => handleRemove(index + 1)}
@@ -444,6 +463,17 @@ export function ObservationSubmitPhotoSection({
         </div>
       ) : null}
 
+      <Dialog open={previewUrl !== null} onOpenChange={(open) => { if (!open) setPreviewUrl(null) }}>
+        <DialogContent className="w-[calc(100vw-1.5rem)] max-w-3xl border-0 bg-black p-0 sm:max-w-3xl">
+          <DialogTitle className="sr-only">照片大图</DialogTitle>
+          {previewUrl ? (
+            <div className="relative h-[70dvh] w-full">
+              <OptimizedImage src={previewUrl} alt="观察照片大图" fill variant="cover" className="object-contain" />
+            </div>
+          ) : null}
+        </DialogContent>
+      </Dialog>
+
       <input
         ref={originalFileInputRef}
         type="file"
@@ -464,5 +494,23 @@ export function ObservationSubmitPhotoSection({
         aria-label="选择观察照片"
       />
     </section>
+  )
+}
+
+function BlockedPhotoNotice({ onRemove, compact = false }: { onRemove: () => void; compact?: boolean }) {
+  return (
+    <div
+      data-testid="blocked-photo-notice"
+      className={`flex items-center gap-2 border-t border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-900/60 dark:bg-rose-950/30 dark:text-rose-300 ${compact ? "flex-col items-stretch px-2 py-1.5 text-[11px] leading-4" : "px-3 py-2 text-xs"}`}
+    >
+      <span className="min-w-0 flex-1">{BLOCKED_PHOTO_HINT}</span>
+      <button
+        type="button"
+        onClick={onRemove}
+        className="shrink-0 rounded-full border border-rose-300 px-2.5 py-1 font-semibold hover:bg-rose-100 dark:border-rose-800 dark:hover:bg-rose-900/40"
+      >
+        删除
+      </button>
+    </div>
   )
 }

@@ -55,3 +55,20 @@ describe('isPwaInstallCooldownActive', () => {
     expect(storage.getItem(PWA_INSTALL_DISMISS_KEY)).toBe(String(now - PWA_INSTALL_COOLDOWN_MS - 1))
   })
 })
+
+describe('pwa prompt eligibility', async () => {
+  const { isPwaPromptEligible, isPwaBlockedPath } = await import('./install')
+  it('blocks login and lesson pages', () => {
+    expect(isPwaBlockedPath('/login')).toBe(true)
+    expect(isPwaBlockedPath('/courses/5/lessons/30')).toBe(true)
+    expect(isPwaBlockedPath('/courses/5')).toBe(false)
+  })
+  it('needs login plus a finished lesson or a second visit', () => {
+    const base = { loggedIn: true, pathname: '/explore', visitCount: 1, lessonCompleted: false }
+    expect(isPwaPromptEligible(base)).toBe(false)
+    expect(isPwaPromptEligible({ ...base, visitCount: 2 })).toBe(true)
+    expect(isPwaPromptEligible({ ...base, lessonCompleted: true })).toBe(true)
+    expect(isPwaPromptEligible({ ...base, loggedIn: false, visitCount: 3 })).toBe(false)
+    expect(isPwaPromptEligible({ ...base, pathname: '/courses/5/lessons/30', visitCount: 3 })).toBe(false)
+  })
+})

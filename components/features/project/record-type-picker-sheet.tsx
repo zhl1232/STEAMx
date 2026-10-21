@@ -1,6 +1,6 @@
 "use client"
 
-import { Eye, Gift, HelpCircle, Lightbulb, Paintbrush, Sun } from "lucide-react"
+import { Eye, Gift, HelpCircle } from "lucide-react"
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { RECORD_TYPE_OPTIONS } from "@/lib/project/exploration-record-meta"
@@ -9,9 +9,6 @@ import { cn } from "@/lib/utils"
 const ICONS = {
   observation: Eye,
   help: HelpCircle,
-  insight: Lightbulb,
-  discovery: Sun,
-  decorate: Paintbrush,
   result: Gift,
 } as const
 
@@ -28,7 +25,7 @@ export function RecordTypePickerSheet({ open, onOpenChange, onSelect }: RecordTy
         <SheetHeader>
           <SheetTitle>选择记录类型</SheetTitle>
         </SheetHeader>
-        <p className="mt-1 text-sm text-muted-foreground">选择最接近你这次探索的类型，便于大家快速浏览。</p>
+        <p className="mt-1 text-sm text-muted-foreground">看到了什么选「观察记录」，卡住了选「问题求助」，做好了选「成果展示」。</p>
         <RecordTypeGrid onSelect={onSelect} onOpenChange={onOpenChange} />
       </SheetContent>
     </Sheet>

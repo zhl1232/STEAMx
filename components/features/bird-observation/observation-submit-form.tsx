@@ -29,6 +29,7 @@ import { ObservationLocationPicker } from "@/components/features/bird-observatio
 import { speciesAtlasOtherInitial } from "@/lib/nature-species-atlas"
 import { ObservationSubmitPhotoSection, type ObservationMediaAnalysis } from "@/components/features/bird-observation/observation-submit-photo-section"
 import { ObservationPhotoStrip } from "@/components/features/bird-observation/observation-photo-strip"
+import { ObservationPlacePrivacyHint } from "@/components/features/bird-observation/observation-place-privacy-hint"
 import { ObservationSubmitSuccessDialog } from "@/components/features/bird-observation/observation-submit-success-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -140,6 +141,8 @@ interface SubmitBlocker {
   label: string
   title: string
   description?: string
+  /** 发布按钮上直接说明缺什么，例如「还没选地点」。 */
+  buttonHint: string
 }
 
 interface ObservationDraft {
@@ -334,7 +337,7 @@ function formatObservedAt(value: string) {
   if (!value) return "时间待定"
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return "时间待定"
-  return new Intl.DateTimeFormat("zh-CN", {
+  return new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai",
     month: "2-digit",
     day: "2-digit",
     hour: "2-digit",
@@ -591,6 +594,10 @@ export function ObservationSubmitForm({
   const [mediaAnalyses, setMediaAnalyses] = useState<ObservationMediaAnalysis[]>([])
   const [isAnalyzingImages, setIsAnalyzingImages] = useState(false)
   const [draftReady, setDraftReady] = useState(false)
+  /** 恢复出的旧草稿里还没发布的照片数；>0 时在顶部提示继续或清空。 */
+  const [restoredDraftCount, setRestoredDraftCount] = useState(0)
+  /** 地点类型不明时，提交者确认「这是公共场所」的照片。 */
+  const [publicPlaceConfirmedByImage, setPublicPlaceConfirmedByImage] = useState<Record<string, boolean>>({})
   const [draftSaveStatus, setDraftSaveStatus] = useState<DraftSaveStatus>("idle")
   const [isLocating, setIsLocating] = useState(false)
   const [activeMobilePanel, setActiveMobilePanel] = useState<MobilePanelKey>("photo")
@@ -632,10 +639,12 @@ export function ObservationSubmitForm({
     species: speciesSectionRef,
     location: locationSectionRef,
   }
+  // 有照片后在手机上同时展开识别和地点，缩略图压到约 120px，首屏就能看到识别结果和地点。
+  const mobileAllPanelsOpen = evidenceImages.length > 0
   const mobilePanels: Record<MobilePanelKey, boolean> = {
-    photo: activeMobilePanel === "photo",
-    species: activeMobilePanel === "species",
-    location: activeMobilePanel === "location",
+    photo: mobileAllPanelsOpen || activeMobilePanel === "photo",
+    species: mobileAllPanelsOpen || activeMobilePanel === "species",
+    location: mobileAllPanelsOpen || activeMobilePanel === "location",
   }
 
   draftSnapshotRef.current = { evidenceImages, photoDrafts, mediaAnalyses }
@@ -879,7 +888,7 @@ export function ObservationSubmitForm({
         setSpeciesQuery(match?.commonName ?? "")
       }
 
-      toast({ title: "已恢复本地草稿" })
+      setRestoredDraftCount(draft.evidenceImages.length)
     } catch {
       clearObservationDraft()
       setDraftSaveStatus("error")
@@ -1181,16 +1190,17 @@ export function ObservationSubmitForm({
 
   const getSubmitBlocker = (): SubmitBlocker | null => {
     if (isUploadingPhotos) {
-      return { panel: "photo", label: "照片上传完成", title: "照片正在上传，请稍候", description: "上传完成后再确认每张照片的信息，避免遗漏新照片。" }
+      return { panel: "photo", label: "照片上传完成", buttonHint: "照片还在上传", title: "照片正在上传，请稍候", description: "上传完成后再确认每张照片的信息，避免遗漏新照片。" }
     }
     if (evidenceImages.length === 0) {
-      return { panel: "photo", label: "照片", title: "请先上传一张照片" }
+      return { panel: "photo", label: "照片", buttonHint: "还没上传照片", title: "请先上传一张照片" }
     }
 
     if (!safetyCheckReady) {
       return {
         panel: "photo",
         label: "安全检查",
+        buttonHint: "有照片要换掉",
         title: "请移除未通过安全检查的照片",
         description: getAnalysisBlockerDescription(),
       }
@@ -1202,6 +1212,7 @@ export function ObservationSubmitForm({
       return {
         panel: "location",
         label: missingTime ? "观察日期和时间" : "观察地点",
+        buttonHint: missingTime ? "还没填时间" : "还没选地点",
         title: missingTime ? "请补全这张照片的观察日期和时间" : "请为每张照片确认观察地点",
         description: missingTime ? "填写实际观察时间；照片拍摄信息可作为参考。" : "没有 GPS 的照片需要搜索选择地点或在地图上选点。",
       }
@@ -1293,6 +1304,7 @@ export function ObservationSubmitForm({
           longitude: Number(draft.longitude),
           initial_species_id: draft.speciesId ? Number(draft.speciesId) : null,
           suggested_species_name: !draft.speciesId ? chosenUnmatchedByImage[url] ?? null : null,
+          place_public_confirmed: publicPlaceConfirmedByImage[url] === true,
           lifecycle_stage: draft.lifecycleStage || null,
           sex: draft.sex || null,
         }
@@ -1360,6 +1372,7 @@ export function ObservationSubmitForm({
   const observedTime = observedAt.split("T")[1]?.slice(0, 5) ?? ""
   const submitBlocker = getSubmitBlocker()
   const submitMissingLabel = submitBlocker?.label ?? "必要信息"
+  const submitBlockerHint = submitBlocker?.buttonHint ?? `还差${submitMissingLabel}`
   const mobileSubmitReady = canSubmit && !isSubmitting
 
   const speciesStatusTone =
@@ -1513,7 +1526,7 @@ export function ObservationSubmitForm({
     toast({ title: "已用到其余未定位的照片" })
   }, [evidenceImages, markManualLocation, selectedDraft, selectedImageUrl, toast])
 
-  const visibilityLabel = "公开记录 · 准确位置"
+  const visibilityLabel = "提交后审核通过即公开"
   const precisionLabel = "准确位置"
   const previewImage = selectedImageUrl ?? evidenceImages[0] ?? null
   const previewSpeciesName = selectedSpecies?.commonName || speciesQuery.trim() || "待共同鉴定"
@@ -1619,6 +1632,36 @@ export function ObservationSubmitForm({
           </div>
         </div>
 
+        {restoredDraftCount > 0 && evidenceImages.length > 0 ? (
+          <div
+            role="status"
+            data-testid="observation-draft-banner"
+            className="relative mb-4 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-sm border border-amber-300/70 bg-amber-50 px-3 py-2.5 text-sm text-amber-900 dark:border-amber-800/70 dark:bg-amber-950/30 dark:text-amber-200"
+          >
+            <span className="min-w-0 flex-1 font-semibold">你上次有 {evidenceImages.length} 张照片还没发布</span>
+            <div className="flex shrink-0 gap-2">
+              <button
+                type="button"
+                onClick={() => setRestoredDraftCount(0)}
+                className="min-h-9 rounded-full bg-(--obs-accent) px-3 text-xs font-semibold text-white hover:bg-(--obs-accent-strong)"
+              >
+                继续编辑
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setRestoredDraftCount(0)
+                  resetForm()
+                  clearObservationDraft()
+                }}
+                className="min-h-9 rounded-full border border-amber-400/70 px-3 text-xs font-semibold hover:bg-amber-100 dark:border-amber-700 dark:hover:bg-amber-900/40"
+              >
+                清空重来
+              </button>
+            </div>
+          </div>
+        ) : null}
+
         <div className="relative grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
           <div className="min-w-0 space-y-5">
             <section ref={photoSectionRef} className={panelClass}>
@@ -1665,16 +1708,16 @@ export function ObservationSubmitForm({
                     拍摄建议
                   </button>
                 </div>
-                <MobileStepFooter
-                  actionLabel={evidenceImages.length > 0 ? "确认物种（可选）" : "先上传照片"}
-                  disabled={evidenceImages.length === 0 || isUploadingPhotos}
-                  onNext={() => openMobilePanel("species")}
-                  helper={
-                    evidenceImages.length > 0
-                      ? "识别结果只是建议，不确定物种也可以继续填写地点并发布。"
-                      : "上传照片后会自动读取照片拍摄时间和 GPS（如果照片包含这些信息）。"
-                  }
-                />
+                {evidenceImages.length > 0 ? (
+                  <MobileStepFooter
+                    actionLabel="确认物种（可选）"
+                    disabled={isUploadingPhotos}
+                    onNext={() => openMobilePanel("species")}
+                    helper="识别结果只是建议，不确定物种也可以继续填写地点并发布。"
+                  />
+                ) : (
+                  <p className="mt-3 text-xs leading-5 text-(--obs-muted-2) md:hidden">上传后自动读取拍摄时间和 GPS（如果照片里有）。</p>
+                )}
                 {evidenceImages.length > 0 ? (
                   <button type="button" disabled={isUploadingPhotos} onClick={() => openMobilePanel("location")} className="mt-3 min-h-11 w-full text-sm font-semibold text-(--obs-accent-text) md:hidden">
                     不确定物种，直接填时间和地点
@@ -1940,7 +1983,7 @@ export function ObservationSubmitForm({
                 <StepHeader
                   index={3}
                   title="确认时间和地点"
-                  description="逐张核对实际观察时间与地点；自动读取的照片信息也请检查。记录会公开显示准确位置。"
+                  description="逐张核对实际观察时间与地点；自动读取的照片信息也请检查。家附近只公开到街道/镇附近。"
                   icon={MapPin}
                   status={locationStepStatus}
                   statusTone={locationStepTone}
@@ -1977,7 +2020,7 @@ export function ObservationSubmitForm({
                     <Button type="button" variant="outline" className="mt-3 h-11" onClick={() => openMobilePanel("photo")}>去选择照片</Button>
                   </div>
                 ) : <div className="space-y-4">
-                  <p className="text-xs leading-5 text-(--obs-muted)">照片信息仅作参考，请确认实际观察时间和地点。记录会公开显示准确位置。</p>
+                  <p className="text-xs leading-5 text-(--obs-muted)">照片信息仅作参考，请确认实际观察时间和地点。公园等公共场所会公开具体地点，家附近只显示到街道/镇附近。</p>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="space-y-2">
                       <FieldLabel htmlFor="observedDate">观察日期</FieldLabel>
@@ -2025,6 +2068,17 @@ export function ObservationSubmitForm({
                     controlClassName={controlClass}
                   />
 
+                  <ObservationPlacePrivacyHint
+                    latitude={latitude}
+                    longitude={longitude}
+                    locationName={locationName}
+                    confirmedPublic={selectedImageUrl ? publicPlaceConfirmedByImage[selectedImageUrl] === true : false}
+                    onConfirmedPublicChange={(value) => {
+                      if (!selectedImageUrl) return
+                      setPublicPlaceConfirmedByImage((prev) => ({ ...prev, [selectedImageUrl]: value }))
+                    }}
+                  />
+
                   {selectedDraft && isPhotoLocated(selectedDraft) && otherUnlocatedCount > 0 ? (
                     <Button
                       type="button"
@@ -2062,7 +2116,7 @@ export function ObservationSubmitForm({
                 ) : (
                   <>
                     <Send className="mr-2 h-4 w-4" />
-                    {submitActionLabel}
+                    {canSubmit ? submitActionLabel : submitBlockerHint}
                   </>
                 )}
               </Button>
@@ -2207,7 +2261,7 @@ export function ObservationSubmitForm({
               ) : (
                 <>
                   <Send className="mr-2 h-4 w-4" />
-                  {mobileSubmitReady ? submitActionLabel : `还差${submitMissingLabel}`}
+                  {mobileSubmitReady ? submitActionLabel : submitBlockerHint}
                 </>
               )}
             </Button>

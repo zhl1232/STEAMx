@@ -59,7 +59,7 @@ export function formatFullDateTime(date: string | Date): string {
   try {
     const dateObj = typeof date === 'string' ? new Date(date) : date;
     
-    return dateObj.toLocaleString('zh-CN', {
+    return dateObj.toLocaleString('zh-CN', { timeZone: "Asia/Shanghai",
       year: 'numeric',
       month: 'long',
       day: 'numeric',

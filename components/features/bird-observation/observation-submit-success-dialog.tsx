@@ -42,12 +42,12 @@ export function ObservationSubmitSuccessDialog({
             已提交
           </div>
           <DialogTitle className="text-xl font-semibold tracking-tight">
-            {multiple ? `已提交 ${count} 条观察` : "观察已提交"}
+            {multiple ? `已提交 ${count} 条，审核中` : "已提交，审核中"}
           </DialogTitle>
           <DialogDescription className="mt-2 text-sm leading-6 text-muted-foreground">
-            {multiple
-              ? `这 ${count} 条观察已进入审核队列，审核通过后会出现在公开观察流。每条通过可获得经验。`
-              : "本次观察已进入审核队列，审核通过后会出现在公开观察流。"}
+            {speciesName
+              ? `审核通过后点亮图鉴：${speciesName}`
+              : "审核通过后公开，并点亮图鉴。"}
           </DialogDescription>
         </DialogHeader>
 
@@ -82,7 +82,7 @@ export function ObservationSubmitSuccessDialog({
               </div>
               <div className="mt-3 text-2xl font-semibold text-foreground">待审核</div>
               <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                管理员按张通过后，其他人才能在自然观察流里看到。
+                通过后会通知你，别人也能看到。
               </p>
             </div>
             <div className="rounded-sm border border-[hsl(var(--primary)/0.24)] bg-[hsl(var(--status-info-surface)/0.72)] p-4">
@@ -92,9 +92,7 @@ export function ObservationSubmitSuccessDialog({
               </div>
               <div className="mt-3 text-2xl font-semibold text-[hsl(var(--primary))]">+{expectedXp} XP</div>
               <p className="mt-2 text-xs leading-5 text-[hsl(var(--muted-foreground))]">
-                {multiple
-                  ? "每条观察审核通过后发放经验，徽章会自动同步。"
-                  : "经验和观察徽章会在审核通过时自动同步。"}
+                审核通过后发放，徽章同步点亮。
               </p>
             </div>
           </div>

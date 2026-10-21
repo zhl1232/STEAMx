@@ -207,7 +207,7 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
               <span className="hidden sm:inline">·</span>
               <span className="inline-flex items-center gap-1">
                 <Clock3 className="h-3.5 w-3.5" />
-                {new Date(completion.completed_at).toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                {new Date(completion.completed_at).toLocaleString('zh-CN', { timeZone: "Asia/Shanghai", month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
               </span>
             </CardDescription>
           </div>
@@ -286,7 +286,7 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
                       </div>
                       <div><span className="text-muted-foreground">项目:</span> {projectTitle}</div>
                       <div><span className="text-muted-foreground">分类:</span> {projectCategory || '-'}</div>
-                      <div><span className="text-muted-foreground">提交时间:</span> {new Date(completion.completed_at).toLocaleString('zh-CN')}</div>
+                      <div><span className="text-muted-foreground">提交时间:</span> {new Date(completion.completed_at).toLocaleString('zh-CN', { timeZone: "Asia/Shanghai" })}</div>
                     </div>
                   </section>
 
