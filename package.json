@@ -16,6 +16,8 @@
     "lint:fix": "oxlint --fix --react-plugin --nextjs-plugin app components hooks lib packages/scratch-host/src *.config.* *.ts *.tsx",
     "type-check": "tsc --noEmit",
     "test": "vitest run",
+    "test:physics-lab": "node --test tests/physics-lab/*.test.mjs",
+    "export:physics-lab": "node scripts/export-physics-lab.mjs",
     "test:related": "vitest related --run --passWithNoTests",
     "push": "git push && node scripts/ci-watch.mjs",
     "ci:watch": "node scripts/ci-watch.mjs",

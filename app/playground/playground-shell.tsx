@@ -467,7 +467,7 @@ function GameNavGlyph({
 function MobilePlaygroundHeader() {
     const pathname = usePathname()
     const isHome = pathname === "/playground"
-    const navItems = [{ name: "首页", href: "/playground", icon: Home }, ...games]
+    const navItems = [{ name: "首页", href: "/playground", icon: Home }, { name: "物理实验室", href: "/playground/physics-lab", icon: TestTubes }, ...games]
     const activeGame = games.find((game) => pathname.startsWith(game.href))
 
     return (
@@ -562,6 +562,10 @@ function DesktopSidebar() {
                     >
                         <Home className="h-5 w-5" />
                         首页
+                    </Link>
+                    <Link href="/playground/physics-lab" className="group flex min-h-[54px] items-center gap-3 rounded-md px-3 text-sm font-bold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground">
+                        <TestTubes className="h-5 w-5" aria-hidden />
+                        物理实验室
                     </Link>
                     {games.map((game) => {
                         const active = pathname.startsWith(game.href)
@@ -688,6 +692,10 @@ export default function PlaygroundLayout({ children }: { children: React.ReactNo
     usePlaygroundSync()
     const pathname = usePathname()
     const activeGame = games.find((game) => pathname.startsWith(game.href))
+
+    if (pathname.startsWith("/playground/physics-lab")) {
+        return <main className="app-canvas app-shell-wide min-w-0">{children}</main>
+    }
 
     return (
         <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,3rem))] md:min-h-[calc(100vh-4rem)]">

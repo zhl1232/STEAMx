@@ -66,5 +66,6 @@ describe("PlaygroundPage", () => {
 
         expect(screen.getAllByRole("link", { name: /函数战争/ }).length).toBeGreaterThan(0)
         expect(screen.getAllByText("18 款").length).toBeGreaterThan(0)
+        expect(screen.getByRole("link", { name: /物理实验室/ })).toHaveAttribute("href", "/playground/physics-lab")
     }, 15_000)
 })

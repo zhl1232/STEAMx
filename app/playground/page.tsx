@@ -534,6 +534,14 @@ export default function PlaygroundPage() {
             <div className="grid gap-5 xl:gap-8 xl:grid-cols-[minmax(0,1fr)_320px]">
                 <section className="flex min-w-0 flex-col gap-5">
                     <HeroPanel className="order-1" />
+                    <Link href="/playground/physics-lab" className="surface-panel group order-1 flex items-center gap-4 p-5 transition-colors hover:bg-muted/50">
+                        <span className="grid h-12 w-12 shrink-0 place-items-center rounded-md bg-primary/10 text-primary"><Beaker className="h-6 w-6" aria-hidden /></span>
+                        <div className="min-w-0 flex-1">
+                            <h2 className="font-sans text-lg font-black">物理实验室</h2>
+                            <p className="mt-1 text-sm leading-6 text-muted-foreground">搭电路、看光路，探索声音、热、磁与运动。选一个主题，动手试试。</p>
+                        </div>
+                        <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground group-hover:text-primary" aria-hidden />
+                    </Link>
 
                     <div className="order-2 xl:hidden">
                         <RecommendationPanel
