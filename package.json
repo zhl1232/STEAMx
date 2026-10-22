@@ -26,6 +26,8 @@
     "test:e2e": "playwright test",
     "test:e2e:integration": "playwright test -c playwright.integration.config.ts",
     "test:e2e:building-vosk": "playwright test -c playwright.building-vosk.config.ts",
+    "test:e2e:building-vosk:engineering": "playwright test -c playwright.building-vosk.config.ts --grep-invert @acoustic",
+    "test:e2e:building-vosk:acoustic": "playwright test -c playwright.building-vosk.config.ts --grep @acoustic",
     "test:e2e:building-kws": "playwright test -c playwright.building-kws.config.ts",
     "test:e2e:scratch": "playwright test -c playwright.scratch-host.config.ts",
     "prepare": "husky",

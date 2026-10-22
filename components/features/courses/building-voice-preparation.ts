@@ -51,7 +51,8 @@ export class BuildingVoicePreparation {
     try { download = this.createWorker(`${ASSETS}/prepare-worker.js`) } catch { this.fail(); return }
     this.downloader = download
     this.timer = setTimeout(this.fail, 120_000)
-    download.onerror = this.fail
+    const failCurrent = () => { if (generation === this.generation) this.fail() }
+    download.onerror = failCurrent
     download.onmessage = ({ data }) => {
       if (generation !== this.generation) return
       if (data.type === 'deferred') { this.clearWork(); this.publish('deferred'); return }
@@ -67,7 +68,7 @@ export class BuildingVoicePreparation {
         let worker: Worker
         try { worker = this.createWorker(`${ASSETS}/vosk-worker.js`) } catch { this.fail(); return }
         this.worker = worker
-        worker.addEventListener('error', this.fail)
+        worker.addEventListener('error', failCurrent)
         worker.addEventListener('message', ({ data: reply }) => {
           if (generation !== this.generation) return
           if (reply.type === 'error') this.fail()

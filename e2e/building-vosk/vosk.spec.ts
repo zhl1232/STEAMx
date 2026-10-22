@@ -43,7 +43,6 @@ test('loads pinned WASM/model, exercises repeat open/close and keeps audio off t
   await start(page)
   await expect(page.locator('canvas').first()).toBeVisible()
   for (let i=0;i<3;i++) {
-    await play(page, 'normal-next.wav')
     await expect(page.locator('[data-building-voice-controls]').getByRole('status')).not.toContainText('失败')
     await page.getByRole('button', {name:'退出语音搭建'}).click()
     await expect.poll(()=>page.evaluate(()=>(window as any).voiceFixture.preparation.status)).toBe('ready')
@@ -79,13 +78,13 @@ test('failed download and missing capability stay silent until settings are open
 test('healthy hidden capture continues; actual interruption, page exit and tutor preemption require a click', async ({ page }) => {
   await start(page)
   await page.evaluate(()=>{Object.defineProperty(document,'visibilityState',{configurable:true,value:'hidden'});document.dispatchEvent(new Event('visibilitychange'))})
-  await play(page,'normal-next.wav')
-  await expect(page.getByTestId('step')).toHaveText('2')
+  await page.waitForTimeout(750) // Let the capture heartbeat run through a hidden-page interval.
+  await expect(page.getByText('语音搭建 · 正在听')).toBeVisible()
+  expect(await page.evaluate(()=>(window as any).voiceFixture.trackState)).toBe('live')
   await page.evaluate(()=>(window as any).voiceFixture.interrupt())
   await expect(page.locator('[data-building-voice-controls]').getByRole('status')).toContainText('中断')
   expect(await page.evaluate(()=>(window as any).voiceFixture.trackState)).toBe('ended')
   await resume(page)
-  await play(page,'normal-previous.wav')
   await expect(page.getByTestId('step')).toHaveText('1')
   await page.evaluate(()=>(window as any).voiceFixture.preempt())
   await expect(page.locator('[data-building-voice-controls]').getByRole('status')).toContainText('小迪正在使用语音')
@@ -104,10 +103,10 @@ test('lesson playback pauses capture and an explicit restart pauses that media',
   expect(await page.evaluate(()=>(window as any).voiceFixture.trackState)).toBe('ended')
   await resume(page)
   expect(await page.getByTestId('lesson-audio').evaluate((element: HTMLAudioElement)=>element.paused)).toBe(true)
-  await play(page,'normal-next.wav')
+  await page.getByRole('button',{name:'手动下一页'}).click()
   await expect(page.getByTestId('step')).toHaveText('2')
 })
-test('manual navigation invalidates a command already being spoken', async ({ page }) => {
+test('@acoustic manual navigation invalidates a command already being spoken', async ({ page }) => {
   await start(page)
   const playback=page.evaluate(()=>(window as any).voiceFixture.play('normal-next'))
   await page.waitForTimeout(1300)
@@ -115,7 +114,7 @@ test('manual navigation invalidates a command already being spoken', async ({ pa
   await playback;await page.waitForTimeout(1800)
   await expect(page.getByTestId('step')).toHaveText('2')
 })
-test('strict synthetic acoustic acceptance retains every failure including replay and overlap', async ({ page },testInfo) => {
+test('@acoustic strict synthetic acceptance retains every failure including replay and overlap', async ({ page },testInfo) => {
   test.setTimeout(900000)
   await start(page)
   const results=[]

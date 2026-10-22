@@ -84,6 +84,19 @@ describe('silent course voice preparation', () => {
     expect(f.owner.getSnapshot().status).toBe('error')
     release(); await Promise.resolve()
   })
+  it('ignores late errors from a disposed downloader and model after a new visit', async () => {
+    const f = fixture(); const release = f.owner.retain()
+    f.owner.prepare(true)
+    const oldDownload = f.workers[0]
+    oldDownload.emit({ type: 'cached', modelBytes: new ArrayBuffer(1), runtimeBytes: new ArrayBuffer(1) })
+    await vi.advanceTimersByTimeAsync(2001)
+    const oldModel = f.workers[1]
+    f.owner.dispose(); f.owner.prepare(true)
+    oldDownload.onerror?.(); oldModel.dispatchEvent(new Event('error'))
+    expect(f.owner.getSnapshot().status).toBe('downloading')
+    expect(f.workers[2].terminate).not.toHaveBeenCalled()
+    release(); await Promise.resolve()
+  })
   it.each([
     [undefined, false, true, false],
     [{effectiveType:'4g',downlink:10},false,true,true],
