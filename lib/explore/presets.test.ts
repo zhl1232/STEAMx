@@ -14,9 +14,10 @@ import {
 } from '@/lib/explore/presets'
 
 describe('explore presets', () => {
-    it('exposes popular, fun-science, and science-edu project tabs', () => {
+    it('registers the materials preview between popular and the existing science tabs', () => {
         expect(EXPLORE_PRESETS.map((preset) => preset.id)).toEqual([
             'browse',
+            'everyday-materials',
             'fun-science',
             'science-edu',
         ])
@@ -44,6 +45,20 @@ describe('explore presets', () => {
         expect(isExploreListTabPreset('science-edu')).toBe(true)
         expect(isExploreListTabPreset('latest')).toBe(false)
         expect(isExploreListTabPreset('beginner-friendly')).toBe(false)
+    })
+
+    it('keeps the everyday-materials URL in browse mode and preserves the label', () => {
+        const preset = EXPLORE_PRESETS.find((item) => item.id === 'everyday-materials')!
+        const params = buildPresetSearchParams(preset)
+        expect(params.get('tags')).toBe('日常材料')
+        const state = { category: '全部', subCategory: '', difficulty: 'all', age: null, tags: ['日常材料'], searchQuery: '', sortBy: 'popular' as const }
+        expect(detectActivePreset(state, { materialsPreviewEnabled: true })).toBe('everyday-materials')
+        expect(isExploreListTabPreset('everyday-materials')).toBe(true)
+        expect(isExploreResultsMode(state, { materialsPreviewEnabled: true })).toBe(false)
+        expect(detectActivePreset(state)).toBeNull()
+        expect(isExploreResultsMode(state)).toBe(true)
+        expect(getPresetHintLabel('everyday-materials')).toBe('日常材料')
+        expect(isExploreResultsMode({ ...state, category: '艺术' })).toBe(true)
     })
 
     it('detects fun-science, science-edu, and browse; ignores legacy latest/beginner highlight', () => {

@@ -1,12 +1,13 @@
 /** @vitest-environment node */
 
-import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
 import {
   dedupeCompletionRowsByUser,
   diversifyPopularByCategoryForTest,
   getProjectTotalCoinsReceived,
   getProjectExplorationRecordsCount,
   getProjects,
+  getProjectById,
   rankTagsByPopularity,
   buildTagScope,
   shouldBlendPopularExplore,
@@ -17,6 +18,8 @@ import {
 } from '@/lib/recommendations/seed'
 import { createClient } from '@/lib/supabase/server'
 import { callRpc } from '@/lib/supabase/rpc'
+import { isPlaywrightSmoke } from '@/lib/testing/playwright-smoke'
+import { getScienceSample } from '@/lib/project/science-samples'
 
 vi.mock('@/lib/supabase/admin', () => ({ supabaseAdmin: null }))
 
@@ -41,6 +44,41 @@ vi.mock('@/lib/logger', () => ({
 vi.mock('@/lib/content-classification', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/lib/content-classification')>()
   return { ...actual, getContentClassificationSettings: vi.fn(async () => ({ publicV1Enabled: false, enforcementEnabled: false })) }
+})
+
+describe('everyday materials local preview', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    vi.mocked(isPlaywrightSmoke).mockReturnValue(true)
+  })
+  afterEach(() => vi.mocked(isPlaywrightSmoke).mockReturnValue(false))
+
+  it('keeps the ordinary smoke list unchanged and loads cross-category examples only for the materials tag', async () => {
+    const ordinary = await getProjects()
+    expect(ordinary.projects.map((project) => project.id).sort()).toEqual([101, 102, 103])
+    const preview = await getProjects({ tags: ['日常材料'] })
+    expect(new Set(preview.projects.map((project) => project.category))).toEqual(new Set(['科学', '工程', '艺术']))
+    expect(preview.projects.every((project) => project.tags?.includes('日常材料'))).toBe(true)
+    const science = preview.projects.find((project) => project.id === 738)!
+    expect(science.materials).toEqual(getScienceSample(738)!.materials)
+    expect(science.materials).toContain('浅盘1个')
+    expect((await getProjectById(738))?.materials).toEqual(science.materials)
+    expect(await getProjectById(999999)).toBeNull()
+    expect(createClient).not.toHaveBeenCalled()
+  })
+
+  it('returns the whole local cohort for material ranking and keeps additional filters', async () => {
+    const first = await getProjects({ tags: ['日常材料'] }, { page: 0, pageSize: 2 })
+    const second = await getProjects({ tags: ['日常材料'] }, { page: 1, pageSize: 2 })
+    expect(first.total).toBe(5)
+    expect(first.hasMore).toBe(false)
+    expect(first.projects).toHaveLength(5)
+    expect(second.projects).toEqual([])
+    const art = await getProjects({ tags: ['日常材料'], category: '艺术' })
+    expect(art.projects.map((project) => project.id)).toEqual([103])
+    const empty = await getProjects({ tags: ['日常材料'], searchQuery: '不存在的项目' })
+    expect(empty).toEqual({ projects: [], total: 0, hasMore: false })
+  })
 })
 
 it('counts only public records approved by both review gates, excluding drafts, pending and rejected records', async () => {

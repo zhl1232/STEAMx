@@ -54,6 +54,8 @@ import {
 } from '@/lib/seo/project-description'
 import { buildSegmentTitle } from '@/lib/seo/title'
 import { toExploreContextProject } from '@/lib/explore/project-navigation-context'
+import { splitPreviewMaterialPreparation } from '@/lib/explore/material-matching'
+import { isPlaywrightSmoke } from '@/lib/testing/playwright-smoke'
 import { ToneBadge, type CategoryTone } from '@/components/ui/tone-badge'
 import { CATEGORY_META } from '@/lib/config/categories'
 import {
@@ -209,28 +211,36 @@ function ProjectCiteTakeaway({
   )
 }
 
-function MaterialsList({ materials }: { materials: string[] }) {
-  if (materials.length === 0) {
-    return <p className="text-sm text-muted-foreground">暂无材料清单，请参考步骤中的准备说明。</p>
-  }
-
+function MaterialsList({ materials, preparationNotes = [] }: { materials: string[]; preparationNotes?: string[] }) {
   return (
-    <ul className="grid list-none gap-x-6 gap-y-3 sm:grid-cols-2 xl:grid-cols-3">
-      {materials.map((material, index) => {
-        const meta = getMaterialMeta(material)
-        const showNote = Boolean(meta.note) && !meta.name.startsWith('自备：')
-        return (
-          <li key={`${material}-${index}`} className="flex min-w-0 items-start gap-3 py-1">
-            <Box className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium leading-6 wrap-anywhere">{meta.name}</p>
-              {showNote ? <p className="text-sm leading-6 text-muted-foreground wrap-anywhere">{meta.note}</p> : null}
-            </div>
-            {meta.amount ? <span className="shrink-0 pt-0.5 text-sm leading-6 text-muted-foreground">{meta.amount}</span> : null}
-          </li>
-        )
-      })}
-    </ul>
+    <>
+      {materials.length === 0 ? (
+        <p className="text-sm text-muted-foreground">暂无材料清单，请参考步骤中的准备说明。</p>
+      ) : (
+        <ul className="grid list-none gap-x-6 gap-y-3 sm:grid-cols-2 xl:grid-cols-3">
+          {materials.map((material, index) => {
+            const meta = getMaterialMeta(material)
+            const showNote = Boolean(meta.note) && !meta.name.startsWith('自备：')
+            return (
+              <li key={`${material}-${index}`} className="flex min-w-0 items-start gap-3 py-1">
+                <Box className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium leading-6 wrap-anywhere">{meta.name}</p>
+                  {showNote ? <p className="text-sm leading-6 text-muted-foreground wrap-anywhere">{meta.note}</p> : null}
+                </div>
+                {meta.amount ? <span className="shrink-0 pt-0.5 text-sm leading-6 text-muted-foreground">{meta.amount}</span> : null}
+              </li>
+            )
+          })}
+        </ul>
+      )}
+      {preparationNotes.length > 0 && (
+        <div className="mt-4 border-t border-border/60 pt-4">
+          <h3 className="mb-1 text-sm font-medium">准备要求</h3>
+          {preparationNotes.map((note) => <p key={note} className="text-sm leading-6 text-muted-foreground">{note}</p>)}
+        </div>
+      )}
+    </>
   )
 }
 
@@ -530,7 +540,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     steps: rawSteps,
   })
   const hasVideoPlayer = Boolean(videoPlaybackSrc)
-  const materials = mergeBrokenParenMaterials(rawMaterials)
+  const mergedMaterials = mergeBrokenParenMaterials(rawMaterials)
+  const { materials, preparationNotes } = isPlaywrightSmoke()
+    ? splitPreviewMaterialPreparation(mergedMaterials)
+    : { materials: mergedMaterials, preparationNotes: [] }
   const purchasableKits = contextualStoreProducts.filter((product) => product.external_url)
   const onlyMaterial = materials.length === 1 ? getMaterialMeta(materials[0]) : null
   // Only consolidate the imported placeholder when the linked kit is unambiguous.
@@ -737,7 +750,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 <ContextualStoreProducts products={purchasableKits} contextLabel="这个项目的" idSuffix="mobile" embedded materialAmount={onlyMaterial?.amount ?? ''} />
               ) : (
                 <>
-                  <MaterialsList materials={materials} />
+                  <MaterialsList materials={materials} preparationNotes={preparationNotes} />
                   {videoPilot ? <p className="mt-3 text-sm leading-6 text-muted-foreground">{videoPilot.materialsNote}</p> : null}
                   {!usesScienceGuideOrAlternative ? <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="mobile" embedded /> : null}
                 </>
@@ -833,7 +846,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             <div className="min-w-0 space-y-6">
               <div id="project-materials" className="scroll-mt-36">
                 <SectionCard title={materialsTitle}>
-                  <MaterialsList materials={materials} />
+                  <MaterialsList materials={materials} preparationNotes={preparationNotes} />
                   {videoPilot ? <p className="mt-3 text-sm leading-6 text-muted-foreground">{videoPilot.materialsNote}</p> : null}
                   {!usesScienceGuideOrAlternative ? <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="desktop" embedded /> : null}
                 </SectionCard>

@@ -50,6 +50,7 @@ import {
 import { buildExploreProjectContext, saveExploreProjectContext } from '@/lib/explore/project-navigation-context'
 import {
     EXPLORE_PRESETS,
+    EVERYDAY_MATERIALS_TAG,
     EXPLORE_RESULTS_SORT_OPTIONS,
     detectActivePreset,
     isExploreListTabPreset,
@@ -89,6 +90,10 @@ function mergeUniqueProjectsById(existing: Project[], incoming: Project[]): Proj
 // 类别配置：主分类 -> 子分类映射
 import { CATEGORY_CONFIG } from '@/lib/config/categories'
 import { ExploreCategoryStrip } from '@/components/explore/explore-category-strip'
+import { HouseholdMaterialPicker } from '@/components/explore/household-material-picker'
+import { matchProjectMaterials, normalizeOwnedMaterialIds, sortProjectsByMaterials } from '@/lib/explore/material-matching'
+
+const OWNED_MATERIALS_STORAGE_KEY = 'steamx:owned-materials:v1'
 
 // 难度选项
 const DIFFICULTY_OPTIONS = [
@@ -132,6 +137,8 @@ interface ExploreClientProps {
     popularTags?: string[]
     tagScope?: ExploreTagScope
     initialFiltersKey?: string
+    /** 本地样例模式专用；正式内容打标与复核完成前不公开此入口。 */
+    materialsPreviewEnabled?: boolean
 }
 
 export function ExploreClient({
@@ -144,6 +151,7 @@ export function ExploreClient({
     popularTags: popularTagsProp,
     tagScope,
     initialFiltersKey,
+    materialsPreviewEnabled = false,
 }: ExploreClientProps) {
     const searchParams = useSearchParams()
     const { toast } = useToast()
@@ -207,6 +215,35 @@ export function ExploreClient({
     const internalUrlFiltersKeyRef = useRef<string | null>(null)
     const sheetTriggerRef = useRef<HTMLElement | null>(null)
     const [selectedSortBy, setSelectedSortBy] = useState<SortBy>(initialSort)
+    const [ownedMaterialIds, setOwnedMaterialIds] = useState<string[]>([])
+    const showMaterials = materialsPreviewEnabled && selectedTags.includes(EVERYDAY_MATERIALS_TAG)
+    const displayedProjects = useMemo(
+        () => showMaterials ? sortProjectsByMaterials(projects, ownedMaterialIds) : projects,
+        [projects, ownedMaterialIds, showMaterials],
+    )
+    const matchedProjectCount = showMaterials ? displayedProjects.filter((project) => {
+        const match = matchProjectMaterials(project.materials, ownedMaterialIds)
+        return match?.hasSelection && match.missingLabels.length === 0
+    }).length : 0
+
+    useLayoutEffect(() => {
+        if (!materialsPreviewEnabled) return
+        try {
+            setOwnedMaterialIds(normalizeOwnedMaterialIds(JSON.parse(sessionStorage.getItem(OWNED_MATERIALS_STORAGE_KEY) || '[]')))
+        } catch {
+            // Storage may be unavailable; selection still works for this visit.
+        }
+    }, [materialsPreviewEnabled])
+
+    const updateOwnedMaterials = (ids: string[]) => {
+        const next = normalizeOwnedMaterialIds(ids)
+        setOwnedMaterialIds(next)
+        try {
+            sessionStorage.setItem(OWNED_MATERIALS_STORAGE_KEY, JSON.stringify(next))
+        } catch {
+            // Keep the interactive selection usable when storage is disabled.
+        }
+    }
 
     // Sheet 状态
     const [sheetOpen, setSheetOpen] = useState(false)
@@ -403,11 +440,11 @@ export function ExploreClient({
                 : undefined,
         )
 
-        const index = projectId ? projects.findIndex((project) => String(project.id) === projectId) : -1
+        const index = projectId ? displayedProjects.findIndex((project) => String(project.id) === projectId) : -1
         const filterParams = buildSearchParams()
         const exploreHref = filterParams.size > 0 ? `/explore?${filterParams.toString()}` : '/explore'
-        saveExploreProjectContext(index >= 0 ? buildExploreProjectContext(projects, index, exploreHref) : null)
-    }, [buildSearchParams, projects, saveExploreScrollPosition])
+        saveExploreProjectContext(index >= 0 ? buildExploreProjectContext(displayedProjects, index, exploreHref) : null)
+    }, [buildSearchParams, displayedProjects, saveExploreScrollPosition])
 
     useLayoutEffect(() => {
         if (initializedFiltersKeyRef.current) return
@@ -969,7 +1006,7 @@ export function ExploreClient({
         executeFilter(params)
     }
 
-    const activePresetId = detectActivePreset(getFilterState())
+    const activePresetId = detectActivePreset(getFilterState(), { materialsPreviewEnabled })
     const activeListTabId = isExploreListTabPreset(activePresetId) ? activePresetId : null
     const activeListPreset = activeListTabId
         ? EXPLORE_PRESETS.find((item) => item.id === activeListTabId)
@@ -980,7 +1017,7 @@ export function ExploreClient({
         && activeListPreset.tags.every((tag) => selectedTags.includes(tag))
     const hasActiveAdvancedFilters = !!selectedSubCategory || (!difficultyBelongsToListTab && selectedDifficulty !== "all") || selectedAge !== null || (!tagsBelongToListTab && selectedTags.length > 0)
     const advancedFilterCount = (selectedSubCategory ? 1 : 0) + (!difficultyBelongsToListTab && selectedDifficulty !== "all" ? 1 : 0) + (selectedAge !== null ? 1 : 0) + (tagsBelongToListTab ? 0 : selectedTags.length)
-    const isResultsMode = isExploreResultsMode(getFilterState())
+    const isResultsMode = isExploreResultsMode(getFilterState(), { materialsPreviewEnabled })
     const hasDraftFilters = draftCategory !== selectedCategory || !!draftSubCategory || draftDifficulty !== "all" || draftAge !== null || draftTags.length > 0
     const draftFilterCount = (draftSubCategory ? 1 : 0) + (draftDifficulty !== "all" ? 1 : 0) + (draftAge !== null ? 1 : 0) + draftTags.length
     const getDifficultyLabel = (value: string) => DIFFICULTY_OPTIONS.find(o => o.value === value)?.label || value
@@ -1188,7 +1225,7 @@ export function ExploreClient({
                                                     : `共找到 ${resultTotal} 个项目`}
                                             </p>
                                             <div className="flex items-center gap-1.5">
-                                                {EXPLORE_RESULTS_SORT_OPTIONS.map((option) => (
+                                                {!showMaterials && EXPLORE_RESULTS_SORT_OPTIONS.map((option) => (
                                                     <FilterChip
                                                         key={option.value}
                                                         onClick={() => handleSortChange(option.value)}
@@ -1231,7 +1268,7 @@ export function ExploreClient({
                                     {!isResultsMode ? (
                                     <div className="mb-3 flex items-center justify-between gap-3">
                                         <div className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1">
-                                            {EXPLORE_PRESETS.map((preset) => {
+                                            {EXPLORE_PRESETS.filter((preset) => materialsPreviewEnabled || preset.id !== 'everyday-materials').map((preset) => {
                                                 const isActive = activeListTabId === preset.id
 
                                                 return (
@@ -1268,6 +1305,10 @@ export function ExploreClient({
                                     </div>
                                     ) : null}
 
+                                    {showMaterials ? (
+                                        <HouseholdMaterialPicker selectedIds={ownedMaterialIds} onChange={updateOwnedMaterials} matchedCount={matchedProjectCount} />
+                                    ) : null}
+
                                     <div
                                         data-testid="explore-project-grid"
                                         className={cn(
@@ -1277,7 +1318,7 @@ export function ExploreClient({
                                         )}
                                         onClickCapture={handleExploreProjectLinkClick}
                                     >
-                                        {projects.map((project, index) => {
+                                        {displayedProjects.map((project, index) => {
                                             const isPriority = index < 2
                                             const detailHref = buildProjectDetailHref(project.id)
                                             const card = (
@@ -1289,11 +1330,12 @@ export function ExploreClient({
                                                         href={detailHref}
                                                         scroll={false}
                                                         variant="explore"
+                                                        materialMatch={showMaterials ? matchProjectMaterials(project.materials, ownedMaterialIds) : undefined}
                                                         className={EXPLORE_PROJECT_CARD_CLASS}
                                                     />
                                                 </div>
                                             )
-                                            const projectNode = projects.length === index + 1 ? (
+                                            const projectNode = displayedProjects.length === index + 1 ? (
                                                 <div ref={lastProjectElementRef} className="h-full">
                                                     {card}
                                                 </div>
@@ -1321,7 +1363,7 @@ export function ExploreClient({
                                         </div>
                                     )}
 
-                                    <nav aria-label="项目分页" className="flex justify-center gap-5 py-4 text-sm text-muted-foreground">
+                                    {!showMaterials && <nav aria-label="项目分页" className="flex justify-center gap-5 py-4 text-sm text-muted-foreground">
                                         {selectedSortBy === 'latest' ? (
                                             <>
                                                 {page > 1 && (
@@ -1334,7 +1376,7 @@ export function ExploreClient({
                                         ) : (
                                             <a href={buildExplorePageHref(buildSearchParams({ sortBy: 'latest' }), 0)} className="underline underline-offset-4">按最新发布浏览全部项目</a>
                                         )}
-                                    </nav>
+                                    </nav>}
 
                                     {isLoadingMore && (
                                         <div

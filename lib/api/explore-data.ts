@@ -1,4 +1,6 @@
-import { applyScienceSample } from '@/lib/project/science-samples';
+import { applyScienceSample, getScienceSample } from '@/lib/project/science-samples';
+import { EVERYDAY_MATERIALS_TAG } from '@/lib/explore/presets';
+import { sortProjectsByMaterials } from '@/lib/explore/material-matching';
 /**
  * 探索页面数据获取函数
  * 用于服务端组件中获取项目列表
@@ -132,6 +134,45 @@ const SMOKE_PROJECTS: SmokeProject[] = [
 ];
 
 const SMOKE_TAGS = Array.from(new Set(SMOKE_PROJECTS.flatMap((project) => project.tags || []))).sort();
+
+// Only the smoke branch uses these examples. Keep ordinary smoke lists stable,
+// and read reviewed science materials from the same source as project details.
+const SMOKE_MATERIALS_PROJECTS: SmokeProject[] = [
+  ...SMOKE_PROJECTS.filter((project) => project.id === 102 || project.id === 103).map((project) => ({
+    ...project,
+    moderation_state: 'approved' as const,
+    tags: [...(project.tags || []), EVERYDAY_MATERIALS_TAG],
+  })),
+  ...([
+    [738, '738-a0087853706a94d7.webp'],
+    [586, '586-fc501972ec09ebac.webp'],
+    [1157, '1157-678e3e84f59a9209.webp'],
+  ] as const).map(([id, cover]): SmokeProject => {
+    const sample = getScienceSample(id)
+    if (!sample) throw new Error(`Missing reviewed science preview: ${id}`)
+    return {
+      id,
+      title: sample.title,
+      category: '科学',
+      sub_category: '物理',
+      author: '样例预览',
+      author_id: 'smoke-user-1',
+      image: `https://spb-bp1n04y14st4y299.supabase.opentrust.net/storage/v1/object/public/project-images/covers/explore-reviewed-20260922/${cover}`,
+      description: sample.description,
+      materials: sample.materials,
+      steps: sample.steps,
+      reflection: sample.principle,
+      likes: 0,
+      completions_count: 0,
+      difficulty: 'easy',
+      difficulty_stars: 2,
+      tags: [EVERYDAY_MATERIALS_TAG],
+      status: 'approved',
+      moderation_state: 'approved',
+      createdAt: '2026-03-06T09:00:00.000Z',
+    }
+  }),
+];
 const EXPLORE_FILTER_OPTIONS_TTL_MS = 5 * 60 * 1000;
 let cachedExploreFilterOptions:
   | { key: string; data: ExploreFilterOptions; expiresAt: number }
@@ -719,7 +760,10 @@ function getSmokeProjects(
 ): { projects: Project[]; total: number; hasMore: boolean } {
   const { page = 0, pageSize = 12, sortBy = "popular", shuffleSeed, shuffleBatch = 0 } = pagination;
 
-  const filteredProjects = SMOKE_PROJECTS.filter((project) => {
+  const sourceProjects = filters.tags?.includes(EVERYDAY_MATERIALS_TAG)
+    ? SMOKE_MATERIALS_PROJECTS
+    : SMOKE_PROJECTS;
+  const filteredProjects = sourceProjects.filter((project) => {
     if (filters.category && filters.category !== "全部" && project.category !== filters.category) {
       return false;
     }
@@ -758,6 +802,16 @@ function getSmokeProjects(
 
     return true;
   });
+
+  // Return the complete local cohort so ownership changes rank all examples,
+  // including any beyond a normal page size. Other smoke lists still paginate.
+  if (filters.tags?.includes(EVERYDAY_MATERIALS_TAG)) {
+    return {
+      projects: page === 0 ? sortProjectsByMaterials(filteredProjects, []) : [],
+      total: filteredProjects.length,
+      hasMore: false,
+    };
+  }
 
   const weeklyScoredProjects = sortBy === "weekly"
     ? filteredProjects
@@ -1215,6 +1269,11 @@ export const getProjectById = cache(async (id: string | number): Promise<Project
     return null;
   }
 
+  if (isPlaywrightSmoke()) {
+    const project = [...SMOKE_MATERIALS_PROJECTS, ...SMOKE_PROJECTS].find((item) => item.id === numericId);
+    return project ? applyScienceSample({ ...project, moderation_state: 'approved' }) : null;
+  }
+
   const supabase = await createClient();
   const classificationSettings = await getContentClassificationSettings();
 
@@ -1463,6 +1522,9 @@ export async function getRelatedProjects(
   category: string,
   limit: number = 3,
 ): Promise<Project[]> {
+  if (isPlaywrightSmoke()) {
+    return SMOKE_MATERIALS_PROJECTS.filter((project) => project.id !== Number(projectId) && project.category === category).slice(0, limit);
+  }
   const supabase = await createClient();
   const classificationSettings = await getContentClassificationSettings();
   const RELATED_SELECT = `
@@ -1585,6 +1647,7 @@ export async function getProjectCompletions(
   limit: number = 4,
   options?: GetProjectCompletionsOptions,
 ): Promise<ProjectCompletion[]> {
+  if (isPlaywrightSmoke()) return [];
   const supabase = await createClient();
   const sortBy = options?.sortBy ?? "latest";
   const onePerUser = options?.onePerUser ?? false;

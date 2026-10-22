@@ -1,4 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
+import { skipVisitLoginPrompt } from './visit-prompt'
+
+test.beforeEach(async ({ page }) => skipVisitLoginPrompt(page))
 
 const searchPlaceholder = '搜索项目、材料、作者...'
 
@@ -49,7 +52,10 @@ test('桌面端搜索可输入、按 Enter 提交并保持焦点语义', async (
 
   await expect.poll(() => new URL(page.url()).searchParams.get('q')).toBe('纸桥')
   await expect(input).toHaveValue('纸桥')
-  await expect(page.getByTestId('explore-project-grid')).toBeVisible()
+  // The fixed smoke collection has no paper-bridge project; its empty state
+  // is the real search result, while the empty grid has no visible height.
+  await expect(page.getByRole('heading', { name: '没有找到相关项目' })).toBeVisible()
+  await expect(input).toBeFocused()
 })
 
 test.describe('移动端搜索清空与分类', () => {
