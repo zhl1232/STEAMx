@@ -94,6 +94,8 @@ const nextConfig = {
         { source: `/project/${id}`, destination: `/project/${successorId}`, statusCode: 301 },
         { source: `/project/${id}/:path*`, destination: `/project/${successorId}/:path*`, statusCode: 301 },
       ]),
+      { source: '/membership', destination: '/', permanent: true },
+      { source: '/membership/:path*', destination: '/', permanent: true },
       {
         source: '/settings/about',
         destination: '/about',
