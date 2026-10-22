@@ -3,6 +3,7 @@ import {
   clampPan,
   clampZoom,
   pinchScale,
+  LANDSCAPE_PHONE_QUERY,
   shouldAutoEnterImmersive,
   shouldShowRotateHint,
   tapZoneAction,
@@ -44,6 +45,20 @@ describe("slide-viewer", () => {
     expect(shouldAutoEnterImmersive(base)).toBe(true)
     expect(shouldAutoEnterImmersive({ ...base, wasPortrait: false })).toBe(false)
     expect(shouldAutoEnterImmersive({ ...base, isSlidePage: false })).toBe(false)
+  })
+
+  it("auto enters fullscreen when the page opens on a phone that is already landscape", () => {
+    const base = { wasPortrait: false, isFirstLandscapeLoad: true, isLandscapePhone: true, isImmersive: false, isSlidePage: true }
+    expect(shouldAutoEnterImmersive(base)).toBe(true)
+    expect(shouldAutoEnterImmersive({ ...base, isLandscapePhone: false })).toBe(false)
+    expect(shouldAutoEnterImmersive({ ...base, isImmersive: true })).toBe(false)
+    expect(shouldAutoEnterImmersive({ ...base, isSlidePage: false })).toBe(false)
+  })
+
+  it("only treats touch devices with a short landscape viewport as landscape phones", () => {
+    expect(LANDSCAPE_PHONE_QUERY).toContain("(orientation: landscape)")
+    expect(LANDSCAPE_PHONE_QUERY).toContain("(max-height: 600px)")
+    expect(LANDSCAPE_PHONE_QUERY).toContain("(any-pointer: coarse)")
   })
 
   it("maps taps to prev / next / toggle, and never pages while zoomed", () => {

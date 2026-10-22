@@ -227,37 +227,16 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
             </section>
           ) : null}
 
-          {!isApproved ? (
-            <section className="rounded-md border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900 dark:border-amber-400/20 dark:bg-amber-400/10 dark:text-amber-100">
-              {observation.status === "pending"
-                ? "这条观察正在等待审核。通过后会进入公开观察流，并同步发放观察经验与徽章进度。"
-                : "这条观察未通过审核，目前只有你可以查看。"}
-            </section>
-          ) : (
-            <ObservationDetailActivity
-              observationId={observation.id}
-              ownerId={observation.userId}
-              topic={submitTopic}
-              isPublic={observation.isPublic}
-              initialStatus={observation.identificationStatus}
-              initialConfirmedSpecies={primarySpecies}
-              initialIdentifications={observation.identifications || []}
-              headlineTitle={headline.title}
-              headlineScientificName={headline.scientificName}
-              observationMediaUrls={observation.mediaUrls}
-            />
-          )}
-
-          <section id="observation-location" className="border-t border-border/60 pt-6">
+          <section id="observation-location" className="rounded-md border border-border/60 bg-muted/30 px-4 py-3.5">
             <div className="space-y-1">
-              <p className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                <MapPin className="h-3.5 w-3.5 shrink-0" aria-hidden />
+              <p className="inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/80">
+                <MapPin className="h-4 w-4 shrink-0" aria-hidden />
                 观察地点
               </p>
               <p className="text-base font-semibold leading-snug text-foreground">{observation.locationName}</p>
             </div>
             {hasCoordinates ? (
-              <div className="relative mt-4 overflow-hidden rounded-sm border border-border/60">
+              <div className="relative mt-3 overflow-hidden rounded-sm border border-border/60">
                 <DomesticMiniMap
                   markers={[
                     {
@@ -281,9 +260,31 @@ export default async function ObservationDetailPage({ params }: ObservationDetai
                 ) : null}
               </div>
             ) : (
-              <p className="mt-4 text-sm text-muted-foreground">暂无 GPS 定位，仅保留文字地点。</p>
+              <p className="mt-2 text-sm leading-6 text-foreground/70">暂无 GPS 定位，仅保留文字地点。</p>
             )}
           </section>
+
+          {!isApproved ? (
+            <section className="rounded-md border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900 dark:border-amber-400/20 dark:bg-amber-400/10 dark:text-amber-100">
+              {observation.status === "pending"
+                ? "这条观察正在等待审核。通过后会进入公开观察流，并同步发放观察经验与徽章进度。"
+                : "这条观察未通过审核，目前只有你可以查看。"}
+            </section>
+          ) : (
+            <ObservationDetailActivity
+              observationId={observation.id}
+              ownerId={observation.userId}
+              topic={submitTopic}
+              isPublic={observation.isPublic}
+              initialStatus={observation.identificationStatus}
+              initialConfirmedSpecies={primarySpecies}
+              initialIdentifications={observation.identifications || []}
+              headlineTitle={headline.title}
+              headlineScientificName={headline.scientificName}
+              observationMediaUrls={observation.mediaUrls}
+            />
+          )}
+
         </article>
       </div>
       </div>

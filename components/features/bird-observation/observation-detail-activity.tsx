@@ -1,6 +1,7 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react"
+import { createPortal } from "react-dom"
 import { useRouter } from "next/navigation"
 import {
   ArrowLeftRight,
@@ -115,6 +116,8 @@ function formatIdentificationTraits(identification: ObservationIdentification): 
   return parts.length > 0 ? parts.join(" · ") : null
 }
 
+const subscribeNoop = () => () => {}
+
 export function ObservationDetailActivity({
   observationId,
   ownerId,
@@ -128,6 +131,7 @@ export function ObservationDetailActivity({
   observationMediaUrls,
 }: ObservationDetailActivityProps) {
   const router = useRouter()
+  const isClient = useSyncExternalStore(subscribeNoop, () => true, () => false)
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
   const { toast } = useToast()
@@ -467,7 +471,10 @@ export function ObservationDetailActivity({
         </section>
       </div>
 
-      {(isPublic || user?.id === ownerId) ? (
+      {(isPublic || user?.id === ownerId) && isClient ? createPortal(
+        <>
+        {/* Spacer after the site footer so the fixed bar never covers its last line. */}
+        <div aria-hidden data-observation-composer-spacer className="h-[calc(4.75rem+env(safe-area-inset-bottom))]" />
         <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border/80 bg-background/95 shadow-[0_-2px_10px_rgba(15,23,42,0.05)] backdrop-blur-sm supports-backdrop-filter:bg-background/90 dark:shadow-[0_-2px_12px_rgba(0,0,0,0.28)]">
           <div className="mx-auto flex w-full max-w-5xl items-center gap-3 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-2.5">
             <form
@@ -525,6 +532,10 @@ export function ObservationDetailActivity({
             </Button>
           </div>
         </div>
+        </>,
+        // Portal to <body>: the desktop card uses backdrop-filter, which would otherwise
+        // become the containing block of this `fixed` bar and pin it over the card's bottom.
+        document.body,
       ) : null}
 
       <ObservationSpeciesCompareSheet
