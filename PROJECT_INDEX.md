@@ -46,7 +46,7 @@
 | 用量、预算与结算 | `lib/ai/tutor/usage.ts`、相关 `*_tutor_*billing.sql` / `*_ai_credit_grants.sql` | [代币计费](docs/ai/tutor-credit-accounting.md) |
 | 语音接入、音色与取消 | `lib/ai/tutor/speech.ts`、`speech-task.ts`、`voice-access.ts`、`voice-catalog.ts`、`app/api/tutor/speech/` | [语音协议与验收](docs/ai/voice-31-upgrade.md) |
 | 面板、音频会话与缓存 | `components/features/tutor/` | [语音协议与验收](docs/ai/voice-31-upgrade.md) |
-| 课程有限语音控制 | `components/features/courses/building-voice-controls.tsx`、`use-building-voice-controls.ts`、`building-voice-capture.ts`、`lib/courses/building-voice-commands.ts` | [手机搭建](docs/courses/mobile-building-experience.md) |
+| 课程有限语音控制 | `components/features/courses/building-voice-controls.tsx`、`use-building-voice-controls.ts`、`building-voice-capture.ts`、`building-voice-preparation.ts`、`use-building-voice-preparation.ts`、`lib/courses/building-voice-commands.ts`、`building-voice-asr.ts`、`public/courses/vosk/v1/`、`scripts/prepare-building-vosk.py`、`playwright.building-vosk.config.ts` | [手机搭建](docs/courses/mobile-building-experience.md) |
 
 ## 工程、资源与发布
 
@@ -58,6 +58,7 @@
 | LDraw 源文件、审核和正式资源 | `scripts/ldraw-models/`、`scripts/ldraw-reviews/`、`public/courses/ldraw/`、`scripts/publish-ldraw-assets.mjs` | [资源发布](docs/ldraw-publishing.md)、[资源状态](docs/ldraw-status.md) |
 | 公开图片与 OSS 路径 | `lib/utils/asset-url.ts`、`lib/assets/`、`public/`、`.gitignore`、`.dockerignore` | [SEO 图片核验](docs/seo-indexing-checklist.md)、[LDraw 发布](docs/ldraw-publishing.md) |
 | SEO、爬虫、sitemap 与推送 | `lib/seo/`、`lib/project/effective-updated-at.ts`、`scripts/check-seo.mjs`、`next.config.mjs`、`playwright.project-card.config.ts` | [索引检查](docs/seo-indexing-checklist.md)、[日常运营](docs/seo-daily-operations.md) |
+| 内部开发页面与访问边界 | `lib/development-only.ts`、`app/design-system/`、`app/ldraw-preview/`、`app/migrate/`、`app/api/ldraw-preview/`、`playwright.internal-routes.config.ts` | [入口限制与验收](docs/seo-indexing-checklist.md#内部开发入口与关闭的商城) |
 
 历史批次命令不作为日常快捷命令列出。旧内容分诊自动工作流已移除，编排与固定数学题面命令仅拒绝执行；不要把旧 purge 当作通用孤儿资源清理器。保护边界见 [维护入口](docs/maintenance/repository-cleanup-phase2.md)。代码中的退役不等于历史生产数据清理已完成。
 

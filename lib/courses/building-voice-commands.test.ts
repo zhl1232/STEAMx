@@ -39,3 +39,37 @@ describe('parseBuildingVoiceCommand', () => {
     expect(parseBuildingVoiceCommand(transcript)).toBeNull()
   })
 })
+
+import { selectBuildingKwsCommand, type BuildingKwsObservation } from './building-voice-commands'
+const observed = (keyword = 'next'): BuildingKwsObservation => ({
+  rejected: false, speechStart: 0.3, speechEnd: 1.5, duration: 2.16,
+  hits: [{ keyword: 'wake', start_time: 0, tokens: Array(4).fill('token'), timestamps: [0.32, 0.4, 0.56, 0.64] }, { keyword, start_time: 0, tokens: Array(6).fill('token'), timestamps: [0.8, 0.92, 1.04, 1.16, 1.28, 1.4] }],
+})
+describe('acoustic KWS command gate (not full-text semantics)', () => {
+  it.each([['next', 'next'], ['next_page', 'next'], ['previous', 'previous'], ['previous_page', 'previous'], ['pause', 'pause'], ['exit', 'exit']])('maps %s', (key, command) => {
+    expect(selectBuildingKwsCommand(observed(key))).toBe(command)
+  })
+  it('accepts a pre-roll consonant alignment but rejects a late first vowel', () => {
+    const match = observed()
+    match.hits[0].timestamps = [0, 0.16, 0.36, 0.4]
+    expect(selectBuildingKwsCommand(match)).toBe('next')
+    match.hits[0].timestamps = [0, 0.84, 1, 1.08]
+    expect(selectBuildingKwsCommand(match)).toBeNull()
+  })
+  it('rejects unknown, empty, negation/quotation veto and multiple or overlapping hits', () => {
+    expect(selectBuildingKwsCommand(observed('unknown'))).toBeNull()
+    expect(selectBuildingKwsCommand({ ...observed(), hits: [] })).toBeNull()
+    expect(selectBuildingKwsCommand({ ...observed(), rejected: true })).toBeNull()
+    expect(selectBuildingKwsCommand({ ...observed(), hits: [...observed().hits, ...observed('previous').hits] })).toBeNull()
+    expect(selectBuildingKwsCommand({ ...observed(), hits: [...observed().hits, ...observed().hits] })).toBeNull()
+  })
+  it('rejects extra leading/trailing speech, incomplete wake phrases, nonfinite and truncated input', () => {
+    expect(selectBuildingKwsCommand({ ...observed(), speechStart: 0 })).toBeNull()
+    expect(selectBuildingKwsCommand({ ...observed(), speechEnd: 2 })).toBeNull()
+    expect(selectBuildingKwsCommand({ ...observed(), duration: 5.1 })).toBeNull()
+    expect(selectBuildingKwsCommand({ ...observed(), duration: NaN })).toBeNull()
+    const partial = observed()
+    partial.hits[0].timestamps = [0.3, 0.5]
+    expect(selectBuildingKwsCommand(partial)).toBeNull()
+  })
+})

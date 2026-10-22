@@ -22,6 +22,7 @@ export function ZoomableSlide({
     src,
     alt,
     onError,
+    onLoad,
     onSwipe,
     onTap,
     className,
@@ -29,6 +30,7 @@ export function ZoomableSlide({
     src: string;
     alt: string;
     onError?: () => void;
+    onLoad?: () => void;
     onSwipe?: (delta: -1 | 1) => void;
     /** 单击（已排除双击）：xRatio = 点按位置占宽度比例，zoomed = 当前是否放大 */
     onTap?: (xRatio: number, zoomed: boolean) => void;
@@ -149,6 +151,7 @@ export function ZoomableSlide({
                 alt={alt}
                 draggable={false}
                 onError={onError}
+                onLoad={onLoad}
                 className="pointer-events-none h-full w-full object-contain transition-transform duration-75"
                 style={{ transform: `translate3d(${offset.x}px, ${offset.y}px, 0) scale(${scale})` }}
             />

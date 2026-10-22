@@ -2,7 +2,7 @@ import { act, renderHook } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mocks = vi.hoisted(() => ({
-  fetch: vi.fn(), recorder: vi.fn(), capture: vi.fn(), player: vi.fn(), resume: vi.fn(), toast: vi.fn(),
+  fetch: vi.fn(), eligibility: vi.fn(), recorder: vi.fn(), capture: vi.fn(), player: vi.fn(), resume: vi.fn(), toast: vi.fn(),
 }))
 
 vi.mock('@/lib/context/auth-context', () => ({ useAuth: () => ({ user: { id: 'user-a' } }) }))
@@ -36,7 +36,7 @@ function recorder() {
 
 function capture() {
   return {
-    setListening: vi.fn(), reset: vi.fn(), playCue: vi.fn(), close: vi.fn().mockResolvedValue(undefined),
+    setListening: vi.fn(), reset: vi.fn(), checkHealth: vi.fn(), playCue: vi.fn(), close: vi.fn().mockResolvedValue(undefined),
   }
 }
 
@@ -77,8 +77,9 @@ describe('tutor and building voice ownership', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mocks.fetch.mockReset()
+    mocks.eligibility.mockReset().mockResolvedValue({ ok: true, json: async () => ({ userId: 'user-a', validForMs: 300_000 }) })
     mocks.recorder.mockReset().mockImplementation(async () => recorder())
-    mocks.capture.mockReset().mockImplementation(async () => capture())
+    mocks.capture.mockReset().mockImplementation(async (options: { authorized: Promise<void> }) => { await options.authorized; return capture() })
     mocks.resume.mockReset().mockResolvedValue(undefined)
     players.length = 0
     audios.length = 0
@@ -87,7 +88,8 @@ describe('tutor and building voice ownership', () => {
       players.push(created)
       return created
     })
-    vi.stubGlobal('fetch', mocks.fetch)
+    // Course eligibility is metadata-only and distinct from tutor cloud speech.
+    vi.stubGlobal('fetch', (input: string, init?: RequestInit) => input.startsWith('/api/tutor/speech/course-control?') ? mocks.eligibility(input, init) : mocks.fetch(input, init))
     vi.stubGlobal('Audio', MockAudio)
     vi.stubGlobal('URL', {
       ...URL, createObjectURL: vi.fn(() => 'blob:speech'), revokeObjectURL: vi.fn(),
@@ -181,6 +183,7 @@ describe('tutor and building voice ownership', () => {
     expect(result.current.tutor.recordingVoice).toBe(true)
 
     await act(async () => { await result.current.course.resume() })
+    expect(mocks.eligibility).toHaveBeenCalledTimes(2)
     expect(tutorRecorder.cancel).toHaveBeenCalledOnce()
     expect(result.current.tutor.recordingVoice).toBe(false)
     expect(result.current.course.status).toBe('listening')

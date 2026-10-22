@@ -10,6 +10,8 @@
 
 ## 后续模型更新
 
+本地工作台 `/ldraw-preview` 与 `/api/ldraw-preview` 仅在 `NODE_ENV=development` 可用；production、test 等其他模式返回 404，API 在请求解析、磁盘扫描和打包前退出。域名含 dev 不改变该规则。PATCH 确认还必须通过原有同源 loopback 校验，不允许公网开发域确认。课程正式读取继续使用 `/api/courses/ldraw-step` 和 `/api/courses/ldraw-bom`，不受工作台限制。验收命令见 [SEO 索引清单](seo-indexing-checklist.md#内部开发入口与关闭的商城)。
+
 1. 在本地预览完成验收，正式 MPD 的完整 SHA-256 必须与 `scripts/ldraw-reviews/<slug>.ldr.json` 的确认版本一致。发布命令不会重建模型或替代人工确认。
 2. 先预检选择的模型，默认不会上传：
 

@@ -367,7 +367,10 @@ describe("Building3DWorkspace", () => {
         }
     });
 
-    it("collapses voice into a mic toggle and passes works/parts entries into the menu slot", () => {
+    it("keeps the mic hidden until readiness without moving the reserved slot, and preserves menu entries", () => {
+        const VoiceProbe = ({ onAvailabilityChange }: { onAvailabilityChange?: (ready: boolean) => void }) => (
+            <button data-testid="voice-probe" onClick={() => onAvailabilityChange?.(true)}>ready probe</button>
+        );
         const Menu = ({ mobileExtras }: { mobileExtras?: { key: string; label: string; onSelect?: () => void }[] }) => (
             <div data-testid="menu-probe">{mobileExtras?.map((extra) => <button key={extra.key} type="button" onClick={extra.onSelect}>{extra.label}</button>)}</div>
         );
@@ -379,12 +382,14 @@ describe("Building3DWorkspace", () => {
                 activeStepIndex={0}
                 onStepChange={vi.fn()}
                 navigationSlot={<Menu />}
-                voiceControlsSlot={<div data-testid="voice-probe" />}
+                voiceControlsSlot={<VoiceProbe />}
             />,
         );
         const wrapper = screen.getByTestId("voice-probe").closest("[data-voice-slot-wrapper]");
         expect(wrapper).toHaveClass("hidden");
-        fireEvent.click(screen.getByTestId("voice-toggle"));
+        expect(screen.queryByTestId("voice-toggle")).not.toBeInTheDocument();
+        fireEvent.click(screen.getByRole("button", { name: "语音设置" }));
+        fireEvent.click(screen.getByTestId("voice-probe"));
         expect(wrapper).not.toHaveClass("hidden");
         expect(screen.getByTestId("voice-toggle")).toHaveAttribute("aria-pressed", "true");
         fireEvent.click(screen.getByRole("button", { name: "看看大家的作品" }));

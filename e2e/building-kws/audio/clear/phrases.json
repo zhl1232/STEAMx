@@ -1,0 +1,16 @@
+{
+  "next": "小迪下一步。",
+  "next_page": "小迪下一页。",
+  "previous": "小迪上一步。",
+  "previous_page": "小迪上一页。",
+  "pause": "小迪暂停。",
+  "exit": "小迪退出。",
+  "unknown": "我们来找一块红色的积木。",
+  "bare": "下一步。",
+  "negative": "小迪不要下一步。",
+  "negative_prefix": "不要说小迪下一步。",
+  "quote": "老师说小迪下一步。",
+  "quote_suffix": "小迪下一步是口令。",
+  "double": "小迪下一步，小迪上一步。",
+  "question": "小迪下一步吗？"
+}

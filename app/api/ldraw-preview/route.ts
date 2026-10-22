@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { isDevelopmentMode } from '@/lib/development-only'
 import {
   listAllLdrawModels,
   packLdrawTextToMpd,
@@ -14,7 +15,15 @@ import {
 
 export const runtime = 'nodejs'
 
+function unavailable() {
+  return NextResponse.json({ error: 'Not Found' }, {
+    status: 404,
+    headers: { 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow' },
+  })
+}
+
 export async function GET(request: NextRequest) {
+  if (!isDevelopmentMode()) return unavailable()
   const model = request.nextUrl.searchParams.get('model')
 
   try {
@@ -34,7 +43,7 @@ export async function GET(request: NextRequest) {
           ...result,
           reviewStatus,
           confirmedAt: reviewStatus === 'confirmed' ? reviewRecordFor(sanitized, records)?.confirmedAt ?? null : null,
-          canConfirm: process.env.NODE_ENV !== 'production' && reviewStatus !== 'confirmed' && isLdrawReviewCandidate(sanitized) && result.missingParts.length === 0,
+          canConfirm: isDevelopmentMode() && reviewStatus !== 'confirmed' && isLdrawReviewCandidate(sanitized) && result.missingParts.length === 0,
         },
         {
           headers: {
@@ -80,6 +89,7 @@ function canWriteReview(request: NextRequest): boolean {
 }
 
 export async function POST(request: NextRequest) {
+  if (!isDevelopmentMode()) return unavailable()
   try {
     const body = await request.json()
     const { ldrText, modelName = 'custom-model' } = body ?? {}
@@ -103,6 +113,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
+  if (!isDevelopmentMode()) return unavailable()
   if (!canWriteReview(request)) {
     return NextResponse.json({ error: '仅允许本地开发环境确认模型' }, { status: 403 })
   }
