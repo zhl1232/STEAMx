@@ -17,7 +17,7 @@ type SupabaseServerClient = Awaited<ReturnType<typeof createClient>>
 
 export type CurrentUserObservedSpeciesLookup =
   | { status: 'anonymous'; userId: null; speciesIds: Set<number> }
-  | { status: 'ready'; userId: string; speciesIds: Set<number> }
+  | { status: 'ready'; userId: string; speciesIds: Set<number>; pendingSpeciesIds?: Set<number> }
   | { status: 'unavailable'; userId: string; speciesIds: Set<number> }
 
 async function fetchCurrentUserObservedSpeciesLookup(): Promise<CurrentUserObservedSpeciesLookup> {
@@ -53,7 +53,37 @@ async function fetchCurrentUserObservedSpeciesLookup(): Promise<CurrentUserObser
       .filter((speciesId): speciesId is number => typeof speciesId === 'number'),
   )
 
-  return { status: 'ready', userId: user.id, speciesIds }
+  const pendingSpeciesIds = await fetchPendingSpeciesIds(supabase, user.id, speciesIds)
+  return { status: 'ready', userId: user.id, speciesIds, pendingSpeciesIds }
+}
+
+/** 本人「待审核」观察里出现、但还没点亮的物种：图鉴中以灰色「审核中」展示。失败时静默返回空集。 */
+async function fetchPendingSpeciesIds(
+  supabase: SupabaseServerClient,
+  userId: string,
+  observedIds: Set<number>,
+): Promise<Set<number>> {
+  try {
+    const { data: events, error } = await supabase
+      .from('observation_events')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('status', 'pending')
+      .limit(200)
+    if (error || !events?.length) return new Set<number>()
+    const { data: links, error: linkError } = await supabase
+      .from('observation_event_species')
+      .select('species_id')
+      .in('observation_event_id', events.map((event) => event.id))
+    if (linkError) return new Set<number>()
+    return new Set(
+      ((links || []) as Array<{ species_id: number | null }>)
+        .map((row) => row.species_id)
+        .filter((id): id is number => typeof id === 'number' && !observedIds.has(id)),
+    )
+  } catch {
+    return new Set<number>()
+  }
 }
 
 /**

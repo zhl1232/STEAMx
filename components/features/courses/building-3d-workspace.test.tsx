@@ -367,6 +367,63 @@ describe("Building3DWorkspace", () => {
         }
     });
 
+    it("collapses voice into a mic toggle and passes works/parts entries into the menu slot", () => {
+        const Menu = ({ mobileExtras }: { mobileExtras?: { key: string; label: string; onSelect?: () => void }[] }) => (
+            <div data-testid="menu-probe">{mobileExtras?.map((extra) => <button key={extra.key} type="button" onClick={extra.onSelect}>{extra.label}</button>)}</div>
+        );
+        const lesson = { ...baseLesson, content: { ...baseLesson.content, workSubmission: { enabled: true } } };
+        render(
+            <Building3DWorkspace
+                courseId={7}
+                lesson={lesson}
+                activeStepIndex={0}
+                onStepChange={vi.fn()}
+                navigationSlot={<Menu />}
+                voiceControlsSlot={<div data-testid="voice-probe" />}
+            />,
+        );
+        const wrapper = screen.getByTestId("voice-probe").closest("[data-voice-slot-wrapper]");
+        expect(wrapper).toHaveClass("hidden");
+        fireEvent.click(screen.getByTestId("voice-toggle"));
+        expect(wrapper).not.toHaveClass("hidden");
+        expect(screen.getByTestId("voice-toggle")).toHaveAttribute("aria-pressed", "true");
+        fireEvent.click(screen.getByRole("button", { name: "看看大家的作品" }));
+        expect(screen.getByRole("button", { name: /回到课程/ })).toBeInTheDocument();
+    });
+
+    it("pages with arrow keys and ignores keys typed in inputs", () => {
+        const onStepChange = vi.fn();
+        render(<Building3DWorkspace courseId={7} lesson={baseLesson} activeStepIndex={1} onStepChange={onStepChange} />);
+        fireEvent.keyDown(window, { key: "ArrowRight" });
+        expect(onStepChange).toHaveBeenLastCalledWith(2);
+        fireEvent.keyDown(window, { key: "ArrowLeft" });
+        expect(onStepChange).toHaveBeenLastCalledWith(0);
+        const input = document.createElement("input");
+        document.body.appendChild(input);
+        onStepChange.mockClear();
+        fireEvent.keyDown(input, { key: "ArrowRight" });
+        expect(onStepChange).not.toHaveBeenCalled();
+        input.remove();
+    });
+
+    it("hides all chrome in slide fullscreen and shows controls only on demand", async () => {
+        render(
+            <Building3DWorkspace
+                courseId={7}
+                lesson={baseLesson}
+                activeStepIndex={0}
+                onStepChange={vi.fn()}
+                voiceControlsSlot={<div data-testid="voice-probe" />}
+            />,
+        );
+        fireEvent.click(screen.getByRole("button", { name: "全屏横向展示" }));
+        const overlay = await screen.findByTestId("immersive-overlay");
+        expect(overlay).toHaveAttribute("data-visible", "false");
+        expect(screen.queryByRole("button", { name: "下一页" })).not.toBeNull();
+        expect(screen.getByTestId("voice-probe").closest("[data-voice-slot-wrapper]")).toHaveClass("hidden");
+        expect(screen.queryByText(/^课程 \d+\/\d+ 页$/)).toBeNull();
+    });
+
     it("keeps the voice slot inside fullscreen without remounting and releases it when viewing works", async () => {
         const fullscreenDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "requestFullscreen");
         const requestFullscreen = vi.fn().mockResolvedValue(undefined);
@@ -390,7 +447,7 @@ describe("Building3DWorkspace", () => {
             const slot = screen.getByTestId("voice-controls-slot");
             const workspace = slot.closest("section");
             expect(workspace).toBe(screen.getByRole("button", { name: "全屏横向展示" }).closest("section"));
-            expect(slot.previousElementSibling).toContainElement(screen.getByRole("button", { name: "全屏横向展示" }));
+            expect(slot.closest("[data-voice-slot-wrapper]")?.previousElementSibling).toContainElement(screen.getByRole("button", { name: "全屏横向展示" }));
             fireEvent.click(screen.getByRole("button", { name: "开启语音监听" }));
             fireEvent.click(screen.getByRole("button", { name: "全屏横向展示" }));
             await waitFor(() => expect(requestFullscreen).toHaveBeenCalledOnce());

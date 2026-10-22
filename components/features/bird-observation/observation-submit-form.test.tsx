@@ -196,7 +196,7 @@ describe('ObservationSubmitForm workflow', () => {
     fireEvent.click(screen.getByRole('button', { name: '选择公园' }))
     expect(screen.getAllByRole('button', { name: '发布 1 条观察' })[0]).toBeEnabled()
     act(() => { mocks.photo!.onUploadingChange(true) })
-    expect(screen.getAllByRole('button', { name: '发布 1 条观察' })[0]).toBeDisabled()
+    expect(screen.getAllByRole('button', { name: '照片还在上传' })[0]).toBeDisabled()
     fireEvent.submit(container.querySelector('form')!)
     expect(mocks.fetch.mock.calls.some(([url]) => url === '/api/observations')).toBe(false)
     expect(mocks.toast).toHaveBeenCalledWith(expect.objectContaining({ title: '照片正在上传，请稍候' }))

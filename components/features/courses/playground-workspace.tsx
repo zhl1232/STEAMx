@@ -40,6 +40,7 @@ import type { GomokuPoint, ScoredGomokuMove } from "@/lib/playground/gomoku-engi
 import { getLessonTrackLabel } from "@/lib/courses/tracks";
 import { getLessonCompletionFeedback } from "@/lib/courses/progress";
 import { toLessonCompletionToast } from "./lesson-completion-toast";
+import type { LessonCompletionResult } from "./lesson-completion-dialog";
 import { cn } from "@/lib/utils";
 
 /**
@@ -100,7 +101,7 @@ export function PlaygroundWorkspace({
     activeStepIndex: number;
     onStepChange: (index: number) => void;
     initialCompleted?: boolean;
-    onCompleted?: () => void;
+    onCompleted?: (result: LessonCompletionResult) => void;
 }) {
     const { user } = useAuth();
     const { promptLogin } = useLoginPrompt();
@@ -118,7 +119,7 @@ export function PlaygroundWorkspace({
     const total = steps.length;
     const clampedStep = total > 0 ? Math.min(activeStepIndex, total - 1) : 0;
     const currentStep = steps[clampedStep];
-    // 0 步课时也要能完成：没有步骤时把整课视为「最后一步」，直接显示「完成这课」。
+    // 0 步课时也要能完成：没有步骤时把整课视为「最后一步」，直接显示「完成本课」。
     const isLastStep = total === 0 || clampedStep >= total - 1;
 
     useEffect(() => {
@@ -148,13 +149,14 @@ export function PlaygroundWorkspace({
                 error?: string;
                 alreadyCompleted?: boolean;
                 courseCompletionState?: "not_complete" | "created" | "already_recorded" | "configuration_error";
+                courseProgress?: LessonCompletionResult["courseProgress"];
             };
             if (!res.ok) {
                 throw new Error(data.error || "完成失败");
             }
             setCompleted(true);
-            toast(toLessonCompletionToast(getLessonCompletionFeedback({ ...data, courseId })));
-            onCompleted?.();
+            if (onCompleted) onCompleted(data);
+            else toast(toLessonCompletionToast(getLessonCompletionFeedback({ ...data, courseId })));
         } catch (error) {
             toast({
                 title: "完成失败",
@@ -330,7 +332,7 @@ export function PlaygroundWorkspace({
                                 ) : (
                                     <Check className="mr-1 h-4 w-4" />
                                 )}
-                                {completed ? "已完成" : "完成这课"}
+                                {completed ? "已完成" : "完成本课"}
                             </Button>
                         ) : (
                             <Button type="button" onClick={() => goStep(1)}>

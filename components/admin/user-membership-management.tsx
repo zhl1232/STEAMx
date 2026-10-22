@@ -60,7 +60,7 @@ const editablePeriods: MembershipPeriod[] = ['none', 'monthly', 'yearly', 'lifet
 
 function formatDateTime(value: string | null) {
   if (!value) return '长期有效'
-  return new Date(value).toLocaleDateString('zh-CN', {
+  return new Date(value).toLocaleDateString('zh-CN', { timeZone: "Asia/Shanghai",
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',

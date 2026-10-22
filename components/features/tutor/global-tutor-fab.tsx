@@ -546,6 +546,7 @@ export function GlobalTutorFab({
     recording: voice.recordingVoice || mascotState !== 'idle',
     bottomInset: fabBottomInset,
   })
+  const scrollTucked = useScrollTuck(!open)
 
   if (!mounted) return null
 
@@ -848,6 +849,8 @@ export function GlobalTutorFab({
                   : 'drop-shadow-[0_18px_18px_hsl(var(--brand-blue)/0.28)]',
               ),
           hideOnMobile && 'max-lg:hidden',
+          // 滚动中缩回屏幕边（只在手机上），用独立的 translate 属性，不影响拖动用的 transform。
+          scrollTucked && (drag.fabDockEdge === 'left' ? 'max-md:-translate-x-[60%] max-md:opacity-70' : 'max-md:translate-x-[60%] max-md:opacity-70'),
           !drag.useCustomFabPosition &&
             (fabPlacement === 'compact'
               ? 'bottom-[calc(1rem+env(safe-area-inset-bottom))] md:bottom-24'
@@ -870,4 +873,26 @@ export function GlobalTutorFab({
     </>,
     document.body,
   )
+}
+
+function useScrollTuck(enabled: boolean) {
+  const [tucked, setTucked] = useState(false)
+  useEffect(() => {
+    if (!enabled) {
+      setTucked(false)
+      return
+    }
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const onScroll = () => {
+      setTucked(true)
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(() => setTucked(false), 600)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (timer) clearTimeout(timer)
+    }
+  }, [enabled])
+  return tucked
 }

@@ -22,6 +22,9 @@ export const ObservationCreateItemSchema = z.object({
   // Chosen 「其他」 suggestion (common name only). The server verifies it came
   // from this photo's own signed analysis and copies the scientific name from there.
   suggested_species_name: z.string().trim().min(1).max(60).nullable().optional(),
+  // 地点类型查不出来时，提交者可确认「这是公园等公共场所」，才公开具体地点；
+  // 服务端识别为小区/学校附近时忽略此项。
+  place_public_confirmed: z.boolean().optional(),
 })
 
 export const CreateObservationBatchSchema = z.object({

@@ -2,8 +2,9 @@
 
 import { readProjectRecords } from '@/lib/project/read-records'
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { ListFilter, Sprout } from "lucide-react"
+import { ListFilter, PartyPopper, Sprout } from "lucide-react"
 
 import { CompleteProjectDialog } from "@/components/features/project/complete-project-dialog"
 import { RecordTypePickerSheet } from "@/components/features/project/record-type-picker-sheet"
@@ -18,6 +19,7 @@ import {
 } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/context/auth-context"
+import { useOptionalGamification } from "@/lib/context/gamification-context"
 import { useLoginPrompt } from "@/lib/context/login-prompt-context"
 import { useLoginContinuation } from "@/hooks/use-login-continuation"
 import { useProjects } from "@/lib/context/project-context"
@@ -45,6 +47,7 @@ interface ProjectRecordsClientProps {
   highlightCompletionId?: number | null
   journeyId?: number | null
   journeyStatus?: string | null
+  nextProject?: { id: string | number; title: string } | null
 }
 
 export function ProjectRecordsClient({
@@ -57,12 +60,14 @@ export function ProjectRecordsClient({
   highlightCompletionId = null,
   journeyId = null,
   journeyStatus = null,
+  nextProject = null,
 }: ProjectRecordsClientProps) {
   const router = useRouter()
   const { toast } = useToast()
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
   const { isCompleted, isExploring, startExploration } = useProjects()
+  const refetchStats = useOptionalGamification()?.refetchStats
   useSyncProjectInteractions([projectId])
   const backHref = `/project/${projectId}`
   const [typeFilter, setTypeFilter] = useState<string>("all")
@@ -167,7 +172,7 @@ export function ProjectRecordsClient({
     if (record.record_kind === "final") setCurrentJourneyStatus("active")
     toast({
       title: visibility === "public" ? "已提交公开审核" : "已撤回分享",
-      description: visibility === "public" ? "审核通过后，其他人才能看到这一步。" : "已停止公开展示，不会自动重新发布。",
+      description: visibility === "public" ? "AI 审核通过后自动公开。" : "已停止公开展示，不会自动重新发布。",
     })
   }
 
@@ -272,19 +277,6 @@ export function ProjectRecordsClient({
         title={headerTitle}
         fallbackHref={backHref}
         className="border-b border-[hsl(var(--surface-border)/0.7)] bg-[hsl(var(--app-canvas)/0.96)] backdrop-blur-md"
-        rightSlot={
-          mode === "project" && journeyActive ? (
-            <Button
-              type="button"
-              size="sm"
-              tone="success"
-              onClick={() => void openRecordFlow()}
-              className="h-8 px-3 text-xs font-bold"
-            >
-              + 记录
-            </Button>
-          ) : null
-        }
       />
       <h1 className="sr-only">{projectTitle}的探索记录</h1>
 
@@ -324,16 +316,30 @@ export function ProjectRecordsClient({
               </SelectContent>
             </Select>
           </RecordsFilterRow>
-          {mode === "project" ? (
-            <Button type="button" tone="success" className="hidden shrink-0 md:inline-flex" onClick={() => void (journeyActive ? openRecordFlow() : handleStartExploration())}>
-              {journeyActive ? "+ 记录" : "开始我的项目"}
-            </Button>
-          ) : null}
         </div>
 
-        {mode === "project" ? (
+        {mode === "project" && journeyCompleted && !journeyActive ? (
+          <section data-testid="project-completed-banner" className="exploration-cta-banner">
+            <span className="exploration-cta-icon">
+              <PartyPopper className="h-5 w-5" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-bold text-foreground">这个项目你完成啦！</p>
+              <p className="mt-0.5 text-xs leading-5 text-muted-foreground">
+                {nextProject ? `接着试试「${nextProject.title}」` : "去挑下一个实验吧"}
+              </p>
+            </div>
+            <div className="flex shrink-0 flex-col gap-1.5">
+              <Button asChild type="button" size="sm" tone="success">
+                <Link href={nextProject ? `/project/${nextProject.id}` : "/explore?category=科学"} prefetch={false}>
+                  {nextProject ? "下一个项目" : "挑下一个"}
+                </Link>
+              </Button>
+            </div>
+          </section>
+        ) : mode === "project" ? (
           <section
-            className={`exploration-cta-banner${journeyActive ? " cursor-pointer transition-shadow hover:shadow-md" : " md:hidden"}`}
+            className={`exploration-cta-banner${journeyActive ? " cursor-pointer transition-shadow hover:shadow-md" : ""}`}
             onClick={journeyActive ? (event) => {
               // The real buttons provide keyboard access and handle their own actions.
               if (event.target instanceof Element && event.target.closest("button")) return
@@ -366,8 +372,8 @@ export function ProjectRecordsClient({
             </div>
             <div className="flex shrink-0 flex-col gap-1.5">
               {journeyActive ? (
-                <Button type="button" size="sm" tone="success" onClick={() => void openRecordFlow()}>
-                  记录
+                <Button type="button" size="sm" tone="success" className="max-md:hidden" onClick={() => void openRecordFlow()}>
+                  记录我的发现
                 </Button>
               ) : null}
               {!journeyActive ? (
@@ -406,7 +412,7 @@ export function ProjectRecordsClient({
         ) : null}
 
         {filtered.length === 0 ? (
-          !recordsError && <RecordsEmptyState
+          !recordsError && journeyRecords.length === 0 && <RecordsEmptyState
             totalRecordsCount={totalRecordsCount}
             hasLoadedRecords={completions.length > 0}
             typeFilterActive={typeFilter !== "all"}
@@ -420,6 +426,14 @@ export function ProjectRecordsClient({
           />
         )}
       </RecordsPageContent>
+
+      {mode === "project" && journeyActive ? (
+        <div className="fixed inset-x-0 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-40 px-4 pb-2 md:hidden">
+          <Button type="button" tone="success" className="h-12 w-full text-base font-bold shadow-lg" onClick={() => void openRecordFlow()}>
+            记录我的发现
+          </Button>
+        </div>
+      ) : null}
 
       <RecordTypePickerSheet
         open={pickerOpen}
@@ -445,9 +459,13 @@ export function ProjectRecordsClient({
             // public work page does not exist yet. Keep the user on the
             // Journey timeline until moderation has approved it.
             if (result.recordKind === "final" && result.status === "approved") {
+              refetchStats?.()
               router.push(`/works/${result.id}?share=1`)
               return
             }
+            if (result.recordKind === "final") setCurrentJourneyStatus("completed")
+            // 立刻重算成就，徽章当场弹出。
+            refetchStats?.()
             void loadJourneyRecords().catch(() => {})
             router.refresh()
           }}
@@ -458,7 +476,7 @@ export function ProjectRecordsClient({
 }
 
 function RecordsPageShell({ children }: { children: React.ReactNode }) {
-  return <div className="relative min-h-dvh bg-[hsl(var(--app-canvas))] pb-12">{children}</div>
+  return <div className="relative min-h-dvh bg-[hsl(var(--app-canvas))] pb-24 md:pb-12">{children}</div>
 }
 
 function RecordsPageContent({ children }: { children: React.ReactNode }) {

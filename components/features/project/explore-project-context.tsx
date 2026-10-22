@@ -15,6 +15,7 @@ import {
   type ExploreContextProject,
   type ExploreProjectContext,
 } from "@/lib/explore/project-navigation-context"
+import { isTooYoungForCurrent } from "@/lib/explore/related-ranking"
 import { isPlaceholderProjectDescription } from "@/lib/seo/project-description"
 import { cn } from "@/lib/utils"
 
@@ -60,6 +61,7 @@ type Continuation = {
 function useContinuation(
   projectId: string | number,
   fallback: { project: ExploreContextProject | null; href: string },
+  currentMinAge?: number | null,
 ): { continuation: Continuation | null; exploreHref: string | null } {
   const context = useExploreProjectContext(projectId)
   if (!context) {
@@ -68,7 +70,11 @@ function useContinuation(
       exploreHref: null,
     }
   }
-  const next = context.queue[0] ?? null
+  // Skip explore-list cards that are far too young for this project (same rule as server ranking).
+  const nextIndex = context.queue.findIndex(
+    (item) => !isTooYoungForCurrent(currentMinAge, item.classification?.recommendedMinAge ?? null),
+  )
+  const next = nextIndex >= 0 ? context.queue[nextIndex] : null
   if (!next) {
     return { continuation: { kind: "back", href: context.exploreHref, project: null }, exploreHref: context.exploreHref }
   }
@@ -77,7 +83,9 @@ function useContinuation(
       kind: "next",
       href: `/project/${next.id}`,
       project: next,
-      onNavigate: () => saveExploreProjectContext(advanceExploreProjectContext(context)),
+      onNavigate: () => saveExploreProjectContext(
+        advanceExploreProjectContext({ ...context, queue: context.queue.slice(nextIndex) }),
+      ),
     },
     exploreHref: context.exploreHref,
   }
@@ -88,12 +96,14 @@ export function ExploreAwareContinuationCard({
   projectId,
   fallbackProject,
   fallbackHref,
+  currentMinAge,
 }: {
   projectId: string | number
   fallbackProject: ExploreContextProject | null
   fallbackHref: string
+  currentMinAge?: number | null
 }) {
-  const { continuation } = useContinuation(projectId, { project: fallbackProject, href: fallbackHref })
+  const { continuation } = useContinuation(projectId, { project: fallbackProject, href: fallbackHref }, currentMinAge)
   if (!continuation) return null
   return (
     <ProjectContinuationCard
@@ -123,16 +133,18 @@ export function ExploreAwareMobileRelated({
   fallbackProject,
   fallbackHref,
   fallbackExploreHref,
+  currentMinAge,
 }: {
   projectId: string | number
   fallbackProject: ExploreContextProject | null
   fallbackHref: string
   fallbackExploreHref: string
+  currentMinAge?: number | null
 }) {
   const { continuation, exploreHref: contextExploreHref } = useContinuation(projectId, {
     project: fallbackProject,
     href: fallbackHref,
-  })
+  }, currentMinAge)
   const exploreHref = contextExploreHref ?? fallbackExploreHref
   const project = continuation?.project ?? null
   const href = continuation?.href ?? fallbackHref

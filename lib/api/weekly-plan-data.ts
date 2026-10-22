@@ -158,7 +158,7 @@ async function loadGrowthTasks(supabase: DbClient, userId: string) {
 
 async function loadRecentObservations(supabase: DbClient, userId: string) {
   const { data, error } = await supabase
-    .from('observation_events')
+    .from('observation_events_owner')
     .select('id, user_id, observed_at, created_at, location_name, latitude, longitude, habitat, media_urls, is_public, status, identification_status')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })

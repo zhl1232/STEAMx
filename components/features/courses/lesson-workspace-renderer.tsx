@@ -1,4 +1,5 @@
 "use client";
+import type { LessonCompletionResult } from "@/components/features/courses/lesson-completion-dialog";
 
 import { Play, Smartphone } from "lucide-react";
 import Link from "next/link";
@@ -37,6 +38,8 @@ export function LessonWorkspaceRenderer({
     onCompleted,
     buildingNavigationSlot,
     buildingVoiceControlsSlot,
+    buildingMobileHeaderSlot,
+    buildingSidebar,
 }: {
     courseId: number;
     lesson: CourseLessonRow;
@@ -50,9 +53,11 @@ export function LessonWorkspaceRenderer({
     onScratchEditorContextChange?: (context: ScratchEditorContext) => void;
     onStepChange: (index: number) => void;
     initialCompleted: boolean;
-    onCompleted: () => void;
+    onCompleted: (result: LessonCompletionResult) => void;
     buildingNavigationSlot?: ReactNode;
     buildingVoiceControlsSlot?: ReactNode;
+    buildingMobileHeaderSlot?: ReactNode;
+    buildingSidebar?: { collapsed: boolean; onToggle: () => void };
 }) {
     const lessonType = getLessonTypeDefinition(lesson.lesson_type);
 
@@ -120,6 +125,8 @@ export function LessonWorkspaceRenderer({
             <Building3DWorkspace
                 navigationSlot={buildingNavigationSlot}
                 voiceControlsSlot={buildingVoiceControlsSlot}
+                mobileHeaderSlot={buildingMobileHeaderSlot}
+                sidebar={buildingSidebar}
                 courseId={courseId}
                 lesson={lesson}
                 activeStepIndex={activeStepIndex}

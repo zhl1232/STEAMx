@@ -29,7 +29,7 @@ export function AnnouncementCard({
         <time dateTime={announcement.published_at || announcement.created_at}>
           {new Date(
             announcement.published_at || announcement.created_at,
-          ).toLocaleDateString("zh-CN")}
+          ).toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai" })}
         </time>
         {withdrawn ? (
           <span className="rounded-full bg-muted px-2.5 py-1">已撤回</span>
@@ -153,7 +153,7 @@ export function AnnouncementDetail({
           <time dateTime={announcement.published_at || announcement.created_at}>
             {new Date(
               announcement.published_at || announcement.created_at,
-            ).toLocaleDateString("zh-CN")}
+            ).toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai" })}
           </time>
         </div>
         <h1 className="mt-4 text-3xl font-semibold tracking-tight">

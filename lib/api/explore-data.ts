@@ -4,6 +4,7 @@ import { applyScienceSample } from '@/lib/project/science-samples';
  * 用于服务端组件中获取项目列表
  */
 
+import { RELATED_AGE_WINDOW, RELATED_CANDIDATE_LIMIT, rankRelatedCandidates, type RelatedRankInput } from "@/lib/explore/related-ranking";
 import { cache } from "react";
 
 import { createClient } from "@/lib/supabase/server";
@@ -1464,35 +1465,90 @@ export async function getRelatedProjects(
 ): Promise<Project[]> {
   const supabase = await createClient();
   const classificationSettings = await getContentClassificationSettings();
-
-  let projectQuery = supabase
-    .from("projects")
-    .select(`
+  const RELATED_SELECT = `
       *,
       profiles:author_id (display_name),
       project_materials (*),
       project_steps (*),
       sub_categories (name)
-    `)
-    .eq("category", category)
-    .eq("status", "approved")
-    .eq("moderation_state", "approved")
-    .neq("id", Number(projectId))
-  if (classificationSettings.enforcementEnabled) {
-    projectQuery = projectQuery.eq("classification_status", "reviewed");
-  }
-  const { data, error } = await projectQuery.limit(limit);
+    `;
 
-  if (error || !data) {
-    logger.error("Error fetching related projects", { error });
-    return [];
+  const { data: currentRow } = await supabase
+    .from("projects")
+    .select("id, sub_category_id, recommended_min_age, difficulty_stars")
+    .eq("id", Number(projectId))
+    .maybeSingle();
+  const current: RelatedRankInput = {
+    id: Number(projectId),
+    subCategoryId: currentRow?.sub_category_id ?? null,
+    minAge: currentRow?.recommended_min_age ?? null,
+    difficultyStars: currentRow?.difficulty_stars ?? null,
+  };
+
+  const minAgeById = new Map<number, number | null>();
+  const fetchCandidates = async (
+    scope: { category: string } | { otherThan: string; minAge: number },
+  ): Promise<Project[] | null> => {
+    let query = supabase
+      .from("projects")
+      .select(RELATED_SELECT)
+      .eq("status", "approved")
+      .eq("moderation_state", "approved")
+      .neq("id", Number(projectId));
+    if ("category" in scope) {
+      query = query.eq("category", scope.category);
+    } else {
+      query = query
+        .neq("category", scope.otherThan)
+        .gte("recommended_min_age", scope.minAge - RELATED_AGE_WINDOW)
+        .lte("recommended_min_age", scope.minAge + RELATED_AGE_WINDOW);
+    }
+    if (classificationSettings.enforcementEnabled) {
+      query = query.eq("classification_status", "reviewed");
+    }
+    const { data, error } = await query.order("id", { ascending: true }).limit(RELATED_CANDIDATE_LIMIT);
+    if (error || !data) {
+      logger.error("Error fetching related projects", { error });
+      return null;
+    }
+    for (const row of data as unknown as Array<{ id: number; recommended_min_age?: number | null }>) {
+      minAgeById.set(Number(row.id), row.recommended_min_age ?? null);
+    }
+    return enrichProjectsWithCompletionCounts(
+      supabase,
+      (data as unknown as ProjectRowForMapper[]).map((row) => mapDbProject(row)),
+    );
+  };
+
+  const rank = (projects: Project[]) =>
+    rankRelatedCandidates(
+      current,
+      projects.map((project) => ({
+        id: project.id,
+        project,
+        subCategoryId: project.sub_category_id ?? null,
+        minAge: minAgeById.get(Number(project.id)) ?? project.classification?.recommendedMinAge ?? null,
+        difficultyStars: project.difficulty_stars ?? null,
+        popularity: (project.completions_count ?? 0) * 2 + (project.likes ?? 0),
+      })),
+    ).map((item) => item.project);
+
+  // 1) 同大类候选，按子类 → 年龄 → 难度 → 热度排序，排除明显偏小的项目。
+  const sameCategory = await fetchCandidates({ category });
+  if (sameCategory === null) return [];
+  let picked = rank(sameCategory);
+
+  // 2) 同类没有合适的：放宽到其他大类、年龄相近的项目。
+  if (picked.length === 0 && typeof current.minAge === "number") {
+    picked = rank((await fetchCandidates({ otherThan: category, minAge: current.minAge })) ?? []);
   }
 
-  const projects = await enrichProjectsWithCompletionCounts(
-    supabase,
-    (data as unknown as ProjectRowForMapper[]).map((row) => mapDbProject(row)),
-  );
-  return applyPublicClassificationVisibility(projects, classificationSettings);
+  // 3) 仍为空：退回旧规则（同大类，按 id）。到这一步说明全部候选都被年龄排除，无法再兼顾。
+  if (picked.length === 0) {
+    picked = [...sameCategory].sort((a, b) => Number(a.id) - Number(b.id));
+  }
+
+  return applyPublicClassificationVisibility(picked.slice(0, limit), classificationSettings);
 }
 
 export type ProjectCompletionSort = "latest" | "featured"

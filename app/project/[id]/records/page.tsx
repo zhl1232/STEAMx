@@ -9,6 +9,7 @@ import {
   getProjectCompletionById,
   getProjectCompletions,
   getProjectExplorationRecordsCount,
+  getRelatedProjects,
   mergeHighlightCompletion,
 } from "@/lib/api/explore-data"
 import { createClient } from "@/lib/supabase/server"
@@ -82,6 +83,10 @@ export default async function ProjectRecordsPage({ params, searchParams }: Proje
       ])
     : [null, null]
   const displayJourney = activeJourney ?? latestJourney
+  // 做完一个项目后给一个「下一个项目」推荐，读不到就不显示。
+  const nextProject = displayJourney?.status === "completed" && project.category
+    ? (await getRelatedProjects(project.id, project.category, 1).catch(() => []))[0] ?? null
+    : null
   return (
     <Suspense fallback={<ProjectRecordsPageSkeleton />}>
       <ProjectRecordsClient
@@ -94,6 +99,7 @@ export default async function ProjectRecordsPage({ params, searchParams }: Proje
         highlightCompletionId={highlightCompletionId}
         journeyId={displayJourney?.id ?? null}
         journeyStatus={displayJourney?.status ?? null}
+        nextProject={nextProject ? { id: nextProject.id, title: nextProject.title } : null}
       />
     </Suspense>
   )

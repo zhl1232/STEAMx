@@ -24,7 +24,7 @@ const BEIJING_CENTER = { lat: 39.9042, lon: 116.4074 }
 const MOBILE_OBSERVATION_LIMIT = 4
 
 function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString("zh-CN", {
+  return new Date(dateString).toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai",
     month: "2-digit",
     day: "2-digit",
   })

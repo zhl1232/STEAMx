@@ -18,7 +18,7 @@ function recordStatus(record: JourneyRecord) {
 function formatRecordDate(value: string) {
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return "刚刚"
-  return date.toLocaleString("zh-CN", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })
+  return date.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })
 }
 
 export function JourneyRecordTimeline({
@@ -44,7 +44,7 @@ export function JourneyRecordTimeline({
         <div>
           <p className="section-kicker">我的探索记录</p>
           <h2 className="mt-2 text-lg font-semibold tracking-tight">一步一步留下来</h2>
-          <p className="mt-1 text-xs leading-5 text-muted-foreground">发布后先审核，通过后公开。未发布和未通过审核的内容不会公开。</p>
+          <p className="mt-1 text-xs leading-5 text-muted-foreground">AI 审核通过后自动公开。未发布和未通过审核的内容不会公开。</p>
         </div>
         <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.12)] text-[hsl(var(--brand-blue))]">
           <ShieldCheck className="h-4 w-4" />

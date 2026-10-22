@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-import type { Map as LeafletMap, Marker as LeafletMarker } from "leaflet"
+import type { CircleMarker as LeafletCircleMarker, Map as LeafletMap, Marker as LeafletMarker } from "leaflet"
 
 import { addDomesticTileLayer, loadLeaflet, type LeafletModule } from "@/lib/maps/domestic-leaflet"
 import { reverseGeocode } from "@/lib/reverse-geocode"
@@ -53,6 +53,10 @@ export function DomesticMapPicker({
   })
   const [isReady, setIsReady] = useState(false)
   const [isGeocoding, setIsGeocoding] = useState(false)
+  const highlightRef = useRef<LeafletCircleMarker | null>(null)
+  // 触屏默认锁定地图：单指滑动滚动页面，点一下才进入拖动/选点模式。
+  const [touchLocked, setTouchLocked] = useState(false)
+  const isTouchRef = useRef(false)
 
   useEffect(() => {
     onChangeRef.current = onChange
@@ -97,6 +101,8 @@ export function DomesticMapPicker({
       if (disposed || !container || mapRef.current) return
 
       const initialPoint = initialPointRef.current
+      const isTouch = typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches === true
+      isTouchRef.current = isTouch
       const map = L.map(container, {
         zoomControl: false,
         attributionControl: true,
@@ -133,10 +139,22 @@ export function DomesticMapPicker({
         const point = marker.getLatLng()
         commitPoint(point.lat, point.lng)
       })
+      if (isTouch) {
+        map.dragging.disable()
+        map.touchZoom.disable()
+        marker.dragging?.disable()
+        setTouchLocked(true)
+      }
       map.on("click", (event) => {
         marker.setLatLng(event.latlng)
         commitPoint(event.latlng.lat, event.latlng.lng)
       })
+
+      if (initialPoint.zoom === 14) {
+        highlightRef.current = L.circleMarker([initialPoint.latitude, initialPoint.longitude], {
+          radius: 22, color: "#16a34a", weight: 2, fillColor: "#22c55e", fillOpacity: 0.18, interactive: false,
+        }).addTo(map)
+      }
 
       leafletRef.current = L
       mapRef.current = map
@@ -158,6 +176,8 @@ export function DomesticMapPicker({
       geocodeAbortRef.current?.abort()
       resizeObserverRef.current?.disconnect()
       resizeObserverRef.current = null
+      highlightRef.current?.remove()
+      highlightRef.current = null
       markerRef.current?.remove()
       markerRef.current = null
       if (mapRef.current) {
@@ -181,12 +201,42 @@ export function DomesticMapPicker({
 
     const nextPoint = L.latLng(nextLat, nextLng)
     marker.setLatLng(nextPoint)
-    map.setView(nextPoint, Math.max(map.getZoom(), 14), { animate: false })
+    // 选好地点后：地图居中到该点，并加一圈高亮。
+    map.setView(nextPoint, Math.max(map.getZoom(), 15), { animate: true })
+    if (highlightRef.current) {
+      highlightRef.current.setLatLng(nextPoint)
+    } else {
+      highlightRef.current = L.circleMarker(nextPoint, {
+        radius: 22,
+        color: "#16a34a",
+        weight: 2,
+        fillColor: "#22c55e",
+        fillOpacity: 0.18,
+        interactive: false,
+        className: "nature-map-picker-highlight",
+      }).addTo(map)
+    }
   }, [latitude, longitude])
+
+  const setMapInteractive = (interactive: boolean) => {
+    const map = mapRef.current
+    const marker = markerRef.current
+    if (!map) return
+    if (interactive) {
+      map.dragging.enable()
+      map.touchZoom.enable()
+      marker?.dragging?.enable()
+    } else {
+      map.dragging.disable()
+      map.touchZoom.disable()
+      marker?.dragging?.disable()
+    }
+    setTouchLocked(!interactive)
+  }
 
   return (
     <div className={cn("space-y-2", className)}>
-      <div className="relative">
+      <div className="relative isolate">
         <div
           ref={containerRef}
           className={cn(
@@ -195,6 +245,29 @@ export function DomesticMapPicker({
           )}
           aria-label="选择观察地点"
         />
+        {isReady && touchLocked ? (
+          <button
+            type="button"
+            onClick={() => setMapInteractive(true)}
+            className="absolute inset-0 z-500 flex items-end justify-center rounded-md bg-transparent pb-4"
+            style={{ touchAction: "pan-y" }}
+            data-testid="map-touch-overlay"
+          >
+            <span className="rounded-full bg-black/65 px-3.5 py-1.5 text-xs font-semibold text-white shadow-md dark:bg-white/85 dark:text-black">
+              点击地图调整位置
+            </span>
+          </button>
+        ) : null}
+        {isReady && !touchLocked && isTouchRef.current ? (
+          <button
+            type="button"
+            onClick={() => setMapInteractive(false)}
+            className="absolute right-3 top-3 z-500 min-h-9 rounded-full bg-(--obs-accent,#16a34a) px-4 text-sm font-semibold text-white shadow-md"
+            data-testid="map-touch-done"
+          >
+            完成
+          </button>
+        ) : null}
         {!isReady ? (
           <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-md border border-transparent">
             <div className="absolute inset-0 opacity-70 bg-[linear-gradient(28deg,transparent_0_44%,rgba(143,211,156,0.18)_45%_47%,transparent_48%_100%),linear-gradient(150deg,transparent_0_52%,rgba(105,181,132,0.16)_53%_55%,transparent_56%_100%),radial-gradient(circle_at_64%_42%,rgba(77,199,112,0.28),transparent_9%)]" />

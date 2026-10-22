@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { PendingObservationsChip } from '@/components/features/profile/pending-observations-chip'
 import dynamic from 'next/dynamic'
 import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -158,7 +159,7 @@ function formatShortDate(value?: string | null) {
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return '未知时间'
 
-  return date.toLocaleDateString('zh-CN', {
+  return date.toLocaleDateString('zh-CN', { timeZone: "Asia/Shanghai",
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -531,6 +532,7 @@ function DesktopProfilePage({
               {!isExploreVacuum ? (
                 <section className="surface-panel rounded-lg p-6">
                   <SectionTitle iconName="projects" title="作品与观察" actionHref="/profile/library" actionLabel="查看内容库" />
+                  <PendingObservationsChip className="mt-3" />
                   <div className="mt-4 grid gap-5 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
                     <WorkShowcase works={myWorks} />
                     <ObservationList observations={myObservations} total={observationsTotal} emptyDensity="compact" embedded />

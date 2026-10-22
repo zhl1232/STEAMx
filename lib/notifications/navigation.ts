@@ -15,6 +15,10 @@ export function getNotificationTargetHref(notification: Pick<
     return `/users/${notification.from_user_id}`
   }
 
+  if (notification.related_type === 'observation' && notification.related_id) {
+    return `/nature/observations/${notification.related_id}`
+  }
+
   if (
     notification.related_type === 'comment' &&
     notification.project_id &&

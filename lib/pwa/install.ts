@@ -56,3 +56,64 @@ export function isStandaloneDisplay(win: Window = window): boolean {
   const nav = win.navigator as Navigator & { standalone?: boolean }
   return Boolean(nav.standalone)
 }
+
+/* ── 什么时候才弹「安装到桌面」 ──
+ * 登录页、课时学习页不弹（会挡住「下一页」）；
+ * 必须已登录，且完成过一节课或已经是第二次来访。 */
+const PWA_VISIT_COUNT_KEY = 'steamx:pwa-visit-count'
+const PWA_VISIT_SESSION_KEY = 'steamx:pwa-visit-counted'
+const PWA_LESSON_DONE_KEY = 'steamx:pwa-lesson-completed'
+export const PWA_ELIGIBILITY_EVENT = 'steamx:pwa-eligibility'
+
+function safeLocal(): Storage | null {
+  try {
+    return typeof window === 'undefined' ? null : window.localStorage
+  } catch {
+    return null
+  }
+}
+
+/** 每个浏览器会话只记一次访问，返回累计访问次数。 */
+export function recordPwaVisit(): number {
+  const local = safeLocal()
+  if (!local) return 0
+  try {
+    const current = Number(local.getItem(PWA_VISIT_COUNT_KEY)) || 0
+    if (window.sessionStorage.getItem(PWA_VISIT_SESSION_KEY)) return current
+    window.sessionStorage.setItem(PWA_VISIT_SESSION_KEY, '1')
+    local.setItem(PWA_VISIT_COUNT_KEY, String(current + 1))
+    return current + 1
+  } catch {
+    return 0
+  }
+}
+
+export function markPwaLessonCompleted() {
+  try {
+    safeLocal()?.setItem(PWA_LESSON_DONE_KEY, '1')
+    window.dispatchEvent(new Event(PWA_ELIGIBILITY_EVENT))
+  } catch {
+    // ignore
+  }
+}
+
+export function hasCompletedLessonForPwa(): boolean {
+  return safeLocal()?.getItem(PWA_LESSON_DONE_KEY) === '1'
+}
+
+export function isPwaBlockedPath(pathname: string | null | undefined): boolean {
+  if (!pathname) return false
+  if (pathname === '/login' || pathname.startsWith('/login/') || pathname.startsWith('/auth/')) return true
+  return /^\/courses\/[^/]+\/lessons\//.test(pathname)
+}
+
+export function isPwaPromptEligible(args: {
+  loggedIn: boolean
+  pathname: string | null | undefined
+  visitCount: number
+  lessonCompleted: boolean
+}): boolean {
+  if (!args.loggedIn) return false
+  if (isPwaBlockedPath(args.pathname)) return false
+  return args.lessonCompleted || args.visitCount >= 2
+}

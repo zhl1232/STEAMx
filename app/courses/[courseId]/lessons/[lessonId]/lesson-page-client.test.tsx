@@ -201,6 +201,7 @@ function TutorOverrideCapture({
 
 describe('LessonPageClient', () => {
   beforeEach(() => {
+    window.localStorage.clear()
     window.history.replaceState({}, '', '/courses/7/lessons/42')
     voiceControls.props = null
   })
@@ -246,12 +247,9 @@ describe('LessonPageClient', () => {
       if (lessonType !== 'building_3d') expect(guide).toHaveTextContent(step.hint)
     }
     expect(guide).not.toHaveTextContent('旧教案')
+    // 积木课的零件清单入口已移到课件工具栏图标（客户端渲染），页面顶部不再单独放链接
     const partsLink = document.querySelector('a[href="/courses/7/lessons/42/parts"]')
-    if (lessonType === 'building_3d') {
-      expect(partsLink).not.toBeNull()
-      expect(partsLink?.closest('details')).toBeNull()
-    }
-    else expect(partsLink).toBeNull()
+    if (lessonType !== 'building_3d') expect(partsLink).toBeNull()
   })
 
   it.each(['scratch', 'building_3d'])('renders the optional notice row above the %s workspace', (lessonType) => {

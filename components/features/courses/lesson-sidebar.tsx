@@ -50,7 +50,6 @@ export function LessonSidebar({
                         <h2 className="text-sm font-semibold">课程目录</h2>
                         <span className="text-xs tabular-nums text-muted-foreground">{steps.length} 页</span>
                     </div>
-                    {summary ? <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{summary}</p> : null}
                 </div>
             ) : <div className="shrink-0 border-b border-border px-4 py-3">
                 <Link

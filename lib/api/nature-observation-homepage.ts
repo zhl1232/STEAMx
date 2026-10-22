@@ -257,7 +257,7 @@ async function fetchAllPublicObservationDimensionRowsUncached(): Promise<Observa
   for (let from = 0; ; from += OBSERVATION_ROWS_PAGE_SIZE) {
     const to = from + OBSERVATION_ROWS_PAGE_SIZE - 1
     const { data, error } = await supabase
-      .from('observation_events')
+      .from('observation_events_public')
       .select(OBSERVATION_DIMENSION_SELECT)
       .eq('status', 'approved')
       .eq('is_public', true)
@@ -771,7 +771,7 @@ export async function getTopicObservationRecentObservations(topicKey: NatureTopi
   }
 
   const { data, error } = await supabase
-    .from('observation_events')
+    .from('observation_events_public')
     .select(HOMEPAGE_OBSERVATION_SELECT)
     .in('id', candidateEventIds)
     .eq('status', 'approved')
@@ -888,7 +888,7 @@ async function getRecentNatureObservations(limit = 12): Promise<ObservationEvent
 
   const supabase = createPublicClient()
   const { data, error } = await supabase
-    .from('observation_events')
+    .from('observation_events_public')
     .select(HOMEPAGE_OBSERVATION_SELECT)
     .eq('status', 'approved')
     .eq('is_public', true)
@@ -922,7 +922,7 @@ export async function getRecentNatureObservationsForMap(limit = 24): Promise<Obs
   }
 
   const { data, error } = await supabase
-    .from('observation_events')
+    .from('observation_events_public')
     .select(HOMEPAGE_OBSERVATION_SELECT)
     .in('id', candidateEventIds)
     .eq('status', 'approved')

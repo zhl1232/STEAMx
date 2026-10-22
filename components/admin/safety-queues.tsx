@@ -79,7 +79,7 @@ const ACTION_TYPE_LABELS: Record<string, string> = {
 function formatDate(value: string | null | undefined) {
   if (!value) return "时间未知"
   const date = new Date(value)
-  return Number.isNaN(date.getTime()) ? "时间未知" : date.toLocaleString("zh-CN")
+  return Number.isNaN(date.getTime()) ? "时间未知" : date.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })
 }
 
 function riskClass(risk: string) {
