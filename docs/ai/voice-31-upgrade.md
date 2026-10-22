@@ -47,11 +47,13 @@ mock、PGlite、协议构造、缓存和生命周期测试只能证明相应隔�
 
 ## 课程端侧固定口令资源
 
-课程监听直接替换为 sherpa-onnx v1.12.15（Apache-2.0）WASM KWS，中文模型为 `sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01`、epoch12/avg2/chunk16/left64，encoder/decoder/joiner 均选 INT8。权重与 tokens 原始字节、SHA-256 在 `public/courses/kws/v1/model-source.json`，生成运行包摘要在 `assets.js`。
+本地课程监听实验改为 Vosk `vosk-model-small-cn-0.22` 和 `vosk-browser@0.0.8`。框架/封装的 Apache-2.0 由上游 COPYING、NOTICE 与 npm 包声明核实；这个中文模型的 Apache-2.0 依据为 [官方模型表](https://alphacephei.com/vosk/models)，包内 README 没有单独许可声明，不用框架许可推定模型许可。完整 notices、来源和限制在 [资源 NOTICE](../../public/courses/vosk/v1/NOTICE.md)，每个模型文件及运行包的摘要在 `model-source.json`。
 
-实际下载检查了模型包内 README 的 Apache-2.0 声明，保留原文及完整运行时依赖 notices 于 [资源 NOTICE](../../public/courses/kws/v1/NOTICE.md)。该模型未包含外部英语 lexicon；不将框架许可直接推定为其他模型许可，未采用 #3802 中仍有附带资源疑问的 zh-en 模型。资源随普通 PR 置于同源 public 目录，不新增 OSS/CDN/第三方服务；合并/部署需要另行授权。
+运行资源位于同源 `public/courses/vosk/v1/`：压缩模型约 44.9 MB，含 WASM 的 JS 约 5.8 MB。首次显式开启才加载，无外部 CDN、收费服务或音频上传。上游 JavaScript loader 的小范围补丁增加压缩包校验与专用 CacheStorage，解压文件只在内存中；WASM 和权重字节没有修改。实际内存不等于下载体积，不能根据小模型名称承诺手机性能。
 
-重建：先取得源提交 `b68e69dd1a41dff6bcb8d31bf91dd3ba6b0dc568`（v1.12.15）、官方模型压缩包并解压；安装 Emscripten 3.1.53/CMake。设 `KWS_SOURCE`、`KWS_MODEL`、`EMSCRIPTEN` 后运行 `bash scripts/build-building-kws.sh`。脚本校验模型摘要、限定两路编译，并复用上游 checksum-pinned CMake 依赖；构建输出不自行发布。正常应用构建使用已附带的运行包，无需在线下载模型或安装编译器。
+重建使用 `python3 scripts/prepare-building-vosk.py MODEL_ZIP VOSK_BROWSER_TGZ`，输入分别取官方模型 ZIP 与 npm `vosk-browser-0.0.8.tgz`，脚本先核对固定 SHA-256，再确定性打包并应用可审核的 loader 补丁。正常应用构建使用已附带资源，不自动下载模型或发布外部存储。应用语音行为、缓存失败提示与验收边界在 [手机搭建](../courses/mobile-building-experience.md) 维护。
+
+原 sherpa-onnx v1.12.15 KWS / wenetspeech 3.3M INT8 的构建脚本、资源及 [NOTICE](../../public/courses/kws/v1/NOTICE.md) 保留作为先前实验；未采用许可未明确的 2025 大 ASR 模型，也未更改小迪开放问答的云语音接入。本地改动不构成推送、合并或部署授权。
 
 ## 协议参考
 
@@ -60,4 +62,4 @@ mock、PGlite、协议构造、缓存和生命周期测试只能证明相应隔�
 - [TTS WebSocket](https://help.aliyun.com/zh/model-studio/qwen-audio-tts-websocket-api)、[客户端事件](https://help.aliyun.com/zh/model-studio/qwen-audio-tts-client-events)、[服务端事件](https://help.aliyun.com/zh/model-studio/qwen-audio-tts-server-events)、[音色](https://help.aliyun.com/zh/model-studio/qwen-audio-tts-voice-list)。
 - [ASR 客户端](https://help.aliyun.com/zh/model-studio/qwen-audio-asr-streaming-client-events)、[ASR 服务端](https://help.aliyun.com/zh/model-studio/qwen-audio-asr-streaming-server-events)、[地域](https://help.aliyun.com/zh/model-studio/regions)、[北京接入](https://help.aliyun.com/zh/model-studio/beijing-access-information)。
 
-运行包（含 notices）约 16.2 MB，其中模型数据 5,025,604 字节、WASM 10,609,441 字节；测试 WAV 约 9.1 MB，不进入模型下载包。同模型 FP32 三份权重共 13,081,319 字节，INT8 共 5,023,977 字节；FP32 对照没有解决目标短口令漏检，当前保留小型 INT8，识别验收阻碍见课程专题及草稿 PR。
+先前 KWS 运行包（含 notices）约 16.2 MB，其中模型数据 5,025,604 字节、WASM 10,609,441 字节；测试 WAV 约 9.1 MB，不进入模型下载包。同模型 FP32 三份权重共 13,081,319 字节，INT8 共 5,023,977 字节；FP32 对照没有解决目标短口令漏检，当前保留小型 INT8，识别验收阻碍见课程专题及草稿 PR。

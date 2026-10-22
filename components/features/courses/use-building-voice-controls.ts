@@ -95,7 +95,7 @@ export function useBuildingVoiceControls(options: BuildingVoiceControlsOptions) 
   const start = useCallback(async () => {
     if (['starting', 'listening', 'feedback'].includes(statusRef.current)) return
     if (!optionsRef.current.userId) { stop('error', '登录后即可开启语音搭建。'); return }
-    stop('starting', '正在准备设备内语音，首次需下载模型；请允许麦克风访问。')
+    stop('starting', '正在准备设备内语音，首次约需下载 50 MB；请允许麦克风访问。')
     const generation = generationRef.current
     const captured = optionsRef.current
     const controller = new AbortController()

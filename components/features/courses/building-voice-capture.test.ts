@@ -61,11 +61,12 @@ describe('AudioWorklet + Worker capture', () => {
     await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
     expect(f.track.stop).toHaveBeenCalledOnce()
   })
-  it.each(['ended', 'mute', 'suspended', 'stalled'])('fails visibly on actual %s interruption', async (event) => {
+  it.each(['ended', 'mute', 'suspended', 'stalled', 'overflow', 'interrupted'])('fails visibly on actual %s interruption', async (event) => {
     const f = fixture()
     const capture = await createBuildingVoiceCapture(f.options, f.env)
     if (event === 'suspended') { f.context.state = 'suspended'; f.context.dispatchEvent(new Event('statechange')) }
     else if (event === 'stalled') { vi.advanceTimersByTime(6000) }
+    else if (event === 'overflow' || event === 'interrupted') { f.worklet.port.onmessage?.({ data: { type: event } }) }
     else { f.track.dispatchEvent(new Event(event)) }
     expect(f.onError).toHaveBeenCalledOnce()
     expect(f.track.stop).toHaveBeenCalledOnce()
@@ -96,8 +97,8 @@ describe('AudioWorklet + Worker capture', () => {
     const f = fixture()
     const capture = await createBuildingVoiceCapture(f.options, f.env)
     capture.setListening(true)
-    const observation = { rejected: false, speechStart: 0.3, speechEnd: 1.5, duration: 2.16,
-      hits: [{ keyword: 'wake', start_time: 0, tokens: Array(4).fill('token'), timestamps: [0.32, 0.4, 0.56, 0.64] }, { keyword: 'next', start_time: 0, tokens: Array(6).fill('token'), timestamps: [0.8, 0.92, 1.04, 1.16, 1.28, 1.4] }] }
+    const observation = { text: '小迪 下一步', valid: true, speechStart: 0.3, speechEnd: 1.3, duration: 1.96,
+      words: [{word:'小迪',start:0.21,end:0.66},{word:'下一步',start:0.66,end:1.32}] }
     const emit = (epoch: number, capturedAt = Date.now()) => f.worker.onmessage?.({ data: { type: 'result', observation, epoch, capturedAt } })
     emit(1)
     expect(f.onCommand).toHaveBeenCalledExactlyOnceWith('next')

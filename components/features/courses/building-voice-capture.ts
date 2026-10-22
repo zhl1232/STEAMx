@@ -1,8 +1,8 @@
-import { BUILDING_KWS_REJECTIONS, BUILDING_KWS_WAKE, BUILDING_KWS_ACTIONS, selectBuildingKwsCommand,
-  type BuildingVoiceCommand, type BuildingKwsObservation } from '@/lib/courses/building-voice-commands'
+import { selectBuildingAsrCommand, type BuildingAsrObservation } from '@/lib/courses/building-voice-asr'
+import type { BuildingVoiceCommand } from '@/lib/courses/building-voice-commands'
 
-const ASSETS = '/courses/kws/v1'
-const LOAD_TIMEOUT_MS = 45_000
+const ASSETS = '/courses/vosk/v1'
+const LOAD_TIMEOUT_MS = 120_000
 const MAX_RESULT_AGE_MS = 2_000
 
 export type BuildingVoiceCapture = {
@@ -35,8 +35,8 @@ function browserAudioEnvironment(): BuildingVoiceAudioEnvironment {
   return {
     getUserMedia: (constraints) => navigator.mediaDevices.getUserMedia(constraints),
     createAudioContext: () => new AudioContext(),
-    createWorker: () => new Worker(`${ASSETS}/kws-worker.js`, { type: 'module' }),
-    createWorklet: (context) => new AudioWorkletNode(context, 'building-kws-capture'),
+    createWorker: () => new Worker(`${ASSETS}/vosk-worker.js`),
+    createWorklet: (context) => new AudioWorkletNode(context, 'building-vosk-capture'),
     createChannel: () => new MessageChannel(),
   }
 }
@@ -123,10 +123,10 @@ export async function createBuildingVoiceCapture(options: BuildingVoiceCaptureOp
           !Number.isFinite(data.capturedAt) || Date.now() - data.capturedAt > MAX_RESULT_AGE_MS || data.capturedAt > Date.now()) return
         checkHealth()
         if (closed) return
-        const command = selectBuildingKwsCommand(data.observation as BuildingKwsObservation)
+        const command = selectBuildingAsrCommand(data.observation as BuildingAsrObservation)
         if (command) options.onCommand(command)
       }
-      worker!.postMessage({ type: 'init', rejections: BUILDING_KWS_REJECTIONS, wake: BUILDING_KWS_WAKE, actions: BUILDING_KWS_ACTIONS })
+      worker!.postMessage({ type: 'init' })
     })
     // Observe rejection immediately while the browser may keep a permission dialog open.
     const assetsReady = Promise.all([loaded, context.audioWorklet.addModule(`${ASSETS}/capture-worklet.js`)])
@@ -151,7 +151,11 @@ export async function createBuildingVoiceCapture(options: BuildingVoiceCaptureOp
     worklet.port.postMessage({ type: 'connect', port: channel.port1 }, [channel.port1])
     worker.postMessage({ type: 'connect', port: channel.port2 }, [channel.port2])
     worklet.onprocessorerror = () => fail('音频采集已中断，请点击继续恢复。')
-    worklet.port.onmessage = ({ data }) => { if (data.type === 'heartbeat') heartbeat = data.at }
+    worklet.port.onmessage = ({ data }) => {
+      if (data.type === 'heartbeat') heartbeat = data.at
+      else if (data.type === 'overflow') fail('设备暂时处理不过来，语音已暂停；请点击继续或使用翻页按钮。')
+      else if (data.type === 'interrupted') fail('音频采集出现中断，语音已暂停；请点击继续恢复。')
+    }
     source.connect(worklet)
     worklet.connect(context.destination)
     for (const track of stream.getTracks()) {

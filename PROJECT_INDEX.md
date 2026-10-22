@@ -46,7 +46,7 @@
 | 用量、预算与结算 | `lib/ai/tutor/usage.ts`、相关 `*_tutor_*billing.sql` / `*_ai_credit_grants.sql` | [代币计费](docs/ai/tutor-credit-accounting.md) |
 | 语音接入、音色与取消 | `lib/ai/tutor/speech.ts`、`speech-task.ts`、`voice-access.ts`、`voice-catalog.ts`、`app/api/tutor/speech/` | [语音协议与验收](docs/ai/voice-31-upgrade.md) |
 | 面板、音频会话与缓存 | `components/features/tutor/` | [语音协议与验收](docs/ai/voice-31-upgrade.md) |
-| 课程有限语音控制 | `components/features/courses/building-voice-controls.tsx`、`use-building-voice-controls.ts`、`building-voice-capture.ts`、`lib/courses/building-voice-commands.ts`、`public/courses/kws/v1/`、`scripts/build-building-kws.sh`、`playwright.building-kws.config.ts` | [手机搭建](docs/courses/mobile-building-experience.md) |
+| 课程有限语音控制 | `components/features/courses/building-voice-controls.tsx`、`use-building-voice-controls.ts`、`building-voice-capture.ts`、`lib/courses/building-voice-commands.ts`、`building-voice-asr.ts`、`public/courses/vosk/v1/`、`scripts/prepare-building-vosk.py`、`playwright.building-vosk.config.ts` | [手机搭建](docs/courses/mobile-building-experience.md) |
 
 ## 工程、资源与发布
 
