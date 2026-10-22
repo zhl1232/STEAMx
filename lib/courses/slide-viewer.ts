@@ -6,7 +6,8 @@ export const SLIDE_MAX_ZOOM = 4
 export const SWIPE_THRESHOLD_PX = 48
 
 export const PORTRAIT_PHONE_QUERY = "(orientation: portrait) and (max-width: 767px)"
-export const LANDSCAPE_PHONE_QUERY = "(orientation: landscape) and (max-height: 600px)"
+/** 横着拿的手机：横屏、高度很矮、且有触屏（粗指针）。加触屏条件是为了不把矮窗口的电脑当成手机。 */
+export const LANDSCAPE_PHONE_QUERY = "(orientation: landscape) and (max-height: 600px) and (any-pointer: coarse)"
 
 export type Point = { x: number; y: number }
 
@@ -70,8 +71,11 @@ export function shouldAutoEnterImmersive(input: {
   isLandscapePhone: boolean
   isImmersive: boolean
   isSlidePage: boolean
+  /** 打开页面时手机已经是横着的（还没自动进入过一次） */
+  isFirstLandscapeLoad?: boolean
 }): boolean {
-  return input.wasPortrait && input.isLandscapePhone && !input.isImmersive && input.isSlidePage
+  return (input.wasPortrait || input.isFirstLandscapeLoad === true)
+    && input.isLandscapePhone && !input.isImmersive && input.isSlidePage
 }
 
 /** 全屏时点按位置：左边 25% = 上一页，右边 25% = 下一页，中间 = 显示/隐藏控制条 */

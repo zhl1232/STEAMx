@@ -910,6 +910,7 @@ export function Building3DWorkspace({
     const [overlayVisible, setOverlayVisible] = useState(false);
     const [pageIndicatorVisible, setPageIndicatorVisible] = useState(false);
     const previousOrientationRef = useRef(phoneOrientation);
+    const initialLandscapeHandledRef = useRef(false);
     // null = 跟随默认（搭建第一步展开全部零件，后续步骤收起）
     const [allPartsExpanded, setAllPartsExpanded] = useState<boolean | null>(null);
     const showBuildPage = view === "lesson" && activePage?.kind === "build";
@@ -1647,6 +1648,28 @@ export function Building3DWorkspace({
         else if (action === "next") goPage(1);
         else setOverlayVisible((visible) => !visible);
     };
+
+    // 打开页面时手机已经横着：直接进入全屏看课件（只做一次，和横过来时一样）
+    useEffect(() => {
+        if (initialLandscapeHandledRef.current) return;
+        if (phoneOrientation === "other") return; // 还没读到真实方向（首屏 SSR 快照）
+        if (phoneOrientation === "portrait") {
+            initialLandscapeHandledRef.current = true;
+            return;
+        }
+        if (!isSlidePage) return; // 课件还没加载好，等一下
+        initialLandscapeHandledRef.current = true;
+        if (shouldAutoEnterImmersive({
+            wasPortrait: false,
+            isFirstLandscapeLoad: true,
+            isLandscapePhone: true,
+            isImmersive,
+            isSlidePage,
+        })) {
+            autoImmersiveRef.current = true;
+            void enterImmersive({ silent: true });
+        }
+    }, [enterImmersive, isImmersive, isSlidePage, phoneOrientation]);
 
     // 方案 A：看课件时手机横过来自动全屏，竖回去自动退出（只退自动进入的那次）
     useEffect(() => {
