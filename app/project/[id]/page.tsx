@@ -753,6 +753,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               fallbackProject={continuationProject}
               fallbackHref={continuationHref}
               fallbackExploreHref={exploreBackHref}
+              currentMinAge={project.classification?.recommendedMinAge ?? null}
             />
           </div>
           <MobileBottomProjectBar practicePending={isSciencePracticePending} viewingGuide={isScienceViewingGuide}
@@ -841,7 +842,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   emptyActionSlot={isScienceViewingGuide ? undefined : <CompletionCTA projectId={project.id} projectTitle={project.title} challengeId={project.challenge_id} mode={mode} variant="inline" actionLabel={isObservationProject ? '记录我的观察' : '记录我的项目'} />}
                 />
               </section>
-              <ExploreAwareContinuationCard projectId={project.id} fallbackProject={continuationProject} fallbackHref={continuationHref} />
+              <ExploreAwareContinuationCard projectId={project.id} fallbackProject={continuationProject} fallbackHref={continuationHref} currentMinAge={project.classification?.recommendedMinAge ?? null} />
             </div>
             <aside className="sticky top-36 hidden min-w-0 space-y-5 lg:block">
               <section className="surface-panel rounded-lg p-5">

@@ -79,6 +79,17 @@ describe('retired project redirects', () => {
   })
 })
 
+describe('retired membership page', () => {
+  it('permanently redirects /membership and nested paths to the home page', async () => {
+    const redirects = await nextConfig.redirects()
+    expect(redirects).toEqual(expect.arrayContaining([
+      { source: '/membership', destination: '/', permanent: true },
+      { source: '/membership/:path*', destination: '/', permanent: true },
+    ]))
+    expect(existsSync(new URL('./app/membership', import.meta.url))).toBe(false)
+  })
+})
+
 describe('repository asset cleanup', () => {
   it('keeps old duplicate-logo URLs mapped to the canonical public logo', async () => {
     const rewrites = await nextConfig.rewrites()
