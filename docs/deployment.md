@@ -14,6 +14,8 @@ Release 复用 `ci.yml`，检查与镜像构建并行，同一提交的两项均
 
 Docker 的 `scratch-builder` 只接收 Scratch 子包及依赖输入，产物处于应用文件之前的独立镜像层；主站运行 `pnpm exec next build`。本地 `pnpm build` 仍同时构建 Scratch 和主站。
 
+与源码同目录的测试仍参与 Next.js 类型检查；它们引用的夹具必须进入构建上下文。`.dockerignore` 仅为视频试点的 `__tests__/fixtures/project-video-pilot.json` 保留例外，其他独立测试目录继续排除。
+
 首次构建、锁文件或 Scratch 源码/配置变更、基础镜像变化及缓存失效时仍需重建。Actions 缓存用于编译复用，服务器 Docker 缓存用于只下载缺失层，不能保证每次都会命中。
 
 构建前磁盘空间低于 20 GiB 才触发清理 Android、.NET、Haskell 等预装内容，保留工具缓存里的 Node。此阈值不代表实际构建空间或提速承诺。
