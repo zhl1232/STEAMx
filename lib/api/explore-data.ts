@@ -1,6 +1,7 @@
 import { applyScienceSample, getScienceSample } from '@/lib/project/science-samples';
 import { EVERYDAY_MATERIALS_TAG } from '@/lib/explore/presets';
 import { sortProjectsByMaterials } from '@/lib/explore/material-matching';
+import { HOUSEHOLD_PROJECT_IDS, prepareHouseholdProject } from '@/lib/explore/household-projects';
 /**
  * 探索页面数据获取函数
  * 用于服务端组件中获取项目列表
@@ -429,6 +430,7 @@ function buildExploreSelectStatement(
 async function enrichProjectsWithCompletionCounts(
   supabase: Awaited<ReturnType<typeof createClient>>,
   projects: Project[],
+  strictErrors = false,
 ): Promise<Project[]> {
   const projectIds = [...new Set(
     projects
@@ -442,6 +444,7 @@ async function enrichProjectsWithCompletionCounts(
   });
   if (error) {
     logger.error("Error fetching project completion counts batch", { error, projectIds });
+    if (strictErrors) throw new Error("Unable to load explore projects", { cause: error });
     return projects;
   }
 
@@ -986,6 +989,73 @@ export async function getExploreFilterOptions(): Promise<ExploreFilterOptions> {
  * @param pagination - 分页参数
  * @returns 项目列表和总数
  */
+async function fetchHouseholdProjects(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  filters: ProjectFilters,
+  pagination: PaginationOptions,
+  settings: PublicClassificationSettings,
+): Promise<{ projects: Project[]; total: number; hasMore: boolean }> {
+  try {
+    const ordinaryTags = filters.tags?.filter((tag) => tag !== EVERYDAY_MATERIALS_TAG) ?? [];
+    const sanitizedSearch = filters.searchQuery ? sanitizeSearch(filters.searchQuery).toLowerCase() : "";
+    const starsRange = resolveDifficultyStarsRange(filters.difficulty);
+    const candidateIds = [...new Set(HOUSEHOLD_PROJECT_IDS)].sort((left, right) => left - right);
+    const candidates: Project[] = [];
+
+    // Hydrate the entire bounded cohort before material ranking. A separate filter
+    // alias preserves every raw material and step needed to validate effective content.
+    for (let offset = 0; offset < candidateIds.length; offset += 50) {
+      let query = supabase.from("projects").select(`
+        *,
+        ${PROJECT_LIST_PROFILE_SELECT},
+        project_materials (*),
+        project_steps (*),
+        ${filters.subCategory ? PROJECT_LIST_SUB_CATEGORIES_FILTER_SELECT : PROJECT_LIST_SUB_CATEGORIES_SELECT}
+        ${filters.materials?.length ? ", material_filter:project_materials!inner (material)" : ""}
+      `)
+        .eq("status", "approved")
+        .eq("moderation_state", "approved")
+        .in("id", candidateIds.slice(offset, offset + 50))
+        .order("id", { ascending: true })
+        .order("sort_order", { referencedTable: "project_materials", ascending: true })
+        .order("sort_order", { referencedTable: "project_steps", ascending: true });
+
+      if (settings.enforcementEnabled) query = query.eq("classification_status", "reviewed");
+      if (filters.category && filters.category !== "全部") query = query.eq("category", filters.category);
+      if (filters.subCategory) query = query.eq("sub_categories.name", filters.subCategory);
+      if (starsRange.min !== null) {
+        query = query.gte("difficulty_stars", starsRange.min).lte("difficulty_stars", starsRange.max ?? starsRange.min);
+      }
+      if (ordinaryTags.length) query = query.contains("tags", ordinaryTags);
+      if (filters.materials?.length) query = query.in("material_filter.material", filters.materials);
+
+      const { data, error } = await query;
+      if (error) throw new Error("Unable to load explore projects", { cause: error });
+      for (const row of (data || []) as unknown as ProjectRowForMapper[]) {
+        const project = prepareHouseholdProject(mapDbProject(row));
+        if (!project || (starsRange.legacy && project.difficulty !== starsRange.legacy)) continue;
+        if (sanitizedSearch && !`${project.title} ${project.description ?? ""}`.toLowerCase().includes(sanitizedSearch)) continue;
+        candidates.push(project);
+      }
+    }
+
+    candidates.sort((left, right) => Number(left.id) - Number(right.id));
+    const visible = applyPublicClassificationVisibility(candidates, settings);
+    const projects = (pagination.page ?? 0) === 0
+      ? await enrichProjectsWithCompletionCounts(supabase, sortProjectsByMaterials(visible, []), true)
+      : [];
+    return {
+      projects: projects.map(({ steps: _steps, reflection: _reflection, faq: _faq, ...project }) => project),
+      total: visible.length,
+      hasMore: false,
+    };
+  } catch (error) {
+    logger.error("Error fetching household projects", { error });
+    if (pagination.strictErrors) throw error;
+    return { projects: [], total: 0, hasMore: false };
+  }
+}
+
 export async function getProjects(
   filters: ProjectFilters = {},
   pagination: PaginationOptions = {},
@@ -997,6 +1067,10 @@ export async function getProjects(
   const supabase = await createClient();
   const classificationSettings = await getContentClassificationSettings();
   const includeClassification = classificationSettings.publicV1Enabled || classificationSettings.enforcementEnabled;
+
+  if (filters.tags?.includes(EVERYDAY_MATERIALS_TAG)) {
+    return fetchHouseholdProjects(supabase, filters, pagination, classificationSettings);
+  }
 
   const {
     category,

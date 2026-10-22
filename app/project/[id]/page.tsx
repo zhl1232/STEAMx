@@ -54,8 +54,7 @@ import {
 } from '@/lib/seo/project-description'
 import { buildSegmentTitle } from '@/lib/seo/title'
 import { toExploreContextProject } from '@/lib/explore/project-navigation-context'
-import { splitPreviewMaterialPreparation } from '@/lib/explore/material-matching'
-import { isPlaywrightSmoke } from '@/lib/testing/playwright-smoke'
+import { resolveProjectMaterials } from '@/lib/project/materials'
 import { ToneBadge, type CategoryTone } from '@/components/ui/tone-badge'
 import { CATEGORY_META } from '@/lib/config/categories'
 import {
@@ -528,7 +527,6 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   ])
 
   const videoPilot = getProjectVideoPresentationPilot(project)
-  const rawMaterials = videoPilot?.materials ?? project.materials ?? []
   const scienceSample = getScienceSampleForProject(project)
   const isSciencePracticePending = scienceSample?.mode === 'preparation'
   const isScienceViewingGuide = scienceSample?.mode === 'observation'
@@ -540,10 +538,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     steps: rawSteps,
   })
   const hasVideoPlayer = Boolean(videoPlaybackSrc)
-  const mergedMaterials = mergeBrokenParenMaterials(rawMaterials)
-  const { materials, preparationNotes } = isPlaywrightSmoke()
-    ? splitPreviewMaterialPreparation(mergedMaterials)
-    : { materials: mergedMaterials, preparationNotes: [] }
+  const { materials, preparationNotes } = resolveProjectMaterials(project)
   const purchasableKits = contextualStoreProducts.filter((product) => product.external_url)
   const onlyMaterial = materials.length === 1 ? getMaterialMeta(materials[0]) : null
   // Only consolidate the imported placeholder when the linked kit is unambiguous.

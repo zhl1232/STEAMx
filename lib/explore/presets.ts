@@ -18,7 +18,7 @@ export type ExplorePreset = {
     tags?: string[]
 }
 
-/** 日常材料目前仅由本地样例预览展示，其余入口保持公开。 */
+/** 探索页公开的主题入口。 */
 export const EXPLORE_PRESETS: ExplorePreset[] = [
     { id: 'browse', label: '热门推荐', sortBy: 'popular', difficulty: 'all' },
     { id: 'everyday-materials', label: EVERYDAY_MATERIALS_TAG, sortBy: 'popular', difficulty: 'all', tags: [EVERYDAY_MATERIALS_TAG] },
@@ -35,8 +35,6 @@ export type ExploreFilterState = {
     searchQuery: string
     sortBy: SortBy
 }
-
-type ExplorePresetOptions = { materialsPreviewEnabled?: boolean }
 
 export function parseExploreSortBy(raw: string | null | undefined): SortBy {
     if (raw === 'latest') return 'latest'
@@ -64,8 +62,8 @@ export function isExploreListTabPreset(id: ExplorePresetId | null): id is Explor
 }
 
 /** 用户主动筛选/搜索后进入「结果模式」，与默认「探索逛」分离。 */
-export function isExploreResultsMode(state: ExploreFilterState, options: ExplorePresetOptions = {}): boolean {
-    const activePresetId = detectActivePreset(state, options)
+export function isExploreResultsMode(state: ExploreFilterState): boolean {
+    const activePresetId = detectActivePreset(state)
     const activeListTabId = isExploreListTabPreset(activePresetId) ? activePresetId : null
     const activePreset = activeListTabId
         ? EXPLORE_PRESETS.find((item) => item.id === activeListTabId)
@@ -84,7 +82,7 @@ export function isExploreResultsMode(state: ExploreFilterState, options: Explore
         || !!state.searchQuery.trim()
 }
 
-export function detectActivePreset(state: ExploreFilterState, options: ExplorePresetOptions = {}): ExplorePresetId | null {
+export function detectActivePreset(state: ExploreFilterState): ExplorePresetId | null {
     const {
         difficulty,
         sortBy,
@@ -93,7 +91,6 @@ export function detectActivePreset(state: ExploreFilterState, options: ExplorePr
 
     const taggedListTabs = EXPLORE_PRESETS.filter((item) => presetTags(item).length > 0)
     for (const preset of taggedListTabs) {
-        if (preset.id === 'everyday-materials' && !options.materialsPreviewEnabled) continue
         if (
             sameTagSet(tags, presetTags(preset))
             && difficulty === preset.difficulty

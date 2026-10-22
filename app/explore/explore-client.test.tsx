@@ -697,30 +697,25 @@ describe('ExploreClient', () => {
         expect(requestUrl).not.toContain('tags=')
     })
 
-    it('hides the unfinished materials entry outside sample preview mode', () => {
+    it('shows the public materials entry without opening its picker on the popular tab', () => {
         render(<ExploreClient initialProjects={[]} initialHasMore={false} />)
-        expect(screen.queryByRole('button', { name: '日常材料' })).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '日常材料' })).toBeInTheDocument()
         expect(screen.queryByTestId('household-material-picker')).not.toBeInTheDocument()
     })
 
-    it('keeps the ordinary removable tag filter when a materials URL is opened without preview', async () => {
+    it('opens the materials picker on a direct public materials URL', () => {
         currentSearchParams = new URLSearchParams({ tags: '日常材料' })
-        vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => ({ projects: [], hasMore: false, total: 0 }) } as Response)
-        const user = userEvent.setup()
         render(<ExploreClient initialProjects={[]} initialHasMore={false} />)
-        expect(screen.getAllByRole('button', { name: '返回探索' }).length).toBeGreaterThan(0)
-        const tag = screen.getByRole('button', { name: /^日常材料/ })
-        expect(tag).toBeInTheDocument()
-        expect(screen.queryByTestId('household-material-picker')).not.toBeInTheDocument()
-        await user.click(tag)
-        await waitFor(() => expect(screen.queryByRole('button', { name: /^日常材料/ })).not.toBeInTheDocument())
+        expect(screen.getByRole('button', { name: '日常材料' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.getByTestId('household-material-picker')).toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '返回探索' })).not.toBeInTheDocument()
     })
 
     it('loads the materials tab and removes its picker and summaries when returning to popular', async () => {
         const sample = { ...makeProject(738, '彩虹爬爬爬'), materials: ['纸巾1张', '浅盘1个'] }
         vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => ({ projects: [sample], hasMore: false, total: 1 }) } as Response)
         const user = userEvent.setup()
-        render(<ExploreClient initialProjects={[sample]} initialHasMore={false} materialsPreviewEnabled />)
+        render(<ExploreClient initialProjects={[sample]} initialHasMore={false} />)
         expect(screen.queryByTestId('material-summary')).not.toBeInTheDocument()
         await user.click(screen.getByRole('button', { name: '日常材料' }))
         await waitFor(() => expect(screen.getByRole('button', { name: '日常材料' })).not.toBeDisabled())
@@ -737,7 +732,7 @@ describe('ExploreClient', () => {
     it('restores owned materials on a direct URL and keeps matching when narrowing by category', () => {
         currentSearchParams = new URLSearchParams({ tags: '日常材料' })
         sessionStorage.setItem('steamx:owned-materials:v1', JSON.stringify(['tissue', 'unknown']))
-        const props = { initialProjects: [{ ...makeProject(738, '彩虹爬爬爬'), materials: ['纸巾1张'] }], initialHasMore: false, materialsPreviewEnabled: true }
+        const props = { initialProjects: [{ ...makeProject(738, '彩虹爬爬爬'), materials: ['纸巾1张'] }], initialHasMore: false }
         const { rerender } = render(<ExploreClient {...props} />)
         expect(screen.getByRole('button', { name: '日常材料' })).toHaveAttribute('aria-pressed', 'true')
         expect(screen.getByTestId('material-summary')).toHaveTextContent('1/1')
@@ -754,7 +749,7 @@ describe('ExploreClient', () => {
             { ...makeProject(738, '彩虹爬爬爬'), materials: ['纸巾1张', '水溶性水彩笔数色', '浅盘1个', '清水'] },
             { ...makeProject(102, '翻滚杯玩具'), materials: ['纸杯', '橡皮泥', '贴纸'] },
         ]
-        const { container } = render(<ExploreClient initialProjects={samples} initialHasMore={false} materialsPreviewEnabled />)
+        const { container } = render(<ExploreClient initialProjects={samples} initialHasMore={false} />)
         const order = () => [...container.querySelectorAll('[data-explore-project-id]')].map((node) => node.getAttribute('data-explore-project-id'))
         expect(order()).toEqual(['102', '738'])
         await user.click(screen.getByRole('button', { name: '纸巾' }))
