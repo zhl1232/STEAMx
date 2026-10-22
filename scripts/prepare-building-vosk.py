@@ -71,6 +71,7 @@ def main():
  source=source[:match.start(1)]+encoded+source[match.end(1):]
  source='/* Modified by STEAMx: integrity-checked static model cache; no persistent MEMFS. See prepare-building-vosk.py and NOTICE.md. WASM and inference unchanged; eager PCM debug serialization removed. */\n'+source
  (out/'vosk.js').write_text(source)
+ (out/'assets.js').write_text('const BUILDING_VOICE_ASSETS = '+json.dumps({'model.tar.gz':expected,'vosk.js':{'bytes':len(source.encode()),'sha256':sha(source.encode())}})+'\n')
  (out/'model-source.json').write_text(json.dumps({'model':'vosk-model-small-cn-0.22','license':'Apache-2.0','licenseSource':'https://alphacephei.com/vosk/models','sourceZipSha256':MODEL_SHA,'browserVersion':'0.0.8','browserPackageSha256':PACKAGE_SHA,'upstreamBundleSha256':DIST_SHA,'modelFiles':source_files,'assets':{'model.tar.gz':expected,'vosk.js':{'bytes':len(source.encode()),'sha256':sha(source.encode())}}},indent=2)+'\n')
  print(json.dumps({'model.tar.gz':expected,'vosk.js':{'bytes':len(source.encode()),'sha256':sha(source.encode())}}))
 if __name__=='__main__':main()

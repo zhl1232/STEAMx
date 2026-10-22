@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { claimTutorAudioSession } from '@/components/features/tutor/tutor-audio-session'
+import type { PreparedVoiceLease } from './building-voice-preparation'
 import type { BuildingVoiceCommand } from '@/lib/courses/building-voice-commands'
 import { createBuildingVoiceCapture, type BuildingVoiceCapture } from './building-voice-capture'
 
@@ -15,6 +16,7 @@ export type BuildingVoiceControlsOptions = {
   stepIndex: number
   stepCount: number
   onNavigate: (index: number) => void
+  acquireEngine?: () => PreparedVoiceLease
 }
 const LISTENING_FEEDBACK = '设备内识别，不上传声音。先停顿，再说“小迪，下一步／上一步／暂停／退出”；暂停后需点击继续。'
 const COOLDOWN_MS = 1_200
@@ -95,7 +97,7 @@ export function useBuildingVoiceControls(options: BuildingVoiceControlsOptions) 
   const start = useCallback(async () => {
     if (['starting', 'listening', 'feedback'].includes(statusRef.current)) return
     if (!optionsRef.current.userId) { stop('error', '登录后即可开启语音搭建。'); return }
-    stop('starting', '正在准备设备内语音，首次约需下载 50 MB；请允许麦克风访问。')
+    stop('starting', '正在开启语音，请允许麦克风访问。')
     const generation = generationRef.current
     const captured = optionsRef.current
     const controller = new AbortController()
@@ -128,7 +130,7 @@ export function useBuildingVoiceControls(options: BuildingVoiceControlsOptions) 
     void authorized.catch(() => undefined)
     try {
       // Called before awaiting auth so AudioContext.resume retains the user gesture.
-      const capture = await createBuildingVoiceCapture({ signal: controller.signal, authorized,
+      const capture = await createBuildingVoiceCapture({ signal: controller.signal, authorized, acquireEngine: captured.acquireEngine,
         onCommand: (command) => receiveCommand(command, generation),
         onError: (error) => { if (isCurrent()) stop('error', error.message) },
       })

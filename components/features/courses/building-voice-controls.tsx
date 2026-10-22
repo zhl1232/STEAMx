@@ -5,6 +5,7 @@ import { LoaderCircle, Mic, Pause, Play, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/context/auth-context'
 import { useLoginPrompt } from '@/lib/context/login-prompt-context'
+import { useBuildingVoicePreparation } from './use-building-voice-preparation'
 import { useBuildingVoiceControls } from './use-building-voice-controls'
 
 export type BuildingVoiceControlsProps = {
@@ -18,14 +19,19 @@ export type BuildingVoiceControlsProps = {
   onNavigate: (index: number) => void
   /** 状态变化时通知外层（手机顶栏麦克风图标显示是否正在听） */
   onStatusChange?: (status: string) => void
+  onAvailabilityChange?: (ready: boolean) => void
+  courseReady?: boolean
 }
 
-export function BuildingVoiceControls({ tutorOpen, onCloseTutor, onStatusChange, ...navigation }: BuildingVoiceControlsProps) {
+export function BuildingVoiceControls({ tutorOpen, onCloseTutor, onStatusChange, onAvailabilityChange, courseReady = false, ...navigation }: BuildingVoiceControlsProps) {
   const { user } = useAuth()
   const { promptLogin } = useLoginPrompt()
-  const control = useBuildingVoiceControls({ ...navigation, userId: user?.id ?? null })
+  const preparation = useBuildingVoicePreparation({ ...navigation, userId: user?.id ?? null, courseReady })
+  const control = useBuildingVoiceControls({ ...navigation, userId: user?.id ?? null, acquireEngine: preparation.acquire })
   const [pauseReason, setPauseReason] = useState('')
   const { isActive, pause, status } = control
+
+  useEffect(() => { onAvailabilityChange?.(preparation.ready || isActive) }, [onAvailabilityChange, preparation.ready, isActive])
 
   useEffect(() => {
     onStatusChange?.(status)
@@ -67,6 +73,20 @@ export function BuildingVoiceControls({ tutorOpen, onCloseTutor, onStatusChange,
   }
 
   if (navigation.stepCount <= 0) return null
+
+  if (!preparation.ready && !isActive) {
+    const busy = ['downloading', 'cached', 'initializing'].includes(preparation.status)
+    const detail = !user ? '登录后可使用课程语音，翻页按钮仍可正常使用。' : preparation.problem || (preparation.status === 'error' ? '语音准备失败，请检查网络后重试。' :
+      preparation.status === 'deferred' ? '为节省流量，尚未下载语音资源。需要时可主动准备，首次约 50 MB。' :
+      preparation.status === 'downloading' ? '正在缓存语音资源。可以关闭此面板继续上课。' :
+      preparation.status === 'initializing' || preparation.status === 'cached' ? '资源已读取，正在检查设备内识别引擎。' : '语音将在课程资源就绪后准备，不会自动开启麦克风。')
+    return <section aria-label="语音设置" className="p-3" data-building-voice-controls>
+      <p role="status" className="text-sm">{detail}</p>
+      <Button type="button" size="sm" className="mt-2" disabled={busy || !courseReady || preparation.problem.includes('不支持')} onClick={user ? preparation.prepare : () => promptLogin(() => undefined, { title: '登录后开启语音搭建' })}>
+        {!user ? '登录后准备语音' : busy ? '正在准备' : preparation.status === 'error' || preparation.problem ? '重试语音准备' : '准备语音（约 50 MB）'}
+      </Button>
+    </section>
+  }
 
   const waiting = status === 'starting'
   const canResume = status === 'paused' || status === 'error'

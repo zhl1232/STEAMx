@@ -49,7 +49,7 @@ mock、PGlite、协议构造、缓存和生命周期测试只能证明相应隔�
 
 本地课程监听实验改为 Vosk `vosk-model-small-cn-0.22` 和 `vosk-browser@0.0.8`。框架/封装的 Apache-2.0 由上游 COPYING、NOTICE 与 npm 包声明核实；这个中文模型的 Apache-2.0 依据为 [官方模型表](https://alphacephei.com/vosk/models)，包内 README 没有单独许可声明，不用框架许可推定模型许可。完整 notices、来源和限制在 [资源 NOTICE](../../public/courses/vosk/v1/NOTICE.md)，每个模型文件及运行包的摘要在 `model-source.json`。
 
-运行资源位于同源 `public/courses/vosk/v1/`：压缩模型约 44.9 MB，含 WASM 的 JS 约 5.8 MB。首次显式开启才加载，无外部 CDN、收费服务或音频上传。上游 JavaScript loader 的小范围补丁增加压缩包校验与专用 CacheStorage，解压文件只在内存中；WASM 和权重字节没有修改。实际内存不等于下载体积，不能根据小模型名称承诺手机性能。
+运行资源位于同源 `public/courses/vosk/v1/`：压缩模型约 44.9 MB，含 WASM 的 JS 约 5.8 MB。课程关键资源完成后按网络策略静默准备，无外部 CDN、收费服务或音频上传；麦克风必须显式开启。准备器同时验证模型和运行包，在独立Worker完成下载/校验，再初始化模型和合成静音自检；固定资源表为 `assets.js`。上游 JavaScript loader 的小范围补丁增加压缩包校验与专用 CacheStorage，解压文件只在内存中；WASM 和权重字节没有修改。实际内存不等于下载体积，不能根据小模型名称承诺手机性能。
 
 重建使用 `python3 scripts/prepare-building-vosk.py MODEL_ZIP VOSK_BROWSER_TGZ`，输入分别取官方模型 ZIP 与 npm `vosk-browser-0.0.8.tgz`，脚本先核对固定 SHA-256，再确定性打包并应用可审核的 loader 补丁。正常应用构建使用已附带资源，不自动下载模型或发布外部存储。应用语音行为、缓存失败提示与验收边界在 [手机搭建](../courses/mobile-building-experience.md) 维护。
 

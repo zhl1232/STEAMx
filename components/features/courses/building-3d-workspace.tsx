@@ -22,6 +22,7 @@ import {
     RotateCw,
     Sparkles,
     Mic,
+    Settings2,
     PanelLeftClose,
     PanelLeftOpen,
     X,
@@ -471,12 +472,7 @@ function loadGltfLoader() {
 }
 
 function preloadThreeRuntime(content: Building3DLessonContent) {
-    void loadThreeCore().catch(() => undefined);
-    if (content.ldrawModelUrl) {
-        void loadLdrawRuntime().catch(() => undefined);
-    } else if (content.modelUrl) {
-        void loadGltfLoader().catch(() => undefined);
-    }
+    return Promise.allSettled([loadThreeCore(), content.ldrawModelUrl ? loadLdrawRuntime() : content.modelUrl ? loadGltfLoader() : Promise.resolve()]);
 }
 
 function normalizeLdrawAssembly(
@@ -903,6 +899,9 @@ export function Building3DWorkspace({
     );
     const isPortraitPhone = phoneOrientation === "portrait";
     const [voiceExpanded, setVoiceExpanded] = useState(false);
+    const [voiceReady, setVoiceReady] = useState(false);
+    const [voiceMediaReady, setVoiceMediaReady] = useState<string | null>(null);
+    const [voicePrefetchPending, setVoicePrefetchPending] = useState(false);
     const [voiceStatus, setVoiceStatus] = useState<string>("idle");
     const voiceActive = voiceStatus === "listening" || voiceStatus === "processing" || voiceStatus === "starting";
     const [partsDrawerOpen, setPartsDrawerOpen] = useState(false);
@@ -1023,7 +1022,7 @@ export function Building3DWorkspace({
 
         const abortController = new AbortController();
         let preloadUrl: string | null = null;
-        preloadThreeRuntime(content);
+        const runtimeReady = preloadThreeRuntime(content);
 
         if (content.ldrawModelUrl) {
             const modelFileName = getLdrawModelFileName(content.ldrawModelUrl);
@@ -1035,15 +1034,16 @@ export function Building3DWorkspace({
         }
 
         if (preloadUrl) {
-            void fetch(preloadUrl, {
+            setVoicePrefetchPending(true);
+            void Promise.all([runtimeReady, fetch(preloadUrl, {
                 cache: "force-cache",
                 signal: abortController.signal,
-            })
-                .then((response) => response.ok ? response.arrayBuffer() : undefined)
-                .catch(() => undefined);
+            }).then((response) => response.ok ? response.arrayBuffer() : undefined)])
+                .catch(() => undefined)
+                .finally(() => { if (!abortController.signal.aborted) setVoicePrefetchPending(false); });
         }
 
-        return () => abortController.abort();
+        return () => { abortController.abort(); setVoicePrefetchPending(false); };
     }, [content, upcomingBuildPage]);
 
     useEffect(() => {
@@ -1712,6 +1712,11 @@ export function Building3DWorkspace({
         ...(hasWorks ? [{ key: "works", label: "看看大家的作品", icon: "works" as const, onSelect: () => { void exitImmersive(); setView("works"); } }] : []),
         ...(content.ldrawModelUrl ? [{ key: "parts", label: "本课零件清单", icon: "parts" as const, href: `/courses/${courseId}/lessons/${lesson.id}/parts` }] : []),
     ];
+    const activeVoiceMedia = activePage?.kind === "video" || (activePage?.kind === "slide" && activePage.sourceIndex === videoSlide0)
+        ? content.videoUrl : activePage?.kind === "slide" ? activePage.imageUrl : null;
+    const voiceCourseReady = view === "lesson" && !bomLoading && !voicePrefetchPending && (
+        showBuildPage ? !loading && !loadError : !!activeVoiceMedia && voiceMediaReady === activeVoiceMedia
+    );
     const flowControls = (
         <div className={cn(
             "relative z-30 shrink-0 border-t border-border/60 bg-background/90 px-3 py-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] backdrop-blur-md",
@@ -1881,7 +1886,8 @@ export function Building3DWorkspace({
                         </button>
                     ) : null}
                     {view === "lesson" && voiceControlsSlot ? (
-                        <button
+                        <span className="inline-flex h-10 w-[76px] shrink-0 max-md:w-10" data-voice-entry-slot>
+                        {(voiceReady || voiceActive) ? <button
                             type="button"
                             data-testid="voice-toggle"
                             aria-label={voiceExpanded ? "收起语音搭建" : "语音搭建"}
@@ -1892,6 +1898,12 @@ export function Building3DWorkspace({
                             <Mic className="h-4 w-4" />
                             <span className="max-md:hidden">语音</span>
                             {voiceActive ? <span aria-hidden className="absolute right-1.5 top-1.5 h-2 w-2 animate-pulse rounded-full bg-emerald-400 ring-2 ring-background" /> : null}
+                        </button> : null}
+                        </span>
+                    ) : null}
+                    {view === "lesson" && voiceControlsSlot ? (
+                        <button type="button" className={cn(pill, pillQuiet, circle)} aria-label="语音设置" title="语音设置" onClick={() => setVoiceExpanded(open => !open)}>
+                            <Settings2 className="h-4 w-4" aria-hidden="true" />
                         </button>
                     ) : null}
                     {view === "lesson" && content.ldrawModelUrl ? (
@@ -1928,9 +1940,9 @@ export function Building3DWorkspace({
 
             {/* 沉浸式时只藏起来不卸载，正在进行的语音搭建不中断 */}
             {view === "lesson" ? (
-                <div data-voice-slot-wrapper className={cn("contents", (hideChrome || !voiceExpanded) && "hidden")}>
+                <div data-voice-slot-wrapper className={cn("absolute right-3 top-14 z-50 w-[min(26rem,calc(100%-1.5rem))] overflow-hidden rounded-lg border border-border bg-background shadow-lg", (hideChrome || !voiceExpanded) && "hidden")}>
                     {isValidElement(voiceControlsSlot)
-                        ? cloneElement(voiceControlsSlot as ReactElement<{ onStatusChange?: (status: string) => void }>, { onStatusChange: setVoiceStatus })
+                        ? cloneElement(voiceControlsSlot as ReactElement<{ onStatusChange?: (status: string) => void; onAvailabilityChange?: (ready: boolean) => void; courseReady?: boolean }>, { onStatusChange: setVoiceStatus, onAvailabilityChange: setVoiceReady, courseReady: voiceCourseReady })
                         : voiceControlsSlot}
                 </div>
             ) : null}
@@ -1983,6 +1995,7 @@ export function Building3DWorkspace({
                                     src={videoUrl}
                                     controls
                                     playsInline
+                                    onLoadedData={() => setVoiceMediaReady(videoUrl)}
                                     onError={() => setFailedVideos((previous) => new Set(previous).add(videoUrl))}
                                     className="absolute inset-0 h-full w-full bg-black object-contain"
                                 />
@@ -2003,6 +2016,7 @@ export function Building3DWorkspace({
                                     key={activePage.imageUrl}
                                     src={activePage.imageUrl}
                                     alt={activePage.title}
+                                    onLoad={() => setVoiceMediaReady(activePage.imageUrl)}
                                     onError={() => setFailedSlides((previous) => new Set(previous).add(activePage.sourceIndex))}
                                     onSwipe={(delta) => goPage(delta)}
                                     onTap={handleSlideTap}

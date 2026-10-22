@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 type RecognizerEvent = { event: string; result: { text: string; result: unknown[] } }
 type Output = { type: string; observation?: { text: string; valid: boolean } }
 type AudioRequest = { type: string; id: number; epoch: number; segment: number; sampleRate: number; samples?: Float32Array; valid?: boolean; speechStart?: number; speechEnd?: number; duration?: number }
-type MockPort = { postMessage: (message: {type:string}) => void; onmessage?: (event: {data: AudioRequest}) => Promise<void> }
+type MockPort = { close: () => void; postMessage: (message: {type:string}) => void; onmessage?: (event: {data: AudioRequest}) => Promise<void> }
 function fixture() {
   const messages: Output[] = []
   const replies: Array<{type:string}> = []
@@ -33,10 +33,11 @@ function fixture() {
     self: scope, Vosk: { Model }, BUILDING_VOSK_GRAMMAR: ['小迪 下一步', '[unk]'],
     importScripts() {}, URL, Float32Array, Number, JSON, Promise, setTimeout, clearTimeout, performance,
   })
-  const port: MockPort = { postMessage: (value: {type:string}) => replies.push(value) }
+  const port: MockPort = { close: vi.fn(), postMessage: (value: {type:string}) => replies.push(value) }
   const init = async () => { await scope.onmessage!({ data: { type: 'init' } }); await scope.onmessage!({ data: { type: 'connect', port } }) }
   const send = (type: string, extra: Partial<AudioRequest> = {}) => port.onmessage!({ data: { type, id: 1, epoch: 1, segment: 1, sampleRate: 16000, ...extra } })
-  return { init, send, messages, replies, recognizers, text: (value: string) => { nextText = value }, stall: () => { stalled = true } }
+  const disconnect = () => scope.onmessage!({ data: { type: 'disconnect' } })
+  return { init, send, disconnect, port, messages, replies, recognizers, text: (value: string) => { nextText = value }, stall: () => { stalled = true }, resume: () => { stalled = false } }
 }
 afterEach(() => vi.useRealTimers())
 describe('Vosk complete utterance adapter', () => {
@@ -47,7 +48,7 @@ describe('Vosk complete utterance adapter', () => {
     expect(f.messages.filter(m => m.type === 'result')).toEqual([])
     await f.send('end', { valid: true, speechStart: .3, speechEnd: 1.3, duration: 1.96 })
     expect(f.messages.find(m => m.type === 'result')?.observation?.text).toBe('[unk] 小迪 退出')
-    expect(f.recognizers[0].remove).toHaveBeenCalledOnce()
+    expect(f.recognizers[1].remove).toHaveBeenCalledOnce()
     await f.send('begin', { segment: 2 })
     f.text('小迪 退出'); await f.send('chunk', { segment: 2, samples: new Float32Array(1600) })
     await f.send('end', { segment: 2, valid: true })
@@ -66,7 +67,7 @@ describe('Vosk complete utterance adapter', () => {
     await f.send('reset', { epoch: 2 })
     await f.send('end', { epoch: 1, valid: true })
     expect(f.messages.filter(m => m.type === 'result')).toEqual([])
-    expect(f.recognizers[0].remove).toHaveBeenCalledOnce()
+    expect(f.recognizers[1].remove).toHaveBeenCalledOnce()
   })
   it('reports a stalled decoder, acknowledges and zeroes the PCM block', async () => {
     vi.useFakeTimers()
@@ -77,5 +78,22 @@ describe('Vosk complete utterance adapter', () => {
     expect(f.messages.some(m => m.type === 'error')).toBe(true)
     expect(samples.every(value => value === 0)).toBe(true)
     expect(f.replies.at(-1)).toMatchObject({ type: 'ack' })
+  })
+  it('releases a blocked capture before reusing the model, without leaking its words or error', async () => {
+    const f = fixture(); await f.init(); await f.send('begin')
+    f.text('[unk]'); await f.send('chunk', { samples: new Float32Array(1600) })
+    f.stall()
+    const samples = new Float32Array(1600).fill(.1)
+    const blocked = f.send('chunk', { samples })
+    await f.disconnect(); await blocked
+    expect(f.port.close).toHaveBeenCalledOnce()
+    expect(f.messages.at(-1)).toMatchObject({ type: 'detached' })
+    expect(f.messages.some(m => m.type === 'error')).toBe(false)
+    expect(samples.every(value => value === 0)).toBe(true)
+    f.resume(); await f.init(); await f.send('begin')
+    f.text('小迪 暂停'); await f.send('chunk', { samples: new Float32Array(1600) })
+    await f.send('end', { valid: true })
+    expect(f.messages.filter(m => m.type === 'result')).toHaveLength(1)
+    expect(f.messages.at(-1)?.observation?.text).toBe('小迪 暂停')
   })
 })

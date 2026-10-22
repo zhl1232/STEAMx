@@ -1,4 +1,5 @@
 import { selectBuildingAsrCommand, type BuildingAsrObservation } from '@/lib/courses/building-voice-asr'
+import type { PreparedVoiceLease } from './building-voice-preparation'
 import type { BuildingVoiceCommand } from '@/lib/courses/building-voice-commands'
 
 const ASSETS = '/courses/vosk/v1'
@@ -16,6 +17,7 @@ export type BuildingVoiceCaptureOptions = {
   signal: AbortSignal
   /** Server eligibility is checked before opening the mic or loading the model. */
   authorized: Promise<void>
+  acquireEngine?: () => PreparedVoiceLease
   onCommand: (command: BuildingVoiceCommand) => void
   onError: (error: Error) => void
 }
@@ -52,6 +54,7 @@ export async function createBuildingVoiceCapture(options: BuildingVoiceCaptureOp
   let source: MediaStreamAudioSourceNode | null = null
   let worklet: AudioWorkletNode | null = null
   let worker: Worker | null = null
+  let prepared: PreparedVoiceLease | null = null
   let channel: MessageChannel | null = null
   let closed = false
   let ready = false
@@ -79,7 +82,8 @@ export async function createBuildingVoiceCapture(options: BuildingVoiceCaptureOp
       track.removeEventListener('ended', listener)
       track.removeEventListener('mute', listener)
     }
-    worker?.terminate() // Releases WASM heap, models and any pending utterance.
+    if (prepared) prepared.release() // Standby model belongs to the mounted course; audio/decoder is discarded.
+    else worker?.terminate()
     channel?.port1.close()
     channel?.port2.close()
     if (worklet) { worklet.port.onmessage = null; worklet.port.close() }
@@ -111,7 +115,8 @@ export async function createBuildingVoiceCapture(options: BuildingVoiceCaptureOp
     if (!context.audioWorklet) throw new Error('当前浏览器不支持音频工作线程，请更新浏览器或使用翻页按钮。')
     await options.authorized
     stillCurrent()
-    worker = audio.createWorker()
+    prepared = options.acquireEngine?.() ?? null
+    worker = prepared?.worker ?? audio.createWorker()
     const loaded = new Promise<void>((resolve, reject) => {
       rejectLoad = reject
       worker!.onerror = () => fail('本地语音引擎无法运行，请更新浏览器后重试；也可使用翻页按钮。')
@@ -126,7 +131,8 @@ export async function createBuildingVoiceCapture(options: BuildingVoiceCaptureOp
         const command = selectBuildingAsrCommand(data.observation as BuildingAsrObservation)
         if (command) options.onCommand(command)
       }
-      worker!.postMessage({ type: 'init' })
+      if (prepared) { rejectLoad = null; resolve() }
+      else worker!.postMessage({ type: 'init' })
     })
     // Observe rejection immediately while the browser may keep a permission dialog open.
     const assetsReady = Promise.all([loaded, context.audioWorklet.addModule(`${ASSETS}/capture-worklet.js`)])

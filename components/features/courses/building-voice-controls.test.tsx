@@ -18,6 +18,8 @@ const mocks = vi.hoisted(() => ({
   },
 }))
 
+vi.mock('./use-building-voice-preparation', () => ({ useBuildingVoicePreparation: () => ({ ready: true, status: 'ready', problem: '', acquire: vi.fn() }) }))
+
 vi.mock('@/lib/context/auth-context', () => ({ useAuth: () => ({ user: mocks.user }) }))
 vi.mock('@/lib/context/login-prompt-context', () => ({ useLoginPrompt: () => ({ promptLogin: mocks.promptLogin }) }))
 vi.mock('./use-building-voice-controls', () => ({ useBuildingVoiceControls: (options: unknown) => {

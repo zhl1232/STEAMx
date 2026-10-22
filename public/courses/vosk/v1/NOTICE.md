@@ -12,4 +12,4 @@ Source packages:
 - https://github.com/ccoreilly/vosk-browser/blob/master/COPYING
 - https://github.com/ccoreilly/vosk-browser/blob/master/NOTICE
 
-The bounded AudioWorklet and adapter Worker are STEAMx application code. They do not provide speaker recognition or intent detection; complete recorded commands and similar wake words can still trigger. This local experiment is not a deployment approval.
+The preparation worker validates both static assets before initialization; CacheStorage failures use verified in-memory transfers. The bounded AudioWorklet and adapter Worker are STEAMx application code. They do not provide speaker recognition or intent detection; complete recorded commands and similar wake words can still trigger. This local experiment is not a deployment approval.

@@ -1,6 +1,7 @@
 /* Vosk inference adapter. PCM remains in workers; no audio/text is logged or stored. */
-importScripts('./vosk.js', './grammar.js')
+importScripts('./grammar.js')
 let model, recognizer, inputPort, pending, currentEpoch = 0, currentSegment = 0
+let connectionGeneration = 0
 let textParts = [], words = [], textLength = 0, invalid = false
 const stats = { chunks: 0, totalMs: 0, maxMs: 0, segments: 0, cancelled: 0 }
 function reset() {
@@ -38,7 +39,8 @@ function begin(rate) {
   recognizer.on('result', receive)
   recognizer.on('partialresult', receive)
 }
-async function receiveAudio({ data }) {
+async function receiveAudio({ data }, generation) {
+  const replyPort = inputPort
   try {
     if (data.type === 'reset') { currentEpoch = data.epoch; reset(); return }
     if (data.type === 'begin') {
@@ -52,11 +54,13 @@ async function receiveAudio({ data }) {
       if (!(data.samples instanceof Float32Array) || data.samples.length > data.sampleRate * .11) throw new Error('Invalid PCM block')
       const start = performance.now()
       await request(() => recognizer.acceptWaveformFloat(data.samples, data.sampleRate))
+      if (generation !== connectionGeneration) return
       const ms = performance.now() - start
       stats.chunks++; stats.totalMs += ms; stats.maxMs = Math.max(stats.maxMs, ms)
     } else if (data.type === 'cancel') { stats.cancelled++; reset() }
     else if (data.type === 'end') {
       await request(() => recognizer.retrieveFinalResult())
+      if (generation !== connectionGeneration) return
       // Preserve every token, including [unk] and negative/quoted words. Never execute partials.
       const text = textParts.join(' ')
       const valid = data.valid && !invalid
@@ -64,14 +68,19 @@ async function receiveAudio({ data }) {
       reset(); stats.segments++
       self.postMessage({ type: 'result', observation, epoch: data.epoch, capturedAt: data.capturedAt })
     }
-  } catch { self.postMessage({ type: 'error' }) }
-  finally { data.samples?.fill(0); inputPort.postMessage({ type: 'ack', id: data.id }) }
+  } catch { if (generation === connectionGeneration) self.postMessage({ type: 'error' }) }
+  finally { data.samples?.fill(0); try { replyPort?.postMessage({ type: 'ack', id: data.id }) } catch { /* Detached session. */ } }
 }
 self.onmessage = async ({ data }) => {
   try {
     if (data.type === 'init' && !model) {
-      // The patched upstream loader verifies the archive and caches only this static resource.
-      model = new Vosk.Model(new URL('./model.tar.gz', self.location.href).href, -1)
+      if (data.runtimeBytes instanceof ArrayBuffer) {
+        const runtimeUrl = URL.createObjectURL(new Blob([data.runtimeBytes], { type: 'application/javascript' }))
+        try { importScripts(runtimeUrl) } finally { URL.revokeObjectURL(runtimeUrl); data.runtimeBytes = null }
+      } else importScripts('./vosk.js')
+      const modelUrl = data.modelBytes instanceof ArrayBuffer ? URL.createObjectURL(new Blob([data.modelBytes])) : new URL('./model.tar.gz', self.location.href).href
+      data.modelBytes = null
+      model = new Vosk.Model(modelUrl, -1)
       await new Promise((resolve, reject) => {
         model.on('load', (message) => message.result ? resolve() : reject(new Error('Model unavailable')))
         model.on('error', () => {
@@ -80,10 +89,23 @@ self.onmessage = async ({ data }) => {
           self.postMessage({ type: 'error' })
         })
       })
+      if (modelUrl.startsWith('blob:')) URL.revokeObjectURL(modelUrl)
+      // Actual WASM/grammar readiness, using synthetic silence only.
+      begin(16000)
+      await request(() => recognizer.acceptWaveformFloat(new Float32Array(1600), 16000))
+      await request(() => recognizer.retrieveFinalResult())
+      reset()
       self.postMessage({ type: 'ready' })
     } else if (data.type === 'connect' && model?.ready) {
+      connectionGeneration++
+      const generation = connectionGeneration
       inputPort = data.port
-      inputPort.onmessage = receiveAudio
+      inputPort.onmessage = event => receiveAudio(event, generation)
+    } else if (data.type === 'disconnect') {
+      connectionGeneration++
+      if (pending) { clearTimeout(pending.timer); pending.reject(new Error('Disconnected')); pending = null }
+      inputPort?.close(); inputPort = null; reset()
+      self.postMessage({ type: 'detached' })
     } else if (data.type === 'stats') self.postMessage({ type: 'stats', stats })
   } catch { self.postMessage({ type: 'error' }) }
 }

@@ -4,6 +4,7 @@ import { Building3DWorkspace } from '@/components/features/courses/building-3d-w
 import { BuildingVoiceControls } from '@/components/features/courses/building-voice-controls'
 import { claimTutorAudioSession } from '@/components/features/tutor/tutor-audio-session'
 import '@/app/globals.css'
+import { buildingVoicePreparation } from '@/components/features/courses/building-voice-preparation'
 // All browser checks use a synthetic Web Audio stream; never request a physical mic.
 let synthetic
 let destination
@@ -21,6 +22,7 @@ navigator.mediaDevices.getUserMedia = async () => {
   return destination.stream
 }
 window.voiceFixture = {
+  get preparation(){return buildingVoicePreparation.getSnapshot()},
   get sampleRate(){return synthetic?.sampleRate},
   get microphoneRequests(){return microphoneRequests},
   get trackState(){return destination?.stream.getTracks()[0]?.readyState},
@@ -58,8 +60,8 @@ function App() {
     <div data-building-lesson><audio data-testid="lesson-audio" src="/synthetic/normal-next.wav" controls /></div>
     <output data-testid="step">{step}</output>
   </nav>{mounted && <>
-    <BuildingVoiceControls courseId={7} lessonId={1} navigationKey={String(epoch)} stepIndex={step} stepCount={30} onNavigate={navigate} tutorOpen={false} onCloseTutor={() => {}} />
-    <Building3DWorkspace courseId={7} lesson={lesson} activeStepIndex={step} onStepChange={navigate} />
+    <Building3DWorkspace courseId={7} lesson={lesson} activeStepIndex={step} onStepChange={navigate}
+      voiceControlsSlot={<BuildingVoiceControls courseId={7} lessonId={1} navigationKey={String(epoch)} stepIndex={step} stepCount={30} onNavigate={navigate} tutorOpen={false} onCloseTutor={() => {}} />} />
   </>}</main>
 }
 createRoot(document.getElementById('root')).render(<StrictMode><App /></StrictMode>)
