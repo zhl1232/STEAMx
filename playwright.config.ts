@@ -7,7 +7,7 @@ const browserChannel = process.env.PLAYWRIGHT_USE_SYSTEM_CHROME === '1' ? 'chrom
 
 export default defineConfig({
   testDir: './e2e',
-  testIgnore: ['integration/**', 'scratch-host/**', 'registration/**', 'building-outline/**', 'building-kws/**', 'building-vosk/**', 'project-card/**', 'internal-routes/**'],
+  testIgnore: ['integration/**', 'scratch-host/**', 'registration/**', 'building-outline/**', 'building-kws/**', 'building-vosk/**', 'project-card/**', 'internal-routes/**', 'project-video-pilot/**'],
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
