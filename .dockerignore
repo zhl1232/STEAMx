@@ -14,6 +14,8 @@ node_modules
 *.log
 docs
 __tests__
+# Colocated tests remain in the Next.js type-check input and import this fixture.
+!__tests__/fixtures/project-video-pilot.json
 e2e
 coverage
 playwright-report
