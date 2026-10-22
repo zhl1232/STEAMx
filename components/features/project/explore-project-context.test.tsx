@@ -48,6 +48,18 @@ describe("explore-aware project navigation (no URL params)", () => {
     expect(readExploreProjectContext(2)?.queue.map((item) => item.id)).toEqual([3])
   })
 
+  it("skips explore cards far too young for the current project", () => {
+    const aged = (id: number, age: number) => project(id, {
+      classification: { recommendedMinAge: age } as Project["classification"],
+    })
+    saveExploreProjectContext(buildExploreProjectContext([aged(1, 12), aged(2, 7), aged(3, 10), aged(4, 12)], 0, "/explore"))
+    render(<ExploreAwareContinuationCard projectId={1} fallbackProject={project(9)} fallbackHref="/project/9" currentMinAge={12} />)
+    const link = screen.getByRole("link", { name: /前往下一个项目/ })
+    expect(link).toHaveAttribute("href", "/project/3")
+    fireEvent.click(link)
+    expect(readExploreProjectContext(3)?.queue.map((item) => item.id)).toEqual([4])
+  })
+
   it("offers returning to the filtered list at the end of the queue", () => {
     saveExploreProjectContext(buildExploreProjectContext([project(1)], 0, "/explore?sortBy=latest"))
     render(<ExploreAwareContinuationCard projectId={1} fallbackProject={null} fallbackHref="/explore" />)
