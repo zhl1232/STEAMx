@@ -53,7 +53,32 @@ test('技能课程页 smoke', async ({ page }) => {
 
 test('游乐场页 smoke', async ({ page }) => {
   await expectHealthyPage(page, '/playground')
-  await expect(page.getByRole('heading', { name: /STEAM Playground/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: "一起玩，把好奇带回生活" })).toBeVisible()
+})
+
+for (const width of [390, 1440]) {
+  test(`游乐场分组、折叠目录与搜索 ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto('/playground', { waitUntil: 'domcontentloaded' })
+    await expect(page.locator('#playground-create').getByRole('heading', { name: '七巧板' })).toBeVisible()
+    await expect(page.locator('#playground-more a[href="/playground/2048"]')).not.toBeVisible()
+    await page.locator('#playground-more > summary').click()
+    await expect(page.locator('#playground-more a[href="/playground/2048"]')).toBeVisible()
+    await expect(page.locator('a[href="/playground/quickmath"]')).toHaveCount(0)
+    await page.getByRole('searchbox', { name: '搜索游乐场玩法' }).fill('2048')
+    await expect(page.locator('main').getByRole('link', { name: /2048/ })).toBeVisible()
+    await expect(page.getByRole('heading', { name: '搜索结果 · 1 个玩法' })).toBeVisible()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+  })
+}
+
+test('数织移动端先展示棋盘，竞速登录可选展开', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/playground/nonogram', { waitUntil: 'domcontentloaded' })
+  await expect(page.getByRole('application', { name: '数织棋盘' })).toBeVisible()
+  await expect(page.getByRole('link', { name: '去登录' })).toHaveCount(0)
+  await page.getByText('联机竞速 · 邀请好友', { exact: true }).filter({ visible: true }).click()
+  await expect(page.getByRole('link', { name: '去登录' })).toBeVisible()
 })
 
 test('联网竞速登录链接保留邀请房间码', async ({ page }) => {

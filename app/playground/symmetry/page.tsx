@@ -281,7 +281,7 @@ export default function SymmetryPage() {
 
             <aside className="w-full border-t border-border bg-card/50 p-6 xl:w-96 xl:border-l xl:border-t-0">
                 <div className="space-y-5">
-                    <RaceOnlinePanel online={race} gamePath="/playground/symmetry" />
+                    <RaceOnlinePanel collapsible online={race} gamePath="/playground/symmetry" />
                     <section>
                         <h2 className="mb-2 flex items-center gap-2 font-bold">
                             <Trophy className="h-4 w-4 text-rose-500" />

@@ -133,6 +133,16 @@ export default function TangramPage() {
                         <span className="rounded-full bg-muted px-3 py-1 text-xs font-bold">{formatTime(game.time)}</span>
                     </div>
 
+                    <details className="mb-4 rounded-sm border border-border px-3" open={game.status === "solved" ? true : undefined}>
+                        <summary className="min-h-11 cursor-pointer py-3 text-sm font-semibold">一起探索：拼一个，再自己出题</summary>
+                        <ol className="grid gap-3 pb-4 text-xs leading-6 sm:grid-cols-2">
+                            <li><strong>1 · 拼一个</strong><p className="text-muted-foreground">选喜欢的剪影，先让孩子试。家长可以问：你想先放哪一块？</p></li>
+                            <li><strong>2 · 说一说</strong><p className="text-muted-foreground">指一块说说为什么放这里；转一转或翻一翻，会有什么不同？</p></li>
+                            <li><strong>3 · 动手复现</strong><p className="text-muted-foreground">离开屏幕，用纸片或积木拼一个相似的形状，比较哪里一样、哪里不同。</p></li>
+                            <li><strong>4 · 自己出题</strong><p className="text-muted-foreground">用手边材料换一种拼法，画下外轮廓，邀请家长猜一猜、拼一拼。</p></li>
+                        </ol>
+                    </details>
+
                     <div className="mb-4 flex flex-wrap items-center gap-2">
                         {TANGRAM_LEVELS.map((level, index) => (
                             <Button
@@ -266,6 +276,7 @@ export default function TangramPage() {
                         <div className="mt-4 rounded-lg border border-violet-400/40 bg-violet-500/10 p-4 text-center">
                             <Sparkles className="mx-auto mb-2 h-6 w-6 text-violet-500" />
                             <p className="font-black">「{game.level.name}」完成！</p>
+                            <p className="mt-1 text-sm text-muted-foreground">说说你是怎么拼的，再用纸片或积木试一次吧。</p>
                             <p className="text-xs text-muted-foreground">
                                 用时 {formatTime(game.time)}
                                 {game.levelIndex + 1 < game.levelCount && (
@@ -281,7 +292,7 @@ export default function TangramPage() {
 
             <aside className="w-full border-t border-border bg-card/50 p-6 xl:w-96 xl:border-l xl:border-t-0">
                 <div className="space-y-5">
-                    <RaceOnlinePanel online={race} gamePath="/playground/tangram" />
+                    <RaceOnlinePanel collapsible online={race} gamePath="/playground/tangram" />
                     <section className="rounded-sm bg-muted/30 p-4">
                         <h2 className="mb-2 flex items-center gap-2 font-bold">
                             <Trophy className="h-4 w-4 text-violet-500" />

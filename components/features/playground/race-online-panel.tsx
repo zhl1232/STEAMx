@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 type RaceOnlineApi = ReturnType<typeof useRaceOnline>;
 
 /** Keep the panel mounted so invite/login/reconnect effects also run while collapsed. */
-export function RaceOnlineDisclosure({ phase, children }: { phase: RaceOnlineApi["phase"]; children: ReactNode }) {
+export function RaceOnlineDisclosure({ phase, children, mobileOnly = true }: { phase: RaceOnlineApi["phase"]; children: ReactNode; mobileOnly?: boolean }) {
     const detailsRef = useRef<HTMLDetailsElement>(null);
     useEffect(() => {
         if (detailsRef.current && (phase !== "idle" || new URLSearchParams(window.location.search).has("room"))) {
@@ -23,7 +23,7 @@ export function RaceOnlineDisclosure({ phase, children }: { phase: RaceOnlineApi
     }, [phase]);
 
     return (
-        <details ref={detailsRef} className="mb-4 rounded-sm border border-border bg-background/80 xl:hidden"
+        <details ref={detailsRef} className={cn("mb-4 rounded-sm border border-border bg-background/80", mobileOnly && "xl:hidden")}
             onToggle={() => {
                 if (phase !== "idle" && detailsRef.current && !detailsRef.current.open) detailsRef.current.open = true;
             }}>
@@ -62,15 +62,25 @@ function outcomeText(online: RaceOnlineApi): string {
     return online.winner === online.myRole ? "你获胜了" : "对手获胜"
 }
 
-export function RaceOnlinePanel({
-    online,
-    gamePath,
-    className,
-}: {
+type RaceOnlinePanelProps = {
     online: RaceOnlineApi;
     gamePath: string;
     className?: string;
-}) {
+    collapsible?: boolean;
+};
+
+export function RaceOnlinePanel({ collapsible = false, ...props }: RaceOnlinePanelProps) {
+    const panel = <RaceOnlinePanelContent {...props} />;
+    return collapsible ? (
+        <RaceOnlineDisclosure phase={props.online.phase} mobileOnly={false}>{panel}</RaceOnlineDisclosure>
+    ) : panel;
+}
+
+function RaceOnlinePanelContent({
+    online,
+    gamePath,
+    className,
+}: RaceOnlinePanelProps) {
     const { loading, user } = useAuth();
     const [joinCode, setJoinCode] = useState("");
     const [copied, setCopied] = useState(false);

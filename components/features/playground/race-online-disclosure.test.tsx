@@ -1,7 +1,12 @@
 import { useEffect } from 'react'
 import { act, fireEvent, render, screen } from '@testing-library/react'
-import { afterEach, describe, expect, it, vi } from 'vitest'
-import { RaceOnlineDisclosure } from './race-online-panel'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { RaceOnlineDisclosure, RaceOnlinePanel } from './race-online-panel'
+
+const { auth } = vi.hoisted(() => ({ auth: { user: null as { id: string } | null, loading: false } }))
+vi.mock('@/lib/context/auth-context', () => ({ useAuth: () => auth }))
+
+beforeEach(() => { auth.user = null; window.localStorage.clear() })
 
 afterEach(() => window.history.replaceState(null, '', '/'))
 
@@ -41,5 +46,35 @@ describe('RaceOnlineDisclosure', () => {
         rerender(<RaceOnlineDisclosure phase="idle"><div>重试</div></RaceOnlineDisclosure>)
         expect(details.open).toBe(true)
         expect(screen.getByText('重试')).toBeInTheDocument()
+    })
+})
+
+describe('collapsible RaceOnlinePanel', () => {
+    function online() {
+        return {
+            phase: 'idle', settings: {}, activeMatchStorageKey: 'test-active-race',
+            meta: { settingLabel: () => '测试关卡', objective: '同题竞速' },
+            reconnect: vi.fn(), joinRoom: vi.fn(), createRoom: vi.fn(),
+        } as unknown as Parameters<typeof RaceOnlinePanel>[0]['online']
+    }
+
+    it('collapses an idle login panel on desktop too and preserves the invitation login return', () => {
+        const { container, unmount } = render(<RaceOnlinePanel collapsible online={online()} gamePath="/playground/tangram" />)
+        expect(container.querySelector('details')!.open).toBe(false)
+        expect(container.querySelector('details')).not.toHaveClass('xl:hidden')
+        unmount()
+        window.history.replaceState(null, '', '/playground/tangram?room=ABC123')
+        const invited = render(<RaceOnlinePanel collapsible online={online()} gamePath="/playground/tangram" />)
+        expect(invited.container.querySelector('details')!.open).toBe(true)
+        expect(screen.getByRole('link', { name: '去登录' })).toHaveAttribute('href', '/login?next=%2Fplayground%2Ftangram%3Froom%3DABC123')
+    })
+
+    it('still reconnects while idle content is collapsed', () => {
+        auth.user = { id: 'player' }
+        window.localStorage.setItem('test-active-race', 'saved-match')
+        const race = online()
+        const { container } = render(<RaceOnlinePanel collapsible online={race} gamePath="/playground/tangram" />)
+        expect(container.querySelector('details')!.open).toBe(false)
+        expect(race.reconnect).toHaveBeenCalledWith('saved-match')
     })
 })

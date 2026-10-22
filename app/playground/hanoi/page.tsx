@@ -477,7 +477,7 @@ export default function HanoiPage() {
             {/* Right: Knowledge panel */}
             <div className="w-full xl:w-96 border-t xl:border-t-0 xl:border-l border-border bg-card/50 backdrop-blur-2xl flex flex-col h-full z-20">
                 <div className="border-b border-border p-4">
-                    <RaceOnlinePanel online={race} gamePath="/playground/hanoi" />
+                    <RaceOnlinePanel collapsible online={race} gamePath="/playground/hanoi" />
                 </div>
                 <Tabs
                     value={activeTab}

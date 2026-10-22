@@ -453,7 +453,7 @@ export default function Game24Page() {
       {/* Right knowledge panel */}
       <div className="w-full xl:w-96 border-t xl:border-t-0 xl:border-l border-border bg-card/50 backdrop-blur-2xl flex flex-col h-full z-10">
         <div className="border-b border-border p-4">
-          <RaceOnlinePanel online={race} gamePath="/playground/24game" />
+          <RaceOnlinePanel collapsible online={race} gamePath="/playground/24game" />
         </div>
         <Tabs defaultValue="concepts" className="flex-1 flex flex-col">
           <div className="border-b border-border px-4 pt-3">
