@@ -530,7 +530,7 @@ export default function NonogramPage() {
 
             <aside className="hidden w-full border-t border-border bg-card/50 p-6 xl:block xl:w-80 xl:border-l xl:border-t-0">
                 <div className="space-y-5">
-                    <RaceOnlinePanel online={race} gamePath="/playground/nonogram" />
+                    <RaceOnlinePanel collapsible online={race} gamePath="/playground/nonogram" />
                     <section>
                         <h2 className="mb-2 flex items-center gap-2 font-bold">
                             <Trophy className="h-4 w-4 text-slate-500" />

@@ -562,7 +562,7 @@ export default function BalancePage() {
 
             <aside className="hidden w-full border-t border-border bg-card/50 p-5 xl:block xl:w-80 xl:border-l xl:border-t-0">
                 <div className="space-y-5">
-                    <RaceOnlinePanel online={race} gamePath="/playground/balance" />
+                    <RaceOnlinePanel collapsible online={race} gamePath="/playground/balance" />
                     <section>
                         <h2 className="mb-3 flex items-center gap-2 font-bold">
                             <Trophy className="h-4 w-4 text-teal-500" />
