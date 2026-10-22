@@ -1,0 +1,100 @@
+import { describe, expect, it } from 'vitest'
+import {
+  HOUSEHOLD_MATERIALS,
+  matchProjectMaterials,
+  normalizeOwnedMaterialIds,
+  sortProjectsByMaterials,
+  splitPreviewMaterialPreparation,
+} from './material-matching'
+
+const projects = [
+  { id: 102, materials: ['纸杯', '橡皮泥', '贴纸'] },
+  { id: 103, materials: ['毛线', '针', '剪刀'] },
+  { id: 738, materials: ['纸巾1张', '水溶性水彩笔数色', '浅盘1个', '清水'] },
+  { id: 586, materials: ['气球1个', '直吸管1根', '细绳', '双面胶', '两处稳固的绳端固定点', '剪刀（成人使用）', '打气筒（建议使用）'] },
+  { id: 1157, materials: ['带盖透明塑料瓶1个', '清水', '少量牛奶', '手机手电筒（成人保管）', '擦水布'] },
+]
+
+describe('normalizeOwnedMaterialIds', () => {
+  it.each([null, undefined, 1, 'water', '["water"]', { water: true }])('rejects non-array storage values: %j', (value) => {
+    expect(normalizeOwnedMaterialIds(value)).toEqual([])
+  })
+
+  it('keeps known unique IDs in catalog order without coercing values', () => {
+    expect(normalizeOwnedMaterialIds(['milk', 'water', 'water', 'anchors', 'unknown', 1, null, 'Water', ' water'])).toEqual(['water', 'milk'])
+  })
+})
+
+describe('matchProjectMaterials', () => {
+  it('matches all reviewed source lists including quantity-bearing rows', () => {
+    const allIds = HOUSEHOLD_MATERIALS.map(({ id }) => id)
+    expect(projects.map(({ materials }) => matchProjectMaterials(materials, allIds))).toEqual(
+      [3, 3, 4, 5, 5].map((count) => ({ requiredCount: count, ownedCount: count, missingLabels: [], hasSelection: true })),
+    )
+  })
+
+  it('counts physical materials without treating setup conditions or optional tools as missing', () => {
+    expect(matchProjectMaterials(projects[3].materials, ['balloon', 'straw', 'string', 'tape', 'scissors'])).toEqual({
+      requiredCount: 5, ownedCount: 5, missingLabels: [], hasSelection: true,
+    })
+    expect(HOUSEHOLD_MATERIALS.some(({ id }) => id === 'anchors')).toBe(false)
+  })
+
+  it('preserves setup requirements as plain-language preparation notes in the preview detail', () => {
+    const result = splitPreviewMaterialPreparation(projects[3].materials)
+    expect(result.materials).not.toContain('两处稳固的绳端固定点')
+    expect(result.materials).toContain('打气筒（建议使用）')
+    expect(result.preparationNotes).toHaveLength(1)
+    expect(result.preparationNotes[0]).toContain('两把稳固椅子的椅背')
+    expect(splitPreviewMaterialPreparation(['未知材料', '清水'])).toEqual({ materials: ['未知材料', '清水'], preparationNotes: [] })
+  })
+
+  it('deduplicates multiple reviewed rows for the same type', () => {
+    expect(matchProjectMaterials(['剪刀', '剪刀（成人使用）', '剪刀', '清水'], ['scissors', 'scissors'])).toEqual({
+      requiredCount: 2, ownedCount: 1, missingLabels: ['清水'], hasSelection: true,
+    })
+  })
+
+  it('treats an unrelated valid owned type as a selection without counting it toward requirements', () => {
+    expect(matchProjectMaterials(['纸杯'], ['water', 'unknown'])).toEqual({
+      requiredCount: 1, ownedCount: 0, missingLabels: ['纸杯'], hasSelection: true,
+    })
+  })
+
+  it('ignores invalid owned IDs and leaves the selection empty', () => {
+    expect(matchProjectMaterials(['清水'], ['unknown'])).toEqual({
+      requiredCount: 1, ownedCount: 0, missingLabels: ['清水'], hasSelection: false,
+    })
+  })
+
+  it.each([undefined, null, [], ['打气筒（建议使用）'], ['清水', '未知材料'], ['纸巾2张'], ['弯吸管1根'], ['水彩笔'], [' 清水'], ['constructor']])('leaves empty or unreviewed requirements unconfirmed: %j', (materials) => {
+    expect(matchProjectMaterials(materials, HOUSEHOLD_MATERIALS.map(({ id }) => id))).toBeNull()
+  })
+})
+
+describe('sortProjectsByMaterials', () => {
+  it('defaults to fewest required types, preserves ties and does not mutate input', () => {
+    const input = [...projects].reverse()
+    const original = [...input]
+    expect(sortProjectsByMaterials(input, []).map(({ id }) => id)).toEqual([103, 102, 738, 1157, 586])
+    expect(input).toEqual(original)
+  })
+
+  it('sorts by missing count, then more owned types with stable ties', () => {
+    const input = [
+      { id: 'one-missing', materials: ['清水'] },
+      { id: 'two-owned-one-missing', materials: ['纸杯', '剪刀', '清水'] },
+      { id: 'ready', materials: ['纸杯'] },
+      { id: 'one-owned-one-missing', materials: ['剪刀', '清水'] },
+      { id: 'stable-tie', materials: ['纸杯', '清水'] },
+    ]
+    expect(sortProjectsByMaterials(input, ['paper-cup', 'scissors']).map(({ id }) => id)).toEqual([
+      'ready', 'two-owned-one-missing', 'one-owned-one-missing', 'stable-tie', 'one-missing',
+    ])
+  })
+
+  it.each([{ owned: [] }, { owned: ['water'] }])('places empty and unknown requirements last in original order with selection $owned', ({ owned }) => {
+    const input = [{ id: 'empty', materials: [] }, { id: 'unknown', materials: ['未知材料'] }, { id: 'absent' }, ...projects]
+    expect(sortProjectsByMaterials(input, owned).slice(-3).map(({ id }) => id)).toEqual(['empty', 'unknown', 'absent'])
+  })
+})

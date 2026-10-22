@@ -31,6 +31,7 @@ import { GameHelp, type GameHelpShortcut } from "@/components/features/playgroun
 import { categoryToneClasses, type CategoryTone } from "@/components/ui/tone-badge"
 import { usePlaygroundSync } from "@/hooks/playground/use-playground-sync"
 import { cn } from "@/lib/utils"
+import { PLAYGROUND_DISCOVERY, PLAYGROUND_DISCOVERY_BY_HREF, PLAYGROUND_GROUPS } from "@/lib/playground/catalog"
 
 type PlaygroundNavItem = {
     name: string
@@ -274,6 +275,11 @@ const games: PlaygroundNavItem[] = [
     },
 ]
 
+const publicGames = PLAYGROUND_DISCOVERY.flatMap((entry) => {
+    const game = games.find((item) => item.href === entry.href)
+    return game ? [game] : []
+})
+
 const GAME_SHORTCUTS: Record<string, GameHelpShortcut[]> = {
     "/playground/minesweeper": [
         { key: "点击", label: "挖掘格子" },
@@ -467,7 +473,12 @@ function GameNavGlyph({
 function MobilePlaygroundHeader() {
     const pathname = usePathname()
     const isHome = pathname === "/playground"
-    const navItems = [{ name: "首页", href: "/playground", icon: Home }, { name: "物理实验室", href: "/playground/physics-lab", icon: TestTubes }, ...games]
+    const navItems = [
+        { name: "首页", href: "/playground", icon: Home },
+        { name: "物理实验室", href: "/playground/physics-lab", icon: TestTubes },
+        ...publicGames.filter((game) => PLAYGROUND_DISCOVERY_BY_HREF.get(game.href)?.featured || pathname.startsWith(game.href)),
+        { name: "更多玩法", href: "/playground#playground-more", icon: Grid3X3 },
+    ]
     const activeGame = games.find((game) => pathname.startsWith(game.href))
 
     return (
@@ -534,6 +545,46 @@ function MobilePlaygroundHeader() {
 function DesktopSidebar() {
     const pathname = usePathname()
 
+    const renderGame = (game: PlaygroundNavItem) => {
+        const active = pathname.startsWith(game.href)
+        return (
+            <Link
+                key={game.href}
+                href={game.href}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                    "group flex min-h-[54px] items-center gap-3 rounded-md px-3 transition-colors",
+                    active
+                        ? "bg-primary/10 text-foreground ring-1 ring-inset ring-primary/20"
+                        : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
+                )}
+            >
+                <GameNavGlyph href={game.href} icon={game.icon} active={active} />
+                <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-bold">{game.name}</span>
+                    <span className="block truncate text-xs text-muted-foreground">{game.nameEn || game.description}</span>
+                </span>
+                {game.steamTags?.length ? (
+                    <span
+                        className="flex items-center gap-1 rounded-full bg-muted px-1.5 py-1"
+                        title={game.steamTags.map((tag) => STEAM_DOT_META[tag].label).join(" / ")}
+                        aria-label={`STEAM 维度：${game.steamTags.map((tag) => STEAM_DOT_META[tag].label).join("、")}`}
+                    >
+                        {game.steamTags.map((tag) => (
+                            <span
+                                key={`${game.href}-${tag}`}
+                                className={cn(
+                                    "h-1.5 w-1.5 rounded-full",
+                                    categoryToneClasses[STEAM_DOT_META[tag].tone].badge,
+                                )}
+                            />
+                        ))}
+                    </span>
+                ) : null}
+            </Link>
+        )
+    }
+
     return (
         <aside className="hidden w-[220px] shrink-0 lg:block">
             <div className="surface-panel sticky top-16 h-[calc(100vh-4rem)] overflow-hidden rounded-none border-y-0 border-l-0 p-4">
@@ -567,43 +618,18 @@ function DesktopSidebar() {
                         <TestTubes className="h-5 w-5" aria-hidden />
                         物理实验室
                     </Link>
-                    {games.map((game) => {
-                        const active = pathname.startsWith(game.href)
-                        return (
-                            <Link
-                                key={game.href}
-                                href={game.href}
-                                aria-current={active ? "page" : undefined}
-                                className={cn(
-                                    "group flex min-h-[54px] items-center gap-3 rounded-md px-3 transition-colors",
-                                    active
-                                        ? "bg-primary/10 text-foreground ring-1 ring-inset ring-primary/20"
-                                        : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
-                                )}
-                            >
-                                <GameNavGlyph href={game.href} icon={game.icon} active={active} />
-                                <span className="min-w-0 flex-1">
-                                    <span className="block truncate text-sm font-bold">{game.name}</span>
-                                    <span className="block truncate text-xs text-muted-foreground">{game.nameEn || game.description}</span>
-                                </span>
-                                {game.steamTags?.length ? (
-                                    <span
-                                        className="flex items-center gap-1 rounded-full bg-muted px-1.5 py-1"
-                                        title={game.steamTags.map((tag) => STEAM_DOT_META[tag].label).join(" / ")}
-                                        aria-label={`STEAM 维度：${game.steamTags.map((tag) => STEAM_DOT_META[tag].label).join("、")}`}
-                                    >
-                                        {game.steamTags.map((tag) => (
-                                            <span
-                                                key={`${game.href}-${tag}`}
-                                                className={cn(
-                                                    "h-1.5 w-1.5 rounded-full",
-                                                    categoryToneClasses[STEAM_DOT_META[tag].tone].badge,
-                                                )}
-                                            />
-                                        ))}
-                                    </span>
-                                ) : null}
-                            </Link>
+                    {PLAYGROUND_GROUPS.map((group) => {
+                        const entries = publicGames.filter((game) => PLAYGROUND_DISCOVERY_BY_HREF.get(game.href)?.group === group.id)
+                        return group.id === "more" ? (
+                            <details key={group.id} open={entries.some((game) => pathname.startsWith(game.href)) || undefined}>
+                                <summary className="min-h-11 cursor-pointer px-3 py-3 text-xs font-semibold text-muted-foreground">{group.title}</summary>
+                                {entries.map(renderGame)}
+                            </details>
+                        ) : (
+                            <div key={group.id}>
+                                <p className="px-3 pb-1 pt-4 text-xs font-semibold text-muted-foreground">{group.title}</p>
+                                {entries.map(renderGame)}
+                            </div>
                         )
                     })}
                 </nav>
@@ -611,9 +637,9 @@ function DesktopSidebar() {
                 <div className="mt-4">
                     <div className="surface-subtle px-3 py-3 text-center">
                         <p className="text-xs font-semibold leading-5 text-muted-foreground">
-                            用游戏理解算法
+                            一起玩，说说为什么
                             <br />
-                            用实战拆解原理
+                            把好奇带回生活
                         </p>
                     </div>
                 </div>

@@ -1,0 +1,513 @@
+[
+  {
+    "id": "normal/next",
+    "expected": "next",
+    "phrase": "小迪，下一步。",
+    "kind": "original-synthetic",
+    "file": "normal-next.wav"
+  },
+  {
+    "id": "normal/next_page",
+    "expected": "next",
+    "phrase": "小迪，下一页。",
+    "kind": "original-synthetic",
+    "file": "normal-next_page.wav"
+  },
+  {
+    "id": "normal/previous",
+    "expected": "previous",
+    "phrase": "小迪，上一步。",
+    "kind": "original-synthetic",
+    "file": "normal-previous.wav"
+  },
+  {
+    "id": "normal/previous_page",
+    "expected": "previous",
+    "phrase": "小迪，上一页。",
+    "kind": "original-synthetic",
+    "file": "normal-previous_page.wav"
+  },
+  {
+    "id": "normal/pause",
+    "expected": "pause",
+    "phrase": "小迪，暂停。",
+    "kind": "original-synthetic",
+    "file": "normal-pause.wav"
+  },
+  {
+    "id": "normal/exit",
+    "expected": "exit",
+    "phrase": "小迪，退出。",
+    "kind": "original-synthetic",
+    "file": "normal-exit.wav"
+  },
+  {
+    "id": "normal/unknown",
+    "expected": null,
+    "phrase": "我们来找一块红色的积木。",
+    "kind": "original-synthetic",
+    "file": "normal-unknown.wav"
+  },
+  {
+    "id": "normal/bare",
+    "expected": null,
+    "phrase": "下一步。",
+    "kind": "original-synthetic",
+    "file": "normal-bare.wav"
+  },
+  {
+    "id": "normal/negative",
+    "expected": null,
+    "phrase": "小迪，不要下一步。",
+    "kind": "original-synthetic",
+    "file": "normal-negative.wav"
+  },
+  {
+    "id": "normal/negative_prefix",
+    "expected": null,
+    "phrase": "不要说小迪下一步。",
+    "kind": "original-synthetic",
+    "file": "normal-negative_prefix.wav"
+  },
+  {
+    "id": "normal/quote",
+    "expected": null,
+    "phrase": "老师说小迪下一步。",
+    "kind": "original-synthetic",
+    "file": "normal-quote.wav"
+  },
+  {
+    "id": "normal/quote_suffix",
+    "expected": null,
+    "phrase": "小迪下一步是口令。",
+    "kind": "original-synthetic",
+    "file": "normal-quote_suffix.wav"
+  },
+  {
+    "id": "normal/double",
+    "expected": null,
+    "phrase": "小迪下一步，小迪上一步。",
+    "kind": "original-synthetic",
+    "file": "normal-double.wav"
+  },
+  {
+    "id": "normal/question",
+    "expected": null,
+    "phrase": "小迪下一步吗？",
+    "kind": "original-synthetic",
+    "file": "normal-question.wav"
+  },
+  {
+    "id": "normal/overlap",
+    "expected": null,
+    "phrase": "simultaneous next + previous",
+    "kind": "synthetic-mixture",
+    "file": "normal-overlap.wav"
+  },
+  {
+    "id": "clear/next",
+    "expected": "next",
+    "phrase": "小迪下一步。",
+    "kind": "original-synthetic",
+    "file": "clear-next.wav"
+  },
+  {
+    "id": "clear/next_page",
+    "expected": "next",
+    "phrase": "小迪下一页。",
+    "kind": "original-synthetic",
+    "file": "clear-next_page.wav"
+  },
+  {
+    "id": "clear/previous",
+    "expected": "previous",
+    "phrase": "小迪上一步。",
+    "kind": "original-synthetic",
+    "file": "clear-previous.wav"
+  },
+  {
+    "id": "clear/previous_page",
+    "expected": "previous",
+    "phrase": "小迪上一页。",
+    "kind": "original-synthetic",
+    "file": "clear-previous_page.wav"
+  },
+  {
+    "id": "clear/pause",
+    "expected": "pause",
+    "phrase": "小迪暂停。",
+    "kind": "original-synthetic",
+    "file": "clear-pause.wav"
+  },
+  {
+    "id": "clear/exit",
+    "expected": "exit",
+    "phrase": "小迪退出。",
+    "kind": "original-synthetic",
+    "file": "clear-exit.wav"
+  },
+  {
+    "id": "clear/unknown",
+    "expected": null,
+    "phrase": "我们来找一块红色的积木。",
+    "kind": "original-synthetic",
+    "file": "clear-unknown.wav"
+  },
+  {
+    "id": "clear/bare",
+    "expected": null,
+    "phrase": "下一步。",
+    "kind": "original-synthetic",
+    "file": "clear-bare.wav"
+  },
+  {
+    "id": "clear/negative",
+    "expected": null,
+    "phrase": "小迪不要下一步。",
+    "kind": "original-synthetic",
+    "file": "clear-negative.wav"
+  },
+  {
+    "id": "clear/negative_prefix",
+    "expected": null,
+    "phrase": "不要说小迪下一步。",
+    "kind": "original-synthetic",
+    "file": "clear-negative_prefix.wav"
+  },
+  {
+    "id": "clear/quote",
+    "expected": null,
+    "phrase": "老师说小迪下一步。",
+    "kind": "original-synthetic",
+    "file": "clear-quote.wav"
+  },
+  {
+    "id": "clear/quote_suffix",
+    "expected": null,
+    "phrase": "小迪下一步是口令。",
+    "kind": "original-synthetic",
+    "file": "clear-quote_suffix.wav"
+  },
+  {
+    "id": "clear/double",
+    "expected": null,
+    "phrase": "小迪下一步，小迪上一步。",
+    "kind": "original-synthetic",
+    "file": "clear-double.wav"
+  },
+  {
+    "id": "clear/question",
+    "expected": null,
+    "phrase": "小迪下一步吗？",
+    "kind": "original-synthetic",
+    "file": "clear-question.wav"
+  },
+  {
+    "id": "clear/overlap",
+    "expected": null,
+    "phrase": "simultaneous next + previous",
+    "kind": "synthetic-mixture",
+    "file": "clear-overlap.wav"
+  },
+  {
+    "id": "additional/silence",
+    "expected": null,
+    "phrase": "silence",
+    "kind": "synthetic-signal",
+    "file": "additional-silence.wav"
+  },
+  {
+    "id": "additional/white-noise-low",
+    "expected": null,
+    "phrase": "white-noise-low",
+    "kind": "synthetic-signal",
+    "file": "additional-white-noise-low.wav"
+  },
+  {
+    "id": "additional/white-noise-high",
+    "expected": null,
+    "phrase": "white-noise-high",
+    "kind": "synthetic-signal",
+    "file": "additional-white-noise-high.wav"
+  },
+  {
+    "id": "extra/neg-pause",
+    "expected": null,
+    "phrase": "小迪，不要暂停。",
+    "file": "extra-neg-pause.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/neg-exit",
+    "expected": null,
+    "phrase": "小迪，不要退出。",
+    "file": "extra-neg-exit.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/neg-previous",
+    "expected": null,
+    "phrase": "小迪，不要上一步。",
+    "file": "extra-neg-previous.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/neg-page",
+    "expected": null,
+    "phrase": "小迪，不要下一页。",
+    "file": "extra-neg-page.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/dont-exit",
+    "expected": null,
+    "phrase": "小迪别退出。",
+    "file": "extra-dont-exit.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/dont-pause",
+    "expected": null,
+    "phrase": "小迪别暂停。",
+    "file": "extra-dont-pause.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/quote-pause",
+    "expected": null,
+    "phrase": "老师刚才说小迪暂停。",
+    "file": "extra-quote-pause.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/quote-exit",
+    "expected": null,
+    "phrase": "他说小迪退出，不是让你真的退出。",
+    "file": "extra-quote-exit.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/suffix-pause",
+    "expected": null,
+    "phrase": "小迪暂停这四个字怎么写。",
+    "file": "extra-suffix-pause.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/suffix-exit",
+    "expected": null,
+    "phrase": "小迪退出是一个例子。",
+    "file": "extra-suffix-exit.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/question-exit",
+    "expected": null,
+    "phrase": "小迪退出了吗？",
+    "file": "extra-question-exit.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/question-pause",
+    "expected": null,
+    "phrase": "小迪暂停是什么意思？",
+    "file": "extra-question-pause.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/course-next",
+    "expected": null,
+    "phrase": "把红色积木放上去，然后我们进入下一步。",
+    "file": "extra-course-next.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/course-previous",
+    "expected": null,
+    "phrase": "上一页的图片展示了左边的轮子。",
+    "file": "extra-course-previous.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/course-mic",
+    "expected": null,
+    "phrase": "大家听到小迪的声音就停下来。",
+    "file": "extra-course-mic.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/chat",
+    "expected": null,
+    "phrase": "今天晚饭想吃什么，明天我们去公园玩吧。",
+    "file": "extra-chat.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/similar-wake",
+    "expected": null,
+    "phrase": "小弟，下一步。",
+    "file": "extra-similar-wake.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "extra/recorded-command-playback",
+    "expected": null,
+    "phrase": "A recording plays the exact valid command 小迪下一步",
+    "file": "normal-next.wav",
+    "kind": "recorded-command-origin-ambiguity"
+  },
+  {
+    "id": "holdout/first-dont-exit",
+    "expected": null,
+    "phrase": "小迪先别退出。",
+    "file": "holdout-first-dont-exit.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "holdout/no-need-pause",
+    "expected": null,
+    "phrase": "小迪不用暂停。",
+    "file": "holdout-no-need-pause.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "holdout/not-next",
+    "expected": null,
+    "phrase": "小迪不是下一步。",
+    "file": "holdout-not-next.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "holdout/dont-this-time",
+    "expected": null,
+    "phrase": "这次不要小迪下一步。",
+    "file": "holdout-dont-this-time.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "holdout/dont-next-page",
+    "expected": null,
+    "phrase": "小迪别下一页。",
+    "file": "holdout-dont-next-page.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "independent/do-not-exit-yet",
+    "expected": null,
+    "phrase": "小迪，不用退出，我们还没完成。",
+    "file": "independent-do-not-exit-yet.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "independent/quote-page",
+    "expected": null,
+    "phrase": "我说的是小迪下一页这几个字。",
+    "file": "independent-quote-page.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "independent/never-pause",
+    "expected": null,
+    "phrase": "小迪千万别暂停。",
+    "file": "independent-never-pause.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "independent/not-previous",
+    "expected": null,
+    "phrase": "小迪不是让你上一步。",
+    "file": "independent-not-previous.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "independent/question-next",
+    "expected": null,
+    "phrase": "下一步应该怎么拼，我没有叫小迪。",
+    "file": "independent-question-next.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "independent/dont-page-yet",
+    "expected": null,
+    "phrase": "小迪先不要下一页。",
+    "file": "independent-dont-page-yet.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "independent/pause-not-now",
+    "expected": null,
+    "phrase": "小迪暂停不是现在。",
+    "file": "independent-pause-not-now.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "independent/prefix-dont-exit",
+    "expected": null,
+    "phrase": "不要，小迪退出。",
+    "file": "independent-prefix-dont-exit.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "unseen/dont-pause",
+    "expected": null,
+    "phrase": "千万不要，小迪暂停。",
+    "file": "unseen-dont-pause.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "unseen/dont-next-page",
+    "expected": null,
+    "phrase": "别，小迪下一页。",
+    "file": "unseen-dont-next-page.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "unseen/did-not-say",
+    "expected": null,
+    "phrase": "我没有说小迪退出。",
+    "file": "unseen-did-not-say.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "unseen/others-said",
+    "expected": null,
+    "phrase": "小迪退出是别人说的。",
+    "file": "unseen-others-said.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "unseen/not-previous",
+    "expected": null,
+    "phrase": "不是，小迪上一步。",
+    "file": "unseen-not-previous.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "heldout-final/do-not-let-exit",
+    "expected": null,
+    "phrase": "别让小迪退出。",
+    "file": "heldout-final-do-not-let-exit.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "heldout-final/not-calling-pause",
+    "expected": null,
+    "phrase": "我不是叫小迪暂停。",
+    "file": "heldout-final-not-calling-pause.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "heldout-final/never-say-next",
+    "expected": null,
+    "phrase": "千万别说小迪下一步。",
+    "file": "heldout-final-never-say-next.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  },
+  {
+    "id": "heldout-final/not-asking-previous-page",
+    "expected": null,
+    "phrase": "不是要小迪上一页。",
+    "file": "heldout-final-not-asking-previous-page.wav",
+    "kind": "additional-MeloTTS-synthetic"
+  }
+]

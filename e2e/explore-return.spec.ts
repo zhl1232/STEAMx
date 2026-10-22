@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { skipVisitLoginPrompt } from './visit-prompt'
+
+test.beforeEach(async ({ page }) => skipVisitLoginPrompt(page))
 
 test('浏览器从项目页返回时，第一页仍使用已选标签', async ({ page }) => {
   await page.goto('/explore')
@@ -12,8 +15,7 @@ test('浏览器从项目页返回时，第一页仍使用已选标签', async ({
 
   await cards.first().getByRole('link').first().click()
   await expect(page).toHaveURL(/\/project\/101$/)
-  // The smoke fixture supplies list data only. Leaving the list through the
-  // real App Router still exercises its cached RSC payload on browser back.
+  // Leave through the real App Router so browser back exercises cached RSC data.
   await page.locator('main').waitFor()
   await page.goBack()
   await expect(page).toHaveURL(/\/explore\?tags=/)

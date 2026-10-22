@@ -2,13 +2,11 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { claimTutorAudioSession } from '@/components/features/tutor/tutor-audio-session'
-import {
-  createBuildingVoiceCapture,
-  type BuildingVoiceCapture,
-  type BuildingVoiceRecording,
-} from './building-voice-capture'
+import type { PreparedVoiceLease } from './building-voice-preparation'
+import type { BuildingVoiceCommand } from '@/lib/courses/building-voice-commands'
+import { createBuildingVoiceCapture, type BuildingVoiceCapture } from './building-voice-capture'
 
-export type BuildingVoiceStatus = 'idle' | 'starting' | 'listening' | 'processing' | 'feedback' | 'paused' | 'error'
+export type BuildingVoiceStatus = 'idle' | 'starting' | 'listening' | 'feedback' | 'paused' | 'error'
 export type BuildingVoiceControlsOptions = {
   courseId: number
   lessonId: number
@@ -18,67 +16,45 @@ export type BuildingVoiceControlsOptions = {
   stepIndex: number
   stepCount: number
   onNavigate: (index: number) => void
+  acquireEngine?: () => PreparedVoiceLease
 }
-
-const LISTENING_FEEDBACK = '先停顿一下，再说“小迪，下一步”或“小迪，上一步”。'
-const FEEDBACK_MS = 500
-const REQUEST_TIMEOUT_MS = 20_000
+const LISTENING_FEEDBACK = '设备内识别，不上传声音。先停顿，再说“小迪，下一步／上一步／暂停／退出”；暂停后需点击继续。'
+const COOLDOWN_MS = 1_200
 
 function sameScope(left: BuildingVoiceControlsOptions, right: BuildingVoiceControlsOptions) {
   return left.courseId === right.courseId && left.lessonId === right.lessonId && left.userId === right.userId
 }
-
-function pageIsVisible() {
-  return typeof document !== 'undefined' && document.visibilityState === 'visible'
-}
-
-function responseError(status: number) {
-  if (status === 401) return '登录已失效，请重新登录后开启语音搭建。'
-  if (status === 403) return '当前课程暂时不能使用语音搭建，请检查课程访问权限。'
-  if (status === 429) return '语音控制暂时达到使用上限，已暂停；请稍后再试。'
-  return '语音识别暂时不可用，已暂停；请稍后点击继续。'
-}
-
 function microphoneError(error: unknown) {
   if (error instanceof Error && error.name === 'NotAllowedError') return '麦克风权限未开启，请允许访问后点击继续。'
   if (error instanceof Error && error.name === 'NotFoundError') return '没有找到麦克风，请连接麦克风后点击继续。'
-  return error instanceof Error ? error.message : '无法开启麦克风，请检查浏览器权限后点击继续。'
+  return error instanceof Error ? error.message : '无法开启设备内语音，请使用翻页按钮或点击继续重试。'
 }
 
-/** Explicitly enabled navigation commands; no transcript or automatic chat submission. */
 export function useBuildingVoiceControls(options: BuildingVoiceControlsOptions) {
   const [state, setState] = useState<{ status: BuildingVoiceStatus; feedback: string }>({ status: 'idle', feedback: '' })
   const optionsRef = useRef(options)
   const mountedRef = useRef(true)
   const statusRef = useRef<BuildingVoiceStatus>('idle')
   const generationRef = useRef(0)
-  const requestIdRef = useRef(0)
   const captureRef = useRef<BuildingVoiceCapture | null>(null)
   const sessionAbortRef = useRef<AbortController | null>(null)
-  const requestAbortRef = useRef<AbortController | null>(null)
   const audioReleaseRef = useRef<(() => void) | null>(null)
   const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const requestTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const renewalTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const leaseUntilRef = useRef(0)
+  const cooldownUntilRef = useRef(0)
 
   const publish = useCallback((status: BuildingVoiceStatus, feedback: string) => {
     statusRef.current = status
     if (mountedRef.current) setState({ status, feedback })
   }, [])
-
-  const abortRequest = useCallback(() => {
-    requestIdRef.current += 1
-    requestAbortRef.current?.abort()
-    requestAbortRef.current = null
-    if (requestTimerRef.current) clearTimeout(requestTimerRef.current)
-    requestTimerRef.current = null
-  }, [])
-
   const stop = useCallback((status: BuildingVoiceStatus, feedback: string) => {
-    // Invalidate first; neither a late permission nor a server response can restart us.
     generationRef.current += 1
-    abortRequest()
+    leaseUntilRef.current = 0
     if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current)
+    if (renewalTimerRef.current) clearTimeout(renewalTimerRef.current)
     feedbackTimerRef.current = null
+    renewalTimerRef.current = null
     sessionAbortRef.current?.abort()
     sessionAbortRef.current = null
     const capture = captureRef.current
@@ -87,119 +63,41 @@ export function useBuildingVoiceControls(options: BuildingVoiceControlsOptions) 
     audioReleaseRef.current?.()
     audioReleaseRef.current = null
     publish(status, feedback)
-  }, [abortRequest, publish])
-
-  const pause = useCallback(() => stop('paused', '已暂停，点击继续开启语音搭建。'), [stop])
+  }, [publish])
+  const pause = useCallback(() => stop('paused', '已暂停并关闭麦克风，点击继续开启语音搭建。'), [stop])
   const exit = useCallback(() => stop('idle', ''), [stop])
 
-  const listenAfterFeedback = useCallback((generation: number, feedback: string, playCue = false) => {
-    if (generation !== generationRef.current || !captureRef.current || !mountedRef.current) return
-    if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current)
+  const receiveCommand = useCallback((command: BuildingVoiceCommand, generation: number) => {
+    if (!mountedRef.current || generation !== generationRef.current || statusRef.current !== 'listening' || !captureRef.current) return
+    if (Date.now() >= leaseUntilRef.current) { stop('paused', '课程访问校验已过期，请联网后点击继续。'); return }
+    if (Date.now() < cooldownUntilRef.current) return
+    const captured = optionsRef.current
+    if (!captured.userId) return
+    if (command === 'pause') { pause(); return }
+    if (command === 'exit') { exit(); return }
+    if (command !== 'next' && command !== 'previous') return
+    cooldownUntilRef.current = Date.now() + COOLDOWN_MS
     captureRef.current.setListening(false)
-    publish('feedback', feedback)
-    if (playCue) captureRef.current.playCue()
+    const target = captured.stepIndex + (command === 'next' ? 1 : -1)
+    publish('feedback', target < 0 ? '已经是第一步了。' : target >= captured.stepCount ? '已经是最后一步了。' :
+      command === 'next' ? '已到下一步。' : '已回到上一步。')
+    captureRef.current.playCue()
     feedbackTimerRef.current = setTimeout(() => {
       feedbackTimerRef.current = null
       if (generation !== generationRef.current || !captureRef.current || !mountedRef.current) return
-      if (!pageIsVisible()) {
-        stop('paused', '页面已离开前台，语音已暂停；回来后点击继续。')
-        return
-      }
+      captureRef.current.checkHealth()
+      if (generation !== generationRef.current) return
       captureRef.current.setListening(true)
       publish('listening', LISTENING_FEEDBACK)
-    }, FEEDBACK_MS)
-  }, [publish, stop])
-
-  const receiveSegment = useCallback(async (recording: BuildingVoiceRecording, generation: number) => {
-    if (generation !== generationRef.current || statusRef.current !== 'listening' || !captureRef.current) return
-    const captured = optionsRef.current
-    if (!captured.userId || !pageIsVisible()) return
-    // Both the capture layer and this synchronous gate block duplicate segments.
-    captureRef.current.setListening(false)
-    publish('processing', '正在识别口令')
-    const requestId = ++requestIdRef.current
-    const controller = new AbortController()
-    requestAbortRef.current = controller
-    const isCurrent = () =>
-      mountedRef.current && generation === generationRef.current && requestId === requestIdRef.current &&
-      !controller.signal.aborted && sameScope(captured, optionsRef.current) &&
-      captured.navigationKey === optionsRef.current.navigationKey && captured.stepIndex === optionsRef.current.stepIndex && pageIsVisible()
-
-    requestTimerRef.current = setTimeout(() => {
-      if (isCurrent()) stop('error', '语音识别等待超时，已暂停；请检查网络后点击继续。')
-    }, REQUEST_TIMEOUT_MS)
-
-    try {
-      const body = new FormData()
-      body.append('audio', recording.blob, 'xiaodi-course-control.pcm')
-      body.append('durationMs', String(recording.durationMs))
-      body.append('courseId', String(captured.courseId))
-      body.append('lessonId', String(captured.lessonId))
-      const response = await fetch('/api/tutor/speech/course-control', { method: 'POST', body, signal: controller.signal })
-      if (!isCurrent()) return
-      if (!response.ok) {
-        let message = responseError(response.status)
-        if (response.status === 429) {
-          const limit: unknown = await response.json().catch(() => null)
-          if (limit && typeof limit === 'object' && 'code' in limit && 'error' in limit &&
-            (limit.code === 'course_voice_minute_limit' || limit.code === 'course_voice_daily_limit') &&
-            typeof limit.error === 'string' && limit.error.trim().length > 0 && limit.error.length <= 200) {
-            message = limit.error
-          }
-        }
-        if (isCurrent()) stop('error', message)
-        return
-      }
-      const payload: unknown = await response.json()
-      if (!isCurrent()) return
-      const command = payload && typeof payload === 'object' && 'command' in payload ? payload.command : undefined
-      if (command !== null && command !== 'next' && command !== 'previous' && command !== 'pause' && command !== 'exit') {
-        stop('error', '语音识别结果无效，已暂停；请稍后点击继续。')
-        return
-      }
-      if (requestTimerRef.current) clearTimeout(requestTimerRef.current)
-      requestTimerRef.current = null
-      requestAbortRef.current = null
-
-      if (command === null) {
-        // Ordinary teaching speech is neither an error nor an invitation to chat.
-        captureRef.current?.setListening(true)
-        publish('listening', LISTENING_FEEDBACK)
-        return
-      }
-      if (command === 'pause') {
-        pause()
-        return
-      }
-      if (command === 'exit') {
-        exit()
-        return
-      }
-      const target = captured.stepIndex + (command === 'next' ? 1 : -1)
-      if (target < 0 || target >= captured.stepCount) {
-        listenAfterFeedback(generation, target < 0 ? '已经是第一步了。' : '已经是最后一步了。', true)
-        return
-      }
-      listenAfterFeedback(generation, command === 'next' ? '已到下一步。' : '已回到上一步。', true)
-      // No await (or feedback/audio callback) after the final navigation check.
-      if (isCurrent()) optionsRef.current.onNavigate(target)
-    } catch {
-      if (!isCurrent()) return
-      stop('error', '网络连接中断，语音已暂停；请检查网络后点击继续。')
-    }
-  }, [exit, listenAfterFeedback, pause, publish, stop])
+    }, COOLDOWN_MS)
+    // Existing parent navigation callback also checks its navigation epoch synchronously.
+    if (target >= 0 && target < captured.stepCount && captured === optionsRef.current && generation === generationRef.current) captured.onNavigate(target)
+  }, [exit, pause, publish, stop])
 
   const start = useCallback(async () => {
-    if (statusRef.current === 'starting' || statusRef.current === 'listening' || statusRef.current === 'processing' || statusRef.current === 'feedback') return
-    if (!optionsRef.current.userId) {
-      stop('error', '登录后即可开启语音搭建。')
-      return
-    }
-    if (!pageIsVisible()) {
-      stop('paused', '页面已离开前台，回来后点击继续。')
-      return
-    }
-    stop('starting', '正在开启麦克风，请允许访问。')
+    if (['starting', 'listening', 'feedback'].includes(statusRef.current)) return
+    if (!optionsRef.current.userId) { stop('error', '登录后即可开启语音搭建。'); return }
+    stop('starting', '正在开启语音，请允许麦克风访问。')
     const generation = generationRef.current
     const captured = optionsRef.current
     const controller = new AbortController()
@@ -209,69 +107,69 @@ export function useBuildingVoiceControls(options: BuildingVoiceControlsOptions) 
     })
     const isCurrent = () => mountedRef.current && generation === generationRef.current &&
       !controller.signal.aborted && sameScope(captured, optionsRef.current)
+    const authorize = async () => {
+      const requestedAt = Date.now()
+      const timeout = new AbortController()
+      const timer = setTimeout(() => timeout.abort(), 10_000)
+      try {
+        const signal = AbortSignal.any([controller.signal, timeout.signal])
+        const response = await fetch(`/api/tutor/speech/course-control?courseId=${captured.courseId}&lessonId=${captured.lessonId}`, { signal, cache: 'no-store' })
+        if (!response.ok) throw new Error(response.status === 401 ? '登录已失效，请重新登录后开启。' : '暂时无法确认课程访问权限，请联网后点击继续。')
+        const payload: unknown = await response.json()
+        if (!payload || typeof payload !== 'object' || !('userId' in payload) || payload.userId !== captured.userId ||
+          !('validForMs' in payload) || payload.validForMs !== 300_000) throw new Error('课程访问校验无效，请重新开启。')
+        if (!isCurrent()) return
+        leaseUntilRef.current = requestedAt + payload.validForMs
+        renewalTimerRef.current = setTimeout(() => {
+          renewalTimerRef.current = null
+          if (isCurrent()) void authorize().catch(() => { if (isCurrent()) stop('error', '课程访问校验中断，已暂停；请联网后点击继续。') })
+        }, 240_000)
+      } finally { clearTimeout(timer) }
+    }
+    const authorized = authorize()
+    void authorized.catch(() => undefined)
     try {
-      const capture = await createBuildingVoiceCapture({
-        signal: controller.signal,
-        onSegment: (recording) => { void receiveSegment(recording, generation) },
+      // Called before awaiting auth so AudioContext.resume retains the user gesture.
+      const capture = await createBuildingVoiceCapture({ signal: controller.signal, authorized, acquireEngine: captured.acquireEngine,
+        onCommand: (command) => receiveCommand(command, generation),
         onError: (error) => { if (isCurrent()) stop('error', error.message) },
       })
-      if (!isCurrent() || !pageIsVisible()) {
-        await capture.close()
-        if (isCurrent()) stop('paused', '页面已离开前台，回来后点击继续。')
-        return
-      }
+      if (!isCurrent()) { await capture.close(); return }
       captureRef.current = capture
+      cooldownUntilRef.current = 0
       capture.setListening(true)
       publish('listening', LISTENING_FEEDBACK)
-    } catch (error) {
-      if (isCurrent()) stop('error', microphoneError(error))
-    }
-  }, [publish, receiveSegment, stop])
+    } catch (error) { if (isCurrent()) stop('error', microphoneError(error)) }
+  }, [publish, receiveCommand, stop])
 
   useLayoutEffect(() => {
     const previous = optionsRef.current
     optionsRef.current = options
-    if (!sameScope(previous, options)) {
-      stop('idle', '')
-      return
-    }
-    if (previous.navigationKey !== options.navigationKey || previous.stepIndex !== options.stepIndex || previous.stepCount !== options.stepCount) {
-      abortRequest()
-      captureRef.current?.reset()
-      if (statusRef.current === 'processing') {
-        listenAfterFeedback(generationRef.current, '页面已切换，可以重新说口令。')
-      }
-    }
-  }, [options, abortRequest, listenAfterFeedback, stop])
+    if (!sameScope(previous, options)) { stop('idle', ''); return }
+    if (previous.navigationKey !== options.navigationKey || previous.stepIndex !== options.stepIndex || previous.stepCount !== options.stepCount) captureRef.current?.reset()
+  }, [options, stop])
 
   useEffect(() => {
-    const pauseForBackground = () => {
-      if (statusRef.current === 'idle' || statusRef.current === 'paused' || statusRef.current === 'error') return
-      stop('paused', '页面已离开前台，语音已暂停；回来后点击继续。')
+    const interrupt = () => {
+      if (['starting', 'listening', 'feedback'].includes(statusRef.current)) stop('paused', '页面已离开或被冻结，语音已暂停；返回后点击继续。')
     }
-    const onVisibilityChange = () => { if (!pageIsVisible()) pauseForBackground() }
-    document.addEventListener('visibilitychange', onVisibilityChange)
-    window.addEventListener('pagehide', pauseForBackground)
+    const check = () => {
+      captureRef.current?.checkHealth()
+      if (captureRef.current && Date.now() >= leaseUntilRef.current) stop('paused', '课程访问校验已过期，请联网后点击继续。')
+    }
+    // Visibility alone does not tell us whether mirroring/capture still works.
+    document.addEventListener('visibilitychange', check)
+    document.addEventListener('freeze', interrupt)
+    window.addEventListener('pagehide', interrupt)
     return () => {
-      document.removeEventListener('visibilitychange', onVisibilityChange)
-      window.removeEventListener('pagehide', pauseForBackground)
+      document.removeEventListener('visibilitychange', check)
+      document.removeEventListener('freeze', interrupt)
+      window.removeEventListener('pagehide', interrupt)
     }
   }, [stop])
-
   useLayoutEffect(() => {
     mountedRef.current = true
-    return () => {
-      mountedRef.current = false
-      stop('idle', '')
-    }
+    return () => { mountedRef.current = false; stop('idle', '') }
   }, [stop])
-
-  return {
-    ...state,
-    isActive: state.status === 'starting' || state.status === 'listening' || state.status === 'processing' || state.status === 'feedback',
-    start,
-    resume: start,
-    pause,
-    exit,
-  }
+  return { ...state, isActive: ['starting', 'listening', 'feedback'].includes(state.status), start, resume: start, pause, exit }
 }

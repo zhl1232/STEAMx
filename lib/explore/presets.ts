@@ -5,7 +5,9 @@ export type SortBy = 'latest' | 'popular'
 
 /** browse = 兼容旧热门态（无 tab 高亮） */
 /** beginner-friendly / latest 保留为遗留 id，旧 URL 可解析但不在 UI pills 中展示 */
-export type ExplorePresetId = 'browse' | 'beginner-friendly' | 'latest' | 'fun-science' | 'science-edu'
+export type ExplorePresetId = 'browse' | 'beginner-friendly' | 'latest' | 'everyday-materials' | 'fun-science' | 'science-edu'
+
+export const EVERYDAY_MATERIALS_TAG = '日常材料'
 
 export type ExplorePreset = {
     id: ExplorePresetId
@@ -16,9 +18,10 @@ export type ExplorePreset = {
     tags?: string[]
 }
 
-/** 项目内容列表 pills：热门推荐、趣味实验、科教版。 */
+/** 日常材料目前仅由本地样例预览展示，其余入口保持公开。 */
 export const EXPLORE_PRESETS: ExplorePreset[] = [
     { id: 'browse', label: '热门推荐', sortBy: 'popular', difficulty: 'all' },
+    { id: 'everyday-materials', label: EVERYDAY_MATERIALS_TAG, sortBy: 'popular', difficulty: 'all', tags: [EVERYDAY_MATERIALS_TAG] },
     { id: 'fun-science', label: '趣味实验', sortBy: 'popular', difficulty: 'all', tags: ['趣味实验'] },
     { id: 'science-edu', label: '科教版', sortBy: 'popular', difficulty: 'all', tags: ['科教版'] },
 ]
@@ -32,6 +35,8 @@ export type ExploreFilterState = {
     searchQuery: string
     sortBy: SortBy
 }
+
+type ExplorePresetOptions = { materialsPreviewEnabled?: boolean }
 
 export function parseExploreSortBy(raw: string | null | undefined): SortBy {
     if (raw === 'latest') return 'latest'
@@ -55,12 +60,12 @@ function presetTags(preset: ExplorePreset): string[] {
 
 /** List-tab presets shown in explore mode (not results mode). */
 export function isExploreListTabPreset(id: ExplorePresetId | null): id is ExplorePresetId {
-    return id === 'browse' || id === 'fun-science' || id === 'science-edu'
+    return id === 'browse' || id === 'everyday-materials' || id === 'fun-science' || id === 'science-edu'
 }
 
 /** 用户主动筛选/搜索后进入「结果模式」，与默认「探索逛」分离。 */
-export function isExploreResultsMode(state: ExploreFilterState): boolean {
-    const activePresetId = detectActivePreset(state)
+export function isExploreResultsMode(state: ExploreFilterState, options: ExplorePresetOptions = {}): boolean {
+    const activePresetId = detectActivePreset(state, options)
     const activeListTabId = isExploreListTabPreset(activePresetId) ? activePresetId : null
     const activePreset = activeListTabId
         ? EXPLORE_PRESETS.find((item) => item.id === activeListTabId)
@@ -79,7 +84,7 @@ export function isExploreResultsMode(state: ExploreFilterState): boolean {
         || !!state.searchQuery.trim()
 }
 
-export function detectActivePreset(state: ExploreFilterState): ExplorePresetId | null {
+export function detectActivePreset(state: ExploreFilterState, options: ExplorePresetOptions = {}): ExplorePresetId | null {
     const {
         difficulty,
         sortBy,
@@ -88,6 +93,7 @@ export function detectActivePreset(state: ExploreFilterState): ExplorePresetId |
 
     const taggedListTabs = EXPLORE_PRESETS.filter((item) => presetTags(item).length > 0)
     for (const preset of taggedListTabs) {
+        if (preset.id === 'everyday-materials' && !options.materialsPreviewEnabled) continue
         if (
             sameTagSet(tags, presetTags(preset))
             && difficulty === preset.difficulty

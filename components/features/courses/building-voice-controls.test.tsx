@@ -18,6 +18,8 @@ const mocks = vi.hoisted(() => ({
   },
 }))
 
+vi.mock('./use-building-voice-preparation', () => ({ useBuildingVoicePreparation: () => ({ ready: true, status: 'ready', problem: '', acquire: vi.fn() }) }))
+
 vi.mock('@/lib/context/auth-context', () => ({ useAuth: () => ({ user: mocks.user }) }))
 vi.mock('@/lib/context/login-prompt-context', () => ({ useLoginPrompt: () => ({ promptLogin: mocks.promptLogin }) }))
 vi.mock('./use-building-voice-controls', () => ({ useBuildingVoiceControls: (options: unknown) => {
@@ -42,7 +44,7 @@ describe('BuildingVoiceControls', () => {
   it('starts only after a click, with the current account and displayed page', () => {
     const current = props()
     render(<BuildingVoiceControls {...current} />)
-    expect(screen.getByText('会员权益 · 目前免费体验')).toBeInTheDocument()
+    expect(screen.getByText(/会员权益 · 目前免费体验/)).toBeInTheDocument()
     expect(mocks.control.start).not.toHaveBeenCalled()
     expect(mocks.hook).toHaveBeenLastCalledWith(expect.objectContaining({
       userId: 'parent-a', courseId: 7, lessonId: 42, navigationKey: 'page-a', stepIndex: 1, stepCount: 3,
@@ -97,8 +99,8 @@ describe('BuildingVoiceControls', () => {
     expect(mocks.control.start).toHaveBeenCalledOnce()
   })
 
-  it('provides manual pause and exit even while an utterance is processing', () => {
-    Object.assign(mocks.control, { status: 'processing', isActive: true, feedback: '正在识别口令' })
+  it('provides manual pause and exit even while the local model is loading', () => {
+    Object.assign(mocks.control, { status: 'starting', isActive: true, feedback: '正在识别口令' })
     render(<BuildingVoiceControls {...props()} />)
     fireEvent.click(screen.getByRole('button', { name: '暂停' }))
     fireEvent.click(screen.getByRole('button', { name: '退出语音搭建' }))
@@ -106,10 +108,10 @@ describe('BuildingVoiceControls', () => {
     expect(mocks.control.exit).toHaveBeenCalledOnce()
   })
 
-  it('shows a daily recognition limit without starting another request automatically', () => {
-    Object.assign(mocks.control, { status: 'error', feedback: '今日语音控制已达上限，明天 08:00 后可继续；仍可用按钮翻页。' })
+  it('shows a local model failure without starting another request automatically', () => {
+    Object.assign(mocks.control, { status: 'error', feedback: '本地语音资源加载失败，请重试；仍可用按钮翻页。' })
     render(<BuildingVoiceControls {...props()} />)
-    expect(screen.getByRole('status')).toHaveTextContent('今日语音控制已达上限')
+    expect(screen.getByRole('status')).toHaveTextContent('本地语音资源加载失败')
     expect(screen.getByRole('status')).toHaveTextContent('仍可用按钮翻页')
     expect(screen.getByRole('button', { name: '退出语音搭建' })).toBeEnabled()
     expect(mocks.control.start).not.toHaveBeenCalled()

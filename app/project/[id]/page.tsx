@@ -33,6 +33,8 @@ import { ProjectDetailStickyBar } from '@/components/features/project/project-de
 import { ProjectDetailMobileHeader } from '@/components/features/project/project-detail-mobile-header'
 import { ProjectSectionNav } from '@/components/features/project/project-section-nav'
 import { ProjectHeroGallery } from '@/components/features/project/project-hero-gallery'
+import { ProjectDemoVideo } from '@/components/features/project/project-demo-video'
+import { getProjectVideoPresentationPilot } from '@/lib/project/video-presentation-pilot'
 import { LedCardExtension } from '@/components/features/project/led-card-extension'
 import { ProjectStepCopy } from '@/components/features/project/project-step-copy'
 import { ProjectFaq } from '@/components/features/project/project-faq'
@@ -52,6 +54,8 @@ import {
 } from '@/lib/seo/project-description'
 import { buildSegmentTitle } from '@/lib/seo/title'
 import { toExploreContextProject } from '@/lib/explore/project-navigation-context'
+import { splitPreviewMaterialPreparation } from '@/lib/explore/material-matching'
+import { isPlaywrightSmoke } from '@/lib/testing/playwright-smoke'
 import { ToneBadge, type CategoryTone } from '@/components/ui/tone-badge'
 import { CATEGORY_META } from '@/lib/config/categories'
 import {
@@ -207,28 +211,36 @@ function ProjectCiteTakeaway({
   )
 }
 
-function MaterialsList({ materials }: { materials: string[] }) {
-  if (materials.length === 0) {
-    return <p className="text-sm text-muted-foreground">暂无材料清单，请参考步骤中的准备说明。</p>
-  }
-
+function MaterialsList({ materials, preparationNotes = [] }: { materials: string[]; preparationNotes?: string[] }) {
   return (
-    <ul className="grid list-none gap-x-6 gap-y-3 sm:grid-cols-2 xl:grid-cols-3">
-      {materials.map((material, index) => {
-        const meta = getMaterialMeta(material)
-        const showNote = Boolean(meta.note) && !meta.name.startsWith('自备：')
-        return (
-          <li key={`${material}-${index}`} className="flex min-w-0 items-start gap-3 py-1">
-            <Box className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium leading-6 wrap-anywhere">{meta.name}</p>
-              {showNote ? <p className="text-sm leading-6 text-muted-foreground wrap-anywhere">{meta.note}</p> : null}
-            </div>
-            {meta.amount ? <span className="shrink-0 pt-0.5 text-sm leading-6 text-muted-foreground">{meta.amount}</span> : null}
-          </li>
-        )
-      })}
-    </ul>
+    <>
+      {materials.length === 0 ? (
+        <p className="text-sm text-muted-foreground">暂无材料清单，请参考步骤中的准备说明。</p>
+      ) : (
+        <ul className="grid list-none gap-x-6 gap-y-3 sm:grid-cols-2 xl:grid-cols-3">
+          {materials.map((material, index) => {
+            const meta = getMaterialMeta(material)
+            const showNote = Boolean(meta.note) && !meta.name.startsWith('自备：')
+            return (
+              <li key={`${material}-${index}`} className="flex min-w-0 items-start gap-3 py-1">
+                <Box className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium leading-6 wrap-anywhere">{meta.name}</p>
+                  {showNote ? <p className="text-sm leading-6 text-muted-foreground wrap-anywhere">{meta.note}</p> : null}
+                </div>
+                {meta.amount ? <span className="shrink-0 pt-0.5 text-sm leading-6 text-muted-foreground">{meta.amount}</span> : null}
+              </li>
+            )
+          })}
+        </ul>
+      )}
+      {preparationNotes.length > 0 && (
+        <div className="mt-4 border-t border-border/60 pt-4">
+          <h3 className="mb-1 text-sm font-medium">准备要求</h3>
+          {preparationNotes.map((note) => <p key={note} className="text-sm leading-6 text-muted-foreground">{note}</p>)}
+        </div>
+      )}
+    </>
   )
 }
 
@@ -402,7 +414,8 @@ export async function generateMetadata(
     classification: project.classification,
     reflection: project.reflection,
   })
-  const description = buildProjectSeoDescription({
+  const videoPilot = getProjectVideoPresentationPilot(project)
+  const description = videoPilot?.summary || buildProjectSeoDescription({
     citeDescription,
     title: project.title,
     description: project.description,
@@ -514,7 +527,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     listStoreProductsForContext(supabase, `project:${project.id}`),
   ])
 
-  const rawMaterials = project.materials ?? []
+  const videoPilot = getProjectVideoPresentationPilot(project)
+  const rawMaterials = videoPilot?.materials ?? project.materials ?? []
   const scienceSample = getScienceSampleForProject(project)
   const isSciencePracticePending = scienceSample?.mode === 'preparation'
   const isScienceViewingGuide = scienceSample?.mode === 'observation'
@@ -526,7 +540,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     steps: rawSteps,
   })
   const hasVideoPlayer = Boolean(videoPlaybackSrc)
-  const materials = mergeBrokenParenMaterials(rawMaterials)
+  const mergedMaterials = mergeBrokenParenMaterials(rawMaterials)
+  const { materials, preparationNotes } = isPlaywrightSmoke()
+    ? splitPreviewMaterialPreparation(mergedMaterials)
+    : { materials: mergedMaterials, preparationNotes: [] }
   const purchasableKits = contextualStoreProducts.filter((product) => product.external_url)
   const onlyMaterial = materials.length === 1 ? getMaterialMeta(materials[0]) : null
   // Only consolidate the imported placeholder when the linked kit is unambiguous.
@@ -534,7 +551,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     && onlyMaterial?.name === `《${project.title}》对应实验材料包`
     && (!onlyMaterial.note || onlyMaterial.note === '需自行购买')
 
-  const steps = rawSteps.map((step) => ({
+  const steps = (videoPilot ? [] : rawSteps).map((step) => ({
     ...step,
     description: formatProjectStepDescriptionForDisplay(step.description, { hasVideoPlayer }),
   }))
@@ -549,13 +566,13 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     classification: project.classification,
     tags,
     materials,
-    steps: rawSteps,
+    steps: videoPilot ? [] : rawSteps,
     hasVideo: hasVideoPlayer,
   })
   const summaryIsPlaceholder = isPlaceholderProjectDescription(project.description, project.title)
-  const projectSummary = summaryIsPlaceholder
+  const projectSummary = videoPilot?.summary || (summaryIsPlaceholder
     ? projectOverview
-    : formatProjectDescriptionForDisplay(project.description, { hasVideoPlayer }) || projectOverview
+    : formatProjectDescriptionForDisplay(project.description, { hasVideoPlayer }) || projectOverview)
   const relatedProject = relatedProjects.find((item) => Number(item.id) !== Number(project.id)) ?? null
   const continuationProject = relatedProject ? toExploreContextProject(relatedProject) : null
   const continuationHref = continuationProject ? `/project/${continuationProject.id}` : exploreBackHref
@@ -575,6 +592,14 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   const dateFormatter = new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai" })
   const heroImages = heroGallery.map((item) => item.url)
   const heroCaptions = heroGallery.map((item) => item.caption)
+  const materialsTitle = videoPilot ? '准备材料' : `${isScienceViewingGuide ? '观看准备' : '所需材料'}${materials.length ? `（${materials.length}）` : ''}`
+  const tutorialContent = videoPilot && videoPlaybackSrc ? (
+    <>
+      <p className="mb-3 text-sm text-muted-foreground">{videoPilot.durationLabel}</p>
+      <p className="mb-4 text-sm leading-6"><strong>关键提醒：</strong>{videoPilot.reminder}</p>
+      <ProjectDemoVideo key={videoPlaybackSrc} src={videoPlaybackSrc} title={project.title} poster={project.image} videoLabel="制作视频" chapters={videoPilot.chapters} />
+    </>
+  ) : null
 
   return (
     <div className="relative overflow-x-clip bg-[hsl(var(--app-canvas))]">
@@ -598,6 +623,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
       />
       <ProjectDetailScrollTop />
       <ProjectDetailStickyBar practicePending={isSciencePracticePending} viewingGuide={isScienceViewingGuide}
+        videoTutorial={Boolean(videoPilot)}
         key={`sticky-${project.id}`}
         title={project.title}
         projectId={project.id}
@@ -619,6 +645,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         </div>
 
           <ProjectDetailMobileHeader practicePending={isSciencePracticePending} viewingGuide={isScienceViewingGuide}
+            videoTutorial={Boolean(videoPilot)}
             key={`header-${project.id}`}
             title={project.title}
             projectId={project.id}
@@ -680,7 +707,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               images={heroImages}
               captions={heroCaptions}
               alt={project.title}
-              videoSrc={videoPlaybackSrc}
+              videoSrc={videoPilot ? null : videoPlaybackSrc}
               videoPoster={project.image || null}
               className={hasVideoPlayer ? 'aspect-video' : 'aspect-4/3 max-h-[360px]'}
               sizes="100vw"
@@ -704,7 +731,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 categoryTone={categoryTone}
                 topicLabel={chip2Label}
                 stepsCount={steps.length}
-                materialsCount={materials.length}
+                materialsCount={videoPilot ? 0 : materials.length}
                 classification={project.classification}
               />
               <MobileProjectIntro key={project.id} summary={projectSummary} tags={introTags} embedded />
@@ -718,18 +745,21 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             {courseLessonRef ? (
               <ProjectCourseLink courseId={courseLessonRef.courseId} lessonId={courseLessonRef.lessonId} courseTitle={courseLessonRef.courseTitle} lessonTitle={courseLessonRef.lessonTitle} />
             ) : null}
-            <MobileSectionCard id="project-materials-mobile" title={`${isScienceViewingGuide ? '观看准备' : '所需材料'}${materials.length ? `（${materials.length}）` : ''}`}>
+            <MobileSectionCard id="project-materials-mobile" title={materialsTitle}>
               {showSingleMobileKit ? (
                 <ContextualStoreProducts products={purchasableKits} contextLabel="这个项目的" idSuffix="mobile" embedded materialAmount={onlyMaterial?.amount ?? ''} />
               ) : (
                 <>
-                  <MaterialsList materials={materials} />
+                  <MaterialsList materials={materials} preparationNotes={preparationNotes} />
+                  {videoPilot ? <p className="mt-3 text-sm leading-6 text-muted-foreground">{videoPilot.materialsNote}</p> : null}
                   {!usesScienceGuideOrAlternative ? <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="mobile" embedded /> : null}
                 </>
               )}
             </MobileSectionCard>
             {scienceSample ? <ScienceProjectSafety sample={scienceSample} /> : null}
-            <MobileProjectSteps key={project.id} steps={steps} practicePending={isSciencePracticePending} observationOnly={isScienceViewingGuide} />
+            {videoPilot ? (
+              <MobileSectionCard id="project-steps-mobile" title="制作视频">{tutorialContent}</MobileSectionCard>
+            ) : <MobileProjectSteps key={project.id} steps={steps} practicePending={isSciencePracticePending} observationOnly={isScienceViewingGuide} />}
             {scienceSample ? <ScienceProjectNotes sample={scienceSample} /> : Number(project.id) === 149 ? (
               <LedCardExtension className="rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-3" />
             ) : (
@@ -775,7 +805,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 images={heroImages}
                 captions={heroCaptions}
                 alt={project.title}
-                videoSrc={videoPlaybackSrc}
+                videoSrc={videoPilot ? null : videoPlaybackSrc}
                 videoPoster={project.image || null}
                 className="aspect-video lg:aspect-auto lg:min-h-[320px] lg:w-[42%] lg:max-w-[600px] lg:flex-none"
                 sizes="(min-width: 1536px) 600px, (min-width: 1024px) 42vw, 92vw"
@@ -790,7 +820,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   </div>
                   <p className="max-w-3xl whitespace-pre-line text-base leading-7 text-foreground/85">{projectSummary}</p>
                   {Number(project.id) === 149 ? <p className="text-xs leading-5 text-muted-foreground">封面及过程配图为 AI 生成示意图，制作方法见步骤。</p> : null}
-                  {!usesScienceGuideOrAlternative && Number(project.id) !== 149 && !summaryIsPlaceholder && projectOverview !== projectSummary ? (
+                  {!videoPilot && !usesScienceGuideOrAlternative && Number(project.id) !== 149 && !summaryIsPlaceholder && projectOverview !== projectSummary ? (
                     <p data-testid="project-overview" className="max-w-3xl text-sm leading-6 text-muted-foreground">{projectOverview}</p>
                   ) : null}
                   {visibleTags.length ? <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">{visibleTags.map(tag => <span key={tag}>#{tag}</span>)}</div> : null}
@@ -798,8 +828,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 <ProjectDetailActions practicePending={isSciencePracticePending} viewingGuide={isScienceViewingGuide} projectId={project.id} projectTitle={project.title} mode={mode} variant="hero" />
                 <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-4">
                   <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
-                    <span className="inline-flex items-center gap-1.5"><ListChecks className="h-4 w-4" aria-hidden />{steps.length} {isScienceViewingGuide ? "项观看要点" : "个步骤"}</span>
-                    {!isScienceViewingGuide ? <span className="inline-flex items-center gap-1.5"><Box className="h-4 w-4" aria-hidden />{materials.length} 种材料</span> : null}
+                    {!videoPilot ? <span className="inline-flex items-center gap-1.5"><ListChecks className="h-4 w-4" aria-hidden />{steps.length} {isScienceViewingGuide ? "项观看要点" : "个步骤"}</span> : null}
+                    {!videoPilot && !isScienceViewingGuide ? <span className="inline-flex items-center gap-1.5"><Box className="h-4 w-4" aria-hidden />{materials.length} 种材料</span> : null}
                     {completedCount > 0 ? <span className="inline-flex items-center gap-1.5"><UsersRound className="h-4 w-4" aria-hidden />{formatCount(completedCount)} 人完成</span> : null}
                     {projectCoinsReceived > 0 ? <span className="inline-flex items-center gap-1.5"><CoinIcon className="h-4 w-4" />{formatCount(projectCoinsReceived)} 投币</span> : null}
                   </div>
@@ -815,18 +845,19 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
             <div className="min-w-0 space-y-6">
               <div id="project-materials" className="scroll-mt-36">
-                <SectionCard title={`${isScienceViewingGuide ? '观看准备' : '所需材料'}${materials.length ? `（${materials.length}）` : ''}`}>
-                  <MaterialsList materials={materials} />
+                <SectionCard title={materialsTitle}>
+                  <MaterialsList materials={materials} preparationNotes={preparationNotes} />
+                  {videoPilot ? <p className="mt-3 text-sm leading-6 text-muted-foreground">{videoPilot.materialsNote}</p> : null}
                   {!usesScienceGuideOrAlternative ? <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="desktop" embedded /> : null}
                 </SectionCard>
               </div>
               {scienceSample ? <ScienceProjectSafety sample={scienceSample} /> : null}
               <div id="project-steps" className="scroll-mt-36">
-                <SectionCard title={`${isScienceViewingGuide ? '观看要点' : '制作步骤'}${steps.length ? `（共 ${steps.length} ${isScienceViewingGuide ? "项" : "步"}）` : ''}`}>
+                {videoPilot ? <SectionCard title="制作视频">{tutorialContent}</SectionCard> : <SectionCard title={`${isScienceViewingGuide ? '观看要点' : '制作步骤'}${steps.length ? `（共 ${steps.length} ${isScienceViewingGuide ? "项" : "步"}）` : ''}`}>
                   {steps.length ? (
                     <ol className="divide-y divide-border/60">{steps.map((step, index) => <StepItem viewingGuide={isScienceViewingGuide} key={`${step.title || 'step'}-${index}`} step={step} index={index} />)}</ol>
                   ) : <p className="py-4 text-sm text-muted-foreground">{isScienceViewingGuide ? "暂无观看要点" : "暂无步骤说明"}</p>}
-                </SectionCard>
+                </SectionCard>}
               </div>
               {scienceSample ? <ScienceProjectNotes sample={scienceSample} /> : Number(project.id) === 149 ? <LedCardExtension className="surface-panel rounded-lg px-6 py-4" /> : (<ProjectCiteTakeaway category={project.category} reflection={project.reflection} description={projectSummary} className="surface-panel rounded-lg px-6 py-4" />)}
               {!usesScienceGuideOrAlternative && project.faq?.length ? (
@@ -847,7 +878,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             <aside className="sticky top-36 hidden min-w-0 space-y-5 lg:block">
               <section className="surface-panel rounded-lg p-5">
                 <h2 className="mb-3 text-sm font-semibold text-muted-foreground">项目目录</h2>
-                <ProjectSectionNav practicePending={isSciencePracticePending} viewingGuide={isScienceViewingGuide} variant="vertical" />
+                <ProjectSectionNav practicePending={isSciencePracticePending} viewingGuide={isScienceViewingGuide} videoTutorial={Boolean(videoPilot)} variant="vertical" />
                 {authorSummary ? <div className="mt-4 border-t border-border/60 pt-4"><ProjectAuthorCard author={authorSummary} /></div> : null}
               </section>
               {project.challenge_id ? (

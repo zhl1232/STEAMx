@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { OptimizedImage } from "@/components/ui/optimized-image";
-import { Heart, ImageOff, Images } from "lucide-react";
+import { Check, Heart, ImageOff, Images } from "lucide-react";
 import { CoinIcon } from "@/components/icons/coin-icon";
 import { useOptionalProjects } from '@/lib/context/project-context';
 import { Project } from "@/lib/mappers/types";
@@ -15,6 +15,7 @@ import { ToneBadge, type CategoryTone } from "@/components/ui/tone-badge";
 import { CATEGORY_META } from "@/lib/config/categories";
 import { formatCount } from "@/lib/project/format-count";
 import { displayProjectTags } from "@/lib/project/tags";
+import type { MaterialMatch } from "@/lib/explore/material-matching";
 
 interface ProjectCardProps {
     project: Project;
@@ -29,6 +30,8 @@ interface ProjectCardProps {
     compactLayout?: "adaptive" | "vertical" | "dense";
     /** 默认卡片在移动端只展示发现所需的核心信息，桌面端保持完整内容。 */
     mobileCompact?: boolean;
+    /** undefined 保持普通卡片，null 表示材料信息尚待核对。仅探索卡片使用。 */
+    materialMatch?: MaterialMatch | null;
     className?: string;
 }
 
@@ -36,7 +39,7 @@ function getCategoryTone(category?: string): CategoryTone {
     return CATEGORY_META[category || ""]?.tone ?? "science";
 }
 
-export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false, href, scroll = true, variant = "default", compactLayout = "adaptive", mobileCompact = false, className }: ProjectCardProps) {
+export function ProjectCard({ project, searchQuery = "", showStatus = false, priority = false, href, scroll = true, variant = "default", compactLayout = "adaptive", mobileCompact = false, materialMatch, className }: ProjectCardProps) {
     const { isLiked, getLikesDelta } = useOptionalProjects();
     const liked = isLiked(project.id);
     const likesCount = (project.likes || 0) + getLikesDelta(project.id);
@@ -67,6 +70,21 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
 
     if (variant === "compact" || variant === "explore") {
         const isExploreVariant = variant === "explore";
+        const matchSummary = materialMatch === null
+            ? "材料信息待核对"
+            : materialMatch?.hasSelection
+                ? `需要 ${materialMatch.requiredCount} 样，你有 ${materialMatch.ownedCount} 样`
+                : materialMatch ? `${materialMatch.requiredCount} 样材料` : "";
+        const matchDetail = materialMatch === null
+            ? "点进项目查看清单"
+            : !materialMatch?.hasSelection
+                ? ""
+                : materialMatch.missingLabels.length === 0
+                    ? "材料已匹配"
+                    : materialMatch.missingLabels.length <= 2
+                        ? `还差：${materialMatch.missingLabels.join("、")}`
+                        : `还差 ${materialMatch.missingLabels.length} 样`;
+        const isMatched = !!materialMatch?.hasSelection && materialMatch.missingLabels.length === 0;
         const isVerticalCompact = compactLayout === "vertical" || isExploreVariant;
         const isDenseCompact = !isExploreVariant && compactLayout === "dense";
 
@@ -108,6 +126,11 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             </div>
                         )}
                         <div className="absolute inset-0 bg-linear-to-t from-slate-950/18 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                        {isExploreVariant && materialMatch !== undefined && categoryLabel ? (
+                            <ToneBadge tone={categoryTone} variant="explore" className="absolute bottom-2 left-2 max-w-[calc(100%_-_1rem)] truncate rounded-xs px-1.5 py-0.5 text-xs font-medium">
+                                {categoryLabel}
+                            </ToneBadge>
+                        ) : null}
                         {showStatus && project.status && (
                             <div className="absolute left-2 top-2 z-10">
                                 {project.status === 'pending' && (
@@ -145,39 +168,64 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                     "min-w-0 font-bold text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))]",
                                     isDenseCompact ? "line-clamp-1 text-[14px] leading-5 sm:line-clamp-1 sm:text-[15px] sm:leading-6" : "text-[15px] leading-5",
                                     isVerticalCompact ? isExploreVariant ? "line-clamp-2 font-sans text-base leading-6" : "line-clamp-2" : !isDenseCompact && "line-clamp-2 sm:line-clamp-1 sm:leading-6",
+                                    isExploreVariant && materialMatch !== undefined && "h-12",
                                 )}
                             >
                                 {titleLink}
                             </h3>
 
-                            {isVerticalCompact ? (
-                                categoryLabel ? (
-                                    <ToneBadge tone={categoryTone} variant={isExploreVariant ? "explore" : "default"} className={cn("block w-fit max-w-full truncate rounded-xs px-1.5 py-0.5 font-medium", isExploreVariant ? "text-xs" : "text-[10px]")}>
-                                        {categoryLabel}
-                                    </ToneBadge>
-                                ) : null
-                            ) : (
-                                <div className="flex min-w-0 flex-wrap items-center gap-1.5">
-                                    {project.category && (
-                                        <ToneBadge tone={categoryTone} className="shrink-0 rounded-xs px-1.5 py-0.5 text-[10px] font-medium">
-                                            {project.category}
-                                        </ToneBadge>
+                            {!isExploreVariant && (
+                                <>
+                                    {isVerticalCompact ? (
+                                        categoryLabel ? (
+                                            <ToneBadge tone={categoryTone} variant={isExploreVariant ? "explore" : "default"} className={cn("block w-fit max-w-full truncate rounded-xs px-1.5 py-0.5 font-medium", isExploreVariant ? "text-xs" : "text-[10px]")}>
+                                                {categoryLabel}
+                                            </ToneBadge>
+                                        ) : null
+                                    ) : (
+                                        <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+                                            {project.category && (
+                                                <ToneBadge tone={categoryTone} className="shrink-0 rounded-xs px-1.5 py-0.5 text-[10px] font-medium">
+                                                    {project.category}
+                                                </ToneBadge>
+                                            )}
+                                            {project.category && project.sub_category && (
+                                                <span className="select-none text-[10px] text-muted-foreground/40" aria-hidden="true">•</span>
+                                            )}
+                                            {project.sub_category && (
+                                                <span className="min-w-0 truncate text-[11px] font-medium text-muted-foreground/90">
+                                                    {project.sub_category}
+                                                </span>
+                                            )}
+                                        </div>
                                     )}
-                                    {project.category && project.sub_category && (
-                                        <span className="select-none text-[10px] text-muted-foreground/40" aria-hidden="true">•</span>
-                                    )}
-                                    {project.sub_category && (
-                                        <span className="min-w-0 truncate text-[11px] font-medium text-muted-foreground/90">
-                                            {project.sub_category}
-                                        </span>
-                                    )}
-                                </div>
+                                    <ContentClassification
+                                        classification={project.classification}
+                                        compact
+                                        variant={isExploreVariant ? "explore" : isVerticalCompact ? "summary" : "chips"}
+                                    />
+                                </>
                             )}
-                            <ContentClassification
-                                classification={project.classification}
-                                compact
-                                variant={isExploreVariant ? "explore" : isVerticalCompact ? "summary" : "chips"}
-                            />
+                            {isExploreVariant && (
+                                materialMatch !== undefined ? (
+                                    <div className={cn("h-11 min-w-0 text-xs leading-5 text-muted-foreground", !matchDetail && "flex items-center")}>
+                                        <p className="truncate" title={matchSummary}>{matchSummary}</p>
+                                        {matchDetail && <p className={cn("flex min-w-0 items-center gap-1", isMatched && "text-[hsl(var(--status-success))]")} title={matchDetail}>
+                                            {isMatched && <Check className="h-3 w-3 shrink-0" aria-hidden />}
+                                            <span className="min-w-0 truncate">{matchDetail}</span>
+                                        </p>}
+                                    </div>
+                                ) : (
+                                    <div className="min-w-0 space-y-2">
+                                        {categoryLabel ? (
+                                            <ToneBadge tone={categoryTone} variant="explore" className="block w-fit max-w-full truncate rounded-xs px-1.5 py-0.5 text-xs font-medium leading-4">
+                                                {categoryLabel}
+                                            </ToneBadge>
+                                        ) : null}
+                                        <ContentClassification classification={project.classification} compact variant="explore" />
+                                    </div>
+                                )
+                            )}
                             {!isVerticalCompact && (
                                 <p
                                     className={cn(

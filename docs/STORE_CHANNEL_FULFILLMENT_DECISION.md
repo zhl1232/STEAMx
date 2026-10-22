@@ -44,6 +44,7 @@
 开关均默认关闭，目录展示、新建订单和真实支付互相独立：
 
 - `STORE_CATALOG_ENABLED`：公开目录。
+- 关闭目录时仅 `/store/page.tsx` 返回 404，父 layout 不拦截订单与售后；关闭页标题为“页面未找到”，开启时为“材料包商城”，两者保持 noindex。`/store/orders` 及详情独立使用“本站材料包订单”标题，仍要求原有登录与订单访问权限。
 - `STORE_CHECKOUT_ENABLED`：新建订单，仍需目录开关。
 - `STORE_PAYMENTS_ENABLED`：发起支付总开关。
 - `STORE_ALIPAY_ENABLED`、`STORE_WECHAT_ENABLED`：单通道发起支付开关。

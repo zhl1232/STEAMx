@@ -49,6 +49,16 @@ describe('explore page errors', () => {
 });
 
 describe('explore page initial client props', () => {
+  it.each([false, true])('enables material samples only when the server smoke flag is %s', async (enabled) => {
+    vi.stubEnv('PLAYWRIGHT_SMOKE', enabled ? '1' : '0');
+    vi.stubEnv('NEXT_PUBLIC_PLAYWRIGHT_SMOKE', '0');
+    vi.mocked(getExploreFilterOptions).mockResolvedValue({ categories: [], availableTags: [], popularTags: [], tagScope: { all: [], byCategory: {}, bySubCategory: {} } });
+    vi.mocked(getProjects).mockResolvedValueOnce({ projects: [], total: 0, hasMore: false });
+    const page = await ExplorePage({ searchParams: Promise.resolve({ tags: '日常材料' }) });
+    const children = (page as ReactElement<{ children: ReactElement<Record<string, unknown>>[] }>).props.children;
+    expect(children[1].props.materialsPreviewEnabled).toBe(enabled);
+  });
+
   it('passes the normalized server filter key to restore matching SSR data', async () => {
     vi.mocked(getExploreFilterOptions).mockResolvedValue({ categories: [], availableTags: [], popularTags: [], tagScope: { all: [], byCategory: {}, bySubCategory: {} } });
     vi.mocked(getProjects).mockResolvedValueOnce({ projects: [], total: 0, hasMore: false });

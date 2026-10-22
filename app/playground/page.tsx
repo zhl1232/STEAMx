@@ -25,7 +25,7 @@ import {
     Layers,
     Palette,
     PanelTopOpen,
-    RotateCw,
+    Search,
     Scale,
     Sigma,
     Star,
@@ -36,9 +36,9 @@ import {
 } from "lucide-react"
 
 import { BadgeIcon } from "@/components/features/gamification/badge-icon"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ToneBadge, type CategoryTone } from "@/components/ui/tone-badge"
+import { ToneBadge } from "@/components/ui/tone-badge"
+import { PLAYGROUND_DISCOVERY, PLAYGROUND_GROUPS, type PlaygroundDiscovery } from "@/lib/playground/catalog"
 import { BADGES, PLAYGROUND_BADGE_COUNT } from "@/lib/gamification/badges"
 import { getPlaygroundItem, PLAYGROUND_CHANGE_EVENT } from "@/lib/playground/storage"
 import { readMergedMinesweeperStats } from "@/lib/playground/minesweeper-stats"
@@ -61,7 +61,7 @@ type GameCard = {
     getWins: (raw: unknown) => number
 }
 
-/** 条目数变更时请同步 `lib/playground/catalog.ts` 的 PLAYGROUND_MINI_GAMES_COUNT（首页分类卡展示）。 */
+/** 保留全部历史玩法的统计口径；公开目录由 lib/playground/catalog.ts 单独控制。 */
 const GAMES: GameCard[] = [
     {
         name: "扫雷",
@@ -71,7 +71,7 @@ const GAMES: GameCard[] = [
         color: "text-primary",
         visual: "mines",
         tags: ["Science", "Math"],
-        description: "经典逻辑推理游戏，训练你的推理与安全排雷能力。",
+        description: "看数字线索，找出有依据的安全格。",
         statsKey: "minesweeper_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames") || countBestTimeRecords(readBestTimes(raw)),
         getWins: (raw) => safeNum(raw, "wins") || countBestTimeRecords(readBestTimes(raw)),
@@ -84,7 +84,7 @@ const GAMES: GameCard[] = [
         color: "text-violet-600 dark:text-violet-300",
         visual: "gomoku",
         tags: ["Technology"],
-        description: "连续五子即可胜利，策略与布局的经典对决。",
+        description: "轮流落子，讨论进攻与防守的选择。",
         statsKey: "gomoku_records",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => safeNum(raw, "wins"),
@@ -97,7 +97,7 @@ const GAMES: GameCard[] = [
         color: "text-emerald-600 dark:text-emerald-300",
         visual: "life",
         tags: ["Science", "Math"],
-        description: "挑战 8 个涌现任务：用有限细胞造稳定结构、振荡器和滑翔机信号。",
+        description: "摆下细胞，看简单规则如何改变图案。",
         statsKey: "game_of_life_stats",
         getPlayed: (raw) => safeNum(raw, "totalSessions"),
         getWins: (raw) => countStringArray(raw, "challengesSolved"),
@@ -110,7 +110,7 @@ const GAMES: GameCard[] = [
         color: "text-amber-600 dark:text-amber-300",
         visual: "2048",
         tags: ["Math", "Technology"],
-        description: "合并相同数字，挑战你的逻辑与规划能力。",
+        description: "合并相同数字，试试不同的移动顺序。",
         statsKey: "game_2048_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => safeNum(raw, "wins"),
@@ -123,7 +123,7 @@ const GAMES: GameCard[] = [
         color: "text-sky-600 dark:text-sky-300",
         visual: "24",
         tags: ["Math"],
-        description: "用加减乘除算出 24，锻炼心算与运算能力。",
+        description: "用四张牌算出 24，找找不同的解法。",
         statsKey: "game_24_stats",
         getPlayed: (raw) => safeNum(raw, "totalRounds"),
         getWins: (raw) => safeNum(raw, "solvedCount"),
@@ -136,7 +136,7 @@ const GAMES: GameCard[] = [
         color: "text-orange-600 dark:text-orange-300",
         visual: "hanoi",
         tags: ["Math", "Engineering"],
-        description: "经典递归问题，最少步数完成所有圆盘移动。",
+        description: "移动圆盘，试着把大问题拆成小步骤。",
         statsKey: "hanoi_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => safeNum(raw, "wins"),
@@ -150,7 +150,7 @@ const GAMES: GameCard[] = [
         color: "text-rose-600 dark:text-rose-300",
         visual: "sudoku",
         tags: ["Math", "Technology"],
-        description: "逻辑填数，挑战你的耐心与推理能力。",
+        description: "根据已有数字，逐步排除不合适的选项。",
         statsKey: "sudoku_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => safeNum(raw, "wins"),
@@ -189,7 +189,7 @@ const GAMES: GameCard[] = [
         color: "text-fuchsia-600 dark:text-fuchsia-300",
         visual: "memory",
         tags: ["Science", "Arts"],
-        description: "翻牌配对 STEAM 图案，训练工作记忆与空间记忆。",
+        description: "轮流翻牌，寻找相同图案的位置。",
         statsKey: "memory_match_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => safeNum(raw, "wins"),
@@ -205,7 +205,8 @@ const GAMES: GameCard[] = [
         description: "60 秒限时四则运算，连击越高题目越难、奖励越多。",
         statsKey: "quick_math_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
-        getWins: (raw) => safeNum(raw, "bestScore"),
+        // 速算保存的是得分，没有单局胜利字段；历史分数不折算成胜利。
+        getWins: () => 0,
     },
     {
         name: "迷宫探险",
@@ -215,7 +216,7 @@ const GAMES: GameCard[] = [
         color: "text-lime-600 dark:text-lime-300",
         visual: "maze",
         tags: ["Technology", "Science"],
-        description: "挑战五档迷雾地图与误导岔路，通关后解锁 BFS、DFS 与 A* 复盘。",
+        description: "走出迷宫，再看看不同算法怎样寻找路线。",
         statsKey: "maze_runner_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => safeNum(raw, "wins"),
@@ -228,7 +229,7 @@ const GAMES: GameCard[] = [
         color: "text-violet-600 dark:text-violet-300",
         visual: "tangram",
         tags: ["Arts", "Math"],
-        description: "拖拽七块标准件拼出剪影，练习旋转、镜像和组合。",
+        description: "转一转、翻一翻，用七块图形拼出剪影。",
         statsKey: "tangram_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => raw && typeof raw === "object" && Array.isArray((raw as Record<string, unknown>).solvedLevels) ? ((raw as Record<string, unknown>).solvedLevels as unknown[]).length : 0,
@@ -267,7 +268,7 @@ const GAMES: GameCard[] = [
         color: "text-teal-600 dark:text-teal-300",
         visual: "balance",
         tags: ["Science", "Math"],
-        description: "有限次称量找出假币，练习三分法推理。",
+        description: "先预测，再称量，一步步找出重量不同的硬币。",
         statsKey: "balance_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => countStringArray(raw, "solvedLevels"),
@@ -280,7 +281,7 @@ const GAMES: GameCard[] = [
         color: "text-pink-600 dark:text-pink-300",
         visual: "symmetry",
         tags: ["Arts", "Math"],
-        description: "观察半边样本，手动补出镜像图案并争取满星。",
+        description: "观察半边图案，补出它的另一半。",
         statsKey: "symmetry_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => countStringArray(raw, "solvedLevels"),
@@ -293,28 +294,12 @@ const GAMES: GameCard[] = [
         color: "text-emerald-700 dark:text-emerald-300",
         visual: "functionwars",
         tags: ["Math", "Technology"],
-        description: "输入函数绘制炮弹轨迹，绕过障碍并攻克 10 个弹道关卡。",
+        description: "改变函数观察弹道，探索 10 个战役关与 5 个挑战关。",
         statsKey: "function_wars_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames") + safeNum(raw, "onlineGames"),
         getWins: (raw) => countStringArray(raw, "solvedLevels") + safeNum(raw, "onlineWins"),
     },
 ]
-
-const TAG_LABELS: Record<SteamTag, string> = {
-    Science: "科学",
-    Technology: "技术",
-    Engineering: "工程",
-    Arts: "艺术",
-    Math: "数学",
-}
-
-const STEAM_TAG_TONE: Record<SteamTag, CategoryTone> = {
-    Science: "science",
-    Technology: "tech",
-    Engineering: "engineering",
-    Arts: "art",
-    Math: "math",
-}
 
 const STEAM_DIMS: { key: SteamTag; label: string; name: string; icon: LucideIcon; color: string; bg: string }[] = [
     { key: "Science", label: "科学", name: "Science", icon: Beaker, color: "text-emerald-600 dark:text-emerald-300", bg: "bg-emerald-100 dark:bg-emerald-400/10" },
@@ -461,143 +446,86 @@ function aggregateStats(): AggStats {
     return { totalPlayed, totalWins, gamesExplored, perGame, steamPlayed }
 }
 
-function getStatus(gameIndex: number, played: number): { label: string; className: string } {
-    if (played > 0) {
-        return {
-            label: `已玩 ${played}`,
-            className: "bg-foreground text-background",
-        }
-    }
-
-    if ([2, 6].includes(gameIndex)) {
-        return {
-            label: "新挑战",
-            className: "bg-orange-500 text-white dark:bg-orange-400 dark:text-orange-950",
-        }
-    }
-
-    if ([4, 8].includes(gameIndex)) {
-        return {
-            label: "推荐",
-            className: "bg-emerald-500 text-white dark:bg-emerald-400 dark:text-emerald-950",
-        }
-    }
-
-    return {
-        label: "开始",
-        className: "bg-muted text-muted-foreground",
-    }
-}
+const DIRECTORY_GAMES = PLAYGROUND_DISCOVERY.flatMap((discovery) => {
+    const game = GAMES.find((item) => item.href === discovery.href)
+    return game ? [{ game, discovery }] : []
+})
 
 export default function PlaygroundPage() {
     const [stats, setStats] = useState<AggStats | null>(null)
-    const [recommendationOffset, setRecommendationOffset] = useState(0)
+    const [query, setQuery] = useState("")
 
     useEffect(() => {
-        const refreshStats = () => {
-            setStats(aggregateStats())
-        }
-
+        const refreshStats = () => setStats(aggregateStats())
         refreshStats()
         window.addEventListener(PLAYGROUND_CHANGE_EVENT, refreshStats)
-
-        return () => {
-            window.removeEventListener(PLAYGROUND_CHANGE_EVENT, refreshStats)
-        }
+        return () => window.removeEventListener(PLAYGROUND_CHANGE_EVENT, refreshStats)
     }, [])
 
     const displayStats = stats ?? EMPTY_STATS
-    const steamMax = Math.max(1, ...Object.values(displayStats.steamPlayed))
-    const missingDims = STEAM_DIMS.filter((dim) => displayStats.steamPlayed[dim.key] === 0)
-    const unexploredGames = GAMES.filter((game) => (displayStats.perGame.get(game.href)?.played ?? 0) === 0)
-    const recommendedGames = (
-        missingDims.length > 0
-            ? unexploredGames.filter((game) => game.tags.some((tag) => missingDims.some((dim) => dim.key === tag)))
-            : unexploredGames
+    const search = query.trim().toLocaleLowerCase().replace(/\s+/g, "")
+    const matches = DIRECTORY_GAMES.filter(({ game }) =>
+        `${game.name} ${game.subtitle} ${game.description}`.toLocaleLowerCase().replace(/\s+/g, "").includes(search),
     )
-    const recommendationPool = recommendedGames.length > 0 ? recommendedGames : GAMES
-    const toRecommend = Array.from(
-        { length: Math.min(3, recommendationPool.length) },
-        (_, index) => recommendationPool[(recommendationOffset + index) % recommendationPool.length],
+    const renderGames = (entries: typeof DIRECTORY_GAMES) => (
+        <div className="grid gap-3 md:grid-cols-2 2xl:grid-cols-3">
+            {entries.map(({ game, discovery }) => (
+                <GameTile key={game.href} game={game} discovery={discovery} played={displayStats.perGame.get(game.href)?.played ?? 0} />
+            ))}
+        </div>
     )
-    const shuffleRecommendations = () => {
-        setRecommendationOffset((current) => (current + 1) % Math.max(1, recommendationPool.length))
-    }
-    const mobileRecommendedGame = toRecommend[0]
-    const mobileGames = mobileRecommendedGame
-        ? GAMES.filter((game) => game.href !== mobileRecommendedGame.href)
-        : GAMES
-    const hasPlayHistory = displayStats.totalPlayed > 0
 
     return (
-        <div className="mx-auto w-full py-4 sm:py-5 lg:px-8 lg:py-8">
-            <div className="grid gap-5 xl:gap-8 xl:grid-cols-[minmax(0,1fr)_320px]">
-                <section className="flex min-w-0 flex-col gap-5">
-                    <HeroPanel className="order-1" />
-                    <Link href="/playground/physics-lab" className="surface-panel group order-1 flex items-center gap-4 p-5 transition-colors hover:bg-muted/50">
-                        <span className="grid h-12 w-12 shrink-0 place-items-center rounded-md bg-primary/10 text-primary"><Beaker className="h-6 w-6" aria-hidden /></span>
-                        <div className="min-w-0 flex-1">
-                            <h2 className="font-sans text-lg font-black">物理实验室</h2>
-                            <p className="mt-1 text-sm leading-6 text-muted-foreground">搭电路、看光路，探索声音、热、磁与运动。选一个主题，动手试试。</p>
-                        </div>
-                        <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground group-hover:text-primary" aria-hidden />
-                    </Link>
-
-                    <div className="order-2 xl:hidden">
-                        <RecommendationPanel
-                            games={toRecommend.slice(0, 1)}
-                            onShuffle={shuffleRecommendations}
-                            canShuffle={recommendationPool.length > 1}
-                            compact
-                        />
-                    </div>
-
-                    <section className="order-3 space-y-3 md:hidden" aria-labelledby="playground-mobile-games-heading">
-                        <div className="flex items-center justify-between px-1">
-                            <h2 id="playground-mobile-games-heading" className="text-sm font-black tracking-tight text-foreground">全部游戏</h2>
-                            <span className="text-xs font-semibold text-muted-foreground">{GAMES.length} 款</span>
-                        </div>
-                        <div className="grid gap-3">
-                            {mobileGames.map((game) => {
-                                const gameStats = displayStats.perGame.get(game.href)
-                                const played = gameStats?.played ?? 0
-                                return <GameTile key={game.href} game={game} index={GAMES.indexOf(game)} played={played} />
-                            })}
-                        </div>
-                    </section>
-
-                    <div className="order-3 hidden gap-3 md:grid md:grid-cols-2 xl:order-5 2xl:grid-cols-3">
-                        {GAMES.map((game, index) => {
-                            const gameStats = displayStats.perGame.get(game.href)
-                            const played = gameStats?.played ?? 0
-                            return <GameTile key={game.href} game={game} index={index} played={played} />
-                        })}
-                    </div>
-
-                    <div className="order-4 hidden space-y-5 md:block xl:order-2">
-                        <StatsGrid stats={displayStats} />
-                        <SteamRadarPanel
-                            stats={displayStats}
-                            steamMax={steamMax}
-                            collapsibleOnMobile
-                            defaultCollapsed={!hasPlayHistory}
-                        />
-                    </div>
-
-                    <div className="order-5 xl:hidden">
-                        <BadgePanel />
-                    </div>
-                </section>
-
-                <aside className="hidden space-y-5 xl:sticky xl:top-20 xl:block xl:self-start">
-                    <RecommendationPanel
-                        games={toRecommend}
-                        onShuffle={shuffleRecommendations}
-                        canShuffle={recommendationPool.length > toRecommend.length}
-                    />
-                    <BadgePanel />
-                </aside>
+        <div className="w-full space-y-8 px-4 py-4 sm:py-5 lg:px-8 lg:py-8">
+            <HeroPanel />
+            <Link href="/playground/physics-lab" className="surface-panel group flex items-center gap-4 p-5 transition-colors hover:bg-muted/50">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-md bg-primary/10 text-primary"><Beaker className="h-6 w-6" aria-hidden /></span>
+                <div className="min-w-0 flex-1">
+                    <h2 className="font-sans text-lg font-black">物理实验室</h2>
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">搭电路、看光路，探索声音、热、磁与运动。选一个主题，动手试试。</p>
+                </div>
+                <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground group-hover:text-primary" aria-hidden />
+            </Link>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs leading-5 text-muted-foreground">年龄与时长仅供选玩参考，可按孩子的兴趣调整，随时停下来。</p>
+                <div className="relative sm:w-64 sm:shrink-0">
+                    <Search aria-hidden className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <input aria-label="搜索游乐场玩法" type="search" value={query} onChange={(event) => setQuery(event.target.value)}
+                        placeholder="搜索玩法，含更多逻辑游戏" className="control-field min-h-11 w-full pl-9 pr-3 text-sm" />
+                </div>
             </div>
+            {search ? (
+                <section aria-labelledby="playground-search-heading" className="space-y-3">
+                    <h2 id="playground-search-heading" className="text-panel-title">搜索结果 · {matches.length} 个玩法</h2>
+                    {matches.length ? renderGames(matches) : <p className="py-8 text-sm text-muted-foreground">没找到这个玩法，试试其他名字。</p>}
+                    <Button variant="ghost" onClick={() => setQuery("")}>返回分类浏览</Button>
+                </section>
+            ) : PLAYGROUND_GROUPS.map((group) => {
+                const entries = DIRECTORY_GAMES.filter(({ discovery }) => discovery.group === group.id)
+                return group.id === "more" ? (
+                    <details key={group.id} id={`playground-${group.id}`} className="group scroll-mt-24 border-y border-border py-4">
+                        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
+                            <h2 className="text-panel-title">{group.title} <span className="text-sm font-normal text-muted-foreground">· {entries.length} 个玩法</span></h2>
+                            <ChevronRight aria-hidden className="h-4 w-4 shrink-0 transition-transform group-open:rotate-90" />
+                        </summary>
+                        <p className="mb-4 text-sm text-muted-foreground">{group.description}</p>
+                        {renderGames(entries)}
+                    </details>
+                ) : (
+                    <section key={group.id} id={`playground-${group.id}`} aria-labelledby={`heading-${group.id}`} className="scroll-mt-24 space-y-4">
+                        <div>
+                            <h2 id={`heading-${group.id}`} className="text-panel-title">{group.title}</h2>
+                            <p className="mt-1 text-sm text-muted-foreground">{group.description}</p>
+                        </div>
+                        {renderGames(entries)}
+                    </section>
+                )
+            })}
+            <details className="surface-panel p-4 sm:p-5">
+                <summary className="min-h-11 cursor-pointer text-base font-semibold">我的探索记录</summary>
+                <ExplorationRecords stats={displayStats} />
+                <BadgePanel />
+            </details>
         </div>
     )
 }
@@ -608,13 +536,13 @@ function StatsGrid({ stats }: { stats: AggStats }) {
             <StatCard
                 icon={Gamepad2}
                 iconClassName="bg-primary/10 text-primary"
-                label="总游玩局数"
+                label="累计游玩记录"
                 value={stats.totalPlayed}
             />
             <StatCard
                 icon={Trophy}
                 iconClassName="bg-[hsl(var(--tone-science-soft))] text-[hsl(var(--tone-science))]"
-                label="总胜利数"
+                label="胜利 / 解题记录"
                 value={stats.totalWins}
             />
             <StatCard
@@ -626,44 +554,31 @@ function StatsGrid({ stats }: { stats: AggStats }) {
             <StatCard
                 icon={Star}
                 iconClassName="bg-[hsl(var(--tone-tech-soft))] text-[hsl(var(--tone-tech))]"
-                label="STEAM 维度覆盖"
+                label="接触过的主题"
                 value={`${Object.values(stats.steamPlayed).filter((value) => value > 0).length} / 5`}
             />
         </div>
     )
 }
 
-function HeroPanel({ className }: { className?: string }) {
+function HeroPanel() {
     return (
-        <section className={cn("surface-panel relative overflow-hidden p-4 sm:p-6 lg:min-h-[236px] lg:p-8", className)}>
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_26%,hsl(var(--brand-blue)/0.12),transparent_34%),radial-gradient(circle_at_92%_72%,hsl(var(--brand-green)/0.1),transparent_28%)]" />
-            <div className="relative grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(340px,0.95fr)] lg:items-center lg:gap-7 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.92fr)]">
-                <div>
-                    <ToneBadge tone="tech" className="gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold normal-case tracking-normal">
-                        <Code2 className="h-3.5 w-3.5" />
-                        Hello, World! 欢迎进入数智空间
-                    </ToneBadge>
-                    <h1 className="mt-4 max-w-xl text-3xl font-black leading-tight tracking-tight text-foreground sm:mt-5 sm:text-5xl lg:text-[3.25rem] xl:text-6xl">
-                        STEAM <span className="text-primary">Playground</span>
-                    </h1>
-                    <p className="mt-3 max-w-xl text-sm font-medium leading-7 text-muted-foreground sm:mt-4 sm:text-base sm:leading-8">
-                        在游戏中理解算法、数学与工程思维。每一次挑战，都把抽象概念变成可操作的训练。
-                    </p>
-                    <div className="mt-4 hidden flex-wrap gap-2 sm:flex sm:mt-7">
-                        {["算法推演", "逻辑训练", "工程建模"].map((label) => (
-                            <span
-                                key={label}
-                                className="surface-subtle rounded-full px-3 py-1 text-xs font-semibold text-muted-foreground"
-                            >
-                                {label}
-                            </span>
-                        ))}
-                    </div>
+        <section className="surface-panel grid gap-5 p-5 sm:p-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center lg:p-8">
+            <div>
+                <p className="text-sm font-semibold text-[hsl(var(--brand-green))]">游乐场 · 亲子探索</p>
+                <h1 className="mt-3 text-page-title">一起玩，把好奇带回生活</h1>
+                <p className="mt-3 max-w-prose text-sm leading-7 text-muted-foreground">拼一个图形，试一个猜想，说说为什么。选一个感兴趣的玩法，再用纸片、积木或画笔继续探索。</p>
+                <div className="mt-5 flex flex-wrap items-center gap-3">
+                    <Button asChild tone="success" shape="pill" className="min-h-11">
+                        <Link href="/playground/tangram">从七巧板开始 <ArrowRight className="h-4 w-4" /></Link>
+                    </Button>
+                    <span className="text-xs text-muted-foreground">家长可以陪着问，不急着给答案</span>
                 </div>
-                <div className="hidden md:block">
-                    <PlaygroundHeroVisual />
-                </div>
+                <nav aria-label="探索分类" className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+                    {PLAYGROUND_GROUPS.map((group) => <a key={group.id} href={`#playground-${group.id}`} className="inline-flex min-h-11 items-center text-primary underline-offset-4 hover:underline">{group.title}</a>)}
+                </nav>
             </div>
+            <div className="hidden md:block"><PlaygroundHeroVisual /></div>
         </section>
     )
 }
@@ -711,186 +626,58 @@ function StatCard({
     )
 }
 
-function SteamRadarPanel({
-    stats,
-    steamMax,
-    collapsibleOnMobile = false,
-    defaultCollapsed = false,
-}: {
-    stats: AggStats
-    steamMax: number
-    collapsibleOnMobile?: boolean
-    defaultCollapsed?: boolean
-}) {
-    const center = 84
-    const radius = 62
-    const rings = [0.25, 0.5, 0.75, 1]
-    const dimCount = STEAM_DIMS.length
-    const points = STEAM_DIMS.map((dim, index) => {
-        const angle = (Math.PI * 2 * index) / dimCount - Math.PI / 2
-        const value = stats.steamPlayed[dim.key]
-        const ratio = Math.min(1, value / steamMax)
-        const x = center + Math.cos(angle) * radius * ratio
-        const y = center + Math.sin(angle) * radius * ratio
-        return {
-            dim,
-            x,
-            y,
-            value,
-            ratio,
-            axisX: center + Math.cos(angle) * radius,
-            axisY: center + Math.sin(angle) * radius,
-        }
-    })
-    const polygonPoints = points.map((point) => `${point.x},${point.y}`).join(" ")
-
-    const panelHeader = (
-        <div className="flex items-center justify-between gap-3">
-            <h2 className="font-sans text-base font-black tracking-tight">STEAM 能力维度进度</h2>
-            <span className="hidden rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary sm:inline-flex">
-                每局游戏都会点亮维度
-            </span>
-        </div>
-    )
-
-    const panelBody = (
-        <div className="grid gap-4 lg:grid-cols-[minmax(0,220px)_minmax(0,1fr)] lg:items-center">
-                <div className="mx-auto w-full max-w-[220px]">
-                    <svg viewBox="0 0 168 168" className="h-auto w-full" aria-label="STEAM 能力雷达图">
-                        {rings.map((ring) => {
-                            const ringPoints = STEAM_DIMS.map((_, index) => {
-                                const angle = (Math.PI * 2 * index) / dimCount - Math.PI / 2
-                                const x = center + Math.cos(angle) * radius * ring
-                                const y = center + Math.sin(angle) * radius * ring
-                                return `${x},${y}`
-                            }).join(" ")
-                            return (
-                                <polygon
-                                    key={ring}
-                                    points={ringPoints}
-                                    fill="none"
-                                    stroke="hsl(var(--surface-border)/0.7)"
-                                    strokeWidth="1"
-                                />
-                            )
-                        })}
-                        {points.map((point) => (
-                            <line
-                                key={`axis-${point.dim.key}`}
-                                x1={center}
-                                y1={center}
-                                x2={point.axisX}
-                                y2={point.axisY}
-                                stroke="hsl(var(--surface-border)/0.8)"
-                                strokeWidth="1"
-                            />
-                        ))}
-                        <polygon
-                            points={polygonPoints}
-                            fill="hsl(var(--brand-blue)/0.28)"
-                            stroke="hsl(var(--brand-blue))"
-                            strokeWidth="2"
-                        />
-                        {points.map((point) => (
-                            <circle
-                                key={`point-${point.dim.key}`}
-                                cx={point.x}
-                                cy={point.y}
-                                r="3.8"
-                                className={cn("fill-current", point.dim.color)}
-                            />
-                        ))}
-                    </svg>
-                </div>
-                <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
+function ExplorationRecords({ stats }: { stats: AggStats }) {
+    return (
+        <div className="space-y-4 pb-5">
+            <p className="text-xs leading-6 text-muted-foreground">按已有游玩记录汇总，含历史玩法。胜利、解题和已完成关卡沿用各玩法口径，速算得分不计入；旧版仅存最佳成绩时按成绩条目计数，记录不一定覆盖每一局。</p>
+            <StatsGrid stats={stats} />
+            <div>
+                <h2 className="text-sm font-semibold">探索过的 STEAM 主题</h2>
+                <p className="mt-1 text-xs leading-5 text-muted-foreground">这里只记录玩过什么、记录了多少次，不代表能力测评或学习效果。同一玩法可属于多个主题。</p>
+                <ul className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
                     {STEAM_DIMS.map((dim) => {
-                        const count = stats.steamPlayed[dim.key]
-                        const gamesInDim = GAMES.filter((game) => game.tags.includes(dim.key)).length
                         const playedInDim = GAMES.filter((game) => game.tags.includes(dim.key) && (stats.perGame.get(game.href)?.played ?? 0) > 0).length
-                        const pct = count > 0 ? Math.round((count / steamMax) * 100) : 0
                         const Icon = dim.icon
                         return (
-                            <div key={dim.key} className="surface-subtle flex items-center justify-between gap-3 px-3 py-2.5">
-                                <div className="flex min-w-0 items-center gap-2.5">
-                                    <span className={cn("grid h-8 w-8 place-items-center rounded-sm", dim.bg, dim.color)}>
-                                        <Icon className="h-4 w-4" />
-                                    </span>
-                                    <div className="min-w-0">
-                                        <p className="text-sm font-black">{dim.label}</p>
-                                        <p className="text-[11px] text-muted-foreground">{playedInDim}/{gamesInDim} 款已体验</p>
-                                    </div>
+                            <li key={dim.key} className="flex items-center gap-3 py-2">
+                                <Icon aria-hidden className={cn("h-5 w-5 shrink-0", dim.color)} />
+                                <div>
+                                    <p className="text-sm font-semibold">{dim.label}</p>
+                                    <p className="mt-1 text-xs text-muted-foreground">{playedInDim} 款 · {stats.steamPlayed[dim.key]} 次记录</p>
                                 </div>
-                                <span className="text-xs font-black tabular-nums text-muted-foreground">{pct}%</span>
-                            </div>
+                            </li>
                         )
                     })}
-                </div>
+                </ul>
             </div>
-    )
-
-    if (collapsibleOnMobile) {
-        return (
-            <>
-                <details
-                    className="surface-panel group px-4 py-4 sm:px-5 xl:hidden"
-                    open={defaultCollapsed ? undefined : true}
-                >
-                    <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                        <div className="flex items-center justify-between gap-3">
-                            {panelHeader}
-                            <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition group-open:rotate-90" />
-                        </div>
-                    </summary>
-                    <div className="mt-4">{panelBody}</div>
-                </details>
-                <section className="surface-panel hidden px-4 py-4 sm:px-5 xl:block">
-                    <div className="mb-4">{panelHeader}</div>
-                    {panelBody}
-                </section>
-            </>
-        )
-    }
-
-    return (
-        <section className="surface-panel px-4 py-4 sm:px-5">
-            <div className="mb-4">{panelHeader}</div>
-            {panelBody}
-        </section>
+        </div>
     )
 }
 
-function GameTile({ game, index, played }: { game: GameCard; index: number; played: number }) {
-    const status = getStatus(index, played)
-
+function GameTile({ game, discovery, played }: { game: GameCard; discovery: PlaygroundDiscovery; played: number }) {
     return (
-        <Link
-            href={game.href}
-            prefetch={false}
-            className="surface-card surface-card-interactive group relative flex min-h-[124px] items-center gap-3 overflow-hidden p-3 sm:min-h-[132px] md:min-h-[152px] md:items-stretch md:p-3.5 xl:min-h-[164px]"
-        >
-            <GameArtwork game={game} />
-            <div className="flex min-w-0 flex-1 flex-col">
-                <div className="flex min-w-0 items-center gap-2">
-                    <h3 className="truncate text-base font-black tracking-tight text-foreground sm:text-lg">{game.name}</h3>
-                    {game.subtitle ? <span className="hidden truncate text-xs font-semibold text-muted-foreground sm:inline">{game.subtitle}</span> : null}
-                </div>
-                <p className="mt-1.5 line-clamp-2 text-xs leading-5 text-muted-foreground">{game.description}</p>
-                <div className="mt-3 flex items-end justify-between gap-2 pt-1 md:mt-auto md:pt-3 sm:gap-3">
-                    <div className="flex min-w-0 flex-wrap gap-1.5">
-                        {game.tags.map((tag) => (
-                            <ToneBadge key={tag} tone={STEAM_TAG_TONE[tag]} className="rounded-full px-2 py-0.5 text-[11px]">
-                                {TAG_LABELS[tag]}
-                            </ToneBadge>
-                        ))}
+        <article className="surface-card flex flex-col p-4">
+            <Link href={game.href} prefetch={false} className="group flex flex-1 items-start gap-3 rounded-sm focus-visible:outline-2 focus-visible:outline-primary">
+                <GameArtwork game={game} compact />
+                <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <h3 className="text-base font-semibold group-hover:text-primary">{game.name}</h3>
+                        {discovery.featured ? <ToneBadge tone="science" className="text-[11px]">一起试试</ToneBadge> : null}
                     </div>
-                    <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-                        <Badge className={cn("border-transparent px-2.5 py-1 text-xs font-bold", status.className)}>{status.label}</Badge>
-                        <ArrowRight className="h-4 w-4 text-muted-foreground transition group-hover:translate-x-0.5 group-hover:text-primary" />
-                    </div>
+                    <p className="mt-1 text-xs text-muted-foreground">建议 {discovery.age} · 参考 {discovery.duration}</p>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">{game.description}</p>
+                    <p className="mt-2 flex items-center gap-2 text-xs text-primary">{played > 0 ? `已玩 ${played} · 继续探索` : "开始探索"}<ArrowRight aria-hidden className="h-3.5 w-3.5" /></p>
                 </div>
-            </div>
-            <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-primary/5 transition-transform duration-300 group-hover:scale-110" />
-        </Link>
+            </Link>
+            <details className="mt-3 border-t border-border pt-1">
+                <summary className="min-h-11 cursor-pointer py-3 text-xs font-semibold text-muted-foreground">陪玩与延伸<span className="sr-only">：{game.name}</span></summary>
+                <dl className="space-y-2 pb-2 text-xs leading-6">
+                    <div><dt className="inline font-semibold">家长怎么陪：</dt><dd className="inline text-muted-foreground">{discovery.together}</dd></div>
+                    <div><dt className="inline font-semibold">玩完能做什么：</dt><dd className="inline text-muted-foreground">{discovery.afterwards}</dd></div>
+                </dl>
+                {game.visual === "mines" ? <Link href="/playground/minesweeper/course" className="inline-flex min-h-11 items-center text-xs text-primary underline underline-offset-4">进入扫雷解局学 · 9 课</Link> : null}
+            </details>
+        </article>
     )
 }
 
@@ -1357,66 +1144,9 @@ function FunctionWarsArtwork() {
     )
 }
 
-function RecommendationPanel({
-    games,
-    onShuffle,
-    canShuffle,
-    compact = false,
-}: {
-    games: GameCard[]
-    onShuffle: () => void
-    canShuffle: boolean
-    compact?: boolean
-}) {
-    return (
-        <section className="surface-panel p-4">
-            <div className="mb-4 flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                    <Star className="h-5 w-5 text-[hsl(var(--tone-engineering))]" />
-                    <h2 className="font-sans font-black">{compact ? "今日推荐" : "推荐探索"}</h2>
-                </div>
-                {canShuffle ? (
-                    <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={onShuffle}
-                        className="min-h-11 gap-1 text-primary"
-                        aria-label={compact ? "换一个今日推荐游戏" : "换一组推荐游戏"}
-                    >
-                        换一换
-                        <RotateCw className="h-3.5 w-3.5" />
-                    </Button>
-                ) : null}
-            </div>
-            <div className="space-y-2.5">
-                {games.map((game) => {
-                    return (
-                        <Link
-                            key={game.href}
-                            href={game.href}
-                            prefetch={false}
-                            className="surface-card surface-card-interactive group flex min-h-11 items-center gap-3 p-3"
-                        >
-                            <GameArtwork game={game} compact />
-                            <span className="min-w-0 flex-1">
-                                <span className="block truncate text-sm font-black">{game.name}</span>
-                                <span className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">{game.description}</span>
-                            </span>
-                            <span className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-sm bg-primary px-4 text-sm font-semibold text-primary-foreground">
-                                开始
-                            </span>
-                        </Link>
-                    )
-                })}
-            </div>
-        </section>
-    )
-}
-
 function BadgePanel() {
     return (
-        <section className="surface-panel p-4">
+        <section className="border-t border-border pt-4">
             <div className="mb-4 flex items-center justify-between gap-3">
                 <div>
                     <h2 className="font-sans font-black">游乐场共 {BADGE_COUNT} 枚可解锁徽章</h2>
