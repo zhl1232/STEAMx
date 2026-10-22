@@ -49,14 +49,16 @@ describe('explore page errors', () => {
 });
 
 describe('explore page initial client props', () => {
-  it.each([false, true])('enables material samples only when the server smoke flag is %s', async (enabled) => {
+  it.each([false, true])('passes public material filters regardless of the server smoke flag %s', async (enabled) => {
     vi.stubEnv('PLAYWRIGHT_SMOKE', enabled ? '1' : '0');
     vi.stubEnv('NEXT_PUBLIC_PLAYWRIGHT_SMOKE', '0');
     vi.mocked(getExploreFilterOptions).mockResolvedValue({ categories: [], availableTags: [], popularTags: [], tagScope: { all: [], byCategory: {}, bySubCategory: {} } });
     vi.mocked(getProjects).mockResolvedValueOnce({ projects: [], total: 0, hasMore: false });
     const page = await ExplorePage({ searchParams: Promise.resolve({ tags: '日常材料' }) });
     const children = (page as ReactElement<{ children: ReactElement<Record<string, unknown>>[] }>).props.children;
-    expect(children[1].props.materialsPreviewEnabled).toBe(enabled);
+    expect(children[1].props).not.toHaveProperty('materialsPreviewEnabled');
+    expect(children[1].props.initialFiltersKey).toContain('tags=%E6%97%A5%E5%B8%B8%E6%9D%90%E6%96%99');
+    expect(getProjects).toHaveBeenLastCalledWith(expect.objectContaining({ tags: ['日常材料'] }), expect.anything());
   });
 
   it('passes the normalized server filter key to restore matching SSR data', async () => {

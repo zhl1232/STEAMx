@@ -4,7 +4,7 @@ import {
   matchProjectMaterials,
   normalizeOwnedMaterialIds,
   sortProjectsByMaterials,
-  splitPreviewMaterialPreparation,
+  splitMaterialPreparation,
 } from './material-matching'
 
 const projects = [
@@ -40,19 +40,27 @@ describe('matchProjectMaterials', () => {
     expect(HOUSEHOLD_MATERIALS.some(({ id }) => id === 'anchors')).toBe(false)
   })
 
-  it('preserves setup requirements as plain-language preparation notes in the preview detail', () => {
-    const result = splitPreviewMaterialPreparation(projects[3].materials)
+  it('preserves setup requirements as plain-language preparation notes in the detail', () => {
+    const result = splitMaterialPreparation(projects[3].materials)
     expect(result.materials).not.toContain('两处稳固的绳端固定点')
     expect(result.materials).toContain('打气筒（建议使用）')
     expect(result.preparationNotes).toHaveLength(1)
     expect(result.preparationNotes[0]).toContain('两把稳固椅子的椅背')
-    expect(splitPreviewMaterialPreparation(['未知材料', '清水'])).toEqual({ materials: ['未知材料', '清水'], preparationNotes: [] })
+    expect(splitMaterialPreparation(['未知材料', '清水'])).toEqual({ materials: ['未知材料', '清水'], preparationNotes: [] })
   })
 
   it('deduplicates multiple reviewed rows for the same type', () => {
     expect(matchProjectMaterials(['剪刀', '剪刀（成人使用）', '剪刀', '清水'], ['scissors', 'scissors'])).toEqual({
       requiredCount: 2, ownedCount: 1, missingLabels: ['清水'], hasSelection: true,
     })
+  })
+
+  it('matches only the vetted paper and cotton-thread aliases without treating string as cotton thread', () => {
+    expect(matchProjectMaterials(['A4纸1张', '白纸1张', '正方形纸1张（可由A4纸裁成）', '细棉线1根'], ['paper', 'string'])).toEqual({
+      requiredCount: 2, ownedCount: 1, missingLabels: ['细棉线'], hasSelection: true,
+    })
+    expect(matchProjectMaterials(['细棉线1根'], ['cotton-thread'])?.missingLabels).toEqual([])
+    expect(matchProjectMaterials(['弹性塑料吸管1根'], ['straw'])).toBeNull()
   })
 
   it('treats an unrelated valid owned type as a selection without counting it toward requirements', () => {

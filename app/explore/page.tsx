@@ -12,7 +12,6 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { buildBreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { ExploreClient } from './explore-client'
-import { isPlaywrightSmoke } from '@/lib/testing/playwright-smoke'
 
 interface ExplorePageProps {
   searchParams: Promise<{
@@ -126,7 +125,6 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
       popularTags={popularTags}
       tagScope={tagScope}
       initialFiltersKey={buildInitialFiltersKey(params)}
-      materialsPreviewEnabled={isPlaywrightSmoke()}
     />
     </>
   )

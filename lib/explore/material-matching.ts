@@ -1,4 +1,4 @@
-/** Selectable material types for the local household-materials preview. */
+/** Selectable material types for household-material matching. */
 export const HOUSEHOLD_MATERIALS: readonly {
   id: string
   label: string
@@ -23,6 +23,8 @@ export const HOUSEHOLD_MATERIALS: readonly {
   { id: 'bottle', label: '带盖透明瓶', description: '透明塑料材质' },
   { id: 'milk', label: '牛奶' },
   { id: 'cloth', label: '擦水布' },
+  { id: 'paper', label: 'A4白纸' },
+  { id: 'cotton-thread', label: '细棉线' },
 ]
 
 export type MaterialMatch = {
@@ -54,6 +56,16 @@ const SOURCE_MATERIAL_IDS = new Map<string, string>([
   ['少量牛奶', 'milk'],
   ['手机手电筒（成人保管）', 'flashlight'],
   ['擦水布', 'cloth'],
+  ['A4纸1张', 'paper'],
+  ['白纸1张', 'paper'],
+  ['正方形纸1张（可由A4纸裁成）', 'paper'],
+  ['剪刀（成人协助）', 'scissors'],
+  ['同样大小的干燥纸杯2个', 'paper-cup'],
+  ['个人使用的吸管1根', 'straw'],
+  ['透明塑料瓶1个', 'bottle'],
+  ['吸管1根', 'straw'],
+  ['纸杯2个', 'paper-cup'],
+  ['细棉线1根', 'cotton-thread'],
 ])
 const OPTIONAL_SOURCE_ROWS = new Set(['打气筒（建议使用）'])
 // A place to tie the string is a setup condition, not a material to own.
@@ -62,8 +74,8 @@ const PREPARATION_SOURCE_ROWS = new Map([
 ])
 const MATERIAL_LABELS = new Map(HOUSEHOLD_MATERIALS.map(({ id, label }) => [id, label]))
 
-/** Keep local preview setup instructions separate from the material checklist. */
-export function splitPreviewMaterialPreparation(sourceRows: readonly string[]): { materials: string[]; preparationNotes: string[] } {
+/** Keep setup instructions separate from the material checklist. */
+export function splitMaterialPreparation(sourceRows: readonly string[]): { materials: string[]; preparationNotes: string[] } {
   const materials: string[] = []
   const preparationNotes = new Set<string>()
   for (const source of sourceRows) {

@@ -20,6 +20,10 @@ import { createClient } from '@/lib/supabase/server'
 import { callRpc } from '@/lib/supabase/rpc'
 import { isPlaywrightSmoke } from '@/lib/testing/playwright-smoke'
 import { getScienceSample } from '@/lib/project/science-samples'
+import { getContentClassificationSettings } from '@/lib/content-classification'
+import { HOUSEHOLD_PROJECT_IDS } from '@/lib/explore/household-projects'
+import { sortProjectsByMaterials } from '@/lib/explore/material-matching'
+import { resolveProjectMaterials } from '@/lib/project/materials'
 
 vi.mock('@/lib/supabase/admin', () => ({ supabaseAdmin: null }))
 
@@ -296,5 +300,233 @@ describe('explore tag options', () => {
     expect(scope.byCategory).toEqual({ 科学: ['平衡'], 工程: scope.bySubCategory.结构 })
     expect(scope.bySubCategory.物理).toEqual(['平衡'])
     expect(scope.bySubCategory.结构).toHaveLength(2)
+  })
+})
+
+describe('production everyday materials cohort', () => {
+  function projectRow(id: number) {
+    return {
+      id,
+      title: getScienceSample(id)!.title,
+      category: '科学',
+      description: '数据库简略内容',
+      author_id: 'author',
+      image_url: '/project.webp',
+      likes_count: 0,
+      status: 'approved',
+      moderation_state: 'approved',
+      classification_status: 'reviewed',
+      classification_source: 'manual',
+      classification_reviewed_at: '2026-10-20T00:00:00Z',
+      classification_reviewed_by: 'reviewer',
+      recommended_min_age: 8,
+      recommended_max_age: 12,
+      support_level: 'independent',
+      difficulty: 'easy',
+      difficulty_stars: 2,
+      tags: ['实验'],
+      sub_categories: { name: '物理' },
+      project_materials: [
+        { material: '数据库过期材料', sort_order: 1 },
+        { material: '数据库原始筛选材料', sort_order: 0 },
+      ],
+      project_steps: [{ title: '原始步骤', description: '数据库中旧的说明。', sort_order: 0 }],
+    }
+  }
+
+  type Row = ReturnType<typeof projectRow>
+  let rows: Row[]
+  let queryError: Error | null
+  let completionError: Error | null
+  let queries: Array<{ select: string; operations: Array<[string, string, unknown]> }>
+  const rpc = vi.fn()
+
+  function installDatabase() {
+    vi.mocked(createClient).mockResolvedValue({
+      from: vi.fn((table: string) => {
+        expect(table).toBe('projects')
+        const trace = { select: '', operations: [] as Array<[string, string, unknown]> }
+        queries.push(trace)
+        const predicates: Array<(row: Row) => boolean> = []
+        function value(row: Row, key: string): unknown {
+          if (key === 'sub_categories.name') return row.sub_categories.name
+          return row[key as keyof Row]
+        }
+        function result() {
+          return { data: rows.filter((row) => predicates.every((predicate) => predicate(row))), error: queryError, count: rows.length }
+        }
+        const query = {
+          select: (selection: string) => { trace.select = selection; return query },
+          eq: (key: string, expected: unknown) => {
+            trace.operations.push(['eq', key, expected])
+            predicates.push((row) => value(row, key) === expected)
+            return query
+          },
+          in: (key: string, expected: unknown[]) => {
+            trace.operations.push(['in', key, expected])
+            predicates.push((row) => key === 'material_filter.material'
+              ? row.project_materials.some((material) => expected.includes(material.material))
+              : expected.includes(value(row, key)))
+            return query
+          },
+          contains: (key: string, expected: string[]) => {
+            trace.operations.push(['contains', key, expected])
+            predicates.push((row) => expected.every((entry) => (value(row, key) as string[]).includes(entry)))
+            return query
+          },
+          gte: (key: string, expected: number) => {
+            predicates.push((row) => Number(value(row, key)) >= expected)
+            return query
+          },
+          lte: (key: string, expected: number) => {
+            predicates.push((row) => Number(value(row, key)) <= expected)
+            return query
+          },
+          or: (expression: string) => {
+            trace.operations.push(['or', '', expression])
+            const keyword = expression.match(/title\.ilike\.%(.+)%/u)?.[1]?.split('%,')[0] ?? ''
+            predicates.push((row) => `${row.title} ${row.description}`.includes(keyword))
+            return query
+          },
+          order: () => query,
+          range: () => query,
+          maybeSingle: async () => ({ ...result(), data: result().data[0] ?? null }),
+          then: (resolve: (payload: ReturnType<typeof result>) => unknown) => Promise.resolve(result()).then(resolve),
+        }
+        return query
+      }),
+      rpc,
+    } as never)
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    vi.mocked(isPlaywrightSmoke).mockReturnValue(false)
+    vi.mocked(getContentClassificationSettings).mockResolvedValue({ publicV1Enabled: false, enforcementEnabled: false })
+    rows = [...HOUSEHOLD_PROJECT_IDS].reverse().map(projectRow)
+    queryError = null
+    completionError = null
+    queries = []
+    rpc.mockImplementation(async (_name: string, args: { p_project_ids: number[] }) => ({
+      data: args.p_project_ids.map((id) => ({ project_id: id, completion_count: 7 })),
+      error: completionError,
+    }))
+    installDatabase()
+  })
+
+  afterEach(() => {
+    vi.mocked(getContentClassificationSettings).mockResolvedValue({ publicV1Enabled: false, enforcementEnabled: false })
+  })
+
+  it('uses the effective detail materials despite stale compact DB rows and returns compact cards', async () => {
+    const cohort = await getProjects({ tags: ['日常材料'] })
+    expect(cohort.projects).toHaveLength(HOUSEHOLD_PROJECT_IDS.length)
+    const card = cohort.projects.find((project) => project.id === 738)!
+    const detail = await getProjectById(738)
+    expect(detail).not.toBeNull()
+    expect(card.materials).toEqual(resolveProjectMaterials(detail!).materials)
+    expect(card.materials).toContain('浅盘1个')
+    expect(card.materials).not.toContain('数据库过期材料')
+    expect(card).not.toHaveProperty('steps')
+    expect(card).not.toHaveProperty('reflection')
+    expect(card).not.toHaveProperty('faq')
+    expect(card).not.toHaveProperty('classification')
+    expect(card.completions_count).toBe(7)
+    expect(rpc).toHaveBeenCalledTimes(1)
+    expect(rpc).toHaveBeenCalledWith('get_project_completion_counts_batch', { p_project_ids: cohort.projects.map((project) => project.id) })
+    expect(callRpc).not.toHaveBeenCalled()
+  })
+
+  it.each(['popular', 'weekly', 'latest'] as const)('returns every candidate before %s pagination and ignores age ranking', async (sortBy) => {
+    vi.mocked(getContentClassificationSettings).mockResolvedValue({ publicV1Enabled: true, enforcementEnabled: false })
+    // Only one candidate matches this age; material requirements must still lead.
+    rows[0].recommended_min_age = 14
+    rows[0].recommended_max_age = 16
+    const first = await getProjects({ tags: ['日常材料'], age: 16 }, { pageSize: 2, sortBy })
+    expect(first.total).toBe(HOUSEHOLD_PROJECT_IDS.length)
+    expect(first.projects).toHaveLength(HOUSEHOLD_PROJECT_IDS.length)
+    expect(first.projects.every((project) => project.classification?.status === 'reviewed')).toBe(true)
+    expect(first.hasMore).toBe(false)
+    expect(first.projects.map((project) => project.id)).toEqual(sortProjectsByMaterials(
+      [...first.projects].sort((left, right) => Number(left.id) - Number(right.id)), [],
+    ).map((project) => project.id))
+    expect(await getProjects({ tags: ['日常材料'] }, { page: 1, pageSize: 2, sortBy })).toEqual({
+      projects: [], total: HOUSEHOLD_PROJECT_IDS.length, hasMore: false,
+    })
+    expect(callRpc).not.toHaveBeenCalled()
+    expect(rpc).toHaveBeenCalledTimes(1)
+    expect(queries.every((query) => query.operations.some(([op, key, ids]) => op === 'in' && key === 'id' && Array.isArray(ids) && ids.length <= 50))).toBe(true)
+  })
+
+  it('enforces both publication gates and the enabled classification gate', async () => {
+    rows[0].status = 'pending'
+    rows[1].moderation_state = 'hidden'
+    rows[2].classification_status = 'pending'
+    vi.mocked(getContentClassificationSettings).mockResolvedValue({ publicV1Enabled: true, enforcementEnabled: true })
+    const result = await getProjects({ tags: ['日常材料'] })
+    expect(result.total).toBe(HOUSEHOLD_PROJECT_IDS.length - 3)
+    expect(result.projects.some((project) => rows.slice(0, 3).some((row) => row.id === project.id))).toBe(false)
+    expect(queries[0].operations).toEqual(expect.arrayContaining([
+      ['eq', 'status', 'approved'], ['eq', 'moderation_state', 'approved'], ['eq', 'classification_status', 'reviewed'],
+    ]))
+  })
+
+  it('excludes changed identities and IDs outside the reviewed cohort', async () => {
+    rows[0].title = '不同的项目'
+    rows[1].category = '艺术'
+    rows.push({ ...projectRow(738), id: 999999 })
+    const result = await getProjects({ tags: ['日常材料'] })
+    expect(result.total).toBe(HOUSEHOLD_PROJECT_IDS.length - 2)
+    expect(result.projects.some((project) => [rows[0].id, rows[1].id, 999999].includes(Number(project.id)))).toBe(false)
+  })
+
+  it('treats the cohort tag as virtual while retaining ordinary filters and full material joins', async () => {
+    const result = await getProjects({
+      tags: ['日常材料', '实验'], category: '科学', subCategory: '物理', difficulty: '1-2',
+      searchQuery: getScienceSample(738)!.title, materials: ['数据库原始筛选材料'],
+    })
+    expect(result.projects.map((project) => project.id)).toEqual([738])
+    expect(result.projects[0].materials).toEqual(resolveProjectMaterials((await getProjectById(738))!).materials)
+    expect(queries[0].select).toContain('project_materials (*)')
+    expect(queries[0].select).toContain('project_steps (*)')
+    expect(queries[0].select).toContain('material_filter:project_materials!inner (material)')
+    expect(queries[0].operations).toEqual(expect.arrayContaining([
+      ['contains', 'tags', ['实验']], ['eq', 'category', '科学'], ['eq', 'sub_categories.name', '物理'],
+      ['in', 'material_filter.material', ['数据库原始筛选材料']],
+    ]))
+    expect(queries[0].operations.some(([operation]) => operation === 'or')).toBe(false)
+    expect(await getProjects({ tags: ['日常材料', '缺失标签'] })).toEqual({ projects: [], total: 0, hasMore: false })
+    expect((await getProjects({ tags: ['日常材料'], category: '艺术' })).total).toBe(0)
+    expect((await getProjects({ tags: ['日常材料'], difficulty: '5-6' })).total).toBe(0)
+    expect((await getProjects({ tags: ['日常材料'], subCategory: '化学' })).total).toBe(0)
+    expect((await getProjects({ tags: ['日常材料'], materials: ['不存在'] })).total).toBe(0)
+  })
+
+  it('searches the revised visible description when the database description is stale', async () => {
+    const result = await getProjects({ tags: ['日常材料'], searchQuery: '彩色笔迹' })
+    expect(result.projects.map((project) => project.id)).toContain(738)
+    expect(result.projects.find((project) => project.id === 738)?.description).toContain('彩色笔迹')
+    expect(rows.find((row) => row.id === 738)?.description).not.toContain('彩色笔迹')
+    expect(queries[0].operations.some(([operation]) => operation === 'or')).toBe(false)
+  })
+
+  it('does not match text that exists only in the stale database description', async () => {
+    expect(await getProjects({ tags: ['日常材料'], searchQuery: '数据库简略内容' })).toEqual({
+      projects: [], total: 0, hasMore: false,
+    })
+    expect(rpc).not.toHaveBeenCalled()
+  })
+
+  it('propagates candidate DB errors in strict mode and returns an empty cohort otherwise', async () => {
+    queryError = new Error('database unavailable')
+    await expect(getProjects({ tags: ['日常材料'] }, { strictErrors: true })).rejects.toThrow('Unable to load explore projects')
+    expect(await getProjects({ tags: ['日常材料'] })).toEqual({ projects: [], total: 0, hasMore: false })
+    expect(rpc).not.toHaveBeenCalled()
+  })
+
+  it('propagates completion DB errors in strict mode and returns an empty cohort otherwise', async () => {
+    completionError = new Error('counts unavailable')
+    await expect(getProjects({ tags: ['日常材料'] }, { strictErrors: true })).rejects.toThrow('Unable to load explore projects')
+    expect(await getProjects({ tags: ['日常材料'] })).toEqual({ projects: [], total: 0, hasMore: false })
   })
 })
