@@ -107,6 +107,8 @@ export interface Project {
     /** Optional demo video (HTTPS mp4 or same-origin /api/assets path). */
     videoUrl?: string | null
     materials?: string[]
+    /** Validated AND clauses of alternative household material IDs for the active content. */
+    householdRequirements?: string[][]
     steps?: ProjectStep[]
     comments?: Comment[]
     difficulty?: 'easy' | 'medium' | 'hard'

@@ -24,6 +24,7 @@ import { getContentClassificationSettings } from '@/lib/content-classification'
 import { HOUSEHOLD_PROJECT_IDS } from '@/lib/explore/household-projects'
 import { sortProjectsByMaterials } from '@/lib/explore/material-matching'
 import { resolveProjectMaterials } from '@/lib/project/materials'
+import needleSource from '@/__tests__/fixtures/household-source-509.json'
 
 vi.mock('@/lib/supabase/admin', () => ({ supabaseAdmin: null }))
 
@@ -304,6 +305,7 @@ describe('explore tag options', () => {
 })
 
 describe('production everyday materials cohort', () => {
+  const fixtureIds = HOUSEHOLD_PROJECT_IDS.filter((id) => getScienceSample(id) !== null)
   function projectRow(id: number) {
     return {
       id,
@@ -403,7 +405,7 @@ describe('production everyday materials cohort', () => {
     vi.clearAllMocks()
     vi.mocked(isPlaywrightSmoke).mockReturnValue(false)
     vi.mocked(getContentClassificationSettings).mockResolvedValue({ publicV1Enabled: false, enforcementEnabled: false })
-    rows = [...HOUSEHOLD_PROJECT_IDS].reverse().map(projectRow)
+    rows = [...fixtureIds].reverse().map(projectRow)
     queryError = null
     completionError = null
     queries = []
@@ -420,7 +422,7 @@ describe('production everyday materials cohort', () => {
 
   it('uses the effective detail materials despite stale compact DB rows and returns compact cards', async () => {
     const cohort = await getProjects({ tags: ['日常材料'] })
-    expect(cohort.projects).toHaveLength(HOUSEHOLD_PROJECT_IDS.length)
+    expect(cohort.projects).toHaveLength(fixtureIds.length)
     const card = cohort.projects.find((project) => project.id === 738)!
     const detail = await getProjectById(738)
     expect(detail).not.toBeNull()
@@ -443,15 +445,15 @@ describe('production everyday materials cohort', () => {
     rows[0].recommended_min_age = 14
     rows[0].recommended_max_age = 16
     const first = await getProjects({ tags: ['日常材料'], age: 16 }, { pageSize: 2, sortBy })
-    expect(first.total).toBe(HOUSEHOLD_PROJECT_IDS.length)
-    expect(first.projects).toHaveLength(HOUSEHOLD_PROJECT_IDS.length)
+    expect(first.total).toBe(fixtureIds.length)
+    expect(first.projects).toHaveLength(fixtureIds.length)
     expect(first.projects.every((project) => project.classification?.status === 'reviewed')).toBe(true)
     expect(first.hasMore).toBe(false)
     expect(first.projects.map((project) => project.id)).toEqual(sortProjectsByMaterials(
       [...first.projects].sort((left, right) => Number(left.id) - Number(right.id)), [],
     ).map((project) => project.id))
     expect(await getProjects({ tags: ['日常材料'] }, { page: 1, pageSize: 2, sortBy })).toEqual({
-      projects: [], total: HOUSEHOLD_PROJECT_IDS.length, hasMore: false,
+      projects: [], total: fixtureIds.length, hasMore: false,
     })
     expect(callRpc).not.toHaveBeenCalled()
     expect(rpc).toHaveBeenCalledTimes(1)
@@ -464,7 +466,7 @@ describe('production everyday materials cohort', () => {
     rows[2].classification_status = 'pending'
     vi.mocked(getContentClassificationSettings).mockResolvedValue({ publicV1Enabled: true, enforcementEnabled: true })
     const result = await getProjects({ tags: ['日常材料'] })
-    expect(result.total).toBe(HOUSEHOLD_PROJECT_IDS.length - 3)
+    expect(result.total).toBe(fixtureIds.length - 3)
     expect(result.projects.some((project) => rows.slice(0, 3).some((row) => row.id === project.id))).toBe(false)
     expect(queries[0].operations).toEqual(expect.arrayContaining([
       ['eq', 'status', 'approved'], ['eq', 'moderation_state', 'approved'], ['eq', 'classification_status', 'reviewed'],
@@ -476,7 +478,7 @@ describe('production everyday materials cohort', () => {
     rows[1].category = '艺术'
     rows.push({ ...projectRow(738), id: 999999 })
     const result = await getProjects({ tags: ['日常材料'] })
-    expect(result.total).toBe(HOUSEHOLD_PROJECT_IDS.length - 2)
+    expect(result.total).toBe(fixtureIds.length - 2)
     expect(result.projects.some((project) => [rows[0].id, rows[1].id, 999999].includes(Number(project.id)))).toBe(false)
   })
 
@@ -508,6 +510,21 @@ describe('production everyday materials cohort', () => {
     expect(result.projects.find((project) => project.id === 738)?.description).toContain('彩色笔迹')
     expect(rows.find((row) => row.id === 738)?.description).not.toContain('彩色笔迹')
     expect(queries[0].operations.some(([operation]) => operation === 'or')).toBe(false)
+  })
+
+  it('uses the same evidence-based material correction for raw database cards and details', async () => {
+    rows.push({
+      ...projectRow(738), ...needleSource,
+      sub_categories: { name: '物理' },
+      project_materials: needleSource.materials.map((material, sort_order) => ({ material, sort_order })),
+      project_steps: needleSource.steps.map((step, sort_order) => ({ ...step, sort_order })),
+    })
+    const result = await getProjects({ tags: ['日常材料'], searchQuery: '漂浮的针' })
+    expect(result.projects.map((project) => project.id)).toEqual([509])
+    const detail = await getProjectById(509)
+    expect(detail?.materials).toContain('清水')
+    expect(result.projects[0].materials).toEqual(resolveProjectMaterials(detail!).materials)
+    expect(result.projects[0].householdRequirements).toContainEqual(['water'])
   })
 
   it('does not match text that exists only in the stale database description', async () => {

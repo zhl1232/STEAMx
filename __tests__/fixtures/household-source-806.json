@@ -1,0 +1,29 @@
+{
+  "id": 806,
+  "title": "听话的四角星",
+  "category": "科学",
+  "description": "科学原理：当正电荷聚集在某个物体上时就形成了正静电，当负电荷聚集在某个物体上时就形成了负静电。吸管与亚麻布摩擦，吸管带负电，布带正电。",
+  "materials": [
+    "蜡烛",
+    "自备（牙签、吸管、纸、剪刀）"
+  ],
+  "steps": [
+    {
+      "title": "步骤 1",
+      "description": "将纸对折两次，沿对折边各剪一刀，剪出四角星。"
+    },
+    {
+      "title": "步骤 2",
+      "description": "将牙签插在蜡烛上，将四角星轻放在牙签的另一头。"
+    },
+    {
+      "title": "步骤 3",
+      "description": "用抹布摩擦吸管20次，靠近四角星。"
+    }
+  ],
+  "author": "Teacher",
+  "author_id": "teacher",
+  "image": "/project.webp",
+  "likes": 0,
+  "videoUrl": "https://assets.steamx.cc/wanzhuan1/023_听话的四角星/video_1.mp4"
+}

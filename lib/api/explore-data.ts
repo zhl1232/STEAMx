@@ -1,4 +1,5 @@
 import { applyScienceSample, getScienceSample } from '@/lib/project/science-samples';
+import { applyProjectContentRevision } from '@/lib/project/content-revisions';
 import { EVERYDAY_MATERIALS_TAG } from '@/lib/explore/presets';
 import { sortProjectsByMaterials } from '@/lib/explore/material-matching';
 import { HOUSEHOLD_PROJECT_IDS, prepareHouseholdProject } from '@/lib/explore/household-projects';
@@ -1004,7 +1005,8 @@ async function fetchHouseholdProjects(
 
     // Hydrate the entire bounded cohort before material ranking. A separate filter
     // alias preserves every raw material and step needed to validate effective content.
-    for (let offset = 0; offset < candidateIds.length; offset += 50) {
+    const batches = Array.from({ length: Math.ceil(candidateIds.length / 50) }, (_, index) => candidateIds.slice(index * 50, (index + 1) * 50));
+    const fetchBatch = async (ids: number[]) => {
       let query = supabase.from("projects").select(`
         *,
         ${PROJECT_LIST_PROFILE_SELECT},
@@ -1015,7 +1017,7 @@ async function fetchHouseholdProjects(
       `)
         .eq("status", "approved")
         .eq("moderation_state", "approved")
-        .in("id", candidateIds.slice(offset, offset + 50))
+        .in("id", ids)
         .order("id", { ascending: true })
         .order("sort_order", { referencedTable: "project_materials", ascending: true })
         .order("sort_order", { referencedTable: "project_steps", ascending: true });
@@ -1031,12 +1033,19 @@ async function fetchHouseholdProjects(
 
       const { data, error } = await query;
       if (error) throw new Error("Unable to load explore projects", { cause: error });
+      const prepared: Project[] = [];
       for (const row of (data || []) as unknown as ProjectRowForMapper[]) {
         const project = prepareHouseholdProject(mapDbProject(row));
         if (!project || (starsRange.legacy && project.difficulty !== starsRange.legacy)) continue;
         if (sanitizedSearch && !`${project.title} ${project.description ?? ""}`.toLowerCase().includes(sanitizedSearch)) continue;
-        candidates.push(project);
+        prepared.push(project);
       }
+      return prepared;
+    };
+    // Bound request concurrency while preserving a complete, globally ranked result.
+    for (let offset = 0; offset < batches.length; offset += 4) {
+      const results = await Promise.all(batches.slice(offset, offset + 4).map(fetchBatch));
+      candidates.push(...results.flat());
     }
 
     candidates.sort((left, right) => Number(left.id) - Number(right.id));
@@ -1377,7 +1386,7 @@ export const getProjectById = cache(async (id: string | number): Promise<Project
     return null;
   }
 
-  const project = applyScienceSample(applyLedCardContent(mapDbProject(data as unknown as ProjectRowForMapper)));
+  const project = applyProjectContentRevision(applyScienceSample(applyLedCardContent(mapDbProject(data as unknown as ProjectRowForMapper))));
   return classificationSettings.publicV1Enabled ? project : (withoutPublicClassification(project) as Project);
 });
 

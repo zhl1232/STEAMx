@@ -1,0 +1,28 @@
+{
+  "id": 902,
+  "title": "猴子翻跟头",
+  "category": "科学",
+  "description": "科学原理：当我们用手转动吸管，会形成扭转的张力带动单杠上的小猴子，从而让它绕着“吸管单杠”转动，看起来好像是在不停地翻跟斗。",
+  "materials": [
+    "自备（长吸管2根、彩笔、剪刀、纸、双面胶）"
+  ],
+  "steps": [
+    {
+      "title": "步骤 1",
+      "description": "首先用彩笔在纸上面画一只小猴子吊着的形态，用剪刀把小猴子剪下来。"
+    },
+    {
+      "title": "步骤 2",
+      "description": "将一根吸管的弯折一端剪去，用它连接另一根吸管，连接成“U”形，单杠就做好了。"
+    },
+    {
+      "title": "步骤 3",
+      "description": "把猴子的双手，用双面胶固定在中间的吸管上，用手向外或向内转动吸管，小猴子开始翻起了跟头。"
+    }
+  ],
+  "author": "Teacher",
+  "author_id": "teacher",
+  "image": "/project.webp",
+  "likes": 0,
+  "videoUrl": "https://assets.steamx.cc/jichu-haohua/013_388.猴子翻跟头/video_1.mp4"
+}

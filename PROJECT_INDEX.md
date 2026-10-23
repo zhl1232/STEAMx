@@ -10,12 +10,12 @@
 |---|---|---|
 | 品牌、首页和全站布局 | `lib/brand.ts`、`lib/seo/site.ts`、`components/home/`、`components/layout/` | [SEO 页面身份](docs/seo-indexing-checklist.md)、[设计规范](docs/design-system.md) |
 | 新人开始、可选指南和入门专题 | `app/start/`、`components/learning/`、`lib/product/`、`app/learn/` | [产品方向](docs/product-direction.md)、[内容质量](docs/content-quality.md) |
-| 项目浏览、筛选、详情与家庭材料匹配 | `app/explore/`、`app/project/`、`components/explore/`、`lib/project/`、`lib/explore/` | [产品架构](docs/product-architecture.md)、[探索记录](docs/EXPLORATION_RECORDS.md) |
+| 项目浏览、筛选、详情与家庭材料匹配 | `app/explore/`、`app/project/`、`components/explore/`、`lib/project/`、`lib/explore/` | [产品架构](docs/product-architecture.md)、[内容质量与同源修订](docs/content-quality.md)、[探索记录](docs/EXPLORATION_RECORDS.md) |
 | 课程目录、课时和工作区 | `app/courses/`、`lib/courses/`、`components/features/courses/` | [课程进度与奖励](docs/COURSE_PROGRESS_REWARDS_AND_STEAM_IMPLEMENTATION.md) |
 | 积木模型、零件和套装核算 | `lib/courses/lesson-materials.ts`、`course-kit-config.ts`、`components/features/courses/lesson-materials-preparation.tsx`、`lib/utils/ldraw-*.ts`、`e2e/building-outline/`、`playwright.building-outline.config.ts` | [手机搭建](docs/courses/mobile-building-experience.md)、[小班材料覆盖](docs/courses/lesson-kit-coverage-small-class.md)、[中大班材料覆盖](docs/courses/lesson-kit-coverage-middle-senior.md) |
 | Scratch 工作区与内容 | `packages/scratch-host/`、`components/features/courses/`、`lib/courses/` | [Scratch 维护与验收](docs/SCRATCH_CURRICULUM_ROLLOUT.md) |
 | PBL 挑战 | `app/create/`、`app/pbl/`、`lib/pbl/`、`components/features/challenge/` | [PBL 指南](docs/PBL_CHALLENGE_GUIDE.md) |
-| 一次实践与过程记录 | `lib/journeys/`、`lib/project/record-input.ts`、`record-draft.ts`、`app/api/journeys/` | [产品架构](docs/product-architecture.md)、[探索记录](docs/EXPLORATION_RECORDS.md) |
+| 一次实践与过程记录 | `lib/journeys/`、`lib/project/record-input.ts`、`record-draft.ts`、`app/api/journeys/` | [产品架构](docs/product-architecture.md)、[内容质量与同源修订](docs/content-quality.md)、[探索记录](docs/EXPLORATION_RECORDS.md) |
 | 统一作品及分享 | `lib/works/`、`components/features/works/`、`app/works/` | [内容质量](docs/content-quality.md)、[互动资格](docs/TRUST_AND_INTERACTION_ACCESS.md) |
 | 自然首页、物种图鉴和观察 | `app/nature/`、`lib/nature-species-atlas.ts`、`lib/api/nature-observation-*`、`components/features/bird-observation/` | [物种图鉴](docs/NATURE_SPECIES_ATLAS_IMPLEMENTATION.md)、[内容质量](docs/content-quality.md) |
 | 游乐场亲子入口、探索记录及联网玩法 | `app/playground/`、`lib/playground/catalog.ts`、`lib/playground/` | [入口与联网规则](docs/playground-online-features.md) |

@@ -763,6 +763,26 @@ describe('ExploreClient', () => {
         expect(JSON.parse(sessionStorage.getItem('steamx:owned-materials:v1')!)).toEqual([])
     })
 
+    it('uses explicit alternatives for real project summaries and searches the expanded picker', async () => {
+        currentSearchParams = new URLSearchParams({ tags: '日常材料' })
+        const user = userEvent.setup()
+        const sample = {
+            ...makeProject(353, '材料组合项目'),
+            materials: ['组合材料原文'],
+            householdRequirements: [['tissue', 'paper'], ['scissors']],
+        }
+        render(<ExploreClient initialProjects={[sample]} initialHasMore={false} />)
+        expect(screen.getByTestId('material-summary')).toHaveTextContent('0/2')
+        await user.click(screen.getByRole('button', { name: '纸巾' }))
+        expect(screen.getByTestId('material-summary')).toHaveTextContent('1/2')
+        await user.click(screen.getByRole('button', { name: '更多材料' }))
+        await user.type(screen.getByRole('textbox', { name: '搜索材料' }), '剪刀')
+        await user.click(screen.getByRole('button', { name: '剪刀' }))
+        await user.click(screen.getByRole('button', { name: '选好了，查看项目' }))
+        expect(screen.getByTestId('material-summary')).toHaveTextContent('2/2')
+        expect(screen.getByTestId('household-material-picker')).toHaveTextContent('1 个项目材料已匹配')
+    }, 15000) // Exercise the full material catalog under parallel test load.
+
     it('filters explore list by 科教版 when the science-edu pill is clicked', async () => {
         const fetchMock = vi.mocked(fetch)
         fetchMock.mockResolvedValue({

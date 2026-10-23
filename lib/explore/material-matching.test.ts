@@ -106,3 +106,93 @@ describe('sortProjectsByMaterials', () => {
     expect(sortProjectsByMaterials(input, owned).slice(-3).map(({ id }) => id)).toEqual(['empty', 'unknown', 'absent'])
   })
 })
+
+describe('explicit AND/OR household requirements', () => {
+  it('counts AND items individually and alternative items only once', () => {
+    const groups = [['paper'], ['tape', 'scissors']]
+    expect(matchProjectMaterials(['未映射的原始完整材料'], [], groups)).toEqual({
+      requiredCount: 2, ownedCount: 0, missingLabels: ['剪刀', 'A4白纸'], hasSelection: false,
+    })
+    expect(matchProjectMaterials([], ['paper', 'tape'], groups)).toEqual({
+      requiredCount: 2, ownedCount: 2, missingLabels: [], hasSelection: true,
+    })
+  })
+
+  it('uses shared alternatives once and prefers no missing items before the fewest total types', () => {
+    const groups = [['tape', 'paper'], ['tape', 'scissors']]
+    expect(matchProjectMaterials([], [], groups)).toMatchObject({ requiredCount: 1, missingLabels: ['双面胶'] })
+    expect(matchProjectMaterials([], ['paper', 'scissors'], groups)).toEqual({
+      requiredCount: 2, ownedCount: 2, missingLabels: [], hasSelection: true,
+    })
+    expect(matchProjectMaterials([], ['paper', 'scissors', 'tape'], groups)).toEqual({
+      requiredCount: 1, ownedCount: 1, missingLabels: [], hasSelection: true,
+    })
+  })
+
+  it('breaks equal missing counts by the minimum total material set', () => {
+    expect(matchProjectMaterials([], ['water'], [['water', 'tape'], ['paper', 'tape']])).toEqual({
+      requiredCount: 1, ownedCount: 0, missingLabels: ['双面胶'], hasSelection: true,
+    })
+  })
+
+  it('supports A or both B and C without collapsing the AND branch into one type', () => {
+    const groups = [['water', 'paper'], ['water', 'scissors']]
+    expect(matchProjectMaterials([], ['paper', 'scissors'], groups)).toMatchObject({ requiredCount: 2, ownedCount: 2 })
+    expect(matchProjectMaterials([], ['water'], groups)).toMatchObject({ requiredCount: 1, ownedCount: 1 })
+  })
+
+  it('preserves catalog order when alternative sets tie and removes duplicate clauses', () => {
+    const groups = [['paper', 'water', 'water'], ['water', 'paper']]
+    expect(matchProjectMaterials([], [], groups)).toEqual({
+      requiredCount: 1, ownedCount: 0, missingLabels: ['清水'], hasSelection: false,
+    })
+  })
+
+  it.each([[], [[]], [['water'], []], [['water', 'unknown']], [['constructor']], null, ['water']].map((requirements) => ({ requirements })))('fails closed for invalid explicit groups without legacy fallback: $requirements', ({ requirements }) => {
+    expect(matchProjectMaterials(['清水'], ['water'], requirements as string[][])).toBeNull()
+  })
+
+  it('combines independent components and retains every condition', () => {
+    const groups = [['paper', 'water'], ['paper', 'tape'], ['scissors'], ['milk', 'tissue'], ['milk', 'balloon']]
+    expect(matchProjectMaterials([], [], groups)).toMatchObject({
+      requiredCount: 3, missingLabels: ['剪刀', '牛奶', 'A4白纸'],
+    })
+  })
+
+  it('agrees with exhaustive minimum-set solutions across owned states and overlapping clauses', () => {
+    const ids = HOUSEHOLD_MATERIALS.filter(({ id }) => ['water', 'paper', 'tape', 'scissors'].includes(id)).map(({ id }) => id)
+    const labels = new Map(HOUSEHOLD_MATERIALS.map(({ id, label }) => [id, label]))
+    const allSets = Array.from({ length: 16 }, (_, mask) => ids.filter((_, index) => mask & (1 << index)))
+    for (let seed = 1; seed <= 24; seed++) {
+      const groups = [seed % 15 + 1, (seed * 3) % 15 + 1, (seed * 7) % 15 + 1].map((mask) => allSets[mask])
+      for (const owned of allSets) {
+        const best = allSets.filter((selected) => groups.every((group) => group.some((id) => selected.includes(id))))
+          .sort((left, right) => {
+            const missing = left.filter((id) => !owned.includes(id)).length - right.filter((id) => !owned.includes(id)).length
+            if (missing) return missing
+            if (left.length !== right.length) return left.length - right.length
+            for (let index = 0; index < left.length; index++) {
+              const order = ids.indexOf(left[index]) - ids.indexOf(right[index])
+              if (order) return order
+            }
+            return 0
+          })[0]
+        expect(matchProjectMaterials([], owned, groups)).toEqual({
+          requiredCount: best.length,
+          ownedCount: best.filter((id) => owned.includes(id)).length,
+          missingLabels: best.filter((id) => !owned.includes(id)).map((id) => labels.get(id)),
+          hasSelection: owned.length > 0,
+        })
+      }
+    }
+  })
+
+  it('sorts cards using their explicit requirements and keeps invalid profiles last', () => {
+    const cards = [
+      { id: 'invalid', materials: ['清水'], householdRequirements: [[]] },
+      { id: 'two-required', materials: ['未知材料'], householdRequirements: [['paper'], ['scissors']] },
+      { id: 'alternative', materials: ['未知材料'], householdRequirements: [['water', 'paper']] },
+    ]
+    expect(sortProjectsByMaterials(cards, ['water']).map(({ id }) => id)).toEqual(['alternative', 'two-required', 'invalid'])
+  })
+})

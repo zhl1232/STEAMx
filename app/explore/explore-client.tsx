@@ -219,7 +219,7 @@ export function ExploreClient({
         [projects, ownedMaterialIds, showMaterials],
     )
     const matchedProjectCount = showMaterials ? displayedProjects.filter((project) => {
-        const match = matchProjectMaterials(project.materials, ownedMaterialIds)
+        const match = matchProjectMaterials(project.materials, ownedMaterialIds, project.householdRequirements)
         return match?.hasSelection && match.missingLabels.length === 0
     }).length : 0
 
@@ -1326,7 +1326,7 @@ export function ExploreClient({
                                                         href={detailHref}
                                                         scroll={false}
                                                         variant="explore"
-                                                        materialMatch={showMaterials ? matchProjectMaterials(project.materials, ownedMaterialIds) : undefined}
+                                                        materialMatch={showMaterials ? matchProjectMaterials(project.materials, ownedMaterialIds, project.householdRequirements) : undefined}
                                                         className={EXPLORE_PROJECT_CARD_CLASS}
                                                     />
                                                 </div>

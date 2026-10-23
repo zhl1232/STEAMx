@@ -1,31 +1,13 @@
-/** Selectable material types for household-material matching. */
+import materialCatalog from './household-materials.data.json'
+
+/** Lightweight catalog shared with the picker; project profiles stay on the server. */
 export const HOUSEHOLD_MATERIALS: readonly {
   id: string
   label: string
   common?: boolean
   description?: string
-}[] = [
-  { id: 'tissue', label: '纸巾', common: true },
-  { id: 'balloon', label: '气球', common: true },
-  { id: 'straw', label: '直吸管', common: true },
-  { id: 'water', label: '清水', common: true },
-  { id: 'paper-cup', label: '纸杯', common: true },
-  { id: 'watercolor', label: '水溶性彩笔', common: true },
-  { id: 'flashlight', label: '手机手电筒', common: true },
-  { id: 'tray', label: '浅盘' },
-  { id: 'clay', label: '橡皮泥' },
-  { id: 'stickers', label: '贴纸' },
-  { id: 'yarn', label: '毛线' },
-  { id: 'needle', label: '针' },
-  { id: 'scissors', label: '剪刀' },
-  { id: 'string', label: '细绳' },
-  { id: 'tape', label: '双面胶' },
-  { id: 'bottle', label: '带盖透明瓶', description: '透明塑料材质' },
-  { id: 'milk', label: '牛奶' },
-  { id: 'cloth', label: '擦水布' },
-  { id: 'paper', label: 'A4白纸' },
-  { id: 'cotton-thread', label: '细棉线' },
-]
+  category?: string
+}[] = materialCatalog
 
 export type MaterialMatch = {
   requiredCount: number
@@ -93,10 +75,121 @@ export function normalizeOwnedMaterialIds(value: unknown): string[] {
   return HOUSEHOLD_MATERIALS.filter(({ id }) => selected.has(id)).map(({ id }) => id)
 }
 
+const MATERIAL_ORDER = new Map(HOUSEHOLD_MATERIALS.map(({ id }, index) => [id, index]))
+
+/** Explicit profiles fail closed instead of falling back to legacy source-row aliases. */
+export function validateMaterialRequirements(value: unknown): string[][] | null {
+  if (!Array.isArray(value) || value.length === 0) return null
+  const unique = new Map<string, string[]>()
+  for (const group of value) {
+    if (!Array.isArray(group) || group.length === 0) return null
+    if (group.some((id) => typeof id !== 'string' || !MATERIAL_ORDER.has(id))) return null
+    const ids = [...new Set(group as string[])].sort((left, right) => MATERIAL_ORDER.get(left)! - MATERIAL_ORDER.get(right)!)
+    unique.set(ids.join('\0'), ids)
+  }
+  const groups = [...unique.values()]
+  // Satisfying a subset clause also satisfies every clause containing its alternatives.
+  return groups.filter((group) => !groups.some((other) => other.length < group.length && other.every((id) => group.includes(id))))
+}
+
+function compareMaterialSets(left: readonly string[], right: readonly string[]): number {
+  for (let index = 0; index < Math.min(left.length, right.length); index++) {
+    const order = MATERIAL_ORDER.get(left[index])! - MATERIAL_ORDER.get(right[index])!
+    if (order) return order
+  }
+  return left.length - right.length
+}
+
+/** Exact minimum hitting set, split into independent components of shared alternatives. */
+function chooseRequiredMaterials(groups: string[][], owned: ReadonlySet<string>): string[] {
+  const parent = groups.map((_, index) => index)
+  function root(index: number): number {
+    while (parent[index] !== index) {
+      parent[index] = parent[parent[index]]
+      index = parent[index]
+    }
+    return index
+  }
+  const firstGroup = new Map<string, number>()
+  groups.forEach((group, index) => group.forEach((id) => {
+    const previous = firstGroup.get(id)
+    if (previous === undefined) firstGroup.set(id, index)
+    else parent[root(index)] = root(previous)
+  }))
+  const components = new Map<number, string[][]>()
+  groups.forEach((group, index) => {
+    const key = root(index)
+    const component = components.get(key) ?? []
+    component.push(group)
+    components.set(key, component)
+  })
+
+  const required: string[] = []
+  for (const component of components.values()) {
+    const coverage = new Map<string, number[]>()
+    component.forEach((group, index) => group.forEach((id) => {
+      const indices = coverage.get(id) ?? []
+      indices.push(index)
+      coverage.set(id, indices)
+    }))
+    let best: string[] | null = null
+    let bestMissing = Infinity
+    const selected = new Set<string>()
+    const covered = component.map(() => false)
+    const seen = new Map<string, { missing: number; ids: string[] }>()
+    function search(remaining: number, missing: number) {
+      if (missing > bestMissing || (missing === bestMissing && best !== null && selected.size > best.length)) return
+      const ids = [...selected].sort((left, right) => MATERIAL_ORDER.get(left)! - MATERIAL_ORDER.get(right)!)
+      if (remaining === 0) {
+        if (missing < bestMissing || best === null || ids.length < best.length || (ids.length === best.length && compareMaterialSets(ids, best) < 0)) {
+          best = ids
+          bestMissing = missing
+        }
+        return
+      }
+      const key = covered.map((value) => value ? '1' : '0').join('')
+      const prior = seen.get(key)
+      if (prior && (prior.missing < missing || (prior.missing === missing && (prior.ids.length < ids.length || (prior.ids.length === ids.length && compareMaterialSets(prior.ids, ids) <= 0))))) return
+      seen.set(key, { missing, ids })
+      // Branch on the tightest uncovered clause; prefer existing materials, then catalog order.
+      let next = -1
+      for (let index = 0; index < component.length; index++) {
+        if (!covered[index] && (next < 0 || component[index].length < component[next].length)) next = index
+      }
+      const alternatives = [...component[next]].sort((left, right) => Number(owned.has(right)) - Number(owned.has(left)) || MATERIAL_ORDER.get(left)! - MATERIAL_ORDER.get(right)!)
+      for (const id of alternatives) {
+        selected.add(id)
+        const changed = coverage.get(id)!.filter((index) => !covered[index])
+        for (const index of changed) covered[index] = true
+        search(remaining - changed.length, missing + (owned.has(id) ? 0 : 1))
+        for (const index of changed) covered[index] = false
+        selected.delete(id)
+      }
+    }
+    search(component.length, 0)
+    required.push(...(best ?? []))
+  }
+  return required.sort((left, right) => MATERIAL_ORDER.get(left)! - MATERIAL_ORDER.get(right)!)
+}
+
 export function matchProjectMaterials(
   materials: readonly string[] | null | undefined,
   ownedIds: readonly string[],
+  requirements?: readonly (readonly string[])[],
 ): MaterialMatch | null {
+  if (requirements !== undefined) {
+    const groups = validateMaterialRequirements(requirements)
+    if (!groups) return null
+    const owned = new Set(normalizeOwnedMaterialIds(ownedIds))
+    const required = chooseRequiredMaterials(groups, owned)
+    const missing = required.filter((id) => !owned.has(id))
+    return {
+      requiredCount: required.length,
+      ownedCount: required.length - missing.length,
+      missingLabels: missing.map((id) => MATERIAL_LABELS.get(id)!),
+      hasSelection: owned.size > 0,
+    }
+  }
   if (!Array.isArray(materials) || materials.length === 0) return null
 
   const required = new Set<string>()
@@ -118,12 +211,12 @@ export function matchProjectMaterials(
   }
 }
 
-export function sortProjectsByMaterials<T extends { materials?: string[] }>(
+export function sortProjectsByMaterials<T extends { materials?: string[]; householdRequirements?: string[][] }>(
   projects: readonly T[],
   ownedIds: readonly string[],
 ): T[] {
   return projects
-    .map((project, index) => ({ project, index, match: matchProjectMaterials(project.materials, ownedIds) }))
+    .map((project, index) => ({ project, index, match: matchProjectMaterials(project.materials, ownedIds, project.householdRequirements) }))
     .sort((a, b) => {
       if (!a.match || !b.match) {
         if (a.match) return -1

@@ -1,0 +1,33 @@
+{
+  "id": 722,
+  "title": "毛毛虫大赛",
+  "category": "科学",
+  "description": "科学原理：实验中我们用吸管间断的向毛毛虫后半身吹气，使毛毛虫身体向前伸展，由于纸张一定弹力，毛毛虫可以复原，恢复收缩状态时身体尾部向前缩进，于是就向前爬起来啦!",
+  "materials": [
+    "吸管",
+    "自备（彩笔、剪刀、纸）"
+  ],
+  "steps": [
+    {
+      "title": "步骤 1",
+      "description": "剪下一张A4纸的六分之一，然后对折三次"
+    },
+    {
+      "title": "步骤 2",
+      "description": "剪去其中3段，留下的5段制作成“毛毛虫”模样"
+    },
+    {
+      "title": "步骤 3",
+      "description": "用吸管对准“毛毛虫”中间间断的吹气"
+    },
+    {
+      "title": "步骤 4",
+      "description": "可以给“毛毛虫”画上漂亮的颜色"
+    }
+  ],
+  "author": "Teacher",
+  "author_id": "teacher",
+  "image": "/project.webp",
+  "likes": 0,
+  "videoUrl": "https://assets.steamx.cc/qimeng-preview/002_毛毛虫大赛/video_1.mp4"
+}

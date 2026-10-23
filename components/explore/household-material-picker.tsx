@@ -1,9 +1,10 @@
 "use client"
 
 import { useRef, useState, type MouseEvent } from 'react'
-import { Balloon, Check, CirclePlus, CupSoda, Droplets, Flashlight, Paintbrush, Pipette, ScrollText, X, type LucideIcon } from 'lucide-react'
+import { Balloon, Check, CirclePlus, CupSoda, Droplets, Flashlight, Paintbrush, Pipette, ScrollText, Search, X, type LucideIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { FilterChip } from '@/components/ui/filter-chip'
+import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { HOUSEHOLD_MATERIALS } from '@/lib/explore/material-matching'
 import { cn } from '@/lib/utils'
@@ -26,9 +27,13 @@ interface HouseholdMaterialPickerProps {
 
 export function HouseholdMaterialPicker({ selectedIds, onChange, matchedCount }: HouseholdMaterialPickerProps) {
     const [moreOpen, setMoreOpen] = useState(false)
+    const [search, setSearch] = useState('')
     const moreTrigger = useRef<HTMLButtonElement>(null)
     const selected = new Set(selectedIds)
     const extraSelected = HOUSEHOLD_MATERIALS.filter((material) => !material.common && selected.has(material.id))
+    const query = search.trim().toLocaleLowerCase()
+    const visibleMaterials = HOUSEHOLD_MATERIALS.filter((material) =>
+        !query || `${material.label} ${material.description ?? ''}`.toLocaleLowerCase().includes(query))
 
     const toggle = (id: string) => {
         onChange(selected.has(id) ? selectedIds.filter((value) => value !== id) : [...selectedIds, id])
@@ -36,6 +41,7 @@ export function HouseholdMaterialPicker({ selectedIds, onChange, matchedCount }:
 
     const openMore = (event: MouseEvent<HTMLButtonElement>) => {
         moreTrigger.current = event.currentTarget
+        setSearch('')
         setMoreOpen(true)
     }
 
@@ -102,8 +108,12 @@ export function HouseholdMaterialPicker({ selectedIds, onChange, matchedCount }:
                         <SheetTitle>选择家里已有的材料</SheetTitle>
                         <SheetDescription>可多选。数量和使用要求，请在项目清单里核对。</SheetDescription>
                     </SheetHeader>
-                    <div role="group" aria-label="全部材料" className="grid min-h-0 grid-cols-2 content-start gap-2 overflow-y-auto py-2">
-                        {HOUSEHOLD_MATERIALS.map((material) => (
+                    <div className="relative shrink-0">
+                        <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted-foreground" aria-hidden />
+                        <Input aria-label="搜索材料" placeholder="搜索材料，如胶带、白纸" value={search} onChange={(event) => setSearch(event.target.value)} className="h-11 pl-9" />
+                    </div>
+                    <div role="group" aria-label="全部材料" className="grid min-h-0 flex-1 grid-cols-2 content-start gap-2 overflow-y-auto py-2">
+                        {visibleMaterials.map((material) => (
                             <FilterChip
                                 key={material.id}
                                 active={selected.has(material.id)}
@@ -111,7 +121,7 @@ export function HouseholdMaterialPicker({ selectedIds, onChange, matchedCount }:
                                 aria-label={material.label}
                                 aria-describedby={material.description ? `household-material-${material.id}-description` : undefined}
                                 onClick={() => toggle(material.id)}
-                                className="min-h-12 min-w-0 justify-between gap-1 px-3 text-left text-sm"
+                                className="min-h-12 min-w-0 justify-between gap-1 whitespace-normal px-3 py-2 text-left text-sm"
                             >
                                 <span className="min-w-0">
                                     <span className="block">{material.label}</span>
@@ -120,6 +130,7 @@ export function HouseholdMaterialPicker({ selectedIds, onChange, matchedCount }:
                                 {selected.has(material.id) && <Check className="h-4 w-4 shrink-0" aria-hidden />}
                             </FilterChip>
                         ))}
+                        {visibleMaterials.length === 0 && <p role="status" className="col-span-2 py-6 text-center text-sm text-muted-foreground">没有找到这个材料，换个名称试试。</p>}
                     </div>
                     <Button shape="pill" className="mt-auto h-11 shrink-0" onClick={() => setMoreOpen(false)}>选好了，查看项目</Button>
                 </SheetContent>
