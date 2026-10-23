@@ -66,6 +66,7 @@ describe("PlaygroundPage", () => {
         for (const name of ["一起拼与创造", "做个小实验", "动脑与编程", "更多逻辑游戏"]) {
             expect(screen.getByRole("heading", { name: new RegExp(name) })).toBeInTheDocument()
         }
+        expect(screen.getByRole("link", { name: /物理实验室/ })).toHaveAttribute("href", "/playground/physics-lab")
         expect(container.querySelector('a[href="/playground/quickmath"]')).toBeNull()
         const more = container.querySelector<HTMLDetailsElement>("#playground-more")!
         expect(more.open).toBe(false)

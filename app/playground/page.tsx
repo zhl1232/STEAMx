@@ -478,6 +478,14 @@ export default function PlaygroundPage() {
     return (
         <div className="w-full space-y-8 px-4 py-4 sm:py-5 lg:px-8 lg:py-8">
             <HeroPanel />
+            <Link href="/playground/physics-lab" className="surface-panel group flex items-center gap-4 p-5 transition-colors hover:bg-muted/50">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-md bg-primary/10 text-primary"><Beaker className="h-6 w-6" aria-hidden /></span>
+                <div className="min-w-0 flex-1">
+                    <h2 className="font-sans text-lg font-black">物理实验室</h2>
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">搭电路、看光路，探索声音、热、磁与运动。选一个主题，动手试试。</p>
+                </div>
+                <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground group-hover:text-primary" aria-hidden />
+            </Link>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-xs leading-5 text-muted-foreground">年龄与时长仅供选玩参考，可按孩子的兴趣调整，随时停下来。</p>
                 <div className="relative sm:w-64 sm:shrink-0">

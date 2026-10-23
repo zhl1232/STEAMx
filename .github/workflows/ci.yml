@@ -47,6 +47,9 @@ jobs:
       - name: Run unit tests
         run: pnpm exec vitest run
 
+      - name: Verify portable physics lab
+        run: pnpm run test:physics-lab
+
       - name: Verify deployment, migration, and SEO scripts
         run: node --test deploy/registry-deploy.test.mjs scripts/db-push.test.mjs scripts/check-seo.test.mjs
 

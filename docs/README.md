@@ -39,6 +39,7 @@
 | [Scratch 维护与验收](SCRATCH_CURRICULUM_ROLLOUT.md) | 导入、旧课保护和真实账号续学 |
 | [注册资料补建](ensure-profile.md) | 触发器、服务端兜底和待核验事项 |
 | [物种图鉴](NATURE_SPECIES_ATLAS_IMPLEMENTATION.md) | 图鉴读模型、缩略图和核查 |
+| [物理实验室](physics-lab.md) | 主题实验、教学范围、模型边界与跨站备份 |
 | [游乐场入口与联网](playground-online-features.md) | 亲子目录、探索记录口径、对战、竞速及房间生命周期 |
 | [LDraw 状态](ldraw-status.md) | 资源状态汇总，不把候选当上线 |
 | [LDraw 发布](ldraw-publishing.md) | 资源上传、回读、挂载与缓存 |
