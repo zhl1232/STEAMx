@@ -1,38 +1,132 @@
-0 4+ 摇摇马 (Rocking Horse) - DUPLO draft for manual repair
+0 Rocking horse - source reconstruction; unaccepted development draft
 0 Name: 4-yao-yao-ma.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+摇摇马 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Rocker rails, legs, mane, head and handles are simplified.
-
-0 // STEP 1 - green/blue rocker base
-1 2 -120 -24 120 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 120 -24 120 0 0 1 0 1 0 -1 0 0 3011.dat
-1 2 -120 -24 -120 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 120 -24 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // Same-frame Toolo base brick migration: corrected captive screw count/receivers, supported screw axes engaged after per-axis port/mesh checks; other axes retracted. Other legacy interfaces remain under review.
+0 // Source: Library libfile_f1b8d0abcba08191adf73366f31c7f1f / Rocking Horse pages 1-20
+0 // Existing user-approved Toolo approximate geometry. Hidden pivot fits remain unverified.
+0 // Interface contract: dev-toolo/28336 fork pin=(0,-65,48), local axis X; dev-toolo/74957 hinge=(0,72,0), local axis Z. Arm-fit 28334 uses pin Y=0/open Y=200; long-arm 28331 uses pin Y=0/open Y=400 where applicable.
+0 // Captive screw states keep fixed axes and receiver openings; dev-toolo/99565 has mounting face Y=-25 and screw axis Y. Existing corrected wheel placements are retained.
+0 // Inventory quantities unknown; NOT user accepted; no physical fit verification.
+0 // SOURCE PAGE 1: 4 2x4 plates, 4 by 8 stud tier
+1 11 0 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 0 -24 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 0 -24 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 0 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
-
-0 // STEP 2 - black legs
-1 0 -120 -96 -80 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 120 -96 -80 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 0 -120 -96 80 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 120 -96 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+0 // SOURCE PAGE 2: 8 2x4 plates, 8 by 8 stud tier
+1 1 -80 -48 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -48 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -48 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -48 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -48 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -48 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -48 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -48 120 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
-
-0 // STEP 3 - black body and red saddle
-1 0 -80 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 240 -168 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 4 -20 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 7 140 -216 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE 3: 12 2x4 plates, 12 by 8 stud tier
+1 11 -160 -72 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 -160 -72 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 -160 -72 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 -160 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 0 -72 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 0 -72 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 0 -72 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 0 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 160 -72 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 160 -72 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 160 -72 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 11 160 -72 120 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
-
-0 // STEP 4 - head, ears and handle
-1 0 -240 -216 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 -320 -264 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -360 -312 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 -460 -432 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 0 -260 -432 -120 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 1 -420 -264 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // SOURCE PAGE 4: 16 2x4 plates, 16 by 8 stud tier
+1 1 -240 -96 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -96 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -96 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -96 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -96 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -96 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -96 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -96 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -96 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -96 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -96 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -96 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -96 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -96 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -96 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -96 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // SOURCE PAGE 5: 8x16 green cap
+1 2 0 -120 0 1 0 0 0 1 0 0 0 1 6490.dat
+0 STEP
+0 // SOURCE PAGE 6: two Toolo feet and four inward-facing base hinges
+1 0 -240 -168 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 72 -240 -216 -80 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/28336.dat
+1 72 -240 -216 80 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/28336.dat
+1 0 240 -168 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 72 240 -216 -80 0 0 -1 0 1 0 1 0 0 dev-toolo/engaged/28336.dat
+1 72 240 -216 80 0 0 -1 0 1 0 1 0 0 dev-toolo/engaged/28336.dat
+0 STEP
+0 // SOURCE PAGE 7: four diagonal wide 2x6 arms (hand fix 2026-10-13: wide-cheek variant to match p7); end pivots unchanged
+1 72 -80 -446.698521 -80 -0.828492607 -0.56 0 -0.56 0.828492607 0 0 0 -1 dev-toolo/arm-fit/28334.dat
+1 72 -80 -446.698521 80 -0.828492607 -0.56 0 -0.56 0.828492607 0 0 0 -1 dev-toolo/arm-fit/28334.dat
+1 72 80 -446.698521 -80 -0.828492607 0.56 0 0.56 0.828492607 0 0 0 -1 dev-toolo/arm-fit/28334.dat
+1 72 80 -446.698521 80 -0.828492607 0.56 0 0.56 0.828492607 0 0 0 -1 dev-toolo/arm-fit/28334.dat
+0 STEP
+0 // SOURCE PAGE 8: four upper clutch blocks; tongue/pin interfaces manual
+1 72 -80 -518.698521 -80 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 -80 -518.698521 80 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 80 -518.698521 -80 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 80 -518.698521 80 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+0 STEP
+0 // SOURCE PAGE 9: two torso blocks bridging four joints
+1 0 -80 -566.698521 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 80 -566.698521 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+0 STEP
+0 // SOURCE PAGE 10: three torso blocks offset half a block
+1 0 -160 -614.698521 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-001.dat
+1 0 0 -614.698521 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76395.dat
+1 0 160 -614.698521 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110.dat
+0 STEP
+0 // SOURCE PAGE 11: red 6x12 saddle plate
+1 4 0 -638.698521 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+0 // SOURCE PAGE 12: three Toolo blocks offset right and yellow neck brick
+1 0 -120 -686.698521 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 40 -686.698521 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 240 -686.698521 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-001.dat
+1 14 -240 -686.698521 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76057.dat
+0 STEP
+0 // SOURCE PAGE 13: two raised saddle blocks
+1 0 -120.0 -734.698521 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 120.0 -734.698521 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110.dat
+0 STEP
+0 // SOURCE PAGE 14: tail clutch and hinge; screw fit unverified
+1 72 280 -638.698521 0 -1 0 0 0 1 0 0 0 -1 dev-toolo/74957.dat
+1 72 328 -501.698521 0 0 0 -1 0 1 0 1 0 0 dev-toolo/28336.dat
+0 STEP
+0 // SOURCE PAGE 15: neck hinge and upper clutch
+1 72 -240 -734.698521 0 0 0 -1 0 1 0 1 0 0 dev-toolo/engaged/28336.dat
+1 72 -288 -871.698521 0 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+0 STEP
+0 // SOURCE PAGE 16: blue muzzle and grey mechanical head brick
+1 1 -408 -871.698521 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 72 -328 -919.698521 0 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+0 STEP
+0 // SOURCE PAGE 17: yellow and grey head layers
+1 14 -328 -967.698521 0 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+1 72 -328 -1015.698521 0 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+0 STEP
+0 // SOURCE PAGE 18: paired wheel cheeks; rim and tyre use common axle center
+1 71 -328 -895.698521 -65 -1 0 0 0 0 -1 0 -1 0 dev-toolo/99565.dat
+1 0 -328 -895.698521 -65 -1 0 0 0 0 -1 0 -1 0 44970.dat
+1 71 -328 -895.698521 65 -1 0 0 0 0 1 0 1 0 dev-toolo/99565.dat
+1 0 -328 -895.698521 65 -1 0 0 0 0 1 0 1 0 44970.dat
+0 STEP
+1 72 -328 -1063.698521 0 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+0 // Added one76057 head riser: fixed side receivers lift ear bases48LDU clear of eye tyres.
+0 // SOURCE PAGE 19: two side-screwed ear hinges; rotate about fixed side-hole centers so ear tips rise vertically (source p19/20); screw fit manual
+1 72 -328 -1039.698521 -88 1 0 0 0 0 -1 0 1 0 dev-toolo/engaged/28336.dat
+1 72 -328 -1039.698521 88 -1 0 0 0 0 -1 0 -1 0 dev-toolo/engaged/28336.dat
+0 // SOURCE PAGE 20: finished view; no new additions.

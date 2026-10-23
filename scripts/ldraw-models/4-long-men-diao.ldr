@@ -1,40 +1,167 @@
-0 4+ 龙门吊 (Gantry Crane) - DUPLO draft for manual repair
+0 4+ Gantry crane - source-informed static digital repair
 0 Name: 4-long-men-diao.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+龙门吊 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Tall striped gantry, trolley and hook are simplified.
-
-0 // STEP 1 - wheeled bases
-1 0 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 14 -240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Core131 native stud relations,11 engaged base screws,8 finite wheel screws;33 other base screws retracted. Five additional native mounts and four transverse joints verified.
+0 // SOURCE ADAPTATION: upper forks/plate turned upright on beam studs; lower cradle/plate/bracket inverted to match native studs/cavities. Visible orientation/height differs from P7-P13 drawings; source families/counts retained.
+0 // All13 source pages reconciled;11 nonempty steps,95 inventory assemblies,96 rigid placements plus32 non-BOM supplied-cord segments. Static renderer verification only; no human acceptance.
+0 // ROPE: one supplied cord, schematic radius/length/wrap and hidden fixing (user option C2026-10-12); native groove and long-hook eye contacts verified.
+0 // Approved inferred Toolo/winch dimensions retained. No physical fit, retention, friction, winding, load or continuous mechanism motion certification.
+0 // SOURCE PAGE 1 - three black Toolo base blocks; four bare gray rims
+1 0 -400 0 -120 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 -400 0 120 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 -400 -48 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110.dat
+1 71 -505 24 -160 0 -1 0 -1 0 0 0 0 -1 dev-toolo/99565.dat
+1 71 -505 24 160 0 -1 0 -1 0 0 0 0 -1 dev-toolo/99565.dat
+1 71 -295 24 -160 0 1 0 1 0 0 0 0 -1 dev-toolo/99565.dat
+1 71 -295 24 160 0 1 0 1 0 0 0 0 -1 dev-toolo/99565.dat
 0 STEP
-
-0 // STEP 2 - striped pillars
-1 4 -240 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -240 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -240 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -240 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 240 -144 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 240 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 240 -240 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 240 -288 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 2 - 14 red+14 yellow2x4 bricks,14 alternating cross-bonded layers
+1 4 -400 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -400 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -400 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -400 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -400 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -480 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -400 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -576 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -400 -672 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -400 -672 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -720 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -720 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-
-0 // STEP 3 - top beam and trolley
-1 0 -240 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 -80 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 240 -336 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 8 0 -384 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 3 - second wheeled base
+1 0 400 0 -120 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 400 0 120 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 400 -48 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110.dat
+1 71 295 24 -160 0 -1 0 -1 0 0 0 0 -1 dev-toolo/99565.dat
+1 71 295 24 160 0 -1 0 -1 0 0 0 0 -1 dev-toolo/99565.dat
+1 71 505 24 -160 0 1 0 1 0 0 0 0 -1 dev-toolo/99565.dat
+1 71 505 24 160 0 1 0 1 0 0 0 0 -1 dev-toolo/99565.dat
 0 STEP
-
-0 // STEP 4 - hook
-1 8 0 -432 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 0 -480 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 0 -528 0 0 0 1 0 1 0 -1 0 0 40666.dat
-1 4 -180 -384 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4 - second alternating tower
+1 4 400 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 400 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 400 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 400 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 400 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -480 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 400 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -576 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 400 -672 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 400 -672 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -720 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -720 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 5 - seven black Toolo blocks: four lower, three upper bridging seams
+1 0 -360 -768 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 -120 -768 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 120 -768 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 360 -768 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 -240 -816 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-110.dat
+1 0 0 -816 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-110.dat
+1 0 240 -816 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-110.dat
+0 STEP
+0 // SOURCE PAGE 6 - four red2x3 curved bricks cap exposed ends
+1 4 -400 -816 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 -400 -816 40 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 400 -816 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 400 -816 40 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+1 4 0 -888 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -864 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 71 0 -864 80 1 0 0 0 1 0 0 0 1 dev-toolo/28336.dat
+1 71 0 -864 -80 -1 0 0 0 1 0 0 0 -1 dev-toolo/28336.dat
+0 STEP
+0 // SOURCE PAGE 8 - two downward2x6 arms andtwo clutch blocks
+0 // Joint candidates: arm-fit/28334 local pivot=(0,0,0), open pin=(0,200,0), pivot axis local Z; 28336 pin=(0,-65,48), axis local X; 74957 hinge=(0,72,0), axis local Z. Candidate fit uses the supplied 48-LDU mounting plane and stud-grid registration; thread/tolerance remains unmeasured.
+1 71 0 -731.576597131951 -160 0 0 1 0.16 -0.9871170143402453 0 0.9871170143402453 0.16 0 dev-toolo/arm-fit/28334.dat
+1 71 0 -659.576597131951 -160 0 0 1 0 -1 0 1 0 0 dev-toolo/74957.dat
+1 71 0 -731.576597131951 160 0 0 1 -0.16 -0.9871170143402453 0 0.9871170143402453 -0.16 0 dev-toolo/arm-fit/28334.dat
+1 71 0 -659.576597131951 160 0 0 1 0 -1 0 1 0 0 dev-toolo/74957.dat
+0 STEP
+0 // SOURCE PAGE 9 - three gray2x4 blocks andone red2x4 plate for lower cradle
+1 71 0 -611.576597131951 -120 0 0 1 0 -1 0 1 0 0 dev-toolo/engaged/76057.dat
+1 71 0 -611.576597131951 120 0 0 1 0 -1 0 1 0 0 dev-toolo/76057.dat
+1 71 0 -563.576597131951 0 0 0 1 0 -1 0 1 0 0 dev-toolo/76057.dat
+1 4 0 -539.576597131951 0 0 0 1 0 -1 0 1 0 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 10 - Rope preparation / assembly; non-BOM schematic route.
+0 // ROPE: non-BOM schematic cylinder (user option C 2026-10-12); length/route approximated from courseware, not measured.
+0 // One supplied cord follows the drum groove, a straight tangent lead, and the long-hook upper eye; hidden fixing is schematic.
+1 0 0 -498.588739049 0 3 0 0 -0 0.0486014404449 2.99895872102 0 -1.84415806275 0.0790353693756 s/steamx-rope.dat
+1 0 0 -498.540137608 -1.84415806275 3 0 0 -0 0.145669391 2.99063282573 0 -1.83903819671 0.23688668523 s/steamx-rope.dat
+1 0 0 -498.394468217 -3.68319625946 3 0 0 -0 0.242332925153 2.97400415003 0 -1.82881267871 0.39408034157 s/steamx-rope.dat
+1 0 0 -498.152135292 -5.51200893817 3 0 0 -0 0.338323679603 2.94911885946 0 -1.81350989748 0.550179927614 s/steamx-rope.dat
+1 0 0 -497.813811612 -7.32551883565 3 0 0 -0 0.43337515886 2.91604604213 0 -1.79317233754 0.704752070004 s/steamx-rope.dat
+1 0 0 -497.380436454 -9.11869117318 3 0 0 -0 0.527223475111 2.87487751683 0 -1.76785646129 0.857367635967 s/steamx-rope.dat
+1 0 0 -496.853212978 -10.8865476345 3 0 0 -0 0.619608080835 2.82572757819 0 -1.73763255224 1.0076029247 s/steamx-rope.dat
+1 0 0 -496.233604898 -12.6241801867 3 0 0 -0 0.710272492159 2.76873267931 0 -1.70258451987 1.15504084367 s/steamx-rope.dat
+1 0 0 -495.523332405 -14.3267647066 3 0 0 -0 0.798965000918 2.70405105296 0 -1.66280966672 1.29927206658 s/steamx-rope.dat
+1 0 0 -494.724367405 -15.9895743733 3 0 0 -0 0.885439373466 2.63186227229 0 -1.61841841819 1.43989616976 s/steamx-rope.dat
+1 0 0 -493.838928031 -17.6079927915 3 0 0 -0 0.969455534283 2.55236675228 0 -1.56953401603 1.57652274385 s/steamx-rope.dat
+1 0 0 -492.869472497 -19.1775268075 3 0 0 -0 1.05078023249 2.46578519331 0 -1.51629217614 1.70877247767 s/steamx-rope.dat
+1 0 0 -491.818692264 -20.6938189837 3 0 0 -0 1.12918768942 2.37235796849 0 -1.45884071183 1.83627821131 s/steamx-rope.dat
+1 0 0 -490.689504575 -22.1526596955 3 0 0 -0 1.20446022542 2.27234445627 0 -1.39733912341 1.95868595544 s/steamx-rope.dat
+1 0 0 -489.485044349 -23.5499988189 3 0 0 -0 1.2763888642 2.16602232037 0 -1.33195815542 2.07565587409 s/steamx-rope.dat
+1 0 0 -488.208655485 -24.8819569743 3 0 0 -0 1.34477391302 2.05368673891 0 -1.26287932254 2.1868632281 s/steamx-rope.dat
+1 0 0 -486.863881572 -26.1448362969 3 0 0 -0 1.40942551705 1.93564958489 0 -1.19029440573 2.29199927673 s/steamx-rope.dat
+1 0 0 -485.454456055 -27.3351307026 3 0 0 -0 1.47016418652 1.81223856039 0 -1.11440491973 2.39077213474 s/steamx-rope.dat
+1 0 0 -483.984291869 -28.4495356223 3 0 0 -0 1.52682129494 1.68379628674 0 -1.03542155364 2.48290758281 s/steamx-rope.dat
+1 0 0 -482.457470574 -29.484957176 3 0 0 -0 1.57923954735 1.55067935337 0 -0.95356358599 2.56814982878 s/steamx-rope.dat
+1 0 0 -480.878231026 -30.4385207619 3 0 0 -0 1.62727341693 1.41325732775 0 -0.869058275943 2.64626221784 s/steamx-rope.dat
+1 0 0 -479.250957609 -31.3075790379 0 0 3 -1.27191172945 1.67078954908 0 -2.71702788953 -0.782140232385 0 s/steamx-rope.dat
+1 0 0 -477.58016806 -32.0897192703 0 0 3 -1.12703497088 1.70966713161 0 -2.78025037981 -0.693050762582 0 s/steamx-rope.dat
+1 0 0 -475.870500929 -32.7827700329 0 0 3 -0.979029267896 1.74379823017 0 -2.83575416646 -0.602037202248 0 s/steamx-rope.dat
+1 0 0 -474.126702699 -33.3848072351 0 0 3 -0.828305523109 1.77308808787 0 -2.88338515644 -0.509352228877 0 s/steamx-rope.dat
+1 0 0 -472.353614611 -33.894159464 0 0 3 -0.675282185131 1.79745538841 0 -2.92301111364 -0.415253160243 0 s/steamx-rope.dat
+1 0 0 -470.556159222 -34.3094126242 0 0 3 -0.520384086851 1.81683248177 0 -2.95452202601 -0.320001240019 0 s/steamx-rope.dat
+1 0 0 -468.739326741 -34.6294138642 0 0 3 -0.364041265978 1.83116557206 0 -2.977830411 -0.223860912497 0 s/steamx-rope.dat
+1 0 0 -466.908161168 -34.8532747767 0 0 3 -0.206687771154 1.84041486686 0 -2.99287155843 -0.127099088418 0 s/steamx-rope.dat
+1 0 0 -465.067746302 -34.9803738652 0 0 3 -0.0487604569149 1.84455468771 0 -2.99960371013 -0.0299844039642 0 s/steamx-rope.dat
+1 0 0 -463.223191614 -35.0103582691 0 0 3 0.0302813965683 298.223191614 -0 -2.99984716894 3.01035826912 0 s/steamx-rope.dat
+1 0 0 -165 -32 0 0 3 0 33 -0 -3 0 0 s/steamx-rope.dat
+0 STEP
+0 // SOURCE PAGE 11 / courseware slide 13 - winch assembly and black U bracket
+0 // User-confirmed IDs 2026-10-12: 14013c01 includes drum, cord and long black hook as ONE material.
+0 // Official13358 UPDATE2024-02 uses local(0,-52,0); matched to the approved14013c01 refined native double-pin interface.
+1 0 0 -515.576597131951 0 1 0 0 0 -1 0 0 0 -1 13358.dat
+1 71 0 -463.576597131951 0 1 0 0 0 -1 0 0 0 -1 14013c01.dat
+1 0 0 -120 -32 0 0 1 0 1 0 -1 0 0 s/steamx-14013c01-hook.dat
+0 // SOURCE PAGE 12 - attachment instruction retained; no new rigid geometry
+0 // Inverted bracket has four native studs inserted11LDU and1216LDU2 coplanar mounting contact; physical clutch holding force is unmeasured.
+0 // ROPE: non-BOM schematic cylinder; length/route approximated from courseware, not measured.
+0 // Whole static digital audit:193 connection relations join128 placements;325 candidate pairs have only31 adjacent same-cord bend overlaps. Eight native wheel rim contacts lie atY64.14 previews passed; renderer-verified only.

@@ -1,0 +1,79 @@
+0 5+ Bulldozer - source reconstruction draft
+0 Name: 5-tui-tu-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 // Digital draft: wheelarch cockpit, actual closed window interface and ground-seated tyres; manual lift and blade pitch are separate circular-hole freedoms.
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // DEV-ONLY; all9 source PDF pages visually inspected.
+0 // Source p3 uses existing approved 31196c01 approximation and official6345; rear frame/pane represented by official61649+90265, exact historical window mould and precise hood colour remain unidentified.
+0 // Source page 1: two chassis rails, green axles8; each tyre seated on its outward pulley rim, adjacent inner pulley separate.
+1 4 0 -81.000314198 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 -81.000314198 40 1 0 0 0 1 0 0 0 1 75350.dat
+1 2 -160 -57.000314198 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -160 -57.000314198 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 -57.000314198 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 -160 -57.000314198 -140 1 0 0 0 1 0 0 0 1 6292.dat
+1 14 -160 -57.000314198 100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -160 -57.000314198 140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 -160 -57.000314198 140 -1 0 0 0 1 0 0 0 -1 6292.dat
+1 2 160 -57.000314198 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 160 -57.000314198 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 160 -57.000314198 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 160 -57.000314198 -140 1 0 0 0 1 0 0 0 1 6292.dat
+1 14 160 -57.000314198 100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 160 -57.000314198 140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 160 -57.000314198 140 -1 0 0 0 1 0 0 0 -1 6292.dat
+0 STEP
+0 // Source page 2: two red short bearing bricks and two yellow6x4 body layers.
+1 4 -120 -129.000314198 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 40 -129.000314198 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -129.000314198 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -129.000314198 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -120 -177.000314198 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 40 -177.000314198 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -177.000314198 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -177.000314198 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 3: restore source cockpit, canopy and rear window below roof support.
+0 // Existing photo-approximate cockpit; closed61649+90265 uses native finite D-pin sockets and localized retaining-face contact, not an elastic insertion or window-opening simulation.
+1 25 120 -201.000314198 0 0 0 1 0 1 0 -1 0 0 dev-129/31196c01-wheelarch.dat
+1 226 -28 -235.000314198 0 0 1 0 0 0 1 1 0 0 6345.dat
+1 4 160 -369.000314198 0 0 0 -1 0 1 0 1 0 0 61649.dat
+1 15 202.5 -297.000314198 65.5 0 0 -1 0 1 0 1 0 0 90265.dat
+1 14 160 -417.000314198 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 80 -441.000314198 0 1 0 0 0 1 0 0 0 1 4672b.dat
+0 STEP
+0 // Source page 4: two7-hole liftarms plus gray pivot axle and two short cranks.
+1 14 -195.654658 -121.000314198 -60 -0.26666693 0 -0.963788747 -0.963788747 0 0.26666693 0 1 0 6524.dat
+1 14 -80 -153.000314198 -100 -0.26666693 0 -0.963788747 -0.963788747 0 0.26666693 0 1 0 6526.dat
+1 14 -195.654658 -121.000314198 60 -0.26666693 0 -0.963788747 -0.963788747 0 0.26666693 0 1 0 6524.dat
+1 14 -80 -153.000314198 100 0.26666693 0 -0.963788747 0.963788747 0 0.26666693 0 -1 0 6526.dat
+1 71 -80 -153.000314198 0 0 -0.963788747 -0.26666693 0 0.26666693 -0.963788747 1 0 0 6522.dat
+0 STEP
+0 // Source page 5: vertical front red bearing brick, axle and two short cranks.
+1 4 -335.309317 -89.000314198 0 0 1 0 1 0 0 0 0 -1 75349.dat
+1 71 -311.309317 -89.000314198 0 0 -0.963788747 -0.26666693 0 0.26666693 -0.963788747 1 0 0 6522.dat
+1 14 -311.309317 -89.000314198 -100 0.26666693 0 0.963788747 0.963788747 0 -0.26666693 0 1 0 6526.dat
+1 14 -311.309317 -89.000314198 100 -0.26666693 0 0.963788747 -0.963788747 0 -0.26666693 0 -1 0 6526.dat
+0 STEP
+0 // Source page 6: blue spacer plate and lime4x8 vertical blade backing.
+1 1 -359.309317 -89.000314198 0 0 1 0 1 0 0 0 0 -1 40666.dat
+1 27 -383.309317 -89.000314198 0 0 1 0 0 0 1 1 0 0 4672b.dat
+0 STEP
+0 // Source page 7: four green2x3x2 concave blade bricks, concavity forward and lip down; official2301b, not smaller11169.
+1 2 -479.309317 -29.000314198 -120 0 1 0 0 0 1 1 0 0 2301b.dat
+1 2 -479.309317 -29.000314198 -40 0 1 0 0 0 1 1 0 0 2301b.dat
+1 2 -479.309317 -29.000314198 40 0 1 0 0 0 1 1 0 0 2301b.dat
+1 2 -479.309317 -29.000314198 120 0 1 0 0 0 1 1 0 0 2301b.dat
+0 STEP
+0 // Source page 8: loose yellow/lime blocks and plates to push, shown separately on floor.
+1 14 -580 -48 -140 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -580 -48 -60 1 0 0 0 1 0 0 0 1 3437.dat
+1 27 -660 -48 140 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -580 -48 240 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -820 -40 -200 0 1 0 0 0 1 1 0 0 40666.dat
+1 27 -720 -40 0 0 1 0 0 0 1 1 0 0 40666.dat
+1 14 -820 -40 200 0 1 0 0 0 1 1 0 0 40666.dat
+1 27 -920 -40 -40 0 1 0 0 0 1 1 0 0 40666.dat
+0 // p9 final side view, no additional parts.
+0 // Local digital review only; eight floor props remain independent. No human confirmation, physical retention certification or publication.

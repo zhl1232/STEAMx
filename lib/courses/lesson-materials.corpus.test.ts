@@ -11,17 +11,20 @@ const directory = 'public/courses/ldraw'
 const colors = parseLdrawColorTable(readFileSync(`${directory}/LDConfig.ldr`, 'utf8'))
 const files = readdirSync(directory).filter((file) => /^[345]-.*\.mpd$/.test(file) && !/-[a-f0-9]{8,}\.mpd$/.test(file))
 
-it('the 60 added models match their confirmed release and have usable steps and BOMs', () => {
+it.each([
+  { release: '2026-10-20', count: 60 },
+  { release: '2026-10-23', count: 80 },
+])('the $release release matches $count confirmed models and has usable steps and BOMs', ({ release, count }) => {
   // docs are intentionally absent from the production Docker build context.
   // Read test evidence only when this check runs, without a compile-time import.
-  const releasedModels = JSON.parse(readFileSync('docs/releases/2026-10-20/ldraw-manifest.json', 'utf8')) as Array<{
+  const releasedModels = JSON.parse(readFileSync(`docs/releases/${release}/ldraw-manifest.json`, 'utf8')) as Array<{
     slug: string
     revision: string
     confirmedAt: string
     stepCount: number
   }>
-  expect(releasedModels).toHaveLength(60)
-  expect(new Set(releasedModels.map(({ slug }) => slug)).size).toBe(60)
+  expect(releasedModels).toHaveLength(count)
+  expect(new Set(releasedModels.map(({ slug }) => slug)).size).toBe(count)
   for (const model of releasedModels) {
     const file = `${model.slug}.mpd`
     expect(files, file).toContain(file)
@@ -41,9 +44,9 @@ it('the 60 added models match their confirmed release and have usable steps and 
   }
 }, 30_000)
 
-it('all 220 lessons render only meaningful substitutions with default and all-catalog-kit inventories', () => {
-  expect(files).toHaveLength(220)
-  expect(['3-', '4-', '5-'].map((prefix) => files.filter((file) => file.startsWith(prefix)).length)).toEqual([100, 79, 41])
+it('all 300 lessons render only meaningful substitutions with default and all-catalog-kit inventories', () => {
+  expect(files).toHaveLength(300)
+  expect(['3-', '4-', '5-'].map((prefix) => files.filter((file) => file.startsWith(prefix)).length)).toEqual([100, 100, 100])
   const failures: string[] = []
   for (const file of files) {
     const courseId = Number(file[0]) + 2

@@ -1,0 +1,8 @@
+0 Duplo99565 wide rim with captive screw - track-fit candidate
+0 Name: dev-toolo/track-fit/99565.dat
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 !HELP Photo-inferred wide rim from approved source profile; mountY-35, axisY, travel16. Do not treat as measured geometry.
+0 BFC CERTIFY CCW
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/track-fit/99565-body.dat
+1 14 0 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/track-fit/99565-screw.dat

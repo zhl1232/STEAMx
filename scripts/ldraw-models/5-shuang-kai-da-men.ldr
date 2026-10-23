@@ -1,0 +1,123 @@
+0 5-shuang-kai-da-men - source-based dev-only reconstruction
+0 Name: 5-shuang-kai-da-men.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: 24x24base;two4x4towers13layers with alternating bond;27blue/24red ordinary4stud bricks,one top holebrick plus lower10+4stud rail
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 -400 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -480 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -360 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -360 -576 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -624 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 1 320 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -192 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -288 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -288 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -480 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 360 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 360 -576 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -80 -48 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 200 -48 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // Source page 2: Two lower vertical hinge brackets,6Lshafts,cranks and retainers
+1 7 -200 -136 0 0 -1 0 1 0 0 0 0 1 6522.dat
+1 14 -200 -79 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 -160 -139 -24 1 0 0 0 0 -1 0 1 0 75349.dat
+1 14 -200 -199 0 0 0 1 0 1 0 -1 0 0 6526.dat
+1 7 200 -136 0 0 -1 0 1 0 0 0 0 1 6522.dat
+1 14 200 -79 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 160 -139 -24 1 0 0 0 0 -1 0 1 0 75349.dat
+1 14 200 -199 0 0 0 -1 0 1 0 1 0 0 6526.dat
+0 STEP
+0 // Source page 3: Two10studrails and two24LDUblue2x4plate seamclamps
+1 1 0 -624 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -200 -672 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 200 -672 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 0 -696 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Source page 4: Upper pair of40tooth gears,8Lshafts and two crank clamp pairs
+1 2 -200 -596 0 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 -200 -708 0 1 0 0 0 0 -1 0 1 0 6530.dat
+1 4 -160 -539 -24 1 0 0 0 0 -1 0 1 0 75349.dat
+1 14 -200 -599 0 0 0 1 0 1 0 -1 0 0 6526.dat
+1 14 -200 -479 0 0 0 1 0 -1 0 1 0 0 6526.dat
+1 2 200 -596 0 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 200 -708 0 1 0 0 0 0 -1 0 1 0 6530.dat
+1 4 160 -539 -24 1 0 0 0 0 -1 0 1 0 75349.dat
+1 14 200 -599 0 0 0 -1 0 1 0 1 0 0 6526.dat
+1 14 200 -479 0 0 0 -1 0 -1 0 -1 0 0 6526.dat
+0 STEP
+0 // Source page 5: Two6x12green leaves,closed pose
+1 2 -120 -339 -48 0 0 1 1 0 0 0 1 0 4196.dat
+1 2 120 -339 -48 0 0 1 1 0 0 0 1 0 4196.dat
+0 STEP
+0 // Source page 6 departure: two real 40666 spacer plates, two latch bricks, removable plain grey 6L bolt.
+1 4 -40 -339 -120 0 0 1 1 0 0 0 1 0 75349.dat
+1 4 40 -339 -120 0 0 1 1 0 0 0 1 0 75349.dat
+1 7 -40 -339 -96 -1 0 0 0 1 0 0 0 -1 6522.dat
+1 4 -40 -339 -72 0 0 1 1 0 0 0 1 0 40666.dat
+1 4 40 -339 -72 0 0 1 1 0 0 0 1 0 40666.dat
+0 STEP
+0 // Source page 7: Two red4studtopbearings;horizontalgray6Lshaft withtwo crowngears and retainers
+1 4 0 -744 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 0 -792 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 7 0 -768 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 -60 -768 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 1 -100 -768 0 0 0 -1 0 1 0 1 0 0 31622.dat
+1 14 60 -768 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 1 100 -768 0 0 0 1 0 1 0 -1 0 0 31622.dat
+0 STEP
+0 // Source page 8 departure: real short blue 6523 input axle and crank, phased together 22.5 degrees.
+0 // ALTERNATE INPUT REPAIR: official short blue 6523 stops above the solid tower layers;
+0 // its keyed gear remains at the shifted left 6530 center (Y=-708), with 24 LDU insertion into the upper 75350 rail as bearing; the shaft stops above the tower.
+1 1 -320 -748 0 0 -0.923879532511 0.382683432365 1 0 0 0 0.382683432365 0.923879532511 6523.dat
+1 14 -320 -748 0 -0.382683432365 0 -0.923879532511 0 -1 0 -0.923879532511 0 0.382683432365 6526.dat
+0 // Source page 9: finished view, no duplicated placements.
+0 // SOURCE DEPARTURE: plain6L removable bolt spans both latch bricks in closed pose; remove bolt completely before driving doors open.
+0 // 2026-10-16: Digital assembly checked, not human accepted. Side-hole brackets and leaves shifted Z+24 to align the fixed hinge axes.
+0 // Large gears raised 16 LDU; lower pulleys raised 11 LDU and leaf/bracket/latch groups raised 3 LDU to clear floor studs.
+0 // Right lower crank restored to a proper rotation with its pin engaged in the bracket. P7 crown bearing retains source support height.
+0 // Latch spacers place bolt axis outside tower faces for complete withdrawal. Remove bolt before opening.
+0 // 361 sampled coupled opening poses from 0 to 90 degrees clear; physical friction, retention, load and continuous motion not verified.

@@ -1,0 +1,123 @@
+0 5-xuan-zhuan-men - source-based dev-only reconstruction
+0 Name: 5-xuan-zhuan-men.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // LOCAL CHECKED: digital assembly and sampled motion after manually releasing contact brick; no physical/load proof.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: Base and central pivot bearing
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 4 0 -48 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // Source page 2: Two 10-layer alternating towers,20 red+20 yellow
+1 4 -320 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -336 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -320 -432 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -432 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -280 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 320 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 360 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 320 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 360 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 320 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 360 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 320 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -336 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 360 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 320 -432 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -432 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 360 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 3: Lower vertical gray6L shaft and pulley seat
+1 7 0 -144 0 0 -1 0 1 0 0 0 0 1 6522.dat
+1 14 0 -79.0 0 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // Source page 4: Crossed long-brick bottom, four yellow wing fillers
+1 4 0 -145.0 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 -193.0 0 0 0 1 0 1 0 -1 0 0 75350.dat
+1 14 -120 -193.0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -145.0 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -193.0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -145.0 120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 5: Three new yellow bricks on each of four wings
+1 14 -120 -241.0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -241.0 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -241.0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -241.0 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -289.0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -289.0 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -289.0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -289.0 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -337.0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -337.0 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -337.0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -337.0 120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 6: Interlocked upper cross and four fillers
+1 14 -120 -385.0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -385.0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -385.0 0 0 0 1 0 1 0 -1 0 0 75350.dat
+1 4 0 -433.0 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 0 -433.0 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -433.0 120 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // Source page 7: Upper pivot gray shaft and crank
+1 7 0 -516 0 0 -1 0 1 0 0 0 0 1 6522.dat
+1 14 0 -464.0 0 0 0 1 0 1 0 -1 0 0 6526.dat
+0 STEP
+0 // Source page 8: Header3 bearing bricks and four thin red joint plates
+1 4 -200 -504 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 200 -504 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -552 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 -280 -552 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 280 -552 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -200 -576 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 200 -576 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Source page 9: Raised upper bearing bridge
+1 4 -200 -624 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -624 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -672 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // Source page 10: Top gray input shaft, blue crown, red orthogonal gear and rear crank/pulley
+1 7 0 -648 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 1 0 -648 -60 1 0 0 0 1 0 0 0 1 31622.dat
+1 4 0 -588 0 1 0 0 0 0 -1 0 1 0 6529.dat
+1 14 0 -648 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -648 100 1 0 0 0 0 -1 0 1 0 6526.dat
+0 STEP
+0 // Source page 11: Separate tilted small bearing on right-hand upper shaft with2 pulley retainers
+1 7 120.0 -648 -40 0 0 1 0 1 0 -1 0 0 6522.dat
+1 4 136.4014821597 -665.5211695661 -80.0000000000 0.7300487319 -0.6833950900 0.0000000000 0.6833950900 0.7300487319 0.0000000000 0.0000000000 0.0000000000 1.0000000000 75349.dat
+1 14 120.0 -648 -140.0 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 120.0 -648 60 1 0 0 0 1 0 0 0 1 6527.dat
+0 // REPAIRED: Crown flipped toward red24T; correct+1 orthogonal ratio73samples clear, reversed ratio48/73 collide. Before turning, manually lift right contact brick to90degrees and hold it clear. 95release and73drive samples verified; no automatic ratchet/self-holding claim.
+0 // REPAIRED: lower pulley raised11 onto real bearing studs; door raised9 onto pulley; upper crank raised20 so body seats on studs and eccentric pin enters actualX80 bore29LDU. Full360degree drive sampled every5degrees after manual release; friction, retention force and loads unverified.
+0 // PENDING: P8 four thin plates inferred from BOM/profile; hidden overlap bond chosen to support header.
+0 // REPAIRED: P11 retains sourceX120 shaft hole; front wheel and tilted bearing moved+20Z for full40LDU shaft engagement. Bearing angle43.1095204deg reaches crown contact boundary; source angle not measured; automatic stop behavior unverified, manually hold raised brick when rotating.
+0 // SUPPORT VERIFIED: pulley bottomY-59 on bearing studs; door bottomY-97 on actual pulley structure. Downward0.001 probes produce contact crossings. No shared DAT changes.
+0 // Source page 12: finished view, no duplicated placements.

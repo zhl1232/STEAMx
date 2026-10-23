@@ -9,12 +9,12 @@
 0 // Inner U source4 visible joints: viewed from+Z with up-Y, left is+X;3437 at+X top.
 0 // Bottom edge worldY=0 is a display baseline, not a ground/clutch-strength certification.
 0 // Source 1: six black76395 core panels. TopZ=-24 supports red4196 backs atZ=-24; no standard plate removed.
-1 0 -120 -400 -24 1 0 0 0 0 1 0 -1 0 76395.dat
-1 0 120 -400 -24 1 0 0 0 0 1 0 -1 0 76395.dat
-1 0 -120 -240 -24 1 0 0 0 0 1 0 -1 0 76395.dat
-1 0 120 -240 -24 1 0 0 0 0 1 0 -1 0 76395.dat
-1 0 -120 -80 -24 1 0 0 0 0 1 0 -1 0 76395.dat
-1 0 120 -80 -24 1 0 0 0 0 1 0 -1 0 76395.dat
+1 0 -120 -400 -24 1 0 0 0 0 1 0 -1 0 dev-toolo/76395.dat
+1 0 120 -400 -24 1 0 0 0 0 1 0 -1 0 dev-toolo/76395.dat
+1 0 -120 -240 -24 1 0 0 0 0 1 0 -1 0 dev-toolo/76395.dat
+1 0 120 -240 -24 1 0 0 0 0 1 0 -1 0 dev-toolo/76395.dat
+1 0 -120 -80 -24 1 0 0 0 0 1 0 -1 0 dev-toolo/76395.dat
+1 0 120 -80 -24 1 0 0 0 0 1 0 -1 0 dev-toolo/76395.dat
 0 STEP
 0 // Source 2: Two red4196 plates make 12x12 back, all studs face world+Z
 1 4 0 -360 0 1 0 0 0 0 1 0 -1 0 4196.dat

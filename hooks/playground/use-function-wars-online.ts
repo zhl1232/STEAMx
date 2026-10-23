@@ -60,6 +60,42 @@ const EMPTY_STATS: FunctionWarsOnlineStats = {
 
 const EMPTY_HP: FunctionWarsHp = { host: 100, guest: 100 };
 
+const FIRE_ERROR_MESSAGES: Record<string, string> = {
+    match_not_found: "对局不存在",
+    match_not_playing: "对局尚未开始或已经结束",
+    stale_shot_seq: "对局状态已更新，请重试",
+    not_authenticated: "请先登录后再操作",
+    not_participant: "无权操作该对局",
+    not_your_turn: "当前不是你的回合",
+    turn_expired: "本回合已超时，已切换回合",
+    invalid_weapon: "所选武器无效",
+    weapon_out_of_ammo: "该武器弹药不足",
+    invalid_expression: "函数表达式格式无效",
+    invalid_summary: "弹道结算数据无效",
+    invalid_inventory_state: "武器背包状态异常",
+    invalid_damage: "伤害结算数据异常",
+    invalid_damage_target: "伤害目标异常",
+    damage_out_of_range: "伤害数值超出范围",
+    invalid_craters: "弹坑结算数据异常",
+    crater_out_of_range: "弹坑位置超出范围",
+    invalid_crate_pickups: "补给箱拾取数据异常",
+    invalid_crate_state: "补给箱状态异常",
+    crate_not_available: "补给箱已被拾取或尚未刷新",
+    crate_not_found: "未找到对应的补给箱",
+    invalid_repair_state: "掩体修复状态异常",
+    repair_limit_reached: "掩体修复次数已达上限",
+    "expected_shot_seq is invalid": "回合序号无效，请刷新重试",
+    "request body is invalid": "请求数据格式无效",
+    "weapon is invalid": "所选武器无效",
+};
+
+function formatFunctionWarsFireError(reason: string | null | undefined): string {
+    if (!reason) return "开火失败";
+    if (reason in FIRE_ERROR_MESSAGES) return FIRE_ERROR_MESSAGES[reason];
+    if (/^[a-z0-9_]+$/i.test(reason)) return "开火失败，请重试";
+    return reason;
+}
+
 function loadStats(): FunctionWarsOnlineStats {
     const stored = getPlaygroundItem<Partial<FunctionWarsOnlineStats>>(STATS_KEY);
     return {
@@ -230,17 +266,17 @@ export function useFunctionWarsOnline() {
                     | { error?: string }
                     | null;
                 if (!response.ok) {
-                    throw new Error(
+                    const rawReason =
                         result && "error" in result
-                            ? result.error ?? "开火失败"
+                            ? result.error
                             : result && "reason" in result
                               ? result.reason
-                              : "开火失败",
-                    );
+                              : null;
+                    throw new Error(formatFunctionWarsFireError(rawReason));
                 }
                 if (!result || !("ok" in result)) throw new Error("开火失败");
                 if (!result?.ok) {
-                    setLastError(result?.reason ?? "开火失败");
+                    setLastError(formatFunctionWarsFireError(result?.reason));
                 }
                 currentRoom.refresh();
                 return result;

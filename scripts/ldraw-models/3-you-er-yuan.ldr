@@ -4,7 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source: 3+幼儿园搭建说明_pdf steps1-13.
-0 // INCOMPLETE: tube/frame fit unresolved (ports align, elbow shells still cross); platform anchors and suspended central lintel block inferred. Door/window panes use the documented closed hinge offsets; hinge-shell crossings remain unresolved and are not accepted exceptions. Fence/house anchors and orange shade inferred from source stud rows.
+0 // INCOMPLETE: tube/frame fit uses official 31195 port chaining; the 43-triangle shell overlap is the documented connection interface, not a cleared geometry exception. Platform anchors and suspended central lintel block inferred. Door/window panes use the documented closed hinge offsets; hinge-shell crossings remain unresolved and are not accepted exceptions. Fence/house anchors and orange shade inferred from source stud rows.
 0 // Source step 1
 1 2 -480 -24 0 1 0 0 0 1 0 0 0 1 4268.dat
 1 2 480 -24 0 1 0 0 0 1 0 0 0 1 4268.dat

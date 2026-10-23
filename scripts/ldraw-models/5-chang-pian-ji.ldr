@@ -1,20 +1,19 @@
-0 5+ 唱片机 - source-reviewed partial local draft
+0 5+唱片机 - complete checked local digital assembly; renderer-verified only
 0 Name: 5-chang-pian-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // SOURCE: /mnt/d/pdf预览/5+唱片机搭建说明_pdf; 19 original instruction pages.
-0 // INCOMPLETE: source mechanical parts and dependent placements are omitted, never replaced by ordinary bricks.
-0 // Local draft only. Geometry and source assumptions: .tmp/ldr-next-fiveplus-20260912/FINAL-REVIEW.md
+0 // SOURCE: /mnt/d/pdf预览/5+唱片机搭建说明_pdf; 19 pages / 18 additive steps / 130 parts.
+0 // Source130parts retained; gray axle lengths/hidden insertion, crank phase and cover/arm locked poses inferred. Official native geometry unchanged.
+0 // Checked local reconstruction: full source/finite/support/native/render and361drive samples; no physical retention/load or continuous sweep certification, human confirmation or publication.
 
 0 // STEP 1 - source page 1
-0 // Two 6x12 plates form 12x12 base. Red Toolo beam is omitted; no ordinary-brick bridge substitute.
 1 2 0 0 -120 1 0 0 0 1 0 0 0 1 4196.dat
 1 2 0 0 120 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 -200 -48 0 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
 
 0 // STEP 2 - source page 2
-0 // Blue 9, yellow 6; source-constrained Toolo void X[-240,0],Z[-80,80] is 4x6 studs. Hidden seams are grid inference. Base seam is crossed by the right blue middle brick.
 1 1 200 -48 -160 0 0 1 0 1 0 -1 0 0 3011.dat
 1 1 200 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 1 200 -48 160 0 0 1 0 1 0 -1 0 0 3011.dat
@@ -33,11 +32,12 @@
 0 STEP
 
 0 // STEP 3 - source page 3
-0 // Two standard bricks and one red Toolo brick form the outer stack on the omitted beam; their dependent placement is withheld, not replaced by scattered bricks.
+1 14 -320 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -320 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -320 -168 0 1 0 0 0 1 0 0 0 1 75349.dat
 0 STEP
 
 0 // STEP 4 - source page 4
-0 // Yellow 12 = ten perimeter bricks + two central platform bricks. Central bricks bridge the unresolved inner void with their right halves supported.
 1 14 -160 -96 -200 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 0 -96 -200 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 160 -96 -200 1 0 0 0 1 0 0 0 1 3011.dat
@@ -53,7 +53,6 @@
 0 STEP
 
 0 // STEP 5 - source page 5
-0 // Blue 10; source red central side-hole brick is omitted.
 1 1 200 -144 -160 0 0 1 0 1 0 -1 0 0 3011.dat
 1 1 200 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 1 200 -144 160 0 0 1 0 1 0 -1 0 0 3011.dat
@@ -64,10 +63,10 @@
 1 1 -80 -144 -200 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 80 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 -80 -144 200 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -144 0 1 0 0 0 1 0 0 0 1 75349.dat
 0 STEP
 
 0 // STEP 6 - source page 6
-0 // Yellow 9 with 4x2-stud control opening at X=0,Z=-200; red mechanical brick omitted.
 1 14 -160 -192 -200 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 160 -192 -200 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 -160 -192 200 1 0 0 0 1 0 0 0 1 3011.dat
@@ -77,18 +76,25 @@
 1 14 -200 -192 80 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 200 -192 -80 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 200 -192 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -192 -200 1 0 0 0 1 0 0 0 1 75349.dat
 0 STEP
 
 0 // STEP 7 - source page 7
-0 // Source Toolo disc, gears, axles, crank, tonearm or vertical carrier remain unresolved and omitted.
+1 4 0 -192 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 0 -223 0 1 0 0 0 0 1 0 -1 0 6530.dat
+1 27 0 -244 0 1 0 0 0 1 0 0 0 1 61898a.dat
+1 7 0 -219 0 0 -1 0 1 0 0 0 0 1 6522.dat
 0 STEP
 
 0 // STEP 8 - source page 8
-0 // Source Toolo disc, gears, axles, crank, tonearm or vertical carrier remain unresolved and omitted.
+1 7 0 -168 -200 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 0 -168 -260 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -168 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -168 -300 1 0 0 0 0 -1 0 1 0 6526.dat
+1 1 0 -168 -100 -1 0 0 0 -1 0 0 0 1 31622.dat
 0 STEP
 
 0 // STEP 9 - source page 9
-0 // Blue 10 reconnects across the control opening; outer 12x12, inner 8x8 studs.
 1 1 200 -240 -160 0 0 1 0 1 0 -1 0 0 3011.dat
 1 1 200 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 1 200 -240 160 0 0 1 0 1 0 -1 0 0 3011.dat
@@ -102,74 +108,84 @@
 0 STEP
 
 0 // STEP 10 - source page 10
-0 // Source Toolo disc, gears, axles, crank, tonearm or vertical carrier remain unresolved and omitted.
+1 4 200 -288 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 7 200 -363 0 0 -1 0 1 0 0 0 0 1 6522.dat
+1 14 200 -319 0 1 0 0 0 0 1 0 -1 0 6527.dat
+1 14 200 -399 0 1 0 0 0 0 1 0 -1 0 6527.dat
+1 14 200 -439 0 1 0 0 0 0 1 0 -1 0 6527.dat
+1 14 80 -359 0 0 0 1 0 1 0 -1 0 0 6524.dat
+1 14 -40 -399 0 0 0 1 0 1 0 -1 0 0 6526.dat
+1 1 -40 -344 0 0 -1 0 1 0 0 0 0 1 6523.dat
 0 STEP
 
 0 // STEP 11 - source page 11
-0 // Source Toolo disc, gears, axles, crank, tonearm or vertical carrier remain unresolved and omitted.
+1 14 -320 -224 -60 -1 0 0 0 0 1 0 1 0 6525.dat
+1 14 -320 -224 60 -1 0 0 0 0 1 0 1 0 6525.dat
+1 7 -320 -24 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 -320 -24 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -320 -24 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 -320 -144 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 -320 -144 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -320 -144 100 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
 
 0 // STEP 12 - source page 12
-0 // Source Toolo disc, gears, axles, crank, tonearm or vertical carrier remain unresolved and omitted.
+1 4 -296 -464 0 0 -1 0 1 0 0 0 0 1 75350.dat
+1 7 -320 -424 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 -320 -424 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -320 -424 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 7 -320 -304 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 -320 -304 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -320 -304 100 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
 
 0 // STEP 13 - source page 13
-0 // Four yellow thick bricks: rear horizontal pair and front vertical pair, with 1x1-stud corner overlaps. Whole cover remains a separate component: missing Toolo carrier; scene anchor X=-320,Y=-640,Z=0 is inferred, not a verified hinge pose.
-1 14 -320 -560 0 0 -1 0 0 0 -1 1 0 0 3011.dat
-1 14 -320 -720 0 0 -1 0 0 0 -1 1 0 0 3011.dat
-1 14 -272 -640 -80 0 -1 0 1 0 0 0 0 1 3011.dat
-1 14 -272 -640 80 0 -1 0 1 0 0 0 0 1 3011.dat
+1 14 -248 -544 0 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 -248 -624 0 0 -1 0 0 0 -1 1 0 0 3011.dat
+1 14 -200 -584 -80 0 -1 0 1 0 0 0 0 1 3011.dat
+1 14 -200 -584 80 0 -1 0 1 0 0 0 0 1 3011.dat
 0 STEP
 
 0 // STEP 14 - source page 14
-0 // Two red 2x4 THIN plates form central 4x4 face, supported by one-stud overlap onto yellow front columns; 24 LDU thickness.
-1 4 -248 -600 0 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 4 -248 -680 0 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 4 -176 -544 0 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 4 -176 -624 0 0 -1 0 0 0 -1 1 0 0 40666.dat
 0 STEP
 
 0 // STEP 15 - source page 15
-0 // 6x6 outer / 2x2 opening, thin-plate frame. Each new frame overlaps the preceding frame by one stud; source absolute support through Toolo is absent.
-1 14 -224 -560 -40 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 14 -224 -720 40 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 14 -224 -600 80 0 -1 0 1 0 0 0 0 1 40666.dat
-1 14 -224 -680 -80 0 -1 0 1 0 0 0 0 1 40666.dat
+1 14 -152 -504 -40 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 14 -152 -664 40 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 14 -152 -544 80 0 -1 0 1 0 0 0 0 1 40666.dat
+1 14 -152 -624 -80 0 -1 0 1 0 0 0 0 1 40666.dat
 0 STEP
 
 0 // STEP 16 - source page 16
-0 // 8x8 outer / 4x4 opening, thin-plate frame. Each new frame overlaps the preceding frame by one stud; source absolute support through Toolo is absent.
-1 1 -200 -520 -80 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 1 -200 -520 80 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 1 -200 -760 -80 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 1 -200 -760 80 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 1 -200 -640 -120 0 -1 0 1 0 0 0 0 1 40666.dat
-1 1 -200 -640 120 0 -1 0 1 0 0 0 0 1 40666.dat
+1 1 -128 -464 -80 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 1 -128 -464 80 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 1 -128 -704 -80 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 1 -128 -704 80 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 1 -128 -584 -120 0 -1 0 1 0 0 0 0 1 40666.dat
+1 1 -128 -584 120 0 -1 0 1 0 0 0 0 1 40666.dat
 0 STEP
 
 0 // STEP 17 - source page 17
-0 // 10x10 outer / 6x6 opening, thin-plate frame. Each new frame overlaps the preceding frame by one stud; source absolute support through Toolo is absent.
-1 2 -176 -480 -120 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 2 -176 -800 120 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 2 -176 -520 160 0 -1 0 1 0 0 0 0 1 40666.dat
-1 2 -176 -760 -160 0 -1 0 1 0 0 0 0 1 40666.dat
-1 2 -176 -480 40 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 2 -176 -800 -40 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 2 -176 -680 160 0 -1 0 1 0 0 0 0 1 40666.dat
-1 2 -176 -600 -160 0 -1 0 1 0 0 0 0 1 40666.dat
+1 2 -104 -424 -120 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 2 -104 -744 120 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 2 -104 -464 160 0 -1 0 1 0 0 0 0 1 40666.dat
+1 2 -104 -704 -160 0 -1 0 1 0 0 0 0 1 40666.dat
+1 2 -104 -424 40 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 2 -104 -744 -40 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 2 -104 -624 160 0 -1 0 1 0 0 0 0 1 40666.dat
+1 2 -104 -544 -160 0 -1 0 1 0 0 0 0 1 40666.dat
 0 STEP
 
 0 // STEP 18 - source page 18
-0 // 12x12 outer / 8x8 opening, thin-plate frame. Each new frame overlaps the preceding frame by one stud; source absolute support through Toolo is absent.
-1 27 -152 -440 -160 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 27 -152 -440 0 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 27 -152 -440 160 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 27 -152 -840 -160 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 27 -152 -840 0 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 27 -152 -840 160 0 -1 0 0 0 -1 1 0 0 40666.dat
-1 27 -152 -560 -200 0 -1 0 1 0 0 0 0 1 40666.dat
-1 27 -152 -720 -200 0 -1 0 1 0 0 0 0 1 40666.dat
-1 27 -152 -560 200 0 -1 0 1 0 0 0 0 1 40666.dat
-1 27 -152 -720 200 0 -1 0 1 0 0 0 0 1 40666.dat
-0 STEP
-
-0 // STEP 19 - source page 19
-0 // Final partial base and separate cover. Mechanism, outer three-brick stack and verified whole-model support remain INCOMPLETE.
+1 27 -80 -384 -160 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 27 -80 -384 0 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 27 -80 -384 160 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 27 -80 -784 -160 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 27 -80 -784 0 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 27 -80 -784 160 0 -1 0 0 0 -1 1 0 0 40666.dat
+1 27 -80 -504 -200 0 -1 0 1 0 0 0 0 1 40666.dat
+1 27 -80 -664 -200 0 -1 0 1 0 0 0 0 1 40666.dat
+1 27 -80 -504 200 0 -1 0 1 0 0 0 0 1 40666.dat
+1 27 -80 -664 200 0 -1 0 1 0 0 0 0 1 40666.dat

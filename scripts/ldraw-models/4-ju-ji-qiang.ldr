@@ -1,36 +1,120 @@
-0 4+ 狙击枪 (Sniper Rifle) - DUPLO draft for manual repair
+0 4+ Brick toy - course-image reconstruction draft
 0 Name: 4-ju-ji-qiang.ldr
-0 Author: OpenAI
+0 Author: STEAMX local reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+狙击枪 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Long side-built rifle, stock, scope and bipod are simplified.
-
-0 // STEP 1 - long body
-1 14 -440 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 -240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Same-frame Toolo base brick migration: corrected captive screw count/receivers, supported screw axes engaged after per-axis port/mesh checks; other axes retracted. Other legacy interfaces remain under review.
+0 // Source: all 15 course pages, reviewed 2026-10-13. Local draft; not accepted or published.
+0 // Approximate Toolo meshes and 2223 stand; hidden stock seams and mechanical fits remain inferred.
+0 // X is longitudinal (positive toward front); Y down; Z transverse. Stud pitch 40 LDU.
+0 NumOfBricks: 71
+0 // SOURCE PAGE 1
+1 0 0 -96 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-001-p001.dat
+1 0 -120 -144 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-010.dat
+1 0 120 -144 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-100.dat
+1 0 0 -192 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-110.dat
+0 STEP
+0 // SOURCE PAGE 2
+1 0 -280 -96 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 -360 -144 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-011.dat
+1 0 -240 -192 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-110.dat
+0 STEP
+0 // SOURCE PAGE 3
+1 72 40 -48 0 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 88 89 0 0 0 -1 0 1 0 1 0 0 dev-toolo/28336.dat
+0 STEP
+0 // SOURCE PAGE 4
 1 14 240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 400 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 320 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 400 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 400 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 2 - barrel and muzzle
-1 0 560 -96 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 8 680 -96 0 0 0 1 0 1 0 -1 0 0 40666.dat
-1 0 320 -144 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE 5
+1 14 160 -216 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 160 -48 0 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
-
-0 // STEP 3 - stock and grip
-1 14 -480 -144 120 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 14 -580 -192 40 0.866 0.500 0 -0.500 0.866 0 0 0 1 3437.dat
-1 0 -80 -144 80 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // SOURCE PAGE 6
+1 14 560 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 640 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 560 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 720 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 72 800 -144 0 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+1 27 720 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 4 - scope and bipod
-1 0 -80 -192 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 40 -192 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 160 -192 -80 0 0 1 0 1 0 -1 0 0 42029.dat
-1 0 200 -48 140 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 0 400 -48 140 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // SOURCE PAGE 7
+1 27 880 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 960 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 880 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 1040 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 1120 -144 0 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+1 14 1040 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 8
+1 14 1160 -192 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 0 1160 -192 0 1 0 0 0 1 0 0 0 1 dev-toolo/2223.dat
+1 71 1225 -120 0 0 1 0 -1 0 0 0 0 1 dev-toolo/99565.dat
+0 STEP
+0 // SOURCE PAGE 9
+1 72 760 -120 -88 1 0 0 0 0 -1 0 1 0 dev-toolo/engaged/28336.dat
+1 72 760 232 -153 0 0 1 0 -1 0 1 0 0 dev-toolo/arm-fit/28331.dat
+1 72 760 -120 88 -1 0 0 0 0 -1 0 -1 0 dev-toolo/engaged/28336.dat
+1 72 760 232 153 0 0 1 0 -1 0 1 0 0 dev-toolo/arm-fit/28331.dat
+0 STEP
+0 // SOURCE PAGE 10
+1 27 160 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -312 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 72 80 -360 0 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+1 72 240 -360 0 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+0 STEP
+0 // SOURCE PAGE 11
+1 27 160 -384 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 71 -25 -336 0 0 -1 0 -1 0 0 0 0 -1 dev-toolo/99565.dat
+1 71 345 -336 0 0 1 0 -1 0 0 0 0 1 dev-toolo/99565.dat
+0 STEP
+0 // SOURCE PAGE 12
+1 14 -280 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -280 0 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -280 48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 27 -280 96 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 13
+0 // Four transverse 2 x 4 anchors: yellow 3, lime 1; bottom lime staggered one stud rearward.
+1 14 -440 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -400 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -440 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -480 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 14
+0 // Stock: six 48-LDU courses, 4 studs across; every piece is a transverse 2 x 4.
+0 // Source p14/p15: 3,4,5,3,5,4 pieces per course; source p14 adds yellow 10 + lime 10.
+0 // Lower two courses remain 40 LDU rearward of the source seam alignment to clear the unchanged lower black receiver.
+0 // This one-stud connection/silhouette discrepancy is unresolved; other accepted placements are untouched.
+0 // STOCK COURSE 1: top Y=-288; front-to-rear colors yellow,lime,lime.
+1 14 -480 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -560 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -640 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STOCK COURSE 2: top Y=-240; front-to-rear colors yellow,lime,yellow,lime.
+1 27 -520 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -600 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -680 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STOCK COURSE 3: top Y=-192; front-to-rear colors yellow,lime,yellow,yellow,yellow.
+1 27 -480 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -560 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -640 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -720 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STOCK COURSE 4: top Y=-144; front-to-rear colors yellow,lime,lime.
+1 14 -520 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -600 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -680 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STOCK COURSE 5: top Y=-96; front-to-rear colors yellow,yellow,lime,yellow,lime.
+1 14 -520 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -600 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -680 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -760 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // STOCK COURSE 6: top Y=-48; front-to-rear colors lime,yellow,yellow,lime.
+1 14 -560 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -640 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 27 -720 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // SOURCE PAGE 15: opposite finished view; no additional parts.

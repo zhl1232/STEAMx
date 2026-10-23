@@ -132,3 +132,11 @@ it.each(['4433c01.dat', 'parts\\4433C01.DAT'])(
     expect(matches).toEqual([expect.objectContaining({ partNum: '4433c01', quantity: 2, colorId: 135 })])
   },
 )
+
+it.each(['left-small', 'left-large', 'right-small', 'right-large'])(
+  'rotor cord %s is known external material without a LEGO catalogue alias', (variant) => {
+    expect(resolveLdrawPart(`dev-cord/rotor-${variant}-formed.dat`)).toEqual({
+      partNums: [], flags: { externalMaterial: true },
+    })
+  },
+)

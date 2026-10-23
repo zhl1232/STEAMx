@@ -1,0 +1,67 @@
+0 5-ji-xie-shou - checked local digital assembly; renderer-verified only
+0 Name: 5-ji-xie-shou.ldr
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source8pages/7steps/36pieces; explicit4finger additions, source6L replacedby8L, gear/claw depthrearrangement retained.
+0 // Adds two realgray6522 fingeraxles and two yellow6527 collars; actualfiniteholes andgearedclosing verified.
+0 // Upper29pieces lower3LDU foractualguideannulus seat; sixbluepedestalbricks return tosourcegridcenterX-160.
+0 // Nativeworm/gearbox intersections individuallyclassified; no sharedDAT modification. Independent wholecourse localreview evidence retained.
+0 // SOURCE PAGE 1: green base and two stacked red 2x4 holed bricks
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 4 240 -48 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 240 -96 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // SOURCE PAGE 2: vertical pivot axle, red 24T bearing and beam platform
+1 4 240 -127 0 1 0 0 0 0 1 0 -1 0 6529.dat
+1 7 240 -140 0 0 1 0 1 0 0 0 0 -1 6522.dat
+1 4 240 -192 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 240 -240 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // SOURCE PAGE 3: gearbox, worm, red gear and hand crank drive
+1 15 240 -240 0 1 0 0 0 1 0 0 0 1 31624.dat
+1 1 240 -312 0 0 0 1 0 1 0 -1 0 0 31625.dat
+1 7 280 -312 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 4 240 -408 0 1 0 0 0 1 0 0 0 1 6529.dat
+1 14 340 -312 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 380 -312 0 0 1 0 0 0 -1 -1 0 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 4: two eleven-hole beams and crank retainers on output axle
+1 7 240 -408 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 40 -408 -60 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 240 -408 -100 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 14 40 -408 60 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 240 -408 100 0 0 -1 1 0 0 0 -1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 5: distal shaft with large gear and external red gear, blue geared drive and pulley handle
+1 7 -80 -408 0 0 0.182235525298 0.983254907892 0 0.983254907892 -0.182235525298 -1 0 0 6521.dat
+1 14 -80 -408 20 0.983254907892 0.182235525298 0 -0.182235525298 0.983254907892 0 0 0 1 6530.dat
+1 4 -80 -408 100 0.983254907892 0.182235525298 0 -0.182235525298 0.983254907892 0 0 0 1 6529.dat
+1 1 40 -408 60 0 -0.965925826289 0.258819045103 0 0.258819045103 0.965925826289 -1 0 0 6523.dat
+1 14 40 -408 100 0.258819045103 -0.965925826289 0 0.965925826289 0.258819045103 0 0 0 1 6527.dat
+1 14 40 -408 140 -0.258819045103 0 -0.965925826289 -0.965925826289 0 0.258819045103 0 1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 6: blue second geared pivot and two angled seven-hole claw arms with crank retainers
+1 1 -160 -408 140 0 -0.809016994633 0.587785252607 0 0.587785252607 0.809016994633 -1 0 0 6523.dat
+1 14 -257.08203914 -337.46577014 140 0.58778525283 0 -0.809016994467 0.809016994467 0 0.58778525283 0 -1 0 6524.dat
+1 14 -160 -408 180 0.58778525283 0 -0.809016994467 0.809016994467 0 0.58778525283 0 -1 0 6526.dat
+1 14 -58.1317367889 -290.009411521 -100 0.983254908242 0 0.182235525509 -0.182235525509 0 0.983254908242 0 -1 0 6524.dat
+1 14 -80 -408 -140 -0.983254908242 0 0.182235525509 0.182235525509 0 0.983254908242 0 1 0 6526.dat
+1 7 -36.2634735738 -172.018823079 -40 0 0.965925826289 -0.258819045103 0 0.258819045103 0.965925826289 1 0 0 6522.dat
+1 14 -36.2634735738 -172.018823079 -140 0.965925826289 -0.258819045103 0 0.258819045103 0.965925826289 0 0 0 1 6527.dat
+1 7 -354.164078283 -266.931540231 80 0 0.965925826289 -0.258819045103 0 0.258819045103 0.965925826289 1 0 0 6522.dat
+1 14 -354.164078283 -266.931540231 180 0.965925826289 -0.258819045103 0 0.258819045103 0.965925826289 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 7: sourcegridpedestalX-160; loose tyreX-155.258685690535,Y-186 seatsbothcapbricks andmeetsbothfingers at13.161153959625471deg.
+1 1 -160 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -200 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -120 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -160 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 -155.25868569053495 -186 0 1 0 0 0 0 1 0 -1 0 6292.dat
+0 // SOURCE PAGE 8 final view, no additions.
+0 // 2026-10-16 SOURCE DEPARTURE: add two real 6522 6L shafts and two 6527 collars to the claw end holes as inward-reaching fingers.
+0 // Distalinputretainers fullyengage40LDU. Gear/claw near-farlayering differsfromsource;6L-to8L and4fingerpieces are explicitadaptations.
+0 // Correctcoupledclosing: central d,secondary-3d,input-5d. Actualcrankkeyphases corrected; fourengagedoffsetpins40LDU,twofreehandgrips.
+0 // At d=13.161153959625471 bothfingeraxles firsttouchtyre; tyre staysonpedestal. Noforce/frictionorloadliftingclaim.
+0 // 1397 prescribedmotionstates:clawclosure,boom0..90,inputfullturn,yawfullturnandcombinedaloft. No humanacceptance,productionpushorpublication.

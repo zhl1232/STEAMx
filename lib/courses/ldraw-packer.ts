@@ -1,7 +1,10 @@
 import { readdir, readFile, realpath, stat } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { createHash } from 'node:crypto'
-import { getLdrawReviewRecords, reviewStatusFor, reviewRecordFor } from './ldraw-review'
+import { isProductionProtected, getLdrawReviewRecords, reviewStatusFor, reviewRecordFor, legacyReviewStatusFor, type LdrawReviewStatus, type LdrawReviewRecord } from './ldraw-review'
+
+import { splitPackedMpd } from '../utils/ldraw-mpd'
+import type { LdrawInspectionEntry, LdrawInspectionStatus } from './ldraw-inspection'
 
 const SEARCH_DIRS = ['parts', 'p', 'models'] as const
 const LOCAL_PART_ROOT = resolve(process.cwd(), 'scripts/ldraw-models')
@@ -14,8 +17,13 @@ export interface LdrawModelInfo {
   sizeBytes: number
   updatedAt: string
   category: '3+' | '4+' | '5+' | 'duplo' | 'other'
-  reviewStatus: 'pending' | 'confirmed' | 'untracked'
+  productionProtected?: boolean
+  reviewStatus: LdrawReviewStatus
+  legacyReviewStatus: 'pending' | 'confirmed'
   confirmedAt: string | null
+  /** Lists expose recorded inspection summaries; single-model previews verify the revision. */
+  inspectionStatus?: LdrawInspectionStatus
+  inspectionIssues?: string[]
 }
 
 /** 规范化引用文件名 */
@@ -154,12 +162,13 @@ async function resolveLocalPart(ref: string): Promise<string | null> {
 /** 解析单个零件内容：优先查找本地 parts/p/models，再查已打包 MPD 缓存 */
 async function resolvePartContent(
   ref: string,
-  localMpdCache: Map<string, string>,
+  context: LdrawPackingContext,
 ): Promise<string | null> {
   if (!isSafeLocalPartRef(normalizeRef(ref))) return null
   const local = await resolveLocalPart(ref)
   if (local !== null) return local
 
+  const localMpdCache = await context.getLocalMpdCache()
   const key = loaderKey(ref).toLowerCase()
   const cached = localMpdCache.get(key)
   if (cached) return cached
@@ -174,8 +183,18 @@ async function resolvePartContent(
 }
 
 interface LdrawPackingContext {
-  localMpdCache: Map<string, string>
+  getLocalMpdCache: () => Promise<Map<string, string>>
   resolvedParts: Map<string, Promise<string | null>>
+}
+
+function createPackingContext(forceFreshDependencies = false): LdrawPackingContext {
+  let localMpdCache: Promise<Map<string, string>> | undefined
+  return {
+    // Local DAT files usually satisfy every reference. Only scan published MPDs
+    // for a missing dependency, sharing even concurrent fallback reads per request.
+    getLocalMpdCache: () => localMpdCache ??= loadLocalMpdCache(forceFreshDependencies),
+    resolvedParts: new Map(),
+  }
 }
 
 function resolvePartContentWithContext(ref: string, context: LdrawPackingContext): Promise<string | null> {
@@ -183,7 +202,7 @@ function resolvePartContentWithContext(ref: string, context: LdrawPackingContext
   const cached = context.resolvedParts.get(key)
   if (cached) return cached
 
-  const promise = resolvePartContent(ref, context.localMpdCache)
+  const promise = resolvePartContent(ref, context)
   context.resolvedParts.set(key, promise)
   return promise
 }
@@ -196,6 +215,29 @@ export interface PackResult {
   revision: string
 }
 
+/** Read only the exact published bytes approved by the review record; never repack them. */
+export async function readFrozenConfirmedLdrawModel(fileName: string, record?: LdrawReviewRecord | null): Promise<PackResult | null> {
+  if (!record || !/^[a-zA-Z0-9._-]+\.ldr$/.test(fileName)) return null
+  let bytes: Buffer
+  try {
+    bytes = await readFile(resolve(OUT_DIR, fileName.replace(/\.ldr$/, '.mpd')))
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+    return null
+  }
+  const revision = createHash('sha256').update(bytes).digest('hex')
+  if (revision !== record.revision) return null
+  const mpdText = bytes.toString('utf8')
+  const { mainText, embedded } = splitPackedMpd(mpdText)
+  return {
+    mpdText,
+    revision,
+    stepCount: mainText.split(/\r?\n/).filter((line) => line.trim() === '0 STEP').length + 1,
+    partCount: embedded.size,
+    missingParts: [],
+  }
+}
+
 /**
  * 将任意 LDR 源码文本打包为自托管 MPD 字符串（内联依赖零件和图元）。
  */
@@ -204,11 +246,7 @@ export async function packLdrawTextToMpd(
   modelName = 'preview-model',
   options?: { forceFreshDependencies?: boolean },
 ): Promise<PackResult> {
-  const localMpdCache = await loadLocalMpdCache(options?.forceFreshDependencies)
-  return packLdrawTextToMpdWithContext(ldrSource, modelName, {
-    localMpdCache,
-    resolvedParts: new Map(),
-  })
+  return packLdrawTextToMpdWithContext(ldrSource, modelName, createPackingContext(options?.forceFreshDependencies))
 }
 
 async function packLdrawTextToMpdWithContext(
@@ -267,10 +305,15 @@ async function packLdrawTextToMpdWithContext(
 
 /**
  * 获取 scripts/ldraw-models/ 下的所有 LDR 源模型及其元信息
+ * verifyRevisions:false returns saved summaries without packing dependencies or
+ * reading frozen MPDs; the selected-model preview remains the revision authority.
  */
-export async function listAllLdrawModels(): Promise<LdrawModelInfo[]> {
+export async function listAllLdrawModels(
+  reviewRecords?: Record<string, LdrawReviewRecord>,
+  options?: { verifyRevisions?: boolean; inspections?: Record<string, LdrawInspectionEntry> },
+): Promise<LdrawModelInfo[]> {
   const ldrFiles = (await readdir(LOCAL_PART_ROOT)).filter((f) => f.endsWith('.ldr'))
-  const reviewRecords = await getLdrawReviewRecords()
+  reviewRecords ??= await getLdrawReviewRecords()
 
   let mpdSet = new Set<string>()
   try {
@@ -280,9 +323,7 @@ export async function listAllLdrawModels(): Promise<LdrawModelInfo[]> {
     // MPD 目录不存在或读取失败
   }
 
-  const results: LdrawModelInfo[] = []
-
-  for (const file of ldrFiles) {
+  const results: LdrawModelInfo[] = await Promise.all(ldrFiles.map(async (file) => {
     const base = file.replace(/\.ldr$/, '')
     const filePath = resolve(LOCAL_PART_ROOT, file)
 
@@ -311,43 +352,41 @@ export async function listAllLdrawModels(): Promise<LdrawModelInfo[]> {
     else if (file.startsWith('5-')) category = '5+'
     else if (file.toLowerCase().includes('duplo')) category = 'duplo'
 
-    results.push({
+    const stored = reviewRecordFor(file, reviewRecords)
+    const inspection = options?.inspections?.[file]
+    const reviewStatus = reviewStatusFor(file, reviewRecords, inspection?.revision ?? stored?.revision)
+    return {
       name: file,
       title,
       hasMpd: mpdSet.has(base),
       sizeBytes,
       updatedAt,
       category,
-      reviewStatus: reviewStatusFor(file, reviewRecords),
-      confirmedAt: reviewRecordFor(file, reviewRecords)?.confirmedAt ?? null,
-    })
-  }
-
-  const hasStoredRecords = results.some((item) => reviewRecordFor(item.name, reviewRecords))
-  const context: LdrawPackingContext = {
-    // Confirmation is tied to the complete packed output, so source or dependency edits
-    // immediately move a previously confirmed model back to pending.
-    localMpdCache: hasStoredRecords ? await loadLocalMpdCache(true) : new Map(),
-    resolvedParts: new Map(),
-  }
-
-  // Confirmation is tied to the complete packed output, so source or dependency edits
-  // immediately move a previously confirmed model back to pending.
-  await Promise.all(results.map(async (item) => {
-    try {
-      const stored = reviewRecordFor(item.name, reviewRecords)
-      if (stored) {
-        const packed = await packLocalLdrawModelWithContext(item.name, context)
-        item.reviewStatus = reviewStatusFor(item.name, reviewRecords, packed.revision)
-      } else {
-        item.reviewStatus = reviewStatusFor(item.name, reviewRecords)
-      }
-      item.confirmedAt = item.reviewStatus === 'confirmed' ? stored?.confirmedAt ?? null : null
-    } catch {
-      item.reviewStatus = 'pending'
-      item.confirmedAt = null
+      productionProtected: Boolean(stored && isProductionProtected(file)),
+      reviewStatus,
+      legacyReviewStatus: legacyReviewStatusFor(reviewStatus),
+      confirmedAt: stored?.confirmedAt ?? null,
+      inspectionStatus: inspection?.status ?? (stored ? 'exempt' : 'unchecked'),
+      inspectionIssues: inspection?.issues ?? [],
     }
   }))
+
+  if (options?.verifyRevisions !== false) {
+    const context = createPackingContext(true)
+    await Promise.all(results.map(async (item) => {
+      const stored = reviewRecordFor(item.name, reviewRecords)
+      try {
+        const frozen = await readFrozenConfirmedLdrawModel(item.name, stored)
+        const revision = stored && !frozen
+          ? (await packLocalLdrawModelWithContext(item.name, context)).revision
+          : undefined
+        item.reviewStatus = reviewStatusFor(item.name, reviewRecords, revision, frozen?.revision)
+      } catch {
+        item.reviewStatus = reviewStatusFor(item.name, reviewRecords)
+      }
+      item.legacyReviewStatus = legacyReviewStatusFor(item.reviewStatus)
+    }))
+  }
 
   // 排序：有 MPD 的排在前面，同状态按文件名排序
   return results.sort((a, b) => {
@@ -360,11 +399,7 @@ export async function listAllLdrawModels(): Promise<LdrawModelInfo[]> {
  * 直接从本地读取指定 LDR 文件并打包返回
  */
 export async function packLocalLdrawModel(fileName: string, options?: { forceFreshDependencies?: boolean }): Promise<PackResult> {
-  const localMpdCache = await loadLocalMpdCache(options?.forceFreshDependencies)
-  return packLocalLdrawModelWithContext(fileName, {
-    localMpdCache,
-    resolvedParts: new Map(),
-  })
+  return packLocalLdrawModelWithContext(fileName, createPackingContext(options?.forceFreshDependencies))
 }
 
 async function packLocalLdrawModelWithContext(

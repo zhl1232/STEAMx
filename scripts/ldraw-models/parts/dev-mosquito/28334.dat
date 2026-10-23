@@ -1,0 +1,7 @@
+0 Toolo 28334 mosquito source-detail correction
+0 Name: dev-mosquito/28334.dat
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 !HELP Canonical identity unchanged; previously approved simplified geometry, inferred dimensions.
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 dev-mosquito/28334-fixed.dat
+1 14 0 0 0 1 0 0 0 1 0 0 0 1 dev-mosquito/28334-shaft.dat

@@ -1,35 +1,161 @@
-0 4+ 快艇 (Speedboat) - DUPLO draft for manual repair
+0 4+ Speedboat - source reconstruction draft
 0 Name: 4-kuai-ting.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+快艇 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Water, hull, cockpit and engine tube are simplified.
-
-0 // STEP 1 - blue water
-1 1 -240 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 1 80 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 1 400 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+0 // 2026-10-15 repair: source p8 identifies two blue rear spoilers as 31239c01; p11 identifies two nominal 6669c01 propellers.
+0 // LOCAL REPAIR: rear spoilers rotate one further degree about their fixed screw axes for curve clearance; figure moves +20X onto the front stud pair. P4 front3011 shifts-40X onto four native hull studs per source inset; P7 clutch rotates90deg around localY for a coaxial fork pin. No scaling or part substitutions.
+0 // All 13 source pages actually viewed. No physical verification.
+0 // SOURCE PAGE 1
+1 0 0 -48 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
 0 STEP
-
-0 // STEP 2 - yellow hull
-1 14 -240 -72 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 -80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 240 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 400 -72 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 // SOURCE PAGE 2
+1 0 -120 -96 -80 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 -120 -96 80 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 120 -96 -80 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 120 -96 80 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
 0 STEP
-
-0 // STEP 3 - red deck and cockpit
-1 4 -120 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 40 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 200 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 25 -20 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 80 -192 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE 3
+1 4 -200 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 200 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // Sourcep3 view turns model upside-down; these bricks retain world upright under hull.
 0 STEP
-
-0 // STEP 4 - blue engine and propeller
-1 1 300 -168 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 420 -168 -80 0 0 1 0 1 0 -1 0 0 42029.dat
-1 7 540 -168 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // SOURCE PAGE 4
+1 4 -80 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -144 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -144 -120 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+1 4 -80 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -144 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -144 120 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+1 72 -200 -144 -80 0 0 1 0 1 0 -1 0 0 dev-toolo/76057.dat
+1 72 -200 -144 80 0 0 1 0 1 0 -1 0 0 dev-toolo/76057.dat
+1 14 240 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 5
+1 72 -288 -120 -80 0 1 0 0 0 1 1 0 0 dev-toolo/engaged/76057.dat
+1 72 -288 -120 80 0 1 0 0 0 1 1 0 0 dev-toolo/engaged/76057.dat
+0 STEP
+0 // SOURCE PAGE 6
+1 14 -336 -120 -40 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 -336 -120 80 0 1 0 0 0 1 1 0 0 3437.dat
+1 14 -384 -120 40 0 1 0 0 0 1 1 0 0 3011.dat
+1 14 -384 -120 -80 0 1 0 0 0 1 1 0 0 3437.dat
+0 // SOURCEp6 repair: two yellow2x4+2x2 layers along panel normalX, not floating vertical rows; half-stud-free40LDU alignment.
+0 STEP
+0 // SOURCE PAGE 7
+1 72 -200 -192 0 0 0 1 0 1 0 -1 0 0 dev-toolo/28336.dat
+1 72 -80 -257 0 0 -1 0 1 0 0 0 0 1 dev-toolo/74957.dat
+1 0 -8 -257 0 0 -1 0 0 0 -1 1 0 0 dev-toolo/60535.dat
+0 STEP
+0 // SOURCE PAGE 8
+0 // Sourcep8 adaptation: two31239c01 remain upward about fixed side-port axes; mirrored additional1deg clears red curves. This differs from source angle; screw insertion unchanged.
+1 1 -104 -257 40 0 -0.017452406437 0.999847695156 0 -0.999847695156 -0.017452406437 1 0 0 dev-toolo/31239c01.dat
+1 1 -104 -257 -40 0 -0.017452406437 -0.999847695156 0 -0.999847695156 0.017452406437 -1 0 0 dev-toolo/31239c01.dat
+0 STEP
+0 // SOURCE PAGE 9
+0 // Gray76057 moved to supported deck at(-120,-144,0); prior position duplicated fork base.
+1 14 -80 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -192 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -240 -120 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 -80 -240 -120 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 -80 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -192 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -240 120 1 0 0 0 1 0 0 0 1 2302.dat
+1 4 -80 -240 120 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 72 -120 -144 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76057.dat
+0 STEP
+0 // SOURCE PAGE 10
+0 // Sourcep10: yellow2302 on hull; official child assembly translates +20X so foot sockets align with the front pair of actual studs. Figure print variant remains unconfirmed.
+1 14 40 -144 0 1 0 0 0 1 0 0 0 1 2302.dat
+1 15 60 -144 0 0 0 1 0 1 0 -1 0 0 47205.dat
+1 15 66 -181 0 0 0 1 0 1 0 -1 0 0 47207.dat
+1 15 66 -181 0 0 0 1 0 1 0 -1 0 0 47204.dat
+1 4 66 -181 0 0 0 1 0 1 0 -1 0 0 47203p03.dat
+1 15 66.5 -208 0 0 0 1 0 1 0 -1 0 0 47198p03.dat
+1 15 66.5 -208 0 0 0 -1 0 1 0 1 0 0 47198p03.dat
+1 14 68 -223 0 0 0 1 0 1 0 -1 0 0 47206p01.dat
+1 4 68 -223 0 0 0 1 0 1 0 -1 0 0 47199.dat
+0 STEP
+0 // SOURCE PAGE 11
+0 // Sourcep11: two compact6669c01 at forward yellow76057 threaded side ports; prior rear placement and drone-profile geometry were wrong.
+1 71 320 -120 -120 0 0 1 0 1 0 -1 0 0 dev-toolo/6669c01.dat
+1 71 320 -120 120 0 0 1 0 1 0 -1 0 0 dev-toolo/6669c01.dat
+0 STEP
+0 // SOURCE PAGE 12
+0 // BATCH4: source original12 (extracted page-04): 24x24 base, 6x12 alternating 2x4 tiles, 36 blue + 36 medium-azure. Footprint960x960LDU retained; cyan matched to source, no resizing/scaling.
+1 2 0 24 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 322 -400 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 0 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 0 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 0 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 0 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 0 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 0 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 0 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 0 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 0 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 0 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 0 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 0 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 0 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 0 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 0 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 0 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 0 440 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE13 final opposite view only. Figure print exact variant not confirmed.

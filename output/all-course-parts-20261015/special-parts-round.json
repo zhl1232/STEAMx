@@ -1,0 +1,57 @@
+{
+  "scope": "Special part identification and local candidate repairs; static mesh verification only",
+  "published": false,
+  "models": [
+    {
+      "model": "4-wa-li.ldr",
+      "sha256": "65a83e3e2e79d143e95a84b82259e5da9df8fe021d3d05c07677068ec015b325",
+      "dependencySha256": "1d10fe73ec03879514c45473b867b26718ecb7bdce6c6de05294f19cb7999fa2",
+      "repaired": "两只旧实心安装块铲手改为统一6310候选，封闭壳体、开放夹口、固定横轴与45度姿态重新核对。",
+      "remaining": "71981/x1228与99565配套身份确认，但履带宽度/轮距和轮毂轴向尺寸仍无实测依据；门轴1对旧穿插保留。",
+      "meshCandidatePairs": 77,
+      "meshCrossingPairs": 1,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-zhong-guo-long.ldr",
+      "sha256": "2c4cec0898235906025f63c290927c060147ecd8623adfb31aab6513cd5606e0",
+      "dependencySha256": "c32a9aca73380b9abc18879d899e5dab203e20269b969607a02eed22d94f4c7b",
+      "repaired": "两只大铲改为6294，前脚绕原螺杆外张5度；两只小铲改为与瓦力同尺寸6310，去掉1.3倍放大。",
+      "remaining": "当前静态网格零穿插；近似件尺寸、地面支撑、保持力与动态运动未实物验证。",
+      "meshCandidatePairs": 52,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-yi-long.ldr",
+      "sha256": "6493f6149cedff9c1c3e590f9993ab81dde76d64b6e9d54b56395fddad8829ff",
+      "dependencySha256": "30240d44940b03fc1ddd70a6f9a230f05e85bb25420de1d7dd7baa84464eaf9a",
+      "repaired": "四只未知耙改为6294候选，并按真实PIN重算轴向和枢轴，铲与连杆无检出穿插。",
+      "remaining": "后方两只全宽6294仍互相穿插1对，腿部布局需进一步重排；不得视为可搭建通过。",
+      "meshCandidatePairs": 48,
+      "meshCrossingPairs": 1,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-ya-lu-ji.ldr",
+      "sha256": "e01f858df31f2e726b0e50859814c326cbdd8ad38fab9f29db8cb455efdb34a3",
+      "dependencySha256": "349216c91adc32e644b38b3e7d5ecf8e6c69bf31303b95744b10d35d0202f56d",
+      "repaired": "两个实心假鼓换为官方31452中空直球管，同向串接；红夹板按第11页放回横梁前后两面。",
+      "remaining": "整课仍32对交叉候选，含球管/侧夹块及后夹板/支架干涉；滚筒身份已解决，支架和保持方式未解决。",
+      "meshCandidatePairs": 113,
+      "meshCrossingPairs": 32,
+      "physicalFitVerified": false
+    }
+  ],
+  "otherUnresolved": [
+    "独角仙蓝色钳片真实型号及固定接口仍未确认，原模型只有简化弧片和装饰圆盘。",
+    "履带目录兼容关系不证明当前候选尺寸；包装尺寸未用作CAD实测尺寸。"
+  ],
+  "sources": [
+    "https://www.bricklink.com/v2/catalog/catalogitem.page?P=6294",
+    "https://www.bricklink.com/v2/catalog/catalogitem.page?P=6310",
+    "https://www.bricklink.com/v2/catalog/catalogitem.page?P=x1228",
+    "https://www.bricklink.com/v2/catalog/catalogitem.page?P=99565c01",
+    "https://brickarchitect.com/parts/31452?retired=1"
+  ]
+}

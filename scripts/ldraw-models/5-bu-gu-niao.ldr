@@ -1,11 +1,11 @@
-0 5+ 布谷鸟 - source-reviewed partial local draft
+0 5+ 布谷鸟 - source-reviewed local model
 0 Name: 5-bu-gu-niao.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // SOURCE: /mnt/d/pdf预览/5+布谷鸟搭建说明_pdf; 13 original instruction pages.
-0 // INCOMPLETE: source mechanical parts and dependent placements are omitted, never replaced by ordinary bricks.
-0 // Local draft only. Geometry and source assumptions: .tmp/ldr-next-fiveplus-20260912/FINAL-REVIEW.md
+0 // Local digital review: 82 source rigid placements, 12 building steps; complete connections, finite interfaces, slider support and sampled gear-driven clearance verified.
+0 // Source-hidden 5 LDU crank / gear gap and partial 35 LDU engagements are inferred; physical retaining force and passive slider guidance are not certified. Evidence: .tmp/repair73/cuckoo/.
 
 0 // STEP 1 - source page 1
 0 // Green 8x16 base; red 8x8 well centered X=-160, three courses of six ordinary 3011 bricks. Middle course rotated 90 degrees for bond. No side-hole substitutions.
@@ -31,24 +31,31 @@
 0 STEP
 
 0 // STEP 2 - source page 2
-0 // One yellow 3011 under front mechanical tower. Three red Toolo side-hole bricks omitted. Rear assembly absolute grid anchors are inferred from the source.
-1 14 80 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // Three red 75349 bearing bricks stack on the yellow front tower at source grid X160.
+1 14 160 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 160 -96 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 160 -144 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 160 -192 0 0 0 1 0 1 0 -1 0 0 75349.dat
 0 STEP
 
 0 // STEP 3 - source page 3
-0 // Six yellow long and two yellow square bricks: three-layer rear column and two two-layer side feet. Visible front foot has two short top bricks; hidden rear-foot seam is inferred. Rear red Toolo cap omitted.
-1 14 240 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 240 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 240 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // Rear central column and red cap at X280; side feet remain at X240.
+1 14 280 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 240 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 240 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 240 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
 1 14 200 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
 1 14 280 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 280 -192 0 0 0 1 0 1 0 -1 0 0 75349.dat
 0 STEP
 
 0 // STEP 4 - source page 4
-0 // Source blue gear, axle and crank/coupler are unresolved; modern studded gear bricks are NOT replacements.
+0 // Blue 6523 axle spans X200..400; crown and crank each engage 40 LDU.
+1 1 300 -168 0 1 0 0 0 1 0 0 0 1 6523.dat
+1 14 380 -168 0 0 1 0 0 0 -1 -1 0 0 6526.dat
+1 1 220 -168 0 0 0 -1 0 1 0 1 0 0 31622.dat
 0 STEP
 
 0 // STEP 5 - source page 5
@@ -57,18 +64,26 @@
 0 STEP
 
 0 // STEP 6 - source page 6
-0 // Toolo lever, gear, crank, pulley, axle and long red side-hole carrier unresolved and omitted.
+0 // Vertical 6522 shaft, 24T gear, crank and 7-hole 6524 rod. Crank lifted 5 LDU above gear as inferred axial clearance; both main shaft interfaces retain 40 LDU engagement.
+1 7 160 -168 0 0 1 0 -1 0 0 0 0 1 6522.dat
+1 4 160 -223 0 1 0 0 0 0 -1 0 1 0 6529.dat
+1 14 160 -268 0 -1 0 0 0 -1 0 0 0 1 6526.dat
+1 14 46.8629150101524 -308 40 0.333333333333333 0 0.942809041582063 0 1 0 -0.942809041582063 0 0.333333333333333 6524.dat
 0 STEP
 
 0 // STEP 7 - source page 7
-0 // Toolo lever, gear, crank, pulley, axle and long red side-hole carrier unresolved and omitted.
+0 // Inverted 75350 sliding carrier, vertical 6523 axle and two wheels; carrier and upper wheel each engage 35 LDU, lower wheel 40.
+1 4 -186.274169979695 -190 0 1 0 0 0 -1 0 0 0 -1 75350.dat
+1 1 -66.2741699796952 -303 0 0 1 0 1 0 0 0 0 -1 6523.dat
+1 14 -66.2741699796952 -348 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 -66.2741699796952 -388 0 1 0 0 0 0 1 0 -1 0 6527.dat
 0 STEP
 
 0 // STEP 8 - source page 8
-0 // Separate 3-piece bird subassembly, facing -X: two inverted inside curves and inverted yellow eye head. Head studs at X=-380/-340,Z=-60/-20/20/60 enter the blue underside sockets at Y=-312. Missing carrier anchor/connection at Y=-216 is inferred, not verified; no direct attachment to the well claimed.
-1 1 -300 -216 -40 0 0 1 0 -1 0 1 0 0 2301b.dat
-1 1 -300 -216 40 0 0 1 0 -1 0 1 0 0 2301b.dat
-1 14 -360 -312 0 0 0 1 0 -1 0 1 0 0 73162p01.dat
+0 // Inverted bird subassembly enters the upper-facing carrier sockets; source-facing -X.
+1 1 -326.2741699796952 -238.0 -40 0 0 1 0 -1 0 1 0 0 2301b.dat
+1 1 -326.2741699796952 -238.0 40 0 0 1 0 -1 0 1 0 0 2301b.dat
+1 14 -386.2741699796952 -334.0 0 0 0 1 0 -1 0 1 0 0 73162p01.dat
 0 STEP
 
 0 // STEP 9 - source page 9
@@ -120,7 +135,6 @@
 1 27 -240 -504 160 1 0 0 0 1 0 0 0 1 3011.dat
 1 27 -80 -504 160 1 0 0 0 1 0 0 0 1 3011.dat
 1 7 -160 -528 0 1 0 0 0 1 0 0 0 1 51262.dat
-0 STEP
 
 0 // STEP 13 - source page 13
-0 // Final partial shell plus separate bird. Missing Toolo towers/drive/carrier prevent full mechanical assembly.
+0 // Final source page adds no pieces. Digital checks cover prescribed slider travel and sampled clearance; physical friction, retaining force and load are not certified.

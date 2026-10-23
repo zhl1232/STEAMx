@@ -1,42 +1,111 @@
-0 5+ 打地鼠 (Whack-a-Mole) - DUPLO draft for manual repair
+0 5+ Whack-a-mole - complete79-piece local source repair
 0 Name: 5-da-di-shu.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+打地鼠 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Pop-up moles, gear linkages and strike levers are simplified.
-
-0 // STEP 1 - green base and red platform
-1 2 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 2 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 4 -160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 320 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // PDF SHA256 fad0f9695b509dc78b30a403cca4b8f5c0f810d223e6940ffc87e59c7e05d054
+0 //79 original pieces and9 build stages; explicit grid/axial/phase adaptations. Renderer-verified candidate only; no physical acceptance.
+0 // All10 source pages actually viewed; final page is presentation only.
+0 // Local geometry and sampled guided poses only; no physical verification, human acceptance or publication.
+0 // SOURCE PAGE 1 - Square base and three striped wall tiers
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 4 -320 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -360 -96 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -96 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -320 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 320 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 2 - yellow gear line and front cranks
-1 14 -200 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 200 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 360 -120 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -120 -168 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 14 120 -168 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 14 300 -168 -120 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // SOURCE PAGE 2 - Second yellow tier and red bearing beams
+1 14 -360 -192 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 360 -192 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -240 80 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 240 -240 80 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
-
-0 // STEP 3 - three blue pop-up moles
-1 1 -160 -168 -40 1 0 0 0 0 -1 0 1 0 31452.dat
-1 1 40 -168 -40 1 0 0 0 0 -1 0 1 0 31452.dat
-1 1 240 -168 -40 1 0 0 0 0 -1 0 1 0 31452.dat
-1 1 -160 -272 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 4 40 -272 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 1 240 -272 -40 1 0 0 0 1 0 0 0 1 2302.dat
+0 // SOURCE PAGE 3 - Five alternating meshed gears and rear retainers
+1 7 -320 -216 40 6.123233995736766e-17 0 -1 0 1 0 1 0 6.123233995736766e-17 6522.dat
+1 14 -320 -216 20 1 -0 0 0 1 0 0 0 1 6530.dat
+1 14 -320 -216 140 1 -0 0 0 1 0 0 0 1 6527.dat
+1 7 0 -216 60 6.123233995736766e-17 0 -1 0 1 0 1 0 6.123233995736766e-17 6522.dat
+1 14 0 -216 20 1 -0 0 0 1 0 0 0 1 6530.dat
+1 14 0 -216 140 1 -0 0 0 1 0 0 0 1 6527.dat
+1 7 320 -216 40 6.123233995736766e-17 0 -1 0 1 0 1 0 6.123233995736766e-17 6522.dat
+1 14 320 -216 20 1 -0 0 0 1 0 0 0 1 6530.dat
+1 14 320 -216 140 1 -0 0 0 1 0 0 0 1 6527.dat
+1 1 -160 -216 100 6.0708488800626411e-17 -0.13052619222005157 -0.99144486137381038 7.9924241753589164e-18 0.99144486137381038 -0.13052619222005157 1 0 6.123233995736766e-17 6523.dat
+1 4 -160 -216 20 0.99144486137381038 -0.13052619222005157 0 0.13052619222005157 0.99144486137381038 0 0 0 1 6529.dat
+1 1 160 -216 100 6.0708488800626411e-17 -0.13052619222005157 -0.99144486137381038 7.9924241753589164e-18 0.99144486137381038 -0.13052619222005157 1 0 6.123233995736766e-17 6523.dat
+1 4 160 -216 20 0.99144486137381038 -0.13052619222005157 0 0.13052619222005157 0.99144486137381038 0 0 0 1 6529.dat
+0 // Five native gears at160LDU centers;24T counter-rotation ratio40/24, phase adjusted for tooth clearance.
 0 STEP
-
-0 // STEP 4 - hammer markers
-1 0 -280 -192 -280 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 0 360 -192 -280 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 4 -360 -240 -320 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 440 -240 -320 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4 - Three eccentric crank and seven-hole follower assemblies
+1 14 -320 -216 -60 1 0 0 0 0 -1 0 1 0 6526.dat
+1 14 -320 -416 -100 1 0 -0 -0 0 -1 0 1 0 6524.dat
+1 1 -320 -296 -150 6.123233995736766e-17 0 1 0 1 0 -1 0 6.123233995736766e-17 6523.dat
+1 14 0 -216 -60 1 0 0 0 0 -1 0 1 0 6526.dat
+1 14 0 -416 -100 1 0 -0 -0 0 -1 0 1 0 6524.dat
+1 1 0 -296 -150 6.123233995736766e-17 0 1 0 1 0 -1 0 6.123233995736766e-17 6523.dat
+1 14 320 -216 -60 1 0 0 0 0 -1 0 1 0 6526.dat
+1 14 320 -416 -100 1 0 -0 -0 0 -1 0 1 0 6524.dat
+1 1 320 -296 -150 6.123233995736766e-17 0 1 0 1 0 -1 0 6.123233995736766e-17 6523.dat
+0 // Native6526 back recess accepts blue axle10LDU; integral pin points rear. FollowerZ-100 clears mainhub. Middle shaft front/rear20/40LDU.
+0 STEP
+0 // SOURCE PAGE 5 - Two blue wall tiers and rear operating crank
+1 1 -320 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -160 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 320 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -360 -336 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 360 -336 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -240 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 80 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 240 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -216 180 1 0 0 0 0 -1 0 1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 6 - Three red tube supports and two red wall fillers
+1 4 -320 -335.98931761288259 -49.3765 1 0 0 0 1 0 0 0 1 42029.dat
+1 4 0 -335.98931761288259 -49.3765 1 0 0 0 1 0 0 0 1 42029.dat
+1 4 320 -335.98931761288259 -49.3765 1 0 0 0 1 0 0 0 1 42029.dat
+1 4 -160 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Existing42029 mesh retained unchanged; native contact checked. Upstream licensing remains unverified independently.
+0 STEP
+0 // SOURCE PAGE 7 - Staggered red top tier
+1 4 -360 -432.10531761288257 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 360 -432.10531761288257 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -240 -432.10531761288257 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -432.10531761288257 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -432.10531761288257 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -432.10531761288257 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 8 - Six blue straight tubes, two per ring
+1 1 -320 -385.87474471651024 -82.607500000000002 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 -320 -505.87474471651024 -82.607500000000002 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 0 -385.87474471651024 -82.607500000000002 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 0 -505.87474471651024 -82.607500000000002 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 320 -385.87474471651024 -82.607500000000002 1 0 0 0 0 -1 0 1 0 31452.dat
+1 1 320 -505.87474471651024 -82.607500000000002 1 0 0 0 0 -1 0 1 0 31452.dat
+0 // Ring/pipe actual native seating; upper red assembly moved40LDU forward on grid,4/8 bottom studs and one-stud overhang.
+0 STEP
+0 // SOURCE PAGE 9 - Three source balls at raised follower-supported phase; yellow, red, blue.
+1 14 -320 -625 -82.607500000000002 1 0 0 0 1 0 0 0 1 22119.dat
+1 4 0 -625 -82.607500000000002 1 0 0 0 1 0 0 0 1 22119.dat
+1 1 320 -625 -82.607500000000002 1 0 0 0 1 0 0 0 1 22119.dat
+0 // Ball actual mesh seated on moving follower; fixed pipe axis guides chosen sampled XY rocking/sliding path. Not a force/continuous motion certification.
+0 // SourceP10 adds no parts. Existing42029 mesh and unverified upstream licensing retained; no DAT change, human confirmation or publication.

@@ -1,37 +1,120 @@
-0 5+ 测风仪 (Anemometer) - DUPLO draft for manual repair
+0 ce-feng-yi: source-informed native assembly with eccentric cup-stud mounting
 0 Name: 5-ce-feng-yi.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // BATCH3 2026-10-12: P2 inventory explicitly gives 20 red + 20 yellow 3011 bricks: ten 48-LDU rings (480 LDU), already present. Preserve source height and six source beam pieces; no arbitrary extra tower tiers. Source-facing preview replaces misleading distant comparison framing. Hidden base-pad tiling remains unverified.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+测风仪 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Rotating arms, cup ends, bearing hub and striped tower are simplified.
-
-0 // STEP 1 - blue base and striped tower
-1 1 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 14 0 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -168 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -216 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -264 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Locally renderer-verified: original96 parts,6 steps; P6 cup uses one real11LDU hollow stud, wheel moves beyond blue gear. Explicit source-position adaptation.
+0 // Original native DATs preserved. No human acceptance or production publication.
+0 // Source page 1: two6x12 red plates; blue12brick10x10 pad with hidden2x2void; yellow8brick8x8 pad
+1 4 0 0 -120 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 0 0 120 1 0 0 0 1 0 0 0 1 4196.dat
+1 1 -120 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 40 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 40 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 40 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 40 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 120 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 160 -48 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 160 -48 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 2 - central hub
-1 4 0 -336 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -384 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -432 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 2: 40 ordinary2x4 bricks: ten alternating red/yellow four-brick6x6 hollow rings; yellow rings offset one40LDUstud alongX relative to red, source staggered ledges
+1 4 -40 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -144 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 40 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -144 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -192 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 80 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -192 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -240 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -240 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 40 -240 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -240 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -288 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 80 -288 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -288 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -288 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -336 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -336 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 40 -336 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -336 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -384 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 80 -384 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -384 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -384 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -432 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -432 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 40 -432 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -432 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -480 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 80 -480 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -480 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -480 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -528 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -528 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 40 -528 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -528 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -576 -40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 80 -576 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -576 40 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -576 -80 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 3 - red/blue cross arms
-1 4 -180 -384 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 4 180 -384 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 0 -384 -260 1 0 0 0 1 0 0 0 1 31452.dat
-1 1 0 -384 100 1 0 0 0 1 0 0 0 1 31452.dat
+0 // Source page 3: three red2x4 cap bricks, two hole bricks; green8L mast axle and lower yellow belt wheel
+1 4 -40 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 40 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 40 -672 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 40 -720 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 2 40 -784 0 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 40 -751 0 1 0 0 0 0 -1 0 1 0 6527.dat
 0 STEP
-
-0 // STEP 4 - wind cups
-1 4 -300 -384 -80 0 0 1 0 1 0 -1 0 0 2302.dat
-1 4 300 -384 -80 0 0 -1 0 1 0 1 0 0 2302.dat
-1 1 0 -384 -380 1 0 0 0 1 0 0 0 1 2302.dat
-1 1 0 -384 220 -1 0 0 0 1 0 0 0 -1 2302.dat
-1 14 0 -480 -120 1 0 0 0 0 -1 0 1 0 40666.dat
+0 // Source page 4: two crossing2x10 hole beams at successive48LDU levels and upper belt wheel
+1 4 40 -817 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 40 -865 0 0 0 1 0 1 0 -1 0 0 75350.dat
+1 14 40 -896 0 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // Source page 5: four2x10 beam extensions, eight blue2x4 plates sandwich each butt seam
+1 4 440 -817 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 240 -841 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -769 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 40 -865 -400 0 0 1 0 1 0 -1 0 0 75350.dat
+1 1 40 -889 -200 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 40 -817 -200 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 -360 -817 0 -1 0 0 0 1 0 0 0 -1 75350.dat
+1 1 -160 -841 0 -1 0 0 0 1 0 0 0 -1 40666.dat
+1 1 -160 -769 0 -1 0 0 0 1 0 0 0 -1 40666.dat
+1 4 40 -865 400 0 0 -1 0 1 0 1 0 0 75350.dat
+1 1 40 -889 200 0 0 -1 0 1 0 1 0 0 40666.dat
+1 1 40 -817 200 0 0 -1 0 1 0 1 0 0 40666.dat
+0 STEP
+0 // Source page 6: four short geared axles, belt wheels and red4x4 curved round cup bricks
+1 1 600 -793 -20 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 600.0000000000 -793.0000000000 -100.0000000000 1.0000000000 0.0000000000 0.0000000000 0.0000000000 1.0000000000 0.0000000000 0.0000000000 0.0000000000 1.0000000000 6527.dat
+1 4 580.0000000000 -813.0000000000 80.0000000000 1.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 -1.0000000000 0.0000000000 1.0000000000 0.0000000000 98220.dat
+1 1 20 -841 -560 -1 0 0 0 1 0 0 0 -1 6523.dat
+1 14 -60.0000000000 -841.0000000000 -560.0000000000 0.0000000000 0.0000000000 1.0000000000 0.0000000000 1.0000000000 0.0000000000 -1.0000000000 0.0000000000 0.0000000000 6527.dat
+1 4 120.0000000000 -861.0000000000 -540.0000000000 0.0000000000 1.0000000000 0.0000000000 0.0000000000 0.0000000000 -1.0000000000 -1.0000000000 0.0000000000 0.0000000000 98220.dat
+1 1 -520 -793 20 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 -520.0000000000 -793.0000000000 100.0000000000 -1.0000000000 0.0000000000 0.0000000000 0.0000000000 1.0000000000 0.0000000000 0.0000000000 0.0000000000 -1.0000000000 6527.dat
+1 4 -500.0000000000 -813.0000000000 -80.0000000000 -1.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 -1.0000000000 0.0000000000 -1.0000000000 0.0000000000 98220.dat
+1 1 60 -841 560 1 0 0 0 1 0 0 0 1 6523.dat
+1 14 140.0000000000 -841.0000000000 560.0000000000 0.0000000000 0.0000000000 -1.0000000000 0.0000000000 1.0000000000 0.0000000000 1.0000000000 0.0000000000 0.0000000000 6527.dat
+1 4 -40.0000000000 -861.0000000000 540.0000000000 0.0000000000 -1.0000000000 0.0000000000 0.0000000000 0.0000000000 -1.0000000000 1.0000000000 0.0000000000 0.0000000000 98220.dat
+0 // P1 hidden pad2x2 void location is inferred; actual native stud support is verified separately.
+0 // P2 source staggered rings preserved; hidden arrangement is a consistent geometric inference.
+0 // Source page 7: finished view, no duplicated placements.
+0 // P6 four cups face outward with one stud centered on axle; cup centers offset20+20 in radial plane. Real stud floor seats axle end; no pull-out/friction claim.
+0 // Verified prescribed full central and outer rotations; does not certify continuous collision sweep, wind-driven torque, friction or pullout retention. Human acceptance pending.

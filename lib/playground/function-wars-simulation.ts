@@ -251,18 +251,8 @@ function walkTrajectory(
         if (obstacleHit) {
             const point = interpolatePoint(start, end, obstacleHit.progress)
             visible.push(point)
-            if (!obstacleHit.obstacle.destructible) {
-                return {
-                    points: visible,
-                    pickedIds,
-                    impact: point,
-                    obstacleId: obstacleHit.obstacle.id,
-                    crater: null,
-                    damage: 0,
-                }
-            }
-
-            const shouldPenetrate = options.weapon === "drill" || options.penetration
+            const destructible = obstacleHit.obstacle.destructible
+            const shouldPenetrate = destructible && (options.weapon === "drill" || options.penetration)
             const direction = options.role === "host" ? 1 : -1
             const impact = shouldPenetrate
                 ? {
@@ -278,8 +268,8 @@ function walkTrajectory(
                 points: visible,
                 pickedIds,
                 impact,
-                obstacleId: null,
-                crater: craterRadius > 0 ? { ...impact, radius: craterRadius } : null,
+                obstacleId: destructible ? null : obstacleHit.obstacle.id,
+                crater: destructible && craterRadius > 0 ? { ...impact, radius: craterRadius } : null,
                 damage: splashDamage,
             }
         }
@@ -370,7 +360,7 @@ export function simulateFunctionWarsOnlineShot(args: {
             ? { target: opponentFunctionWarsRole(args.role), amount: totalDamage }
             : null,
         craters,
-        picked_crate_ids: unique(collisions.flatMap((collision) => collision.pickedIds)),
+        picked_crate_ids: unique(collisions.flatMap((collision) => collision.pickedIds)).slice(0, 12),
     }
 
     return {

@@ -1,45 +1,112 @@
-0 4+ 孙悟空 (Monkey King) - DUPLO draft for manual repair
+0 Monkey King - source reconstruction, unaccepted development draft
 0 Name: 4-sun-wu-kong.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+孙悟空 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Staff, headband, arms, tail and facial details are simplified.
-
-0 // STEP 1 - green stage and striped staff
-1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 4 -260 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -260 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -260 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -260 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -260 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -260 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source: Library libfile_f1b8d0abcba08191adf73366f31c7f1f / 4+Sun Wukong pages 1-13
+0 // APPROXIMATE GEOMETRY: existing approved dev-129/28334/28336/76395. Mechanical joints remain unverified.
+0 // NOT user accepted. No physical-fit verification. Inventory quantities unknown.
+0 // Fork bases face real torso side ports; each arm open end mates the preceding pin, never pin-to-pin. Staff moved one40LDU stud row outward, remains independently base-supported.
+0 // SOURCE PAGE 1: 8x16 ground plate; two alternating four-brick legs
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 6490.dat
+1 14 0 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 240 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -192 0 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 2 - legs and body
-1 14 0 -72 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 120 -72 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -120 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 120 -120 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 60 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 60 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 60 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE 2: two bridge layers and lower Toolo torso
+1 14 40 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 200 -240 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -288 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 120 -336 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
 0 STEP
-
-0 // STEP 3 - head and crown
-1 14 60 -312 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 120 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 60 -384 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 4 -40 -456 -160 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 4 160 -456 -160 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+0 // SOURCE PAGE 3: two-by-two center column and upper Toolo torso
+1 14 120 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 160 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 0 120 -480 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
 0 STEP
-
-0 // STEP 4 - arms, tail and red antenna tips
-1 0 -40 -240 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 0 180 -240 -80 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 0 220 -180 80 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 14 260 -96 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -40 -560 -180 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 160 -560 -180 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4: red shoulder layer and projecting lower mouth
+1 4 40 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 200 -528 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -528 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -480 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // SOURCE PAGE 5: two-layer yellow face, eye bricks and projecting red nose
+1 14 0 -576 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -576 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -576 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -576 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 240 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -624 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -624 -40 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 4 160 -624 -40 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 4 120 -576 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // SOURCE PAGE 6: yellow forehead U and red crown bridge
+1 14 40 -672 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 200 -672 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -672 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -720 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 7: two stepped five-brick crown horns
+1 4 40 -768 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 40 -816 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 0 -864 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -40 -912 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -80 -960 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 200 -768 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 200 -816 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 240 -864 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -912 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 320 -960 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // SOURCE PAGE 8: raised right arm; approximate pivot fit
+1 72 288 -456 0 0 -1 0 0 0 -1 1 0 0 dev-toolo/engaged/28336.dat
+1 72 473 -664 0 -0.8 -0.6 0 -0.6 0.8 0 0 0 -1 dev-toolo/arm-fit/28334.dat
+1 72 273 -664 0 0 1 0 -1 0 0 0 0 1 dev-toolo/arm-fit/28334.dat
+0 STEP
+0 // SOURCE PAGE 9: left arm bends downward; approximate pivot fit
+1 72 -48 -456 0 0 1 0 0 0 1 1 0 0 dev-toolo/engaged-top/28336.dat
+1 72 -313 -408 0 0 1 0 -1 0 0 0 0 1 dev-toolo/arm-fit/28334.dat
+1 72 -313 -208 0 -1 0 0 0 -1 0 0 0 1 dev-toolo/arm-fit/28334.dat
+0 STEP
+0 // SOURCE PAGE 10: front and rear side-mounted skirt boards; screw attachment needs physical review
+1 0 120 -264 -128 1 0 0 0 0 -1 0 1 0 dev-toolo/76395.dat
+1 0 120 -264 128 1 0 0 0 0 1 0 -1 0 dev-toolo/76395.dat
+0 STEP
+0 // SOURCE PAGE 11: two-sided red-yellow skirt plates
+1 14 120 -304 -152 1 0 0 0 0 -1 0 1 0 40666.dat
+1 4 40 -184 -152 0 0 1 1 0 0 0 1 0 40666.dat
+1 14 120 -184 -152 0 0 1 1 0 0 0 1 0 40666.dat
+1 4 200 -184 -152 0 0 1 1 0 0 0 1 0 40666.dat
+1 14 120 -304 152 1 0 0 0 0 1 0 -1 0 40666.dat
+1 4 40 -184 152 0 0 -1 1 0 0 0 -1 0 40666.dat
+1 14 120 -184 152 0 0 -1 1 0 0 0 -1 0 40666.dat
+1 4 200 -184 152 0 0 -1 1 0 0 0 -1 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 12: sixteen alternating 2x2 staff bricks
+1 4 -200 -48 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -200 -96 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -200 -144 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -200 -192 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -200 -240 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -200 -288 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -200 -336 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -200 -384 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -200 -432 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -200 -480 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -200 -528 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -200 -576 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -200 -624 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -200 -672 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -200 -720 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -200 -768 -80.0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 13: finished view; no new pieces.

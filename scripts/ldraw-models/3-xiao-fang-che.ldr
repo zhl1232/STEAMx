@@ -40,7 +40,7 @@
 0 STEP
 0 // Source step 5
 1 4 -600 -384.0002 0 0 0 -1 0 1 0 1 0 0 31191.dat
-1 4 -582.5 -175.5512 0 0 0 -1 0 1 0 1 0 0 31193.dat
+1 4 -582.5 -274.0002 0 0 0 -1 0 1 0 1 0 0 31193.dat
 0 STEP
 0 // Source step 6
 1 4 -480 -192.0002 -120 1 0 0 0 1 0 0 0 1 3011.dat
@@ -176,3 +176,4 @@
 1 6 200 -456.0002 80 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
 0 // Source step 21
+0 // 2026-10-15 round door: independently reconstructed 31193, standard 62-LDU hinge pitch and rounded hinge edge; closed pose relative to 31191 (0,110,-17.5). Photo approximation, physical tolerances not measured. Whole-course opening checked clear through60deg; at75deg and beyond the door hits adjacent cockpit/body, so do not claim120deg travel in this course.

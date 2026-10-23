@@ -1,0 +1,188 @@
+[
+  {
+    "model": "4-cha-che.ldr",
+    "before": 8,
+    "after": 8,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-chun-jie-wu-shi.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-da-long-xia.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-da-xiang.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-dao-dan-che.ldr",
+    "before": 9,
+    "after": 7,
+    "method": "full"
+  },
+  {
+    "model": "4-diao-che.ldr",
+    "before": 9,
+    "after": 9,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-du-jiao-xian.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-ji-guan-qiang.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-ju-ji-qiang.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-jun-jian.ldr",
+    "before": 22,
+    "after": 22,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-ke-ji.ldr",
+    "before": 6,
+    "after": 6,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-long-men-diao.ldr",
+    "before": 3,
+    "after": 3,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-qing-ting.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-sai-che.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-sheng-jiang-jiu-yuan-che.ldr",
+    "before": 14,
+    "after": 14,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-shou-ge-ji.ldr",
+    "before": 7,
+    "after": 7,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-tang-lang.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-tui-tu-ji.ldr",
+    "before": 4,
+    "after": 4,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-tuo-gua-che.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-wa-li.ldr",
+    "before": 1,
+    "after": 1,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-wu-ren-ji.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-xiang-wei-she.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-xiao-tu-zi.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-xie-zi.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-ya-lu-ji.ldr",
+    "before": 9,
+    "after": 9,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-yao-yao-ma.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-yi-long.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-you-wen.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-zhi-zhu.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-zhong-guo-long.ldr",
+    "before": 0,
+    "after": 0,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  },
+  {
+    "model": "4-zuan-tu-che.ldr",
+    "before": 9,
+    "after": 9,
+    "method": "changed-pairs-plus-unchanged-evidence"
+  }
+]

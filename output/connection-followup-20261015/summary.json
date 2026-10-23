@@ -1,0 +1,39 @@
+{
+  "status": "local_draft_not_physically_accepted",
+  "date": "2026-10-15",
+  "changes": {
+    "tyre": "44970/31352 width36->64.5LDU, bore76->80LDU; nominal R40 rim seating",
+    "wheel": "Body and screw front extension20LDU is photo-inferred; tip-40, mount-25 and travel16 unchanged",
+    "harvester": "6 tyre axes aligned to wheel axes",
+    "missile": "2 extra76395 support bricks; upper launchers and roof raised48LDU; screws match receivers"
+  },
+  "verification": {
+    "affectedCourses": 31,
+    "newWheelExternalCrossings": 0,
+    "missileBeforePairs": 9,
+    "missileAfterPairs": 7,
+    "screwTravelSamplesLdu": [
+      0,
+      4,
+      8,
+      12,
+      16
+    ],
+    "screwBodyCrossingsAllSamples": 0,
+    "normalReview": "Bore inward; rim, barrel and tread outward; nominal contact rings exactly equal64 vertices",
+    "raw300": "234 pass,66 retain225 bboxwarnings;0 non-overlap errors",
+    "physicalFitClaim": false
+  },
+  "remaining": [
+    "Exact rim width, tyre elasticity, axial retention and molding tolerances unmeasured",
+    "31193 door hinge depth/retention and author/license unresolved",
+    "5-shou-tui-fei-ji blue6529 gear intersects75349 bearing studs; source-backed spacer/support unresolved; no speculative height edit adopted",
+    "Missile7 prior cockpit/window/frame contacts retained; raised upper brick retains50percent footprint support, strength untested",
+    "Existing other course/source uncertainty remains in full300course audit"
+  ],
+  "published": false,
+  "sourceModels": {
+    "4-shou-ge-ji.ldr": "9369c671a609a1eea399da05f6bbdd67162de5ffaa6ac3e2f76fdbadc8da6b43",
+    "4-dao-dan-che.ldr": "06efc19fda624f13c037ee47f9df9339835fbffcc3350d8c685f2efdbfec5638"
+  }
+}

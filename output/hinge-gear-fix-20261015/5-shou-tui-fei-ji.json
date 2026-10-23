@@ -1,0 +1,806 @@
+{
+  "sha256": "12d2ee6e748b8c9259cb5627d95ed83ad0b274901798f010dea437a67006ff3c",
+  "placements": 46,
+  "meshPairs": [
+    {
+      "lines": [
+        10,
+        9
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        11,
+        9
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        14,
+        9
+      ],
+      "crossings": 178
+    },
+    {
+      "lines": [
+        15,
+        14
+      ],
+      "crossings": 106
+    },
+    {
+      "lines": [
+        16,
+        14
+      ],
+      "crossings": 78
+    },
+    {
+      "lines": [
+        17,
+        14
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        17,
+        15
+      ],
+      "crossings": 52
+    },
+    {
+      "lines": [
+        17,
+        16
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        18,
+        14
+      ],
+      "crossings": 106
+    },
+    {
+      "lines": [
+        19,
+        14
+      ],
+      "crossings": 80
+    },
+    {
+      "lines": [
+        20,
+        14
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        20,
+        18
+      ],
+      "crossings": 52
+    },
+    {
+      "lines": [
+        20,
+        19
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        23,
+        11
+      ],
+      "crossings": 178
+    },
+    {
+      "lines": [
+        24,
+        23
+      ],
+      "crossings": 90
+    },
+    {
+      "lines": [
+        25,
+        23
+      ],
+      "crossings": 78
+    },
+    {
+      "lines": [
+        26,
+        23
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        27,
+        23
+      ],
+      "crossings": 88
+    },
+    {
+      "lines": [
+        28,
+        23
+      ],
+      "crossings": 106
+    },
+    {
+      "lines": [
+        34,
+        11
+      ],
+      "crossings": 56
+    },
+    {
+      "lines": [
+        36,
+        27
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        36,
+        34
+      ],
+      "crossings": 90
+    },
+    {
+      "lines": [
+        37,
+        26
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        37,
+        27
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        37,
+        34
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        40,
+        10
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        41,
+        10
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        42,
+        10
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        42,
+        11
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        43,
+        40
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        43,
+        41
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        43,
+        42
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        48,
+        10
+      ],
+      "crossings": 178
+    },
+    {
+      "lines": [
+        48,
+        46
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        48,
+        47
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        49,
+        48
+      ],
+      "crossings": 78
+    },
+    {
+      "lines": [
+        50,
+        48
+      ],
+      "crossings": 80
+    },
+    {
+      "lines": [
+        51,
+        43
+      ],
+      "crossings": 178
+    },
+    {
+      "lines": [
+        51,
+        46
+      ],
+      "crossings": 70
+    },
+    {
+      "lines": [
+        51,
+        47
+      ],
+      "crossings": 64
+    },
+    {
+      "lines": [
+        52,
+        49
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        52,
+        51
+      ],
+      "crossings": 78
+    },
+    {
+      "lines": [
+        53,
+        50
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        53,
+        51
+      ],
+      "crossings": 80
+    },
+    {
+      "lines": [
+        57,
+        46
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        57,
+        47
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        57,
+        56
+      ],
+      "crossings": 296
+    },
+    {
+      "lines": [
+        58,
+        57
+      ],
+      "crossings": 78
+    },
+    {
+      "lines": [
+        59,
+        57
+      ],
+      "crossings": 80
+    },
+    {
+      "lines": [
+        60,
+        46
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        60,
+        47
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        60,
+        56
+      ],
+      "crossings": 296
+    },
+    {
+      "lines": [
+        61,
+        58
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        61,
+        60
+      ],
+      "crossings": 78
+    },
+    {
+      "lines": [
+        63,
+        59
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        63,
+        60
+      ],
+      "crossings": 80
+    },
+    {
+      "lines": [
+        66,
+        56
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        67,
+        56
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        67,
+        66
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        68,
+        66
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        68,
+        67
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        71,
+        34
+      ],
+      "crossings": 64
+    },
+    {
+      "lines": [
+        73,
+        34
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        73,
+        71
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        77,
+        34
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        77,
+        71
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        77,
+        73
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        78,
+        34
+      ],
+      "crossings": 90
+    },
+    {
+      "lines": [
+        78,
+        71
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        78,
+        73
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        78,
+        77
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        79,
+        34
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        79,
+        73
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        79,
+        77
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        79,
+        78
+      ],
+      "crossings": 0
+    }
+  ],
+  "nonzero": [
+    {
+      "lines": [
+        14,
+        9
+      ],
+      "crossings": 178
+    },
+    {
+      "lines": [
+        15,
+        14
+      ],
+      "crossings": 106
+    },
+    {
+      "lines": [
+        16,
+        14
+      ],
+      "crossings": 78
+    },
+    {
+      "lines": [
+        17,
+        15
+      ],
+      "crossings": 52
+    },
+    {
+      "lines": [
+        18,
+        14
+      ],
+      "crossings": 106
+    },
+    {
+      "lines": [
+        19,
+        14
+      ],
+      "crossings": 80
+    },
+    {
+      "lines": [
+        20,
+        18
+      ],
+      "crossings": 52
+    },
+    {
+      "lines": [
+        23,
+        11
+      ],
+      "crossings": 178
+    },
+    {
+      "lines": [
+        24,
+        23
+      ],
+      "crossings": 90
+    },
+    {
+      "lines": [
+        25,
+        23
+      ],
+      "crossings": 78
+    },
+    {
+      "lines": [
+        26,
+        23
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        27,
+        23
+      ],
+      "crossings": 88
+    },
+    {
+      "lines": [
+        28,
+        23
+      ],
+      "crossings": 106
+    },
+    {
+      "lines": [
+        34,
+        11
+      ],
+      "crossings": 56
+    },
+    {
+      "lines": [
+        36,
+        34
+      ],
+      "crossings": 90
+    },
+    {
+      "lines": [
+        37,
+        34
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        48,
+        10
+      ],
+      "crossings": 178
+    },
+    {
+      "lines": [
+        48,
+        46
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        48,
+        47
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        49,
+        48
+      ],
+      "crossings": 78
+    },
+    {
+      "lines": [
+        50,
+        48
+      ],
+      "crossings": 80
+    },
+    {
+      "lines": [
+        51,
+        43
+      ],
+      "crossings": 178
+    },
+    {
+      "lines": [
+        51,
+        46
+      ],
+      "crossings": 70
+    },
+    {
+      "lines": [
+        51,
+        47
+      ],
+      "crossings": 64
+    },
+    {
+      "lines": [
+        52,
+        51
+      ],
+      "crossings": 78
+    },
+    {
+      "lines": [
+        53,
+        51
+      ],
+      "crossings": 80
+    },
+    {
+      "lines": [
+        57,
+        46
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        57,
+        47
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        57,
+        56
+      ],
+      "crossings": 296
+    },
+    {
+      "lines": [
+        58,
+        57
+      ],
+      "crossings": 78
+    },
+    {
+      "lines": [
+        59,
+        57
+      ],
+      "crossings": 80
+    },
+    {
+      "lines": [
+        60,
+        46
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        60,
+        47
+      ],
+      "crossings": 104
+    },
+    {
+      "lines": [
+        60,
+        56
+      ],
+      "crossings": 296
+    },
+    {
+      "lines": [
+        61,
+        60
+      ],
+      "crossings": 78
+    },
+    {
+      "lines": [
+        63,
+        60
+      ],
+      "crossings": 80
+    },
+    {
+      "lines": [
+        71,
+        34
+      ],
+      "crossings": 64
+    },
+    {
+      "lines": [
+        78,
+        34
+      ],
+      "crossings": 90
+    },
+    {
+      "lines": [
+        79,
+        34
+      ],
+      "crossings": 104
+    }
+  ]
+}

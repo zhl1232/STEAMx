@@ -1,0 +1,76 @@
+0 5-xuan-zhuan-ai-xin source reconstruction dev-only unaccepted
+0 Name: 5-xuan-zhuan-ai-xin.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 // SOURCE PAGE 1: Two6x12 plates; eight-brick square rim and central bearing foundation
+1 4 0 0 -120 1 0 0 0 1 0 0 0 1 4196.dat
+1 4 0 0 120 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -120 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -48 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -48 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -48 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -48 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 2: Staggered second square rim and center brick
+1 14 -160 -96 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -96 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 120 -96 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -96 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -96 120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -96 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -120 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 3: Red rim with front long perforated bearing
+1 4 0 -144 160 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 -160 -144 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -160 -144 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 160 -144 -120 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 160 -144 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -40 -144 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -144 -160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // SOURCE PAGE 4: Two central perforated bricks
+1 4 0 -144 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 0 -192 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // SOURCE PAGE 5: Horizontal8L shaft through rim and lower center bearing with40T gear, hub and crank
+1 2 0 -120 100 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 0 -120 60 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 0 -120 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -120 220 1 0 0 0 0 -1 0 1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 6: Vertical6L shaft, perpendicular24T and up-facing support crank
+1 7 0 -252 0 0 1 0 -1 0 0 0 0 1 6522.dat
+0 // Vertical axle clears horizontal axle by ~3 LDU; fixed bearing insertion 48/12 LDU; upper tip clears heart brick internal ceiling by 4 LDU. Crown 31622 faces down; 721 coupled gear samples and complete rotation clearances reviewed. Physical friction/load not measured.
+1 1 0 -224 0 -1 0 0 0 0 1 0 1 0 31622.dat
+1 14 0 -264 0 0 0 -1 0 -1 0 -1 0 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 7: Long rotating red base bears on crank face; nominal underside axial engagement
+1 4 -40 -332 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 8: Lower three stepped heart rows
+1 4 -40 -380 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -428 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -428 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -120 -476 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -476 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 9: Ten-stud then twelve-stud wide rows
+1 4 -160 -524 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -524 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -524 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -200 -572 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -572 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 120 -572 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 10: Two separated heart lobes;p11 final adds no parts
+1 4 -160 -620 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -668 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 80 -620 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 80 -668 0 1 0 0 0 1 0 0 0 1 3437.dat

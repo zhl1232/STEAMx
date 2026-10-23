@@ -1,0 +1,125 @@
+0 5-xuan-zhuan-mu-ma - source-based local draft; digital assembly checked
+0 Name: 5-xuan-zhuan-mu-ma.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // PDF SHA256 c3deb8c53fee9c1d2e4e83f1974856d8afa8abe9dbdf4c986eb24fa665eedbd6
+0 // 2026-10-14 local repair: Replace four lower 6527 collars with real 6526 cranks at identical bore centers, arms inward; 24-LDU hub clears horse bricks without moving their studs. BOM: -4 6527, +4 6526.
+0 // All14 source pages actually viewed; final page is presentation only.
+0 // Digital geometry checked; physical retention/load and human acceptance remain untested.
+0 // SOURCE PAGE 1 - Baseplate and twelve source striped perimeter fences
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 15 -240 -96 -340 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 380 -96 -240 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 0 -96 -340 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 380 -96 0 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 240 -96 -340 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 380 -96 240 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 -200 -96 380 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -340 -96 -200 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 40 -96 380 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -340 -96 40 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 280 -96 380 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -340 -96 280 0 0 -1 0 1 0 1 0 0 31021p01.dat
+0 STEP
+0 // SOURCE PAGE 2 - Ten alternating red/yellow 4x4 tower layers, twenty bricks
+1 14 0 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 40 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 40 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 40 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -336 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -336 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 40 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -432 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -432 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -40 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 40 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 3 - Two fixed short beams with aligned vertical centre bores
+1 4 0 -528 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 0 -576 0 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // SOURCE PAGE 4 - Vertical shaft and lower red gear thrust surface
+1 8 0 -662 0 0 -1 0 1 0 0 0 0 1 6521.dat
+1 4 0 -607 0 1 0 0 0 0 -1 0 1 0 6529.dat
+0 // Real 6521 8L selected for verified stack: all wheel main holes fully engaged; lower fixed bearing retains37 LDU overlap.
+0 STEP
+0 // SOURCE PAGE 5 - Two perpendicular rotating long beams
+1 4 0 -672 0 0 0 -1 0 1 0 1 0 0 75350.dat
+1 4 0 -720 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 6 - Four long beam arm extensions
+1 4 0 -720 -240 0 0 -1 0 1 0 1 0 0 75350.dat
+1 4 -240 -768 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 -720 240 0 0 -1 0 1 0 1 0 0 75350.dat
+1 4 240 -768 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 7 - Perpendicular short centre cap and top pulley
+1 4 0 -768 0 0 0 -1 0 1 0 1 0 0 75349.dat
+1 14 0 -799 0 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 8 - Four vertical seat shafts and four top retaining cranks
+1 8 400 -659 0 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 400 -799 0 0 0 -1 0 1 0 1 0 0 6526.dat
+1 8 -400 -659 0 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 -400 -799 0 0 0 1 0 1 0 -1 0 0 6526.dat
+1 8 0 -611 400 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 0 -751 400 -1 0 0 0 1 0 0 0 -1 6526.dat
+1 8 0 -611 -400 0 -1 0 1 0 0 0 0 1 6521.dat
+1 14 0 -751 -400 1 0 0 0 1 0 0 0 1 6526.dat
+0 // Four real 6521 8L seat axles cover all crank main holes40 LDU; actual source axle length is not uniquely readable.
+0 STEP
+0 // SOURCE PAGE 9 - First suspended shortbeam and retaining pulley/crank
+1 4 440 -584 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 400 -615 0 0 0 1 0 1 0 -1 0 0 6526.dat
+1 14 400 -519 0 -0 0 -1 0 1 0 1 0 -0 6526.dat
+0 STEP
+0 // SOURCE PAGE 10 - First brick-built horse body
+1 4 480 -536 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 480 -488 0 0 0 -1 0 1 0 1 0 0 3437pe1.dat
+1 4 480 -440 0 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 1 520 -392 0 1 0 0 0 1 0 0 0 1 6394.dat
+0 STEP
+0 // SOURCE PAGE 11 - Next complete suspended brick-built horse
+1 4 0 -536 440 0 0 -1 0 1 0 1 0 0 75349.dat
+1 14 0 -567 400 1 0 0 0 1 0 0 0 1 6526.dat
+1 14 0 -471 400 -1 0 -0 0 1 0 0 0 -1 6526.dat
+1 4 0 -488 480 0 0 -1 0 1 0 1 0 0 3437.dat
+1 14 0 -440 480 -1 0 0 0 1 0 0 0 -1 3437pe1.dat
+1 4 0 -392 480 1 0 0 0 1 0 0 0 1 2302b.dat
+1 1 0 -344 520 0 0 -1 0 1 0 1 0 0 6394.dat
+0 STEP
+0 // SOURCE PAGE 12 - Next complete suspended brick-built horse
+1 4 -440 -584 0 -1 0 0 0 1 0 0 0 -1 75349.dat
+1 14 -400 -615 0 0 0 -1 0 1 0 1 0 0 6526.dat
+1 14 -400 -519 0 -0 0 1 0 1 0 -1 0 -0 6526.dat
+1 4 -480 -536 0 -1 0 0 0 1 0 0 0 -1 3437.dat
+1 14 -480 -488 0 0 0 1 0 1 0 -1 0 0 3437pe1.dat
+1 4 -480 -440 0 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 1 -520 -392 0 -1 0 0 0 1 0 0 0 -1 6394.dat
+0 STEP
+0 // SOURCE PAGE 13 - Next complete suspended brick-built horse
+1 4 0 -536 -440 0 0 1 0 1 0 -1 0 0 75349.dat
+1 14 0 -567 -400 -1 0 0 0 1 0 0 0 -1 6526.dat
+1 14 0 -471 -400 1 0 -0 -0 1 0 0 0 1 6526.dat
+1 4 0 -488 -480 0 0 1 0 1 0 -1 0 0 3437.dat
+1 14 0 -440 -480 1 0 0 0 1 0 0 0 1 3437pe1.dat
+1 4 0 -392 -480 -1 0 0 0 1 0 0 0 -1 2302b.dat
+1 1 0 -344 -520 0 0 1 0 1 0 -1 0 0 6394.dat
+0 // Four hanging assemblies have real stud/clutch connections and seated lower crank supports; radial display yaw is inferred.
+0 // Source final page adds no parts.
+0 // 2026-10-16: four upper horse cranks raised11 LDU to sit on actual beam studs instead of penetrating them.
+0 // Shaft main holes retain40 LDU engagement; eccentric pins enter real beam bores29 LDU. Pin-only diagnostic and push/pull support independently verified.
+0 // Lower four crank substitutions retained: restoring source round collars reintroduces wheel/horse-brick collisions.
+0 // Central gear, cross and four horses seated on actual horizontal surfaces; 361 whole-turn samples clear fixed structure.
+0 // Twelve fences shifted20 LDU in X/Z to align all24 feet with actual baseplate studs.
+0 // All81 placements connected;35 shaft/pin mesh interfaces locally diagnosed. This is not physical load testing or human acceptance.

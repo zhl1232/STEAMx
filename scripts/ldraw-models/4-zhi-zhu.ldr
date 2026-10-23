@@ -1,39 +1,74 @@
-0 4+ 蜘蛛 (Spider) - DUPLO draft for manual repair
+0 4+ Spider - complete source reconstruction with approved mixer parts
 0 Name: 4-zhi-zhu.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 //9 source pages,8 build steps;43 source pieces plus one previously added head riser=44. Restore approved photo-based95219c01/58629pb02 pair;15562 aliases the bucket, not a third piece.
+0 // Renderer-verified static closure: ordinary studs, finite Toolo joints and mixer interfaces checked on complete native geometry. Inferred hidden dimensions remain explicitly disclosed.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+蜘蛛 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Curved abdomen, eyes, spinnerets and eight jointed legs are simplified.
-
-0 // STEP 1 - yellow body core
-1 14 -120 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 200 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -80 -120 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 120 -120 -40 -1 0 0 0 1 0 0 0 -1 2302.dat
+0 // Local renderer review only. Two mixer pieces are user-approved simplified originals; hidden dimensions and25degree holder angle inferred.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: seven transverse black4x6 Toolo bricks: four lower and three seam-spanning upper
+1 0 -240 0 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 -80 0 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 80 0 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 240 0 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 -160 -48 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76395.dat
+1 0 0 -48 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76395.dat
+1 0 160 -48 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76395.dat
 0 STEP
-
-0 // STEP 2 - black legs
-1 0 -360 -48 -140 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 -120 -48 -160 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 120 -48 -160 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 360 -48 -140 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 -360 -48 140 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 0 -120 -48 160 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 0 120 -48 160 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
-1 0 360 -48 140 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+0 // Source page 2: grey2x4 head bridge and two side-built fork mandibles
+1 72 280 -48 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76057.dat
+1 72 368 -24 -40 0 -1 0 -1 0 0 0 0 -1 dev-toolo/engaged-top/28336.dat
+1 72 368 -24 40 0 -1 0 1 0 0 0 0 1 dev-toolo/engaged/28336.dat
 0 STEP
-
-0 // STEP 3 - rounded abdomen
-1 14 40 -168 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 40 -216 -120 1 0 0 0 1 0 0 0 1 2302.dat
-1 14 40 -264 -160 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 3: two clutch blocks fitted to the mandible forks
+1 72 505 -24 -88 0 -1 0 0 0 -1 1 0 0 dev-toolo/74957.dat
+1 72 505 -24 88 0 -1 0 0 0 1 -1 0 0 dev-toolo/74957.dat
 0 STEP
-
-0 // STEP 4 - eyes and front feelers
-1 15 -160 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 -80 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -240 -168 -160 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 0 -40 -168 -240 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // Source page 4: two bare rim eyes, two yellow Toolo head bricks and one rear grey Toolo brick
+1 14 200.0 -96 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76057.dat
+1 14 280.0 -96 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76057.dat
+1 72 -280 -48 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76057.dat
+1 14 280.0 -144 0 0 0 -1 0 1 0 1 0 0 dev-toolo/engaged/76057.dat
+0 // Added one76057 riser: top receiver takes the fixed screw at Z=-40; eye rims use side holes atY=-120 and clear mandible forks. Include this extra part in materials.
+1 71 280.0 -120 -105 -1 0 0 0 0 -1 0 -1 0 dev-toolo/99565.dat
+1 71 280.0 -120 105 -1 0 0 0 0 1 0 1 0 dev-toolo/99565.dat
+0 STEP
+0 // Source page 5: eight body-side forks, four each side, prongs directed upward/outward
+1 72 -240 24 -168 1 0 0 0 0 -1 0 1 0 dev-toolo/engaged/28336.dat
+1 72 -240 24 168 -1 0 0 0 0 -1 0 -1 0 dev-toolo/engaged/28336.dat
+1 72 -80 24 -168 1 0 0 0 0 -1 0 1 0 dev-toolo/engaged/28336.dat
+1 72 -80 24 168 -1 0 0 0 0 -1 0 -1 0 dev-toolo/engaged/28336.dat
+1 72 80 24 -168 1 0 0 0 0 -1 0 1 0 dev-toolo/engaged/28336.dat
+1 72 80 24 168 -1 0 0 0 0 -1 0 -1 0 dev-toolo/engaged/28336.dat
+1 72 240 24 -168 1 0 0 0 0 -1 0 1 0 dev-toolo/engaged/28336.dat
+1 72 240 24 168 -1 0 0 0 0 -1 0 -1 0 dev-toolo/engaged/28336.dat
+0 STEP
+0 // Source page 6: two approved photo-based mixer components; actual source identity retained
+1 14 -240 -72 0 1 0 0 0 1 0 0 0 1 dev-toolo/95219c01.dat
+1 14 -157.55480261362584 -167.45791279033239 0 0 -0.42261826174069944 -0.90630778703664994 0 0.90630778703664994 -0.42261826174069944 1 -0 0 dev-toolo/58629pb02.dat
+0 STEP
+0 // Source page 7: eight short Toolo arms form downward legs
+1 72 -240 117.42135623730951 -374.42135623730951 0 0 -1 -0.70710678118654757 -0.70710678118654757 0 -0.70710678118654757 0.70710678118654757 0 dev-toolo/arm-fit/28334.dat
+1 72 -240 117.42135623730951 374.42135623730951 0 0 1 -0.70710678118654757 -0.70710678118654757 0 0.70710678118654757 -0.70710678118654757 0 dev-toolo/arm-fit/28334.dat
+1 72 -80 117.42135623730951 -374.42135623730951 0 0 -1 -0.70710678118654757 -0.70710678118654757 0 -0.70710678118654757 0.70710678118654757 0 dev-toolo/arm-fit/28334.dat
+1 72 -80 117.42135623730951 374.42135623730951 0 0 1 -0.70710678118654757 -0.70710678118654757 0 0.70710678118654757 -0.70710678118654757 0 dev-toolo/arm-fit/28334.dat
+1 72 80 117.42135623730951 -374.42135623730951 0 0 -1 -0.70710678118654757 -0.70710678118654757 0 -0.70710678118654757 0.70710678118654757 0 dev-toolo/arm-fit/28334.dat
+1 72 80 117.42135623730951 374.42135623730951 0 0 1 -0.70710678118654757 -0.70710678118654757 0 0.70710678118654757 -0.70710678118654757 0 dev-toolo/arm-fit/28334.dat
+1 72 240 117.42135623730951 -374.42135623730951 0 0 -1 -0.70710678118654757 -0.70710678118654757 0 -0.70710678118654757 0.70710678118654757 0 dev-toolo/arm-fit/28334.dat
+1 72 240 117.42135623730951 374.42135623730951 0 0 1 -0.70710678118654757 -0.70710678118654757 0 0.70710678118654757 -0.70710678118654757 0 dev-toolo/arm-fit/28334.dat
+0 STEP
+0 // Source page 8: four warm yellow-orange191 and four yellow14 curves, in same-color opposing pairs alternating along the body;191 palette inferred from the image
+1 191 -120 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 191 -120 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 -40 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 -40 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 191 40 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 191 40 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 14 120 -96 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 120 -96 40 0 0 -1 0 1 0 1 0 0 2302.dat
+0 // Mixer base16 inferred cavities receive actual studs; integral bucket peg spans16LDU in the holder bore and rear shoulder contacts the native simplified face. No physical retention is certified.
+0 // Existing Toolo pieces are previously user-approved approximations. Hidden screw/pin dimensions remain inferred; finite geometric connections are checked separately.
+0 //45degree leg angle and downward mandible orientation follow source views with exact native joint centers; no walking articulation is claimed.
+0 //Eight distal leg shafts share a native edge/point ground plane; this is static geometry, not a physical stability or load test.
+0 // Source page 9: finished view, no duplicated placements.

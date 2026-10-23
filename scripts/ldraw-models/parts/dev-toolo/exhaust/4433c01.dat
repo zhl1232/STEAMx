@@ -1,0 +1,13 @@
+0 Duplo Toolo Exhaust Pipe4433c01 - independently revised local approximation
+0 Name: dev-toolo/exhaust/4433c01.dat
+0 Author: STEAMX local reconstruction
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 !HELP Revision of user-authorized 2026-10-13 local 4433c01 approximation, real design alias45149.
+0 !HELP SourceP8/P15 supports external yellow screw detail and paired installation, NOT hidden shaft dimensions.
+0 !HELP All hidden dimensions, thread profile and travel are explicitly inferred; no measured physical fit.
+0 BFC CERTIFY CCW
+0 !HELP Pipe axis+Z; transverse screw inserts along+X from mounting faceX22.
+0 !HELP Body is unchanged externally; hidden screw/guide topology is an explicit inference under prior approximation approval.
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/exhaust/body.dat
+1 14 0 0 0 1 0 0 0 1 -0 0 0 1 dev-toolo/exhaust/screw.dat

@@ -1,36 +1,97 @@
-0 4+ 小兔子 (Rabbit) - DUPLO draft for manual repair
+0 4+ Rabbit - source-reviewed local static model
 0 Name: 4-xiao-tu-zi.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+小兔子 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Long ears, face, feet and carrot are simplified.
-
-0 // STEP 1 - black body and yellow feet
-1 0 -80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 240 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -120 -24 -100 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 160 -24 -100 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Toolo static review: 27 active base screws enter actual receiver cavities 16 LDU; 19 retracted screws end 1 LDU inside their mounting faces.
+0 // Local digital review complete: 54 source placements, 13 building steps, finite joints, actual stud support and complete static mesh checked.
+0 // Uses existing user-approved 45002 simplified geometry; no physical-fit certification.
+0 // SOURCE: /mnt/d/pdf预览/4+小兔子搭建说明_pdf; all 14 original pages reviewed; final page adds no pieces.
+0 // No human acceptance and no production authorization implied.
+0 // STEP 1 - source page 1: six 4x6 Toolo body bricks, second layer offset one stud
+1 0 -160 -231 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110-p110.dat
+1 0 0 -231 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 160 -231 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110-p110.dat
+1 0 -120 -279 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110.dat
+1 0 40 -279 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110.dat
+1 0 200 -279 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110.dat
 0 STEP
-
-0 // STEP 2 - head and face
-1 0 -180 -120 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -260 -168 -80 1 0 0 0 1 0 0 0 1 2302.dat
-1 15 -300 -216 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -220 -216 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 2 - source page 2: two upper body bricks
+1 0 -40 -327 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76395.dat
+1 0 120 -327 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76395.dat
 0 STEP
-
-0 // STEP 3 - tall black ears and tail
-1 0 -300 -288 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 0 -160 -288 -120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 0 -360 -368 -160 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 0 -100 -368 -160 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 15 320 -120 40 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - source page 3: four inclined leg bases and four clutch blocks
+1 72 -200 -183 -80 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 -248 -46 -80 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/28336.dat
+1 72 -200 -183 80 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 -248 -46 80 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/28336.dat
+1 72 120 -183 -80 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 72 -46 -80 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/28336.dat
+1 72 120 -183 80 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 72 -46 80 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/28336.dat
 0 STEP
-
-0 // STEP 4 - carrot marker
-1 25 -460 -72 120 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 25 -620 24 120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 2 -600 -120 100 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - source page 4: four yellow 2x4 Toolo feet
+1 14 -208 2 -80 -1 0 0 0 1 0 0 0 -1 dev-toolo/76057.dat
+1 14 -208 2 80 -1 0 0 0 1 0 0 0 -1 dev-toolo/76057.dat
+1 14 112 2 -80 -1 0 0 0 1 0 0 0 -1 dev-toolo/76057.dat
+1 14 112 2 80 -1 0 0 0 1 0 0 0 -1 dev-toolo/76057.dat
+0 STEP
+0 // STEP 5 - source page 5: rear hinge tail
+1 72 -288 -207 0 0 1 0 0 0 1 1 0 0 dev-toolo/engaged/28336.dat
+0 STEP
+0 // STEP 6 - source page 6: red 2x4 neck
+1 4 240 -327 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76057.dat
+0 STEP
+0 // STEP 7 - source page 7: two stacked 4x6 head support bricks
+1 0 240 -375 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 240 -423 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+0 STEP
+0 // STEP 8 - source page 8: four yellow 2x4 head bricks; crossed layers
+1 14 240 -471 -40 1 0 0 0 1 0 0 0 1 dev-toolo/engaged/76057.dat
+1 14 240 -471 40 1 0 0 0 1 0 0 0 1 dev-toolo/engaged/76057.dat
+1 14 200 -519 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76057.dat
+1 14 280 -519 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged-top/76057.dat
+0 STEP
+0 // STEP 9 - source page 9: two curved head caps
+1 14 240 -567 -40 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 240 -567 40 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+0 // STEP 10 - source page 10: two rim and tyre eyes attached to lateral head holes
+1 71 280 -495 -105 1 -0 0 0 -0 1 0 -1 0 dev-toolo/99565.dat
+1 0 280 -495 -105 1 -0 0 0 -0 1 0 -1 0 44970.dat
+1 71 280 -495 105 1 -0 0 0 -0 -1 0 1 0 dev-toolo/99565.dat
+1 0 280 -495 105 1 -0 0 0 -0 -1 0 1 0 44970.dat
+0 STEP
+0 // STEP 11 - source page 11: two rear head fork bases and approved source-inferred 28334 short arms; the final page 14 ear pose is reused.
+1 72 112 -447 -40 0 1 0 0 0 -1 -1 0 0 dev-toolo/engaged/28336.dat
+0 // Locked display pose: exact Rz(-42deg) about native fork pin at world (47,-495,+/-40), matching arm opening local (0,200,0).
+1 72 -86.8261212717717 -643.628965095479 -40 0.743144825477394 0.669130606358858 0 -0.669130606358858 0.743144825477394 0 0 0 1 dev-toolo/arm-fit/28334.dat
+1 72 112 -447 40 0 1 0 0 0 -1 -1 0 0 dev-toolo/engaged/28336.dat
+0 // Locked display pose: exact Rz(-42deg) about native fork pin at world (47,-495,+/-40), matching arm opening local (0,200,0).
+1 72 -86.8261212717717 -643.628965095479 40 0.743144825477394 0.669130606358858 0 -0.669130606358858 0.743144825477394 0 0 0 1 dev-toolo/arm-fit/28334.dat
+0 STEP
+0 // STEP 12 - source page 12: separate carrot assembly; four thin plates around two offset thick bricks
+0 // Separate carrot: preserve the existing horizontal spacing and source topology; no paw connection is implied.
+1 25 1020 -42.7902995264856 0 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 3011.dat
+1 25 952.381078121488 -187.79954545235 0 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 3011.dat
+1 25 1041.75138688888 -52.9331378082624 0 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 40666.dat
+1 25 959.592495752613 -58.756934444398 0 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 40666.dat
+1 25 974.132465010368 -197.942383734126 0 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 40666.dat
+1 25 891.973573874101 -203.766180370262 0 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 40666.dat
+0 STEP
+0 // STEP 13 - source page 13: orange connector, five green 2x2 bricks and four green plates
+1 25 884.762156242976 -332.808791378214 0 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 3011.dat
+1 2 884.762156242976 -332.808791378214 80 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 3437.dat
+1 2 884.762156242976 -332.808791378214 -80 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 3437.dat
+1 2 850.95269530372 -405.313414341146 80 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 3437.dat
+1 2 850.95269530372 -405.313414341146 -80 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 3437.dat
+1 2 834.047964834092 -441.565725822612 0 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 3437.dat
+1 2 889.608812662228 -379.203941141456 40 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 40666.dat
+1 2 889.608812662228 -379.203941141456 -40 -0.422618261740699 -0.90630778703665 0 -0.90630778703665 0.422618261740699 0 0 0 -1 40666.dat
+1 2 928.264930020735 -353.094467941767 0 0 -0.90630778703665 -0.422618261740699 0 0.422618261740699 -0.90630778703665 1 0 0 40666.dat
+1 2 894.455469081479 -425.599090904699 0 0 -0.90630778703665 -0.422618261740699 0 0.422618261740699 -0.90630778703665 1 0 0 40666.dat
+0 // Source page 14 is final view, adds no parts.
+0 // Carrot leaf topology follows source p13/p14: four side bricks, one tip brick, two bridging plates and two crossed face plates. Four leg and two ear pin/cheek interfaces verified.
+0 // Ear angles and Toolo locking are source-inferred display assumptions; finite engagement and bilateral cheek contact do not certify physical locking force.
+0 // Carrot matrix and local stud lattice made exact; translated upward 28 LDU so its native bottom edge and all four foot bottoms share Y50. Ground contact is not a physical balance assertion.
+0 // Separate carrot: preserve the existing horizontal spacing and source topology; no paw connection is implied.

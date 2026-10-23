@@ -4,7 +4,7 @@
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // Source: 3+舞龙搭建说明_pdf pages1-11.
-0 // INCOMPLETE: fence foot/curve intersections and full support unresolved; ball supports do not prove lateral stability.
+0 // INCOMPLETE: fence foot/curve interface uses the source-facing staggered 32-degree candidate; chassis underside support and ball lateral stability remain unresolved.
 0 // Three inline chassis and one transverse head chassis; exact head attachment is inferred.
 0 // Source step 1
 1 4 0 -358.6 0 0 0 -1 0 1 0 1 0 0 10715p02.dat
@@ -20,9 +20,9 @@
 1 14 -200 -286.6 0 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
 0 // Source step 3
-0 // User-selected staggered-foot alternative: 31021 feet at (-140,-454.6,20) and (-180,-454.6,-20), yaw +35/-35 degrees. This follows the source-facing spread while avoiding the original rigid intersections; exact visible foot anchors remain an approximation.
-1 14 -221.9152044288992 -550.6 77.35764363510461 0.8191520442889918 0 0.573576436351046 0 1 0 -0.573576436351046 0 0.8191520442889918 31021.dat
-1 14 -261.9152044288992 -550.6 -77.35764363510461 0.8191520442889918 0 -0.573576436351046 0 1 0 0.573576436351046 0 0.8191520442889918 31021.dat
+0 // Fence body bottom is local Y=96. The two local (100,96,0) feet land on source-facing jaw cells at (−140,−454.6,20) and (−180,−454.6,−20); 32° yaw clears strict fence/curve crossings while preserving the source opening.
+1 14 -224.804809615643 -550.6 72.991926423320 0.848048096156426 0 0.5299192642332049 0 1 0 -0.5299192642332049 0 0.848048096156426 31021.dat
+1 14 -264.804809615643 -550.6 -72.991926423320 0.848048096156426 0 -0.5299192642332049 0 1 0 0.5299192642332049 0 0.848048096156426 31021.dat
 0 STEP
 0 // Source step 4
 1 14 680 -382.6 0 1 0 0 0 1 0 0 0 1 40666.dat

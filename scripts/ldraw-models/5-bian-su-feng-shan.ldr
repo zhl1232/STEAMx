@@ -1,42 +1,84 @@
-0 5+ 变速风扇 (Variable Speed Fan) - source-grounded partial draft
+0 5+ Variable Speed Fan - source reconstruction local draft
 0 Name: 5-bian-su-feng-shan.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: tmp/ldraw-refs/231-5-bian-su-feng-shan.webp (finished reference image).
-0 // STATUS: INCOMPLETE. The source's red/yellow gear train, side-hole frame,
-0 // axle, crank, hub and broad fan blades have no confirmed local part IDs.
-0 // Only confirmed plate/brick/tube geometry is retained; 40666 is a thin plate
-0 // detail and is never claimed to be a gear. 31452 spokes are display proxies.
+0 // Source: /mnt/d/pdf预览/5+变速风扇搭建说明_pdf, pages 1-11.
+0 // Status: Digitally checked local draft; renderer-verified only; no human acceptance or publication.
+0 // Native DAT geometry is unchanged. Hidden installation depths and gear phases are inferred.
+0 // Sheets sit 0.001 LDU off nominal crank faces to clear native coplanar rounding.
+0 // Front rotor stack is 2 LDU clear of the support face; 16-LDU sheet gap and axial placement are inferred.
+0 // Four red 2x10 hole bricks form the vertical spine; hand support until step 9.
+1 4 -24 -200 0 0 1 0 -1 0 0 0 0 1 75350.dat
+1 4 -24 -600 0 0 1 0 -1 0 0 0 0 1 75350.dat
+1 4 -72 -400 0 0 1 0 -1 0 0 0 0 1 75350.dat
+1 4 24 -400 0 0 1 0 -1 0 0 0 0 1 75350.dat
 
-0 // STEP 1 - yellow 6x12 foundation and alternating tower
-1 14 0 -24 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 4 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
+0 // Green 8L output axle and two yellow wheel spacers on front of the upper hole.
+1 2 0 -760 90.001 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 0 -760 62 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -760 102 1 0 0 0 1 0 0 0 1 6527.dat
 
-0 // STEP 2 - tower continuation; source side-hole frame and crank unresolved
-1 4 0 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -360 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -120 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 -120 -240 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 8 120 -192 -120 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
+0 // First yellow crank and lime formed 18x66 propeller; offset pin keys the sheet hole.
+1 14 0 -760 142 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 27 0 -760 162.001 0 0 -1 -1 0 0 0 1 0 61898cc01.dat
 
-0 // STEP 3 - unresolved gear train boundary; four tube spokes retained as proxy
-1 14 0 -408 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 2 0 -512 -120 1 0 0 0 0 -1 0 1 0 31452.dat
-1 2 0 -304 -120 1 0 0 0 0 -1 0 1 0 31452.dat
-1 2 -120 -408 -300 0 0 1 0 1 0 -1 0 0 31452.dat
-1 2 120 -408 -300 0 0 1 0 1 0 -1 0 0 31452.dat
 0 STEP
+0 // Second crank pin faces rear; sheet is independently flipped to match source fold and uses its -80 hole.
+1 14 0 -760 200.002 -1 0 0 0 0 -1 0 -1 0 6526.dat
+1 27 0 -760 179.001 -1 0 0 0 0 1 0 1 0 61898cc01.dat
 
-0 // STEP 4 - unresolved wide blades; thin plate detail and renderer-visible spokes
-1 2 0 -616 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 2 0 -144 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 2 -240 -408 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 2 240 -408 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 14 0 -408 -200 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Front yellow wheel closes the rotor stack; 29.999 LDU of finite axle insertion; rear red gear also seats 29.999 LDU.
+1 14 0 -760 240.002 1 0 0 0 1 0 0 0 1 6527.dat
+
+0 STEP
+0 // Upper rear 24T gear, middle 6L shaft and rear 40T gear; vertical centers 160 LDU apart.
+1 4 0 -760 -60 1 0 0 0 1 0 0 0 1 6529.dat
+1 7 0 -600 -40 0 -0.078459095728 0.996917333733 0 0.996917333733 0.078459095728 -1 0 0 6522.dat
+1 14 0 -600 -60 0.996917333733 -0.078459095728 0 0.078459095728 0.996917333733 0 0 0 1 6530.dat
+
+0 STEP
+0 // Middle front 24T gear and lower 6L input shaft with front 40T gear.
+1 4 0 -600 60 0.996917333733 -0.078459095728 0 0.078459095728 0.996917333733 0 0 0 1 6529.dat
+1 7 0 -440 -40 0 -0.031410759078 0.999506560366 0 0.999506560366 0.031410759078 -1 0 0 6522.dat
+1 14 0 -440 60 0.999506560366 -0.031410759078 0 0.031410759078 0.999506560366 0 0 0 1 6530.dat
+
+0 STEP
+0 // Two rear yellow wheel spacers and lower input crank.
+1 14 0 -440 -60 -0.999506560366 -0.031410759078 0 -0.031410759078 0.999506560366 0 -0 0 -1 6527.dat
+1 14 0 -440 -100 -0.999506560366 -0.031410759078 0 -0.031410759078 0.999506560366 0 -0 0 -1 6527.dat
+1 14 0 -440 -140 -0.999506560366 0 0.031410759078 -0.031410759078 0 -0.999506560366 0 -1 0 6526.dat
+
+0 STEP
+0 // Eight blue side-built 2x4 bricks around the bottom of the spine.
+1 1 -120 -80 0 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 -72 -80 -40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 -72 -80 40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 -24 -80 -80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 -24 -80 80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 24 -80 -40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 24 -80 40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 1 72 -80 0 0 1 0 -1 0 0 0 0 1 3011.dat
+
+0 STEP
+0 // Fourteen yellow side-built 2x4 bricks complete the stepped foundation.
+1 14 -168 -80 -40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -168 -80 40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -120 -80 -80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -120 -80 80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -72 -80 -120 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -72 -80 120 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -24 -80 -160 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 -24 -80 160 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 24 -80 -120 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 24 -80 120 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 72 -80 -80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 72 -80 80 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 120 -80 -40 0 1 0 -1 0 0 0 0 1 3011.dat
+1 14 120 -80 40 0 1 0 -1 0 0 0 0 1 3011.dat
+
+0 STEP
+0 // Finished alternate source view; no new placements.

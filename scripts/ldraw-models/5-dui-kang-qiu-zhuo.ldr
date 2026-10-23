@@ -1,11 +1,13 @@
-0 5+ 对抗球桌 (Table Football Game) - source-reviewed structural draft
+0 5+ 对抗球桌 (Table Football Game) - source-reviewed digital assembly
 0 Name: 5-dui-kang-qiu-zhuo.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: .tmp/ldr-fiveplus-20260912/对抗球桌-sheet.jpg, all 11 instruction pages.
-0 // INCOMPLETE: source mechanical rods, paddles, knobs and ball omitted; source yellow ball is unresolved (candidate 22119.dat not confirmed).
-0 // Structural recovery: 154 confirmed standard pieces; outer X +/-960, Z +/-480.
+0 // Source: /mnt/d/pdf预览/5+对抗球桌搭建说明_pdf; all 11 original instruction pages.
+0 // DIGITAL ASSEMBLY CHECKED: 195 placements; source BOM, finite axle insertion and static support reviewed.
+0 // Motion: four independent inward +/-90-degree sweeps at 1-degree samples; continuous motion, friction and physical retention not certified.
+0 // Native axle/hole facet contacts were diagnosed only in memory; official DAT geometry is unchanged.
+0 // Outer walls: X +/-960, Z +/-480. Loose yellow ball rests on four base studs.
 0 // STEP 1 - two 24 x 24 bases and yellow first wall
 1 2 -480 0 0 1 0 0 0 1 0 0 0 1 4268.dat
 1 2 480 0 0 1 0 0 0 1 0 0 0 1 4268.dat
@@ -44,13 +46,39 @@
 1 14 920 -48 160 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 920 -48 320 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-0 // STEP 2 - source red field fittings omitted (unresolved source geometry)
+0 // STEP 2 - four red 75349 field supports, long axes toward the center
+1 4 -480 -48 -320 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 -480 -48 320 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 480 -48 -320 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 480 -48 320 0 0 1 0 1 0 -1 0 0 75349.dat
 0 STEP
-0 // STEP 3 - source red rod fittings omitted (unresolved source geometry)
+0 // STEP 3 - four gray 6L axles and red 24-tooth gears; axle tips rest on the bases
+1 7 -480 -120 -320 0 1 0 1 0 0 0 0 -1 6522.dat
+1 4 -480 -79 -320 1 0 0 0 0 1 0 -1 0 6529.dat
+1 7 -480 -120 320 0 1 0 1 0 0 0 0 -1 6522.dat
+1 4 -480 -79 320 1 0 0 0 0 1 0 -1 0 6529.dat
+1 7 480 -120 -320 0 1 0 1 0 0 0 0 -1 6522.dat
+1 4 480 -79 -320 1 0 0 0 0 1 0 -1 0 6529.dat
+1 7 480 -120 320 0 1 0 1 0 0 0 0 -1 6522.dat
+1 4 480 -79 320 1 0 0 0 0 1 0 -1 0 6529.dat
 0 STEP
-0 // STEP 4 - source handles and yellow ball omitted (unresolved source geometry)
+0 // STEP 4 - four yellow beams, four keyed cranks and one loose yellow ball
+0 // Each crank pin fully spans a second beam hole 80 LDU from the main axle.
+1 14 -480 -119 -200 1 0 0 0 1 0 0 0 1 6524.dat
+1 14 -480 -159 -320 1 0 0 0 1 0 0 0 1 6526.dat
+1 14 -480 -119 200 -1 0 0 0 1 0 0 0 -1 6524.dat
+1 14 -480 -159 320 -1 0 0 0 1 0 0 0 -1 6526.dat
+1 14 480 -119 -200 1 0 0 0 1 0 0 0 1 6524.dat
+1 14 480 -159 -320 1 0 0 0 1 0 0 0 1 6526.dat
+1 14 480 -119 200 -1 0 0 0 1 0 0 0 -1 6524.dat
+1 14 480 -159 320 -1 0 0 0 1 0 0 0 -1 6526.dat
+0 // 22119.dat is the confirmed generic 52mm ball geometry; color 14 matches the source yellow ball.
+0 // Loose-ball support is manual: actual faceted sphere seats on four base studs at Y=-73.6746508515; loose display only.
+1 14 0 -73.6746508515 0 1 0 0 0 1 0 0 0 1 22119.dat
 0 STEP
-0 // STEP 5 - blue second wall, 34 x 3011
+0 // STEP 5 - blue second wall (34 x 3011) and the first blue crown gear
+0 // Assembly hold: support this crown gear by hand until its horizontal axle is inserted in STEP 8.
+1 1 -480 -144 380 -1 0 0 0 1 0 0 0 -1 31622.dat
 0 // Alternate corner bond crosses the X=0 seam between the two 24x24 bases.
 1 1 -800 -96 -440 1 0 0 0 1 0 0 0 1 3011.dat
 1 1 -640 -96 -440 1 0 0 0 1 0 0 0 1 3011.dat
@@ -119,8 +147,12 @@
 1 14 920 -144 240 0 0 1 0 1 0 -1 0 0 3011.dat
 1 14 920 -144 400 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
-0 // STEP 7 - eight yellow 2 x 4 plates, one below and one above each aperture
-0 // Four upper plates lack their source red Toolo supports and remain isolated until STEP 10 caps; intermediate poses are source-aligned only.
+0 // STEP 7 - four red axle bricks with eight yellow plates, one below and above each brick
+1 4 -480 -168 -440 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -480 -168 440 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 480 -168 -440 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 480 -168 440 1 0 0 0 1 0 0 0 1 75349.dat
+0 // Source page 7: four red 75349 bricks connect each lower and upper plate pair.
 1 14 -480 -120 -440 1 0 0 0 1 0 0 0 1 40666.dat
 1 14 480 -120 -440 1 0 0 0 1 0 0 0 1 40666.dat
 1 14 -480 -120 440 1 0 0 0 1 0 0 0 1 40666.dat
@@ -130,7 +162,23 @@
 1 14 -480 -192 440 1 0 0 0 1 0 0 0 1 40666.dat
 1 14 480 -192 440 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
-0 // STEP 8 - source rod assemblies omitted (unresolved source geometry)
+0 // STEP 8 - remaining three crown gears; four blue 5L gear axles and tire-covered yellow knobs
+0 // Knob hubs fully span the outer 40 LDU shaft ends, clear of the integrated 8-tooth collars.
+1 1 -480 -144 -380 1 0 0 0 1 0 0 0 1 31622.dat
+1 1 -480 -144 -460 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 -480 -144 -540 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 -480 -144 -540 1 0 0 0 1 0 0 0 1 6292.dat
+1 1 -480 -144 460 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 -480 -144 540 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 -480 -144 540 -1 0 0 0 1 0 0 0 -1 6292.dat
+1 1 480 -144 -380 1 0 0 0 1 0 0 0 1 31622.dat
+1 1 480 -144 -460 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 480 -144 -540 1 0 0 0 1 0 0 0 1 6527.dat
+1 0 480 -144 -540 1 0 0 0 1 0 0 0 1 6292.dat
+1 1 480 -144 380 -1 0 0 0 1 0 0 0 -1 31622.dat
+1 1 480 -144 460 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 480 -144 540 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 480 -144 540 -1 0 0 0 1 0 0 0 -1 6292.dat
 0 STEP
 0 // STEP 9 - blue fourth wall: 26 x 3011 plus eight 2 x 2 fillers
 1 1 -880 -192 -440 1 0 0 0 1 0 0 0 1 3011.dat
@@ -182,5 +230,4 @@
 1 14 560 -216 440 1 0 0 0 1 0 0 0 1 40666.dat
 1 14 480 -240 440 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
-0 // STEP 11 - final comparison; unresolved mechanical source parts remain omitted
-0 // Mechanical BOM from source pages: red fittings 4 + red tubes 4 + yellow handles 8 + dark tubes/knobs 15 + yellow ball 1; IDs/geometry unresolved.
+0 // STEP 11 - final source comparison; no new parts

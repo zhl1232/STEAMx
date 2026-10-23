@@ -1,0 +1,8 @@
+{
+  "models": 300,
+  "modelsWithCrossingCandidates": 202,
+  "crossingCandidatePairs": 4685,
+  "candidatePairs": 36466,
+  "staleModels": [],
+  "physicalFitClaim": false
+}

@@ -1,40 +1,81 @@
-0 4+ 收割机 (Harvester) - DUPLO draft for manual repair
+0 4-shou-ge-ji - Source-based reconstruction; local review draft
 0 Name: 4-shou-ge-ji.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 NumOfBricks: 48
+0 // Same-frame Toolo base brick migration: corrected captive screw count/receivers, supported screw axes engaged after per-axis port/mesh checks; other axes retracted. Other legacy interfaces remain under review.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+收割机 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Header blades, auger, cab frame and side rollers are simplified.
-
-0 // STEP 1 - rolling yellow chassis
-1 14 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 14 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 14 -160 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 160 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // Source batch10 lesson191 course6 PDF SHA256 aa4ebf254d52ccabb40a7850c69810d3f5a9eabae7a166d3c051450e256805e5
+0 // All9 source pages actually viewed. Pages1-8 build; page9 final opposite view.
+0 // Isolated source-informed geometry added 2026-10-13 under user authorization; physical fit unverified.
+0 // Corrected6669c01 short cutters and99565 inward screws; rim mount offsets25. Rearclip axis72 with cap raised24; hinge underside seated on cap and tipper mounted at rotated local offset; addedreal13355hinge for14094 retention. Previous47-piece count superseded by48.
+0 // Front wheels moved fromX240 toX160 on existing40LDU threaded-hole grid to clear the yellow arm roots; tire references stay concentric. 2026-10-15: six tyre local axes aligned with their screw rims; the widened shared tyre centre is outward, not toward the chassis. Other cockpit/cage contacts remain unresolved.
+0 // Source pages1-8: 47 placements; page9 opposite finished view. Approximate blades/cage/exhaust/wheels are model-local.
+0 // Wheel centers X=-200,0,240 at Y=24 now align with side-bore grid; wheel pins meet body at Z=+/-80.
+0 // Rear clip joint, tipper retention and approximate fasteners remain manual. No physical validation or acceptance.
+0 // SOURCE PAGE 1 - Four staggered black Toolo chassis bricks
+1 0 -40 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 200 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 -120 -48 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-011.dat
+1 0 120 -48 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-011.dat
 0 STEP
-
-0 // STEP 2 - red cab and rear grain tank
-1 4 120 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 200 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 80 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 260 -144 -40 1 0 0 0 1 0 0 0 1 2302.dat
-1 8 -80 -168 -80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE 2 - Six screw rims with off-road tyres and rear underside filler
+1 14 -200 0 0 0 0 -1 0 1 0 1 0 0 dev-toolo/76057.dat
+1 71 -200 24 -105 -1.0 0.0 -0.0 -0.0 0.0 -1.0 -0.0 -1.0 -0.0 dev-toolo/99565.dat
+1 0 -200 24 -105 -1.0 0.0 -0.0 -0.0 0.0 -1.0 -0.0 -1.0 -0.0 44970.dat
+1 71 -200 24 105 -1.0 0.0 -0.0 -0.0 0.0 1.0 -0.0 1.0 -0.0 dev-toolo/99565.dat
+1 0 -200 24 105 -1.0 0.0 -0.0 -0.0 0.0 1.0 -0.0 1.0 -0.0 44970.dat
+1 71 0 24 -105 -1.0 0.0 -0.0 -0.0 0.0 -1.0 -0.0 -1.0 -0.0 dev-toolo/99565.dat
+1 0 0 24 -105 -1.0 0.0 -0.0 -0.0 0.0 -1.0 -0.0 -1.0 -0.0 44970.dat
+1 71 0 24 105 -1.0 0.0 -0.0 -0.0 0.0 1.0 -0.0 1.0 -0.0 dev-toolo/99565.dat
+1 0 0 24 105 -1.0 0.0 -0.0 -0.0 0.0 1.0 -0.0 1.0 -0.0 44970.dat
+1 71 160 24 -105 -1.0 0.0 -0.0 -0.0 0.0 -1.0 -0.0 -1.0 -0.0 dev-toolo/99565.dat
+1 0 160 24 -105 -1.0 0.0 -0.0 -0.0 0.0 -1.0 -0.0 -1.0 -0.0 44970.dat
+1 71 160 24 105 -1.0 0.0 -0.0 -0.0 0.0 1.0 -0.0 1.0 -0.0 dev-toolo/99565.dat
+1 0 160 24 105 -1.0 0.0 -0.0 -0.0 0.0 1.0 -0.0 1.0 -0.0 44970.dat
 0 STEP
-
-0 // STEP 3 - front cutting header
-1 14 -320 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -480 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 7 -560 -48 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 7 -560 -48 40 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 7 -420 -48 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 7 -420 -48 40 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+0 // SOURCE PAGE 3 - Two yellow front arm roots and second tier
+1 14 280 -48 -80 0 0 -1 0 1 0 1 0 0 dev-toolo/76057.dat
+1 14 280 -96 -120 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+1 14 280 -48 80 0 0 -1 0 1 0 1 0 0 dev-toolo/engaged/76057.dat
+1 14 280 -96 120 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
 0 STEP
-
-0 // STEP 4 - auger, chute and lights
-1 7 -360 -120 -100 0 0 1 0 1 0 -1 0 0 31452.dat
-1 7 -240 -120 -100 0 0 1 0 1 0 -1 0 0 31452.dat
-1 8 280 -192 -120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 15 -220 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 -320 -168 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4 - Extend front arms and bridge their seam
+1 14 440 -96 -120 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+1 14 360 -144 -120 1 0 0 0 1 0 0 0 1 dev-toolo/engaged/76057.dat
+1 14 440 -96 120 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+1 14 360 -144 120 1 0 0 0 1 0 0 0 1 dev-toolo/engaged/76057.dat
+0 STEP
+0 // SOURCE PAGE 5 - Four grey three-blade cutters on inner/outer side bores of the two front arms
+0 // Centers X=480,Y=-72; Z=+/-80 and +/-160 mounting faces. Local +Z points out of its supporting arm.
+1 71 480 -72 -160 1 0 0 0 -1 0 0 0 -1 dev-toolo/6669c01.dat
+1 71 480 -72 -80 1 0 0 0 1 0 0 0 1 dev-toolo/6669c01.dat
+1 71 480 -72 80 1 0 0 0 -1 0 0 0 -1 dev-toolo/6669c01.dat
+1 71 480 -72 160 1 0 0 0 1 0 0 0 1 dev-toolo/6669c01.dat
+0 STEP
+0 // SOURCE PAGE 6 - Body deck, cockpit, rear angled bracket and clip block
+1 14 -120 -96 0 0 0 -1 0 1 0 1 0 0 dev-toolo/engaged/76057.dat
+1 14 -40 -96 0 0 0 -1 0 1 0 1 0 0 dev-toolo/76057.dat
+1 14 40 -96 0 0 0 -1 0 1 0 1 0 0 dev-toolo/76057.dat
+1 4 160 -72 0 0 0 -1 0 1 0 1 0 0 31196c01.dat
+1 72 -200 -96 0 0 0 -1 0 1 0 1 0 0 dev-toolo/28336.dat
+1 72 -248 -233 0 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+0 // Cage shares cockpit origin; base rails contact its rim. Exhaust screw reaches the upper chassis side bore.
+1 71 160 -72 0 0 0 -1 0 1 0 1 0 0 dev-129/45146-shou-ge-ji.dat
+1 71 80 -24 102 0 -1 0 0 0 -1 1 0 0 dev-129/4433c01-shou-ge-ji.dat
+0 STEP
+0 // SOURCE PAGE 7 - Rear yellow cap and red tipper bed
+1 14 -208 -281.0 0 1 0 0 0 1 0 0 0 1 dev-toolo/engaged/76057.dat
+1 4 -248 -305 0 0 0 1 0 1 0 -1 0 0 13355.dat
+1 4 -128 -310 0 0 0 1 0 1 0 -1 0 0 14094.dat
+0 STEP
+0 // SOURCE PAGE 8 - Eight red bricks form two body tiers
+1 4 -120 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -40 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 40 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 120 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -120 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -40 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 40 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 120 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 // Source page9 final opposite-side view; no added parts.

@@ -1,0 +1,53 @@
+{
+  "commentOnlyDependencies": [
+    "scripts/ldraw-models/parts/dev-toolo/45117c01.dat",
+    "scripts/ldraw-models/parts/dev-toolo/tail-body.dat",
+    "scripts/ldraw-models/parts/dev-toolo/engaged/45117c01.dat"
+  ],
+  "recomputed": [
+    {
+      "model": "3-xiao-fang-che.ldr",
+      "sha256": "40af406e4eb8195d7027e438fcad82cee2b1ab41e241920ab571becdaa705dd1",
+      "meshPairs": 201,
+      "nonzero": 9,
+      "wheelDeletionNonzeroPairs": 0
+    },
+    {
+      "model": "3-xiao-huo-che.ldr",
+      "sha256": "2334830934cce12aa833af935fdd1c866f995c51a823cb9dd9def1ede89fa498",
+      "meshPairs": 123,
+      "nonzero": 10,
+      "wheelDeletionNonzeroPairs": 0
+    },
+    {
+      "model": "3-shuang-ceng-ba-shi.ldr",
+      "sha256": "8763334de453425e04a9ec356865040998749977cd6d62552f003e8f9c63f0f7",
+      "meshPairs": 78,
+      "nonzero": 7,
+      "wheelDeletionNonzeroPairs": 0
+    },
+    {
+      "model": "4-wa-li.ldr",
+      "sha256": "8e1f961b84cc8ebe8181c2130b480469a2a089047bd290a250a474f5a11492b6",
+      "meshPairs": 77,
+      "nonzero": 1,
+      "wheelDeletionNonzeroPairs": 0
+    },
+    {
+      "model": "4-ya-lu-ji.ldr",
+      "sha256": "d4b0e79a99a1e1fe8ac414a56ffcf489db7b67cb98884c4fd11993b4cf08950a",
+      "meshPairs": 103,
+      "nonzero": 9,
+      "wheelDeletionNonzeroPairs": 0
+    },
+    {
+      "model": "5-shou-tui-fei-ji.ldr",
+      "sha256": "47139164cb511afc2e31c36134d4eb8128530cf8ef7f2e8b74299998c5649944",
+      "meshPairs": 76,
+      "nonzero": 44,
+      "wheelDeletionNonzeroPairs": 0
+    }
+  ],
+  "otherCoursesSourceAndGeometryUnchanged": 294,
+  "wheelBodyReverted": true
+}

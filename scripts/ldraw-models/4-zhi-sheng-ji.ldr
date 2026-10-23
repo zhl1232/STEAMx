@@ -1,39 +1,136 @@
-0 4+ 直升机 (Helicopter) - DUPLO draft for manual repair
+0 4+ Helicopter - source reconstruction draft
 0 Name: 4-zhi-sheng-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+直升机 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Main rotor, tail rotor, skids, cabin windows and nose canopy are simplified.
-
-0 // STEP 1 - yellow landing pad and skids
-1 14 -160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 14 160 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 0 -120 -72 -120 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 120 -72 -120 0 0 1 0 1 0 -1 0 0 31452.dat
+0 // 6670c01 x2 restored from source page7 using the real side receiver holes of the p7 74957 carriers.
+0 // Source: 4+直升机搭建说明.pdf, 16 pages; all pixels reviewed 2026-10-11.
+0 // Toolo geometry is previously approved approximation, not physical fit certification.
+0 // Updated fixed interfaces: skid clip center72 (body raised12), skid stud centers on40LDU grid (X0); turntable underside72 raises rotor32. All old Toolo references migrated; remaining canopy/window fits require review.
+0 // Skid assembly sits on pad stud tops, not through them: whole helicopter raised11LDU; display-pad contact is gravity support, not a stud clutch.
+0 // Source callout stages retained; final page16 contains no added parts.
+0 // SOURCE PAGE 1
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 14 -240 -48 -280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -48 -280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -48 -280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -48 -280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -48 -280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -48 -280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -48 -280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -240 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 80 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 240 -48 280 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -320 -48 -200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -320 -48 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -320 -48 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -320 -48 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -320 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -320 -48 200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -48 -200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -48 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -48 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -48 40 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -48 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 320 -48 200 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 0 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 160 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -160 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 0 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 160 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 0 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
 0 STEP
-
-0 // STEP 2 - black/red fuselage
-1 0 -120 -144 0 1 0 0 0 1 0 0 0 1 4196.dat
-1 0 240 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 -120 -192 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 -120 -240 -88 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 40 -240 -88 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -280 -192 -40 1 0 0 0 1 0 0 0 1 2302.dat
+0 // SOURCE PAGE 2
+1 0 -160 -175 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 0 -175 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 160 -175 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 -80 -223 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 80 -223 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
 0 STEP
-
-0 // STEP 3 - tail boom and rear rotor
-1 8 260 -192 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 8 380 -192 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 8 500 -192 -40 0 0 1 0 1 0 -1 0 0 40666.dat
-1 7 580 -192 -80 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 7 580 -192 40 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
+0 // SOURCE PAGE 3
+1 72 0 -127 -120 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 220 -55 -120 0 -1 0 1 0 0 0 0 1 dev-toolo/arm-fit/28331.dat
+1 72 0 -127 120 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 220 -55 120 0 -1 0 1 0 0 0 0 1 dev-toolo/arm-fit/28331.dat
 0 STEP
-
-0 // STEP 4 - main rotor
-1 14 0 -312 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -180 -336 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 180 -336 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 0 -336 -260 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 0 -336 100 1 0 0 0 1 0 0 0 1 3011.dat
+0 // SOURCE PAGE 4
+1 72 200 -223 -80 0 0 1 0 1 0 -1 0 0 dev-toolo/28336.dat
+1 72 200 -223 80 0 0 1 0 1 0 -1 0 0 dev-toolo/28336.dat
+1 25 -240 -199 0 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 19 -388 -233 0 0 1 0 0 0 1 1 0 0 6345.dat
+0 STEP
+0 // SOURCE PAGE 5
+1 14 -200 -271 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -200 -319 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -200 -367 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -80 -367 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 -14.5 -295 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 -80 -367 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 -145.5 -295 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 80 -367 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 145.5 -295 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 80 -367 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 14.5 -295 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+0 STEP
+0 // SOURCE PAGE 6
+1 72 623.877048 -424.808 -80 0.342020143 -0.939692621 0 0.939692621 0.342020143 0 0 0 1 dev-toolo/arm-fit/28331.dat
+1 72 623.877048 -424.808 80 0.342020143 -0.939692621 0 0.939692621 0.342020143 0 0 0 1 dev-toolo/arm-fit/28331.dat
+0 STEP
+0 // SOURCE PAGE 7
+1 72 623.877048 -496.808 -80 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 623.877048 -496.808 80 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+0 // p7 upright carriers seat their local(0,72,0) clips on long-arm end axles; local side receivers(0,24,+/-40) face outward across the fuselage.
+0 // Receiver positions(623.877048,-449.808057,+/-120); separate propeller planes avoid mutual sweep intersection.
+0 // 6670c01 mountZ0 and screw tipZ-16; local +Z maps to outward world +/-Z, matching sourcep7.
+1 71 623.877048 -472.808 -120 -1 0 0 0 1 0 0 0 -1 dev-toolo/6670c01.dat
+1 71 623.877048 -472.808 120 1 0 0 0 1 0 0 0 1 dev-toolo/6670c01.dat
+0 STEP
+0 // SOURCE PAGE 8
+1 0 -160 -415 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 0 -415 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 160 -415 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+0 STEP
+0 // SOURCE PAGE 9
+1 0 0 -487 0 1 0 0 0 1 0 0 0 1 dev-toolo/60535.dat
+0 STEP
+0 // SOURCE PAGE 10
+1 1 120 -511 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -120 -511 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 0 -511 120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 0 -511 -120 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 11
+1 14 0 -535 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 0 -535 40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // SOURCE PAGE 12
+1 1 160 -535 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -160 -535 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 0 -535 160 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 0 -535 -160 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 13
+1 1 280 -511 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -280 -511 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 0 -511 280 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 0 -511 -280 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 14
+1 1 320 -535 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -320 -535 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 0 -535 320 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 0 -535 -320 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 15
+1 14 0 -583 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 120 -559 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -120 -559 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 0 -559 120 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 0 -559 -120 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // SOURCE PAGE16: final presentation, no new parts.
+0 // Source p7 requires two 6670c01 three-blade propellers; both are now represented by the local source-backed candidate.

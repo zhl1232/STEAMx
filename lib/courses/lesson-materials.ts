@@ -140,6 +140,7 @@ export interface MaterialRequirement extends LdrawBomEntry {
 
 function isUnknown(entry: MaterialRequirement): boolean {
   if (entry.mapping.flags.unknown) return true
+  if (entry.mapping.flags.externalMaterial) return false
   if (entry.mapping.flags.figureComponent) return false
   if (!entry.mapping.partNums.length) return true
   return false
@@ -254,7 +255,7 @@ function allocateStock(
 
   for (const substitutePass of [false, true] as const) {
     for (const entry of order) {
-      if (isUnknown(entry)) continue
+      if (isUnknown(entry) || entry.mapping.flags.externalMaterial) continue
       if (substitutePass && !prefs.acceptColorSubstitutes) continue
 
       // 库存里的其它眼睛印刷也参与正常匹配，并排在素色 3437 之前。

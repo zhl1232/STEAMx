@@ -232,4 +232,46 @@ describe("simulateFunctionWarsOnlineShot", () => {
         expect(discontinuous.summary.damage).toBeNull()
         expect(discontinuous.traces[0].points.at(-1)?.x).toBeGreaterThan(0)
     })
+
+    it("applies splash damage without creating craters when hitting indestructible floor near the enemy turret", () => {
+        const map = buildFunctionWarsOnlineMap(7)
+        map.obstacles = map.obstacles.filter((obstacle) => obstacle.id === "bedrock-floor")
+        const inventory = createFunctionWarsInitialInventory().host
+        const result = simulateFunctionWarsOnlineShot({
+            expression: "-0.05x(x-19.2)",
+            role: "host",
+            weapon: "standard",
+            map,
+            crates: [],
+            craters: [],
+            inventory,
+        })
+
+        expect(result.error).toBeNull()
+        expect(result.impact?.obstacleId).toBe("bedrock-floor")
+        expect(result.summary.craters).toEqual([])
+        expect(result.summary.damage).toEqual({
+            target: "guest",
+            amount: expect.any(Number),
+        })
+        expect(result.summary.damage?.amount).toBeGreaterThan(0)
+    })
+
+    it("collects more than 4 crates in a single trajectory up to the 12-crate match limit", () => {
+        const map = buildFunctionWarsOnlineMap(1)
+        const inventory = createFunctionWarsInitialInventory().host
+        const result = simulateFunctionWarsOnlineShot({
+            expression: "7+2.5*sin(2*x)",
+            role: "host",
+            weapon: "standard",
+            map,
+            crates: map.crates,
+            craters: [],
+            inventory,
+        })
+
+        expect(result.error).toBeNull()
+        expect(result.summary.picked_crate_ids?.length).toBeGreaterThan(4)
+        expect(result.summary.picked_crate_ids?.length).toBeLessThanOrEqual(12)
+    })
 })

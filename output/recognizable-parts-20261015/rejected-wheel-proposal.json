@@ -1,0 +1,75 @@
+{
+  "status": "reverted",
+  "reason": "256 new triangle crossings per44970/wheel pair; inner-tyre geometry unverified",
+  "currentSha256": "e15f4e0bab81286b8ac517a7a0cbf71b5f609879769b5466c46dc50bb6b1e454",
+  "firstDetected": [
+    {
+      "model": "4-cha-che.ldr",
+      "sourceSha256": "c9a8237aee2d334593d523c0ba7c09596620ee6fbee56ac4d04d5a804559b6ac",
+      "sourceUnchanged": true,
+      "affectedPlacements": [
+        22,
+        24,
+        26,
+        28
+      ],
+      "deltaPairs": [
+        {
+          "lines": [
+            23,
+            22
+          ],
+          "addedFaceCrossings": 256
+        },
+        {
+          "lines": [
+            25,
+            24
+          ],
+          "addedFaceCrossings": 256
+        },
+        {
+          "lines": [
+            27,
+            26
+          ],
+          "addedFaceCrossings": 256
+        },
+        {
+          "lines": [
+            29,
+            28
+          ],
+          "addedFaceCrossings": 256
+        }
+      ],
+      "pairsChecked": 294
+    },
+    {
+      "model": "4-chun-jie-wu-shi.ldr",
+      "sourceSha256": "8b57107f178fe7f4f6ce0a2f3b19d2eb3faf754112802b24902c4249c00559fa",
+      "sourceUnchanged": true,
+      "affectedPlacements": [
+        128,
+        131
+      ],
+      "deltaPairs": [
+        {
+          "lines": [
+            129,
+            128
+          ],
+          "addedFaceCrossings": 256
+        },
+        {
+          "lines": [
+            132,
+            131
+          ],
+          "addedFaceCrossings": 256
+        }
+      ],
+      "pairsChecked": 121
+    }
+  ]
+}

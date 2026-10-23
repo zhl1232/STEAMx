@@ -1,0 +1,7 @@
+0 Toolo 28334 short arm transverse pivot candidate (engaged)
+0 Name: dev-toolo/28334.dat
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 !HELP Canonical identity 28334; source silhouette retained, pivot bore and captive screw are inferred.
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/mechanism/short-arm-fixed.dat
+1 14 0 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/mechanism/short-arm-transverse-screws.dat

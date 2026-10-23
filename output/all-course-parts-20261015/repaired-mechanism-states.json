@@ -1,0 +1,102 @@
+[
+  {
+    "part": "arm-fit/28331-fixed",
+    "offset": 0.0,
+    "crossings": 0
+  },
+  {
+    "part": "arm-fit/28331-fixed",
+    "offset": 3.0,
+    "crossings": 0
+  },
+  {
+    "part": "arm-fit/28331-fixed",
+    "offset": 6.0,
+    "crossings": 0
+  },
+  {
+    "part": "arm-fit/28331-fixed",
+    "offset": 9.0,
+    "crossings": 0
+  },
+  {
+    "part": "arm-fit/28331-fixed",
+    "offset": 12.0,
+    "crossings": 0
+  },
+  {
+    "part": "arm-fit/28334-fixed",
+    "offset": 0.0,
+    "crossings": 0
+  },
+  {
+    "part": "arm-fit/28334-fixed",
+    "offset": 3.0,
+    "crossings": 0
+  },
+  {
+    "part": "arm-fit/28334-fixed",
+    "offset": 6.0,
+    "crossings": 0
+  },
+  {
+    "part": "arm-fit/28334-fixed",
+    "offset": 9.0,
+    "crossings": 0
+  },
+  {
+    "part": "arm-fit/28334-fixed",
+    "offset": 12.0,
+    "crossings": 0
+  },
+  {
+    "part": "propeller-body",
+    "offset": 0.0,
+    "crossings": 0
+  },
+  {
+    "part": "propeller-body",
+    "offset": 4.0,
+    "crossings": 0
+  },
+  {
+    "part": "propeller-body",
+    "offset": 8.0,
+    "crossings": 0
+  },
+  {
+    "part": "propeller-body",
+    "offset": 12.0,
+    "crossings": 0
+  },
+  {
+    "part": "propeller-body",
+    "offset": 16.0,
+    "crossings": 0
+  },
+  {
+    "part": "large-propeller-body",
+    "offset": 0.0,
+    "crossings": 0
+  },
+  {
+    "part": "large-propeller-body",
+    "offset": 4.0,
+    "crossings": 0
+  },
+  {
+    "part": "large-propeller-body",
+    "offset": 8.0,
+    "crossings": 0
+  },
+  {
+    "part": "large-propeller-body",
+    "offset": 12.0,
+    "crossings": 0
+  },
+  {
+    "part": "large-propeller-body",
+    "offset": 16.0,
+    "crossings": 0
+  }
+]

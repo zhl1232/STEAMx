@@ -1,0 +1,88 @@
+0 Four wheel drive - source reconstruction; unaccepted development draft
+0 Name: 5-si-qu-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source e0220450ad00aa305d8d8443f81fdb0597020f0811601d98510df154dd462376; all12pages actually viewed
+0 // Both crowns face their red mates; Z+4/-4 couplers engage half-shafts16/24LDU. 2026-10-21: cab/closed canopy moved+80X to restore page10 platform support; approved wheelarch shell. Whole digital assembly and361 rolling poses checked; human acceptance pending.
+0 // SOURCE PAGE 1 six lower blue plates crossbond two long red side beams
+1 1 -120 -80 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 120 -80 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -120 -80 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 120 -80 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 0 -80 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 0 -80 80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 0 -128 -120 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 -128 120 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+0 // SOURCE PAGE 2 central transverse red axle brick and six upper blue plates
+1 4 0 -128 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 1 -120 -152 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 120 -152 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -120 -152 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 120 -152 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 0 -152 -80 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 0 -152 80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 3 front pair of grey half-shafts, blue shaft coupler and inward-facing crown
+1 7 -160 -104 -120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 7 -160 -104 120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 1 -160 -104 4 1 0 0 0 1 0 0 0 1 31625.dat
+1 1 -160 -104 -60 1 0 0 0 1 0 0 0 1 31622.dat
+0 STEP
+0 // SOURCE PAGE 4 rear pair of grey half-shafts, blue shaft coupler and opposite inward-facing crown
+1 7 160 -104 -120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 7 160 -104 120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 1 160 -104 -4 1 0 0 0 1 0 0 0 1 31625.dat
+1 1 160 -104 60 -1 0 0 0 1 0 0 0 -1 31622.dat
+0 STEP
+0 // SOURCE PAGE 5 central longitudinal axle with two pulley spacers and two red24-tooth gears
+1 7 0 -104 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 -60 -104 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 4 -100 -104 0 0 0 -1 0 1 0 1 0 0 6529.dat
+1 14 60 -104 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 4 100 -104 0 0 0 1 0 1 0 -1 0 0 6529.dat
+0 STEP
+0 // SOURCE PAGE 6 four large yellow gear wheels and outer pulley retainers
+1 14 -160 -104 -180 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 14 -160 -104 -220 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -160 -104 180 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 -160 -104 220 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 160 -104 -180 -1 0 0 0 1 0 0 0 -1 6530.dat
+1 14 160 -104 -220 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 160 -104 180 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 160 -104 220 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+0 // SOURCE PAGE 7 six yellow crossbond H risers
+1 14 -120 -200 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -200 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -200 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 120 -200 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -200 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -200 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 8 blue8x8 plus4x8 deck, overhanging40LDU at each longitudinal end
+1 1 -80 -224 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 160 -224 0 0 0 1 0 1 0 -1 0 0 4672.dat
+0 STEP
+0 // SOURCE PAGE 9 seven red rim bricks and orange31196c01 cab/pale hood; approved thin-floor wheelarch approximation seats eight rear receivers and preserves closed canopy fit. No physical snap/load certification.
+1 4 -160 -272 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -272 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -272 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -272 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -272 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 160 -272 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 200 -272 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 25 -160 -248 0 0 0 1 0 1 0 -1 0 0 dev-129/31196c01-wheelarch.dat
+1 46 -308 -282 0 0 1 0 0 0 1 1 0 0 6345.dat
+0 STEP
+0 // SOURCE PAGE 10 two yellow curved front caps and two transverse red cab-back bricks
+1 14 -200 -320 -120 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 14 -200 -320 120 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 4 -120 -320 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -120 -320 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 11 three striped cargo fences
+1 15 80 -368 -140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 80 -368 140 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 220 -368 0 0 0 1 0 1 0 -1 0 0 31021p01.dat

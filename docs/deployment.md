@@ -37,6 +37,8 @@ Docker 的 `scratch-builder` 只接收 Scratch 子包及依赖输入，产物处
 
 **容器回滚不等于数据库或业务回滚。** 已提交迁移不会被部署脚本反向修改；旧计费应用可能无法新建旧凭证。迁移后切换失败，应发布兼容已提交结构的应用，不伪造未执行标记、不删减用户账本。
 
+`lib/courses/ldraw-review.ts` 静态读取的 `scripts/ldraw-production-protected.json` 必须进入 Docker 构建上下文；`.dockerignore` 仅对此保护清单放行，模型源稿和维护脚本仍排除。
+
 ## 数据库与应用版本协调
 
 Release 的 `MIGRATION_ALLOWLIST` 是该提交的批准文件清单。通用指南不写死“本次三条”；[2026-10-13 配置快照](releases/2026-10-13/runtime-migrations.md) 保存本轮核对结果。新增迁移必须另行审查并更新允许名单，不取消范围校验放行。

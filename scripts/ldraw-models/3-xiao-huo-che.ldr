@@ -1,6 +1,6 @@
 0 3+ 小火车 - INCOMPLETE source reconstruction
 0 // Source /mnt/d/pdf预览/3+小火车搭建说明_pdf pages1-14.
-0 // Historical31193 door retained; provenance and physical hinge retention unresolved.
+0 // 2026-10-15 round door: independently reconstructed 31193, standard 62-LDU hinge pitch and rounded hinge edge; closed pose relative to 31191 (0,110,-17.5). Photo approximation, physical tolerances not measured.
 0 // INCOMPLETE: round-door/socket meshes intersect; white pane hinge depth under review.
 0 // Holder/chimney seated on actual mesh; tow pins coaxial.
 0 // STEP 1 - four wheel bases and8x16 locomotive floor
@@ -15,7 +15,7 @@
 1 14 -40 -240 0 0 0 1 0 1 0 -1 0 0 31191.dat
 1 1 -260 -130 0 0 0 1 0 1 0 -1 0 0 31452.dat
 1 1 -140 -130 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 4 -297.5 -31.551 0 0 0 1 0 1 0 -1 0 0 31193.dat
+1 4 -297.5 -130 0 0 0 1 0 1 0 -1 0 0 31193.dat
 0 STEP
 0 // STEP 3 - red holder and blue chimney; pipe seated against actual holder mesh
 1 4 -129.3765 -240 0 0 0 1 0 1 0 -1 0 0 42029.dat

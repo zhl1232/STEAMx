@@ -1,0 +1,89 @@
+0 Helicopter - source-based repair with two authorized 71059 formed approximations
+0 5-zhi-sheng-ji - source-based dev-only reconstruction
+0 Name: 5-zhi-sheng-ji.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 // P6 visible inset has one40T gear, one6Lshaft and onepulley. The previously removed extra40T is not restored.
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Local candidate:43 retained rigid source pieces,2 substituted71059 belts and2 added40666 support plates;47 placements.
+0 // Renderer candidate only; no human acceptance, physical certification or production publication.
+0 // Source page 1: Red6x12plate and two-layer yellow8stud foundation
+1 4 0 0 0 -1 0 0 0 1 0 0 0 -1 4196.dat
+1 14 80 -48 0 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -80 -48 0 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 80 -96 0 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -80 -96 0 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // Source page2: lower red rails and retained approved-approximate cockpit; cockpit/hood moved forward40LDU.
+1 4 0 -144 0 -1 0 0 0 1 0 0 0 -1 75350.dat
+1 4 80 -192 0 -1 0 0 0 1 0 0 0 -1 75350.dat
+1 25 -240 -168 0 0 0 1 0 1 0 -1 0 0 dev-129/31196c01-fourwheel.dat
+1 19 -388 -202 0 0 1 0 0 0 1 1 0 0 6345.dat
+0 STEP
+0 // Source page3: front lower yellow support raised24 on added40666; X-160/-120 source stagger restored.
+1 14 -120 -216 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 160 -240 0 -1 0 0 0 1 0 0 0 -1 75350.dat
+1 14 440 -240 0 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -160 -264 0 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 480 -288 0 -1 0 0 0 1 0 0 0 -1 3437.dat
+1 4 360 -288 0 -1 0 0 0 1 0 0 0 -1 75349.dat
+1 14 200 -288 0 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -120 -312 0 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // Source page4: rear added40666 raises bridge24LDU; front bridge sits directly on raised upper yellowbrick.
+1 14 200 -312 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 40 -360 0 -1 0 0 0 1 0 0 0 -1 75350.dat
+1 14 480 -336 0 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 320 -336 0 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // Source page 5: Stepped tail fin4yellowbricks
+1 14 520 -384 0 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 560 -432 0 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 600 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 520 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // Source page 6: gray6L axle, yellow bush, yellow40T gear on courseware-front face (LDR z-)
+1 7 40 -168 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 40 -168 60 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 40 -168 -60 -1 0 0 0 1 0 0 0 -1 6530.dat
+0 STEP
+0 // Source page 7: 24T red gear meshing 40T at 160LDU (Duplo-scale pitch) on same face, crank in front, bush behind
+1 7 200 -168 0 0 -0.13052619222 -0.991444861374 0 0.991444861374 -0.13052619222 1 0 0 6522.dat
+1 4 200 -168 -60 -0.991444861374 -0.13052619222 0 -0.13052619222 0.991444861374 0 0 0 -1 6529.dat
+1 14 200 -168 -100 -0.991444861374 0 0.13052619222 -0.13052619222 0 -0.991444861374 0 -1 0 6526.dat
+1 14 200 -168 60 -0.991444861374 -0.13052619222 0 -0.13052619222 0.991444861374 0 0 0 -1 6527.dat
+0 STEP
+0 // Source page8: vertical8Lshaft raised24 with main head; crown Y-273 gives105Y/60Z offset to40T.
+1 2 40 -371 0 0 -1 0 -1 0 0 0 0 -1 6521.dat
+1 1 40 -273 0 1 0 0 0 0 1 0 -1 0 31622.dat
+0 STEP
+0 // Source page9: two11-hole blades and opposed cranks; bottom crank rests on bridge stud tipsY-371.
+1 14 40 -391 0 -1 0 0 0 -1 0 0 0 1 6526.dat
+1 14 40 -431 0 -1 0 0 0 1 0 0 0 -1 6525.dat
+1 14 40 -471 0 0 0 -1 0 1 0 1 0 0 6525.dat
+1 14 40 -511 0 0 0 -1 0 1 0 1 0 0 6526.dat
+0 STEP
+0 // Source page10: tail8Lshaft andtwo pulleys; near pulley reversed to align matching belt grooves.
+1 2 360 -264 80 0 0 -1 0 -1 0 -1 0 0 6521.dat
+1 14 360 -264 -60 -1 0 0 0 -1 0 0 0 1 6527.dat
+1 14 360 -264 60 -1 0 0 0 1 0 0 0 -1 6527.dat
+0 STEP
+0 // Source page 11: Two7-hole tail blades and opposed cranks
+1 14 360 -264 100 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 14 360 -264 140 0 0 -1 1 0 0 0 -1 0 6524.dat
+1 14 360 -264 180 -1 0 0 0 0 -1 0 -1 0 6524.dat
+1 14 360 -264 220 -1 0 0 0 0 -1 0 -1 0 6526.dat
+0 STEP
+0 // Source page12: two real71059 substitutions, shown in their final formed positions; source page is belt preparation.
+1 1 0 0 0 1 0 0 0 1 0 0 0 1 dev-71059/71059-helicopter-small-formed-approx.dat
+1 1 0 0 0 1 0 0 0 1 0 0 0 1 dev-71059/71059-helicopter-large-formed-approx.dat
+0 STEP
+0 // Source page13: final fitted double-belt arrangement; no duplicate physical pieces added.
+0 // USER-APPROVED: blue71059 belts replace unnumbered source flexible runs. Two noncrossed loops connect aft low and near tail pulleys.
+0 // Existing31196c01 cockpit is an approved photo approximation; actual bottom and6345 hood seating verified, hidden clutch/snap retention unmeasured.
+0 // Red24T/40T/crown: inputRz(theta),40TRz(-0.6theta),crownRy(theta);721 native sampled gear poses and wrong-phase controls checked.
+0 // Main green axle engages lower red beam vertical passage29/48LDU. Other24 finite interfaces cover their actual receivers;4offset blade pins40LDU.
+0 // SourceP3 rear lower yellowbrick has no bottom bearing: its upper studs join the short red bearingbrick bridging to the long red beam.
+0 // Source page 14: finished view, no duplicated placements.
+0 // Two added40666 plates have2/8 and4/8 lower stud engagement. Main rotor stack has4 verified axial seats; cantilever load not certified.
+0 // Belt radius2LDU, posed lengths and hidden route are inferred. Native groove polygon near-contact gaps quantified; natural length, strain, friction and physical retention unmeasured.

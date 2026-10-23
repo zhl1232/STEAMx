@@ -1,43 +1,138 @@
-0 4+ 塔吊 (Tower Crane) - DUPLO draft for manual repair
+0 4+ Tower crane - course-image reconstruction draft
 0 Name: 4-ta-diao.ldr
-0 Author: OpenAI
+0 Author: STEAMX local reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+塔吊 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Tower mast, boom truss, counterweight, cabin and hook are simplified.
-
-0 // STEP 1 - green base and striped tower
-1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 4 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 0 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -312 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Same-frame Toolo base brick migration: corrected captive screw count/receivers, supported screw axes engaged after per-axis port/mesh checks; other axes retracted. Other legacy interfaces remain under review.
+0 // Source: all19 course pages, inspected2026-10-13. Renderer review only; not physically verified.
+0 // X along crane beam, Y down, Z across beam; Duplo stud pitch40LDU.
+0 // Local Toolo parts, hook6295 and stand2223 are user-authorized approximations.
+0 // Toolo72LDU turntable lifts all upper steps32LDU. Main boom/brace share real middlePIN220. Rear support uses two real28334 arms instead of one to close the verified 200LDU spans between grid-mounted anchors; one additional arm required.
+0 // P10 forward base leans toward cab; p16 clip meets p10 middle screw; p17 clip meets rear base pivot.
+0 // SOURCE PAGE 1
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 15 -120 -96 -260 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -260 -96 -120 0 0 1 0 1 0 -1 0 0 31021p01.dat
+1 15 120 -96 -260 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -260 -96 120 0 0 1 0 1 0 -1 0 0 31021p01.dat
+1 15 -120 -96 260 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 260 -96 -120 0 0 1 0 1 0 -1 0 0 31021p01.dat
+1 15 120 -96 260 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 260 -96 120 0 0 1 0 1 0 -1 0 0 31021p01.dat
 0 STEP
-
-0 // STEP 2 - red/yellow upper cab
-1 4 0 -360 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 0 -456 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 15 -80 -408 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 80 -408 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 2
+1 0 0 -48 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 4 -80 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 80 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 80 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -240 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 3 - black boom and rear counterweight
-1 0 -160 -456 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 0 -320 -456 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 0 -480 -456 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 0 160 -456 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 0 320 -456 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 360 -504 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 360 -552 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 3
+1 0 0 -288 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 4 -80 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 80 -336 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -384 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -384 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -384 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 80 -432 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -480 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -480 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -480 40 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 4 - trolley, hook and braces
-1 8 -360 -504 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 -360 -552 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 -360 -600 -80 0 0 1 0 1 0 -1 0 0 40666.dat
-1 0 -180 -408 -20 0.707 0.707 0 -0.707 0.707 0 0 0 1 31452.dat
-1 0 180 -408 -20 0.707 -0.707 0 0.707 0.707 0 0 0 1 31452.dat
+0 // SOURCE PAGE 4
+1 0 0 -528 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 4 -80 -576 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -576 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 80 -576 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -80 -624 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -624 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -624 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 0 -672 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+0 STEP
+0 // SOURCE PAGE 5
+1 0 0 -744 0 1 0 0 0 1 0 0 0 1 dev-toolo/60535.dat
+0 STEP
+0 // SOURCE PAGE 6
+1 0 0 -792 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+0 STEP
+0 // SOURCE PAGE 7
+1 0 -240 -792 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 -120 -840 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-110.dat
+0 STEP
+0 // SOURCE PAGE 8
+1 0 240 -792 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 120 -840 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-110.dat
+1 0 360 -840 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-100.dat
+0 STEP
+0 // SOURCE PAGE 9
+1 4 440 -792 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 440 -792 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 440 -744 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 440 -744 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 440 -696 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 440 -696 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 440 -648 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 440 -648 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 10
+1 72 -320 -840 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged-top/28336.dat
+1 72 -650.544987451 -1034.24276566 0 0.323106914155 0.946362468627 0 -0.946362468627 0.323106914155 0 0 0 1 dev-toolo/arm-fit/28331.dat
+0 STEP
+0 // SOURCE PAGE 11
+1 72 -650.544987451 -634.242765662 0 -1 0 0 -0 -1 0 0 0 1 dev-toolo/arm-fit/28331.dat
+1 72 -650.544987451 -634.242765662 0 1 0 0 0 1 0 0 0 1 dev-129/6295-ta-diao.dat
+0 STEP
+0 // SOURCE PAGE 12
+1 25 -80 -864 0 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 226 -228 -898 0 0 1 0 0 0 1 1 0 0 6345.dat
+1 14 40 -888 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 13
+1 14 -40 -936 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -936 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -984 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -984 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -1032 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -1032 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -1080 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -1080 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -1128 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -1128 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 14
+1 72 0 -1176 -40 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+1 72 0 -1176 40 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+0 STEP
+0 // SOURCE PAGE 15
+0 // Additional two real76057 risers raise left brace anchor96LDU, providing clearance at the main middle-pin joint. Retracted screws; stud support only.
+1 72 0 -1224 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76057.dat
+1 72 0 -1272 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76057.dat
+1 72 -80 -1320 0 1 0 0 0 1 0 0 0 1 dev-toolo/engaged/76057.dat
+1 72 120 -1224 0 -1 0 0 0 1 0 0 0 -1 dev-toolo/engaged/76057.dat
+1 72 -120 -1272 0 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 160 -1176 0 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+0 STEP
+0 // SOURCE PAGE 16
+1 72 -120 -1200 0 0.59210188863 -0.805863110882 0 0.805863110882 0.59210188863 0 0 0 1 dev-toolo/arm-fit/28331.dat
+0 STEP
+0 // SOURCE PAGE 17
+1 72 280 -888 0 0 0 -1 0 1 0 1 0 0 dev-toolo/engaged/28336.dat
+1 72 359.981908273 -1106.69004898 0 0.768450244889 -0.639909541365 0 0.639909541365 0.768450244889 0 0 0 1 dev-toolo/arm-fit/28334.dat
+1 72 160 -1104 0 -0.0134502448892 0.999909541365 0 -0.999909541365 -0.0134502448892 0 0 0 1 dev-toolo/arm-fit/28334.dat
+0 STEP
+0 // SOURCE PAGE 18
+1 4 -80 -1368 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 0 -80 -1368 0 1 0 0 0 1 0 0 0 1 dev-toolo/2223.dat
+0 // SOURCE PAGE19: final view; no new parts.
+0 // Approximate fork contacts and cockpit/canopy seating require manual review; see external4-ta-diao-report.md.

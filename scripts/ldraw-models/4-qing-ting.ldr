@@ -1,42 +1,61 @@
-0 4+ 蜻蜓 (Dragonfly) - DUPLO draft for manual repair
+0 4-qing-ting - source-page reconstruction, dev-only draft
 0 Name: 4-qing-ting.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+蜻蜓 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Technic wings, legs and pins are replaced with coarse DUPLO tubes and plates.
-
-0 // STEP 1 - segmented body
-1 0 -160 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 8 0 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 160 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -280 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 280 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Same-frame Toolo base brick migration: corrected captive screw count/receivers, supported screw axes engaged after per-axis port/mesh checks; other axes retracted. Other legacy interfaces remain under review.
+0 // STATUS: DIGITAL STATIC CHECKED - current approximate Toolo geometry, joints assumed locked; renderer-verified only.
+0 // No user confirmation, physical validation or publication is claimed.
+0 // Known Toolo IDs use previously approved LOCAL SIMPLIFIED GEOMETRY; dimensions/threads/pivots remain approximate.
+0 // Neck clearance repair: top76395 rotated across body; wing forks and middle legs move40LDU out to real studs/ports. Add one actual3437 at centre to support yellow40666 independently. Forks over own-head positions retain stud support with captive screws retracted; no floating plate.
+0 // Source: 9 original instruction images; source steps and hashes recorded in preparation/4-qing-ting/ledger.json.
+0 // Inventory per set/colour unknown. Do not infer required parts from the replaced old approximation.
+0 // STEP 1 - p1: three black 4x6 Toolo bricks; two lower bricks and centred upper bridge
+1 0 -120 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 120 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 0 -48 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-001-p001.dat
 0 STEP
-
-0 // STEP 2 - head and tail
-1 0 -420 -96 0 1 0 0 0 1 0 0 0 1 2302.dat
-1 15 -420 -144 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 340 -72 0 0 0 1 0 1 0 -1 0 0 31452.dat
-1 8 460 -72 0 0 0 1 0 1 0 -1 0 0 31452.dat
+0 // STEP 2 - p2: head fork base and clutch block
+1 72 200 -48 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged-top/28336.dat
+1 72 248 -185 0 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
 0 STEP
-
-0 // STEP 3 - four long wings
-1 8 -120 -96 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 8 160 -96 -140 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 8 -120 -96 120 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 8 160 -96 140 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 7 -260 -160 -220 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 7 220 -160 -240 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 7 -260 -160 220 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 7 220 -160 240 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // STEP 3 - p3: two grey wheel rims and black tyres used as eyes
+1 71 248 -161 -65 -1.0 0 -0.0 -0.0 0 -1.0 -0.0 -1 -0.0 dev-toolo/99565.dat
+1 0 248 -161 -65 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 248 -161 65 -1.0 0 -0.0 -0.0 0 1.0 -0.0 1 -0.0 dev-toolo/99565.dat
+1 0 248 -161 65 1 0 0 0 0 -1 0 1 0 44970.dat
 0 STEP
-
-0 // STEP 4 - legs and eye spots
-1 0 -80 -72 -100 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 0 80 -72 -100 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 0 -80 -72 100 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 0 80 -72 100 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 14 -440 -192 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 -440 -192 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // STEP 4 - p4: tail fork base and long double-screw arm
+1 72 -200 -48 0 0 0 -1 0 1 0 1 0 0 dev-toolo/engaged/28336.dat
+1 72 -648 -113 0 0 1 0 -1 0 0 0 0 1 dev-toolo/arm-fit/28331.dat
+0 STEP
+0 // STEP 5 - p5: three far-side downward fork legs
+1 72 -160 24 128 1 0 0 0 0 1 0 -1 0 dev-toolo/engaged/28336.dat
+1 72 0 -24 168 1 0 0 0 0 1 0 -1 0 dev-toolo/engaged-top/28336.dat
+1 72 160 24 128 1 0 0 0 0 1 0 -1 0 dev-toolo/engaged/28336.dat
+0 STEP
+0 // STEP 6 - p6: three near-side downward fork legs
+1 72 -160 24 -128 -1 0 0 0 0 1 0 1 0 dev-toolo/engaged/28336.dat
+1 72 0 -24 -168 -1 0 0 0 0 1 0 1 0 dev-toolo/engaged-top/28336.dat
+1 72 160 24 -128 -1 0 0 0 0 1 0 1 0 dev-toolo/engaged/28336.dat
+0 STEP
+0 // STEP 7 - p7: four wing fork bases and one yellow 2x4 plate
+1 72 -40 -96 -80 -1 0 0 0 1 0 0 0 -1 dev-toolo/28336.dat
+1 72 -40 -96 80 1 0 0 0 1 0 0 0 1 dev-toolo/28336.dat
+1 72 40 -96 -80 -1 0 0 0 1 0 0 0 -1 dev-toolo/engaged-top/28336.dat
+1 72 40 -96 80 1 0 0 0 1 0 0 0 1 dev-toolo/engaged/28336.dat
+1 14 0 -96 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 0 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // STEP 8 - p8: four long double-screw wing arms
+0 // night4: rear+25 front-10 milder asym
+1 72 -40 -330.047304696 -490.523114815 0 0 -1 -0.906307787037 0.422618261741 0 0.422618261741 0.906307787037 0 dev-toolo/arm-fit/28331.dat
+1 72 -40 -330.047304696 490.523114815 0 0 1 -0.906307787037 0.422618261741 0 -0.422618261741 -0.906307787037 0 dev-toolo/arm-fit/28331.dat
+1 72 40 -91.5407289332 -521.923101205 0 0 -1 -0.984807753012 -0.173648177667 0 -0.173648177667 0.984807753012 0 dev-toolo/arm-fit/28331.dat
+1 72 40 -91.5407289332 521.923101205 0 0 1 -0.984807753012 -0.173648177667 0 0.173648177667 -0.984807753012 0 dev-toolo/arm-fit/28331.dat
+0 // CHECK: Eleven captive screws enter actual receiver meshes16LDU; two retracted wing bases rest on four studs each. Toolo fit and locking remain unmeasured.
+0 // CHECK: Five actual fork transverse pins span both28331 open-hook cheeks; head74957 and wheel screws have finite engagement. Axial clamp contact holds the displayed joint pose by assumed locking/friction.
+0 // SOURCE ADAPTATION: Rear wings25deg up/front wings10deg down, crossed upper body brick, outward middle legs/wing bases and extra3437 support are inferred clearance adaptations.
+0 // CHECK: Four outer legs reach Y92; middle legs end at Y44. Complete27-piece static mesh has no strict crossings; no joint-motion, physical retention or load test.
+0 // Source page 9 is the finished view; no additional placement duplicated.
+0 // Source26 pieces plus one genuine3437 support brick; head and wing angles require locked joints. Intermediate subassemblies require hand support.

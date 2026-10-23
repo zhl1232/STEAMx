@@ -1,44 +1,63 @@
-0 4+ 无人机 (Drone) - DUPLO draft for manual repair
+0 4+ Drone - source reconstruction draft
 0 Name: 4-wu-ren-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+无人机 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Technic frame, propellers, motors and landing legs are simplified.
-
-0 // STEP 1 - central black body
-1 0 -80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 80 -72 0 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 -80 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 80 -120 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Same-frame Toolo base brick migration: corrected captive screw count/receivers, screws retracted pending individual engagement checks. Other legacy interfaces remain under review.
+0 // 2026-10-13: propellers added as local approximation; arms switched to wider 28331 copy.
+0 // Migrated Toolo interfaces: side panels two aligned screws engaged, unsupported third retracted; arm400, clip72, propellers on side holes; landing-leg stud rows corrected.
+0 // All9source PDF pages viewed; page9 no additions; Toolo geometry approximate.
+0 // SOURCE PAGE 1
+1 0 -160 -240 -80 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 0 -240 -80 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 160 -240 -80 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 -120 -240 120 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 120 -240 120 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
 0 STEP
-
-0 // STEP 2 - four arms
-1 0 -220 -96 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 220 -96 -80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 -220 -96 80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 220 -96 80 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 -360 -96 -80 0 0 1 0 1 0 -1 0 0 40666.dat
-1 0 360 -96 -80 0 0 1 0 1 0 -1 0 0 40666.dat
-1 0 -360 -96 80 0 0 1 0 1 0 -1 0 0 40666.dat
-1 0 360 -96 80 0 0 1 0 1 0 -1 0 0 40666.dat
+0 // SOURCE PAGE 2
+1 0 -288 -176 0 0 1 0 0 0 1 1 0 0 dev-toolo/states/76395-110-phase01.dat
+1 0 0 -176 -248 1 0 0 0 0 -1 0 1 0 dev-toolo/states/76395-110.dat
+1 0 288 -176 0 0 -1 0 0 0 1 -1 0 0 dev-toolo/states/76395-110-phase10.dat
+1 0 0 -176 248 1 0 0 0 0 1 0 -1 0 dev-toolo/states/76395-110.dat
 0 STEP
-
-0 // STEP 3 - propeller hubs and blades
-1 14 -440 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 440 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -440 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 440 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 7 -500 -168 -120 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
-1 7 500 -168 -120 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 7 -560 -168 120 0.707 -0.707 0 0.707 0.707 0 0 0 1 40666.dat
-1 7 560 -168 120 0.707 0.707 0 -0.707 0.707 0 0 0 1 40666.dat
+0 // SOURCE PAGE 3
+1 72 160 -288 160 0 0 1 0 1 0 -1 0 0 dev-toolo/28336.dat
+1 72 -160 -288 160 1 0 0 0 1 0 0 0 1 dev-toolo/28336.dat
+1 72 -160 -288 -160 0 0 -1 0 1 0 1 0 0 dev-toolo/28336.dat
+1 72 160 -288 -160 -1 0 0 0 1 0 0 0 -1 dev-toolo/28336.dat
 0 STEP
-
-0 // STEP 4 - red landing legs and camera
-1 4 -160 -24 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 160 -24 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -160 -24 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 160 -24 80 1 0 0 0 1 0 0 0 1 3437.dat
-1 8 0 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE 4
+1 72 608 -353 160 0 -1 0 1 0 0 0 0 1 dev-toolo/arm-fit/28331.dat
+1 72 -160 -353 608 0 0 -1 1 0 0 0 -1 0 dev-toolo/arm-fit/28331.dat
+1 72 -608 -353 -160 0 1 0 1 0 0 0 0 -1 dev-toolo/arm-fit/28331.dat
+1 72 160 -353 -608 0 0 1 1 0 0 0 1 0 dev-toolo/arm-fit/28331.dat
+0 STEP
+0 // SOURCE PAGE 5
+1 72 680 -353 160 0 -1 0 1 0 0 0 0 1 dev-toolo/74957.dat
+1 72 -160 -353 680 0 0 -1 1 0 0 0 -1 0 dev-toolo/74957.dat
+1 72 -680 -353 -160 0 1 0 1 0 0 0 0 -1 dev-toolo/74957.dat
+1 72 160 -353 -680 0 0 1 1 0 0 0 1 0 dev-toolo/74957.dat
+0 STEP
+0 // SOURCE PAGE 6
+0 // Hand fix 2026-10-13: four large three-blade propellers (6670c01 local approximation) on top of outward clutches.
+1 71 656 -393 160 1 0 0 0 0 -1 0 1 0 dev-toolo/6670c01.dat
+1 71 -160 -393 656 1 0 0 0 0 -1 0 1 0 dev-toolo/6670c01.dat
+1 71 -656 -393 -160 1 0 0 0 0 -1 0 1 0 dev-toolo/6670c01.dat
+1 71 160 -393 -656 1 0 0 0 0 -1 0 1 0 dev-toolo/6670c01.dat
+0 STEP
+0 // SOURCE PAGE 7
+1 4 -336 -176.0 -80 0 1 0 1 0 0 0 0 -1 dev-toolo/engaged/76057.dat
+1 4 -384 -96.0 -80 0 1 0 1 0 0 0 0 -1 dev-toolo/engaged/76057.dat
+1 4 -336 -176.0 80 0 1 0 1 0 0 0 0 -1 dev-toolo/engaged/76057.dat
+1 4 -384 -96.0 80 0 1 0 1 0 0 0 0 -1 dev-toolo/engaged/76057.dat
+1 4 336 -176.0 -80 0 -1 0 1 0 0 0 0 1 dev-toolo/engaged/76057.dat
+1 4 384 -96.0 -80 0 -1 0 1 0 0 0 0 1 dev-toolo/engaged/76057.dat
+1 4 336 -176.0 80 0 -1 0 1 0 0 0 0 1 dev-toolo/engaged/76057.dat
+1 4 384 -96.0 80 0 -1 0 1 0 0 0 0 1 dev-toolo/engaged/76057.dat
+0 STEP
+0 // SOURCE PAGE 8
+1 72 0 -56 361 0 0 -1 0 -1 0 -1 0 0 dev-toolo/74957.dat
+1 72 0 -176 296 1 0 0 0 0 1 0 -1 0 dev-toolo/engaged/28336.dat
+1 71 0 -80 426 1 0 0 0 0 -1 0 1 0 dev-toolo/99565.dat
+0 // Camera rim holder joints are inferred; final sourcep9 changes viewpoint only.
+0 // Camera rebuilt: fork base screw to front panel top receiver, transverse pin to clip72, camera rim to clip flat side receiver. Candidate geometry, no physical fit certification.

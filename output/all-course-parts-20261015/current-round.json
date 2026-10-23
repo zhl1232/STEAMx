@@ -1,0 +1,16 @@
+{
+  "sourceModelsChanged": 30,
+  "meshZeroInChanged": 14,
+  "meshCrossingPairsInChanged": 147,
+  "unresolvedSpecific": {
+    "4-wa-li": "旧71981履带尺寸与张紧未核实；160LDU宽履带试换撞躯干已撤回；门轴及未知铲手仍有穿插。",
+    "4-du-jiao-xian": "角端钳片真实ID和接口未核实，2对穿插保留。",
+    "4-zhong-guo-long": "未知铲脚/耙脚，两个后铲脚仍与短臂穿插；不得宣称整课通过。",
+    "4-yi-long": "四个耙脚真实ID、保持结构未核实；无穿插不能证明连接。",
+    "4-ya-lu-ji": "滚筒真实ID/内部通孔及座舱人偶关系未解决。",
+    "4-long-men-diao": "卷筒轴承内部、支架与绳索仍未核实。",
+    "4-dao-dan-che": "两处轮缘局部穿插及座舱/窗/顶盖旧候选仍需核实。",
+    "4-ta-diao": "两stud悬臂支承和负载稳定性未验证；旧座舱候选穿插保留。",
+    "4-zuan-tu-che": "转盘边缘双叉各2stud支承，长臂承载未验证；旧座舱/窗候选保留。"
+  }
+}

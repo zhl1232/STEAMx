@@ -1,0 +1,115 @@
+0 Dock crane - complete source static draft; renderer verified, no human or physical confirmation
+0 Name: 5-ma-tou-diao-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 -400 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -400 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -400 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -400 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -440 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -360 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 0 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 40 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -144 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -144 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 400 -240 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 400 -240 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 360 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 440 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+1 2 -240 -312 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 2 240 -312 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 STEP
+1 4 -240 -371 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 -240 -347 -60 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 -240 -347 60 0 0 1 1 0 0 0 1 0 6525.dat
+0 STEP
+1 2 -400 -347 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -400 -347 -100 0 0 1 1 0 0 0 1 0 6526.dat
+1 14 -400 -347 -140 -1 0 0 0 0 1 0 1 0 6526.dat
+1 14 -400 -347 100 0 0 1 -1 0 0 0 -1 0 6526.dat
+1 14 -400 -347 140 1 0 0 0 0 1 0 -1 0 6526.dat
+1 2 -80 -347 0 0 0 1 0 1 0 -1 0 0 6521.dat
+1 14 -80 -347 -100 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 14 -80 -347 -140 -1 0 0 0 0 1 0 1 0 6526.dat
+1 14 -80 -347 100 0 0 -1 1 0 0 0 -1 0 6526.dat
+1 14 -80 -347 140 1 0 0 0 0 1 0 -1 0 6526.dat
+0 STEP
+1 14 -320 -402 0 1 0 0 0 0 1 0 -1 0 6530.dat
+1 7 -320 -473 0 0 1 0 -1 0 0 0 0 1 6522.dat
+0 STEP
+1 4 -240 -467 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 -440 -491 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -200 -491 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -320 -539 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+1 14 -320 -570 0 1 0 0 0 0 1 0 -1 0 6527.dat
+0 STEP
+1 1 0 -515 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -80 -563 0 6.12323399573677e-17 0 1 0 1 0 -1 0 6.12323399573677e-17 3011.dat
+1 1 0 -563 0 6.12323399573677e-17 0 1 0 1 0 -1 0 6.12323399573677e-17 3011.dat
+1 1 80 -563 0 6.12323399573677e-17 0 1 0 1 0 -1 0 6.12323399573677e-17 3011.dat
+0 STEP
+1 4 40 -598 0 0 0 1 0 1 0 -1 0 0 31196c01.dat
+1 46 -108.1 -632 0 0 1 0 0 0 1 1 0 0 6345.dat
+1 4 80 -766 0 6.12323399573677e-17 0 -1 0 1 0 1 0 6.12323399573677e-17 61649.dat
+1 15 122.5 -694 65.5 6.12323399573677e-17 0 -1 0 1 0 1 0 6.12323399573677e-17 90265.dat
+1 14 80 -814 0 6.12323399573677e-17 0 -1 0 1 0 1 0 6.12323399573677e-17 3011.dat
+1 27 0 -838 0 1 0 0 0 1 0 0 0 1 4672b.dat
+0 STEP
+1 14 -580 -688.205080756888 -100 0.866025403784439 0 -0.5 -0.5 0 -0.866025403784439 0 1 0 6525.dat
+1 14 -580 -688.205080756888 100 0.866025403784439 0 -0.5 -0.5 0 -0.866025403784439 0 1 0 6525.dat
+1 7 -480 -515 -120 6.12323399573677e-17 0 1 0 1 0 -1 0 6.12323399573677e-17 6522.dat
+1 7 -480 -515 120 6.12323399573677e-17 0 1 0 1 0 -1 0 6.12323399573677e-17 6522.dat
+1 14 -480 -515 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -480 -515 -60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -480 -515 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -480 -515 140 1 0 0 0 1 0 0 0 1 6527.dat
+0 STEP
+1 1 -640 -792.12812921102 -100 6.12323399573677e-17 0 -1 0 1 0 1 0 6.12323399573677e-17 6523.dat
+1 14 -640 -792.12812921102 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -640 -792.12812921102 -180 0 0 -1 -1 0 0 0 1 0 6526.dat
+0 STEP
+1 0 -680 -826.225005631322 -11 1 0 0 0 493.225005631322 0 0 0 1 s/steamx-rope.dat
+0 STEP
+1 14 -680 -861.410161513776 -20 0.976296007119933 -0.216439613938103 0 0.216439613938103 0.976296007119933 0 0 0 1 75536.dat
+1 14 -680 -333 -11 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
+0 STEP
+1 7 -680 -861.410161513776 0 5.97808890069884e-17 -0.216439613938103 0.976296007119933 1.32531040208993e-17 0.976296007119933 0.216439613938103 -1 0 6.12323399573677e-17 6522.dat
+1 14 -680 -861.410161513776 20 0.976296007119933 -0.216439613938103 0 0.216439613938103 0.976296007119933 0 0 0 1 6527.dat
+1 14 -680 -861.410161513776 60 0.976296007119933 -0.216439613938103 0 0.216439613938103 0.976296007119933 0 0 0 1 6527.dat
+1 4 -680 -861.410161513776 -60 0.976296007119933 -0.216439613938103 0 0.216439613938103 0.976296007119933 0 0 0 1 6529.dat
+0 // 15 source pages,14 construction stages,85 catalog materials/87 native placements; approved31196c01 approximation and existing Option C cord retained.
+0 // SOURCE ADAPTATION: P3/P4 lifted11; P6 upper assembly lowered+3Y onto actual40T hub/red underside seat25.0105657LDU2. P6 upper red shifted forward80.
+0 // SOURCE ADAPTATION: source two root-wheel locations changed to opposing halfshafts entering the SAME upper-red root hole; each40/80 envelope and31LDU actual one-side band, other band uncovered.
+0 // SOURCE ADAPTATION: P5 gray vertical axle X-320; bottom-red insertion18/48 envelope,15/36 actual native material, remaining21 uncovered; no full bearing or axial-lock claim.
+0 // P8 one lower/three top blue3011, real2/4/2 studs; cab rests on actual stud tips. Rear window Ry-90; canopy X-0.1 preserves actual1372.108 seat and removes nativeH4.
+0 // Boom world elevation60deg and Z+-100 are static source-pose adaptations; tip shaft/keyed receiver group phase12.5deg; P11 short blue axle supports near boom only.
+0 // 3741 all pairs/213 inclusive/41 native nonzero:40 finite nominal shaft interfaces plus exact closed-window D-pin/retention interfaceH12; no other body crossing.
+0 // Raw checker exit2: line78 canopy/line77 cab coarse overlap; nativeH0 actual seat1372.108 and gravity0/0/782 explain this warning. Raw checker did not pass.
+0 // 87 connected source-static placements; P3 and P12/P13 are prepared subassemblies until P4/P14. Existing Option C R1 cord: actual wheel first-touch and full hook bore, schematic only.
+0 // No full-motion, torque drive, physical snap elasticity, retention friction, lifting/load, human confirmation, public MPD, push or publication certification.

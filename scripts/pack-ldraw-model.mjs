@@ -5,7 +5,7 @@
 // 这样课时页只需加载一个 .mpd + 一个配色文件，无需在运行时访问外部 LDraw 库，
 // 也避免成千上万次零件子文件的网络请求（three.js LDrawLoader 官方推荐做法）。
 //
-// 用法：node scripts/pack-ldraw-model.mjs scripts/ldraw-models/duplo-car.ldr duplo-car
+// 用法：node scripts/pack-ldraw-model.mjs scripts/ldraw-models/3-bao-jian.ldr 3-bao-jian
 //
 // 依赖来源：gkjohnson 的 LDraw 库镜像（官方 complete 库 + 非官方件）。
 // 许可：LDraw 零件库按 CC BY / CCAL 再分发，使用处需署名（见课时页页脚）。

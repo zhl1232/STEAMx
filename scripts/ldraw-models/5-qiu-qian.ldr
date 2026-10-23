@@ -1,0 +1,67 @@
+0 Swing - locally repaired source reconstruction; human acceptance pending
+0 Name: 5-qiu-qian.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 // USER CORRECTION: left tower outward40LDU; swing and worm centered atX-20; green axle ends flush with wider arms.
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 14 -320 -48 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -320 -48 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -48 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 280 -48 80 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 2: Each tower red bearing, yellowbrick, thinblueplate and red upper bearing
+1 4 -320 -96 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 14 -320 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -320 -168 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 -320 -216 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 4 280 -96 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 14 280 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 280 -168 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 280 -216 0 0 0 1 0 1 0 -1 0 0 75349.dat
+0 STEP
+0 // SOURCE PAGE 3: Left11hole upright retained on two6L tower shafts120apart
+1 7 -320 -72 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 -220 -72 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -380 -72 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 7 -320 -192 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 -220 -192 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -380 -192 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 -260 -272 0 0 1 0 0 0 -1 -1 0 0 6525.dat
+0 STEP
+0 // SOURCE PAGE 4: Right11hole upright and matching shafts/retainers
+1 7 280 -72 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 180 -72 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 340 -72 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 7 280 -192 0 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 180 -192 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 340 -192 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 220 -272 0 0 1 0 0 0 -1 -1 0 0 6525.dat
+0 STEP
+0 // Centered blue shaft/worm group: each shaft enters worm20LDU; right24Tgear has20LDU axle engagement; left shaft projects20LDU beyond stop.
+1 1 -180 -472 0 1 0 0 0 1 0 0 0 1 31623.dat
+1 1 140 -472 0 -1 0 0 0 1 0 0 0 -1 31623.dat
+1 1 -20 -472 0 0 0 1 0 1 0 -1 0 0 31625.dat
+1 14 -300 -472 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 260 -472 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 4 300 -472 0 0 0 1 0 1 0 -1 0 0 6529.dat
+0 STEP
+0 // SOURCE DEPARTURE: plain grey6L input replaces blue geared shaft; two input retainers sandwich the upright, keyed group phase7.5deg.
+1 7 260 -352 0 -1 0 0 0 0.991445 0.130526 0 0.130526 -0.991445 6522.dat
+1 4 300 -352 0 0 0 1 0.130526 0.991445 0 -0.991445 0.130526 0 6529.dat
+1 14 340 -352 0 0 1 0 0.130526 0 -0.991445 -0.991445 0 -0.130526 6526.dat
+1 14 180 -352 0 0 0 1 0.13052619222 0.991444861374 0 -0.991444861374 0.13052619222 0 6527.dat
+1 14 260 -352 0 0 0 -1 -0.13052619222 0.991444861374 0 0.991444861374 0.13052619222 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 7: Two inner11hole pendulum arms with inward-facing upper lockingcranks
+1 14 -160 -272 0 0 1 0 0 0 -1 -1 0 0 6525.dat
+1 14 -200 -472 0 0 1 0 0 0 1 1 0 0 6526.dat
+1 14 120 -272 0 0 1 0 0 0 -1 -1 0 0 6525.dat
+1 14 160 -472 0 0 -1 0 0 0 1 -1 0 0 6526.dat
+0 STEP
+0 // SOURCE DEPARTURE: retain two inner seat cranks; outer pair omitted because they intersect fixed lower tower axles.
+1 2 -20 -72 0 1 0 0 0 1 0 0 0 1 6521.dat
+1 4 -20 -96 0 0 0 1 0 1 0 -1 0 0 75349.dat
+1 14 -120 -72 0 0 -1 0 0 0 -1 1 0 0 6526.dat
+0 // Left outer seat crank remains omitted; the retained inner crank pin engages the arm.
+1 14 80 -72 0 0 1 0 0 0 -1 -1 0 0 6526.dat
+0 // Right outer seat crank remains omitted to avoid the fixed tower shaft. Seat horizontal pose does not claim gravity self-leveling.

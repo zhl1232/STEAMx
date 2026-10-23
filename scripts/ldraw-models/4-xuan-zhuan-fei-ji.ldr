@@ -1,42 +1,125 @@
-0 4+ 旋转飞机 (Spinning Airplane Ride) - DUPLO draft for manual repair
+0 4+ Rotating airplane - complete79 source static digital repair
 0 Name: 4-xuan-zhuan-fei-ji.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+旋转飞机 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Rotating arms, aircraft pods, canopy and fence details are simplified.
-
-0 // STEP 1 - green base and striped tower
-1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 1 0 -72 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 0 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source PDF batch07 manifest, SHA256 14a7c76071a15818c3e83dbc1373549d5be98656d0653df9873859fad1ec3778
+0 // Source12pages/11stages/79materials. Exact45degree P7 rotations and actualjoint propagation; local renderer review only, no human acceptance.
+0 // Approved inferred profiles. Cockpits rest on actual faces, no screwshaft/physical locking claim; wings partial16/24, tails16/18.
+0 // Static source adaptation: outward forks/radial+96, turntable+32; no passive fullmotion, holdingload or friction certification.
+0 // STEP 1 - green24x24 base, eight striped fences, eight three-brick tower courses
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 15 -120 -96 -260 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 120 -96 -260 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -120 -96 260 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 120 -96 260 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -260 -96 -120 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 -260 -96 120 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 260 -96 -120 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 15 260 -96 120 0 0 -1 0 1 0 1 0 0 31021p01.dat
+1 14 -80 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 80 -48 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -80 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 80 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -80 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 80 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -80 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 80 -192 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -80 -240 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -240 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 80 -240 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -80 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 80 -288 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -80 -336 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -336 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 80 -336 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -80 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 80 -384 0 0 0 -1 0 1 0 1 0 0 3011.dat
 0 STEP
 
-0 // STEP 2 - central hub and four arms
-1 0 0 -312 -40 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 -160 -312 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 160 -312 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 0 0 -312 -200 1 0 0 0 1 0 0 0 1 31452.dat
-1 0 0 -312 120 1 0 0 0 1 0 0 0 1 31452.dat
+0 // STEP 2 - two further three-brick tower courses
+1 14 -80 -432 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -432 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 80 -432 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -80 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 80 -480 0 0 0 -1 0 1 0 1 0 0 3011.dat
 0 STEP
 
-0 // STEP 3 - blue aircraft pods
-1 1 -340 -312 -80 0 0 1 0 1 0 -1 0 0 2302.dat
-1 1 340 -312 -80 0 0 -1 0 1 0 1 0 0 2302.dat
-1 1 -60 -312 -300 1 0 0 0 1 0 0 0 1 2302.dat
-1 1 60 -312 220 -1 0 0 0 1 0 0 0 -1 2302.dat
-1 14 -420 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 420 -360 -120 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 3 - black top screw brick and turntable
+1 0 0 -528 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 0 -600 0 1 0 0 0 1 0 0 0 1 dev-toolo/60535.dat
 0 STEP
 
-0 // STEP 4 - yellow noses and fence markers
-1 14 -480 -312 -80 0 0 1 0 1 0 -1 0 0 40666.dat
-1 14 480 -312 -80 0 0 -1 0 1 0 1 0 0 40666.dat
-1 14 -60 -312 -420 1 0 0 0 1 0 0 0 1 40666.dat
-1 14 60 -312 340 -1 0 0 0 1 0 0 0 -1 40666.dat
-1 4 -200 -48 160 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 200 -48 160 1 0 0 0 1 0 0 0 1 3437.dat
+0 // STEP 4 - two black screw bricks form rotating platform; 60535 depth72 lifts assembly32 LDU
+1 0 0 -648 -80 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 0 -648 80 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+0 STEP
+
+0 // STEP 5 - four outward-facing fork supports; source-facing inward layout clashes in corrected mesh
+0 // Fork axis (0,-65,48) retained; each support is rotated 180 degrees about local Y.
+1 72 80 -696 0 0 0 1 0 1 0 -1 0 0 dev-toolo/28336.dat
+1 72 0 -696 80 1 0 0 0 1 0 0 0 1 dev-toolo/28336.dat
+1 72 -80 -696 0 0 0 -1 0 1 0 1 0 0 dev-toolo/28336.dat
+1 72 0 -696 -80 -1 0 0 0 1 0 0 0 -1 dev-toolo/28336.dat
+0 STEP
+
+0 // STEP 6 - corrected arm-fit pin0/open200; radial +96 keeps outward fork pin (r128) on arm open point
+1 72 328 -761 0 0 -1 0 1 0 0 0 0 1 dev-toolo/arm-fit/28334.dat
+1 72 0 -761 328 0 0 -1 1 0 0 0 -1 0 dev-toolo/arm-fit/28334.dat
+1 72 -328 -761 0 0 1 0 1 0 0 0 0 -1 dev-toolo/arm-fit/28334.dat
+1 72 0 -761 -328 0 0 1 1 0 0 0 1 0 dev-toolo/arm-fit/28334.dat
+0 STEP
+
+0 // STEP 7 - four second short arms droop45degrees; radial +96 from original keeps the arm chain connected
+1 72 469.42135623730951 -619.57864376269049 0 0.70710678118654757 -0.70710678118654757 0 -0.70710678118654757 -0.70710678118654757 0 0 0 -1 dev-toolo/arm-fit/28334.dat
+1 72 0 -619.57864376269049 469.42135623730951 0 0 1 -0.70710678118654757 -0.70710678118654757 0 0.70710678118654757 -0.70710678118654757 0 dev-toolo/arm-fit/28334.dat
+1 72 -469.42135623730951 -619.57864376269049 0 -0.70710678118654757 0.70710678118654757 0 -0.70710678118654757 -0.70710678118654757 0 0 0 1 dev-toolo/arm-fit/28334.dat
+1 72 0 -619.57864376269049 -469.42135623730951 0 0 -1 -0.70710678118654757 -0.70710678118654757 0 -0.70710678118654757 0.70710678118654757 0 dev-toolo/arm-fit/28334.dat
+0 STEP
+
+0 // STEP 8 - four sideways clutch cubes with underside connectors at distal pivots
+1 72 541.42135623730951 -619.57864376269049 0 0 -1 0 1 0 0 0 0 1 dev-toolo/74957.dat
+1 72 0 -619.57864376269049 541.42135623730951 0 0 -1 1 0 0 0 -1 0 dev-toolo/74957.dat
+1 72 -541.42135623730951 -619.57864376269049 0 0 1 0 1 0 0 0 0 -1 dev-toolo/74957.dat
+1 72 0 -619.57864376269049 -541.42135623730951 0 0 1 1 0 0 0 1 0 dev-toolo/74957.dat
+0 STEP
+
+0 // STEP 9 - four transverse screw bricks studded to outward facing clutch cubes
+1 72 589.42135623730951 -619.57864376269049 0 0 -1 0 0 0 -1 1 0 0 dev-toolo/76057.dat
+1 72 0 -619.57864376269049 589.42135623730951 -1 0 0 0 0 -1 0 -1 0 dev-toolo/76057.dat
+1 72 -589.42135623730951 -619.57864376269049 0 0 1 0 0 0 -1 -1 0 0 dev-toolo/76057.dat
+1 72 0 -619.57864376269049 -589.42135623730951 1 0 0 0 0 -1 0 1 0 dev-toolo/76057.dat
+0 STEP
+
+0 // STEP 10 - four coloured cockpits and clear windscreens
+1 1 589.42135623730951 -683.57864376269049 0 0 0 -1 0 1 0 1 0 0 dev-129/31196c01-fourwheel.dat
+1 46 737.42135623730951 -717.57864376269049 0 0 -1 0 0 0 1 -1 0 0 6345.dat
+1 4 0 -683.57864376269049 589.42135623730951 -1 0 0 0 1 0 0 0 -1 dev-129/31196c01-fourwheel.dat
+1 46 0 -717.57864376269049 737.42135623730951 1 0 0 0 0 1 0 -1 0 6345.dat
+1 25 -589.42135623730951 -683.57864376269049 0 0 0 1 0 1 0 -1 0 0 dev-129/31196c01-fourwheel.dat
+1 46 -737.42135623730951 -717.57864376269049 0 0 1 0 0 0 1 1 0 0 6345.dat
+1 14 0 -683.57864376269049 -589.42135623730951 1 0 0 0 1 0 0 0 1 dev-129/31196c01-fourwheel.dat
+1 46 0 -717.57864376269049 -737.42135623730951 -1 0 0 0 0 1 0 1 0 6345.dat
+0 STEP
+
+0 // STEP 11 - source four45117c01 wings and four31239c01 small tails restored in scratch candidate
+0 // Wing mount at cockpit rear deck(0,-24,40); reversed span puts captive screw at free(+40,-24,40) port, away from existing(-40,40) insert.
+1 1 549.42135623700005 -707.57864376299995 0 0 1 0 0 0 -1 -1 0 0 dev-toolo/45117c01.dat
+1 1 549.42135623700005 -755.57864376299995 0 0 -1 0 -1 0 0 0 0 -1 dev-toolo/31239c01.dat
+1 1 0 -707.57864376299995 549.42135623700005 1 0 0 0 0 -1 0 1 0 dev-toolo/45117c01.dat
+1 1 0 -755.57864376299995 549.42135623700005 0 0 1 -1 0 0 0 -1 0 dev-toolo/31239c01.dat
+1 1 -549.42135623700005 -707.57864376299995 0 0 -1 0 0 0 -1 1 0 0 dev-toolo/45117c01.dat
+1 1 -549.42135623700005 -755.57864376299995 0 0 1 0 -1 0 0 0 0 1 dev-toolo/31239c01.dat
+1 1 0 -707.57864376299995 -549.42135623700005 -1 0 0 0 0 -1 0 -1 0 dev-toolo/45117c01.dat
+1 1 0 -755.57864376299995 -549.42135623700005 0 0 -1 -1 0 0 0 1 0 dev-toolo/31239c01.dat
+0 // P12 is a finished view with no new construction step.
+
+0 // Source page 12: final view only.
+0 // P11 all eight wings/tails retained; source-static native finite/seat evidence accompanies exact P7 pivot normalization.

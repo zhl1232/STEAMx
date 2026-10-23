@@ -1,68 +1,137 @@
-0 5+ 病床 (Hospital Bed) - source-grounded local draft
+0 5-bing-chuang - checked local digital assembly; renderer-verified only
 0 Name: 5-bing-chuang.ldr
-0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: /mnt/d/pdf预览/5+病床搭建说明_pdf, pages 1-11.
-0 // Status: INCOMPLETE - unresolved Toolo/axle/gear/figure geometry is intentionally omitted.
-0 // Geometry: standard confirmed local LDraw parts only; 40 LDU stud pitch.
-0 // Support: platform is connected at the supplemented end only; missing side-hole beams must support its far end.
-
-0 // STEP 1 - green 24x24 base and four red three-brick legs (12 + 1)
+0 // Source11pages/10steps/54pieces; adapted56 withsplitoutput/backrestshafts andgreen8Linput. Real7LDU R9roundcups; emptybed50..75deg checked,patientstaticonly. NoDATchange orhumanconfirmation.
+0 // SOURCE PAGE 1
+0 // base13
 1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+0 // base14
 1 4 -160 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // base15
 1 4 -160 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // base16
 1 4 -160 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // base17
 1 4 160 -48 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // base18
 1 4 160 -96 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // base19
 1 4 160 -144 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // base20
 1 4 -160 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // base21
 1 4 -160 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // base22
 1 4 -160 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // base23
 1 4 160 -48 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // base24
 1 4 160 -96 80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // base25
 1 4 160 -144 80 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-
-0 // STEP 2 - red short end beams and red 2x10 hole side beams (4)
+0 // SOURCE PAGE 2
+0 // base29
 1 4 -160 -192 -80 1 0 0 0 1 0 0 0 1 3011.dat
+0 // base30
 1 4 -160 -192 80 1 0 0 0 1 0 0 0 1 3011.dat
-0 // UNRESOLVED source page 2: two long Toolo beams; no substitute placed.
+0 // base31
+1 4 120 -192 -80 1 0 0 0 1 0 0 0 1 75350.dat
+0 // base32
+1 4 120 -192 80 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
-
-0 // STEP 3 - green 6x12 platform and two striped safety barriers (3)
+0 // SOURCE PAGE 3
+0 // base36
 1 2 0 -216 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 // base37
 1 15 -80 -312 -100 1 0 0 0 1 0 0 0 1 31021p01.dat
+0 // base38
 1 15 -80 -312 100 1 0 0 0 1 0 0 0 1 31021p01.dat
 0 STEP
-
-0 // STEP 4 - yellow raised back-rest slopes; axle/round details unresolved (2)
-0 // No placement: source slope-to-axle angle and support are not confirmed.
+0 // SOURCE PAGE 4
+0 // backbeam-1
+1 14 340 -271.923048454133 -20 0.866025403784439 0 0.5 0.5 0 -0.866025403784439 0 1 0 6524.dat
+0 // backbeam1
+1 14 340 -271.923048454133 20 0.866025403784439 0 0.5 0.5 0 -0.866025403784439 0 1 0 6524.dat
+0 // pivotshaft
+1 2 280 -168 0 6.12323399573677e-17 0 1 0 1 0 -1 0 6.12323399573677e-17 6521.dat
+0 // pivotwheel-1
+1 14 280 -168 -140 -1 0 1.22464679914735e-16 0 1 0 -1.22464679914735e-16 0 -1 6527.dat
+0 // pivotwheel1
+1 14 280 -168 140 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-
-0 // STEP 5 - red side blocks; rods and four round details unresolved (2)
-0 // No placement: rods/round pieces lack confirmed IDs and support.
+0 // SOURCE PAGE 5
+0 // backbrick-1
+1 4 339.215390309173 -318.56406460551 -80 0.5 0.866025403784439 0 -0.866025403784439 0.5 0 0 0 1 75349.dat
+0 // backbrick1
+1 4 339.215390309173 -318.56406460551 80 0.5 0.866025403784439 0 -0.866025403784439 0.5 0 0 0 1 75349.dat
+0 // topshaft-1
+1 7 340 -271.923048454133 -120 -0 0.94782196186948 0.318800138955255 -0 0.318800138955255 -0.94782196186948 -1 0 0 6522.dat
+0 // topshaft1
+1 7 340 -271.923048454133 120 0 0.94782196186948 -0.318800138955255 0 0.318800138955255 0.94782196186948 1 0 0 6522.dat
+0 // topwheel-1
+1 14 340 -271.923048454133 -140 0.94782196186948 0.318800138955255 -0 0.318800138955255 -0.94782196186948 -0 0 0 -1 6527.dat
+0 // topwheel1
+1 14 340 -271.923048454133 140 0.94782196186948 -0.318800138955255 0 0.318800138955255 0.94782196186948 0 0 0 1 6527.dat
+0 // upperbackshaft
+1 2 380 -341.205080756888 0 6.12323399573677e-17 0 1 0 1 0 -1 0 6.12323399573677e-17 6521.dat
+0 // upperbackwheel-1
+1 14 380 -341.205080756888 -148 -1 0 1.22464679914735e-16 0 1 0 -1.22464679914735e-16 0 -1 6527.dat
+0 // upperbackwheel1
+1 14 380 -341.205080756888 148 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-
-0 // STEP 6 - blue body plates shown as standard 2x4 bricks (3)
-0 // No placement: source pieces are plates in a tilted mechanism; angle/support unresolved.
+0 // SOURCE PAGE 6
+0 // backplate80
+1 1 278.430780618347 -261.282032302755 0 -0 0.866025403784439 0.5 -0 0.5 -0.866025403784439 -1 0 0 40666.dat
+0 // backplate160
+1 1 318.430780618347 -330.56406460551 0 -0 0.866025403784439 0.5 -0 0.5 -0.866025403784439 -1 0 0 40666.dat
+0 // backplate240
+1 1 358.430780618347 -399.846096908265 0 -0 0.866025403784439 0.5 -0 0.5 -0.866025403784439 -1 0 0 40666.dat
 0 STEP
-
-0 // STEP 7 - Toolo/gear/holder mechanism unresolved; source boundary retained
-0 // UNRESOLVED source page 7: two rods, blue hub, red gear and white holder. No guessed IDs.
+0 // SOURCE PAGE 7
+0 // gearbox
+1 15 400 0 0 1 0 0 0 1 0 0 0 1 31624.dat
+0 // outputgear
+1 4 400 -168 0 0.19782196186948 0.980237966721403 0 -0.980237966721403 0.19782196186948 0 0 -0 1 6529.dat
+0 // worm
+1 1 400 -72 0 6.12323399573677e-17 0 1 -0.997765545517812 0.0668125450611156 6.1095519080895e-17 -0.0668125450611156 -0.997765545517812 4.09108847259917e-18 31625.dat
+0 // inputshaft
+1 2 420 -72 0 1 0 0 0 0.0668125450611156 0.997765545517812 0 -0.997765545517812 0.0668125450611156 6521.dat
+0 // outputshaft-1
+1 7 400 -168 -120 -0 0.19782196186948 -0.980237966721403 -0 -0.980237966721403 -0.19782196186948 -1 0 0 6522.dat
+0 // outputshaft1
+1 7 400 -168 120 0 0.19782196186948 0.980237966721403 0 -0.980237966721403 0.19782196186948 1 0 -0 6522.dat
 0 STEP
-
-0 // STEP 8 - confirmed black 25/53 x 19 tyre; yellow round pieces unresolved (1)
-0 // No placement: tyre mounting axis and two yellow round pieces are unresolved.
+0 // SOURCE PAGE 8
+0 // inputwheel-1
+1 14 280 -72 0 6.12323399573677e-17 0 1 -0.997765545517812 0.0668125450611156 6.1095519080895e-17 -0.0668125450611156 -0.997765545517812 4.09108847259917e-18 6527.dat
+0 // inputwheel1
+1 14 560 -72 0 6.12323399573677e-17 0 1 -0.997765545517812 0.0668125450611156 6.1095519080895e-17 -0.0668125450611156 -0.997765545517812 4.09108847259917e-18 6527.dat
+0 // inputtyre
+1 0 560 -72 0 6.12323399573677e-17 0 1 -0.997765545517812 0.0668125450611156 6.1095519080895e-17 -0.0668125450611156 -0.997765545517812 4.09108847259917e-18 6292.dat
 0 STEP
-
-0 // STEP 9 - Toolo hinge details unresolved; source boundary retained
-0 // UNRESOLVED source page 9: four yellow Toolo hinge pieces. No guessed IDs.
+0 // SOURCE PAGE 9
+0 // lowercrank-1
+1 14 400 -168 -167 -0.980237966721403 -0 0.19782196186948 -0.19782196186948 -0 -0.980237966721403 0 -1 0 6526.dat
+0 // uppercrank-1
+1 14 340 -271.923048454133 -220 0.318800138955255 -0 0.94782196186948 -0.94782196186948 -0 0.318800138955255 0 -1 0 6526.dat
+0 // lowercrank1
+1 14 400 -168 167 0.980237966721403 0 0.19782196186948 0.19782196186948 0 -0.980237966721403 -0 1 0 6526.dat
+0 // uppercrank1
+1 14 340 -271.923048454133 220 -0.318800138955255 0 0.94782196186948 0.94782196186948 0 0.318800138955255 0 1 0 6526.dat
 0 STEP
-
-0 // STEP 10 - confirmed colored standard bricks; figure and printed eyes unresolved (5)
-0 // No placement: red/blue/orange pieces and patient depend on unresolved back assembly.
-0 STEP
-
-0 // STEP 11 - finished view, no additions
-0 // INCOMPLETE: unresolved source components remain intentionally visible in the ledger.
+0 // SOURCE PAGE 10
+0 // foot-1
+1 1 215.386086372211 -289.262355579913 40 -0 -0.573576436351046 0.819152044288992 -0 0.819152044288992 0.573576436351046 -1 -0 0 3437.dat
+0 // foot1
+1 1 215.386086372211 -289.262355579913 -40 -0 -0.573576436351046 0.819152044288992 -0 0.819152044288992 0.573576436351046 -1 -0 0 3437.dat
+0 // torso0
+1 4 242.917755317061 -328.581653705785 0 -0 -0.573576436351046 0.819152044288992 -0 0.819152044288992 0.573576436351046 -1 -0 0 3011.dat
+0 // torso1
+1 4 270.449424261911 -367.900951831657 0 -0 -0.573576436351046 0.819152044288992 -0 0.819152044288992 0.573576436351046 -1 -0 0 3011.dat
+0 // shoulder
+1 25 297.981093206761 -407.220249957528 0 -0 -0.573576436351046 0.819152044288992 -0 0.819152044288992 0.573576436351046 -1 -0 0 2300.dat
+0 // head
+1 14 353.044431096462 -485.858846209272 0 -0 -0.573576436351046 0.819152044288992 -0 0.819152044288992 0.573576436351046 -1 -0 0 4198p01.dat
+0 // Source page11 final view; no additions.

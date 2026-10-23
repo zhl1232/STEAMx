@@ -1,35 +1,82 @@
-0 4+ 机关枪 (Machine Gun) - DUPLO draft for manual repair
+0 4+ Brick toy machine gun - source reconstruction draft
 0 Name: 4-ji-guan-qiang.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+机关枪 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Tripod, receiver and long barrel are simplified.
-
-0 // STEP 1 - green base and tripod
-1 2 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 0 -120 -96 80 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 0 120 -96 80 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
-1 0 0 -96 -120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // LOCAL CANDIDATE: source p10 black2223 holder restored using existing approved approximation with underside recesses; tipper uses added13355 hinge.
+0 // All 13 PDF source pages actually viewed; page13 adds no parts.
+0 // 2026-10-15: local Toolo candidates; entire step2+ assembly raised32LDU for nominal turntable mount72. Linkages use open ends on captive shafts; hidden fit remains inferred.
+0 // Short arms corrected to open-seatY200; long-seatY400 and clipY72. Pin-end cheek width and mating fork width now differ; nominal dimensions inferred, no physical-fit certification.
+0 // ARM REPAIR: independent arm-fit candidates retain source axes/lengths, widen captive heads to inner48/outer68 like28336, keep fork outer48; source-visible shoulders. Lower links horizontal avoid clip floor; exact mold dimensions unmeasured.
+0 // SOURCE p8: barrel begins after crosswise gray root; barrel/end/caps/tipper shift +80X together to remove same-layer brick overlap. Tipper now uses matching13355 hinge plate per14094 DAT HELP (added part).
+0 // SOURCE PAGE 1
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 0 0 -48 -160 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 0 -48 160 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 0 -96 -160 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 0 -96 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 0 -96 160 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
+1 0 0 -144 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 0 -192 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
 0 STEP
-
-0 // STEP 2 - black support tower
-1 0 0 -120 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
-1 0 0 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 2
+1 0 0 -264 0 1 0 0 0 1 0 0 0 1 dev-toolo/retracted/60535.dat
 0 STEP
-
-0 // STEP 3 - gun body
-1 0 80 -264 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 0 240 -264 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -312 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 160 -312 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 3
+1 0 0 -312 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 -80 -360 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 80 -360 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
 0 STEP
-
-0 // STEP 4 - barrel and stock
-1 14 400 -264 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 14 520 -264 -40 0 0 1 0 1 0 -1 0 0 31452.dat
-1 8 640 -264 -40 0 0 1 0 1 0 -1 0 0 40666.dat
-1 4 -140 -288 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 4 -240 -336 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3437.dat
+0 // SOURCE PAGE 4
+1 0 -80 -408 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 -80 -456 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+0 STEP
+0 // SOURCE PAGE 5
+1 72 -80 -504 -80 0 0 -1 0 1 0 1 0 0 dev-toolo/28336.dat
+1 72 -120 -312 -80 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 -80 -504 80 0 0 -1 0 1 0 1 0 0 dev-toolo/28336.dat
+1 72 -120 -312 80 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+0 STEP
+0 // SOURCE PAGE 6
+1 72 -314.9851946161027 -639.9685634233791 -80.0 0.3548428171168957 0.9349259730805137 0 -0.9349259730805137 0.3548428171168957 0 0 0 1 dev-toolo/arm-fit/28334.dat
+1 72 -320.0 -240.0 -80.0 -0.9999214085584478 0.012537013459743207 0 -0.012537013459743207 -0.9999214085584478 0 0 0 1 dev-toolo/arm-fit/28331.dat
+1 72 -120.0 -240.0 -80.0 0.0 -1.0 0 1.0 0.0 0 0 0 1 dev-toolo/arm-fit/28334.dat
+1 72 -314.9851946161027 -639.9685634233791 80.0 0.3548428171168957 0.9349259730805137 0 -0.9349259730805137 0.3548428171168957 0 0 0 1 dev-toolo/arm-fit/28334.dat
+1 72 -320.0 -240.0 80.0 -0.9999214085584478 0.012537013459743207 0 -0.012537013459743207 -0.9999214085584478 0 0 0 1 dev-toolo/arm-fit/28331.dat
+1 72 -120.0 -240.0 80.0 0.0 -1.0 0 1.0 0.0 0 0 0 1 dev-toolo/arm-fit/28334.dat
+0 STEP
+0 // SOURCE PAGE 7
+1 72 120 -408 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76057.dat
+0 STEP
+0 // SOURCE PAGE 8
+1 14 320 -360 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 240 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 480 -360 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 400 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 640 -360 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 560 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 800 -360 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 25 720 -408 0 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // SOURCE PAGE 9
+1 72 880 -408 0 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+1 71 985 -384 0 0 1 0 -1 0 0 0 0 1 dev-toolo/99565.dat
+0 STEP
+0 // SOURCE PAGE 10
+0 // Sourcep10 black2223 holder at exposed last2x2 studs of end76057; candidate underside recesses on40LDU grid.
+1 0 920 -408 0 1 0 0 0 1 0 0 0 1 dev-toolo/2223.dat
+0 STEP
+0 // SOURCE PAGE 11
+1 14 160 -432 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 320 -432 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 480 -432 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 640 -432 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 800 -432 0 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // SOURCE PAGE 12
+0 // BUILDABILITY REPAIR: add real13355 hinge plate (one extra black part versus source) on yellow cap; bottomY24 seats at-432.
+0 // LDraw14094 HELP gives mating13355 at local(0,5,-120); both hinge axes coincide, no loose tipper on studs.
+1 0 200 -456 0 0 0 -1 0 1 0 1 0 0 13355.dat
+1 4 80 -461 0 0 0 -1 0 1 0 1 0 0 14094.dat
+0 // SOURCE PAGE13 final presentation, no added parts.
+0 // Remaining: candidate dimensions, screw tolerances and holder hidden retention are inferred; no physical test or human acceptance.

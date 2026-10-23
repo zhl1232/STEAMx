@@ -1,38 +1,94 @@
-0 5+ 测距仪 (Rangefinder) - DUPLO draft for manual repair
+0 5-ce-ju-yi - local belt-drive upgrade; renderer-verified only
 0 Name: 5-ce-ju-yi.ldr
-0 Author: OpenAI
+0 Author: STEAMX reconstruction
 0 !LDRAW_ORG Model
+0 // Source P1-9 restored; one blue40666 height adapter, actual dialtab seat and corrected pointer phase; source-hidden depths explicit below.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 5+测距仪 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Long measuring beam, sight head, scale dots and support cart are simplified.
-
-0 // STEP 1 - small instrument cart
-1 0 -440 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 4 -440 -96 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -360 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -520 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Original57 placements unchanged; prior review in .tmp/repair73/measuring-wheel/closure/review-adopted.json; belt upgrade in .tmp/measuring-wheel-linkage/review.json.
+0 // No human acceptance, physical validation, or production publication is claimed.
+0 // Source page 1: two parallel2x10 hole bricks and three blue2x4 plates
+1 4 0 0 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 0 40 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 0 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 80 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 160 -24 0 0 0 1 0 1 0 -1 0 0 40666.dat
 0 STEP
-
-0 // STEP 2 - long measuring rail
-1 4 -240 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 -80 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 80 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 240 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 4 400 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
-1 14 560 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+0 // Source page 2: two yellow bricks, front redbrick and two upper overhanging hole beams
+1 14 -120 -48 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -120 -48 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -160 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 160 -72 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 160 -72 40 1 0 0 0 1 0 0 0 1 75350.dat
 0 STEP
-
-0 // STEP 3 - yellow scale markers
-1 14 -160 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 0 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 160 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 320 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 480 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source page 3: two grey6L axles and four yellow6526 cranks; 30deg display/axle phase inferred from source; lower pins face outward and are not inserted into lower beams.
+1 7 0 -48 0 0 -0.5 -0.866025403784 0 0.866025403784 -0.5 1 0 0 6522.dat
+1 7 80 -48 0 0 -0.5 -0.866025403784 0 0.866025403784 -0.5 1 0 0 6522.dat
+1 14 0 -48 -100 0.866025403784 0 -0.5 0.5 0 0.866025403784 0 -1 0 6526.dat
+1 14 0 -48 100 -0.866025403784 0 -0.5 -0.5 0 0.866025403784 0 1 0 6526.dat
+1 14 80 -48 -100 0.866025403784 0 -0.5 0.5 0 0.866025403784 0 -1 0 6526.dat
+1 14 80 -48 100 -0.866025403784 0 -0.5 -0.5 0 0.866025403784 0 1 0 6526.dat
 0 STEP
-
-0 // STEP 4 - blue sight and end target
-1 1 -540 -192 -120 0 0 1 0 1 0 -1 0 0 31452.dat
-1 1 -640 -192 -120 0 0 1 0 1 0 -1 0 0 40666.dat
-1 4 700 -120 -40 0 0 1 0 1 0 -1 0 0 40666.dat
-1 1 760 -168 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // Source page 4: front green8L axle, four belt wheels and two tyres
+1 2 -160 24 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 -160 24 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 24 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 24 100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -160 24 140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 -160 24 -140 1 0 0 0 1 0 0 0 1 6292.dat
+1 0 -160 24 140 -1 0 0 0 1 0 0 0 -1 6292.dat
+0 STEP
+0 // Source page 5: first pair11-hole liftarms, two green8L throughaxles and four retaining belt wheels
+1 14 440 -48 -100 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 440 -48 100 0 0 1 1 0 0 0 1 0 6525.dat
+1 2 240 -48 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 240 -48 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 240 -48 140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 2 320 -48 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 320 -48 -148 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 320 -48 148 -1 0 0 0 1 0 0 0 -1 6527.dat
+0 STEP
+0 // Source page 6: second pair11-hole liftarms overlap distal first pair; middle2x4 holebrick
+1 14 760 -48 -60 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 760 -48 60 0 0 1 1 0 0 0 1 0 6525.dat
+1 4 600 -72 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 2 560 -48 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 560 -48 -140 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 560 -48 140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 2 640 -48 0 0 0 -1 0 1 0 1 0 0 6521.dat
+1 14 640 -48 -148 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 640 -48 148 -1 0 0 0 1 0 0 0 -1 6527.dat
+0 STEP
+0 // Source page 7: distal2x10 holebrick, two grey6L axles and four belt wheels
+1 4 1040 -72 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 7 960 -48 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 960 -48 -108 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 960 -48 108 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 7 880 -48 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 880 -48 -100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 880 -48 100 -1 0 0 0 1 0 0 0 -1 6527.dat
+0 STEP
+0 // Source page 8: white gearbox, greyinputaxle/worm, blue short outputaxle and red24T gear
+1 15 -80 -72.0 0 0 0 1 0 1 0 -1 0 0 31624.dat
+1 7 -80 -144.0 0 0 0 -1 0 1 0 1 0 0 6522.dat
+1 1 -80 -144.0 0 1 0 0 0 1 0 0 0 1 31625.dat
+1 1 -60 -240.0 0 1 0 0 0 1 0 0 0 1 6523.dat
+1 4 -80 -240.0 0 0 0 1 0 1 0 -1 0 0 6529.dat
+1 1 -80 -72 0 0 0 1 0 1 0 -1 0 0 40666.dat
+0 STEP
+0 // Source page 9: two belt-wheel retainers, official printed dial and source pointer crank
+1 14 -80 -144.0 -100.0 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -80 -144.0 100.0 1 0 0 0 1 0 0 0 1 6527.dat
+0 // P9 official61898f flat1LDU sheet faces-X; center(-125,-241,0) is1LDU above outputaxisY-240. BottomtabY-96 seats redbrick; actualrounded-square hole checked.
+1 2 -125 -241.0 0 0 1 0 0 0 -1 -1 0 0 61898f.dat
+1 14 -146 -240.0 0 0 -1 0 -1 0 0 0 0 -1 6526.dat
+0 // P3: four cranks restored; main holes fully engage40LDU at Z+/-100; two grey shaft cross-sections rotate with crank phase.
+0 // P5-7 rods/axles share actual native holeindices and finite insertions; 10sourcepages and cumulative renders reviewed.
+0 // P8 blueaxle +20X clears8Tgear; one blue40666 raises gearbox24LDU, 8studs11LDU seated. Native worm/24Tgear/box interface is separately classified; DAT unchanged.
+0 // P9 retainers fully engage40LDU; pointer outwardpin and sourcephase corrected, mainhole overlap34. Paper1LDU eccentricity and tab seat explicitly checked.
+0 // P5-7: six alternating outer wheels offset8LDU axially, an inferred hidden installation depth; each keeps32LDU shaft engagement. Other wheels retain40LDU.
+0 // Source page 10: finished view, no duplicated placements.
+0 // User-approved upgrade: equal large-groove pulleys couple wheel and worm1:1; ideal pointer angle=-wheel angle/24. Four P3 cranks/displaybeams remain locked.
+0 // Step9 addition: one real71059 belt, simplified installed shape explicitly approved2026-10-23. Closed uncrossed loop in worldZ-91; original part transforms unchanged.
+1 1 0 0 0 1 0 0 0 1 0 0 0 1 dev-71059/71059-measuring-wheel-formed-approx.dat
+0 // Assumed cord radius2LDU; formed centerline length243.6104mm is not a rest/cut length. Real section, stretch, tension, friction, retention and load remain unmeasured.
+0 // Dial1-10 is not calibrated in metres. Physical rolling circumference and no-slip drive require calibration; local3D remains a step-by-step assembly viewer.

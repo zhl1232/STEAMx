@@ -6,6 +6,8 @@ import inventories from './ldraw-kit-inventories.json'
  */
 
 export interface PartFlags {
+  /** 已知的自备材料，无 LEGO 目录编号，不参与套装库存分配。 */
+  externalMaterial?: boolean
   /** 模型配色仅为示意，以实际分配的套装颜色为准。 */
   kitColor?: boolean
   colorFlexible?: boolean
@@ -89,10 +91,32 @@ const aliases: Record<string, ResolvedLdrawPart> = {
   '74957': { partNums: ['74957'], flags: {} }, // element 6139202
   '99565': { partNums: ['99565c01'], flags: {} },
   '31196c01': { partNums: ['31196c01'], flags: {} },
+  // Same real cockpit; isolated repaired photo approximation used by the pile driver.
+  '31196c01-wheelarch': { partNums: ['31196c01'], flags: { kitColor: true } },
+  '31196c01-fourwheel': { partNums: ['31196c01'], flags: { kitColor: true } },
   '75349': { partNums: ['6517'], flags: {} },
   '75350': { partNums: ['6515'], flags: {} },
   // Duplo Windscreen 4 x 4 x 2 Curved（45002 的透明黄色挡风玻璃）
   '6345': { partNums: ['17562', '6345'], flags: {} },
+  // 中班龙门吊：45002-1 的完整绳钩卷筒与独立支架，各计一件。
+  '14013c01': { partNums: ['14013c01'], flags: {} },
+  '13358': { partNums: ['13358'], flags: {} },
+  // 4+蜘蛛：桶体和底座各一件；15562 是桶体设计号，不能另计第三件。
+  '58629pb02': { partNums: ['58629pr0002'], flags: {} },
+  '95219c01': { partNums: ['95219'], flags: {} },
+  // 5+直升机：两种成形路径各消耗一条真实 71059 皮带。
+  '71059-helicopter-small-formed-approx': { partNums: ['71059'], flags: {} },
+  '71059-helicopter-large-formed-approx': { partNums: ['71059'], flags: {} },
+  // 5+测距仪：一条用户批准的 71059 皮带连接轮轴与蜗杆输入轴。
+  '71059-measuring-wheel-formed-approx': { partNums: ['71059'], flags: {} },
+  // 5+旋翼飞机：用户批准的四条自备示意绳，各文件表示一条闭环。
+  'rotor-left-small-formed': { partNums: [], flags: { externalMaterial: true } },
+  'rotor-left-large-formed': { partNums: [], flags: { externalMaterial: true } },
+  'rotor-right-small-formed': { partNums: [], flags: { externalMaterial: true } },
+  'rotor-right-large-formed': { partNums: [], flags: { externalMaterial: true } },
+  // LDraw 61898d is the large rectangle; the local inventory seed calls that shape 61898c.
+  // Inventory 61898d is a propeller, so matching the suffix alone would consume the wrong shape.
+  '61898d-hovercraft-formed': { partNums: ['61898c'], flags: {} },
   // 车底盘
   '10715': { partNums: ['11248c01', '11248c02'], flags: { colorFlexible: true } },
   '10715p01': { partNums: ['11248c02'], flags: {} },
@@ -104,6 +128,9 @@ const aliases: Record<string, ResolvedLdrawPart> = {
   // 模具变体
   '2301b': { partNums: ['2301'], flags: {} },
   '2302b': { partNums: ['2302'], flags: {} },
+  // 平衡大师的加宽门框：真实 1×2×2 砖与 2×6 薄板，按各自库存核算。
+  '4066b': { partNums: ['4066'], flags: {} },
+  '98233': { partNums: ['98233'], flags: {} },
   // 弧顶 2×4：优先用套装里的 31213（2×4×2 弧顶）抵扣，否则记为缺 98223
   '98223': { partNums: ['31213', '98223'], flags: { colorFlexible: true, shapeAlternatives: { '31213': '2×4×2 弧顶积木' } } },
   '98223b': { partNums: ['31213', '98223'], flags: { colorFlexible: true, shapeAlternatives: { '31213': '2×4×2 弧顶积木' } } },

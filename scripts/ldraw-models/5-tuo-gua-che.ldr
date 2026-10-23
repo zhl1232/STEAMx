@@ -1,0 +1,163 @@
+0 5+ Tractor trailer — complete source-static reconstruction
+0 Name: 5-tuo-gua-che.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // DEV-ONLY, unconfirmed. Source18 pages,17 construction stages,119 placements/115 source callout assemblies.
+0 // Source-static reconstruction with inferred hidden seams and1LDU upper-drawbar/roof adaptation; no new materials.
+0 // Existing authorized31196c01 photo approximation; real source windows restored to2332ac01+2206.
+0 // All119 placements translated down0.855792683550007LDU to put eight actual native gear-wheel bottoms atY0.
+0 // No human, physical clutch, holding, load, motion or publication acceptance is implied.
+0 // Source page 1: Four short hole bricks and two blue seam plates form two preparation rails.
+1 4 80 -88.14420731644999 120 -1 0 0 0 1 0 0 0 -1 75349.dat
+1 4 -80 -88.14420731644999 120 -1 0 0 0 1 0 0 0 -1 75349.dat
+1 1 0 -40.14420731644999 120 -1 0 0 0 1 0 0 0 -1 40666.dat
+1 4 80 -88.14420731644999 -120 -1 0 0 0 1 0 0 0 -1 75349.dat
+1 4 -80 -88.14420731644999 -120 -1 0 0 0 1 0 0 0 -1 75349.dat
+1 1 0 -40.14420731644999 -120 -1 0 0 0 1 0 0 0 -1 40666.dat
+0 STEP
+0 // Source page 2: Four blue6523 geared half axles and four red6529 wheels; shaft origins inward20LDU put the entire8T core outside the bearing.
+1 1 120 -64.14420731644999 100 0 0 1 0 1 0 -1 0 0 6523.dat
+1 4 120 -64.14420731644999 180 -1 0 0 0 1 0 0 0 -1 6529.dat
+1 1 120 -64.14420731644999 -100 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 120 -64.14420731644999 -180 -1 0 0 0 1 0 0 0 -1 6529.dat
+1 1 -120 -64.14420731644999 100 0 0 1 0 1 0 -1 0 0 6523.dat
+1 4 -120 -64.14420731644999 180 -1 0 0 0 1 0 0 0 -1 6529.dat
+1 1 -120 -64.14420731644999 -100 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 -120 -64.14420731644999 -180 -1 0 0 0 1 0 0 0 -1 6529.dat
+0 STEP
+0 // Source page 3: Gray51262 8x8 floor joins both chassis rails.
+1 7 0 -112.14420731645 0 -1 0 0 0 1 0 0 0 -1 51262.dat
+0 STEP
+0 // Source page 4: Four blue side walls plus the source orange31196c01 cab and pale6345 canopy; existing authorized wheelarch approximation retained.
+1 1 80 -160.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -80 -160.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 80 -160.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -80 -160.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 25 160 -136.14420731645 0 0 0 -1 0 1 0 1 0 0 dev-129/31196c01-wheelarch.dat
+1 46 308 -170.14420731645 0 0 -1 0 0 0 1 -1 0 0 6345.dat
+0 STEP
+0 // Source page 5: Four source unequal-pane white2206 windows in red2332ac01 frames, each at native closed-hinge pose.
+1 4 80 -304.14420731645 120 -1 0 0 0 1 0 0 0 -1 2332ac01.dat
+1 15 14.5 -292.14420731645 167.5 1 0 0 0 1 0 0 0 1 2206.dat
+1 4 -80 -304.14420731645 120 -1 0 0 0 1 0 0 0 -1 2332ac01.dat
+1 15 -145.5 -292.14420731645 167.5 1 0 0 0 1 0 0 0 1 2206.dat
+1 4 80 -304.14420731645 -120 1 0 0 0 1 0 0 0 1 2332ac01.dat
+1 15 145.5 -292.14420731645 -167.5 -1 0 0 0 1 0 0 0 -1 2206.dat
+1 4 -80 -304.14420731645 -120 1 0 0 0 1 0 0 0 1 2332ac01.dat
+1 15 -14.5 -292.14420731645 -167.5 -1 0 0 0 1 0 0 0 -1 2206.dat
+0 STEP
+0 // Source page 6: Seven yellow bricks: three lower crosswise bricks plus four upper ones; the cab rear foot occupies the fourth lower slot. Hidden seams inferred.
+1 14 -120 -160.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -40 -160.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 40 -160.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -120 -208.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -40 -208.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 40 -208.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 120 -208.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // Source page 7: Red75350 upper drawbar and three blue supports. Raised1LDU for the actual middle6527 wheel stack; yellow studs engage10/11LDU. Support during assembly until P13 is not certified.
+1 4 -120 -257.14420731645 0 -1 0 0 0 1 0 0 0 -1 75350.dat
+1 1 -80 -305.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -305.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 80 -305.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // Source page 8: Eight blue roof bricks follow the raised central supports; window studs engage10/11LDU. Four side roof bricks are tied by P9 crosswise bricks.
+1 1 80 -353.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 80 -353.14420731645 40 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 80 -353.14420731645 -40 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 80 -353.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -80 -353.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -80 -353.14420731645 40 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -80 -353.14420731645 -40 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -80 -353.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // Source page 9: Six blue roof bricks bridge the eight lower roof bricks; roof1LDU higher than the former draft.
+1 1 80 -401.14420731645 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 80 -401.14420731645 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -401.14420731645 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 0 -401.14420731645 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -80 -401.14420731645 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -80 -401.14420731645 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // Source page 10: Two trailer rails, four blue6523 half axles and four red6529 wheels. Both rails remain preparation assemblies until P11.
+1 4 -720 -88.14420731644999 120 -1 0 0 0 1 0 0 0 -1 75350.dat
+1 4 -720 -88.14420731644999 -120 -1 0 0 0 1 0 0 0 -1 75350.dat
+1 1 -560 -64.14420731644999 100 0 0 1 0 1 0 -1 0 0 6523.dat
+1 4 -560 -64.14420731644999 180 -1 0 0 0 1 0 0 0 -1 6529.dat
+1 1 -560 -64.14420731644999 -100 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 -560 -64.14420731644999 -180 -1 0 0 0 1 0 0 0 -1 6529.dat
+1 1 -880 -64.14420731644999 100 0 0 1 0 1 0 -1 0 0 6523.dat
+1 4 -880 -64.14420731644999 180 -1 0 0 0 1 0 0 0 -1 6529.dat
+1 1 -880 -64.14420731644999 -100 0 0 -1 0 1 0 1 0 0 6523.dat
+1 4 -880 -64.14420731644999 -180 -1 0 0 0 1 0 0 0 -1 6529.dat
+0 STEP
+0 // Source page 11: Green6490 8x16 deck joins the two trailer rails.
+1 2 -720 -112.14420731645 0 -1 0 0 0 1 0 0 0 -1 6490.dat
+0 STEP
+0 // Source page 12: Nine blue wall bricks and the red75350 lower drawbar.
+1 1 -480 -160.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -640 -160.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -800 -160.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -960 -160.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -480 -160.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -640 -160.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -800 -160.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -960 -160.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -1000 -160.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 4 -440 -160.14420731645 0 -1 0 0 0 1 0 0 0 -1 75350.dat
+0 STEP
+0 // Source page 13: Gray6522 shaft through both drawbars and all three yellow6527 wheels. Upper wheel rests on upper-drawbar stud tips; middle wheel rests on lower stud tips and bears the upper drawbar; lower wheel is a finite axial guide, with no anti-withdrawal claim.
+1 71 -280 -190.14420731645 0 0 1 0 1 0 0 0 0 -1 6522.dat
+1 14 -280 -288.14420731645 0 -1 0 0 0 0 -1 0 -1 0 6527.dat
+1 14 -280 -191.14420731645 0 -1 0 0 0 0 -1 0 -1 0 6527.dat
+1 14 -280 -92.14420731644999 0 -1 0 0 0 0 -1 0 -1 0 6527.dat
+0 STEP
+0 // Source page 14: Ten yellow bricks in the second wall ring.
+1 14 -440 -208.14420731645 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -440 -208.14420731645 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -1000 -208.14420731645 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -1000 -208.14420731645 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -560 -208.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -720 -208.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -880 -208.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -560 -208.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -720 -208.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -880 -208.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // Source page 15: Ten blue bricks in the third wall ring.
+1 1 -480 -256.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -640 -256.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -800 -256.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -960 -256.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -480 -256.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -640 -256.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -800 -256.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -960 -256.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -440 -256.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -1000 -256.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // Source page 16: Ten yellow bricks in the fourth wall ring.
+1 14 -440 -304.14420731645 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -440 -304.14420731645 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -1000 -304.14420731645 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -1000 -304.14420731645 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -560 -304.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -720 -304.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -880 -304.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -560 -304.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -720 -304.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -880 -304.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // Source page 17: Ten blue bricks in the fifth wall ring.
+1 1 -480 -352.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -640 -352.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -800 -352.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -960 -352.14420731645 120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -480 -352.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -640 -352.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -800 -352.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -960 -352.14420731645 -120 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -440 -352.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 -1000 -352.14420731645 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 // Source page18 is a final side view, with no additions.

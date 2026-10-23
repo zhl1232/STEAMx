@@ -1,0 +1,606 @@
+{
+  "sha256": "8763334de453425e04a9ec356865040998749977cd6d62552f003e8f9c63f0f7",
+  "placements": 57,
+  "meshPairs": [
+    {
+      "lines": [
+        14,
+        10
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        14,
+        11
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        14,
+        12
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        14,
+        13
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        18,
+        14
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        20,
+        18
+      ],
+      "crossings": 54
+    },
+    {
+      "lines": [
+        21,
+        14
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        21,
+        18
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        22,
+        21
+      ],
+      "crossings": 4
+    },
+    {
+      "lines": [
+        25,
+        14
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        26,
+        14
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        27,
+        14
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        28,
+        14
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        28,
+        21
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        29,
+        14
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        30,
+        14
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        31,
+        14
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        32,
+        14
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        35,
+        25
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        36,
+        35
+      ],
+      "crossings": 171
+    },
+    {
+      "lines": [
+        37,
+        26
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        38,
+        37
+      ],
+      "crossings": 171
+    },
+    {
+      "lines": [
+        39,
+        28
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        39,
+        29
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        40,
+        39
+      ],
+      "crossings": 171
+    },
+    {
+      "lines": [
+        41,
+        29
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        41,
+        30
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        42,
+        41
+      ],
+      "crossings": 171
+    },
+    {
+      "lines": [
+        43,
+        30
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        43,
+        31
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        44,
+        43
+      ],
+      "crossings": 171
+    },
+    {
+      "lines": [
+        47,
+        21
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        47,
+        28
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        48,
+        27
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        48,
+        32
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        49,
+        31
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        49,
+        32
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        50,
+        21
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        50,
+        47
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        51,
+        48
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        52,
+        49
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        53,
+        50
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        54,
+        51
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        55,
+        52
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        58,
+        35
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        59,
+        37
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        60,
+        54
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        61,
+        39
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        61,
+        53
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        62,
+        39
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        62,
+        41
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        63,
+        41
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        63,
+        43
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        64,
+        43
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        64,
+        55
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        65,
+        54
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        65,
+        55
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        68,
+        18
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        68,
+        58
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        68,
+        59
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        68,
+        60
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        68,
+        61
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        68,
+        62
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        68,
+        63
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        68,
+        64
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        68,
+        65
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        71,
+        68
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        72,
+        68
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        73,
+        68
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        74,
+        68
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        75,
+        68
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        76,
+        68
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        79,
+        68
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        80,
+        68
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        81,
+        68
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        82,
+        68
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        83,
+        68
+      ],
+      "crossings": 0
+    },
+    {
+      "lines": [
+        84,
+        68
+      ],
+      "crossings": 0
+    }
+  ],
+  "nonzero": [
+    {
+      "lines": [
+        20,
+        18
+      ],
+      "crossings": 54
+    },
+    {
+      "lines": [
+        22,
+        21
+      ],
+      "crossings": 4
+    },
+    {
+      "lines": [
+        36,
+        35
+      ],
+      "crossings": 171
+    },
+    {
+      "lines": [
+        38,
+        37
+      ],
+      "crossings": 171
+    },
+    {
+      "lines": [
+        40,
+        39
+      ],
+      "crossings": 171
+    },
+    {
+      "lines": [
+        42,
+        41
+      ],
+      "crossings": 171
+    },
+    {
+      "lines": [
+        44,
+        43
+      ],
+      "crossings": 171
+    }
+  ],
+  "dependencyReuseEvidence": "Full mesh recomputed for changed placements. Rejected wheel bead removed afterward: no nonzero pair involved its wheels, and append/remove stayed within pre-existing bounds. Remaining dependency changes are comment-only with identical type1-5 lines.",
+  "dependencySha256": "2aa23eef8152a0fdb62e0acbe5fe89da3ef4d8b54150022bf7643f9d918838c8",
+  "dependencyManifestScope": "Final dependency snapshot; changed models rerun, unchanged source/dependencies reuse prior evidence."
+}

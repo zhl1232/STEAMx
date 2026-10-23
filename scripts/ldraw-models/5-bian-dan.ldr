@@ -1,77 +1,145 @@
-0 5+ 扁担 - source-matched partial bucket subassemblies
+0 5+ 扁担 - source reconstruction; renderer-verified static assembly with schematic cords
 0 Name: 5-bian-dan.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
 0 // SOURCE: /mnt/d/pdf预览/5+扁担搭建说明_pdf/5+扁担搭建说明-{1..13}.jpg
-0 // STATUS: INCOMPLETE. Mechanical shoulder beam, axles, wheels, strings, hooks and side-hole bricks omitted.
-0 // Source 7/8 and 10/11 restore two standard bucket bodies; display separation is inferred, not beam length.
-0 // STEP 1 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
+0 // Source pages 8 and 11: restore two red 75349 hole bricks per bucket.
+0 // Bucket centers x=+/-720 align with source beam-end holes; hidden installation depths are inferred.
+0 // STATUS: digitally checked static assembly; native hook/axle contact verified, cord remains the previously allowed schematic.
+0 // Not a winding, knot, positive retention, force-balance, or physical-load verification; no human acceptance or publication.
+0 // Adjacent beam wheels alternate abs(Z)=100/108 to clear real rims; this 8 LDU hidden depth is inferred, not measured from the image.
+0 // Eight wheel hubs span 40 LDU of axle; eight span 32 LDU. All parts retain their native geometry.
+0 // Upper beam is manually supported; four source hooks bear on the inner exposed bucket axles.
+0 // Hook eye Y=-196.99975 follows the actual radius-12 inner wall, not the radius-16 decorative groove.
+0 // STEP 1 - central red long brick, four yellow beams, four axles and eight wheels
+1 4 0 -648 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 -280 -624 -60 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 -280 -624 60 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 280 -624 -60 0 0 1 1 0 0 0 1 0 6525.dat
+1 14 280 -624 60 0 0 1 1 0 0 0 1 0 6525.dat
+1 7 -160 -624 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 7 -80 -624 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 7 80 -624 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 7 160 -624 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -160 -624 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -160 -624 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -80 -624 -108 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -80 -624 108 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 80 -624 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 80 -624 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 160 -624 -108 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 160 -624 108 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-0 // STEP 2 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
+0 // STEP 2 - left red long brick, two axles and four wheels
+1 4 -560 -648 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 7 -480 -624 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 7 -400 -624 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -480 -624 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -480 -624 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -400 -624 -108 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -400 -624 108 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-0 // STEP 3 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
+0 // STEP 3 - right red long brick, two axles and four wheels
+1 4 560 -648 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 7 400 -624 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 7 480 -624 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 400 -624 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 400 -624 100 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 480 -624 -108 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 480 -624 108 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-0 // STEP 4 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
+0 // STEP 4 - cord preparation; no additional rigid part
 0 STEP
-0 // STEP 5 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
+0 // STEP 5 - prepare four 75536 wheel/cord/hook groups; hand-held until the following assembly steps
+0 // Cord route is the existing non-BOM radius-3 schematic; no winding, knot or load certification.
+1 14 -722 -196.99975 -20 -1 0 0 0 1 0 0 0 -1 s/steamx-75536-hook.dat
+1 0 -758.056457826 -620.633791769 -69 2.98849775022 36.0564578262 0 -0.260576434551 407.634041769 -0.358040112175 -0.0313228140554 49 2.97855791921 s/steamx-rope.dat
+1 14 -718 -196.99975 20 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
+1 0 -757.985822536 -620.270554278 69 2.98584813108 39.985822536 5.20417042793e-18 -0.288967513542 407.270804278 0.358354887285 0.0347665681282 -49 2.97852006452 s/steamx-rope.dat
+1 14 718 -196.99975 -20 -1 0 0 0 1 0 0 0 -1 s/steamx-75536-hook.dat
+1 0 757.985822536 -620.270554278 -69 2.98584813108 -39.985822536 5.20417042793e-18 0.288967513542 407.270804278 -0.358354887285 0.0347665681282 49 2.97852006452 s/steamx-rope.dat
+1 14 722 -196.99975 20 1 0 0 0 1 0 0 0 1 s/steamx-75536-hook.dat
+1 0 758.056457826 -620.633791769 69 2.98849775022 -36.0564578262 0 0.260576434551 407.634041769 0.358040112175 -0.0313228140554 -49 2.97855791921 s/steamx-rope.dat
+1 14 -720 -624 -60 -1 0 0 0 1 0 0 0 -1 75536.dat
+1 14 -720 -624 60 1 0 0 0 1 0 0 0 1 75536.dat
+1 14 720 -624 -60 -1 0 0 0 1 0 0 0 -1 75536.dat
+1 14 720 -624 60 1 0 0 0 1 0 0 0 1 75536.dat
 0 STEP
-0 // STEP 6 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
+0 // STEP 6 - two end axles secure the four pulley groups
+1 7 -720 -624 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 7 720 -624 0 0 0 1 0 1 0 -1 0 0 6522.dat
 0 STEP
 0 // STEP 7 - gray 8x8 base + twelve blue 3011, two bonded open 8x8 rings
-1 7 -640 0 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 1 -720 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -720 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -560 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -560 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -760 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 -520 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 -760 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 -520 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 -760 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 -520 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 -640 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 -640 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 7 -720 0 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 -800 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -800 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -640 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -640 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -840 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -600 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -840 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -600 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -840 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -600 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 -720 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -720 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-0 // STEP 8 - four red corner 3437 + four blue 40666 caps; middle Toolo slots remain open
-1 4 -760 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -520 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -720 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 -560 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 4 -760 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 -520 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 -720 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 -560 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
-0 // Two central 2x4 Toolo side-hole bricks omitted. Each cap plate has two outer stud columns supported by red corner brick.
+0 // STEP 8 - four red corner 3437, two red 75349 hole bricks, four blue 40666 caps
+1 4 -840 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -600 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -720 -144 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 -720 -144 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 -800 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -640 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 -840 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -600 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -800 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -640 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 8 inventory shows 2x red 2x4-hole 75349; bottom receivers engage blue 3011 studs at y=-96 and top studs engage 40666 caps at y=-168.
 0 STEP
-0 // STEP 9 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
+0 // STEP 9 - left bucket axles and inside/outside wheels; hooks engage inner exposed axle segments
+1 7 -720 -120 -120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 7 -720 -120 120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -720 -120 -180 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -720 -120 -60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -720 -120 60 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -720 -120 180 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
 0 // STEP 10 - gray 8x8 base + twelve blue 3011, two bonded open 8x8 rings
-1 7 640 0 0 1 0 0 0 1 0 0 0 1 51262.dat
-1 1 560 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 560 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 720 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 720 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 520 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 760 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 520 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 760 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 520 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 760 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
-1 1 640 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
-1 1 640 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 7 720 0 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 1 640 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 640 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 800 -48 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 800 -48 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 600 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 840 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 600 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 840 -96 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 600 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 840 -96 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 1 720 -96 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 720 -96 120 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
-0 // STEP 11 - four red corner 3437 + four blue 40666 caps; middle Toolo slots remain open
-1 4 520 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 760 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 560 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 720 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
-1 4 520 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 4 760 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
-1 1 560 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 720 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
-0 // Two central 2x4 Toolo side-hole bricks omitted. Each cap plate has two outer stud columns supported by red corner brick.
+0 // STEP 11 - four red corner 3437, two red 75349 hole bricks, four blue 40666 caps
+1 4 600 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 840 -144 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 720 -144 -120 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 720 -144 120 1 0 0 0 1 0 0 0 1 75349.dat
+1 1 640 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 800 -168 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 600 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 840 -144 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 640 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 800 -168 120 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Source page 11 inventory shows 2x red 2x4-hole 75349; bottom receivers engage blue 3011 studs at y=-96 and top studs engage 40666 caps at y=-168.
 0 STEP
-0 // STEP 12 - source mechanical beam/axle/string/hook assembly unresolved; no substitute geometry
+0 // STEP 12 - right bucket axles and inside/outside wheels; hooks engage inner exposed axle segments
+1 7 720 -120 -120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 7 720 -120 120 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 720 -120 -180 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 720 -120 -60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 720 -120 60 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 720 -120 180 1 0 0 0 1 0 0 0 1 6527.dat
 0 STEP
-0 // STEP 13 - finished source reference; no additions, no functional hanging assembly claimed
+0 // STEP 13 - finished source reference; static contact only, winding/retention/load unverified

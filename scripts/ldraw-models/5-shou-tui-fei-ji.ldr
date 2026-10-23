@@ -1,0 +1,83 @@
+0 Push airplane - real-hole support reconstruction; unconfirmed
+0 Name: 5-shou-tui-fei-ji.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 // BATCH4 p1-5/p9-11: chassis stud planes are horizontal in world XZ; upward push handle is intentional in source.
+0 // 2026-10-15 catalog-backed rotor substitution: the source p9-11 rotor identity is not independently confirmed, but its slender formed two-blade sheet and three-hole center match official 61898bc01 better than the larger 61898cc01. This is an approved real-part substitution, not a claim that the source model number was read from the image. No scale transform is used.
+0 // 2026-10-12 local source review: p1-5 chassis is already level (+Y down); rotate complete display -90 degrees around Y for side view. Rotor evidence and the remaining mesh issues are kept in scratch.tmp/recognizable-parts/rotor.
+0 // SOURCE PAGE 1: Two upper long red beams bonded by lower central long beam
+1 4 0 -24 0 0 0 -1 0 1 0 1 0 0 75350.dat
+1 4 0 -72 -200 0 0 -1 0 1 0 1 0 0 75350.dat
+1 4 0 -72 200 0 0 -1 0 1 0 1 0 0 75350.dat
+0 STEP
+0 // SOURCE PAGE 2: Front6L shaft and two tyres each with opposed inner/outer hubs
+1 7 0 0 -160 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 60 0 -160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 104.0 0 -160 0 0 1 0 1 0 -1 0 0 6527.dat
+1 0 104.0 0 -160 0 0 1 0 1 0 -1 0 0 6292.dat
+1 14 -60 0 -160 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -104.0 0 -160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 0 -104.0 0 -160 0 0 -1 0 1 0 1 0 0 6292.dat
+0 STEP
+0 // SOURCE PAGE 3 revised catalog assembly: 8L rear axle, offset right 40T gear and two outer retainers
+1 2 0 -48 240 1 0 0 0 1 0 0 0 1 6521.dat
+1 14 100 -48 240 0 0 1 0 1 0 -1 0 0 6530.dat
+1 14 140 -48 240 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 60 -48 240 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -60 -48 240 0 0 -1 0 1 0 1 0 0 6530.dat
+1 14 -100 -48 240 0 0 -1 0 1 0 1 0 0 6527.dat
+0 STEP
+0 // Crown31622 replaces ordinary6529, active teeth face down. Left40T alone drives crown; right ground wheel is shifted outward to avoid locking the same shaft.
+0 // Lower6527 atY=-103 rests on lower beam studsY=-83 and supports the keyed vertical axle. Crown hub atY=-148 has5LDU clearance above pulley, located by standard axle/hub friction; no invented shaft shoulder.
+0 // Vertical8L axle raised30LDU: lower endY=-60 clears horizontal axle topY=-57;12LDU insertion into lower bearing. Top protrudes32LDU beyond rotor retainer. Physical holding force/load remains unmeasured.
+0 // SOURCE PAGE 4 revised catalog assembly: remove the upper 75349 bearing; retain the lower 75350 beam as radial support
+1 2 0 -220 240 0 0 -1 -1 0 0 0 1 0 6521.dat
+0 // Crown gear candidate: official 31622, downward crown face; keyed hub remains on the existing vertical 6521 axle.
+1 1 0 -148 240 0 -1 0 0 0 1 -1 0 0 31622.dat
+1 14 0 -103 240 0 -1 0 0 0 -1 1 0 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 5 departure: Three original thin plates plus two real 3011 bricks support the relocated red bearing
+1 14 0 -96 -320 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 0 -96 -160 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 0 -96 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 4 0 -192 -320 0 0 -1 0 1 0 1 0 0 75350.dat
+1 14 0 -144 -320 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -144 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 6: Exact native 6525 five-hole support; A=(0,-48,-320), B=(0,-168,-480)
+1 14 60 -168 -480 0 -1 0 -0.8 0 -0.6 0.6 0 -0.8 6525.dat
+1 14 -60 -168 -480 0 -1 0 -0.8 0 -0.6 0.6 0 -0.8 6525.dat
+1 7 0 -48 -320 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 100 -48 -320 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -100 -48 -320 0 0 -1 0 1 0 1 0 0 6527.dat
+1 7 0 -168 -480 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 100 -168 -480 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -100 -168 -480 0 0 -1 0 1 0 1 0 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 7: Upper red handle bearing attached through yellow arms at native z120/200 holes
+1 4 0 -316.799999967 -718.400000021 0 0 -1 -0.6 -0.8 0 -0.8 0.6 0 75350.dat
+1 7 0 -239.999999981 -576.000000014 1 0 0 0 0.913008711 -0.407940062 0 0.407940062 0.913008711 6522.dat
+1 14 100 -239.999999981 -576.000000014 0 0 1 0.407940062 0.913008711 0 -0.913008711 0.407940062 0 6527.dat
+1 14 -100 -239.999999981 -576.000000014 0 0 -1 -0.407940062 0.913008711 0 0.913008711 0.407940062 0 6527.dat
+1 7 0 -287.999999975 -640.000000019 1 0 0 0 0.913008711 -0.407940062 0 0.407940062 0.913008711 6522.dat
+1 14 100 -287.999999975 -640.000000019 0 0 -1 -0.407940062 0.913008711 0 0.913008711 0.407940062 0 6527.dat
+0 // Upper handle pulleys flipped axially: adjacent R41 rims now occupy opposite sides of the shaft midplanes, clearing the 80-LDU axle spacing; hub seating faces stay at the same positions.
+1 14 -100 -287.999999975 -640.000000019 0 0 1 0.407940062 0.913008711 0 -0.913008711 0.407940062 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 8: End-to-end red extension with yellow plate underside seam bridge
+1 4 0 -556.799999936 -1038.400000045 0 0 -1 -0.6 -0.8 0 -0.8 0.6 0 75350.dat
+1 14 0 -451.199999958 -817.600000034 0 0 -1 -0.6 -0.8 0 -0.8 0.6 0 40666.dat
+1 14 0 -547.199999946 -945.600000044 0 0 -1 -0.6 -0.8 0 -0.8 0.6 0 40666.dat
+0 STEP
+0 // SOURCE PAGE 9: First up-facing carrier pin; official 61898bc01 substituted for the unresolved source sheet
+1 14 0 -242.0 240 1 0 0 0 -1 0 0 0 -1 6526.dat
+0 // First carrier is flipped to the reviewer-tested upward-support pose; its pin shoulder is y=-262 and reaches the flipped sheet's local +80 hole at z=160; sheet thickness occupies y=-263..-262 above the supporting face. This carrier orientation is a catalog-fit correction, not a claim of exact source p9 pose.
+1 27 0 -262.0 240 1 0 0 0 -1 0 0 0 -1 61898bc01.dat
+0 STEP
+0 // SOURCE PAGE 10: Second source rotor sheet crossed 90 degrees; official 61898bc01 substitution retained at catalog dimensions.
+0 // Second carrier keeps the same upward-support direction with the in-plane quarter-turn; its pin shoulder is y=-307 and reaches the crossed sheet local +80 hole at x=-80. A 45 LDU face-to-face stack gap clears the formed wings; this source pose is explicitly approximate after catalog replacement.
+1 27 0 -307.0 240 0 0 -1 0 -1 0 -1 0 0 61898bc01.dat
+1 14 0 -287.0 240 0 0 -1 0 -1 0 -1 0 0 6526.dat
+1 14 0 -328.0 240 0 -1 0 0 0 -1 1 0 0 6527.dat
+0 // 2026-10-16 source departure: support axles separated by 200 LDU (120 vertical,160 horizontal); both real 6525 arms use five 40-LDU intervals. Added two real 3011 bricks and rigidly relocated the complete upper handle; no part scaling. Rotor and full drive remain unresolved; needs-repair.
+0 // 2026-10-16 front wheels: each outer 6527 and its 6292 tyre moved outward 4 LDU together, clearing both inner-hub/tyre penetrations. Real 6L axle retains 36 LDU outer keyed-bore engagement and 40 LDU inner engagement; no part scaling. Full drive and assembly remain under review.

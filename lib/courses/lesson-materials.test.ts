@@ -660,3 +660,18 @@ it('describes two differently colored equivalent eyes using only color and quant
     ...a, partDifference: '不同图案的',
   })) })).toBe('可以用 亮绿色 2 块')
 })
+
+it('requires all four rotor cord loops as known external materials even when 71059 is stocked', () => {
+  const cords = ['left-small', 'left-large', 'right-small', 'right-large']
+    .map((variant) => entry(`dev-cord/rotor-${variant}-formed.dat`, 0))
+  const inventory = [stock('71059', 1, 20)]
+  const result = compareLessonMaterials(bom(...cords, entry('71059-helicopter-small-formed-approx.dat', 1)), inventory, prefs)
+  expect(result.stats).toMatchObject({ total: 5, requiredMissing: 4, unknown: 0, matched: 1, substituted: 0 })
+  expect(result.requiredMissing).toHaveLength(4)
+  expect(result.requiredMissing.every((row) => row.mapping.flags.externalMaterial &&
+    row.missing === 1 && row.allocations.length === 0)).toBe(true)
+  expect(result.entries.find((row) => row.partId === '71059-helicopter-small-formed-approx.dat')).toMatchObject({ matched: 1, missing: 0 })
+  expect(result.unknown).toEqual([])
+  expect(summarizeMaterialOutcome(result)).toMatchObject({ status: 'short', missingPieces: 4, specialPieces: 0 })
+  expect(inventory[0].quantity).toBe(20)
+})

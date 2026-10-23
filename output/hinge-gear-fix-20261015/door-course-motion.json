@@ -1,0 +1,536 @@
+{
+  "source": {
+    "doorPart": "scripts/ldraw-models/parts/31193.dat",
+    "doorSha256": "7d5dddba82c39ec0ad321a4940a4f3d349534fe5cb691e20c20337236500424c",
+    "courses": {
+      "3-shuang-ceng-ba-shi.ldr": "ece1d2f307e23b557f66f7d15ea75cdb3a244b4c4a7d5aca847add52d1d4c9c4",
+      "3-xiao-fang-che.ldr": "2b657c2f86dc26b165ac34b1af5cdd1de6edab27c1e7b19f887882cc2370cbbf",
+      "3-xiao-huo-che.ldr": "0d1c8133d4447ce0a12af1bb95c990b095e9585de9a7dc65aef9d7ca08b94b3f",
+      "4-wa-li.ldr": "945e7a082ba4d6e5eff60de0ecb83fda0109364a89f73eb66deccff907e275d5"
+    },
+    "commentOnlyUpdate": {
+      "model": "3-xiao-fang-che.ldr",
+      "currentSourceSha256": "6d4536d1c772a1c80b6f35f64403d9f75be08d53f27cf359bad97673c605f793",
+      "note": "Only opening-limit comment appended after test; reverse-comment hash exactly matches tested source. All placements/dependencies unchanged."
+    }
+  },
+  "angles": [
+    0,
+    15,
+    30,
+    45,
+    60,
+    75,
+    90,
+    105,
+    120
+  ],
+  "results": [
+    {
+      "course": "3-shuang-ceng-ba-shi.ldr",
+      "doorLine": 19,
+      "angle": 0,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-shuang-ceng-ba-shi.ldr",
+      "doorLine": 19,
+      "angle": 15,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-shuang-ceng-ba-shi.ldr",
+      "doorLine": 19,
+      "angle": 30,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-shuang-ceng-ba-shi.ldr",
+      "doorLine": 19,
+      "angle": 45,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-shuang-ceng-ba-shi.ldr",
+      "doorLine": 19,
+      "angle": 60,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-shuang-ceng-ba-shi.ldr",
+      "doorLine": 19,
+      "angle": 75,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-shuang-ceng-ba-shi.ldr",
+      "doorLine": 19,
+      "angle": 90,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-shuang-ceng-ba-shi.ldr",
+      "doorLine": 19,
+      "angle": 105,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-shuang-ceng-ba-shi.ldr",
+      "doorLine": 19,
+      "angle": 120,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-fang-che.ldr",
+      "doorLine": 43,
+      "angle": 0,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-fang-che.ldr",
+      "doorLine": 43,
+      "angle": 15,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-fang-che.ldr",
+      "doorLine": 43,
+      "angle": 30,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-fang-che.ldr",
+      "doorLine": 43,
+      "angle": 45,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-fang-che.ldr",
+      "doorLine": 43,
+      "angle": 60,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-fang-che.ldr",
+      "doorLine": 43,
+      "angle": 75,
+      "crossings": 146,
+      "pairs": [
+        {
+          "doorLine": 43,
+          "otherLine": 46,
+          "otherPart": "3011.dat",
+          "crossings": 13
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 52,
+          "otherPart": "61649.dat",
+          "crossings": 109
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 68,
+          "otherPart": "3437.dat",
+          "crossings": 24
+        }
+      ]
+    },
+    {
+      "course": "3-xiao-fang-che.ldr",
+      "doorLine": 43,
+      "angle": 90,
+      "crossings": 1464,
+      "pairs": [
+        {
+          "doorLine": 43,
+          "otherLine": 46,
+          "otherPart": "3011.dat",
+          "crossings": 350
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 52,
+          "otherPart": "61649.dat",
+          "crossings": 869
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 62,
+          "otherPart": "3437.dat",
+          "crossings": 34
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 64,
+          "otherPart": "3011.dat",
+          "crossings": 88
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 68,
+          "otherPart": "3437.dat",
+          "crossings": 71
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 69,
+          "otherPart": "3437.dat",
+          "crossings": 52
+        }
+      ]
+    },
+    {
+      "course": "3-xiao-fang-che.ldr",
+      "doorLine": 43,
+      "angle": 105,
+      "crossings": 1456,
+      "pairs": [
+        {
+          "doorLine": 43,
+          "otherLine": 46,
+          "otherPart": "3011.dat",
+          "crossings": 401
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 52,
+          "otherPart": "61649.dat",
+          "crossings": 890
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 68,
+          "otherPart": "3437.dat",
+          "crossings": 95
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 69,
+          "otherPart": "3437.dat",
+          "crossings": 70
+        }
+      ]
+    },
+    {
+      "course": "3-xiao-fang-che.ldr",
+      "doorLine": 43,
+      "angle": 120,
+      "crossings": 1424,
+      "pairs": [
+        {
+          "doorLine": 43,
+          "otherLine": 46,
+          "otherPart": "3011.dat",
+          "crossings": 355
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 52,
+          "otherPart": "61649.dat",
+          "crossings": 745
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 53,
+          "otherPart": "90265.dat",
+          "crossings": 142
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 68,
+          "otherPart": "3437.dat",
+          "crossings": 118
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 69,
+          "otherPart": "3437.dat",
+          "crossings": 64
+        }
+      ]
+    },
+    {
+      "course": "3-xiao-huo-che.ldr",
+      "doorLine": 18,
+      "angle": 0,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-huo-che.ldr",
+      "doorLine": 18,
+      "angle": 15,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-huo-che.ldr",
+      "doorLine": 18,
+      "angle": 30,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-huo-che.ldr",
+      "doorLine": 18,
+      "angle": 45,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-huo-che.ldr",
+      "doorLine": 18,
+      "angle": 60,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-huo-che.ldr",
+      "doorLine": 18,
+      "angle": 75,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-huo-che.ldr",
+      "doorLine": 18,
+      "angle": 90,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-huo-che.ldr",
+      "doorLine": 18,
+      "angle": 105,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "3-xiao-huo-che.ldr",
+      "doorLine": 18,
+      "angle": 120,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "4-wa-li.ldr",
+      "doorLine": 26,
+      "angle": 0,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "4-wa-li.ldr",
+      "doorLine": 26,
+      "angle": 15,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "4-wa-li.ldr",
+      "doorLine": 26,
+      "angle": 30,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "4-wa-li.ldr",
+      "doorLine": 26,
+      "angle": 45,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "4-wa-li.ldr",
+      "doorLine": 26,
+      "angle": 60,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "4-wa-li.ldr",
+      "doorLine": 26,
+      "angle": 75,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "4-wa-li.ldr",
+      "doorLine": 26,
+      "angle": 90,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "4-wa-li.ldr",
+      "doorLine": 26,
+      "angle": 105,
+      "crossings": 0,
+      "pairs": []
+    },
+    {
+      "course": "4-wa-li.ldr",
+      "doorLine": 26,
+      "angle": 120,
+      "crossings": 0,
+      "pairs": []
+    }
+  ],
+  "nonzero": [
+    {
+      "course": "3-xiao-fang-che.ldr",
+      "doorLine": 43,
+      "angle": 75,
+      "crossings": 146,
+      "pairs": [
+        {
+          "doorLine": 43,
+          "otherLine": 46,
+          "otherPart": "3011.dat",
+          "crossings": 13
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 52,
+          "otherPart": "61649.dat",
+          "crossings": 109
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 68,
+          "otherPart": "3437.dat",
+          "crossings": 24
+        }
+      ]
+    },
+    {
+      "course": "3-xiao-fang-che.ldr",
+      "doorLine": 43,
+      "angle": 90,
+      "crossings": 1464,
+      "pairs": [
+        {
+          "doorLine": 43,
+          "otherLine": 46,
+          "otherPart": "3011.dat",
+          "crossings": 350
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 52,
+          "otherPart": "61649.dat",
+          "crossings": 869
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 62,
+          "otherPart": "3437.dat",
+          "crossings": 34
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 64,
+          "otherPart": "3011.dat",
+          "crossings": 88
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 68,
+          "otherPart": "3437.dat",
+          "crossings": 71
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 69,
+          "otherPart": "3437.dat",
+          "crossings": 52
+        }
+      ]
+    },
+    {
+      "course": "3-xiao-fang-che.ldr",
+      "doorLine": 43,
+      "angle": 105,
+      "crossings": 1456,
+      "pairs": [
+        {
+          "doorLine": 43,
+          "otherLine": 46,
+          "otherPart": "3011.dat",
+          "crossings": 401
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 52,
+          "otherPart": "61649.dat",
+          "crossings": 890
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 68,
+          "otherPart": "3437.dat",
+          "crossings": 95
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 69,
+          "otherPart": "3437.dat",
+          "crossings": 70
+        }
+      ]
+    },
+    {
+      "course": "3-xiao-fang-che.ldr",
+      "doorLine": 43,
+      "angle": 120,
+      "crossings": 1424,
+      "pairs": [
+        {
+          "doorLine": 43,
+          "otherLine": 46,
+          "otherPart": "3011.dat",
+          "crossings": 355
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 52,
+          "otherPart": "61649.dat",
+          "crossings": 745
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 53,
+          "otherPart": "90265.dat",
+          "crossings": 142
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 68,
+          "otherPart": "3437.dat",
+          "crossings": 118
+        },
+        {
+          "doorLine": 43,
+          "otherLine": 69,
+          "otherPart": "3437.dat",
+          "crossings": 64
+        }
+      ]
+    }
+  ]
+}

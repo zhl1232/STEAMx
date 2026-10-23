@@ -1,0 +1,1097 @@
+{
+  "generatedAt": "2026-10-15",
+  "scope": "scripts/ldraw-models/[345]-*.ldr recursive dependencies",
+  "courseCount": 300,
+  "sourcePolicy": "Official LDraw is a geometry/provenance signal only; it does not certify LEGO manufacturing tolerances, friction, retention, load, or fit.",
+  "evidence": {
+    "inventory": ".tmp/all-course-parts/inventory.json",
+    "dependencyHashes": ".tmp/all-course-parts/dependency-hashes.json",
+    "metadata": ".agents/skills/image-to-ldraw/references/part-metadata.json",
+    "statusDoc": "docs/ldraw-status.md",
+    "resolvedDependencyFiles": 583,
+    "resolvedDependencyReferences": 195993,
+    "missingDependencies": 0,
+    "inventoryOldAndCandidateSummary": {
+      "directOldParts": 0,
+      "transitiveOldParts": 0,
+      "modelsWithUnresolvedComments": 169,
+      "modelsWithSpecialCandidates": 49
+    }
+  },
+  "method": "Course use is the number of distinct 3-/4-/5- model roots reaching a local metadata entry through type-1 recursion. refs is recursive reference count. dev-toolo, dev-129 and state aliases are unioned by real/catalog identity where known.",
+  "categories": [
+    {
+      "canonical": "76395",
+      "courseUse": 43,
+      "refs": 335,
+      "courses": [
+        "4-cha-che.ldr",
+        "4-chun-jie-wu-shi.ldr",
+        "4-ci-xuan-fu-lie-che.ldr",
+        "4-da-long-xia.ldr",
+        "4-da-xiang.ldr",
+        "4-dao-dan-che.ldr",
+        "4-diao-che.ldr",
+        "4-du-jiao-xian.ldr",
+        "4-e-yu.ldr",
+        "4-ji-guan-qiang.ldr",
+        "4-ju-ji-qiang.ldr",
+        "4-jun-jian.ldr",
+        "4-ke-ji.ldr",
+        "4-kuai-ting.ldr",
+        "4-long-men-diao.ldr",
+        "4-mo-tian-lun.ldr",
+        "4-qing-ting.ldr",
+        "4-sai-che.ldr",
+        "4-sheng-jiang-jiu-yuan-che.ldr",
+        "4-shou-ge-ji.ldr",
+        "4-shu-bao.ldr",
+        "4-sun-wu-kong.ldr",
+        "4-ta-diao.ldr",
+        "4-tang-lang.ldr",
+        "4-tui-tu-ji.ldr",
+        "4-tuo-gua-che.ldr",
+        "4-wa-li.ldr",
+        "4-wu-ren-ji.ldr",
+        "4-xiang-wei-she.ldr",
+        "4-xiao-tu-zi.ldr",
+        "4-xie-zi.ldr",
+        "4-xuan-zhuan-fei-ji.ldr",
+        "4-ya-lu-ji.ldr",
+        "4-yao-yao-ma.ldr",
+        "4-yi-long.ldr",
+        "4-you-wen.ldr",
+        "4-zhao-xiang-ji.ldr",
+        "4-zhi-sheng-ji.ldr",
+        "4-zhi-zhu.ldr",
+        "4-zhong-guo-jie.ldr",
+        "4-zuan-tu-che.ldr",
+        "5-e-yu.ldr",
+        "5-tian-ping.ldr"
+      ],
+      "status": "Candidate local reconstruction",
+      "ids": [
+        "dev-toolo/76395.dat",
+        "dev-toolo/engaged/76395.dat",
+        "dev-toolo/states/76395-*"
+      ],
+      "finding": "Toolo 6x4 screw brick; guide/thread dimensions, captive states and physical fit remain inferred.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "28336",
+      "courseUse": 42,
+      "refs": 178,
+      "courses": [
+        "4-cha-che.ldr",
+        "4-chun-jie-wu-shi.ldr",
+        "4-da-long-xia.ldr",
+        "4-da-xiang.ldr",
+        "4-dao-dan-che.ldr",
+        "4-diao-che.ldr",
+        "4-du-jiao-xian.ldr",
+        "4-e-yu.ldr",
+        "4-ji-guan-qiang.ldr",
+        "4-ju-ji-qiang.ldr",
+        "4-jun-jian.ldr",
+        "4-ke-ji.ldr",
+        "4-kuai-ting.ldr",
+        "4-la-ji-fen-lei.ldr",
+        "4-long-men-diao.ldr",
+        "4-mo-tian-lun.ldr",
+        "4-qing-ting.ldr",
+        "4-sai-che.ldr",
+        "4-sheng-jiang-jiu-yuan-che.ldr",
+        "4-shou-ge-ji.ldr",
+        "4-sun-wu-kong.ldr",
+        "4-ta-diao.ldr",
+        "4-tang-lang.ldr",
+        "4-tui-tu-ji.ldr",
+        "4-tuo-gua-che.ldr",
+        "4-wa-li.ldr",
+        "4-wu-ren-ji.ldr",
+        "4-xiang-wei-she.ldr",
+        "4-xiao-tu-zi.ldr",
+        "4-xie-zi.ldr",
+        "4-xuan-zhuan-fei-ji.ldr",
+        "4-ya-lu-ji.ldr",
+        "4-yao-yao-ma.ldr",
+        "4-yi-long.ldr",
+        "4-you-wen.ldr",
+        "4-zhao-xiang-ji.ldr",
+        "4-zhi-sheng-ji.ldr",
+        "4-zhi-zhu.ldr",
+        "4-zhong-guo-long.ldr",
+        "4-zuan-tu-che.ldr",
+        "5-e-yu.ldr",
+        "5-tian-ping.ldr"
+      ],
+      "status": "Candidate local reconstruction",
+      "ids": [
+        "dev-toolo/28336.dat",
+        "dev-toolo/engaged/28336.dat",
+        "dev-toolo/engaged-top/28336.dat"
+      ],
+      "finding": "Toolo 2x2 fork base; source-shaped candidate, no authoritative CAD or molded fit proof.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "42029",
+      "courseUse": 39,
+      "refs": 73,
+      "courses": [
+        "3-chang-jing-long.ldr",
+        "3-chang-jing-lu.ldr",
+        "3-chou-ti.ldr",
+        "3-da-xiang.ldr",
+        "3-da-xiong-mao.ldr",
+        "3-gao-er-fu-qiu.ldr",
+        "3-huo-jian.ldr",
+        "3-ji-jiu-bao.ldr",
+        "3-ju-ji-qiang.ldr",
+        "3-lan-qiu-chang.ldr",
+        "3-lao-qiu-bi-sai.ldr",
+        "3-qian-shui-ting.ldr",
+        "3-qiu-qian.ldr",
+        "3-shan-yang.ldr",
+        "3-shou-dian-tong.ldr",
+        "3-shu-zhuang-tai.ldr",
+        "3-tai-qiu.ldr",
+        "3-tian-e.ldr",
+        "3-wang-yuan-jing.ldr",
+        "3-wo-niu.ldr",
+        "3-wo-shi-xiao-chu-shi.ldr",
+        "3-xi-chen-qi.ldr",
+        "3-xiang-pi-ting.ldr",
+        "3-xiao-fang-che.ldr",
+        "3-xiao-huo-che.ldr",
+        "3-xiao-qiu-jie-li-sai.ldr",
+        "3-yu-gang.ldr",
+        "3-zhao-xiang-ji.ldr",
+        "4-ba-wang-long.ldr",
+        "4-lei-da.ldr",
+        "4-qian-shui-ting.ldr",
+        "4-qiu-qian.ldr",
+        "4-she-xiang-ji.ldr",
+        "4-wang-yuan-jing.ldr",
+        "4-xian-wei-jing.ldr",
+        "4-zhang-yu.ldr",
+        "5-da-di-shu.ldr",
+        "5-du-lun-shou-tui-che.ldr",
+        "5-huo-jian.ldr"
+      ],
+      "status": "Unofficial; local rib modification",
+      "ids": [
+        "42029.dat"
+      ],
+      "finding": "Base geometry is unofficial Philippe Hurbain/Philo geometry, with a local rib modification recorded in the local header/metadata; not official LDraw and mating geometry remains unresolved.",
+      "webResearch": {
+        "result": "找到作者原始网格发布帖，附件需登录",
+        "source": "https://forums.ldraw.org/thread-29574-post-60754.html",
+        "limit": "附件14201为42029_raw.dat；未能下载作几何比对。本地曾移动原点并修改内部筋，不能宣称与原件一致"
+      }
+    },
+    {
+      "canonical": "74957",
+      "courseUse": 37,
+      "refs": 106,
+      "courses": [
+        "4-cha-che.ldr",
+        "4-chun-jie-wu-shi.ldr",
+        "4-ci-xuan-fu-lie-che.ldr",
+        "4-da-long-xia.ldr",
+        "4-da-xiang.ldr",
+        "4-dao-dan-che.ldr",
+        "4-du-jiao-xian.ldr",
+        "4-e-yu.ldr",
+        "4-ji-guan-qiang.ldr",
+        "4-ju-ji-qiang.ldr",
+        "4-kuai-ting.ldr",
+        "4-long-men-diao.ldr",
+        "4-mo-tian-lun.ldr",
+        "4-qing-ting.ldr",
+        "4-sai-che.ldr",
+        "4-sheng-jiang-jiu-yuan-che.ldr",
+        "4-shou-ge-ji.ldr",
+        "4-ta-diao.ldr",
+        "4-tang-lang.ldr",
+        "4-tuo-gua-che.ldr",
+        "4-wa-li.ldr",
+        "4-wu-ren-ji.ldr",
+        "4-xiang-wei-she.ldr",
+        "4-xiao-tu-zi.ldr",
+        "4-xie-zi.ldr",
+        "4-xuan-zhuan-fei-ji.ldr",
+        "4-ya-lu-ji.ldr",
+        "4-yao-yao-ma.ldr",
+        "4-yi-long.ldr",
+        "4-you-wen.ldr",
+        "4-zhao-xiang-ji.ldr",
+        "4-zhi-sheng-ji.ldr",
+        "4-zhi-zhu.ldr",
+        "4-zhong-guo-long.ldr",
+        "4-zuan-tu-che.ldr",
+        "5-e-yu.ldr",
+        "5-tian-ping.ldr"
+      ],
+      "status": "Candidate local reconstruction",
+      "ids": [
+        "dev-toolo/74957.dat",
+        "dev-toolo/engaged/74957.dat"
+      ],
+      "finding": "Threaded clutch element candidate; hidden thread/retention dimensions inferred.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "76057",
+      "courseUse": 32,
+      "refs": 226,
+      "courses": [
+        "4-cha-che.ldr",
+        "4-chun-jie-wu-shi.ldr",
+        "4-ci-xuan-fu-lie-che.ldr",
+        "4-da-long-xia.ldr",
+        "4-da-xiang.ldr",
+        "4-dao-dan-che.ldr",
+        "4-diao-che.ldr",
+        "4-du-jiao-xian.ldr",
+        "4-ji-guan-qiang.ldr",
+        "4-ju-ji-qiang.ldr",
+        "4-jun-jian.ldr",
+        "4-ke-ji.ldr",
+        "4-kuai-ting.ldr",
+        "4-la-ji-fen-lei.ldr",
+        "4-long-men-diao.ldr",
+        "4-sai-che.ldr",
+        "4-shou-ge-ji.ldr",
+        "4-ta-diao.ldr",
+        "4-tang-lang.ldr",
+        "4-tuo-gua-che.ldr",
+        "4-wu-ren-ji.ldr",
+        "4-xiang-wei-she.ldr",
+        "4-xiao-tu-zi.ldr",
+        "4-xie-zi.ldr",
+        "4-xuan-zhuan-fei-ji.ldr",
+        "4-ya-lu-ji.ldr",
+        "4-yao-yao-ma.ldr",
+        "4-yi-long.ldr",
+        "4-you-wen.ldr",
+        "4-zhi-zhu.ldr",
+        "4-zhong-guo-jie.ldr",
+        "4-zhong-guo-long.ldr"
+      ],
+      "status": "Candidate local reconstruction",
+      "ids": [
+        "dev-toolo/76057.dat",
+        "dev-toolo/engaged/76057.dat",
+        "dev-toolo/engaged-top/76057.dat"
+      ],
+      "finding": "Toolo 4x2 screw brick candidate; bore/thread and captive fit remain unmeasured.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "99565",
+      "courseUse": 31,
+      "refs": 121,
+      "courses": [
+        "4-cha-che.ldr",
+        "4-chun-jie-wu-shi.ldr",
+        "4-da-long-xia.ldr",
+        "4-da-xiang.ldr",
+        "4-dao-dan-che.ldr",
+        "4-diao-che.ldr",
+        "4-du-jiao-xian.ldr",
+        "4-ji-guan-qiang.ldr",
+        "4-ju-ji-qiang.ldr",
+        "4-jun-jian.ldr",
+        "4-ke-ji.ldr",
+        "4-long-men-diao.ldr",
+        "4-qing-ting.ldr",
+        "4-sai-che.ldr",
+        "4-sheng-jiang-jiu-yuan-che.ldr",
+        "4-shou-ge-ji.ldr",
+        "4-tang-lang.ldr",
+        "4-tui-tu-ji.ldr",
+        "4-tuo-gua-che.ldr",
+        "4-wa-li.ldr",
+        "4-wu-ren-ji.ldr",
+        "4-xiang-wei-she.ldr",
+        "4-xiao-tu-zi.ldr",
+        "4-xie-zi.ldr",
+        "4-ya-lu-ji.ldr",
+        "4-yao-yao-ma.ldr",
+        "4-yi-long.ldr",
+        "4-you-wen.ldr",
+        "4-zhi-zhu.ldr",
+        "4-zhong-guo-long.ldr",
+        "4-zuan-tu-che.ldr"
+      ],
+      "status": "Candidate/local simplified",
+      "ids": [
+        "dev-toolo/99565.dat",
+        "dev-toolo/track-fit/99565*.dat"
+      ],
+      "finding": "Rim and Wali wide-track candidates; photo-derived width/profile, not manufacturer CAD.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "31196c01",
+      "courseUse": 29,
+      "refs": 35,
+      "courses": [
+        "3-jiu-hu-che.ldr",
+        "3-qian-shui-ting.ldr",
+        "3-shuang-ceng-ba-shi.ldr",
+        "4-ci-xuan-fu-lie-che.ldr",
+        "4-dao-dan-che.ldr",
+        "4-diao-che.ldr",
+        "4-ke-ji.ldr",
+        "4-qian-shui-ting.ldr",
+        "4-sheng-jiang-jiu-yuan-che.ldr",
+        "4-shou-ge-ji.ldr",
+        "4-ta-diao.ldr",
+        "4-xuan-zhuan-fei-ji.ldr",
+        "4-ya-lu-ji.ldr",
+        "4-zhi-sheng-ji.ldr",
+        "4-zuan-tu-che.ldr",
+        "5-cha-che.ldr",
+        "5-ci-xuan-fu-lie-che.ldr",
+        "5-da-zhuang-ji.ldr",
+        "5-diao-che.ldr",
+        "5-fan-dou-che.ldr",
+        "5-huan-wei-che.ldr",
+        "5-ma-tou-diao-ji.ldr",
+        "5-qi-dian-chuan.ldr",
+        "5-qing-sao-che.ldr",
+        "5-si-qu-che.ldr",
+        "5-tui-tu-ji.ldr",
+        "5-ya-lu-ji.ldr",
+        "5-zha-lan-sheng-jiang-gan.ldr",
+        "5-zhi-sheng-ji.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "31196c01.dat",
+        "dev-129/31196c01-qst.dat"
+      ],
+      "finding": "Toolo cockpit; photo reconstruction, screw and hole geometry not dimensionally certified.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "28334",
+      "courseUse": 22,
+      "refs": 99,
+      "courses": [
+        "4-ci-xuan-fu-lie-che.ldr",
+        "4-da-long-xia.ldr",
+        "4-diao-che.ldr",
+        "4-du-jiao-xian.ldr",
+        "4-ji-guan-qiang.ldr",
+        "4-long-men-diao.ldr",
+        "4-mo-tian-lun.ldr",
+        "4-sai-che.ldr",
+        "4-sheng-jiang-jiu-yuan-che.ldr",
+        "4-sun-wu-kong.ldr",
+        "4-ta-diao.ldr",
+        "4-tang-lang.ldr",
+        "4-wa-li.ldr",
+        "4-xiao-tu-zi.ldr",
+        "4-xie-zi.ldr",
+        "4-xuan-zhuan-fei-ji.ldr",
+        "4-ya-lu-ji.ldr",
+        "4-yao-yao-ma.ldr",
+        "4-yi-long.ldr",
+        "4-you-wen.ldr",
+        "4-zhi-zhu.ldr",
+        "4-zhong-guo-long.ldr"
+      ],
+      "status": "Source-backed candidate; dimensions inferred",
+      "ids": [
+        "dev-toolo/arm-fit/28334.dat"
+      ],
+      "finding": "Corrected short arm interface candidate; pivot spacing/profile inferred.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "44970",
+      "courseUse": 18,
+      "refs": 70,
+      "courses": [
+        "4-cha-che.ldr",
+        "4-chun-jie-wu-shi.ldr",
+        "4-da-xiang.ldr",
+        "4-dao-dan-che.ldr",
+        "4-diao-che.ldr",
+        "4-du-jiao-xian.ldr",
+        "4-ke-ji.ldr",
+        "4-qing-ting.ldr",
+        "4-sai-che.ldr",
+        "4-sheng-jiang-jiu-yuan-che.ldr",
+        "4-shou-ge-ji.ldr",
+        "4-tang-lang.ldr",
+        "4-tuo-gua-che.ldr",
+        "4-xiao-tu-zi.ldr",
+        "4-ya-lu-ji.ldr",
+        "4-yao-yao-ma.ldr",
+        "4-you-wen.ldr",
+        "4-zuan-tu-che.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "44970.dat"
+      ],
+      "finding": "Off-road tyre local simplified geometry; no exact source mesh/measurement recorded.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "28331",
+      "courseUse": 17,
+      "refs": 48,
+      "courses": [
+        "4-cha-che.ldr",
+        "4-ci-xuan-fu-lie-che.ldr",
+        "4-da-long-xia.ldr",
+        "4-du-jiao-xian.ldr",
+        "4-ji-guan-qiang.ldr",
+        "4-ju-ji-qiang.ldr",
+        "4-jun-jian.ldr",
+        "4-qing-ting.ldr",
+        "4-ta-diao.ldr",
+        "4-wu-ren-ji.ldr",
+        "4-yi-long.ldr",
+        "4-you-wen.ldr",
+        "4-zhao-xiang-ji.ldr",
+        "4-zhi-sheng-ji.ldr",
+        "4-zhong-guo-long.ldr",
+        "4-zuan-tu-che.ldr",
+        "5-tian-ping.ldr"
+      ],
+      "status": "Candidate/local source-backed",
+      "ids": [
+        "dev-toolo/arm-fit/28331.dat",
+        "dev-toolo/28331.dat"
+      ],
+      "finding": "Long fork arm candidate; length/interface corrected from source, hidden fit remains inferred.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "60535",
+      "courseUse": 17,
+      "refs": 26,
+      "courses": [
+        "4-chun-jie-wu-shi.ldr",
+        "4-da-xiang.ldr",
+        "4-diao-che.ldr",
+        "4-du-jiao-xian.ldr",
+        "4-ji-guan-qiang.ldr",
+        "4-jun-jian.ldr",
+        "4-kuai-ting.ldr",
+        "4-mo-tian-lun.ldr",
+        "4-ta-diao.ldr",
+        "4-tuo-gua-che.ldr",
+        "4-wa-li.ldr",
+        "4-xuan-zhuan-fei-ji.ldr",
+        "4-zhao-xiang-ji.ldr",
+        "4-zhi-sheng-ji.ldr",
+        "4-zhong-guo-jie.ldr",
+        "4-zuan-tu-che.ldr",
+        "5-tian-ping.ldr"
+      ],
+      "status": "Candidate local reconstruction",
+      "ids": [
+        "dev-toolo/60535.dat",
+        "dev-toolo/retracted/60535.dat"
+      ],
+      "finding": "Turntable with central screw; square underside support and retention are inferred.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "rope",
+      "courseUse": 12,
+      "refs": 20,
+      "courses": [
+        "4-long-men-diao.ldr",
+        "5-chou-you-ji.ldr",
+        "5-diao-che.ldr",
+        "5-lan-che.ldr",
+        "5-long-men-diao.ldr",
+        "5-ma-tou-diao-ji.ldr",
+        "5-re-qi-qiu.ldr",
+        "5-sheng-jiang-dian-ti.ldr",
+        "5-shui-jing.ldr",
+        "5-shui-zha.ldr",
+        "5-ta-diao.ldr",
+        "5-ti-xian-mu-ou.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "s/steamx-rope.dat"
+      ],
+      "finding": "Non-BOM schematic rope cylinder; not a molded part or measured cord.",
+      "webResearch": {
+        "result": "绳索路径表示，不是固定外形零件",
+        "source": null,
+        "limit": "核对绳长、绕行和端点；不能用一份固定DAT代表所有弯曲姿态。"
+      }
+    },
+    {
+      "canonical": "75536",
+      "courseUse": 11,
+      "refs": 36,
+      "courses": [
+        "5-chou-you-ji.ldr",
+        "5-diao-che.ldr",
+        "5-lan-che.ldr",
+        "5-long-men-diao.ldr",
+        "5-ma-tou-diao-ji.ldr",
+        "5-re-qi-qiu.ldr",
+        "5-sheng-jiang-dian-ti.ldr",
+        "5-shui-jing.ldr",
+        "5-shui-zha.ldr",
+        "5-ta-diao.ldr",
+        "5-ti-xian-mu-ou.ldr"
+      ],
+      "status": "Local composite",
+      "ids": [
+        "75536.dat",
+        "s/steamx-75536-hook.dat"
+      ],
+      "finding": "Composite belt wheel/cord/hook assembly; local composite dimensions and cord routing.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "45117c01",
+      "courseUse": 6,
+      "refs": 10,
+      "courses": [
+        "4-da-xiang.ldr",
+        "4-ke-ji.ldr",
+        "4-sai-che.ldr",
+        "4-xuan-zhuan-fei-ji.ldr",
+        "4-yi-long.ldr",
+        "4-zhong-guo-long.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "dev-toolo/45117c01.dat",
+        "dev-toolo/engaged/45117c01.dat"
+      ],
+      "finding": "Toolo wing/beam candidate; source-shaped approximation, not exact CAD.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "31239c01",
+      "courseUse": 6,
+      "refs": 8,
+      "courses": [
+        "4-da-xiang.ldr",
+        "4-du-jiao-xian.ldr",
+        "4-ke-ji.ldr",
+        "4-kuai-ting.ldr",
+        "4-yi-long.ldr",
+        "4-zhong-guo-long.ldr"
+      ],
+      "status": "Candidate local reconstruction",
+      "ids": [
+        "dev-toolo/31239c01.dat"
+      ],
+      "finding": "Rear spoiler/tail candidate; identity supported, envelope/clearance still inferred.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "6294",
+      "courseUse": 5,
+      "refs": 13,
+      "courses": [
+        "4-da-xiang.ldr",
+        "4-tui-tu-ji.ldr",
+        "4-xie-zi.ldr",
+        "4-yi-long.ldr",
+        "4-zhong-guo-long.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "dev-toolo/6294.dat"
+      ],
+      "finding": "Scoop identity supported by catalog/photo; molded clip/pivot dimensions remain inferred.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "31193",
+      "courseUse": 4,
+      "refs": 4,
+      "courses": [
+        "3-shuang-ceng-ba-shi.ldr",
+        "3-xiao-fang-che.ldr",
+        "3-xiao-huo-che.ldr",
+        "4-wa-li.ldr"
+      ],
+      "status": "Local historical mesh; provenance unverified",
+      "ids": [
+        "31193.dat"
+      ],
+      "finding": "Real ID confirmed, but local file has no author/license header; no downloadable authoritative CAD found in the cited LDraw discussion.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "4433c01",
+      "courseUse": 4,
+      "refs": 7,
+      "courses": [
+        "4-cha-che.ldr",
+        "4-sai-che.ldr",
+        "4-shou-ge-ji.ldr",
+        "4-tang-lang.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "dev-129/4433c01.dat",
+        "dev-129/4433c01-shou-ge-ji.dat"
+      ],
+      "finding": "Exhaust pipe approximation; official/unofficial DAT search recorded as unavailable.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "13355",
+      "courseUse": 3,
+      "refs": 4,
+      "courses": [
+        "3-ma-che.ldr",
+        "4-ji-guan-qiang.ldr",
+        "4-shou-ge-ji.ldr"
+      ],
+      "status": "Unofficial author geometry",
+      "ids": [
+        "13355.dat"
+      ],
+      "finding": "Author-supplied unofficial LDraw model with recursive geometry; it is not a project-authored approximation, but exact snap clearance remains manual review.",
+      "webResearch": {
+        "result": "上游非官方CAD，本地几何一致",
+        "source": "https://library.ldraw.org/library/unofficial/parts/13355.dat",
+        "limit": "Peter Blomberg，CC BY4.0；不是本地自制；仍无实物公差认证"
+      }
+    },
+    {
+      "canonical": "2223",
+      "courseUse": 3,
+      "refs": 3,
+      "courses": [
+        "4-ji-guan-qiang.ldr",
+        "4-ju-ji-qiang.ldr",
+        "4-ta-diao.ldr"
+      ],
+      "status": "Local source-backed candidate; dimensions inferred",
+      "ids": [
+        "dev-toolo/2223.dat"
+      ],
+      "finding": "Ladder stand candidate; source-shaped interface, no authoritative mesh.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "14094",
+      "courseUse": 2,
+      "refs": 2,
+      "courses": [
+        "4-ji-guan-qiang.ldr",
+        "4-shou-ge-ji.ldr"
+      ],
+      "status": "Unofficial author geometry",
+      "ids": [
+        "14094.dat"
+      ],
+      "finding": "Peter Blomberg author-supplied unofficial LDraw geometry; usable source exists but it is not authoritative official CAD or a project-authored approximation.",
+      "webResearch": {
+        "result": "上游非官方CAD，本地几何一致",
+        "source": "https://library.ldraw.org/library/unofficial/parts/14094.dat",
+        "limit": "Peter Blomberg，CC BY4.0；接口HELP可用，仍需课程摆放检查"
+      }
+    },
+    {
+      "canonical": "6669c01",
+      "courseUse": 2,
+      "refs": 6,
+      "courses": [
+        "4-kuai-ting.ldr",
+        "4-shou-ge-ji.ldr"
+      ],
+      "status": "Local source-backed candidate; dimensions inferred",
+      "ids": [
+        "dev-toolo/6669c01.dat"
+      ],
+      "finding": "Small propeller identity supported; dimensions and bore/retention inferred.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "71981/x1228",
+      "courseUse": 2,
+      "refs": 6,
+      "courses": [
+        "4-tui-tu-ji.ldr",
+        "4-wa-li.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "dev-129/71981-tui-tu-ji.dat"
+      ],
+      "finding": "Catalog confirms belt/rim compatibility only; 160 LDU spacing, width, lugs, tension and engagement are photo estimates. Catalog aliases: x1228/71981.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "6310",
+      "courseUse": 2,
+      "refs": 4,
+      "courses": [
+        "4-wa-li.ldr",
+        "4-zhong-guo-long.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "dev-toolo/6310.dat"
+      ],
+      "finding": "Three-tooth bucket identity supported by BrickLink image; no reliable dimensioned CAD, candidate envelope and clamp are inferred.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "6670c01",
+      "courseUse": 2,
+      "refs": 6,
+      "courses": [
+        "4-wu-ren-ji.ldr",
+        "4-zhi-sheng-ji.ldr"
+      ],
+      "status": "Local source-backed candidate; dimensions inferred",
+      "ids": [
+        "dev-toolo/6670c01.dat"
+      ],
+      "finding": "Large propeller identity supported; geometry and fit remain inferred.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "31453",
+      "courseUse": 1,
+      "refs": 2,
+      "courses": [
+        "3-ping-heng-da-shi.ldr"
+      ],
+      "status": "Unofficial/local simplified",
+      "ids": [
+        "31453.dat"
+      ],
+      "finding": "ID/name supported by catalog, but geometry is approximate and unofficial.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "45202",
+      "courseUse": 1,
+      "refs": 2,
+      "courses": [
+        "4-kong-que.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "45202.dat"
+      ],
+      "finding": "Foot block simplified; side-hole and retention geometry not authoritative.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "74847",
+      "courseUse": 1,
+      "refs": 5,
+      "courses": [
+        "4-kong-que.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "74847.dat"
+      ],
+      "finding": "Long hinge leg beam simplified; exact molded profile/pin fit unresolved.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "74844",
+      "courseUse": 1,
+      "refs": 4,
+      "courses": [
+        "4-kong-que.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "74844.dat"
+      ],
+      "finding": "Joint block simplified; side-hole geometry and fit unresolved.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "14013c01",
+      "courseUse": 1,
+      "refs": 2,
+      "courses": [
+        "4-long-men-diao.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "14013c01.dat",
+        "s/steamx-14013c01-hook.dat"
+      ],
+      "finding": "Winch drum/hook locally authored; no source DAT found in recorded search.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "6295",
+      "courseUse": 1,
+      "refs": 1,
+      "courses": [
+        "4-ta-diao.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "dev-129/6295-ta-diao.dat"
+      ],
+      "finding": "Tower-crane hook/pulley approximation from source image.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    },
+    {
+      "canonical": "61898d",
+      "courseUse": 1,
+      "refs": 1,
+      "courses": [
+        "5-qi-dian-chuan.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "dev-129/61898d-qi-dian-chuan.dat"
+      ],
+      "finding": "Course-specific boat skirt approximation; official hole subparts do not make the skirt authoritative.",
+      "webResearch": {
+        "result": "已有官方平面模型；课程弯折版本仍为近似",
+        "source": "https://library.ldraw.org/library/official/parts/61898d.dat",
+        "limit": "本地61898d.dat与官方文件一致；气垫船引用dev-129弯折替身，尚未证明按原片尺寸弯折"
+      }
+    },
+    {
+      "canonical": "rotor",
+      "courseUse": 1,
+      "refs": 2,
+      "courses": [
+        "5-shou-tui-fei-ji.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "dev-129/rotor-shou-tui-fei-ji.dat"
+      ],
+      "finding": "Slender rotor sheet image-based approximation.",
+      "webResearch": {
+        "result": "课程自制几何，尚无可匹配的确定型号",
+        "source": null,
+        "limit": "先确认真实零件或替代组合身份；不能凭文件名匹配其他零件。"
+      }
+    },
+    {
+      "canonical": "daxle-4",
+      "courseUse": 1,
+      "refs": 2,
+      "courses": [
+        "5-ya-mian-ji.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "dev-129/daxle-4-ya-mian.dat"
+      ],
+      "finding": "Course wrapper around an official primitive; wrapper length/placement is source-specific, not a new authoritative molded part.",
+      "webResearch": {
+        "result": "课程自制几何，尚无可匹配的确定型号",
+        "source": null,
+        "limit": "先确认真实零件或替代组合身份；不能凭文件名匹配其他零件。"
+      }
+    },
+    {
+      "canonical": "45146",
+      "courseUse": 1,
+      "refs": 1,
+      "courses": [
+        "4-shou-ge-ji.ldr"
+      ],
+      "status": "Local simplified part",
+      "ids": [
+        "dev-129/45146-shou-ge-ji.dat"
+      ],
+      "finding": "Windscreen roll-cage approximation from course pages.",
+      "webResearch": {
+        "result": "未找到可替换的公开CAD或可靠实测尺寸",
+        "source": "https://www.philohome.com/studio/packs.htm",
+        "limit": "检索未命中不证明全网不存在。型号目录和包装尺寸不是制造尺寸。"
+      }
+    }
+  ],
+  "highestPriorityGaps": [
+    "Toolo family (76395, 28336, 74957, 76057, 99565, 28331/28334, 60535): largest footprint; all current geometry is candidate/local and hidden thread, bore, snap, friction and load dimensions remain unverified.",
+    "42029: unofficial geometry reaches 39 courses and is the main non-Toolo shared dependency; mating geometry is explicitly unresolved.",
+    "31196c01 cockpit (29 courses): local simplified body and course-specific variant; no authoritative redistributable CAD found.",
+    "71981/x1228 belt (2 courses): catalog confirms identity/compatible rims only; no measured CAD for pitch, width, tension or sprocket engagement.",
+    "31193 door (4 courses): ID is supported, but local provenance is unverified and the LDraw discussion did not yield downloadable authoritative CAD.",
+    "6294 and 6310 scoops, 4433c01 exhaust, 45117c01/31239c01 wings/tails, 6669c01/6670c01 propellers: catalog/photo identity helps, but geometry remains image-inferred.",
+    "Official 31452 tube is present elsewhere and should be reported as official LDraw geometry only, never as factory tolerance or physical-fit certification."
+  ],
+  "separateCounts": {
+    "allApproximateOrUnverifiedCategories": 35,
+    "excludingPureRopeOnly": 34,
+    "pureRopeOnly": {
+      "canonical": "rope",
+      "courseUse": 12,
+      "refs": 20
+    },
+    "compositeWithNonBomRopeHook": {
+      "canonical": "75536",
+      "courseUse": 11,
+      "refs": 36
+    },
+    "authorUnofficialNotProjectAuthored": [
+      "13355",
+      "14094",
+      "42029"
+    ],
+    "oldOfficialRevisionsExcluded": [
+      "2302",
+      "3437pe1",
+      "47207",
+      "6474",
+      "10661",
+      "13358"
+    ]
+  },
+  "notes": [
+    "169 course roots still carry unresolved/incomplete comments in inventory; absence of a local approximation does not prove a course is source-accepted.",
+    "No source model, metadata, or dependency hash was modified by this audit."
+  ],
+  "externalPackageCheck": {
+    "source": "https://www.philohome.com/studio/packs.htm",
+    "datFilesIncludingSubparts": 647,
+    "coreTooloMatches": 0,
+    "6345": "Package older, same geometry as current official2023 local file",
+    "artifactSha256": "5bc9cc2249172380e99aa2db131e9f51ba8aa92d55f235ab79165811de66cc55"
+  },
+  "officialUpgradeCandidates": [
+    {
+      "part": "13358.dat",
+      "local": "2020-01",
+      "available": "2024-02",
+      "source": "https://library.ldraw.org/library/official/parts/13358.dat",
+      "finding": "Hinge sockets and snap ridge revised; old local metadata axleY=-56 differs from new socket placementY=-52. Re-evaluate actual pivot and course dependencies before upgrading."
+    },
+    {
+      "part": "2302 / 3437pe1 / 6474 / 47207",
+      "finding": "Older official versions found. They are not local invented parts. Some changes are refactoring or primitive renaming, not proof of dimensional error."
+    }
+  ],
+  "modelsModified": false,
+  "published": false
+}

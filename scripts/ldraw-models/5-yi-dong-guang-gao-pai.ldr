@@ -1,0 +1,110 @@
+0 5-yi-dong-guang-gao-pai - source reconstruction, digitally checked local candidate
+0 Name: 5-yi-dong-guang-gao-pai.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source PDF batch04 manifest, SHA256 70641ca2b095eb8d16fdced4d59d0cc09a9745251e332e0c5dd50106684a4c68
+0 // 2026-10-14: move both three-brick poster columns outward one 40-LDU stud pitch; each base retains six of eight studs on the 2x10 beam with a 40-LDU outer overhang; the central pulley is clear.
+0 // STATUS: digitally checked within documented sampled-motion scope; source pages 1-12 inspected, no human acceptance.
+0 // Source departures are documented below; existing shared part geometry is unchanged.
+0 // No physical load, friction or continuous-motion validation; sampled drive motion independently reviewed.
+0 // STEP 1 - two-layer four-bar red square chassis
+1 4 0 0 -160 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 0 0 160 1 0 0 0 1 0 0 0 1 75350.dat
+1 4 -160 -48 0 0 0 -1 0 1 0 1 0 0 75350.dat
+1 4 160 -48 0 0 0 -1 0 1 0 1 0 0 75350.dat
+0 STEP
+
+0 // STEP 2 - real grey 6L input shaft with red and blue drive gears
+1 71 0 24 -160 0 0 1 0 1 0 -1 0 0 6522.dat
+1 4 0 24 -240 -1 0 0 0 1 0 0 0 -1 6529.dat
+1 1 0 24 -60 1 0 0 0 1 0 0 0 1 31622.dat
+0 STEP
+
+0 // STEP 3 - four real grey 6L axles and yellow road gear wheels
+1 71 -160 24 -160 0 -0.0784590957278449 0.996917333733128 0 0.996917333733128 0.0784590957278449 -1 0 0 6522.dat
+1 14 -160 24 -240 -0.996917333733128 -0.0784590957278449 0 -0.0784590957278449 0.996917333733128 0 0 0 -1 6530.dat
+1 71 -160 24 160 0 -0.0784590957278449 -0.996917333733128 0 0.996917333733128 -0.0784590957278449 1 0 0 6522.dat
+1 14 -160 24 240 0.996917333733128 -0.0784590957278449 0 0.0784590957278449 0.996917333733128 0 0 0 1 6530.dat
+1 71 160 24 -160 0 -0.0784590957278449 0.996917333733128 0 0.996917333733128 0.0784590957278449 -1 0 0 6522.dat
+1 14 160 24 -240 -0.996917333733128 -0.0784590957278449 0 -0.0784590957278449 0.996917333733128 0 0 0 -1 6530.dat
+1 71 160 24 160 0 -0.0784590957278449 -0.996917333733128 0 0.996917333733128 -0.0784590957278449 1 0 0 6522.dat
+1 14 160 24 240 0.996917333733128 -0.0784590957278449 0 0.0784590957278449 0.996917333733128 0 0 0 1 6530.dat
+0 STEP
+
+0 // STEP 4 - central long bearing beam
+1 14 -160 -72 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 160 -72 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -120 0 1 0 0 0 1 0 0 0 1 75350.dat
+0 STEP
+
+0 // STEP 5 - vertical green shaft and red driven gear
+1 2 0 -150 0 0 1 0 -1 0 0 0 0 1 6521.dat
+1 4 0 -36 0 1 0 0 0 0 -1 0 1 0 6529.dat
+0 STEP
+
+0 // STEP 6 - upper rotating poster beam with two retaining pulleys and source-supported crank, independently seated
+1 14 0 -151 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 4 0 -256 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 14 0 -287 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 0 -191 0 0 0 1 0 -1 0 1 0 0 6526.dat
+0 STEP
+
+0 // STEP 7 - six official animal-pattern bricks, yellow cap and blue curved cap
+1 15 -160 -352 0 1 0 0 0 1 0 0 0 1 31111p02.dat
+1 15 -160 -448 0 1 0 0 0 1 0 0 0 1 31111p03.dat
+1 15 -160 -544 0 1 0 0 0 1 0 0 0 1 31111p04.dat
+1 15 160 -352 0 1 0 0 0 1 0 0 0 1 31111p0e.dat
+1 15 160 -448 0 1 0 0 0 1 0 0 0 1 31111p0f.dat
+1 15 160 -544 0 1 0 0 0 1 0 0 0 1 31111p0g.dat
+1 14 -80 -592 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -592 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -640 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -80 -640 0 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 1 80 -640 0 1 0 0 0 1 0 0 0 1 2302.dat
+0 STEP
+
+0 // STEP 8 - front lower yellow gap infill
+1 14 -40 -48 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -48 -160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 9 - rear lower yellow gap infill
+1 14 -40 -48 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -48 160 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 10 - upper yellow perimeter:5full bricks and4squares, with two red bridge end gaps
+1 14 40 -96 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 160 -96 -120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 120 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -40 -96 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -160 -96 120 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 -160 -96 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -80 -96 -160 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 160 -96 80 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 -160 -96 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+
+0 // STEP 11 - eight curved blue perimeter caps with two yellow centre sections
+1 14 0 -144 -160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -144 -160 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 1 120 -144 -160 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 0 -144 160 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 -120 -144 160 -1 0 0 0 1 0 0 0 -1 2302.dat
+1 1 120 -144 160 1 0 0 0 1 0 0 0 1 2302.dat
+1 1 -160 -168.0 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 1 -160 -168.0 40 0 0 -1 0 1 0 1 0 0 2302.dat
+1 1 160 -168.0 -40 0 0 1 0 1 0 -1 0 0 2302.dat
+1 1 160 -168.0 40 0 0 -1 0 1 0 1 0 0 2302.dat
+0 STEP
+
+0 // STEP 12 - finished view only
+0 // 2026-10-16 SOURCE DEPARTURE: five geared 6523 shafts replaced by real grey 6522 6L at original centers.
+0 // Source P6 crank 6526 restored. Upper beam/poster raised 40 LDU from original and upper pulley 51 LDU, including the added 24-LDU foundation plates.
+0 // Support chain lower pulley -> crank -> upper beam -> upper pulley independently checked; eccentric pin engages X80 beam hole for full 40 LDU.
+0 // Top caps and central bridging brick have actual stud support. No human acceptance; sampled drive review documented below.
+0 // Two real 40666 support plates added beneath central beam; four adjoining blue caps raised 24 LDU onto that beam.
+0 // Crown moved to Z-60 and driven red gear to Y-36 for real engagement; road wheels and shafts keyed together at 4.5 degrees.
+0 // Source 56 placements plus two support plates = 58. All shaft hubs and structural support independently checked.
+0 // Input 0..1800 degrees in 5-degree samples: 361 linked poses, no unresolved intersections; correct crown direction also tested against a colliding wrong-direction control.

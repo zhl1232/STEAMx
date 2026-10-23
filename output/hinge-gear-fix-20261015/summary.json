@@ -1,0 +1,64 @@
+{
+  "scope": "Local round-door hinge and push-airplane gear support repair",
+  "models": [
+    {
+      "name": "3-shuang-ceng-ba-shi.ldr",
+      "sha256": "ece1d2f307e23b557f66f7d15ea75cdb3a244b4c4a7d5aca847add52d1d4c9c4",
+      "candidates": 78,
+      "nonzero": 6
+    },
+    {
+      "name": "3-xiao-fang-che.ldr",
+      "sha256": "6d4536d1c772a1c80b6f35f64403d9f75be08d53f27cf359bad97673c605f793",
+      "candidates": 201,
+      "nonzero": 8
+    },
+    {
+      "name": "3-xiao-huo-che.ldr",
+      "sha256": "0d1c8133d4447ce0a12af1bb95c990b095e9585de9a7dc65aef9d7ca08b94b3f",
+      "candidates": 123,
+      "nonzero": 9
+    },
+    {
+      "name": "4-wa-li.ldr",
+      "sha256": "945e7a082ba4d6e5eff60de0ecb83fda0109364a89f73eb66deccff907e275d5",
+      "candidates": 77,
+      "nonzero": 0
+    },
+    {
+      "name": "5-shou-tui-fei-ji.ldr",
+      "sha256": "12d2ee6e748b8c9259cb5627d95ed83ad0b274901798f010dea437a67006ff3c",
+      "candidates": 75,
+      "nonzero": 39
+    }
+  ],
+  "door": "31193 independently photo-reconstructed;62LDU hinge pitch and standard official pins; not manufacturer CAD",
+  "doorCourseLimit": "Small fire truck clear0..60deg;75deg+ hits adjacent cockpit/body. Other3courses clear through120deg at sampled angles.",
+  "planeBOM": {
+    "remove": [
+      "1x6529",
+      "1x6522(rear axle)",
+      "1x75349"
+    ],
+    "add": [
+      "1x31622",
+      "1x6521(rear axle)",
+      "2x6527"
+    ]
+  },
+  "plane": "Single-sided driven crown face down, rear track asymmetric; vertical axle moved30LDU to clear rear shaft;2handle pulleys flipped",
+  "motion": {
+    "driverSampleCount": 721,
+    "driverStepDegrees": 0.5,
+    "driverRangeDegrees": [
+      0,
+      360
+    ],
+    "crownRatio": -1.6666666666666667,
+    "gearPairCrossings": 0
+  },
+  "support": "Actual contact119.284407LDU²; lower axle guide10LDU plus2LDU entry; keyed hub friction retention with5LDU clearance, no invented shoulder",
+  "physicalFitVerified": false,
+  "published": false,
+  "remaining": "Other cockpit interfaces and existing axle-hole/tyre contacts are not all cleared; current300course report retains202courses with crossing candidates."
+}

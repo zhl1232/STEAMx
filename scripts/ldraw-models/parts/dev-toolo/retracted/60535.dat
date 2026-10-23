@@ -1,0 +1,8 @@
+0 Toolo turntable60535 central captive screw candidate
+0 Name: dev-toolo/retracted/60535.dat
+0 Author: STEAMX local reconstruction
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 !HELP Fixed axisY, nominal mount72, engagedtip88/retracted71; inferred dimensions, no physical fit certification.
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/mechanism/turntable-fixed.dat
+1 14 0 7 0 1 0 0 0 1 0 0 0 1 dev-toolo/mechanism/base-screw.dat

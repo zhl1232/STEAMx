@@ -1,0 +1,54 @@
+0 5-xuan-zhuan-wu-tai repaired local candidate; unconfirmed
+0 Name: 5-xuan-zhuan-wu-tai.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 // Repair: replace the source green vertical 8L axle with official grey 6L 6522.
+0 // Center Y=-332 gives axle interval [-452,-212]: full central gear engagement and guidance through the genuine vertical bore in 75350.
+0 // Downward 31622 crown replaces the incorrect flat blue gear. The 6525 carrier has a round bearing and remains independently rotatable; two 721-pose motion branches reviewed. Crown/bridge axial gap is 1 LDU; physical retention untested.
+0 // Source pages 1-7 reviewed from /mnt/d/pdf预览/5+旋转舞台搭建说明_pdf; all 34 source placements retained.
+0 // Physical fit, friction, load and continuous motion remain unverified; local candidate only.
+0 // SOURCE PAGE 1: Green6x12 base,11 yellow bricks, two red bearings and vertical6L axle substitution
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4196.dat
+1 14 -160 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -160 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -48 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -96 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -144 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 160 -192 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 0 -48 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -96 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 0 -144 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -192 0 1 0 0 0 1 0 0 0 1 75349.dat
+1 4 0 -240 0 1 0 0 0 1 0 0 0 1 75350.dat
+1 7 0 -332 0 0 1 0 -1 0 0 0 0 1 6522.dat
+0 STEP
+0 // SOURCE PAGE 2: Horizontal6L shaft,40T gear, rear hub and input crank
+1 7 0 -168 0 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 0 -168 60 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 0 -168 -60 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 0 -168 -100 -1 0 0 0 0 -1 0 -1 0 6526.dat
+0 STEP
+0 // SOURCE PAGE 3: Blue24T crown stage and two stacked pulleys
+1 1 0 -272 0 -1 0 0 0 0 1 0 1 0 31622.dat
+1 14 0 -312 0 1 0 0 0 0 -1 0 1 0 6527.dat
+1 14 0 -352 0 1 0 0 0 0 -1 0 1 0 6527.dat
+0 STEP
+0 // SOURCE PAGE 4: Horizontal11-hole carrier beam with two6L satellite shafts and lower retainers
+1 14 0 -392 0 0 0 1 0 1 0 -1 0 0 6525.dat
+1 7 -120.0 -432 0.0 0.0 0.991444861 0.130526192 -1 0 0 0.0 -0.130526192 0.991444861 6522.dat
+1 14 -120.0 -352 0.0 0.991444861 0.130526192 0.0 0 0 -1 -0.130526192 0.991444861 0.0 6527.dat
+1 7 120.0 -432 0.0 0.0 0.991444861 0.130526192 -1 0 0 0.0 -0.130526192 0.991444861 6522.dat
+1 14 120.0 -352 0.0 0.991444861 0.130526192 0.0 0 0 -1 -0.130526192 0.991444861 0.0 6527.dat
+0 STEP
+0 // SOURCE PAGE 5: Three red24T gears at120LDU nominal pitch spacing
+1 4 -120.0 -432 0.0 0.991444861 0.130526192 0.0 0 0 -1 -0.130526192 0.991444861 0.0 6529.dat
+1 4 0 -432 0 1 0 0 0 0 -1 0 1 0 6529.dat
+1 4 120.0 -432 0.0 0.991444861 0.130526192 0.0 0 0 -1 -0.130526192 0.991444861 0.0 6529.dat
+0 STEP
+0 // SOURCE PAGE 6-7: two crank carriers and short perforated stage platforms; final stage
+1 14 -120.0 -472 0.0 0.130526192 0.0 0.991444861 0 -1 0 0.991444861 0.0 -0.130526192 6526.dat
+1 4 -80.342205545 -540 -5.221047689 0.991444861 0.0 0.130526192 0 1 0 -0.130526192 0.0 0.991444861 75349.dat
+1 14 120.0 -472 0.0 0.130526192 0.0 0.991444861 0 -1 0 0.991444861 0.0 -0.130526192 6526.dat
+1 4 159.657794455 -540 -5.221047689 0.991444861 0.0 0.130526192 0 1 0 -0.130526192 0.0 0.991444861 75349.dat

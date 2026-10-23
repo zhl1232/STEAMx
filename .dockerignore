@@ -51,3 +51,6 @@ public/courses/*/finished.png
 public/courses/*/finished.webp
 supabase
 scripts
+
+# Required by the server-side LDraw confirmation guard.
+!scripts/ldraw-production-protected.json

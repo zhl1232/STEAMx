@@ -1,40 +1,84 @@
-0 4+ 推土机 (Bulldozer) - DUPLO draft for manual repair
+0 4+ Bulldozer - source-based local reconstruction draft
 0 Name: 4-tui-tu-ji.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+推土机 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Treads, plow blade, windows and rear body details are simplified.
-
-0 // STEP 1 - black tracked chassis
-1 0 -240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 -80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 80 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 240 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 0 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 // Same-frame Toolo base brick migration: corrected captive screw count/receivers, supported screw axes engaged after per-axis port/mesh checks; other axes retracted. Other legacy interfaces remain under review.
+0 NumOfBricks: 52
+0 // Courseware pages 1-10 reviewed 2026-10-13; 9 building steps, p10 final view.
+0 // Renderer draft only: custom Toolo rim/belt/fork/blade dimensions and hidden fit remain approximate.
+0 // 2026-10-15: Replace unverified45202 course bracket with one real28336 fork, same quantity; mount to front receiver(320,0,0), scoop slot shares fork pin(433,-48,0). Blade projects105LDU further forward; inferred geometry, not physical acceptance.
+0 // +X is the front; wheel axis Z; wheel centers Y=0; ground Y=54.
+0 // SOURCE PAGE 1: seven black 4x6 Toolo blocks, four below / three staggered above
+1 0 -240 -24 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 -80 -24 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 80 -24 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 240 -24 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 -160 -72 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76395.dat
+1 0 0 -72 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76395.dat
+1 0 160 -72 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76395.dat
 0 STEP
-
-0 // STEP 2 - red lower body and white windows
-1 4 -160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 0 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 4 160 -120 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 15 -120 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 40 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
-1 15 200 -168 -88 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 2: rear red 2x4 and 2x2 at the lower chassis step
+1 4 -280 -72 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -280 -72 80 1 0 0 0 1 0 0 0 1 3437.dat
 0 STEP
-
-0 // STEP 3 - yellow roof and exhaust
-1 14 -80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 80 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 0 -264 -80 1 0 0 0 1 0 0 0 1 40666.dat
-1 7 260 -192 -80 1 0 0 0 0 -1 0 1 0 31452.dat
-1 4 260 -288 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 3: four gray screw rims plus two black closed belts
+0 // Wheel receiver fit: each 76395 side receiver is at world (x,0,±120), with inward +Z on the -Z side and -Z on the +Z side. Wheel centers are receiver -25*inward: (x,0,±145); rim local Y points -inward. Candidate rim radius is 42 LDU, matching the source wheel profile. Track geometry remains unresolved.
+1 71 -240 0 -145 1 0 0 0 0 1 0 -1 0 dev-toolo/99565.dat
+1 71 -240 0 145 1 0 0 0 0 -1 0 1 0 dev-toolo/99565.dat
+1 71 -80 0 -145 1 0 0 0 0 1 0 -1 0 dev-toolo/99565.dat
+1 71 -80 0 145 1 0 0 0 0 -1 0 1 0 dev-toolo/99565.dat
+1 0 -160 0 -155 1 0 0 0 1 0 0 0 1 dev-129/71981-tui-tu-ji.dat
+1 0 -160 0 155 1 0 0 0 1 0 0 0 1 dev-129/71981-tui-tu-ji.dat
 0 STEP
-
-0 // STEP 4 - orange front blade and arms
-1 0 -260 -120 -100 0.866 0.500 0 -0.500 0.866 0 0 0 1 31452.dat
-1 0 -260 -120 100 0.866 -0.500 0 0.500 0.866 0 0 0 1 31452.dat
-1 25 -420 -96 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 25 -580 0 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 3011.dat
-1 25 -720 84 -80 0.866 0.500 0 -0.500 0.866 0 0 0 1 2302.dat
+0 // SOURCE PAGE 4: four gray screw rims plus two black closed belts
+1 71 80 0 -145 1 0 0 0 0 1 0 -1 0 dev-toolo/99565.dat
+1 71 80 0 145 1 0 0 0 0 -1 0 1 0 dev-toolo/99565.dat
+1 71 240 0 -145 1 0 0 0 0 1 0 -1 0 dev-toolo/99565.dat
+1 71 240 0 145 1 0 0 0 0 -1 0 1 0 dev-toolo/99565.dat
+1 0 160 0 -155 1 0 0 0 1 0 0 0 1 dev-129/71981-tui-tu-ji.dat
+1 0 160 0 155 1 0 0 0 1 0 0 0 1 dev-129/71981-tui-tu-ji.dat
+0 STEP
+0 // SOURCE PAGE 5: low gray fork and orange concave blade; shared transverse pivot (328,-90,0)
+1 72 368 0 0 0 -1 0 0 0 -1 1 0 0 dev-toolo/engaged/28336.dat
+0 // Orange scoop uses the source-derived dev-toolo/6294 candidate, pivot origin local (0,0,0), axis local X. It is flipped about that pivot so the open scoop clears the chassis while retaining the 45202 transverse axis; molded retention remains unmeasured. The gray fork remains the separate dev-129/45202 candidate.
+1 25 433 -48 0 0 0 -1 0 1 0 1 0 0 dev-toolo/6294.dat
+0 STEP
+0 // SOURCE PAGE 6: nine red 2x4 bricks: rear 8x6 deck, front 6x4 narrow hood base
+1 4 -240 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -240 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -120 0 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 -80 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 40 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 200 -120 0 0 0 1 0 1 0 -1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 7: three rounded bricks in a row along X; oval end faces front, spans four studs across
+1 4 40 -216 0 0 0 1 0 1 0 -1 0 0 4198.dat
+1 4 120 -216 0 0 0 1 0 1 0 -1 0 0 4198.dat
+1 4 200 -216 0 0 0 1 0 1 0 -1 0 0 4198.dat
+0 STEP
+0 // SOURCE PAGE 8: four red frames with white panes; three rear center wall bricks
+1 4 -240 -264 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 -174.5 -192 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 -240 -264 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 -305.5 -192 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 -80 -264 -80 1 0 0 0 1 0 0 0 1 61649.dat
+1 15 -14.5 -192 -120 1 0 0 0 1 0 0 0 1 90265.dat
+1 4 -80 -264 80 -1 0 0 0 1 0 0 0 -1 61649.dat
+1 15 -145.5 -192 120 -1 0 0 0 1 0 0 0 -1 90265.dat
+1 4 -280 -168 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -280 -216 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -280 -264 0 1 0 0 0 1 0 0 0 1 3437.dat
+0 STEP
+0 // SOURCE PAGE 9: six yellow 2x4 plates bridge the 8x6 cabin roof
+1 14 -240 -288 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -240 -288 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -240 -288 80 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -80 -288 -80 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -80 -288 0 1 0 0 0 1 0 0 0 1 40666.dat
+1 14 -80 -288 80 1 0 0 0 1 0 0 0 1 40666.dat
+0 // SOURCE PAGE 10: final view, no added parts.
+0 // Source red 4198 x3 is preserved; default 9090 has blue/yellow variants, so exact-color inventory is insufficient.

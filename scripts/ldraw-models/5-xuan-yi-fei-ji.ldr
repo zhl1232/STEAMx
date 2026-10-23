@@ -1,0 +1,83 @@
+0 5+ Rotor Aircraft - approved black schematic cord static repair
+0 Name: 5-xuan-yi-fei-ji.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Batch7: global proper Y rotation for source-facing default preview; relative assembly and source steps unchanged.
+0 // Source Library batch02 original PDF, lesson306 course7; SHA256 3f6423a6809f49d9ef815e4139bb54b1a0659ad73c90bee14396bb0170287d56
+0 // STATUS: user-approved schematic cord material; renderer review, not exact-version human acceptance.
+0 // P1 wheel/tyre axial seating and P8/P9 shaft direction/depth repaired locally; no human acceptance.
+0 // 44 placements: 40 source rigid parts plus four external black schematic cords. No LEGO belt ID assigned.
+0 // User approved black schematic cords 2026-10-23. Diameter1.6mm and hidden closed return routes inferred; no knot, splice or tension modeled.
+0 // STEP 1 - red2x10 holed chassis, two6L axles, eight yellow wheels and four tyres
+1 4 0 0 0 0 0 -1 0 1 0 1 0 0 75350.dat
+1 71 0 24 -160 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 60 24 -160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 100 24 -160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 0 100 24 -160 0 0 -1 0 1 0 1 0 0 6292.dat
+1 14 -60 24 -160 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -100 24 -160 0 0 1 0 1 0 -1 0 0 6527.dat
+1 0 -100 24 -160 0 0 1 0 1 0 -1 0 0 6292.dat
+1 71 0 24 160 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 60 24 160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 104 24 160 0 0 -1 0 1 0 1 0 0 6527.dat
+1 0 104 24 160 0 0 -1 0 1 0 1 0 0 6292.dat
+1 14 -60 24 160 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 -104 24 160 0 0 1 0 1 0 -1 0 0 6527.dat
+1 0 -104 24 160 0 0 1 0 1 0 -1 0 0 6292.dat
+0 STEP
+
+0 // STEP 2 - four yellow2x4 bricks along fuselage
+1 14 0 -48 -240 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -48 -80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -48 80 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -48 240 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+
+0 // STEP 3 - three yellow2x4 bricks and curved yellow front/rear ends
+1 14 0 -96 -160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -96 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -96 160 0 0 -1 0 1 0 1 0 0 3011.dat
+1 14 0 -96 -280 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 0 -96 280 0 0 -1 0 1 0 1 0 0 2302.dat
+0 STEP
+
+0 // STEP 4 - three red2x10 beams form wings and spine, yellow curved nose and thin bridge plate
+1 4 0 -144 80 0 0 -1 0 1 0 1 0 0 75350.dat
+1 4 200 -144 -160 -1 0 0 0 1 0 0 0 -1 75350.dat
+1 4 -200 -144 -160 -1 0 0 0 1 0 0 0 -1 75350.dat
+1 14 0 -144 -240 0 0 1 0 1 0 -1 0 0 2302.dat
+1 14 0 -168 -160 0 0 -1 0 1 0 1 0 0 40666.dat
+0 STEP
+
+0 // STEP 5 - transverse driveshaft and yellow belt pulleys; two official blue31622 crown gears
+1 71 0 -120 -40 1 0 0 0 1 0 0 0 1 6522.dat
+1 14 60 -120 -40 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 -60 -120 -40 0 0 1 0 1 0 -1 0 0 6527.dat
+1 1 100 -120 -40 0 0 1 0 1 0 -1 0 0 31622.dat
+1 1 -100 -120 -40 0 0 -1 0 1 0 1 0 0 31622.dat
+0 STEP
+
+0 // STEP 6 - source four black lines: preparation of external cords; no LEGO catalog ID is claimed.
+0 STEP
+
+0 // STEP 7 - four approved black schematic loops in actual pulley grooves; inferred full return paths and radius2LDU section.
+0 // Formed centerline circumference247.54mm(small) or291.91mm(large), two each; not cut lengths. Two upper pulleys reversed, rear outer wheels/tyres outboard4LDU,36/40LDU axle insertion.
+1 0 0 0 0 1 0 0 0 1 0 0 0 1 dev-cord/rotor-left-small-formed.dat
+1 0 0 0 0 1 0 0 0 1 0 0 0 1 dev-cord/rotor-left-large-formed.dat
+1 0 0 0 0 1 0 0 0 1 0 0 0 1 dev-cord/rotor-right-small-formed.dat
+1 0 0 0 0 1 0 0 0 1 0 0 0 1 dev-cord/rotor-right-large-formed.dat
+0 STEP
+
+0 // STEP 8 - two official blue5L pinion shafts and red24-tooth wing gears
+1 1 160 -120 -180 0 0 1 0 1 0 -1 0 0 6523.dat
+1 4 160 -120 -100 1 0 0 0 1 0 0 0 1 6529.dat
+1 1 -160 -120 -180 0 0 1 0 1 0 -1 0 0 6523.dat
+1 4 -160 -120 -100 1 0 0 0 1 0 0 0 1 6529.dat
+0 STEP
+
+0 // STEP 9 - two yellow40-tooth rotor disks on wing shafts
+1 14 160 -120 -260 1 0 0 0 1 0 0 0 1 6530.dat
+1 14 -160 -120 -260 1 0 0 0 1 0 0 0 1 6530.dat
+
+0 // SOURCE PAGE 10 - finished alternate view only; no additional construction step

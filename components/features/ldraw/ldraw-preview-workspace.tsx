@@ -34,22 +34,42 @@ import {
   splitPackedMpd,
 } from '@/lib/utils/ldraw-mpd'
 import { createLdrawEdgeRenderer } from '@/lib/utils/ldraw-edges'
+import type { LdrawReviewStatus } from '@/lib/courses/ldraw-review'
 import type { LdrawModelInfo } from '@/lib/courses/ldraw-packer'
+import type { LdrawInspectionStatus } from '@/lib/courses/ldraw-inspection'
 
 const COLOR_CONFIG_URL = '/courses/ldraw/LDConfig.ldr'
 
 type ViewPreset = 'iso' | 'top' | 'front' | 'side'
-type ReviewFilter = 'all' | 'pending' | 'confirmed'
+type ReviewFilter = 'all' | 'ready' | LdrawReviewStatus
+
+function isAwaitingConfirmation(item: LdrawModelInfo): boolean {
+  return item.reviewStatus === 'changed'
+    || (item.reviewStatus === 'unconfirmed' && item.inspectionStatus === 'checked')
+}
+
+// Accept older API responses during development reloads.
+function normalizeReviewStatus(status: unknown, confirmedAt?: string | null): LdrawReviewStatus {
+  if (status === 'confirmed' || status === 'changed' || status === 'untracked' || status === 'unconfirmed') return status
+  return status === 'pending' && confirmedAt ? 'changed' : 'unconfirmed'
+}
+
+function normalizeInspectionStatus(status: unknown): LdrawInspectionStatus {
+  if (status === 'checked' || status === 'needs-repair' || status === 'exempt') return status
+  return 'unchecked'
+}
 
 export function LdrawPreviewWorkspace() {
   const { toast } = useToast()
 
   // 模型列表与筛选
   const [models, setModels] = useState<LdrawModelInfo[]>([])
+  const [reviewRecordCount, setReviewRecordCount] = useState(0)
+  const [servedFrozenConfirmed, setServedFrozenConfirmed] = useState(false)
   const [loadingModels, setLoadingModels] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<'all' | '3+' | '4+' | '5+' | 'unpacked' | 'packed'>('all')
-  const [reviewFilter, setReviewFilter] = useState<ReviewFilter>('all')
+  const [reviewFilter, setReviewFilter] = useState<ReviewFilter>('ready')
   const [requestedBatch, setRequestedBatch] = useState<string[] | null>(null)
 
   // 当前加载的模型信息
@@ -68,18 +88,23 @@ export function LdrawPreviewWorkspace() {
   })
   const [modelRevision, setModelRevision] = useState<string | null>(null)
   const [renderedVersion, setRenderedVersion] = useState<string | null>(null)
-  const [reviewStatus, setReviewStatus] = useState<'pending' | 'confirmed' | 'untracked'>('pending')
+  const [productionProtected, setProductionProtected] = useState(false)
+  const [reviewStatus, setReviewStatus] = useState<LdrawReviewStatus>('unconfirmed')
   const [canConfirm, setCanConfirm] = useState(false)
+  const [inspectionStatus, setInspectionStatus] = useState<LdrawInspectionStatus>('unchecked')
+  const [inspectionIssues, setInspectionIssues] = useState<string[]>([])
   const [confirming, setConfirming] = useState(false)
   const [confirmError, setConfirmError] = useState<string | null>(null)
 
   // 画布与显示设置
-  const [rendering, setRendering] = useState(false)
+  const [loadingModel, setLoadingModel] = useState(false)
+  const [preparingScene, setPreparingScene] = useState(false)
   const [renderError, setRenderError] = useState<string | null>(null)
   const [showGrid, setShowGrid] = useState(true)
   const [showAxes, setShowAxes] = useState(false)
   const [bgColor, setBgColor] = useState<'light' | 'dark' | 'gray'>('gray')
   const [threeReady, setThreeReady] = useState(false)
+  const rendering = loadingModel || preparingScene || (Boolean(fullMpdText) && !threeReady)
 
   // Three.js 引用
   const canvasContainerRef = useRef<HTMLDivElement | null>(null)
@@ -94,9 +119,11 @@ export function LdrawPreviewWorkspace() {
     loader: import('three/examples/jsm/loaders/LDrawLoader.js').LDrawLoader
     materialsLoaded: boolean
     THREE: typeof import('three')
+    requestRender: () => void
   } | null>(null)
   const loadRequestIdRef = useRef(0)
   const loadAbortRef = useRef<AbortController | null>(null)
+  const modelStatusOverridesRef = useRef(new Map<string, Partial<LdrawModelInfo>>())
 
   const updateModelUrl = (fileName: string) => {
     if (typeof window === 'undefined') return
@@ -108,6 +135,7 @@ export function LdrawPreviewWorkspace() {
   // 1. 初始化加载模型列表
   useEffect(() => {
     let cancelled = false
+    const controller = new AbortController()
     async function fetchList() {
       const params = new URLSearchParams(window.location.search)
       const batch = params.get('models')
@@ -117,11 +145,16 @@ export function LdrawPreviewWorkspace() {
       if (batch?.length) setRequestedBatch([...new Set(batch)])
 
       try {
-        const res = await fetch('/api/ldraw-preview')
+        const res = await fetch('/api/ldraw-preview', { signal: controller.signal })
         if (!res.ok) throw new Error('获取模型列表失败')
         const data = await res.json()
         if (!cancelled) {
-          setModels(data.models ?? [])
+          setModels((data.models ?? []).map((item: LdrawModelInfo) => ({
+            ...item,
+            reviewStatus: normalizeReviewStatus(item.reviewStatus, item.confirmedAt),
+            ...modelStatusOverridesRef.current.get(item.name),
+          })))
+          setReviewRecordCount((count) => Math.max(count, data.reviewRecordCount ?? 0))
           setLoadingModels(false)
         }
       } catch (err) {
@@ -138,6 +171,7 @@ export function LdrawPreviewWorkspace() {
     void fetchList()
     return () => {
       cancelled = true
+      controller.abort()
     }
   }, [toast])
 
@@ -234,6 +268,21 @@ export function LdrawPreviewWorkspace() {
           return
         }
 
+        // A static model only needs a new frame after a view or scene change.
+        // OrbitControls emits change while damping settles, scheduling the next frame.
+        let animationFrameId: number | null = null
+        let sceneDisposed = false
+        const renderFrame = () => {
+          animationFrameId = null
+          if (sceneDisposed) return
+          controls.update()
+          renderer.render(scene, camera)
+        }
+        const requestRender = () => {
+          if (!sceneDisposed && animationFrameId === null) animationFrameId = requestAnimationFrame(renderFrame)
+        }
+        controls.addEventListener('change', requestRender)
+
         threeStateRef.current = {
           renderer,
           scene,
@@ -245,18 +294,13 @@ export function LdrawPreviewWorkspace() {
           loader,
           materialsLoaded: true,
           THREE,
+          requestRender,
         }
         // The model request and Three.js initialization run independently. Keep
         // the render effect from missing a model that arrived first.
         setThreeReady(true)
 
-        let animationFrameId: number
-        const animate = () => {
-          animationFrameId = requestAnimationFrame(animate)
-          controls.update()
-          renderer.render(scene, camera)
-        }
-        animate()
+        requestRender()
 
         // 监听窗口缩放
         const handleResize = () => {
@@ -266,11 +310,15 @@ export function LdrawPreviewWorkspace() {
           camera.aspect = w / h
           camera.updateProjectionMatrix()
           renderer.setSize(w, h)
+          requestRender()
         }
         window.addEventListener('resize', handleResize)
 
         return () => {
-          cancelAnimationFrame(animationFrameId)
+          sceneDisposed = true
+          if (animationFrameId !== null) cancelAnimationFrame(animationFrameId)
+          animationFrameId = null
+          controls.removeEventListener('change', requestRender)
           window.removeEventListener('resize', handleResize)
           controls.dispose()
           renderer.dispose()
@@ -290,6 +338,7 @@ export function LdrawPreviewWorkspace() {
       cancelled = true
       cleanupScene?.()
       threeStateRef.current = null
+      setThreeReady(false)
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -299,6 +348,7 @@ export function LdrawPreviewWorkspace() {
     const { scene, THREE } = threeStateRef.current
     const col = bgColor === 'light' ? 0xf8f9fa : bgColor === 'dark' ? 0x0f172a : 0xe2e8f0
     scene.background = new THREE.Color(col)
+    threeStateRef.current.requestRender()
   }, [bgColor])
 
   // 网格与坐标轴切换
@@ -306,6 +356,7 @@ export function LdrawPreviewWorkspace() {
     if (!threeStateRef.current) return
     threeStateRef.current.gridHelper.visible = showGrid
     threeStateRef.current.axesHelper.visible = showAxes
+    threeStateRef.current.requestRender()
   }, [showGrid, showAxes])
 
   // 3. 加载选中的模型
@@ -314,13 +365,17 @@ export function LdrawPreviewWorkspace() {
     loadAbortRef.current?.abort()
     const abortController = new AbortController()
     loadAbortRef.current = abortController
-    setRendering(true)
+    setLoadingModel(true)
     setRenderError(null)
-    setReviewStatus('pending')
+    setReviewStatus('unconfirmed')
+    setProductionProtected(false)
+    setServedFrozenConfirmed(false)
     setRenderedVersion(null)
     setModelRevision(null)
     setConfirmError(null)
     setCanConfirm(false)
+    setInspectionStatus('unchecked')
+    setInspectionIssues([])
     setCurrentFileName(fileName)
     updateModelUrl(fileName)
 
@@ -344,21 +399,30 @@ export function LdrawPreviewWorkspace() {
         missingParts: data.missingParts || [],
       })
       setModelRevision(typeof data.revision === 'string' ? data.revision : null)
-      setReviewStatus(data.reviewStatus === 'confirmed' ? 'confirmed' : 'pending')
+      setProductionProtected(data.productionProtected === true)
+      setReviewStatus(normalizeReviewStatus(data.reviewStatus, data.confirmedAt))
+      setServedFrozenConfirmed(data.servedFrozenConfirmed === true)
       setCanConfirm(data.canConfirm === true)
-      setModels((items) => items.map((item) => item.name === fileName ? {
-        ...item,
-        reviewStatus: data.reviewStatus === 'confirmed' ? 'confirmed' : item.reviewStatus === 'untracked' ? 'untracked' : 'pending',
+      setInspectionStatus(normalizeInspectionStatus(data.inspectionStatus))
+      setInspectionIssues(Array.isArray(data.inspectionIssues) ? data.inspectionIssues : [])
+      const currentStatus: Partial<LdrawModelInfo> = {
+        productionProtected: data.productionProtected === true,
+        reviewStatus: normalizeReviewStatus(data.reviewStatus, data.confirmedAt),
+        legacyReviewStatus: data.legacyReviewStatus,
         confirmedAt: data.confirmedAt ?? null,
-      } : item))
+        inspectionStatus: normalizeInspectionStatus(data.inspectionStatus),
+        inspectionIssues: Array.isArray(data.inspectionIssues) ? data.inspectionIssues : [],
+      }
+      modelStatusOverridesRef.current.set(fileName, currentStatus)
+      setModels((items) => items.map((item) => item.name === fileName ? { ...item, ...currentStatus } : item))
       if (showToast) {
-        toast({ title: `已重新读取 ${fileName} 最新内容` })
+        toast({ title: data.servedFrozenConfirmed ? `已载入 ${fileName} 已确认发布版本` : `已重新读取 ${fileName} 最新内容` })
       }
     } catch (err) {
       if (requestId !== loadRequestIdRef.current || abortController.signal.aborted) return
       setRenderError((err as Error).message)
     } finally {
-      if (requestId === loadRequestIdRef.current) setRendering(false)
+      if (requestId === loadRequestIdRef.current) setLoadingModel(false)
     }
   }
 
@@ -367,6 +431,7 @@ export function LdrawPreviewWorkspace() {
     const params = new URLSearchParams(window.location.search)
     const firstBatchModel = params.get('models')?.split(',').map((name) => name.trim()).find(Boolean)
     void loadModelByName(params.get('model')?.trim() || firstBatchModel || '3-tui-la-men.ldr')
+    return () => loadAbortRef.current?.abort()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // 4. 自定义代码即时打包提交
@@ -379,12 +444,16 @@ export function LdrawPreviewWorkspace() {
     loadAbortRef.current?.abort()
     const abortController = new AbortController()
     loadAbortRef.current = abortController
-    setRendering(true)
+    setLoadingModel(true)
     setRenderError(null)
-    setReviewStatus('pending')
+    setReviewStatus('unconfirmed')
+    setProductionProtected(false)
+    setServedFrozenConfirmed(false)
     setRenderedVersion(null)
     setModelRevision(null)
     setCanConfirm(false)
+    setInspectionStatus('unchecked')
+    setInspectionIssues([])
     setConfirmError(null)
     setCurrentFileName('custom.ldr')
     setCurrentModelName('custom')
@@ -410,13 +479,15 @@ export function LdrawPreviewWorkspace() {
         missingParts: data.missingParts || [],
       })
       setModelRevision(typeof data.revision === 'string' ? data.revision : null)
-      setReviewStatus('pending')
+      setReviewStatus('unconfirmed')
+      setProductionProtected(false)
+      setServedFrozenConfirmed(false)
       toast({ title: 'LDR 解析打包成功' })
     } catch (err) {
       if (requestId !== loadRequestIdRef.current || abortController.signal.aborted) return
       setRenderError((err as Error).message)
     } finally {
-      if (requestId === loadRequestIdRef.current) setRendering(false)
+      if (requestId === loadRequestIdRef.current) setLoadingModel(false)
     }
   }
 
@@ -438,7 +509,7 @@ export function LdrawPreviewWorkspace() {
 
   // 5. 根据当前 MPD 和当前步骤（Step）更新三维渲染
   useEffect(() => {
-    if (!fullMpdText || !threeStateRef.current) return
+    if (!threeReady || !fullMpdText || !modelRevision || !threeStateRef.current) return
 
     let cancelled = false
     const state = threeStateRef.current
@@ -447,7 +518,7 @@ export function LdrawPreviewWorkspace() {
     let preparedModel: import('three').Group | null = null
 
     async function renderStep() {
-      setRendering(true)
+      setPreparingScene(true)
       try {
         // 提取步骤模型文本
         const { mainName, mainText, embedded } = splitPackedMpd(fullMpdText)
@@ -518,6 +589,7 @@ export function LdrawPreviewWorkspace() {
 
         scene.add(modelGroup)
         threeStateRef.current!.currentModelGroup = modelGroup
+        state.renderer.render(scene, camera)
         setRenderError(null)
         if (currentFileName && modelRevision) setRenderedVersion(`${currentFileName}:${modelRevision}`)
       } catch (err) {
@@ -527,7 +599,7 @@ export function LdrawPreviewWorkspace() {
           setCanConfirm(false)
         }
       } finally {
-        if (!cancelled) setRendering(false)
+        if (!cancelled) setPreparingScene(false)
       }
     }
 
@@ -540,6 +612,8 @@ export function LdrawPreviewWorkspace() {
         if (state.currentModelGroup === preparedModel) state.currentModelGroup = null
       }
       edgeRenderer.dispose()
+      setPreparingScene(false)
+      state.requestRender()
     }
   }, [fullMpdText, currentStep, threeReady, currentFileName, modelRevision])
 
@@ -572,7 +646,8 @@ export function LdrawPreviewWorkspace() {
       if (categoryFilter === '5+' && item.category !== '5+') return false
       if (categoryFilter === 'unpacked' && item.hasMpd) return false
       if (categoryFilter === 'packed' && !item.hasMpd) return false
-      if (reviewFilter !== 'all' && item.reviewStatus !== reviewFilter) return false
+      if (reviewFilter === 'ready' && !isAwaitingConfirmation(item)) return false
+      if (reviewFilter !== 'all' && reviewFilter !== 'ready' && item.reviewStatus !== reviewFilter) return false
 
       // 关键词搜索
       if (searchQuery.trim()) {
@@ -595,6 +670,17 @@ export function LdrawPreviewWorkspace() {
     })
   }, [filteredModels, requestedBatch])
 
+  // Confirmation removes a row from the ready filter, but must not strand the
+  // current model between the previous/next controls of an explicit batch.
+  const batchNavigationModels = useMemo(() => {
+    if (!requestedBatch) return batchModels
+    const byName = new Map(models.map((item) => [item.name, item]))
+    return requestedBatch.flatMap((name) => {
+      const model = byName.get(name)
+      return model ? [model] : []
+    })
+  }, [models, batchModels, requestedBatch])
+
   const clearBatch = () => {
     setRequestedBatch(null)
     if (typeof window !== 'undefined') {
@@ -605,9 +691,9 @@ export function LdrawPreviewWorkspace() {
   }
 
   const navigateBatchModel = (direction: -1 | 1) => {
-    const currentIndex = batchModels.findIndex((item) => item.name === currentFileName)
+    const currentIndex = batchNavigationModels.findIndex((item) => item.name === currentFileName)
     if (currentIndex < 0) return
-    const next = batchModels[currentIndex + direction]
+    const next = batchNavigationModels[currentIndex + direction]
     if (next) void loadModelByName(next.name)
   }
 
@@ -637,8 +723,18 @@ export function LdrawPreviewWorkspace() {
         body: JSON.stringify({ model: fileName, revision }),
       })
       const data = await res.json().catch(() => ({}))
+      if (res.status === 401) throw new Error('请先在本站登录管理员账号，再点确认')
+      if (res.status === 403 && data.code === 'LDRAW_CONFIRM_ADMIN_REQUIRED') throw new Error('当前账号不是管理员，只有管理员可以确认模型')
       if (!res.ok) throw new Error(data.error || '确认失败')
-      setModels((items) => items.map((item) => item.name === fileName ? { ...item, reviewStatus: 'confirmed', confirmedAt: data.confirmedAt ?? new Date().toISOString() } : item))
+      const confirmedStatus: Partial<LdrawModelInfo> = {
+        ...modelStatusOverridesRef.current.get(fileName),
+        reviewStatus: 'confirmed',
+        legacyReviewStatus: 'confirmed',
+        confirmedAt: data.confirmedAt ?? new Date().toISOString(),
+      }
+      modelStatusOverridesRef.current.set(fileName, confirmedStatus)
+      setModels((items) => items.map((item) => item.name === fileName ? { ...item, ...confirmedStatus } : item))
+      setReviewRecordCount(data.reviewRecordCount)
       if (loadRequestIdRef.current !== requestId) return
       setReviewStatus('confirmed')
       setCanConfirm(false)
@@ -649,11 +745,16 @@ export function LdrawPreviewWorkspace() {
     }
   }
 
-  const pendingCount = models.filter((item) => item.reviewStatus === 'pending').length
+  const changedCount = models.filter((item) => item.reviewStatus === 'changed').length
+  const readyCount = models.filter(isAwaitingConfirmation).length
+  const unconfirmedCount = models.filter((item) => item.reviewStatus === 'unconfirmed').length
+  const untrackedCount = models.filter((item) => item.reviewStatus === 'untracked').length
+  const protectedCount = models.filter((item) => item.reviewStatus === 'confirmed' && item.productionProtected).length
   const confirmedCount = models.filter((item) => item.reviewStatus === 'confirmed').length
+  const confirmedTotal = Math.max(confirmedCount, reviewRecordCount - changedCount)
 
   return (
-    <div className="flex h-screen w-full flex-col overflow-hidden bg-background text-foreground">
+    <div className="flex h-screen w-full flex-col overflow-hidden bg-background text-foreground md:h-[calc(100dvh-4rem-1px)]">
       {/* 顶部主导航栏 */}
       <header className="flex h-14 flex-shrink-0 items-center justify-between border-b px-4">
         <div className="flex items-center gap-3">
@@ -776,7 +877,7 @@ export function LdrawPreviewWorkspace() {
                       variant="outline"
                       size="sm"
                       onClick={() => navigateBatchModel(-1)}
-                      disabled={rendering || batchModels.findIndex((item) => item.name === currentFileName) <= 0}
+                      disabled={rendering || batchNavigationModels.findIndex((item) => item.name === currentFileName) <= 0}
                       className="h-7 flex-1 px-2 text-[11px]"
                     >
                       <ChevronLeft className="mr-1 h-3.5 w-3.5" /> 上一个模型
@@ -787,8 +888,8 @@ export function LdrawPreviewWorkspace() {
                       onClick={() => navigateBatchModel(1)}
                       disabled={
                         rendering ||
-                        batchModels.findIndex((item) => item.name === currentFileName) < 0 ||
-                        batchModels.findIndex((item) => item.name === currentFileName) >= batchModels.length - 1
+                        batchNavigationModels.findIndex((item) => item.name === currentFileName) < 0 ||
+                        batchNavigationModels.findIndex((item) => item.name === currentFileName) >= batchNavigationModels.length - 1
                       }
                       className="h-7 flex-1 px-2 text-[11px]"
                     >
@@ -820,12 +921,14 @@ export function LdrawPreviewWorkspace() {
                 ))}
               </div>
               <div className="mb-2 flex flex-wrap gap-1 border-b pb-2">
-                {(['all', 'pending', 'confirmed'] as const).map((filter) => (
+                {(['ready', 'all', 'confirmed', 'changed', 'unconfirmed', 'untracked'] as const).map((filter) => (
                   <button key={filter} onClick={() => setReviewFilter(filter)} className={cn('rounded-md px-2 py-0.5 text-[11px] font-medium', reviewFilter === filter ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-accent')}>
-                    {filter === 'all' ? `审核状态 (${models.length})` : filter === 'pending' ? `修复完待确认 (${pendingCount})` : `已确认 (${confirmedCount})`}
+                    {filter === 'ready' ? `待确认 ${readyCount}` : filter === 'all' ? `审核状态 (${models.length})` : filter === 'confirmed' ? `已确认 ${confirmedTotal}` : filter === 'changed' ? `有改动待复核 ${changedCount}` : filter === 'unconfirmed' ? `未确认 ${unconfirmedCount}` : `未跟踪 ${untrackedCount}`}
                   </button>
                 ))}
               </div>
+
+              <p className="mb-2 text-[11px] text-muted-foreground">确认记录总数 {reviewRecordCount}，其中已确认（线上版本）{protectedCount + Math.max(0, confirmedTotal - confirmedCount)}</p>
 
               {/* 模型列表 */}
               <div className="flex-1 overflow-y-auto space-y-1 pr-1">
@@ -853,15 +956,9 @@ export function LdrawPreviewWorkspace() {
                         <span className="font-mono text-xs font-semibold truncate">
                           {item.name}
                         </span>
-                        {item.reviewStatus === 'untracked' ? (
-                          <span className={cn('shrink-0 rounded px-1 text-[10px]', item.hasMpd ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-muted text-muted-foreground')}>
-                            {item.hasMpd ? '已生成' : '草稿'}
-                          </span>
-                        ) : (
-                          <span className={cn('shrink-0 rounded px-1 text-[10px]', item.reviewStatus === 'confirmed' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-amber-500/10 text-amber-600 dark:text-amber-400')}>
-                            {item.reviewStatus === 'confirmed' ? '已确认' : '待确认'}
-                          </span>
-                        )}
+                        <span className={cn('shrink-0 rounded px-1 text-[10px]', item.reviewStatus === 'confirmed' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : item.reviewStatus === 'changed' ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400' : item.reviewStatus === 'unconfirmed' && item.inspectionStatus === 'needs-repair' ? 'bg-destructive/10 text-destructive' : item.reviewStatus === 'unconfirmed' && item.inspectionStatus === 'checked' ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400' : 'bg-muted text-muted-foreground')}>
+                          {item.reviewStatus === 'confirmed' ? (item.productionProtected ? '已确认（线上版本）' : '已确认') : item.reviewStatus === 'changed' ? '有改动·待复核' : item.reviewStatus === 'unconfirmed' ? (item.inspectionStatus === 'checked' ? '待确认' : item.inspectionStatus === 'needs-repair' ? '需修复' : '待检查') : '未跟踪'}
+                        </span>
                       </div>
                       <p className="mt-0.5 line-clamp-1 text-[11px] text-muted-foreground">
                         {item.title}
@@ -918,7 +1015,7 @@ export function LdrawPreviewWorkspace() {
           )}
 
           {/* 步骤控制器与统计面板 */}
-          <div className="border-t bg-background p-3">
+          <div className="shrink-0 border-t bg-background p-3">
             <div className="flex items-center justify-between text-xs font-medium">
               <span className="flex items-center gap-1.5">
                 <Layers className="h-3.5 w-3.5 text-primary" />
@@ -970,20 +1067,36 @@ export function LdrawPreviewWorkspace() {
             </div>
             {activeTab === 'library' && canConfirm && renderedVersion === `${currentFileName}:${modelRevision}` ? (
               <div className="mt-3 border-t pt-3">
+                {inspectionStatus === 'checked' ? <p className="mb-2 text-[11px] font-medium text-amber-600 dark:text-amber-400">检查完成，待你确认</p> : null}
                 <Button className="w-full text-xs" onClick={handleConfirm} disabled={confirming || rendering}>
                   {confirming ? <><Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />确认中...</> : <><CheckCircle2 className="mr-1.5 h-3.5 w-3.5" />确认当前修复</>}
                 </Button>
                 <p className="mt-1.5 text-[10px] text-muted-foreground">仅记录本地验收状态，不会发布模型。</p>
                 {confirmError ? <p className="mt-1 text-[11px] text-destructive">{confirmError}</p> : null}
               </div>
-            ) : reviewStatus === 'confirmed' ? <p className="mt-3 border-t pt-3 text-center text-[11px] text-emerald-600">当前版本已确认</p> : null}
+            ) : reviewStatus === 'confirmed' ? <p className="mt-3 border-t pt-3 text-center text-[11px] text-emerald-600">{productionProtected ? '已确认（线上版本）' : servedFrozenConfirmed ? '当前展示已确认的发布版本' : '当前版本已确认'}</p> : activeTab === 'library' && inspectionStatus !== 'exempt' ? (
+              <div className={cn('mt-3 border-t pt-3 text-[11px]', inspectionStatus === 'needs-repair' ? 'text-destructive' : inspectionStatus === 'checked' ? 'text-amber-600 dark:text-amber-400' : 'text-muted-foreground')}>
+                <p className="font-medium">
+                  {inspectionStatus === 'needs-repair' ? '需修复' : inspectionStatus === 'checked' ? '检查完成，待你确认' : '待检查'}
+                </p>
+                {inspectionStatus === 'needs-repair' ? (
+                  <ul className="mt-1 list-disc space-y-0.5 pl-4">
+                    {inspectionIssues.length > 0 ? inspectionIssues.map((issue) => <li key={issue}>{issue}</li>) : <li>检查记录标记为需修复</li>}
+                  </ul>
+                ) : inspectionStatus === 'unchecked' ? <p className="mt-1">当前版本未完成检查，不能确认。</p> : null}
+              </div>
+            ) : null}
           </div>
         </div>
 
         {/* 右侧 3D 画布区 */}
         <div className="relative flex-1 bg-slate-100 dark:bg-slate-900">
           {/* Three.js 容器 */}
-          <div ref={canvasContainerRef} className="h-full w-full" />
+          <div
+            ref={canvasContainerRef}
+            className="h-full w-full"
+            data-rendered-model={renderedVersion === `${currentFileName}:${modelRevision}` ? currentFileName : undefined}
+          />
 
           {/* 加载浮层 */}
           {rendering ? (

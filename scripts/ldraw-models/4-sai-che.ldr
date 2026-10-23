@@ -1,36 +1,83 @@
-0 4+ 赛车 (Race Car) - DUPLO draft for manual repair
+0 4+赛车 - checked static local digital assembly; renderer-verified only
 0 Name: 4-sai-che.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
+0 // Source pages1-13 checked:43sourceparts plus2disclosed76395risers,45placements12steps. Two source red76057 replaced with76395 for side receivers.
+0 // All31engagedbase screws,4wheel screws,9pin-slot joints and2exhaust screws have finite receiver engagement; remaining25base screws retracted.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Source: 4+赛车 finished image and course instructions.
-0 // Draft policy: DUPLO-only approximation for manual Studio/PDF repair before MPD/course generation.
-0 // Technic body panels, steering details, wheel discs and spoilers are simplified.
-
-0 // STEP 1 - black rolling chassis
-1 0 -120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 120 -48 0 1 0 0 0 1 0 0 0 1 41989.dat
-1 0 0 -72 0 1 0 0 0 1 0 0 0 1 4196.dat
+0 // STATUS: checked static local model. Complete native mesh scan clear; all45placements connected in all12cumulative steps. No humanacceptance orpublication.
+0 // All 13 PDF source pages actually viewed; page13 adds no parts.
+0 // Side-panel support: two red76057 replaced by real76395 transverse blocks to provide correctly spaced side receivers while clearing wheels and arms.
+0 // Toolo geometry remains prior-approved approximation; hidden fits and chosen locked joint poses inferred, not measured or physically certified.
+0 // SOURCE PAGE 1
+1 0 -160 -81.378574 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 0 -81.378574 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 160 -81.378574 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+1 0 -240 -129.378574 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-001.dat
+1 0 -80 -129.378574 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76395.dat
+1 0 80 -129.378574 0 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/76395.dat
+1 0 240 -129.378574 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110.dat
 0 STEP
-
-0 // STEP 2 - low black deck and cockpit
-1 8 -160 -96 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 8 0 -96 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 8 160 -96 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 0 0 -144 -80 1 0 0 0 1 0 0 0 1 3437.dat
-1 14 -40 -192 -80 1 0 0 0 1 0 0 0 1 3437.dat
+0 // SOURCE PAGE 2
+1 14 320 -81.378574 -80 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+1 1 360 -129.378574 -80 1 0 0 0 1 0 0 0 1 2302.dat
+1 14 320 -81.378574 80 1 0 0 0 1 0 0 0 1 dev-toolo/76057.dat
+1 1 360 -129.378574 80 1 0 0 0 1 0 0 0 1 2302.dat
 0 STEP
-
-0 // STEP 3 - blue nose, rear wing and fins
-1 1 -300 -120 -120 1 0 0 0 1 0 0 0 1 2302.dat
-1 1 -420 -96 -40 1 0 0 0 1 0 0 0 1 40666.dat
-1 1 320 -120 -40 0 0 1 0 1 0 -1 0 0 40666.dat
-1 1 420 -120 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 1 420 -120 80 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // SOURCE PAGE 3
+0 // P3/P13 exhausts point rearward; two independently revised prior-approved4433c01 local approximations. Hidden screw/guide dimensions inferred.
+1 71 -280 -105.378574 -142 0 0 -1 0 1 0 1 0 0 dev-toolo/exhaust/4433c01.dat
+1 71 -280 -105.378574 142 0 0 -1 0 -1 0 -1 0 0 dev-toolo/exhaust/4433c01.dat
 0 STEP
-
-0 // STEP 4 - gray axles and front blade
-1 7 -220 -72 120 0 0 1 0 1 0 -1 0 0 31452.dat
-1 7 220 -72 120 0 0 1 0 1 0 -1 0 0 31452.dat
-1 8 -360 -144 -120 0.866 0.500 0 -0.500 0.866 0 0 0 1 40666.dat
-1 8 -360 -144 80 0.866 -0.500 0 0.500 0.866 0 0 0 1 40666.dat
+0 // SOURCE PAGE 4
+1 71 -200 -57.378574 -145 1 -0 0 0 -0 1 0 -1 0 dev-toolo/99565.dat
+1 0 -200 -57.378574 -145 1 -0 0 0 -0 1 0 -1 0 44970.dat
+1 71 -200 -57.378574 145 1 -0 0 0 -0 -1 0 1 0 dev-toolo/99565.dat
+1 0 -200 -57.378574 145 1 -0 0 0 -0 -1 0 1 0 44970.dat
+1 71 200 -57.378574 -145 1 -0 0 0 -0 1 0 -1 0 dev-toolo/99565.dat
+1 0 200 -57.378574 -145 1 -0 0 0 -0 1 0 -1 0 44970.dat
+1 71 200 -57.378574 145 1 -0 0 0 -0 -1 0 1 0 dev-toolo/99565.dat
+1 0 200 -57.378574 145 1 -0 0 0 -0 -1 0 1 0 44970.dat
+0 STEP
+0 // SOURCE PAGE 5
+1 0 -200 -177.378574 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110.dat
+1 0 -240 -225.378574 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-001.dat
+0 // Two actual76395 risers provide rear-frame clearance; upper screws retracted because they face the lower brick captive heads.
+1 0 -160 -273.378574 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110.dat
+1 0 -160 -321.378574 0 0 0 1 0 1 0 -1 0 0 dev-toolo/76395.dat
+0 STEP
+0 // SOURCE PAGE 6
+1 0 -288 -337.378574 0 0 1 0 0 0 1 1 0 0 dev-toolo/engaged/76395.dat
+1 14 -336 -377.378574 -80 0 1 0 0 0 -1 -1 0 0 dev-toolo/engaged/76057.dat
+1 14 -336 -377.378574 80 0 1 0 0 0 1 1 0 0 dev-toolo/engaged/76057.dat
+0 // Blue source wing seated on yellow rear supports; finite base screw and native clearance checked.
+1 1 -312 -417.378574 0 0 -1 0 0 0 -1 1 0 0 dev-toolo/45117c01.dat
+0 STEP
+0 // SOURCE PAGE 7
+1 4 -40 -177.378574 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110.dat
+1 4 120 -177.378574 0 0 0 1 0 1 0 -1 0 0 dev-toolo/states/76395-110.dat
+0 STEP
+0 // SOURCE PAGE 8
+1 72 240 -177.378574 -80 0 0 -1 0 1 0 1 0 0 dev-toolo/engaged/28336.dat
+1 72 240 -177.378574 0 0 0 -1 0 1 0 1 0 0 dev-toolo/engaged/28336.dat
+1 72 240 -177.378574 80 0 0 -1 0 1 0 1 0 0 dev-toolo/engaged/28336.dat
+0 STEP
+0 // SOURCE PAGE 9
+1 72 31.3715474166 -361.5360337777 -80 .5957872988885 .8031422629168 0 -.8031422629168 .5957872988885 0 0 0 1 dev-toolo/arm-fit/28334.dat
+1 72 31.3715474166 -361.5360337777 0 .5957872988885 .8031422629168 0 -.8031422629168 .5957872988885 0 0 0 1 dev-toolo/arm-fit/28334.dat
+1 72 31.3715474166 -361.5360337777 80 .5957872988885 .8031422629168 0 -.8031422629168 .5957872988885 0 0 0 1 dev-toolo/arm-fit/28334.dat
+0 STEP
+0 // SOURCE PAGE 10
+1 72 -168 -377.378574 -80 .07921270111149 .9968577370832 0 -.9968577370832 .07921270111149 0 0 0 1 dev-toolo/arm-fit/28334.dat
+1 72 -168 -377.378574 0 .07921270111149 .9968577370832 0 -.9968577370832 .07921270111149 0 0 0 1 dev-toolo/arm-fit/28334.dat
+1 72 -168 -377.378574 80 .07921270111149 .9968577370832 0 -.9968577370832 .07921270111149 0 0 0 1 dev-toolo/arm-fit/28334.dat
+0 STEP
+0 // SOURCE PAGE 11
+1 72 -240 -377.378574 -80 0 1 0 -1 0 0 0 0 1 dev-toolo/74957.dat
+1 72 -240 -377.378574 0 0 1 0 -1 0 0 0 0 1 dev-toolo/74957.dat
+1 72 -240 -377.378574 80 0 1 0 -1 0 0 0 0 1 dev-toolo/74957.dat
+0 STEP
+0 // SOURCE PAGE 12 - outward-facing side panels; right panel turned180 around its unchanged inward mounting axis to align two captive screws with red-body ports.
+1 0 40 -193.378574 -168 1 0 0 0 0 -1 0 1 0 dev-toolo/states/76395-110.dat
+1 0 40 -193.378574 168 -1 0 0 0 0 -1 0 -1 0 dev-toolo/states/76395-110.dat
+0 // SOURCE PAGE13 final presentation, no added parts.

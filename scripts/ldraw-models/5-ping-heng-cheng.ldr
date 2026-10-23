@@ -1,0 +1,99 @@
+0 5+ Balance scale - source reconstruction - pending visual/user review
+0 Name: 5-ping-heng-cheng.ldr
+0 Author: OpenAI
+0 !LDRAW_ORG Model
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 // Evidence: 5+平衡秤搭建说明 pages 1-10; all ten source images visually inspected 2026-10-11.
+0 // DEV-ONLY: source pages 1-9 rebuilt; p10 finished view. Official9656 survey/catalog supports mechanical IDs.
+0 // No user acceptance, no physical validation, no set inventory quantity confirmation.
+0 // Ground plane Y=0; top planes derived from 24-LDU plates and 48-LDU bricks.
+0 // Source page 1: grey 8x8 plate, ten red 2x4 bricks, four yellow 2x4 bricks.
+1 7 0 -24 0 1 0 0 0 1 0 0 0 1 51262.dat
+1 4 -120 -72 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 -120 -72 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -72 -80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 120 -72 80 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -72 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -72 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -72 40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -72 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 40 -120 80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -80 -120 40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 14 -40 -120 -80 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -120 -40 0 0 1 0 1 0 -1 0 0 3011.dat
+1 4 0 -168 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -168 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 STEP
+0 // Source page 2: alternating upright column; hole axes Y=-240,-360.
+1 14 0 -216 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 4 0 -264 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 14 0 -312 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 1 0 -336 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 4 0 -384 -40 1 0 0 0 1 0 0 0 1 75349.dat
+0 STEP
+0 // Source page 3: two central Beam11s; lower pivots are 3 holes apart. Axle6 traverses exactly 240 LDU.
+1 14 0 -440 20 1 0 0 0 0 -1 0 1 0 6525.dat
+1 14 0 -440 -100 1 0 0 0 0 -1 0 1 0 6525.dat
+1 0 0 -240 -40 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 0 -240 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -240 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 0 -360 -40 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 0 -360 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -360 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+0 STEP
+0 // Source page 4: two 2x10 holed crossbars; connected to centre holes at Y=-520,-640.
+1 4 0 -544 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 0 0 -520 -40 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 0 -520 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -520 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 4 0 -664 -40 1 0 0 0 1 0 0 0 1 75350.dat
+1 0 0 -640 -40 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 0 -640 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 0 -640 -140 -1 0 0 0 1 0 0 0 -1 6527.dat
+0 STEP
+0 // Source page 5: left/right Beam11s connected through end holes of both crossbars.
+1 14 -160 -720 20 1 0 0 0 0 -1 0 1 0 6525.dat
+1 0 -160 -520 -40 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -160 -520 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 -520 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 -160 -640 -40 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -160 -640 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 -160 -640 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 160 -720 20 1 0 0 0 0 -1 0 1 0 6525.dat
+1 0 160 -520 -40 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 160 -520 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 160 -520 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 0 160 -640 -40 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 160 -640 60 1 0 0 0 1 0 0 0 1 6527.dat
+1 14 160 -640 -100 -1 0 0 0 1 0 0 0 -1 6527.dat
+0 STEP
+0 // Source page 6: two tray support bricks, two Axle6s, four cranks. Front crank pins point into Beam11 hole two pitches below; rear crank pins engage outer tray-brick hole.
+1 4 -200 -944 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 0 -160 -920 -40 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 -160 -920 60 1 0 0 0 0 1 0 -1 0 6526.dat
+1 14 -160 -920 -100 0 0 -1 -1 0 0 0 1 0 6526.dat
+1 4 200 -944 -40 1 0 0 0 1 0 0 0 1 75349.dat
+1 0 160 -920 -40 0 0 1 0 1 0 -1 0 0 6522.dat
+1 14 160 -920 60 1 0 0 0 0 1 0 -1 0 6526.dat
+1 14 160 -920 -100 0 0 1 1 0 0 0 1 0 6526.dat
+0 STEP
+0 // Source page 7: blue thin 2x4 plates on tray support bricks.
+1 1 -200 -968 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 200 -968 -40 1 0 0 0 1 0 0 0 1 40666.dat
+0 STEP
+0 // Source page 8: red thin 4x8 tray plates.
+1 4 -200 -992 -40 1 0 0 0 1 0 0 0 1 10199.dat
+1 4 200 -992 -40 1 0 0 0 1 0 0 0 1 10199.dat
+0 STEP
+0 // Source page 9: red 2x2 side walls and front/rear red-striped fences.
+1 4 -320 -1040 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 -80 -1040 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 -200 -1088 -100 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 -200 -1088 20 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 4 80 -1040 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 320 -1040 -40 1 0 0 0 1 0 0 0 1 3437.dat
+1 15 200 -1088 -100 1 0 0 0 1 0 0 0 1 31021p01.dat
+1 15 200 -1088 20 1 0 0 0 1 0 0 0 1 31021p01.dat
+0 // Source page10 is final overview only; no empty construction step.
+0 // Source black axles retained. 9656 catalog Axle6 color is grey; actual source-batch color unknown.
+0 // Local draft pending pixel comparison, joint/collision review, and user acceptance; not physical verification.

@@ -1,0 +1,20 @@
+[
+  {
+    "part": "scripts/ldraw-models/parts/dev-toolo/45117c01.dat",
+    "before": "7e4854c938097bf815d8120d952415d7eb24fcfce4d128eae48824db75649642",
+    "after": "946b82df9cb25987232a99672d8ebecf70bcbc7e0c0fbc62b47cb821ac307b83",
+    "geometryUnchanged": true
+  },
+  {
+    "part": "scripts/ldraw-models/parts/dev-toolo/engaged/45117c01.dat",
+    "before": "5623bdccc5c2c9adb4335a22ae72444f994d0412d56f0258e2426fe18617df2d",
+    "after": "51ee74032e7d1dafcc479fbe2d75cf1071bbc75854a58db008837ed21567f788",
+    "geometryUnchanged": true
+  },
+  {
+    "part": "scripts/ldraw-models/parts/dev-toolo/tail-body.dat",
+    "before": "bd0b174931d211b18da488cf93c9feafeb5be1f41a2433312e93716f979ac8f4",
+    "after": "ea92b02ea9da218ebe40d0c3e07564b35541120ba64a2c0620f53ff4cfe9abe8",
+    "geometryUnchanged": true
+  }
+]

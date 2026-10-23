@@ -1,0 +1,156 @@
+0 5-qi-dian-chuan - source-based hovercraft with approved formed61898d and supported cockpit
+0 Name: 5-qi-dian-chuan.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // PDF SHA256 abe42b8e0fadf121cf46fab360cfea8b5d9d36454fce9967bbcdd3afd0994e55
+0 // All8 source pages actually viewed; final page is presentation only.
+0 // Local digital geometry and sampled manual-tail review only; no physical verification, human acceptance or publication.
+0 // SOURCE PAGE 1 - Two long red rails, two blue shafts and yellow outside retainers; lime U-skirt
+0 // Approved sheet formed from official61898d: neutral radius8, thickness1, original holes and neutral material length440LDU retained; hidden bend/clamp dimensions inferred.
+1 27 0 -36 0 1 0 0 0 1 0 0 0 1 dev-61898d/61898d-hovercraft-formed.dat
+1 4 0 -122.43362938564 -120 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 0 -98.433629385641 -100 0 0 -1 0 1 0 1 0 0 6523.dat
+1 14 0 -98.433629385641 -181 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 4 0 -122.43362938564 120 1 0 0 0 1 0 0 0 1 75350.dat
+1 1 0 -98.433629385641 100 0 0 1 0 1 0 -1 0 0 6523.dat
+1 14 0 -98.433629385641 181 1 0 0 0 1 0 0 0 1 6527.dat
+0 // New dev-61898d/61898d-hovercraft-formed.dat; official flat DAT unchanged. Whole rigid craft shiftedY=-26.433629385640813; sheetY=-36.
+0 // Actual sheet sides clamped between rail facesZ+/-160 and pulley hubsZ+/-161. Each outer pulley has39/40LDU keyed insertion; true holes have radial clearance.
+0 STEP
+0 // SOURCE PAGE 2 - Green eight by sixteen deck
+1 2 0 -146.43362938564 0 1 0 0 0 1 0 0 0 1 6490.dat
+0 STEP
+0 // SOURCE PAGE 3 - Yellow perimeter and source cockpit with existing known approximation
+1 14 -200 -194.43362938564 -120 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 14 -80 -194.43362938564 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -194.43362938564 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -194.43362938564 -120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -200 -194.43362938564 120 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 14 -80 -194.43362938564 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 80 -194.43362938564 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 240 -194.43362938564 120 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 280 -194.43362938564 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 25 -160 -170.43362938564 0 0 0 1 0 1 0 -1 0 0 dev-129/31196c01-wheelarch.dat
+1 19 -308 -204.43362938564 0 0 1 0 0 0 1 1 0 0 6345.dat
+0 // Existing approved31196c01-wheelarch photo approximation; eight lower sockets and hood native seats checked. Hidden shell details and physical clutch strength remain inferred.
+0 STEP
+0 // SOURCE PAGE 4 - Raised stern short beam and two corner blocks
+1 14 280 -338.43362938564 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -338.43362938564 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 4 280 -338.43362938564 0 0 0 -1 0 1 0 1 0 0 75349.dat
+0 // ADDED SUPPORT: real 3437/3011 pair at original page-4 platform datum
+1 14 280 -242.43362938564 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -242.43362938564 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -242.43362938564 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 // ADDED SUPPORT: real 3437/3011 pair at -48 LDU intermediate layer
+1 14 280 -290.43362938564 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -290.43362938564 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 14 280 -290.43362938564 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // SOURCE PAGE 5 - Blue curved rim and two stern plates
+0 Added real 40666 rear cockpit adapter, +24 LDU front blue bridge height; source side curves remain supported at original height.
+1 1 -120 -218.43362938564 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 1 -120 -266.43362938564 0 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 -120 -266.43362938564 -80 1 0 0 0 1 0 0 0 1 2302b.dat
+1 1 -120 -266.43362938564 80 -1 0 0 0 1 0 0 0 -1 2302b.dat
+1 1 0 -242.43362938564 -120 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 1 80 -242.43362938564 -120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -242.43362938564 -120 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 1 0 -242.43362938564 120 0 0 1 0 1 0 -1 0 0 2302b.dat
+1 1 80 -242.43362938564 120 1 0 0 0 1 0 0 0 1 3437.dat
+1 1 160 -242.43362938564 120 0 0 -1 0 1 0 1 0 0 2302b.dat
+1 1 280 -362.43362938564 -80 0 0 -1 0 1 0 1 0 0 40666.dat
+1 1 280 -362.43362938564 80 0 0 -1 0 1 0 1 0 0 40666.dat
+0 // Source blue rim adds6curves3small2plates; one extra40666 raises front three pieces24LDU. Side curves retain independent stud support and disclosed height difference; corners have2studs/80LDU overhang.
+0 STEP
+0 // SOURCE PAGE 6 - Rear cross-shaped seven-hole paddles on long shaft
+1 2 320 -314.43362938564 0 1 0 0 0 1 0 0 0 1 6521.dat
+1 14 220 -314.43362938564 0 0 0 1 0 1 0 -1 0 0 6527.dat
+1 14 340 -314.43362938564 0 0 1 0 0 0 1 1 0 0 6526.dat
+1 14 380 -314.43362938564 0 0 1 0 0 0 1 1 0 0 6524.dat
+1 14 420 -314.43362938564 0 0 1 0 -1 0 0 0 0 1 6524.dat
+1 14 460 -314.43362938564 0 0 -1 0 1 0 0 0 0 1 6526.dat
+1 14 180 -314.43362938564 0 0 0 1 0 1 0 -1 0 0 6527.dat
+0 // Tail uses source green6521, two6527, two6526 and two6524. Finite shaft/pin insertion, actual axial seats and manually driven sampled full-circle clearance checked; physical retention/torque not certified.
+0 STEP
+0 // SOURCE PAGE 7 - Seventy-two alternating water plates on square base
+1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
+1 1 -400 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 -24 -440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -24 -360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 -24 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 -24 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -24 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 -24 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -24 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 -24 -280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 -24 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -24 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 -24 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -24 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 -24 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -24 -200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 -24 -120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 -24 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -24 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 -24 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -24 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 -24 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -24 -40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 -24 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 -24 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -24 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 -24 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -24 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 -24 40 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -24 120 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 -24 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 -24 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -24 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 -24 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -24 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 -24 200 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 -24 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -24 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 -24 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -24 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 -24 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -24 280 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -400 -24 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -240 -24 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -80 -24 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 80 -24 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 240 -24 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 400 -24 360 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -400 -24 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 -240 -24 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 -80 -24 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 80 -24 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 322 240 -24 440 1 0 0 0 1 0 0 0 1 40666.dat
+1 1 400 -24 440 1 0 0 0 1 0 0 0 1 40666.dat
+0 // Approved formed sheet rests on96 actual water-stud annuli atY=-35. This is geometric support on a brick display; no claim of buoyancy, air cushion or propulsion.
+0 // Source final page adds no parts.
+0 // Digital assembly review:120placements/7steps, full native static scan, ordinary/finite/clamp/support graph and sampled manual tail rotation. Native shaft radial diagnostics are scoped and do not alter actual DAT.
+0 // Source variation: six existing real3437/3011 support bricks raise stern96LDU; one new blue40666 clears the cockpit. Source113 plus7added supports equals120placements.
+0 // Tail has exact source2pulleys/2cranks; each crank eccentric pin engages its own paddle. All seven tail parts follow one prescribed manual shaft phase.
+0 // Discrete digital poses and approved formed/photo approximations do not certify continuous dynamics, sheet strain, axle pullout, friction, load or manufacturing tolerances.

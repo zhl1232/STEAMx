@@ -1,0 +1,3616 @@
+{
+  "supportContactAreaLdu2": 119.2844070149941,
+  "shaftShaftCrossings": 0,
+  "shaftLowerEndY": -60.0,
+  "rearAxleUpperY": -57.000230793,
+  "supportVsBeamCrossings": 0,
+  "gearVsSupportCrossings": 0,
+  "motion": [
+    {
+      "driverAngle": 0.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 0.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 1.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 1.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 2.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 2.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 3.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 3.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 4.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 4.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 5.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 5.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 6.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 6.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 7.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 7.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 8.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 8.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 9.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 9.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 10.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 10.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 11.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 11.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 12.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 12.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 13.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 13.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 14.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 14.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 15.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 15.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 16.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 16.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 17.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 17.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 18.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 18.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 19.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 19.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 20.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 20.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 21.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 21.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 22.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 22.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 23.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 23.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 24.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 24.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 25.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 25.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 26.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 26.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 27.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 27.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 28.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 28.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 29.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 29.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 30.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 30.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 31.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 31.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 32.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 32.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 33.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 33.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 34.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 34.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 35.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 35.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 36.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 36.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 37.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 37.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 38.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 38.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 39.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 39.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 40.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 40.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 41.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 41.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 42.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 42.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 43.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 43.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 44.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 44.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 45.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 45.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 46.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 46.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 47.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 47.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 48.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 48.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 49.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 49.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 50.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 50.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 51.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 51.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 52.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 52.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 53.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 53.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 54.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 54.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 55.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 55.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 56.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 56.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 57.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 57.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 58.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 58.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 59.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 59.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 60.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 60.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 61.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 61.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 62.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 62.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 63.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 63.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 64.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 64.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 65.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 65.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 66.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 66.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 67.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 67.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 68.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 68.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 69.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 69.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 70.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 70.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 71.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 71.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 72.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 72.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 73.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 73.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 74.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 74.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 75.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 75.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 76.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 76.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 77.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 77.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 78.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 78.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 79.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 79.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 80.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 80.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 81.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 81.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 82.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 82.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 83.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 83.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 84.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 84.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 85.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 85.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 86.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 86.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 87.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 87.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 88.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 88.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 89.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 89.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 90.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 90.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 91.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 91.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 92.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 92.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 93.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 93.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 94.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 94.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 95.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 95.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 96.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 96.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 97.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 97.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 98.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 98.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 99.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 99.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 100.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 100.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 101.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 101.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 102.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 102.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 103.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 103.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 104.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 104.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 105.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 105.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 106.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 106.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 107.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 107.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 108.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 108.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 109.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 109.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 110.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 110.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 111.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 111.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 112.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 112.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 113.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 113.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 114.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 114.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 115.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 115.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 116.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 116.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 117.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 117.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 118.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 118.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 119.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 119.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 120.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 120.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 121.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 121.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 122.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 122.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 123.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 123.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 124.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 124.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 125.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 125.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 126.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 126.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 127.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 127.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 128.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 128.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 129.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 129.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 130.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 130.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 131.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 131.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 132.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 132.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 133.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 133.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 134.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 134.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 135.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 135.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 136.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 136.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 137.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 137.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 138.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 138.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 139.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 139.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 140.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 140.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 141.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 141.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 142.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 142.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 143.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 143.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 144.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 144.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 145.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 145.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 146.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 146.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 147.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 147.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 148.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 148.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 149.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 149.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 150.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 150.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 151.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 151.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 152.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 152.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 153.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 153.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 154.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 154.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 155.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 155.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 156.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 156.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 157.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 157.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 158.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 158.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 159.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 159.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 160.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 160.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 161.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 161.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 162.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 162.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 163.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 163.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 164.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 164.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 165.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 165.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 166.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 166.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 167.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 167.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 168.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 168.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 169.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 169.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 170.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 170.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 171.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 171.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 172.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 172.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 173.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 173.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 174.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 174.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 175.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 175.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 176.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 176.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 177.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 177.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 178.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 178.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 179.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 179.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 180.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 180.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 181.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 181.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 182.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 182.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 183.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 183.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 184.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 184.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 185.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 185.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 186.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 186.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 187.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 187.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 188.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 188.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 189.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 189.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 190.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 190.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 191.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 191.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 192.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 192.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 193.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 193.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 194.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 194.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 195.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 195.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 196.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 196.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 197.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 197.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 198.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 198.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 199.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 199.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 200.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 200.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 201.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 201.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 202.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 202.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 203.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 203.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 204.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 204.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 205.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 205.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 206.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 206.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 207.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 207.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 208.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 208.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 209.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 209.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 210.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 210.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 211.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 211.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 212.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 212.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 213.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 213.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 214.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 214.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 215.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 215.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 216.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 216.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 217.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 217.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 218.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 218.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 219.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 219.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 220.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 220.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 221.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 221.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 222.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 222.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 223.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 223.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 224.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 224.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 225.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 225.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 226.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 226.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 227.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 227.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 228.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 228.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 229.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 229.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 230.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 230.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 231.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 231.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 232.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 232.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 233.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 233.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 234.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 234.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 235.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 235.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 236.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 236.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 237.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 237.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 238.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 238.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 239.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 239.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 240.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 240.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 241.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 241.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 242.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 242.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 243.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 243.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 244.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 244.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 245.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 245.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 246.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 246.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 247.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 247.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 248.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 248.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 249.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 249.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 250.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 250.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 251.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 251.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 252.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 252.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 253.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 253.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 254.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 254.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 255.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 255.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 256.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 256.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 257.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 257.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 258.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 258.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 259.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 259.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 260.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 260.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 261.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 261.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 262.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 262.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 263.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 263.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 264.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 264.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 265.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 265.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 266.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 266.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 267.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 267.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 268.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 268.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 269.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 269.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 270.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 270.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 271.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 271.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 272.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 272.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 273.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 273.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 274.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 274.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 275.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 275.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 276.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 276.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 277.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 277.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 278.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 278.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 279.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 279.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 280.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 280.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 281.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 281.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 282.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 282.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 283.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 283.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 284.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 284.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 285.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 285.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 286.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 286.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 287.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 287.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 288.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 288.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 289.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 289.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 290.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 290.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 291.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 291.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 292.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 292.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 293.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 293.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 294.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 294.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 295.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 295.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 296.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 296.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 297.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 297.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 298.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 298.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 299.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 299.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 300.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 300.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 301.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 301.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 302.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 302.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 303.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 303.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 304.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 304.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 305.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 305.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 306.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 306.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 307.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 307.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 308.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 308.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 309.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 309.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 310.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 310.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 311.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 311.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 312.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 312.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 313.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 313.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 314.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 314.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 315.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 315.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 316.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 316.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 317.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 317.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 318.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 318.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 319.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 319.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 320.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 320.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 321.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 321.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 322.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 322.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 323.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 323.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 324.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 324.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 325.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 325.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 326.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 326.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 327.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 327.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 328.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 328.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 329.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 329.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 330.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 330.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 331.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 331.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 332.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 332.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 333.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 333.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 334.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 334.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 335.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 335.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 336.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 336.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 337.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 337.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 338.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 338.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 339.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 339.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 340.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 340.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 341.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 341.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 342.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 342.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 343.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 343.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 344.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 344.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 345.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 345.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 346.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 346.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 347.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 347.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 348.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 348.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 349.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 349.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 350.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 350.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 351.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 351.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 352.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 352.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 353.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 353.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 354.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 354.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 355.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 355.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 356.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 356.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 357.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 357.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 358.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 358.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 359.0,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 359.5,
+      "left": 0,
+      "right": 0
+    },
+    {
+      "driverAngle": 360.0,
+      "left": 0,
+      "right": 0
+    }
+  ],
+  "motionMaxCrossings": 0
+}

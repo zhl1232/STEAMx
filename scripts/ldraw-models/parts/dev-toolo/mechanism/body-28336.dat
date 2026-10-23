@@ -1,0 +1,5 @@
+0 Fork body; fixed-axis transverse screw assembly
+0 Name: dev-toolo/mechanism/body-28336.dat
+0 !HELP 12LDU release travel inferred, not measured.
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/mechanism/fork-fixed.dat
+1 14 0 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/mechanism/fork-transverse-screws.dat

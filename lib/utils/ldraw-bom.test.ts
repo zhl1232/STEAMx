@@ -209,6 +209,13 @@ describe('describeLdrawPartName', () => {
     ['31625.dat', 'Duplo Worm Gear', '蜗杆'],
     ['61898b.dat', 'Sheet Plastic 13 x 26 Propeller', '13×26 塑料片螺旋桨'],
     ['61898bc01.dat', 'Sheet Plastic 13 x 26 Propeller (Formed)', '13×26 塑料片螺旋桨（成形）'],
+    ['4433c01.dat', 'Duplo Toolo Exhaust Pipe4433c01', '排气管'],
+    ['76395-010-p010.dat', 'Toolo76395 captive state010 phase010', '4×6 螺丝积木'],
+    ['76395-100-p100.dat', 'Toolo76395 captive states100 phase100', '4×6 螺丝积木'],
+    ['61898cc01.dat', 'Sheet Plastic 18 x 66 Propeller (Formed)', '18×66 塑料片螺旋桨（成形）'],
+    ['61898dc01.dat', 'Sheet Plastic 24 x 25 Rectangle Sail Shape (Formed)', '24×25 塑料片船帆（成形）'],
+    ['61898ec01.dat', 'Sheet Plastic 11 x 25 Rectangle Sail Shape (Formed)', '11×25 塑料片船帆（成形）'],
+    ['4663.dat', 'Duplo Hook Short with Cross Bar and String Hole', '带横杆短吊钩'],
   ])('按零件号 %s 优先使用家长可读名称', (id, description, expected) => {
     expect(describeLdrawPartName(description, id)).toBe(expected)
   })
@@ -293,4 +300,23 @@ describe('parseLdrawColorTable', () => {
     expect(table.get(4)).toEqual({ name: 'Red', hex: '#B40000' })
     expect(table.size).toBe(1)
   })
+})
+
+it('counts each rotor schematic cord loop once and gives it a self-supplied material name', () => {
+  const ids = ['left-small', 'left-large', 'right-small', 'right-large']
+    .map((variant) => `dev-cord/rotor-${variant}-formed.dat`)
+  const mpd = [
+    '0 FILE rotor.ldr', '0 Rotor aircraft', '0 !LDRAW_ORG Model',
+    ...ids.map((id) => `1 0 0 0 0 1 0 0 0 1 0 0 0 1 ${id}`),
+    '0 STEP',
+    ...ids.flatMap((id) => [
+      `0 FILE ${id}`, '0 Generic external formed cord', '0 !LDRAW_ORG Unofficial_Part',
+      '3 16 0 0 0 1 0 0 0 1 0',
+    ]),
+  ].join('\n')
+  const result = summarizePackedLdrawBom(mpd)
+  expect(result.partCount).toBe(4)
+  expect(result.entries).toHaveLength(4)
+  expect(result.entries.every((row) => row.count === 1 && row.partName === '自备细绳（示意）')).toBe(true)
+  expect(result.steps[0].partCount).toBe(4)
 })

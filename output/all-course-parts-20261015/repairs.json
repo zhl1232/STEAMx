@@ -1,0 +1,552 @@
+{
+  "scope": "Local candidate repairs; 14-class legacy migration complete, not all approximate geometry/physical fit verified",
+  "published": false,
+  "models": [
+    {
+      "model": "4-ji-guan-qiang.ldr",
+      "sha256": "993d04d52029b74b7121663e2d2be61aa792c37714f5e477cd99a650dfc1cd5c",
+      "repaired": "长短臂接口、闭合连杆、2223支承和13355翻斗铰链",
+      "remaining": "新增1个13355；尺寸公差未实测",
+      "meshCandidatePairs": 50,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-kuai-ting.ldr",
+      "sha256": "85ce765cfed6869078a04d50a335b1422817943de3a6366dc5f7d272570e0b09",
+      "repaired": "去除实体缩放、31239c01尾翼、6669c01短桨和安装面",
+      "remaining": "尾翼角度调整；人偶旧接口待核实",
+      "meshCandidatePairs": 164,
+      "meshCrossingPairs": 7,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-zhi-sheng-ji.ldr",
+      "repaired": "长桨、上部长臂、起落架夹件轴心和转盘安装深度",
+      "remaining": "驾驶舱窗件接口仍有既有相交候选",
+      "sha256": "64bed5f669d9fb5be25836f87814f50bd1195d4e651d05bdd1ea031ba009b574",
+      "meshCandidatePairs": 111,
+      "meshCrossingPairs": 5,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "5-tou-shi-che.ldr",
+      "sha256": "bd28669a5b5d00d3337a2ea753f3b274db9012b117b993231e11ca66c9d39c06",
+      "repaired": "两根8L轴和四个外侧限位件",
+      "remaining": "篮筐曲柄、载荷和动态运动待核实",
+      "meshCandidatePairs": 115,
+      "meshCrossingPairs": 82,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "5-ma-tou-diao-ji.ldr",
+      "sha256": "7c99bf7189968b821ae8124b867a62cead517d8608e6b01aa277706bbf2a8b33",
+      "repaired": "已有根部轴改为8L",
+      "remaining": "第二根根部轴孔位不合，待重建",
+      "meshCandidatePairs": 157,
+      "meshCrossingPairs": 64,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "3-wu-long.ldr",
+      "sha256": "364e1207b56381ad170d7aa1861b46041df9b5ac3eb8b67e83ea3247f87c1673",
+      "repaired": "下颚固定支点转角修正",
+      "remaining": "底盘支承和球侧向稳定待核实",
+      "meshCandidatePairs": 57,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-xuan-zhuan-fei-ji.ldr",
+      "repaired": "四侧翼、转盘、朝外叉头、臂端类型、夹件轴心及座舱位置",
+      "remaining": "四尾翼仍省略，座舱窗件相交候选未关闭",
+      "sha256": "40b6e2294673edf5746bad327f3e5207c903c943e4196eeafbcf0b876fb7a630",
+      "meshCandidatePairs": 78,
+      "meshCrossingPairs": 4,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-zhao-xiang-ji.ldr",
+      "repaired": "恢复三条400LDU支腿、上下叉/夹件、平台、转盘及机身支承高度",
+      "remaining": "原省略红色弯管仍未恢复；真实公差和保持力未验证",
+      "sha256": "1dc7bb23b7f842401228b3a10ee300b659e0f828f36ad9f2811ce7953eae78dd",
+      "meshCandidatePairs": 111,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-wu-ren-ji.ldr",
+      "repaired": "侧板逐轴螺杆状态、长臂与桨片安装、起落架及下挂相机接口",
+      "remaining": "隐藏螺纹及公差仍属推定",
+      "sha256": "f457659236f36c45e5ea3ca2c1b7e6a0a80fc7d4ae10b40dcc6f3cebd3851c02",
+      "meshCandidatePairs": 36,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-sun-wu-kong.ldr",
+      "repaired": "肩部叉头及长短臂端点和方向、棒的位置",
+      "remaining": "棒仍依靠底板支承，未证明手臂握持",
+      "sha256": "bea60ebb4ff6ab1ef906c5fd2af00a9d45fcb3364efe0351e13a788020fd90e7",
+      "meshCandidatePairs": 94,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "5-tian-ping.ldr",
+      "repaired": "保持400LDU臂长对轴、夹件轴向、连续承载板及托盘真实凸点连接",
+      "remaining": "真实公差、承重和活动范围未实测",
+      "sha256": "0d3cf72232363cea2a99cf429963fbee1b3201dfe7e3a63826a59ad69e0ebcf8",
+      "meshCandidatePairs": 150,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-shou-ge-ji.ldr",
+      "repaired": "短桨型号、轮毂安装面、前轮孔位、后夹件及真实翻斗铰链",
+      "remaining": "驾驶舱与底盘旧相交未关闭；增加1个13355需备料",
+      "sha256": "8c10f7b2eb341355faee4b9b3047df9c94439c5470b6e1a823ee58f593b1543d",
+      "meshCandidatePairs": 68,
+      "meshCrossingPairs": 7,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-zhong-guo-jie.ldr",
+      "repaired": "基础砖及转盘安装深度，普通砖上的转盘螺杆缩回",
+      "remaining": "原省略零件仍未补齐",
+      "sha256": "b14c422888ae5718d7f935905b86a5db99ef850a92218622634fa632d308ff7f",
+      "meshCandidatePairs": 52,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-shu-bao.ldr",
+      "repaired": "基础砖替换为固定轴螺杆候选",
+      "remaining": "隐藏结构尺寸仍含推定",
+      "sha256": "98b34a1be63e1fc41b667948c8dd88b2b3af262dd8d55c00f08232a26a658291",
+      "meshCandidatePairs": 44,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-la-ji-fen-lei.ldr",
+      "repaired": "基础砖和叉头候选更新，普通砖接口螺杆缩回",
+      "remaining": "未进行实物稳定性验证",
+      "sha256": "13bc1226208dfe5f59d56184aa6fc806993fab5a3bd0cc0d1ca3b4b993685024",
+      "meshCandidatePairs": 192,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-e-yu.ldr",
+      "repaired": "基础砖、叉头、夹件轴心和上颚高度",
+      "remaining": "原前叉安装面与身体/牙齿候选未关闭",
+      "sha256": "19921ed7b1d1bc3d2d099e2275747845d39ce27cbf05864729e97f7865927d9c",
+      "meshCandidatePairs": 78,
+      "meshCrossingPairs": 12,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "5-e-yu.ldr",
+      "repaired": "基础砖、叉头、夹件轴心和上颚高度",
+      "remaining": "原前叉安装面与身体/牙齿候选未关闭",
+      "sha256": "400178459a513c101f3affee81b08676fdd7f5029fceed8892ae42707f846f47",
+      "meshCandidatePairs": 78,
+      "meshCrossingPairs": 12,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-da-long-xia.ldr",
+      "sha256": "e026935ac31ab6a4e060855f7446fcc717204940f080ce2f393b1e436fe662dc",
+      "repaired": "腿部新叉、夹块和连杆；保留用户确认的钳指方向",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 76,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-jun-jian.ldr",
+      "sha256": "d93b7ea01240028041fd522fe1b7daa493a4219a985d681aff3edcdd427f54d9",
+      "repaired": "三转盘厚度及上游组件、舰臂；人物支撑位置",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 212,
+      "meshCrossingPairs": 22,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-xie-zi.ldr",
+      "sha256": "8f11b46170250b438e6b3210cbc590815b57a30278aaa482a88602347d431e54",
+      "repaired": "腿、双钳及尾臂；修正退化矩阵",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 80,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-zhi-zhu.ldr",
+      "sha256": "cbf18324b63d59eb2bce54ef8c3e3ca9ffedc23bde1742d814d20f4fe93220d1",
+      "repaired": "口器、头部真实垫块及腿部连接",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 61,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-cha-che.ldr",
+      "sha256": "c9a8237aee2d334593d523c0ba7c09596620ee6fbee56ac4d04d5a804559b6ac",
+      "repaired": "真实车顶支撑桥；后部基础砖换位取得接收孔",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 101,
+      "meshCrossingPairs": 8,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-chun-jie-wu-shi.ldr",
+      "sha256": "8b57107f178fe7f4f6ce0a2f3b19d2eb3faf754112802b24902c4249c00559fa",
+      "repaired": "新叉/转盘、头冠及尾；增加真实头部支承砖",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 80,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-ci-xuan-fu-lie-che.ldr",
+      "sha256": "5a3890d5d567bf550b7deafe8ec6da423ade9e967e1fbf33099bfeb192f957bf",
+      "repaired": "6柱短臂接长轨固定销/中轴；支撑底座回到凸点网格",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 105,
+      "meshCrossingPairs": 10,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-dao-dan-che.ldr",
+      "sha256": "eb7bd19d9c7a15abad4d5435672438a125f5bc57501e1ae9847ec936f4e9c41e",
+      "repaired": "新叉夹、上部支承及错层轮毂；局部轮缘干涉仍保留",
+      "remaining": "两处轮缘局部穿插及座舱/窗/顶盖旧候选仍需核实。",
+      "meshCandidatePairs": 90,
+      "meshCrossingPairs": 9,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-diao-che.ldr",
+      "sha256": "1626d8d795b6efeb8bf19316b573c3739096666f37940b2748e5b48ad5436f48",
+      "repaired": "新转盘和吊臂；车辆避开路障，路障/围栏回归凸点网格",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 109,
+      "meshCrossingPairs": 9,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-du-jiao-xian.ldr",
+      "sha256": "1ff8cdc634daf47c73e294c46f87567b73a79a472763626f1bcc5832cced8685",
+      "repaired": "旧钳片确认为倒置31239c01，替换并安装74957两侧真实孔",
+      "remaining": "候选尾翼尺寸、公差及保持力未实测",
+      "meshCandidatePairs": 80,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-ju-ji-qiang.ldr",
+      "sha256": "d451540007c54efbfbe61924924017c89cab1282fd656da01493c2540c85fb2b",
+      "repaired": "新基础件/夹叉臂、真实2223候选与螺杆状态",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 95,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-ke-ji.ldr",
+      "sha256": "6adfb28ddec15b4c66744594b475f85c0d8863d411e62d5316c800bff69db53b",
+      "repaired": "轮毂安装面、侧翼螺杆与尾翼顶装凹槽",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 112,
+      "meshCrossingPairs": 6,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-long-men-diao.ldr",
+      "sha256": "2c22a01ef844fac3799244d09df14338565c52d1c564e4aa33020496046cd779",
+      "repaired": "叉、臂、夹块、反装横梁及卷筒轴线",
+      "remaining": "卷筒轴承内部、支架与绳索仍未核实。",
+      "meshCandidatePairs": 160,
+      "meshCrossingPairs": 3,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-mo-tian-lun.ldr",
+      "sha256": "ff88c8fdd4bb74cc76261bb3d5dc00797b93769070b83f1d186b97e6ba721b99",
+      "repaired": "四座舱夹叉/臂接口；增加真实座位垫块并修正凸点格",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 78,
+      "meshCrossingPairs": 8,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-qing-ting.ldr",
+      "sha256": "32629339d169a88c5e58c7526afdcb23bbe0058cb390788aae920260348a66ef",
+      "repaired": "横置上层底座、四翼叉及中腿；增加1块3437支承黄板",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 32,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-sai-che.ldr",
+      "sha256": "41b889042415daf46b67d7dea5782b45b34445f2c694e50443221b9c9936c35b",
+      "repaired": "前后连杆闭环、侧板、翼片和排气管；真实支撑砖替换/增加",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 72,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-sheng-jiang-jiu-yuan-che.ldr",
+      "sha256": "4f54addcda313211b281da7283c44687c4b9f5b15add514b9fd4a04f769f9ef1",
+      "repaired": "双臂链与上平台、围栏及人物整体朝向",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 113,
+      "meshCrossingPairs": 14,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-ta-diao.ldr",
+      "sha256": "f51a1fa96ce9ef8847467d537289249ba73f04d36dc961393e65a2f13834cd86",
+      "repaired": "真实主臂中轴闭环；增加2块76057和1根28334；两stud悬臂支承",
+      "remaining": "两stud悬臂支承和负载稳定性未验证；旧座舱候选穿插保留。",
+      "meshCandidatePairs": 123,
+      "meshCrossingPairs": 2,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-tang-lang.ldr",
+      "sha256": "aaf94661abd41d885ebe9df105c5132cce457738817deb7d40931c66351f5db0",
+      "repaired": "固定轴腿链、等高支撑端、头部半凸点偏移及精确翼板变换",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 91,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-tui-tu-ji.ldr",
+      "sha256": "9a13428cab3a855311fb01599078490c759162c6a8b46d8611c4bfd71e8470ad",
+      "repaired": "45202课程支架以真实28336替换；铲槽与横轴重合",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 74,
+      "meshCrossingPairs": 4,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-tuo-gua-che.ldr",
+      "sha256": "b541ea6f1e7f37d97c79297b58fda114ace76b7d95283cc962db6e5757e9c7d4",
+      "repaired": "夹叉、车顶支撑、拖挂转盘及后轮避让",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 77,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-wa-li.ldr",
+      "sha256": "8e1f961b84cc8ebe8181c2130b480469a2a089047bd290a250a474f5a11492b6",
+      "repaired": "160 LDU轮距/64宽履带与宽99565轮毂配套；固定导向、单件伸缩螺杆、底盘真实孔位对齐",
+      "remaining": "履带宽度/周长/张力、内齿和轮槽仍无实测资料；31193门片来源及铰链未确认，323次门框交叉未放行。",
+      "meshCandidatePairs": 77,
+      "meshCrossingPairs": 1,
+      "physicalFitVerified": false,
+      "dependencySha256": "1d10fe73ec03879514c45473b867b26718ecb7bdce6c6de05294f19cb7999fa2",
+      "recognitionRepair": "圆门局部X+4.5原点对齐；54次局部铰链交叉及保持结构未确认"
+    },
+    {
+      "model": "4-xiang-wei-she.ldr",
+      "sha256": "8c53e606ea82ccd14f0a63fb291a319541df461ca42498208df443a57c2d05c3",
+      "repaired": "两处真实76395桥替换76057；重排蛇身、上下颌、舌片及尾部",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 63,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-xiao-tu-zi.ldr",
+      "sha256": "6291f087315264bd2cdf4fd7aecc9f6284070f13e694ae31d53ad4aeb1613014",
+      "repaired": "脚、耳与底座真实孔位；独立萝卜回归精确网格",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 72,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-ya-lu-ji.ldr",
+      "sha256": "d4b0e79a99a1e1fe8ac414a56ffcf489db7b67cb98884c4fd11993b4cf08950a",
+      "repaired": "驾驶员移回驾驶舱并落到底板；此前滚筒支架修正保留",
+      "remaining": "9对候选：座舱与底砖、罩壳、窗铰链、官方人偶内部；未实搭",
+      "meshCandidatePairs": 103,
+      "meshCrossingPairs": 9,
+      "physicalFitVerified": false,
+      "dependencySha256": "349216c91adc32e644b38b3e7d5ecf8e6c69bf31303b95744b10d35d0202f56d"
+    },
+    {
+      "model": "4-yao-yao-ma.ldr",
+      "sha256": "700cdf188c9a9a6d3e2e4a29167784a9ca5bd1a981d811e189da367e9583c5e2",
+      "repaired": "四腿与头颈支撑；增加真实76057头部垫块",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 120,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-yi-long.ldr",
+      "sha256": "0b43ec8330fe2de9878c052ec46b8272f6376b3c1b2565c9fbe2e8e531ffc064",
+      "repaired": "后铲中心分开到Z±160；底座Z±120，两侧各四stud支承；螺杆状态对准真实孔",
+      "remaining": "实物稳定性、公差未测",
+      "meshCandidatePairs": 47,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false,
+      "dependencySha256": "30240d44940b03fc1ddd70a6f9a230f05e85bb25420de1d7dd7baa84464eaf9a"
+    },
+    {
+      "model": "4-you-wen.ldr",
+      "sha256": "2b0765c6217ac77864f82b929bc898fa24dd4ee3bbad6b88da5519a9a8688380",
+      "repaired": "口器、头尾夹块、双颈及长翼的销/开口端配合",
+      "remaining": "候选隐藏结构、公差和承载未实测；相交/源缺项详见逐课清单。",
+      "meshCandidatePairs": 56,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-zhong-guo-long.ldr",
+      "sha256": "2c4cec0898235906025f63c290927c060147ecd8623adfb31aab6513cd5606e0",
+      "repaired": "两只大铲改为6294，前脚绕原螺杆外张5度；两只小铲改为与瓦力同尺寸6310，去掉1.3倍放大。",
+      "remaining": "当前静态网格零穿插；近似件尺寸、地面支撑、保持力与动态运动未实物验证。",
+      "meshCandidatePairs": 52,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false,
+      "dependencySha256": "c32a9aca73380b9abc18879d899e5dab203e20269b969607a02eed22d94f4c7b"
+    },
+    {
+      "model": "4-zuan-tu-che.ldr",
+      "sha256": "0b8aba15f30913bd9f773a3212a6a3bf3028bf49cee30dfa7f5a54b5229b98bb",
+      "repaired": "前转盘72厚度及前臂链；黄砖直接接转盘，双叉各2stud支承",
+      "remaining": "转盘边缘双叉各2stud支承，长臂承载未验证；旧座舱/窗候选保留。",
+      "meshCandidatePairs": 69,
+      "meshCrossingPairs": 9,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "3-xiao-fang-che.ldr",
+      "sha256": "40af406e4eb8195d7027e438fcad82cee2b1ab41e241920ab571becdaa705dd1",
+      "meshCandidatePairs": 201,
+      "meshCrossingPairs": 9,
+      "physicalFitVerified": false,
+      "recognitionRepair": "圆门局部X+4.5原点对齐；54次局部铰链交叉及保持结构未确认"
+    },
+    {
+      "model": "3-xiao-huo-che.ldr",
+      "sha256": "2334830934cce12aa833af935fdd1c866f995c51a823cb9dd9def1ede89fa498",
+      "meshCandidatePairs": 123,
+      "meshCrossingPairs": 10,
+      "physicalFitVerified": false,
+      "recognitionRepair": "圆门局部X+4.5原点对齐；54次局部铰链交叉及保持结构未确认"
+    },
+    {
+      "model": "3-shuang-ceng-ba-shi.ldr",
+      "sha256": "8763334de453425e04a9ec356865040998749977cd6d62552f003e8f9c63f0f7",
+      "meshCandidatePairs": 78,
+      "meshCrossingPairs": 7,
+      "physicalFitVerified": false,
+      "recognitionRepair": "圆门局部X+4.5原点对齐；54次局部铰链交叉及保持结构未确认"
+    },
+    {
+      "model": "5-shou-tui-fei-ji.ldr",
+      "sha256": "47139164cb511afc2e31c36134d4eb8128530cf8ef7f2e8b74299998c5649944",
+      "meshCandidatePairs": 76,
+      "meshCrossingPairs": 44,
+      "physicalFitVerified": false,
+      "repaired": "两片无孔自制桨替为官方61898bc01，向上曲柄支承和顶帽位置修正",
+      "remaining": "真实目录替换方案，姿态不同原图；既有传动相交候选未关闭"
+    }
+  ],
+  "currentRoundModels": [
+    "4-cha-che.ldr",
+    "4-chun-jie-wu-shi.ldr",
+    "4-ci-xuan-fu-lie-che.ldr",
+    "4-da-long-xia.ldr",
+    "4-dao-dan-che.ldr",
+    "4-diao-che.ldr",
+    "4-du-jiao-xian.ldr",
+    "4-ju-ji-qiang.ldr",
+    "4-jun-jian.ldr",
+    "4-ke-ji.ldr",
+    "4-long-men-diao.ldr",
+    "4-mo-tian-lun.ldr",
+    "4-qing-ting.ldr",
+    "4-sai-che.ldr",
+    "4-sheng-jiang-jiu-yuan-che.ldr",
+    "4-ta-diao.ldr",
+    "4-tang-lang.ldr",
+    "4-tui-tu-ji.ldr",
+    "4-tuo-gua-che.ldr",
+    "4-wa-li.ldr",
+    "4-xiang-wei-she.ldr",
+    "4-xiao-tu-zi.ldr",
+    "4-xie-zi.ldr",
+    "4-ya-lu-ji.ldr",
+    "4-yao-yao-ma.ldr",
+    "4-yi-long.ldr",
+    "4-you-wen.ldr",
+    "4-zhi-zhu.ldr",
+    "4-zhong-guo-long.ldr",
+    "4-zuan-tu-che.ldr"
+  ],
+  "specialPartsRoundModels": [
+    "4-wa-li.ldr",
+    "4-zhong-guo-long.ldr",
+    "4-yi-long.ldr",
+    "4-ya-lu-ji.ldr"
+  ],
+  "recognitionRoundModels": [
+    "3-xiao-fang-che.ldr",
+    "3-xiao-huo-che.ldr",
+    "3-shuang-ceng-ba-shi.ldr",
+    "4-wa-li.ldr",
+    "4-ya-lu-ji.ldr",
+    "5-shou-tui-fei-ji.ldr"
+  ],
+  "connectionFollowupRound": {
+    "status": "local_draft_not_physically_accepted",
+    "date": "2026-10-15",
+    "changes": {
+      "tyre": "44970/31352 width36->64.5LDU, bore76->80LDU; nominal R40 rim seating",
+      "wheel": "Body and screw front extension20LDU is photo-inferred; tip-40, mount-25 and travel16 unchanged",
+      "harvester": "6 tyre axes aligned to wheel axes",
+      "missile": "2 extra76395 support bricks; upper launchers and roof raised48LDU; screws match receivers"
+    },
+    "verification": {
+      "affectedCourses": 31,
+      "newWheelExternalCrossings": 0,
+      "missileBeforePairs": 9,
+      "missileAfterPairs": 7,
+      "screwTravelSamplesLdu": [
+        0,
+        4,
+        8,
+        12,
+        16
+      ],
+      "screwBodyCrossingsAllSamples": 0,
+      "normalReview": "Bore inward; rim, barrel and tread outward; nominal contact rings exactly equal64 vertices",
+      "raw300": "234 pass,66 retain225 bboxwarnings;0 non-overlap errors",
+      "physicalFitClaim": false
+    },
+    "remaining": [
+      "Exact rim width, tyre elasticity, axial retention and molding tolerances unmeasured",
+      "31193 door hinge depth/retention and author/license unresolved",
+      "5-shou-tui-fei-ji blue6529 gear intersects75349 bearing studs; source-backed spacer/support unresolved; no speculative height edit adopted",
+      "Missile7 prior cockpit/window/frame contacts retained; raised upper brick retains50percent footprint support, strength untested",
+      "Existing other course/source uncertainty remains in full300course audit"
+    ],
+    "published": false,
+    "sourceModels": {
+      "4-shou-ge-ji.ldr": "9369c671a609a1eea399da05f6bbdd67162de5ffaa6ac3e2f76fdbadc8da6b43",
+      "4-dao-dan-che.ldr": "06efc19fda624f13c037ee47f9df9339835fbffcc3350d8c685f2efdbfec5638"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+0 Duplo Toolo 2 x 6 Fork Arm, wide profile (4-yao-yao-ma local approximation)
+0 Name: dev-129/74847-yao-yao-ma.dat
+0 Author: STEAMX local reconstruction (hand-authored 2026-10-13)
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 !HELP Wraps dev-129/74847.dat (4-mo-tian-lun wide arm) with cheek width x1.35 to match the broad legs on 4-yao-yao-ma courseware p7/p20. Pivot spacing unchanged.
+0 BFC CERTIFY CCW
+1 16 0 0 0 1.35 0 0 0 1 0 0 0 1 dev-129/74847.dat

@@ -73,7 +73,7 @@
 - Realtime 可用时订阅房间变化，同时始终保留 4 秒权威 API 轮询，推进截止结算并作为断线兜底。
 - 并发加入使用 `status = waiting AND guest_user_id IS NULL` 条件更新；只有一个访客成功，失败请求返回 `409`，并记录不含用户和邀请码的结构化冲突指标。
 
-函数战争房间还支持 Realtime + 4 秒权威轮询重连、刷新恢复、回合超时推进、认输结算和单活跃对局约束。客户端只提交武器、表达式和预期序号，不能自行累加胜负或直接执行旧开火 RPC。
+函数战争房间还支持 Realtime + 4 秒权威轮询重连、刷新恢复、回合超时推进、认输结算和单活跃对局约束。客户端只提交武器、表达式和预期序号，不能自行累加胜负或直接执行旧开火 RPC。在线确定性模拟在命中不可破坏障碍（基岩地板、钢板）时同样按爆炸半径结算溅射伤害但不产生弹坑，单发拾取补给箱上限与全场定时补给箱总数（12 个）对齐。
 
 ## 稳定性验证
 
@@ -91,6 +91,7 @@
 - `supabase/migrations/20260714190400_playground_race_realtime_publication.sql`
 - `supabase/migrations/20260714190500_playground_race_realtime_channel_policy.sql`
 - `supabase/migrations/20260715164600_playground_race_lifecycle.sql`
+- `supabase/migrations/20261023173000_function_wars_crate_pickup_limit.sql`
 - `lib/supabase/types.ts`
 
 服务端 API：

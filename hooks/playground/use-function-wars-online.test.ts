@@ -145,4 +145,27 @@ describe("useFunctionWarsOnline", () => {
         });
         expect(refreshMock).toHaveBeenCalledTimes(1);
     });
+
+    it("translates server fire failure reason codes into Chinese messages", async () => {
+        const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({
+            ok: false,
+            reason: "stale_shot_seq",
+            shot_seq: 5,
+            current_turn: "guest",
+            winner: null,
+        }), {
+            status: 409,
+            headers: { "Content-Type": "application/json" },
+        }));
+        vi.stubGlobal("fetch", fetchMock);
+
+        const { result } = renderHook(() => useFunctionWarsOnline());
+        await waitFor(() => expect(result.current.stats).toEqual({ onlineGames: 9, onlineWins: 4 }));
+
+        await act(async () => {
+            await result.current.fire("standard", "x");
+        });
+
+        expect(result.current.error).toBe("对局状态已更新，请重试");
+    });
 });

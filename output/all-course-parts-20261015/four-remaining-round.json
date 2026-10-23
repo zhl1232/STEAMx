@@ -1,0 +1,41 @@
+{
+  "published": false,
+  "models": [
+    {
+      "model": "4-wa-li.ldr",
+      "sha256": "08a0b2c338b4aa9794482f518cb918cbe07f38c66d02e4cea48bc2fc4a395f63",
+      "repaired": "160 LDU轮距/64宽履带与宽99565轮毂配套；固定导向、单件伸缩螺杆、底盘真实孔位对齐",
+      "remaining": "履带宽度/张力为照片推定；原门轴1对相交，实物配合未测",
+      "meshCandidatePairs": 77,
+      "meshCrossingPairs": 1,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-du-jiao-xian.ldr",
+      "sha256": "1ff8cdc634daf47c73e294c46f87567b73a79a472763626f1bcc5832cced8685",
+      "repaired": "旧钳片确认为倒置31239c01，替换并安装74957两侧真实孔",
+      "remaining": "候选尾翼尺寸、公差及保持力未实测",
+      "meshCandidatePairs": 80,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-yi-long.ldr",
+      "sha256": "0b43ec8330fe2de9878c052ec46b8272f6376b3c1b2565c9fbe2e8e531ffc064",
+      "repaired": "后铲中心分开到Z±160；底座Z±120，两侧各四stud支承；螺杆状态对准真实孔",
+      "remaining": "实物稳定性、公差未测",
+      "meshCandidatePairs": 47,
+      "meshCrossingPairs": 0,
+      "physicalFitVerified": false
+    },
+    {
+      "model": "4-ya-lu-ji.ldr",
+      "sha256": "331bd91c116cd53f8ad79d54c49ebe02cd102abd27794c21d68c22765c9429a9",
+      "repaired": "重排支架/连杆/轮位，保留官方31452；增加1块76395、2块40666，3437换3011",
+      "remaining": "旧座舱/窗24对相交；滚筒动态摩擦及保持力未实测",
+      "meshCandidatePairs": 109,
+      "meshCrossingPairs": 24,
+      "physicalFitVerified": false
+    }
+  ]
+}

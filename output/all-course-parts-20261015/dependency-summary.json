@@ -1,0 +1,30 @@
+{
+  "generatedAt": "2026-10-15T11:04:11.366045+00:00",
+  "scope": "scripts/ldraw-models/[345]-*.ldr",
+  "modelCount": 300,
+  "modelsWithDirectOldParts": 0,
+  "modelsWithTransitiveOldParts": 0,
+  "modelsWithSpecialCandidates": 48,
+  "modelsWithStaleCandidateParts": 0,
+  "modelsWithUnresolvedComments": 169,
+  "modelsWithMissingDependencies": 0,
+  "resolvedDependencyFileCount": 583,
+  "resolvedDependencyReferenceCount": 196024,
+  "visitedDependencyFileCount": 883,
+  "oldIds": [
+    "28331.dat",
+    "28334.dat",
+    "28336.dat",
+    "31239c01.dat",
+    "45117c01.dat",
+    "60535.dat",
+    "6294.dat",
+    "6669c01.dat",
+    "6670c01.dat",
+    "74957.dat",
+    "76057.dat",
+    "76395.dat",
+    "86601.dat",
+    "99565.dat"
+  ]
+}

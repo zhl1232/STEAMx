@@ -56,7 +56,7 @@
 | 命令、依赖、单元与浏览器检查 | `package.json`、`.github/workflows/ci.yml`、`__tests__/`、`e2e/` | [本地启动](README.md) |
 | 数据库迁移 | `scripts/db-push.mjs`、`supabase/migrations/` | [数据库连接与迁移](docs/database-psql.md) |
 | Docker、Nginx、worker 与回滚 | `Dockerfile`、`deploy/`、`.github/workflows/release.yml`、`scripts/release-scope.mjs` | [部署](docs/deployment.md) |
-| LDraw 源文件、审核和正式资源 | `scripts/ldraw-models/`、`scripts/ldraw-reviews/`、`public/courses/ldraw/`、`scripts/publish-ldraw-assets.mjs` | [资源发布](docs/ldraw-publishing.md)、[资源状态](docs/ldraw-status.md) |
+| LDraw 源文件、审核和正式资源 | `scripts/ldraw-models/`、`scripts/ldraw-reviews/`、`scripts/ldraw-inspections.json`、`public/courses/ldraw/`、`scripts/publish-ldraw-assets.mjs` | [资源发布](docs/ldraw-publishing.md)、[资源状态](docs/ldraw-status.md) |
 | 公开图片与 OSS 路径 | `lib/utils/asset-url.ts`、`lib/assets/`、`public/`、`.gitignore`、`.dockerignore` | [SEO 图片核验](docs/seo-indexing-checklist.md)、[LDraw 发布](docs/ldraw-publishing.md) |
 | SEO、爬虫、sitemap 与推送 | `lib/seo/`、`lib/project/effective-updated-at.ts`、`scripts/check-seo.mjs`、`next.config.mjs`、`playwright.project-card.config.ts` | [索引检查](docs/seo-indexing-checklist.md)、[日常运营](docs/seo-daily-operations.md) |
 | 内部开发页面与访问边界 | `lib/development-only.ts`、`app/design-system/`、`app/ldraw-preview/`、`app/migrate/`、`app/api/ldraw-preview/`、`playwright.internal-routes.config.ts` | [入口限制与验收](docs/seo-indexing-checklist.md#内部开发入口与关闭的商城) |

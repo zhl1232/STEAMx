@@ -1,0 +1,103 @@
+0 Gate Barrier - source-based local digital draft
+0 Name: 5-zha-lan-sheng-jiang-gan.ldr
+0 Author: STEAMX reconstruction
+0 !LDRAW_ORG Model
+0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
+0 // Source pages 1-11, 10 build steps. Five additional 40666 plates adapt the source tower heights to native 40-LDU beam pitch and ground clearance.
+0 // Local digital review: closed pose plus sampled gate lift 0..60 degrees and outward door motion 0..90 degrees.
+0 // Official gearbox gear, bearing and worm interfaces retain their original meshes; localized native boundary crossings are recorded in review evidence.
+0 // Cockpit uses the previously authorized photo approximation with repaired thin shell and wheel arches; inferred dimensions are not a physical fit certification.
+0 // No human acceptance or production publication is claimed.
+0 // Source page 1: Plate base and paired bearing pedestals
+1 2 0 0 0 -1 0 0 0 1 0 0 0 -1 4196.dat
+1 14 200 -24 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 200 -48 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 4 200 -96 0 0 0 -1 0 1 0 1 0 0 75349.dat
+1 1 200 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 200 -168 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 4 200 -216 0 0 0 -1 0 1 0 1 0 0 75349.dat
+1 4 200 -240 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 40 -24 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 40 -48 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 4 40 -96 0 0 0 -1 0 1 0 1 0 0 75349.dat
+1 1 40 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+1 1 40 -168 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 4 40 -216 0 0 0 -1 0 1 0 1 0 0 75349.dat
+1 4 40 -240 0 0 0 -1 0 1 0 1 0 0 40666.dat
+0 STEP
+0 // Source page 2: Two green8L support axles, four washers and upright long beam
+1 14 100 -272 0 0 1 0 0 0 1 1 0 0 6525.dat
+1 2 120 -72 0 -1 0 0 0 1 0 0 0 -1 6521.dat
+1 14 260 -72 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 -20 -72 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 2 120 -192 0 -1 0 0 0 1 0 0 0 -1 6521.dat
+1 14 260 -192 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 -20 -192 0 0 0 -1 0 1 0 1 0 0 6527.dat
+0 STEP
+0 // Source page 3: Two11-hole crossbars, gray upper and green lower pivot shafts,3washers and driven crank
+1 14 60 -472 -200 0 -1 0 -1 0 0 0 0 -1 6525.dat
+1 14 60 -312 -200 0 -1 0 -1 0 0 0 0 -1 6525.dat
+1 7 80 -472 0 -1 0 0 0 1 0 0 0 -1 6522.dat
+1 14 140 -472 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 20 -472 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 2 0 -312 0 -1 0 0 0 1 0 0 0 -1 6521.dat
+1 14 140 -312 0 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 20 -312 0 0 1 0 1 0 0 0 0 -1 6526.dat
+0 STEP
+0 // Source page 4: Three7-hole vertical rails, six short blue geared shafts and yellow retainers
+1 14 100 -352 -120 0 1 0 0 0 1 1 0 0 6524.dat
+1 1 60 -472 -120 -1 0 0 0 1 0 0 0 -1 6523.dat
+1 14 140 -472 -120 0 0 -1 0 1 0 1 0 0 6527.dat
+1 1 40 -312 -120 -1 0 0 0 1 0 0 0 -1 6523.dat
+1 14 140 -312 -120 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 100 -352 -240 0 1 0 0 0 1 1 0 0 6524.dat
+1 1 60 -472 -240 -1 0 0 0 1 0 0 0 -1 6523.dat
+1 14 140 -472 -240 0 0 -1 0 1 0 1 0 0 6527.dat
+1 1 60 -312 -240 -1 0 0 0 1 0 0 0 -1 6523.dat
+1 14 140 -312 -240 0 0 -1 0 1 0 1 0 0 6527.dat
+1 14 100 -352 -360 0 1 0 0 0 1 1 0 0 6524.dat
+1 1 60 -472 -360 -1 0 0 0 1 0 0 0 -1 6523.dat
+1 14 140 -472 -360 0 0 -1 0 1 0 1 0 0 6527.dat
+1 1 60 -312 -360 -1 0 0 0 1 0 0 0 -1 6523.dat
+1 14 140 -312 -360 0 0 -1 0 1 0 1 0 0 6527.dat
+0 STEP
+0 // Source page 5: Gearbox pedestal
+1 14 -120 -24 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 14 -120 -48 0 0 0 -1 0 1 0 1 0 0 40666.dat
+1 4 -120 -96 0 0 0 -1 0 1 0 1 0 0 75349.dat
+1 1 -120 -144 0 0 0 -1 0 1 0 1 0 0 3011.dat
+0 STEP
+0 // Source page 6: Real gearbox with worm and red output on existing green lower axle
+1 15 -120 -144 0 0 0 -1 0 1 0 1 0 0 31624.dat
+1 4 -120 -312 0 0 0 -1 0 1 0 1 0 0 6529.dat
+1 1 -120 -216 0 -1 0 0 0 1 0 0 0 -1 31625.dat
+1 7 -120 -216 40 0 0 -1 0 1 0 1 0 0 6522.dat
+1 14 -120 -216 100 -1 0 0 0 1 0 0 0 -1 6527.dat
+1 14 -120 -216 140 1 0 0 0 0 -1 0 1 0 6526.dat
+0 STEP
+0 // Source page 7: Second6x12plate and two blue joint bricks
+1 2 -480 0 0 -1 0 0 0 1 0 0 0 -1 4196.dat
+1 1 -240 -48 40 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -240 -48 -40 -1 0 0 0 1 0 0 0 -1 3011.dat
+0 STEP
+0 // Source page 8: Opposed tall red doorframes and white4-pane door leaves on blue base
+1 1 -480 -48 40 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 4 -480 -288 40 -1 0 0 0 1 0 0 0 -1 92094.dat
+1 15 -545.5 -252 83.6 1 0 0 0 1 0 0 0 1 2205.dat
+1 1 -480 -48 -40 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 4 -480 -288 -40 1 0 0 0 1 0 0 0 1 92094.dat
+1 15 -414.5 -252 -83.6 -1 0 0 0 1 0 0 0 -1 2205.dat
+0 STEP
+0 // Source page 9: Blue lintels and four outward-curved yellow roof bricks
+1 1 -480 -336 40 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 1 -480 -336 -40 -1 0 0 0 1 0 0 0 -1 3011.dat
+1 14 -440 -384 40 -1 0 0 0 1 0 0 0 -1 2302b.dat
+1 14 -440 -384 -40 1 0 0 0 1 0 0 0 1 2302b.dat
+1 14 -520 -384 40 -1 0 0 0 1 0 0 0 -1 2302b.dat
+1 14 -520 -384 -40 1 0 0 0 1 0 0 0 1 2302b.dat
+0 STEP
+0 // Source page 10: Separate parked car: wheeled chassis, approved cockpit and official curved hood
+1 4 -160 -48 -320 -1 0 0 0 1 0 0 0 -1 10715p02.dat
+1 25 -160 -72 -320 -1 0 0 0 1 0 0 0 -1 dev-129/31196c01-wheelarch.dat
+1 19 -160 -106 -172 1 0 0 0 0 1 0 -1 0 6345.dat
+0 // Source page 11: finished view, no duplicated placements.

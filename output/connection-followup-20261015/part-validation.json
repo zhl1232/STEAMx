@@ -1,0 +1,62 @@
+{
+  "models": [
+    {
+      "model": "pair-before.ldr",
+      "placements": 2,
+      "pairChecks": 1,
+      "nonzeroCrossings": [],
+      "faceLines": 0,
+      "bfcCertified": true
+    },
+    {
+      "model": "pair-after.ldr",
+      "placements": 2,
+      "pairChecks": 1,
+      "nonzeroCrossings": [],
+      "faceLines": 0,
+      "bfcCertified": true
+    },
+    {
+      "model": "pair-states.ldr",
+      "placements": 5,
+      "pairChecks": 10,
+      "nonzeroCrossings": [],
+      "faceLines": 0,
+      "bfcCertified": true
+    }
+  ],
+  "parts": {
+    "44970-measured.dat": {
+      "sha256": "f37a5b72e2ed5786c6b68b8bbec056e22718e936c1a5e5c566349ddefb7f7476",
+      "faceCount": 800,
+      "degenerateFaces": 0,
+      "bfcCertified": true,
+      "radialBounds": [
+        39.99999664230611,
+        57.500004464587654
+      ]
+    },
+    "99565-body-measured.dat": {
+      "sha256": "e374841824ece599987344c10abead2399a314fa57e016b18495b7afffcdbde8",
+      "faceCount": 1376,
+      "degenerateFaces": 0,
+      "bfcCertified": true,
+      "radialBounds": [
+        7.9999939903102435,
+        40.000001358602475
+      ],
+      "tyreBoreContact": {
+        "boreR": 39.99999664230611,
+        "rimR": 40.000001358602475,
+        "gapLdu": 0.0,
+        "penetrationLdu": 0.0
+      }
+    },
+    "wheel-screw-measured.dat": {
+      "sha256": "bfed3e534a53debfa449bb25a7d856b675290b2f2698a5d2b188cf4ba64f38d7",
+      "faceCount": 960,
+      "degenerateFaces": 0,
+      "bfcCertified": true
+    }
+  }
+}
