@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 
 import {
@@ -47,6 +47,16 @@ export function ZoomableSlide({
     } | null>(null);
     const lastTap = useRef(0);
     const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const onTapRef = useRef(onTap);
+    useLayoutEffect(() => { onTapRef.current = onTap; }, [onTap]);
+    const tapEnabled = Boolean(onTap);
+    useLayoutEffect(() => () => {
+        if (tapTimer.current) clearTimeout(tapTimer.current);
+        tapTimer.current = null;
+        gesture.current = null;
+        pointers.current.clear();
+        lastTap.current = 0;
+    }, [tapEnabled]);
     const [scale, setScale] = useState(SLIDE_MIN_ZOOM);
     const [offset, setOffset] = useState<Point>({ x: 0, y: 0 });
 
@@ -128,7 +138,7 @@ export function ZoomableSlide({
                 if (tapTimer.current) clearTimeout(tapTimer.current);
                 tapTimer.current = setTimeout(() => {
                     tapTimer.current = null;
-                    onTap(xRatio, zoomed);
+                    onTapRef.current?.(xRatio, zoomed);
                 }, 260);
             }
         }
@@ -143,7 +153,13 @@ export function ZoomableSlide({
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
-            onPointerCancel={onPointerUp}
+            onPointerCancel={(event) => {
+                pointers.current.delete(event.pointerId);
+                gesture.current = null;
+                if (tapTimer.current) clearTimeout(tapTimer.current);
+                tapTimer.current = null;
+                lastTap.current = 0;
+            }}
         >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img

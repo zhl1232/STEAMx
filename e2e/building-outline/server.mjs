@@ -9,6 +9,7 @@ const { default: react } = await import('@vitejs/plugin-react')
 const root = process.cwd()
 const fixture = path.join(root, 'e2e/building-outline')
 const server = await createServer({
+  define: { 'process.env.ASSETS_BASE_URL': '""', 'process.env.NEXT_PUBLIC_ASSETS_BASE_URL': '""' },
   configFile: false, root: fixture, publicDir: path.join(root, 'public'), plugins: [react(), {name:'local-ldraw-fixture', configureServer: registerRoutes}],
   server: { host: '127.0.0.1', port: 4182, strictPort: true, fs: { allow: [root] } },
   resolve: { alias: [
