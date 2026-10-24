@@ -424,7 +424,8 @@ describe("Building3DWorkspace", () => {
         fireEvent.click(screen.getByRole("button", { name: "全屏横向展示" }));
         const overlay = await screen.findByTestId("immersive-overlay");
         expect(overlay).toHaveAttribute("data-visible", "false");
-        expect(screen.queryByRole("button", { name: "下一页" })).not.toBeNull();
+        expect(screen.getByTestId("immersive-navigation")).toHaveAttribute("inert");
+        expect(screen.queryByRole("button", { name: "下一页" })).toBeNull();
         expect(screen.getByTestId("voice-probe").closest("[data-voice-slot-wrapper]")).toHaveClass("hidden");
         expect(screen.queryByText(/^课程 \d+\/\d+ 页$/)).toBeNull();
     });
@@ -443,7 +444,8 @@ describe("Building3DWorkspace", () => {
 
         fireEvent.click(screen.getByRole("button", { name: "搭建操作" }));
         const controls = screen.getByRole("region", { name: "搭建操作" });
-        fireEvent.click(within(controls).getByRole("button", { name: "下一页" }));
+        expect(within(controls).queryByRole("button", { name: "下一页" })).toBeNull();
+        fireEvent.click(within(screen.getByTestId("immersive-navigation")).getByRole("button", { name: "下一页" }));
         expect(onStepChange).toHaveBeenCalledWith(5);
         fireEvent.click(within(controls).getByRole("button", { name: /本步零件/ }));
         expect(screen.queryByRole("region", { name: "搭建操作" })).toBeNull();

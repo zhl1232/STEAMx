@@ -46,6 +46,7 @@ import { useLoginPrompt } from "@/lib/context/login-prompt-context";
 import { isWorkSubmissionEnabled } from "@/lib/works/capability";
 import { PartThumbnail } from "./part-thumbnail";
 import { ZoomableSlide } from "./zoomable-slide";
+import { useBuildingTapNavigation } from "./use-building-tap-navigation";
 import { circle, pill, pillGlass, pillOnDark, pillPrimary, pillQuiet } from "./lesson-control-styles";
 import {
     LANDSCAPE_PHONE_QUERY,
@@ -1579,7 +1580,7 @@ export function Building3DWorkspace({
 
     const goPage = (delta: number) => {
         const next = Math.min(Math.max(clampedPageIndex + delta, 0), flow.length - 1);
-        onStepChange(next);
+        if (next !== clampedPageIndex) onStepChange(next);
     };
 
     const enterImmersive = useCallback(async (options?: { silent?: boolean; keepOrientation?: boolean }) => {
@@ -1662,7 +1663,8 @@ export function Building3DWorkspace({
         !(activePage.sourceIndex === videoSlide0 && content.videoUrl) &&
         !(clampedPageIndex === flow.length - 1 && activePage.title === "完成本课") &&
         !failedSlides.has(activePage.sourceIndex);
-    const overlayShown = overlayVisible || buildFullscreen || (slideImmersive && !slideTappable);
+    const navigationShown = overlayVisible || (slideImmersive && !slideTappable);
+    const overlayShown = navigationShown || buildFullscreen;
 
     // 控制条 3 秒后自动隐藏
     useEffect(() => {
@@ -1682,13 +1684,20 @@ export function Building3DWorkspace({
         return () => clearTimeout(timer);
     }, [clampedPageIndex, isImmersive]);
 
-    const handleSlideTap = (xRatio: number, zoomed: boolean) => {
-        if (!slideImmersive) return;
+    const handleImmersiveTap = (xRatio: number, zoomed = false) => {
+        if (!hideChrome) return;
         const action = tapZoneAction(xRatio, zoomed);
         if (action === "prev") goPage(-1);
         else if (action === "next") goPage(1);
         else setOverlayVisible((visible) => !visible);
     };
+
+    useBuildingTapNavigation({
+        surfaceRef: mountRef,
+        enabled: buildFullscreen,
+        pageKey: clampedPageIndex,
+        onTap: handleImmersiveTap,
+    });
 
     // 打开页面时手机已经横着：直接进入全屏看课件（只做一次，和横过来时一样）
     useEffect(() => {
@@ -1850,6 +1859,7 @@ export function Building3DWorkspace({
                                 className={cn(pill, pillGlass, "pointer-events-auto h-11")}
                                 onClick={() => {
                                     setPartsDrawerOpen(false);
+                                    setOverlayVisible(true);
                                     setBuildControlsOpen((open) => !open);
                                 }}
                             >
@@ -1866,7 +1876,8 @@ export function Building3DWorkspace({
                             aria-label="搭建操作"
                             className="absolute right-[max(0.75rem,env(safe-area-inset-right))] top-[calc(max(0.5rem,env(safe-area-inset-top))+3.25rem)] z-50 max-h-[calc(100%-5rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-[min(24rem,calc(100%-1.5rem-env(safe-area-inset-left)-env(safe-area-inset-right)))] space-y-3 overflow-y-auto rounded-lg border border-border bg-background/95 p-3 shadow-lg backdrop-blur-md"
                         >
-                            {pageControls}
+                            <p className="text-center text-sm tabular-nums text-muted-foreground">{clampedPageIndex + 1} / {flow.length}</p>
+                            <p className="text-center text-xs text-muted-foreground">点左右翻页 · 点中间显示按钮 · 拖动旋转</p>
                             <div className="flex flex-wrap items-center justify-between gap-2">
                                 <button
                                     type="button"
@@ -1888,17 +1899,21 @@ export function Building3DWorkspace({
                             ) : null}
                         </div>
                     ) : null}
-                    {slideImmersive ? (
+                    {hideChrome ? (
                         <div
+                            data-testid="immersive-navigation"
+                            data-visible={navigationShown ? "true" : "false"}
+                            aria-hidden={!navigationShown}
+                            inert={!navigationShown}
                             className={cn(
                                 "pointer-events-none absolute inset-x-0 bottom-0 z-50 flex items-center justify-center gap-3 bg-gradient-to-t from-black/70 to-transparent px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-6 transition-opacity duration-200",
-                                overlayShown ? "opacity-100" : "opacity-0",
+                                navigationShown ? "opacity-100" : "opacity-0",
                             )}
                         >
                             <button
                                 type="button"
                                 disabled={clampedPageIndex === 0}
-                                className={cn(pill, pillOnDark, overlayShown && "pointer-events-auto")}
+                                className={cn(pill, pillOnDark, "h-11", navigationShown && "pointer-events-auto")}
                                 onClick={() => goPage(-1)}
                             >
                                 <ChevronLeft className="h-4 w-4" />上一页
@@ -1907,7 +1922,7 @@ export function Building3DWorkspace({
                                 <button
                                     type="button"
                                     disabled={completing || completed}
-                                    className={cn(pill, pillPrimary, overlayShown && "pointer-events-auto")}
+                                    className={cn(pill, pillPrimary, "h-11", navigationShown && "pointer-events-auto")}
                                     onClick={() => void handleComplete()}
                                 >
                                     <Check className="h-4 w-4" />{completed ? "已完成" : "完成本课"}
@@ -1915,7 +1930,7 @@ export function Building3DWorkspace({
                             ) : (
                                 <button
                                     type="button"
-                                    className={cn(pill, pillPrimary, overlayShown && "pointer-events-auto")}
+                                    className={cn(pill, pillPrimary, "h-11", navigationShown && "pointer-events-auto")}
                                     onClick={() => goPage(1)}
                                 >
                                     下一页<ChevronRight className="h-4 w-4" />
@@ -1923,7 +1938,7 @@ export function Building3DWorkspace({
                             )}
                         </div>
                     ) : null}
-                    {slideImmersive && pageIndicatorVisible && !overlayShown ? (
+                    {pageIndicatorVisible && !navigationShown ? (
                         <div data-testid="page-indicator" className={cn(pill, pillOnDark, "pointer-events-none absolute bottom-4 left-1/2 z-50 -translate-x-1/2 tabular-nums animate-in fade-in")}>
                             {clampedPageIndex + 1} / {flow.length}
                         </div>
@@ -2107,7 +2122,7 @@ export function Building3DWorkspace({
                                     onLoad={() => setVoiceMediaReady(activePage.imageUrl)}
                                     onError={() => setFailedSlides((previous) => new Set(previous).add(activePage.sourceIndex))}
                                     onSwipe={(delta) => goPage(delta)}
-                                    onTap={handleSlideTap}
+                                    onTap={slideImmersive ? handleImmersiveTap : undefined}
                                 />
                             ) : null}
                         </div>
@@ -2140,7 +2155,7 @@ export function Building3DWorkspace({
                 )}>
                     <div ref={mountRef} className="h-full w-full" aria-label="3D 搭建图纸" />
                     {loading ? (
-                        <div className="absolute inset-0 grid place-items-center bg-[#f8fbff]/80">
+                        <div className="pointer-events-none absolute inset-0 grid place-items-center bg-[#f8fbff]/80">
                             <div className="flex items-center gap-2 rounded-sm border border-border bg-card px-3 py-2 text-sm text-muted-foreground shadow-xs">
                                 <Loader2 className="h-4 w-4 animate-spin" />
                                 正在加载 3D 图纸
