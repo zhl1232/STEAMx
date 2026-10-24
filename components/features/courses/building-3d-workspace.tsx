@@ -850,7 +850,11 @@ export function Building3DWorkspace({
     const partsScrollRef = useRef<HTMLDivElement>(null);
     const sceneRef = useRef<SceneState | null>(null);
     const nativeFullscreenSessionRef = useRef(false);
+    const immersiveRequestedRef = useRef(false);
+    const immersiveRequestIdRef = useRef(0);
     const immersiveScrollYRef = useRef<number | null>(null);
+    const buildControlsButtonRef = useRef<HTMLButtonElement>(null);
+    const partsCloseButtonRef = useRef<HTMLButtonElement>(null);
     const { user } = useAuth();
     const { promptLogin } = useLoginPrompt();
     const { toast } = useToast();
@@ -905,6 +909,7 @@ export function Building3DWorkspace({
     const [voiceStatus, setVoiceStatus] = useState<string>("idle");
     const voiceActive = voiceStatus === "listening" || voiceStatus === "processing" || voiceStatus === "starting";
     const [partsDrawerOpen, setPartsDrawerOpen] = useState(false);
+    const [buildControlsOpen, setBuildControlsOpen] = useState(false);
     const autoImmersiveRef = useRef(false);
     const [overlayVisible, setOverlayVisible] = useState(false);
     const [pageIndicatorVisible, setPageIndicatorVisible] = useState(false);
@@ -960,6 +965,31 @@ export function Building3DWorkspace({
         immersiveScrollYRef.current = null;
         window.scrollTo?.({ top: scrollY, behavior: "auto" });
     }, []);
+
+    // Every exit path must leave the next fullscreen session with a clear canvas.
+    const clearImmersiveState = useCallback(() => {
+        immersiveRequestedRef.current = false;
+        immersiveRequestIdRef.current += 1;
+        nativeFullscreenSessionRef.current = false;
+        autoImmersiveRef.current = false;
+        setPartsDrawerOpen(false);
+        setBuildControlsOpen(false);
+        setOverlayVisible(false);
+        setPageIndicatorVisible(false);
+        getScreenOrientation()?.unlock?.();
+        setIsImmersive(false);
+    }, []);
+
+    useEffect(() => {
+        if (!showBuildPage) {
+            setPartsDrawerOpen(false);
+            setBuildControlsOpen(false);
+        }
+    }, [showBuildPage]);
+
+    useEffect(() => {
+        if (isImmersive && showBuildPage && partsDrawerOpen) partsCloseButtonRef.current?.focus();
+    }, [isImmersive, showBuildPage, partsDrawerOpen]);
 
     useEffect(() => {
         activeBuildStepIndexRef.current = activeBuildStepIndex;
@@ -1049,20 +1079,27 @@ export function Building3DWorkspace({
     useEffect(() => {
         const handleFullscreenChange = () => {
             if (document.fullscreenElement === workspaceRef.current) {
+                if (!immersiveRequestedRef.current) {
+                    // A request that finished after the user closed the view must not reopen it.
+                    void document.exitFullscreen().catch(() => undefined);
+                    return;
+                }
                 nativeFullscreenSessionRef.current = true;
                 setIsImmersive(true);
                 return;
             }
             if (!nativeFullscreenSessionRef.current) return;
 
-            nativeFullscreenSessionRef.current = false;
-            getScreenOrientation()?.unlock?.();
-            setIsImmersive(false);
+            clearImmersiveState();
         };
 
         document.addEventListener("fullscreenchange", handleFullscreenChange);
-        return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    }, []);
+        return () => {
+            document.removeEventListener("fullscreenchange", handleFullscreenChange);
+            immersiveRequestedRef.current = false;
+            immersiveRequestIdRef.current += 1;
+        };
+    }, [clearImmersiveState]);
 
     useEffect(() => {
         if (!isImmersive) return;
@@ -1078,11 +1115,11 @@ export function Building3DWorkspace({
     useEffect(() => {
         if (!isImmersive) return;
         const exitOnEscape = (event: KeyboardEvent) => {
-            if (event.key === "Escape" && !event.defaultPrevented && !document.fullscreenElement) setIsImmersive(false);
+            if (event.key === "Escape" && !event.defaultPrevented && !document.fullscreenElement) clearImmersiveState();
         };
         document.addEventListener("keydown", exitOnEscape);
         return () => document.removeEventListener("keydown", exitOnEscape);
-    }, [isImmersive]);
+    }, [isImmersive, clearImmersiveState]);
 
     useEffect(() => {
         if (!showBuildPage) {
@@ -1550,6 +1587,8 @@ export function Building3DWorkspace({
         if (!workspace) return;
         const silent = options?.silent ?? false;
 
+        const requestId = ++immersiveRequestIdRef.current;
+        immersiveRequestedRef.current = true;
         immersiveScrollYRef.current = window.scrollY;
         setIsImmersive(true);
         if (!workspace.requestFullscreen) {
@@ -1563,13 +1602,18 @@ export function Building3DWorkspace({
 
         nativeFullscreenSessionRef.current = true;
         try {
-            await workspace.requestFullscreen();
+            await workspace.requestFullscreen({ navigationUI: "hide" });
+            if (requestId !== immersiveRequestIdRef.current) return;
             try {
                 const isDesktopViewport = window.matchMedia?.("(min-width: 1024px)").matches ?? false;
                 if (!isDesktopViewport && !options?.keepOrientation) {
                     await getScreenOrientation()?.lock?.("landscape");
+                    if (requestId !== immersiveRequestIdRef.current && !immersiveRequestedRef.current) {
+                        getScreenOrientation()?.unlock?.();
+                    }
                 }
             } catch {
+                if (requestId !== immersiveRequestIdRef.current) return;
                 if (silent) return;
                 toast({
                     title: "已进入全屏",
@@ -1577,6 +1621,7 @@ export function Building3DWorkspace({
                 });
             }
         } catch {
+            if (requestId !== immersiveRequestIdRef.current) return;
             nativeFullscreenSessionRef.current = false;
             // 转屏不算用户点击，浏览器多半不让真全屏；这时安静地用页面内全屏
             if (silent) return;
@@ -1588,15 +1633,11 @@ export function Building3DWorkspace({
     }, [toast]);
 
     const exitImmersive = useCallback(async () => {
-        nativeFullscreenSessionRef.current = false;
-        autoImmersiveRef.current = false;
-        setPartsDrawerOpen(false);
-        getScreenOrientation()?.unlock?.();
-        setIsImmersive(false);
+        clearImmersiveState();
         if (document.fullscreenElement === workspaceRef.current) {
             await document.exitFullscreen().catch(() => undefined);
         }
-    }, []);
+    }, [clearImmersiveState]);
 
     const isSlidePage = view === "lesson" && (activePage?.kind === "slide" || activePage?.kind === "video");
     // 手机竖屏第一次看课件时轻提示一次「横过来看更清楚」，之后不再打扰
@@ -1610,8 +1651,8 @@ export function Building3DWorkspace({
         }
         toast({ title: "横过来看更清楚", description: "也可以双指放大、左右滑动翻页。" });
     }, [isImmersive, isPortraitPhone, isSlidePage, toast]);
-    // 3D 搭建页的手机全屏：画布占满，零件收进底部抽屉（横竖屏都能用）
-    const buildFullscreen = isImmersive && showBuildPage && isMobileViewport;
+    // 所有断点的 3D 全屏都把空间交给画布；操作和零件只按需浮在画面上。
+    const buildFullscreen = isImmersive && showBuildPage;
     // 沉浸式看课件：只留课件本身，其它界面全藏，点中间呼出控制条
     const slideImmersive = isImmersive && isSlidePage;
     const hideChrome = slideImmersive || buildFullscreen;
@@ -1717,12 +1758,8 @@ export function Building3DWorkspace({
     const voiceCourseReady = view === "lesson" && !bomLoading && !voicePrefetchPending && (
         showBuildPage ? !loading && !loadError : !!activeVoiceMedia && voiceMediaReady === activeVoiceMedia
     );
-    const flowControls = (
-        <div className={cn(
-            "relative z-30 shrink-0 border-t border-border/60 bg-background/90 px-3 py-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] backdrop-blur-md",
-            !isImmersive && "max-lg:fixed max-lg:bottom-0 max-lg:left-0 max-lg:right-0",
-        )}>
-            <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-3">
+    const pageControls = (
+            <div className={cn("mx-auto flex w-full max-w-2xl items-center justify-between gap-3", buildFullscreen && "[&_button]:h-11 [&_button]:px-3")}>
                 <button
                     type="button"
                     className={cn(pill, pillQuiet)}
@@ -1733,7 +1770,7 @@ export function Building3DWorkspace({
                     上一页
                 </button>
                 <span className="text-sm font-semibold tabular-nums text-muted-foreground">
-                    {`课程 ${clampedPageIndex + 1}/${flow.length} 页`}
+                    {buildFullscreen ? `${clampedPageIndex + 1} / ${flow.length}` : `课程 ${clampedPageIndex + 1}/${flow.length} 页`}
                 </span>
                 {isFinalPage ? (
                     <button
@@ -1752,6 +1789,13 @@ export function Building3DWorkspace({
                     </button>
                 )}
             </div>
+    );
+    const flowControls = (
+        <div className={cn(
+            "relative z-30 shrink-0 border-t border-border/60 bg-background/90 px-3 py-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] backdrop-blur-md",
+            !isImmersive && "max-lg:fixed max-lg:bottom-0 max-lg:left-0 max-lg:right-0",
+        )}>
+            {pageControls}
         </div>
     );
 
@@ -1782,7 +1826,7 @@ export function Building3DWorkspace({
                         className={cn(
                             "pointer-events-none absolute inset-x-0 top-0 z-50 flex items-center justify-between gap-2 bg-gradient-to-b from-black/70 to-transparent px-3 pb-6 pt-[max(0.5rem,env(safe-area-inset-top))] text-white transition-opacity duration-200",
                             overlayShown ? "opacity-100" : "opacity-0",
-                            buildFullscreen && "bg-none from-transparent pb-0",
+                            buildFullscreen && "bg-none from-transparent pb-0 pl-[max(0.75rem,env(safe-area-inset-left))] pr-[max(0.75rem,env(safe-area-inset-right))]",
                         )}
                     >
                         <button
@@ -1790,16 +1834,60 @@ export function Building3DWorkspace({
                             aria-label="关闭全屏"
                             className={cn(
                                 pill, pillOnDark, circle,
+                                buildFullscreen && "h-11 w-11",
                                 (overlayShown) && "pointer-events-auto",
                             )}
                             onClick={() => { setOverlayVisible(false); void exitImmersive(); }}
                         >
                             <X className="h-5 w-5" />
                         </button>
-                        <span className={cn(pill, pillOnDark, "pointer-events-none tabular-nums", buildFullscreen && "invisible")}>
+                        {buildFullscreen ? (
+                            <button
+                                ref={buildControlsButtonRef}
+                                type="button"
+                                aria-expanded={buildControlsOpen}
+                                aria-controls="building-immersive-controls"
+                                className={cn(pill, pillGlass, "pointer-events-auto h-11")}
+                                onClick={() => {
+                                    setPartsDrawerOpen(false);
+                                    setBuildControlsOpen((open) => !open);
+                                }}
+                            >
+                                <Settings2 className="h-4 w-4" />搭建操作
+                            </button>
+                        ) : <span className={cn(pill, pillOnDark, "pointer-events-none tabular-nums")}>
                             {clampedPageIndex + 1} / {flow.length}
-                        </span>
+                        </span>}
                     </div>
+                    {buildFullscreen && buildControlsOpen ? (
+                        <div
+                            id="building-immersive-controls"
+                            role="region"
+                            aria-label="搭建操作"
+                            className="absolute right-[max(0.75rem,env(safe-area-inset-right))] top-[calc(max(0.5rem,env(safe-area-inset-top))+3.25rem)] z-50 max-h-[calc(100%-5rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-[min(24rem,calc(100%-1.5rem-env(safe-area-inset-left)-env(safe-area-inset-right)))] space-y-3 overflow-y-auto rounded-lg border border-border bg-background/95 p-3 shadow-lg backdrop-blur-md"
+                        >
+                            {pageControls}
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                                <button
+                                    type="button"
+                                    className={cn(pill, pillQuiet, "h-11 px-3")}
+                                    aria-controls="building-3d-step-parts"
+                                    aria-expanded={partsDrawerOpen}
+                                    onClick={() => { setBuildControlsOpen(false); setPartsDrawerOpen(true); }}
+                                >
+                                    <Box className="h-4 w-4" />本步零件{bomStep ? ` ${bomStep.partCount} 块` : ""}
+                                </button>
+                                <button type="button" className={cn(pill, pillQuiet, "h-11 px-3")} onClick={() => sceneRef.current?.focusStep(activeBuildStepIndex, true)}>
+                                    <RotateCcw className="h-4 w-4" />视角
+                                </button>
+                            </div>
+                            {isFinalPage && hasWorks ? (
+                                <button type="button" className={cn(pill, pillQuiet, "h-11 w-full")} onClick={() => void exitImmersive()}>
+                                    退出全屏上传作品
+                                </button>
+                            ) : null}
+                        </div>
+                    ) : null}
                     {slideImmersive ? (
                         <div
                             className={cn(
@@ -2043,7 +2131,7 @@ export function Building3DWorkspace({
                 "grid min-h-0 flex-1 grid-rows-[minmax(320px,1fr)_auto] max-lg:grid-rows-[clamp(220px,42dvh,380px)_auto] lg:grid-cols-[minmax(0,1fr)_272px] lg:grid-rows-1",
                 isImmersive &&
                     "grid-cols-[minmax(0,1fr)_minmax(260px,32vw)] grid-rows-1 max-lg:grid-rows-1",
-                buildFullscreen && "relative grid-cols-1 max-lg:grid-rows-1",
+                buildFullscreen && "relative grid-cols-1 grid-rows-1 lg:grid-cols-1 max-lg:grid-rows-1",
                 !showBuildPage && "hidden",
             )}>
                 <div className={cn(
@@ -2081,7 +2169,7 @@ export function Building3DWorkspace({
                             </div>
                         </div>
                     ) : null}
-                    <div className={cn("absolute left-3 top-3 flex gap-2", buildFullscreen && "left-auto right-3 top-[max(0.75rem,env(safe-area-inset-top))]")}>
+                    <div className={cn("absolute left-3 top-3 flex gap-2", buildFullscreen && "hidden")}>
                         <button
                             type="button"
                             className={cn(pill, pillGlass)}
@@ -2101,7 +2189,7 @@ export function Building3DWorkspace({
                                 全屏
                             </button>
                         ) : null}
-                        <div className="hidden items-center gap-1 rounded-sm border border-border bg-card/90 px-2 py-1 text-xs text-muted-foreground md:flex">
+                        <div className="hidden items-center gap-1 rounded-sm border border-border bg-card/90 px-2 py-1 text-xs text-muted-foreground [@media(min-width:768px)_and_(pointer:fine)]:flex">
                             <ZoomIn className="h-3.5 w-3.5" />
                             拖动旋转 · 滚轮缩放
                         </div>
@@ -2118,26 +2206,22 @@ export function Building3DWorkspace({
                     data-drawer={buildFullscreen ? (partsDrawerOpen ? "open" : "closed") : undefined}
                     className={cn(
                         "min-h-0 border-t border-border bg-card lg:border-l lg:border-t-0",
-                        isImmersive && !buildFullscreen && "overflow-hidden border-l border-t-0",
-                        // 方案 C：全屏搭建时零件清单是可上拉的底部抽屉
+                        // 全屏时完全收起，打开后才以可滚动浮层显示，不给画布预留行或列。
                         buildFullscreen &&
-                            "absolute inset-x-0 bottom-0 z-20 flex flex-col overflow-hidden rounded-t-lg border-x border-t shadow-[0_-8px_24px_rgb(0_0_0/0.18)] transition-[max-height] duration-200",
-                        buildFullscreen && (partsDrawerOpen ? "max-h-[65%]" : "max-h-14"),
+                            "absolute bottom-[max(0.75rem,env(safe-area-inset-bottom))] right-[max(0.75rem,env(safe-area-inset-right))] z-40 max-h-[min(65%,calc(100%-5rem-env(safe-area-inset-top)-env(safe-area-inset-bottom)))] w-[min(24rem,calc(100%-1.5rem-env(safe-area-inset-left)-env(safe-area-inset-right)))] flex-col overflow-hidden rounded-lg border shadow-lg lg:border-t",
+                        buildFullscreen && (partsDrawerOpen ? "flex" : "hidden"),
                     )}
                 >
                     {buildFullscreen ? (
                         <button
+                            ref={partsCloseButtonRef}
                             type="button"
                             aria-expanded={partsDrawerOpen}
                             aria-controls="building-3d-step-parts"
-                            onClick={() => setPartsDrawerOpen((open) => !open)}
-                            className="flex min-h-14 w-full shrink-0 flex-col items-center justify-center gap-1 px-3 text-sm font-semibold text-foreground"
+                            onClick={() => { setPartsDrawerOpen(false); buildControlsButtonRef.current?.focus(); }}
+                            className="flex min-h-11 w-full shrink-0 items-center justify-between gap-2 border-b border-border px-3 text-sm font-semibold text-foreground"
                         >
-                            <span aria-hidden className="h-1 w-10 rounded-full bg-muted-foreground/40" />
-                            <span className="flex items-center gap-1">
-                                <Box className="h-4 w-4" />
-                                {partsDrawerOpen ? "收起零件" : `本步零件${bomStep ? ` ${bomStep.partCount} 块` : ""} · 上拉查看`}
-                            </span>
+                            收起零件<ChevronDown className="h-4 w-4" />
                         </button>
                     ) : null}
                     <div className={cn(
@@ -2253,7 +2337,7 @@ export function Building3DWorkspace({
                 </aside>
             </div>
             </div>
-            {view === "lesson" && isFinalPage && hasWorks ? (
+            {view === "lesson" && isFinalPage && hasWorks && !buildFullscreen ? (
                 <div className={cn("shrink-0 border-t border-border bg-background px-3 py-3 [&_button]:min-h-11", !isImmersive && "max-lg:pb-[calc(5rem+env(safe-area-inset-bottom))]")}>
                     <LessonWorkUpload
                         courseId={courseId}
@@ -2262,7 +2346,7 @@ export function Building3DWorkspace({
                     />
                 </div>
             ) : null}
-            {view === "lesson" && activePage && !slideImmersive ? flowControls : null}
+            {view === "lesson" && activePage && !hideChrome ? flowControls : null}
         </section>
     );
 }

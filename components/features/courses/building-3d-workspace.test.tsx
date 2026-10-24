@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useEffect, useState } from "react";
 
@@ -427,6 +427,102 @@ describe("Building3DWorkspace", () => {
         expect(screen.queryByRole("button", { name: "下一页" })).not.toBeNull();
         expect(screen.getByTestId("voice-probe").closest("[data-voice-slot-wrapper]")).toHaveClass("hidden");
         expect(screen.queryByText(/^课程 \d+\/\d+ 页$/)).toBeNull();
+    });
+
+    it.each([true, false])("opens 3D controls and parts only on request (mobile: %s)", async (mobile) => {
+        vi.stubGlobal("matchMedia", vi.fn().mockImplementation(() => ({
+            matches: mobile, addEventListener: vi.fn(), removeEventListener: vi.fn(),
+        })));
+        stubBomFetch();
+        const onStepChange = vi.fn();
+        render(<Building3DWorkspace courseId={7} lesson={ldrawLesson(["搭建底盘", "安装车轮"])} activeStepIndex={4} onStepChange={onStepChange} />);
+        fireEvent.click(screen.getByRole("button", { name: "全屏横向展示" }));
+        expect(screen.queryByRole("region", { name: "搭建操作" })).toBeNull();
+        expect(screen.queryByText(/^课程 \d+\/\d+ 页$/)).toBeNull();
+        expect(screen.getByTestId("build-parts-panel")).toHaveClass("hidden");
+
+        fireEvent.click(screen.getByRole("button", { name: "搭建操作" }));
+        const controls = screen.getByRole("region", { name: "搭建操作" });
+        fireEvent.click(within(controls).getByRole("button", { name: "下一页" }));
+        expect(onStepChange).toHaveBeenCalledWith(5);
+        fireEvent.click(within(controls).getByRole("button", { name: /本步零件/ }));
+        expect(screen.queryByRole("region", { name: "搭建操作" })).toBeNull();
+        expect(screen.getByTestId("build-parts-panel")).not.toHaveClass("hidden");
+        expect(screen.getByRole("button", { name: "收起零件" })).toHaveFocus();
+        fireEvent.click(screen.getByRole("button", { name: "收起零件" }));
+        expect(screen.getByTestId("build-parts-panel")).toHaveClass("hidden");
+        expect(screen.getByRole("button", { name: "搭建操作" })).toHaveFocus();
+    });
+
+    it.each(["button", "escape", "native"])("clears 3D panels after %s exit and reentry", async (exitPath) => {
+        const requestDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "requestFullscreen");
+        const elementDescriptor = Object.getOwnPropertyDescriptor(document, "fullscreenElement");
+        Object.defineProperty(HTMLElement.prototype, "requestFullscreen", {
+            configurable: true, value: exitPath === "native" ? vi.fn().mockResolvedValue(undefined) : undefined,
+        });
+        Object.defineProperty(document, "fullscreenElement", { configurable: true, value: null });
+        stubBomFetch();
+        try {
+            renderWorkspace(ldrawLesson(["搭建底盘", "安装车轮"]), 4);
+            for (let attempt = 0; attempt < 2; attempt += 1) {
+                fireEvent.click(screen.getByRole("button", { name: "全屏横向展示" }));
+                expect(screen.queryByRole("region", { name: "搭建操作" })).toBeNull();
+                expect(screen.getByTestId("build-parts-panel")).toHaveClass("hidden");
+                fireEvent.click(screen.getByRole("button", { name: "搭建操作" }));
+                fireEvent.click(screen.getByRole("button", { name: /本步零件/ }));
+                expect(screen.getByTestId("build-parts-panel")).not.toHaveClass("hidden");
+
+                if (exitPath === "button") fireEvent.click(screen.getByRole("button", { name: "关闭全屏" }));
+                else if (exitPath === "escape") fireEvent.keyDown(document, { key: "Escape" });
+                else fireEvent(document, new Event("fullscreenchange"));
+                expect(document.body.style.overflow).not.toBe("hidden");
+                expect(screen.queryByRole("button", { name: "关闭全屏" })).toBeNull();
+            }
+        } finally {
+            if (requestDescriptor) Object.defineProperty(HTMLElement.prototype, "requestFullscreen", requestDescriptor);
+            else Reflect.deleteProperty(HTMLElement.prototype, "requestFullscreen");
+            if (elementDescriptor) Object.defineProperty(document, "fullscreenElement", elementDescriptor);
+            else Reflect.deleteProperty(document, "fullscreenElement");
+        }
+    });
+
+    it("does not reopen 3D when a native fullscreen request completes after closing", async () => {
+        const requestDescriptor = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "requestFullscreen");
+        const exitDescriptor = Object.getOwnPropertyDescriptor(document, "exitFullscreen");
+        const elementDescriptor = Object.getOwnPropertyDescriptor(document, "fullscreenElement");
+        let resolveRequest!: () => void;
+        let fullscreenElement: Element | null = null;
+        const request = vi.fn(() => new Promise<void>((resolve) => { resolveRequest = resolve; }));
+        const exit = vi.fn(async () => { fullscreenElement = null; });
+        Object.defineProperty(HTMLElement.prototype, "requestFullscreen", { configurable: true, value: request });
+        Object.defineProperty(document, "exitFullscreen", { configurable: true, value: exit });
+        Object.defineProperty(document, "fullscreenElement", { configurable: true, get: () => fullscreenElement });
+        stubBomFetch();
+        try {
+            renderWorkspace(ldrawLesson(["搭建底盘"]), 4);
+            const enter = screen.getByRole("button", { name: "全屏横向展示" });
+            const workspace = enter.closest("section");
+            fireEvent.click(enter);
+            expect(request).toHaveBeenCalledWith({ navigationUI: "hide" });
+            fireEvent.click(screen.getByRole("button", { name: "关闭全屏" }));
+            await act(async () => {
+                fullscreenElement = workspace;
+                document.dispatchEvent(new Event("fullscreenchange"));
+                resolveRequest();
+            });
+            expect(exit).toHaveBeenCalledOnce();
+            expect(screen.queryByRole("button", { name: "关闭全屏" })).toBeNull();
+            expect(document.body.style.overflow).not.toBe("hidden");
+        } finally {
+            for (const [target, key, descriptor] of [
+                [HTMLElement.prototype, "requestFullscreen", requestDescriptor],
+                [document, "exitFullscreen", exitDescriptor],
+                [document, "fullscreenElement", elementDescriptor],
+            ] as const) {
+                if (descriptor) Object.defineProperty(target, key, descriptor);
+                else Reflect.deleteProperty(target, key);
+            }
+        }
     });
 
     it("keeps the voice slot inside fullscreen without remounting and releases it when viewing works", async () => {
