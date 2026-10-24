@@ -35,6 +35,12 @@ import { AppWideShell, AppReadingShell } from "@/components/layout/app-shell"
 
 桌面顶栏内容区使用 `app-header-bar`（与宽版 shell 同宽）。
 
+### 安装应用与全屏
+
+`app/manifest.ts` 请求 `display: fullscreen`，保持原有应用 `id`、作用域和启动地址。不支持该显示模式的浏览器按标准回退到 standalone 等模式；已有安装的 manifest 更新时机由浏览器决定。fullscreen 是启动显示偏好，不保证每款 Android、手势导航或 iOS 都隐藏系统栏，也不等同于元素 Fullscreen API。安装提示同时识别 fullscreen、standalone 和 iOS 的 `navigator.standalone`，进入全屏时撤下已显示的安装提示。
+
+保留 `viewport-fit=cover` 和实际交互控件的 safe-area 保护，不为隐藏系统栏全局删除安全区。3D 沉浸布局以 `dvh` 跟随可用视口；普通应用壳与系统栏分别验收。Android 已安装 PWA 的新装/更新、横竖屏、状态栏与手势区域仍须真机核对。
+
 ---
 
 ## 颜色 Token（`app/globals.css` :root）

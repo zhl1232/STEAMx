@@ -70,6 +70,19 @@ jobs:
       - name: Verify project video presentation pilot
         run: pnpm exec playwright test -c playwright.project-video-pilot.config.ts
 
+      - name: Verify immersive building layout
+        env:
+          BUILDING_OUTLINE_EVIDENCE_DIR: ${{ runner.temp }}/building-immersive-evidence
+        run: pnpm exec playwright test -c playwright.building-outline.config.ts immersive.spec.ts
+
+      - name: Preserve immersive building evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: immersive-building-evidence
+          path: ${{ runner.temp }}/building-immersive-evidence
+          retention-days: 7
+
       - name: Verify local Vosk engineering (silent input; acoustic benchmark is manual)
         env:
           BUILDING_VOSK_EVIDENCE_DIR: ${{ runner.temp }}/building-vosk-evidence

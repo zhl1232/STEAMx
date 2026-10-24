@@ -78,7 +78,7 @@ export function PwaInstallPrompt() {
 
     const onBeforeInstallPrompt = (event: Event) => {
       event.preventDefault()
-      if (isPwaInstallCooldownActive()) return
+      if (isStandaloneDisplay() || isPwaInstallCooldownActive()) return
       setDeferredPrompt(event as BeforeInstallPromptEvent)
       setMode('android')
       setVisible(true)
@@ -91,12 +91,25 @@ export function PwaInstallPrompt() {
       setDeferredPrompt(null)
     }
 
+    // A browser tab can enter fullscreen after the prompt has already appeared.
+    const onDisplayChange = () => {
+      if (!isStandaloneDisplay()) return
+      setVisible(false)
+      setMode(null)
+      setDeferredPrompt(null)
+    }
+    const displayQueries = ['standalone', 'fullscreen'].map((mode) =>
+      window.matchMedia(`(display-mode: ${mode})`),
+    )
+    displayQueries.forEach((query) => query.addEventListener?.('change', onDisplayChange))
+
     window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt)
     window.addEventListener('appinstalled', onAppInstalled)
 
     return () => {
       window.removeEventListener('beforeinstallprompt', onBeforeInstallPrompt)
       window.removeEventListener('appinstalled', onAppInstalled)
+      displayQueries.forEach((query) => query.removeEventListener?.('change', onDisplayChange))
     }
   }, [])
 

@@ -12,7 +12,8 @@ export default function manifest(): MetadataRoute.Manifest {
         description: SITE_DESCRIPTION,
         start_url: "/",
         scope: "/",
-        display: "standalone",
+        // Unsupported browsers follow the standard fullscreen → standalone fallback.
+        display: "fullscreen",
         background_color: "#008da1",
         theme_color: "#09090b",
         icons: [

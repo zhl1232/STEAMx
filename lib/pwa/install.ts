@@ -52,7 +52,8 @@ export function detectIosSafari(
 }
 
 export function isStandaloneDisplay(win: Window = window): boolean {
-  if (win.matchMedia('(display-mode: standalone)').matches) return true
+  if (win.matchMedia('(display-mode: standalone)').matches ||
+      win.matchMedia('(display-mode: fullscreen)').matches) return true
   const nav = win.navigator as Navigator & { standalone?: boolean }
   return Boolean(nav.standalone)
 }

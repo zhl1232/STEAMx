@@ -4,10 +4,32 @@ import {
   detectInAppBrowser,
   detectIosSafari,
   isPwaInstallCooldownActive,
+  isStandaloneDisplay,
   PWA_INSTALL_COOLDOWN_MS,
   PWA_INSTALL_DISMISS_KEY,
   writePwaInstallDismissedAt,
 } from './install'
+import manifest from '@/app/manifest'
+
+describe('installed display modes', () => {
+  it('requests fullscreen launch while retaining the existing app identity', () => {
+    expect(manifest()).toMatchObject({ id: '/', scope: '/', start_url: '/', display: 'fullscreen' })
+  })
+
+  it.each(['fullscreen', 'standalone'])('suppresses installation in %s mode', (mode) => {
+    const win = {
+      matchMedia: (query: string) => ({ matches: query === `(display-mode: ${mode})` }),
+      navigator: {},
+    } as unknown as Window
+    expect(isStandaloneDisplay(win)).toBe(true)
+  })
+
+  it('preserves the iOS fallback and keeps ordinary tabs eligible', () => {
+    const win = { matchMedia: () => ({ matches: false }), navigator: {} } as unknown as Window
+    expect(isStandaloneDisplay(win)).toBe(false)
+    expect(isStandaloneDisplay({ ...win, navigator: { standalone: true } } as unknown as Window)).toBe(true)
+  })
+})
 
 function memoryStorage(initial: Record<string, string> = {}) {
   const store = { ...initial }
