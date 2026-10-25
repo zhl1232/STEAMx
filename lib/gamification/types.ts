@@ -25,10 +25,6 @@ export interface UserStats {
     // 五子棋专属
     gomokuWins?: number;           // 对局胜利场次
     gomokuPvEWins?: number;        // 对战 AI 获胜次数
-    // 2048 专属
-    game2048BestScore?: number;    // 历史最高分
-    game2048MaxTile?: number;      // 达到过的最大方块
-    game2048Wins?: number;         // 达到 2048+ 的次数
     // 24 点专属
     game24Solved?: number;         // 累计解出题数
     game24BestStreak?: number;     // 最长连胜
@@ -50,10 +46,7 @@ export interface UserStats {
     sortingRuns?: number;          // 运行排序演示次数
     sortingAlgorithmsUsed?: number; // 使用过的排序算法数量
     // 游乐场新增玩法
-    fifteenWins?: number;
     memoryWins?: number;
-    quickMathBestScore?: number;
-    quickMathBestStreak?: number;
     mazeWins?: number;
     tangramSolved?: number;
     nonogramSolved?: number;

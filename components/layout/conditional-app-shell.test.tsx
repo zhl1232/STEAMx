@@ -135,6 +135,13 @@ describe('ConditionalAppShell mobile header policy', () => {
     expect(screen.getByTestId('page-content')).toBeInTheDocument()
   })
 
+  it('gives the physics lab the shared mobile account header and site navigation', () => {
+    renderShell('/playground/physics-lab', <div data-testid="physics-workspace" />)
+    expect(screen.getByTestId('shell-mobile-global-header')).toBeInTheDocument()
+    expect(screen.getByTestId('bottom-nav')).toBeInTheDocument()
+    expect(screen.getByTestId('physics-workspace')).toBeInTheDocument()
+  })
+
   it('does not mount daily check-in sync for anonymous users on the home route', () => {
     renderShell('/', <div data-testid="page-content" />)
 

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {createDOM} from './dom-fixture.mjs';
+import {createDOM,chooseWorkbench} from './dom-fixture.mjs';
 import {validateScene,solveCircuit} from '../../public/physics-lab/physics.mjs';
 
 test('manual wire drawing: routes, snapping, editing, cancellation, circuit feedback and persistence',async t=>{
@@ -49,7 +49,7 @@ test('manual wire drawing: routes, snapping, editing, cancellation, circuit feed
  });
  await t.test('release in empty space keeps a draft bend; pointer cancellation and mode switching clear it',async()=>{
   await down(port('c1',1),304,260);await move(430,130);await up(430,130);assert.match($('#wire-instruction').textContent,/1 个拐点/);assert.equal($$('[data-wire]').length,2);await stage.fire('pointercancel');assert.equal($$('.wire-draft').length,0);
-  await tap(port('c1',1),304,260);await click($$('[data-mode]').find(b=>b.dataset.mode==='optics'));assert.equal($('#wire-guide').hidden,true);await click($$('[data-mode]').find(b=>b.dataset.mode==='circuit'));assert.equal($$('.wire-draft').length,0);assert.equal($$('[data-wire]').length,2);
+  await tap(port('c1',1),304,260);await chooseWorkbench(document,'optics');assert.equal($('#wire-guide').hidden,true);await chooseWorkbench(document,'circuit');assert.equal($$('.wire-draft').length,0);assert.equal($$('[data-wire]').length,2);
  });
  await t.test('touch-style captured events use scaled SVG coordinates and snap near endpoints',async()=>{
   await click('#wiring-practice');stage.getBoundingClientRect=()=>({left:100,top:50,width:500,height:300});

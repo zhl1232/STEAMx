@@ -101487,8 +101487,8 @@
       "category": "technic-duplo",
       "ldrawStatus": "Local source-backed candidate; dimensions inferred",
       "bbox": {
-        "xMin": -20,
-        "xMax": 20,
+        "xMin": -30,
+        "xMax": 30,
         "yMin": -20,
         "yMax": 220,
         "zMin": -35,
@@ -101506,7 +101506,7 @@
         "Source course pages and existing authorized profile; exact mold dimensions/tolerances unmeasured.",
         "Official LEGO6162840/6162831 show broad captive pivot and narrower open fork. Independent candidate uses pin inner48/outer68 matching28336; fork inner32/outer48.",
         "Release travel12 LDU inferred; shaft positions and arm lengths unchanged.",
-        "2026-10-23 source pages 8/11/12: closed shallow molded cheek recesses restored; no through-slots. Existing approved simplified exterior/interface dimensions retained; recess depth 1.25 LDU inferred. Local renderer verification, not factory CAD or physical-fit certification."
+        "2026-10-23 source pages8/9: broaden the middle cheek to60LDU and taper toward the original hook; rootY<=24, hookY>=155, pivot/seat centers and all Zplanes unchanged. Closed molded relief retained. Profile stations inferred from illustration relative to32LDU yellow cap; not measured mold dimensions."
       ],
       "mechanism": {
         "canonicalPart": "28334.dat",
@@ -101547,6 +101547,2883 @@
         "screwMesh": "dev-mosquito/28334-shaft.dat"
       },
       "requiresExactTransform": true
+    },
+    "dev-toolo-repair/28336.dat": {
+      "name": "Duplo Toolo 2x2 fork base (source review candidate) — isolated surface repair",
+      "category": "technic-duplo",
+      "ldrawStatus": "Candidate local reconstruction",
+      "studFootprint": {
+        "x": 2,
+        "z": 2
+      },
+      "heightLdu": 133,
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": -85,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 68
+      },
+      "origin": {
+        "type": "base-stud-plane",
+        "originToTop": 85,
+        "originToBottom": 48
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "mechanism": {
+        "canonicalPart": "28336.dat",
+        "fixedScrewAxes": [
+          {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "receivers": [
+          {
+            "center": [
+              -40,
+              24,
+              0
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              -40
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              0
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              40
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          }
+        ],
+        "state": "retracted",
+        "axialTravelLdu": [
+          -17,
+          0
+        ],
+        "screwMesh": "dev-toolo-repair/mechanism/base-screw.dat",
+        "bodyMesh": "dev-toolo/mechanism/body-28336.dat",
+        "mountPlaneY": 48,
+        "engagedHeadY": [
+          17,
+          20
+        ],
+        "engagedLowerStopY": [
+          43,
+          46
+        ],
+        "fixedNeckY": [
+          20,
+          26
+        ],
+        "retractedTipY": 47,
+        "engagedTipY": 64,
+        "measured": false,
+        "transversePivot": {
+          "axes": [
+            {
+              "origin": [
+                0,
+                -65,
+                48
+              ],
+              "axis": [
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "state": "engaged",
+          "travelLdu": [
+            0,
+            12
+          ],
+          "headSide": "+X",
+          "grayReceiverSide": "-X",
+          "measured": false,
+          "source": "https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162848.jpg"
+        }
+      },
+      "notes": [
+        "Mechanism topology from LEGO patent EP0792181B1 Fig1–4: https://patents.google.com/patent/EP0792181B1/en",
+        "Fixed body and one moving mesh per screw; axial states do not change screw positions or real catalog identity.",
+        "All guide/thread dimensions and travel are inferred. Geometry checks do not certify molded fit, friction or retention.",
+        "Transverse pivot corrected from LEGO6162848 photo: real cheek bores and opposite gray receiver collar. Radius/thread/12LDU release are inferred, not mold-verified.",
+        "2026-10-23 mosquito/snake local repair: remove buried/coplanar shell junctions; preserve confirmed ports, bounds, axes and screw travel. 74957 closed cheek relief and triangular driver recess are image-inferred; no measured mold or physical-fit certification."
+      ]
+    },
+    "dev-toolo-repair/74957.dat": {
+      "name": "Duplo clutch element with thread (source-backed candidate) — isolated surface repair",
+      "category": "technic-duplo",
+      "ldrawStatus": "Candidate local reconstruction",
+      "studFootprint": {
+        "x": 2,
+        "z": 2
+      },
+      "heightLdu": 95,
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 84
+      },
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": -11,
+        "yMax": 84,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "mechanism": {
+        "canonicalPart": "74957.dat",
+        "fixedScrewAxes": [],
+        "receivers": [
+          {
+            "center": [
+              -40,
+              24,
+              0
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              -40
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              0
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              40
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "state": "receiver-only",
+        "bodyMesh": "dev-toolo-repair/mechanism/body-74957.dat",
+        "measured": false
+      },
+      "notes": [
+        "Mechanism topology from LEGO patent EP0792181B1 Fig1–4: https://patents.google.com/patent/EP0792181B1/en",
+        "Fixed body and one moving mesh per screw; axial states do not change screw positions or real catalog identity.",
+        "All guide/thread dimensions and travel are inferred. Geometry checks do not certify molded fit, friction or retention.",
+        "Receiver-only clip has no added captive screw. Open clip and pivot origin are preserved.",
+        "2026-10-23 mosquito/snake local repair: remove buried/coplanar shell junctions; preserve confirmed ports, bounds, axes and screw travel. 74957 closed cheek relief and triangular driver recess are image-inferred; no measured mold or physical-fit certification."
+      ]
+    },
+    "dev-toolo-repair/76057.dat": {
+      "name": "Duplo Toolo 4x2 screw brick (source review candidate) — isolated surface repair",
+      "category": "technic-duplo",
+      "ldrawStatus": "Candidate local reconstruction",
+      "studFootprint": {
+        "x": 4,
+        "z": 2
+      },
+      "heightLdu": 59,
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": -11,
+        "yMax": 48,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "mechanism": {
+        "canonicalPart": "76057.dat",
+        "fixedScrewAxes": [
+          {
+            "origin": [
+              -40,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "receivers": [
+          {
+            "center": [
+              -80,
+              24,
+              0
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              -40
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              -40
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              -40
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              80,
+              24,
+              0
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              40
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              40
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              40
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "state": "retracted",
+        "axialTravelLdu": [
+          -17,
+          0
+        ],
+        "screwMesh": "dev-toolo-repair/mechanism/base-screw.dat",
+        "bodyMesh": "dev-toolo-repair/mechanism/body-76057.dat",
+        "mountPlaneY": 48,
+        "engagedHeadY": [
+          17,
+          20
+        ],
+        "engagedLowerStopY": [
+          43,
+          46
+        ],
+        "fixedNeckY": [
+          20,
+          26
+        ],
+        "retractedTipY": 47,
+        "engagedTipY": 64,
+        "measured": false
+      },
+      "notes": [
+        "Mechanism topology from LEGO patent EP0792181B1 Fig1–4: https://patents.google.com/patent/EP0792181B1/en",
+        "Fixed body and one moving mesh per screw; axial states do not change screw positions or real catalog identity.",
+        "All guide/thread dimensions and travel are inferred. Geometry checks do not certify molded fit, friction or retention.",
+        "2026-10-23 mosquito/snake local repair: remove buried/coplanar shell junctions; preserve confirmed ports, bounds, axes and screw travel. 74957 closed cheek relief and triangular driver recess are image-inferred; no measured mold or physical-fit certification."
+      ]
+    },
+    "dev-toolo-repair/76395.dat": {
+      "name": "Duplo Toolo 6x4 screw brick (source review candidate) — isolated surface repair",
+      "category": "technic-duplo",
+      "ldrawStatus": "Candidate local reconstruction",
+      "studFootprint": {
+        "x": 6,
+        "z": 4
+      },
+      "heightLdu": 59,
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "bbox": {
+        "xMin": -120,
+        "xMax": 120,
+        "yMin": -11,
+        "yMax": 48,
+        "zMin": -80,
+        "zMax": 80
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "mechanism": {
+        "canonicalPart": "76395.dat",
+        "fixedScrewAxes": [
+          {
+            "origin": [
+              -80,
+              0,
+              -40
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "origin": [
+              80,
+              0,
+              -40
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "origin": [
+              0,
+              0,
+              40
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "receivers": [
+          {
+            "center": [
+              -120,
+              24,
+              -40
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -120,
+              24,
+              0
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -120,
+              24,
+              40
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -80,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              80,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              120,
+              24,
+              -40
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              120,
+              24,
+              0
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              120,
+              24,
+              40
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -80,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              80,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              -80,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -80,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              0,
+              -40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              0,
+              -40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              -40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              80,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              80,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "state": "retracted",
+        "axialTravelLdu": [
+          -17,
+          0
+        ],
+        "screwMesh": "dev-toolo-repair/mechanism/base-screw.dat",
+        "bodyMesh": "dev-toolo-repair/mechanism/body-76395.dat",
+        "mountPlaneY": 48,
+        "engagedHeadY": [
+          17,
+          20
+        ],
+        "engagedLowerStopY": [
+          43,
+          46
+        ],
+        "fixedNeckY": [
+          20,
+          26
+        ],
+        "retractedTipY": 47,
+        "engagedTipY": 64,
+        "measured": false
+      },
+      "notes": [
+        "Mechanism topology from LEGO patent EP0792181B1 Fig1–4: https://patents.google.com/patent/EP0792181B1/en",
+        "Fixed body and one moving mesh per screw; axial states do not change screw positions or real catalog identity.",
+        "All guide/thread dimensions and travel are inferred. Geometry checks do not certify molded fit, friction or retention.",
+        "2026-10-23 mosquito/snake local repair: remove buried/coplanar shell junctions; preserve confirmed ports, bounds, axes and screw travel. 74957 closed cheek relief and triangular driver recess are image-inferred; no measured mold or physical-fit certification."
+      ]
+    },
+    "dev-toolo-repair/engaged-top/28336.dat": {
+      "name": "Duplo Toolo 2x2 fork base (source review candidate) — isolated surface repair",
+      "category": "technic-duplo",
+      "ldrawStatus": "Candidate local reconstruction",
+      "studFootprint": {
+        "x": 2,
+        "z": 2
+      },
+      "heightLdu": 149,
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": -85,
+        "yMax": 64,
+        "zMin": -40,
+        "zMax": 68
+      },
+      "origin": {
+        "type": "base-stud-plane",
+        "originToTop": 85,
+        "originToBottom": 48
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "mechanism": {
+        "canonicalPart": "28336.dat",
+        "fixedScrewAxes": [
+          {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "receivers": [
+          {
+            "center": [
+              -40,
+              24,
+              0
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              -40
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              0
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              40
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          }
+        ],
+        "state": "engaged",
+        "axialTravelLdu": [
+          -17,
+          0
+        ],
+        "screwMesh": "dev-toolo-repair/mechanism/base-screw.dat",
+        "bodyMesh": "dev-toolo/mechanism/body-28336.dat",
+        "mountPlaneY": 48,
+        "engagedHeadY": [
+          17,
+          20
+        ],
+        "engagedLowerStopY": [
+          43,
+          46
+        ],
+        "fixedNeckY": [
+          20,
+          26
+        ],
+        "retractedTipY": 47,
+        "engagedTipY": 64,
+        "measured": false,
+        "transversePivot": {
+          "axes": [
+            {
+              "origin": [
+                0,
+                -65,
+                48
+              ],
+              "axis": [
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "state": "engaged",
+          "travelLdu": [
+            0,
+            12
+          ],
+          "headSide": "+X",
+          "grayReceiverSide": "-X",
+          "measured": false,
+          "source": "https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162848.jpg"
+        }
+      },
+      "notes": [
+        "Mechanism topology from LEGO patent EP0792181B1 Fig1–4: https://patents.google.com/patent/EP0792181B1/en",
+        "Fixed body and one moving mesh per screw; axial states do not change screw positions or real catalog identity.",
+        "All guide/thread dimensions and travel are inferred. Geometry checks do not certify molded fit, friction or retention.",
+        "Transverse pivot corrected from LEGO6162848 photo: real cheek bores and opposite gray receiver collar. Radius/thread/12LDU release are inferred, not mold-verified.",
+        "2026-10-23 mosquito/snake local repair: remove buried/coplanar shell junctions; preserve confirmed ports, bounds, axes and screw travel. 74957 closed cheek relief and triangular driver recess are image-inferred; no measured mold or physical-fit certification."
+      ]
+    },
+    "dev-toolo-repair/engaged-top/76057.dat": {
+      "name": "Duplo Toolo 4x2 screw brick (source review candidate) — isolated surface repair",
+      "category": "technic-duplo",
+      "ldrawStatus": "Candidate local reconstruction",
+      "studFootprint": {
+        "x": 4,
+        "z": 2
+      },
+      "heightLdu": 75,
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": -11,
+        "yMax": 64,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "mechanism": {
+        "canonicalPart": "76057.dat",
+        "fixedScrewAxes": [
+          {
+            "origin": [
+              -40,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "receivers": [
+          {
+            "center": [
+              -80,
+              24,
+              0
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              -40
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              -40
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              -40
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              80,
+              24,
+              0
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              40
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              40
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              40
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "state": "engaged",
+        "axialTravelLdu": [
+          -17,
+          0
+        ],
+        "screwMesh": "dev-toolo-repair/mechanism/base-screw.dat",
+        "bodyMesh": "dev-toolo-repair/mechanism/body-76057.dat",
+        "mountPlaneY": 48,
+        "engagedHeadY": [
+          17,
+          20
+        ],
+        "engagedLowerStopY": [
+          43,
+          46
+        ],
+        "fixedNeckY": [
+          20,
+          26
+        ],
+        "retractedTipY": 47,
+        "engagedTipY": 64,
+        "measured": false
+      },
+      "notes": [
+        "Mechanism topology from LEGO patent EP0792181B1 Fig1–4: https://patents.google.com/patent/EP0792181B1/en",
+        "Fixed body and one moving mesh per screw; axial states do not change screw positions or real catalog identity.",
+        "All guide/thread dimensions and travel are inferred. Geometry checks do not certify molded fit, friction or retention.",
+        "2026-10-23 mosquito/snake local repair: remove buried/coplanar shell junctions; preserve confirmed ports, bounds, axes and screw travel. 74957 closed cheek relief and triangular driver recess are image-inferred; no measured mold or physical-fit certification."
+      ]
+    },
+    "dev-toolo-repair/engaged/28336.dat": {
+      "name": "Duplo Toolo 2x2 fork base (source review candidate) — isolated surface repair",
+      "category": "technic-duplo",
+      "ldrawStatus": "Candidate local reconstruction",
+      "studFootprint": {
+        "x": 2,
+        "z": 2
+      },
+      "heightLdu": 149,
+      "bbox": {
+        "xMin": -40,
+        "xMax": 40,
+        "yMin": -85,
+        "yMax": 64,
+        "zMin": -40,
+        "zMax": 68
+      },
+      "origin": {
+        "type": "base-stud-plane",
+        "originToTop": 85,
+        "originToBottom": 48
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "mechanism": {
+        "canonicalPart": "28336.dat",
+        "fixedScrewAxes": [
+          {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "receivers": [
+          {
+            "center": [
+              -40,
+              24,
+              0
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              -40
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              0
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              40
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          }
+        ],
+        "state": "engaged",
+        "axialTravelLdu": [
+          -17,
+          0
+        ],
+        "screwMesh": "dev-toolo-repair/mechanism/base-screw.dat",
+        "bodyMesh": "dev-toolo/mechanism/body-28336.dat",
+        "mountPlaneY": 48,
+        "engagedHeadY": [
+          17,
+          20
+        ],
+        "engagedLowerStopY": [
+          43,
+          46
+        ],
+        "fixedNeckY": [
+          20,
+          26
+        ],
+        "retractedTipY": 47,
+        "engagedTipY": 64,
+        "measured": false,
+        "transversePivot": {
+          "axes": [
+            {
+              "origin": [
+                0,
+                -65,
+                48
+              ],
+              "axis": [
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "state": "engaged",
+          "travelLdu": [
+            0,
+            12
+          ],
+          "headSide": "+X",
+          "grayReceiverSide": "-X",
+          "measured": false,
+          "source": "https://www.lego.com/cdn/product-assets/element.img.lod5photo.192x192/6162848.jpg"
+        }
+      },
+      "notes": [
+        "Mechanism topology from LEGO patent EP0792181B1 Fig1–4: https://patents.google.com/patent/EP0792181B1/en",
+        "Fixed body and one moving mesh per screw; axial states do not change screw positions or real catalog identity.",
+        "All guide/thread dimensions and travel are inferred. Geometry checks do not certify molded fit, friction or retention.",
+        "Transverse pivot corrected from LEGO6162848 photo: real cheek bores and opposite gray receiver collar. Radius/thread/12LDU release are inferred, not mold-verified.",
+        "2026-10-23 mosquito/snake local repair: remove buried/coplanar shell junctions; preserve confirmed ports, bounds, axes and screw travel. 74957 closed cheek relief and triangular driver recess are image-inferred; no measured mold or physical-fit certification."
+      ]
+    },
+    "dev-toolo-repair/engaged/76057.dat": {
+      "name": "Duplo Toolo 4x2 screw brick (source review candidate) — isolated surface repair",
+      "category": "technic-duplo",
+      "ldrawStatus": "Candidate local reconstruction",
+      "studFootprint": {
+        "x": 4,
+        "z": 2
+      },
+      "heightLdu": 75,
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "bbox": {
+        "xMin": -80,
+        "xMax": 80,
+        "yMin": -11,
+        "yMax": 64,
+        "zMin": -40,
+        "zMax": 40
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "mechanism": {
+        "canonicalPart": "76057.dat",
+        "fixedScrewAxes": [
+          {
+            "origin": [
+              -40,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "receivers": [
+          {
+            "center": [
+              -80,
+              24,
+              0
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              -40
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              -40
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              -40
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              80,
+              24,
+              0
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              40
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              40
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              40
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "state": "engaged",
+        "axialTravelLdu": [
+          -17,
+          0
+        ],
+        "screwMesh": "dev-toolo-repair/mechanism/base-screw.dat",
+        "bodyMesh": "dev-toolo-repair/mechanism/body-76057.dat",
+        "mountPlaneY": 48,
+        "engagedHeadY": [
+          17,
+          20
+        ],
+        "engagedLowerStopY": [
+          43,
+          46
+        ],
+        "fixedNeckY": [
+          20,
+          26
+        ],
+        "retractedTipY": 47,
+        "engagedTipY": 64,
+        "measured": false
+      },
+      "notes": [
+        "Mechanism topology from LEGO patent EP0792181B1 Fig1–4: https://patents.google.com/patent/EP0792181B1/en",
+        "Fixed body and one moving mesh per screw; axial states do not change screw positions or real catalog identity.",
+        "All guide/thread dimensions and travel are inferred. Geometry checks do not certify molded fit, friction or retention.",
+        "2026-10-23 mosquito/snake local repair: remove buried/coplanar shell junctions; preserve confirmed ports, bounds, axes and screw travel. 74957 closed cheek relief and triangular driver recess are image-inferred; no measured mold or physical-fit certification."
+      ]
+    },
+    "dev-toolo-repair/states/76395-010-p010.dat": {
+      "name": "Toolo76395 states010 phase010 — isolated surface repair",
+      "category": "technic-duplo",
+      "ldrawStatus": "Candidate local reconstruction",
+      "studFootprint": {
+        "x": 6,
+        "z": 4
+      },
+      "heightLdu": 75,
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "bbox": {
+        "xMin": -120,
+        "xMax": 120,
+        "yMin": -11,
+        "yMax": 64,
+        "zMin": -80,
+        "zMax": 80
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "mechanism": {
+        "canonicalPart": "76395.dat",
+        "fixedScrewAxes": [
+          {
+            "origin": [
+              -80,
+              0,
+              -40
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "origin": [
+              80,
+              0,
+              -40
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "origin": [
+              0,
+              0,
+              40
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "receivers": [
+          {
+            "center": [
+              -120,
+              24,
+              -40
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -120,
+              24,
+              0
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -120,
+              24,
+              40
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -80,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              80,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              120,
+              24,
+              -40
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              120,
+              24,
+              0
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              120,
+              24,
+              40
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -80,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              80,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              -80,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -80,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              0,
+              -40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              0,
+              -40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              -40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              80,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              80,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "state": "mixed",
+        "axialTravelLdu": [
+          -17,
+          0
+        ],
+        "screwMesh": "dev-toolo-repair/mechanism/base-screw.dat",
+        "bodyMesh": "dev-toolo-repair/mechanism/body-76395.dat",
+        "mountPlaneY": 48,
+        "engagedHeadY": [
+          17,
+          20
+        ],
+        "engagedLowerStopY": [
+          43,
+          46
+        ],
+        "fixedNeckY": [
+          20,
+          26
+        ],
+        "retractedTipY": 47,
+        "engagedTipY": 64,
+        "measured": false,
+        "perAxisState": [
+          "retracted",
+          "engaged",
+          "retracted"
+        ],
+        "perAxisRotationDegrees": [
+          0,
+          180,
+          0
+        ]
+      },
+      "notes": [
+        "Mechanism topology from LEGO patent EP0792181B1 Fig1–4: https://patents.google.com/patent/EP0792181B1/en",
+        "Fixed body and one moving mesh per screw; axial states do not change screw positions or real catalog identity.",
+        "All guide/thread dimensions and travel are inferred. Geometry checks do not certify molded fit, friction or retention.",
+        "Same corrected fixed geometry; only supported screws pressed. Other screws remain captive and retracted.",
+        "Same existing fixed body and captive screw meshes; rotate only the engaged second screw 180 degrees about its fixed axis to match the inferred end receiver thread phase.",
+        "2026-10-23 mosquito/snake local repair: remove buried/coplanar shell junctions; preserve confirmed ports, bounds, axes and screw travel. 74957 closed cheek relief and triangular driver recess are image-inferred; no measured mold or physical-fit certification."
+      ]
+    },
+    "dev-toolo-repair/states/76395-010.dat": {
+      "name": "Toolo76395 mixed captive states 010 — isolated surface repair",
+      "category": "technic-duplo",
+      "ldrawStatus": "Candidate local reconstruction",
+      "studFootprint": {
+        "x": 6,
+        "z": 4
+      },
+      "heightLdu": 75,
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "bbox": {
+        "xMin": -120,
+        "xMax": 120,
+        "yMin": -11,
+        "yMax": 64,
+        "zMin": -80,
+        "zMax": 80
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "mechanism": {
+        "canonicalPart": "76395.dat",
+        "fixedScrewAxes": [
+          {
+            "origin": [
+              -80,
+              0,
+              -40
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "origin": [
+              80,
+              0,
+              -40
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "origin": [
+              0,
+              0,
+              40
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "receivers": [
+          {
+            "center": [
+              -120,
+              24,
+              -40
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -120,
+              24,
+              0
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -120,
+              24,
+              40
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -80,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              80,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              120,
+              24,
+              -40
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              120,
+              24,
+              0
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              120,
+              24,
+              40
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -80,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              80,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              -80,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -80,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              0,
+              -40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              0,
+              -40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              -40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              80,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              80,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "state": "mixed",
+        "axialTravelLdu": [
+          -17,
+          0
+        ],
+        "screwMesh": "dev-toolo-repair/mechanism/base-screw.dat",
+        "bodyMesh": "dev-toolo-repair/mechanism/body-76395.dat",
+        "mountPlaneY": 48,
+        "engagedHeadY": [
+          17,
+          20
+        ],
+        "engagedLowerStopY": [
+          43,
+          46
+        ],
+        "fixedNeckY": [
+          20,
+          26
+        ],
+        "retractedTipY": 47,
+        "engagedTipY": 64,
+        "measured": false,
+        "perAxisState": [
+          "retracted",
+          "engaged",
+          "retracted"
+        ]
+      },
+      "notes": [
+        "Mechanism topology from LEGO patent EP0792181B1 Fig1–4: https://patents.google.com/patent/EP0792181B1/en",
+        "Fixed body and one moving mesh per screw; axial states do not change screw positions or real catalog identity.",
+        "All guide/thread dimensions and travel are inferred. Geometry checks do not certify molded fit, friction or retention.",
+        "Same corrected fixed geometry; only supported screws pressed. Other screws remain captive and retracted.",
+        "2026-10-23 mosquito/snake local repair: remove buried/coplanar shell junctions; preserve confirmed ports, bounds, axes and screw travel. 74957 closed cheek relief and triangular driver recess are image-inferred; no measured mold or physical-fit certification."
+      ]
+    },
+    "dev-toolo-repair/states/76395-110.dat": {
+      "name": "Toolo76395 mixed captive states 110 — isolated surface repair",
+      "category": "technic-duplo",
+      "ldrawStatus": "Candidate local reconstruction",
+      "studFootprint": {
+        "x": 6,
+        "z": 4
+      },
+      "heightLdu": 75,
+      "origin": {
+        "type": "top-center",
+        "originToTop": 0,
+        "originToBottom": 48
+      },
+      "bbox": {
+        "xMin": -120,
+        "xMax": 120,
+        "yMin": -11,
+        "yMax": 64,
+        "zMin": -80,
+        "zMax": 80
+      },
+      "supportPolicy": "manual",
+      "collisionPolicy": "manual",
+      "mechanism": {
+        "canonicalPart": "76395.dat",
+        "fixedScrewAxes": [
+          {
+            "origin": [
+              -80,
+              0,
+              -40
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "origin": [
+              80,
+              0,
+              -40
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "origin": [
+              0,
+              0,
+              40
+            ],
+            "axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "receivers": [
+          {
+            "center": [
+              -120,
+              24,
+              -40
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -120,
+              24,
+              0
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -120,
+              24,
+              40
+            ],
+            "inward": [
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -80,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              80,
+              24,
+              -80
+            ],
+            "inward": [
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "center": [
+              120,
+              24,
+              -40
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              120,
+              24,
+              0
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              120,
+              24,
+              40
+            ],
+            "inward": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "center": [
+              -80,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              -40,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              0,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              40,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              80,
+              24,
+              80
+            ],
+            "inward": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "center": [
+              -80,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -80,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              0,
+              -40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              -40,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              0,
+              -40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              -40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              40,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              80,
+              0,
+              0
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          },
+          {
+            "center": [
+              80,
+              0,
+              40
+            ],
+            "inward": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "state": "mixed",
+        "axialTravelLdu": [
+          -17,
+          0
+        ],
+        "screwMesh": "dev-toolo-repair/mechanism/base-screw.dat",
+        "bodyMesh": "dev-toolo-repair/mechanism/body-76395.dat",
+        "mountPlaneY": 48,
+        "engagedHeadY": [
+          17,
+          20
+        ],
+        "engagedLowerStopY": [
+          43,
+          46
+        ],
+        "fixedNeckY": [
+          20,
+          26
+        ],
+        "retractedTipY": 47,
+        "engagedTipY": 64,
+        "measured": false,
+        "perAxisState": [
+          "engaged",
+          "engaged",
+          "retracted"
+        ]
+      },
+      "notes": [
+        "Mechanism topology from LEGO patent EP0792181B1 Fig1–4: https://patents.google.com/patent/EP0792181B1/en",
+        "Fixed body and one moving mesh per screw; axial states do not change screw positions or real catalog identity.",
+        "All guide/thread dimensions and travel are inferred. Geometry checks do not certify molded fit, friction or retention.",
+        "Same corrected fixed geometry; only supported screws pressed. Other screws remain captive and retracted.",
+        "2026-10-23 mosquito/snake local repair: remove buried/coplanar shell junctions; preserve confirmed ports, bounds, axes and screw travel. 74957 closed cheek relief and triangular driver recess are image-inferred; no measured mold or physical-fit certification."
+      ]
     }
   }
 }

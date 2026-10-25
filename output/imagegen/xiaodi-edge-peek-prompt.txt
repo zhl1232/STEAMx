@@ -1,0 +1,13 @@
+Tool: built-in image_gen.imagegen
+Reference: public/xiaodi-ai/idle-0.webp
+Transparent background: true
+Saved asset: public/xiaodi-ai/edge-peek.webp
+Asset optimization: trim transparent margins; resize to 192 × 192 with transparent containment aligned right/top; WebP quality 86, alpha quality 100.
+
+Final prompt:
+Use case: identity-preserve / precise-object-edit.
+Asset type: one transparent mascot pose for a mobile website edge-docked AI tutor, displayed at 70–80 CSS pixels.
+Primary request: Change this same robot XiaoDi into a friendly half-body pose peeking around the RIGHT vertical edge of a phone screen, head leaning gently inward to the LEFT, ONE white robot hand resting/gripping at the right vertical boundary as if holding the edge. Keep the entire expressive face, white helmet, and green sprout clearly visible. Show a hint of teal collar, one shoulder, and the bent supporting arm. Hide lower torso and legs behind the imaginary edge on the right. The physical pose must clearly communicate quietly hanging onto the vertical edge, not an upright full-body robot merely rotated or cropped.
+Identity invariants: same white rounded helmet, black glass oval face, two glowing cyan crescent eyes, small cyan smile, teal collar/joints, tiny sprout growing from the top; same soft polished 3D toy illustration style. No redesign, extra eyes or new accessories.
+Composition: square isolated cutout, one robot only, tight framing appropriate for a tiny UI mascot. Full head occupies about 60 percent of canvas width in the upper-left/center, hand and shoulder near the right margin, supporting fingers oriented to clasp a VERTICAL boundary. The body disappears toward the right margin, no feet. Only a very slight natural head tilt. Leave a small clean transparent margin above the sprout. Do not draw the phone, screen, boundary, wall, ledge or any support object; the site's actual viewport edge will provide the boundary. Alpha transparency everywhere around the silhouette, not a white or checkerboard background.
+Mood: warm, curious, calm and welcoming. Clean silhouette, readable face, restrained cyan illumination. No motion lines, text, border, watermark, particles, ground shadow or broad glow halo.

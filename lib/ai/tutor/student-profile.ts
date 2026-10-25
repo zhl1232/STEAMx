@@ -243,8 +243,6 @@ async function loadPlaygroundSummary(supabase: SupabaseClient<Database>, userId:
     (stats.playgroundWinsTotal ?? 0) > 0 ? `累计胜利/通关 ${stats.playgroundWinsTotal} 次` : null,
     stats.minesweeperWins > 0 ? `扫雷通关 ${stats.minesweeperWins} 次` : null,
     (stats.gomokuWins ?? 0) > 0 ? `五子棋胜 ${stats.gomokuWins} 局` : null,
-    (stats.game2048MaxTile ?? 0) > 0 ? `2048 最高方块 ${stats.game2048MaxTile}` : null,
-    (stats.quickMathBestStreak ?? 0) > 0 ? `速算最长连对 ${stats.quickMathBestStreak}` : null,
   ].filter(Boolean)
 
   return details.length ? `游乐场：${details.slice(0, 4).join('；')}` : ''

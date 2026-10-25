@@ -32,3 +32,13 @@ class Element {
 }
 function parse(html,root){let current=root;for(const token of html.match(/<!--[\s\S]*?-->|<[^>]*>|[^<]+/g)||[]){if(token.startsWith('<!'))continue;if(token.startsWith('</')){const tag=token.slice(2,-1).trim().toUpperCase();let p=current;while(p!==root&&p.tagName!==tag)p=p.parent;if(p!==root)current=p.parent;continue;}if(token.startsWith('<')){const m=token.match(/^<([\w-]+)/);if(!m)continue;const attr={};const source=token.slice(m[0].length).replace(/\/?\s*>$/,'');for(const a of source.matchAll(/([\w:-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/g))attr[a[1]]=decode(a[2]??a[3]??a[4]??'');const child=new Element(m[1],attr);child.parent=current;current.children.push(child);if(!voidTags.has(m[1])&&!token.endsWith('/>'))current=child;}else{const text=new Element('#text');text._text=decode(token);text.parent=current;current.children.push(text);}}}
 export function createDOM(html){const document=new Element('document');parse(html,document);document.visibilityState='visible';document.createElement=tag=>new Element(tag);const saved=new Map();const localStorage={getItem:k=>saved.get(k)??null,setItem:(k,v)=>saved.set(k,String(v)),removeItem:k=>saved.delete(k)};let frame=null;const raf=f=>frame=f;const tick=now=>{const f=frame;frame=null;if(f)f(now);};return {document,localStorage,requestAnimationFrame:raf,tick};}
+
+// Exercise the same catalog navigation as a learner when switching workbenches.
+export async function chooseWorkbench(document, mode) {
+  await document.querySelector('#topics-btn').fire('click');
+  const clear = document.querySelector('#catalog-clear');
+  if (!clear.disabled) await clear.fire('click');
+  const topic = {circuit:'electric', optics:'light', mechanics:'motion'}[mode];
+  await document.querySelectorAll('[data-topic]').find(button => button.dataset.topic === topic).fire('click');
+  await document.querySelectorAll('[data-exploration]').find(button => button.dataset.exploration === mode).fire('click');
+}

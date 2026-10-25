@@ -2,6 +2,8 @@
 
 import { beforeEach, describe, expect, it, vi, type Mock } from "vitest"
 
+import { POST as createRoom } from "@/app/api/playground/race-rooms/route"
+import { POST as submitResult } from "@/app/api/playground/race-rooms/[id]/result/route"
 import { GET } from "@/app/api/playground/race-rooms/[id]/route"
 import { POST as joinRoom } from "@/app/api/playground/race-rooms/join/route"
 import { requireAuth } from "@/lib/api/auth"
@@ -119,6 +121,46 @@ describe("playground race room lifecycle routes", () => {
             ],
             error: null,
         })
+    })
+
+    it.each(["quickmath", "fifteen", "2048"])("rejects creating and joining retired game %s", async (gameKey) => {
+        for (const handler of [createRoom, joinRoom]) {
+            const response = await handler(new Request("http://localhost/api/playground/race-rooms", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code: waitingMatch.code, game_key: gameKey, settings: {} }),
+            }))
+            expect(response.status).toBe(400)
+            await expect(response.json()).resolves.toEqual({ error: "game_key is invalid" })
+        }
+    })
+
+    it.each(["quickmath", "fifteen"])("hides retired %s rooms on join, read and result submission", async (gameKey) => {
+        const legacyMatch = { ...waitingMatch, game_key: gameKey }
+        const database = {
+            select: vi.fn().mockReturnThis(),
+            eq: vi.fn().mockReturnThis(),
+            maybeSingle: vi.fn().mockResolvedValue({ data: legacyMatch, error: null }),
+            single: vi.fn().mockResolvedValue({ data: legacyMatch, error: null }),
+        }
+        const from = vi.fn().mockReturnValue(database)
+        createClientMock.mockResolvedValue({ from } as never)
+        ;(supabaseAdmin.from as Mock).mockReturnValue(database)
+
+        const joinResponse = await joinRoom(new Request("http://localhost/api/playground/race-rooms/join", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ code: waitingMatch.code, game_key: "game24" }),
+        }))
+        expect(joinResponse.status).toBe(404)
+        for (const handler of [GET, submitResult]) {
+            const response = await handler(new Request(`http://localhost/api/playground/race-rooms/${MATCH_ID}`), {
+                params: Promise.resolve({ id: MATCH_ID }),
+            })
+            expect(response.status).toBe(404)
+            await expect(response.json()).resolves.toEqual({ error: "对局不存在" })
+        }
+        expect(callRpcMock.mock.calls.every((call) => call[1] !== "submit_playground_race_result")).toBe(true)
     })
 
     it("returns 409 and emits a non-sensitive metric when another guest wins the join race", async () => {

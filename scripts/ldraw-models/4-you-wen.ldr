@@ -1,4 +1,4 @@
-0 4+ Young mosquito - source-matched local candidate
+0 4+ Young mosquito - local source repair draft
 0 Name: 4-you-wen.ldr
 0 Author: OpenAI
 0 !LDRAW_ORG Model
@@ -7,8 +7,9 @@
 0 // Pages1-4: cross-bonded pedestal;12x4 lower body and6x4 upper body; six legs on the lower side receivers.
 0 // Pages5-6: sideways tail bracket, fork below base; two red lower bricks flank the gray clutch, two upper bricks bridge them.
 0 // Pages5-11 inferred angles: tail studs60deg above rearward horizontal; head40deg from down; near/far wings40/65deg from vertical.
-0 // Local approved Toolo approximations retained; arm closed relief restored without changing interfaces or external dimensions.
-0 // Only supported screw axes engaged. Wing bracket at z+40 uses stud support with its screw retracted.
+0 // Pages7-9: centered head; four-stud axis runs toward mouth, clips fore/aft; eyes on the first long-side receivers.
+0 // Existing approved Toolo approximations retained; short mouth cheek widened from40 to60LDU at its middle, with original end interfaces.
+0 // Isolated Toolo shell joins, clutch cheek relief and triangular driver recesses; only supported screw axes engaged. Wing bracket at z+40 uses stud support with its screw retracted.
 0 // Renderer-verified candidate only; no factory-CAD, physical-fit, thread, load or motion certification.
 0 // SOURCE PAGE 1
 1 2 0 0 0 1 0 0 0 1 0 0 0 1 4268.dat
@@ -28,46 +29,46 @@
 1 4 40 -288 0 0 0 1 0 1 0 -1 0 0 3011.dat
 0 STEP
 0 // SOURCE PAGE 3
-1 0 -120 -336 0 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
-1 0 120 -336 0 -1 0 0 0 1 0 0 0 -1 dev-toolo/76395.dat
-1 0 0 -384 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-110.dat
+1 0 -120 -336 0 1 0 0 0 1 0 0 0 1 dev-toolo-repair/76395.dat
+1 0 120 -336 0 -1 0 0 0 1 0 0 0 -1 dev-toolo-repair/76395.dat
+1 0 0 -384 0 1 0 0 0 1 0 0 0 1 dev-toolo-repair/states/76395-110.dat
 0 STEP
 0 // SOURCE PAGE 4
-1 14 -200 -272 -128 0 0 1 1 0 0 0 1 0 dev-toolo/engaged-top/76057.dat
-1 14 -200 -272 128 0 0 -1 1 0 0 0 -1 0 dev-toolo/engaged/76057.dat
-1 14 -40 -272 -128 0 0 1 1 0 0 0 1 0 dev-toolo/engaged-top/76057.dat
-1 14 -40 -272 128 0 0 -1 1 0 0 0 -1 0 dev-toolo/engaged/76057.dat
-1 14 200 -272 -128 0 0 1 1 0 0 0 1 0 dev-toolo/engaged/76057.dat
-1 14 200 -272 128 0 0 -1 1 0 0 0 -1 0 dev-toolo/engaged-top/76057.dat
+1 14 -200 -272 -128 0 0 1 1 0 0 0 1 0 dev-toolo-repair/engaged-top/76057.dat
+1 14 -200 -272 128 0 0 -1 1 0 0 0 -1 0 dev-toolo-repair/engaged/76057.dat
+1 14 -40 -272 -128 0 0 1 1 0 0 0 1 0 dev-toolo-repair/engaged-top/76057.dat
+1 14 -40 -272 128 0 0 -1 1 0 0 0 -1 0 dev-toolo-repair/engaged/76057.dat
+1 14 200 -272 -128 0 0 1 1 0 0 0 1 0 dev-toolo-repair/engaged/76057.dat
+1 14 200 -272 128 0 0 -1 1 0 0 0 -1 0 dev-toolo-repair/engaged-top/76057.dat
 0 STEP
 0 // SOURCE PAGE 5
-1 72 -288 -312 0 0 1 0 0 0 1 1 0 0 dev-toolo/engaged-top/28336.dat
-1 72 -389 -326.353829072 0 0.866025403784 0.5 0 -0.5 0.866025403784 0 0 0 1 dev-toolo/74957.dat
+1 72 -288 -312 0 0 1 0 0 0 1 1 0 0 dev-toolo-repair/engaged-top/28336.dat
+1 72 -389 -326.353829072 0 0.866025403784 0.5 0 -0.5 0.866025403784 0 0 0 1 dev-toolo-repair/74957.dat
 0 STEP
 0 // SOURCE PAGE 6
-1 4 -389 -326.353829072 -120 0 0.5 -0.866025403784 0 0.866025403784 0.5 1 0 -0 dev-toolo/76057.dat
-1 4 -413 -367.923048454 -80 0 0.5 -0.866025403784 0 0.866025403784 0.5 1 0 -0 dev-toolo/76057.dat
-1 4 -389 -326.353829072 120 0 0.5 -0.866025403784 0 0.866025403784 0.5 1 0 -0 dev-toolo/76057.dat
-1 4 -413 -367.923048454 80 0 0.5 -0.866025403784 0 0.866025403784 0.5 1 0 -0 dev-toolo/76057.dat
+1 4 -389 -326.353829072 -120 0 0.5 -0.866025403784 0 0.866025403784 0.5 1 0 -0 dev-toolo-repair/76057.dat
+1 4 -413 -367.923048454 -80 0 0.5 -0.866025403784 0 0.866025403784 0.5 1 0 -0 dev-toolo-repair/76057.dat
+1 4 -389 -326.353829072 120 0 0.5 -0.866025403784 0 0.866025403784 0.5 1 0 -0 dev-toolo-repair/76057.dat
+1 4 -413 -367.923048454 80 0 0.5 -0.866025403784 0 0.866025403784 0.5 1 0 -0 dev-toolo-repair/76057.dat
 0 STEP
 0 // SOURCE PAGE 7
-1 72 200 -384 -40 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged/28336.dat
-1 72 303.155199905 -495.280707897 -40 0.642787609687 -0.766044443119 0 0.766044443119 0.642787609687 0 0 0 1 dev-toolo/74957.dat
+1 72 200 -384 0 0 0 1 0 1 0 -1 0 0 dev-toolo-repair/engaged/28336.dat
+1 72 303.155199904566 -495.280707897431 0 0.642787609687 -0.766044443119 0 0.766044443119 0.642787609687 0 0 0 1 dev-toolo-repair/74957.dat
 0 STEP
 0 // SOURCE PAGE 8
-1 72 339.925333174 -526.134513162 0 0 -0.766044443119 -0.642787609687 0 0.642787609687 -0.766044443119 1 0 -0 dev-toolo/engaged/76057.dat
-1 72 303.155199905 -495.280707897 40 0.642787609687 -0.766044443119 0 0.766044443119 0.642787609687 0 0 0 1 dev-toolo/74957.dat
-1 72 248 -449 40 0.766044443119 0.642787609687 0 -0.642787609687 0.766044443119 0 0 0 1 dev-mosquito/28334.dat
+1 72 365.636837561739 -495.492735437626 0 0.642787609687 -0.766044443119 0 0.766044443119 0.642787609687 0 0 0 1 dev-toolo-repair/engaged/76057.dat
+1 72 354.57820867949 -433.997152447913 0 0.642787609687 -0.766044443119 0 0.766044443119 0.642787609687 0 0 0 1 dev-toolo-repair/74957.dat
+1 72 299.423008774923 -387.716444550482 0 0.766044443119 0.642787609687 0 -0.642787609687 0.766044443119 0 0 0 1 dev-mosquito/28334.dat
 0 STEP
 0 // SOURCE PAGE 9
-1 71 321.540266539 -510.70761053 -105 1 0 0 0 0 1 0 -1 0 dev-toolo/99565.dat
-1 0 321.540266539 -510.70761053 -105 1 0 0 0 0 1 0 -1 0 44970.dat
-1 71 321.540266539 -510.70761053 105 1 0 0 0 0 -1 0 1 0 dev-toolo/99565.dat
-1 0 321.540266539 -510.70761053 105 1 0 0 0 0 -1 0 1 0 44970.dat
+1 71 321.540266539422 -510.707610529908 -65 1 0 0 0 0 1 0 -1 0 dev-toolo/99565.dat
+1 0 321.540266539422 -510.707610529908 -65 1 0 0 0 0 1 0 -1 0 44970.dat
+1 71 321.540266539422 -510.707610529908 65 1 0 0 0 0 -1 0 1 0 dev-toolo/99565.dat
+1 0 321.540266539422 -510.707610529908 65 1 0 0 0 0 -1 0 1 0 44970.dat
 0 STEP
 0 // SOURCE PAGE 10
-1 72 0 -432 -40 0 0 -1 0 1 0 1 0 0 dev-toolo/engaged/28336.dat
-1 72 0 -432 40 0 0 -1 0 1 0 1 0 0 dev-toolo/28336.dat
+1 72 0 -432 -40 0 0 -1 0 1 0 1 0 0 dev-toolo-repair/engaged/28336.dat
+1 72 0 -432 40 0 0 -1 0 1 0 1 0 0 dev-toolo-repair/28336.dat
 0 STEP
 0 // SOURCE PAGE 11
 1 72 -305.115043875 -803.417777248 -40 0.766044443119 0.642787609687 0 -0.642787609687 0.766044443119 0 0 0 1 dev-mosquito/28331.dat

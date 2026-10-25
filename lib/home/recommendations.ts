@@ -1,7 +1,7 @@
 import { unstable_rethrow } from "next/navigation";
 
 import { getProjects, getRecommendedProjects } from "@/lib/api/explore-data";
-import { getRecentNatureObservationsForMap } from "@/lib/api/nature-observation-homepage";
+import { getRecentNatureObservations } from "@/lib/api/nature-observation-homepage";
 import { getFeaturedPblChallenge, type FeaturedPblChallenge } from "@/lib/api/pbl-challenges";
 import { getHomepageCategoryTileCounts, type HomeCategoryTileCounts } from "@/lib/home/category-tiles";
 import { getHomepageCommunityFeed, type HomeCommunityFeedItem } from "@/lib/home/community-feed";
@@ -352,7 +352,7 @@ export async function getHomepageShowcaseData(): Promise<HomepageShowcaseData> {
       logger.warn("Failed to load homepage works", { error });
       return { works: [], nextOffset: 0, hasMore: false };
     }),
-    getRecentNatureObservationsForMap(3),
+    getRecentNatureObservations(3, { strictErrors: true }),
     getHomepageCommunityFeed(),
     getHomepageCategoryTileCounts(),
     getFeaturedPblChallenge(),

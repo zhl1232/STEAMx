@@ -1,9 +1,11 @@
-import { fireEvent, render, screen } from "@testing-library/react"
+import { fireEvent, render, screen, within } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 import { FUNCTION_WARS_LEVELS } from "@/lib/playground/function-wars-levels"
 import { createWeaponInventory } from "@/lib/playground/function-wars-weapons"
 import FunctionWarsPage from "./page"
+import { BattleWeaponReadout } from "./immersive-controls"
+import { Crosshair } from "lucide-react"
 import { getFunctionWarsMaxUnlockedIndex } from "./level-progress"
 
 const {
@@ -13,7 +15,9 @@ const {
     gameState,
     searchParamsState,
     setTutorOverrideMock,
+    setSceneMock,
 } = vi.hoisted(() => ({
+    setSceneMock: vi.fn(),
     checkBadgesMock: vi.fn(),
     clearTutorOverrideMock: vi.fn(),
     fireMock: vi.fn(),
@@ -60,8 +64,10 @@ vi.mock("@/components/features/playground/function-wars-online-view", () => ({
 }))
 
 vi.mock("./renderer", () => ({
+    FUNCTION_WARS_CANVAS_ASPECT_RATIO: 12 / 7,
     FunctionWarsRenderer: class {
-        setScene() {}
+        setScene(scene: unknown) { setSceneMock(scene) }
+        setLabelExclusions() {}
         start() {}
         resize() {}
         destroy() {}
@@ -140,6 +146,59 @@ describe("FunctionWarsPage", () => {
 
         fireEvent.click(screen.getByRole("button", { name: "发射" }))
         expect(fireMock).toHaveBeenCalledTimes(1)
+    })
+
+    it("starts with sparse coordinates and lets the player toggle the detailed grid", () => {
+        render(<FunctionWarsPage />)
+
+        expect(setSceneMock).toHaveBeenLastCalledWith(expect.objectContaining({ gridVisible: false }))
+        const grid = screen.getByRole("button", { name: "显示坐标网格" })
+        expect(grid).toHaveAttribute("aria-pressed", "false")
+        fireEvent.click(grid)
+        expect(screen.getByRole("button", { name: "隐藏坐标网格" })).toHaveAttribute("aria-pressed", "true")
+        expect(setSceneMock).toHaveBeenLastCalledWith(expect.objectContaining({ gridVisible: true }))
+        expect(fireMock).not.toHaveBeenCalled()
+    })
+
+    it("updates the weapon readout from the selected weapon and remaining ammunition", () => {
+        const { rerender } = render(<FunctionWarsPage />)
+        expect(screen.getByLabelText("当前武器：标准，弹药 ∞")).toBeInTheDocument()
+
+        gameState.current = createGame({ selectedWeapon: "heavy", inventory: createWeaponInventory({ heavy: 2 }) })
+        rerender(<FunctionWarsPage />)
+        expect(screen.getByLabelText("当前武器：重磅，弹药 2")).toBeInTheDocument()
+        expect(screen.queryByLabelText("当前武器：标准，弹药 ∞")).not.toBeInTheDocument()
+    })
+
+    it.each(["cover", "wall", "enemy"] as const)("uses the fired weapon and %s material after weapon selection changes", (target) => {
+        const level = FUNCTION_WARS_LEVELS[0]
+        const obstacle = level.obstacles.find((entry) => entry.destructible === (target === "cover"))!
+        const hitId = target === "enemy" ? level.enemies[0].id : obstacle.id
+        const impact = { x: 3, y: -5 }
+        gameState.current = createGame({
+            selectedWeapon: "standard",
+            status: "won",
+            lastShot: {
+                seq: 1,
+                expression: "0",
+                weaponId: "heavy",
+                traces: [{ id: "primary", weaponId: "heavy", points: [level.player, impact], impact, hitId }],
+                damage: [],
+                pickups: [], relays: [], cratersAdded: [], effective: false, won: true, lost: false,
+                falls: [],
+            },
+        })
+
+        render(<FunctionWarsPage />)
+
+        expect(setSceneMock).toHaveBeenLastCalledWith(expect.objectContaining({
+            traces: [expect.objectContaining({ weapon: "heavy" })],
+            impact: expect.objectContaining({
+                weapon: "heavy",
+                material: target === "enemy" ? "metal" : obstacle.material,
+                obstacleId: target === "wall" ? obstacle.id : undefined,
+            }),
+        }))
     })
 
     it("opens the online view directly when an invitation room is present", () => {
@@ -264,10 +323,12 @@ describe("FunctionWarsPage", () => {
 
         render(<FunctionWarsPage />)
 
+        fireEvent.click(screen.getByText("选择关卡⌄"))
+        fireEvent.click(screen.getByText("数学键盘"))
         expect(screen.getByRole("button", { name: "挑战 11-15" })).toHaveAttribute("aria-pressed", "true")
-        expect(screen.getByLabelText("本关任务")).toHaveTextContent("每发包含 sin、π")
+        expect(screen.getByLabelText("本关任务")).toHaveTextContent("每发有效使用 sin、π")
         expect(screen.getByLabelText("本关任务")).toHaveTextContent("信号中继 0/2")
-        expect(screen.getByRole("button", { name: "sin(" })).toHaveClass("border-amber-500")
+        expect(screen.getByRole("button", { name: "sin(" })).toBeEnabled()
     })
 
     it("shows an energy failure when the mission reaches its shot limit", () => {
@@ -278,4 +339,119 @@ describe("FunctionWarsPage", () => {
         expect(screen.getByText("能源耗尽")).toBeInTheDocument()
         expect(screen.getByText(/射击次数已用完/)).toBeInTheDocument()
     })
+    it("collapses level selection and keeps unavailable weapons out of the controls", () => {
+        render(<FunctionWarsPage />)
+        expect(screen.getByText("选择关卡⌄").closest("details")).not.toHaveAttribute("open")
+        fireEvent.click(screen.getByText("选择关卡⌄"))
+        expect(screen.getByRole("button", { name: /第 2 关/ })).toBeDisabled()
+        expect(screen.getByRole("group", { name: "选择武器" }).querySelectorAll("button")).toHaveLength(1)
+    })
+
+    it("explains an incomplete function mission and offers a retry", () => {
+        gameState.current = createGame({ status: "lost", lossReason: "mission_incomplete", level: FUNCTION_WARS_LEVELS[14] })
+        render(<FunctionWarsPage />)
+        expect(screen.getByText("目标已清除，任务未完成")).toBeInTheDocument()
+        expect(screen.getByText(/还需有效使用/)).toBeInTheDocument()
+    })
+
+    it("shows preview feedback without firing or changing the shot count", () => {
+        gameState.current = createGame({ previewShot: { ok: false, error: "请让 f(0)=0，轨迹才能从炮口出发" } })
+        render(<FunctionWarsPage />)
+        expect(screen.getByRole("status")).toHaveTextContent("请让 f(0)=0")
+        fireEvent.click(screen.getByRole("checkbox", { name: "试射预览" }))
+        expect(fireMock).not.toHaveBeenCalled()
+    })
+
+    it("shows earned star counts while keeping legacy passes unranked", () => {
+        const first = FUNCTION_WARS_LEVELS[0].id
+        const second = FUNCTION_WARS_LEVELS[1].id
+        gameState.current = createGame({ stats: { solvedLevels: [first, second], bestStars: { [first]: 2 }, bestSolutions: {} } })
+        render(<FunctionWarsPage />)
+        fireEvent.click(screen.getByText("选择关卡⌄"))
+        expect(screen.getByRole("button", { name: /第 1 关.*最好 2 星/ })).toBeInTheDocument()
+        expect(screen.getByRole("button", { name: /第 2 关.*已通过/ })).toBeInTheDocument()
+    })
+
+    it("keeps essential tasks visible without opening operations", () => {
+        const level = FUNCTION_WARS_LEVELS[14]
+        gameState.current = createGame({ level, relays: (level.relays ?? []).map((relay) => ({ ...relay, active: true })) })
+        render(<FunctionWarsPage />)
+        const chips = screen.getByLabelText("关键任务进度")
+        expect(chips).toBeVisible()
+        for (const name of level.mission?.effectiveFunctions ?? []) expect(chips).toHaveTextContent(`有效 ${name}`)
+        expect(chips).toHaveTextContent(`剩余 ${level.mission?.shotLimit} 发`)
+    })
+
+    it("loads a saved solution without firing and exposes automatic weapon notices", () => {
+        const setExpression = vi.fn()
+        const selectWeapon = vi.fn()
+        gameState.current = createGame({ setExpression, selectWeapon, weaponNotice: "分裂弹已用完，已切换标准弹", stats: { solvedLevels: [], bestStars: {}, bestSolutions: { [FUNCTION_WARS_LEVELS[0].id]: { stars: 3, shots: 1, steps: [{ expression: "0.4*x", weaponId: "standard" }] } } } })
+        render(<FunctionWarsPage />)
+        expect(screen.getByRole("status")).toHaveTextContent("分裂弹已用完")
+        fireEvent.click(screen.getByText(/本关最佳解法/))
+        fireEvent.click(screen.getByRole("button", { name: "载入第 1 发" }))
+        expect(setExpression).toHaveBeenCalledWith("0.4*x")
+        expect(selectWeapon).toHaveBeenCalledWith("standard")
+        expect(fireMock).not.toHaveBeenCalled()
+    })
+
+    it("offers a final campaign summary and returning to level selection", () => {
+        gameState.current = createGame({ status: "won", level: FUNCTION_WARS_LEVELS.at(-1), levelIndex: FUNCTION_WARS_LEVELS.length - 1, stars: 2 })
+        render(<FunctionWarsPage />)
+        expect(screen.getByText("最终关挑战完成！")).toBeInTheDocument()
+        expect(screen.getByRole("button", { name: "保留函数再挑战" })).toBeInTheDocument()
+        fireEvent.click(screen.getByText("返回选关"))
+        expect(within(screen.getByText("返回选关").closest("details")!).getByLabelText("关卡选择")).toBeInTheDocument()
+        expect(screen.getByText(/想拿三星/)).toBeInTheDocument()
+    })
+
+    it("switches weapons through a compact chooser and returns focus on close", () => {
+        const select = vi.fn()
+        render(<BattleWeaponReadout name="标准" icon={Crosshair} ammunition={null}><button type="button" onClick={select}>选择重炮</button></BattleWeaponReadout>)
+        const trigger = screen.getByRole("button", { name: "当前武器：标准，弹药 ∞" })
+        fireEvent.click(trigger)
+        expect(trigger).toHaveAttribute("aria-expanded", "true")
+        fireEvent.click(screen.getByRole("button", { name: "选择重炮" }))
+        expect(select).toHaveBeenCalledOnce()
+        expect(trigger).toHaveAttribute("aria-expanded", "false")
+        expect(trigger).toHaveFocus()
+        fireEvent.click(trigger)
+        fireEvent.keyDown(screen.getByRole("button", { name: "选择重炮" }), { key: "Escape" })
+        expect(trigger).toHaveAttribute("aria-expanded", "false")
+        expect(trigger).toHaveFocus()
+    })
+
+    it("prioritizes a fatal preview using its simulated state and labels endpoints as preview", () => {
+        const level = FUNCTION_WARS_LEVELS[14]
+        const shot = { seq: 1, expression: "0", weaponId: "standard", traces: [{ id: "primary", weaponId: "standard", points: [level.player, { x: 5, y: 3 }], termination: "hit_enemy" }], damage: [], pickups: [], relays: [], cratersAdded: [], falls: [], effective: true, won: false, lost: true }
+        gameState.current = createGame({ level, previewShot: { ok: true, state: createGame({ status: "lost", lossReason: "mission_incomplete" }), shot } })
+        render(<FunctionWarsPage />)
+        expect(screen.getByRole("status")).toHaveTextContent(/预览：.*目标清空/)
+        expect(screen.getByRole("status")).toHaveAttribute("data-tone", "warning")
+        expect(setSceneMock).toHaveBeenLastCalledWith(expect.objectContaining({ feedbackLabels: [expect.objectContaining({ x: 5, y: 3, preview: true })] }))
+        expect(fireMock).not.toHaveBeenCalled()
+    })
+
+    it("keeps the actual result after firing and automatic weapon changes until the player edits", () => {
+        vi.stubGlobal("matchMedia", vi.fn((query: string) => ({ matches: query.includes("prefers-reduced-motion"), addEventListener: vi.fn(), removeEventListener: vi.fn() })))
+        const level = FUNCTION_WARS_LEVELS[0]
+        const shot = { seq: 1, expression: "0", weaponId: "heavy", traces: [{ id: "primary", weaponId: "heavy", points: [level.player, { x: 5, y: 3 }], termination: "hit_enemy" }], damage: [{ enemyId: level.enemies[0].id, damage: 12, remainingHp: 38 }], pickups: [], relays: [], cratersAdded: [], falls: [], effective: true, won: false, lost: false }
+        const preview = { ...shot, weaponId: "standard", damage: [], traces: [{ ...shot.traces[0], weaponId: "standard", termination: "out_of_bounds" }] }
+        gameState.current = createGame({ selectedWeapon: "heavy", lastShot: shot, previewShot: { ok: true, state: createGame(), shot: preview } })
+        fireMock.mockReturnValue({ ok: true })
+        const { rerender } = render(<FunctionWarsPage />)
+        expect(screen.getByRole("status")).toHaveTextContent("预览：到达边界")
+        fireEvent.click(screen.getByRole("button", { name: /^发射$/ }))
+        expect(screen.getByRole("status")).toHaveTextContent("上一发：命中 1 个目标 · 伤害 12")
+        expect(setSceneMock).toHaveBeenLastCalledWith(expect.objectContaining({ previewTraces: [], feedbackLabels: [expect.objectContaining({ preview: false })] }))
+        gameState.current = { ...gameState.current!, selectedWeapon: "standard", time: 3 }
+        const renderCount = setSceneMock.mock.calls.length
+        rerender(<FunctionWarsPage />)
+        expect(screen.getByRole("status")).toHaveTextContent("上一发：")
+        expect(setSceneMock).toHaveBeenCalledTimes(renderCount)
+        fireEvent.change(screen.getByRole("textbox"), { target: { value: "0.4*x" } })
+        expect(screen.getByRole("status")).toHaveTextContent("预览：到达边界")
+        expect(setSceneMock).toHaveBeenLastCalledWith(expect.objectContaining({ feedbackLabels: [expect.objectContaining({ preview: true })] }))
+    })
+
 })

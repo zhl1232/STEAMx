@@ -44,8 +44,8 @@ type ViewPreset = 'iso' | 'top' | 'front' | 'side'
 type ReviewFilter = 'all' | 'ready' | LdrawReviewStatus
 
 function isAwaitingConfirmation(item: LdrawModelInfo): boolean {
-  return item.reviewStatus === 'changed'
-    || (item.reviewStatus === 'unconfirmed' && item.inspectionStatus === 'checked')
+  return !item.productionProtected && (item.reviewStatus === 'changed'
+    || (item.reviewStatus === 'unconfirmed' && item.inspectionStatus === 'checked'))
 }
 
 // Accept older API responses during development reloads.
@@ -66,6 +66,7 @@ export function LdrawPreviewWorkspace() {
   const [models, setModels] = useState<LdrawModelInfo[]>([])
   const [reviewRecordCount, setReviewRecordCount] = useState(0)
   const [servedFrozenConfirmed, setServedFrozenConfirmed] = useState(false)
+  const [servedDraft, setServedDraft] = useState(false)
   const [loadingModels, setLoadingModels] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<'all' | '3+' | '4+' | '5+' | 'unpacked' | 'packed'>('all')
@@ -370,6 +371,7 @@ export function LdrawPreviewWorkspace() {
     setReviewStatus('unconfirmed')
     setProductionProtected(false)
     setServedFrozenConfirmed(false)
+    setServedDraft(false)
     setRenderedVersion(null)
     setModelRevision(null)
     setConfirmError(null)
@@ -380,8 +382,9 @@ export function LdrawPreviewWorkspace() {
     updateModelUrl(fileName)
 
     try {
+      const source = new URLSearchParams(window.location.search).get('source') === 'draft' ? '&source=draft' : ''
       const res = await fetch(
-        `/api/ldraw-preview?model=${encodeURIComponent(fileName)}&_t=${Date.now()}`,
+        `/api/ldraw-preview?model=${encodeURIComponent(fileName)}${source}&_t=${Date.now()}`,
         { cache: 'no-store', signal: abortController.signal },
       )
       if (!res.ok) {
@@ -402,7 +405,8 @@ export function LdrawPreviewWorkspace() {
       setProductionProtected(data.productionProtected === true)
       setReviewStatus(normalizeReviewStatus(data.reviewStatus, data.confirmedAt))
       setServedFrozenConfirmed(data.servedFrozenConfirmed === true)
-      setCanConfirm(data.canConfirm === true)
+      setServedDraft(data.servedDraft === true)
+      setCanConfirm(data.canConfirm === true && data.productionProtected !== true)
       setInspectionStatus(normalizeInspectionStatus(data.inspectionStatus))
       setInspectionIssues(Array.isArray(data.inspectionIssues) ? data.inspectionIssues : [])
       const currentStatus: Partial<LdrawModelInfo> = {
@@ -449,6 +453,7 @@ export function LdrawPreviewWorkspace() {
     setReviewStatus('unconfirmed')
     setProductionProtected(false)
     setServedFrozenConfirmed(false)
+    setServedDraft(false)
     setRenderedVersion(null)
     setModelRevision(null)
     setCanConfirm(false)
@@ -1065,6 +1070,11 @@ export function LdrawPreviewWorkspace() {
                 <span className="text-emerald-500">依赖完整</span>
               )}
             </div>
+            {activeTab === 'library' && servedDraft ? (
+              <p className="mt-3 border-t pt-3 text-center text-[11px] text-amber-600 dark:text-amber-400">
+                当前查看修改稿{reviewStatus === 'changed' ? ' · 有改动待复核' : ''}
+              </p>
+            ) : null}
             {activeTab === 'library' && canConfirm && renderedVersion === `${currentFileName}:${modelRevision}` ? (
               <div className="mt-3 border-t pt-3">
                 {inspectionStatus === 'checked' ? <p className="mb-2 text-[11px] font-medium text-amber-600 dark:text-amber-400">检查完成，待你确认</p> : null}

@@ -1,0 +1,42 @@
+[
+  {
+    "file": "01-工具与基础配置对比.jpg",
+    "format": "jpeg",
+    "mediaType": "image/jpeg",
+    "width": 750,
+    "height": 1000,
+    "space": "srgb",
+    "channels": 3,
+    "depth": "uchar",
+    "density": 72,
+    "chromaSubsampling": "4:2:0",
+    "isProgressive": true,
+    "isPalette": false,
+    "hasProfile": false,
+    "hasAlpha": false,
+    "autoOrient": {
+      "width": 750,
+      "height": 1000
+    }
+  },
+  {
+    "file": "02-特色材料对比.jpg",
+    "format": "jpeg",
+    "mediaType": "image/jpeg",
+    "width": 750,
+    "height": 1000,
+    "space": "srgb",
+    "channels": 3,
+    "depth": "uchar",
+    "density": 72,
+    "chromaSubsampling": "4:2:0",
+    "isProgressive": true,
+    "isPalette": false,
+    "hasProfile": false,
+    "hasAlpha": false,
+    "autoOrient": {
+      "width": 750,
+      "height": 1000
+    }
+  }
+]

@@ -1,9 +1,11 @@
-import { parseFunctionExpression, plotFunction } from "@/lib/playground/function-plotter"
+import { buildFunctionWarsTrajectory, type FunctionWarsTrajectoryTermination } from "./function-wars-trajectory"
+import { parseFunctionExpression } from "@/lib/playground/function-plotter"
 import {
     WEAPON_DEFINITIONS,
 } from "@/lib/playground/function-wars-weapons"
 import {
     FUNCTION_WARS_ONLINE_MAX_DAMAGE_PER_SHOT,
+    FUNCTION_WARS_ONLINE_CRATER_HOLE_RATIO,
     FUNCTION_WARS_WORLD_BOUNDS,
     opponentFunctionWarsRole,
     type FunctionWarsFireSummary,
@@ -22,13 +24,17 @@ export type FunctionWarsOnlineShotTrace = {
     id: string
     points: FunctionWarsPoint[]
     mirrored?: boolean
+    termination?: FunctionWarsTrajectoryTermination
     sourceUnitId?: string
+    weapon?: FunctionWarsWeaponId
 }
 
 export type FunctionWarsOnlineShotImpact = FunctionWarsPoint & {
     id: string
     intensity: number
     obstacleId?: string
+    material?: FunctionWarsOnlineObstacle["material"] | "metal"
+    weapon?: FunctionWarsWeaponId
 }
 
 export type FunctionWarsOnlineShotSimulation = {
@@ -43,6 +49,7 @@ type TraceCollision = {
     pickedIds: string[]
     impact: FunctionWarsPoint | null
     obstacleId: string | null
+    material?: FunctionWarsOnlineObstacle["material"] | "metal"
     crater: { x: number; y: number; radius: number } | null
     damage: number
 }
@@ -136,7 +143,7 @@ function obstacleCollisionProgress(
     if (!obstacle.destructible) return obstacleInterval.start
 
     const holes = existingCraters
-        .map((crater) => segmentCircleInterval(start, end, crater, crater.radius * 0.72))
+        .map((crater) => segmentCircleInterval(start, end, crater, crater.radius * FUNCTION_WARS_ONLINE_CRATER_HOLE_RATIO))
         .filter((interval): interval is SegmentInterval => interval !== null)
         .sort((left, right) => left.start - right.start)
     let cursor = obstacleInterval.start
@@ -154,34 +161,11 @@ function sampleTrajectory(
     origin: FunctionWarsPoint,
     role: FunctionWarsRole,
     mirrored = false,
-): { points: FunctionWarsPoint[]; error: string | null } {
+): { points: FunctionWarsPoint[]; error: string | null; termination?: FunctionWarsTrajectoryTermination } {
     const parsed = parseFunctionExpression(expression)
     if (!parsed.ok) return { points: [], error: parsed.error.message }
 
-    const direction = role === "host" ? 1 : -1
-    const horizontalDistance = role === "host"
-        ? FUNCTION_WARS_WORLD_BOUNDS.maxX - origin.x
-        : origin.x - FUNCTION_WARS_WORLD_BOUNDS.minX
-    const plotted = plotFunction(parsed.parsed, {
-        startX: 0,
-        endX: horizontalDistance,
-        step: 0.045,
-        yOffset: origin.y,
-        yScale: mirrored ? -1 : 1,
-        maxAbsY: 1_000_000,
-        discontinuityThreshold: 10,
-        maxSamples: ONLINE_TRAJECTORY_MAX_SAMPLES,
-    })
-    const points: FunctionWarsPoint[] = []
-    for (const sample of plotted.samples) {
-        const point = { x: origin.x + direction * sample.x, y: sample.y }
-        if (
-            point.x < FUNCTION_WARS_WORLD_BOUNDS.minX ||
-            point.x > FUNCTION_WARS_WORLD_BOUNDS.maxX
-        ) break
-        points.push(point)
-    }
-    return { points, error: null }
+    return buildFunctionWarsTrajectory({ parsed: parsed.parsed, origin, direction: role === "host" ? 1 : -1, yScale: mirrored ? -1 : 1 })
 }
 
 function unique<T>(items: T[]): T[] {
@@ -243,6 +227,7 @@ function walkTrajectory(
                 pickedIds,
                 impact: point,
                 obstacleId: null,
+                material: "metal",
                 crater: craterRadius > 0 ? { ...point, radius: craterRadius } : null,
                 damage,
             }
@@ -269,6 +254,7 @@ function walkTrajectory(
                 pickedIds,
                 impact,
                 obstacleId: destructible ? null : obstacleHit.obstacle.id,
+                material: obstacleHit.obstacle.material,
                 crater: destructible && craterRadius > 0 ? { ...impact, radius: craterRadius } : null,
                 damage: splashDamage,
             }
@@ -294,7 +280,7 @@ export function simulateFunctionWarsOnlineShot(args: {
     const first = sampleTrajectory(args.expression, origin, args.role)
     if (first.error) return { traces: [], summary: {}, impact: null, error: first.error }
 
-    const traceInputs: Array<{ id: string; points: FunctionWarsPoint[]; mirrored?: boolean; fragment?: boolean }> = []
+    const traceInputs: Array<{ id: string; points: FunctionWarsPoint[]; mirrored?: boolean; fragment?: boolean; termination?: FunctionWarsTrajectoryTermination }> = []
     const collisions: TraceCollision[] = []
     const walk = (trace: { points: FunctionWarsPoint[]; fragment?: boolean }) => walkTrajectory(trace.points, {
         map: args.map,
@@ -313,6 +299,14 @@ export function simulateFunctionWarsOnlineShot(args: {
         }
         const mainTrace = { id: "split-main", points: first.points.slice(0, apexIndex + 1) }
         const mainCollision = walk(mainTrace)
+        if (!mainCollision.impact && apexIndex === first.points.length - 1 && first.termination !== "completed") {
+            return {
+                traces: [{ id: "split-main", points: mainCollision.points, termination: first.termination, weapon: args.weapon }],
+                summary: { damage: null, craters: [], picked_crate_ids: mainCollision.pickedIds },
+                impact: null,
+                error: null,
+            }
+        }
         const splitPoint = mainCollision.impact ?? mainCollision.points.at(-1)
         traceInputs.push(mainTrace)
         collisions.push(mainCollision)
@@ -336,17 +330,19 @@ export function simulateFunctionWarsOnlineShot(args: {
             collisions.push(walk(fragmentTrace))
         }
     } else {
-        traceInputs.push({ id: "primary", points: first.points })
+        traceInputs.push({ id: "primary", points: first.points, termination: first.termination })
         if (args.weapon === "mirror") {
             const mirrored = sampleTrajectory(args.expression, origin, args.role, true)
-            traceInputs.push({ id: "mirror", points: mirrored.points, mirrored: true })
+            traceInputs.push({ id: "mirror", points: mirrored.points, mirrored: true, termination: mirrored.termination })
         }
         collisions.push(...traceInputs.map(walk))
     }
     const traces = traceInputs.map((trace, index) => ({
         id: trace.id,
+        weapon: args.weapon,
         points: collisions[index].points,
         mirrored: trace.mirrored,
+        termination: collisions[index].impact ? "completed" : trace.termination ?? "completed",
         sourceUnitId: trace.fragment ? undefined : `online-${args.role}`,
     }))
     const craters = collisions.flatMap((collision) => collision.crater ? [collision.crater] : [])
@@ -371,6 +367,8 @@ export function simulateFunctionWarsOnlineShot(args: {
                 id: "preview",
                 ...firstCollision.impact,
                 intensity: args.weapon === "heavy" ? 38 : 25,
+                material: firstCollision.material,
+                weapon: args.weapon,
                 ...(firstCollision.obstacleId ? { obstacleId: firstCollision.obstacleId } : {}),
             }
             : null,

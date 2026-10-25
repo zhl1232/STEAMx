@@ -83,6 +83,37 @@ describe("Function Wars room lifecycle routes", () => {
         requireRateLimitMock.mockResolvedValue(undefined);
     });
 
+    it("creates new rooms on the upgraded map with matching supplies", async () => {
+        const single = vi.fn().mockResolvedValue({ data: { id: TARGET_MATCH_ID }, error: null });
+        const insert = vi.fn().mockReturnValue({ select: vi.fn().mockReturnValue({ single }) });
+        fromMock.mockReturnValueOnce(mockActiveRooms([])).mockReturnValueOnce({ insert });
+
+        const response = await createRoom(new Request(
+            "http://localhost/api/playground/functionwars-rooms",
+            { method: "POST", body: JSON.stringify({}) },
+        ));
+
+        expect(response.status).toBe(200);
+        const result = await response.json();
+        expect(result.map_id).toBe("symmetric-canyon-v2");
+        expect(insert).toHaveBeenCalledWith(expect.objectContaining({
+            map_id: result.map_id,
+            map_seed: result.map_seed,
+            crates: expect.any(Array),
+        }));
+    });
+
+    it("requires a refresh rather than creating another legacy-map room", async () => {
+        const response = await createRoom(new Request(
+            "http://localhost/api/playground/functionwars-rooms",
+            { method: "POST", body: JSON.stringify({ map_id: "symmetric-canyon" }) },
+        ));
+
+        expect(response.status).toBe(400);
+        await expect(response.json()).resolves.toMatchObject({ error: "对战地图已升级，请刷新页面后创建房间" });
+        expect(fromMock).not.toHaveBeenCalled();
+    });
+
     it("rejects room creation while the user is already playing", async () => {
         fromMock.mockReturnValueOnce(mockActiveRooms([{
             ...waitingMatch,

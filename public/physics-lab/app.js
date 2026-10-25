@@ -1,7 +1,16 @@
+import {labStorage,storageDescription,initializeHostStorage,isHostStorageEmbedded,onHostStorageReplace} from './host-storage.mjs';
 import {createExplorations} from './explorations.js';
 import {setupTransfer} from './transfer.mjs';
 import {createLearning} from './learning.js';
+import {createLabNavigation} from './navigation.mjs';
+import {navigationSearch} from './navigation-state.mjs';
+import {explorationById} from './exploration-model.mjs';
 import {G,clamp,bulbState,distance,ports,solveCircuit,springState,atwoodState,traceRays,validateScene} from './physics.mjs';
+
+const storageReady=initializeHostStorage();
+if(isHostStorageEmbedded())document.querySelector('body').classList.add('storage-loading');
+await storageReady;
+document.querySelector('body').classList.remove('storage-loading');
 
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const paths={plus:'M12 5v14M5 12h14',save:'M5 3h12l4 4v14H3V3h2M7 3v6h10V3M7 21v-8h10v8',folder:'M3 7V4h6l3 3h9v13H3V7z',help:'M9 8a3 3 0 1 1 5 2c-2 1-2 2-2 4M12 17v.1M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0',lock:'M5 10h14v11H5V10zM8 10V6a4 4 0 0 1 8 0v4',spark:'m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3zM20 2v4M18 4h4',zap:'m13 2-9 12h7l-1 8L21 9h-8l0-7z',sun:'M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10M12 1v2M12 21v2M1 12h2M21 12h2M4 4l2 2M18 18l2 2M4 20l2-2M18 6l2-2',weight:'M8 7a4 4 0 1 1 8 0M5 7h14l3 14H2L5 7z',cursor:'m4 3 6 18 3-7 7-3L4 3zM13 14l6 6',link:'m9 15 6-6M8 17l-1 1a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0M16 7l1-1a4 4 0 0 1 6 6l-5 5a4 4 0 0 1-6 0',undo:'M4 10h10a7 7 0 0 1 0 14M4 10l5-5M4 10l5 5',reset:'M4 9a9 9 0 1 1 0 8M4 3v6h6',pause:'M8 5v14M16 5v14',play:'m7 4 14 8-14 8V4z',activity:'M2 12h4l3-8 6 16 3-8h4',info:'M12 11v6M12 7v.1M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0'};
@@ -31,7 +40,20 @@ const modeInfo={
 let state={version:1,mode:'circuit',name:'欧姆定律 · 串联电路',components:[],wires:[]};
 let selected=null,pendingPort=null,tool='select',running=true,time=0,lastFrame=0,lastDisplay=0,dirty=true,history=[],drag=null,nextId=1,nextWire=1,toastTimer;
 let wirePoints=[],wireCursor=null;
-let learning=null;
+let learning=null,navigation=null,applyingRoute=false,displayedRoute=null,adoptScene=false;
+const navigationAvailable=!!globalThis.location?.href&&!!globalThis.history?.pushState;
+const routeScenes=new Map();
+const routeSceneKey=route=>route?.experiment&&explorationById(route.experiment)?.workbench?route.experiment+':'+(route.lesson||''):null;
+function rememberRouteScene(route){
+ if(route?.lesson||!routeSceneKey(route)||state.mode!==route.experiment||(state.lessonSession?.lessonId||null)!==route.lesson)return;
+ routeScenes.set(routeSceneKey(route),{state:JSON.stringify(state),history:[...history],selected,dirty,time,running});
+}
+function syncSceneRoute(){
+ if(!navigation||applyingRoute||!routeSceneKey(displayedRoute))return;
+ const lesson=state.lessonSession?.lessonId||null;
+ if(state.mode===displayedRoute.experiment&&lesson===displayedRoute.lesson)return;
+ adoptScene=true;navigation.navigate({...navigation.current(),experiment:state.mode,lesson},{replace:true});
+}
 const scenes=new Map();
 const STORAGE='steamx-physics-experiments-v1';
 const stage=$('#stage');
@@ -55,6 +77,7 @@ function syncIds(){nextId=Math.max(0,...state.components.map(c=>+c.id.slice(1)))
 function setTool(t){tool=t;clearWireDraft();$('#select-tool').classList.toggle('active',t==='select');$('#connect-tool').classList.toggle('active',t==='connect');stage.classList.toggle('connect-mode',t==='connect');$('#select-tool').setAttribute('aria-pressed',String(t==='select'));$('#connect-tool').setAttribute('aria-pressed',String(t==='connect'));renderStage();}
 function select(id){selected=id;renderInspector();renderStage();renderResults();}
 function focusComponent(id){$$('.component').find(el=>el.dataset.id===id)?.focus?.({preventScroll:true});}
+function focusPort(port){$$('.port').find(el=>el.dataset.id===port.id&&el.dataset.port===String(port.port))?.focus?.({preventScroll:true});}
 function toggleSwitch(id,focus=false){const c=state.components.find(c=>c.id===id);if(c?.type!=='switch')return;snapshot();c.closed=!c.closed;selected=c.id;markDirty();renderAll();if(focus)focusComponent(c.id);}
 function makeWire(a,b,route){const w={id:'w'+nextWire++,a:{...a},b:{...b}};if(route)w.route=route;state.wires.push(w);return w;}
 function isOccupied(p){return state.wires.some(w=>[w.a,w.b].some(q=>q.id===p.id&&q.port===p.port));}
@@ -156,11 +179,11 @@ function mechanicsData(){
   const positions={},springs=[],pulleys=[];
   for(const c of state.components){
     if(c.type==='spring'){const m=connectedMass(c,0);if(!m)continue;const result=springState(m.value,c.value,time,c.damping??.15),base=c.y+160,y=clamp(base+result.extension*100,90,535);positions[m.id]={x:c.x,y};springs.push({c,m,result,boundary:y!==base+result.extension*100});}
-    if(c.type==='pulley'){const left=connectedMass(c,0),right=connectedMass(c,1);if(!left||!right)continue;const a=atwoodState(left.value,right.value,time),base=clamp(c.y+180,250,480),maxTravel=Math.min(535-base,base-(c.y+85))/100,travel=clamp(a.travel,-maxTravel,maxTravel);positions[left.id]={x:c.x-52,y:base-travel*100};positions[right.id]={x:c.x+52,y:base+travel*100};pulleys.push({c,left,right,result:a,boundary:Math.abs(a.travel)>maxTravel});}
+    if(c.type==='pulley'){const left=connectedMass(c,0),right=connectedMass(c,1);if(!left||!right)continue;const a=atwoodState(left.value,right.value,time),base=clamp(c.y+180,250,480),maxTravel=Math.min(535-base,base-(c.y+85))/100,travel=clamp(a.travel,-maxTravel,maxTravel);positions[left.id]={x:c.x-52,y:base-travel*100};positions[right.id]={x:c.x+52,y:base+travel*100};pulleys.push({c,left,right,travel,result:a,boundary:Math.abs(a.travel)>maxTravel});}
   }return {positions,springs,pulleys};
 }
 function wirePath(w,components=state.components,positions={}){const ca=components.find(c=>c.id===w.a.id),cb=components.find(c=>c.id===w.b.id);if(!ca||!cb)return '';const a=ports({...ca,...positions[ca.id]})[w.a.port],b=ports({...cb,...positions[cb.id]})[w.b.port];if(!a||!b)return '';if(state.mode==='mechanics')return `M${a.x},${a.y}L${b.x},${b.y}`;if(Array.isArray(w.points))return linePath([a,...w.points,b]);if(w.route==='return'){const left=Math.min(a.x,b.x)-50,right=Math.max(a.x,b.x)+65,bottom=clamp(Math.max(a.y,b.y)+72,100,555);const first=a.x>b.x?right:left,last=a.x>b.x?left:right;return `M${a.x},${a.y}H${first}V${bottom}H${last}V${b.y}H${b.x}`;}if(Math.abs(a.y-b.y)<1)return `M${a.x},${a.y}H${b.x}`;const mid=(a.y+b.y)/2;return `M${a.x},${a.y}V${mid}H${b.x}V${b.y}`;}
-function componentSVG(c,positions={},circuit=null){
+function componentSVG(c,positions={},circuit=null,pulley=null){
   const pos=positions[c.id]||c,x=pos.x,y=pos.y,sel=selected===c.id;let drawing='',bounds={x:-85,y:-55,w:170,h:134};
   if(c.type==='battery')drawing=`<path d="M-64 0h20M44 0h20" stroke="#8caa99" stroke-width="3"/><rect x="-45" y="-31" width="89" height="62" rx="12" fill="#eef4e9" stroke="#b6cbae" stroke-width="1.4" filter="url(#component-shadow)"/><rect x="-44" y="-30" width="27" height="60" rx="11" fill="#86a684"/><path d="M-32 0h13M21-10v20M11 0h20" stroke="white" stroke-width="2"/><path d="M21-10v20M11 0h20" stroke="#688463" stroke-width="2"/><text x="0" y="64" class="component-label">直流电源</text><text x="0" y="48" class="component-value">${format(c.value,1)} V</text>`;
   else if(c.type==='resistor')drawing=`<path d="M-64 0h27M37 0h27" stroke="#90a395" stroke-width="3"/><rect x="-38" y="-23" width="76" height="46" rx="14" fill="#eee2c2" stroke="#c8b386" stroke-width="1.3" filter="url(#component-shadow)"/><path d="M-22-22v44M-4-22v44M14-22v44" stroke="#a88b5b" stroke-width="7"/><path d="M27-21v42" stroke="#bda269" stroke-width="3"/><text x="0" y="59" class="component-label">${c.id.toUpperCase()} · ${format(c.value,0)} Ω</text>`;
@@ -172,25 +195,31 @@ function componentSVG(c,positions={},circuit=null){
   else if(c.type==='source'){bounds={x:-55,y:-70,w:120,h:147};drawing=`<g transform="rotate(${c.angle||0})"><rect x="-30" y="-26" width="54" height="52" rx="11" fill="#e5eadd" stroke="#a2b18e" filter="url(#component-shadow)"/><path d="M22-19 43-31v62L22 19" fill="#ead296" stroke="#c6ae71"/><path d="M-9-12h15M-9-3h15M-9 6h15" stroke="#a8b496" stroke-width="2"/></g><text x="0" y="70" class="component-label">平行光源</text>`;}
   else if(c.type==='lens'){bounds={x:-52,y:-128,w:104,h:302};drawing=`<path d="${c.value>0?'M0-110Q-60 0 0 110Q60 0 0-110':'M-24-110Q4 0-24 110L24 110Q-4 0 24-110Z'}" fill="url(#lens-fill)" stroke="#7db7b0" stroke-width="2"/><path d="M-24 110h48M0 111v14M-38 125h76" stroke="#a7bcb1" stroke-width="3" stroke-linecap="round"/><text x="0" y="158" class="component-label">${c.value>0?'凸':'凹'}透镜 · f=${Math.abs(c.value)} px</text>`;}
   else if(c.type==='mirror'){bounds={x:-115,y:-115,w:230,h:285};drawing=`<g transform="rotate(${-c.angle||0})"><path d="M0-105V105" stroke="#85b1c4" stroke-width="7" stroke-linecap="round"/><path d="M7-105V105" stroke="#c0cbd0" stroke-width="4"/>${Array.from({length:12},(_,i)=>`<path d="M9 ${-98+i*17}l11 8" stroke="#bac9ce" stroke-width="2"/>`).join('')}</g><text x="0" y="152" class="component-label">镜面 · ${c.angle||0}°</text>`;}
-  else if(c.type==='pulley'){bounds={x:-80,y:-80,w:160,h:180};drawing=`<path d="M-65-66H65M0-66V-48" stroke="#b3c1b3" stroke-width="4" stroke-linecap="round"/>${Array.from({length:10},(_,i)=>`<path d="M${-63+i*14}-66l-8-10" stroke="#cbd4c8" stroke-width="2"/>`).join('')}<circle r="50" fill="#f0f3e9" stroke="#a6b996" stroke-width="4" filter="url(#component-shadow)"/><circle r="40" fill="none" stroke="#c7d3b6" stroke-width="1"/><g transform="rotate(${time*30})"><path d="M-35 0h70M0-35v70" stroke="#c5d0b6" stroke-width="4"/></g><circle r="9" fill="#99ad87"/><text x="0" y="85" class="component-label">理想定滑轮</text>`;}
+  else if(c.type==='pulley'){bounds={x:-80,y:-80,w:160,h:180};drawing=`<path d="M-65-66H65M0-66V-48" stroke="#b3c1b3" stroke-width="4" stroke-linecap="round"/>${Array.from({length:10},(_,i)=>`<path d="M${-63+i*14}-66l-8-10" stroke="#cbd4c8" stroke-width="2"/>`).join('')}<circle r="50" fill="#f0f3e9" stroke="#a6b996" stroke-width="4" filter="url(#component-shadow)"/><circle r="40" fill="none" stroke="#c7d3b6" stroke-width="1"/><g data-pulley-wheel transform="rotate(${(pulley?.travel||0)*100/50*180/Math.PI})"><path d="M-35 0h70M0-35v70" stroke="#c5d0b6" stroke-width="4"/></g><circle r="9" fill="#99ad87"/><text x="0" y="85" class="component-label">理想定滑轮</text>`;}
   else if(c.type==='spring'){bounds={x:-70,y:-45,w:140,h:connectedMass(c,0)?100:180};drawing=`<path d="M-65 0H65" stroke="#b2c4b5" stroke-width="5" stroke-linecap="round"/>${Array.from({length:10},(_,i)=>`<path d="M${-62+i*14} 0l-8-10" stroke="#c7d5c8" stroke-width="2"/>`).join('')}<path d="M0 0v30" stroke="#91ae9a" stroke-width="3"/><text x="0" y="-27" class="component-label">k = ${c.value} N/m</text>`;if(!connectedMass(c,0))drawing+='<path d="M0 35l-15 7 30 13-30 13 30 13-30 13 15 7v20" fill="none" stroke="#91ae9a" stroke-width="3"/>';}
   else if(c.type==='mass'){bounds={x:-48,y:-43,w:96,h:108};drawing=`<circle cy="-31" r="6" fill="#edf3e8" stroke="#8eab91" stroke-width="2"/><rect x="-34" y="-25" width="68" height="60" rx="10" fill="${c.value>=3?'#c7d9c8':c.value>=2?'#d8e5d7':'#e4eee0'}" stroke="#91ae91" stroke-width="1.5" filter="url(#component-shadow)"/><path d="M-24-15H24" stroke="#ffffff" stroke-opacity=".6" stroke-width="2"/><text x="0" y="12" class="component-value">${format(c.value,1)} kg</text><text x="0" y="58" class="component-label">${c.id.toUpperCase()}</text>`;}
   const ps=ports(c).map((p,i)=>`<g class="port ${pendingPort?.id===c.id&&pendingPort.port===i?'pending':''}" data-id="${c.id}" data-port="${i}" role="button" tabindex="0" aria-label="${definitions[c.type].name} ${c.id} 端点 ${i+1}，点击开始或完成接线"><circle class="port-hit" cx="${p.x-c.x}" cy="${p.y-c.y}" r="17"/><circle class="port-dot" cx="${p.x-c.x}" cy="${p.y-c.y}" r="7"/></g>`).join('');
   return `<g class="component" data-id="${c.id}" data-component-type="${c.type}" transform="translate(${x},${y})" role="button" tabindex="0" ${c.type==='switch'?`aria-pressed="${c.closed}"`:''} aria-label="${definitions[c.type].name} ${c.id}${c.type==='switch'?`，${c.closed?'已闭合':'已断开'}，点击或按空格切换`:''}，拖动移动"><rect class="component-hit" x="${bounds.x}" y="${bounds.y}" width="${bounds.w}" height="${bounds.h}" rx="12" fill="transparent" pointer-events="all" aria-hidden="true"/>${sel?`<rect class="selection-outline" x="${bounds.x}" y="${bounds.y}" width="${bounds.w}" height="${bounds.h}"/>`:''}${drawing}${ps}</g>`;
 }
 function renderStage(){
+  // SVG layers are rebuilt during edits and animation; keep keyboard users on
+  // the same component, terminal or bend instead of dropping focus to the body.
+  const focused=document.activeElement?.closest?.('#stage')?document.activeElement:null;
+  const focusedPort=focused?.closest('.port')?.dataset;
+  const focusedComponent=focused?.closest('.component')?.dataset.id;
+  const focusedBend=focused?.closest('.wire-handle')?.dataset.point;
   const md=state.mode==='mechanics'?mechanicsData():{positions:{},springs:[],pulleys:[]};
   const result=state.mode==='circuit'?solveCircuit(state.components,state.wires):null;
-  $('#components-layer').innerHTML=state.components.map(c=>componentSVG(c,md.positions,result)).join('');
+  $('#components-layer').innerHTML=state.components.map(c=>componentSVG(c,md.positions,result,md.pulleys.find(p=>p.c.id===c.id))).join('');
   $('#wires-layer').innerHTML=state.wires.map(w=>{if(state.mode==='mechanics'&&[w.a,w.b].some(q=>state.components.find(c=>c.id===q.id)?.type==='spring'))return '';const path=wirePath(w,state.components,md.positions);return `<g data-wire="${w.id}"><path class="wire-hit" d="${path}"/><path class="wire-path ${selected===w.id?'selected':''}" d="${path}" ${state.mode==='mechanics'?'style="stroke:#baaa8a;stroke-width:2.5"':''}/>${result?.active?`<path class="flow-path ${running?'running':''}" d="${path}"/>`:''}</g>`;}).join('');
   let effects='',guide='';
   if(state.mode==='optics'){
-    const lens=state.components.find(c=>c.type==='lens');guide=`<path d="M50 300H950" stroke="#d8e2d7" stroke-dasharray="5 6"/><text x="910" y="324" class="boundary-label">参考光轴</text>`;
+    const lens=state.components.find(c=>c.type==='lens');guide=`<path d="M50 300H950" stroke="var(--line-strong)" stroke-dasharray="5 6"/><text x="910" y="324" class="boundary-label">参考光轴</text>`;
     if(lens){const f=Math.abs(lens.value);for(const side of [-1,1])guide+=`<circle cx="${lens.x+side*f}" cy="${lens.y}" r="4" fill="none" stroke="#a5b9a7"/><text x="${lens.x+side*f}" y="${lens.y+24}" text-anchor="middle" class="boundary-label">F${side===1?'′':''}</text>`;}
     effects=traceRays(state.components).map(r=>{const d=r.path.map((p,i)=>`${i?'L':'M'}${p.x},${p.y}`).join('');return `<path class="beam-glow" d="${d}"/><path class="ray" d="${d}"/>`;}).join('');
   }else if(state.mode==='mechanics'){
-    guide='<path d="M65 576H935" stroke="#d6e0d4"/><text x="860" y="563" class="boundary-label">工作台边界</text>';
-    for(const {c,m,result} of md.springs){const pos=md.positions[m.id],start=c.y+30,end=pos.y-31,len=end-start;let d=`M${c.x} ${start}V${start+10}`;for(let i=0;i<14;i++)d+=`L${c.x+(i%2?-17:17)} ${start+10+(i+1)*(len-25)/15}`;d+=`L${c.x} ${end-5}V${end}`;effects+=`<path d="${d}" fill="none" stroke="#90ad98" stroke-width="3" stroke-linejoin="round"/><path d="M${c.x-80} ${c.y+160+result.equilibrium*100}h160" stroke="#bfd0bc" stroke-dasharray="4 5"/><text x="${c.x+90}" y="${c.y+164+result.equilibrium*100}" class="boundary-label">平衡位置</text>`;}
+    guide='<path d="M65 576H935" stroke="var(--line-strong)"/><text x="860" y="563" class="boundary-label">工作台边界</text>';
+    for(const {c,m,result} of md.springs){const pos=md.positions[m.id],start=c.y+30,end=pos.y-31,len=end-start;let d=`M${c.x} ${start}V${start+10}`;for(let i=0;i<14;i++)d+=`L${c.x+(i%2?-17:17)} ${start+10+(i+1)*(len-25)/15}`;d+=`L${c.x} ${end-5}V${end}`;effects+=`<path d="${d}" fill="none" stroke="#90ad98" stroke-width="3" stroke-linejoin="round"/><path d="M${c.x-80} ${c.y+160+result.equilibrium*100}h160" stroke="var(--line-strong)" stroke-dasharray="4 5"/><text x="${c.x+90}" y="${c.y+164+result.equilibrium*100}" class="boundary-label">平衡位置</text>`;}
   }
   $('#effects-layer').innerHTML=effects;$('#scene-guide').innerHTML=guide;
   $('#overlay-layer').innerHTML=state.components.length?'':`<text class="scene-empty" x="500" y="285">把第一个组件拖到这里</text><text class="scene-empty" x="500" y="319" style="font-size:12px">或在组件库中点击添加</text>`;
@@ -199,6 +228,9 @@ function renderStage(){
   renderWireDraft();
   learning?.highlight();
   $('#scene-count').textContent=`${state.components.length} 个组件 · ${state.wires.length} 条连接`;
+  if(focusedPort)focusPort(focusedPort);
+  else if(focusedComponent)focusComponent(focusedComponent);
+  else if(focusedBend!==undefined)$$('.wire-handle').find(p=>p.dataset.point===focusedBend)?.focus?.({preventScroll:true});
 }
 function renderResults(){
   let values=[],status='',active=true,title='',text='',formula='';
@@ -226,10 +258,10 @@ function renderResults(){
     else if(pulley){active=true;status=pulley.boundary?'已到边界 · 重置继续':Math.abs(pulley.result.acceleration)<.001?'两侧质量平衡':running?'重力驱动中':'模拟已暂停';values=[metric('右侧加速度',format(pulley.boundary?0:pulley.result.acceleration,2),'m/s²','向下为正',''),metric('绳的张力',pulley.boundary?'—':format(pulley.result.tension,2),'N','两边绳张力相同','blue'),metric('质量差',format(pulley.right.value-pulley.left.value,1),'kg','右侧 − 左侧','orange')];title=Math.abs(pulley.result.acceleration)<.001?'一样重，就能保持平衡':'较重的一侧向下运动';text=pulley.boundary?'方块已到画布边界，当前运动停止。点击重置运动，或调整质量重新开始。边界时张力不再用自由运动公式估算。':'两侧方块通过绳相连。重力差驱动运动；两侧质量越接近，加速度越小。调整任一方块质量即可重新释放。';formula='a = g(m₂ − m₁) / (m₁ + m₂)';$('#challenge-title').textContent='哪一侧会向下运动？';$('#challenge-text').textContent='改变两侧质量，观察加速度的方向。';$('#next-step').textContent=modeInfo.mechanics.next;}
     else{active=false;status='连接组件开始实验';values=[metric('加速度','—','m/s²','连接滑轮与两个方块'),metric('弹簧伸长','—','cm','连接弹簧与一个方块','blue'),metric('重力加速度','9.81','m/s²','地球表面近似值','orange')];title='先让组件建立联系';text='弹簧连接一个方块，或滑轮两侧各连接一个方块。将端点靠近即可自动吸附，也可以点击「智能连接」。';formula='F = ma';}
   }
-  $('#metrics').innerHTML=values.map(v=>`<div class="metric"><div class="metric-label">${v.label}</div><div class="metric-value ${v.color}">${v.value}<small>${v.unit}</small></div><div class="metric-sub">${v.sub}</div></div>`).join('');$('#result-status').textContent=status;$('#result-status').classList.toggle('warning',!active||status.includes('边界'));$('#observation-title').textContent=title;$('#observation-text').textContent=text;$('#formula').textContent=formula;$('#stage-label').textContent=running?'实时模拟':'模拟已暂停';$('.live-dot').style.background=running?'#63a087':'#bdc7bb';learning?.update();
+  $('#metrics').innerHTML=values.map(v=>`<div class="metric"><div class="metric-label">${v.label}</div><div class="metric-value ${v.color}">${v.value}<small>${v.unit}</small></div><div class="metric-sub">${v.sub}</div></div>`).join('');$('#result-status').textContent=status;$('#result-status').classList.toggle('warning',!active||status.includes('边界'));$('#observation-title').textContent=title;$('#observation-text').textContent=text;$('#formula').textContent=formula;$('#stage-label').textContent=running?'实时模拟':'模拟已暂停';$('.live-dot').style.background=running?'var(--green)':'var(--muted)';learning?.update();
 }
 function renderAll(){
-  $$('[data-mode]').forEach(b=>{b.classList.toggle('active',b.dataset.mode===state.mode);b.setAttribute('aria-selected',String(b.dataset.mode===state.mode));});$('#experiment-name').textContent=state.name;$('#undo-btn').disabled=!history.length;renderPalette();renderInspector();renderStage();renderResults();
+  $('#workbench-kind').textContent=modeInfo[state.mode].name.replace('实验','自由搭建');$('#experiment-name').textContent=state.name;$('#undo-btn').disabled=!history.length;renderPalette();renderInspector();renderStage();renderResults();syncSceneRoute();
 }
 function pointFromEvent(e){const r=stage.getBoundingClientRect(),scale=Math.min(r.width/1000,r.height/600),offsetX=(r.width-1000*scale)/2,offsetY=(r.height-600*scale)/2;return {x:(e.clientX-r.left-offsetX)/scale,y:(e.clientY-r.top-offsetY)/scale};}
 function getPortNear(point,exclude=null){const md=state.mode==='mechanics'?mechanicsData():{positions:{}};const candidates=state.components.filter(c=>c.id!==exclude).flatMap(c=>ports({...c,...md.positions[c.id]}).map((p,port)=>({id:c.id,port,p})));candidates.sort((a,b)=>distance(a.p,point)-distance(b.p,point));return candidates[0]&&distance(candidates[0].p,point)<28?{id:candidates[0].id,port:candidates[0].port}:null;}
@@ -253,13 +285,14 @@ function removeWirePoint(){if(wirePoints.length){wirePoints.pop();wireCursor=wir
 function portClick(p){if(state.mode==='optics')return;if(!pendingPort){wirePoints=[];wireCursor=null;pendingPort=p;selected=null;renderInspector();renderStage();}else if(connect(pendingPort,p,true,state.mode==='circuit'?wirePoints:undefined)){toast(state.mode==='circuit'?'电线已接好，可以继续画下一条':'方块已连接，开始模拟');}}
 stage.addEventListener('pointerdown',e=>{
   if(e.button!==0||drag)return;
+  if(document.activeElement?.closest?.('#stage'))document.activeElement.blur?.();
   const point=pointFromEvent(e),port=e.target.closest('.port');
   const p=port?{id:port.dataset.id,port:+port.dataset.port}:(state.mode==='circuit'&&(tool==='connect'||pendingPort)?getPortNear(point):null);
-  if(p){e.preventDefault();if(pendingPort){portClick(p);return;}portClick(p);drag={kind:'port',start:point,moved:false,pointerId:e.pointerId};stage.setPointerCapture(e.pointerId);return;}
+  if(p){e.preventDefault();if(pendingPort){portClick(p);focusPort(p);return;}portClick(p);focusPort(p);drag={kind:'port',start:point,moved:false,pointerId:e.pointerId};stage.setPointerCapture(e.pointerId);return;}
   if(pendingPort&&state.mode==='circuit'){e.preventDefault();if(e.target.closest('.component'))toast('请点圆形端点完成连接，或点空白处添加拐点');else addWirePoint(point);return;}
-  const handle=e.target.closest('.wire-handle');if(handle){e.preventDefault();drag={kind:'bend',id:selected,index:+handle.dataset.point,start:point,moved:false,pointerId:e.pointerId,before:JSON.stringify(state)};stage.setPointerCapture(e.pointerId);return;}
+  const handle=e.target.closest('.wire-handle');if(handle){e.preventDefault();handle.focus?.({preventScroll:true});drag={kind:'bend',id:selected,index:+handle.dataset.point,start:point,moved:false,pointerId:e.pointerId,before:JSON.stringify(state)};stage.setPointerCapture(e.pointerId);return;}
   const wire=e.target.closest('[data-wire]');if(wire){select(wire.dataset.wire);return;}
-  const el=e.target.closest('.component');if(el){const c=state.components.find(c=>c.id===el.dataset.id);if(!c)return;select(c.id);if(tool==='connect'){toast('点击组件两端的圆形端点连接');return;}e.preventDefault();const p=pointFromEvent(e),md=state.mode==='mechanics'?mechanicsData():{positions:{}},pos=md.positions[c.id]||c;drag={kind:'component',id:c.id,offset:{x:p.x-pos.x,y:p.y-pos.y},start:p,clientStart:{x:e.clientX,y:e.clientY},moved:false,pointerId:e.pointerId,before:JSON.stringify(state)};stage.setPointerCapture(e.pointerId);return;}
+  const el=e.target.closest('.component');if(el){const c=state.components.find(c=>c.id===el.dataset.id);if(!c)return;e.preventDefault();select(c.id);focusComponent(c.id);if(tool==='connect'){toast('点击组件两端的圆形端点连接');return;}const p=pointFromEvent(e),md=state.mode==='mechanics'?mechanicsData():{positions:{}},pos=md.positions[c.id]||c;drag={kind:'component',id:c.id,offset:{x:p.x-pos.x,y:p.y-pos.y},start:p,clientStart:{x:e.clientX,y:e.clientY},moved:false,pointerId:e.pointerId,before:JSON.stringify(state)};stage.setPointerCapture(e.pointerId);return;}
   selected=null;clearWireDraft();renderInspector();renderStage();if(tool==='connect')toast('从组件的圆形端点开始画线');
 });
 stage.addEventListener('pointermove',e=>{
@@ -279,30 +312,85 @@ function finishDrag(e){
 stage.addEventListener('pointerup',finishDrag);stage.addEventListener('pointercancel',e=>{if(drag&&e.pointerId!==drag.pointerId)return;if(drag?.before)state=JSON.parse(drag.before);drag=null;clearWireDraft();if(stage.hasPointerCapture?.(e.pointerId))stage.releasePointerCapture(e.pointerId);renderAll();});
 stage.addEventListener('keydown',e=>{const handle=e.target.closest('.wire-handle');if(handle&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();const w=state.wires.find(w=>w.id===selected),i=+handle.dataset.point,p=w?.points?.[i];if(!p)return;snapshot();const v=e.shiftKey?25:10;w.points[i]=boundedPoint({x:p.x+(e.key==='ArrowLeft'?-v:e.key==='ArrowRight'?v:0),y:p.y+(e.key==='ArrowUp'?-v:e.key==='ArrowDown'?v:0)});markDirty();renderStage();$$('.wire-handle')[i]?.focus?.();return;}const p=e.target.closest('.port'),c=e.target.closest('.component');if((e.key==='Enter'||e.key===' ')&&p){e.preventDefault();portClick({id:p.dataset.id,port:+p.dataset.port});}else if((e.key==='Enter'||e.key===' ')&&c){e.preventDefault();if(e.repeat)return;const comp=state.components.find(x=>x.id===c.dataset.id);if(comp?.type==='switch'&&tool==='select'&&!pendingPort)toggleSwitch(comp.id,true);else{select(c.dataset.id);focusComponent(c.dataset.id);}}else if(c&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();const comp=state.components.find(x=>x.id===c.dataset.id);if(!comp)return;snapshot();const v=e.shiftKey?25:10;comp.x=clamp(comp.x+(e.key==='ArrowLeft'?-v:e.key==='ArrowRight'?v:0),85,915);comp.y=clamp(comp.y+(e.key==='ArrowUp'?-v:e.key==='ArrowDown'?v:0),100,500);markDirty();resetMotion();renderStage();}});
 stage.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='copy';$('#stage-wrap').classList.add('stage-drop-active');});stage.addEventListener('dragleave',()=>$('#stage-wrap').classList.remove('stage-drop-active'));stage.addEventListener('drop',e=>{e.preventDefault();$('#stage-wrap').classList.remove('stage-drop-active');const type=e.dataTransfer.getData('text/plain');if(!modeInfo[state.mode].types.includes(type))return;const p=pointFromEvent(e);addComponent(type,p.x,p.y);});
-function openModal(title,html){$('#modal-title').textContent=title;$('#modal-content').innerHTML=html;$('#modal').showModal();}
+function positionModal(){
+  if(!$('body').classList.contains('embedded'))return;
+  // A tall auto-sized iframe is larger than the visible host viewport. Keep
+  // dialogs within its visible slice, clear of the main site's fixed navigation.
+  try{
+    const host=globalThis.frameElement;if(!host)return;
+    const rect=host.getBoundingClientRect(),viewport=globalThis.parent.visualViewport;
+    const viewportTop=viewport?.offsetTop||0,viewportHeight=viewport?.height||globalThis.parent.innerHeight;
+    let visibleTop=viewportTop,visibleBottom=viewportTop+viewportHeight;
+    for(const header of globalThis.parent.document.querySelectorAll('.app-desktop-header,.app-mobile-header')){
+      const bounds=header.getBoundingClientRect();
+      if(bounds.width&&bounds.height&&bounds.top<=visibleTop&&bounds.bottom>visibleTop)visibleTop=bounds.bottom;
+    }
+    for(const navigation of globalThis.parent.document.querySelectorAll('.bottom-nav-bar')){
+      const bounds=navigation.getBoundingClientRect();
+      if(bounds.width&&bounds.height&&bounds.bottom>visibleTop&&bounds.top<visibleBottom)visibleBottom=bounds.top;
+    }
+    const top=Math.max(0,visibleTop-rect.top),bottom=Math.min(globalThis.innerHeight,visibleBottom-rect.top);
+    if(bottom<=top)return;
+    Object.assign($('#modal').style,{top:top+16+'px',bottom:'auto',margin:'0 auto',maxHeight:Math.max(0,bottom-top-32)+'px',overflowY:'auto'});
+  }catch{/* Standalone or cross-origin hosts retain native dialog positioning. */}
+}
+function openModal(title,html){$('#modal-title').textContent=title;$('#modal-content').innerHTML=html;positionModal();$('#modal').showModal();}
 function closeModal(){$('#modal').close();}
 $('#modal-close').onclick=closeModal;$('#modal').addEventListener('click',e=>{if(e.target===$('#modal')){const r=$('#modal').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeModal();}});
 function sampleDialog(){const choices={circuit:[['wiring','自己接线 · 点亮灯泡','只有电池和灯泡，亲手画两条电线形成回路'],['lamp','点亮第一盏灯','电池、开关、灯泡：观察通断与亮度'],['lamp-series','两盏灯串联','相同灯泡分担电压，比较功率'],['lamp-parallel','两盏灯并联','每盏灯两端电压相同，比较亮度'],['series','串联电路','一个电源、两个电阻，观察总电流'],['parallel','并联电路','比较串联与并联的等效电阻']],optics:[['lens','透镜的焦点','让平行光经过凸透镜'],['reflection','镜面反射','转动镜子，改变反射方向']],mechanics:[['atwood','滑轮与质量','比较两侧质量，观察运动'],['spring','弹簧振动','从自然长度释放方块']]};openModal('选择一个探索起点','<p class="modal-copy">示例会替换当前场景。保存实验后，可以随时回来。</p>'+choices[state.mode].map(([kind,name,description])=>`<button class="modal-choice" data-sample="${kind}">${icon(modeInfo[state.mode].icon)}<span><strong>${name}</strong><small>${description}</small></span></button>`).join(''));$$('[data-sample]').forEach(b=>b.onclick=()=>{createSample(b.dataset.sample);closeModal();toast('已载入示例');});}
-function readSaves(){try{const s=JSON.parse(localStorage.getItem(STORAGE)||'[]');return Array.isArray(s)?s.filter(x=>x&&typeof x.id==='string'&&typeof x.name==='string').slice(0,30):[];}catch{return [];}}
-function saveExperiment(){openModal('保存这次探索','<p class="modal-copy">实验保存在当前浏览器中。你也可以在加载面板导出文件，带到另一台设备。</p><label for="save-name" class="field-row">实验名称</label><input id="save-name" class="save-input" maxlength="60" value="'+esc(state.name)+'"><button id="confirm-save" class="modal-primary">保存实验</button><div id="save-error" class="inline-error" role="alert"></div>');$('#confirm-save').onclick=()=>{const name=$('#save-name').value.trim();if(!name){$('#save-error').textContent='给实验起个名字吧';return;}try{const saved=readSaves(),now=Date.now(),entry={id:'e'+now,name,date:new Date(now).toISOString(),scene:JSON.parse(JSON.stringify({...state,name}))};const existing=saved.findIndex(x=>x.name===name&&x.scene?.mode===state.mode);if(existing>=0)saved[existing]=entry;else saved.unshift(entry);localStorage.setItem(STORAGE,JSON.stringify(saved.slice(0,30)));state.name=name;dirty=false;$('#dirty-indicator').textContent='已保存';$('#experiment-name').textContent=name;closeModal();toast('实验已保存在此浏览器');}catch{$('#save-error').textContent='浏览器存储不可用或空间不足。请关闭面板，在加载中导出实验文件。';}};}
+function readSaves(){try{const s=JSON.parse(labStorage.getItem(STORAGE)||'[]');return Array.isArray(s)?s.filter(x=>x&&typeof x.id==='string'&&typeof x.name==='string').slice(0,30):[];}catch{return [];}}
+function saveExperiment(){openModal('保存这次探索','<p class="modal-copy">'+storageDescription('实验保存在当前浏览器中。你也可以在加载面板导出文件，带到另一台设备。')+'</p><label for="save-name" class="field-row">实验名称</label><input id="save-name" class="save-input" maxlength="60" value="'+esc(state.name)+'"><button id="confirm-save" class="modal-primary">保存实验</button><div id="save-error" class="inline-error" role="alert"></div>');$('#confirm-save').onclick=()=>{const name=$('#save-name').value.trim();if(!name){$('#save-error').textContent='给实验起个名字吧';return;}try{const saved=readSaves(),now=Date.now(),entry={id:'e'+now,name,date:new Date(now).toISOString(),scene:JSON.parse(JSON.stringify({...state,name}))};const existing=saved.findIndex(x=>x.name===name&&x.scene?.mode===state.mode);if(existing>=0)saved[existing]=entry;else saved.unshift(entry);labStorage.setItem(STORAGE,JSON.stringify(saved.slice(0,30)));state.name=name;dirty=false;$('#dirty-indicator').textContent='已保存';$('#experiment-name').textContent=name;closeModal();toast(storageDescription('实验已保存在此浏览器'));}catch{$('#save-error').textContent='浏览器存储不可用或空间不足。请关闭面板，在加载中导出实验文件。';}};}
 function applyLoaded(scene){const safe=validateScene(JSON.parse(JSON.stringify(scene)));snapshot();state=safe;state.name=String(scene.name||'已加载的实验').slice(0,60);syncIds();selected=state.components[0]?.id||null;pendingPort=null;setTool('select');resetMotion();dirty=false;$('#dirty-indicator').textContent='已保存';renderAll();closeModal();toast('实验已加载，运动从起点开始');}
-function loadExperiments(){const saves=readSaves();openModal('我的实验','<p class="modal-copy">从当前浏览器恢复实验，或导入之前导出的文件。加载会替换当前场景。</p><div id="saved-list">'+(saves.length?saves.map(s=>`<div class="save-row"><button class="load-item" data-save-id="${esc(s.id)}">${esc(s.name)}<small>${esc(modeInfo[s.scene?.mode]?.name||'实验')} · ${new Date(s.date).toLocaleDateString('zh-CN')}</small></button><button class="remove-save" data-remove-id="${esc(s.id)}" aria-label="删除已保存的 ${esc(s.name)}">删除</button></div>`).join(''):'<p class="empty-inspector">还没有保存的实验。先动手试试，再留下一次发现。</p>')+'</div><div class="saved-actions"><button id="export-btn">导出当前实验</button><button id="import-btn">导入实验文件</button><input id="import-file" type="file" accept=".json,application/json" hidden></div><p id="load-error" class="inline-error" role="alert"></p>');
-  $$('[data-save-id]').forEach(b=>b.onclick=()=>{try{const saved=saves.find(s=>s.id===b.dataset.saveId);applyLoaded(saved.scene);}catch(e){$('#load-error').textContent=e.message;}});$$('[data-remove-id]').forEach(b=>b.onclick=()=>{try{localStorage.setItem(STORAGE,JSON.stringify(readSaves().filter(s=>s.id!==b.dataset.removeId)));closeModal();loadExperiments();}catch{$('#load-error').textContent='无法更新浏览器存储';}});
-  $('#export-btn').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='steamx-experiment.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('实验文件已导出');};$('#import-btn').onclick=()=>$('#import-file').click();$('#import-file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>200000)throw Error('文件过大，请导入 STEAMX 实验 JSON 文件');applyLoaded(JSON.parse(await f.text()));}catch(err){$('#load-error').textContent=err.message||'文件读取失败';}};
+function loadExperiments(){const saves=readSaves();openModal('我的实验','<p class="modal-copy">'+storageDescription('从当前浏览器恢复实验，或导入之前导出的文件。加载会替换当前场景。')+'</p><div id="saved-list">'+(saves.length?saves.map(s=>`<div class="save-row"><button class="load-item" data-save-id="${esc(s.id)}">${esc(s.name)}<small>${esc(modeInfo[s.scene?.mode]?.name||'实验')} · ${new Date(s.date).toLocaleDateString('zh-CN')}</small></button><button class="remove-save" data-remove-id="${esc(s.id)}" aria-label="删除已保存的 ${esc(s.name)}">删除</button></div>`).join(''):'<p class="empty-inspector">还没有保存的实验。先动手试试，再留下一次发现。</p>')+'</div><div class="saved-actions"><button id="export-btn">导出当前实验</button><button id="import-btn">导入实验文件</button><input id="import-file" type="file" accept=".json,application/json" hidden></div><p id="load-error" class="inline-error" role="alert"></p>');
+  $$('[data-save-id]').forEach(b=>b.onclick=()=>{try{const saved=saves.find(s=>s.id===b.dataset.saveId);applyLoaded(saved.scene);}catch(e){$('#load-error').textContent=e.message;}});$$('[data-remove-id]').forEach(b=>b.onclick=()=>{try{labStorage.setItem(STORAGE,JSON.stringify(readSaves().filter(s=>s.id!==b.dataset.removeId)));closeModal();loadExperiments();}catch{$('#load-error').textContent='无法更新浏览器存储';}});
+  $('#export-btn').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='创探空间-物理实验.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('实验文件已导出');};$('#import-btn').onclick=()=>$('#import-file').click();$('#import-file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>200000)throw Error('文件过大，请导入 创探空间 实验 JSON 文件');applyLoaded(JSON.parse(await f.text()));}catch(err){$('#load-error').textContent=err.message||'文件读取失败';}};
 }
 $('#new-btn').onclick=()=>{openModal('从一个新想法开始','<p class="modal-copy">创建空白工作台。已有场景可通过撤销恢复；建议先保存你的探索。</p>'+Object.entries(modeInfo).map(([mode,m])=>`<button class="modal-choice" data-new-mode="${mode}">${icon(m.icon)}<span><strong>${m.name}</strong><small>${mode==='circuit'?'电池、灯泡、开关、电阻与电线':mode==='optics'?'光源、镜子与透镜':'弹簧、滑轮与质量方块'}</small></span></button>`).join(''));$$('[data-new-mode]').forEach(b=>b.onclick=()=>{snapshot();state={version:1,mode:b.dataset.newMode,name:'未命名的'+modeInfo[b.dataset.newMode].name,components:[],wires:[]};selected=null;pendingPort=null;nextId=1;nextWire=1;setTool('select');resetMotion();markDirty();renderAll();closeModal();});};
 $('#save-btn').onclick=saveExperiment;$('#load-btn').onclick=loadExperiments;$('#sample-btn').onclick=sampleDialog;$('#help-btn').onclick=()=>openModal('让你的第一次实验更顺手','<p class="modal-copy">点击「选择主题」探索声、光、热、磁、运动与能量，也可以自由搭建电路。先观察，再改变一个变量。</p><ol class="help-list"><li><strong>添加与移动：</strong>把组件从左侧拖入工作台，或点击添加。拖动工作台组件改变位置；选中后可用方向键移动。开关直接点击（或按空格 / Enter）切换通断，拖动只移动位置。</li><li><strong>建立连接：</strong>点击「画电线」，从圆形端点开始；空白处点击可加拐点，点另一端点结束。也可直接拖拽接线。选中电线后拖动金色拐点调整走线，或使用智能连接。线条交叉不会自动连接，需要分支时从同一端点再画一条线。移动端点到另一个端点附近也可吸附。电路允许分支；力学端点一次连接一个方块。</li><li><strong>改变参数：</strong>选择组件后，用右侧滑块改变电压、电阻、焦距、质量等参数。力学参数修改后会重新释放。</li><li><strong>观察运动：</strong>暂停可以停住实验；重置运动会回到释放时刻。拖动已连接方块会先脱离连接，以便重新搭建。</li><li><strong>保留发现：</strong>保存和加载使用当前浏览器存储；导出 / 导入 JSON 可以在设备之间转移。加载恢复搭建与参数，运动从起点开始。</li></ol><p class="modal-copy">快捷键：Delete 删除选中项，Ctrl / ⌘ + Z 撤销；画线中 Backspace 或「撤回拐点」可回退，Esc 取消接线。自由搭建支持单电源直流网络、近轴光线追踪、单个弹簧振子及两重物定滑轮；其他主题从「选择主题」进入。工作台边界会限制力学运动。</p>');
-$$('[data-mode]').forEach(b=>b.onclick=()=>switchMode(b.dataset.mode));$('#auto-btn').onclick=()=>autoConnect();$('#select-tool').onclick=()=>setTool('select');$('#connect-tool').onclick=()=>{if(state.mode==='optics'){toast('光线自动与元件相交，无需手动连接');return;}setTool('connect');toast(state.mode==='circuit'?'先点端点，空白处可加拐点，再点另一端点；也可直接拖拽':'点击或拖动两个圆形端点连接');};$('#undo-btn').onclick=undo;$('#reset-btn').onclick=()=>{resetMotion();renderStage();renderResults();toast('运动已回到起点');};$('#run-btn').onclick=()=>{running=!running;lastFrame=0;$('#run-btn').innerHTML=icon(running?'pause':'play')+`<span id="run-label">${running?'暂停模拟':'开始模拟'}</span>`;renderStage();renderResults();};
-document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA'].includes(e.target.tagName)||$('#modal').open)return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();undo();}else if(e.key==='Delete'||e.key==='Backspace'){e.preventDefault();if(pendingPort)removeWirePoint();else deleteSelected();}else if(e.key==='Escape'){setTool('select');}});
+$('#auto-btn').onclick=()=>autoConnect();$('#select-tool').onclick=()=>setTool('select');$('#connect-tool').onclick=()=>{if(state.mode==='optics'){toast('光线自动与元件相交，无需手动连接');return;}setTool('connect');toast(state.mode==='circuit'?'先点端点，空白处可加拐点，再点另一端点；也可直接拖拽':'点击或拖动两个圆形端点连接');};$('#undo-btn').onclick=undo;$('#reset-btn').onclick=()=>{resetMotion();renderStage();renderResults();toast('运动已回到起点');};$('#run-btn').onclick=()=>{running=!running;lastFrame=0;$('#run-btn').innerHTML=icon(running?'pause':'play')+`<span id="run-label">${running?'暂停模拟':'开始模拟'}</span>`;renderStage();renderResults();};
+document.addEventListener('keydown',e=>{if($('body').classList.contains('topic-active')||$('body').classList.contains('catalog-active')||['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)||e.target.isContentEditable||$('#modal').open)return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();undo();}else if(e.key==='Delete'||e.key==='Backspace'){e.preventDefault();if(pendingPort)removeWirePoint();else deleteSelected();}else if(e.key==='Escape'){setTool('select');}});
 $('#cancel-wire').onclick=()=>{clearWireDraft();renderStage();};$('#remove-bend').onclick=removeWirePoint;$('#wiring-practice').onclick=()=>{createSample('wiring');toast('亲手画两条电线，让电池和灯泡组成完整回路；可撤销恢复原实验');};
-function frame(now){if(lastFrame&&running&&!drag&&!$('body').classList.contains('topic-active')&&document.visibilityState!=='hidden'){time+=Math.min((now-lastFrame)/1000,.04);if(state.mode==='mechanics'&&now-lastDisplay>33){renderStage();if(now-lastDisplay>180){renderResults();lastDisplay=now;}}}lastFrame=now;requestAnimationFrame(frame);}
+function frame(now){if(lastFrame&&running&&!drag&&!$('body').classList.contains('topic-active')&&!$('body').classList.contains('catalog-active')&&document.visibilityState!=='hidden'){time+=Math.min((now-lastFrame)/1000,.04);if(state.mode==='mechanics'&&now-lastDisplay>33){renderStage();if(now-lastDisplay>180){renderResults();lastDisplay=now;}}}lastFrame=now;requestAnimationFrame(frame);}
 function replaceLearningScene(scene,record=true){const safe=validateScene(JSON.parse(JSON.stringify(scene)));if(record)snapshot();state=safe;syncIds();selected=null;clearWireDraft();setTool('select');resetMotion();markDirty();renderAll();}
-learning=createLearning({getScene:()=>state,setScene:replaceLearningScene,openModal,closeModal,toast,hasWireDraft:()=>!!pendingPort});
-if(!learning.resume())createSample('lamp',false);requestAnimationFrame(frame);
+learning=createLearning({getScene:()=>state,setScene:replaceLearningScene,openModal,closeModal,toast,hasWireDraft:()=>!!pendingPort,onNavigateCatalog:navigationAvailable?()=>explorations.catalog('electric'):undefined});
+if(navigationAvailable||!learning.resume())createSample('lamp',false);requestAnimationFrame(frame);
 
-const explorations=createExplorations({openModal,closeModal,toast,openWorkbench:switchMode});
+const explorations=createExplorations({openModal,closeModal,toast,openWorkbench:switchMode,openCircuitLessons:id=>id?learning.openLesson(id):learning.catalog(),
+ onNavigate:navigationAvailable?(route,options)=>navigation?.navigate(route,options):undefined,
+ routeHref:navigationAvailable?route=>(isHostStorageEmbedded()?'/playground/physics-lab':globalThis.location.pathname)+navigationSearch(route):undefined});
+if(navigationAvailable)navigation=createLabNavigation({embedded:isHostStorageEmbedded(),onRoute:route=>{
+ const previous=displayedRoute;rememberRouteScene(previous);applyingRoute=true;
+ try{
+  explorations.applyRoute(route);
+  const sceneKey=routeSceneKey(route);
+  if(sceneKey){
+   closeModal();
+   if(adoptScene){adoptScene=false;rememberRouteScene(route);}
+   else if(sceneKey!==routeSceneKey(previous)){
+    const saved=route.lesson?null:routeScenes.get(sceneKey);
+    if(saved){state=validateScene(JSON.parse(saved.state));history=[...saved.history];selected=saved.selected;dirty=saved.dirty;time=saved.time;running=saved.running;syncIds();clearWireDraft();renderAll();$('#dirty-indicator').textContent=dirty?'未保存':'已保存';}
+    else if(route.lesson){if(!learning.openLesson(route.lesson)){const fallback=previous||{...route,experiment:null,lesson:null};queueMicrotask(()=>navigation?.navigate(fallback,{replace:true}));return;}}
+    else if(state.mode!==route.experiment||state.lessonSession)createSample({circuit:'lamp',optics:'lens',mechanics:'atwood'}[route.experiment],false);
+   }
+   $('#topic-current').textContent=route.lesson?'电路引导任务':explorationById(route.experiment).title;
+  }
+  displayedRoute=route;
+ }finally{applyingRoute=false;}
+}});
 setupTransfer({openModal,closeModal,toast,reload:()=>{learning.reload();explorations.reloadRecords();}});
-if(new URLSearchParams(globalThis.location?.search||'').get('host')==='steamx'){
+onHostStorageReplace(()=>{learning.reload();explorations.reloadRecords();if($('#modal').open&&$('#saved-list'))loadExperiments();});
+if(isHostStorageEmbedded()){
   document.querySelector('body').classList.add('embedded');
-  if(globalThis.ResizeObserver){const notifyHeight=()=>globalThis.parent.postMessage({type:'steamx-physics-height',height:Math.ceil(document.querySelector('body').getBoundingClientRect().height)},globalThis.location.origin);new ResizeObserver(notifyHeight).observe(document.querySelector('body'));notifyHeight();}
+  const notifyHeight=()=>globalThis.parent.postMessage({type:'steamx-physics-height',height:Math.ceil(document.querySelector('body').getBoundingClientRect().height)},globalThis.location.origin);
+  globalThis.addEventListener('message',event=>{if(event.origin===globalThis.location.origin&&event.source===globalThis.parent&&event.data?.type==='steamx-physics-height-request')notifyHeight();});
+  if(globalThis.ResizeObserver)new ResizeObserver(notifyHeight).observe(document.querySelector('body'));
+  notifyHeight();
+  const reposition=()=>{if($('#modal').open)positionModal();};
+  globalThis.addEventListener('resize',reposition);
+  try{if(globalThis.frameElement){
+    const host=globalThis.parent,viewport=host.visualViewport;
+    host.addEventListener('scroll',reposition,{passive:true,capture:true});host.addEventListener('resize',reposition);
+    viewport?.addEventListener('resize',reposition);viewport?.addEventListener('scroll',reposition);
+    globalThis.addEventListener('pagehide',event=>{if(event.persisted)return;host.removeEventListener('scroll',reposition,true);host.removeEventListener('resize',reposition);viewport?.removeEventListener('resize',reposition);viewport?.removeEventListener('scroll',reposition);});
+  }}catch{/* Host viewport access is optional. */}
 }

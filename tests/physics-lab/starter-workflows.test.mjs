@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {createDOM} from './dom-fixture.mjs';
+import {createDOM,chooseWorkbench} from './dom-fixture.mjs';
 
 test('simple entry, three hands-on starters and optional teaching tools',async t=>{
  const env=createDOM(await readFile(new URL('../../public/physics-lab/index.html',import.meta.url),'utf8'));
@@ -33,7 +33,7 @@ test('simple entry, three hands-on starters and optional teaching tools',async t
  });
  await t.test('free-building and mode changes remove guide clutter; starting an example clears its guide',async()=>{
   await click('#leave-activity');assert.equal($('#activity-body').hidden,true);assert.equal($('.mini-card').hidden,false);assert.equal($('#wiring-practice').hidden,false);
-  await begin('light');await click($$('[data-mode]').find(b=>b.dataset.mode==='optics'));assert.equal($('#learning-panel').hidden,true);await click($$('[data-mode]').find(b=>b.dataset.mode==='circuit'));assert.match($('#guide-instruction').textContent,/空着的端点/);
+  await begin('light');await chooseWorkbench(document,'optics');assert.equal($('#learning-panel').hidden,true);await chooseWorkbench(document,'circuit');assert.match($('#guide-instruction').textContent,/空着的端点/);
   await click('#leave-activity');await click('#sample-btn');await click($$('[data-sample]').find(b=>b.dataset.sample==='series'));assert.equal($('#activity-body').hidden,true);
  });
  await t.test('recording is optional, available through teaching tools, and preserved when returning to simple activities',async()=>{

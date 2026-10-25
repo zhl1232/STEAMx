@@ -224,6 +224,7 @@ const PART_NAMES_ZH: Readonly<Record<string, string>> = {
   '14013c01': '卷筒（含绳索和长吊钩）',
   '13358': '起重机卷筒支架',
   '6527': '皮带轮',
+  '75536': '卷线轮（带绳和吊钩）',
   '6529': '24 齿齿轮',
   '6530': '40 齿齿轮',
   '31622': '冠齿轮',
@@ -352,8 +353,14 @@ function resolvePartInfo(lookup: Map<string, string>, partId: string): LdrawPart
   return { description: '', countable: true }
 }
 
-function parseStepPartRefs(stepText: string): Array<{ partId: string; colorCode: number }> {
-  const refs: Array<{ partId: string; colorCode: number }> = []
+interface LdrawBomPartReference {
+  partId: string
+  colorCode: number
+  reference: string
+}
+
+function parseStepPartRefs(stepText: string): LdrawBomPartReference[] {
+  const refs: LdrawBomPartReference[] = []
 
   for (const line of stepText.split(/\r?\n/)) {
     const tokens = line.trim().split(/\s+/)
@@ -362,11 +369,26 @@ function parseStepPartRefs(stepText: string): Array<{ partId: string; colorCode:
     refs.push({
       partId: normalizePartId(tokens.slice(14).join(' ')),
       colorCode: Number.isSafeInteger(colorCode) ? colorCode : -1,
+      reference: tokens.join(' '),
     })
   }
 
   return refs
 }
+
+// 旧电梯 MPD 将 75536 的两个附属吊钩误标为普通 Part。仅识别已核对的
+// 第 9 步相邻组合引用；其它模型、独立吊钩和已改过的位置均照常计数。
+// 新模型应使用 s/steamx-75536-hook.dat（Subpart），无需此兼容规则。
+const ELEVATOR_ASSEMBLY_HOOKS = new Map([
+  [
+    '1 14 -318 -508.99975 -30 1 0 0 0 1 0 0 0 1 4663.dat',
+    '1 14 -320 -864 -20 1 0 0 0 1 0 0 0 1 75536.dat',
+  ],
+  [
+    '1 14 322 -508.99975 -30 1 0 0 0 1 0 0 0 1 4663.dat',
+    '1 14 320 -864 -20 1 0 0 0 1 0 0 0 1 75536.dat',
+  ],
+])
 
 function sortEntries(entries: LdrawBomEntry[]): LdrawBomEntry[] {
   return entries.sort(
@@ -388,6 +410,7 @@ export function summarizePackedLdrawBom(
   const { mainText, embedded } = splitPackedMpd(mpdText)
   const lookup = buildEmbeddedLookup(embedded)
   const { steps } = splitMainModelSteps(mainText)
+  const hasLegacyElevatorHooks = /^0 Name: 5-sheng-jiang-dian-ti\.ldr\s*$/m.test(mainText)
 
   const partInfoCache = new Map<string, LdrawPartInfo>()
   const describe = (partId: string) => {
@@ -401,8 +424,13 @@ export function summarizePackedLdrawBom(
   const totals = new Map<string, LdrawBomEntry>()
   const bomSteps: LdrawBomStep[] = steps.map((stepText, stepIndex) => {
     const stepEntries = new Map<string, LdrawBomEntry>()
+    const refs = parseStepPartRefs(stepText)
 
-    for (const { partId, colorCode } of parseStepPartRefs(stepText)) {
+    for (const [index, { partId, colorCode, reference }] of refs.entries()) {
+      if (
+        hasLegacyElevatorHooks && stepIndex === 8 && index > 0 &&
+        ELEVATOR_ASSEMBLY_HOOKS.get(reference) === refs[index - 1].reference
+      ) continue
       const { description, countable } = describe(partId)
       if (!countable) continue
 

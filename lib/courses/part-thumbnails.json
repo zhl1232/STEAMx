@@ -55,6 +55,10 @@
   "src": "/courses/part-thumbs/2205-15.webp",
   "exactColor": true
  },
+ "2206.dat|15": {
+  "src": "/courses/part-thumbs/1e2ec8a7427c02dce319.webp",
+  "exactColor": true
+ },
  "22119.dat|1": {
   "src": "/courses/part-thumbs/22119-1.webp",
   "exactColor": true
@@ -173,6 +177,10 @@
  },
  "2302b.dat|4": {
   "src": "/courses/part-thumbs/2302-4.webp",
+  "exactColor": true
+ },
+ "2332ac01.dat|4": {
+  "src": "/courses/part-thumbs/d14ff5fd997b17dfa6ec.webp",
   "exactColor": true
  },
  "28331.dat|7": {
@@ -651,6 +659,10 @@
   "src": "/courses/part-thumbs/44970-0.webp",
   "exactColor": true
  },
+ "4663.dat|14": {
+  "src": "/courses/part-thumbs/23f8e6f9c19287f508f0.webp",
+  "exactColor": true
+ },
  "4672.dat|1": {
   "src": "/courses/part-thumbs/4672-1.webp",
   "exactColor": true
@@ -903,6 +915,10 @@
   "src": "/courses/part-thumbs/6522-7.webp",
   "exactColor": true
  },
+ "6522.dat|71": {
+  "src": "/courses/part-thumbs/6cc2bedbe5c65ffc2e92.webp",
+  "exactColor": true
+ },
  "6523.dat|1": {
   "src": "/courses/part-thumbs/6523-1.webp",
   "exactColor": true
@@ -926,6 +942,10 @@
  "6530.dat|14": {
   "src": "/courses/part-thumbs/6530-14.webp",
   "exactColor": true
+ },
+ "6530.dat|4": {
+  "src": "/courses/part-thumbs/6530-14.webp",
+  "exactColor": false
  },
  "71981.dat|0": {
   "src": "/courses/part-thumbs/71981-0.webp",
@@ -961,6 +981,10 @@
  },
  "75350.dat|4": {
   "src": "/courses/part-thumbs/75350-4.webp",
+  "exactColor": true
+ },
+ "75536.dat|14": {
+  "src": "/courses/part-thumbs/5df9a76a94948d9f1d76.webp",
   "exactColor": true
  },
  "76057.dat|14": {

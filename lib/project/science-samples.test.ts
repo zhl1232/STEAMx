@@ -13,7 +13,7 @@ test.each(['production', 'development'])('reviewed 1309 applies in %s without mu
   vi.stubEnv('NODE_ENV', env)
   expect(getScienceSample(1309)).toEqual(sample)
   expect(getScienceSampleForProject(original)).toEqual(sample)
-  expect(scienceSampleIds()).toHaveLength(114)
+  expect(scienceSampleIds()).toHaveLength(115)
   const result = applyScienceSample(original)
   expect(result).toMatchObject({ description: sample.description, materials: sample.materials, steps: sample.steps, faq: sample.faq, reflection: sample.principle })
   expect(result.steps!.length).toBeGreaterThan(1)
@@ -49,8 +49,8 @@ test('mixed steps retain genuine instructions and consecutive positions', () => 
 })
 test('all reviewed samples expose their actual step count and visible FAQ only', () => {
   vi.stubEnv('NODE_ENV', 'development')
-  expect(scienceSampleIds()).toHaveLength(114)
-  expect(new Set(scienceSampleIds()).size).toBe(114)
+  expect(scienceSampleIds()).toHaveLength(115)
+  expect(new Set(scienceSampleIds()).size).toBe(115)
   expect(scienceSampleIds()).toEqual(expect.arrayContaining([1309, 1323, 1322, 1315, 1295]))
   for (const id of scienceSampleIds()) {
     const sample = getScienceSample(id)!

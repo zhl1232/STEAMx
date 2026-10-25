@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import {
     parseFunctionExpression,
-    plotFunction,
     type FunctionName,
     type ParsedFunction,
 } from "@/lib/playground/function-plotter"
@@ -33,17 +32,23 @@ import {
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
 import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
 
+import { buildFunctionWarsTrajectory, getMeaningfulFunctionWarsUsage, validateFunctionWarsLaunch } from "@/lib/playground/function-wars-trajectory"
+import { isBetterFunctionWarsSolution, readFunctionWarsBestSolution, type FunctionWarsBestSolution, type FunctionWarsSolutionStep } from "@/lib/playground/function-wars-progress"
+export type { FunctionWarsBestSolution, FunctionWarsSolutionStep } from "@/lib/playground/function-wars-progress"
+
 export const FUNCTION_WARS_STATS_KEY = "function_wars_stats"
 export const FUNCTION_WARS_PROJECTILE_STEP = 0.04
 export const FUNCTION_WARS_PROJECTILE_RADIUS = 0.08
 
 export type FunctionWarsStatus = "playing" | "won" | "lost"
-export type FunctionWarsLossReason = "player_fell" | "shot_limit" | null
+export type FunctionWarsLossReason = "player_fell" | "shot_limit" | "mission_incomplete" | null
 
 export type FunctionWarsStats = {
     totalGames: number
     solvedLevels: string[]
     bestShots: Record<string, number>
+    bestStars: Record<string, number>
+    bestSolutions: Record<string, FunctionWarsBestSolution>
     bestTimes: Record<string, number>
     onlineGames: number
     onlineWins: number
@@ -110,6 +115,8 @@ export type FunctionWarsCoreState = {
 
 export type FunctionWarsTraceTermination =
     | "completed"
+    | "distance_limit"
+    | "sample_limit"
     | "out_of_bounds"
     | "discontinuity"
     | "domain_error"
@@ -200,6 +207,8 @@ const EMPTY_STATS: FunctionWarsStats = {
     solvedLevels: [],
     bestShots: {},
     bestTimes: {},
+    bestStars: {},
+    bestSolutions: {},
     onlineGames: 0,
     onlineWins: 0,
 }
@@ -244,12 +253,27 @@ function finiteRecord(value: unknown): Record<string, number> {
 
 function loadStats(): FunctionWarsStats {
     const raw = getPlaygroundItem<Partial<FunctionWarsStats>>(FUNCTION_WARS_STATS_KEY)
-    if (!raw) return { ...EMPTY_STATS, bestShots: {}, bestTimes: {}, solvedLevels: [] }
+    if (!raw || typeof raw !== "object" || Array.isArray(raw)) return { ...EMPTY_STATS, bestShots: {}, bestTimes: {}, bestStars: {}, bestSolutions: {}, solvedLevels: [] }
+    const bestStars = Object.fromEntries(Object.entries(finiteRecord(raw.bestStars)).filter(([id, stars]) => FUNCTION_WARS_LEVELS.some((level) => level.id === id) && Number.isInteger(stars) && stars <= 3))
+    const bestSolutions: Record<string, FunctionWarsBestSolution> = {}
+    if (raw.bestSolutions && typeof raw.bestSolutions === "object" && !Array.isArray(raw.bestSolutions)) {
+        for (const [id, stored] of Object.entries(raw.bestSolutions)) {
+            if (!FUNCTION_WARS_LEVELS.some((level) => level.id === id)) continue
+            const solution = readFunctionWarsBestSolution(stored)
+            if (!solution) continue
+            const { stars } = solution
+            if (bestStars[id] !== undefined && bestStars[id] !== stars) continue
+            bestStars[id] = stars
+            bestSolutions[id] = solution
+        }
+    }
     return {
         totalGames: typeof raw.totalGames === "number" && Number.isFinite(raw.totalGames) ? Math.max(0, raw.totalGames) : 0,
         solvedLevels: Array.isArray(raw.solvedLevels)
             ? [...new Set(raw.solvedLevels.filter((id): id is string => typeof id === "string"))]
             : [],
+        bestStars,
+        bestSolutions,
         bestShots: finiteRecord(raw.bestShots),
         bestTimes: finiteRecord(raw.bestTimes),
         onlineGames: typeof raw.onlineGames === "number" && Number.isFinite(raw.onlineGames) ? Math.max(0, raw.onlineGames) : 0,
@@ -293,7 +317,9 @@ export function createFunctionWarsState(level: FunctionWarsLevel): FunctionWarsC
                 type: enemy.type,
                 position: clonePoint(enemy.position),
                 radius: enemy.radius ?? 0.42,
-                hp: maxHp,
+                hp: typeof enemy.initialHp === "number" && Number.isFinite(enemy.initialHp)
+                    ? Math.min(maxHp, Math.max(1, Math.floor(enemy.initialHp)))
+                    : maxHp,
                 maxHp,
             }
         }),
@@ -898,24 +924,7 @@ function createFunctionPath(
     level: FunctionWarsLevel,
     yScale: number,
 ): { points: WorldPoint[]; termination: FunctionWarsTraceTermination } {
-    const maxLocalX = FUNCTION_WARS_WORLD.maxX - level.player.x
-    const plotted = plotFunction(parsed, {
-        startX: 0,
-        endX: maxLocalX,
-        step: FUNCTION_WARS_PROJECTILE_STEP,
-        yOffset: level.player.y,
-        yScale,
-        maxAbsY: 1_000_000,
-        discontinuityThreshold: 10,
-        maxSamples: 2048,
-    })
-    const points = plotted.samples.map((sample) => ({ x: level.player.x + sample.x, y: sample.y }))
-    const termination: FunctionWarsTraceTermination = plotted.termination.kind === "completed"
-        ? "completed"
-        : plotted.termination.kind === "discontinuity"
-          ? "discontinuity"
-          : "domain_error"
-    return { points, termination }
+    return buildFunctionWarsTrajectory({ parsed, origin: level.player, yScale })
 }
 
 function simulateSplitShot(
@@ -957,6 +966,10 @@ function simulateSplitShot(
             return
         }
     }
+    if (!splitCollision && apexIndex === path.length - 1 && pathTermination !== "completed") {
+        addTrace(context, options.weaponId, mainPoints, pathTermination, false)
+        return
+    }
     splitPoint ??= mainPoints.at(-1) ?? null
     if (!splitPoint || !isHorizontallyInWorld(splitPoint)) {
         addTrace(context, options.weaponId, mainPoints, pathTermination, false)
@@ -974,11 +987,12 @@ function simulateSplitShot(
         const firstVisibleY = Math.min(start.y - FUNCTION_WARS_PROJECTILE_STEP, FUNCTION_WARS_WORLD.maxY)
         for (
             let y = firstVisibleY;
-            y >= FUNCTION_WARS_WORLD.minY - FUNCTION_WARS_PROJECTILE_STEP;
+            y >= FUNCTION_WARS_WORLD.minY;
             y -= FUNCTION_WARS_PROJECTILE_STEP
         ) {
             fragmentPath.push({ x: start.x, y })
         }
+        fragmentPath.push({ x: start.x, y: FUNCTION_WARS_WORLD.minY })
         simulateTrace(context, fragmentPath, "out_of_bounds", {
             ...options,
             damage: definition.fragmentDamage,
@@ -997,14 +1011,16 @@ function expressionRequirementLabel(value: FunctionName | "pi" | "e"): string {
 function validateFunctionWarsExpressionMission(
     level: FunctionWarsLevel,
     parsed: ParsedFunction,
+    localXs: number[],
 ): string | null {
+    const usage = getMeaningfulFunctionWarsUsage(parsed, localXs)
     const rule = level.mission?.expressionRule
     if (!rule) return null
 
-    const missingFunctions = (rule.allFunctions ?? []).filter((name) => !parsed.functions.includes(name))
-    const missingConstants = (rule.constants ?? []).filter((name) => !parsed.constants.includes(name))
+    const missingFunctions = (rule.allFunctions ?? []).filter((name) => !usage.functions.includes(name))
+    const missingConstants = (rule.constants ?? []).filter((name) => !usage.constants.includes(name))
     const anyFunctions = rule.anyFunctions ?? []
-    const hasAnyFunction = anyFunctions.length === 0 || anyFunctions.some((name) => parsed.functions.includes(name))
+    const hasAnyFunction = anyFunctions.length === 0 || anyFunctions.some((name) => usage.functions.includes(name))
     const requirements = [
         ...missingFunctions.map(expressionRequirementLabel),
         ...missingConstants.map(expressionRequirementLabel),
@@ -1038,19 +1054,12 @@ export function simulateFunctionWarsShot(
     if (!parsed.ok) {
         return { ok: false, code: "invalid_expression", error: parsed.error.message }
     }
-    const missionError = validateFunctionWarsExpressionMission(level, parsed.parsed)
-    if (missionError) {
-        return { ok: false, code: "mission_rule", error: missionError }
-    }
-
-    const firstEvaluation = plotFunction(parsed.parsed, { startX: 0, endX: 0, step: 0.1 })
-    if (firstEvaluation.samples.length === 0) {
-        return {
-            ok: false,
-            code: "empty_trajectory",
-            error: firstEvaluation.termination.message ?? "函数在炮口位置没有有效轨迹",
-        }
-    }
+    const launchError = validateFunctionWarsLaunch(parsed.parsed)
+    if (launchError) return { ok: false, code: "empty_trajectory", error: launchError }
+    const firstPath = buildFunctionWarsTrajectory({ parsed: parsed.parsed, origin: level.player })
+    if (firstPath.error) return { ok: false, code: "empty_trajectory", error: firstPath.error }
+    const missionError = validateFunctionWarsExpressionMission(level, parsed.parsed, firstPath.points.map(point => point.x - level.player.x))
+    if (missionError) return { ok: false, code: "mission_rule", error: missionError }
 
     const state = cloneCoreState(currentState)
     state.shots += 1
@@ -1096,7 +1105,7 @@ export function simulateFunctionWarsShot(
     }
 
     if (weaponId === "split") {
-        const path = createFunctionPath(parsed.parsed, level, 1)
+        const path = firstPath
         simulateSplitShot(context, path.points, path.termination, {
             ...baseOptions,
             blastRadius: definition.fragmentBlastRadius * blastMultiplier,
@@ -1104,15 +1113,15 @@ export function simulateFunctionWarsShot(
         })
     } else {
         const paths = weaponId === "mirror"
-            ? [createFunctionPath(parsed.parsed, level, 1), createFunctionPath(parsed.parsed, level, -1)]
-            : [createFunctionPath(parsed.parsed, level, 1)]
+            ? [firstPath, createFunctionPath(parsed.parsed, level, -1)]
+            : [firstPath]
         for (const path of paths) simulateTrace(context, path.points, path.termination, baseOptions)
     }
 
     settleUnsupportedUnits(context)
     shot.effective = shot.damage.length > 0 || shot.falls.length > 0 || shot.pickups.length > 0 || shot.relays.length > 0
     if (shot.effective) {
-        state.effectiveFunctions = [...new Set([...state.effectiveFunctions, ...parsed.parsed.functions])]
+        state.effectiveFunctions = [...new Set([...state.effectiveFunctions, ...getMeaningfulFunctionWarsUsage(parsed.parsed, shot.traces.flatMap(trace => trace.points.map(point => point.x - level.player.x))).functions])]
         state.effectiveWeapons = [...new Set([...state.effectiveWeapons, weaponId])]
     }
 
@@ -1122,6 +1131,9 @@ export function simulateFunctionWarsShot(
         state.lossReason = "player_fell"
     } else if (isFunctionWarsMissionComplete(level, state)) {
         state.status = "won"
+    } else if (state.enemies.every(enemy => enemy.hp <= 0) && state.relays.every(relay => !relay.active)) {
+        state.status = "lost"
+        state.lossReason = "mission_incomplete"
     } else if (level.mission?.shotLimit !== undefined && state.shots >= level.mission.shotLimit) {
         state.status = "lost"
         state.lossReason = "shot_limit"
@@ -1148,6 +1160,8 @@ export function useFunctionWars(initialLevelIndex = 0, active = true) {
     }))
     const [lastShot, setLastShot] = useState<FunctionWarsShotResult | null>(null)
     const [error, setError] = useState<string | null>(null)
+    const [weaponNotice, setWeaponNotice] = useState<string | null>(null)
+    const runStepsRef = useRef<FunctionWarsSolutionStep[]>([])
     const coreStateRef = useRef(coreState)
     const timeRef = useRef(0)
     const elapsedBeforeRunMsRef = useRef(0)
@@ -1184,23 +1198,30 @@ export function useFunctionWars(initialLevelIndex = 0, active = true) {
         status: FunctionWarsStatus,
         shots: number,
         seconds: number,
+        earnedStars: 1 | 2 | 3,
     ) => {
         if (outcomeRecordedRef.current) return
         outcomeRecordedRef.current = true
         const normalizedShots = Math.max(1, Math.floor(shots))
         const normalizedTime = Math.max(1, Math.floor(seconds))
+        const completedSteps = runStepsRef.current.map((step) => ({ ...step }))
         setStats((previous) => {
             if (status !== "won") {
                 const next = { ...previous, totalGames: previous.totalGames + 1 }
                 saveStats(next)
                 return next
             }
+            const previousSolution = previous.bestSolutions[completedLevel.id]
+            const solution = { stars: earnedStars, shots: normalizedShots, steps: completedSteps }
+            const replaceSolution = earnedStars >= (previous.bestStars[completedLevel.id] ?? 0) && isBetterFunctionWarsSolution(solution, previousSolution)
             const next: FunctionWarsStats = {
                 ...previous,
                 totalGames: previous.totalGames + 1,
                 solvedLevels: previous.solvedLevels.includes(completedLevel.id)
                     ? previous.solvedLevels
                     : [...previous.solvedLevels, completedLevel.id],
+                bestStars: { ...previous.bestStars, [completedLevel.id]: Math.max(previous.bestStars[completedLevel.id] ?? 0, earnedStars) },
+                bestSolutions: replaceSolution ? { ...previous.bestSolutions, [completedLevel.id]: solution } : previous.bestSolutions,
                 bestShots: {
                     ...previous.bestShots,
                     [completedLevel.id]: previous.bestShots[completedLevel.id]
@@ -1226,6 +1247,12 @@ export function useFunctionWars(initialLevelIndex = 0, active = true) {
             setError(outcome.error)
             return outcome
         }
+        runStepsRef.current = [...runStepsRef.current, { expression: outcome.shot.expression, weaponId: outcome.shot.weaponId }]
+        setWeaponNotice(null)
+        if (outcome.state.status === "playing" && selectedWeapon !== "standard" && !canUseWeapon(outcome.state.inventory, selectedWeapon)) {
+            setSelectedWeapon("standard")
+            setWeaponNotice(`${WEAPON_DEFINITIONS[selectedWeapon].name}弹药已用完，已切换为标准炮弹`)
+        }
         coreStateRef.current = outcome.state
         setCoreState(outcome.state)
         setLastShot(outcome.shot)
@@ -1238,7 +1265,7 @@ export function useFunctionWars(initialLevelIndex = 0, active = true) {
                 )
             timeRef.current = currentTime
             setTime(currentTime)
-            recordOutcome(level, outcome.state.status, outcome.state.shots, currentTime)
+            recordOutcome(level, outcome.state.status, outcome.state.shots, currentTime, getFunctionWarsStars(level.par, outcome.state.shots, isFunctionWarsBonusComplete(level, outcome.state)))
         }
         return outcome
     }, [expression, level, recordOutcome, selectedWeapon])
@@ -1251,6 +1278,8 @@ export function useFunctionWars(initialLevelIndex = 0, active = true) {
         elapsedBeforeRunMsRef.current = 0
         runningSinceRef.current = null
         outcomeRecordedRef.current = false
+        runStepsRef.current = []
+        setWeaponNotice(null)
         setLevelIndex(nextLevel.number - 1)
         setCoreState(nextState)
         setExpression("0")
@@ -1260,13 +1289,18 @@ export function useFunctionWars(initialLevelIndex = 0, active = true) {
         setError(null)
     }, [])
 
-    const retryLevel = useCallback(() => startLevel(levelIndex), [levelIndex, startLevel])
+    const retryLevel = useCallback(() => {
+        startLevel(levelIndex)
+        setExpression(expression)
+    }, [expression, levelIndex, startLevel])
     const selectWeapon = useCallback((weaponId: WeaponId) => {
         if (!level.availableWeapons.includes(weaponId)) return
         if (!canUseWeapon(coreStateRef.current.inventory, weaponId)) return
         setSelectedWeapon(weaponId)
+        setWeaponNotice(null)
     }, [level.availableWeapons])
 
+    const previewShot = useMemo(() => simulateFunctionWarsShot(level, coreState, expression, selectedWeapon), [level, coreState, expression, selectedWeapon])
     const stars = useMemo(
         () => coreState.status === "won"
             ? getFunctionWarsStars(level.par, coreState.shots, isFunctionWarsBonusComplete(level, coreState))
@@ -1275,6 +1309,7 @@ export function useFunctionWars(initialLevelIndex = 0, active = true) {
     )
 
     return {
+        previewShot,
         level,
         levelIndex,
         levelCount: FUNCTION_WARS_LEVELS.length,
@@ -1299,6 +1334,7 @@ export function useFunctionWars(initialLevelIndex = 0, active = true) {
         stars,
         stats,
         lastShot,
+        weaponNotice,
         error,
         fire,
         startLevel,

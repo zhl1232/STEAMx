@@ -38,6 +38,7 @@ export type FunctionWarsCircleObstacle = ObstacleBase & {
 export type FunctionWarsObstacle = FunctionWarsRectObstacle | FunctionWarsCircleObstacle
 
 export type FunctionWarsEnemy = {
+    initialHp?: number
     id: string
     type: FunctionWarsEnemyType
     position: WorldPoint
@@ -206,7 +207,8 @@ export const FUNCTION_WARS_LEVELS: readonly FunctionWarsLevel[] = [
             unitSupport("g3-e2-support", { x: 5.5, y: 0.6 }, "grassland"),
             { id: "g3-e1-pedestal", kind: "rect", x: -0.55, y: -4.24, width: 0.5, height: 2.24, destructible: false, material: "earth" },
             { id: "g3-e2-pedestal", kind: "rect", x: 5.95, y: -2.84, width: 0.5, height: 5.04, destructible: false, material: "earth" },
-            { id: "g3-mound", kind: "circle", x: 2, y: -3.7, radius: 1.5, destructible: true, material: "earth" },
+            // Bury the wider base while preserving the original crest at y = -2.2.
+            { id: "g3-mound", kind: "circle", x: 2, y: -5.5, radius: 3.3, destructible: true, material: "earth" },
             { id: "g3-box", kind: "rect", x: 4.2, y: -1.1, width: 1.5, height: 1.2, destructible: true, material: "wood" },
         ],
         crates: [{ id: "g3-p1", pickup: "ammo", position: { x: 1.2, y: 1.5 } }],
@@ -256,13 +258,14 @@ export const FUNCTION_WARS_LEVELS: readonly FunctionWarsLevel[] = [
             { id: "c5-e1-ledge", kind: "rect", x: 3.08, y: 1.21, width: 1.65, height: 0.7, destructible: false, material: "earth" },
             { id: "c5-left", kind: "rect", x: -2.5, y: -4.7, width: 1.1, height: 4.5, destructible: false, material: "rock" },
             { id: "c5-right", kind: "rect", x: 4.5, y: 2.5, width: 1.2, height: 5.5, destructible: false, material: "rock" },
-            { id: "c5-cover", kind: "circle", x: 7.2, y: -4.4, radius: 1.3, destructible: true, material: "earth" },
+            // Keep the cover's crest at y = -3.1 with a base embedded in the ground.
+            { id: "c5-cover", kind: "circle", x: 7.2, y: -5.6, radius: 2.5, destructible: true, material: "earth" },
         ],
         crates: [{ id: "c5-p1", pickup: "penetration", position: { x: 0, y: 0.8 } }],
         availableWeapons: ["standard", "heavy", "drill", "split"],
         weaponInventory: inventory({ drill: 1, split: 1 }),
         par: 3,
-        hint: "绝对值函数 a·abs(x−b)+c 能做出可控折线。",
+        hint: "绝对值函数 a*(abs(x-b)-abs(b)) 从炮口出发，做出可控折线。",
         mission: {
             bonusObjectives: [{ kind: "function", function: "abs", label: "用 abs 完成有效攻击" }],
         },
@@ -292,33 +295,27 @@ export const FUNCTION_WARS_LEVELS: readonly FunctionWarsLevel[] = [
     {
         id: "canyon-07",
         number: 7,
-        name: "要塞总攻",
+        name: "残垒清扫",
         theme: "canyon",
+        fallHazard: true,
         player: { x: -10, y: -4 },
         enemies: [
-            { id: "c7-e1", type: "normal", position: { x: -0.5, y: 2.5 } },
-            { id: "c7-e2", type: "armored", position: { x: 5.3, y: -1.8 } },
-            { id: "c7-e3", type: "normal", position: { x: 9.2, y: 2.8 } },
+            { id: "c7-e1", type: "normal", position: { x: 1.2, y: 0 }, initialHp: 25 },
+            { id: "c7-e2", type: "normal", position: { x: 2.8, y: -2 }, initialHp: 25 },
+            { id: "c7-e3", type: "normal", position: { x: 2, y: -4 }, initialHp: 25 },
         ],
         obstacles: [
             unitSupport("c7-player-support", { x: -10, y: -4 }, "canyon", 1.4),
-            unitSupport("c7-e1-support", { x: -0.5, y: 2.5 }, "canyon"),
-            unitSupport("c7-e2-support", { x: 5.3, y: -1.8 }, "canyon"),
-            unitSupport("c7-e3-support", { x: 9.2, y: 2.8 }, "canyon"),
-            { id: "c7-e1-ledge", kind: "rect", x: 0.98, y: 1.91, width: 2.05, height: 0.7, destructible: false, material: "earth" },
-            { id: "c7-e3-ledge", kind: "rect", x: 10.83, y: 2.21, width: 2.35, height: 0.7, destructible: false, material: "earth" },
+            fragileUnitSupport("c7-e1-support", { x: 1.2, y: 0 }, "canyon", 0.9),
+            fragileUnitSupport("c7-e2-support", { x: 2.8, y: -2 }, "canyon", 0.9),
+            fragileUnitSupport("c7-e3-support", { x: 2, y: -4 }, "canyon", 0.9),
             { id: "c7-pillar-a", kind: "rect", x: -3, y: -3.4, width: 1, height: 5.4, destructible: false, material: "rock" },
-            { id: "c7-pillar-b", kind: "rect", x: 2.5, y: 3.6, width: 1, height: 5.2, destructible: false, material: "rock" },
-            { id: "c7-cover", kind: "circle", x: 5.5, y: -3.5, radius: 1.5, destructible: true, material: "earth" },
         ],
-        crates: [
-            { id: "c7-p1", pickup: "blast_boost", position: { x: 0.4, y: 0.4 } },
-            { id: "c7-p2", pickup: "penetration", position: { x: 7.2, y: 1 } },
-        ],
+        crates: [],
         availableWeapons: ["standard", "heavy", "drill", "split"],
         weaponInventory: inventory({ heavy: 1, drill: 1, split: 2 }),
-        par: 5,
-        hint: "组合抛物线与平移，分别处理高台和低位目标。",
+        par: 1,
+        hint: "三座受损炮台各剩 25 点生命。把抛物线顶点移到目标上方，让三枚分裂碎片分别命中。",
         mission: {
             bonusObjectives: [{ kind: "weapon", weapon: "split", label: "用分裂弹完成有效攻击" }],
         },
@@ -420,7 +417,7 @@ export const FUNCTION_WARS_LEVELS: readonly FunctionWarsLevel[] = [
         theme: "space",
         chapter: "challenge",
         player: { x: -10, y: -3.8 },
-        enemies: [{ id: "ch11-core", type: "armored", position: { x: 9.5, y: -4.2 } }],
+        enemies: [{ id: "ch11-core", type: "normal", position: { x: 9.5, y: -4.2 } }],
         obstacles: [
             unitSupport("ch11-player-support", { x: -10, y: -3.8 }, "space", 1.4),
             unitSupport("ch11-core-support", { x: 9.5, y: -4.2 }, "space", 0.72),
@@ -434,7 +431,7 @@ export const FUNCTION_WARS_LEVELS: readonly FunctionWarsLevel[] = [
         ],
         availableWeapons: ["standard"],
         weaponInventory: inventory(),
-        par: 2,
+        par: 1,
         hint: "让 sin 的一个完整周期依次穿过上下相位门。",
         mission: {
             expressionRule: { allFunctions: ["sin"], constants: ["pi"] },
@@ -465,7 +462,7 @@ export const FUNCTION_WARS_LEVELS: readonly FunctionWarsLevel[] = [
         availableWeapons: ["standard", "drill"],
         weaponInventory: inventory({ drill: 1 }),
         par: 2,
-        hint: "用 abs 折出 V 形航道，钻地弹可处理折返线后的掩体。",
+        hint: "用 a*(abs(x-b)-abs(b)) 折出 V 形航道，钻地弹可处理掩体。",
         mission: {
             expressionRule: { allFunctions: ["abs"] },
             bonusObjectives: [{ kind: "weapon", weapon: "drill", label: "用钻地弹完成有效攻击" }],
@@ -495,7 +492,7 @@ export const FUNCTION_WARS_LEVELS: readonly FunctionWarsLevel[] = [
         availableWeapons: ["standard", "heavy"],
         weaponInventory: inventory({ heavy: 1 }),
         par: 2,
-        hint: "exp 会先缓慢抬升，再快速爬向高空目标。",
+        hint: "用 a*(exp(k*x)-1) 从炮口起步，先慢后快地爬向高空目标。",
         mission: {
             expressionRule: { allFunctions: ["exp"] },
             bonusObjectives: [{ kind: "weapon", weapon: "heavy", label: "用重磅弹完成有效攻击" }],
@@ -526,7 +523,7 @@ export const FUNCTION_WARS_LEVELS: readonly FunctionWarsLevel[] = [
         availableWeapons: ["standard", "drill"],
         weaponInventory: inventory({ drill: 1 }),
         par: 2,
-        hint: "改变 log 前的系数，在同一峡谷切换低航道和高航道。",
+        hint: "用 a*log(1+k*x) 从炮口起步，改变系数切换低航道和高航道。",
         mission: {
             expressionRule: { allFunctions: ["log"] },
             bonusObjectives: [{ kind: "weapon", weapon: "drill", label: "用钻地弹完成有效攻击" }],

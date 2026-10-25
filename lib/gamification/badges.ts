@@ -245,7 +245,7 @@ const TIERED_SERIES: TieredSeriesConfig[] = [
         label: "游乐场探索",
         icon: "compass",
         getValue: (s) => s.playgroundGamesPlayed ?? 0,
-        thresholds: [3, 8, 13, 18],
+        thresholds: [3, 8, 13, 15],
         tierNames: ["游园新客", "多面玩家", "全能体验官", "全图鉴玩家"],
         descriptionTemplate: (_, v) => `玩过 ${v} 个不同游乐场游戏`,
     },
@@ -277,7 +277,6 @@ const SINGLE_BADGES: Badge[] = [
     },
     // 游乐场高难度彩蛋（跨游戏阶梯见 playground_explorer / playground_victories）
     { id: "minesweeper_speedster", name: "极速拆弹", description: "在 60 秒内通关扫雷（任意难度）", icon: "timer", kind: "single", seriesKey: "playground_star", condition: (stats) => stats.minesweeperBestTime > 0 && stats.minesweeperBestTime <= 60 },
-    { id: "game2048_8192", name: "数字传说", description: "合成 8192 方块", icon: "crown", kind: "single", seriesKey: "playground_star", condition: (stats) => (stats.game2048MaxTile ?? 0) >= 8192 },
     { id: "game24_speed", name: "闪电速算", description: "在 10 秒内解出 24 点", icon: "zap", kind: "single", seriesKey: "playground_star", condition: (stats) => (stats.game24BestTime ?? 999) <= 10 },
     { id: "hanoi_perfect", name: "巴别塔最优解", description: "以最少步数（2ⁿ−1）通关汉诺塔", icon: "target", kind: "single", seriesKey: "playground_star", condition: (stats) => (stats.hanoiPerfect ?? 0) >= 1 },
     { id: "life_challenge_all", name: "涌现工程师", description: "完成所有生命游戏挑战", icon: "sparkles", kind: "single", seriesKey: "playground_star", condition: (stats) => (stats.gameOfLifeChallengesSolved ?? 0) >= 8 },

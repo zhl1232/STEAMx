@@ -25,6 +25,7 @@ import { HOUSEHOLD_PROJECT_IDS } from '@/lib/explore/household-projects'
 import { sortProjectsByMaterials } from '@/lib/explore/material-matching'
 import { resolveProjectMaterials } from '@/lib/project/materials'
 import needleSource from '@/__tests__/fixtures/household-source-509.json'
+import caterpillarSource from '@/__tests__/fixtures/household-source-722.json'
 
 vi.mock('@/lib/supabase/admin', () => ({ supabaseAdmin: null }))
 
@@ -512,7 +513,7 @@ describe('production everyday materials cohort', () => {
     expect(queries[0].operations.some(([operation]) => operation === 'or')).toBe(false)
   })
 
-  it('uses the same evidence-based material correction for raw database cards and details', async () => {
+  it('corrects legacy needle details without accepting the outdated material matching profile', async () => {
     rows.push({
       ...projectRow(738), ...needleSource,
       sub_categories: { name: '物理' },
@@ -520,11 +521,29 @@ describe('production everyday materials cohort', () => {
       project_steps: needleSource.steps.map((step, sort_order) => ({ ...step, sort_order })),
     })
     const result = await getProjects({ tags: ['日常材料'], searchQuery: '漂浮的针' })
-    expect(result.projects.map((project) => project.id)).toEqual([509])
+    expect(result.projects).toEqual([])
     const detail = await getProjectById(509)
     expect(detail?.materials).toContain('清水')
+    expect(detail?.steps).toEqual(needleSource.steps)
+    expect(needleSource.materials).not.toContain('清水')
+  })
+
+  it('uses the same source-verified correction for raw database cards and details', async () => {
+    const row = {
+      ...projectRow(738), ...caterpillarSource,
+      video_url: caterpillarSource.videoUrl,
+      sub_categories: { name: '物理' },
+      project_materials: caterpillarSource.materials.map((material, sort_order) => ({ material, sort_order })),
+      project_steps: caterpillarSource.steps.map((step, sort_order) => ({ ...step, sort_order })),
+    }
+    rows.push(row)
+    const result = await getProjects({ tags: ['日常材料'], searchQuery: '毛毛虫大赛' })
+    expect(result.projects.map((project) => project.id)).toEqual([722])
+    const detail = await getProjectById(722)
+    expect(detail?.materials).toEqual(['A4白纸1张', '剪刀1把', '塑料吸管', '彩色笔'])
+    expect(detail?.steps?.[0].title).toBe('裁出窄纸条')
     expect(result.projects[0].materials).toEqual(resolveProjectMaterials(detail!).materials)
-    expect(result.projects[0].householdRequirements).toContainEqual(['water'])
+    expect(result.projects[0].householdRequirements).toContainEqual(['paper'])
   })
 
   it('does not match text that exists only in the stale database description', async () => {

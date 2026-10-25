@@ -202,7 +202,7 @@ describe("Building3DWorkspace", () => {
 
         await waitFor(() => {
             expect(fetchMock).toHaveBeenCalledWith(
-                "/api/courses/ldraw-bom?model=rescue-car.mpd",
+                "/api/courses/ldraw-bom?model=rescue-car.mpd&v=2",
                 expect.objectContaining({ cache: "force-cache" }),
             );
         });

@@ -9,13 +9,70 @@ import { simulateFunctionWarsOnlineShot } from "@/lib/playground/function-wars-s
 
 function openMap(): FunctionWarsOnlineMap {
     return {
-        ...buildFunctionWarsOnlineMap(7),
+        ...buildFunctionWarsOnlineMap(7, "symmetric-canyon"),
         obstacles: [],
         crates: [],
     }
 }
 
 describe("simulateFunctionWarsOnlineShot", () => {
+    it.each(["wood", "earth"] as const)("retains %s impact material without changing destructible-cover settlement", (material) => {
+        const map = openMap()
+        const origin = map.turrets.host
+        const impact = { x: origin.x + 1.75, y: origin.y }
+        map.obstacles = [{
+            id: "destructible-cover",
+            shape: "rect",
+            x: origin.x + 2,
+            y: origin.y,
+            width: 0.5,
+            height: 1,
+            destructible: true,
+            material,
+        }]
+
+        const result = simulateFunctionWarsOnlineShot({
+            expression: "0",
+            role: "host",
+            weapon: "standard",
+            map,
+            crates: [],
+            craters: [],
+            inventory: createFunctionWarsInitialInventory().host,
+        })
+
+        expect(result.error).toBeNull()
+        expect(result.impact).toMatchObject({ ...impact, material, weapon: "standard" })
+        expect(result.impact).not.toHaveProperty("obstacleId")
+        expect(result.traces[0].points.at(-1)).toEqual(impact)
+        expect(result.summary).toEqual({
+            damage: null,
+            craters: [{ ...impact, radius: 0.72 }],
+            picked_crate_ids: [],
+        })
+    })
+
+    it("retains heavy weapon metadata on turret hits and its existing damage and crater", () => {
+        const map = openMap()
+        const result = simulateFunctionWarsOnlineShot({
+            expression: "0",
+            role: "host",
+            weapon: "heavy",
+            map,
+            crates: [],
+            craters: [],
+            inventory: createFunctionWarsInitialInventory().host,
+        })
+
+        expect(result.traces[0].weapon).toBe("heavy")
+        expect(result.impact).toMatchObject({ weapon: "heavy", material: "metal" })
+        expect(result.summary).toEqual({
+            damage: { target: "guest", amount: 70 },
+            craters: [{ x: expect.closeTo(map.turrets.guest.x - 0.62), y: map.turrets.guest.y, radius: 1.3 }],
+            picked_crate_ids: [],
+        })
+    })
+
     it("caps damage from both mirror projectiles below a full-health one-shot", () => {
         const inventory = createFunctionWarsInitialInventory().host
         const result = simulateFunctionWarsOnlineShot({
@@ -60,7 +117,7 @@ describe("simulateFunctionWarsOnlineShot", () => {
     })
 
     it("launches above the collidable floor without a starting collision", () => {
-        const map = buildFunctionWarsOnlineMap(7)
+        const map = buildFunctionWarsOnlineMap(7, "symmetric-canyon")
         const inventory = createFunctionWarsInitialInventory().host
         const result = simulateFunctionWarsOnlineShot({
             expression: "0",
@@ -137,7 +194,7 @@ describe("simulateFunctionWarsOnlineShot", () => {
         expect(split.summary.craters?.every((crater) => crater.radius === 0.42)).toBe(true)
     })
 
-    it("continues above the viewport and hits after re-entering", () => {
+    it("stops at the ceiling before it can re-enter", () => {
         const inventory = createFunctionWarsInitialInventory().host
         const result = simulateFunctionWarsOnlineShot({
             expression: "-0.5x(x-20)",
@@ -150,19 +207,17 @@ describe("simulateFunctionWarsOnlineShot", () => {
         })
 
         const points = result.traces[0].points
-        const firstOffscreen = points.findIndex((point) => point.y > 7)
-        expect(firstOffscreen).toBeGreaterThan(0)
-        expect(Math.max(...points.map((point) => point.y))).toBeGreaterThan(32)
-        expect(points.slice(firstOffscreen + 1).some((point) => point.y <= 7)).toBe(true)
-        expect(result.summary.damage).toEqual({ target: "guest", amount: 50 })
+        expect(points.every(point => point.y <= 7)).toBe(true)
+        expect(points.at(-1)?.y).toBe(7)
+        expect(result.summary.damage).toBeNull()
     })
 
     it("detects a turret crossed between two steep trajectory samples", () => {
         const map = openMap()
-        map.turrets.guest = { x: 0, y: 0 }
+        map.turrets.guest = { x: -9.95, y: 0 }
         const inventory = createFunctionWarsInitialInventory().host
         const result = simulateFunctionWarsOnlineShot({
-            expression: "100(x-10)+5.15",
+            expression: "100x",
             role: "host",
             weapon: "standard",
             map,
@@ -172,10 +227,18 @@ describe("simulateFunctionWarsOnlineShot", () => {
         })
 
         expect(result.summary.damage).toEqual({ target: "guest", amount: 50 })
-        expect(result.traces[0].points.at(-1)).toEqual(expect.objectContaining({ x: expect.closeTo(0, 1) }))
+        expect(result.traces[0].points.at(-1)).toEqual(expect.objectContaining({ x: expect.closeTo(-9.95, 1) }))
     })
 
-    it("brings split fragments back into view from a very high apex", () => {
+    it("splits at a wall before the unimpeded path reaches the ceiling and retains its impact identity", () => {
+        const map = openMap()
+        map.obstacles = [{id:"steel-wall",shape:"rect",x:-7,y:0,width:0.5,height:14,destructible:false,material:"steel"}]
+        const result = simulateFunctionWarsOnlineShot({expression:"2x",role:"host",weapon:"split",map,crates:[],craters:[],inventory:createFunctionWarsInitialInventory().host})
+        expect(result.traces).toHaveLength(4)
+        expect(result.impact).toMatchObject({obstacleId:"steel-wall",x:expect.closeTo(-7.25)})
+    })
+
+    it("does not create fragments after a trajectory exits the ceiling", () => {
         const map = openMap()
         map.obstacles = [{
             id: "high-apex-target",
@@ -198,12 +261,13 @@ describe("simulateFunctionWarsOnlineShot", () => {
             inventory,
         })
 
-        expect(result.traces).toHaveLength(4)
-        expect(result.traces.slice(1).every((trace) => trace.points.some((point) => point.y <= 7))).toBe(true)
-        expect(result.summary.craters).toHaveLength(3)
+        expect(result.traces).toHaveLength(1)
+        expect(result.traces[0].points.every(point => point.y <= 7)).toBe(true)
+        expect(result.summary.craters).toHaveLength(0)
+        expect(result.traces[0].weapon).toBe("split")
     })
 
-    it("continues below the viewport for right-to-left shots and still respects discontinuities", () => {
+    it("stops below the viewport for right-to-left shots and respects discontinuities", () => {
         const inventory = createFunctionWarsInitialInventory().guest
         const reentry = simulateFunctionWarsOnlineShot({
             expression: "0.15x(x-20)",
@@ -215,7 +279,7 @@ describe("simulateFunctionWarsOnlineShot", () => {
             inventory,
         })
         const discontinuous = simulateFunctionWarsOnlineShot({
-            expression: "1/(x-10)",
+            expression: "1/(x-10)+0.1",
             role: "guest",
             weapon: "standard",
             map: openMap(),
@@ -225,16 +289,15 @@ describe("simulateFunctionWarsOnlineShot", () => {
         })
 
         const points = reentry.traces[0].points
-        const firstOffscreen = points.findIndex((point) => point.y < -7)
-        expect(firstOffscreen).toBeGreaterThan(0)
-        expect(points.slice(firstOffscreen + 1).some((point) => point.y >= -7)).toBe(true)
-        expect(reentry.summary.damage).toEqual({ target: "host", amount: 50 })
+        expect(points.every(point => point.y >= -7)).toBe(true)
+        expect(points.at(-1)?.y).toBe(-7)
+        expect(reentry.summary.damage).toBeNull()
         expect(discontinuous.summary.damage).toBeNull()
         expect(discontinuous.traces[0].points.at(-1)?.x).toBeGreaterThan(0)
     })
 
     it("applies splash damage without creating craters when hitting indestructible floor near the enemy turret", () => {
-        const map = buildFunctionWarsOnlineMap(7)
+        const map = buildFunctionWarsOnlineMap(7, "symmetric-canyon")
         map.obstacles = map.obstacles.filter((obstacle) => obstacle.id === "bedrock-floor")
         const inventory = createFunctionWarsInitialInventory().host
         const result = simulateFunctionWarsOnlineShot({
@@ -258,10 +321,11 @@ describe("simulateFunctionWarsOnlineShot", () => {
     })
 
     it("collects more than 4 crates in a single trajectory up to the 12-crate match limit", () => {
-        const map = buildFunctionWarsOnlineMap(1)
+        const map = openMap()
+        map.crates = Array.from({ length: 12 }, (_, index) => ({ id: `crate-${index}`, type: "ammo" as const, x: -9 + index * 1.4, y: -5.15, spawn_shot: 0, picked_by: null, picked_seq: null }))
         const inventory = createFunctionWarsInitialInventory().host
         const result = simulateFunctionWarsOnlineShot({
-            expression: "7+2.5*sin(2*x)",
+            expression: "0",
             role: "host",
             weapon: "standard",
             map,

@@ -93,6 +93,16 @@ describe("POST /api/playground/functionwars-rooms/[id]/fire", () => {
         });
     });
 
+    it.each(["1000*(1-x/20)", "cos(x)", "1/x"])("rejects invalid launch %s before authoritative ammo spending", async expression => {
+        const response = await POST(new Request("http://localhost/api/playground/functionwars-rooms/22222222-2222-4222-8222-222222222222/fire", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ weapon: "heavy", expression, expected_shot_seq: 4 }),
+        }), { params: Promise.resolve({ id: "22222222-2222-4222-8222-222222222222" }) })
+        expect(response.status).toBe(400)
+        expect(adminRpcMock).not.toHaveBeenCalled()
+        expect(simulateMock).not.toHaveBeenCalled()
+    })
+
     it("ignores a client collision summary and submits the server simulation", async () => {
         const response = await POST(new Request(
             "http://localhost/api/playground/functionwars-rooms/22222222-2222-4222-8222-222222222222/fire",

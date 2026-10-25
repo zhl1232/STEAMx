@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {createDOM} from './dom-fixture.mjs';
+import {createDOM,chooseWorkbench} from './dom-fixture.mjs';
 
 test('DOM-only: desktop input workflows, mode changes, save/load, undo and real-time feedback',async t=>{
   const env=createDOM(await readFile(new URL('../../public/physics-lab/index.html',import.meta.url),'utf8'));
@@ -35,10 +35,10 @@ test('DOM-only: desktop input workflows, mode changes, save/load, undo and real-
     await click('#load-btn');await click($$('[data-save-id]')[0]);assert.equal(count(),3);assert.equal($('#experiment-name').textContent,'电路测试');assert.ok(metricValues()[1].startsWith('45.0'));
   });
   await t.test('optics traces beams, changing lens type changes the result, mirror angle is editable',async()=>{
-    await click($$('[data-mode]').find(b=>b.dataset.mode==='optics'));assert.equal(count(),2);assert.equal($$('.ray').length,3);await click('#concave-btn');assert.match($('#observation-title').textContent,/发散/);await click('#sample-btn');await click($$('[data-sample]').find(b=>b.dataset.sample==='reflection'));$('#angle').value='-45';await $('#angle').fire('input');assert.ok($('#effects-layer').innerHTML.includes('50'));assert.ok(metricValues()[1].startsWith('-45'));
+    await chooseWorkbench(document,'optics');assert.equal(count(),2);assert.equal($$('.ray').length,3);await click('#concave-btn');assert.match($('#observation-title').textContent,/发散/);await click('#sample-btn');await click($$('[data-sample]').find(b=>b.dataset.sample==='reflection'));$('#angle').value='-45';await $('#angle').fire('input');assert.ok($('#effects-layer').innerHTML.includes('50'));assert.ok(metricValues()[1].startsWith('-45'));
   });
   await t.test('mechanics runs, pauses and resets; mass edits recalculate acceleration',async()=>{
-    await click($$('[data-mode]').find(b=>b.dataset.mode==='mechanics'));assert.ok(metricValues()[0].startsWith('3.27'));env.tick(1);env.tick(40);env.tick(250);assert.notEqual(component('c3').getAttribute('transform'),'translate(552,345)');
+    await chooseWorkbench(document,'mechanics');assert.ok(metricValues()[0].startsWith('3.27'));env.tick(1);env.tick(40);env.tick(250);assert.notEqual(component('c3').getAttribute('transform'),'translate(552,345)');
     await click('#run-btn');const paused=component('c3').getAttribute('transform');env.tick(300);env.tick(350);assert.equal(component('c3').getAttribute('transform'),paused);
     $('#parameter').value='1';await $('#parameter').fire('input');assert.ok(metricValues()[0].startsWith('0.00'));assert.match($('#result-status').textContent,/平衡/);await click('#reset-btn');assert.equal(component('c3').getAttribute('transform'),'translate(552,345)');
   });
@@ -55,7 +55,7 @@ test('DOM-only: desktop input workflows, mode changes, save/load, undo and real-
     await click('#auto-btn');assert.ok(metricValues()[1].startsWith('90.0'));await click('#help-btn');assert.equal($('#modal').open,true);assert.match($('#modal-content').textContent,/快捷键/);await click('#modal-close');
   });
   await t.test('extreme spring values remain finite at the workbench boundary',async()=>{
-    await click($$('[data-mode]').find(b=>b.dataset.mode==='mechanics'));await click('#sample-btn');await click($$('[data-sample]').find(b=>b.dataset.sample==='spring'));$('#parameter').value='20';await $('#parameter').fire('input');await component('c2').fire('pointerdown',{clientX:500,clientY:305});await stage.fire('pointerup',{clientX:500,clientY:305});$('#parameter').value='5';await $('#parameter').fire('input');
+    await chooseWorkbench(document,'mechanics');await click('#sample-btn');await click($$('[data-sample]').find(b=>b.dataset.sample==='spring'));$('#parameter').value='20';await $('#parameter').fire('input');await component('c2').fire('pointerdown',{clientX:500,clientY:305});await stage.fire('pointerup',{clientX:500,clientY:305});$('#parameter').value='5';await $('#parameter').fire('input');
     if($('#run-label').textContent==='开始模拟')await click('#run-btn');for(let t=1000;t<=2000;t+=40)env.tick(t);assert.match($('#result-status').textContent,/边界/);assert.ok(!$('#metrics').innerHTML.includes('NaN'));assert.ok(metricValues()[0].startsWith('230.0'));
   });
 });

@@ -5,11 +5,11 @@ import { buildAbsoluteUrl } from '@/lib/seo/site'
 
 describe('buildPlaygroundMetadata', () => {
   it('keeps each public game on its own canonical URL', () => {
-    const metadata = buildPlaygroundMetadata('/playground/2048')
+    const metadata = buildPlaygroundMetadata('/playground/tangram')
 
-    expect(metadata.title).toEqual({ absolute: '2048 在线数字合并游戏 | 创探空间', template: '%s | 创探空间' })
-    expect(metadata.alternates?.canonical).toBe(buildAbsoluteUrl('/playground/2048'))
-    expect(metadata.openGraph?.url).toBe(buildAbsoluteUrl('/playground/2048'))
+    expect(metadata.title).toEqual({ absolute: '七巧板 在线拼图 | 创探空间', template: '%s | 创探空间' })
+    expect(metadata.alternates?.canonical).toBe(buildAbsoluteUrl('/playground/tangram'))
+    expect(metadata.openGraph?.url).toBe(buildAbsoluteUrl('/playground/tangram'))
   })
 
   it('supports the nested minesweeper course canonical', () => {

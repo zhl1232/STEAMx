@@ -314,10 +314,6 @@ const PLAYGROUND_GAME_SCENES: Record<TutorPlaygroundGameKey, { title: string; su
     title: '生命游戏',
     summary: '学生正在玩康威生命游戏挑战。围绕细胞预算、演化代数、稳定结构/振荡结构和三星条件给提示，不要切到扫雷或迷宫。',
   },
-  '2048': {
-    title: '2048',
-    summary: '学生正在玩 2048。围绕合并方向、保留最大数字角落、避免把大数字拆散和局面空间给提示。',
-  },
   '24game': {
     title: '24 点',
     summary: '学生正在玩 24 点。围绕四则运算、凑 24 的中间数和括号组合给分层提示，不直接报完整答案。',
@@ -334,17 +330,9 @@ const PLAYGROUND_GAME_SCENES: Record<TutorPlaygroundGameKey, { title: string; su
     title: 'N 皇后',
     summary: '学生正在玩 N 皇后。围绕行列唯一、对角线冲突和逐行试探回溯给提示。',
   },
-  fifteen: {
-    title: '数字华容道',
-    summary: '学生正在玩数字华容道。围绕空格移动、先完成前几行/列和保持已排好区域不要打乱给提示。',
-  },
   memory: {
     title: '记忆翻牌',
     summary: '学生正在玩记忆翻牌。围绕记忆位置、主题图案分组和减少重复翻错给提示。',
-  },
-  quickmath: {
-    title: '速算闪电战',
-    summary: '学生正在玩速算闪电战。围绕心算拆分、先估后算和减少手误给提示。',
   },
   maze: {
     title: '迷宫探险',

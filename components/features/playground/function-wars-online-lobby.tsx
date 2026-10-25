@@ -126,7 +126,7 @@ export function FunctionWarsOnlineLobby({
                         type="button"
                         size="sm"
                         className="mt-4 min-h-11 w-full gap-2 rounded-md"
-                        onClick={() => void online.createRoom("symmetric-canyon")}
+                        onClick={() => void online.createRoom()}
                         disabled={online.phase === "creating"}
                     >
                         {online.phase === "creating" ? (

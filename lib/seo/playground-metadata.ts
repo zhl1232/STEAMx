@@ -29,12 +29,6 @@ export const PLAYGROUND_METADATA = {
     description: "探索康威生命游戏，用元胞自动机挑战稳定结构、振荡器与涌现任务。8 个挑战关加自由沙盒，观察简单规则如何演化出复杂图案。",
     keywords: ["生命游戏", "康威生命游戏", "元胞自动机", "算法"],
   },
-  "/playground/2048": {
-    title: "2048",
-    seoTitle: "2048 在线数字合并游戏",
-    description: "在线玩 2048，合并数字方块，练习规划、贪心策略与空间管理。支持方向键、WASD 和滑动操作，附 2 的幂次、角落策略等知识讲解。",
-    keywords: ["2048", "数字游戏", "数学思维", "逻辑游戏"],
-  },
   "/playground/24game": {
     title: "24 点",
     seoTitle: "24 点 在线四则运算挑战",
@@ -59,23 +53,11 @@ export const PLAYGROUND_METADATA = {
     description: "在线挑战 N 皇后问题，理解回溯搜索、冲突检测与剪枝。可手动摆放皇后，也可切换可视化模式观看回溯算法逐步求解。",
     keywords: ["N皇后", "回溯算法", "算法可视化", "棋盘问题"],
   },
-  "/playground/fifteen": {
-    title: "数字华容道",
-    seoTitle: "数字华容道 在线滑块拼图",
-    description: "在线玩数字华容道，滑动方块复原顺序，练习空间规划与可解性。可切换 3×3、4×4、5×5 棋盘，并了解逆序数决定可解性的原理。",
-    keywords: ["数字华容道", "15数码", "滑块游戏", "空间规划"],
-  },
   "/playground/memory": {
     title: "记忆翻牌",
     seoTitle: "记忆翻牌 在线记忆力游戏",
     description: "在线玩记忆翻牌，寻找相同图案，训练工作记忆与图案联想。翻开两张卡牌配对 STEAM 主题图案，用更少的翻牌次数完成全部配对。",
     keywords: ["记忆翻牌", "记忆游戏", "在线小游戏", "图案联想"],
-  },
-  "/playground/quickmath": {
-    title: "速算闪电战",
-    seoTitle: "速算闪电战 60 秒心算挑战",
-    description: "在 60 秒内完成更多四则运算，挑战心算速度与连续答题能力。连续答对会提升题目难度和得分奖励，答错清空连击。",
-    keywords: ["速算", "心算游戏", "四则运算", "数学训练"],
   },
   "/playground/maze": {
     title: "迷宫探险",

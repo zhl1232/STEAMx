@@ -116,6 +116,9 @@ export function getRaceRole(match: RaceMatchRow, userId: string): RaceRole | nul
 }
 
 export function castRaceMatch(row: unknown): RaceMatchRow {
+    if (!row || typeof row !== "object" || !("game_key" in row) || !isRaceGameKey(row.game_key)) {
+        throw Object.assign(new Error("对局不存在"), { statusCode: 404 })
+    }
     return row as RaceMatchRow
 }
 

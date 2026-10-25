@@ -1,3 +1,4 @@
+import {labStorage,storageDescription} from './host-storage.mjs';
 import {LESSONS,LEVELS,levelById,lessonById,startScene,lessonScene,measure,evidence,hintTargets,restoreNotebook,reportHTML,escapeHTML as esc,number} from './learning-model.mjs';
 import {ports} from './physics.mjs';
 const STORAGE='steamx-learning-notebook-v1';
@@ -10,12 +11,12 @@ const STARTERS=[
 ];
 function starterScene(id){const scene=startScene(id);if(id==='voltage')scene.components.find(c=>c.type==='battery').value=3;scene.name=STARTERS.find(g=>g.id===id).title;scene.starterActivity=id;return scene;}
 
-export function createLearning({getScene,setScene,openModal,closeModal,toast,hasWireDraft}){
+export function createLearning({getScene,setScene,openModal,closeModal,toast,hasWireDraft,onNavigateCatalog}){
  const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
  let notebook=restoreNotebook(null),storageError=false,key=null,lastRemoved=null,recordView=null,sheetOpen=false,recordTools=false;
- try{notebook=restoreNotebook(localStorage.getItem(STORAGE));}catch{storageError=true;}
+ try{notebook=restoreNotebook(labStorage.getItem(STORAGE));}catch{storageError=true;}
  const active=()=>{const ref=getScene().lessonSession;return getScene().mode==='circuit'&&ref?notebook.sessions.find(s=>s.id===ref.id&&s.lessonId===ref.lessonId)||null:null;};
- const save=()=>{renderCounts();try{localStorage.setItem(STORAGE,JSON.stringify(notebook));storageError=false;}catch{storageError=true;}$('#learning-storage').textContent=storageError?'浏览器存储不可用或已满；本次内容暂存内存，请导出报告，刷新后可能丢失。':'学习记录保存在当前浏览器，可导出报告；不会自动同步到其他设备。';};
+ const save=()=>{renderCounts();try{labStorage.setItem(STORAGE,JSON.stringify(notebook));storageError=false;}catch{storageError=true;}$('#learning-storage').textContent=storageError?'浏览器存储不可用或已满；本次内容暂存内存，请导出报告，刷新后可能丢失。':storageDescription('学习记录保存在当前浏览器，可导出报告；不会自动同步到其他设备。');};
  const download=(text,type,name)=>{const url=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
  const persistSession=s=>{if(s.completedAt&&(!s.reflection.trim()||!evidence(s.lessonId,s.records).ready))s.completedAt=null;save();};
  function attach(s,scene){const result=copy(scene);result.lessonSession={id:s.id,lessonId:s.lessonId};return result;}
@@ -38,7 +39,7 @@ export function createLearning({getScene,setScene,openModal,closeModal,toast,has
   if(l){box.innerHTML=`<div class="activity-copy"><span class="activity-label">正在探索 · ${esc(levelById(l.level).name)}</span><p>${esc(l.title)}</p></div><div class="activity-actions"><button id="toggle-worksheet" aria-expanded="${sheetOpen}" aria-controls="lesson-body">${sheetOpen?'收起探究单':'展开探究单'}</button><button id="leave-lesson">自由搭建</button></div>`;$('#toggle-worksheet').onclick=()=>{sheetOpen=!sheetOpen;update();$('#toggle-worksheet')?.focus?.();};$('#leave-lesson').onclick=leave;}
  }
  function teacherTools(){
-  openModal('教师与进阶工具',`<p class="modal-copy">需要完整探究流程时，再打开任务、记录和报告。</p><button id="notebook-btn" class="modal-choice"><span><strong>实验记录与报告 · <span id="notebook-count"></span> 条</strong><small>查看已有记录、恢复搭建、导出可打印报告</small></span></button><button id="teacher-catalog" class="modal-choice"><span><strong>电路探究任务 · 18 个实验</strong><small>入门探索 → 规律探究 → 综合挑战 · <span id="learning-completed"></span></small></span></button><button id="toggle-record-tools" class="modal-choice"><span><strong>${recordTools?'收起':'显示'}工作台上的记录按钮</strong><small>自由探索时也能保存读数和接线快照</small></span></button><p class="modal-copy">记录保存在当前浏览器，已有任务进度和报告都在这里。</p>`);
+  openModal('教师与进阶工具',`<p class="modal-copy">需要完整探究流程时，再打开任务、记录和报告。</p><button id="notebook-btn" class="modal-choice"><span><strong>实验记录与报告 · <span id="notebook-count"></span> 条</strong><small>查看已有记录、恢复搭建、导出可打印报告</small></span></button><button id="teacher-catalog" class="modal-choice"><span><strong>电路探究任务 · 18 个实验</strong><small>入门探索 → 规律探究 → 综合挑战 · <span id="learning-completed"></span></small></span></button><button id="toggle-record-tools" class="modal-choice"><span><strong>${recordTools?'收起':'显示'}工作台上的记录按钮</strong><small>自由探索时也能保存读数和接线快照</small></span></button><p class="modal-copy">${storageDescription('记录保存在当前浏览器，已有任务进度和报告都在这里。')}</p>`);
   renderCounts();$('#notebook-btn').onclick=()=>notebookDialog();$('#teacher-catalog').onclick=()=>catalog();$('#toggle-record-tools').onclick=()=>{recordTools=!recordTools;closeModal();update();toast(recordTools?'已在实时读数旁显示「记录读数」':'已收起记录按钮');};
  }
  function start(id){
@@ -48,6 +49,7 @@ export function createLearning({getScene,setScene,openModal,closeModal,toast,has
  }
  function resumeSession(s){sheetOpen=true;notebook.lastId=s.id;key=null;save();closeModal();setScene(attach(s,s.workingScene||startScene(s.lessonId)));}
  function catalog(levelId=lessonById(active()?.lessonId)?.level||'primary'){
+  if(onNavigateCatalog){closeModal();onNavigateCatalog();return;}
   const level=levelById(levelId)||LEVELS[0],lessons=LESSONS.filter(l=>l.level===level.id),completed=new Set(notebook.sessions.filter(s=>s.completedAt).map(s=>s.lessonId));
   openModal('更多电路实验 · 选择适合的起点',`<p class="modal-copy">想深入电路时，可以选择完整探究任务。学段为建议，可以自由选择。开始后展开探究单，原场景可撤销恢复。</p><div class="lesson-level-tabs" role="group" aria-label="选择学习阶段">${LEVELS.map(x=>`<button data-lesson-level="${x.id}" aria-pressed="${x.id===level.id}" class="${x.id===level.id?'chosen':''}">${esc(x.name)}</button>`).join('')}</div><div class="level-intro"><strong>${esc(level.band)} · ${lessons.filter(l=>completed.has(l.id)).length} / 6 已完成</strong><p>${esc(level.focus)}</p></div><div class="lesson-catalog">${lessons.map((l,i)=>{const saved=notebook.sessions.find(s=>s.lessonId===l.id&&!s.completedAt);return `<article class="lesson-card"><span class="lesson-number">${i+1} / 6 · ${l.minutes}${completed.has(l.id)?' · 已完成':''}</span><h3>${esc(l.title)}</h3><p>${esc(l.goal)}</p><p class="lesson-prerequisites">建议先学：${l.prerequisites.length?l.prerequisites.map(id=>esc(lessonById(id)?.title||id)).join('、'):'无需前置电学知识'}</p><div class="lesson-card-actions"><button data-start-lesson="${l.id}">开始任务</button>${saved?`<button data-resume-lesson="${esc(saved.id)}">继续上次</button>`:''}</div></article>`;}).join('')}</div>`);
   $$('[data-lesson-level]').forEach(b=>b.onclick=()=>catalog(b.dataset.lessonLevel));$$('[data-start-lesson]').forEach(b=>b.onclick=()=>start(b.dataset.startLesson));$$('[data-resume-lesson]').forEach(b=>b.onclick=()=>resumeSession(notebook.sessions.find(s=>s.id===b.dataset.resumeLesson)));
@@ -94,29 +96,44 @@ export function createLearning({getScene,setScene,openModal,closeModal,toast,has
   recordView=sessionId||active()?.id||notebook.sessions[0]?.id;const s=notebook.sessions.find(s=>s.id===recordView);
   const nav=notebook.sessions.map(x=>`<button data-notebook-session="${esc(x.id)}" class="${x.id===recordView?'chosen':''}">${esc(lessonById(x.lessonId)?.title||'自由探索')} · ${x.records.length} 次${x.completedAt?' ✓':''}<small>${esc(time(x.startedAt))}</small></button>`).join('');
   const rows=s?.records.map((r,i)=>{const m=measure(r.scene);return `<tr><td>${i+1}<small>${esc(time(r.at))}</small></td><td>${esc(m.status)}<small>${esc(m.topology)}</small></td><td>${number(m.voltage)} V<br>${m.current===null?'—':number(m.current*1000)} mA<small>等效 ${number(m.resistance)} Ω<br>总功率 ${number(m.power,4)} W</small></td><td>${m.loads.map(b=>`${esc(b.id.toUpperCase())}: ${m.short?'—':number(b.power,4)} W<small>${number(b.resistance)} Ω · ${number(b.voltage)} V · ${m.short?'—':number(b.current*1000)} mA</small>`).join('')||'无用电元件'}</td><td>${esc(r.note)||'—'}</td><td><button data-restore-record="${esc(r.id)}">恢复搭建</button><button data-delete-record="${esc(r.id)}">删除记录</button></td></tr>`;}).join('')||'';
-  openModal('我的实验记录',`<p class="modal-copy">对照前后读数，检查是否只改变一个条件。恢复搭建会替换工作台，可撤销。</p>${nav?`<div class="notebook-tabs">${nav}</div>`:'<p class="empty-inspector">还没有记录。在「教师与进阶工具」中显示记录按钮，再到工作台点击「记录读数」，留下第一次发现。</p>'}${s?`<div class="notebook-summary"><p><strong>预测：</strong>${esc(s.prediction||'自由探索')} ${esc(s.reason)}</p><p><strong>解释：</strong>${esc(s.reflection||'尚未填写')}</p><p>${s.completedAt?'探究记录已完成，解释可与老师讨论。':esc(evidence(s.lessonId,s.records).message)}</p></div><div class="record-table-wrap"><table class="record-table"><thead><tr><th>记录</th><th>状态</th><th>电源 / 总电流</th><th>各元件功率 / 参数</th><th>我的观察</th><th>操作</th></tr></thead><tbody>${rows}</tbody></table></div><div class="notebook-actions"><button id="export-report">导出实验报告</button>${s.lessonId?'<button id="resume-notebook">继续此任务</button>':''}<button id="delete-session">删除这份记录</button></div>`:''}${lastRemoved?'<button id="undo-record-delete">撤销上次删除</button>':''}<p class="modal-copy">短路时总电流为「—」，表示停止计算。报告可以用浏览器打开并打印。记录仅保存在当前浏览器。</p>`);
+  openModal('我的实验记录',`<p class="modal-copy">对照前后读数，检查是否只改变一个条件。恢复搭建会替换工作台，可撤销。</p>${nav?`<div class="notebook-tabs">${nav}</div>`:'<p class="empty-inspector">还没有记录。在「教师与进阶工具」中显示记录按钮，再到工作台点击「记录读数」，留下第一次发现。</p>'}${s?`<div class="notebook-summary"><p><strong>预测：</strong>${esc(s.prediction||'自由探索')} ${esc(s.reason)}</p><p><strong>解释：</strong>${esc(s.reflection||'尚未填写')}</p><p>${s.completedAt?'探究记录已完成，解释可与老师讨论。':esc(evidence(s.lessonId,s.records).message)}</p></div><div class="record-table-wrap"><table class="record-table"><thead><tr><th>记录</th><th>状态</th><th>电源 / 总电流</th><th>各元件功率 / 参数</th><th>我的观察</th><th>操作</th></tr></thead><tbody>${rows}</tbody></table></div><div class="notebook-actions"><button id="export-report">导出实验报告</button>${s.lessonId?'<button id="resume-notebook">继续此任务</button>':''}<button id="delete-session">删除这份记录</button></div>`:''}${lastRemoved?'<button id="undo-record-delete">撤销上次删除</button>':''}<p class="modal-copy">短路时总电流为「—」，表示停止计算。报告可以用浏览器打开并打印。${storageDescription('记录仅保存在当前浏览器。')}</p>`);
   $$('[data-notebook-session]').forEach(b=>b.onclick=()=>notebookDialog(b.dataset.notebookSession));
   $$('[data-restore-record]').forEach(b=>b.onclick=()=>{const r=s.records.find(r=>r.id===b.dataset.restoreRecord);closeModal();setScene(s.lessonId?attach(s,r.scene):copy(r.scene));});
-  $$('[data-delete-record]').forEach(b=>b.onclick=()=>{lastRemoved=copy(notebook);s.records=s.records.filter(r=>r.id!==b.dataset.deleteRecord);persistSession(s);refreshProgress();notebookDialog(s.id);});
-  if($('#export-report'))$('#export-report').onclick=()=>{download(reportHTML(s),'text/html;charset=utf-8','STEAMX-实验报告.html');toast('实验报告已导出，可用浏览器打开并打印');};
+  $$('[data-delete-record]').forEach(b=>b.onclick=()=>{const index=s.records.findIndex(r=>r.id===b.dataset.deleteRecord);if(index<0)return;lastRemoved={type:'record',session:s,record:s.records[index],index,completedAt:s.completedAt,prediction:s.prediction,reason:s.reason,reflection:s.reflection};s.records.splice(index,1);persistSession(s);refreshProgress();notebookDialog(s.id);});
+  if($('#export-report'))$('#export-report').onclick=()=>{download(reportHTML(s),'text/html;charset=utf-8','创探空间-实验报告.html');toast('实验报告已导出，可用浏览器打开并打印');};
   if($('#resume-notebook'))$('#resume-notebook').onclick=()=>resumeSession(s);
-  if($('#delete-session'))$('#delete-session').onclick=()=>{lastRemoved=copy(notebook);notebook.sessions=notebook.sessions.filter(x=>x.id!==s.id);if(notebook.lastId===s.id)notebook.lastId=null;save();key=null;update();notebookDialog();};
-  if($('#undo-record-delete'))$('#undo-record-delete').onclick=()=>{notebook=lastRemoved;lastRemoved=null;save();key=null;update();notebookDialog(recordView);};
+  if($('#delete-session'))$('#delete-session').onclick=()=>{lastRemoved={type:'session',session:s,index:notebook.sessions.indexOf(s)};notebook.sessions=notebook.sessions.filter(x=>x!==s);if(notebook.lastId===s.id)notebook.lastId=null;save();key=null;update();notebookDialog();};
+  if($('#undo-record-delete'))$('#undo-record-delete').onclick=()=>{undoDelete();};
+ }
+ function undoDelete(){
+  const removed=lastRemoved;if(!removed)return;
+  const s=removed.session;
+  if(removed.type==='session'){
+   if(notebook.sessions.some(x=>x.id===s.id)){lastRemoved=null;toast('记录已存在，无法撤销此次删除。');notebookDialog();return;}
+   if(notebook.sessions.length>=30){toast('已有 30 份探究记录，请先导出并删除不再需要的记录');return;}
+   notebook.sessions.splice(Math.min(removed.index,notebook.sessions.length),0,s);
+  }else{
+   if(!notebook.sessions.includes(s)||s.records.some(r=>r.id===removed.record.id)){lastRemoved=null;toast('记录已改变，无法撤销此次删除。');notebookDialog();return;}
+   if(s.records.length>=20){toast('每份探究记录最多保存 20 次读数，请导出或删除不需要的记录');return;}
+   s.records.splice(Math.min(removed.index,s.records.length),0,removed.record);
+   if(!s.completedAt&&removed.completedAt&&s.prediction===removed.prediction&&s.reason===removed.reason&&s.reflection===removed.reflection&&evidence(s.lessonId,s.records).ready)s.completedAt=removed.completedAt;
+  }
+  lastRemoved=null;save();key=null;update();notebookDialog(recordView);
  }
  function renderCounts(){
   if($('#notebook-count'))$('#notebook-count').textContent=String(notebook.sessions.reduce((n,s)=>n+s.records.length,0));
   if($('#learning-completed'))$('#learning-completed').textContent=`${new Set(notebook.sessions.filter(s=>s.completedAt).map(s=>s.lessonId)).size} / ${LESSONS.length} 已完成`;
  }
- function update(){
+ function update(persist=true){
   const scene=getScene(),circuit=scene.mode==='circuit';$('#learning-panel').hidden=!circuit;$('#record-reading').hidden=!circuit||!(recordTools||(active()&&sheetOpen));
-  const s=active();if(circuit){if(key!==(s?.id||'free'))renderPanel();refreshProgress();if(s){const working=JSON.stringify(scene);if(JSON.stringify(s.workingScene)!==working||notebook.lastId!==s.id){s.workingScene=copy(scene);notebook.lastId=s.id;save();}}}
-  if(circuit&&!s&&notebook.lastId){notebook.lastId=null;save();}
+  const s=active();if(circuit){if(key!==(s?.id||'free'))renderPanel();refreshProgress();if(persist&&s){const working=JSON.stringify(scene);if(JSON.stringify(s.workingScene)!==working||notebook.lastId!==s.id){s.workingScene=copy(scene);notebook.lastId=s.id;save();}}}
+  if(persist&&circuit&&!s&&notebook.lastId){notebook.lastId=null;save();}
   renderActivity();$('#lesson-body').hidden=!circuit||!s||!sheetOpen;$('#learning-storage').hidden=!circuit||(!storageError&&!(s&&sheetOpen));
   // During a guided activity, keep a single next action visible.
   const guided=!!starter();$('.mini-card').hidden=guided;$('#wiring-practice').hidden=guided;$('#next-step').closest('.inspector-section').hidden=guided;$('#stage-hint').hidden=guided;
   renderCounts();
-  $('#learning-storage').textContent=storageError?'浏览器存储不可用或已满；内容暂存内存，请导出报告，刷新后可能丢失。':'学习记录保存在当前浏览器，可导出报告；不会自动同步到其他设备。';highlight();
+  $('#learning-storage').textContent=storageError?'浏览器存储不可用或已满；内容暂存内存，请导出报告，刷新后可能丢失。':storageDescription('学习记录保存在当前浏览器，可导出报告；不会自动同步到其他设备。');highlight();
  }
- $('#choose-lesson').onclick=()=>catalog();$('#follow-along').onclick=starters;$('#teacher-tools').onclick=teacherTools;$('#record-reading').onclick=recordCurrent;
- return {update,highlight,reload(){try{notebook=restoreNotebook(localStorage.getItem(STORAGE));key=null;update();}catch{toast('无法重新读取学习记录');}},resume(){const s=notebook.sessions.find(s=>s.id===notebook.lastId);if(!s||!s.workingScene)return false;setScene(attach(s,s.workingScene),false);return true;}};
+ $('#follow-along').onclick=starters;$('#teacher-tools').onclick=teacherTools;$('#record-reading').onclick=recordCurrent;
+ return {update,highlight,catalog,openLesson(id){if(!lessonById(id))return false;const saved=notebook.sessions.find(session=>session.lessonId===id&&!session.completedAt);if(saved)resumeSession(saved);else{if(notebook.sessions.length>=30){toast('已有 30 份探究记录，请先导出并删除不再需要的记录');return false;}start(id);}return true;},reload(){lastRemoved=null;try{notebook=restoreNotebook(labStorage.getItem(STORAGE));key=null;storageError=false;update(false);if($('#modal')?.open&&$('#modal-title')?.textContent==='我的实验记录')notebookDialog(recordView);}catch{toast('无法重新读取学习记录');}},resume(){const s=notebook.sessions.find(s=>s.id===notebook.lastId);if(!s||!s.workingScene)return false;setScene(attach(s,s.workingScene),false);return true;}};
 }

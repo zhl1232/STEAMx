@@ -1,6 +1,8 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import PlaygroundPage from "./page"
+import { PLAYGROUND_BADGE_COUNT } from "@/lib/gamification/badges"
+import { PLAYGROUND_DISCOVERY } from "@/lib/playground/catalog"
 
 const { storageState } = vi.hoisted(() => ({
     storageState: new Map<string, unknown>(),
@@ -29,7 +31,7 @@ describe("PlaygroundPage", () => {
         render(<PlaygroundPage />)
 
         expect(screen.getByText("累计游玩记录")).toBeInTheDocument()
-        expect(screen.getAllByText("游乐场共 16 枚可解锁徽章").length).toBeGreaterThan(0)
+        expect(screen.getAllByText(`游乐场共 ${PLAYGROUND_BADGE_COUNT} 枚可解锁徽章`).length).toBeGreaterThan(0)
         expect(screen.getAllByText("0").length).toBeGreaterThan(0)
 
         storageState.set("gomoku_records", { totalGames: 3, wins: 2 })
@@ -61,34 +63,45 @@ describe("PlaygroundPage", () => {
         expect(screen.getAllByText("已玩 2 · 继续探索").length).toBeGreaterThan(0)
     }, 15_000)
 
-    it("groups the public directory and finds secondary games without exposing quick math", () => {
+    it("groups the current directory and finds secondary games", () => {
         const { container } = render(<PlaygroundPage />)
         for (const name of ["一起拼与创造", "做个小实验", "动脑与编程", "更多逻辑游戏"]) {
             expect(screen.getByRole("heading", { name: new RegExp(name) })).toBeInTheDocument()
         }
         expect(screen.getByRole("link", { name: /物理实验室/ })).toHaveAttribute("href", "/playground/physics-lab")
-        expect(container.querySelector('a[href="/playground/quickmath"]')).toBeNull()
+        expect(container.querySelectorAll('article')).toHaveLength(PLAYGROUND_DISCOVERY.length)
+        for (const slug of ["2048", "fifteen", "quickmath"]) {
+            expect(container.querySelector(`a[href="/playground/${slug}"]`)).toBeNull()
+        }
         const more = container.querySelector<HTMLDetailsElement>("#playground-more")!
         expect(more.open).toBe(false)
-        expect(within(more).getAllByRole("article", { hidden: true })).toHaveLength(5)
-        fireEvent.change(screen.getByRole("searchbox"), { target: { value: "2048" } })
-        expect(screen.getByRole("link", { name: /2048/ })).toHaveAttribute("href", "/playground/2048")
-        fireEvent.change(screen.getByRole("searchbox"), { target: { value: "速算" } })
-        expect(screen.getByText(/没找到这个玩法/)).toBeInTheDocument()
+        expect(within(more).getAllByRole("article", { hidden: true })).toHaveLength(PLAYGROUND_DISCOVERY.filter((game) => game.group === "more").length)
+        fireEvent.change(screen.getByRole("searchbox"), { target: { value: "数独" } })
+        expect(screen.getByRole("link", { name: /数独/ })).toHaveAttribute("href", "/playground/sudoku")
+        for (const query of ["2048", "数字华容道", "速算", "fifteen", "quickmath"]) {
+            fireEvent.change(screen.getByRole("searchbox"), { target: { value: query } })
+            expect(screen.getByText(/没找到这个玩法/)).toBeInTheDocument()
+            expect(screen.queryAllByRole("article")).toHaveLength(0)
+        }
         fireEvent.click(screen.getByRole("button", { name: "返回分类浏览" }))
         expect(screen.getByRole("heading", { name: "一起拼与创造" })).toBeInTheDocument()
     })
 
-    it("retains historical plays without treating quick-math best score as victories", () => {
+    it("excludes retired games from play, win, explored-game and STEAM totals", () => {
         const quickMath = { totalGames: 4, bestScore: 900, bestStreak: 12 }
         storageState.set("quick_math_stats", quickMath)
+        storageState.set("game_2048_stats", { totalGames: 10, wins: 5 })
+        storageState.set("fifteen_puzzle_stats", { totalGames: 8, wins: 6 })
         storageState.set("gomoku_records", { totalGames: 3, wins: 2 })
         render(<PlaygroundPage />)
-        expect(screen.getByText("累计游玩记录").parentElement).toHaveTextContent("7")
+        expect(screen.getByText("累计游玩记录").parentElement).toHaveTextContent("3")
         expect(screen.getByText("胜利 / 解题记录").parentElement).toHaveTextContent("2")
-        expect(screen.getByText("已体验游戏").parentElement).toHaveTextContent("2 / 18")
+        expect(screen.getByText("已体验游戏").parentElement).toHaveTextContent(`1 / ${PLAYGROUND_DISCOVERY.length}`)
         expect(screen.queryByText(/STEAM 能力维度进度/)).not.toBeInTheDocument()
         expect(screen.getByText(/不代表能力测评或学习效果/)).toBeInTheDocument()
+        const themes = screen.getByRole("heading", { name: "探索过的 STEAM 主题" }).parentElement!
+        expect(within(themes).getByText("1 款 · 3 次记录")).toBeInTheDocument()
+        expect(within(themes).getAllByText("0 款 · 0 次记录")).toHaveLength(4)
         expect(storageState.get("quick_math_stats")).toEqual(quickMath)
     })
 

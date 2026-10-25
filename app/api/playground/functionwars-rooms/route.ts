@@ -33,6 +33,9 @@ function parseMapId(value: unknown): FunctionWarsMapId {
     if (!isFunctionWarsMapId(value)) {
         throw new ValidationError("map_id is invalid");
     }
+    if (value !== FUNCTION_WARS_DEFAULT_MAP_ID) {
+        throw new ValidationError("对战地图已升级，请刷新页面后创建房间");
+    }
     return value;
 }
 

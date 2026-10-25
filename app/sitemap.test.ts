@@ -27,6 +27,18 @@ describe("sitemap route coverage", () => {
     expect(staticPaths).toEqual(expect.arrayContaining(PLAYGROUND_METADATA_PATHS));
   });
 
+  it("omits deleted playground games from the generated sitemap", () => {
+    const urls = buildSitemapEntries({
+      projects: [], species: [], observations: [], courses: [], lessons: [], works: [], resources: [], challenges: [],
+    }).map((entry) => new URL(entry.url).pathname);
+
+    for (const game of ["2048", "fifteen", "quickmath"]) {
+      expect(urls).not.toContain(`/playground/${game}`);
+    }
+    expect(urls).toContain("/playground/tangram");
+    expect(urls).toContain("/playground/24game");
+  });
+
   it("maps all supported public content types and only emits available parts pages", () => {
     const urls = buildSitemapEntries({
       projects: [{ id: 1, updated_at: "2026-01-01T00:00:00Z" }],

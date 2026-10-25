@@ -115,6 +115,15 @@ describe("useFunctionWarsOnline", () => {
         });
     });
 
+    it("creates rooms with the current map version when the lobby uses the default", async () => {
+        const { result } = renderHook(() => useFunctionWarsOnline());
+        await waitFor(() => expect(result.current.stats).toEqual({ onlineGames: 9, onlineWins: 4 }));
+
+        act(() => { void result.current.createRoom(); });
+
+        expect(roomState.current?.createRoom).toHaveBeenCalledWith({ mapId: "symmetric-canyon-v2" });
+    });
+
     it("posts only the weapon, expression, and expected sequence when firing", async () => {
         const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({
             ok: true,
@@ -132,7 +141,7 @@ describe("useFunctionWarsOnline", () => {
         await waitFor(() => expect(result.current.stats).toEqual({ onlineGames: 9, onlineWins: 4 }));
 
         await act(async () => {
-            await result.current.fire("heavy", "x+1");
+            await result.current.fire("heavy", "x");
         });
 
         expect(fetchMock).toHaveBeenCalledTimes(1);
@@ -140,7 +149,7 @@ describe("useFunctionWarsOnline", () => {
         expect(url).toBe("/api/playground/functionwars-rooms/22222222-2222-4222-8222-222222222222/fire");
         expect(JSON.parse(String(options.body))).toEqual({
             weapon: "heavy",
-            expression: "x+1",
+            expression: "x",
             expected_shot_seq: 4,
         });
         expect(refreshMock).toHaveBeenCalledTimes(1);

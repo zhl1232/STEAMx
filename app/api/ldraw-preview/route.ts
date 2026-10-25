@@ -29,6 +29,7 @@ function unavailable() {
 export async function GET(request: NextRequest) {
   if (!isDevelopmentMode()) return unavailable()
   const model = request.nextUrl.searchParams.get('model')
+  const draft = request.nextUrl.searchParams.get('source') === 'draft'
 
   try {
     if (model) {
@@ -43,10 +44,12 @@ export async function GET(request: NextRequest) {
         getLdrawInspectionRecords(),
       ])
       const record = reviewRecordFor(sanitized, records)
-      const frozen = result.revision !== record?.revision
+      const frozen = !draft && result.revision !== record?.revision
         ? await readFrozenConfirmedLdrawModel(sanitized, record)
         : null
-      const reviewStatus = reviewStatusFor(sanitized, records, result.revision, frozen?.revision)
+      const reviewStatus = draft && record && result.revision !== record.revision
+        ? 'changed'
+        : reviewStatusFor(sanitized, records, result.revision, frozen?.revision)
       const inspection = inspectionFor(sanitized, result.revision, inspections, record !== null)
       return NextResponse.json(
         {
@@ -55,6 +58,7 @@ export async function GET(request: NextRequest) {
           ...(frozen ?? result),
           productionProtected: Boolean(record && isProductionProtected(sanitized)),
           servedFrozenConfirmed: frozen !== null,
+          servedDraft: draft,
           reviewStatus,
           legacyReviewStatus: legacyReviewStatusFor(reviewStatus),
           confirmedAt: record?.confirmedAt ?? null,
@@ -62,7 +66,7 @@ export async function GET(request: NextRequest) {
           inspectionIssues: inspection.issues,
           inspectionNotes: inspection.notes,
           inspectionRevision: inspection.revision,
-          canConfirm: isDevelopmentMode() && reviewStatus !== 'confirmed' && isLdrawReviewCandidate(sanitized) && result.missingParts.length === 0 && (inspection.status === 'checked' || inspection.status === 'exempt'),
+          canConfirm: isDevelopmentMode() && !isProductionProtected(sanitized) && reviewStatus !== 'confirmed' && isLdrawReviewCandidate(sanitized) && result.missingParts.length === 0 && (inspection.status === 'checked' || inspection.status === 'exempt'),
         },
         {
           headers: {

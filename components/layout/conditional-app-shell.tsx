@@ -55,6 +55,7 @@ function isPathOrDescendant(pathname: string, root: string) {
 const MOBILE_LIST_PATHS = new Set(['/explore', '/nature', '/nature/observations', '/courses', '/playground'])
 
 export function hasPageOwnedMobileHeader(pathname: string) {
+  if (isPathOrDescendant(pathname, '/playground/physics-lab')) return false
   return (
     pathname === '/explore' ||
     pathname === '/create' ||
@@ -106,7 +107,7 @@ export function ConditionalAppShell({
     pathname === '/project' ||
     pathname.startsWith('/share') ||
     pathname.startsWith('/pbl/') ||
-    pathname.startsWith('/playground/') ||
+    (pathname.startsWith('/playground/') && !isPathOrDescendant(pathname, '/playground/physics-lab')) ||
     pathname.startsWith('/works/') ||
     pathname === '/nature/submit' ||
     /^\/nature\/observations\/[^/]+$/.test(pathname) ||

@@ -15,7 +15,17 @@ import {
 } from './ldraw-part-mapping'
 import type { LdrawBom, LdrawBomEntry } from '../utils/ldraw-bom'
 
-/** 为 Duplo 课程还原替身零件并识别结构薄板；全课和分步清单使用相同口径。 */
+const completeFigureEntry = (count: number): LdrawBomEntry => ({
+  partId: `${VIRTUAL_CHILD_FIGURE}.dat`,
+  partName: '完整小人',
+  partDescription: 'Complete Duplo figure',
+  colorCode: 15,
+  colorName: '',
+  colorHex: '#FFFFFF',
+  count,
+})
+
+/** 为 Duplo 课程还原替身、合并完整小人并识别结构薄板。 */
 export function prepareLessonBomForCourse(courseId: number, bom: LdrawBom): LdrawBom {
   if (!hasKitComparison(courseId)) return bom
 
@@ -37,8 +47,26 @@ export function prepareLessonBomForCourse(courseId: number, bom: LdrawBom): Ldra
     return [...merged.values()].sort((a, b) => b.count - a.count)
   }
 
-  const entries = prepareEntries(bom.entries)
-  const steps = bom.steps.map((step) => ({ ...step, entries: prepareEntries(step.entries) }))
+  const isComponent = (entry: LdrawBomEntry) =>
+    !!resolveLdrawPart(entry.partId).flags.figureComponent
+  const componentDemand = (entries: LdrawBomEntry[]) => figureComponentDemand(
+    entries.map((entry) => ({ ...entry, mapping: resolveLdrawPart(entry.partId) })),
+  )
+  const prepareFigures = (entries: LdrawBomEntry[], demand: number) => prepareEntries([
+    ...entries.filter((entry) => !isComponent(entry)),
+    ...(demand > 0 ? [completeFigureEntry(demand)] : []),
+  ])
+  const entries = prepareFigures(bom.entries, componentDemand(bom.entries))
+  const cumulativeComponents: LdrawBomEntry[] = []
+  let previousDemand = 0
+  const steps = bom.steps.map((step) => {
+    cumulativeComponents.push(...step.entries.filter(isComponent))
+    const demand = componentDemand(cumulativeComponents)
+    // 跨步骤补齐头、身体、手臂时，只在完整小人需求增加的步骤显示新增数量。
+    const entries = prepareFigures(step.entries, demand - previousDemand)
+    previousDemand = demand
+    return { ...step, entries, partCount: entries.reduce((sum, entry) => sum + entry.count, 0) }
+  })
   const partColorKey = (entry: LdrawBomEntry) =>
     `${normalizeLdrawPartId(entry.partId)}|${entry.colorCode}`
   const structuralPlates = new Set<string>()
@@ -61,6 +89,7 @@ export function prepareLessonBomForCourse(courseId: number, bom: LdrawBom): Ldra
     ...bom,
     entries,
     kindCount: entries.length,
+    partCount: entries.reduce((sum, entry) => sum + entry.count, 0),
     steps,
   }
 }
@@ -161,38 +190,43 @@ function isOptional(
 /**
  * 把人物散件折成「需要几个完整小人」。
  * 规则：手臂按 0.5 计，头/身/髋/腿/帽/铰链按 1 计；取各角色折算后的最大值（向上取整）。
- * 成人与儿童散件共用完整小人库存（含成人）。
+ * 成人与儿童分别折算后相加，共用完整小人库存（含成人）。
  */
 export function foldFigureComponents(
   entries: MaterialRequirement[],
 ): { remaining: MaterialRequirement[]; figureDemand: number; folded: MaterialRequirement[] } {
   const folded: MaterialRequirement[] = []
   const remaining: MaterialRequirement[] = []
-  let armUnits = 0
-  const roleMax = new Map<string, number>()
+  for (const entry of entries) {
+    if (entry.mapping.flags.figureComponent) folded.push(entry)
+    else remaining.push(entry)
+  }
+  return { remaining, figureDemand: figureComponentDemand(folded), folded }
+}
 
+function figureComponentDemand(
+  entries: Pick<MaterialRequirement, 'partId' | 'count' | 'mapping'>[],
+): number {
+  const groups = new Map<string, { armUnits: number; roleMax: Map<string, number> }>()
   for (const entry of entries) {
     const role = entry.mapping.flags.figureComponent
-    if (!role) {
-      remaining.push(entry)
-      continue
+    if (!role) continue
+    let group = groups.get(role)
+    if (!group) {
+      group = { armUnits: 0, roleMax: new Map() }
+      groups.set(role, group)
     }
-    folded.push(entry)
-    const units = (entry.mapping.flags.figureUnits ?? 1) * entry.count
-    if ((entry.mapping.flags.figureUnits ?? 1) < 1) {
-      armUnits += units
-    } else {
-      // 同一类角色（头/身/…）跨颜色合并
-      const key = entry.partId.replace(/\.dat$/i, '').replace(/(p|pr|pe)\w+$/i, '')
-      roleMax.set(key, (roleMax.get(key) ?? 0) + entry.count)
+    const units = entry.mapping.flags.figureUnits ?? 1
+    if (units < 1) group.armUnits += units * entry.count
+    else {
+      // 同一基础部件跨颜色、印花合并；不同身体部件取最大值。
+      const key = normalizeLdrawPartId(entry.partId).replace(/(p|pr|pe)\w+$/i, '')
+      group.roleMax.set(key, (group.roleMax.get(key) ?? 0) + entry.count)
     }
   }
-
-  const byRole = Math.max(0, ...roleMax.values())
-  const byArms = Math.ceil(armUnits)
-  const figureDemand = Math.max(byRole, byArms)
-
-  return { remaining, figureDemand, folded }
+  return [...groups.values()].reduce(
+    (sum, group) => sum + Math.max(0, ...group.roleMax.values(), Math.ceil(group.armUnits)), 0,
+  )
 }
 
 const colorInfo = (id: number) => (kitColors as Record<string, { name: string; hex: string }>)[id]
@@ -268,7 +302,7 @@ function allocateStock(
       for (const partNum of partNums) {
         for (const part of stock) {
           if (!entry.missing || part.quantity <= 0 || part.partNum !== partNum) continue
-          const exact = !!entry.mapping.flags.kitColor || sameDisplayColor(entry, part)
+          const exact = !!entry.figureFolded || !!entry.mapping.flags.kitColor || sameDisplayColor(entry, part)
           if (exact === substitutePass) continue
 
           const quantity = Math.min(entry.missing, part.quantity)
@@ -358,6 +392,7 @@ export function compareLessonMaterials(
     ...entry,
     modelColorCode: entry.colorCode,
     mapping: resolver(entry.partId, entry.partDescription || entry.partName),
+    ...(normalizeLdrawPartId(entry.partId) === VIRTUAL_CHILD_FIGURE ? { figureFolded: true } : {}),
     status: 'satisfied' as MaterialStatus,
     matched: 0,
     substituted: 0,
@@ -365,7 +400,10 @@ export function compareLessonMaterials(
     allocations: [],
   }))
 
-  const { remaining, figureDemand, folded } = foldFigureComponents(raw)
+  const { remaining, figureDemand: componentDemand, folded } = foldFigureComponents(raw)
+  const figureDemand = componentDemand + remaining.reduce(
+    (sum, entry) => sum + (entry.figureFolded ? entry.count : 0), 0,
+  )
 
   // 散件本身不再进入缺件/未知列表；状态记为已由小人折算覆盖
   for (const entry of folded) {
@@ -375,7 +413,7 @@ export function compareLessonMaterials(
     entry.status = 'satisfied'
   }
 
-  if (figureDemand > 0) {
+  if (componentDemand > 0) {
     remaining.push({
       partId: `${VIRTUAL_CHILD_FIGURE}.dat`,
       partName: '完整小人（含成人）',
@@ -384,12 +422,12 @@ export function compareLessonMaterials(
       colorCode: 15,
       colorName: '不限色',
       colorHex: '#FFFFFF',
-      count: figureDemand,
+      count: componentDemand,
       mapping: resolver(VIRTUAL_CHILD_FIGURE),
       status: 'satisfied',
       matched: 0,
       substituted: 0,
-      missing: figureDemand,
+      missing: componentDemand,
       allocations: [],
       figureFolded: true,
     })
@@ -412,7 +450,7 @@ export function compareLessonMaterials(
       entry.status = 'unknown'
     } else if (entry.missing) {
       entry.status = isOptional(entry, prefs) ? 'optionalMissing' : 'requiredMissing'
-    } else if (entry.substituted) {
+    } else if (entry.substituted && !entry.figureFolded) {
       entry.status = 'colorSubstitute'
     } else {
       entry.status = 'satisfied'

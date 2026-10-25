@@ -62,7 +62,9 @@ describe('effective content update dates', () => {
 
   it('covers the current released overrides once with explicit deployment provenance', () => {
     const ids = releases.flatMap(release => release.projectIds)
-    expect(ids.sort((a, b) => a - b)).toEqual([149, ...reviewed.map(row => row.id)].sort((a, b) => a - b))
+    const currentIds = [149, ...reviewed.map(row => row.id)]
+    expect(ids.every(id => currentIds.includes(id))).toBe(true)
+    expect(currentIds.filter(id => !ids.includes(id))).toEqual([1170])
     expect(new Set(ids).size).toBe(ids.length)
     expect(releases.map(release => release.projectIds.length)).toEqual([1, 27, 28, 59])
     for (const release of releases) {
@@ -70,5 +72,12 @@ describe('effective content update dates', () => {
       expect(release.workflowRunId).toBeGreaterThan(0)
       expect(Date.parse(release.updatedAt)).toBeLessThan(Date.parse('2026-10-14T00:00:00Z'))
     }
+  })
+
+  it('keeps database dates for reviewed content without deployment evidence', () => {
+    const sample = reviewed.find(row => row.id === 1170)!
+    const identity = { id: sample.id, title: sample.title, category: '科学' }
+    expect(effectiveUpdatedAt({ ...identity, updatedAt: databaseDate })).toBe('2026-03-24T00:00:00.000Z')
+    expect(effectiveUpdatedAt(identity)).toBeUndefined()
   })
 })

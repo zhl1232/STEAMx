@@ -1,0 +1,95 @@
+[
+  {
+    "file": "01-趣味实验主图",
+    "prompt": "Use case: ads-marketing. Create a polished Chinese Taobao square promotional image, EXACT 800x800 pixels. Brand 创探空间. Warm ivory paper background, deep teal headlines and vivid tangerine highlights, sophisticated playful science editorial illustration, large highly legible Chinese typography. Center beautiful photorealistic educational still life of transparent cups with colored water, a dropper and a transparent two-bottle water vortex, on a clean tabletop, no fake product packaging, no human. This is a conceptual experiment illustration, not a picture of kit contents. Text verbatim: top small \"创探空间\"; large headline \"把好奇心\" / \"变成小实验\"; subtitle \"趣味科学实验系列\"; bottom two compact lines \"启蒙 · 进阶 · 豪华 · 高配 · 旗舰\" and \"按孩子的兴趣与动手经验选款\"; small but readable footer \"实验场景示意，非实物清单｜请在成人指导下操作\". No URL, QR, promises, free gifts, manufacturer claims, prices or extra text. Design flat full bleed, not a mockup.",
+    "source": "/home/arron/.codex/generated_images/01a0c845-4ef3-7470-a761-5601d18d69bf/exec-461301d5-b196-4ac5-a6a3-4daffe86d310.png",
+    "width": 800,
+    "height": 800
+  },
+  {
+    "file": "02-科教版主图",
+    "prompt": "Use case: ads-marketing. Create a polished Chinese Taobao square promotional image EXACT 800x800 pixels. Coordinated visual family: warm ivory paper background, deep teal typography, tangerine and sky blue accent, playful refined science editorial photography/illustration. Top small brand \"创探空间\". Large headline \"动手做一做\" / \"科学看得见\". Subtitle \"科教版 · 分年级实验套装\". Central creative concept still life: a small wooden propeller experiment model and a simple balance model on ivory plinths with discreet hand-drawn motion lines, no invented branded packaging; explicit conceptual scene. Lower legible line \"幼儿园小班至小学六年级可选\" and \"各规格独立选购 · 每款16件套\". Readable footer \"实验场景示意，具体内容以所选规格清单为准\". No claim of cumulative grades on this product, no URLs QR prices certification factory claims. Large clear Chinese type, flat full bleed image.",
+    "source": "/home/arron/.codex/generated_images/01a0c845-4ef3-7470-a761-5601d18d69bf/exec-40736462-c236-4e68-b383-ff78d84b8d29.png",
+    "width": 800,
+    "height": 800
+  },
+  {
+    "file": "03-趣味实验选款说明",
+    "prompt": "Use case: infographic-diagram. Chinese Taobao product-detail portrait poster EXACT 750x1000 pixels. Beautiful clear editorial infographic, warm ivory background, dark teal and orange, tiny playful beaker doodles but prioritize crisp text. Brand top \"创探空间\". Main headline \"高阶内容\" / \"包含低阶实验\". Subheading \"趣味实验系列 · 这样选更清楚\". Main area five horizontal rows increasing subtly in width like a staircase, all text readable: \"启蒙款 210｜幼儿园\"; \"进阶款 365｜一至二年级\"; \"豪华款 485｜二至四年级\"; \"高配款 615｜三至五年级\"; \"旗舰款 688｜四至六年级\". Below prominent explanation \"从基础实验开始，逐步探索更多内容\". In a generous bottom explanation panel exact text split over several short lines: \"高阶款包含低阶实验内容\" / \"年级为选购参考，并非操作门槛\" / \"数字为商品规格标称实验数，不是实物件数\" / \"不代表网站已上线相同数量的项目\" / \"包装与材料以所选规格清单为准\". Small footer \"本说明仅适用于趣味实验系列，不适用于科教版16件套\". No URLs QR prices or extra claims. Flat full bleed, no device mockup.",
+    "source": "/home/arron/.codex/generated_images/01a0c845-4ef3-7470-a761-5601d18d69bf/exec-82c800f9-8952-4243-b328-91a27037aeb6.png",
+    "width": 750,
+    "height": 1000
+  },
+  {
+    "file": "04-配套探索内容介绍",
+    "prompt": "Use case: ads-marketing. Chinese Taobao product-detail portrait poster EXACT 750x1000 pixels. Brand content-service introduction for 创探空间, no external traffic solicitation. Warm ivory background deep teal typography orange emphasis, coherent elegant playful science magazine aesthetic. Top brand \"创探空间\"; headline \"做完一个实验\" / \"再探索一个为什么\"; subtitle \"配套探索内容介绍\". Middle charming illustrated tablet showing an abstract science lesson with a water vortex and simple material icons, NOT real screenshot and no URL browser bar, no shop/cart. Label \"内容展示示意\". Under it four large readable feature lines: \"实验视频｜跟随演示动手尝试\"; \"材料说明｜先准备，再操作\"; \"探索记录｜记下现象与发现\"; \"更多兴趣｜积木搭建与自然观察\". Orange restrained highlight \"还有免费积木课程可探索\". Below readable limitation \"免费仅指相应课程内容，不含实物材料\" / \"其他内容及服务以实际页面说明为准\". Footer \"实验材料按所选商品规格提供，请在成人指导下使用\". No QR URL search instructions external registration links buying elsewhere lifetime-free claims all-free AI or achievement promises. Flat full bleed standalone image.",
+    "source": "/home/arron/.codex/generated_images/01a0c845-4ef3-7470-a761-5601d18d69bf/exec-8c428050-8fe8-4121-997f-da52b76db371.png",
+    "width": 750,
+    "height": 1000
+  },
+  {
+    "file": "05-趣味实验商品详情",
+    "prompt": "Use case: ads-marketing. Text-free vertical detail-poster background for 趣味实验. Reference 01-趣味实验主图.jpg for palette and style only. Warm ivory educational still life with transparent cups of colored water, dropper, household plate and straw. Generic conceptual experiment scene, no packaging or text. Leave space for exact copy.",
+    "source": "output/taobao-promotion-2026-09-22/sources/05-fun-detail-scene.png",
+    "width": 750,
+    "height": 1500,
+    "overlay_text": [
+      "创探空间",
+      "趣味实验系列",
+      "材料丰富，玩法多样",
+      "购买前，先看清材料与操作方式",
+      "套装提供：含多种实验材料；具体内容以所选规格清单为准。",
+      "部分用品自备：盘子、吸管等家中常见用品，需按实验清单准备。",
+      "操作过程另查阅：商品不附逐项详细纸质步骤；对应实验过程可查阅创探空间线上内容。",
+      "实验场景示意，非实物清单｜请在成人指导下操作"
+    ]
+  },
+  {
+    "file": "06-科教版商品详情",
+    "prompt": "Use case: ads-marketing. Text-free vertical detail-poster background for 科教版. Reference 02-科教版主图.jpg for palette and style only. Warm ivory educational still life with simple wooden propeller and balance experiment models, generic organized components and blank instruction booklet. Conceptual scene, no inventory assertion, packaging or text. Leave space for exact copy.",
+    "source": "output/taobao-promotion-2026-09-22/sources/06-edu-detail-scene.png",
+    "width": 750,
+    "height": 1500,
+    "overlay_text": [
+      "创探空间",
+      "科教版实验套装",
+      "材料与说明配套齐全",
+      "每个实验，都有对应的准备与操作说明",
+      "材料对应实验：所选规格的实验材料，按对应实验配套提供。",
+      "说明随套装配套：先核对材料，再跟随对应说明完成操作。",
+      "按规格独立选购：不同年级与规格独立成套；购买前请核对所选规格的实物清单。",
+      "实验场景示意，非实物清单｜具体以所选规格清单为准"
+    ]
+  },
+  {
+    "file": "07-科教版包装展示",
+    "prompt": "Reference chuangtan-promo/02 for warm ivory, teal and orange hand-painted educational photography style; reference main-images/main-02 for carton appearance without wholesale or customization text. Main title 兴趣是最好的老师; supporting text 在动手中发现问题 / 在探索中找到答案; footer 动手做一做，科学看得见; 科教版 · 分年级实验套装; 材料与说明按所选规格配套. Large carton on sunlit study table, plants, books, restrained science doodles.",
+    "source": "output/taobao-promotion-2026-09-22/sources/07-科教版兴趣主题原图.png",
+    "width": 750,
+    "height": 1050,
+    "method": "imagegen reference-based poster generation; Sharp export"
+  },
+  {
+    "file": "08-科教版规格选择",
+    "prompt": "Arrange exact reference images main-20.jpg through main-29.jpg as thumbnails in 10 independent age/grade specification cards; do not mix projects across grades.",
+    "source": "/mnt/d/创探空间-1688素材/chuangtan-1688-main-images/main-images/main-{20..29}.jpg",
+    "width": 750,
+    "height": 1510,
+    "method": "Sharp compositing and Chinese typesetting"
+  },
+  {
+    "file": "09-科教版实验场景",
+    "prompt": "Edit previous 09 parent-child balance photo, using approved 07 warm ivory hand-painted Chinese typography style. Preserve learning scene. Header: 从“我想试试” / 到“我做到了！”. Supporting copy: 动手发现问题，尝试找到答案 / 每一次小成功，都让孩子更想探索. Brand 创探空间. Footer 场景示意，项目以所选规格为准 · 请在成人指导下操作.",
+    "source": "output/taobao-promotion-2026-09-22/sources/09-科教版新版海报.png",
+    "width": 750,
+    "height": 1290,
+    "overlay_text": [
+      "创探空间",
+      "从“我想试试”",
+      "到“我做到了！”",
+      "动手发现问题，尝试找到答案",
+      "每一次小成功，都让孩子更想探索",
+      "场景示意，项目以所选规格为准 · 请在成人指导下操作"
+    ]
+  }
+]

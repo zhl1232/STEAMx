@@ -4,10 +4,8 @@ export { generateRoomCode }
 
 export const RACE_GAME_KEYS = [
     "game24",
-    "quickmath",
     "hanoi",
     "nqueens",
-    "fifteen",
     "nonogram",
     "ballsort",
     "balance",
@@ -29,8 +27,6 @@ export type RaceFinishReason =
 export type RaceSettings = {
     durationSeconds?: number
     cardValues?: number[]
-    initialBoard?: number[]
-    size?: number
     diskCount?: number
     n?: number
     levelId?: string
@@ -39,13 +35,9 @@ export type RaceSettings = {
 
 export type RaceResult = {
     completed: boolean
-    score?: number
-    streak?: number
     moves?: number
     timeSeconds?: number
     cardValues?: number[]
-    initialBoard?: number[]
-    size?: number
     mistakes?: number
     stars?: number
     weighings?: number
@@ -124,17 +116,6 @@ export const RACE_GAME_META: Record<RaceGameKey, RaceGameMeta> = {
                     : "未解出"
                 : "等待提交",
     },
-    quickmath: {
-        key: "quickmath",
-        label: "速算闪电战",
-        shortLabel: "速算",
-        objective: "同样 60 秒内比得分，得分相同比最长连击。",
-        settingLabel: (settings) => `${settings.durationSeconds ?? 60} 秒`,
-        resultLabel: (result) =>
-            result
-                ? `${result.score ?? 0} 分 · 连击 ${result.streak ?? 0}`
-                : "等待提交",
-    },
     hanoi: {
         key: "hanoi",
         label: "汉诺塔",
@@ -154,17 +135,6 @@ export const RACE_GAME_META: Record<RaceGameKey, RaceGameMeta> = {
         settingLabel: (settings) => `${settings.n ?? 8} 皇后`,
         resultLabel: (result) =>
             result ? `${formatTime(result.timeSeconds)}` : "等待提交",
-    },
-    fifteen: {
-        key: "fifteen",
-        label: "数字华容道",
-        shortLabel: "华容道",
-        objective: "同一初始棋盘复原，步数少者胜，步数相同比用时。",
-        settingLabel: (settings) => `${settings.size ?? 4}×${settings.size ?? 4} 固定盘面`,
-        resultLabel: (result) =>
-            result
-                ? `${result.moves ?? 0} 步 · ${formatTime(result.timeSeconds)}`
-                : "等待提交",
     },
     nonogram: {
         key: "nonogram",
@@ -354,43 +324,6 @@ function has24Solution(values: number[]): boolean {
     return false
 }
 
-function validateFifteenBoard(board: number[], size: number) {
-    const expectedLength = size * size
-    if (board.length !== expectedLength) {
-        throw new Error("initialBoard length does not match size")
-    }
-    const seen = new Set(board)
-    for (let value = 0; value < expectedLength; value += 1) {
-        if (!seen.has(value)) throw new Error("initialBoard must contain every tile once")
-    }
-    if (isSolvedSlidingBoard(board)) {
-        throw new Error("initialBoard must not be solved")
-    }
-    if (!isSolvableSlidingBoard(board, size)) {
-        throw new Error("initialBoard must be solvable")
-    }
-}
-
-function isSolvedSlidingBoard(board: number[]): boolean {
-    for (let index = 0; index < board.length - 1; index += 1) {
-        if (board[index] !== index + 1) return false
-    }
-    return board[board.length - 1] === 0
-}
-
-function isSolvableSlidingBoard(board: number[], size: number): boolean {
-    const values = board.filter((value) => value !== 0)
-    let inversions = 0
-    for (let left = 0; left < values.length; left += 1) {
-        for (let right = left + 1; right < values.length; right += 1) {
-            if (values[left] > values[right]) inversions += 1
-        }
-    }
-    if (size % 2 === 1) return inversions % 2 === 0
-    const blankRowFromBottom = size - Math.floor(board.indexOf(0) / size)
-    return blankRowFromBottom % 2 === 0 ? inversions % 2 === 1 : inversions % 2 === 0
-}
-
 function readLevelSettings(raw: Record<string, unknown>): RaceSettings {
     const levelId = typeof raw.levelId === "string" ? raw.levelId.trim() : ""
     if (!levelId || levelId.length > 80) {
@@ -425,32 +358,10 @@ export function normalizeRaceSettings(
                 cardValues,
             }
         }
-        case "quickmath":
-            return {
-                durationSeconds: readInteger(
-                    raw.durationSeconds,
-                    "durationSeconds",
-                    60,
-                    60,
-                    60,
-                ),
-            }
         case "hanoi":
             return { diskCount: readInteger(raw.diskCount, "diskCount", 3, 8, 3) }
         case "nqueens":
             return { n: readInteger(raw.n, "n", 4, 12, 8) }
-        case "fifteen": {
-            const size = readInteger(raw.size, "size", 3, 5, 4)
-            const initialBoard = readIntegerArray(
-                raw.initialBoard,
-                "initialBoard",
-                size * size,
-                0,
-                size * size - 1,
-            )
-            validateFifteenBoard(initialBoard, size)
-            return { size, initialBoard }
-        }
         case "nonogram":
         case "ballsort":
         case "balance":
@@ -509,22 +420,6 @@ export function normalizeRaceResult(
                 ),
             }
         }
-        case "quickmath": {
-            const durationSeconds = readInteger(
-                raw.durationSeconds,
-                "durationSeconds",
-                60,
-                60,
-                settings.durationSeconds ?? 60,
-            )
-            ensureMatches(durationSeconds, settings.durationSeconds, "durationSeconds")
-            return {
-                ...result,
-                durationSeconds,
-                score: readInteger(raw.score, "score", 0, 100_000),
-                streak: readInteger(raw.streak, "streak", 0, 10_000, 0),
-            }
-        }
         case "hanoi": {
             const diskCount = readInteger(raw.diskCount, "diskCount", 3, 8)
             ensureMatches(diskCount, settings.diskCount, "diskCount")
@@ -541,28 +436,6 @@ export function normalizeRaceResult(
             return {
                 ...result,
                 n,
-                timeSeconds: readInteger(raw.timeSeconds, "timeSeconds", 0, 86_400),
-            }
-        }
-        case "fifteen": {
-            const size = readInteger(raw.size, "size", 3, 5, settings.size ?? 4)
-            ensureMatches(size, settings.size, "size")
-            const initialBoard =
-                raw.initialBoard === undefined
-                    ? settings.initialBoard
-                    : readIntegerArray(
-                        raw.initialBoard,
-                        "initialBoard",
-                        size * size,
-                        0,
-                        size * size - 1,
-                    )
-            ensureArrayMatches(initialBoard, settings.initialBoard, "initialBoard")
-            return {
-                ...result,
-                size,
-                initialBoard,
-                moves: readInteger(raw.moves, "moves", 1, 100_000),
                 timeSeconds: readInteger(raw.timeSeconds, "timeSeconds", 0, 86_400),
             }
         }
@@ -654,14 +527,8 @@ export function compareRaceResults(
         case "game24":
             if (!a.completed && !b.completed) return 0
             return compareLower(a.timeSeconds, b.timeSeconds)
-        case "quickmath":
-            return firstNonDraw([
-                compareHigher(a.score, b.score),
-                compareHigher(a.streak, b.streak),
-            ])
         case "hanoi":
         case "ballsort":
-        case "fifteen":
             return firstNonDraw([
                 compareLower(a.moves, b.moves),
                 compareLower(a.timeSeconds, b.timeSeconds),

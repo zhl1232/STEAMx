@@ -675,3 +675,114 @@ it('requires all four rotor cord loops as known external materials even when 710
   expect(summarizeMaterialOutcome(result)).toMatchObject({ status: 'short', missingPieces: 4, specialPieces: 0 })
   expect(inventory[0].quantity).toBe(20)
 })
+
+it('prepares the elevator as two generic complete people in all learner lists', () => {
+  const model = summarizePackedLdrawBom(readFileSync('public/courses/ldraw/5-sheng-jiang-dian-ti.mpd', 'utf8'))
+  const original = structuredClone(model)
+  const prepared = prepareLessonBomForCourse(7, model)
+  const components = model.entries.filter((row) => resolveLdrawPart(row.partId).flags.figureComponent)
+  expect(components.reduce((sum, row) => sum + row.count, 0)).toBe(16)
+  const figures = prepared.entries.filter((row) => row.partName === '完整小人')
+  expect(figures).toEqual([expect.objectContaining({ count: 2, colorName: '', colorCode: 15 })])
+  expect(prepared.partCount).toBe(model.partCount - 16 + 2)
+  expect(prepared.kindCount).toBe(prepared.entries.length)
+  const stepFigures = prepared.steps.flatMap((step) => step.entries).filter((row) => row.partName === '完整小人')
+  expect(stepFigures.reduce((sum, row) => sum + row.count, 0)).toBe(2)
+  expect(prepared.steps.reduce((sum, step) => sum + step.partCount, 0)).toBe(prepared.partCount)
+  for (const row of [...prepared.entries, ...prepared.steps.flatMap((step) => step.entries)]) {
+    expect(resolveLdrawPart(row.partId).flags.figureComponent).toBeUndefined()
+  }
+  expect(model).toEqual(original)
+  expect(prepareLessonBomForCourse(7, prepared)).toEqual(prepared)
+})
+
+it('adds only cumulative figure demand deltas across split and empty steps', () => {
+  const stepEntries = [
+    [entry('47205.dat')],
+    [],
+    [entry('47203p03.dat'), entry('47198p03.dat')],
+    [entry('47198p03.dat'), entry('47206p01.dat')],
+    [entry('47205.dat', 1), entry('47203p03.dat', 1), entry('47198p03.dat', 1, 2)],
+  ]
+  const model = bom(...stepEntries.flat())
+  model.steps = stepEntries.map((entries, i) => ({
+    stepIndex: i * 2, entries, partCount: entries.reduce((sum, row) => sum + row.count, 0),
+  }))
+  model.stepCount = model.steps.length
+  const original = structuredClone(model)
+  const prepared = prepareLessonBomForCourse(7, model)
+  expect(prepared.entries).toEqual([expect.objectContaining({ partName: '完整小人', count: 2 })])
+  expect(prepared.steps.map((step) => step.stepIndex)).toEqual([0, 2, 4, 6, 8])
+  expect(prepared.steps.map((step) => step.partCount)).toEqual([1, 0, 0, 0, 1])
+  expect(prepared.steps.slice(1, 4).every((step) => step.entries.length === 0)).toBe(true)
+  expect(prepared.partCount).toBe(2)
+  expect(model).toEqual(original)
+  expect(prepareLessonBomForCourse(7, prepared)).toEqual(prepared)
+})
+
+it('prepared figures report demand and shortages without color substitutions or double allocation', () => {
+  const prepared = prepareLessonBomForCourse(7, bom(
+    entry('47205.dat', 4, 2), entry('47203p03.dat', 1, 2), entry('47198p03.dat', 14, 4),
+  ))
+  const inventory = [stock('47510pr0002', 212)]
+  const snapshot = structuredClone(prepared)
+  for (const acceptColorSubstitutes of [false, true]) {
+    const result = compareLessonMaterials(prepared, inventory, { ...prefs, acceptColorSubstitutes })
+    expect(result.figureDemand).toBe(2)
+    expect(result.stats).toMatchObject({ figureDemand: 2, requiredMissing: 1, matched: 1, total: 2, substituted: 0 })
+    expect(result.requiredMissing).toEqual([expect.objectContaining({ partName: '完整小人', count: 2, missing: 1 })])
+    expect(result.entries).toHaveLength(1)
+    expect(result.entries[0].allocations).toEqual([expect.objectContaining({ quantity: 1 })])
+    expect(result.unknown).toEqual([])
+    expect(result.colorSubstitutes).toEqual([])
+    expect(result.foldedFigures).toEqual([])
+    expect(summarizeMaterialOutcome(result)).toMatchObject({ missingKinds: 1, missingPieces: 1 })
+  }
+  const covered = compareLessonMaterials(prepared, [stock('47510pr0002', 212, 2)], prefs)
+  expect(covered.entries[0].status).toBe('satisfied')
+  expect(covered.stats.matched).toBe(2)
+  expect(covered.requiredMissing).toEqual([])
+  expect(prepared).toEqual(snapshot)
+  expect(inventory[0].quantity).toBe(1)
+})
+
+it('preserves actual complete figures alongside folded components and shares their stock', () => {
+  const whole = entry('47510pr0002.dat', 212)
+  const standalone = bom(whole)
+  expect(prepareLessonBomForCourse(7, standalone)).toEqual(standalone)
+  const mixed = prepareLessonBomForCourse(7, bom(whole, entry('47205.dat', 4, 2)))
+  expect(mixed.entries).toContainEqual(whole)
+  expect(mixed.entries).toContainEqual(expect.objectContaining({ partName: '完整小人', count: 2 }))
+  expect(mixed.partCount).toBe(3)
+  const result = compareLessonMaterials(mixed, [stock('47510pr0002', 212, 2)], prefs)
+  expect(result.figureDemand).toBe(2)
+  expect(result.stats.matched).toBe(2)
+  expect(result.stats.requiredMissing).toBe(1)
+  expect(result.entries.flatMap((row) => row.allocations).reduce((sum, row) => sum + row.quantity, 0)).toBe(2)
+  expect(prepareLessonBomForCourse(7, mixed)).toEqual(mixed)
+})
+
+it('adds adult and child demand across steps while consuming shared whole-figure stock', () => {
+  const stepEntries = [
+    [entry('47205.dat', 4, 2)],
+    [entry('63710.dat')],
+    [entry('47203p03.dat', 1, 2), entry('47198p03.dat', 14, 4)],
+  ]
+  const model = bom(...stepEntries.flat())
+  model.steps = stepEntries.map((entries, stepIndex) => ({
+    stepIndex, entries, partCount: entries.reduce((sum, row) => sum + row.count, 0),
+  }))
+  model.stepCount = model.steps.length
+  const prepared = prepareLessonBomForCourse(7, model)
+  expect(prepared.entries).toEqual([expect.objectContaining({ partName: '完整小人', count: 3 })])
+  expect(prepared.partCount).toBe(3)
+  expect(prepared.steps.map((step) => step.partCount)).toEqual([2, 1, 0])
+  expect(prepareLessonBomForCourse(7, prepared)).toEqual(prepared)
+  for (const input of [model, prepared]) {
+    const result = compareLessonMaterials(input, [stock('47510pr0002', 212, 2)], prefs)
+    expect(result.figureDemand).toBe(3)
+    expect(result.stats.requiredMissing).toBe(1)
+    expect(result.entries.flatMap((row) => row.allocations).reduce((sum, row) => sum + row.quantity, 0)).toBe(2)
+    expect(result.colorSubstitutes).toEqual([])
+  }
+})

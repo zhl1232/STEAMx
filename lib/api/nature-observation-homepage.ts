@@ -881,7 +881,10 @@ async function hydratePublicObservationRows(observationRows: ObservationEventRow
   })
 }
 
-async function getRecentNatureObservations(limit = 12): Promise<ObservationEvent[]> {
+export async function getRecentNatureObservations(
+  limit = 12,
+  { strictErrors = false }: { strictErrors?: boolean } = {},
+): Promise<ObservationEvent[]> {
   if (limit <= 0) {
     return []
   }
@@ -899,6 +902,7 @@ async function getRecentNatureObservations(limit = 12): Promise<ObservationEvent
 
   if (error) {
     logger.error('Error fetching recent observations for nature homepage', { error })
+    if (strictErrors) throw error
     return []
   }
 

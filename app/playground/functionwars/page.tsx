@@ -8,18 +8,16 @@ import {
     useMemo,
     useRef,
     useState,
-    type Dispatch,
+    type ReactNode,
     type SetStateAction,
 } from "react"
 import { useSearchParams } from "next/navigation"
 import {
-    AlertTriangle,
     Bomb,
     Check,
     ChevronRight,
     Circle,
     Crosshair,
-    Delete,
     Drill,
     FlipHorizontal2,
     Globe2,
@@ -36,22 +34,25 @@ import {
     Star,
     Target,
     Timer,
-    Trophy,
     User,
     Zap,
+    Expand,
+    Minimize,
     type LucideIcon,
 } from "lucide-react"
 
 import { FunctionWarsOnlineView } from "@/components/features/playground/function-wars-online-view"
 import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { Button } from "@/components/ui/button"
+import { useFunctionWarsImmersive } from "@/hooks/playground/use-function-wars-immersive"
+import { BattleWeaponReadout, ImmersiveControls } from "./immersive-controls"
+import { readFunctionWarsLabelExclusions } from "./canvas-overlays"
 import { useFunctionWars, type FunctionWarsProjectileTrace } from "@/hooks/playground/use-function-wars"
 import { useGamification } from "@/lib/context/gamification-context"
 import {
     FUNCTION_WARS_CAMPAIGN_LEVELS,
     FUNCTION_WARS_CHALLENGE_LEVELS,
     FUNCTION_WARS_LEVELS,
-    FUNCTION_WARS_SCENES,
     type FunctionWarsLevel,
     type FunctionWarsObstacle,
 } from "@/lib/playground/function-wars-levels"
@@ -61,8 +62,12 @@ import {
     type WeaponId,
 } from "@/lib/playground/function-wars-weapons"
 import { cn } from "@/lib/utils"
+import { MathKeyboard, ParameterTools } from "./expression-tools"
+import { getFunctionWarsFeedback } from "./feedback"
+import { ObstacleLegend } from "./obstacle-legend"
 import { getFunctionWarsMaxUnlockedIndex } from "./level-progress"
 import {
+    FUNCTION_WARS_CANVAS_ASPECT_RATIO,
     FunctionWarsRenderer,
     type FunctionWarsRenderScene,
     type FunctionWarsRenderTrace,
@@ -84,10 +89,6 @@ const THEME_DOT = {
     space: "bg-cyan-500",
 } as const
 
-const MATH_KEYS = [
-    "x", "+", "−", "×", "÷", "^", "(", ")", "sin(", "cos(", "tan(", "abs(", "sqrt(", "log(", "exp(", "pi",
-] as const
-
 const SINGLE_SHOT_PLAYBACK_MS = 1_250
 const FUNCTION_WARS_LEVEL_DEV_MODE = process.env.NODE_ENV === "development"
 
@@ -100,6 +101,7 @@ function formatTime(seconds: number): string {
 function toRenderTrace(trace: FunctionWarsProjectileTrace, index: number): FunctionWarsRenderTrace {
     return {
         id: trace.id,
+        weapon: trace.weaponId,
         points: trace.points,
         mirrored: trace.weaponId === "mirror" && index > 0,
         color: trace.fragment ? "#ef7a47" : undefined,
@@ -145,7 +147,10 @@ function useCanvasScene(scene: FunctionWarsRenderScene) {
         renderer.setScene(scene)
         renderer.start()
 
-        const resize = () => renderer.resize(container.getBoundingClientRect().width)
+        const resize = () => {
+            renderer.resize(container.clientWidth, window.devicePixelRatio, container.clientHeight)
+            renderer.setLabelExclusions(readFunctionWarsLabelExclusions(canvas))
+        }
         resize()
         const observer = new ResizeObserver(resize)
         observer.observe(container)
@@ -160,6 +165,7 @@ function useCanvasScene(scene: FunctionWarsRenderScene) {
     }, [])
 
     useEffect(() => {
+        if (canvasRef.current) rendererRef.current?.setLabelExclusions(readFunctionWarsLabelExclusions(canvasRef.current))
         rendererRef.current?.setScene(scene)
     }, [scene])
 
@@ -168,7 +174,7 @@ function useCanvasScene(scene: FunctionWarsRenderScene) {
 
 function Stars({ value, className }: { value: number; className?: string }) {
     return (
-        <span className={cn("inline-flex items-center gap-0.5", className)} aria-label={`${value} 星`}>
+        <span className={cn("inline-flex items-center gap-0.5", className)} role="img" aria-label={`${value} 星`}>
             {Array.from({ length: 3 }, (_, index) => (
                 <Star
                     key={index}
@@ -193,7 +199,7 @@ function ModeSwitch({
     onChange: (mode: PageMode) => void
 }) {
     return (
-        <div className="grid h-11 grid-cols-2 border border-border bg-muted/45 p-0.5" role="group" aria-label="游戏模式">
+        <div className="grid h-11 grid-cols-2 border border-border bg-muted/45 p-0.5" role="group" aria-label="游戏模式" data-function-wars-mode>
             {([
                 { value: "single" as const, label: "单人战役", icon: User },
                 { value: "online" as const, label: "真人对战", icon: Globe2 },
@@ -204,9 +210,9 @@ function ModeSwitch({
                     onClick={() => onChange(value)}
                     aria-pressed={mode === value}
                     className={cn(
-                        "inline-flex min-w-0 items-center justify-center gap-2 px-3 text-xs font-black transition-colors",
+                        "inline-flex min-w-0 items-center justify-center gap-2 px-3 text-xs font-semibold transition-colors",
                         mode === value
-                            ? "bg-foreground text-background shadow-sm"
+                            ? "bg-primary text-primary-foreground shadow-sm"
                             : "text-muted-foreground hover:bg-background/70 hover:text-foreground",
                     )}
                 >
@@ -228,11 +234,13 @@ function LevelRail({
     current,
     solved,
     unlockAll = false,
+    bestStars = {},
     onSelect,
 }: {
     current: number
     solved: Set<string>
     unlockAll?: boolean
+    bestStars?: Record<string, number>
     onSelect: (index: number) => void
 }) {
     const maxUnlockedIndex = getFunctionWarsMaxUnlockedIndex(solved, unlockAll)
@@ -244,14 +252,10 @@ function LevelRail({
     const challengeUnlocked = unlockAll || campaignComplete
     const visibleLevels = chapter === "campaign" ? FUNCTION_WARS_CAMPAIGN_LEVELS : FUNCTION_WARS_CHALLENGE_LEVELS
 
-    useEffect(() => {
-        setChapter(currentLevel?.chapter === "challenge" ? "challenge" : "campaign")
-    }, [currentLevel?.chapter])
-
     return (
         <div className="function-wars-level-rail space-y-1.5" aria-label="关卡选择">
             {unlockAll ? (
-                <p className="inline-flex items-center gap-1 bg-amber-500/12 px-2 py-1 text-[10px] font-black text-amber-800 dark:text-amber-200">
+                <p className="inline-flex items-center gap-1 bg-amber-500/12 px-2 py-1 text-[10px] font-semibold text-amber-800 dark:text-amber-200">
                     <Zap className="h-3 w-3" aria-hidden />
                     开发模式：全部关卡已解锁
                 </p>
@@ -262,8 +266,8 @@ function LevelRail({
                     onClick={() => setChapter("campaign")}
                     aria-pressed={chapter === "campaign"}
                     className={cn(
-                        "min-h-8 px-3 text-[11px] font-black",
-                        chapter === "campaign" ? "bg-foreground text-background" : "text-muted-foreground",
+                        "min-h-8 px-3 text-[11px] font-semibold",
+                        chapter === "campaign" ? "bg-primary text-primary-foreground" : "text-muted-foreground",
                     )}
                 >
                     战役 1-10
@@ -274,8 +278,8 @@ function LevelRail({
                     onClick={() => setChapter("challenge")}
                     aria-pressed={chapter === "challenge"}
                     className={cn(
-                        "inline-flex min-h-8 items-center justify-center gap-1 px-3 text-[11px] font-black disabled:cursor-not-allowed disabled:opacity-45",
-                        chapter === "challenge" ? "bg-foreground text-background" : "text-muted-foreground",
+                        "inline-flex min-h-8 items-center justify-center gap-1 px-3 text-[11px] font-semibold disabled:cursor-not-allowed disabled:opacity-45",
+                        chapter === "challenge" ? "bg-primary text-primary-foreground" : "text-muted-foreground",
                     )}
                 >
                     {!challengeUnlocked ? <LockKeyhole className="h-3 w-3" aria-hidden /> : null}
@@ -295,18 +299,18 @@ function LevelRail({
                                 disabled={locked}
                                 onClick={() => onSelect(index)}
                                 aria-current={current === index ? "step" : undefined}
-                                aria-label={`第 ${level.number} 关 ${level.name}${locked ? "，未解锁" : ""}`}
+                                aria-label={`第 ${level.number} 关 ${level.name}${locked ? "，未解锁" : isSolved ? bestStars[level.id] ? `，最好 ${bestStars[level.id]} 星` : "，已通过" : ""}`}
                                 className={cn(
-                                    "relative grid h-12 w-12 shrink-0 place-items-center border text-xs font-black transition-[transform,background-color,border-color] active:scale-[0.97]",
+                                    "relative grid h-12 w-12 shrink-0 place-items-center border text-xs font-semibold transition-[transform,background-color,border-color] active:scale-[0.97]",
                                     current === index
-                                        ? "border-foreground bg-foreground text-background"
+                                        ? "border-primary bg-primary text-primary-foreground"
                                         : "border-border bg-background text-muted-foreground hover:border-foreground/35 hover:text-foreground",
                                     locked && "cursor-not-allowed opacity-38",
                                 )}
                             >
                                 {locked ? <LockKeyhole className="h-3.5 w-3.5" aria-hidden /> : level.number}
                                 <span className={cn("absolute bottom-1 h-1.5 w-1.5 rounded-full", THEME_DOT[level.theme])} />
-                                {isSolved ? <Star className="absolute right-0.5 top-0.5 h-2.5 w-2.5 fill-amber-400 text-amber-500" aria-hidden /> : null}
+                                {isSolved ? <span className="absolute right-0.5 top-0.5 text-[8px] text-amber-500" aria-hidden>{bestStars[level.id] ? "★".repeat(bestStars[level.id]) : "✓"}</span> : null}
                             </button>
                         )
                     })}
@@ -330,8 +334,8 @@ function WeaponBar({
     onSelect: (weapon: WeaponId) => void
 }) {
     return (
-        <div className="function-wars-weapon-bar grid grid-cols-5 gap-1.5" role="group" aria-label="选择武器">
-            {(Object.keys(WEAPON_DEFINITIONS) as WeaponId[]).map((weapon) => {
+        <div className="function-wars-weapon-bar flex flex-wrap gap-1.5" role="group" aria-label="选择武器">
+            {available.map((weapon) => {
                 const definition = WEAPON_DEFINITIONS[weapon]
                 const count = weapon === "standard" ? null : inventory[weapon]
                 const usable = available.includes(weapon) && (weapon === "standard" || (count ?? 0) > 0)
@@ -345,14 +349,14 @@ function WeaponBar({
                         aria-pressed={selected === weapon}
                         title={definition.description}
                         className={cn(
-                            "relative grid min-h-14 min-w-0 place-items-center gap-0.5 border px-1 py-1.5 text-[10px] font-bold transition-[transform,background-color,border-color] active:scale-[0.97]",
+                            "relative grid min-h-11 min-w-20 place-items-center gap-0.5 border px-1 py-1.5 text-[10px] font-bold transition-[transform,background-color,border-color] active:scale-[0.97]",
                             selected === weapon
-                                ? "border-foreground bg-foreground text-background"
+                                ? "border-primary bg-primary text-primary-foreground"
                                 : "border-border bg-background text-muted-foreground hover:bg-muted/70 hover:text-foreground",
                             !usable && "opacity-35",
                         )}
                     >
-                        <Icon className={cn("h-4 w-4", selected === weapon ? "text-background" : WEAPON_META[weapon].color)} aria-hidden />
+                        <Icon className={cn("h-4 w-4", selected === weapon ? "text-primary-foreground" : WEAPON_META[weapon].color)} aria-hidden />
                         <span className="w-full truncate">{definition.shortName}</span>
                         <span className="absolute right-1 top-0.5 font-mono text-[9px] tabular-nums">{count == null ? "∞" : count}</span>
                     </button>
@@ -362,71 +366,6 @@ function WeaponBar({
     )
 }
 
-function MathKeyboard({
-    setExpression,
-    disabled,
-    requiredTokens,
-}: {
-    setExpression: Dispatch<SetStateAction<string>>
-    disabled: boolean
-    requiredTokens: ReadonlySet<string>
-}) {
-    const [expanded, setExpanded] = useState(false)
-    const append = useCallback((token: string) => {
-        setExpression((current) => {
-            const replacesZero = !["+", "−", "×", "÷", "^", ")"].includes(token)
-            return current === "0" && replacesZero ? token : `${current}${token}`
-        })
-    }, [setExpression])
-
-    return (
-        <>
-            <button
-                type="button"
-                className="function-wars-keyboard-toggle mt-2 hidden min-h-11 w-full items-center justify-center gap-2 border border-border bg-background text-xs font-black"
-                onClick={() => setExpanded((current) => !current)}
-                aria-expanded={expanded}
-            >
-                <Sigma className="h-4 w-4" aria-hidden />数学键盘
-            </button>
-            <div
-                className={cn("function-wars-math-keyboard mt-2 grid grid-cols-5 gap-1 lg:hidden", expanded && "is-expanded")}
-                aria-label="数学快捷键盘"
-            >
-                {MATH_KEYS.map((token) => (
-                    <button
-                        key={token}
-                        type="button"
-                        disabled={disabled}
-                        onClick={() => append(token)}
-                        className={cn(
-                            "min-h-11 border border-border bg-background font-mono text-xs font-black text-foreground active:scale-[0.97] disabled:opacity-50",
-                            requiredTokens.has(token) && "border-amber-500 bg-amber-500/14 text-amber-900 dark:text-amber-100",
-                        )}
-                    >
-                        {token}
-                    </button>
-                ))}
-                <button
-                    type="button"
-                    disabled={disabled}
-                    onClick={() => setExpression((current) => current.slice(0, -1))}
-                    className="col-span-3 inline-flex min-h-11 items-center justify-center gap-1 border border-border bg-background text-xs font-bold text-muted-foreground disabled:opacity-50"
-                >
-                    <Delete className="h-3.5 w-3.5" aria-hidden />删除
-                </button>
-                <button
-                    type="button"
-                    disabled={disabled}
-                    onClick={() => setExpression("")}
-                    className="col-span-2 min-h-11 border border-border bg-background text-xs font-bold text-muted-foreground disabled:opacity-50"
-                >
-                    清空
-                </button>
-            </div>
-        </>
-    )
-}
 
 function missionRequirementText(level: FunctionWarsLevel): string | null {
     const rule = level.mission?.expressionRule
@@ -436,7 +375,7 @@ function missionRequirementText(level: FunctionWarsLevel): string | null {
         ...(rule.constants ?? []).map((constant) => constant === "pi" ? "π" : constant),
     ]
     if (rule.anyFunctions?.length) labels.push(rule.anyFunctions.join(" 或 "))
-    return labels.length > 0 ? `每发包含 ${labels.join("、")}` : null
+    return labels.length > 0 ? `每发有效使用 ${labels.join("、")}` : null
 }
 
 function MissionChecklist({
@@ -462,7 +401,6 @@ function MissionChecklist({
     const requirement = missionRequirementText(level)
     const effectiveRequired = mission?.effectiveFunctions ?? []
     const rows: Array<{ label: string; complete: boolean; icon: LucideIcon }> = []
-    if (requirement) rows.push({ label: requirement, complete: true, icon: Sigma })
     if (relayTotal > 0) rows.push({
         label: `信号中继 ${relayTotal - activeRelayCount}/${relayTotal}`,
         complete: activeRelayCount === 0,
@@ -488,10 +426,11 @@ function MissionChecklist({
 
     return (
         <div className="function-wars-mission mt-3 border border-border/80 bg-background/55 p-2.5" aria-label="本关任务">
-            <p className="flex items-center gap-1.5 text-[10px] font-black text-muted-foreground">
+            <p className="flex items-center gap-1.5 text-[10px] font-semibold text-muted-foreground">
                 <ListChecks className="h-3.5 w-3.5" aria-hidden />任务
                 {!bonusComplete && mission?.bonusObjectives?.length ? <span className="ml-auto text-amber-700 dark:text-amber-300">三星目标未完成</span> : null}
             </p>
+            {requirement ? <p className="mt-2 flex items-start gap-1.5 text-xs leading-5 text-muted-foreground"><Sigma className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />{requirement}</p> : null}
             <div className="mt-2 grid gap-1.5 sm:grid-cols-2 xl:grid-cols-1">
                 {rows.map(({ label, complete, icon: Icon }) => (
                     <p key={label} className={cn("flex min-w-0 items-center gap-1.5 text-[11px] font-bold", complete ? "text-emerald-700 dark:text-emerald-300" : "text-foreground")}>
@@ -507,16 +446,32 @@ function MissionChecklist({
     )
 }
 
-function SinglePlayerView({ active }: { active: boolean }) {
+function SinglePlayerView({ active, immersive, modeControls }: { active: boolean; immersive: boolean; modeControls: ReactNode }) {
     const game = useFunctionWars(0, active)
     const { checkBadges } = useGamification()
-    const [gridVisible, setGridVisible] = useState(true)
+    const { setExpression, selectWeapon } = game
+    const [feedbackMode, setFeedbackMode] = useState<"preview" | "last">("preview")
+    const updateExpression = useCallback((value: SetStateAction<string>) => {
+        setFeedbackMode("preview")
+        setExpression(value)
+    }, [setExpression])
+    const chooseWeapon = useCallback((weapon: WeaponId) => {
+        setFeedbackMode("preview")
+        selectWeapon(weapon)
+    }, [selectWeapon])
+    const [toolsCloseVersion, setToolsCloseVersion] = useState(0)
+    const [gridVisible, setGridVisible] = useState(false)
+    const [previewVisible, setPreviewVisible] = useState(true)
+    const [ghostVisible, setGhostVisible] = useState(true)
     const [ghostTraces, setGhostTraces] = useState<FunctionWarsRenderTrace[]>([])
     const [shotPlaybackActive, setShotPlaybackActive] = useState(false)
     const playbackTimerRef = useRef<number | null>(null)
     const resultRef = useRef<HTMLElement>(null)
     const errorRef = useRef<HTMLParagraphElement>(null)
     const battlefieldDescriptionId = useId()
+    const CurrentWeaponIcon = WEAPON_META[game.selectedWeapon].icon
+    const remainingTargets = game.enemies.filter((enemy) => enemy.hp > 0).length
+    const remainingRelays = game.relays.filter((relay) => relay.active).length
     const campaignSolved = FUNCTION_WARS_CAMPAIGN_LEVELS.filter((level) => game.stats.solvedLevels.includes(level.id)).length
     const challengeSolved = FUNCTION_WARS_CHALLENGE_LEVELS.filter((level) => game.stats.solvedLevels.includes(level.id)).length
 
@@ -536,15 +491,15 @@ function SinglePlayerView({ active }: { active: boolean }) {
         if (shotPlaybackActive || game.status === "playing") return
         const node = resultRef.current
         node?.focus({ preventScroll: true })
-        node?.scrollIntoView?.({ block: "nearest" })
-    }, [game.status, shotPlaybackActive])
+        if (!immersive) node?.scrollIntoView?.({ block: "nearest" })
+    }, [game.status, immersive, shotPlaybackActive])
 
     useEffect(() => {
         if (!game.error) return
         const node = errorRef.current
         node?.focus({ preventScroll: true })
-        node?.scrollIntoView?.({ block: "nearest" })
-    }, [game.error])
+        if (!immersive) node?.scrollIntoView?.({ block: "nearest" })
+    }, [game.error, immersive])
 
     useEffect(() => {
         if (game.status !== "won") return
@@ -572,12 +527,27 @@ function SinglePlayerView({ active }: { active: boolean }) {
     const destroyedUnitId = fallenRenderUnitId ?? game.lastShot?.damage.find((event) => event.remainingHp <= 0)?.enemyId
     const lastImpactTrace = game.lastShot?.traces.findLast((trace) => trace.impact)
     const lastImpact = lastImpactTrace?.impact
-    const impactedObstacleId = lastImpactTrace?.hitId && game.level.obstacles.some(
-        (obstacle) => obstacle.id === lastImpactTrace.hitId && !obstacle.destructible,
+    const impactedObstacle = game.level.obstacles.find((obstacle) => obstacle.id === lastImpactTrace?.hitId)
+    const impactedObstacleId = impactedObstacle && !impactedObstacle.destructible ? impactedObstacle.id : undefined
+    const impactMaterial = impactedObstacle?.material ?? (
+        game.enemies.some((enemy) => enemy.id === lastImpactTrace?.hitId) ? "metal" : undefined
     )
-        ? lastImpactTrace.hitId
-        : undefined
+    const showingPreview = Boolean(feedbackMode === "preview" && active && previewVisible && !shotPlaybackActive && game.status === "playing" && game.previewShot?.ok)
+    const feedback = useMemo(() => {
+        if (showingPreview && game.previewShot?.ok) return getFunctionWarsFeedback(game.level, game.previewShot.state, game.previewShot.shot)
+        return game.lastShot ? getFunctionWarsFeedback(game.level, {
+            status: game.status, lossReason: game.lossReason, effectiveFunctions: game.effectiveFunctions,
+            enemies: game.enemies, shots: game.shots, relays: game.relays,
+        }, game.lastShot) : null
+    }, [showingPreview, game.previewShot, game.level, game.lastShot, game.status, game.lossReason, game.effectiveFunctions, game.enemies, game.shots, game.relays])
+    const feedbackLabels = useMemo(() => !shotPlaybackActive && feedback
+        ? feedback.endpoints.map((endpoint) => ({ ...endpoint, preview: showingPreview })) : [], [feedback, showingPreview, shotPlaybackActive])
+    const bestSolution = game.stats.bestSolutions?.[game.level.id]
+    const missingBonus = (game.level.mission?.bonusObjectives ?? []).filter((objective) => objective.kind === "function"
+        ? !game.effectiveFunctions.includes(objective.function)
+        : !game.effectiveWeapons.includes(objective.weapon))
     const scene = useMemo<FunctionWarsRenderScene>(() => ({
+        feedbackLabels,
         theme: game.level.theme,
         groundVisible: game.level.ground !== "void",
         obstacles: game.level.obstacles.map(toRenderObstacle),
@@ -617,8 +587,9 @@ function SinglePlayerView({ active }: { active: boolean }) {
                 active: relay.active,
             })),
         ],
-        traces: activeTraces,
-        ghostTraces,
+        traces: shotPlaybackActive || game.status !== "playing" ? activeTraces : [],
+        ghostTraces: ghostVisible ? (shotPlaybackActive ? ghostTraces : activeTraces) : [],
+        previewTraces: showingPreview && game.previewShot?.ok ? game.previewShot.shot.traces.map(toRenderTrace) : [],
         gridVisible,
         animationKey: game.lastShot ? `${game.level.id}-${game.lastShot.seq}` : null,
         animationDurationMs: SINGLE_SHOT_PLAYBACK_MS,
@@ -627,16 +598,18 @@ function SinglePlayerView({ active }: { active: boolean }) {
                 id: `${game.level.id}-impact-${game.lastShot.seq}`,
                 ...lastImpact,
                 intensity: game.lastShot.weaponId === "heavy" ? 42 : 26,
+                weapon: game.lastShot.weaponId,
+                material: impactMaterial,
                 unitId: destroyedUnitId,
                 obstacleId: impactedObstacleId,
             }
             : null,
         activeSide: "player",
-    }), [activeTraces, destroyedUnitId, fallEvent, game.craters, game.crates, game.enemies, game.lastShot, game.level, game.playerAlive, game.relays, ghostTraces, gridVisible, impactedObstacleId, lastImpact])
+    }), [feedbackLabels, showingPreview, ghostVisible, activeTraces, destroyedUnitId, fallEvent, game.craters, game.crates, game.enemies, game.lastShot, game.level, game.playerAlive, game.relays, game.previewShot, game.status, shotPlaybackActive, ghostTraces, gridVisible, impactedObstacleId, impactMaterial, lastImpact])
     const { canvasRef, containerRef } = useCanvasScene(scene)
 
-    const solved = useMemo(() => new Set(game.stats.solvedLevels), [game.stats.solvedLevels])
-    const sceneMeta = FUNCTION_WARS_SCENES[game.level.theme]
+    const solved = useMemo(() => new Set(FUNCTION_WARS_LEVELS.filter(level => game.stats.solvedLevels.includes(level.id)).map(level => level.id)), [game.stats.solvedLevels])
+    const threeStarCount = FUNCTION_WARS_LEVELS.filter(level => game.stats.bestStars?.[level.id] === 3).length
     const gameEnded = game.status !== "playing"
     const requiredTokens = useMemo(() => {
         const rule = game.level.mission?.expressionRule
@@ -652,6 +625,7 @@ function SinglePlayerView({ active }: { active: boolean }) {
         const previous = game.lastShot?.traces.map(toRenderTrace) ?? []
         const outcome = game.fire()
         if (!outcome?.ok) return
+        setFeedbackMode("last")
         if (previous.length > 0) setGhostTraces(previous)
         const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false
         if (reduceMotion) return
@@ -665,37 +639,36 @@ function SinglePlayerView({ active }: { active: boolean }) {
     const handleStartLevel = useCallback((index: number) => {
         clearShotPlayback()
         setGhostTraces([])
+        setFeedbackMode("preview")
         game.startLevel(index)
     }, [clearShotPlayback, game])
 
     return (
         <>
-            <div className="function-wars-level-header mb-3 border-y border-border/75 bg-[hsl(var(--surface-raised)/0.76)] px-3 py-2.5 sm:border sm:px-4">
-                <div className="flex items-center justify-between gap-3">
-                    <div className="min-w-0">
-                        <p className="truncate text-xs font-black text-foreground">关卡 {game.level.number} · {game.level.name}</p>
-                        <p className="mt-0.5 truncate text-[10px] text-muted-foreground">{sceneMeta.name} · PAR {game.level.par}</p>
-                    </div>
-                    <span className="shrink-0 text-[10px] font-bold text-muted-foreground">
-                        {game.level.chapter === "challenge" ? `挑战 ${challengeSolved}/5` : `战役 ${campaignSolved}/10`}
-                    </span>
-                </div>
-                <div className="mt-2.5">
-                    <LevelRail
-                        current={game.levelIndex}
-                        solved={solved}
-                        unlockAll={FUNCTION_WARS_LEVEL_DEV_MODE}
-                        onSelect={handleStartLevel}
-                    />
-                </div>
-            </div>
+            <details hidden={immersive} className="function-wars-level-header mb-2 rounded-sm border border-border bg-background px-3">
+                <summary className="flex min-h-11 cursor-pointer items-center justify-between gap-2 py-2 text-xs font-semibold">
+                    <span className="min-w-0"><span className="block">第 {game.level.number} 关 · {game.level.name}</span><span className="inline-flex flex-wrap items-center gap-x-2 text-[11px] text-muted-foreground"><span>已射 {game.shots} / 建议 {game.level.par} 发</span><span className="inline-flex items-center gap-1 font-mono tabular-nums"><Timer className="h-3 w-3" aria-hidden />{formatTime(game.time)}</span></span></span>
+                    <span className="shrink-0 text-primary">选择关卡⌄</span>
+                </summary>
+                <div className="pb-2"><LevelRail key={game.level.chapter} current={game.levelIndex} solved={solved} bestStars={game.stats.bestStars} unlockAll={FUNCTION_WARS_LEVEL_DEV_MODE} onSelect={handleStartLevel} /></div>
+            </details>
 
             <div className="function-wars-battle-layout grid min-w-0 gap-3 xl:grid-cols-[minmax(0,1fr)_330px] xl:items-start">
-                <div className="min-w-0">
-                    <div className="function-wars-battlefield-shell relative left-1/2 w-[100dvw] max-w-[100dvw] -translate-x-1/2 px-[max(12px,env(safe-area-inset-left))] md:static md:w-full md:max-w-none md:translate-x-0 md:px-0">
+                <div className="function-wars-stage min-w-0" data-battle-theme={game.level.theme}>
+                    <div className="function-wars-immersive-status" hidden={!immersive}>
+                        <p className="function-wars-hud-title"><span className="function-wars-stage-number">{String(game.level.number).padStart(2, "0")}</span>{game.level.name}</p>
+                        <p className="function-wars-hud-objective"><Target className="h-3 w-3" aria-hidden />剩余 {remainingTargets} 个目标{remainingRelays ? ` · ${remainingRelays} 个中继` : ""}<span className="function-wars-hud-shots">已射 {game.shots} 发</span></p>
+                    </div>
+                    <div className="function-wars-mission-chips" aria-label="关键任务进度" aria-live="polite">
+                        {(game.level.mission?.effectiveFunctions ?? []).map((name) => <span key={name} data-complete={game.effectiveFunctions.includes(name)}>{game.effectiveFunctions.includes(name) ? "✓" : "○"} 有效 {name}</span>)}
+                        {game.level.relays?.length ? <span data-complete={remainingRelays === 0}>中继 {game.level.relays.length - remainingRelays}/{game.level.relays.length}</span> : null}
+                        {game.level.mission?.shotLimit !== undefined ? <span>剩余 {Math.max(0, game.level.mission.shotLimit - game.shots)} 发</span> : null}
+                    </div>
+                    <div className="function-wars-battlefield-shell relative w-full min-w-0">
                         <div
                             ref={containerRef}
-                            className="relative aspect-3/2 w-full overflow-hidden border border-foreground/20 bg-[#d8e2d5] shadow-[0_18px_48px_-34px_hsl(var(--surface-shadow)/0.65)]"
+                            style={{ aspectRatio: FUNCTION_WARS_CANVAS_ASPECT_RATIO }}
+                            className="function-wars-canvas-frame relative w-full overflow-hidden rounded-sm border border-border bg-muted shadow-[0_18px_48px_-34px_hsl(var(--surface-shadow)/0.65)]"
                         >
                             <canvas
                                 ref={canvasRef}
@@ -704,6 +677,7 @@ function SinglePlayerView({ active }: { active: boolean }) {
                                 aria-describedby={battlefieldDescriptionId}
                                 role="img"
                             />
+                            <ObstacleLegend />
                             <p id={battlefieldDescriptionId} className="sr-only">
                                 我方炮台位于 x {game.level.player.x}、y {game.level.player.y}。
                                 {game.enemies.map((enemy) =>
@@ -719,96 +693,75 @@ function SinglePlayerView({ active }: { active: boolean }) {
                                     ? `上一发函数 ${game.lastShot.expression}，造成 ${game.lastShot.damage.reduce((sum, event) => sum + event.damage, 0)} 点伤害。`
                                     : "尚未发射。"}
                             </p>
-                            <div className="pointer-events-none absolute left-2 top-2 bg-[#223236]/88 px-2 py-1 font-mono text-[10px] font-bold text-[#f1ebd6]">
-                                L{game.level.number.toString().padStart(2, "0")} / {game.level.theme.toUpperCase()}
-                            </div>
-                            <div className="pointer-events-none absolute right-2 top-2 flex gap-1.5 text-[10px] font-bold">
-                                <span className="inline-flex items-center gap-1 bg-[#f4ecd4]/92 px-2 py-1 text-[#263437]"><Target className="h-3 w-3" />{game.shots}/{game.level.par}</span>
-                                <span className="inline-flex items-center gap-1 bg-[#223236]/88 px-2 py-1 font-mono text-[#f1ebd6]"><Timer className="h-3 w-3" />{formatTime(game.time)}</span>
-                            </div>
-                            {game.lastShot ? (
-                                <div className="pointer-events-none absolute bottom-2 left-2 max-w-[78%] truncate bg-[#f4ecd4]/92 px-2 py-1 font-mono text-[10px] font-bold text-[#263437] shadow-sm">
-                                    f(x)={game.lastShot.expression}
-                                </div>
-                            ) : null}
-                        </div>
-                    </div>
 
-                    {game.status === "won" && !shotPlaybackActive ? (
-                        <section ref={resultRef} tabIndex={-1} className="mt-3 border border-emerald-500/35 bg-emerald-500/9 px-4 py-3 outline-none" aria-live="polite">
-                            <div className="flex flex-wrap items-center gap-3">
-                                <span className="grid h-10 w-10 place-items-center bg-emerald-600 text-white"><Trophy className="h-5 w-5" aria-hidden /></span>
-                                <div className="min-w-0 flex-1">
-                                    <p className="text-sm font-black">目标清除</p>
-                                    <div className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
-                                        <Stars value={game.stars} />
-                                        <span>{game.shots} 发 · {formatTime(game.time)}</span>
-                                    </div>
-                                </div>
-                                {game.levelIndex + 1 < game.levelCount ? (
-                                    <Button type="button" size="sm" className="min-h-11 gap-1" onClick={() => handleStartLevel(game.levelIndex + 1)}>
-                                        下一关<ChevronRight className="h-4 w-4" aria-hidden />
-                                    </Button>
+                        </div>
+                        {gameEnded && !shotPlaybackActive ? (
+                            <div className="function-wars-result-layer">
+                                {game.status === "won" ? (
+                                    <section ref={resultRef} tabIndex={-1} data-result="won" className="function-wars-result outline-none" aria-label="通关结算" aria-live="polite">
+                                        <div className="function-wars-result-content">
+                                            <div className="function-wars-result-heading">
+                                                <p className="function-wars-result-title font-semibold">{game.levelIndex + 1 === game.levelCount ? solved.size >= game.levelCount ? "全关挑战完成！" : "最终关挑战完成！" : "目标清除"}</p>
+                                                <Stars value={game.stars} className="function-wars-result-stars" />
+                                            </div>
+                                            <p className="function-wars-result-stats text-xs text-muted-foreground">第 {game.level.number} 关 · {game.shots} 发 · {formatTime(game.time)}</p>
+                                            {game.stars < 3 ? <p className="mt-2 text-xs text-muted-foreground">想拿三星：{([...missingBonus.map((objective) => objective.label), ...(game.shots > game.level.par ? [`在建议的 ${game.level.par} 发内完成`] : [])].join("；") || `试着在建议的 ${game.level.par} 发内完成`)}。</p> : null}
+                                            {game.levelIndex + 1 === game.levelCount ? <p className="mt-2 text-xs">已通过 {solved.size}/{game.levelCount} 关 · 三星 {threeStarCount}/{game.levelCount} 关。回选关继续集星，或保留函数再挑战。</p> : null}
+                                            {game.levelIndex + 1 === game.levelCount ? <details className="mt-2"><summary className="min-h-11 cursor-pointer py-3 text-xs font-semibold">返回选关</summary><LevelRail current={game.levelIndex} solved={solved} bestStars={game.stats.bestStars} onSelect={handleStartLevel} /></details> : null}
+                                        </div>
+                                        <div className="function-wars-result-actions">
+                                            {game.levelIndex + 1 < game.levelCount ? (
+                                                <Button type="button" className="min-h-11 w-full gap-1" onClick={() => handleStartLevel(game.levelIndex + 1)}>
+                                                    下一关<ChevronRight className="h-4 w-4" aria-hidden />
+                                                </Button>
+                                            ) : (
+                                                <Button type="button" className="min-h-11 w-full gap-1" onClick={() => {
+                                                    clearShotPlayback()
+                                                    setGhostTraces([])
+                                                    setFeedbackMode("preview")
+                                                    game.retryLevel()
+                                                }}><RotateCcw className="h-4 w-4" aria-hidden />保留函数再挑战</Button>
+                                            )}
+                                        </div>
+                                    </section>
+                                ) : null}
+                                {game.status === "lost" ? (
+                                    <section ref={resultRef} tabIndex={-1} data-result="lost" className="function-wars-result outline-none" aria-label="本关结算" aria-live="polite">
+                                        <div className="function-wars-result-content">
+                                            <p className="function-wars-result-kicker">再试一次</p>
+                                            <p className="function-wars-result-title text-sm font-semibold">{game.lossReason === "mission_incomplete" ? "目标已清除，任务未完成" : game.lossReason === "shot_limit" ? "能源耗尽" : "承重坠落"}</p>
+                                            <p className="mt-0.5 text-xs text-muted-foreground">
+                                                {game.lossReason === "mission_incomplete" ? `还需有效使用 ${game.level.mission?.effectiveFunctions?.filter((name) => !game.effectiveFunctions.includes(name)).join("、")}；重开后用它命中目标或中继。` : game.lossReason === "shot_limit" ? "射击次数已用完，本关任务尚未完成。" : "己方平台失去支撑，本关失败。"}
+                                            </p>
+                                        </div>
+                                        <div className="function-wars-result-actions">
+                                            <Button type="button" variant="outline" className="min-h-11 w-full gap-2" onClick={() => {
+                                                clearShotPlayback()
+                                                setGhostTraces([])
+                                                setFeedbackMode("preview")
+                                                game.retryLevel()
+                                            }}><RotateCcw className="h-4 w-4" aria-hidden />重开本关</Button>
+                                        </div>
+                                    </section>
                                 ) : null}
                             </div>
-                        </section>
-                    ) : null}
-                    {game.status === "lost" && !shotPlaybackActive ? (
-                        <section ref={resultRef} tabIndex={-1} className="mt-3 border border-red-500/35 bg-red-500/9 px-4 py-3 outline-none" aria-live="polite">
-                            <div className="flex flex-wrap items-center gap-3">
-                                <span className="grid h-10 w-10 place-items-center bg-red-600 text-white"><AlertTriangle className="h-5 w-5" aria-hidden /></span>
-                                <div className="min-w-0 flex-1">
-                                    <p className="text-sm font-black">{game.lossReason === "shot_limit" ? "能源耗尽" : "承重坠落"}</p>
-                                    <p className="mt-0.5 text-xs text-muted-foreground">
-                                        {game.lossReason === "shot_limit" ? "射击次数已用完，本关任务尚未完成。" : "己方平台失去支撑，本关失败。"}
-                                    </p>
-                                </div>
-                                <Button type="button" size="sm" variant="outline" className="min-h-11 gap-2" onClick={() => {
-                                    clearShotPlayback()
-                                    setGhostTraces([])
-                                    game.retryLevel()
-                                }}>
-                                    <RotateCcw className="h-4 w-4" aria-hidden />重开本关
-                                </Button>
-                            </div>
-                        </section>
-                    ) : null}
+                        ) : null}
+                    </div>
                 </div>
 
-                <section className="function-wars-control-panel min-w-0 max-w-full overflow-hidden border border-border/85 bg-[hsl(var(--surface-raised)/0.9)] p-3 sm:p-4" aria-label="单人炮术控制台">
-                    <WeaponBar
-                        available={game.level.availableWeapons}
-                        inventory={game.inventory}
-                        selected={game.selectedWeapon}
-                        disabled={gameEnded || shotPlaybackActive}
-                        onSelect={game.selectWeapon}
-                    />
-
-                    <MissionChecklist
-                        level={game.level}
-                        shots={game.shots}
-                        activeRelayCount={game.relays.filter((relay) => relay.active).length}
-                        effectiveFunctions={game.effectiveFunctions}
-                        effectiveWeapons={game.effectiveWeapons}
-                        bonusComplete={game.bonusComplete}
-                        playerAlive={game.playerAlive}
-                    />
-
-                    {game.buffs.blastBoost || game.buffs.penetration ? (
-                        <div className="mt-2 flex flex-wrap gap-1.5 text-[10px] font-bold">
-                            {game.buffs.blastBoost ? <span className="inline-flex items-center gap-1 bg-red-500/12 px-2 py-1 text-red-700 dark:text-red-300"><Zap className="h-3 w-3" />爆炸增幅</span> : null}
-                            {game.buffs.penetration ? <span className="inline-flex items-center gap-1 bg-amber-500/12 px-2 py-1 text-amber-800 dark:text-amber-200"><Drill className="h-3 w-3" />穿透强化</span> : null}
-                        </div>
-                    ) : null}
-
-                    <label htmlFor="function-wars-expression" className="mt-4 block text-[11px] font-black text-muted-foreground">轨迹函数</label>
-                    <div className="mt-1.5 grid min-w-0 grid-cols-[minmax(0,1fr)_44px_44px] items-stretch gap-2 max-[359px]:grid-cols-[minmax(0,1fr)_44px]">
-                        <div className="flex min-w-0 items-center border border-border bg-background focus-within:border-foreground/35 focus-within:ring-2 focus-within:ring-amber-500/25 max-[359px]:col-span-2">
-                            <span className="pl-3 font-serif text-sm font-black text-muted-foreground" aria-hidden>f(x)=</span>
+                <section className="function-wars-control-panel min-w-0 max-w-full overflow-hidden rounded-md border border-border bg-[hsl(var(--surface-raised)/0.9)] p-3 sm:p-4" aria-label="单人炮术控制台">
+                    <div className="function-wars-dock">
+                        <BattleWeaponReadout name={WEAPON_DEFINITIONS[game.selectedWeapon].shortName} icon={CurrentWeaponIcon} ammunition={game.selectedWeapon === "standard" ? null : game.inventory[game.selectedWeapon]}>
+                            <WeaponBar available={game.level.availableWeapons} inventory={game.inventory} selected={game.selectedWeapon} disabled={gameEnded || shotPlaybackActive} onSelect={chooseWeapon} />
+                        </BattleWeaponReadout>
+                    <label htmlFor="function-wars-expression" className="mt-4 block text-[11px] font-semibold text-muted-foreground">轨迹函数</label>
+                    <div className="function-wars-input-row mt-1.5 grid min-w-0 grid-cols-[minmax(0,1fr)_44px_76px] items-stretch gap-2">
+                        <div className="function-wars-expression-window flex min-w-0 items-center border border-border bg-background focus-within:border-foreground/35 focus-within:ring-2 focus-within:ring-amber-500/25">
+                            <span className="pl-3 font-serif text-sm font-semibold text-muted-foreground" aria-hidden>f(x)=</span>
                             <input
                                 id="function-wars-expression"
                                 value={game.expression}
-                                onChange={(event) => game.setExpression(event.target.value)}
+                                onChange={(event) => updateExpression(event.target.value)}
                                 onKeyDown={(event) => {
                                     if (event.key === "Enter") {
                                         event.preventDefault()
@@ -819,14 +772,14 @@ function SinglePlayerView({ active }: { active: boolean }) {
                                 spellCheck={false}
                                 autoComplete="off"
                                 inputMode="text"
-                                className="h-11 min-w-0 flex-1 bg-transparent px-1.5 font-mono text-sm font-bold outline-none disabled:opacity-55"
+                                className="h-11 min-w-0 flex-1 bg-transparent px-1.5 font-mono text-base lg:text-sm font-bold outline-none disabled:opacity-55"
                             />
                         </div>
                         <Button
                             type="button"
                             size="icon"
                             variant="outline"
-                            className="h-11 w-11 shrink-0"
+                            className="function-wars-grid-toggle h-11 w-11 shrink-0"
                             onClick={() => setGridVisible((visible) => !visible)}
                             aria-label={gridVisible ? "隐藏坐标网格" : "显示坐标网格"}
                             aria-pressed={gridVisible}
@@ -837,36 +790,72 @@ function SinglePlayerView({ active }: { active: boolean }) {
                         <Button
                             type="button"
                             size="icon"
-                            className="h-11 w-11 shrink-0 bg-amber-500 text-[#282d2c] hover:bg-amber-400"
+                            className="function-wars-fire-button h-11 w-full shrink-0 gap-1" tone="warning"
                             onClick={handleFire}
                             disabled={gameEnded || shotPlaybackActive || !game.expression.trim()}
                             aria-label="发射"
                             title="发射"
                         >
-                            <Send className="h-4 w-4" aria-hidden />
+                            <Send className="h-4 w-4" aria-hidden />发射
                         </Button>
                     </div>
-                    {game.error ? <p ref={errorRef} tabIndex={-1} className="mt-2 text-xs font-semibold text-destructive outline-none" role="alert">{game.error}</p> : null}
+                    {game.previewShot && !game.previewShot.ok && !gameEnded && !game.error ? <p className="function-wars-input-error mt-2 text-xs leading-5 text-destructive" role="status">{game.previewShot.error}</p> : null}
+                    {game.error ? <p ref={errorRef} tabIndex={-1} className="function-wars-input-error mt-2 text-xs font-semibold text-destructive outline-none" role="alert">{game.error}</p> : null}
+                    <ParameterTools key={game.level.id} expression={game.expression} onChange={updateExpression} disabled={gameEnded || shotPlaybackActive} immersive={immersive} onTemplateSelect={() => setToolsCloseVersion((value) => value + 1)} />
+                    </div>
+                    {game.weaponNotice ? <p className="function-wars-weapon-notice text-xs" role="status">{game.weaponNotice}</p> : null}
+                    {feedback && !shotPlaybackActive ? <p className="function-wars-feedback text-xs" data-tone={feedback.tone} role="status"><strong>{showingPreview ? "预览：" : "上一发："}</strong>{feedback.summary}{showingPreview ? "；不消耗弹药。" : null}{feedback.detail ? <span className="block">{feedback.detail}</span> : null}</p> : null}
+                    <ImmersiveControls immersive={immersive} closeVersion={toolsCloseVersion}>
+                        <div hidden={!immersive} className="function-wars-mode-tools space-y-3 mb-3">
+                            {modeControls}
+                            <LevelRail current={game.levelIndex} solved={solved} bestStars={game.stats.bestStars} unlockAll={FUNCTION_WARS_LEVEL_DEV_MODE} onSelect={handleStartLevel} />
+                        </div>
+                    <div hidden={immersive}><WeaponBar
+                        available={game.level.availableWeapons}
+                        inventory={game.inventory}
+                        selected={game.selectedWeapon}
+                        disabled={gameEnded || shotPlaybackActive}
+                        onSelect={chooseWeapon}
+                    /></div>
+
+
+
+                    {game.buffs.blastBoost || game.buffs.penetration ? (
+                        <div className="mt-2 flex flex-wrap gap-1.5 text-[10px] font-bold">
+                            {game.buffs.blastBoost ? <span className="inline-flex items-center gap-1 bg-red-500/12 px-2 py-1 text-red-700 dark:text-red-300"><Zap className="h-3 w-3" />爆炸增幅</span> : null}
+                            {game.buffs.penetration ? <span className="inline-flex items-center gap-1 bg-amber-500/12 px-2 py-1 text-amber-800 dark:text-amber-200"><Drill className="h-3 w-3" />穿透强化</span> : null}
+                        </div>
+                    ) : null}
+
+                    <p className="mt-1 text-xs leading-5 text-muted-foreground">炮口是 (0, 0)：x 向右，f(x) 是相对炮口的高度。</p>
+                    <p className="mt-1 text-xs leading-5 text-foreground">{game.level.hint}</p>
+                    <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted-foreground">
+                        <label className="flex min-h-11 items-center gap-2"><input type="checkbox" checked={previewVisible} onChange={(event) => setPreviewVisible(event.target.checked)} className="h-4 w-4 accent-primary" />试射预览</label>
+                        <label className="flex min-h-11 items-center gap-2"><input type="checkbox" checked={ghostVisible} onChange={(event) => setGhostVisible(event.target.checked)} className="h-4 w-4 accent-primary" />上一发</label>
+                    </div>
                     <MathKeyboard
-                        setExpression={game.setExpression}
+                        setExpression={updateExpression}
                         disabled={gameEnded || shotPlaybackActive}
                         requiredTokens={requiredTokens}
                     />
 
-                    <div className="function-wars-secondary mt-4 border-t border-border/70 pt-3">
-                        <div className="flex items-start gap-2">
-                            <Sigma className="mt-0.5 h-4 w-4 shrink-0 text-cyan-700 dark:text-cyan-300" aria-hidden />
-                            <div className="min-w-0">
-                                <p className="text-[10px] font-black uppercase text-muted-foreground">函数族线索</p>
-                                <p className="mt-1 text-xs font-semibold leading-5 text-foreground">{game.level.hint}</p>
-                            </div>
-                        </div>
-                    </div>
+                    {bestSolution ? <details className="mt-2 text-xs"><summary className="min-h-11 cursor-pointer py-3 font-semibold">本关最佳解法 · {bestSolution.stars} 星 / {bestSolution.shots} 发</summary><ol className="space-y-2">{bestSolution.steps.map((step, index) => <li key={index} className="flex flex-wrap items-center gap-2"><span>{index + 1}. {WEAPON_DEFINITIONS[step.weaponId].shortName} · <code>{step.expression}</code></span><button type="button" disabled={gameEnded || shotPlaybackActive} className="min-h-11 border px-3" onClick={() => { updateExpression(step.expression); chooseWeapon(step.weaponId) }}>载入第 {index + 1} 发</button></li>)}</ol><p>载入后先看预览，再自己发射。</p></details> : null}
+                    <MissionChecklist
+                        level={game.level}
+                        shots={game.shots}
+                        activeRelayCount={game.relays.filter((relay) => relay.active).length}
+                        effectiveFunctions={game.effectiveFunctions}
+                        effectiveWeapons={game.effectiveWeapons}
+                        bonusComplete={game.bonusComplete}
+                        playerAlive={game.playerAlive}
+                    />
 
+                    <details className="mt-2 text-xs text-muted-foreground"><summary className="min-h-11 cursor-pointer py-3 font-semibold">坐标与飞行规则</summary><p className="pb-2 leading-5">从炮口出发须满足 f(0)=0。0 表示水平发射，0.25*x 表示每前进 1 格升高 0.25 格。虚线预览不消耗弹药；浅色线是上一发。碰到目标或障碍、到达地图边界，或用完飞行距离时都会停下。弯曲越多，走过的路越长；函数中途无定义也会中断。</p></details>
                     <div className="function-wars-secondary mt-4 flex flex-wrap items-center gap-2 border-t border-border/70 pt-3">
                         <Button type="button" size="sm" variant="outline" className="min-h-11 gap-2" disabled={shotPlaybackActive} onClick={() => {
                             clearShotPlayback()
                             setGhostTraces([])
+                            setFeedbackMode("preview")
                             game.retryLevel()
                         }}>
                             <RotateCcw className="h-4 w-4" aria-hidden />重开本关
@@ -875,6 +864,7 @@ function SinglePlayerView({ active }: { active: boolean }) {
                             <PackageOpen className="h-3.5 w-3.5" aria-hidden />穿过道具箱即可拾取
                         </span>
                     </div>
+                    </ImmersiveControls>
                 </section>
             </div>
         </>
@@ -883,6 +873,7 @@ function SinglePlayerView({ active }: { active: boolean }) {
 
 function FunctionWarsPageInner() {
     const searchParams = useSearchParams()
+    const { rootRef, isImmersive, enter, exit } = useFunctionWarsImmersive()
     const { setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext()
     const initialRoomCode = searchParams.get("room")
     const [mode, setMode] = useState<PageMode>(initialRoomCode ? "online" : "single")
@@ -901,18 +892,27 @@ function FunctionWarsPageInner() {
     const changeMode = useCallback((nextMode: PageMode) => {
         setMode(nextMode)
         if (nextMode === "online") setOnlineVisited(true)
-    }, [])
+        if (isImmersive) requestAnimationFrame(() => {
+            const nextControl = rootRef.current?.querySelector<HTMLButtonElement>(".function-wars-single-container:not([hidden]) .function-wars-operations-trigger, .function-wars-online-container:not([hidden]) .function-wars-operations-trigger")
+            const control = nextControl ?? rootRef.current?.querySelector<HTMLButtonElement>(".function-wars-immersive-toggle")
+            control?.focus({ preventScroll: true })
+        })
+    }, [isImmersive, rootRef])
 
     return (
-        <main className="function-wars-page mx-auto w-full max-w-[1480px] py-3 sm:px-4 sm:py-5 lg:px-6">
-            <header className="function-wars-page-header mb-3 flex flex-col gap-3 px-3 sm:px-0 md:flex-row md:items-center md:justify-between">
-                <div className="flex min-w-0 items-center gap-3">
+        <main ref={rootRef} data-immersive={isImmersive} className={cn("function-wars-page mx-auto w-full px-3 py-2 sm:px-4 lg:px-6 lg:py-4", isImmersive && "function-wars-immersive")}>
+            <Button type="button" variant="outline" className="function-wars-immersive-toggle min-h-11 gap-2" onClick={() => isImmersive ? exit() : void enter()}>
+                {isImmersive ? <Minimize className="h-4 w-4" aria-hidden /> : <Expand className="h-4 w-4" aria-hidden />}
+                {isImmersive ? "退出沉浸" : "展开战场"}
+            </Button>
+            <header hidden={isImmersive} className="function-wars-page-header mb-2 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <div className="hidden min-w-0 items-center gap-3 lg:flex">
                     <span className="grid h-11 w-11 shrink-0 place-items-center border border-emerald-500/35 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
                         <Crosshair className="h-5 w-5" aria-hidden />
                     </span>
                     <div className="min-w-0">
-                        <h1 className="truncate text-xl font-black text-foreground">函数战争</h1>
-                        <p className="truncate text-xs text-muted-foreground">Function Wars · 用函数图像控制弹道</p>
+                        <h1 className="truncate text-xl font-semibold text-foreground">函数战争</h1>
+                        <p className="truncate text-xs text-muted-foreground">画一条函数，试着命中目标</p>
                     </div>
                 </div>
                 <div className="w-full md:w-[280px]">
@@ -920,16 +920,18 @@ function FunctionWarsPageInner() {
                 </div>
             </header>
 
-            <div hidden={mode !== "single"} aria-hidden={mode !== "single"}>
-                <SinglePlayerView active={mode === "single"} />
+            <div className="function-wars-single-container" hidden={mode !== "single"} aria-hidden={mode !== "single"}>
+                <SinglePlayerView active={mode === "single"} immersive={isImmersive} modeControls={<ModeSwitch mode={mode} onlineActive={onlineActive} onChange={changeMode} />} />
             </div>
             {onlineVisited ? (
                 <div
-                    className="px-3 sm:px-0"
+                    className="function-wars-online-container"
                     hidden={mode !== "online"}
                     aria-hidden={mode !== "online"}
                 >
                     <FunctionWarsOnlineView
+                        immersive={isImmersive}
+                        modeControls={<ModeSwitch mode={mode} onlineActive={onlineActive} onChange={changeMode} />}
                         initialRoomCode={initialRoomCode}
                         onActiveMatchChange={setOnlineActive}
                     />

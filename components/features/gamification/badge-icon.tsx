@@ -399,12 +399,6 @@ const SERIES_VISUALS: Partial<Record<string, SeriesVisual>> = {
       "radial-gradient(circle at 35% 28%, rgba(251, 191, 36, 0.22), transparent 40%), radial-gradient(circle at 72% 72%, rgba(249, 115, 22, 0.16), transparent 48%)",
     ringClass: "border-amber-100/18",
   },
-  game2048: {
-    motif: "grid",
-    accentImage:
-      "radial-gradient(circle at 35% 28%, rgba(253, 224, 71, 0.28), transparent 40%), radial-gradient(circle at 72% 72%, rgba(14, 165, 233, 0.14), transparent 48%)",
-    ringClass: "border-yellow-100/20",
-  },
   game24: {
     motif: "grid",
     accentImage:

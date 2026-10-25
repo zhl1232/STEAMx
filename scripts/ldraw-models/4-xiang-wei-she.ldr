@@ -5,7 +5,7 @@
 0 // P14/15 yellow objects are separate teaching subassemblies, not snake-tail components. Both are translatedY+136 for a common lowest planeY256; display positions are inferred.
 0 // Same-frame Toolo base brick migration: corrected captive screw count/receivers, supported screw axes engaged after per-axis port/mesh checks; other axes retracted. Other legacy interfaces remain under review.
 0 !LICENSE Redistributable under CC BY 4.0 : see CAreadme.txt
-0 // Connection correction scratch:50placements/15steps. SourceP6..10 verticalEND76057Lconnections restorestaggeredbody; yaw45/90/135andupperrear120areimage-gridinferences. No physical acceptance.
+0 // Current source candidate:50placements/15steps. P6..9 grey connectors have transverse four-stud axes, two-stud vertical spans and front-end body receivers; downstream body and tail follow source P6..10/P16. Old vertical-connector and mirrored-side-port body proofs are stale. No physical acceptance.
 0 // No user confirmation, physical validation or publication is claimed.
 0 // Known Toolo IDs use previously approved LOCAL SIMPLIFIED GEOMETRY; dimensions/threads/pivots remain approximate.
 0 // Interface contract: dev-toolo/28336 fork pin=(0,-65,48), local axis X; dev-toolo/74957 hinge=(0,72,0), local axis Z. Existing placements retain the source jaw pitch; fit remains renderer-reviewed only.
@@ -13,69 +13,69 @@
 0 // Source:16 original instruction images in /mnt/d/pdf预览/4+响尾蛇搭建说明_pdf.
 0 // Inventory per set/colour unknown. Do not infer required parts from the replaced old approximation.
 0 // Previous oversized76395bridge substitutions removed. Existing approved simplifiedToologeometry retained; allgeometry/support evidence bound to thisdraft.
-0 // STEP 1 - p1: two black 4x6 jaw bricks with two-stud stagger
-1 0 80 48 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-010-p010.dat
-1 0 -40 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-010.dat
+0 // STEP 1 - p1: two black 4x6 jaw bricks with three-stud (120 LDU) stagger
+1 0 80 48 0 1 0 0 0 1 0 0 0 1 dev-toolo-repair/states/76395-010-p010.dat
+1 0 -40 0 0 1 0 0 0 1 0 0 0 1 dev-toolo-repair/states/76395-010.dat
 0 STEP
 0 // STEP 2 - p2: two paired fork bases and two clutch blocks form raised jaw hinge
-1 72 120 0 -40 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged-top/28336.dat
-1 72 168 -137 -40 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
-1 72 120 0 40 0 0 1 0 1 0 -1 0 0 dev-toolo/engaged-top/28336.dat
-1 72 168 -137 40 1 0 0 0 1 0 0 0 1 dev-toolo/74957.dat
+1 72 120 0 -40 0 0 1 0 1 0 -1 0 0 dev-toolo-repair/engaged-top/28336.dat
+1 72 168 -137 -40 1 0 0 0 1 0 0 0 1 dev-toolo-repair/74957.dat
+1 72 120 0 40 0 0 1 0 1 0 -1 0 0 dev-toolo-repair/engaged-top/28336.dat
+1 72 168 -137 40 1 0 0 0 1 0 0 0 1 dev-toolo-repair/74957.dat
 0 STEP
-0 // STEP 3 - p3: two black upper jaw bricks in the same stagger
-1 0 88 -185 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-010.dat
-1 0 8 -233 0 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-011.dat
+0 // STEP 3 - p3: two black upper jaw bricks with three-stud (120 LDU) stagger; rear brick stays at X88; only the front brick's supported rear screw is engaged
+1 0 88 -185 0 1 0 0 0 1 0 0 0 1 dev-toolo-repair/states/76395-010.dat
+1 0 -32 -233 0 1 0 0 0 1 0 0 0 1 dev-toolo-repair/states/76395-010.dat
 0 STEP
-0 // STEP 4 - p4: two bare grey wheel-rim eyes and two yellow 2x4 mouth bricks
-1 71 -72 -209 -105 -1 0 0 0 0 -1 0 -1 0 dev-toolo/99565.dat
-1 71 -72 -209 105 -1 0 0 0 0 1 0 1 0 dev-toolo/99565.dat
-1 14 -152 -185 -40 1 0 0 0 1 0 0 0 1 3011.dat
-1 14 -152 -185 40 1 0 0 0 1 0 0 0 1 3011.dat
+0 // STEP 4 - p4: eyes at the front upper brick's first side holes; yellow mouth bricks overhang its front by one stud (40 LDU)
+1 71 -112 -209 -105 -1 0 0 0 0 -1 0 -1 0 dev-toolo/99565.dat
+1 71 -112 -209 105 -1 0 0 0 0 1 0 1 0 dev-toolo/99565.dat
+1 14 -112 -185 -40 1 0 0 0 1 0 0 0 1 3011.dat
+1 14 -112 -185 40 1 0 0 0 1 0 0 0 1 3011.dat
 0 STEP
 0 // STEP 5 - p5: two red2x4 plates form one-layer8x2 tongue; front plate overhangs two studs, supported by4 studs, rear by8.
 1 4 -160 -24 0 1 0 0 0 1 0 0 0 1 40666.dat
 1 4 0 -24 0 1 0 0 0 1 0 0 0 1 40666.dat
 0 STEP
-0 // STEP 6 - p6: first body brick and side-mounted grey connection brick
-1 0 200 112 64 1 0 0 0 1 0 0 0 1 dev-toolo/76395.dat
-1 72 160 176 -64 0 0 1 1 0 0 0 1 0 dev-toolo/engaged-top/76057.dat
+0 // STEP 6 - p6: transverse grey 76057 below jaw; its screw enters the front-end receiver of the first lower body brick
+1 0 304 112 0 1 0 0 0 1 0 0 0 1 dev-toolo-repair/76395.dat
+1 72 136 136 0 0 1 0 0 0 1 1 0 0 dev-toolo-repair/engaged-top/76057.dat
 0 STEP
 0 // STEP 7 - p7: first upper body brick; articulated next lower segment and connector
-1 0 320 64 64 1 0 0 0 1 0 0 0 1 dev-toolo/states/76395-110.dat
-1 0 530.107647738325 128 7.02943725152285 0.707106781186548 0 -0.707106781186547 0 1 0 0.707106781186547 0 0.707106781186548 dev-toolo/76395.dat
-1 72 383.029437251523 192 40.9705627484771 0 0.707106781186547 -0.707106781186548 1 -0 -0 0 -0.707106781186548 -0.707106781186547 dev-toolo/engaged/76057.dat
+1 0 424 64 0 1 0 0 0 1 0 0 0 1 dev-toolo-repair/states/76395-110.dat
+1 0 634.107647738325 128 -113.539105243401 0.707106781186548 0 0.707106781186547 0 1 0 -0.707106781186547 0 0.707106781186548 dev-toolo-repair/76395.dat
+1 72 515.313708498985 152 5.25483399593904 0.707106781186547 0.707106781186548 0 0 0 1 0.707106781186548 -0.707106781186547 0 dev-toolo-repair/engaged-top/76057.dat
 0 STEP
 0 // STEP 8 - p8: second upper body brick, next lower segment and connector
-1 0 614.96046148071 80 91.8822509939085 0.707106781186548 0 -0.707106781186547 0 1 0 0.707106781186547 0 0.707106781186548 dev-toolo/states/76395-110.dat
-1 0 803.813275223096 144 200.16652224137 6.12323399573677e-17 0 -1 0 1 0 1 0 6.12323399573677e-17 dev-toolo/76395.dat
-1 72 675.813275223096 208 120.16652224137 0 1 -6.12323399573677e-17 1 -0 -0 0 -6.12323399573677e-17 -1 dev-toolo/engaged/76057.dat
+1 0 718.96046148071 80 -198.391918985787 0.707106781186548 0 0.707106781186547 0 1 0 -0.707106781186547 0 0.707106781186548 dev-toolo-repair/states/76395-110.dat
+1 0 787.244732728172 144 -427.244732728172 0 0 1 0 1 0 -1 0 0 dev-toolo-repair/76395.dat
+1 72 787.244732728172 168 -259.244732728172 1 0 0 0 0 1 0 -1 0 dev-toolo-repair/engaged-top/76057.dat
 0 STEP
 0 // STEP 9 - p9: third upper body brick, bent lower tail and connector
-1 0 803.813275223096 96 320.16652224137 6.12323399573677e-17 0 -1 0 1 0 1 0 6.12323399573677e-17 dev-toolo/states/76395-110.dat
-1 0 860.783837971573 160 530.274169979695 -0.707106781186547 0 -0.707106781186548 0 1 0 0.707106781186548 0 -0.707106781186547 dev-toolo/76395.dat
-1 72 826.842712474619 224 383.195959492893 0 0.707106781186548 0.707106781186547 1 -0 -0 0 0.707106781186547 -0.707106781186548 dev-toolo/engaged/76057.dat
+1 0 787.244732728172 96 -547.244732728172 0 0 1 0 1 0 -1 0 0 dev-toolo-repair/states/76395-110.dat
+1 0 673.705627484771 160 -757.352380466497 -0.707106781186547 0 0.707106781186548 0 1 0 -0.707106781186548 0 -0.707106781186547 dev-toolo-repair/76395.dat
+1 72 792.499566724111 184 -638.558441227157 0.707106781186548 -0.707106781186547 0 0 0 1 -0.707106781186547 -0.707106781186548 0 dev-toolo-repair/engaged-top/76057.dat
 0 STEP
 0 // STEP 10 - p10: tail-end side connector and small fork
-1 72 741.989898732233 184 649.068109219035 0.707106781186548 0.707106781186547 0 0 0 1 0.707106781186547 -0.707106781186548 0 dev-toolo/engaged-top/76057.dat
-1 72 708.048773235279 184 683.009234715989 -0.707106781186548 0.707106781186547 0 0 0 -1 -0.707106781186547 -0.707106781186548 0 dev-toolo/engaged/28336.dat
+1 72 554.911688245431 184 -876.146319705837 0.707106781186548 0.707106781186547 0 0 0 -1 -0.707106781186547 0.707106781186548 0 dev-toolo-repair/engaged/76057.dat
+1 72 520.970562748477 184 -910.087445202791 0.707106781186548 0.707106781186547 0 0 0 -1 -0.707106781186547 0.707106781186548 0 dev-toolo-repair/engaged/28336.dat
 0 STEP
 0 // STEP 11 - p11: red/lime/yellow 2x4 plates across first upper segment
-1 4 240 40 64 0 0 1 0 1 0 -1 0 0 40666.dat
-1 27 320 40 64 0 0 1 0 1 0 -1 0 0 40666.dat
-1 14 400 40 64 0 0 1 0 1 0 -1 0 0 40666.dat
+1 4 344 40 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 27 424 40 0 0 0 1 0 1 0 -1 0 0 40666.dat
+1 14 504 40 0 0 0 1 0 1 0 -1 0 0 40666.dat
 0 STEP
 0 // STEP 12 - p12: red/lime/yellow 2x4 plates across second upper segment
-1 4 558.391918985714 56 35.3137084989123 0.707106781187453 0 0.707106781187453 0 1 0 -0.707106781187453 0 0.707106781187452 40666.dat
-1 27 614.96046148071 56 91.8822509939085 0.707106781187453 0 0.707106781187453 0 1 0 -0.707106781187453 0 0.707106781187452 40666.dat
-1 14 671.529003975706 56 148.450793488905 0.707106781187453 0 0.707106781187453 0 1 0 -0.707106781187453 0 0.707106781187452 40666.dat
+1 4 662.391918985787 56 -141.823376490863 -0.707106781186547 0 0.707106781186548 0 1 0 -0.707106781186548 0 -0.707106781186547 40666.dat
+1 27 718.96046148071 56 -198.391918985787 -0.707106781186547 0 0.707106781186548 0 1 0 -0.707106781186548 0 -0.707106781186547 40666.dat
+1 14 775.529003975634 56 -254.96046148071 -0.707106781186547 0 0.707106781186548 0 1 0 -0.707106781186548 0 -0.707106781186547 40666.dat
 0 STEP
 0 // STEP 13 - p13: three colour plates on third upper segment and two yellow curved tail bricks
-1 4 803.813275223096 72 240.16652224137 1 0 6.12323399573677e-17 0 1 0 -6.12323399573677e-17 0 1 40666.dat
-1 27 803.813275223096 72 320.16652224137 1 0 6.12323399573677e-17 0 1 0 -6.12323399573677e-17 0 1 40666.dat
-1 14 803.813275223096 72 400.16652224137 1 0 6.12323399573677e-17 0 1 0 -6.12323399573677e-17 0 1 40666.dat
-1 14 804.215295476649 112 530.274169979695 -0.707106781186547 0 -0.707106781186548 0 1 0 0.707106781186548 0 -0.707106781186547 2302.dat
-1 14 860.783837971573 112 586.842712474619 -0.707106781186547 0 -0.707106781186548 0 1 0 0.707106781186548 0 -0.707106781186547 2302.dat
+1 4 787.244732728172 72 -467.244732728172 -1 0 0 0 1 0 0 0 -1 40666.dat
+1 27 787.244732728172 72 -547.244732728172 -1 0 0 0 1 0 0 0 -1 40666.dat
+1 14 787.244732728172 72 -627.244732728172 -1 0 0 0 1 0 0 0 -1 40666.dat
+1 14 645.42135623731 112 -729.068109219035 -0.707106781186547 0 0.707106781186548 0 1 0 -0.707106781186548 0 -0.707106781186547 2302.dat
+1 14 701.989898732233 112 -785.636651713959 -0.707106781186547 0 0.707106781186548 0 1 0 -0.707106781186548 0 -0.707106781186547 2302.dat
 0 STEP
 0 // STEP 14 - p14: separate six-piece yellow teaching object; NOT attached to snake tail
 1 14 240 64 -420 1 0 0 0 1 0 0 0 1 3437.dat
@@ -93,5 +93,5 @@
 1 14 580 176 -296 0 0 1 1 0 0 0 1 0 3011.dat
 1 14 540 176 -248 1 0 0 0 0 -1 0 1 0 3437.dat
 0 // Source p14 and p15 each specify2x3437+4x3011; p16 shows both separate teaching objects. No yellow brick is added to tail.
-0 // Candidateproof isrecordedinconnection-correction/build; screwphasewrapperreusesexistinggeometry. No physicalconfirmation ormotioncertification.
+0 // Existing screw-state wrappers only: four transverse body connectors phase180; tail connector phase0. Prior body proofs are stale; current source/connection review remains renderer-only. No physical confirmation or motion certification.
 0 // Source p16 final view, no additions.

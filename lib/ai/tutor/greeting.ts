@@ -36,7 +36,7 @@ const GLOBAL_SURFACE_GREETINGS: Record<
   }),
   playground: (name) => ({
     message: `你好呀 ${name}！游戏时间到～这些小游戏里都藏着数学和逻辑的小秘密，玩不过的可以来问我。`,
-    quickPrompts: ['2048 有什么技巧？', '数独入门教教我', '五子棋怎么布局？'],
+    quickPrompts: ['七巧板从哪里开始拼？', '数独入门教教我', '五子棋怎么布局？'],
   }),
   profile: (name) => ({
     message: `嗨 ${name}！这里是你的成长小天地，我可以陪你把本周探索计划走起来。`,

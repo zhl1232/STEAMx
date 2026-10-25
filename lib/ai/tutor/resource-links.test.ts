@@ -10,6 +10,12 @@ import {
 } from './resource-links'
 
 describe('tutor resource links', () => {
+  it.each(['2048', 'fifteen', 'quickmath'])('rejects deleted game links: %s', (game) => {
+    expect(createTutorResourceTag('game', game, '旧游戏')).toBe('')
+    expect(isTutorResourceHref(`/playground/${game}`)).toBe(false)
+    expect([...getTutorResourceHrefs(`[game:${game}|旧游戏]`)]).toEqual([])
+  })
+
   it('creates the supported tags and rejects unsafe ids', () => {
     expect(createTutorResourceTag('lesson', '12:3', '纸桥课时')).toBe('[lesson:12:3|纸桥课时]')
     expect(createTutorResourceTag('species', '黑头鸦_1', '黑头鸦')).toBe('[species:黑头鸦_1|黑头鸦]')

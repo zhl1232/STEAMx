@@ -1010,7 +1010,8 @@ export function Building3DWorkspace({
         const abortController = new AbortController();
         setBomLoading(true);
         void fetch(
-            `/api/courses/ldraw-bom?model=${encodeURIComponent(ldrawModelFileName)}`,
+            // 模型文件不变时也需更新统计口径，避免 force-cache 继续返回重复的组合件。
+            `/api/courses/ldraw-bom?model=${encodeURIComponent(ldrawModelFileName)}&v=2`,
             { cache: "force-cache", signal: abortController.signal },
         )
             .then((response) => (response.ok ? (response.json() as Promise<LdrawBom>) : null))
@@ -1802,7 +1803,9 @@ export function Building3DWorkspace({
     const flowControls = (
         <div className={cn(
             "relative z-30 shrink-0 border-t border-border/60 bg-background/90 px-3 py-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] backdrop-blur-md",
-            !isImmersive && "max-lg:fixed max-lg:bottom-0 max-lg:left-0 max-lg:right-0",
+            !isImmersive && (showBuildPage
+                ? "max-lg:sticky max-lg:bottom-0"
+                : "max-lg:fixed max-lg:bottom-0 max-lg:left-0 max-lg:right-0"),
         )}>
             {pageControls}
         </div>
@@ -2058,7 +2061,7 @@ export function Building3DWorkspace({
                 />
             ) : null}
 
-            <div className={cn("flex min-h-0 flex-1 flex-col", view === "works" && "hidden", view === "lesson" && !isImmersive && !(isFinalPage && hasWorks) && "max-lg:pb-[calc(5rem+env(safe-area-inset-bottom))]")}>
+            <div className={cn("flex min-h-0 flex-1 flex-col", view === "works" && "hidden", view === "lesson" && !isImmersive && !showBuildPage && !(isFinalPage && hasWorks) && "max-lg:pb-[calc(5rem+env(safe-area-inset-bottom))]")}>
             {view === "lesson" && (activePage?.kind === "slide" || activePage?.kind === "video") ? (() => {
                 const videoUrl = activePage.kind === "video" || activePage.sourceIndex === videoSlide0
                     ? content.videoUrl
@@ -2143,7 +2146,9 @@ export function Building3DWorkspace({
             ) : null}
 
             <div className={cn(
-                "grid min-h-0 flex-1 grid-rows-[minmax(320px,1fr)_auto] max-lg:grid-rows-[clamp(220px,42dvh,380px)_auto] lg:grid-cols-[minmax(0,1fr)_272px] lg:grid-rows-1",
+                "grid min-h-0 flex-1 grid-rows-[minmax(320px,1fr)_auto] lg:grid-cols-[minmax(0,1fr)_272px] lg:grid-rows-1",
+                // 手机把剩余高度给画布，零件区只占内容高度，避免 auto 行被撑出空白。
+                !isImmersive && "max-lg:grid-rows-[minmax(220px,1fr)_auto]",
                 isImmersive &&
                     "grid-cols-[minmax(0,1fr)_minmax(260px,32vw)] grid-rows-1 max-lg:grid-rows-1",
                 buildFullscreen && "relative grid-cols-1 grid-rows-1 lg:grid-cols-1 max-lg:grid-rows-1",
@@ -2153,7 +2158,12 @@ export function Building3DWorkspace({
                     "relative min-h-[320px] overflow-hidden bg-[#f8fbff] max-lg:min-h-0",
                     isImmersive && "min-h-0",
                 )}>
-                    <div ref={mountRef} className="h-full w-full" aria-label="3D 搭建图纸" />
+                    {/* 手机画布跟随网格尺寸，避免 canvas 的旧像素高度反过来撑大页面。 */}
+                    <div
+                        ref={mountRef}
+                        className={cn("h-full w-full", !isImmersive && "max-lg:absolute max-lg:inset-0")}
+                        aria-label="3D 搭建图纸"
+                    />
                     {loading ? (
                         <div className="pointer-events-none absolute inset-0 grid place-items-center bg-[#f8fbff]/80">
                             <div className="flex items-center gap-2 rounded-sm border border-border bg-card px-3 py-2 text-sm text-muted-foreground shadow-xs">
@@ -2241,7 +2251,7 @@ export function Building3DWorkspace({
                     ) : null}
                     <div className={cn(
                         "flex h-full min-h-0 flex-col",
-                        !isImmersive && "max-lg:max-h-[min(28dvh,14rem)]",
+                        !isImmersive && "max-lg:h-auto max-lg:max-h-[min(28dvh,14rem)]",
                         buildFullscreen && !partsDrawerOpen && "hidden",
                     )}>
                         {(() => {
@@ -2353,7 +2363,7 @@ export function Building3DWorkspace({
             </div>
             </div>
             {view === "lesson" && isFinalPage && hasWorks && !buildFullscreen ? (
-                <div className={cn("shrink-0 border-t border-border bg-background px-3 py-3 [&_button]:min-h-11", !isImmersive && "max-lg:pb-[calc(5rem+env(safe-area-inset-bottom))]")}>
+                <div className={cn("shrink-0 border-t border-border bg-background px-3 py-3 [&_button]:min-h-11", !isImmersive && !showBuildPage && "max-lg:pb-[calc(5rem+env(safe-area-inset-bottom))]")}>
                     <LessonWorkUpload
                         courseId={courseId}
                         lessonId={lesson.id}

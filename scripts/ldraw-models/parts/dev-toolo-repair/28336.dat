@@ -1,0 +1,10 @@
+0 Toolo 28336 captive assembly candidate
+0 Name: dev-toolo-repair/28336.dat
+0 !LDRAW_ORG Unofficial_Part
+0 !LICENSE Licensed under CC BY 4.0 : see CAreadme.txt
+0 !HELP Real catalog identity retained; geometry is source-inferred, not a measured mold.
+0 !HELP One shared fixed body and one moving screw mesh per axis; shiftY=-17.
+0 !HELP Head[17,20], lower stop[43,46], fixed neck[20,26], mounting48, tip64 before state shift.
+0 BFC CERTIFY CCW
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 dev-toolo/mechanism/body-28336.dat
+1 14 0 -17 0 1 0 0 0 1 0 0 0 1 dev-toolo-repair/mechanism/base-screw.dat

@@ -1,26 +1,30 @@
 "use client"
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react"
 import {
     Bomb,
     ChevronRight,
     Crosshair,
-    Delete,
     Drill,
     FlipHorizontal2,
     Grid3X3,
     Loader2,
     LogOut,
-    Radio,
     RefreshCw,
     Send,
     Shield,
     Split,
     Timer,
+    Trophy,
+    ShieldAlert,
     Zap,
     type LucideIcon,
 } from "lucide-react"
 
+import { BattleWeaponReadout, ImmersiveControls } from "@/app/playground/functionwars/immersive-controls"
+import { MathKeyboard } from "@/app/playground/functionwars/expression-tools"
+import { readFunctionWarsLabelExclusions } from "@/app/playground/functionwars/canvas-overlays"
+import { ObstacleLegend } from "@/app/playground/functionwars/obstacle-legend"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/lib/context/auth-context"
@@ -31,6 +35,7 @@ import {
 } from "@/lib/playground/function-wars-weapons"
 import {
     addFunctionWarsRepairsToMap,
+    FUNCTION_WARS_ONLINE_CRATER_HOLE_RATIO,
     availableFunctionWarsCrates,
     opponentFunctionWarsRole,
     type FunctionWarsPlayerInventory,
@@ -41,6 +46,7 @@ import {
     type FunctionWarsOnlineShotSimulation,
 } from "@/lib/playground/function-wars-simulation"
 import {
+    FUNCTION_WARS_CANVAS_ASPECT_RATIO,
     FunctionWarsRenderer,
     type FunctionWarsRenderScene,
 } from "@/app/playground/functionwars/renderer"
@@ -69,7 +75,10 @@ function useCanvasRenderer(scene: FunctionWarsRenderScene, enabled: boolean) {
         if (!canvas || !container) return
         const renderer = new FunctionWarsRenderer(canvas)
         rendererRef.current = renderer
-        const resize = () => renderer.resize(container.getBoundingClientRect().width, window.devicePixelRatio)
+        const resize = () => {
+            renderer.resize(container.clientWidth, window.devicePixelRatio, container.clientHeight)
+            renderer.setLabelExclusions(readFunctionWarsLabelExclusions(canvas))
+        }
         resize()
         renderer.setScene(scene)
         renderer.start()
@@ -85,7 +94,10 @@ function useCanvasRenderer(scene: FunctionWarsRenderScene, enabled: boolean) {
     }, [enabled])
 
     useEffect(() => {
-        if (enabled) rendererRef.current?.setScene(scene)
+        if (enabled) {
+            if (canvasRef.current) rendererRef.current?.setLabelExclusions(readFunctionWarsLabelExclusions(canvasRef.current))
+            rendererRef.current?.setScene(scene)
+        }
     }, [enabled, scene])
 
     return { canvasRef, containerRef }
@@ -121,8 +133,8 @@ function OnlineWeaponBar({
     disabled: boolean
 }) {
     return (
-        <div className="grid grid-cols-5 gap-1.5" role="group" aria-label="选择武器">
-            {(Object.keys(WEAPON_DEFINITIONS) as FunctionWarsWeaponId[]).map((weapon) => {
+        <div className="function-wars-weapon-bar flex flex-wrap gap-1.5" role="group" aria-label="选择武器">
+            {(Object.keys(WEAPON_DEFINITIONS) as FunctionWarsWeaponId[]).filter((weapon) => weapon === "standard" || inventory[weapon] > 0).map((weapon) => {
                 const definition = WEAPON_DEFINITIONS[weapon]
                 const count = weapon === "standard" ? null : inventory[weapon]
                 const available = weapon === "standard" || (count ?? 0) > 0
@@ -136,14 +148,14 @@ function OnlineWeaponBar({
                         aria-pressed={selected === weapon}
                         title={definition.description}
                         className={cn(
-                            "relative grid min-h-14 min-w-0 place-items-center gap-0.5 rounded-sm border px-1 py-1.5 text-[10px] font-bold transition-[transform,background-color,border-color] active:scale-[0.97]",
+                            "relative grid min-h-11 min-w-20 place-items-center gap-0.5 rounded-sm border px-1 py-1.5 text-[10px] font-bold transition-[transform,background-color,border-color] active:scale-[0.97]",
                             selected === weapon
-                                ? "border-foreground/55 bg-foreground text-background"
+                                ? "border-primary bg-primary text-primary-foreground"
                                 : "border-border bg-background text-muted-foreground hover:bg-muted/70 hover:text-foreground",
                             !available && "opacity-35",
                         )}
                     >
-                        <Icon className={cn("h-4 w-4", selected === weapon ? "text-background" : WEAPON_META[weapon].accent)} aria-hidden />
+                        <Icon className={cn("h-4 w-4", selected === weapon ? "text-primary-foreground" : WEAPON_META[weapon].accent)} aria-hidden />
                         <span className="w-full truncate">{definition.shortName}</span>
                         <span className="absolute right-1 top-0.5 font-mono text-[9px] tabular-nums">{count == null ? "∞" : count}</span>
                     </button>
@@ -153,14 +165,16 @@ function OnlineWeaponBar({
     )
 }
 
-function appendAtEnd(setValue: React.Dispatch<React.SetStateAction<string>>, token: string) {
-    setValue((current) => `${current}${token}`)
-}
+
 
 export function FunctionWarsOnlineView({
     initialRoomCode,
     onActiveMatchChange,
+    immersive = false,
+    modeControls,
 }: {
+    immersive?: boolean
+    modeControls?: ReactNode
     initialRoomCode?: string | null
     onActiveMatchChange?: (active: boolean) => void
 }) {
@@ -169,7 +183,7 @@ export function FunctionWarsOnlineView({
     const bootstrappedRef = useRef(false)
     const [expression, setExpression] = useState("0")
     const [selectedWeapon, setSelectedWeapon] = useState<FunctionWarsWeaponId>("standard")
-    const [gridVisible, setGridVisible] = useState(true)
+    const [gridVisible, setGridVisible] = useState(false)
     const [preview, setPreview] = useState<FunctionWarsOnlineShotSimulation | null>(null)
     const [localPlaybackActive, setLocalPlaybackActive] = useState(false)
     const [localPlaybackKey, setLocalPlaybackKey] = useState(0)
@@ -187,8 +201,8 @@ export function FunctionWarsOnlineView({
         if (!inputError && !online.error) return
         const node = errorRef.current
         node?.focus({ preventScroll: true })
-        node?.scrollIntoView?.({ block: "nearest" })
-    }, [inputError, online.error])
+        if (!immersive) node?.scrollIntoView?.({ block: "nearest" })
+    }, [immersive, inputError, online.error])
 
     useEffect(() => {
         if (bootstrappedRef.current || typeof window === "undefined" || authLoading || online.phase !== "idle" || !user) return
@@ -301,7 +315,7 @@ export function FunctionWarsOnlineView({
         return {
             theme: map.theme,
             obstacles: map.obstacles.map((obstacle) => ({ ...obstacle, shape: obstacle.shape })),
-            craters: online.craters,
+            craters: online.craters.map(crater => ({ ...crater, radius: crater.radius * FUNCTION_WARS_ONLINE_CRATER_HOLE_RATIO })),
             units,
             crates: available.map((crate) => ({ ...crate, active: true })),
             traces: activePreview?.traces ?? [],
@@ -352,23 +366,25 @@ export function FunctionWarsOnlineView({
     }, [expression, localPlaybackActive, myInventory, online, role, selectedWeapon])
 
     if (online.phase === "idle" || online.phase === "waiting" || online.phase === "creating" || online.phase === "joining" || online.phase === "error") {
-        return <FunctionWarsOnlineLobby online={online} initialRoomCode={initialRoomCode} />
+        return <div className="function-wars-lobby"><div hidden={!immersive} className="mb-3">{modeControls}</div><FunctionWarsOnlineLobby online={online} initialRoomCode={initialRoomCode} /></div>
     }
 
+    const CurrentWeaponIcon = WEAPON_META[selectedWeapon].icon
     const opponent = role ? opponentFunctionWarsRole(role) : "guest"
     const statusText = online.phase === "finished"
         ? online.winner === "draw" ? "平局" : online.winner === role ? "任务完成" : "炮台失守"
         : online.isMyTurn ? "你的回合" : "对手计算中"
 
     return (
-        <div className="grid min-w-0 gap-3 xl:grid-cols-[minmax(0,1fr)_320px] xl:items-start">
-            <div className="min-w-0">
-                <div className="mb-2 flex items-center gap-3 px-1">
+        <div className="function-wars-battle-layout function-wars-online-battle grid min-w-0 gap-3 xl:grid-cols-[minmax(0,1fr)_320px] xl:items-start">
+            <div className="function-wars-stage min-w-0" data-battle-theme={online.map?.theme}>
+                <div className="function-wars-online-status mb-2 flex items-center gap-3 px-1">
                     <HpMeter label={role === "host" ? "我方 H" : "对手 H"} value={online.hp.host} active={online.currentTurn === "host"} side="host" />
                     <div className="grid min-w-20 shrink-0 place-items-center text-center" role="status" aria-live="polite" aria-atomic="true">
-                        <span className={cn("text-[11px] font-black", online.isMyTurn ? "text-amber-700 dark:text-amber-300" : "text-muted-foreground")}>{statusText}</span>
+                        <span className={cn("function-wars-turn-label text-[11px] font-semibold", online.isMyTurn ? "text-amber-700 dark:text-amber-300" : "text-muted-foreground")}>{statusText}</span>
+                        <span className="function-wars-online-shot-count text-[10px] text-muted-foreground">已射 {online.shotSeq} 发</span>
                         {online.phase === "playing" ? (
-                            <span className="mt-0.5 inline-flex items-center gap-1 font-mono text-[10px] tabular-nums text-muted-foreground">
+                            <span className="function-wars-countdown mt-0.5 inline-flex items-center gap-1 font-mono text-[10px] tabular-nums text-muted-foreground">
                                 <Timer className="h-3 w-3" aria-hidden /> {secondsLeft}s
                             </span>
                         ) : null}
@@ -376,8 +392,8 @@ export function FunctionWarsOnlineView({
                     <HpMeter label={role === "guest" ? "我方 G" : "对手 G"} value={online.hp.guest} active={online.currentTurn === "guest"} side="guest" />
                 </div>
 
-                <div className="relative left-1/2 w-[100dvw] max-w-[100dvw] -translate-x-1/2 px-[max(12px,env(safe-area-inset-left))] md:static md:w-full md:max-w-none md:translate-x-0 md:px-0">
-                    <div ref={containerRef} className="relative aspect-3/2 w-full overflow-hidden border border-foreground/20 bg-[#d8e2d5] shadow-[0_18px_48px_-34px_hsl(var(--surface-shadow)/0.65)]">
+                <div className="function-wars-battlefield-shell w-full min-w-0">
+                    <div ref={containerRef} style={{ aspectRatio: FUNCTION_WARS_CANVAS_ASPECT_RATIO }} className="function-wars-canvas-frame relative rounded-sm w-full overflow-hidden border border-foreground/20 bg-[#d8e2d5] shadow-[0_18px_48px_-34px_hsl(var(--surface-shadow)/0.65)]">
                         <canvas
                             ref={canvasRef}
                             className="block h-full w-full"
@@ -385,6 +401,7 @@ export function FunctionWarsOnlineView({
                             aria-describedby={battlefieldDescriptionId}
                             role="img"
                         />
+                        <ObstacleLegend />
                         <p id={battlefieldDescriptionId} className="sr-only">
                             H 方炮台位于 x {online.map?.turrets.host.x ?? -10}、y {online.map?.turrets.host.y ?? -5.15}，生命值 {online.hp.host}/100。
                             G 方炮台位于 x {online.map?.turrets.guest.x ?? 10}、y {online.map?.turrets.guest.y ?? -5.15}，生命值 {online.hp.guest}/100。
@@ -393,20 +410,68 @@ export function FunctionWarsOnlineView({
                                 ? `上一发由 ${online.lastShot.by === "host" ? "H 方" : "G 方"} 发射函数 ${online.lastShot.expression}，造成 ${online.lastShot.damage?.applied ?? 0} 点伤害。`
                                 : "尚未发射。"}
                         </p>
-                        <div className="pointer-events-none absolute left-2 top-2 flex items-center gap-1.5 bg-[#223236]/88 px-2 py-1 text-[10px] font-bold text-[#f1ebd6]">
-                            <Radio className="h-3 w-3 text-[#f2bd3d]" aria-hidden />
-                            SHOT {online.shotSeq.toString().padStart(2, "0")}
-                        </div>
-                        {replayIsActive && online.lastShot ? (
-                            <div className="pointer-events-none absolute bottom-2 left-2 max-w-[75%] bg-[#f4ecd4]/92 px-2 py-1 font-mono text-[10px] font-bold text-[#263437] shadow-sm">
-                                {online.lastShot.by === role ? "YOU" : "RIVAL"}: f(x)={online.lastShot.expression}
-                            </div>
-                        ) : null}
+
                     </div>
                 </div>
             </div>
 
-            <section className="min-w-0 max-w-full overflow-hidden border border-border/85 bg-[hsl(var(--surface-raised)/0.9)] p-3 sm:p-4" aria-label="在线炮术控制台">
+            <section className="function-wars-control-panel rounded-md min-w-0 max-w-full overflow-hidden border border-border/85 bg-[hsl(var(--surface-raised)/0.9)] p-3 sm:p-4" aria-label="在线炮术控制台">
+                <div className="function-wars-dock">
+                    <BattleWeaponReadout name={WEAPON_DEFINITIONS[selectedWeapon].shortName} icon={CurrentWeaponIcon} ammunition={selectedWeapon === "standard" ? null : myInventory?.[selectedWeapon]} />
+                <div className="function-wars-input-row mt-3 grid min-w-0 grid-cols-[minmax(0,1fr)_44px_76px] items-stretch gap-2">
+                    <div className="function-wars-expression-window flex min-w-0 items-center border border-border bg-background focus-within:border-foreground/35 focus-within:ring-2 focus-within:ring-amber-500/25">
+                        <span className="pl-3 font-serif text-sm font-semibold text-muted-foreground" aria-hidden>f(x)=</span>
+                        <input
+                            value={expression}
+                            onChange={(event) => {
+                                setExpression(event.target.value)
+                                setInputError(null)
+                            }}
+                            onKeyDown={(event) => {
+                                if (event.key === "Enter") {
+                                    event.preventDefault()
+                                    void handleFire()
+                                }
+                            }}
+                            disabled={!online.isMyTurn || online.firing || localPlaybackActive || online.phase === "finished"}
+                            spellCheck={false}
+                            autoComplete="off"
+                            inputMode="text"
+                            className="h-11 min-w-0 flex-1 bg-transparent px-1.5 font-mono text-base lg:text-sm font-bold outline-none disabled:opacity-55"
+                            aria-label="炮弹轨迹函数"
+                        />
+                    </div>
+                    <Button
+                        type="button"
+                        size="icon"
+                        variant="outline"
+                        className="function-wars-grid-toggle h-11 w-11 shrink-0 rounded-sm"
+                        onClick={() => setGridVisible((visible) => !visible)}
+                        aria-label={gridVisible ? "隐藏坐标网格" : "显示坐标网格"}
+                        aria-pressed={gridVisible}
+                        title={gridVisible ? "隐藏坐标网格" : "显示坐标网格"}
+                    >
+                        <Grid3X3 className="h-4 w-4" aria-hidden />
+                    </Button>
+                    <Button
+                        type="button"
+                        size="icon"
+                        className="function-wars-fire-button h-11 w-full shrink-0 gap-1 rounded-sm" tone="warning"
+                        onClick={() => void handleFire()}
+                        disabled={!online.isMyTurn || online.firing || localPlaybackActive || online.phase === "finished" || !expression.trim()}
+                        aria-label="发射"
+                        title="发射"
+                    >
+                        {online.firing || localPlaybackActive ? <Loader2 className="h-4 w-4 animate-spin motion-reduce:animate-none" /> : <Send className="h-4 w-4" />}发射
+                    </Button>
+                </div>
+
+                {replayIsActive && online.lastShot ? <p className="mt-2 break-words font-mono text-xs text-muted-foreground">{online.lastShot.by === role ? "我方" : "对手"}上一发：f(x)={online.lastShot.expression}</p> : null}
+                {inputError || online.error ? <p ref={errorRef} tabIndex={-1} className="function-wars-input-error mt-2 text-xs font-semibold text-destructive outline-none" role="alert">{inputError ?? online.error}</p> : null}
+
+                </div>
+                <ImmersiveControls immersive={immersive}>
+                    <div hidden={!immersive} className="mb-3">{modeControls}</div>
                 {myInventory ? (
                     <OnlineWeaponBar
                         inventory={myInventory}
@@ -424,63 +489,8 @@ export function FunctionWarsOnlineView({
                     </div>
                 ) : null}
 
-                <div className="mt-3 grid min-w-0 grid-cols-[minmax(0,1fr)_44px_44px] items-stretch gap-2 max-[359px]:grid-cols-[minmax(0,1fr)_44px]">
-                    <div className="flex min-w-0 items-center border border-border bg-background focus-within:border-foreground/35 focus-within:ring-2 focus-within:ring-amber-500/25 max-[359px]:col-span-2">
-                        <span className="pl-3 font-serif text-sm font-black text-muted-foreground" aria-hidden>f(x)=</span>
-                        <input
-                            value={expression}
-                            onChange={(event) => {
-                                setExpression(event.target.value)
-                                setInputError(null)
-                            }}
-                            onKeyDown={(event) => {
-                                if (event.key === "Enter") {
-                                    event.preventDefault()
-                                    void handleFire()
-                                }
-                            }}
-                            disabled={!online.isMyTurn || online.firing || localPlaybackActive || online.phase === "finished"}
-                            spellCheck={false}
-                            autoComplete="off"
-                            inputMode="text"
-                            className="h-11 min-w-0 flex-1 bg-transparent px-1.5 font-mono text-sm font-bold outline-none disabled:opacity-55"
-                            aria-label="炮弹轨迹函数"
-                        />
-                    </div>
-                    <Button
-                        type="button"
-                        size="icon"
-                        variant="outline"
-                        className="h-11 w-11 shrink-0 rounded-sm"
-                        onClick={() => setGridVisible((visible) => !visible)}
-                        aria-label={gridVisible ? "隐藏坐标网格" : "显示坐标网格"}
-                        aria-pressed={gridVisible}
-                        title={gridVisible ? "隐藏坐标网格" : "显示坐标网格"}
-                    >
-                        <Grid3X3 className="h-4 w-4" aria-hidden />
-                    </Button>
-                    <Button
-                        type="button"
-                        size="icon"
-                        className="h-11 w-11 shrink-0 rounded-sm bg-amber-500 text-[#282d2c] hover:bg-amber-400"
-                        onClick={() => void handleFire()}
-                        disabled={!online.isMyTurn || online.firing || localPlaybackActive || online.phase === "finished" || !expression.trim()}
-                        aria-label="发射"
-                        title="发射"
-                    >
-                        {online.firing || localPlaybackActive ? <Loader2 className="h-4 w-4 animate-spin motion-reduce:animate-none" /> : <Send className="h-4 w-4" />}
-                    </Button>
-                </div>
-
-                {inputError || online.error ? <p ref={errorRef} tabIndex={-1} className="mt-2 text-xs font-semibold text-destructive outline-none" role="alert">{inputError ?? online.error}</p> : null}
-
-                <div className="mt-2 grid grid-cols-6 gap-1 sm:hidden" aria-label="数学快捷键盘">
-                    {["x", "+", "−", "×", "÷", "^", "(", ")", "sin(", "cos(", "abs(", "sqrt("].map((token) => (
-                        <button key={token} type="button" className="min-h-11 rounded-sm border border-border bg-background text-xs font-black active:scale-[0.97]" onClick={() => appendAtEnd(setExpression, token)}>{token}</button>
-                    ))}
-                    <button type="button" className="col-span-3 inline-flex min-h-11 items-center justify-center gap-1 rounded-sm border border-border bg-background text-xs font-bold text-muted-foreground" onClick={() => setExpression((value) => value.slice(0, -1))}><Delete className="h-3.5 w-3.5" />删除</button>
-                    <button type="button" className="col-span-3 min-h-11 rounded-sm border border-border bg-background text-xs font-bold text-muted-foreground" onClick={() => setExpression("")}>清空</button>
-                </div>
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">从炮口出发：f(0)=0。炮口是 (0, 0)，x 朝对手方向增加。f(x) 是相对炮口的高度；0 表示水平。对战只在发射后回放弹道。</p>
+                <MathKeyboard setExpression={setExpression} disabled={!online.isMyTurn || online.firing || localPlaybackActive || online.phase === "finished"} />
 
                 {!online.isMyTurn && online.phase === "playing" ? <p className="mt-2 text-xs text-muted-foreground">对手回合，收到弹道后会自动回放。</p> : null}
 
@@ -498,7 +508,17 @@ export function FunctionWarsOnlineView({
                         {role ? `你是 ${role === "host" ? "H" : "G"}` : `对手 ${opponent}`}
                     </span>
                 </div>
+                </ImmersiveControls>
             </section>
+            {online.phase === "finished" && immersive ? (
+                <section className="function-wars-result surface-panel p-4" data-result={online.winner === role ? "won" : online.winner === "draw" ? "draw" : "lost"} aria-live="polite">
+                    <div className="flex flex-wrap items-center gap-3">
+                        <span className="function-wars-result-emblem grid h-10 w-10 place-items-center">{online.winner === role ? <Trophy className="h-5 w-5" aria-hidden /> : <ShieldAlert className="h-5 w-5" aria-hidden />}</span>
+                        <div className="min-w-0 flex-1"><p className="function-wars-result-kicker">对局结束</p><p className="function-wars-result-title mb-1 text-sm font-semibold">{statusText}</p><p className="text-xs">我方 {role ? Math.round(online.hp[role]) : 0} · 对手 {Math.round(online.hp[opponent])} 生命值</p></div>
+                        <Button type="button" className="min-h-11" onClick={() => online.reset()}>再开一局</Button>
+                    </div>
+                </section>
+            ) : null}
         </div>
     )
 }

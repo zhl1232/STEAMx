@@ -1,14 +1,73 @@
 import * as fs from 'node:fs/promises'
 import { NextRequest } from 'next/server'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import * as packer from '@/lib/courses/ldraw-packer'
+import * as review from '@/lib/courses/ldraw-review'
+import * as inspection from '@/lib/courses/ldraw-inspection'
 
 import { GET, PATCH, POST } from './route'
 
 vi.mock('node:fs/promises', { spy: true })
+vi.mock('@/lib/courses/ldraw-packer', { spy: true })
+vi.mock('@/lib/courses/ldraw-review', { spy: true })
+vi.mock('@/lib/courses/ldraw-inspection', { spy: true })
 
 afterEach(() => {
   vi.unstubAllEnvs()
   vi.restoreAllMocks()
+})
+
+describe('LDraw preview source selection', () => {
+  function setup(protectedModel = false, revision = 'fresh') {
+    vi.stubEnv('NODE_ENV', 'development')
+    const packed = { mpdText: 'fresh canonical source and dependencies', revision, stepCount: 2, partCount: 3, missingParts: [] }
+    vi.spyOn(packer, 'packLocalLdrawModel').mockResolvedValue(packed)
+    vi.spyOn(packer, 'readFrozenConfirmedLdrawModel').mockResolvedValue({ ...packed, mpdText: 'frozen confirmed MPD', revision: 'approved' })
+    vi.spyOn(review, 'getLdrawReviewRecords').mockResolvedValue({ 'example.ldr': { revision: 'approved', confirmedAt: '2026-10-01' } })
+    vi.spyOn(review, 'isProductionProtected').mockReturnValue(protectedModel)
+    vi.spyOn(review, 'isLdrawReviewCandidate').mockReturnValue(true)
+    vi.spyOn(inspection, 'getLdrawInspectionRecords').mockResolvedValue({})
+  }
+
+  it('keeps serving the frozen confirmation by default', async () => {
+    setup()
+    const response = await GET(new NextRequest('http://localhost:3000/api/ldraw-preview?model=example.ldr'))
+    expect(await response.json()).toMatchObject({
+      mpdText: 'frozen confirmed MPD', revision: 'approved', reviewStatus: 'confirmed',
+      servedFrozenConfirmed: true, servedDraft: false, canConfirm: false,
+    })
+  })
+
+  it.each([false, true])('serves the fresh draft with changed status (protected=%s) without writing', async (protectedModel) => {
+    setup(protectedModel)
+    const writes = vi.spyOn(fs, 'writeFile')
+    const response = await GET(new NextRequest('http://localhost:3000/api/ldraw-preview?model=example.ldr&source=draft'))
+    expect(await response.json()).toMatchObject({
+      mpdText: 'fresh canonical source and dependencies', revision: 'fresh', reviewStatus: 'changed',
+      legacyReviewStatus: 'pending', servedFrozenConfirmed: false, servedDraft: true,
+      productionProtected: protectedModel, canConfirm: !protectedModel,
+    })
+    expect(packer.packLocalLdrawModel).toHaveBeenCalledWith('example.ldr', { forceFreshDependencies: true })
+    expect(packer.readFrozenConfirmedLdrawModel).not.toHaveBeenCalled()
+    expect(writes).not.toHaveBeenCalled()
+  })
+
+  it('retains confirmed status when the draft revision still matches the record', async () => {
+    setup(true, 'approved')
+    const response = await GET(new NextRequest('http://localhost:3000/api/ldraw-preview?model=example.ldr&source=draft'))
+    expect(await response.json()).toMatchObject({ reviewStatus: 'confirmed', servedDraft: true, canConfirm: false })
+  })
+
+  it('keeps the protected PATCH guard for an explicit draft request', async () => {
+    setup(true)
+    const response = await PATCH(new NextRequest('http://localhost:3000/api/ldraw-preview?source=draft', {
+      method: 'PATCH', headers: { origin: 'http://localhost:3000' },
+      body: JSON.stringify({ model: 'example.ldr', revision: 'fresh' }),
+    }))
+    expect(response.status).toBe(409)
+    expect(await response.json()).toMatchObject({ code: 'LDRAW_PRODUCTION_PROTECTED' })
+    expect(packer.packLocalLdrawModel).not.toHaveBeenCalled()
+  })
 })
 
 describe('LDraw preview environment boundary', () => {

@@ -18,8 +18,9 @@
 | 一次实践与过程记录 | `lib/journeys/`、`lib/project/record-input.ts`、`record-draft.ts`、`app/api/journeys/` | [产品架构](docs/product-architecture.md)、[内容质量与同源修订](docs/content-quality.md)、[探索记录](docs/EXPLORATION_RECORDS.md) |
 | 统一作品及分享 | `lib/works/`、`components/features/works/`、`app/works/` | [内容质量](docs/content-quality.md)、[互动资格](docs/TRUST_AND_INTERACTION_ACCESS.md) |
 | 自然首页、物种图鉴和观察 | `app/nature/`、`lib/nature-species-atlas.ts`、`lib/api/nature-observation-*`、`components/features/bird-observation/` | [物种图鉴](docs/NATURE_SPECIES_ATLAS_IMPLEMENTATION.md)、[内容质量](docs/content-quality.md) |
-| 物理实验室 | `app/playground/physics-lab/`、`public/physics-lab/`、`tests/physics-lab/` | [实验、模型与迁移](docs/physics-lab.md) |
-| 游乐场亲子入口、探索记录及联网玩法 | `app/playground/`、`lib/playground/catalog.ts`、`lib/playground/` | [入口与联网规则](docs/playground-online-features.md) |
+| 物理实验室 | `app/playground/physics-lab/`、`app/api/physics-lab/state/`、`hooks/physics-lab/`、`public/physics-lab/navigation.mjs`、`public/physics-lab/curriculum-catalog.mjs`、`public/physics-lab/exploration-model.mjs`、`tests/physics-lab/` | [主站账号、学段目录、实验模型与迁移](docs/physics-lab.md) |
+| 游乐场亲子入口、探索记录及联网玩法 | `app/playground/`、`lib/playground/catalog.ts`、`lib/playground/` | [入口与联网规则](docs/playground-online-features.md)、[玩法删除与数据清理](docs/playground-online-features.md#已删除玩法的数据清理) |
+| 函数战争弹道、教学操作与战场渲染 | `lib/playground/function-wars-trajectory.ts`、`function-wars-simulation.ts`、`hooks/playground/use-function-wars.ts`、`use-function-wars-immersive.ts`、`app/playground/functionwars/` | [弹道、关卡与地图版本](docs/playground-online-features.md#函数战争弹道与教学规则) |
 
 表中的短文件名相对于同格明确给出的目录；带 `*` 的位置表示文件组，不是可直接执行的路径。
 

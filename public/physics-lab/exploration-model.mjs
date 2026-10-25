@@ -1,17 +1,28 @@
 // Portable curriculum catalogue and deterministic SI-unit models. No DOM or host APIs.
+import { FOUNDATION_EXPLORATIONS, simulateFoundation } from './foundation-experiments.mjs';
+import { ADVANCED_EXPLORATIONS, simulateAdvanced } from './advanced-experiments.mjs';
+import { COMPLETION_FOUNDATIONS, simulateCompletionFoundation } from './foundation-completion.mjs';
+import { COMPLETION_MECHANICS, simulateCompletionMechanics } from './mechanics-completion.mjs';
+import { ELECTRICAL_EXPERIMENTS, simulateElectrical } from './electrical-experiments.mjs';
+import { BUOYANCY_EXPERIMENTS, simulateBuoyancy } from './buoyancy-experiments.mjs';
+import { LEVER_EXPERIMENTS, simulateLever } from './lever-experiment.mjs';
 export const LEVEL_NAMES=['入门探索','规律探究','综合挑战'];
 export const TOPICS=[
- {id:'electric',name:'电路与电场',description:'从点亮灯泡，到电流、功率与电场'},
- {id:'light',name:'光',description:'反射、透镜、折射与全反射'},
- {id:'sound',name:'声音与波',description:'音调、响度、振动与波的传播'},
- {id:'heat',name:'冷热与热量',description:'加热、比热容与热平衡'},
- {id:'magnetic',name:'磁与电磁',description:'磁极、磁场力与电磁感应'},
- {id:'motion',name:'力与运动',description:'杠杆、浮力、加速度、弹簧与滑轮'},
- {id:'energy',name:'能量与动量',description:'机械能转化、碰撞与动量守恒'}
+ {id:'measurement',name:'测量与读数',description:'天平、量筒、质量、体积与密度'},
+ {id:'sound',name:'声音',description:'高低与强弱、回声与测距'},
+ {id:'light',name:'光与成像',description:'影子、反射、折射与透镜成像'},
+ {id:'heat',name:'冷热与物态',description:'热交换、传热、物态变化与气体'},
+ {id:'magnetic',name:'磁与电磁感应',description:'磁铁、电磁铁、磁场力与交流变压'},
+ {id:'electric',name:'电路与电功率',description:'动手接线，比较电流、功率与电能'},
+ {id:'motion',name:'力与运动',description:'速度、加速度、抛体与圆周运动'},
+ {id:'pressure',name:'压强与浮力',description:'压力、液体压强、液压与浮沉'},
+ {id:'energy',name:'能量与动量',description:'功与功率、机械能转化与碰撞'},
+ {id:'field',name:'电场与电容',description:'点电荷叠加、电容与电场储能'},
+ {id:'wave',name:'振动与波',description:'单摆、弹簧振动、行波与干涉'}
 ];
 const control=(key,label,min,max,step,value,unit='')=>({key,label,min,max,step,value,unit});
 const lesson=(id,topic,title,band,goal,question,controls,guides,limit,formula,prerequisite)=>({id,topic,title,band,goal,question,controls,guides,limit,formula,prerequisite});
-export const EXPLORATIONS=[
+const ORIGINAL_EXPLORATIONS=[
  {id:'circuit',topic:'electric',title:'自由搭电路',band:'小学科学起步 · 可深入初高中',goal:'亲手接线，探索灯泡、开关、电流与功率。',workbench:'circuit',prerequisite:'认识电池与灯泡'},
  lesson('field','electric','看见电场', '高中物理', '改变两个点电荷，观察电场方向与电势。','电势为零的地方，电场也一定为零吗？',[
   control('q1','左电荷',-5,5,1,2,'μC'),control('q2','右电荷',-5,5,1,-2,'μC'),control('d','电荷间距',1,4,.1,2,'m'),control('x','探针横坐标',-3,3,.1,0,'m'),control('y','探针纵坐标',-2,2,.1,1,'m')],
@@ -59,11 +70,8 @@ export const EXPLORATIONS=[
   control('force','向右推力',0,20,.5,8,'N'),control('mass','小车质量',.5,5,.5,2,'kg'),control('friction','摩擦系数',0,.6,.05,.1)],
   ['播放小车运动，改变推力后重置比较。','固定推力，只改变质量，比较加速度。','画出受力图，分别讨论推力未克服摩擦和已经运动的情况。'],
   '水平面、由静止开始；静摩擦最大值与滑动摩擦系数取相同值。推力恒定向右，轨迹在画面边缘可超出视野。','F合 = F−f；a = F合/m；v = at','定量探究需质量、力与加速度'),
- lesson('lever','motion','让杠杆平衡','小学科学 · 初中物理','改变作用力和力臂，寻找平衡条件。','更小的力，能平衡更大的力吗？',[
-  control('leftForce','左侧向下力',1,10,1,4,'N'),control('rightForce','右侧向下力',1,10,1,4,'N'),control('leftArm','左力臂',.2,2,.1,1,'m'),control('rightArm','右力臂',.2,2,.1,1,'m')],
-  ['调一调左右的力和力臂，让两边力矩相同。','保持一侧不变，比较另一侧两种能平衡的组合。','用 F₁l₁=F₂l₂ 解释省力为什么通常需要更长的力臂。'],
-  '忽略杠杆自重，展示水平位置的力矩与转动趋势；箭头表示趋势，不模拟实际倾角。','τ = Fl；平衡时 F₁l₁ = F₂l₂','长短比较与力'),
- lesson('buoyancy','motion','物体为什么会浮起','小学科学观察 · 初中定量','改变排开液体的体积，比较浮力与重力。','物体完全浸入后，继续加深会增加浮力吗？',[
+ ...LEVER_EXPERIMENTS,
+ lesson('buoyancy','motion','物体为什么会浮起','小学科学观察 · 初中定量','改变排开液体的体积，比较浮力与重力。','物体浸入多少时，浮力恰好能平衡重力？',[
   control('mass','物体质量',.1,2,.1,.5,'kg'),control('volume','物体体积',.2,2,.1,1,'L'),control('density','液体密度',800,1200,50,1000,'kg/m³'),control('fraction','浸入比例',0,1,.05,.5)],
   ['慢慢增加浸入比例，比较浮力箭头怎样变化。','固定完全浸没，改变液体密度，比较浮力与重力。','用阿基米德原理算浮力；若能漂浮，求平衡时浸入比例。'],
   '均匀不可压缩液体；位置由外力保持。显示移除外力后的初始趋势，不模拟真实下沉过程或表面张力。','F浮 = ρ液gV排；G = mg','体积、质量；深入需密度'),
@@ -76,9 +84,21 @@ export const EXPLORATIONS=[
   ['播放碰撞，对比两车碰撞前后速度的方向。','分别取恢复系数 1 和 0，比较总动量与总动能。','用动量守恒和相对速度关系推导末速度；解释损失的动能去了哪里。'],
   '一维正碰、无外部冲量。左车需比右车速度大才能接近；动画分段慢放，不展示真实接触时间。','m₁u₁+m₂u₂=m₁v₁+m₂v₂','动量、动能与正负方向')
 ];
+const stagesById={
+ circuit:['primary','middle','high'],field:['high'],optics:['primary','middle','high'],refraction:['middle','high'],
+ sound:['primary','middle','high'],wave:['middle','high'],heating:['primary','middle','high'],mixing:['primary','middle','high'],
+ magnets:['primary','middle','high'],'wire-field':['middle','high'],'magnetic-force':['high'],induction:['middle','high'],
+ mechanics:['primary','middle','high'],force:['primary','middle','high'],lever:['primary','middle'],buoyancy:['primary','middle','high'],energy:['middle','high'],collision:['high']
+};
+const movedTopics={field:'field',wave:'wave',buoyancy:'pressure'};
+export const EXPLORATIONS=[
+ ...ORIGINAL_EXPLORATIONS.map(e=>({...e,topic:movedTopics[e.id]||e.topic,stages:stagesById[e.id]})),
+ ...FOUNDATION_EXPLORATIONS,...ADVANCED_EXPLORATIONS,
+ ...COMPLETION_FOUNDATIONS,...COMPLETION_MECHANICS,...ELECTRICAL_EXPERIMENTS,...BUOYANCY_EXPERIMENTS
+];
 export const explorationById=id=>EXPLORATIONS.find(e=>e.id===id);
 export function defaults(id){return Object.fromEntries((explorationById(id)?.controls||[]).map(c=>[c.key,c.value]));}
-export function validParams(id,input){const e=explorationById(id);if(!e||e.workbench||!input||typeof input!=='object')return null;const result={};for(const c of e.controls){const n=input[c.key];if(typeof n!=='number'||!Number.isFinite(n)||n<c.min||n>c.max||Math.abs((n-c.min)/c.step-Math.round((n-c.min)/c.step))>1e-6)return null;result[c.key]=n;}return result;}
+export function validParams(id,input){const e=explorationById(id);if(!e||e.workbench||!input||typeof input!=='object')return null;const result={};for(const c of e.controls){const n=input[c.key];if(typeof n!=='number'||!Number.isFinite(n)||n<c.min||n>c.max||Math.abs((n-c.min)/c.step-Math.round((n-c.min)/c.step))>1e-6||(c.options&&!c.options.some(option=>option.value===n)))return null;result[c.key]=n;}return result;}
 export const GRAVITY=9.81;
 export function electricField(p,x=p.x,y=p.y){let ex=0,ey=0,potential=0;for(const [cx,q] of [[-p.d/2,p.q1],[p.d/2,p.q2]]){const dx=x-cx,r=Math.hypot(dx,y);if(r<.15)return {valid:false};const kq=8.9875517923e9*q*1e-6;ex+=kq*dx/r**3;ey+=kq*y/r**3;potential+=kq/r;}return {valid:true,ex,ey,strength:Math.hypot(ex,ey),potential};}
 export function magneticField(p,x=p.x,y=p.y){let bx=0,by=0;for(const [cx,m] of [[-p.distance/2,1],[p.distance/2,p.polarity]]){const dx=x-cx,r=Math.hypot(dx,y);if(r<.45)return {valid:false};bx+=m*(3*dx*dx/r**2-1)/r**3;by+=m*3*dx*y/r**5;}return {valid:true,bx,by,strength:Math.hypot(bx,by)};}
@@ -96,11 +116,11 @@ export function simulate(id,p,t=0){
  case 'magnetic-force':{const q=p.charge/1000,m=p.mass/1000,omega=-q*p.field/m,straight=Math.abs(omega)<1e-9,radius=straight?null:p.speed/Math.abs(omega);return {omega,radius,period:straight?null:2*Math.PI/Math.abs(omega),force:Math.abs(q*p.speed*p.field),energy:.5*m*p.speed**2,x:straight?p.speed*t:p.speed*Math.sin(omega*t)/omega,y:straight?0:p.speed*(1-Math.cos(omega*t))/omega,vx:p.speed*Math.cos(omega*t),vy:p.speed*Math.sin(omega*t)};}
  case 'induction':{const position=Math.min(1,Math.max(0,.5+p.speed*t)),stopped=(position===1&&p.speed>0)||(position===0&&p.speed<0),velocity=stopped?0:p.speed,emf=-p.field*p.length*velocity;return {position,velocity,flux:p.field*p.length*position,emf,current:emf/p.resistance,stopped};}
  case 'force':{const friction=Math.min(p.force,p.friction*p.mass*g),net=p.force-friction,acceleration=net/p.mass;return {friction,net,acceleration,velocity:acceleration*t,position:.5*acceleration*t*t};}
- case 'lever':{const left=p.leftForce*p.leftArm,right=p.rightForce*p.rightArm;return {left,right,torque:left-right,balanced:Math.abs(left-right)<1e-7};}
+ case 'lever':return simulateLever(id,p,t);
  case 'buoyancy':{const weight=p.mass*g,buoyancy=p.density*g*(p.volume/1000)*p.fraction,density=p.mass/(p.volume/1000);return {weight,buoyancy,net:buoyancy-weight,density,equilibrium:Math.min(1,density/p.density),canFloat:density<=p.density};}
  case 'energy':{const duration=Math.sqrt(2*p.height/g),elapsed=Math.min(t,duration),height=Math.max(0,p.height-.5*g*elapsed**2),velocity=g*elapsed,potential=p.mass*g*height,kinetic=.5*p.mass*velocity**2;return {height,velocity,potential,kinetic,total:potential+kinetic,elapsed,stopped:t>=duration};}
  case 'collision':{const total=p.m1+p.m2,momentum=p.m1*p.u1+p.m2*p.u2,relative=p.u1-p.u2,approaching=relative>0,v1=approaching?(momentum-p.m2*p.restitution*relative)/total:p.u1,v2=approaching?(momentum+p.m1*p.restitution*relative)/total:p.u2,before=.5*p.m1*p.u1**2+.5*p.m2*p.u2**2,after=.5*p.m1*v1**2+.5*p.m2*v2**2;return {approaching,v1,v2,momentum,momentumAfter:p.m1*v1+p.m2*v2,before,after,loss:before-after};}
  case 'refraction':{const angle=p.angle*Math.PI/180,ratio=p.n1*Math.sin(angle)/p.n2,totalReflection=ratio>1;return {reflection:p.angle,refraction:totalReflection?null:Math.asin(Math.min(1,ratio))*180/Math.PI,totalReflection,critical:p.n1>p.n2?Math.asin(p.n2/p.n1)*180/Math.PI:null};}
- default:throw Error('未知实验模型');
+ default:{const extra=simulateFoundation(id,p,t)||simulateAdvanced(id,p,t)||simulateCompletionFoundation(id,p,t)||simulateCompletionMechanics(id,p,t)||simulateElectrical(id,p,t)||simulateBuoyancy(id,p,t);if(extra)return extra;throw Error('未知实验模型');}
  }
 }

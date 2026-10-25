@@ -1,6 +1,7 @@
 "use client"
 
 import {
+    ArrowLeft,
     Bomb,
     Bot,
     Brain,
@@ -17,7 +18,6 @@ import {
     Layers,
     Medal,
     Palette,
-    PanelTopOpen,
     Scale,
     TableCellsSplit,
     TestTubes,
@@ -28,6 +28,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import { GameHelp, type GameHelpShortcut } from "@/components/features/playground/game-help"
+import { UserButton } from "@/components/layout/user-button"
 import { categoryToneClasses, type CategoryTone } from "@/components/ui/tone-badge"
 import { usePlaygroundSync } from "@/hooks/playground/use-playground-sync"
 import { cn } from "@/lib/utils"
@@ -94,17 +95,6 @@ const games: PlaygroundNavItem[] = [
         steamTags: ["Science"],
     },
     {
-        name: "2048",
-        href: "/playground/2048",
-        icon: Grid3X3,
-        description: "2 的幂次与贪心策略",
-        mission: "合并同数方块，冲击 2048。",
-        controls: "方向键、WASD 或滑动移动方块。",
-        badgeGoal: "首次合成 2048 可解锁方块合一。",
-        color: "text-amber-500 dark:text-amber-300",
-        steamTags: ["Math", "Technology"],
-    },
-    {
         name: "24 点",
         nameEn: "24 Game",
         href: "/playground/24game",
@@ -154,18 +144,6 @@ const games: PlaygroundNavItem[] = [
         steamTags: ["Technology", "Engineering"],
     },
     {
-        name: "数字华容道",
-        nameEn: "15 Puzzle",
-        href: "/playground/fifteen",
-        icon: PanelTopOpen,
-        description: "排列组合与可解性",
-        mission: "滑动数字，还原从 1 到空格的顺序。",
-        controls: "点击空格旁的数字移动，可切换 3×3/4×4/5×5。",
-        badgeGoal: "通关更大棋盘，刷新最少步数。",
-        color: "text-cyan-500 dark:text-cyan-300",
-        steamTags: ["Math", "Engineering"],
-    },
-    {
         name: "记忆翻牌",
         nameEn: "Memory",
         href: "/playground/memory",
@@ -176,18 +154,6 @@ const games: PlaygroundNavItem[] = [
         badgeGoal: "完成高难度翻牌可解锁记忆达人。",
         color: "text-fuchsia-500 dark:text-fuchsia-300",
         steamTags: ["Science", "Arts"],
-    },
-    {
-        name: "速算闪电战",
-        nameEn: "Quick Math",
-        href: "/playground/quickmath",
-        icon: Calculator,
-        description: "限时心算与连击",
-        mission: "60 秒内答对更多四则运算题。",
-        controls: "键盘输入或点击屏幕数字键，回车提交。",
-        badgeGoal: "冲击高分和最长连击。",
-        color: "text-amber-500 dark:text-amber-300",
-        steamTags: ["Math"],
     },
     {
         name: "迷宫探险",
@@ -295,12 +261,6 @@ const GAME_SHORTCUTS: Record<string, GameHelpShortcut[]> = {
         { key: "Space", label: "运行或暂停" },
         { key: "N", label: "单步演化" },
     ],
-    "/playground/2048": [
-        { key: "← → ↑ ↓", label: "移动全部方块" },
-        { key: "W / A / S / D", label: "移动全部方块" },
-        { key: "滑动", label: "手机移动方块" },
-        { key: "Ctrl / Cmd + Z", label: "撤销一步" },
-    ],
     "/playground/24game": [
         { key: "点击数字", label: "输入牌面数字" },
         { key: "+ − × ÷", label: "输入运算符" },
@@ -321,18 +281,9 @@ const GAME_SHORTCUTS: Record<string, GameHelpShortcut[]> = {
         { key: "点击棋盘", label: "放置或移除皇后" },
         { key: "演示", label: "观看回溯搜索过程" },
     ],
-    "/playground/fifteen": [
-        { key: "点击数字", label: "把相邻数字移入空格" },
-        { key: "滑动", label: "手机滑动移动数字" },
-    ],
     "/playground/memory": [
         { key: "点击卡牌", label: "翻开一张卡牌" },
         { key: "再次点击", label: "寻找相同图案" },
-    ],
-    "/playground/quickmath": [
-        { key: "0–9", label: "输入答案" },
-        { key: "Backspace", label: "删除一位" },
-        { key: "Enter", label: "提交答案" },
     ],
     "/playground/maze": [
         { key: "↑ / W", label: "向地图上方移动" },
@@ -384,21 +335,6 @@ function GameNavGlyph({
 }) {
     const customGlyph = (() => {
         switch (href) {
-            case "/playground/fifteen":
-                return (
-                    <>
-                        <rect x="5" y="5" width="22" height="22" rx="5" className="fill-cyan-50 stroke-cyan-300 dark:fill-cyan-950 dark:stroke-cyan-300/40" />
-                        {[
-                            [8, 8, "1"], [16, 8, "2"], [8, 16, "3"],
-                        ].map(([x, y, value]) => (
-                            <g key={`${x}-${y}`}>
-                                <rect x={x} y={y} width="7" height="7" rx="1.6" className="fill-cyan-500/18 stroke-cyan-400/60 dark:fill-cyan-300/18" />
-                                <text x={Number(x) + 3.5} y={Number(y) + 4.1} textAnchor="middle" dominantBaseline="middle" className="fill-cyan-800 text-[3.8px] font-black dark:fill-cyan-50">{value}</text>
-                            </g>
-                        ))}
-                        <rect x="16" y="16" width="7" height="7" rx="1.6" className="fill-cyan-500 dark:fill-cyan-300" />
-                    </>
-                )
             case "/playground/nonogram":
                 return (
                     <>
@@ -470,9 +406,26 @@ function GameNavGlyph({
     )
 }
 
+function PlaygroundSiteNavigation() {
+    return (
+        <nav className="flex min-h-12 items-center justify-between gap-3 px-4" aria-label="主站与账号导航">
+            <div className="flex items-center gap-4">
+                <Link href="/explore" className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground">
+                    <ArrowLeft className="h-4 w-4" aria-hidden />
+                    返回项目
+                </Link>
+            </div>
+            <div className="shrink-0 md:hidden">
+                <UserButton compact />
+            </div>
+        </nav>
+    )
+}
+
 function MobilePlaygroundHeader() {
     const pathname = usePathname()
     const isHome = pathname === "/playground"
+    const isFunctionWars = pathname === "/playground/functionwars"
     const navItems = [
         { name: "首页", href: "/playground", icon: Home },
         { name: "物理实验室", href: "/playground/physics-lab", icon: TestTubes },
@@ -483,7 +436,17 @@ function MobilePlaygroundHeader() {
 
     return (
         <div className="playground-mobile-header surface-panel sticky top-(--mobile-global-header-height,0px) z-30 rounded-none border-x-0 border-t-0 lg:hidden">
-            <div className="flex min-h-14 items-center justify-between gap-3 px-4">
+            {!isFunctionWars && <PlaygroundSiteNavigation />}
+            <div
+                className={cn("flex min-h-14 items-center justify-between", isFunctionWars ? "gap-1 px-3" : "gap-3 px-4")}
+                role={isFunctionWars ? "navigation" : undefined}
+                aria-label={isFunctionWars ? "主站与账号导航" : undefined}
+            >
+                {isFunctionWars && (
+                    <Link href="/explore" aria-label="返回项目" title="返回项目" className="grid h-11 w-11 shrink-0 place-items-center rounded-sm text-muted-foreground hover:bg-muted">
+                        <ArrowLeft className="h-5 w-5" aria-hidden />
+                    </Link>
+                )}
                 {isHome ? (
                     <div className="w-11" />
                 ) : (
@@ -498,6 +461,7 @@ function MobilePlaygroundHeader() {
                 <h1 className="min-w-0 flex-1 truncate text-center font-sans text-lg font-black tracking-tight">
                     {isHome ? "游乐场" : games.find((game) => pathname.startsWith(game.href))?.name ?? "游乐场"}
                 </h1>
+                {isFunctionWars && <div className="shrink-0 md:hidden"><UserButton compact /></div>}
                 {activeGame ? (
                     <GameHelp
                         name={activeGame.name}
@@ -511,7 +475,7 @@ function MobilePlaygroundHeader() {
                     <div className="w-11 shrink-0" aria-hidden />
                 )}
             </div>
-            {!isHome ? (
+            {!isHome && pathname !== "/playground/functionwars" ? (
                 <nav className="hidden gap-2 overflow-x-auto px-4 pb-3 no-scrollbar sm:flex" aria-label="游乐场游戏导航">
                     {navItems.map((item) => {
                         const active =
@@ -720,7 +684,11 @@ export default function PlaygroundLayout({ children }: { children: React.ReactNo
     const activeGame = games.find((game) => pathname.startsWith(game.href))
 
     if (pathname.startsWith("/playground/physics-lab")) {
-        return <main className="app-canvas app-shell-wide min-w-0">{children}</main>
+        return (
+            <main className="app-canvas app-shell-wide min-w-0">
+                {children}
+            </main>
+        )
     }
 
     return (
@@ -730,7 +698,7 @@ export default function PlaygroundLayout({ children }: { children: React.ReactNo
                 <DesktopSidebar />
                 <main className="relative min-w-0 flex-1 overflow-x-hidden pb-28 lg:pb-0">
                     <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_0%,hsl(var(--brand-blue)/0.12),transparent_34%),radial-gradient(circle_at_88%_8%,hsl(var(--brand-green)/0.12),transparent_30%),linear-gradient(180deg,hsl(var(--app-canvas)),hsl(var(--background))_78%)]" />
-                    {activeGame ? <GameMissionBar game={activeGame} /> : null}
+                    {activeGame && pathname !== "/playground/functionwars" ? <GameMissionBar game={activeGame} /> : null}
                     {children}
                 </main>
             </div>

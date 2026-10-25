@@ -93,9 +93,9 @@ describe("function-wars-online", () => {
     });
 
     it("normalizes expressions to the parser's server-safe source", () => {
-        expect(normalizeFunctionWarsExpression("2×x − π")).toEqual({
+        expect(normalizeFunctionWarsExpression("2×sin(π×x)")).toEqual({
             ok: true,
-            expression: "2*x - pi",
+            expression: "2*sin(pi*x)",
         });
         expect(normalizeFunctionWarsExpression("round(x)")).toEqual({
             ok: true,

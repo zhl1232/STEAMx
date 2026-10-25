@@ -1,3 +1,5 @@
+import { isBetterFunctionWarsSolution, readFunctionWarsBestSolution } from "./function-wars-progress";
+
 /**
  * Shared storage layer for Playground games.
  *
@@ -13,15 +15,12 @@ export const PLAYGROUND_KEYS = [
   { key: "minesweeper_stats", label: "扫雷战绩" },
   { key: "gomoku_records", label: "五子棋" },
   { key: "game_of_life_stats", label: "生命游戏" },
-  { key: "game_2048_stats", label: "2048" },
   { key: "game_24_stats", label: "24 点" },
   { key: "hanoi_stats", label: "汉诺塔" },
 
   { key: "sudoku_stats", label: "数独" },
   { key: "nqueens_stats", label: "N 皇后" },
-  { key: "fifteen_puzzle_stats", label: "数字华容道" },
   { key: "memory_match_stats", label: "记忆翻牌" },
-  { key: "quick_math_stats", label: "速算闪电战" },
   { key: "maze_runner_stats", label: "迷宫探险" },
   { key: "tangram_stats", label: "七巧板" },
   { key: "nonogram_stats", label: "数织" },
@@ -34,6 +33,15 @@ export const PLAYGROUND_KEYS = [
 export type PlaygroundKey = (typeof PLAYGROUND_KEYS)[number]["key"];
 
 export const PLAYGROUND_CHANGE_EVENT = "playground-stats-change";
+
+const RETIRED_STORAGE_KEYS = ["game_2048_stats", "fifteen_puzzle_stats", "quick_math_stats"];
+
+function clearRetiredLocalStorage(): void {
+  if (typeof window === "undefined") return;
+  for (const key of RETIRED_STORAGE_KEYS) {
+    try { window.localStorage.removeItem(key); } catch { /* ignore */ }
+  }
+}
 
 const memoryStore = new Map<string, unknown>();
 
@@ -66,6 +74,7 @@ function readLocalStorageRaw(key: string): unknown | null {
 
 /** 读取遗留 localStorage 快照（仅用于登录后一次性迁入云端）。 */
 export function peekLegacyLocalPlaygroundStats(): Record<string, unknown> {
+  clearRetiredLocalStorage();
   const result: Record<string, unknown> = {};
   for (const { key } of PLAYGROUND_KEYS) {
     const data = readLocalStorageRaw(key);
@@ -77,6 +86,7 @@ export function peekLegacyLocalPlaygroundStats(): Record<string, unknown> {
 }
 
 export function clearPlaygroundLocalStorage(): void {
+  clearRetiredLocalStorage();
   if (typeof window === "undefined") return;
   for (const { key } of PLAYGROUND_KEYS) {
     try {
@@ -106,7 +116,7 @@ export function getPlaygroundItem<T = unknown>(key: string): T | null {
 
 export function setPlaygroundItem(key: string, value: unknown): void {
   if (typeof window === "undefined") return;
-  if (!isPlainObject(value)) return;
+  if (!PLAYGROUND_KEYS.some((entry) => entry.key === key) || !isPlainObject(value)) return;
 
   memoryStore.set(key, value);
   window.dispatchEvent(
@@ -130,6 +140,7 @@ export function removePlaygroundItem(key: string): void {
 // ── Collect all playground stats into a single object ────────────────
 
 export function collectAllStats(): Record<string, unknown> {
+  clearRetiredLocalStorage();
   const result: Record<string, unknown> = {};
   for (const { key } of PLAYGROUND_KEYS) {
     const data = getPlaygroundItem(key);
@@ -166,6 +177,19 @@ function mergeRecord(
 ): Record<string, unknown> {
   const merged: Record<string, unknown> = { ...cloud };
   const lowerIsBetter = LOWER_IS_BETTER_PATTERNS.test(parentKey);
+
+  if (parentKey === "bestSolutions") {
+    // A run is indivisible. Merging its star count separately from its steps
+    // would pair a new personal best with an older, worse solution.
+    for (const id of new Set([...Object.keys(cloud), ...Object.keys(local)])) {
+      const localRun = readFunctionWarsBestSolution(local[id]);
+      const cloudRun = readFunctionWarsBestSolution(cloud[id]);
+      const best = localRun && isBetterFunctionWarsSolution(localRun, cloudRun) ? localRun : cloudRun;
+      if (best) merged[id] = best;
+      else delete merged[id];
+    }
+    return merged;
+  }
 
   for (const k of Object.keys(local)) {
     const lv = local[k];

@@ -13,15 +13,13 @@ import { resolveProjectMaterials } from './materials'
 const source: Project = sourceData
 
 describe('source-bound content revisions', () => {
-  it('adds water explicitly used by the needle project and shares the corrected list with matching', () => {
+  it('adds water to the legacy needle content without accepting its outdated matching profile', () => {
     const revised = applyProjectContentRevision(source)
     expect(revised.materials).toContain('清水')
     expect(revised.steps).toEqual(source.steps)
     expect(source.materials).not.toContain('清水')
-    const prepared = prepareHouseholdProject(source)!
-    expect(prepared).not.toBeNull()
-    expect(prepared.materials).toEqual(resolveProjectMaterials(revised).materials)
-    expect(prepared.householdRequirements).toContainEqual(['water'])
+    expect(resolveProjectMaterials(revised).materials).toContain('清水')
+    expect(prepareHouseholdProject(source)).toBeNull()
     expect(applyProjectContentRevision(revised)).toBe(revised)
   })
 

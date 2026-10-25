@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {createDOM} from './dom-fixture.mjs';
+import {createDOM,chooseWorkbench} from './dom-fixture.mjs';
 
 test('component selection and direct switch operation distinguish taps, drags, wiring and keyboard input',async t=>{
  const env=createDOM(await readFile(new URL('../../public/physics-lab/index.html',import.meta.url),'utf8'));
@@ -45,7 +45,7 @@ test('component selection and direct switch operation distinguish taps, drags, w
   await click('#toggle-switch');dark();await click('#undo-btn');lit();
  });
  await t.test('other thin components can also be selected through their full hit area',async()=>{
-  await click($$('[data-mode]').find(b=>b.dataset.mode==='optics'));await click('#sample-btn');await click($$('[data-sample]').find(b=>b.dataset.sample==='reflection'));
+  await chooseWorkbench(document,'optics');await click('#sample-btn');await click($$('[data-sample]').find(b=>b.dataset.sample==='reflection'));
   await tap(hit('c2'),550,300);assert.ok($('#angle'));assert.match($('#inspector').textContent,/镜子/);
  });
 });

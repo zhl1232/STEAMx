@@ -15,6 +15,18 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      physics_lab_states: {
+        Row: { user_id: string; data: Json; revision: number; updated_at: string }
+        Insert: { user_id: string; data: Json; revision: number; updated_at?: string }
+        Update: { user_id?: string; data?: Json; revision?: number; updated_at?: string }
+        Relationships: [{
+          foreignKeyName: 'physics_lab_states_user_id_fkey'
+          columns: ['user_id']
+          isOneToOne: true
+          referencedRelation: 'profiles'
+          referencedColumns: ['id']
+        }]
+      }
       platform_announcements: {
         Row: {
           id: number

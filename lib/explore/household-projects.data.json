@@ -740,7 +740,7 @@
     "id": 91,
     "title": "树桩年轮判读",
     "category": "科学",
-    "contentHash": "9c86e5e581eeb6a985c052c911745bc82cb2b2e29b7e6d33ab8791fc5d8d0105",
+    "contentHash": "7bc9c40df975fa27f6b2ebf1204dc7165a63f43869745bf41b19623947185afd",
     "required": [
       [
         "material-3594f9e351",
@@ -762,7 +762,9 @@
         "material-ae4b9bfcbf"
       ]
     ],
-    "preparationNotes": []
+    "preparationNotes": [
+      "木片或树桩须为能辨认年轮的横切面，尽量保留髓心至靠近树皮的完整木质部，并核对树种或样本说明；成人检查边缘与放置位置。木板侧面、木节纹理或缺损样本不能直接计算准确树龄。使用现成样本，不为活动砍树、锯木或钻取活树。"
+    ]
   },
   {
     "id": 92,
@@ -3459,7 +3461,7 @@
     "id": 476,
     "title": "调色大师",
     "category": "艺术",
-    "contentHash": "815a8d3bbe7743b3e994efcd67d645b0a728f986d520803fdfd6f639737a07ca",
+    "contentHash": "5f589e87ea5397269d8ec8ade26c174e8b45e708bb83491291e623d482d3ee24",
     "required": [
       [
         "material-be3840c5d1"
@@ -3478,7 +3480,7 @@
       ]
     ],
     "preparationNotes": [
-      "需7只量杯和红、黄、蓝3种水溶性色素。前三杯各100毫升清水，另四杯各50毫升，杯内还须留混合空间。"
+      "需7只量杯和红、黄、蓝3种水溶性色素。前三杯各100毫升清水，另四杯各50毫升；用滴管少量添加色水，各杯留出混合空间。"
     ]
   },
   {
@@ -3543,7 +3545,7 @@
     "id": 479,
     "title": "色彩接力",
     "category": "科学",
-    "contentHash": "414fea6e3bcb24ab84057f8bbb8f9e338387fca435ebcf5ac1360782cfcf18ac",
+    "contentHash": "75c93c4b9033b47f1c11b6b8286a461a845a94a039fcac140d1dda9395da165a",
     "required": [
       [
         "material-8be52f95c0"
@@ -3559,10 +3561,13 @@
       ],
       [
         "water"
+      ],
+      [
+        "material-bac9c4c0c9"
       ]
     ],
     "preparationNotes": [
-      "需6个量杯、6张纸巾和不同颜色的色素。"
+      "需6个量杯、6张纸巾、不同颜色的水溶性色素和滴管。换色前洗净滴管；两小时是观察时点，不是固定效果保证。"
     ]
   },
   {
@@ -3622,10 +3627,10 @@
     "id": 486,
     "title": "彩虹雨",
     "category": "科学",
-    "contentHash": "7ef2c0dc8a735f84862d2c224dcf39c90e6db9c6f4a58402e9ed8a25e12f99ae",
+    "contentHash": "45b40f55a0803d8e41070782b953b390312bb64da4381b024b5b77b64a7d0251",
     "required": [
       [
-        "material-f80c46b4da"
+        "material-53c5568981"
       ],
       [
         "material-be3840c5d1"
@@ -3641,20 +3646,28 @@
       ],
       [
         "material-a2248b9d04"
+      ],
+      [
+        "material-bac9c4c0c9"
       ]
     ],
     "preparationNotes": [
-      "色素需红、黄、蓝三色。"
+      "选红、黄、蓝水基食用色素，不用油溶性色素。用滴管分别取各5滴，配20毫升食用油和约150毫升清水；透明瓶需留足空间。"
     ]
   },
   {
     "id": 487,
     "title": "制作彩蛋",
     "category": "科学",
-    "contentHash": "e01790787545c7901bdc76c76bb8fc164aa0dc6c8ad589e0a792b7eb216c187c",
+    "contentHash": "8b5ddd0a85455f2ae36f09d2deef81e47eb1ee80a7f9de8c16082e70f25f33bb",
     "required": [
       [
-        "material-501e83764b"
+        "material-501e83764b",
+        "material-db8b1f5249"
+      ],
+      [
+        "material-bac9c4c0c9",
+        "material-db8b1f5249"
       ],
       [
         "material-4efe95ac94"
@@ -3670,7 +3683,30 @@
       ],
       [
         "material-6c81d4829a"
+      ],
+      [
+        "material-cbb0037f2d",
+        "material-72407ec665"
+      ],
+      [
+        "material-226b062885"
+      ],
+      [
+        "material-3afda9c1bd"
+      ],
+      [
+        "material-f72d30d429",
+        "paper"
+      ],
+      [
+        "material-f8781a5f97"
+      ],
+      [
+        "material-0b53370157"
       ]
+    ],
+    "preparationNotes": [
+      "色素需为绿色水溶性：可用带滴口的瓶装色素，或普通绿色色素另配滴管。需能容纳鸡蛋并留有空间的透明杯、冷藏空间；杯口保鲜膜松盖留缝，24小时是检查节点。"
     ]
   },
   {
@@ -3772,29 +3808,40 @@
     "id": 500,
     "title": "喷泉转转瓶",
     "category": "科学",
-    "contentHash": "16ca61490295f6f7c5da96089e62519b6d87695564fbaf35c7843666da4a8a26",
+    "contentHash": "1a163a322ac3e1be3f9150d69c2e82c66a227ab274e3d8931671b977a2945a99",
     "required": [
       [
-        "material-92da034878"
+        "material-92da034878",
+        "material-3f43d5d5b0"
       ],
       [
-        "material-fa12f06d43"
-      ],
-      [
-        "material-713ee67e85"
-      ],
-      [
-        "cotton-thread"
+        "material-3f43d5d5b0",
+        "material-bac9c4c0c9"
       ],
       [
         "material-d5f435cd8d"
       ],
       [
+        "material-fa12f06d43"
+      ],
+      [
+        "cotton-thread"
+      ],
+      [
+        "material-713ee67e85",
+        "material-b854fdb970",
+        "tray"
+      ],
+      [
         "water"
+      ],
+      [
+        "material-b1b8e9ca9f",
+        "material-be3840c5d1"
       ]
     ],
     "preparationNotes": [
-      "用棉线悬挂塑料瓶；底部需由成人用大头针扎孔。"
+      "成人在完好塑料瓶近底侧壁打斜孔并收好针；从上方看出水须有同一绕瓶方向的分量，不能保证任意孔形都能使瓶转动。棉线系牢，瓶口保持敞开，托盘或盆须放稳且能承接一瓶水。低处提线，不主动扭绳、转瓶。色素使用滴口瓶，或另备滴管；棉线需要裁短时另备成人使用的剪刀。"
     ]
   },
   {
@@ -3834,22 +3881,38 @@
   },
   {
     "id": 505,
-    "title": "简易净水装置",
+    "title": "纸巾导水与澄清观察",
     "category": "科学",
-    "contentHash": "11f9a02e88f3f1c6f912ab4da1b4105e8fcef23f11d39738179411a73231dbd7",
+    "contentHash": "e8cd24911e0cfab1f27f1e54a87bff96487ab59f1dc29674226932f9e22e6031",
     "required": [
       [
-        "material-be3840c5d1"
+        "material-be3840c5d1",
+        "material-b1b8e9ca9f"
       ],
       [
         "tissue"
       ],
       [
         "material-e7383939f6"
+      ],
+      [
+        "material-a27e206eb6"
+      ],
+      [
+        "paper",
+        "material-f72d30d429",
+        "material-ae4b9bfcbf"
+      ],
+      [
+        "material-3afda9c1bd"
+      ],
+      [
+        "tray",
+        "material-f2bcfbb4c9"
       ]
     ],
     "preparationNotes": [
-      "需2个量杯。"
+      "需2个量杯稳定放在同一台面；纸巾条要足够长，两端能伸入各自杯内。计时工具可用手机计时器。接水杯液体即使变清也不饮用。"
     ]
   },
   {
@@ -3871,7 +3934,7 @@
     "id": 509,
     "title": "漂浮的针",
     "category": "科学",
-    "contentHash": "85adab192c578070bdc3f7a14afeaa8bac90596a30c85301a6419287cf50547c",
+    "contentHash": "42f9172b1cd9296324fdbe3f0269799b220ba9d426e70c589c9c53c9d1cee822",
     "required": [
       [
         "material-713ee67e85"
@@ -3884,7 +3947,13 @@
       ],
       [
         "water"
+      ],
+      [
+        "material-e029db5c69"
       ]
+    ],
+    "preparationNotes": [
+      "水盆充分冲去洗涤剂残留；另留干纸巾擦干针，成人用镊子夹取和放针。纸仍托住针时不能算作针独立停留在水面。"
     ]
   },
   {
@@ -3947,17 +4016,21 @@
     "id": 514,
     "title": "会跳高的瓶子",
     "category": "科学",
-    "contentHash": "5c8b1cc777d50c0feb36ebbfc01ab4df7ac169b56d41b9592bfd8da34fb02c33",
+    "contentHash": "aac96b5612a5f686bf64871eb8a5d564a14a16c8ce6bfe210358c5eaf67063f3",
     "required": [
       [
-        "material-d5f435cd8d"
+        "material-0768d9f022",
+        "material-4f376ac7c3"
       ],
       [
-        "material-91f4fedbe0"
+        "material-80c1d08307"
+      ],
+      [
+        "material-f2bcfbb4c9"
       ]
     ],
     "preparationNotes": [
-      "需2个杯子，杯子能放入塑料瓶但不可太大。"
+      "只需1个轻质空塑料瓶、1个不易碎杯和能接住瓶子的托盘。成人检查瓶口朝下时能自由放入、取出，瓶身与杯壁之间留有通气间隙；卡住或不合适就停止。托盘放低，成人从侧面轻吹，儿童在旁观察；无变化不加力，也不挑战跳入第二个杯子。"
     ]
   },
   {
@@ -4014,28 +4087,36 @@
     "id": 519,
     "title": "彩色龙卷风",
     "category": "科学",
-    "contentHash": "af4615f8708f363110b45ab0eeb5b28b45c1ab01d4e931d43a2539caf1b23512",
+    "contentHash": "b3d575e926e81a1dc30c739975faa91db631a5b91659be06b5c623c76609f2ab",
     "required": [
       [
-        "material-92da034878"
+        "material-92da034878",
+        "material-3f43d5d5b0"
+      ],
+      [
+        "material-3f43d5d5b0",
+        "material-bac9c4c0c9"
       ],
       [
         "material-be3840c5d1"
       ],
       [
-        "material-7defbb7529"
+        "material-7defbb7529",
+        "material-e9fe5780c1"
       ],
       [
         "water"
       ]
     ],
-    "preparationNotes": []
+    "preparationNotes": [
+      "量杯放稳，按原片示例加约四分之三杯水并留出搅拌空间；沿同一方向搅拌后取出勺子，趁水仍旋转观察。色素使用滴口瓶，或另备滴管；用口头描述实际看到的运动，不要求形成固定形状或同样持久的漏斗。"
+    ]
   },
   {
     "id": 520,
     "title": "水滴放大镜",
     "category": "科学",
-    "contentHash": "6032e22f12a304e0215b0b3dfa2d4af6e4586bd9606d6f75f1888d1b3595d00e",
+    "contentHash": "06f2572947bd44fd0a58442a7a30b9e7f70d19a9a02e06db224623bd23f3dbf9",
     "required": [
       [
         "material-be3840c5d1"
@@ -4064,7 +4145,15 @@
       ],
       [
         "material-7fb418fe69"
+      ],
+      [
+        "material-3afda9c1bd",
+        "material-f77e30ee1a",
+        "material-23bc7dbe9f"
       ]
+    ],
+    "preparationNotes": [
+      "另备画线用笔，成人协助剪孔。直径约3厘米和约3滴水是原做法示例；膜的润湿情况、水滴形状和观察距离会影响效果。"
     ]
   },
   {
@@ -4186,7 +4275,7 @@
     "id": 527,
     "title": "迷失的方向",
     "category": "科学",
-    "contentHash": "3ff93085747a66ab3aa68a8e5678b403f0ab135d5e8dfb8f44c138163114d6e6",
+    "contentHash": "5c11f5ea1aceaecab81c03e6beb8f9cc6df798c2dca46796fab42df30c423689",
     "required": [
       [
         "material-d5f435cd8d"
@@ -4201,7 +4290,9 @@
         "water"
       ]
     ],
-    "preparationNotes": []
+    "preparationNotes": [
+      "瓶子须透明、侧面较光滑且近似圆柱形；约10厘米只是原片示例位置，可前后移动纸张观察，图像不保证在任意距离反向。"
+    ]
   },
   {
     "id": 528,
@@ -4365,7 +4456,7 @@
     "id": 542,
     "title": "色素扩散",
     "category": "科学",
-    "contentHash": "ed833f18b020a25c6c6f78ff41eb9d1fc4e8b96a9d777bf60d2bab257e7b34f5",
+    "contentHash": "0de10893a228b77e2a2ca459685277463fb919659d7df750410d5f7b0c6e3caf",
     "required": [
       [
         "material-be3840c5d1"
@@ -4374,17 +4465,25 @@
         "material-7defbb7529"
       ],
       [
-        "material-92da034878"
+        "material-92da034878",
+        "material-3f43d5d5b0"
       ],
       [
         "water"
       ],
       [
         "material-b1dec78a9d"
+      ],
+      [
+        "material-3f43d5d5b0",
+        "material-bac9c4c0c9"
+      ],
+      [
+        "material-70b957cf9d"
       ]
     ],
     "preparationNotes": [
-      "需2个量杯。"
+      "需2个相同的量杯；使用同温度的水。色素瓶没有滴口时另备滴管。"
     ]
   },
   {
@@ -4702,7 +4801,7 @@
     "id": 564,
     "title": "复活毛毛虫",
     "category": "科学",
-    "contentHash": "be0873c7b8e20a5239c0f83eb51f935bb71aabf6afc49cf58c0270205354d878",
+    "contentHash": "a70a3d203525f05f72bf9b38444b397429347b3767dbaee4eb5afb7b54fdbc36",
     "required": [
       [
         "material-4b074a4898"
@@ -4715,7 +4814,7 @@
       ]
     ],
     "preparationNotes": [
-      "吸管需保留可压缩的纸包装；蜡笔、铅笔仅用于彩色造型。"
+      "吸管需保留能吸水、可压缩的纸包装；不使用塑料或明显防水的外包装。蜡笔、铅笔只用于彩色造型，上色程度会影响吸水效果。"
     ]
   },
   {
@@ -4891,29 +4990,6 @@
     ]
   },
   {
-    "id": 576,
-    "title": "吸管枪",
-    "category": "工程",
-    "contentHash": "39b944af562cb3591efeec91eefc45607a6d9b9541a03bea974607bd4061304b",
-    "required": [
-      [
-        "material-f77e30ee1a"
-      ],
-      [
-        "material-c48f4619fd"
-      ],
-      [
-        "material-8dcd6fc3ee"
-      ],
-      [
-        "scissors"
-      ],
-      [
-        "water"
-      ]
-    ]
-  },
-  {
     "id": 577,
     "title": "戳不破的纸",
     "category": "科学",
@@ -4996,7 +5072,7 @@
     "id": 581,
     "title": "硬币钻小孔",
     "category": "科学",
-    "contentHash": "a682183e0f2528711e6a186b089aef7bd9d224168587f2bc988069eaf78554e7",
+    "contentHash": "8893fe20d61b730458a2c127a9613f9c495ccd1e6b91dfd2e9d586745bc10bc1",
     "required": [
       [
         "material-7ccd7b7223"
@@ -5014,7 +5090,9 @@
         "material-f77e30ee1a"
       ]
     ],
-    "preparationNotes": []
+    "preparationNotes": [
+      "1角和1元硬币是原演示示例，先确认较小硬币平放能过孔、较大硬币平放不能过。折叠改变开口形状，不撕纸或把剪口扩大。"
+    ]
   },
   {
     "id": 584,
@@ -5214,9 +5292,9 @@
   },
   {
     "id": 596,
-    "title": "将粉末与水分开",
+    "title": "逃跑的胡椒粉",
     "category": "科学",
-    "contentHash": "8289d3df3195c9d1f1ae6bd75d7c8cd0a1b28036500c306355ad50bed72f78fb",
+    "contentHash": "722075655ef0679b284818d8cb751e5515f1b00b4b7da11151bebac5efb8b4fe",
     "required": [
       [
         "material-7defbb7529"
@@ -5225,7 +5303,8 @@
         "material-bac9c4c0c9"
       ],
       [
-        "material-be3840c5d1"
+        "material-be3840c5d1",
+        "material-181b105a98"
       ],
       [
         "material-edf001fccd"
@@ -5239,6 +5318,9 @@
       [
         "water"
       ]
+    ],
+    "preparationNotes": [
+      "浅盘和滴管先洗净并冲去洗涤剂残留，胡椒粉薄撒一层。材料匹配按取样勺准备；若已有撒孔瓶也可直接轻撒。补充清水对照时，须清洗工具并换新水、新胡椒粉。"
     ]
   },
   {
@@ -5669,7 +5751,7 @@
     "id": 630,
     "title": "杯口悬叉",
     "category": "科学",
-    "contentHash": "321eece3795f59ff4b3b6233cc21720165503c8f35e79ef5904684afcde43c03",
+    "contentHash": "b835bf56dd6b92f8172838406cff5e29d28323392a9f7181e6ba3626f728fb1d",
     "required": [
       [
         "material-c2d259d7c6"
@@ -5678,8 +5760,12 @@
         "material-e8031d14f2"
       ],
       [
-        "material-196bf4ec27"
+        "material-196bf4ec27",
+        "material-95f9e8e792"
       ]
+    ],
+    "preparationNotes": [
+      "需2把叉齿能互相卡住的叉子、1枚能夹牢且留出接触边缘的硬币，以及1个稳固、杯沿无裂口的杯子。成人协助，在低桌面上方接护并缓慢撤手；不合适的叉子与硬币组合不勉强掰压。"
     ]
   },
   {
@@ -6621,26 +6707,31 @@
     "id": 701,
     "title": "缸中鱼",
     "category": "科学",
-    "contentHash": "bde51aec1eeb105fab23651313173b719dc9014a42c6194afd917c7164c2caba",
+    "contentHash": "2e07763611b7670bebc04c4990d7069cdaf7e83528d7437facc58c6fe461a32f",
     "required": [
       [
-        "material-1a00bbb6fa"
+        "material-3a7d7ad66b"
+      ],
+      [
+        "paper-cup"
+      ],
+      [
+        "paper"
+      ],
+      [
+        "material-c93769ba51",
+        "watercolor",
+        "material-7fe8de6841"
       ],
       [
         "tape"
-      ],
-      [
-        "material-c93769ba51"
-      ],
-      [
-        "material-c0ddaac9aa"
       ],
       [
         "scissors"
       ]
     ],
     "preparationNotes": [
-      "步骤以玻璃棒作手柄；纸卡片剪成直径约7厘米圆片，并留约5毫米宽手柄。"
+      "木棒须表面平整、没有尖刺；纸杯杯口用作描圆模板，无须指定圆片直径或另留纸手柄。两面的鱼与鱼缸按竖直转轴对齐，木棒沿中线粘牢；剪裁由成人协助。"
     ]
   },
   {
@@ -6926,13 +7017,14 @@
     "id": 726,
     "title": "火山爆发",
     "category": "科学",
-    "contentHash": "f3af96988df9a641064541cbd4a2c5e859277d9114eea84608cf403b8f67c0ba",
+    "contentHash": "87b82bfae81d611198254bc78a9ea8be11129d339ac9f01a7da777ed34d48c3c",
     "required": [
       [
         "material-633d457aaf"
       ],
       [
-        "material-92da034878"
+        "material-92da034878",
+        "material-3f43d5d5b0"
       ],
       [
         "material-c8ba8b9b5c"
@@ -6942,9 +7034,23 @@
       ],
       [
         "water"
+      ],
+      [
+        "material-be3840c5d1",
+        "material-b1b8e9ca9f",
+        "material-181b105a98"
+      ],
+      [
+        "material-f2bcfbb4c9"
+      ],
+      [
+        "material-3f43d5d5b0",
+        "material-bac9c4c0c9"
       ]
     ],
-    "preparationNotes": []
+    "preparationNotes": [
+      "色素选水基食用型，使用滴口瓶或另备滴管。需量杯或倒水杯、托盘；透明瓶留出上方空间并始终敞口。半片泡腾片为原片示例，由成人确认产品适合演示，混合物不食用。"
+    ]
   },
   {
     "id": 728,
@@ -7229,9 +7335,9 @@
   },
   {
     "id": 753,
-    "title": "趣味窃听器",
+    "title": "杯膜传声观察",
     "category": "科学",
-    "contentHash": "fc33cbfee2f2bf4d2a06ac4a3292199430ea6312a17895061adb05727b69f9e5",
+    "contentHash": "03c31750f661dcdf3cb393b18f9c61df9bc149f777fc7355452a5ac802dc1be3",
     "required": [
       [
         "balloon"
@@ -7240,13 +7346,16 @@
         "material-b68c151289"
       ],
       [
+        "material-b1b8e9ca9f",
         "material-be3840c5d1"
       ],
       [
         "scissors"
       ]
     ],
-    "preparationNotes": []
+    "preparationNotes": [
+      "由成人剪气球并收好碎片，量杯底保持原样。请同意参与的同伴在门另一侧以正常轻声音量重复同一句话，比较不用杯、膜贴门和膜离开门的听感；不大喊、不敲击靠耳的杯或门，也不保证一定听得更清楚。"
+    ]
   },
   {
     "id": 754,
@@ -7589,17 +7698,18 @@
     "id": 783,
     "title": "带电的纸",
     "category": "科学",
-    "contentHash": "6b10ab3b0b54c3e6e5720449201474b6b1f3c0e0c1ed57924aac4ef0d19ffdad",
+    "contentHash": "90c75cd201bfc4d5fae699a41662ebe24ee744a13e737a78863ccebf5519ce0f",
     "required": [
       [
-        "material-f77e30ee1a"
+        "paper"
       ],
       [
-        "material-bdd34dcdba",
-        "paper"
+        "material-9f2b92ecfc"
       ]
     ],
-    "preparationNotes": []
+    "preparationNotes": [
+      "使用完整、干燥的A4纸和带帽水彩笔，不以铅笔、报纸替代原片材料。笔帽扣紧，以干燥光滑笔杆的侧面摩擦；选择获成人同意的干燥、洁净、平整墙面，不刮伤墙面，不把纸停留或有声音当成必然结果。"
+    ]
   },
   {
     "id": 784,
@@ -7852,7 +7962,7 @@
     "id": 796,
     "title": "分分合合的气球",
     "category": "科学",
-    "contentHash": "7385759f6c88c512d68c7b831dc3963f4681fcb30eded9039afe5d807cbc1ed0",
+    "contentHash": "9b27abb7146bbf13214dfc201eebcb1cf2ed8131e102a4bfb5d18781c0513958",
     "required": [
       [
         "balloon"
@@ -7865,7 +7975,7 @@
       ]
     ],
     "preparationNotes": [
-      "需2个气球，吹成相同大小；可在头发或衣服上摩擦。"
+      "需2个大小相近的气球；由成人准备，可用头发或毛织物摩擦。"
     ]
   },
   {
@@ -8145,10 +8255,11 @@
     "id": 817,
     "title": "温度赛跑",
     "category": "科学",
-    "contentHash": "a40faee28eafefb6e840c44b891b7b8f50b0c1c4e55fbf01e58c998ed9d6d531",
+    "contentHash": "b1046e6cdd38fc7c947279694de494a990eea8ea32b2d9fe3c983731799e8995",
     "required": [
       [
-        "material-be3840c5d1"
+        "material-be3840c5d1",
+        "material-b1b8e9ca9f"
       ],
       [
         "material-bac9c4c0c9"
@@ -8161,10 +8272,37 @@
       ],
       [
         "material-c8ba8b9b5c"
+      ],
+      [
+        "material-b3417036fa",
+        "material-196bf4ec27"
+      ],
+      [
+        "material-181b105a98",
+        "material-be3840c5d1",
+        "material-b1b8e9ca9f"
+      ],
+      [
+        "material-a27e206eb6"
+      ],
+      [
+        "material-226b062885"
+      ],
+      [
+        "material-f72d30d429",
+        "material-ae4b9bfcbf"
+      ],
+      [
+        "material-3afda9c1bd",
+        "material-f77e30ee1a"
+      ],
+      [
+        "cloth",
+        "tissue"
       ]
     ],
     "preparationNotes": [
-      "需2个量杯、2支水温计和等量温水。"
+      "需2个相同形状和材质的量杯、2支适合测水温的温度计；另备盛油的小容器、倒水容器、计时工具、标签和纸笔。温水由成人从同一批取等量，杯内留余量；先记初温，再在共同时间点比较降温量，不能预设加油杯温度不变。"
     ]
   },
   {
@@ -8346,31 +8484,36 @@
     "id": 840,
     "title": "压不掉的纸",
     "category": "科学",
-    "contentHash": "a76b9c079cc4e0fc3a12116bd97ad1b01dc21eda0f9e14b167a02a3c4044bbb7",
+    "contentHash": "292147bd602ca027fae01fe14054765b7f9dba2f60fb03d4046d15b61a5af10a",
     "required": [
       [
+        "material-b1b8e9ca9f",
         "material-be3840c5d1"
-      ],
-      [
-        "material-fa12f06d43"
-      ],
-      [
-        "tray"
       ],
       [
         "paper"
       ],
       [
+        "material-fa12f06d43"
+      ],
+      [
+        "tray",
+        "material-b854fdb970",
+        "material-f2bcfbb4c9"
+      ],
+      [
         "water"
       ]
     ],
-    "preparationNotes": []
+    "preparationNotes": [
+      "量杯杯口须平整、无裂口；纸能完全盖住杯口且四周超出杯沿，另备替换纸。接水盘须放稳并能承接漏出的满杯水，倒转时保持低处。大头针由成人保管和使用；纸软烂、漏水或掉落就停止，不预设扎孔后仍能托水。"
+    ]
   },
   {
     "id": 844,
     "title": "漏斗不漏水",
     "category": "科学",
-    "contentHash": "f7727792406b7ac67253a2ad39d4c9766ed0ab732d3b7478b69eaccf2e756365",
+    "contentHash": "18de2df2cb3ed9f90a782a3f49935daff1f58b73f07fd58a8c4b0f72decebc25",
     "required": [
       [
         "material-8959482213"
@@ -8379,16 +8522,24 @@
         "material-ae007e1b84"
       ],
       [
-        "tray"
+        "tray",
+        "material-f2bcfbb4c9"
       ],
       [
         "tissue"
       ],
       [
         "water"
+      ],
+      [
+        "material-be3840c5d1",
+        "material-b1b8e9ca9f",
+        "material-181b105a98"
       ]
     ],
-    "preparationNotes": []
+    "preparationNotes": [
+      "漏斗与直身塑料瓶需能用湿纸巾封住瓶口间隙且不堵漏斗出水口；另备量杯或倒水杯。漏气会影响对比，不保证绝对一滴不进。"
+    ]
   },
   {
     "id": 845,
@@ -8460,7 +8611,7 @@
     "id": 856,
     "title": "气球拐水",
     "category": "科学",
-    "contentHash": "e4e111af3efe778988fd1c92141a22e2d63c9f018f8fd288d580fc4dafd10c68",
+    "contentHash": "075656cfe6d0d6a4da3518073f15590c5ade29c7ea11363f915c74b7d5e13de0",
     "required": [
       [
         "balloon"
@@ -8469,14 +8620,30 @@
         "material-fa12f06d43"
       ],
       [
-        "material-972578f78f"
+        "bottle",
+        "material-d5f435cd8d",
+        "material-37c325e5ae",
+        "material-10b9262eac"
+      ],
+      [
+        "material-4db0b8f384"
       ],
       [
         "water"
+      ],
+      [
+        "tray",
+        "material-f2bcfbb4c9",
+        "material-b854fdb970"
+      ],
+      [
+        "material-be3840c5d1",
+        "material-b1b8e9ca9f",
+        "material-181b105a98"
       ]
     ],
     "preparationNotes": [
-      "步骤用一次性塑料杯扎孔出水；可用头发、毛衣或其他易起静电的面料摩擦气球。"
+      "按原片塑料瓶做法准备：成人扎孔并确认能形成细水流，气球和摩擦用毛衣保持干燥；另备接水盘和倒水工具。水槽、一次性杯及水龙头细流可作页面中注明的替代；打气筒可选。"
     ]
   },
   {
@@ -8762,7 +8929,7 @@
     "id": 877,
     "title": "空气的力量",
     "category": "科学",
-    "contentHash": "86bfe451be8af2d556fb94224f561fa5d62c00de86f2f393b9b45ad38f028a26",
+    "contentHash": "459fced1901b83ca0d01044f04b8bc538ab6ad989c1308ccf19cdc7288cdead4",
     "required": [
       [
         "material-be3840c5d1"
@@ -8774,13 +8941,21 @@
         "material-88b84527b3"
       ],
       [
+        "material-41bb76350c",
+        "material-713ee67e85",
+        "material-aae4f38a62"
+      ],
+      [
         "water"
       ],
       [
-        "material-41bb76350c"
+        "cloth",
+        "tissue"
       ]
     ],
-    "preparationNotes": []
+    "preparationNotes": [
+      "需杯壁完好、无孔的透明量杯，2份大小相近的干纸巾、2块大小相近的干海绵，以及擦干杯内的干布或额外纸巾。碗或盆要能容纳倒扣量杯，水深能浸没杯口并留有防溢空间。每次从干杯、干材料开始，竖直倒扣入水和提出，不预设杯内材料一定保持干燥。"
+    ]
   },
   {
     "id": 880,
@@ -9033,13 +9208,18 @@
     "id": 913,
     "title": "路面为什么撒盐",
     "category": "科学",
-    "contentHash": "a3f805f0f982e32b5d1832ea3d58c6da7c4269f98553cbba7339b75d99618ea2",
+    "contentHash": "eb88925068bb9ebb7ebab7479a405d503127f9b91b2ffda5293cd89983482a73",
     "required": [
       [
-        "material-7defbb7529"
+        "material-7defbb7529",
+        "material-72407ec665"
       ],
       [
-        "tray"
+        "tray",
+        "material-fd7cc8f86a",
+        "material-665c847272",
+        "material-db97b1823e",
+        "material-36dd3f0195"
       ],
       [
         "material-b1dec78a9d"
@@ -9049,7 +9229,35 @@
       ],
       [
         "material-23a635f2f0"
+      ],
+      [
+        "material-be3840c5d1",
+        "material-b1b8e9ca9f"
+      ],
+      [
+        "material-226b062885"
+      ],
+      [
+        "material-3afda9c1bd"
+      ],
+      [
+        "material-a27e206eb6"
+      ],
+      [
+        "tray",
+        "material-f2bcfbb4c9"
+      ],
+      [
+        "material-db3fbe1314"
+      ],
+      [
+        "paper",
+        "material-f72d30d429",
+        "material-ae4b9bfcbf"
       ]
+    ],
+    "preparationNotes": [
+      "需2只相同且适合冷冻的盘子，另备承接融水的托盘；两盘水量一致，盐和融水保持分开。成人戴适合取冷冻器皿的隔冷手套取盘，使用同一把勺记录盐量，计时工具可用手机计时器。"
     ]
   },
   {
@@ -9592,22 +9800,29 @@
     "id": 990,
     "title": "消失重现磁铁",
     "category": "科学",
-    "contentHash": "8e92a9f5137bf252609890ec4110f8674b30cab834d7a4d3d65954a64cd5d04b",
+    "contentHash": "58aa63d99c6a6d8d1213d9af5b346c05e54880d968b157fd89204bba3b6ff597",
     "required": [
       [
-        "material-be3840c5d1"
+        "paper-cup"
       ],
       [
         "material-77071b054c"
       ],
       [
-        "paper-cup"
+        "water"
       ],
       [
-        "water"
+        "material-be3840c5d1",
+        "material-181b105a98"
+      ],
+      [
+        "material-f2bcfbb4c9",
+        "material-b854fdb970"
       ]
     ],
-    "preparationNotes": []
+    "preparationNotes": [
+      "纸杯须不透明，磁铁平放杯底并由成人管理。另备慢慢倒水的容器与接水盘；观察者固定头、杯和磁铁，由同伴或成人加水。"
+    ]
   },
   {
     "id": 991,
@@ -9718,9 +9933,9 @@
   },
   {
     "id": 1007,
-    "title": "奇妙相遇",
+    "title": "碘伏褪色观察",
     "category": "科学",
-    "contentHash": "af3878ecfa713dd5c1597fe571c8a3b0b60b9b99629bd7b6e9319e5d25c8df42",
+    "contentHash": "c33b4bf404fd969794e35e58002efadc4b58fae0245450bdea6812b1c2f550f5",
     "required": [
       [
         "material-c5a0dd7d56"
@@ -9732,14 +9947,32 @@
         "material-2fda1f9fd4"
       ],
       [
-        "material-7574ace5ce"
+        "material-7574ace5ce",
+        "material-2e2eadd9e4"
       ],
       [
         "material-70b957cf9d"
+      ],
+      [
+        "material-7574ace5ce",
+        "material-f8586e5c37"
+      ],
+      [
+        "material-7574ace5ce",
+        "material-6692ad3a4c"
+      ],
+      [
+        "material-f2bcfbb4c9",
+        "material-b854fdb970"
+      ],
+      [
+        "tissue",
+        "material-c471aae1a9",
+        "material-fbd46b7864"
       ]
     ],
     "preparationNotes": [
-      "使用碘伏，不以碘酒替代；容器和实验液不用于饮食。"
+      "维生素C片和柠檬任选一种；选柠檬时还需水果刀、砧板，并由成人切开。柠檬分支来自《柠檬与碘伏》，不是本页原视频的操作。碘伏由成人取用，不以碘酒替代，实验液和接触试剂的材料不入口，杯及搅拌棒不再用于饮食。"
     ]
   },
   {
@@ -9766,14 +9999,39 @@
     "id": 1014,
     "title": "消失的口香糖",
     "category": "科学",
-    "contentHash": "6f269587de581ed20252c80d2d42181ad7c520a2f779708cb710e1f1d6ff1319",
+    "contentHash": "e1836982dd5c82cff5dad8122bb175675a07450a9cf35df561840fbc14123146",
     "required": [
       [
         "material-10fa48e819"
       ],
       [
         "material-e4ba1dfcb2"
+      ],
+      [
+        "material-f2bcfbb4c9",
+        "material-b854fdb970"
+      ],
+      [
+        "tissue",
+        "material-c471aae1a9",
+        "material-fbd46b7864"
+      ],
+      [
+        "material-a27e206eb6"
+      ],
+      [
+        "paper",
+        "material-f72d30d429",
+        "material-ae4b9bfcbf"
+      ],
+      [
+        "material-3afda9c1bd",
+        "material-f77e30ee1a",
+        "material-23bc7dbe9f"
       ]
+    ],
+    "preparationNotes": [
+      "使用已有口香糖污渍、可用于实验的旧毛巾或旧布样；不要特意弄脏正在使用的衣物。另备接融水的盘、吸水和收集碎屑用品、计时工具及纸笔，记录实际等待时间。"
     ]
   },
   {
@@ -9800,7 +10058,7 @@
     "id": 1020,
     "title": "静电章鱼",
     "category": "科学",
-    "contentHash": "855e27c345f8b05e341fad52901460eb4616988dd2cb614ad860c621fbf31c56",
+    "contentHash": "596bf7028bf2c06a0a91c0f6080e67cb2d156b602f0692e5a4a8904314ccca1d",
     "required": [
       [
         "material-180ced5504"
@@ -9814,6 +10072,9 @@
       [
         "scissors"
       ]
+    ],
+    "preparationNotes": [
+      "塑料袋需轻薄、干燥；PVC管表面干燥、光滑、无毛刺，毛巾也保持干燥。成人协助剪细丝、归拢打结并去除多余厚料，及时收好塑料碎片。低处轻抛，不朝人挥管；摩擦次数不是成功标准，材质和湿度不同可能改变吸引、排斥或停留效果。"
     ]
   },
   {
@@ -9839,7 +10100,7 @@
     "id": 1026,
     "title": "彩色星球",
     "category": "科学",
-    "contentHash": "45b062117f4dfcdfafb5c53e45c134338857796c648fcafeb0bbc38deb4de23a",
+    "contentHash": "d6e0902ed5c61c3a1046df8c672551a9d60ca7bdec6fb8440f6cffce4760c343",
     "required": [
       [
         "material-be3840c5d1"
@@ -9851,7 +10112,8 @@
         "material-bac9c4c0c9"
       ],
       [
-        "material-656019e817"
+        "material-8be52f95c0",
+        "material-53c5568981"
       ],
       [
         "material-6e939a7a9e"
@@ -9861,23 +10123,28 @@
       ],
       [
         "material-41bb76350c"
+      ],
+      [
+        "material-f2bcfbb4c9",
+        "material-b854fdb970"
       ]
     ],
     "preparationNotes": [
-      "需3个量杯和不同颜色的色素。"
+      "需3个量杯、3根搅拌棒和3支滴奶用滴管，每种颜色各用一套；准备3种水溶性色素，无滴口瓶时另备各色取色滴管。将着色牛奶滴入常温液态食用油中，碗留余量并放在托盘上。"
     ]
   },
   {
     "id": 1028,
     "title": "穿越黄豆",
     "category": "科学",
-    "contentHash": "80421383a28aedd36ebe35310c3ad54a34d6fd00304a453de41dcc61e27f4a48",
+    "contentHash": "2968d1c31b23a9b5a9a67c95abe481bfb3c73455d18bb549a8ac9de51124dae0",
     "required": [
       [
         "material-f58a4aba88"
       ],
       [
-        "material-571f79710d"
+        "material-571f79710d",
+        "material-9c4b23d6a0"
       ],
       [
         "water"
@@ -9887,37 +10154,68 @@
       ],
       [
         "material-d8e378ce1b"
+      ],
+      [
+        "material-be3840c5d1",
+        "material-181b105a98"
+      ],
+      [
+        "material-f2bcfbb4c9",
+        "material-b854fdb970"
+      ],
+      [
+        "tissue",
+        "material-c471aae1a9",
+        "material-fbd46b7864"
+      ],
+      [
+        "paper",
+        "material-f72d30d429",
+        "material-ae4b9bfcbf"
+      ],
+      [
+        "material-3afda9c1bd",
+        "material-f77e30ee1a",
+        "material-23bc7dbe9f"
       ]
     ],
     "preparationNotes": [
-      "瓶口需能放入乒乓球和弹珠。"
+      "本页以现成带盖宽口塑料容器替代原片剪口敞开瓶，需能放入两种球且能盖紧；另备纸笔记录。水中观察后先擦干容器和球，再使用干黄豆，留出颗粒移动空间。干大米是另做的扩展材料，不是只改变一个条件的严格对照；成人看管弹珠、豆粒等小物件。"
     ]
   },
   {
     "id": 1034,
     "title": "墨水开花",
     "category": "科学",
-    "contentHash": "7d235b918f5e09f2b821bd8ba06d545521b70b4c124e5f6412d98a73f5aaa772",
+    "contentHash": "4d596c06a35416e252bfa2cf47835e002ec2099e73f1444cfb9f2473fa2db57c",
     "required": [
       [
         "material-b5ccf349fc"
       ],
       [
+        "material-5b78ce9aa2"
+      ],
+      [
         "tray"
       ],
       [
-        "material-1852e8b622"
+        "material-b1b8e9ca9f",
+        "material-be3840c5d1",
+        "material-b3417036fa"
+      ],
+      [
+        "material-bac9c4c0c9"
       ]
     ],
     "preparationNotes": [
-      "使用白乳胶和红色墨水。"
+      "使用水性手工白乳胶和黑色墨水，成人按产品标签准备。基础观察需1个浅盘；比较胶层厚薄时需2个相同浅盘。材料配方不同，图案可能不同。"
     ]
   },
   {
     "id": 1036,
     "title": "啤酒遇牛奶",
     "category": "科学",
-    "contentHash": "730a0be129c3ac10fe6b1f2c6271ed97f9b9667ee48a752528031ec7d0f715ee",
+    "contentHash": "fb92108659e6e38be7a3a846c0ad94814eecac646b255a80e68fdaff0298055b",
     "required": [
       [
         "material-f6aa92315a"
@@ -9927,9 +10225,33 @@
       ],
       [
         "material-51e25edb9b"
+      ],
+      [
+        "material-f2bcfbb4c9",
+        "material-b854fdb970"
+      ],
+      [
+        "material-a27e206eb6"
+      ],
+      [
+        "paper",
+        "material-f72d30d429",
+        "material-ae4b9bfcbf"
+      ],
+      [
+        "material-3afda9c1bd",
+        "material-f77e30ee1a",
+        "material-23bc7dbe9f"
+      ],
+      [
+        "tissue",
+        "material-c471aae1a9",
+        "material-fbd46b7864"
       ]
     ],
-    "preparationNotes": []
+    "preparationNotes": [
+      "啤酒仅由成人取用，儿童观察；另备托盘、计时工具、纸笔和擦拭用品。杯中为倒液及泡沫留余量，不另加高浓度酒精、酸或加热，约5分钟只是观察点，混合液不食用。"
+    ]
   },
   {
     "id": 1037,
@@ -10387,7 +10709,7 @@
     "id": 1076,
     "title": "游动的水蜘蛛",
     "category": "科学",
-    "contentHash": "88a565171e115982981388e24b4aa9e63a9b840c7cde86fc845b1cd88e06271b",
+    "contentHash": "655dddbf2bd75664111bd8fc75c5d5b0d9599981029d91bcfc17645a3a20f363",
     "required": [
       [
         "material-be3840c5d1"
@@ -10408,7 +10730,9 @@
         "tray"
       ]
     ],
-    "preparationNotes": []
+    "preparationNotes": [
+      "盘子冲净洗涤剂残留，回形针保持清洁干燥。纸巾一小片用于辅助放置，另备干净部分擦干回形针；纸仍托住时不能记作回形针独立停留。轻吹只用于观察气流推动，不用嘴接触水面。"
+    ]
   },
   {
     "id": 1085,
@@ -10858,7 +11182,7 @@
     "id": 1138,
     "title": "冷水融冰块",
     "category": "科学",
-    "contentHash": "283b05bd3eb5debbfa8ac7191a3731e5e9af536d97d13bcba865d299c4ce514d",
+    "contentHash": "227858b88d65039fb7277498104f8dbbf999757f37f10e3436731abeb244c8d0",
     "required": [
       [
         "material-10fa48e819"
@@ -10867,11 +11191,49 @@
         "material-51e25edb9b"
       ],
       [
-        "material-c02f7625a8"
+        "material-0a1b6b290c"
       ],
       [
-        "tray"
+        "tray",
+        "material-fd7cc8f86a"
+      ],
+      [
+        "material-472db9d4e1"
+      ],
+      [
+        "material-be3840c5d1",
+        "material-b1b8e9ca9f"
+      ],
+      [
+        "material-efb4d34ac2",
+        "material-53441a0bba"
+      ],
+      [
+        "material-efb4d34ac2",
+        "material-7a7cf15aa1"
+      ],
+      [
+        "material-a27e206eb6"
+      ],
+      [
+        "material-f72d30d429",
+        "material-ae4b9bfcbf"
+      ],
+      [
+        "material-3afda9c1bd",
+        "material-f77e30ee1a"
+      ],
+      [
+        "material-f2bcfbb4c9",
+        "material-b854fdb970"
+      ],
+      [
+        "cloth",
+        "tissue"
       ]
+    ],
+    "preparationNotes": [
+      "同一冰格中同时取出大小、形状接近的2块冰；一块放冷水杯，一块放干盘，另有接融水的托盘。需夹冰工具、可量取水量的杯、计时工具及纸笔。水温和室温都要记录：使用一支按说明可测两者的温度计，或分别准备水温计与室温计。冷水须实测高于0℃且不另带未融冰块；是否比室内空气冷以实测为准。"
     ]
   },
   {
@@ -11007,27 +11369,40 @@
     "id": 1153,
     "title": "瓶盖控水",
     "category": "科学",
-    "contentHash": "13e39c2236db4a22cb4798926924cbb1b8ca262dedb8e187d07aba8c513d4709",
+    "contentHash": "b13763af1aede2e585835b0db04a2d2360b6557b6049126d71ab0c9e12398adb",
     "required": [
       [
         "material-10b9262eac"
       ],
       [
-        "material-41ac5e1b7c"
+        "material-41ac5e1b7c",
+        "material-e72d5a07f2"
       ],
       [
         "water"
+      ],
+      [
+        "material-be3840c5d1",
+        "material-181b105a98"
+      ],
+      [
+        "material-f2bcfbb4c9",
+        "material-b854fdb970"
+      ],
+      [
+        "cloth",
+        "tissue"
       ]
     ],
     "preparationNotes": [
-      "塑料瓶需带可拧紧的瓶盖；色素为可选。"
+      "塑料瓶需带可拧紧的盖；成人预制小孔并收好工具，尽量让孔处在相近高度。另备倒水杯、接水盘与擦水用品；色素为可选，使用时选带滴口瓶。"
     ]
   },
   {
     "id": 1154,
     "title": "折断的筷子",
     "category": "科学",
-    "contentHash": "6dbd2ca7a77d76529138aaa3b08c06243042c5a500632d83fa3dd7788f4e4fe0",
+    "contentHash": "ca7cc4941b0da88f80a1daafb37819bda0107ef00a9ca879e3ce3965efd44b50",
     "required": [
       [
         "material-399893f69b"
@@ -11040,10 +11415,26 @@
       ],
       [
         "material-c8ba8b9b5c"
+      ],
+      [
+        "material-be3840c5d1",
+        "material-181b105a98"
+      ],
+      [
+        "material-7fb418fe69"
+      ],
+      [
+        "material-f2bcfbb4c9",
+        "material-b854fdb970"
+      ],
+      [
+        "tissue",
+        "material-c471aae1a9",
+        "material-fbd46b7864"
       ]
     ],
     "preparationNotes": [
-      "食用油层约3厘米厚。"
+      "另备倒水杯、尺、接水盘及擦拭用品。约3厘米油层是原示例，需按杯的容量给油和筷子留余量，不为达到示例厚度而溢杯；缓慢改变观察角度比较错位。"
     ]
   },
   {
@@ -11144,23 +11535,51 @@
     "id": 1161,
     "title": "古代汲酒器",
     "category": "科学",
-    "contentHash": "b16534102792050ed5ad371f6ea5126457cfa6971938e575c56b6fb5e2905caa",
+    "contentHash": "db2570b8c8188f6d689affeee1645bd71fb61f8f1ccdea4a55f6abdc4049bcc8",
     "required": [
       [
-        "material-966e833306"
+        "material-10b9262eac"
+      ],
+      [
+        "straw",
+        "material-e9fb086422",
+        "material-0134aaf747"
+      ],
+      [
+        "material-e72d5a07f2",
+        "material-e534923a31"
       ],
       [
         "scissors"
       ],
       [
+        "material-75e72c68cc"
+      ],
+      [
+        "material-6c34455e9b"
+      ],
+      [
+        "material-9561a53c8c"
+      ],
+      [
+        "material-196bf4ec27",
         "material-713ee67e85"
       ],
       [
+        "water"
+      ],
+      [
+        "material-f2bcfbb4c9",
+        "material-b854fdb970",
         "material-196bf4ec27"
       ],
       [
-        "water"
+        "cloth",
+        "tissue"
       ]
+    ],
+    "preparationNotes": [
+      "成人制作倒置装置：瓶盖小孔在下进出水，原瓶底穿吸管在上通气，管内口留在水面上方。热胶是本页补充的密封方案，原片未展示胶种；须选与瓶材和吸管相容的胶棒，备耐热工作垫，待冷却后检查气密。另备一只取水容器和一只接水容器，若都用水杯须准备两个；儿童不使用开孔工具或热胶工具。"
     ]
   },
   {
@@ -11213,23 +11632,38 @@
     "id": 1167,
     "title": "乌龟出壳",
     "category": "科学",
-    "contentHash": "9b29f741957dc4304f08984af1eb79be2ac1ac5852b6cc7632dc7994f8c3ab6e",
+    "contentHash": "9cc8303c87b6d7b7b79cde99125fa2f48f3ad063eba17f9dc2b16de3fdbd6313",
     "required": [
       [
-        "paper"
+        "paper",
+        "material-7e6deeb40c"
       ],
       [
-        "scissors"
+        "scissors",
+        "material-7e6deeb40c"
       ],
       [
-        "material-ac15817da3"
+        "material-ac15817da3",
+        "material-7e6deeb40c"
       ],
       [
-        "material-713ee67e85"
+        "material-713ee67e85",
+        "tray"
       ],
       [
         "water"
+      ],
+      [
+        "material-be3840c5d1",
+        "material-181b105a98"
+      ],
+      [
+        "cloth",
+        "tissue"
       ]
+    ],
+    "preparationNotes": [
+      "自画纸乌龟与预裁纸花任选一种：自画分支需A4白纸、绘画笔和剪刀，由成人协助裁剪；已有预裁纸花时可替代画剪分支，不必同时准备两套。另备倒水杯和擦水用品；活动部位轻折后轻放水面，不按沉、不挤在盆边。"
     ]
   },
   {

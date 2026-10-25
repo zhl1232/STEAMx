@@ -130,16 +130,13 @@ function countPlaygroundGamesPlayed(args: {
   minesweeperStats: Record<string, unknown>
   minesweeperBestTimes: Record<string, unknown>
   gomoku: Record<string, unknown>
-  game2048: Record<string, unknown>
   game24: Record<string, unknown>
   life: Record<string, unknown>
   hanoi: Record<string, unknown>
   hanoiBestMoves: Record<string, unknown>
   sudoku: Record<string, unknown>
   nqueens: Record<string, unknown>
-  fifteen: Record<string, unknown>
   memory: Record<string, unknown>
-  quickMath: Record<string, unknown>
   maze: Record<string, unknown>
   tangramSolvedLevels: string[]
   nonogramSolvedLevels: string[]
@@ -152,15 +149,12 @@ function countPlaygroundGamesPlayed(args: {
   let count = 0
   if (hasPlayedGame(getNumber(args.minesweeperStats, "totalGames"), getMinesweeperWins(args.minesweeperStats, args.minesweeperBestTimes))) count++
   if (hasPlayedGame(getNumber(args.gomoku, "wins"), getNumber(args.gomoku, "losses"), getNumber(args.gomoku, "draws"))) count++
-  if (hasPlayedGame(getNumber(args.game2048, "wins"), getNumber(args.game2048, "maxTile"), getNumber(args.game2048, "bestScore"))) count++
   if (getNumber(args.game24, "solvedCount") > 0) count++
   if (hasPlayedGame(getNumber(args.life, "totalSessions")) || getStringArray(args.life, "challengesSolved").length > 0) count++
   if (hasPlayedGame(getNumber(args.hanoi, "wins")) || Object.keys(args.hanoiBestMoves).length > 0) count++
   if (getNumber(args.sudoku, "wins") > 0) count++
   if (getNumber(args.nqueens, "manualSolves") > 0) count++
-  if (hasPlayedGame(getNumber(args.fifteen, "totalGames"), getNumber(args.fifteen, "wins"))) count++
   if (hasPlayedGame(getNumber(args.memory, "totalGames"), getNumber(args.memory, "wins"))) count++
-  if (hasPlayedGame(getNumber(args.quickMath, "bestScore"), getNumber(args.quickMath, "bestStreak"))) count++
   if (hasPlayedGame(getNumber(args.maze, "totalGames"), getNumber(args.maze, "wins"))) count++
   if (args.tangramSolvedLevels.length > 0) count++
   if (args.nonogramSolvedLevels.length > 0) count++
@@ -175,12 +169,10 @@ function sumPlaygroundWins(args: {
   minesweeperStats: Record<string, unknown>
   minesweeperBestTimes: Record<string, unknown>
   gomoku: Record<string, unknown>
-  game2048: Record<string, unknown>
   game24: Record<string, unknown>
   hanoi: Record<string, unknown>
   sudoku: Record<string, unknown>
   nqueens: Record<string, unknown>
-  fifteen: Record<string, unknown>
   memory: Record<string, unknown>
   maze: Record<string, unknown>
   lifeChallengesSolved: number
@@ -196,12 +188,10 @@ function sumPlaygroundWins(args: {
   return (
     getMinesweeperWins(args.minesweeperStats, args.minesweeperBestTimes) +
     getNumber(args.gomoku, "wins") +
-    getNumber(args.game2048, "wins") +
     getNumber(args.game24, "solvedCount") +
     getNumber(args.hanoi, "wins") +
     getNumber(args.sudoku, "wins") +
     getNumber(args.nqueens, "manualSolves") +
-    getNumber(args.fifteen, "wins") +
     getNumber(args.memory, "wins") +
     getNumber(args.maze, "wins") +
     args.lifeChallengesSolved +
@@ -225,7 +215,6 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     getRecord(minesweeperStats, "bestTimes"),
   )
   const gomoku = getRecord(source, "gomoku_records")
-  const game2048 = getRecord(source, "game_2048_stats")
   const game24 = getRecord(source, "game_24_stats")
   const life = getRecord(source, "game_of_life_stats")
   const hanoi = getRecord(source, "hanoi_stats")
@@ -233,9 +222,7 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
   const sudoku = getRecord(source, "sudoku_stats")
   const sudokuWinsByDifficulty = getRecord(sudoku, "winsByDifficulty")
   const nqueens = getRecord(source, "nqueens_stats")
-  const fifteen = getRecord(source, "fifteen_puzzle_stats")
   const memory = getRecord(source, "memory_match_stats")
-  const quickMath = getRecord(source, "quick_math_stats")
   const maze = getRecord(source, "maze_runner_stats")
   const tangram = getRecord(source, "tangram_stats")
   const nonogram = getRecord(source, "nonogram_stats")
@@ -258,16 +245,13 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     minesweeperStats,
     minesweeperBestTimes,
     gomoku,
-    game2048,
     game24,
     life,
     hanoi,
     hanoiBestMoves,
     sudoku,
     nqueens,
-    fifteen,
     memory,
-    quickMath,
     maze,
     tangramSolvedLevels,
     nonogramSolvedLevels,
@@ -281,12 +265,10 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     minesweeperStats,
     minesweeperBestTimes,
     gomoku,
-    game2048,
     game24,
     hanoi,
     sudoku,
     nqueens,
-    fifteen,
     memory,
     maze,
     lifeChallengesSolved,
@@ -307,9 +289,6 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     minesweeperBestTime: getBestTimeValue(minesweeperBestTimes),
     gomokuWins: getNumber(gomoku, "wins"),
     gomokuPvEWins: getNumber(gomoku, "gomokuPvEWins"),
-    game2048BestScore: getNumber(game2048, "bestScore"),
-    game2048MaxTile: getNumber(game2048, "maxTile"),
-    game2048Wins: getNumber(game2048, "wins"),
     game24Solved: getNumber(game24, "solvedCount"),
     game24BestStreak: getNumber(game24, "bestStreak"),
     game24BestTime: typeof game24BestTime === "number" && Number.isFinite(game24BestTime) ? game24BestTime : null,
@@ -322,10 +301,7 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     sudokuWins: getNumber(sudoku, "wins"),
     sudokuHardWins: getNumber(sudokuWinsByDifficulty, "hard"),
     nqueensManualSolves: getNumber(nqueens, "manualSolves"),
-    fifteenWins: getNumber(fifteen, "wins"),
     memoryWins: getNumber(memory, "wins"),
-    quickMathBestScore: getNumber(quickMath, "bestScore"),
-    quickMathBestStreak: getNumber(quickMath, "bestStreak"),
     mazeWins: getNumber(maze, "wins"),
     tangramSolved: tangramSolvedLevels.length,
     nonogramSolved: nonogramSolvedLevels.length,

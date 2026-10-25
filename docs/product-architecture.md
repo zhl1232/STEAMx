@@ -15,6 +15,7 @@
 | 尝试中的记录 | `project_journey_records` 保存阶段、过程与最终作品记录，审核结果回写 Journey；旧项目/PBL 表保留兼容投影 | `lib/journeys/service.ts`、`moderation.ts` |
 | 课时进度与作品 | `user_lesson_progress` 保存开始/完成进度；课时作品走独立提交与审核路径，不能用课时完成代替作品发布 | `lib/courses/progress.ts`、`lib/works/submission.ts` |
 | 收藏 | `collections` 独立表达以后想看或想做；收藏不创建完成状态，也不替代一次实践 | `/api/projects/[id]/collection` |
+| 物理实验室记录 | 主站账号的私密实验存档使用 `physics_lab_states`，与公开项目探索记录分离；复用现有登录、等级及徽章展示，项目详情实验链接留作后续内容关联 | `app/playground/physics-lab/`、`app/api/physics-lab/state/`、[实验室契约](physics-lab.md) |
 | 自然观察与统一作品视图 | `observation_events` 保留自然观察领域数据；`lib/works/` 将项目、课时、挑战、自然观察四类成果汇入“我的作品”，汇总展示不意味着底层数据结构相同 | `lib/api/nature-observation-*`、`lib/works/types.ts`、`data.ts` |
 
 ### 当前覆盖范围

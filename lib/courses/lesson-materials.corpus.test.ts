@@ -6,6 +6,7 @@ import { createPackedLdrawStep } from '../utils/ldraw-mpd'
 import { KIT_CATALOG } from './course-kit-config'
 import { mergeLessonMaterialPreferences } from './lesson-material-preferences'
 import { compareLessonMaterials, mergeKitInventories, prepareLessonBomForCourse, substituteDetail } from './lesson-materials'
+import { packLocalLdrawModel } from './ldraw-packer'
 
 const directory = 'public/courses/ldraw'
 const colors = parseLdrawColorTable(readFileSync(`${directory}/LDConfig.ldr`, 'utf8'))
@@ -14,7 +15,7 @@ const files = readdirSync(directory).filter((file) => /^[345]-.*\.mpd$/.test(fil
 it.each([
   { release: '2026-10-20', count: 60 },
   { release: '2026-10-23', count: 80 },
-])('the $release release matches $count confirmed models and has usable steps and BOMs', ({ release, count }) => {
+])('the $release release matches $count confirmed models and has usable steps and BOMs', async ({ release, count }) => {
   // docs are intentionally absent from the production Docker build context.
   // Read test evidence only when this check runs, without a compile-time import.
   const releasedModels = JSON.parse(readFileSync(`docs/releases/${release}/ldraw-manifest.json`, 'utf8')) as Array<{
@@ -32,8 +33,16 @@ it.each([
     const mpd = readFileSync(`${directory}/${file}`, 'utf8').replace(/\r\n/g, '\n')
     const review = JSON.parse(readFileSync(`scripts/ldraw-reviews/${model.slug}.ldr.json`, 'utf8'))
     expect(createHash('sha256').update(mpd).digest('hex'), file).toBe(model.revision)
-    expect(review.revision, file).toBe(model.revision)
-    expect(review.confirmedAt, file).toBe(model.confirmedAt)
+    if (review.revision === model.revision) {
+      expect(review.confirmedAt, file).toBe(model.confirmedAt)
+    } else {
+      // A later local confirmation does not replace the published MPD or its
+      // historical manifest. Verify that it belongs to the current source.
+      expect(Date.parse(review.confirmedAt), file).toBeGreaterThan(Date.parse(model.confirmedAt))
+      const draft = await packLocalLdrawModel(`${model.slug}.ldr`)
+      expect(draft.missingParts, file).toEqual([])
+      expect(draft.revision, file).toBe(review.revision)
+    }
     const bom = summarizePackedLdrawBom(mpd, colors)
     expect(bom.partCount, file).toBeGreaterThan(0)
     expect(bom.stepCount, file).toBe(model.stepCount)
@@ -42,7 +51,7 @@ it.each([
       expect(() => createPackedLdrawStep(mpd, step.stepIndex), `${file}: step ${step.stepIndex}`).not.toThrow()
     }
   }
-}, 30_000)
+}, 90_000)
 
 it('all 300 lessons render only meaningful substitutions with default and all-catalog-kit inventories', () => {
   expect(files).toHaveLength(300)

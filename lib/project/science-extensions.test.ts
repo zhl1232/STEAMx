@@ -102,11 +102,12 @@ const fourthBatch = [
 const releasedSnapshot = JSON.stringify(reviewed)
 afterEach(() => vi.unstubAllEnvs())
 
-test('four batches cover 114 unique projects, including second-, third- and fourth-batch IDs and titles', () => {
+test('the approved cohort preserves prior batch identities and includes the cup observation', () => {
   expect(secondBatch).toHaveLength(28)
   expect(new Set(secondBatch.map(item => item.id)).size).toBe(28)
-  expect(reviewed).toHaveLength(114)
-  expect(new Set(reviewed.map(item => item.id)).size).toBe(114)
+  expect(reviewed).toHaveLength(115)
+  expect(new Set(reviewed.map(item => item.id)).size).toBe(115)
+  expect(getScienceSample(1170)).toMatchObject({ title: '杯子拔火罐', mode: 'observation' })
   expect(thirdBatch).toHaveLength(29)
   expect(new Set(thirdBatch.map(item => item.id)).size).toBe(29)
   expect(fourthBatch).toHaveLength(30)
@@ -135,9 +136,9 @@ test.each(reviewed)('$id $title has three nonempty questions with Chinese questi
   }
 })
 
-test('all 342 extension questions are unique across four batches', () => {
+test('all extension questions are unique across the approved cohort', () => {
   const questions = reviewed.flatMap(item => item.extensionQuestions)
-  expect(questions).toHaveLength(342)
+  expect(questions).toHaveLength(345)
   expect(new Set(questions).size).toBe(questions.length)
 })
 

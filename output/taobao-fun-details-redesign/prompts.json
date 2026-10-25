@@ -1,0 +1,37 @@
+[
+  {
+    "file": "detail-08",
+    "prompt": "Create a new Chinese Taobao detail poster. Reference supplied for topic only, fully redesign. Approved visual style: warm sunlit photography, ivory paper, expressive hand-painted teal and orange Chinese titles, elegant restrained science doodles, large legible copy, no wholesale claims or URLs. Portrait 4:5. Reference is a concept for viewing experiment demonstrations. Beautiful tablet on sunny wooden table displaying close-up hands using a dropper with colored-water cups, small subtle play icon; tablet is conceptual not actual website. Copy: 创探空间 ; 跟着演示 / 动手试一试 ; 先看清操作，再观察变化 ; 实验过程可查阅配套线上内容 . Small footer 演示界面示意，具体内容以实际提供为准 . No URL or claims every project has video.",
+    "correction": null
+  },
+  {
+    "file": "detail-09",
+    "prompt": "New Chinese Taobao portrait 4:5 poster. Reference topic only. Warm sunlit photography ivory paper expressive hand-painted teal and orange Chinese headline, charming restrained doodles. Legible text. Hero macro photograph of an OPEN clear plastic bottle containing yellow oil and red colored water droplets rising and falling; scientifically plausible oil-water lava lamp with bubbles. Copy: 创探空间 ; 瓶子里 / 藏着小火山？ ; 看，彩色水滴正在上上下下 ; 瓶中熔岩实验 ; 这次的发现，从一个“为什么”开始 . Small footer 实验现象示意，请在成人指导下操作 . Not actual geological lava.",
+    "correction": "Remove unintended English footer."
+  },
+  {
+    "file": "detail-10",
+    "prompt": "New Chinese Taobao instructional poster portrait 4:5. Topic reference only; redesign warm ivory paper, teal and tangerine expressive hand-painted title, natural photographs and clear typesetting. Render only explicitly specified Chinese text, no English. Legible 3-step instructional infographic, separate large photos of open plastic bottle: 1 colored water in bottom; 2 yellow cooking oil above colored water; 3 small effervescent tablet added, colored droplets rise in oil. Copy: 创探空间 ; 动手试一试 / 观察瓶中小变化 ; 01 给水加点颜色 ; 02 倒入食用油 ; 03 放入泡腾片，观察变化 . Explanation: 油和水不易混合。泡腾片遇水产生气泡，带着彩色水滴上浮；气泡散去后，水滴又慢慢下沉。 Footer: 按项目说明操作，瓶口保持敞开；部分用品需自备。 3 panels left to right, explain below.",
+    "correction": null
+  },
+  {
+    "file": "detail-11",
+    "prompt": "New Chinese Taobao portrait 3:4 poster. Reference topic only; completely redesign warm sunlit lifestyle photography, ivory paper and expressive brush teal/orange Chinese typography, tasteful collage 3 large scenes. No fake testimonials or statistics. Editorial collage of 3 warm photoreal scenes with different East Asian school-age children and adult supervision: observe colored water through goggles, notebook recording simple color changes, child proudly showing experiment to parent. No testimonial styling. Copy: 创探空间 ; 每一次尝试 / 都值得被看见 ; 发现问题 · 尝试方法 · 分享小成功 ; 没成功，再试一种办法 ; 有发现，说说你的想法 . Small footer 场景示意，请在成人指导下操作 .",
+    "correction": "Replace invented notebook reaction statements with neutral observation questions."
+  },
+  {
+    "file": "detail-12",
+    "prompt": "New Chinese Taobao portrait 4:5 poster. Topic reference only; recreate warm sunlit lifestyle photo, ivory paper, expressive brush teal and orange Chinese typography matching boutique science education brand, restrained doodles. One beautiful warm candid portrait lifestyle photo East Asian parent and school-age child experimenting together with colored water cups and dropper on table, wearing clear safety goggles, engaged not posed. Copy: 创探空间 ; 陪孩子动手 / 也陪好奇心长大 ; 一起观察，一起尝试，一起分享发现 ; 把陪伴，变成一场小小的科学探索 . Small footer 场景示意，部分实验用品需按清单自备 . No carton invented.",
+    "correction": null
+  },
+  {
+    "file": "detail-14",
+    "prompt": "New Chinese Taobao portrait 3:4 poster. Reference topic only; redesign premium warm ivory educational editorial style with teal orange brush lettering and natural sunlight photography. Carefully proofread all Chinese/English labels. Premium playful STEAM editorial infographic mixed with central child/adult hands experimenting colored liquid on table. Five beautifully integrated annotated sketches, use exact English-Chinese pairs: Science 科学 / 观察现象 ; Technology 技术 / 使用工具 ; Engineering 工程 / 动手搭建 ; Art 艺术 / 表达创意 ; Mathematics 数学 / 比较与测量 . Title 创探空间 ; 一个小实验 / 连接多种思考 ; 在探索与创造中，把知识用起来 . No brain-development claims or certifications. Footer 场景示意，具体项目以所选规格为准 .",
+    "correction": null
+  },
+  {
+    "file": "detail-16",
+    "prompt": "Create one tall Chinese Taobao science experiment catalog poster, 1:2.7 aspect ratio, large 1200px+ wide high resolution. Warm ivory paper, teal and tangerine brush titles, neatly composed photographic project thumbnails with accurate labels. All titles and footer comfortably readable. Tall beautiful organized science project catalog, 16 small realistic illustrative thumbnails grouped in 5 clearly separated bands. Title 创探空间 ; 从一个为什么 / 探索更多可能 ; 部分实验项目展示 . Groups exact: 观察物质变化: 牛奶动画、液体分层、蜡烛吸水、彩虹雨 ; 发现反应现象: 水晶海藻丝、瓶子吹气球、彩虹喷泉、人造雪 ; 认识生命: 人体消化系统、种子发芽 ; 探索地球与宇宙: 日地月模型、月相变化 ; 动手做工程: 电风扇、造纸术、投石机、倍力桥 . All 16 captions match their project thumbnail. Use reference projects as visual reference, no false curriculum alignment or all-in-one-kit claim. Clear footer: 项目示意，并非同一规格装箱清单；具体以所选规格为准。部分用品需自备，请在成人指导下操作。 Tall 1:2.7, highly readable attractive editorial, avoid corporate dashboard look.",
+    "correction": null
+  }
+]

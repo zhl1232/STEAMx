@@ -1,3 +1,4 @@
+import { validateFunctionWarsLaunch } from "./function-wars-trajectory";
 import {
     generateRoomCode,
     type BaseMatchRow,
@@ -17,8 +18,11 @@ export const FUNCTION_WARS_TURN_SECONDS = 60;
 export const FUNCTION_WARS_MAX_SHOTS = 200;
 export const FUNCTION_WARS_MAX_CRATERS = FUNCTION_WARS_MAX_SHOTS * 3;
 export const FUNCTION_WARS_ONLINE_MAX_DAMAGE_PER_SHOT = 80;
-export const FUNCTION_WARS_DEFAULT_MAP_ID = "symmetric-canyon" as const;
-export const FUNCTION_WARS_MAP_IDS = [FUNCTION_WARS_DEFAULT_MAP_ID] as const;
+// Stored crater radii include the blast rim; the existing online collision hole
+// occupies this fraction. Rendering must use the same effective hole radius.
+export const FUNCTION_WARS_ONLINE_CRATER_HOLE_RATIO = 0.72;
+export const FUNCTION_WARS_DEFAULT_MAP_ID = "symmetric-canyon-v2" as const;
+export const FUNCTION_WARS_MAP_IDS = ["symmetric-canyon", FUNCTION_WARS_DEFAULT_MAP_ID] as const;
 
 export type FunctionWarsMapId = (typeof FUNCTION_WARS_MAP_IDS)[number];
 export type FunctionWarsRole = "host" | "guest";
@@ -323,6 +327,51 @@ function buildSymmetricObstacles(random: () => number): FunctionWarsOnlineObstac
     ];
 }
 
+/** V2 alternates low passages and elevated passages; V1 seeds stay unchanged. */
+function buildVariedSymmetricObstacles(random: () => number): FunctionWarsOnlineObstacle[] {
+    const obstacles = buildSymmetricObstacles(random);
+    const elevatedPassage = random() >= 0.5;
+    const passageEdge = elevatedPassage
+        ? round(2 + random() * 0.55)
+        : round(-2.6 + random() * 0.5);
+    const gateBottom = elevatedPassage ? FUNCTION_WARS_WORLD_BOUNDS.minY : passageEdge;
+    const gateTop = elevatedPassage ? passageEdge : FUNCTION_WARS_WORLD_BOUNDS.maxY;
+    const coverX = round(7 + random() * 0.2);
+    const coverHeight = round(1.1 + random() * 0.2);
+
+    const varied = obstacles.map((obstacle): FunctionWarsOnlineObstacle => {
+        const side = obstacle.id.startsWith("host-") ? -1 : 1;
+        if (obstacle.id.endsWith("-steel-plate")) {
+            return {
+                ...obstacle,
+                shape: "rect",
+                x: side * 3.25,
+                y: (gateBottom + gateTop) / 2,
+                width: 0.65,
+                height: gateTop - gateBottom,
+            };
+        }
+        if (obstacle.id.endsWith("-cover")) {
+            return { ...obstacle, shape: "rect", x: side * coverX, width: 1, height: coverHeight };
+        }
+        return obstacle;
+    });
+
+    if (elevatedPassage) {
+        varied.push({
+            id: "upper-canopy",
+            shape: "rect",
+            x: 0,
+            y: 6.5,
+            width: 10,
+            height: 1,
+            destructible: false,
+            material: "steel",
+        });
+    }
+    return varied;
+}
+
 export function isFunctionWarsMapId(value: unknown): value is FunctionWarsMapId {
     return FUNCTION_WARS_MAP_IDS.includes(value as FunctionWarsMapId);
 }
@@ -340,6 +389,8 @@ export function normalizeFunctionWarsExpression(
 ): NormalizeFunctionWarsExpressionResult {
     const parsed = parseFunctionExpression(source);
     if (!parsed.ok) return { ok: false, error: parsed.error.message };
+    const launchError = validateFunctionWarsLaunch(parsed.parsed);
+    if (launchError) return { ok: false, error: launchError };
     return { ok: true, expression: parsed.parsed.source };
 }
 
@@ -375,7 +426,9 @@ export function buildFunctionWarsOnlineMap(
             host: { x: -10, y: -5.15 },
             guest: { x: 10, y: -5.15 },
         },
-        obstacles: buildSymmetricObstacles(random),
+        obstacles: mapId === "symmetric-canyon"
+            ? buildSymmetricObstacles(random)
+            : buildVariedSymmetricObstacles(random),
         crates: buildScheduledCrates(random),
     };
 }

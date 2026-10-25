@@ -3,6 +3,20 @@ import { describe, expect, test } from "vitest"
 import { buildPlaygroundUserStats, getUnlockedPlaygroundBadgeIds } from "@/lib/gamification/playground-badges"
 
 describe("playground badge stats", () => {
+  test("ignores retired game history for exploration, victories and badge awards", () => {
+    const activeStats = { game_24_stats: { solvedCount: 2, bestTime: 8 } }
+    const legacyStats = {
+      ...activeStats,
+      game_2048_stats: { wins: 500, maxTile: 8192, bestScore: 10000 },
+      fifteen_puzzle_stats: { wins: 500, totalGames: 600 },
+      quick_math_stats: { bestScore: 10000, bestStreak: 100 },
+    }
+
+    expect(buildPlaygroundUserStats(legacyStats)).toEqual(buildPlaygroundUserStats(activeStats))
+    expect(buildPlaygroundUserStats(legacyStats)).toMatchObject({ playgroundGamesPlayed: 1, playgroundWinsTotal: 2 })
+    expect(getUnlockedPlaygroundBadgeIds(legacyStats)).toEqual(["game24_speed"])
+  })
+
   test("builds badge stats from the playground cloud blob", () => {
     const stats = buildPlaygroundUserStats({
       minesweeper_best_times: { beginner: 45, expert: 120 },

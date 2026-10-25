@@ -80,6 +80,48 @@ describe('summarizePackedLdrawBom', () => {
     expect(bom.entries.map((entry) => entry.partId)).not.toContain('4-4ndis.dat')
   })
 
+  it('升降电梯的 75536 已包含吊钩，全课与第 9 步不再重复计数', () => {
+    const source = readFileSync(path.join(LDRAW_DIRECTORY, '5-sheng-jiang-dian-ti.mpd'), 'utf8')
+    const bom = summarizePackedLdrawBom(source, COLOR_TABLE)
+
+    expect(bom.entries.find((entry) => entry.partId === '75536.dat')).toMatchObject({
+      partName: '卷线轮（带绳和吊钩）', count: 2,
+    })
+    expect(bom.entries.some((entry) => entry.partId === '4663.dat')).toBe(false)
+    expect(bom.steps[8].entries.map((entry) => [entry.partId, entry.count])).toEqual([
+      ['75536.dat', 2],
+    ])
+    expect(bom.steps[8].partCount).toBe(2)
+    expect(bom.partCount).toBe(228)
+    expect(bom.steps.reduce((sum, step) => sum + step.partCount, 0)).toBe(bom.partCount)
+    expect(bom.stepCount).toBe(getPackedLdrawStepCount(source))
+  })
+
+  it('同一电梯里的额外独立吊钩仍然计入材料', () => {
+    const source = readFileSync(path.join(LDRAW_DIRECTORY, '5-sheng-jiang-dian-ti.mpd'), 'utf8')
+    const extraHook = '1 14 0 -100 0 1 0 0 0 1 0 0 0 1 4663.dat'
+    const bom = summarizePackedLdrawBom(source.replace('0 // SOURCE PAGE 1\n', `0 // SOURCE PAGE 1\n${extraHook}\n`))
+
+    expect(bom.entries.find((entry) => entry.partId === '4663.dat')?.count).toBe(1)
+    expect(bom.steps[0].entries.find((entry) => entry.partId === '4663.dat')?.count).toBe(1)
+    expect(bom.partCount).toBe(229)
+  })
+
+  it.each([
+    ['模型名称', '0 Name: 5-sheng-jiang-dian-ti.ldr', '0 Name: other-model.ldr', 2],
+    ['组合件位置', '1 14 -320 -864 -20', '1 14 -360 -864 -20', 1],
+    ['吊钩位置', '1 14 -318 -508.99975 -30', '1 14 -318 -500 -30', 1],
+    ['吊钩颜色', '1 14 -318 -508.99975 -30', '1 4 -318 -508.99975 -30', 1],
+    ['步骤位置', '0 // SOURCE PAGE 9\n', '0 STEP\n0 // SOURCE PAGE 9\n', 2],
+  ])('%s 已变化时不套用旧吊钩计数规则', (_label, before, after, hookCount) => {
+    const source = readFileSync(path.join(LDRAW_DIRECTORY, '5-sheng-jiang-dian-ti.mpd'), 'utf8')
+    const bom = summarizePackedLdrawBom(source.replace(before, after))
+
+    expect(bom.entries.filter((entry) => entry.partId === '4663.dat')
+      .reduce((sum, entry) => sum + entry.count, 0)).toBe(hookCount)
+    expect(bom.partCount).toBe(228 + hookCount)
+  })
+
   it('同一零件不同颜色分别成行，全模型汇总按数量降序', () => {
     const mpd = FIXTURE_MPD.replace(
       '1 1 0 -48 0 1 0 0 0 1 0 0 0 1 3437.dat',
@@ -271,6 +313,7 @@ describe('课程材料中文名称覆盖', () => {
       }
       expect(failures).toEqual([])
     },
+    30_000,
   )
 })
 

@@ -95,6 +95,54 @@ beforeEach(() => {
 afterEach(() => { vi.unstubAllGlobals() })
 
 describe('LDraw preview confirmation workflow', () => {
+  it('excludes protected changed drafts from the ready queue while retaining them in changed and all', async () => {
+    window.history.replaceState(null, '', '/ldraw-preview?model=first.ldr&source=draft')
+    mockApi(json({ models: [item('first.ldr', { reviewStatus: 'confirmed', productionProtected: true })] }), {
+      'first.ldr': json(model('first.ldr', {
+        servedDraft: true, reviewStatus: 'changed', productionProtected: true, canConfirm: false,
+      })),
+    })
+    render(<LdrawPreviewWorkspace />)
+    await screen.findByText('当前查看修改稿 · 有改动待复核')
+
+    expect(screen.getByRole('button', { name: '待确认 0' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /first\.ldr/ })).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: '有改动待复核 1' }))
+    expect(screen.getByRole('button', { name: /first\.ldr.*有改动·待复核/ })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: '审核状态 (1)' }))
+    expect(screen.getByRole('button', { name: /first\.ldr.*有改动·待复核/ })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '确认当前修复' })).not.toBeInTheDocument()
+  })
+
+  it('preserves draft source on initial load, reload and model selection, and labels protected drafts', async () => {
+    window.history.replaceState(null, '', '/ldraw-preview?model=first.ldr&source=draft')
+    const draft = { servedDraft: true, reviewStatus: 'changed', productionProtected: true, canConfirm: false, inspectionStatus: 'exempt' }
+    const fetchMock = mockApi(json({ models: [item('first.ldr'), item('next.ldr')] }), {
+      'first.ldr': json(model('first.ldr', draft)), 'next.ldr': json(model('next.ldr', draft)),
+    })
+    render(<LdrawPreviewWorkspace />)
+    await screen.findByText('当前查看修改稿 · 有改动待复核')
+    expect(screen.queryByText('已确认（线上版本）')).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '确认当前修复' })).not.toBeInTheDocument()
+
+    // A fresh response is needed because each response body can only be consumed once.
+    fetchMock.mockImplementation((input) => {
+      const url = new URL(String(input), window.location.origin)
+      return Promise.resolve(json(model(url.searchParams.get('model') ?? 'first.ldr', draft)))
+    })
+    fireEvent.click(screen.getByRole('button', { name: '重新载入文件' }))
+    await waitFor(() => expect(boundary.parse).toHaveBeenCalledTimes(2))
+    fireEvent.click(screen.getByRole('button', { name: /next\.ldr.*待确认/ }))
+    await waitFor(() => expect(boundary.parse).toHaveBeenCalledTimes(3))
+    expect(new URL(window.location.href).searchParams.get('source')).toBe('draft')
+    expect(new URL(window.location.href).searchParams.get('model')).toBe('next.ldr')
+    const modelRequests = fetchMock.mock.calls.map(([input]) => new URL(String(input), window.location.origin)).filter((url) => url.searchParams.has('model'))
+    expect(modelRequests).toHaveLength(3)
+    expect(modelRequests.every((url) => url.searchParams.get('source') === 'draft')).toBe(true)
+    expect(screen.getByText('当前查看修改稿 · 有改动待复核')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '确认当前修复' })).not.toBeInTheDocument()
+  })
+
   it('shows checked candidates and changed models, and unlocks confirmation only after parsing and drawing', async () => {
     let finishParse!: (group: Group) => void
     boundary.parse.mockImplementation((_text: string, resolve: (group: Group) => void) => { finishParse = resolve })

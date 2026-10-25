@@ -239,6 +239,7 @@ describe("Badge System Logic (Dynamic Badges)", () => {
             "gomoku_rookie",
             "gomoku_strategist",
             "gomoku_master",
+            "game2048_8192",
             "game2048_first_win",
             "game2048_4096",
             "game2048_high_scorer",
@@ -279,7 +280,6 @@ describe("Badge System Logic (Dynamic Badges)", () => {
     test("playground star badges use playground_star series", () => {
         const starIds = [
             "minesweeper_speedster",
-            "game2048_8192",
             "game24_speed",
             "hanoi_perfect",
             "life_challenge_all",
@@ -299,8 +299,8 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         const platinum = BADGES.find((b) => b.id === "playground_explorer_platinum");
         expect(bronze!.condition(createStats({ playgroundGamesPlayed: 2 }))).toBe(false);
         expect(bronze!.condition(createStats({ playgroundGamesPlayed: 3 }))).toBe(true);
-        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 17 }))).toBe(false);
-        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 18 }))).toBe(true);
+        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 14 }))).toBe(false);
+        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 15 }))).toBe(true);
     });
 
     test("playground_victories tiers require total wins thresholds", () => {
@@ -355,7 +355,7 @@ describe("Badge System Logic (Dynamic Badges)", () => {
             badge.seriesKey === "playground_star"
         ).length;
 
-        expect(PLAYGROUND_BADGE_COUNT).toBe(16);
+        expect(PLAYGROUND_BADGE_COUNT).toBe(15);
         expect(PLAYGROUND_BADGE_COUNT).toBe(count);
     });
 

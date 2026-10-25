@@ -17,7 +17,7 @@ export type PlaygroundDiscovery = {
   afterwards: string
 }
 
-/** 公开目录与导航的顺序。退出目录不删除玩法、历史统计或直达路由。 */
+/** 当前公开玩法目录与导航的顺序。 */
 export const PLAYGROUND_DISCOVERY: PlaygroundDiscovery[] = [
   { href: "/playground/tangram", group: "create", featured: true, age: "5 岁起", duration: "10–15 分钟", together: "让孩子选一块，说说为什么放这里。", afterwards: "用纸片或积木复现，再给家长出一道题。" },
   { href: "/playground/symmetry", group: "create", featured: true, age: "5 岁起", duration: "5–10 分钟", together: "一起找对称轴，先指一指对应的位置。", afterwards: "折一张纸，画出另一半图案。" },
@@ -31,14 +31,12 @@ export const PLAYGROUND_DISCOVERY: PlaygroundDiscovery[] = [
   { href: "/playground/gomoku", group: "think", age: "7 岁起", duration: "10–20 分钟", together: "偶尔暂停，请双方各说一个下一步的想法。", afterwards: "在纸上留下一个局面，一起找两种应对。" },
   { href: "/playground/minesweeper", group: "think", age: "8 岁起", duration: "10–15 分钟", together: "从入门课程开始，区分有依据的判断和猜测。", afterwards: "画下一个数字局面，说明哪些格子还不能确定。" },
   { href: "/playground/functionwars", group: "think", age: "11 岁起", duration: "15–25 分钟", together: "每次只改一个参数，先猜弹道会怎么变。", afterwards: "在纸上画出两条轨迹，标出改变的参数。" },
-  { href: "/playground/2048", group: "more", age: "8 岁起", duration: "5–15 分钟", together: "一起商量要把大数字留在哪里。", afterwards: "记录一次失误，画出另一种移动选择。" },
   { href: "/playground/sudoku", group: "more", age: "8 岁起", duration: "10–20 分钟", together: "从简单难度开始，说出一个数字被排除的原因。", afterwards: "在纸上留下候选数，解释下一步的依据。" },
   { href: "/playground/nqueens", group: "more", age: "9 岁起", duration: "10–20 分钟", together: "先试四皇后，遇到冲突就一起退回一步。", afterwards: "在方格纸上摆棋子，画出互相攻击的方向。" },
-  { href: "/playground/fifteen", group: "more", age: "8 岁起", duration: "10–20 分钟", together: "先定一个小目标，再讨论空格要留在哪里。", afterwards: "用纸片摆出局面，试着只复原一行。" },
   { href: "/playground/ballsort", group: "more", age: "6 岁起", duration: "5–15 分钟", together: "倒球前先想想，哪个空管要暂时留着。", afterwards: "用彩色积木模拟移动，再给彼此出题。" },
 ]
 
 export const PLAYGROUND_DISCOVERY_BY_HREF = new Map(PLAYGROUND_DISCOVERY.map((game) => [game.href, game]))
 
-/** 首页分类卡展示公开目录数量，不含仅保留直达与历史数据的玩法。 */
+/** 首页分类卡展示当前公开目录数量。 */
 export const PLAYGROUND_MINI_GAMES_COUNT = PLAYGROUND_DISCOVERY.length

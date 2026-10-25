@@ -27,7 +27,7 @@ import {
 } from "./use-function-wars"
 
 const { getPlaygroundItemMock, setPlaygroundItemMock } = vi.hoisted(() => ({
-    getPlaygroundItemMock: vi.fn(() => null),
+    getPlaygroundItemMock: vi.fn<() => unknown>(() => null),
     setPlaygroundItemMock: vi.fn(),
 }))
 
@@ -79,17 +79,15 @@ const CAMPAIGN_SOLUTIONS = {
         { expression: "2.85x-0.19x^2", weapon: "standard" },
     ],
     "canyon-05": [
-        { expression: "-0.4746abs(x-12)+5.695", weapon: "standard" },
+        { expression: "-0.4746abs(x-12)+5.6952", weapon: "standard" },
         { expression: "-0.5abs(x-10)+5", weapon: "standard" },
     ],
     "canyon-06": [
-        { expression: "0.7", weapon: "standard" },
+        { expression: "0.044303797468x", weapon: "standard" },
         { expression: "1.7823x-0.11x^2", weapon: "drill" },
     ],
     "canyon-07": [
-        { expression: "1.4x-0.074x^2", weapon: "split" },
-        { expression: "1.214791x-0.07x^2", weapon: "heavy" },
-        { expression: "1.717367x-0.071x^2", weapon: "standard" },
+        { expression: "x-x^2/24", weapon: "split" },
     ],
     "space-08": [
         { expression: "2.115415sin(0.1x)", weapon: "standard" },
@@ -100,14 +98,13 @@ const CAMPAIGN_SOLUTIONS = {
         { expression: "5.450039sin(0.15x)", weapon: "standard" },
     ],
     "space-10": [
-        { expression: "3.2", weapon: "mirror" },
+        { expression: "0.0027x^2(20-x)", weapon: "mirror" },
         { expression: "0", weapon: "drill" },
     ],
 } as const satisfies Record<string, readonly CampaignShot[]>
 
 const CHALLENGE_SOLUTIONS = {
     "challenge-11": [
-        { expression: "2sin(pi*x/10)", weapon: "standard" },
         { expression: "2sin(pi*x/10)", weapon: "standard" },
     ],
     "challenge-12": [
@@ -242,6 +239,30 @@ describe("function wars definitions", () => {
         }
     })
 
+    it("showcases a split shower hitting three visually separated damaged targets", () => {
+        const level = FUNCTION_WARS_LEVELS[6]
+        expect(createFunctionWarsState(level).enemies.map((enemy) => enemy.radius)).toEqual([0.42, 0.42, 0.42])
+        const split = fire(level, "x-x^2/24", "split")
+        expect(split.state.status).toBe("won")
+        expect(split.shot.traces.filter((trace) => trace.fragment).map((trace) => trace.hitId).sort()).toEqual(["c7-e1", "c7-e2", "c7-e3"])
+        expect(split.shot.traces.filter((trace) => trace.fragment)).toHaveLength(3)
+        expect(fire(level, "x-x^2/24", "standard").state.status).toBe("playing")
+        let state = createFunctionWarsState(level)
+        for (const expression of ["x-0.05739796x^2", "3x-0.22216796875x^2", "1.5x-0.125x^2"]) {
+            if (state.status !== "playing") break
+            const outcome = simulateFunctionWarsShot(level, state, expression, "standard")
+            expect(outcome.ok).toBe(true)
+            if (outcome.ok) state = outcome.state
+        }
+        expect(state.status, JSON.stringify(state)).toBe("won")
+        expect(state.shots).toBe(3)
+    })
+
+    it.each([[undefined, 50], [25, 25], [-10, 1], [1000, 50], [NaN, 50], [Infinity, 50]])("clamps configured initial enemy hp %s to %s", (initialHp, expected) => {
+        const state = createFunctionWarsState(testLevel({ enemies: [{ id: "enemy", type: "normal", position: { x: 0, y: 0 }, initialHp }] }))
+        expect(state.enemies[0]).toMatchObject({ hp: expected, maxHp: 50 })
+    })
+
     it("encodes standard-two-hit and heavy-or-drill-one-hit armor rules", () => {
         expect(FUNCTION_WARS_ENEMY_HP.armored).toBe(100)
         expect(getDamageAgainstEnemy("standard", "armored")).toBe(50)
@@ -371,19 +392,19 @@ describe("function wars shot simulation", () => {
                 { id: "armor-support", kind: "rect", x: -2, y: -0.59, width: 1.3, height: 0.7, destructible: true, material: "wood" },
             ],
         })
-        const result = fire(level, "0.5-0.15x", "heavy")
+        const result = fire(level, "-0.0875x", "heavy")
 
         expect(result.state.status).toBe("playing")
         expect(result.state.playerAlive).toBe(true)
-        expect(result.state.enemies[0].hp).toBe(9)
+        expect(result.state.enemies[0].hp).toBe(11)
         expect(result.state.fallDamagedUnitIds).toEqual(["armor"])
         expect(result.shot.falls).toEqual([{ unitId: "armor", side: "enemy", position: { x: -2, y: 0 } }])
         expect(result.shot.lost).toBe(false)
 
-        const next = simulateFunctionWarsShot(level, result.state, "4", "standard")
+        const next = simulateFunctionWarsShot(level, result.state, "x", "standard")
         expect(next.ok).toBe(true)
         if (!next.ok) return
-        expect(next.state.enemies[0].hp).toBe(9)
+        expect(next.state.enemies[0].hp).toBe(11)
         expect(next.shot.falls).toEqual([])
     })
 
@@ -397,7 +418,7 @@ describe("function wars shot simulation", () => {
                 { id: "enemy-support", kind: "rect", x: -2, y: -0.59, width: 1.3, height: 0.7, destructible: false, material: "steel" },
             ],
         })
-        const result = fire(level, "-0.3", "standard")
+        const result = fire(level, "-x", "standard")
 
         expect(result.state.status).toBe("lost")
         expect(result.state.playerAlive).toBe(false)
@@ -435,6 +456,39 @@ describe("function wars shot simulation", () => {
         expect(state.buffs.blastBoost).toBe(true)
     })
 
+    it.each(["0sin(x)+x+0*pi", "sin(x)-sin(x)+pi*x/pi", "0.001sin(pi*x)+x"])("rejects decorative required functions without spending ammo: %s", expression => {
+        const level = testLevel({ mission: { expressionRule: { allFunctions: ["sin"], constants: ["pi"] } } })
+        const state = createFunctionWarsState(level)
+        expect(simulateFunctionWarsShot(level, state, expression, "heavy")).toMatchObject({ok:false,code:"mission_rule"})
+        expect(state.shots).toBe(0)
+        expect(state.inventory.heavy).toBe(2)
+    })
+
+    it("ends challenge 15 immediately when targets clear without the effective sine objective", () => {
+        const level = FUNCTION_WARS_LEVELS[14]
+        const first = fire(level, "0.4abs(x-8)-3.2", "mirror")
+        const second = simulateFunctionWarsShot(level, first.state, "0.01abs(x)", "drill")
+        expect(second.ok).toBe(true)
+        if (!second.ok) return
+        expect(second.state.enemies.every(enemy => enemy.hp <= 0)).toBe(true)
+        expect(second.state.relays.every(relay => !relay.active)).toBe(true)
+        expect(second.state.status).toBe("lost")
+        expect(second.state.lossReason).toBe("mission_incomplete")
+        expect(simulateFunctionWarsShot(level, second.state, "0.1sin(x)", "standard")).toMatchObject({ok:false,code:"game_complete"})
+    })
+
+    it("previews the current shot without mutating ammo, buffs or random state", () => {
+        const {result} = renderHook(() => useFunctionWars())
+        const before = result.current.inventory
+        const preview = result.current.previewShot
+        expect(preview.ok).toBe(true)
+        expect(result.current.inventory).toBe(before)
+        expect(result.current.shots).toBe(0)
+        let actual
+        act(() => { actual = result.current.fire() })
+        expect(actual).toEqual(preview)
+    })
+
     it.each(["mirror", "split"] as const)("collects a relay only once across %s traces", (weapon) => {
         const level = testLevel({
             enemies: [{ id: "far", type: "normal", position: { x: 10, y: 5 } }],
@@ -451,7 +505,7 @@ describe("function wars shot simulation", () => {
         const level = testLevel({
             enemies: [{ id: "enemy", type: "normal", position: { x: -2, y: 0 } }],
         })
-        const missed = simulateFunctionWarsShot(level, createFunctionWarsState(level), "abs(x)+5", "heavy")
+        const missed = simulateFunctionWarsShot(level, createFunctionWarsState(level), "abs(x)", "heavy")
         expect(missed.ok).toBe(true)
         if (!missed.ok) return
         expect(missed.shot.effective).toBe(false)
@@ -462,7 +516,7 @@ describe("function wars shot simulation", () => {
         expect(hit.ok).toBe(true)
         if (!hit.ok) return
         expect(hit.shot.effective).toBe(true)
-        expect(hit.state.effectiveFunctions).toEqual(["sin"])
+        expect(hit.state.effectiveFunctions).toEqual([])
         expect(hit.state.effectiveWeapons).toEqual(["standard"])
     })
 
@@ -472,7 +526,7 @@ describe("function wars shot simulation", () => {
             mission: { effectiveFunctions: ["sin"], shotLimit: 1 },
         })
 
-        const result = fire(level, "0sin(x)", "standard")
+        const result = fire(level, "0.1sin(x)", "standard")
 
         expect(result.state.status).toBe("won")
         expect(result.state.lossReason).toBeNull()
@@ -513,6 +567,14 @@ describe("function wars shot simulation", () => {
         expect(result.state.enemies[0].hp).toBeLessThan(100)
     })
 
+    it("splits at an earlier wall collision even when the unimpeded rising path would exit the ceiling", () => {
+        const level = testLevel({ obstacles: [{id:"steel-wall",kind:"rect",x:-7,y:0,width:0.5,height:14,destructible:false,material:"steel"}] })
+        const result = fire(level, "2x", "split")
+        expect(result.shot.traces).toHaveLength(4)
+        expect(result.shot.traces[0]).toMatchObject({termination:"split",hitId:"steel-wall"})
+        expect(result.shot.traces[0].impact?.x).toBeCloseTo(-7.33)
+    })
+
     it("emits three vertical fragments and two mirrored function traces", () => {
         const split = fire(testLevel(), "0", "split")
         expect(split.shot.traces).toHaveLength(4)
@@ -535,13 +597,13 @@ describe("function wars shot simulation", () => {
             player: { x: -10, y: 0 },
             enemies: [{ id: "far", type: "normal", position: { x: 8, y: 0 } }],
         })
-        const result = fire(level, "1/(x-5)", "standard")
+        const result = fire(level, "1/(x-5)+0.2", "standard")
 
         expect(["discontinuity", "domain_error", "out_of_bounds"]).toContain(result.shot.traces[0].termination)
         expect(result.state.enemies[0].hp).toBe(50)
     })
 
-    it("continues above the vertical boundary and hits after re-entering", () => {
+    it("stops at the vertical boundary before re-entry", () => {
         const level = testLevel({
             player: { x: -10, y: 0 },
             enemies: [{ id: "return-target", type: "normal", position: { x: 5, y: 5.4 } }],
@@ -549,10 +611,9 @@ describe("function wars shot simulation", () => {
         const result = fire(level, "0.12x(18-x)", "standard")
         const trace = result.shot.traces[0]
 
-        expect(trace.points.some((point) => point.y > FUNCTION_WARS_WORLD.maxY)).toBe(true)
-        expect(trace.termination).toBe("hit_enemy")
-        expect(trace.impact?.y).toBeLessThanOrEqual(FUNCTION_WARS_WORLD.maxY)
-        expect(result.state.status).toBe("won")
+        expect(trace.points.every((point) => point.y <= FUNCTION_WARS_WORLD.maxY)).toBe(true)
+        expect(trace.termination).toBe("out_of_bounds")
+        expect(result.state.enemies[0].hp).toBe(50)
     })
 
     it("finishes without damage when an offscreen curve never re-enters", () => {
@@ -563,9 +624,9 @@ describe("function wars shot simulation", () => {
         const result = fire(level, "x", "standard")
         const trace = result.shot.traces[0]
 
-        expect(trace.termination).toBe("completed")
-        expect(trace.points.some((point) => point.y > FUNCTION_WARS_WORLD.maxY)).toBe(true)
-        expect(trace.points.at(-1)).toEqual({ x: FUNCTION_WARS_WORLD.maxX, y: 22 })
+        expect(trace.termination).toBe("out_of_bounds")
+        expect(trace.points.every((point) => point.y <= FUNCTION_WARS_WORLD.maxY)).toBe(true)
+        expect(trace.points.at(-1)).toEqual({ x: -3, y: 7 })
         expect(result.shot.damage).toEqual([])
         expect(result.state.enemies[0].hp).toBe(50)
     })
@@ -575,6 +636,92 @@ describe("useFunctionWars", () => {
     beforeEach(() => {
         vi.clearAllMocks()
         getPlaygroundItemMock.mockReturnValue(null)
+    })
+
+    it("migrates old records without inventing stars or solutions", () => {
+        getPlaygroundItemMock.mockReturnValue({ totalGames: 4, solvedLevels: ["grass-01", "grass-01"], bestShots: { "grass-01": 1 }, bestTimes: { "grass-01": 6 }, onlineGames: 2, onlineWins: 1 })
+        const { result } = renderHook(() => useFunctionWars())
+        expect(result.current.stats).toEqual({ totalGames: 4, solvedLevels: ["grass-01"], bestShots: { "grass-01": 1 }, bestTimes: { "grass-01": 6 }, onlineGames: 2, onlineWins: 1, bestStars: {}, bestSolutions: {} })
+    })
+
+    it("rejects malformed stars and inconsistent solution steps", () => {
+        getPlaygroundItemMock.mockReturnValue({
+            bestStars: { "grass-01": 2.5, "grass-02": 4, "grass-03": 3, unknown: 3 },
+            bestSolutions: {
+                "grass-01": { stars: 3, shots: 2, steps: [{ expression: "0", weaponId: "standard" }] },
+                "grass-02": { stars: 3, shots: 1, steps: [{ expression: "0", weaponId: "unknown" }] },
+                "grass-03": { stars: 2, shots: 1, steps: [{ expression: "0", weaponId: "standard" }] },
+            },
+        })
+        const { result } = renderHook(() => useFunctionWars())
+        expect(result.current.stats.bestStars).toEqual({ "grass-03": 3 })
+        expect(result.current.stats.bestSolutions).toEqual({})
+    })
+
+    it("keeps the best stars and matching actual shot sequence after a slower win", () => {
+        const { result } = renderHook(() => useFunctionWars())
+        act(() => { result.current.fire("bad input") })
+        act(() => { result.current.fire("0") })
+        expect(result.current.stats.bestSolutions["grass-01"]).toEqual({ stars: 3, shots: 1, steps: [{ expression: "0", weaponId: "standard" }] })
+        act(() => { result.current.retryLevel() })
+        act(() => { result.current.fire("x") })
+        act(() => { result.current.fire("0") })
+        expect(result.current.stars).toBe(2)
+        expect(result.current.stats.bestStars["grass-01"]).toBe(3)
+        expect(result.current.stats.bestSolutions["grass-01"]?.shots).toBe(1)
+        expect(setPlaygroundItemMock).toHaveBeenLastCalledWith(FUNCTION_WARS_STATS_KEY, result.current.stats)
+    })
+
+    it("replaces a lower-star run with its complete higher-star shot sequence", () => {
+        const { result } = renderHook(() => useFunctionWars())
+        act(() => { result.current.fire("x") })
+        act(() => { result.current.fire("0") })
+        expect(result.current.stats.bestSolutions["grass-01"]?.steps).toEqual([{ expression: "x", weaponId: "standard" }, { expression: "0", weaponId: "standard" }])
+        act(() => { result.current.retryLevel() })
+        act(() => { result.current.fire("0") })
+        expect(result.current.stats.bestSolutions["grass-01"]).toEqual({ stars: 3, shots: 1, steps: [{ expression: "0", weaponId: "standard" }] })
+    })
+
+    it("prefers fewer shots when stars tie and reloads the same winning steps", () => {
+        const { result, unmount } = renderHook(() => useFunctionWars())
+        for (const expression of ["x", "x", "0"]) act(() => { result.current.fire(expression) })
+        expect(result.current.stats.bestSolutions["grass-01"]?.stars).toBe(2)
+        act(() => { result.current.retryLevel() })
+        for (const expression of ["x", "0"]) act(() => { result.current.fire(expression) })
+        const saved = result.current.stats
+        expect(saved.bestSolutions["grass-01"]).toEqual({ stars: 2, shots: 2, steps: [{ expression: "x", weaponId: "standard" }, { expression: "0", weaponId: "standard" }] })
+        unmount()
+        getPlaygroundItemMock.mockReturnValue(saved)
+        const reloaded = renderHook(() => useFunctionWars())
+        expect(reloaded.result.current.stats).toEqual(saved)
+    })
+
+    it("preserves the expression on retry and clears it for a fresh level", () => {
+        const { result } = renderHook(() => useFunctionWars())
+        act(() => { result.current.setExpression("0.25x") })
+        act(() => { result.current.retryLevel() })
+        expect(result.current.expression).toBe("0.25x")
+        act(() => { result.current.startLevel(1) })
+        expect(result.current.expression).toBe("0")
+    })
+
+    it("switches exhausted special ammo to standard while preserving shot metadata", () => {
+        const { result } = renderHook(() => useFunctionWars(1))
+        act(() => { result.current.selectWeapon("heavy") })
+        act(() => { result.current.fire("x") })
+        expect(result.current.status).toBe("playing")
+        expect(result.current.selectedWeapon).toBe("standard")
+        expect(result.current.lastShot?.weaponId).toBe("heavy")
+        expect(result.current.weaponNotice).toContain("已切换")
+        act(() => { result.current.selectWeapon("standard") })
+        expect(result.current.weaponNotice).toBeNull()
+        act(() => { result.current.retryLevel() })
+        act(() => { result.current.selectWeapon("heavy") })
+        act(() => { result.current.fire("0.25x") })
+        expect(result.current.status).toBe("won")
+        expect(result.current.selectedWeapon).toBe("heavy")
+        expect(result.current.weaponNotice).toBeNull()
+        expect(result.current.stats.bestSolutions["grass-02"]?.steps).toEqual([{ expression: "0.25x", weaponId: "heavy" }])
     })
 
     it("scores par thresholds", () => {

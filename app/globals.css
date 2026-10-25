@@ -963,62 +963,797 @@
     mix-blend-mode: normal;
   }
 
+  .function-wars-page {
+    --fw-ink: 209 35% 19%;
+    --fw-ink-raised: 207 29% 27%;
+    --fw-paper: 43 58% 93%;
+    --fw-paper-bright: 45 65% 97%;
+    --fw-amber: 38 94% 57%;
+    --fw-amber-shadow: 29 76% 32%;
+    --fw-teal: 173 49% 32%;
+    --fw-teal-bright: 165 52% 63%;
+    --fw-shadow: 212 42% 10%;
+  }
+
+  .function-wars-page .function-wars-canvas-frame canvas {
+    position: absolute;
+    inset: 0;
+  }
+
+  .function-wars-current-weapon {
+    display: none;
+  }
+
+  /* Paper surfaces keep their own light palette inside either site theme. */
+  .function-wars-page :is(.function-wars-tools, .function-wars-result, .function-wars-level-header, .function-wars-parameters, .function-wars-weapon-options) {
+    --background: var(--fw-paper-bright);
+    --foreground: var(--fw-ink);
+    --muted: 42 35% 87%;
+    --muted-foreground: var(--fw-ink-raised);
+    --border: 37 20% 74%;
+    --input: 37 20% 66%;
+    --primary: var(--fw-teal);
+    --primary-foreground: var(--fw-paper-bright);
+    --accent: 42 35% 87%;
+    --accent-foreground: var(--fw-ink);
+    --ring: var(--fw-teal);
+    --color-background: hsl(var(--background));
+    --color-foreground: hsl(var(--foreground));
+    --color-muted: hsl(var(--muted));
+    --color-muted-foreground: hsl(var(--muted-foreground));
+    --color-border: hsl(var(--border));
+    --color-input: hsl(var(--input));
+    --color-primary: hsl(var(--primary));
+    --color-primary-foreground: hsl(var(--primary-foreground));
+    --color-accent: hsl(var(--accent));
+    --color-accent-foreground: hsl(var(--accent-foreground));
+    --color-ring: hsl(var(--ring));
+    color: hsl(var(--fw-ink));
+    color-scheme: light;
+  }
+
+  .function-wars-page .function-wars-result {
+    color: hsl(var(--fw-ink));
+    background: hsl(var(--fw-paper));
+  }
+
+  .function-wars-tools :is([class~="dark:text-emerald-300"], [class~="dark:text-emerald-200"]) { color: #187057; }
+  .function-wars-tools :is([class~="dark:text-amber-300"], [class~="dark:text-amber-200"]) { color: #925c10; }
+  .function-wars-tools [class~="dark:text-sky-300"] { color: #1f648a; }
+  .function-wars-tools [class~="dark:text-violet-300"] { color: #7650a0; }
+  .function-wars-tools [class~="dark:text-red-300"] { color: #a63c31; }
+
+  .function-wars-page :is(button, input, details) {
+    border-radius: var(--radius-sm);
+  }
+
+  .function-wars-page :is(button, summary, input):focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 3px;
+  }
+
+  .function-wars-page .function-wars-mission p > span:last-child {
+    white-space: normal;
+    overflow: visible;
+    line-height: 1.6;
+  }
+
+
+  .function-wars-page [hidden] {
+    display: none !important;
+  }
+
+  .function-wars-immersive-toggle {
+    float: right;
+    margin-left: 8px;
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 479px) {
+    .function-wars-page-header [data-function-wars-mode] button {
+      gap: 4px;
+      padding-inline: 4px;
+    }
+
+    .function-wars-page-header [data-function-wars-mode] svg {
+      display: none;
+    }
+  }
+
+  .function-wars-page .function-wars-tools,
+  .function-wars-page .function-wars-level-header {
+    --background: var(--fw-paper-bright);
+    --foreground: var(--fw-ink);
+    --muted-foreground: 209 17% 40%;
+    --border: 209 20% 76%;
+    --primary: var(--fw-teal);
+    --primary-foreground: var(--fw-paper-bright);
+    color: hsl(var(--fw-ink));
+  }
+
+  .function-wars-page:not(.function-wars-immersive) .function-wars-level-header {
+    border-color: hsl(var(--fw-ink) / 0.3);
+    background: hsl(var(--fw-paper));
+    box-shadow: 0 2px 0 hsl(var(--fw-ink) / 0.12);
+  }
+
+  .function-wars-page:not(.function-wars-immersive) .function-wars-control-panel {
+    padding: 10px;
+    border: 2px solid hsl(var(--fw-ink));
+    background: hsl(var(--fw-ink));
+  }
+
+  .function-wars-page:not(.function-wars-immersive) .function-wars-dock > label {
+    margin-top: 0;
+    color: hsl(var(--fw-paper) / 0.8);
+  }
+
+  .function-wars-page:not(.function-wars-immersive) .function-wars-input-error {
+    color: hsl(var(--fw-paper));
+  }
+
+  .function-wars-page:not(.function-wars-immersive) .function-wars-tools {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    background: hsl(var(--fw-paper));
+  }
+
+  .function-wars-immersive {
+    --function-wars-dock-height: calc(56px + env(safe-area-inset-bottom, 0px));
+    position: fixed;
+    inset-inline: 0;
+    top: var(--function-wars-viewport-top, 0px);
+    z-index: 100;
+    width: 100dvw;
+    height: var(--function-wars-viewport-height, 100dvh);
+    max-width: none;
+    padding: 0;
+    overflow: hidden;
+    background: hsl(var(--fw-ink));
+    isolation: isolate;
+  }
+
+  .function-wars-immersive :is(.function-wars-single-container, .function-wars-online-container, .function-wars-battle-layout, .function-wars-stage) {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .function-wars-immersive :is(.function-wars-battle-layout, .function-wars-stage) {
+    display: block;
+    position: relative;
+  }
+
+  .function-wars-immersive [data-battle-theme="grassland"] {
+    background: #deebe1;
+  }
+
+  .function-wars-immersive [data-battle-theme="canyon"] {
+    background: #f1dfc5;
+  }
+
+  .function-wars-immersive [data-battle-theme="space"] {
+    background: #14293d;
+  }
+
+  .function-wars-immersive .function-wars-battlefield-shell {
+    position: absolute;
+    inset: 0 0 var(--function-wars-dock-height);
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .function-wars-immersive .function-wars-canvas-frame {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto !important;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .function-wars-immersive :is(.function-wars-immersive-toggle, .function-wars-operations-trigger) {
+    position: absolute;
+    top: max(8px, env(safe-area-inset-top, 0px));
+    z-index: 5;
+    min-height: 44px;
+    margin: 0;
+    border: 1px solid hsl(var(--fw-paper) / 0.25);
+    border-bottom: 3px solid hsl(var(--fw-shadow));
+    color: hsl(var(--fw-paper));
+    background: hsl(var(--fw-ink) / 0.96);
+    box-shadow: 0 3px 0 hsl(var(--fw-shadow) / 0.28), inset 0 1px 0 hsl(var(--fw-paper) / 0.14);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .function-wars-immersive :is(.function-wars-immersive-toggle, .function-wars-operations-trigger):hover {
+    background: hsl(var(--fw-ink-raised));
+  }
+
+  .function-wars-immersive .function-wars-immersive-toggle {
+    left: max(8px, env(safe-area-inset-left, 0px));
+  }
+
+  .function-wars-immersive .function-wars-operations-trigger {
+    right: max(8px, env(safe-area-inset-right, 0px));
+  }
+
+  .function-wars-immersive .function-wars-immersive-status {
+    position: absolute;
+    top: max(8px, env(safe-area-inset-top, 0px));
+    left: 50%;
+    z-index: 2;
+    max-width: calc(100% - 260px);
+    min-height: 44px;
+    padding: 5px 14px;
+    transform: translateX(-50%);
+    border: 1px solid hsl(var(--fw-paper) / 0.25);
+    border-bottom: 3px solid hsl(var(--fw-shadow));
+    border-radius: var(--radius-sm);
+    color: hsl(var(--fw-paper));
+    background: hsl(var(--fw-ink) / 0.94);
+    box-shadow: 0 3px 0 hsl(var(--fw-shadow) / 0.2);
+  }
+
+  .function-wars-hud-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .function-wars-stage-number {
+    color: hsl(var(--fw-amber));
+    font-family: var(--font-mono), monospace;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .function-wars-hud-objective {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 2px;
+    color: hsl(var(--fw-paper) / 0.9);
+    font-size: 10px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .function-wars-hud-objective svg {
+    color: hsl(var(--fw-teal-bright));
+    flex-shrink: 0;
+  }
+
+  .function-wars-hud-shots {
+    margin-left: 5px;
+    padding-left: 9px;
+    border-left: 1px solid hsl(var(--fw-paper) / 0.25);
+    color: hsl(var(--fw-paper) / 0.7);
+  }
+
+  .function-wars-immersive .function-wars-control-panel {
+    display: contents;
+  }
+
+  .function-wars-immersive .function-wars-dock {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: 4;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    height: var(--function-wars-dock-height);
+    padding: 5px max(8px, env(safe-area-inset-right, 0px)) max(5px, env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px));
+    border-top: 2px solid hsl(var(--fw-paper) / 0.25);
+    color: hsl(var(--fw-paper));
+    background: linear-gradient(hsl(var(--fw-ink-raised)), hsl(var(--fw-ink)));
+    box-shadow: 0 -3px 0 hsl(var(--fw-shadow) / 0.18);
+  }
+
+  .function-wars-immersive .function-wars-current-weapon {
+    display: grid;
+    grid-template-columns: 24px auto;
+    grid-template-rows: 22px 18px;
+    align-items: center;
+    column-gap: 7px;
+    flex: 0 0 auto;
+    height: 44px;
+    min-width: 90px;
+    color: hsl(var(--fw-paper));
+  }
+
+  .function-wars-current-weapon-icon {
+    grid-row: 1 / 3;
+    width: 24px;
+    height: 24px;
+    color: hsl(var(--fw-teal-bright));
+    filter: drop-shadow(0 2px 0 hsl(var(--fw-shadow) / 0.4));
+  }
+
+  .function-wars-current-weapon-name {
+    align-self: end;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .function-wars-current-ammo {
+    align-self: start;
+    color: hsl(var(--fw-paper) / 0.72);
+    font-family: var(--font-mono), monospace;
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .function-wars-current-ammo::before {
+    content: "弹药 ";
+    font-family: inherit;
+  }
+
+  .function-wars-immersive .function-wars-dock > label {
+    display: none;
+  }
+
+  .function-wars-immersive .function-wars-input-row {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 680px;
+    margin: 0;
+    grid-template-columns: minmax(0, 1fr) 44px 80px;
+  }
+
+  .function-wars-page .function-wars-expression-window {
+    height: 44px;
+    overflow: hidden;
+    border: 1px solid hsl(var(--fw-shadow));
+    border-top: 2px solid hsl(var(--fw-shadow));
+    border-radius: var(--radius-sm);
+    color: hsl(var(--fw-ink));
+    background: hsl(var(--fw-paper-bright));
+    box-shadow: inset 0 2px 3px hsl(var(--fw-shadow) / 0.14);
+  }
+
+  .function-wars-page .function-wars-expression-window:focus-within {
+    border-color: hsl(var(--fw-teal-bright));
+    box-shadow: 0 0 0 2px hsl(var(--fw-teal-bright) / 0.4);
+  }
+
+  .function-wars-page .function-wars-expression-window > span {
+    padding-left: 10px;
+    color: hsl(var(--fw-ink-raised));
+  }
+
+  .function-wars-page .function-wars-dock input {
+    height: 44px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .function-wars-page .function-wars-grid-toggle {
+    border: 1px solid hsl(var(--fw-paper) / 0.3);
+    border-bottom: 3px solid hsl(var(--fw-shadow));
+    color: hsl(var(--fw-paper));
+    background: hsl(var(--fw-ink));
+    box-shadow: inset 0 1px 0 hsl(var(--fw-paper) / 0.1);
+  }
+
+  .function-wars-page .function-wars-grid-toggle[aria-pressed="true"] {
+    border-color: hsl(var(--fw-teal-bright));
+    color: hsl(var(--fw-ink));
+    background: hsl(var(--fw-teal-bright));
+  }
+
+  .function-wars-page .function-wars-fire-button,
+  .function-wars-page .function-wars-result-actions button,
+  .function-wars-immersive .function-wars-online-container .function-wars-result button {
+    border: 1px solid hsl(var(--fw-amber-shadow));
+    border-bottom: 3px solid hsl(var(--fw-amber-shadow));
+    color: hsl(var(--fw-ink));
+    background: hsl(var(--fw-amber));
+    box-shadow: inset 0 1px 0 hsl(var(--fw-paper) / 0.65), 0 2px 0 hsl(var(--fw-shadow) / 0.3);
+    font-weight: 600;
+  }
+
+  .function-wars-page .function-wars-fire-button:hover,
+  .function-wars-page .function-wars-result-actions button:hover,
+  .function-wars-immersive .function-wars-online-container .function-wars-result button:hover {
+    background: hsl(var(--fw-amber) / 0.9);
+  }
+
+  .function-wars-page .function-wars-fire-button:disabled {
+    opacity: 0.6;
+  }
+
+  .function-wars-immersive .function-wars-input-error {
+    position: absolute;
+    bottom: 100%;
+    left: max(8px, env(safe-area-inset-left, 0px));
+    max-width: calc(100% - 16px);
+    margin: 0 0 8px;
+    padding: 8px 12px;
+    border: 2px solid hsl(var(--destructive) / 0.6);
+    border-radius: var(--radius-sm);
+    color: hsl(var(--fw-paper));
+    background: hsl(var(--fw-ink) / 0.98);
+    box-shadow: 0 3px 12px hsl(var(--fw-shadow) / 0.2);
+  }
+
+  .function-wars-immersive .function-wars-dock > p:not(.function-wars-input-error) {
+    display: none;
+  }
+
+  .function-wars-immersive .function-wars-tools {
+    position: absolute;
+    top: max(8px, env(safe-area-inset-top, 0px));
+    right: max(8px, env(safe-area-inset-right, 0px));
+    bottom: calc(var(--function-wars-dock-height) + 8px);
+    z-index: 6;
+    width: min(390px, calc(100% - 16px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0 14px 14px;
+    border: 4px solid hsl(var(--fw-ink));
+    border-radius: var(--radius-md);
+    color: hsl(var(--fw-ink));
+    background: hsl(var(--fw-paper));
+    box-shadow: 0 5px 0 hsl(var(--fw-shadow) / 0.35), 0 10px 30px hsl(var(--fw-shadow) / 0.3);
+  }
+
+  .function-wars-tools-heading {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 48px;
+    margin: 0 -14px 12px;
+    padding-inline: 14px;
+    color: hsl(var(--fw-paper));
+    background: hsl(var(--fw-ink));
+  }
+
+  .function-wars-tools-heading button {
+    color: hsl(var(--fw-paper));
+  }
+
+  .function-wars-tools-heading button:hover {
+    color: hsl(var(--fw-paper));
+    background: hsl(var(--fw-paper) / 0.1);
+  }
+
+  .function-wars-page .function-wars-weapon-bar {
+    padding-block: 8px 12px;
+    border-bottom: 1px solid hsl(var(--fw-ink) / 0.18);
+  }
+
+  .function-wars-page .function-wars-weapon-bar button {
+    min-height: 56px;
+    min-width: 64px;
+    border: 1px solid hsl(var(--fw-ink) / 0.25);
+    border-bottom-width: 3px;
+    color: hsl(var(--fw-ink));
+    background: hsl(var(--fw-paper-bright));
+    font-size: 11px;
+  }
+
+  .function-wars-page .function-wars-weapon-bar button[aria-pressed="true"] {
+    border-color: hsl(var(--fw-teal));
+    color: hsl(var(--fw-paper-bright));
+    background: hsl(var(--fw-teal));
+    box-shadow: inset 0 1px 0 hsl(var(--fw-paper) / 0.3);
+  }
+
+  .function-wars-page .function-wars-weapon-bar button[aria-pressed="true"] svg {
+    color: hsl(var(--fw-paper-bright));
+  }
+
+  .function-wars-page .function-wars-result-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background: hsl(var(--fw-ink) / 0.38);
+  }
+
+  .function-wars-result-layer .function-wars-result {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: min(400px, 100%);
+    max-height: 100%;
+    margin: 0;
+    padding: 12px;
+    border: 2px solid hsl(var(--fw-ink));
+    border-bottom-width: 4px;
+    border-radius: var(--radius-md);
+    color: hsl(var(--fw-ink));
+    background: hsl(var(--fw-paper));
+    box-shadow: 0 5px 0 hsl(var(--fw-shadow) / 0.25), 0 12px 32px hsl(var(--fw-shadow) / 0.25);
+  }
+
+  .function-wars-result-content { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+  .function-wars-result-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .function-wars-result-stars { flex-shrink: 0; gap: 4px; }
+  .function-wars-result-stars > svg { width: 32px; height: 32px; }
+  .function-wars-result-stats { margin-top: 4px; }
+  .function-wars-result-actions { flex-shrink: 0; }
+  .function-wars-result-actions button { font-size: 15px; }
+
+  @media (min-width: 640px) and (min-height: 360px) {
+    .function-wars-result-layer .function-wars-result { padding: 18px; gap: 14px; }
+    .function-wars-result-stars > svg { width: 40px; height: 40px; }
+  }
+
+  .function-wars-immersive .function-wars-online-container .function-wars-result {
+    position: absolute;
+    left: 50%;
+    top: calc((100% - var(--function-wars-dock-height)) / 2);
+    z-index: 3;
+    width: min(440px, calc(100% - 24px));
+    max-height: calc(100% - var(--function-wars-dock-height) - 100px);
+    overflow-y: auto;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 16px;
+    border: 3px solid hsl(var(--fw-ink));
+    border-bottom-width: 6px;
+    border-radius: var(--radius-md);
+    color: hsl(var(--fw-ink));
+    background: hsl(var(--fw-paper));
+    box-shadow: 0 5px 0 hsl(var(--fw-shadow) / 0.25), 0 12px 32px hsl(var(--fw-shadow) / 0.25);
+  }
+
+  .function-wars-page .function-wars-result-kicker {
+    margin-bottom: 3px;
+    color: hsl(var(--fw-teal));
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .function-wars-page .function-wars-result-title {
+    color: hsl(var(--fw-ink));
+    font-size: 18px;
+    line-height: 1.35;
+  }
+
+  .function-wars-immersive .function-wars-result .text-muted-foreground {
+    color: hsl(var(--fw-ink-raised));
+  }
+
+  .function-wars-page .function-wars-result-emblem {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border: 2px solid hsl(var(--fw-amber-shadow));
+    border-bottom-width: 4px;
+    border-radius: var(--radius-md);
+    color: hsl(var(--fw-ink));
+    background: hsl(var(--fw-amber));
+    box-shadow: inset 0 1px 0 hsl(var(--fw-paper) / 0.5);
+  }
+
+  .function-wars-immersive [data-result="lost"] .function-wars-result-emblem {
+    border-color: hsl(var(--fw-ink));
+    color: hsl(var(--fw-paper));
+    background: hsl(var(--fw-ink-raised));
+  }
+
+  .function-wars-immersive [data-result="lost"] .function-wars-result-kicker {
+    color: hsl(var(--destructive));
+  }
+
+  .function-wars-immersive .function-wars-online-status {
+    position: absolute;
+    top: max(8px, env(safe-area-inset-top, 0px));
+    left: max(132px, calc(env(safe-area-inset-left, 0px) + 124px));
+    right: max(102px, calc(env(safe-area-inset-right, 0px) + 94px));
+    z-index: 2;
+    max-width: 520px;
+    margin-inline: auto;
+    padding: 5px 12px;
+    border: 1px solid hsl(var(--fw-paper) / 0.25);
+    border-bottom: 3px solid hsl(var(--fw-shadow));
+    border-radius: var(--radius-sm);
+    color: hsl(var(--fw-paper));
+    background: hsl(var(--fw-ink) / 0.95);
+    box-shadow: 0 3px 0 hsl(var(--fw-shadow) / 0.2);
+  }
+
+  .function-wars-immersive .function-wars-online-status :is(.text-muted-foreground, .text-foreground) {
+    color: hsl(var(--fw-paper) / 0.9);
+  }
+
+  .function-wars-immersive .function-wars-turn-label {
+    color: hsl(var(--fw-teal-bright));
+    font-size: 12px;
+  }
+
+  .function-wars-immersive .function-wars-countdown {
+    color: hsl(var(--fw-amber));
+    font-size: 12px;
+    line-height: 1.1;
+  }
+
+  .function-wars-immersive .function-wars-online-shot-count {
+    display: none;
+  }
+
+  .function-wars-immersive .function-wars-lobby {
+    height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: max(68px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+  }
+
+  @media (max-width: 639px) {
+    .function-wars-immersive .function-wars-online-status {
+      top: calc(max(8px, env(safe-area-inset-top, 0px)) + 52px);
+      left: max(8px, env(safe-area-inset-left, 0px));
+      right: max(8px, env(safe-area-inset-right, 0px));
+    }
+
+    .function-wars-immersive .function-wars-immersive-status {
+      top: calc(max(8px, env(safe-area-inset-top, 0px)) + 52px);
+      max-width: calc(100% - 24px);
+    }
+
+    .function-wars-immersive .function-wars-hud-shots {
+      display: none;
+    }
+
+    .function-wars-immersive .function-wars-dock {
+      gap: 6px;
+    }
+
+    .function-wars-immersive .function-wars-current-weapon {
+      position: relative;
+      display: grid;
+      grid-template-columns: 28px;
+      grid-template-rows: 26px 14px;
+      justify-items: center;
+      min-width: 28px;
+    }
+
+    .function-wars-current-weapon-icon {
+      grid-row: 1;
+      width: 22px;
+      height: 22px;
+    }
+
+    .function-wars-current-weapon-name,
+    .function-wars-current-ammo::before {
+      display: none;
+    }
+
+    .function-wars-current-ammo {
+      font-size: 10px;
+      line-height: 14px;
+    }
+
+    .function-wars-immersive .function-wars-input-row {
+      gap: 6px;
+      grid-template-columns: minmax(0, 1fr) 44px 68px;
+    }
+  }
+
   @media (orientation: landscape) and (min-width: 640px) and (max-width: 1023px) and (max-height: 520px) {
-    .function-wars-page {
+    body:has(.function-wars-page:not(.function-wars-immersive)) .app-desktop-header {
+      display: none;
+    }
+
+    body:has(.function-wars-page:not(.function-wars-immersive)) .playground-mobile-header {
+      --mobile-global-header-height: 0px;
+    }
+
+    .function-wars-page:not(.function-wars-immersive) {
+      display: grid;
+      grid-template-columns: minmax(230px, 32%) minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 6px 8px;
       padding: 4px 8px 12px;
     }
 
-    .function-wars-page-header {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-immersive-toggle {
+      grid-column: 3;
+      grid-row: 1;
+      float: none;
+      margin: 0;
+    }
+
+    .function-wars-page:not(.function-wars-immersive) .function-wars-page-header > div:last-child {
+      width: 100%;
+    }
+
+    .function-wars-page:not(.function-wars-immersive) .function-wars-single-container:not([hidden]) {
+      display: contents;
+    }
+
+    .function-wars-page:not(.function-wars-immersive) .function-wars-page-header {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .function-wars-page:not(.function-wars-immersive) .function-wars-level-header {
+      grid-column: 2;
+      grid-row: 1;
+      margin: 0;
+      padding: 0 8px;
+    }
+
+    .function-wars-page:not(.function-wars-immersive) .function-wars-level-header > summary {
+      min-height: 44px;
+      padding: 4px 0;
+    }
+
+    .function-wars-page:not(.function-wars-immersive) .function-wars-battle-layout,
+    .function-wars-page:not(.function-wars-immersive) .function-wars-online-container {
+      grid-column: 1 / -1;
+    }
+
+    .function-wars-page:not(.function-wars-immersive) .function-wars-page-header {
       margin-bottom: 6px;
       min-height: 44px;
     }
 
-    .function-wars-page-header > div:first-child > span {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-page-header > div:first-child > span {
       height: 40px;
       width: 40px;
     }
 
-    .function-wars-level-header {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-level-header {
       margin-bottom: 8px;
       padding: 6px 8px;
     }
 
-    .function-wars-level-header > div:first-child p + p {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-level-header > div:first-child p + p {
       display: none;
     }
 
-    .function-wars-level-header > div:last-child {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-level-header > div:last-child {
       margin-top: 6px;
     }
 
-    .function-wars-level-rail {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-level-rail {
       display: grid;
       grid-template-columns: minmax(190px, 230px) minmax(0, 1fr);
       align-items: end;
       gap: 6px;
     }
 
-    .function-wars-level-rail > * {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-level-rail > * {
       margin-top: 0;
     }
 
-    .function-wars-chapter-switch {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-chapter-switch {
       max-width: none;
     }
 
-    .function-wars-level-scroller {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-level-scroller {
       min-width: 0;
       padding-bottom: 0;
     }
 
-    .function-wars-battle-layout {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-battle-layout {
       grid-template-columns: minmax(0, 1fr) minmax(300px, 38vw);
       align-items: start;
       gap: 8px;
     }
 
-    .function-wars-battlefield-shell {
-      position: static;
+    .function-wars-page:not(.function-wars-immersive) .function-wars-battlefield-shell {
+      position: relative;
       left: auto;
       width: 100%;
       max-width: none;
@@ -1026,44 +1761,176 @@
       transform: none;
     }
 
-    .function-wars-control-panel {
-      max-height: calc(100dvh - 8px);
+    .function-wars-page:not(.function-wars-immersive) .function-wars-control-panel {
+      max-height: calc(100dvh - 116px);
       overflow-y: auto;
       padding: 8px;
       overscroll-behavior: contain;
     }
 
-    .function-wars-weapon-bar button {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-weapon-bar button {
       min-height: 44px;
       padding-top: 4px;
       padding-bottom: 4px;
     }
 
-    .function-wars-mission {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-mission {
       margin-top: 6px;
       padding: 6px;
     }
 
-    .function-wars-mission > div {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-mission > div {
       margin-top: 4px;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 2px 6px;
     }
 
-    .function-wars-control-panel label[for="function-wars-expression"] {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-control-panel label[for="function-wars-expression"] {
       margin-top: 8px;
     }
 
-    .function-wars-keyboard-toggle {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-keyboard-toggle {
       display: inline-flex;
     }
 
-    .function-wars-math-keyboard:not(.is-expanded) {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-math-keyboard:not(.is-expanded) {
       display: none;
     }
 
-    .function-wars-secondary {
+    .function-wars-page:not(.function-wars-immersive) .function-wars-secondary {
       display: none;
     }
   }
+  /* Compact battle tools share one parameter state across both layouts. */
+  .function-wars-page .function-wars-obstacle-legend {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    z-index: 2;
+    display: flex;
+    gap: 10px;
+    padding: 3px 6px;
+    border: 1px solid rgb(94 109 106 / 25%);
+    border-radius: 3px;
+    background: rgb(249 244 227 / 94%);
+    color: #293f46;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 16px;
+    pointer-events: none;
+  }
+  .function-wars-obstacle-legend > span { display: inline-flex; align-items: center; gap: 4px; }
+  .function-wars-obstacle-legend svg { width: 12px; height: 12px; flex: none; }
+  .function-wars-obstacle-legend .function-wars-breakable-mark { color: #9a561e; }
+  .function-wars-obstacle-legend .function-wars-solid-mark { color: #496c7c; }
+
+  .function-wars-page .function-wars-mission-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .function-wars-page .function-wars-mission-chips:empty { display: none; }
+  .function-wars-page .function-wars-mission-chips > span {
+    padding: 4px 8px;
+    border: 1px solid hsl(var(--fw-paper) / 0.3);
+    border-radius: var(--radius-sm);
+    color: hsl(var(--fw-paper));
+    background: hsl(var(--fw-ink) / 0.94);
+  }
+  .function-wars-page .function-wars-mission-chips > [data-complete="true"] { color: hsl(var(--fw-teal-bright)); }
+  .function-wars-immersive .function-wars-mission-chips {
+    position: absolute;
+    top: calc(max(8px, env(safe-area-inset-top, 0px)) + 54px);
+    left: max(8px, env(safe-area-inset-left, 0px));
+    right: max(8px, env(safe-area-inset-right, 0px));
+    z-index: 2;
+    pointer-events: none;
+  }
+  .function-wars-page .function-wars-weapon-chooser { display: none; }
+  .function-wars-immersive .function-wars-weapon-chooser { display: block; flex: 0 0 auto; }
+  .function-wars-immersive .function-wars-current-weapon { min-width: 44px; min-height: 44px; }
+  .function-wars-immersive .function-wars-current-weapon:focus-visible { outline: 2px solid hsl(var(--fw-amber)); outline-offset: 2px; }
+  .function-wars-immersive .function-wars-weapon-options {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 8px;
+    max-width: calc(100% - 16px);
+    padding: 8px;
+    border: 2px solid hsl(var(--fw-shadow));
+    border-radius: var(--radius-sm);
+    background: hsl(var(--fw-paper));
+    color: hsl(var(--fw-ink));
+  }
+  .function-wars-page .function-wars-parameters {
+    --background: var(--fw-paper-bright);
+    --foreground: var(--fw-ink);
+    --muted-foreground: 213 18% 35%;
+    color: hsl(var(--fw-ink));
+  }
+  .function-wars-immersive .function-wars-single-container {
+    --function-wars-parameter-height: 0px;
+    --function-wars-dock-height: calc(56px + var(--function-wars-parameter-height) + env(safe-area-inset-bottom, 0px));
+  }
+  .function-wars-immersive .function-wars-single-container:has(.function-wars-parameters[data-guided="true"]) { --function-wars-parameter-height: 70px; }
+  .function-wars-immersive .function-wars-parameters { flex: 0 0 44px; order: 1; }
+  .function-wars-immersive .function-wars-template-chooser { margin: 0; }
+  .function-wars-immersive .function-wars-template-chooser > summary { padding: 12px 6px; text-align: center; list-style: none; }
+  .function-wars-immersive .function-wars-template-chooser > div {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 8px;
+    z-index: 5;
+    width: min(340px, calc(100% - 16px));
+    padding: 12px;
+    border: 2px solid hsl(var(--fw-shadow));
+    border-radius: var(--radius-sm);
+    background: hsl(var(--fw-paper));
+    box-shadow: 0 4px 12px hsl(var(--fw-shadow) / 0.3);
+  }
+  .function-wars-immersive .function-wars-parameter-row {
+    position: absolute;
+    inset: 52px max(8px, env(safe-area-inset-right, 0px)) auto max(8px, env(safe-area-inset-left, 0px));
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 70px;
+    color: hsl(var(--fw-paper));
+  }
+  .function-wars-immersive .function-wars-parameter-row > label { flex: 1; min-width: 0; font-size: 10px; line-height: 1.25; }
+  .function-wars-immersive .function-wars-parameter-row input { margin: 0; height: 44px; }
+  .function-wars-page :is(.function-wars-feedback, .function-wars-weapon-notice) {
+    padding: 6px 10px;
+    color: hsl(var(--fw-paper));
+    background: hsl(var(--fw-ink) / 0.96);
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+  }
+  .function-wars-page .function-wars-feedback[data-tone="warning"] { border-left: 3px solid hsl(var(--fw-amber)); }
+  .function-wars-immersive :is(.function-wars-feedback, .function-wars-weapon-notice) {
+    position: absolute;
+    bottom: calc(var(--function-wars-dock-height) + 5px);
+    left: max(8px, env(safe-area-inset-left, 0px));
+    z-index: 3;
+    max-width: min(520px, calc(100% - 16px));
+    font-size: 11px;
+    pointer-events: none;
+  }
+  .function-wars-immersive .function-wars-weapon-notice { right: 8px; left: auto; bottom: calc(var(--function-wars-dock-height) + 58px); }
+  @media (max-height: 420px) {
+    .function-wars-immersive .function-wars-feedback > span { display: none; }
+    .function-wars-immersive .function-wars-mission-chips { top: 58px; gap: 3px; }
+    .function-wars-immersive .function-wars-mission-chips > span { padding: 2px 6px; font-size: 10px; }
+    .function-wars-immersive .function-wars-parameter-row > label { overflow: hidden; white-space: nowrap; }
+  }
+  @media (max-height: 300px) {
+    .function-wars-immersive .function-wars-single-container:has(.function-wars-parameters[data-guided="true"]) { --function-wars-parameter-height: 54px; }
+    .function-wars-immersive .function-wars-parameter-row { height: 54px; align-items: flex-start; }
+    .function-wars-immersive .function-wars-parameter-row > label { font-size: 9px; }
+    .function-wars-immersive .function-wars-immersive-status { display: none; }
+    .function-wars-immersive .function-wars-feedback { max-width: calc(100% - 16px); }
+  }
+
 }

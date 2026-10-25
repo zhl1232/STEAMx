@@ -61,16 +61,29 @@ for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/playground', { waitUntil: 'domcontentloaded' })
     await expect(page.locator('#playground-create').getByRole('heading', { name: '七巧板' })).toBeVisible()
-    await expect(page.locator('#playground-more a[href="/playground/2048"]')).not.toBeVisible()
+    await expect(page.locator('#playground-more a[href="/playground/sudoku"]')).not.toBeVisible()
     await page.locator('#playground-more > summary').click()
-    await expect(page.locator('#playground-more a[href="/playground/2048"]')).toBeVisible()
-    await expect(page.locator('a[href="/playground/quickmath"]')).toHaveCount(0)
-    await page.getByRole('searchbox', { name: '搜索游乐场玩法' }).fill('2048')
-    await expect(page.locator('main').getByRole('link', { name: /2048/ })).toBeVisible()
+    await expect(page.locator('#playground-more a[href="/playground/sudoku"]')).toBeVisible()
+    for (const game of ['2048', 'fifteen', 'quickmath']) {
+      await expect(page.locator(`a[href="/playground/${game}"]`)).toHaveCount(0)
+    }
+    await page.getByRole('searchbox', { name: '搜索游乐场玩法' }).fill('数独')
+    await expect(page.locator('#main-content').getByRole('link', { name: /数独/ })).toBeVisible()
     await expect(page.getByRole('heading', { name: '搜索结果 · 1 个玩法' })).toBeVisible()
+    for (const name of ['2048', '数字华容道', '速算']) {
+      await page.getByRole('searchbox', { name: '搜索游乐场玩法' }).fill(name)
+      await expect(page.getByText(/没找到这个玩法/)).toBeVisible()
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   })
 }
+
+test('游乐场已删除玩法直达返回 404', async ({ request }) => {
+  for (const game of ['2048', 'fifteen', 'quickmath']) {
+    const response = await request.get(`/playground/${game}`)
+    expect(response.status()).toBe(404)
+  }
+})
 
 test('数织移动端先展示棋盘，竞速登录可选展开', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })

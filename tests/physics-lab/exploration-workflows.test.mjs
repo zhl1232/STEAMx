@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {createDOM} from './dom-fixture.mjs';
-import {EXPLORATIONS} from '../../public/physics-lab/exploration-model.mjs';
+import {createDOM,chooseWorkbench} from './dom-fixture.mjs';
+import {EXPLORATIONS,TOPICS} from '../../public/physics-lab/exploration-model.mjs';
 
 test('topic selection, controls, records, playback and return to wiring work together',async t=>{
  const env=createDOM(await readFile(new URL('../../public/physics-lab/index.html',import.meta.url),'utf8'));
@@ -12,7 +12,7 @@ test('topic selection, controls, records, playback and return to wiring work tog
  const begin=async id=>{await click('#topics-btn');await click($$('[data-topic]').find(b=>b.dataset.topic===EXPLORATIONS.find(e=>e.id===id).topic));await click($$('[data-exploration]').find(b=>b.dataset.exploration===id));};
  const input=async(id,v)=>{$(id).value=String(v);await $(id).fire('input');};
  await t.test('every topic opens an interactive experiment with scoped instructions',async()=>{
-  await click('#topics-btn');assert.equal($$('[data-topic]').length,7);
+  await click('#topics-btn');assert.equal($$('[data-topic]').length,TOPICS.length+1);
   for(const e of EXPLORATIONS.filter(e=>!e.workbench)){await begin(e.id);assert.equal($('#topic-workbench').hidden,false);assert.ok($('#topic-diagram').innerHTML.length>100);assert.equal($$('[data-topic-control]').length,e.controls.length);assert.match($('#topic-guide-text').textContent,new RegExp(e.guides[0].slice(0,4)));}
  });
  await t.test('numeric inputs reject invalid data and guide levels do not change parameters',async()=>{
@@ -35,7 +35,24 @@ test('topic selection, controls, records, playback and return to wiring work tog
   await begin('field');const diagram=$('#topic-diagram');await $('[data-probe]').fire('pointerdown',{clientX:500,clientY:300});await diagram.fire('pointermove',{clientX:606.25,clientY:300});await diagram.fire('pointerup');assert.equal($('#topic-x').value,'1');assert.equal($('#topic-y').value,'0');assert.equal(diagram.hasPointerCapture(1),false);
  });
  await t.test('returning to the original workbench preserves existing wiring and exposes migration',async()=>{
-  const wires=$('#wires-layer').innerHTML;await click('#back-workbench');assert.equal($('#topic-workbench').hidden,true);assert.equal($('body').classList.contains('topic-active'),false);assert.equal($('#wires-layer').innerHTML,wires);
+  const wires=$('#wires-layer').innerHTML;await click('#topics-btn');await chooseWorkbench(document,'circuit');assert.equal($('#topic-workbench').hidden,true);assert.equal($('body').classList.contains('topic-active'),false);assert.equal($('#wires-layer').innerHTML,wires);
   await click('#transfer-btn');assert.ok($('#export-lab-backup'));assert.ok($('#import-lab-backup'));
+ });
+});
+
+test('observation undo preserves newer saves and respects capacity and reload',async t=>{
+ const {createExplorations,OBSERVATION_KEY}=await import('../../public/physics-lab/explorations.js');
+ const html=await readFile(new URL('../../public/physics-lab/index.html',import.meta.url),'utf8');
+ for(const count of [2,120])await t.test(`${count} observations`,async()=>{
+  const env=createDOM(html);Object.assign(globalThis,{document:env.document,localStorage:env.localStorage});
+  const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),click=async e=>(typeof e==='string'?$(e):e).fire('click'),messages=[];
+  const {defaults}=await import('../../public/physics-lab/exploration-model.mjs');
+  const original=Array.from({length:count},(_,i)=>({id:`topic-${i}`,experiment:'sound',params:defaults('sound'),time:0,note:`note-${i}`}));localStorage.setItem(OBSERVATION_KEY,JSON.stringify(original));
+  const lab=createExplorations({openModal(title,html){$('#modal-content').innerHTML=html;},closeModal(){},toast:m=>messages.push(m),openWorkbench(){}});
+  lab.start('sound');lab.showRecords();await click($$('[data-delete-topic]').find(b=>b.dataset.deleteTopic==='topic-1'));await click('#topic-record');$('#topic-note').value='new observation';await click('#save-topic-note');lab.showRecords();await click('#undo-topic-delete');
+  const saved=JSON.parse(localStorage.getItem(OBSERVATION_KEY));
+  if(count===2){assert.deepEqual(saved.map(r=>r.note),['note-0','note-1','new observation']);assert.equal(saved[1].id,'topic-1');}
+  else{assert.equal(saved.length,120);assert.ok(saved.some(r=>r.note==='new observation'));assert.ok(!saved.some(r=>r.id==='topic-1'));assert.match(messages.at(-1),/120/);}
+  const staleUndo=$('#undo-topic-delete');lab.reloadRecords();if(staleUndo)await click(staleUndo);lab.showRecords();assert.equal($('#undo-topic-delete'),null);assert.deepEqual(JSON.parse(localStorage.getItem(OBSERVATION_KEY)),saved);
  });
 });

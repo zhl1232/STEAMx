@@ -20,11 +20,9 @@ import {
     Crown,
     Dna,
     Gamepad2,
-    Grid3X3,
     Hash,
     Layers,
     Palette,
-    PanelTopOpen,
     Search,
     Scale,
     Sigma,
@@ -45,7 +43,7 @@ import { readMergedMinesweeperStats } from "@/lib/playground/minesweeper-stats"
 import { cn } from "@/lib/utils"
 
 type SteamTag = "Science" | "Technology" | "Engineering" | "Arts" | "Math"
-type GameVisual = "mines" | "gomoku" | "life" | "2048" | "24" | "hanoi" | "sudoku" | "nqueens" | "fifteen" | "memory" | "quickmath" | "maze" | "tangram" | "nonogram" | "ballsort" | "balance" | "symmetry" | "functionwars"
+type GameVisual = "mines" | "gomoku" | "life" | "24" | "hanoi" | "sudoku" | "nqueens" | "memory" | "maze" | "tangram" | "nonogram" | "ballsort" | "balance" | "symmetry" | "functionwars"
 
 type GameCard = {
     name: string
@@ -61,7 +59,7 @@ type GameCard = {
     getWins: (raw: unknown) => number
 }
 
-/** 保留全部历史玩法的统计口径；公开目录由 lib/playground/catalog.ts 单独控制。 */
+/** 当前玩法的展示与统计口径；公开目录由 lib/playground/catalog.ts 统一维护。 */
 const GAMES: GameCard[] = [
     {
         name: "扫雷",
@@ -101,19 +99,6 @@ const GAMES: GameCard[] = [
         statsKey: "game_of_life_stats",
         getPlayed: (raw) => safeNum(raw, "totalSessions"),
         getWins: (raw) => countStringArray(raw, "challengesSolved"),
-    },
-    {
-        name: "2048",
-        subtitle: "",
-        href: "/playground/2048",
-        icon: Grid3X3,
-        color: "text-amber-600 dark:text-amber-300",
-        visual: "2048",
-        tags: ["Math", "Technology"],
-        description: "合并相同数字，试试不同的移动顺序。",
-        statsKey: "game_2048_stats",
-        getPlayed: (raw) => safeNum(raw, "totalGames"),
-        getWins: (raw) => safeNum(raw, "wins"),
     },
     {
         name: "24 点",
@@ -169,19 +154,6 @@ const GAMES: GameCard[] = [
         getWins: (raw) => safeNum(raw, "manualSolves"),
     },
     {
-        name: "数字华容道",
-        subtitle: "15 Puzzle",
-        href: "/playground/fifteen",
-        icon: PanelTopOpen,
-        color: "text-cyan-600 dark:text-cyan-300",
-        visual: "fifteen",
-        tags: ["Math", "Engineering"],
-        description: "滑动数字复原顺序，理解可解性与空间规划。",
-        statsKey: "fifteen_puzzle_stats",
-        getPlayed: (raw) => safeNum(raw, "totalGames"),
-        getWins: (raw) => safeNum(raw, "wins"),
-    },
-    {
         name: "记忆翻牌",
         subtitle: "Memory Match",
         href: "/playground/memory",
@@ -193,20 +165,6 @@ const GAMES: GameCard[] = [
         statsKey: "memory_match_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => safeNum(raw, "wins"),
-    },
-    {
-        name: "速算闪电战",
-        subtitle: "Quick Math",
-        href: "/playground/quickmath",
-        icon: Calculator,
-        color: "text-amber-600 dark:text-amber-300",
-        visual: "quickmath",
-        tags: ["Math"],
-        description: "60 秒限时四则运算，连击越高题目越难、奖励越多。",
-        statsKey: "quick_math_stats",
-        getPlayed: (raw) => safeNum(raw, "totalGames"),
-        // 速算保存的是得分，没有单局胜利字段；历史分数不折算成胜利。
-        getWins: () => 0,
     },
     {
         name: "迷宫探险",
@@ -314,7 +272,6 @@ const BADGE_PREVIEW_IDS = [
     "playground_explorer_bronze",
     "playground_victories_bronze",
     "minesweeper_speedster",
-    "game2048_8192",
     "game24_speed",
     "hanoi_perfect",
     "life_challenge_all",
@@ -588,16 +545,9 @@ function PlaygroundHeroVisual() {
         <div className="surface-subtle relative min-h-[220px] overflow-hidden sm:min-h-[280px] lg:min-h-[320px]">
             <div className="pointer-events-none absolute inset-0 opacity-[0.32] bg-[linear-gradient(hsl(var(--brand-blue)/0.2)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--brand-blue)/0.2)_1px,transparent_1px)] bg-size-[42px_42px] dark:opacity-[0.18]" />
             <div className="pointer-events-none absolute inset-x-6 bottom-2 h-24 rounded-xl bg-[radial-gradient(ellipse_at_center,hsl(var(--brand-blue)/0.22),transparent_68%)] blur-xl dark:bg-[radial-gradient(ellipse_at_center,hsl(var(--brand-green)/0.2),transparent_68%)]" />
-            <Image
-                src="/assets/playground-art/playground-hero-foreground.png"
-                alt=""
-                width={1200}
-                height={610}
-                className="absolute inset-3 h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] object-contain drop-shadow-[0_24px_34px_hsl(var(--surface-shadow)/0.22)] dark:brightness-90 dark:saturate-95 in-[.black-gold]:filter-[sepia(1)_saturate(1.35)_hue-rotate(350deg)_brightness(0.94)]"
-                sizes="(min-width: 1024px) 48vw, 92vw"
-                priority
-                aria-hidden="true"
-            />
+            <div className="absolute inset-3 flex items-center justify-center drop-shadow-[0_24px_34px_hsl(var(--surface-shadow)/0.22)]" aria-hidden="true">
+                <div className="aspect-square h-full max-w-full"><TangramArtwork /></div>
+            </div>
         </div>
     )
 }
@@ -629,7 +579,7 @@ function StatCard({
 function ExplorationRecords({ stats }: { stats: AggStats }) {
     return (
         <div className="space-y-4 pb-5">
-            <p className="text-xs leading-6 text-muted-foreground">按已有游玩记录汇总，含历史玩法。胜利、解题和已完成关卡沿用各玩法口径，速算得分不计入；旧版仅存最佳成绩时按成绩条目计数，记录不一定覆盖每一局。</p>
+            <p className="text-xs leading-6 text-muted-foreground">按当前玩法的已有游玩记录汇总。胜利、解题和已完成关卡沿用各玩法口径；旧版仅存最佳成绩时按成绩条目计数，记录不一定覆盖每一局。</p>
             <StatsGrid stats={stats} />
             <div>
                 <h2 className="text-sm font-semibold">探索过的 STEAM 主题</h2>
@@ -715,15 +665,12 @@ function GameArtwork({ game, compact = false }: { game: GameCard; compact?: bool
                     {game.visual === "mines" ? <MinesArtwork /> : null}
                     {game.visual === "gomoku" ? <GomokuArtwork /> : null}
                     {game.visual === "life" ? <LifeArtwork /> : null}
-                    {game.visual === "2048" ? <Game2048Artwork /> : null}
                     {game.visual === "24" ? <Game24Artwork /> : null}
                     {game.visual === "hanoi" ? <HanoiArtwork /> : null}
 
                     {game.visual === "sudoku" ? <SudokuArtwork /> : null}
                     {game.visual === "nqueens" ? <NQueensArtwork /> : null}
-                    {game.visual === "fifteen" ? <FifteenArtwork /> : null}
                     {game.visual === "memory" ? <MemoryArtwork /> : null}
-                    {game.visual === "quickmath" ? <QuickMathArtwork /> : null}
                     {game.visual === "maze" ? <MazeArtwork /> : null}
                     {game.visual === "tangram" ? <TangramArtwork /> : null}
                     {game.visual === "nonogram" ? <NonogramArtwork /> : null}
@@ -816,23 +763,6 @@ function LifeArtwork() {
     )
 }
 
-function Game2048Artwork() {
-    return (
-        <div className="grid h-full grid-cols-2 gap-1.5 bg-muted/70 p-2">
-            {[
-                ["2", "bg-blue-400"],
-                ["0", "bg-rose-400"],
-                ["4", "bg-amber-400"],
-                ["8", "bg-emerald-400"],
-            ].map(([value, color]) => (
-                <span key={value} className={cn("grid place-items-center rounded-sm text-2xl font-black text-white", color)}>
-                    {value}
-                </span>
-            ))}
-        </div>
-    )
-}
-
 function Game24Artwork() {
     const gradientId = `game24-gradient-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`
 
@@ -906,41 +836,6 @@ function NQueensArtwork() {
     )
 }
 
-function FifteenArtwork() {
-    return (
-        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
-            <rect width="92" height="92" rx="18" className="fill-cyan-50 dark:fill-cyan-950/45" />
-            <rect x="11" y="12" width="70" height="70" rx="13" className="fill-white stroke-cyan-200 dark:fill-white/8 dark:stroke-cyan-200/20" />
-            <g className="stroke-cyan-300/70 dark:stroke-cyan-100/15" strokeWidth="1">
-                {[28, 46, 64].map((pos) => (
-                    <line key={`v-${pos}`} x1={pos} y1="20" x2={pos} y2="74" />
-                ))}
-                {[29, 47, 65].map((pos) => (
-                    <line key={`h-${pos}`} x1="20" y1={pos} x2="74" y2={pos} />
-                ))}
-            </g>
-            {[
-                [20, 20, "1"],
-                [38, 20, "2"],
-                [56, 20, "3"],
-                [20, 38, "4"],
-                [38, 38, "5"],
-                [56, 38, "6"],
-                [20, 56, "7"],
-                [38, 56, "8"],
-            ].map(([x, y, value]) => (
-                <g key={`${x}-${y}-${value}`}>
-                    <rect x={Number(x)} y={Number(y)} width="14" height="14" rx="3.2" className="fill-cyan-500/15 stroke-cyan-400/55 dark:fill-cyan-300/12 dark:stroke-cyan-100/25" />
-                    <text x={Number(x) + 7} y={Number(y) + 7.6} textAnchor="middle" dominantBaseline="middle" className="fill-cyan-800 text-[8px] font-black dark:fill-cyan-50">
-                        {value}
-                    </text>
-                </g>
-            ))}
-            <rect x="56" y="56" width="14" height="14" rx="3.2" className="fill-cyan-950/5 stroke-dashed stroke-cyan-400/65 dark:fill-black/15 dark:stroke-cyan-100/25" />
-        </svg>
-    )
-}
-
 function MemoryArtwork() {
     return (
         <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
@@ -962,32 +857,6 @@ function MemoryArtwork() {
                 />
             ))}
             <path d="M25 31 H37 M31 25 V37 M55 31 H67 M25 61 H37 M55 55 L67 67 M67 55 L55 67" className="stroke-white" strokeWidth="3" strokeLinecap="round" />
-        </svg>
-    )
-}
-
-function QuickMathArtwork() {
-    return (
-        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
-            <rect width="92" height="92" rx="18" className="fill-amber-50 dark:fill-amber-950/45" />
-            <rect x="14" y="18" width="64" height="56" rx="12" className="fill-white stroke-amber-200 dark:fill-white/8 dark:stroke-amber-300/20" />
-            <rect x="21" y="25" width="40" height="14" rx="5" className="fill-amber-100 stroke-amber-300 dark:fill-amber-500/12 dark:stroke-amber-200/20" />
-            <text x="41" y="34" textAnchor="middle" className="fill-amber-700 text-[13px] font-black dark:fill-amber-100">12 + 8</text>
-            <path d="M68 21 L60 35 H67 L62 47 L75 30 H69 Z" className="fill-amber-400 dark:fill-amber-300" />
-            <path d="M69 23 L65 33 H69 L66 40 L72 31 H69 Z" className="fill-white/65" />
-            {[
-                [22, "18", "fill-sky-500 dark:fill-sky-300"],
-                [40, "20", "fill-emerald-500 dark:fill-emerald-300"],
-                [58, "24", "fill-rose-500 dark:fill-rose-300"],
-            ].map(([x, value, fill]) => (
-                <g key={value}>
-                    <rect x={x} y="47" width="14" height="12" rx="4" className={fill as string} />
-                    <text x={Number(x) + 7} y="53.7" textAnchor="middle" dominantBaseline="middle" className="fill-white text-[6px] font-black dark:fill-amber-950">
-                        {value}
-                    </text>
-                </g>
-            ))}
-            <text x="46" y="76" textAnchor="middle" className="fill-amber-700 text-[9px] font-black dark:fill-amber-100">60s · 连击</text>
         </svg>
     )
 }
