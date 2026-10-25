@@ -61,4 +61,4 @@ SEO 检查在切换后运行；失败可标记 Release 失败并跳过主动推�
 
 每次发布分别记录代码提交、镜像摘要、迁移结果、应用健康和实际业务检查。没有检查对应数据或真实功能时写“未核验”，不从 workflow 成功推定用户余额、供应商连通或课程体验全部通过。
 
-生产部署成功后，`verify-course-voice-loading` 使用启用沙箱的 Chromium 打开实际主站，在新浏览器上下文中验证 CDN 冷下载、同源 Worker/WASM 模型初始化与热缓存复用，保存 `building-voice-loading-<commit>` 工件。探针不登录、不申请麦克风、不执行课程动作；不能代表手机、真人口令或投屏验收。探针失败会标记 Release 失败，但不自动回滚已部署应用，需要核对部署步骤和线上状态后处理。可用 `node scripts/check-building-voice-loading.mjs` 单独复核，浏览器必须具备正常沙箱和有效证书链。
+生产部署成功后，`verify-course-voice-loading` 使用启用沙箱的 Chromium 打开实际主站，在新浏览器上下文中验证冷下载、同源 Worker/WASM 模型初始化与热缓存复用，并区分 CDN 与原同源公开文件保底，保存 `building-voice-loading-<commit>` 工件。探针不登录、不申请麦克风、不执行课程动作；不能代表手机、真人口令或投屏验收。`passed`只表示加载可用，另以`cdnReady`记录CDN迁移是否完成。探针失败会标记 Release 失败，但不自动回滚已部署应用，需要核对部署步骤和线上状态后处理。可用 `node scripts/check-building-voice-loading.mjs` 单独复核，浏览器必须具备正常沙箱和有效证书链。

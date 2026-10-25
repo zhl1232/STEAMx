@@ -8,6 +8,7 @@ self.onmessage = async ({ data }) => {
     const runtime = await readBuildingVoiceAsset('vosk.js', data.allowNetwork === true)
     if (!runtime) { self.postMessage({ type: 'deferred' }); return }
     self.postMessage({ type: 'cached', modelBytes: model.bytes, runtimeBytes: runtime.bytes,
-      persisted: model.persisted && runtime.persisted, fromCache: model.cached && runtime.cached }, [model.bytes, runtime.bytes])
+      persisted: model.persisted && runtime.persisted, fromCache: model.cached && runtime.cached,
+      sources: [model.source, runtime.source] }, [model.bytes, runtime.bytes])
   } catch (error) { self.postMessage({ type: 'error', code: error.message === 'integrity' ? 'integrity' : 'download' }) }
 }

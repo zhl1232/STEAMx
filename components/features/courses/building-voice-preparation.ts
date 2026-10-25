@@ -1,5 +1,5 @@
 export type PreparationStatus = 'idle' | 'downloading' | 'cached' | 'initializing' | 'ready' | 'using' | 'deferred' | 'error' | 'unsupported'
-export type PreparationSnapshot = { status: PreparationStatus; persisted: boolean; fromCache: boolean; failure?: 'download' | 'integrity' | 'initialization' }
+export type PreparationSnapshot = { status: PreparationStatus; persisted: boolean; fromCache: boolean; failure?: 'download' | 'integrity' | 'initialization'; sources?: ('cache' | 'cdn' | 'same-origin')[] }
 export type PreparedVoiceLease = { worker: Worker; release: () => void }
 const IDLE: PreparationSnapshot = { status: 'idle', persisted: false, fromCache: false }
 // Only the downloader changes version. Model, grammar and inference adapter are unchanged.
@@ -53,7 +53,7 @@ export class BuildingVoicePreparation {
     if (!['idle', 'deferred', 'error'].includes(this.snapshot.status)) return
     this.clearWork()
     const generation = this.generation
-    this.publish('downloading', { ...IDLE, failure: undefined })
+    this.publish('downloading', { ...IDLE, failure: undefined, sources: undefined })
     let download: Worker
     try { download = this.createWorker('/courses/vosk/v2/prepare-worker.js') } catch { this.fail('download'); return }
     this.downloader = download
@@ -77,7 +77,7 @@ export class BuildingVoicePreparation {
       if (this.timer) clearTimeout(this.timer)
       if (this.progressTimer) clearTimeout(this.progressTimer)
       this.timer = this.progressTimer = null
-      this.publish('cached', { persisted: data.persisted, fromCache: data.fromCache })
+      this.publish('cached', { persisted: data.persisted, fromCache: data.fromCache, sources: data.sources })
       // A separate idle opportunity; merely caching bytes never marks the engine ready.
       this.cancelScheduled = scheduleVoiceIdle(() => {
         if (generation !== this.generation) return

@@ -55,9 +55,14 @@ test('loads pinned WASM/model, exercises repeat open/close and keeps audio off t
   expect(requests.filter(r=>r.method!=='GET')).toEqual([])
 })
 test('failed download and missing capability stay silent until settings are opened', async ({ page }) => {
+  const attempted: string[] = []
+  page.on('request', request => { if (request.url().endsWith('/model.tar.gz')) attempted.push(request.url()) })
   await page.route('**/model.tar.gz',route=>route.abort())
   await page.goto('/')
   await expect.poll(()=>page.evaluate(()=>(window as any).voiceFixture.preparation.status), {timeout:30000}).toBe('error')
+  expect(attempted).toHaveLength(2)
+  expect(attempted[0]).toMatch(/^http:\/\/127\.0\.0\.1:4186\//)
+  expect(attempted[1]).toBe('http://127.0.0.1:4185/courses/vosk/v1/model.tar.gz')
   await expect(page.getByTestId('voice-toggle')).not.toBeVisible()
   await expect(page.getByRole('status').filter({hasText:'失败'})).not.toBeVisible()
   expect(await page.evaluate(()=>(window as any).voiceFixture.microphoneRequests)).toBe(0)
@@ -285,19 +290,20 @@ test('a service worker update preserves the old valid voice cache and initialize
   expect(remote).toEqual([])
 })
 
-test('a 200 response without CORS remains an actionable loading failure, never ready', async ({ page }) => {
+test('a CDN response without CORS uses the same verified public file; hot cache avoids both sources', async ({ page }) => {
   await page.route('**/courses/vosk/v2/assets.js', async route => {
     const response = await route.fetch()
     await route.fulfill({ response, body: (await response.text()).replace('/model.tar.gz"', '/model.tar.gz?cors=deny"') })
   })
   await page.goto('/')
-  await expect.poll(() => page.evaluate(() => (window as any).voiceFixture.preparation.status), { timeout: 30000 }).toBe('error')
-  await expect(page.getByTestId('voice-toggle')).not.toBeVisible()
-  await page.getByRole('button', { name: '语音设置', exact: true }).click()
-  await expect(page.locator('[data-building-voice-controls]').getByRole('status')).toContainText('下载失败')
+  await expect(page.getByTestId('voice-toggle')).toBeVisible({ timeout: 120000 })
+  expect(await page.evaluate(() => (window as any).voiceFixture.preparation.sources)).toEqual(['same-origin', 'cdn'])
   expect(await page.evaluate(() => (window as any).voiceFixture.microphoneRequests)).toBe(0)
   await expect(page.getByRole('button', { name: '手动下一页' })).toBeEnabled()
-  await page.unroute('**/courses/vosk/v2/assets.js')
-  await page.getByRole('button', { name: '重试语音准备' }).click()
+  const downloads: string[] = []
+  page.on('request', request => { if (/\/(model\.tar\.gz|vosk\.js)(\?|$)/.test(request.url())) downloads.push(request.url()) })
+  await page.reload()
   await expect(page.getByTestId('voice-toggle')).toBeVisible({ timeout: 120000 })
+  expect(await page.evaluate(() => (window as any).voiceFixture.preparation.sources)).toEqual(['cache', 'cache'])
+  expect(downloads).toEqual([])
 })

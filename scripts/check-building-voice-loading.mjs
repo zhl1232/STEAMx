@@ -4,7 +4,8 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
 const reportPath = process.env.BUILDING_VOICE_LOADING_REPORT || '.tmp/building-voice-loading.json'
-const report = { origin: 'https://steam.bj.cn', startedAt: new Date().toISOString(), checks: [], microphoneRequests: 0, requests: [] }
+const report = { origin: 'https://steam.bj.cn', startedAt: new Date().toISOString(), checks: [], microphoneRequests: 0, requests: [], failures: [] }
+const isVoiceResource = url => /^https:\/\/(assets\.steamx\.cc|steam\.bj\.cn)\/courses\/vosk\/.+\/(model\.tar\.gz|vosk\.js)$/.test(url)
 let browser
 try {
   browser = await chromium.launch({ channel: 'chrome', chromiumSandbox: true })
@@ -14,10 +15,12 @@ try {
     if (navigator.mediaDevices) navigator.mediaDevices.getUserMedia = () => { window.__voiceMicRequests++; throw new Error('This probe must never request a microphone') }
   })
   page.on('response', response => {
-    if (response.url().startsWith('https://assets.steamx.cc/courses/vosk/')) report.requests.push({ url: response.url(), status: response.status(), cors: response.headers()['access-control-allow-origin'] ?? null })
+    if (isVoiceResource(response.url())) report.requests.push({ url: response.url(), status: response.status(), cors: response.headers()['access-control-allow-origin'] ?? null })
   })
+  page.on('requestfailed', request => { if (isVoiceResource(request.url())) report.failures.push({ url: request.url(), error: request.failure()?.errorText }) })
   const response = await page.goto(report.origin, { waitUntil: 'domcontentloaded', timeout: 60000 })
   if (!response?.ok() || new URL(page.url()).origin !== report.origin) throw new Error('Production page unavailable or unexpected redirect')
+  let coldRequests = 0
   for (const label of ['cold', 'warm']) {
     const result = await page.evaluate(() => new Promise((resolve, reject) => {
       const started = performance.now()
@@ -37,7 +40,7 @@ try {
         engine.onerror = () => finish('Engine worker failed')
         engine.onmessage = ({ data: reply }) => {
           if (reply.type === 'error') finish('Engine initialization failed')
-          if (reply.type === 'ready') finish(null, { fromCache: data.fromCache, persisted: data.persisted, downloadedMs, totalMs: performance.now() - started })
+          if (reply.type === 'ready') finish(null, { fromCache: data.fromCache, persisted: data.persisted, sources: data.sources, downloadedMs, totalMs: performance.now() - started })
         }
         engine.postMessage({ type: 'init', modelBytes: data.modelBytes, runtimeBytes: data.runtimeBytes }, [data.modelBytes, data.runtimeBytes])
       }
@@ -45,11 +48,16 @@ try {
     }))
     report.checks.push({ label, ...result })
     if (label === 'cold' && result.fromCache) throw new Error('Fresh browser unexpectedly reused voice cache')
+    if (label === 'cold') coldRequests = report.requests.length + report.failures.length
     if (label === 'warm' && !result.fromCache) throw new Error('Warm preparation did not reuse verified cache')
   }
   report.microphoneRequests = await page.evaluate(() => window.__voiceMicRequests)
   if (report.microphoneRequests !== 0) throw new Error('Preparation attempted microphone access')
-  if (report.requests.length !== 2 || report.requests.some(item => item.status !== 200 || ![report.origin, '*'].includes(item.cors))) throw new Error('Unexpected CDN transport or CORS result')
+  if (report.requests.length + report.failures.length !== coldRequests) throw new Error('Warm preparation fetched voice resources again')
+  const cold = report.checks[0]
+  if (cold.sources?.length !== 2 || cold.sources.some(source => !['cdn', 'same-origin'].includes(source))) throw new Error('Missing actual delivery source')
+  report.cdnReady = cold.sources.every(source => source === 'cdn')
+  report.note = report.cdnReady ? 'Both resources used CDN.' : 'Loading passed using original public same-origin files; CDN migration is incomplete.'
   report.passed = true
 } catch (error) {
   report.passed = false; report.error = error.message; process.exitCode = 1
