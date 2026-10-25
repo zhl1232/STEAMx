@@ -76,7 +76,9 @@ export function BuildingVoiceControls({ tutorOpen, onCloseTutor, onStatusChange,
 
   if (!preparation.ready && !isActive) {
     const busy = ['downloading', 'cached', 'initializing'].includes(preparation.status)
-    const detail = !user ? '登录后可使用课程语音，翻页按钮仍可正常使用。' : preparation.problem || (preparation.status === 'error' ? '语音准备失败，请检查网络后重试。' :
+    const failure = preparation.failure === 'initialization' ? '语音引擎初始化失败。已验证的资源缓存会保留，可重试；若反复失败，请换支持的浏览器。' :
+      preparation.failure === 'integrity' ? '语音资源校验失败，请联网后重试。' : '语音资源下载失败或长时间无进展，请检查网络后重试。'
+    const detail = !user ? '登录后可使用课程语音，翻页按钮仍可正常使用。' : preparation.problem || (preparation.status === 'error' ? failure :
       preparation.status === 'deferred' ? '为节省流量，尚未下载语音资源。需要时可主动准备，首次约 50 MB。' :
       preparation.status === 'downloading' ? '正在缓存语音资源。可以关闭此面板继续上课。' :
       preparation.status === 'initializing' || preparation.status === 'cached' ? '资源已读取，正在检查设备内识别引擎。' : '语音将在课程资源就绪后准备，不会自动开启麦克风。')

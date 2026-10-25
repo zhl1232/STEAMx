@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { BuildingVoicePreparation, allowAutomaticVoiceDownload } from './building-voice-preparation'
+import { BuildingVoicePreparation, allowAutomaticVoiceDownload, VOICE_DOWNLOAD_TIMEOUT_MS, VOICE_INITIALIZATION_TIMEOUT_MS, VOICE_PROGRESS_TIMEOUT_MS } from './building-voice-preparation'
 
 class FakeWorker extends EventTarget {
   onmessage: ((event: MessageEvent) => void) | null = null
@@ -79,10 +79,39 @@ describe('silent course voice preparation', () => {
   })
   it('times out and releases a hung preparation without retrying itself', async () => {
     const f = fixture(); const release = f.owner.retain(); f.owner.prepare(true)
-    await vi.advanceTimersByTimeAsync(120001)
+    await vi.advanceTimersByTimeAsync(VOICE_PROGRESS_TIMEOUT_MS + 1)
     expect(f.workers[0].terminate).toHaveBeenCalledOnce()
     expect(f.owner.getSnapshot().status).toBe('error')
     release(); await Promise.resolve()
+  })
+  it('gives a progressing download and initialization independent bounded deadlines', async () => {
+    const f = fixture(); f.owner.prepare(true)
+    // Fake clock policy regression, not a wall-clock download/performance claim.
+    for (let i = 0; i < 6; i++) { await vi.advanceTimersByTimeAsync(30_000); f.workers[0].emit({ type: 'progress' }) }
+    expect(f.owner.getSnapshot().status).toBe('downloading')
+    f.workers[0].emit({ type: 'cached', modelBytes: new ArrayBuffer(1), runtimeBytes: new ArrayBuffer(1) })
+    await vi.advanceTimersByTimeAsync(2000 + VOICE_INITIALIZATION_TIMEOUT_MS - 1)
+    expect(f.owner.getSnapshot().status).toBe('initializing')
+    await vi.advanceTimersByTimeAsync(2)
+    expect(f.owner.getSnapshot()).toMatchObject({ status: 'error', failure: 'initialization' })
+    expect(f.workers[1].terminate).toHaveBeenCalledOnce()
+  })
+  it('caps total download time even when progress keeps arriving', async () => {
+    const f = fixture(); f.owner.prepare(true)
+    for (let ms = 0; ms < VOICE_DOWNLOAD_TIMEOUT_MS; ms += 30_000) {
+      f.workers[0].emit({ type: 'progress' }); await vi.advanceTimersByTimeAsync(30_000)
+    }
+    expect(f.owner.getSnapshot()).toMatchObject({ status: 'error', failure: 'download' })
+    expect(f.create).toHaveBeenCalledOnce()
+  })
+  it('bounds waiting for another tab without mistaking lock wait for a stalled stream', async () => {
+    const f = fixture(); f.owner.prepare(true)
+    f.workers[0].emit({ type: 'waiting' })
+    await vi.advanceTimersByTimeAsync(VOICE_PROGRESS_TIMEOUT_MS + 1)
+    expect(f.owner.getSnapshot().status).toBe('downloading')
+    f.workers[0].emit({ type: 'progress' })
+    await vi.advanceTimersByTimeAsync(VOICE_PROGRESS_TIMEOUT_MS + 1)
+    expect(f.owner.getSnapshot()).toMatchObject({ status: 'error', failure: 'download' })
   })
   it('ignores late errors from a disposed downloader and model after a new visit', async () => {
     const f = fixture(); const release = f.owner.retain()
@@ -99,15 +128,18 @@ describe('silent course voice preparation', () => {
   })
   it.each([
     [undefined, false, true, false],
+    [{type:'wifi'},true,true,true],
+    [{type:'wifi',effectiveType:'3g'},true,true,false],
+    [{},true,true,false],
     [{effectiveType:'4g',downlink:10},false,true,true],
     [{effectiveType:'4g',downlink:10,saveData:true},false,true,false],
     [{effectiveType:'3g',downlink:10},false,true,false],
     [{effectiveType:'4g',downlink:2},false,true,false],
     [{effectiveType:'4g',downlink:10,type:'cellular'},false,true,false],
-    [{effectiveType:'4g',downlink:10},true,true,false],
+    [{effectiveType:'4g',downlink:10},true,true,true],
     [{effectiveType:'4g',downlink:10,type:'wifi'},true,true,true],
     [{effectiveType:'4g',downlink:10,type:'wifi'},true,false,false],
-  ] as const)('respects network policy %j mobile=%s online=%s', (connection,mobile,online,expected) => {
-    expect(allowAutomaticVoiceDownload(connection,mobile,online)).toBe(expected)
+  ] as const)('respects network policy %j mobile=%s online=%s', (connection,_mobile,online,expected) => {
+    expect(allowAutomaticVoiceDownload(connection,online)).toBe(expected)
   })
 })

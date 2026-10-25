@@ -49,9 +49,11 @@ mock、PGlite、协议构造、缓存和生命周期测试只能证明相应隔�
 
 本地课程监听实验改为 Vosk `vosk-model-small-cn-0.22` 和 `vosk-browser@0.0.8`。框架/封装的 Apache-2.0 由上游 COPYING、NOTICE 与 npm 包声明核实；这个中文模型的 Apache-2.0 依据为 [官方模型表](https://alphacephei.com/vosk/models)，包内 README 没有单独许可声明，不用框架许可推定模型许可。完整 notices、来源和限制在 [资源 NOTICE](../../public/courses/vosk/v1/NOTICE.md)，每个模型文件及运行包的摘要在 `model-source.json`。
 
-运行资源位于同源 `public/courses/vosk/v1/`：压缩模型约 44.9 MB，含 WASM 的 JS 约 5.8 MB。课程关键资源完成后按网络策略静默准备，无外部 CDN、收费服务或音频上传；麦克风必须显式开启。准备器同时验证模型和运行包，在独立Worker完成下载/校验，再初始化模型和合成静音自检；固定资源表为 `assets.js`。上游 JavaScript loader 的小范围补丁增加压缩包校验与专用 CacheStorage，解压文件只在内存中；WASM 和权重字节没有修改。实际内存不等于下载体积，不能根据小模型名称承诺手机性能。
+原始可复现资源保留在 `public/courses/vosk/v1/`：压缩模型44,934,262字节，含WASM的JS 5,806,881字节，共50,741,143字节。`public/courses/vosk/v2/assets.js` 固定这两个资源的大小、SHA-256及现有OSS/CDN `https://assets.steamx.cc/courses/vosk/<sha256>/` URL及原同源公开文件保底URL；小型准备Worker、推理适配器与AudioWorklet保持同源，不复制模型或修改识别代码。CDN优先来源必须通过有效HTTPS提供GET响应并允许课程页面origin的CORS读取，fetch不带凭据；CDN未就绪时可直接读取原有同源公开文件，两者同摘要、单次有界保底，不增加主站代理。`Timing-Allow-Origin`不能代替`Access-Control-Allow-Origin`。不通过关闭TLS校验、HTTP回退或开放凭据跨域解决故障。
 
-重建使用 `python3 scripts/prepare-building-vosk.py MODEL_ZIP VOSK_BROWSER_TGZ`，输入分别取官方模型 ZIP 与 npm `vosk-browser-0.0.8.tgz`，脚本先核对固定 SHA-256，再确定性打包并应用可审核的 loader 补丁。正常应用构建使用已附带资源，不自动下载模型或发布外部存储。应用语音行为、缓存失败提示与验收边界在 [手机搭建](../courses/mobile-building-experience.md) 维护。
+课程关键资源完成后按网络策略静默准备，无收费识别服务或音频上传；麦克风必须显式开启。准备器在独立Worker完成有界读取/校验，再初始化模型和合成静音自检；有效旧缓存可复用，下载中断不缓存半包。上游JavaScript loader的小范围补丁增加压缩包校验与专用CacheStorage，解压文件只在内存中；WASM和权重字节没有修改。实际内存不等于下载体积，不能根据小模型名称承诺手机性能。
+
+重建使用 `python3 scripts/prepare-building-vosk.py MODEL_ZIP VOSK_BROWSER_TGZ`，输入分别取官方模型 ZIP 与 npm `vosk-browser-0.0.8.tgz`，脚本先核对固定 SHA-256，再确定性打包并应用可审核的 loader 补丁。正常应用构建不自动下载或上传模型。发布脚本 `node scripts/publish-building-voice-assets.mjs --dry-run` 列出固定公共对象；得到本次上传授权后才使用 `--upload`，复用现有 OSS 凭据（支持环境现有HTTPS代理），校验本地摘要、禁止覆盖已有不同内容并完整读回核验，同时发布许可文件。脚本不更改CORS、ACL、桶策略或账号权限；CDN跨域规则需单独确认后配置。验收分别记录CDN跨域可用与同源保底可用。CDN迁移完成前必须从实际站点Origin完整下载并确认CORS、字节数和摘要，再在浏览器验证真实Worker初始化；哈希一致不等于Android真机通过。应用语音行为、缓存失败提示与验收边界在 [手机搭建](../courses/mobile-building-experience.md) 维护。
 
 原 sherpa-onnx v1.12.15 KWS / wenetspeech 3.3M INT8 的构建脚本、资源及 [NOTICE](../../public/courses/kws/v1/NOTICE.md) 保留作为先前实验；未采用许可未明确的 2025 大 ASR 模型，也未更改小迪开放问答的云语音接入。本地改动不构成推送、合并或部署授权。
 
@@ -63,3 +65,5 @@ mock、PGlite、协议构造、缓存和生命周期测试只能证明相应隔�
 - [ASR 客户端](https://help.aliyun.com/zh/model-studio/qwen-audio-asr-streaming-client-events)、[ASR 服务端](https://help.aliyun.com/zh/model-studio/qwen-audio-asr-streaming-server-events)、[地域](https://help.aliyun.com/zh/model-studio/regions)、[北京接入](https://help.aliyun.com/zh/model-studio/beijing-access-information)。
 
 先前 KWS 运行包（含 notices）约 16.2 MB，其中模型数据 5,025,604 字节、WASM 10,609,441 字节；测试 WAV 约 9.1 MB，不进入模型下载包。同模型 FP32 三份权重共 13,081,319 字节，INT8 共 5,023,977 字节；FP32 对照没有解决目标短口令漏检，当前保留小型 INT8，识别验收阻碍见课程专题及草稿 PR。
+
+CDN管理员的最小配置范围是 `assets.steamx.cc` 下 `v2/assets.js` 两个 `url` 的精确路径，仅 `Origin: https://steam.bj.cn`、GET/HEAD；添加单值 `Access-Control-Allow-Origin: https://steam.bj.cn` 和 `Access-Control-Allow-Methods: GET, HEAD`，不添加 `Access-Control-Allow-Credentials`，若添加 `Vary: Origin` 则保留原有 `Accept-Encoding`。使用现有CDN规则引擎的路径条件关联出站响应头，不修改桶权限、桶全局CORS或全域响应规则。阿里云支持条件规则，但是否已开通必须由有权限的管理员确认；未开通时先报告，不自动开通或扩大作用范围。配置后以真实浏览器探针的 `cdnReady` 为准；仅 `passed` 表示加载链路通过，可能使用主站保底。
