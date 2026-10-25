@@ -49,9 +49,11 @@ mock、PGlite、协议构造、缓存和生命周期测试只能证明相应隔�
 
 本地课程监听实验改为 Vosk `vosk-model-small-cn-0.22` 和 `vosk-browser@0.0.8`。框架/封装的 Apache-2.0 由上游 COPYING、NOTICE 与 npm 包声明核实；这个中文模型的 Apache-2.0 依据为 [官方模型表](https://alphacephei.com/vosk/models)，包内 README 没有单独许可声明，不用框架许可推定模型许可。完整 notices、来源和限制在 [资源 NOTICE](../../public/courses/vosk/v1/NOTICE.md)，每个模型文件及运行包的摘要在 `model-source.json`。
 
-运行资源位于同源 `public/courses/vosk/v1/`：压缩模型约 44.9 MB，含 WASM 的 JS 约 5.8 MB。课程关键资源完成后按网络策略静默准备，无外部 CDN、收费服务或音频上传；麦克风必须显式开启。准备器同时验证模型和运行包，在独立Worker完成下载/校验，再初始化模型和合成静音自检；固定资源表为 `assets.js`。上游 JavaScript loader 的小范围补丁增加压缩包校验与专用 CacheStorage，解压文件只在内存中；WASM 和权重字节没有修改。实际内存不等于下载体积，不能根据小模型名称承诺手机性能。
+原始可复现资源保留在 `public/courses/vosk/v1/`：压缩模型44,934,262字节，含WASM的JS 5,806,881字节，共50,741,143字节。`public/courses/vosk/v2/assets.js` 固定这两个资源的大小、SHA-256及现有OSS/CDN `https://assets.steamx.cc/courses/vosk/<sha256>/` URL；小型准备Worker、推理适配器与AudioWorklet保持同源，不复制模型或修改识别代码。CDN必须通过有效HTTPS提供GET响应并允许课程页面origin的CORS读取，fetch不带凭据；`Timing-Allow-Origin`不能代替`Access-Control-Allow-Origin`。不通过关闭TLS校验、HTTP回退或开放凭据跨域解决故障。
 
-重建使用 `python3 scripts/prepare-building-vosk.py MODEL_ZIP VOSK_BROWSER_TGZ`，输入分别取官方模型 ZIP 与 npm `vosk-browser-0.0.8.tgz`，脚本先核对固定 SHA-256，再确定性打包并应用可审核的 loader 补丁。正常应用构建使用已附带资源，不自动下载模型或发布外部存储。应用语音行为、缓存失败提示与验收边界在 [手机搭建](../courses/mobile-building-experience.md) 维护。
+课程关键资源完成后按网络策略静默准备，无收费识别服务或音频上传；麦克风必须显式开启。准备器在独立Worker完成有界读取/校验，再初始化模型和合成静音自检；有效旧缓存可复用，下载中断不缓存半包。上游JavaScript loader的小范围补丁增加压缩包校验与专用CacheStorage，解压文件只在内存中；WASM和权重字节没有修改。实际内存不等于下载体积，不能根据小模型名称承诺手机性能。
+
+重建使用 `python3 scripts/prepare-building-vosk.py MODEL_ZIP VOSK_BROWSER_TGZ`，输入分别取官方模型 ZIP 与 npm `vosk-browser-0.0.8.tgz`，脚本先核对固定 SHA-256，再确定性打包并应用可审核的 loader 补丁。正常应用构建不自动下载或上传模型。发布脚本 `node scripts/publish-building-voice-assets.mjs --dry-run` 列出固定公共对象；得到本次上传授权后才使用 `--upload`，复用现有 OSS 凭据（支持环境现有HTTPS代理），校验本地摘要、禁止覆盖已有不同内容并完整读回核验，同时发布许可文件。脚本不更改CORS、ACL、桶策略或账号权限；CDN跨域规则需单独确认后配置。上线前必须从实际站点Origin完整下载并确认CORS、字节数和摘要，再在浏览器验证真实Worker初始化；哈希一致不等于Android真机通过。应用语音行为、缓存失败提示与验收边界在 [手机搭建](../courses/mobile-building-experience.md) 维护。
 
 原 sherpa-onnx v1.12.15 KWS / wenetspeech 3.3M INT8 的构建脚本、资源及 [NOTICE](../../public/courses/kws/v1/NOTICE.md) 保留作为先前实验；未采用许可未明确的 2025 大 ASR 模型，也未更改小迪开放问答的云语音接入。本地改动不构成推送、合并或部署授权。
 

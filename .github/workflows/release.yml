@@ -124,6 +124,31 @@ jobs:
           cache-from: type=gha,scope=steam-app
           cache-to: type=gha,mode=max,scope=steam-app,ignore-error=true
 
+  verify-course-voice-loading:
+    needs: deploy-production
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.22.0
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Verify public CDN and actual voice engine without opening a microphone
+        run: node scripts/check-building-voice-loading.mjs
+      - name: Preserve production voice readiness evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: building-voice-loading-${{ github.sha }}
+          path: .tmp/building-voice-loading.json
+          retention-days: 14
+
   deploy-production:
     needs: [ci, build-image]
     runs-on: ubuntu-latest

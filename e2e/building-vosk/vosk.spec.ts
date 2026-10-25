@@ -50,8 +50,8 @@ test('loads pinned WASM/model, exercises repeat open/close and keeps audio off t
     expect(await page.evaluate(()=>(window as any).voiceFixture.trackState)).toBe('ended')
     if(i<2)await resume(page)
   }
-  expect(requests.some(r=>r.url.endsWith('/vosk/v1/model.tar.gz'))).toBe(true)
-  expect(requests.some(r=>r.url.endsWith('/vosk/v1/vosk.js'))).toBe(true)
+  expect(requests.some(r=>r.url.startsWith('http://127.0.0.1:4186/') && r.url.endsWith('/model.tar.gz'))).toBe(true)
+  expect(requests.some(r=>r.url.startsWith('http://127.0.0.1:4186/') && r.url.endsWith('/vosk.js'))).toBe(true)
   expect(requests.filter(r=>r.method!=='GET')).toEqual([])
 })
 test('failed download and missing capability stay silent until settings are opened', async ({ page }) => {
@@ -240,4 +240,64 @@ test('silent initialization leaves the actual 3D workspace navigable', async ({ 
   await expect(page.getByRole('button',{name:'开启',exact:true})).toBeVisible()
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
   await page.screenshot({path:testInfo.outputPath('ready-mobile-viewport.png')})
+})
+
+test('Android-style fast estimates without physical network type still prepare silently', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'userAgent', { configurable: true, value: 'Mozilla/5.0 (Linux; Android 14) Chrome/130 Mobile' })
+    Object.defineProperty(navigator, 'connection', { configurable: true, value: { effectiveType: '4g', downlink: 10, saveData: false } })
+  })
+  await page.goto('/')
+  await expect(page.getByTestId('voice-toggle')).toBeVisible({ timeout: 120000 })
+  expect(await page.evaluate(() => (window as any).voiceFixture.microphoneRequests)).toBe(0)
+  await expect(page.getByRole('button', { name: '手动下一页' })).toBeEnabled()
+})
+
+test('a service worker update preserves the old valid voice cache and initializes without CDN downloads', async ({ page }) => {
+  await page.addInitScript(() => Object.defineProperty(navigator, 'connection', { configurable: true, value: { saveData: true } }))
+  const remote: string[] = []
+  page.on('request', r => { if (r.url().startsWith('http://127.0.0.1:4186/')) remote.push(r.url()) })
+  await page.goto('/')
+  await expect.poll(() => page.evaluate(() => (window as any).voiceFixture.preparation.status), { timeout: 30000 }).toBe('deferred')
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.register('/sw-legacy-fixture.js')
+    await navigator.serviceWorker.ready
+    const cache = await caches.open('steamx-building-vosk-v1')
+    for (const name of ['model.tar.gz', 'vosk.js']) {
+      const url = `/courses/vosk/v1/${name}`
+      await cache.put(url, await fetch(url))
+    }
+    await caches.open('steamx-pwa-v0')
+    await caches.open('unrelated-feature')
+    await navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' })
+  })
+  await expect.poll(() => page.evaluate(() => navigator.serviceWorker.controller?.scriptURL)).toContain('/sw.js')
+  expect(await page.evaluate(() => caches.keys())).toEqual(expect.arrayContaining(['steamx-building-vosk-v1', 'unrelated-feature']))
+  expect(await page.evaluate(() => caches.keys())).not.toContain('steamx-pwa-v0')
+  await page.getByRole('button', { name: '语音设置', exact: true }).click()
+  await page.getByRole('button', { name: '准备语音（约 50 MB）' }).click()
+  await expect(page.getByTestId('voice-toggle')).toBeVisible({ timeout: 120000 })
+  expect(await page.evaluate(() => (window as any).voiceFixture.preparation.fromCache)).toBe(true)
+  expect(remote).toEqual([])
+  expect(await page.evaluate(() => (window as any).voiceFixture.microphoneRequests)).toBe(0)
+  await page.reload()
+  await expect(page.getByTestId('voice-toggle')).toBeVisible({ timeout: 120000 })
+  expect(remote).toEqual([])
+})
+
+test('a 200 response without CORS remains an actionable loading failure, never ready', async ({ page }) => {
+  await page.route('**/courses/vosk/v2/assets.js', async route => {
+    const response = await route.fetch()
+    await route.fulfill({ response, body: (await response.text()).replace('/model.tar.gz"', '/model.tar.gz?cors=deny"') })
+  })
+  await page.goto('/')
+  await expect.poll(() => page.evaluate(() => (window as any).voiceFixture.preparation.status), { timeout: 30000 }).toBe('error')
+  await expect(page.getByTestId('voice-toggle')).not.toBeVisible()
+  await page.getByRole('button', { name: '语音设置', exact: true }).click()
+  await expect(page.locator('[data-building-voice-controls]').getByRole('status')).toContainText('下载失败')
+  expect(await page.evaluate(() => (window as any).voiceFixture.microphoneRequests)).toBe(0)
+  await expect(page.getByRole('button', { name: '手动下一页' })).toBeEnabled()
+  await page.unroute('**/courses/vosk/v2/assets.js')
+  await page.getByRole('button', { name: '重试语音准备' }).click()
+  await expect(page.getByTestId('voice-toggle')).toBeVisible({ timeout: 120000 })
 })
