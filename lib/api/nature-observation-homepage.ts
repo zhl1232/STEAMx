@@ -14,6 +14,7 @@ import {
   type Species,
 } from '@/lib/mappers/types'
 import { createClient, createPublicClient } from '@/lib/supabase/server'
+import { isPlaywrightSmoke } from '@/lib/testing/playwright-smoke'
 import {
   resolveSpeciesNatureTopicKey,
   visibleSpeciesTopicKeys,
@@ -885,7 +886,7 @@ export async function getRecentNatureObservations(
   limit = 12,
   { strictErrors = false }: { strictErrors?: boolean } = {},
 ): Promise<ObservationEvent[]> {
-  if (limit <= 0) {
+  if (limit <= 0 || isPlaywrightSmoke()) {
     return []
   }
 

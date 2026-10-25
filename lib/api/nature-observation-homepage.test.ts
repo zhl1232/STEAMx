@@ -2,8 +2,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { getRecentNatureObservations } from './nature-observation-homepage'
 
-const { createPublicClient } = vi.hoisted(() => ({ createPublicClient: vi.fn() }))
+const { createPublicClient, isPlaywrightSmoke } = vi.hoisted(() => ({ createPublicClient: vi.fn(), isPlaywrightSmoke: vi.fn(() => false) }))
 vi.mock('@/lib/supabase/server', () => ({ createPublicClient, createClient: vi.fn() }))
+vi.mock('@/lib/testing/playwright-smoke', () => ({ isPlaywrightSmoke }))
 
 function mockDatabase(data: unknown[], error: unknown = null) {
   createPublicClient.mockReturnValue({
@@ -19,9 +20,17 @@ function mockDatabase(data: unknown[], error: unknown = null) {
   })
 }
 
-beforeEach(() => vi.clearAllMocks())
+beforeEach(() => {
+  vi.clearAllMocks()
+  isPlaywrightSmoke.mockReturnValue(false)
+})
 
 describe('recent homepage observations', () => {
+  it('uses the explicit smoke fixture without querying the placeholder backend', async () => {
+    isPlaywrightSmoke.mockReturnValue(true)
+    await expect(getRecentNatureObservations(3, { strictErrors: true })).resolves.toEqual([])
+    expect(createPublicClient).not.toHaveBeenCalled()
+  })
   it('includes records without coordinates and preserves hidden-location privacy', async () => {
     mockDatabase([
       { id: 1, user_id: 'a', location_precision: 'hidden', latitude: 30, longitude: 120 },
