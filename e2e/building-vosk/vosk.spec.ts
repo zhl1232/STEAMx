@@ -258,7 +258,7 @@ test('Android-style fast estimates without physical network type still prepare s
   await expect(page.getByRole('button', { name: '手动下一页' })).toBeEnabled()
 })
 
-test('a service worker update preserves the old valid voice cache and initializes without CDN downloads', async ({ page }) => {
+test('a service worker update preserves the old valid voice cache and initializes without CDN downloads', async ({ page }, testInfo) => {
   await page.addInitScript(() => Object.defineProperty(navigator, 'connection', { configurable: true, value: { saveData: true } }))
   const remote: string[] = []
   page.on('request', r => { if (r.url().startsWith('http://127.0.0.1:4186/')) remote.push(r.url()) })
@@ -277,6 +277,9 @@ test('a service worker update preserves the old valid voice cache and initialize
     await navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' })
   })
   await expect.poll(() => page.evaluate(() => navigator.serviceWorker.controller?.scriptURL)).toContain('/sw.js')
+  // skipWaiting can replace the controller while activate's waitUntil is still
+  // running. Cache cleanup is guaranteed only after the activated transition.
+  await expect.poll(() => page.evaluate(() => navigator.serviceWorker.controller?.state)).toBe('activated')
   expect(await page.evaluate(() => caches.keys())).toEqual(expect.arrayContaining(['steamx-building-vosk-v1', 'unrelated-feature']))
   expect(await page.evaluate(() => caches.keys())).not.toContain('steamx-pwa-v0')
   await page.getByRole('button', { name: '语音设置', exact: true }).click()
@@ -288,6 +291,9 @@ test('a service worker update preserves the old valid voice cache and initialize
   await page.reload()
   await expect(page.getByTestId('voice-toggle')).toBeVisible({ timeout: 120000 })
   expect(remote).toEqual([])
+  await testInfo.attach('service-worker-cache-upgrade', { body: JSON.stringify(await page.evaluate(async () => ({
+    state: navigator.serviceWorker.controller?.state, caches: await caches.keys(), preparation: (window as any).voiceFixture.preparation,
+  }))), contentType: 'application/json' })
 })
 
 test('a CDN response without CORS uses the same verified public file; hot cache avoids both sources', async ({ page }) => {
