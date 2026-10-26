@@ -1,5 +1,4 @@
 -- Paired with reviewed_growth_rewards. No migration execution is authorized here.
-BEGIN;
 CREATE TABLE public.growth_ai_jobs (
  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), content_type text NOT NULL,
  content_id bigint NOT NULL, user_id uuid NOT NULL, context_hash text NOT NULL,
@@ -327,4 +326,3 @@ REVOKE ALL ON FUNCTION public.growth_manual_jobs() FROM PUBLIC,anon,service_role
 GRANT EXECUTE ON FUNCTION public.growth_manual_jobs() TO authenticated;
 
 NOTIFY pgrst,'reload schema';
-COMMIT;
