@@ -113,6 +113,17 @@ export const TEXTBOOK3D_CHAPTERS: Textbook3dChapter[] = [
     ],
   },
   {
+    id: "g8b-8",
+    volume: "八年级下册",
+    title: "第八章 运动和力",
+    lessons: [
+      { id: "g8b-8-1", title: "牛顿第一定律" },
+      { id: "g8b-8-2", title: "二力平衡" },
+      { id: "g8b-8-3", title: "摩擦力" },
+      { id: "g8b-8-4", title: "同一直线上二力的合成" },
+    ],
+  },
+  {
     id: "g8b-11",
     volume: "八年级下册",
     title: "第十一章 功和机械能",
