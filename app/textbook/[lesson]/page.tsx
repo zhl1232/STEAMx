@@ -28,7 +28,7 @@ export default async function TextbookLessonPage({ params }: { params: Promise<{
   const lesson = getTextbook3dLesson((await params).lesson)
   if (!lesson) notFound()
   return (
-    <div className="mx-auto w-full max-w-6xl py-4 md:px-6 md:py-6">
+    <div className="mx-auto w-full max-w-6xl pt-4 pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:px-6 md:py-6">
       <header className="px-4 md:px-0">
         <Link href="/textbook" className={`${navLink} -ml-3 text-muted-foreground`}>
           <ArrowLeft aria-hidden className="h-5 w-5" />

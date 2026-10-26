@@ -31,6 +31,25 @@ export default function TextbookFrame({ lessonId, src, title, onComplete }: { le
   const [complete, setComplete] = useState(false)
   const completeRef = useRef(onComplete)
   useEffect(() => { completeRef.current = onComplete }, [onComplete])
+  // 只在课本真正可见（接近视口且没被 display:none 隐藏）时才创建 iframe：
+  // 项目页同时渲染电脑版和手机版两套布局，不这样做会开两个 WebGL，也会多下一遍运行时。
+  const box = useRef<HTMLDivElement>(null)
+  const [shown, setShown] = useState(false)
+  useEffect(() => {
+    const el = box.current
+    if (!el || typeof window.IntersectionObserver !== "function") {
+      setShown(true)
+      return
+    }
+    const observer = new window.IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        setShown(true)
+        observer.disconnect()
+      }
+    }, { rootMargin: "400px 0px" })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     function receive(event: MessageEvent) {
@@ -58,10 +77,10 @@ export default function TextbookFrame({ lessonId, src, title, onComplete }: { le
     // iframe 可能在水合前就加载完，错过 onLoad；挂载后再要一次高度。
     requestHeight(frame.current?.contentWindow)
     return () => window.removeEventListener("message", receive)
-  }, [lessonId])
+  }, [lessonId, shown])
 
   return (
-    <div className="overflow-hidden border-y bg-card md:rounded-lg md:border">
+    <div ref={box} className="overflow-hidden border-y bg-card md:rounded-lg md:border">
       <div className="flex min-h-12 flex-wrap items-center gap-x-4 gap-y-1 border-b px-4 py-2 text-base" role="status">
         {!ready ? (
           <span className="flex items-center gap-2 text-muted-foreground">
@@ -78,7 +97,7 @@ export default function TextbookFrame({ lessonId, src, title, onComplete }: { le
           </span>
         )}
       </div>
-      <iframe
+      {shown ? <iframe
         ref={frame}
         src={src}
         title={title}
@@ -86,7 +105,7 @@ export default function TextbookFrame({ lessonId, src, title, onComplete }: { le
         onLoad={(event) => requestHeight(event.currentTarget.contentWindow)}
         className="block w-full border-0 bg-[#f4ecd9]"
         style={{ height }}
-      />
+      /> : <div aria-hidden className="w-full bg-[#f4ecd9]" style={{ height }} />}
     </div>
   )
 }

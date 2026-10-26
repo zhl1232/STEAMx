@@ -12,7 +12,7 @@ export const metadata = buildPageMetadata({
 
 export default function TextbookCatalogPage() {
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-6 md:px-6 md:py-8">
+    <div className="mx-auto w-full max-w-5xl px-4 pt-6 pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:px-6 md:py-8">
       <header className="mb-6">
         <h1 className="text-page-title font-sans">3D 物理课本</h1>
         <p className="mt-2 text-base leading-relaxed text-muted-foreground">

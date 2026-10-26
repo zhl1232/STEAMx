@@ -1,5 +1,5 @@
 import { act, render, screen } from "@testing-library/react"
-import { describe, expect, it, vi } from "vitest"
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 
 import TextbookFrame, { clampTextbookHeight } from "./textbook-frame"
 
@@ -10,6 +10,16 @@ function post(frame: HTMLIFrameElement, data: unknown, origin = window.location.
 }
 
 describe("TextbookFrame", () => {
+  // 默认按“没有 IntersectionObserver”处理，直接挂 iframe
+  beforeEach(() => { vi.stubGlobal("IntersectionObserver", undefined) })
+  afterEach(() => { vi.unstubAllGlobals() })
+
+  it("不可见时不创建 iframe（避免同一页面开两个 WebGL）", () => {
+    vi.stubGlobal("IntersectionObserver", class { observe() {} disconnect() {} })
+    render(<TextbookFrame lessonId="g8a-1-1" src="about:blank" title="隐藏的课本" />)
+    expect(screen.queryByTitle("隐藏的课本")).toBeNull()
+  })
+
   it("限制高度范围", () => {
     expect(clampTextbookHeight(100)).toBe(420)
     expect(clampTextbookHeight(99999)).toBe(1400)

@@ -4,7 +4,7 @@ export type LessonTypeDefinition = {
   slug: LessonTypeSlug
   label: string
   description: string
-  workspace: 'scratch' | 'building_3d' | 'playground' | 'unsupported'
+  workspace: 'scratch' | 'building_3d' | 'playground' | 'textbook' | 'unsupported'
 }
 
 export const LESSON_TYPE_SLUG_PATTERN = /^[a-z][a-z0-9_]{1,31}$/
@@ -27,6 +27,12 @@ export const LESSON_TYPE_DEFINITIONS = [
     label: '游乐场实训',
     description: '在游乐场游戏中完成挑战，配套分步讲解与实战入口。',
     workspace: 'playground',
+  },
+  {
+    slug: 'textbook_3d',
+    label: '3D 物理课本',
+    description: '翻开 3D 课本，看演示、做预测，完成课末挑战。',
+    workspace: 'textbook',
   },
 ] as const satisfies readonly LessonTypeDefinition[]
 

@@ -139,6 +139,8 @@ export interface LessonContent {
   building3d?: Building3DLessonContent
   /** 游乐场实训课配置；仅 lesson_type=playground 时由实训工作区读取 */
   playground?: PlaygroundLessonContent
+  /** textbook_3d 课时：要嵌入的 3D 课本课号，必须在 lib/textbook3d/registry.ts 登记。 */
+  textbook3d?: { lessonId: string }
   /** Whether this lesson produces a publishable work. */
   workSubmission?: {
     enabled: boolean
