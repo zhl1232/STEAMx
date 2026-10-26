@@ -22,7 +22,7 @@ const siteFooterColumns = [
   {
     title: "帮助中心",
     links: [
-      { label: "使用指南", href: "/explore" },
+      { label: "使用指南", href: "/start" },
       { label: "常见问题", href: "/about#faq" },
       { label: "安全与隐私", href: "/legal/privacy" },
     ],

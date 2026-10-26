@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { ConditionalAppShell, shouldShowSiteFooter } from './conditional-app-shell'
+import { SiteFooter } from './site-footer'
 
 const { mockUseAuth, mockUsePathname } = vi.hoisted(() => ({
   mockUseAuth: vi.fn(),
@@ -170,6 +171,13 @@ describe('ConditionalAppShell mobile header policy', () => {
     renderShell('/works/18', <div data-testid="page-content" />)
 
     expect(screen.queryByTestId('bottom-nav')).not.toBeInTheDocument()
+  })
+
+  it.each([null, { id: 'user-1' }])('keeps the public help guide reachable with user %j', (user) => {
+    mockUseAuth.mockReturnValue({ user })
+    renderShell('/', <div data-testid="page-content" />, <SiteFooter />)
+
+    expect(screen.getByRole('link', { name: '使用指南' })).toHaveAttribute('href', '/start')
   })
 
   it('shows the site footer on public pages and hides it on immersive routes', () => {
