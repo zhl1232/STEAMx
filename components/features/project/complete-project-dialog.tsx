@@ -538,7 +538,7 @@ function CompleteProjectDialogSession({
                     <DialogDescription>
                         {isProgress
                             ? "写下预测、提问或观察，也可以添加图片。AI 审核通过后自动公开。"
-                            : "分享你的成果，审核通过后可获得 20 XP"}
+                            : "分享成果或总结；成长奖励需人工逐阶段确认，每项目最多 200 XP"}
                     </DialogDescription>
                     {/* Stepper indicator */}
                     {!isProgress && <div className="flex items-center gap-2 pt-2">

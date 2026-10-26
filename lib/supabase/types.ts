@@ -4073,6 +4073,14 @@ export interface Database {
       }
     }
     Functions: {
+      growth_review_queue: {
+        Args: { p_type: string; p_before?: number | null }
+        Returns: Json
+      }
+      review_growth_reward: {
+        Args: { p_type: string; p_id: number; p_stages: string[]; p_hash: string; p_reason: string }
+        Returns: Json
+      }
       platform_announcement_stats_service: { Args: Record<string, never>; Returns: { announcement_id: number; target: number; delivered: number; read: number; failed: number; pending: number }[] }
       create_welcome_service: { Args: { p_user_id: string }; Returns: boolean }
       publish_platform_announcement_service: { Args: { p_announcement_id: number }; Returns: Database['public']['Tables']['platform_announcements']['Row'] }

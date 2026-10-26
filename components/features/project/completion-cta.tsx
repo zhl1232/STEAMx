@@ -76,7 +76,7 @@ export function CompletionCTA({ projectId, mode = "project", variant = "card", a
                 <p className="text-sm text-muted-foreground">
                     {mode === "observation"
                         ? <>完成一条结构化观察记录，让这次任务真正沉淀成可检索的自然观察内容。</>
-                        : <>先开始一次自己的项目尝试，按步骤记录过程，最后提交作品并获得 <span className="font-semibold text-primary">20 XP</span></>
+                        : <>先开始一次自己的项目尝试，按步骤记录过程，真实过程、新发现和最终作品或总结经人工确认，累计最多 <span className="font-semibold text-primary">200 XP</span></>
                     }
                 </p>
                 <Button onClick={handleClick} className="gap-2">

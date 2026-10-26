@@ -8,14 +8,14 @@ export const EXPERIENCE_RULES = [
   {
     id: 'publish_course_work',
     action: '上传课时作品',
-    reward: '+20',
-    description: '跟着课时搭完后上传作品，审核通过即可获得',
+    reward: '最多 +200',
+    description: '每课时首次真实过程 40、新观察/比较/调整 60、最终作品或总结 100，人工审核后各一次',
   },
   {
     id: 'complete_project',
     action: '完成项目',
-    reward: '+20',
-    description: '提交项目作品并通过审核；探索记录不计经验',
+    reward: '最多 +200',
+    description: '每项目真实过程 40、新发现 60、作品或总结 100；失败也可总结，一份记录可涵盖多阶段',
   },
   {
     id: 'submit_observation',
@@ -38,14 +38,20 @@ export const EXPERIENCE_RULES = [
   {
     id: 'like_project',
     action: '点赞项目',
-    reward: '+1',
-    description: '鼓励优秀作品',
+    reward: '不发 XP',
+    description: '保留点赞数字，鼓励优秀作品',
+  },
+  {
+    id: 'growth_exchange',
+    action: '合格作品交流',
+    reward: '+5',
+    description: '人工确认真实问题、尝试、建议或回复他人；上海时间每天最多一次、每周四次，同作品每周一次；违规撤回',
   },
   {
     id: 'daily_login',
     action: '每日登录',
-    reward: '11~50+',
-    description: '基础 10 经验 + 连签加成 + 连签节点奖励',
+    reward: '+3',
+    description: '每日自动登录固定 3 XP 和 2 硬币，不再增加连签或累计额外 XP',
   },
 ] as const
 

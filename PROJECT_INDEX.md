@@ -33,7 +33,7 @@
 | 注册资料补建 | `lib/supabase/`、相关 `handle_new_user` 迁移 | [资料补建](docs/ensure-profile.md) |
 | 身份、内容访问与审核 | `lib/access/`、`lib/content-classification/`、`lib/content-filter/`、`app/admin/` | [互动资格](docs/TRUST_AND_INTERACTION_ACCESS.md)、[内容分级](docs/CONTENT_CLASSIFICATION_IMPLEMENTATION.md) |
 | 个人中心、时间线和内容库 | `app/profile/`、`components/profile/`、`components/features/profile/`、`lib/profile/` | [产品架构](docs/product-architecture.md)、[设计规范](docs/design-system.md) |
-| 等级、徽章与奖励 | `lib/gamification/`、`components/features/gamification/` | [课程奖励契约](docs/COURSE_PROGRESS_REWARDS_AND_STEAM_IMPLEMENTATION.md) |
+| 等级、徽章与奖励 | `lib/gamification/`、`components/features/gamification/`、`app/api/admin/growth-reviews/`、`components/admin/growth-reviews.tsx` | [课程奖励契约](docs/COURSE_PROGRESS_REWARDS_AND_STEAM_IMPLEMENTATION.md) |
 | 欢迎消息与客服入口 | `components/features/communications/welcome-actions.tsx`、`lib/communications/types.ts`、`lib/product/support.ts`、`app/settings/about/` | [产品方向](docs/product-direction.md) |
 | 私信、通知和自动互动 | `lib/messages/`、`lib/notifications/`、`lib/communications/`、`lib/auto-interactions.ts` | [互动资格](docs/TRUST_AND_INTERACTION_ACCESS.md) |
 | 商品、供应商和订单 | `lib/store/`、`lib/store/service.ts` | [商城与履约](docs/STORE_CHANNEL_FULFILLMENT_DECISION.md) |

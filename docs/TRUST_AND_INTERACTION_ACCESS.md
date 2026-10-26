@@ -41,7 +41,7 @@
 
 ## XP 规则
 
-`POST /api/xp/increment` 已废弃并返回 `XP_EVENT_REQUIRED`。浏览器不能提交任意金额；业务服务通过仅 service role 可调用的 `award_xp_once(user, action, resource)` RPC 发放固定奖励。函数在同一事务中写入 `xp_logs`、更新 `profiles.xp`，按用户、动作和业务资源幂等；奖励失败不改变投稿或评论结果，但记录服务端错误。
+`POST /api/xp/increment` 已废弃并返回 `XP_EVENT_REQUIRED`。浏览器不能提交任意金额；业务服务通过仅 service role 可调用的 `award_xp_once(user, action, resource)` RPC 发放固定奖励。点赞、旧项目评论及最终作品 +20 已退役；成长阶段与作品交流采用[人工价值审核契约](COURSE_PROGRESS_REWARDS_AND_STEAM_IMPLEMENTATION.md)。其余固定奖励函数在同一事务中写入 `xp_logs`、更新 `profiles.xp`，按用户、动作和业务资源幂等；奖励失败不改变投稿或评论结果，但记录服务端错误。
 
 ## 数据库与迁移
 

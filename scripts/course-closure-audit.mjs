@@ -342,6 +342,11 @@ const [trustedMissingMilestones, untrustedCompleteCourses, invalidMilestones, du
     `),
   ])
 
+const growthEpoch = await query("SELECT to_regclass('public.growth_reward_epoch') IS NOT NULL AS installed")
+const growthCutover = growthEpoch[0]?.installed
+  ? "AND completion.completed_at < (SELECT starts_at FROM public.growth_reward_epoch)"
+  : ''
+
 const [malformedFinalSources, missingRewardLogs, orphanRewardLogs, wrongAmountRewardLogs, duplicateRewardLogs] =
   await Promise.all([
     query(`
@@ -370,6 +375,7 @@ const [malformedFinalSources, missingRewardLogs, orphanRewardLogs, wrongAmountRe
         END AS expected_resource_id
       FROM public.completed_projects completion
       WHERE completion.status = 'approved'
+        ${growthCutover}
         AND coalesce(completion.record_kind, 'final') = 'final'
         AND (
           (
