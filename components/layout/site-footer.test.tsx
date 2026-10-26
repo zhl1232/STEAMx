@@ -33,7 +33,7 @@ describe("SiteFooter", () => {
 
     expect(screen.getByRole("link", { name: "关于我们" })).toHaveAttribute("href", "/about");
     expect(screen.getByRole("link", { name: "联系我们" })).toHaveAttribute("href", "/about#contact");
-    expect(screen.getByRole("link", { name: "使用指南" })).toHaveAttribute("href", "/start");
+    expect(screen.getByRole("link", { name: "新手开始" })).toHaveAttribute("href", "/start");
     expect(screen.getByRole("link", { name: "常见问题" })).toHaveAttribute("href", "/about#faq");
     expect(screen.queryByRole("link", { name: "赞助我们" })).not.toBeInTheDocument();
   });

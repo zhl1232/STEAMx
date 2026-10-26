@@ -23,6 +23,16 @@ describe('Feishu bridge configuration', () => {
     vi.stubEnv('FEISHU_TARGETS_JSON', '[]'); vi.stubEnv('FEISHU_STAFF_JSON', '[]')
     expect(getFeishuConfig()?.targets).toEqual([]); expect(feishuHealth().configured).toBe(false)
   })
+  it('accepts an existing administrator UUID without RFC version or variant bits', () => {
+    const person = { openId: 'ou_staff', profileId: '12345678-abcd-0000-0000-123456789abc' }
+    vi.stubEnv('FEISHU_STAFF_JSON', JSON.stringify([person]))
+    expect(getFeishuConfig()?.staff).toEqual([person])
+    expect(feishuHealth()).toEqual({ enabled: true, configured: true, targets: 1, staff: 1 })
+  })
+  it.each(['', 'not-a-uuid', '12345678abcd00000000123456789abc', '12345678-abcd-0000-0000-123456789abz', '12345678-abcd-0000-0000-123456789abc-extra', 42, null])('rejects malformed staff profile IDs: %j', profileId => {
+    vi.stubEnv('FEISHU_STAFF_JSON', JSON.stringify([{ openId: 'ou_staff', profileId }]))
+    expect(() => getFeishuConfig()).toThrow('configuration_invalid')
+  })
   it.each([
     [{ ...target, channels: ['community'] }],
     [{ ...target, events: ['other'] }],

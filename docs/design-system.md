@@ -35,6 +35,12 @@ import { AppWideShell, AppReadingShell } from "@/components/layout/app-shell"
 
 桌面顶栏内容区使用 `app-header-bar`（与宽版 shell 同宽）。
 
+### 页脚
+
+`components/layout/site-footer.tsx` 的桌面导航保留“关于我们、联系我们、新手开始、常见问题、用户协议、隐私政策”，按“关于我们、帮助中心、规则与隐私”分组。联系我们落到关于页的联系区，该区保留反馈按钮；不重复列出“提交反馈”或指向隐私政策的“安全与隐私”。安全说明仍由隐私政策、用户协议与常见问题承载。
+
+页脚整块仅在 `md` 及以上宽度展示，包括品牌、导航、版权、ICP备案与公安备案；手机端隐藏。关于页及设置中的联系和规则入口保留，应用壳仍预留底部导航安全空间。
+
 ### 安装应用与全屏
 
 `app/manifest.ts` 请求 `display: fullscreen`，保持原有应用 `id`、作用域和启动地址。不支持该显示模式的浏览器按标准回退到 standalone 等模式；已有安装的 manifest 更新时机由浏览器决定。fullscreen 是启动显示偏好，不保证每款 Android、手势导航或 iOS 都隐藏系统栏，也不等同于元素 Fullscreen API。安装提示同时识别 fullscreen、standalone 和 iOS 的 `navigator.standalone`，进入全屏时撤下已显示的安装提示。

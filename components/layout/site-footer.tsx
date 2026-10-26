@@ -22,16 +22,14 @@ const siteFooterColumns = [
   {
     title: "帮助中心",
     links: [
-      { label: "使用指南", href: "/start" },
+      { label: "新手开始", href: "/start" },
       { label: "常见问题", href: "/about#faq" },
-      { label: "安全与隐私", href: "/legal/privacy" },
     ],
   },
   {
-    title: "反馈与支持",
+    title: "规则与隐私",
     links: [
-      { label: "提交反馈", href: "/about#feedback" },
-      { label: "服务条款", href: "/legal/terms" },
+      { label: "用户协议", href: "/legal/terms" },
       { label: "隐私政策", href: "/legal/privacy" },
     ],
   },
@@ -42,8 +40,8 @@ const filingLinkClassName =
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.7)] py-6">
-      <div className="app-shell-wide hidden grid-cols-2 gap-x-10 gap-y-7 px-8 text-[13px] text-muted-foreground md:grid lg:grid-cols-[1.5fr_repeat(3,1fr)]">
+    <footer className="hidden border-t border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.7)] py-6 md:block">
+      <div className="app-shell-wide grid grid-cols-2 gap-x-10 gap-y-7 px-8 text-[13px] text-muted-foreground lg:grid-cols-[1.5fr_repeat(3,1fr)]">
         <div>
           <Link href="/" className="mb-3 flex items-center gap-2">
             <SteamLogo className="h-8 w-8" />
@@ -66,7 +64,7 @@ export function SiteFooter() {
           </div>
         ))}
       </div>
-      <div className="mt-0 flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5 px-4 text-center text-[13px] text-foreground/75 md:mt-4">
+      <div className="mt-4 flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5 px-4 text-center text-[13px] text-foreground/75">
         <span>© 2026 {BRAND_FULL_NAME}</span>
         <span aria-hidden="true">·</span>
         <a

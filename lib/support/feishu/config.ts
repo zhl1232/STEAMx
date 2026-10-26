@@ -39,7 +39,9 @@ export function getFeishuConfig(env: NodeJS.ProcessEnv = process.env): FeishuCon
     })
     if (targets.length > 50) throw new Error()
     const staff = list(env.FEISHU_STAFF_JSON).map(item => {
-      if (!object(item) || !feishuId(item.openId, 'ou_') || typeof item.profileId !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(item.profileId) || openIds.has(item.openId)) throw new Error()
+      // Existing Postgres profile IDs can have non-RFC UUID version/variant bits.
+      // This checks storage syntax; reply authorization still verifies the current admin role.
+      if (!object(item) || !feishuId(item.openId, 'ou_') || typeof item.profileId !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(item.profileId) || openIds.has(item.openId)) throw new Error()
       openIds.add(item.openId)
       return { openId: item.openId, profileId: item.profileId }
     })

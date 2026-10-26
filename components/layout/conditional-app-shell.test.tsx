@@ -177,7 +177,7 @@ describe('ConditionalAppShell mobile header policy', () => {
     mockUseAuth.mockReturnValue({ user })
     renderShell('/', <div data-testid="page-content" />, <SiteFooter />)
 
-    expect(screen.getByRole('link', { name: '使用指南' })).toHaveAttribute('href', '/start')
+    expect(screen.getByRole('link', { name: '新手开始' })).toHaveAttribute('href', '/start')
   })
 
   it('shows the site footer on public pages and hides it on immersive routes', () => {
