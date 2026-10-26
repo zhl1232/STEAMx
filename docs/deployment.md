@@ -112,7 +112,7 @@ Release 的 `MIGRATION_ALLOWLIST` 是该提交的批准文件清单。通用指�
 
 ## 互斥、超时和手机号运维
 
-Release 与手机号提供商运维共用 `release-production` 并发组，服务器另以 `.deploy.lock` 互斥。默认锁等待 120 秒、镜像拉取单次 180 秒、最多 2 次尝试，分别由 `DEPLOY_LOCK_TIMEOUT`、`IMAGE_PULL_TIMEOUT`、`IMAGE_PULL_ATTEMPTS` 调整。
+Release 与手机号提供商运维共用 `release-production` 并发组，服务器另以 `.deploy.lock` 互斥。默认锁等待 120 秒；镜像拉取总预算 900 秒（所有尝试合计，不再按单次 180 秒掐断，避免慢但在动的大层被杀掉后从零重下）、最多 4 次尝试、失败后退避 10/20/40 秒，拉取期间每 30 秒打印一次进度心跳，分别由 `DEPLOY_LOCK_TIMEOUT`、`IMAGE_PULL_TIMEOUT`、`IMAGE_PULL_ATTEMPTS`、`IMAGE_PULL_BACKOFF_SECONDS`、`IMAGE_PULL_HEARTBEAT_SECONDS` 调整。拉取失败时应用和配置都不改。若服务器到 GHCR 长期很慢，可考虑在服务器 Docker 上启用 containerd 镜像存储（中断后可续传已下载的层）或改用国内镜像仓库（如阿里云 ACR）。
 
 候选预检默认最多 20 次、间隔 2 秒，每次 HTTP 请求最多 4 秒；相关变量为 `PREFLIGHT_ATTEMPTS`、`PREFLIGHT_INTERVAL_SECONDS`。超时限制不能修复网络问题。
 
