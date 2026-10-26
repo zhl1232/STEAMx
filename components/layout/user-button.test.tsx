@@ -70,8 +70,14 @@ it('keeps the existing bell linked to messages with an unread badge', () => {
   expect(screen.getByText('7')).toBeInTheDocument()
 })
 
-it('removes leaderboard from desktop top navigation', () => {
+it('keeps desktop top navigation focused on the four main sections', () => {
   render(<MainNav />)
   expect(screen.queryByRole('link', { name: '排行榜' })).not.toBeInTheDocument()
-  expect(screen.getByRole('link', { name: '探索' })).toHaveAttribute('href', '/explore')
+  expect(screen.queryByRole('link', { name: '实验课' })).not.toBeInTheDocument()
+  expect(screen.getAllByRole('link').map(link => [link.textContent, link.getAttribute('href')])).toEqual([
+    ['探索', '/explore'],
+    ['技能课程', '/courses'],
+    ['自然观察', '/nature'],
+    ['游乐场', '/playground'],
+  ])
 })

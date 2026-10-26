@@ -23,12 +23,6 @@ export function MainNav() {
                 pathname?.startsWith("/create/") ||
                 pathname?.startsWith("/pbl/"),
         },
-        // 实验课目前就是探索页「科学」分类，PC 端给一个直达入口。
-        {
-            href: `/explore?category=${encodeURIComponent("科学")}`,
-            label: "实验课",
-            active: false,
-        },
         {
             href: "/nature",
             label: "自然观察",
