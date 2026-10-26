@@ -21,7 +21,7 @@ SELECT pg_temp.assert((pg_temp.review('completion',2,ARRAY['process','discovery'
 SELECT pg_temp.assert((SELECT level=floor(sqrt(xp::numeric/100))+1 FROM profiles WHERE id='00000000-0000-0000-0000-000000000002'),'level formula');
 DELETE FROM completed_projects WHERE id=2;
 INSERT INTO completed_projects(id,user_id,project_id,notes,status,moderation_state) VALUES(3,'00000000-0000-0000-0000-000000000002',2,'recreated','approved','approved');
-SELECT pg_temp.assert((pg_temp.review('completion',3,ARRAY['process','discovery','final'])->>'xp_awarded')::int=0,'deleted recreated stage tombstone');
+SELECT pg_temp.assert((pg_temp.review('completion',3,ARRAY['process','discovery','final'])->>'xp_awarded')::int=200,'deleted recreated stage restores original claim');
 -- Course takes precedence over project; historical final consumes final stage.
 INSERT INTO xp_logs(user_id,action_type,resource_id,xp_amount) VALUES('00000000-0000-0000-0000-000000000002','publish_course_work','10000000-0000-0000-0000-000000000001',20);
 INSERT INTO completed_projects(id,user_id,project_id,course_lesson_id,notes,status,moderation_state) VALUES
@@ -52,7 +52,8 @@ UPDATE completion_comments SET moderation_state='rejected' WHERE id=10;
 UPDATE completion_comments SET moderation_state='rejected' WHERE id=10;
 SELECT pg_temp.assert((SELECT xp=0 FROM profiles WHERE id='00000000-0000-0000-0000-000000000003'),'revoke exactly 5');
 UPDATE completion_comments SET moderation_state='approved' WHERE id=10;
-SELECT pg_temp.assert((pg_temp.review('comment',10,ARRAY['exchange'])->>'xp_awarded')::int=0,'reapproval no regrant');
+SELECT pg_temp.assert((pg_temp.review('comment',10,ARRAY['exchange'])->>'xp_awarded')::int=5,'human reapproval restores once');
+SELECT pg_temp.assert((pg_temp.review('comment',10,ARRAY['exchange'])->>'xp_awarded')::int=0,'repeat restoration no regrant');
 SELECT pg_temp.assert((SELECT count(*)=1 FROM xp_logs WHERE action_type='growth_revoke' AND user_id='00000000-0000-0000-0000-000000000003'),'single revoke ledger');
 -- Edit revocation and stale hash rejected.
 UPDATE completion_comments SET content='edited after review' WHERE id=14;

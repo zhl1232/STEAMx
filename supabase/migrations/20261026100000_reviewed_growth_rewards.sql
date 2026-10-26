@@ -47,6 +47,8 @@ CREATE TABLE public.growth_reward_reviews (
   reviewed_at timestamptz NOT NULL DEFAULT now(),
   reward_day date NOT NULL DEFAULT (now() AT TIME ZONE 'Asia/Shanghai')::date,
   reward_week date NOT NULL DEFAULT date_trunc('week', now() AT TIME ZONE 'Asia/Shanghai')::date,
+  active_content_id bigint,
+  revision integer NOT NULL DEFAULT 0 CHECK (revision >= 0),
   revoked_at timestamptz,
   revoke_reason text
 );
@@ -66,6 +68,34 @@ REVOKE ALL ON public.growth_reward_reviews FROM PUBLIC, anon, authenticated;
 GRANT SELECT ON public.growth_reward_reviews TO authenticated;
 CREATE POLICY growth_audit_read ON public.growth_reward_reviews FOR SELECT TO authenticated
  USING (user_id = auth.uid() OR public.is_moderator_or_admin());
+
+-- Immutable event history preserves the original grant and every subsequent review.
+CREATE TABLE public.growth_reward_events (
+ id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+ review_id bigint NOT NULL REFERENCES public.growth_reward_reviews(id),
+ revision integer NOT NULL,
+ event_type text NOT NULL CHECK (event_type IN ('award','revoke','restore')),
+ content_id bigint NOT NULL,
+ snapshot jsonb NOT NULL,
+ reviewer_id uuid,
+ reason text NOT NULL,
+ xp_delta integer NOT NULL,
+ created_at timestamptz NOT NULL DEFAULT now(),
+ UNIQUE(review_id,revision,event_type)
+);
+ALTER TABLE public.growth_reward_events ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON public.growth_reward_events FROM PUBLIC,anon,authenticated;
+GRANT SELECT ON public.growth_reward_events TO authenticated;
+CREATE POLICY growth_event_read ON public.growth_reward_events FOR SELECT TO authenticated USING
+ (EXISTS (SELECT 1 FROM public.growth_reward_reviews r WHERE r.id=review_id AND (r.user_id=auth.uid() OR public.is_moderator_or_admin())));
+-- Keep all reviewed comment fingerprints, including edited/restored versions.
+CREATE TABLE public.growth_reward_fingerprints (
+ user_id uuid NOT NULL, fingerprint text NOT NULL,
+ review_id bigint NOT NULL REFERENCES public.growth_reward_reviews(id),
+ PRIMARY KEY(user_id,fingerprint)
+);
+ALTER TABLE public.growth_reward_fingerprints ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON public.growth_reward_fingerprints FROM PUBLIC,anon,authenticated;
 
 -- Keep the existing count triggers, replace their bodies; old unlikes cannot debit XP.
 CREATE OR REPLACE FUNCTION public.handle_new_completion_like() RETURNS trigger
@@ -324,7 +354,8 @@ DECLARE
  legacy integer:=0; used integer:=0; awarded integer:=0; review_id bigint; fp text;
  day_key date := (now() AT TIME ZONE 'Asia/Shanghai')::date;
  week_key date := date_trunc('week',now() AT TIME ZONE 'Asia/Shanghai')::date;
- prior_review record;
+ prior_review record; initial_comment record;
+ skip_review boolean := p_stages=ARRAY['skip'];
 BEGIN
  IF auth.uid() IS NULL OR NOT COALESCE(public.is_moderator_or_admin(),false) THEN RAISE EXCEPTION 'Moderator required'; END IF;
  IF p_type NOT IN ('completion','comment') OR p_type IS NULL OR p_stages IS NULL OR cardinality(p_stages)=0
@@ -333,43 +364,57 @@ BEGIN
  IF p_type='completion' THEN
    SELECT * INTO c FROM public.completed_projects WHERE id=p_id FOR UPDATE;
    IF NOT FOUND THEN RAISE EXCEPTION 'Content missing'; END IF;
-   IF c.status <> 'approved' OR c.moderation_state IS DISTINCT FROM 'approved' THEN RAISE EXCEPTION 'New approved content required'; END IF;
+   IF NOT skip_review AND (c.status <> 'approved' OR c.moderation_state IS DISTINCT FROM 'approved') THEN RAISE EXCEPTION 'New approved content required'; END IF;
    owner_id:=c.user_id;
    -- A course work can carry a project link; the lesson is its canonical source.
    source:=CASE WHEN c.course_lesson_id IS NOT NULL THEN 'lesson:'||c.course_lesson_id
      WHEN c.project_id IS NOT NULL THEN 'project:'||c.project_id END;
    IF source IS NULL OR NOT (p_stages <@ ARRAY['process','discovery','final','skip']) THEN RAISE EXCEPTION 'Invalid source or stages'; END IF;
  ELSE
+   SELECT * INTO initial_comment FROM public.completion_comments WHERE id=p_id;
+   IF NOT FOUND THEN RAISE EXCEPTION 'Content missing'; END IF;
+   -- Dependency-first locks serialize award/restore against work and parent rejection.
+   -- Recheck the comment after locking: its identity/parent may have changed meanwhile.
+   SELECT * INTO w FROM public.completed_projects WHERE id=initial_comment.completed_project_id FOR SHARE;
+   IF NOT FOUND THEN RAISE EXCEPTION 'Work missing'; END IF;
+   IF initial_comment.parent_id IS NOT NULL THEN
+     PERFORM 1 FROM public.completion_comments WHERE id=initial_comment.parent_id FOR SHARE;
+   END IF;
    SELECT * INTO c FROM public.completion_comments WHERE id=p_id FOR UPDATE;
    IF NOT FOUND THEN RAISE EXCEPTION 'Content missing'; END IF;
-   IF c.moderation_state IS DISTINCT FROM 'approved' THEN RAISE EXCEPTION 'New approved content required'; END IF;
-   SELECT * INTO w FROM public.completed_projects WHERE id=c.completed_project_id;
-   IF NOT FOUND OR w.status <> 'approved' OR w.moderation_state IS DISTINCT FROM 'approved' THEN RAISE EXCEPTION 'Work not approved'; END IF;
+   IF ROW(c.completed_project_id,c.parent_id,c.author_id) IS DISTINCT FROM
+      ROW(initial_comment.completed_project_id,initial_comment.parent_id,initial_comment.author_id) THEN
+     RAISE EXCEPTION 'Comment changed; reload review'; END IF;
    owner_id:=c.author_id; source:='work:'||c.completed_project_id;
    IF NOT (p_stages <@ ARRAY['exchange','skip']) THEN RAISE EXCEPTION 'Invalid stages'; END IF;
-   -- Validate the real parent, never trust a client-supplied reply target.
-   IF c.parent_id IS NOT NULL THEN
-     IF NOT EXISTS (SELECT 1 FROM public.completion_comments parent WHERE parent.id=c.parent_id
-       AND parent.completed_project_id=c.completed_project_id AND parent.author_id<>owner_id
-       AND parent.author_id=c.reply_to_user_id AND parent.moderation_state='approved') THEN
-       RAISE EXCEPTION 'Self reply or invalid parent'; END IF;
-   ELSIF w.user_id=owner_id THEN RAISE EXCEPTION 'Self conversation'; END IF;
+   IF NOT skip_review THEN
+     IF c.moderation_state IS DISTINCT FROM 'approved' OR w.status <> 'approved'
+       OR w.moderation_state IS DISTINCT FROM 'approved' THEN RAISE EXCEPTION 'Content or work not approved'; END IF;
+     IF c.parent_id IS NOT NULL THEN
+       IF NOT EXISTS (SELECT 1 FROM public.completion_comments parent WHERE parent.id=c.parent_id
+         AND parent.completed_project_id=c.completed_project_id AND parent.author_id<>owner_id
+         AND parent.author_id=c.reply_to_user_id AND parent.moderation_state='approved') THEN
+         RAISE EXCEPTION 'Self reply or invalid parent'; END IF;
+     ELSIF w.user_id=owner_id THEN RAISE EXCEPTION 'Self conversation'; END IF;
+   END IF;
    fp:=md5(regexp_replace(lower(btrim(c.content)),'[[:space:]]+','','g'));
  END IF;
  IF owner_id=auth.uid() THEN RAISE EXCEPTION 'Cannot review own rewards'; END IF;
  -- Serialize all awards/quota checks for one recipient across different content rows.
- PERFORM 1 FROM public.profiles WHERE id=owner_id AND NOT COALESCE(is_auto_interaction_account,false) FOR UPDATE;
+ PERFORM 1 FROM public.profiles WHERE id=owner_id AND (skip_review OR NOT COALESCE(is_auto_interaction_account,false)) FOR UPDATE;
  IF NOT FOUND THEN RAISE EXCEPTION 'Missing or automated account'; END IF;
  evidence:=public.growth_evidence(p_type,p_id);
  IF md5(evidence::text) IS DISTINCT FROM p_hash THEN RAISE EXCEPTION 'Content changed; reload review'; END IF;
  IF 'skip'=ANY(p_stages) AND cardinality(p_stages)<>1 THEN RAISE EXCEPTION 'Skip must stand alone'; END IF;
  -- A later human value rejection revokes an earlier grant even if the text is safe.
  IF p_stages=ARRAY['skip'] THEN
-   FOR prior_review IN SELECT * FROM public.growth_reward_reviews WHERE content_type=p_type AND content_id=p_id
+   FOR prior_review IN SELECT * FROM public.growth_reward_reviews WHERE content_type=p_type AND COALESCE(active_content_id,content_id)=p_id
      AND revoked_at IS NULL AND xp>0 ORDER BY id FOR UPDATE LOOP
      UPDATE public.growth_reward_reviews SET revoked_at=now(),revoke_reason=btrim(p_reason) WHERE id=prior_review.id;
      INSERT INTO public.xp_logs(user_id,action_type,resource_id,xp_amount)
-       VALUES(owner_id,'growth_revoke',prior_review.id::text,-prior_review.xp);
+       VALUES(owner_id,'growth_revoke',prior_review.id::text||':'||prior_review.revision,-prior_review.xp);
+     INSERT INTO public.growth_reward_events(review_id,revision,event_type,content_id,snapshot,reviewer_id,reason,xp_delta)
+       VALUES(prior_review.id,prior_review.revision,'revoke',p_id,evidence,auth.uid(),btrim(p_reason),-prior_review.xp);
      UPDATE public.profiles SET xp=GREATEST(0,COALESCE(xp,0)-prior_review.xp),
        level=floor(sqrt(GREATEST(0,COALESCE(xp,0)-prior_review.xp)::numeric/100))+1 WHERE id=owner_id;
      awarded:=awarded-prior_review.xp;
@@ -382,10 +427,34 @@ BEGIN
    SELECT COALESCE(sum(xp),0) INTO used FROM public.growth_reward_reviews WHERE user_id=owner_id AND source_key=source AND stage IN ('process','discovery','final');
  END IF;
  FOREACH s IN ARRAY p_stages LOOP
+   -- Restore an existing stage/claim; do not mint a second claim or free its quota.
+   SELECT * INTO prior_review FROM public.growth_reward_reviews
+   WHERE user_id=owner_id AND stage=s AND s<>'skip'
+     AND ((p_type='completion' AND source_key=source) OR (p_type='comment' AND content_type='comment' AND content_id=p_id))
+   FOR UPDATE;
+   IF FOUND THEN
+     IF prior_review.revoked_at IS NOT NULL AND prior_review.xp>0 THEN
+       IF s='exchange' THEN
+         INSERT INTO public.growth_reward_fingerprints(user_id,fingerprint,review_id) VALUES(owner_id,fp,prior_review.id) ON CONFLICT DO NOTHING;
+         IF NOT EXISTS (SELECT 1 FROM public.growth_reward_fingerprints f WHERE f.user_id=owner_id AND f.fingerprint=fp AND f.review_id=prior_review.id) THEN
+           RAISE EXCEPTION 'Duplicate reviewed exchange'; END IF;
+       END IF;
+       UPDATE public.growth_reward_reviews SET revoked_at=NULL,revoke_reason=NULL,active_content_id=p_id,revision=revision+1 WHERE id=prior_review.id;
+       INSERT INTO public.growth_reward_events(review_id,revision,event_type,content_id,snapshot,reviewer_id,reason,xp_delta)
+       VALUES(prior_review.id,prior_review.revision+1,'restore',p_id,evidence,auth.uid(),btrim(p_reason),prior_review.xp);
+       INSERT INTO public.xp_logs(user_id,action_type,resource_id,xp_amount)
+       VALUES(owner_id,'growth_restore',prior_review.id::text||':'||(prior_review.revision+1),prior_review.xp);
+       UPDATE public.profiles SET xp=COALESCE(xp,0)+prior_review.xp,
+         level=floor(sqrt((COALESCE(xp,0)+prior_review.xp)::numeric/100))+1 WHERE id=owner_id;
+       awarded:=awarded+prior_review.xp;
+     END IF;
+     CONTINUE;
+   END IF;
    amount:=CASE s WHEN 'process' THEN 40 WHEN 'discovery' THEN 60 WHEN 'final' THEN 100 WHEN 'exchange' THEN 5 ELSE 0 END;
    IF s='exchange' THEN
      IF EXISTS (SELECT 1 FROM public.growth_reward_reviews WHERE user_id=owner_id AND stage='exchange' AND
          (reward_day=day_key OR (reward_week=week_key AND source_key=source) OR fingerprint=fp OR content_id=p_id))
+       OR EXISTS (SELECT 1 FROM public.growth_reward_fingerprints WHERE user_id=owner_id AND fingerprint=fp)
        OR (SELECT count(*) FROM public.growth_reward_reviews WHERE user_id=owner_id AND stage='exchange' AND reward_week=week_key)>=4 THEN CONTINUE; END IF;
    ELSIF s<>'skip' THEN
      -- Historical final XP consumes the final stage; never top up or regrant it.
@@ -399,6 +468,9 @@ BEGIN
    VALUES(owner_id,p_type,p_id,source,s,p_hash,fp,evidence,auth.uid(),btrim(p_reason),amount,legacy)
    ON CONFLICT DO NOTHING RETURNING id INTO review_id;
    IF review_id IS NOT NULL THEN
+     IF s='exchange' THEN INSERT INTO public.growth_reward_fingerprints(user_id,fingerprint,review_id) VALUES(owner_id,fp,review_id); END IF;
+     INSERT INTO public.growth_reward_events(review_id,revision,event_type,content_id,snapshot,reviewer_id,reason,xp_delta)
+       VALUES(review_id,0,'award',p_id,evidence,auth.uid(),btrim(p_reason),amount);
      IF amount>0 THEN
        INSERT INTO public.xp_logs(user_id,action_type,resource_id,xp_amount) VALUES(owner_id,'growth_'||s,review_id::text,amount);
        UPDATE public.profiles SET xp=COALESCE(xp,0)+amount,
@@ -416,26 +488,41 @@ GRANT EXECUTE ON FUNCTION public.review_growth_reward(text,bigint,text[],text,te
 -- Claims and quota slots stay spent, so delete/recreate and reapproval cannot farm XP.
 CREATE FUNCTION public.revoke_growth_content() RETURNS trigger
 LANGUAGE plpgsql SECURITY DEFINER SET search_path='' AS $$
-DECLARE typ text:=TG_ARGV[0]; r record; invalid boolean:=TG_OP='DELETE';
+DECLARE typ text:=TG_ARGV[0]; r record; invalid boolean:=TG_OP='DELETE'; dependency_invalid boolean:=TG_OP='DELETE'; ids bigint[]; recipient uuid;
 BEGIN
  IF TG_OP='UPDATE' THEN
    IF typ='comment' THEN
      invalid:=NEW.moderation_state IS DISTINCT FROM 'approved' OR
-       (to_jsonb(NEW)-ARRAY['moderation_state','moderation_reason','moderation_source','reviewed_at','reviewed_by','updated_at']) IS DISTINCT FROM
-       (to_jsonb(OLD)-ARRAY['moderation_state','moderation_reason','moderation_source','reviewed_at','reviewed_by','updated_at']);
+       ROW(NEW.author_id,NEW.completed_project_id,NEW.content,NEW.parent_id,NEW.reply_to_user_id)
+       IS DISTINCT FROM ROW(OLD.author_id,OLD.completed_project_id,OLD.content,OLD.parent_id,OLD.reply_to_user_id);
+     -- A still-approved parent's wording does not invalidate a useful reply.
+     dependency_invalid:=NEW.moderation_state IS DISTINCT FROM 'approved' OR
+       ROW(NEW.author_id,NEW.completed_project_id) IS DISTINCT FROM ROW(OLD.author_id,OLD.completed_project_id);
    ELSE
      invalid:=NEW.status<>'approved' OR NEW.moderation_state IS DISTINCT FROM 'approved' OR
        ROW(NEW.user_id,NEW.project_id,NEW.course_lesson_id,NEW.notes,NEW.proof_images,NEW.proof_captions,NEW.proof_video_url)
        IS DISTINCT FROM ROW(OLD.user_id,OLD.project_id,OLD.course_lesson_id,OLD.notes,OLD.proof_images,OLD.proof_captions,OLD.proof_video_url);
+     dependency_invalid:=NEW.status<>'approved' OR NEW.moderation_state IS DISTINCT FROM 'approved' OR NEW.user_id IS DISTINCT FROM OLD.user_id;
    END IF;
  END IF;
- IF invalid THEN
-   -- Same lock order as review: content -> recipient -> audit rows.
-   PERFORM 1 FROM public.profiles WHERE id=(CASE WHEN typ='comment' THEN to_jsonb(OLD)->>'author_id' ELSE to_jsonb(OLD)->>'user_id' END)::uuid FOR UPDATE;
-   FOR r IN SELECT * FROM public.growth_reward_reviews WHERE content_type=typ AND content_id=OLD.id AND revoked_at IS NULL ORDER BY user_id,id FOR UPDATE LOOP
-     UPDATE public.growth_reward_reviews SET revoked_at=now(),revoke_reason=TG_OP||': content removed, changed or no longer approved' WHERE id=r.id;
+ IF invalid OR dependency_invalid THEN
+   SELECT array_agg(review.id) INTO ids FROM public.growth_reward_reviews review
+   WHERE review.revoked_at IS NULL AND (
+     (invalid AND review.content_type=typ AND COALESCE(review.active_content_id,review.content_id)=OLD.id)
+     OR (dependency_invalid AND review.stage='exchange' AND EXISTS (
+       SELECT 1 FROM public.completion_comments child WHERE child.id=COALESCE(review.active_content_id,review.content_id)
+       AND ((typ='completion' AND child.completed_project_id=OLD.id) OR (typ='comment' AND child.parent_id=OLD.id))
+     )));
+   -- Lock all affected recipients in stable order before audit rows.
+   FOR recipient IN SELECT DISTINCT user_id FROM public.growth_reward_reviews WHERE id=ANY(ids) ORDER BY user_id LOOP
+     PERFORM 1 FROM public.profiles WHERE id=recipient FOR UPDATE;
+   END LOOP;
+   FOR r IN SELECT * FROM public.growth_reward_reviews WHERE id=ANY(ids) AND revoked_at IS NULL ORDER BY user_id,id FOR UPDATE LOOP
+     UPDATE public.growth_reward_reviews SET revoked_at=now(),revoke_reason=TG_OP||': content or required dependency removed, changed or no longer approved' WHERE id=r.id;
+     INSERT INTO public.growth_reward_events(review_id,revision,event_type,content_id,snapshot,reviewer_id,reason,xp_delta)
+       VALUES(r.id,r.revision,'revoke',COALESCE(r.active_content_id,r.content_id),jsonb_build_object('trigger_type',typ,'trigger_content',to_jsonb(OLD)),auth.uid(),TG_OP||': content or dependency invalidated',-r.xp);
      IF r.xp>0 THEN
-       INSERT INTO public.xp_logs(user_id,action_type,resource_id,xp_amount) VALUES(r.user_id,'growth_revoke',r.id::text,-r.xp);
+       INSERT INTO public.xp_logs(user_id,action_type,resource_id,xp_amount) VALUES(r.user_id,'growth_revoke',r.id::text||':'||r.revision,-r.xp);
        UPDATE public.profiles SET xp=GREATEST(0,COALESCE(xp,0)-r.xp),level=floor(sqrt(GREATEST(0,COALESCE(xp,0)-r.xp)::numeric/100))+1 WHERE id=r.user_id;
      END IF;
    END LOOP;
@@ -458,8 +545,8 @@ BEGIN
  SELECT COALESCE(jsonb_agg(row_data ORDER BY id DESC),'[]'::jsonb) INTO result FROM (
    SELECT x.id,jsonb_build_object('id',x.id,'type',p_type,'evidence',e.evidence,'hash',md5(e.evidence::text),
     'context',CASE WHEN p_type='comment' THEN (SELECT jsonb_build_object('work',public.growth_evidence('completion',cc.completed_project_id),'parent',public.growth_evidence('comment',cc.parent_id)) FROM public.completion_comments cc WHERE cc.id=x.id) END,
-    'reviews',(SELECT COALESCE(jsonb_agg(jsonb_build_object('stage',stage,'xp',xp,'reason',reason,'revoked_at',revoked_at)),'[]'::jsonb)
-       FROM public.growth_reward_reviews WHERE content_type=p_type AND content_id=x.id)) row_data
+    'reviews',(SELECT COALESCE(jsonb_agg(jsonb_build_object('stage',stage,'xp',xp,'reason',reason,'revoked_at',revoked_at,'revision',revision,'events',(SELECT COALESCE(jsonb_agg(jsonb_build_object('type',event_type,'xp',xp_delta,'reason',ev.reason,'created_at',ev.created_at) ORDER BY ev.id),'[]'::jsonb) FROM public.growth_reward_events ev WHERE ev.review_id=growth_reward_reviews.id))),'[]'::jsonb)
+       FROM public.growth_reward_reviews WHERE content_type=p_type AND (content_id=x.id OR active_content_id=x.id))) row_data
    FROM (
      SELECT id FROM public.completed_projects WHERE p_type='completion' AND status='approved' AND moderation_state='approved'
        AND EXISTS (SELECT 1 FROM public.growth_reward_content g WHERE g.content_type='completion' AND g.content_id=completed_projects.id)
