@@ -88,6 +88,31 @@ describe("PlaygroundPage", () => {
         expect(screen.getByRole("heading", { name: "一起拼与创造" })).toBeInTheDocument()
     })
 
+    it("restores and opens the more-games directory from an active search before scrolling", () => {
+        const { container } = render(<PlaygroundPage />)
+        fireEvent.change(screen.getByRole("searchbox"), { target: { value: "数独" } })
+        expect(container.querySelector("#playground-more")).toBeNull()
+        const scroll = vi.spyOn(HTMLElement.prototype, "scrollIntoView").mockImplementation(function (this: HTMLElement) {
+            expect(this).toHaveAttribute("id", "playground-more")
+            expect(this).toHaveAttribute("open")
+            expect(screen.getByRole("searchbox")).toHaveValue("")
+        })
+
+        try {
+            fireEvent.click(screen.getByRole("link", { name: /更多玩法/ }))
+
+            expect(screen.getByRole("heading", { name: "一起拼与创造" })).toBeInTheDocument()
+            const more = container.querySelector<HTMLDetailsElement>("#playground-more")!
+            expect(more.open).toBe(true)
+            expect(within(more).getAllByRole("article")).toHaveLength(PLAYGROUND_DISCOVERY.filter((game) => game.group === "more").length)
+            expect(window.location.hash).toBe("#playground-more")
+            expect(scroll).toHaveBeenCalledOnce()
+        } finally {
+            scroll.mockRestore()
+            window.history.replaceState(null, "", window.location.pathname)
+        }
+    })
+
     it("excludes retired games from play, win, explored-game and STEAM totals", () => {
         const quickMath = { totalGames: 4, bestScore: 900, bestStreak: 12 }
         storageState.set("quick_math_stats", quickMath)

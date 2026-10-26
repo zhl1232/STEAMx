@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useId, useState } from "react"
+import { useEffect, useId, useRef, useState, type MouseEventHandler } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -413,6 +413,23 @@ const DIRECTORY_GAMES = PLAYGROUND_DISCOVERY.flatMap((discovery) => {
 export default function PlaygroundPage() {
     const [stats, setStats] = useState<AggStats | null>(null)
     const [query, setQuery] = useState("")
+    const [moreOpen, setMoreOpen] = useState(false)
+    const [moreNavigation, setMoreNavigation] = useState(0)
+    const moreRef = useRef<HTMLDetailsElement>(null)
+
+    const openMore: MouseEventHandler<HTMLAnchorElement> = (event) => {
+        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+        event.preventDefault()
+        setQuery("")
+        setMoreOpen(true)
+        setMoreNavigation((request) => request + 1)
+    }
+
+    useEffect(() => {
+        if (moreNavigation === 0) return
+        window.location.hash = "playground-more"
+        moreRef.current?.scrollIntoView()
+    }, [moreNavigation])
 
     useEffect(() => {
         const refreshStats = () => setStats(aggregateStats())
@@ -437,7 +454,7 @@ export default function PlaygroundPage() {
     return (
         <div className="w-full space-y-6 px-4 py-4 sm:py-5 lg:space-y-8 lg:px-8 lg:py-8">
             <div className="hidden lg:block"><HeroPanel /></div>
-            <MobileQuickEntries />
+            <MobileQuickEntries onOpenMore={openMore} />
             <Link href="/playground/physics-lab" className="surface-panel group hidden lg:flex items-center gap-4 p-5 transition-colors hover:bg-muted/50">
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-md bg-primary/10 text-primary"><Beaker className="h-6 w-6" aria-hidden /></span>
                 <div className="min-w-0 flex-1">
@@ -463,7 +480,8 @@ export default function PlaygroundPage() {
             ) : PLAYGROUND_GROUPS.map((group) => {
                 const entries = DIRECTORY_GAMES.filter(({ discovery }) => discovery.group === group.id)
                 return group.id === "more" ? (
-                    <details key={group.id} id={`playground-${group.id}`} className="group scroll-mt-24 border-y border-border py-4">
+                    <details key={group.id} ref={moreRef} id={`playground-${group.id}`} open={moreOpen}
+                        onToggle={(event) => setMoreOpen(event.currentTarget.open)} className="group scroll-mt-24 border-y border-border py-4">
                         <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
                             <h2 className="text-panel-title">{group.title} <span className="text-sm font-normal text-muted-foreground">· {entries.length} 个玩法</span></h2>
                             <ChevronRight aria-hidden className="h-4 w-4 shrink-0 transition-transform group-open:rotate-90" />
@@ -522,7 +540,7 @@ function StatsGrid({ stats }: { stats: AggStats }) {
 }
 
 /** 手机端首屏：四个大入口替代长篇介绍，桌面端仍用 HeroPanel。 */
-function MobileQuickEntries() {
+function MobileQuickEntries({ onOpenMore }: { onOpenMore: MouseEventHandler<HTMLAnchorElement> }) {
     const entries = [
         { name: "物理实验室", hint: "电路 · 光 · 声 · 磁", href: "/playground/physics-lab", icon: Beaker, tone: "bg-primary/10 text-primary" },
         { name: "3D 物理课本", hint: "八年级物理", href: "/textbook", icon: BookOpen, tone: "bg-[hsl(var(--tone-science-soft))] text-[hsl(var(--tone-science))]" },
@@ -532,10 +550,7 @@ function MobileQuickEntries() {
     return (
         <nav aria-label="游乐场主要入口" className="grid grid-cols-2 gap-3 lg:hidden">
             {entries.map(({ name, hint, href, icon: Icon, tone }) => (
-                <Link key={href} href={href} onClick={href === "#playground-more" ? () => {
-                    const more = document.getElementById("playground-more")
-                    if (more instanceof HTMLDetailsElement) more.open = true
-                } : undefined} className="surface-card flex min-h-[88px] flex-col justify-between gap-2 p-3.5 active:bg-muted/60">
+                <Link key={href} href={href} onClick={href === "#playground-more" ? onOpenMore : undefined} className="surface-card flex min-h-[88px] flex-col justify-between gap-2 p-3.5 active:bg-muted/60">
                     <span className={cn("grid h-10 w-10 place-items-center rounded-md", tone)}><Icon className="h-5 w-5" aria-hidden /></span>
                     <span>
                         <span className="block text-base font-black leading-6 text-foreground">{name}</span>
