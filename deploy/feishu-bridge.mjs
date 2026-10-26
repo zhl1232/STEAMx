@@ -6,7 +6,7 @@ const silentLogger = Object.freeze({
 function transportEvent(event) {
   const sender = event?.sender
   const message = event?.message
-  if (sender?.sender_type !== 'user' || message?.message_type !== 'text' || message?.chat_type !== 'group') return null
+  if (sender?.sender_type !== 'user' || !['text', 'image', 'post'].includes(message?.message_type) || message?.chat_type !== 'group') return null
   return {
     event_id: event.event_id,
     app_id: event.app_id,

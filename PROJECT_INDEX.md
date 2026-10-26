@@ -57,7 +57,7 @@
 
 | 事项 | 实现入口 | 文档 |
 |---|---|---|
-| 命令、依赖、单元与浏览器检查 | `package.json`、`.github/workflows/ci.yml`、`scripts/ci-scope.mjs`、`scripts/ci-test-impact.mjs`、`scripts/ci-test-plan.mjs`、`scripts/home-ui-scope.mjs`、`__tests__/`、`e2e/` | [本地启动](README.md)、[CI 范围](docs/deployment.md#ci-范围与成本) |
+| 命令、依赖、单元与浏览器检查 | `package.json`、`.github/workflows/ci.yml`、`scripts/ci-scope.mjs`、`scripts/ci-test-impact.mjs`、`scripts/ci-test-plan.mjs`、`scripts/ci-unit-tests.mjs`、`scripts/home-ui-scope.mjs`、`__tests__/`、`e2e/` | [本地启动](README.md)、[CI 范围](docs/deployment.md#ci-范围与成本) |
 | 数据库迁移 | `scripts/db-push.mjs`、`supabase/migrations/` | [数据库连接与迁移](docs/database-psql.md) |
 | Docker、Nginx、worker 与回滚 | `Dockerfile`、`deploy/`、`.github/workflows/release.yml`、`scripts/release-scope.mjs`、`scripts/release-voice-scope.mjs`、`scripts/check-building-voice-headers.mjs` | [部署](docs/deployment.md) |
 | LDraw 源文件、审核和正式资源 | `scripts/ldraw-models/`、`scripts/ldraw-reviews/`、`scripts/ldraw-inspections.json`、`public/courses/ldraw/`、`scripts/publish-ldraw-assets.mjs` | [资源发布](docs/ldraw-publishing.md)、[资源状态](docs/ldraw-status.md) |

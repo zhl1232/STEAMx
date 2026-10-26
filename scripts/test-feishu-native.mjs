@@ -21,7 +21,7 @@ const anchor=(job,message)=>sql(`select feishu_record_anchor('${job.event_id}',$
 const reply=(message,chat='chat-a',actor=staff,parent='om-a',root=null,text='已收到，我们会处理。')=>`select feishu_apply_reply(${literal(message)},${literal(chat)},'${actor}',${parent===null?'null':literal(parent)},${root===null?'null':literal(root)},${literal(text)})`
 const send=(conversation,role='user',actor=user,client=randomUUID())=>json(`select support_send_message('${conversation}','${actor}',${literal(role)},'${client}','hello','{}','{}')`)
 try {
-  const start=run(['run','--rm','-d','--name',name,'-e','POSTGRES_HOST_AUTH_METHOD=trust',process.env.SUPPORT_NATIVE_PG_IMAGE||'postgres:16-alpine'])
+  const start=run(['run','--pull=never','--rm','-d','--name',name,'-e','POSTGRES_HOST_AUTH_METHOD=trust',process.env.SUPPORT_NATIVE_PG_IMAGE||'postgres:16-alpine'])
   if(start.status!==0)throw Error(start.stderr)
   let ready=false
   for(let i=0;i<60;i++){if(run(['exec',name,'pg_isready','-h','127.0.0.1','-U','postgres']).status===0){ready=true;break}await new Promise(resolve=>setTimeout(resolve,250))}
@@ -30,7 +30,7 @@ try {
     create schema storage;create table storage.objects(id uuid primary key,bucket_id text);create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);
     create table store_orders(id uuid primary key,total_amount_cents integer,status text);
     create table store_order_events(id bigint generated always as identity primary key,order_id uuid not null references store_orders(id),event_type text,payload jsonb default '{}');`)
-  for(const file of ['20261026150000_support_conversations.sql','20261026170000_support_channels.sql','20261026180000_feishu_service_bridge.sql','20261026190000_feishu_delivery_order.sql']) {
+  for(const file of ['20261026150000_support_conversations.sql','20261026170000_support_channels.sql','20261026180000_feishu_service_bridge.sql','20261026190000_feishu_delivery_order.sql','20261026200000_feishu_support_images.sql']) {
     const text=readFileSync(new URL(`../supabase/migrations/${file}`,import.meta.url),'utf8')
     // Match the formal db-push runner's nested DO -> EXECUTE migration behavior.
     sql(`do $runner$ begin execute ${literal(text)}; end $runner$;`)
@@ -290,12 +290,99 @@ try {
   await completing
   assert.equal(sql(`select delivered_at is not null from support_notification_outbox where conversation_id='${generationConversation.id}'`),'t','concurrent per-target completions cannot strand legacy pending state')
 
+  // Media reservations authorize before download, preserve immutable identities, and attach atomically.
+  const mediaArgs=(message,actor=otherStaff,parent='om-a',root=null,chat='chat-a')=>`${literal(message)},${literal(chat)},'${actor}',${parent===null?'null':literal(parent)},${root===null?'null':literal(root)}`
+  const prepare=(message,actor=otherStaff,parent='om-a',root=null,chat='chat-a')=>`select feishu_prepare_reply(${mediaArgs(message,actor,parent,root,chat)})`
+  const enqueueMedia=(message,keys,text='')=>`select feishu_enqueue_inbound_media(${literal(message)},'chat-a','open-staff','om-a',null,${literal(text)},array[${keys.map(literal).join(',')}]::text[])`
+  const reserve=(message,key='img_first',actor=otherStaff,mime='image/png',size=128,parent='om-a')=>`select feishu_prepare_image_attachment(${mediaArgs(message,actor,parent)},${literal(key)},${literal(mime)},${size})`
+  const applyMedia=(message,ids,text='',actor=otherStaff)=>`select feishu_apply_reply_media(${mediaArgs(message,actor)},${literal(text)},array[${ids.map(id=>`${literal(id)}::uuid`).join(',')}]::uuid[])`
+  deny(enqueueMedia('media-empty',[]),/Invalid Feishu media content/)
+  deny(enqueueMedia('media-too-many',['img_a','img_b','img_c','img_d']),/Invalid Feishu media content/)
+  deny(enqueueMedia('media-repeat',['img_a','img_a']),/Invalid Feishu media content/)
+  deny(enqueueMedia('media-wrong-key',['other_a']),/Invalid Feishu media content/)
+  deny(enqueueMedia('media-long',['img_a'],'x'.repeat(2001)),/Invalid Feishu media content/)
+  assert.equal(sql(enqueueMedia('media-only',['img_first'])),'t')
+  assert.equal(sql(enqueueMedia('media-only',['img_changed'],'replace')),'f')
+  assert.equal(sql(`select image_keys::text||':'||text from feishu_inbound where message_id='media-only'`),'{img_first}:','duplicate enqueue never replaces a queued payload')
+  const preflight=json(prepare('media-only'))
+  assert.deepEqual(preflight,{conversation_id:store.id,target_id:'store-a',duplicate:false})
+  deny(prepare('media-only',user),/administrator required/)
+  deny(prepare('media-only',otherStaff,'om-a',null,'chat-b'),/identity mismatch/)
+  deny(prepare('media-only',otherStaff,'om-other-conversation'),/identity mismatch/)
+  deny(prepare('media-only',otherStaff,'om-a','om-other-conversation'),/identity mismatch/)
+  sync(targets.map(t=>t.target_id==='store-a'?{...t,enabled:false}:t))
+  deny(prepare('media-only'),/target unavailable/)
+  sync(targets.map(t=>t.target_id==='store-a'?{...t,channels:['platform']}:t))
+  deny(prepare('media-only'),/target unavailable/)
+  sync(targets)
+  deny(reserve('media-only','img_absent'),/Invalid Feishu queued image/)
+  deny(reserve('media-only','img_first',otherStaff,'image/svg+xml'),/Invalid Feishu image metadata/)
+  deny(reserve('media-only','img_first',otherStaff,'image/png',5242881),/Invalid Feishu image metadata/)
+  const image=json(reserve('media-only'))
+  assert.match(image.id,/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/)
+  assert.equal(image.storage_path,`${store.id}/${image.id}`)
+  assert.equal(image.message_id,null)
+  assert.deepEqual(json(reserve('media-only')),image,'a retry reuses the full original attachment row')
+  deny(reserve('media-only','img_first',staff),/identity mismatch/)
+  deny(prepare('media-only',staff),/identity mismatch/)
+  deny(reserve('media-only','img_first',otherStaff,'image/jpeg'),/metadata mismatch/)
+  deny(reserve('media-only','img_first',otherStaff,'image/png',129),/metadata mismatch/)
+  deny(applyMedia('media-only',[]),/Invalid Feishu reply|Invalid Feishu image attachments/)
+  deny(applyMedia('media-only',[randomUUID()]),/Invalid Feishu image attachments/)
+  deny(reply('media-only','chat-a',otherStaff),/Invalid Feishu image attachments/)
+  const mediaSent=json(applyMedia('media-only',[image.id]))
+  assert.equal(mediaSent.duplicate,false)
+  assert.equal(sql(`select content from support_messages where id='${mediaSent.message_id}'`),'')
+  assert.equal(sql(`select message_id from support_attachments where id='${image.id}'`),mediaSent.message_id)
+  assert.equal(json(applyMedia('media-only',[image.id])).duplicate,true,'committed duplicates return before validating attachment availability')
+  assert.equal(json(prepare('media-only')).message_id,mediaSent.message_id)
+  assert.equal(json(reserve('media-only')).message_id,mediaSent.message_id)
+  sql(`update feishu_inbound set completed_at=now() where message_id='media-only'`)
+
+  assert.equal(sql(enqueueMedia('media-rich',['img_one','img_two'],'图文回复')),'t')
+  const richImages=[json(reserve('media-rich','img_one',otherStaff,'image/jpeg')),json(reserve('media-rich','img_two',otherStaff,'image/webp'))]
+  deny(applyMedia('media-rich',richImages.map(i=>i.id).reverse(),'图文回复'),/Invalid Feishu image attachments/)
+  deny(applyMedia('media-rich',[richImages[0].id,richImages[0].id],'图文回复'),/Invalid Feishu image attachments/)
+  deny(applyMedia('media-rich',[image.id,richImages[1].id],'图文回复'),/Invalid Feishu image attachments/)
+  const richSent=json(applyMedia('media-rich',richImages.map(i=>i.id),'图文回复'))
+  assert.equal(sql(`select count(*) from support_attachments where message_id='${richSent.message_id}'`),'2')
+  assert.equal(sql(`select content from support_messages where id='${richSent.message_id}'`),'图文回复')
+  sql(`update feishu_inbound set completed_at=now() where message_id='media-rich'`)
+
+  assert.equal(sql(enqueueMedia('media-concurrent',['img_first'])),'t')
+  const mediaMarker=700000+Math.floor(Math.random()*100000000)
+  const reserving=new Promise((resolve,reject)=>{
+    const child=spawn('docker',['exec','-i',name,'psql','-U','postgres','-v','ON_ERROR_STOP=1','-XAt'],{stdio:['pipe','pipe','pipe']})
+    let stderr='';child.stdout.resume();child.stderr.on('data',chunk=>{stderr+=chunk});child.on('error',reject);child.on('exit',code=>code===0?resolve(undefined):reject(new Error(stderr)))
+    child.stdin.end(`begin;${reserve('media-concurrent')};select pg_advisory_xact_lock(${mediaMarker});select pg_sleep(2);commit;`)
+  })
+  let mediaLocked=false
+  for(let i=0;i<50;i++){
+    if(sql(`select exists(select 1 from pg_locks where locktype='advisory' and objid=${mediaMarker} and granted)`).split('\n').at(-1)==='t'){mediaLocked=true;break}
+    await new Promise(resolve=>setTimeout(resolve,20))
+  }
+  assert.ok(mediaLocked)
+  const reservedConcurrently=json(reserve('media-concurrent'))
+  await reserving
+  assert.equal(sql(`select count(*) from feishu_inbound_attachments where message_id='media-concurrent'`),'1')
+  assert.equal(json(reserve('media-concurrent')).id,reservedConcurrently.id)
+  assert.equal(sql(enqueueMedia('media-after-concurrent',['img_first'])),'t')
+  const afterImage=json(reserve('media-after-concurrent'))
+  deny(applyMedia('media-after-concurrent',[afterImage.id]),/waiting for prior message/)
+  json(applyMedia('media-concurrent',[reservedConcurrently.id]))
+  json(applyMedia('media-after-concurrent',[afterImage.id]))
+  sql(`update feishu_inbound set completed_at=now() where message_id in ('media-concurrent','media-after-concurrent')`)
+  for(const query of [enqueueMedia('media-forbidden',['img_first']),prepare('media-only'),reserve('media-only'),applyMedia('media-only',[image.id])]) {
+    for(const role of ['anon','authenticated'])deny(`set role ${role};${query}`,/permission denied/)
+  }
+  assert.equal(JSON.parse(sql(`set role service_role;${prepare('media-only')}`).split('\n').at(-1)).duplicate,true)
+
   // The database enforces the staff reply rate across independent conversations/threads.
   for(let i=0;i<117;i++)json(reply(`rate-${i}`))
   assert.equal(sql(`select count(*) from feishu_reply_origins where actor_id='${staff}'`),'120')
   deny(reply('rate-excess'),/rate limit/)
   assert.equal(json(reply('incoming-1')).duplicate,true,'a committed retry remains idempotent after hitting the rate limit')
-  for(const table of ['feishu_targets','feishu_events','feishu_deliveries','feishu_reply_anchors','feishu_reply_origins','feishu_inbound']) {
+  for(const table of ['feishu_targets','feishu_events','feishu_deliveries','feishu_reply_anchors','feishu_reply_origins','feishu_inbound','feishu_inbound_attachments']) {
     assert.equal(sql(`select relrowsecurity from pg_class where oid='public.${table}'::regclass`),'t')
     for(const role of ['anon','authenticated'])deny(`set role ${role};select * from ${table}`,/permission denied/)
   }
@@ -308,5 +395,5 @@ try {
     reply('not-allowed')
   ])for(const role of ['anon','authenticated'])deny(`set role ${role};${query}`,/permission denied/)
   assert.equal(sql(`set role service_role;select jsonb_typeof(feishu_claim_inbound(10))`).split('\n').at(-1),'array')
-  console.log('Feishu native PostgreSQL: atomic source events, committed order amounts, independent target delivery/retry/leases, immutable targets, exact reply anchors, administrator checks, reply idempotency/source exclusion, persistent inbound queues, rate limits and service-only RLS/RPC checks passed.')
+  console.log('Feishu native PostgreSQL: atomic source events, committed order amounts, independent target delivery/retry/leases, immutable targets, exact reply anchors, administrator checks, reply idempotency/source exclusion, persistent inbound queues, image-only/rich replies, immutable and concurrent media reservations, exact attachment ordering, rate limits and service-only RLS/RPC checks passed.')
 } finally { run(['rm','-f',name]) }

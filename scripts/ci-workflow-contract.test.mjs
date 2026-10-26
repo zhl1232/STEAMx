@@ -36,7 +36,7 @@ test('specialties and their evidence skip only after an explicit negative impact
   assert(steps.get('Verify CI scope policy').includes('scripts/ci-test-plan.test.mjs'));
   assert(steps.get('Verify CI scope policy').includes('scripts/ci-test-impact.test.mjs'));
 });
-test('one smoke invocation retains core assets and selects physics, including conservative missing-output fallback', () => {
+test('one smoke invocation retains untagged core and selects details only with explicit negative outputs', () => {
   const script = steps.get('Run smoke E2E').split('        run: |\n')[1]
     .split('\n').map(line => line.startsWith('          ') ? line.slice(10) : line).join('\n');
   const directory = mkdtempSync(join(tmpdir(), 'ci-smoke-command-'));
@@ -44,14 +44,21 @@ test('one smoke invocation retains core assets and selects physics, including co
     const stub = join(directory, 'pnpm');
     writeFileSync(stub, '#!/bin/sh\nprintf "%s\\n" "$@"\n');
     chmodSync(stub, 0o755);
-    const coreSpecs = ['e2e/smoke.spec.ts', 'e2e/learning-guides.spec.ts', 'e2e/asset-cleanup.spec.ts', 'e2e/repository-cleanup-phase2.spec.ts'];
-    for (const value of ['false', 'true', '']) {
-      const args = execFileSync('bash', ['-eu', '-c', script], {
-        encoding: 'utf8', env: { PATH: `${directory}:${process.env.PATH}`, CI_PHYSICS_TESTS: value },
-      }).trim().split('\n');
-      assert.deepEqual(args, ['exec', 'playwright', 'test', ...coreSpecs,
-        ...(value === 'false' ? [] : ['e2e/physics-lab.spec.ts']), '--project=chromium']);
+    const extraSpecs = ['e2e/learning-guides.spec.ts', 'e2e/asset-cleanup.spec.ts', 'e2e/repository-cleanup-phase2.spec.ts', 'e2e/physics-lab.spec.ts'];
+    const keys = ['CI_PHYSICS_TESTS', 'CI_SMOKE_HOME', 'CI_SMOKE_PLAYGROUND', 'CI_SMOKE_NATURE', 'CI_GUIDES_TESTS', 'CI_ASSET_TESTS'];
+    const invoke = env => execFileSync('bash', ['-eu', '-c', script], {
+      encoding: 'utf8', env: { PATH: `${directory}:${process.env.PATH}`, ...env },
+    }).trim().split('\n');
+    for (const value of ['true', '', 'malformed']) {
+      assert.deepEqual(invoke(Object.fromEntries(keys.map(key => [key, value]))),
+        ['exec', 'playwright', 'test', 'e2e/smoke.spec.ts', ...extraSpecs, '--project=chromium']);
     }
+    const narrow = Object.fromEntries(keys.map(key => [key, 'false']));
+    assert.deepEqual(invoke(narrow), ['exec', 'playwright', 'test', 'e2e/smoke.spec.ts', '--project=chromium',
+      '--grep-invert', '@smoke-home|@smoke-playground|@smoke-nature']);
+    assert.deepEqual(invoke({ ...narrow, CI_SMOKE_HOME: 'true', CI_GUIDES_TESTS: 'true' }),
+      ['exec', 'playwright', 'test', 'e2e/smoke.spec.ts', 'e2e/learning-guides.spec.ts', '--project=chromium',
+        '--grep-invert', '@smoke-playground|@smoke-nature']);
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });
 test('release reuses scope proof and still gates deployment on current CI and image', () => {
@@ -103,4 +110,28 @@ test('PR build uses a bounded read-only public fixture through route boundary ch
   const names = [...steps.keys()];
   assert(names.indexOf(startName) < names.indexOf('Build app'));
   assert(names.indexOf('Verify production and development route boundaries') < names.indexOf(stopName));
+});
+
+
+test('related units use the conservative runner and main retains full unit execution', () => {
+  assert(steps.get('Run unit tests').includes('node scripts/ci-unit-tests.mjs'));
+  assert(steps.get('Verify CI scope policy').includes('scripts/ci-unit-tests.test.mjs'));
+  assert(!ci.includes('--passWithNoTests'));
+  assert(!ci.includes('continue-on-error: true'));
+  const runner = readFileSync('scripts/ci-unit-tests.mjs', 'utf8');
+  assert(runner.includes("process.env.GITHUB_EVENT_NAME === 'pull_request'"));
+  assert(runner.includes("let plan = { unitMode: 'full' }"));
+});
+
+test('browser narrowing excludes reviewed tags only; core health/login/auth and new untagged tests remain', () => {
+  const smoke = readFileSync('e2e/smoke.spec.ts', 'utf8');
+  for (const title of ['首页 smoke', '探索页 smoke', '登录页 smoke', '登录页移动端聚焦表单',
+    '手机验证码登录保持两步表单和重发倒计时', '未登录访问商店会跳转到登录页']) {
+    assert(smoke.includes(`test('${title}', async`), title);
+  }
+  assert(smoke.includes('test(`未登录访问 ${target} 会带上完整回跳地址`, async'));
+  assert(smoke.includes("tag: '@smoke-home'"));
+  assert(smoke.includes("tag: '@smoke-playground'"));
+  assert(smoke.includes("tag: '@smoke-nature'"));
+  assert(smoke.includes("await expect(page.getByRole('checkbox')).toBeChecked()"), 'preserve hydration synchronization');
 });

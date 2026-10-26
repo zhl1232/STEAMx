@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { planCITests } from './ci-test-plan.mjs';
+import { planCITests, planCIChecks } from './ci-test-plan.mjs';
 
 const before = 'a'.repeat(40), head = 'b'.repeat(40), after = 'c'.repeat(40);
 const env = { GITHUB_EVENT_NAME: 'push', GITHUB_REF: 'refs/heads/main', GITHUB_SHA: after,
@@ -68,6 +68,23 @@ test('exact eleven-file support change has no specialty only with reliable prior
   assert.equal(api.length, 2);
   assert.equal(calls.filter(args => args[0] === 'diff').length, 1);
   assert.ok(calls.some(args => args[0] === 'merge-base'));
+});
+
+test('validated isolated PRs select related units while main retains full units', async () => {
+  const paths = ['components/support/support-chat.tsx', 'lib/support/server.test.ts'];
+  const selected = await planCIChecks(prEnv, pr, git(paths), noRequest);
+  assert.equal(selected.unitMode, 'related');
+  assert.deepEqual(selected.unitSources, paths);
+  assert.equal(selected.smokeHome, false);
+  assert.equal(selected.guides, false);
+  const main = await planCIChecks(env, push, git(paths), request());
+  assert.equal(main.unitMode, 'full');
+  assert.deepEqual(main.unitSources, []);
+  assert.equal(main.smokePlayground, false);
+  const missingBaseline = await planCIChecks(env, push, git(paths), request(history([])));
+  assert.equal(missingBaseline.unitMode, 'full');
+  assert.equal(missingBaseline.smokeHome, true);
+  assert.equal(missingBaseline.guides, true);
 });
 
 test('prior successful CI remains a source baseline when later deployment fails or cancels', async () => {
@@ -202,7 +219,8 @@ test('CLI malformed event emits explicit safe flags and honest summary without s
     const log = execFileSync(process.execPath, ['scripts/ci-test-plan.mjs'], { encoding: 'utf8',
       env: { ...process.env, GITHUB_EVENT_NAME: 'push', GITHUB_EVENT_PATH: eventPath,
         GITHUB_TOKEN: env.GITHUB_TOKEN, GITHUB_OUTPUT: output, GITHUB_STEP_SUMMARY: summary } });
-    assert.equal(readFileSync(output, 'utf8'), 'physics=true\nproject-video=true\nbuilding=true\nvoice=true\n');
+    assert.equal(readFileSync(output, 'utf8'), 'physics=true\nproject-video=true\nbuilding=true\nvoice=true\n'
+      + 'smoke-home=true\nsmoke-playground=true\nsmoke-nature=true\nguides=true\nassets=true\nunit-mode=full\n');
     const text = readFileSync(summary, 'utf8');
     assert.match(text, /physics: selected/);
     assert.ok(!`${log}${text}`.includes(env.GITHUB_TOKEN));

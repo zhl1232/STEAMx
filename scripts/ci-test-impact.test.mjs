@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { classifyTestImpact } from './ci-test-impact.mjs';
+import { classifyTestImpact, classifyCoreTestImpact } from './ci-test-impact.mjs';
 import { parseChanges } from './ci-scope.mjs';
 
 const change = (path, oldMode = '100644', newMode = '100644') => ({ path, oldMode, newMode });
@@ -13,6 +13,43 @@ const flags = changes => {
 const expected = (...names) => Object.fromEntries(
   ['physics', 'projectVideo', 'building', 'voice'].map(name => [name, names.includes(name)]));
 const all = expected('physics', 'projectVideo', 'building', 'voice');
+
+test('isolated module modifications narrow units and unrelated browser details', () => {
+  const selected = classifyCoreTestImpact([change('components/support/support-chat.tsx')]);
+  assert.equal(selected.unitMode, 'related');
+  assert.deepEqual(selected.unitSources, ['components/support/support-chat.tsx']);
+  assert.ok(selected.unitOwners[0].includes('lib/support/'));
+  for (const key of ['smokeHome', 'smokePlayground', 'smokeNature', 'guides', 'assets']) {
+    assert.equal(selected[key], false, key);
+  }
+  const store = classifyCoreTestImpact([change('components/store/store-checkout.tsx')]);
+  assert.equal(store.unitMode, 'related');
+  assert.equal(store.smokeHome, true);
+  assert.equal(store.smokePlayground, false);
+  const mixed = classifyCoreTestImpact([change('lib/support/server.ts'), change('lib/store/service.ts')]);
+  assert.equal(mixed.unitOwners.length, 2);
+  assert.equal(mixed.smokeHome, true);
+  const project = classifyCoreTestImpact([change('lib/project/science-samples.ts')]);
+  assert.equal(project.guides, true, 'learning guides consume project science samples');
+  assert.equal(project.smokeHome, true);
+  assert.equal(project.smokePlayground, false);
+});
+
+test('shared, unknown, config, runtime data and add/delete/rename changes retain full core scope', () => {
+  for (const changes of [undefined, [], [null],
+    ...['components/layout/site-footer.tsx', 'components/layout/user-button.tsx', 'components/ui/user-avatar.tsx',
+      'lib/store/config.ts', 'lib/support/data.json', 'lib/new-module.ts', 'package.json',
+      'e2e/smoke.spec.ts', 'vitest.setup.ts'].map(path => [change(path)]),
+    [change('lib/support/server.ts', '000000', '100644')],
+    [change('lib/support/server.ts', '100644', '000000')],
+    [change('lib/support/server.ts', '100644', '120000')],
+    [change('lib/support/old.ts', '100644', '000000'), change('lib/support/new.ts', '000000', '100644')],
+    [change('lib/support/server.ts'), change('app/globals.css')]]) {
+    const selected = classifyCoreTestImpact(changes);
+    assert.equal(selected.unitMode, 'full');
+    for (const key of ['smokeHome', 'smokePlayground', 'smokeNature', 'guides', 'assets']) assert.equal(selected[key], true);
+  }
+});
 
 test('the reviewed eleven-file support/footer change skips only specialties', () => {
   const paths = [

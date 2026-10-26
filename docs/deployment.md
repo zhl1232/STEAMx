@@ -21,14 +21,19 @@ Release 复用 `ci.yml`，检查与镜像构建并行，同一提交的两项均
 | 检查 | 执行范围 |
 |---|---|
 | 范围策略及工作流契约 | 所有实际启动的 CI job |
-| 清理保护、依赖安装、lint、types、全部 Vitest 单元测试、部署/迁移/SEO/worker 脚本测试 | home-ui 和其他应用变更均保留 |
+| 清理保护、依赖安装、lint、types、部署/迁移/SEO/worker 脚本测试 | home-ui 和其他应用变更均保留 |
+| Vitest 单元测试 | main Release 全量；PR 对已核验的独立模块修改使用真实依赖图、模块测试与全局源码契约的并集，其余全量 |
 | PR app build、production/dev 路由边界 | 应用 PR 保留；Release 由当前 SHA 的 Docker 构建把关 |
-| 核心 smoke、学习指南、旧 logo 兼容、现用界面资源 | 合并到一次默认 Playwright 调用，复用同一个 Next dev 服务 |
+| 核心 smoke、学习指南、旧 logo 兼容、现用界面资源 | 健康、登录与认证核心保留；细节标签和指南/资源 spec 按核验范围选择，同一次 Playwright 调用复用 Next dev 服务 |
 | 物理实验室 Node 及浏览器测试 | `physics` 专项被选中时运行；浏览器 spec 加入上述同一次调用 |
 | 项目视频、沉浸搭建、Vosk 语音工程 | 分别由 `project-video`、`building`、`voice` 决定 |
 | 搭建、语音证据上传 | 跟随对应专项，保留失败证据 |
 
-`scripts/ci-test-impact.mjs` 维护专项依赖归属，`scripts/ci-test-plan.mjs` 负责可信比较范围与输出。是否运行专项与基础检查的 `full/home-ui` 模式分开：`full` 不再表示无条件启动全部浏览器夹具。未运行的专项在 summary 明确标记 `not run`，不记为测试通过；工作流只有收到显式 `false` 才跳过，缺失输出按需要运行处理。
+`scripts/ci-test-impact.mjs` 维护专项和基础浏览器依赖归属，`scripts/ci-test-plan.mjs` 负责可信比较范围与输出，`scripts/ci-unit-tests.mjs` 执行 PR 单测选择。是否运行专项与基础检查的 `full/home-ui` 模式分开：`full` 不再表示无条件启动全部浏览器夹具。未运行的专项在 summary 明确标记 `not run`，不记为测试通过；工作流只有收到显式 `false` 才跳过，缺失输出按需要运行处理。
+
+PR 单测仅对已审查的客服、商城、硬币商城和项目模块中既有 TS/TSX 普通文件修改缩小范围。使用安装版本 Vitest 的反向依赖图，合并模块全部测试、变更测试和全局内部链接/页面标题源码扫描；不使用 `--passWithNoTests`。新增、删除、重命名、数据文件、共享代码、配置及未知路径，或图解析失败、模块无测试、发现结果不完整时，在执行前回退全量。真正的测试失败直接失败，不再另跑全量掩盖或重试。
+
+浏览器细节用显式标签区分首页、游乐场、自然及其他专题；未标记的新用例仍属于核心检查，不会被默认排除。独立客服改动不运行游乐场交互和首页多尺寸细节；商城/项目保留首页依赖检查，项目模块还保留使用其科学项目数据的学习指南。生产构建与生产/开发访问边界仍保留，不从类型检查成功推断打包或路由安全已通过。
 
 | 变更归属 | 专项选择 |
 |---|---|
@@ -53,7 +58,7 @@ tag、手动发布、未知事件及不可靠范围默认全量。相同 PR 的�
 
 PR build 使用 `http://127.0.0.1:54329` 的 `e2e/store-integration/data-server.mjs` 匿名公共空内容夹具。启动后有界等待并校验 HTTP 200 与 JSON `[]`；夹具不支持认证或写入。它保留到 production/development 路由边界检查结束，随后无论成败仅按记录 PID 清理。Release 镜像仍使用当次真实构建配置，空内容夹具不代表真实业务验收。
 
-默认 Playwright 只启动一次，执行核心 smoke、学习指南、资源兼容和现用资源可达性，物理 spec 按计划追加。独立视频、搭建和语音夹具仅在选中时启动；它们有不同的浏览器集成目标，不能视为同一测试重复运行。没有删除登录、生产路由边界、管理员校验、支付事务或迁移保护来节省分钟。
+默认 Playwright 只启动一次，执行核心 smoke，按范围追加学习指南、资源兼容、现用资源及物理 spec；缺少明确的选择结果时完整执行。独立视频、搭建和语音夹具仅在选中时启动；它们有不同的浏览器集成目标，不能视为同一测试重复运行。没有删除登录、生产路由边界、管理员校验、支付事务或迁移保护来节省分钟。
 
 交互 smoke 通过匿名页面浏览记录等待现有客户端初始化完成，再操作搜索框和原生折叠菜单；登录引导用例也等待真实页面记录，替代固定睡眠。链接跳转使用导航等待，仍受原有测试时限约束，不能把 SSR 内容可见当成客户端事件已绑定。
 
@@ -69,7 +74,7 @@ HEAD 探针仅 GET `/api/health`，对首页、worker/manifest/cache 脚本、CD
 
 ### 本地验证与耗时证据
 
-范围与接线验证：`node --test scripts/ci-scope.test.mjs scripts/ci-test-impact.test.mjs scripts/ci-test-plan.test.mjs scripts/release-scope.test.mjs scripts/release-voice-scope.test.mjs scripts/check-building-voice-headers.test.mjs scripts/home-ui-scope.test.mjs scripts/ci-workflow-contract.test.mjs`，另用 actionlint 检查工作流。单元测试中的 GitHub 请求使用本地替身，不发真实 API 请求；工作流契约还直接执行 smoke 参数组装，验证只启动一次且缺失选择结果时包含物理专项。
+范围与接线验证：`node --test scripts/ci-scope.test.mjs scripts/ci-test-impact.test.mjs scripts/ci-test-plan.test.mjs scripts/ci-unit-tests.test.mjs scripts/release-scope.test.mjs scripts/release-voice-scope.test.mjs scripts/check-building-voice-headers.test.mjs scripts/home-ui-scope.test.mjs scripts/ci-workflow-contract.test.mjs`，另用 actionlint 检查工作流。单元测试中的 GitHub 请求使用本地替身，不发真实 API 请求；工作流契约还直接执行 smoke 参数组装，验证只启动一次且缺失选择结果时包含物理专项。
 
 历史 [Release #421](https://github.com/zhl1232/STEAMx/actions/runs/40288433036) 的 CI 为 12分58秒：unit 约2分52秒、组合 smoke 3分16秒、视频50秒、搭建2分钟、Vosk 2分39秒，而 lint/types/脚本保护只有秒级。该记录说明优先按模块减少重型浏览器工作的依据，不是新规则的实测速度，也不是发布时长承诺。镜像构建、服务器切换与生产互斥仍有自身成本，不能把跳过专项直接等同于固定总耗时。
 
@@ -122,7 +127,7 @@ Release 与手机号提供商运维共用 `release-production` 并发组，服�
 
 `commerce-worker` 与应用使用同一镜像，等待应用健康后运行 `deploy/commerce-worker.mjs`。以 `CRON_SECRET` 或 `INTERNAL_API_SECRET` 认证，每分钟独立调用订单对账和客服通知接口；单个任务失败不阻止另一个，下次循环须等本次结束。请求有界超时，退出信号停止新一轮任务；错误日志不打印 webhook 或密钥。
 
-启用飞书应用模式时，同一 worker 还启动 `deploy/feishu-bridge.mjs` 的 SDK 长连接，以及独立的收发队列循环；它们不阻塞原对账任务。收到的群聊文字只转发白名单字段到内部认证接口，必须先持久入队才确认接收；退出时关闭长连接、心跳和重连计时器。飞书 SDK 的原始事件日志保持关闭。配置与接入权限统一见 [客服专题](customer-support.md#飞书应用机器人与直接回复)。
+启用飞书应用模式时，同一 worker 还启动 `deploy/feishu-bridge.mjs` 的 SDK 长连接，以及独立的收发队列循环；它们不阻塞原对账任务。收到的群聊文字、图片与富文本只转发白名单字段到内部认证接口，必须先持久入队才确认接收；退出时关闭长连接、心跳和重连计时器。飞书 SDK 的原始事件日志保持关闭。配置与接入权限统一见 [客服专题](customer-support.md#飞书应用机器人与直接回复)。
 
 飞书 SDK 由 worker 在 Next 服务入口之外加载。Docker 构建完成后执行 `scripts/prepare-feishu-runtime.mjs`，使用项目固定版本 Next 自带的文件追踪器，将 SDK 及其依赖补入 standalone 目录并验证可加载；不能只复制 SDK 单个包而遗漏传递依赖。
 

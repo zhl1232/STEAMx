@@ -49,7 +49,7 @@ jobs:
         run: node scripts/ci-scope.mjs
 
       - name: Verify CI scope policy
-        run: node --test scripts/ci-scope.test.mjs scripts/ci-test-impact.test.mjs scripts/ci-test-plan.test.mjs scripts/release-voice-scope.test.mjs scripts/check-building-voice-headers.test.mjs scripts/home-ui-scope.test.mjs scripts/ci-workflow-contract.test.mjs
+        run: node --test scripts/ci-scope.test.mjs scripts/ci-test-impact.test.mjs scripts/ci-test-plan.test.mjs scripts/ci-unit-tests.test.mjs scripts/release-voice-scope.test.mjs scripts/check-building-voice-headers.test.mjs scripts/home-ui-scope.test.mjs scripts/ci-workflow-contract.test.mjs
 
       - name: Select affected specialty checks
         id: test-plan
@@ -90,7 +90,7 @@ jobs:
 
       - name: Run unit tests
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
-        run: pnpm exec vitest run
+        run: node scripts/ci-unit-tests.mjs
 
       - name: Verify portable physics lab
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && steps.test-plan.outputs.physics != 'false'
@@ -153,12 +153,32 @@ jobs:
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
         env:
           CI_PHYSICS_TESTS: ${{ steps.test-plan.outputs.physics }}
+          CI_SMOKE_HOME: ${{ steps.test-plan.outputs.smoke-home }}
+          CI_SMOKE_PLAYGROUND: ${{ steps.test-plan.outputs.smoke-playground }}
+          CI_SMOKE_NATURE: ${{ steps.test-plan.outputs.smoke-nature }}
+          CI_GUIDES_TESTS: ${{ steps.test-plan.outputs.guides }}
+          CI_ASSET_TESTS: ${{ steps.test-plan.outputs.assets }}
         run: |
-          specs=(e2e/smoke.spec.ts e2e/learning-guides.spec.ts e2e/asset-cleanup.spec.ts e2e/repository-cleanup-phase2.spec.ts)
+          specs=(e2e/smoke.spec.ts)
+          if [ "$CI_GUIDES_TESTS" != 'false' ]; then
+            specs+=(e2e/learning-guides.spec.ts)
+          fi
+          if [ "$CI_ASSET_TESTS" != 'false' ]; then
+            specs+=(e2e/asset-cleanup.spec.ts e2e/repository-cleanup-phase2.spec.ts)
+          fi
           if [ "$CI_PHYSICS_TESTS" != 'false' ]; then
             specs+=(e2e/physics-lab.spec.ts)
           fi
-          pnpm exec playwright test "${specs[@]}" --project=chromium
+          excluded=()
+          if [ "$CI_SMOKE_HOME" == 'false' ]; then excluded+=('@smoke-home'); fi
+          if [ "$CI_SMOKE_PLAYGROUND" == 'false' ]; then excluded+=('@smoke-playground'); fi
+          if [ "$CI_SMOKE_NATURE" == 'false' ]; then excluded+=('@smoke-nature'); fi
+          filters=()
+          if [ "${#excluded[@]}" -gt 0 ]; then
+            pattern="$(IFS='|'; echo "${excluded[*]}")"
+            filters+=(--grep-invert "$pattern")
+          fi
+          pnpm exec playwright test "${specs[@]}" --project=chromium "${filters[@]}"
 
       - name: Verify project video presentation pilot
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && steps.test-plan.outputs.project-video != 'false'

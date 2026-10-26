@@ -2,9 +2,10 @@ import { execFileSync } from 'node:child_process';
 import { appendFileSync, readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { parseChanges, classifyHomeChanges } from './ci-scope.mjs';
-import { classifyTestImpact } from './ci-test-impact.mjs';
+import { classifyTestImpact, classifyCoreTestImpact, fullCoreTestImpact } from './ci-test-impact.mjs';
 
-const full = reason => ({ physics: true, projectVideo: true, building: true, voice: true, reason });
+const full = reason => ({ physics: true, projectVideo: true, building: true, voice: true, reason,
+  ...fullCoreTestImpact() });
 const sha = value => typeof value === 'string' && /^[a-f0-9]{40}$/.test(value) && !/^0+$/.test(value);
 const runId = value => typeof value === 'string' && /^[1-9]\d*$/.test(value) && Number.isSafeInteger(Number(value));
 const gitDefault = args => execFileSync('git', args, {
@@ -44,7 +45,7 @@ async function testedMainBase(env, before, request) {
   return ci.length === 1 && ci[0].status === 'completed' && ci[0].conclusion === 'success';
 }
 
-export async function planCITests(env = process.env, event = {}, git = gitDefault, request = fetch) {
+export async function planCIChecks(env = process.env, event = {}, git = gitDefault, request = fetch) {
   try {
     let before, after;
     const mainPush = env.GITHUB_EVENT_NAME === 'push' && env.GITHUB_REF === 'refs/heads/main';
@@ -80,7 +81,11 @@ export async function planCITests(env = process.env, event = {}, git = gitDefaul
         && !await testedMainBase(env, before, request)) {
       return full('Exact preceding main CI baseline unavailable; run every specialty');
     }
-    return selection;
+    const core = classifyCoreTestImpact(changes);
+    // Release always executes every unit test. Its successful CI job can then
+    // remain the exact source baseline for future main comparisons.
+    if (mainPush) { core.unitMode = 'full'; core.unitSources = []; core.unitOwners = []; }
+    return { ...selection, ...core };
   } catch {
     // Do not include API bodies, request headers, environment values or thrown
     // errors in outputs: a failing request may contain credentials or data.
@@ -88,19 +93,28 @@ export async function planCITests(env = process.env, event = {}, git = gitDefaul
   }
 }
 
+// Keep the original four-specialty public contract for existing callers.
+export async function planCITests(...args) {
+  const { physics, projectVideo, building, voice, reason } = await planCIChecks(...args);
+  return { physics, projectVideo, building, voice, reason };
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   let selection;
   try {
     const event = ['pull_request', 'push'].includes(process.env.GITHUB_EVENT_NAME)
       ? JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8')) : {};
-    selection = await planCITests(process.env, event);
+    selection = await planCIChecks(process.env, event);
   } catch { selection = full('Event unavailable or invalid; run every specialty'); }
-  const names = [['physics', 'physics'], ['projectVideo', 'project-video'], ['building', 'building'], ['voice', 'voice']];
+  const names = [['physics', 'physics'], ['projectVideo', 'project-video'], ['building', 'building'], ['voice', 'voice'],
+    ['smokeHome', 'smoke-home'], ['smokePlayground', 'smoke-playground'], ['smokeNature', 'smoke-nature'],
+    ['guides', 'guides'], ['assets', 'assets']];
   console.info(`CI specialties: ${selection.reason}`);
   if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT,
-    names.map(([key, output]) => `${output}=${selection[key]}\n`).join(''));
+    names.map(([key, output]) => `${output}=${selection[key]}\n`).join('') + `unit-mode=${selection.unitMode}\n`);
   if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY,
     `CI specialty plan: ${selection.reason}.\n`
     + names.map(([key, label]) => `- ${label}: ${selection[key] ? 'selected' : 'not run (not reported as passed)'}\n`).join('')
-    + 'Core lint, types, full unit, smoke and security checks retain their existing gates.\n');
+    + `Units: ${selection.unitMode === 'related' ? 'dependency graph plus affected owner suites, changed tests and global source contracts' : 'full suite'}.\n`
+    + 'Core lint, types, health/login/auth smoke, PR build and route security checks retain their existing gates.\n');
 }
