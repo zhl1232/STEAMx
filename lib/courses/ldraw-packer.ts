@@ -135,18 +135,18 @@ async function resolveLocalPart(ref: string): Promise<string | null> {
 
   let realLocalRoot: string
   try {
-    realLocalRoot = await realpath(LOCAL_PART_ROOT)
+    realLocalRoot = await realpath(/*turbopackIgnore: true*/ LOCAL_PART_ROOT)
   } catch {
     return null
   }
 
   for (const dir of SEARCH_DIRS) {
     try {
-      const trustedRoot = await realpath(resolve(realLocalRoot, dir))
+      const trustedRoot = await realpath(/*turbopackIgnore: true*/ resolve(realLocalRoot, dir))
       if (trustedRoot !== realLocalRoot && !trustedRoot.startsWith(`${realLocalRoot}/`)) {
         continue
       }
-      const realLocalPath = await realpath(resolve(trustedRoot, normalized))
+      const realLocalPath = await realpath(/*turbopackIgnore: true*/ resolve(trustedRoot, normalized))
       if (realLocalPath !== trustedRoot && !realLocalPath.startsWith(`${trustedRoot}/`)) {
         continue
       }
@@ -411,8 +411,8 @@ async function packLocalLdrawModelWithContext(
     throw new Error('文件名必须以 .ldr 结尾')
   }
 
-  const realLocalRoot = await realpath(LOCAL_PART_ROOT)
-  const filePath = await realpath(resolve(realLocalRoot, sanitized))
+  const realLocalRoot = await realpath(/*turbopackIgnore: true*/ LOCAL_PART_ROOT)
+  const filePath = await realpath(/*turbopackIgnore: true*/ resolve(realLocalRoot, sanitized))
   if (filePath !== realLocalRoot && !filePath.startsWith(`${realLocalRoot}/`)) {
     throw new Error('模型文件必须位于本地模型目录内')
   }

@@ -1,6 +1,5 @@
 -- Prospective rules only. Never backfill or subtract historical XP.
 -- Run only via an explicitly approved release; this file does not authorize execution.
-BEGIN;
 -- New project Q&A is explicitly marked; legacy comments are never relabelled.
 ALTER TABLE public.comments ADD COLUMN is_project_question boolean NOT NULL DEFAULT false,
  ADD COLUMN question_root_id bigint, ADD COLUMN question_context jsonb NOT NULL DEFAULT '{}'::jsonb;
@@ -689,4 +688,3 @@ END; $$;
 REVOKE ALL ON FUNCTION public.growth_review_queue(text,bigint) FROM PUBLIC,anon,service_role;
 GRANT EXECUTE ON FUNCTION public.growth_review_queue(text,bigint) TO authenticated;
 NOTIFY pgrst,'reload schema';
-COMMIT;
