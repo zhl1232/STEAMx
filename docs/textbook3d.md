@@ -20,7 +20,7 @@ public/textbook3d/v1/
   - 共享文件 `/textbook3d/:version/shared/:path*`：`max-age=31536000, immutable`。文件名带内容哈希，内容变了文件名就变，所以可以永久缓存。
 - 登记表 `lib/textbook3d/registry.ts`：页面、sitemap、课时、项目、测试都只认这里登记的课号，不接受外部 URL。
 
-为什么拆共享文件：原来每课是 1.35–1.49MB 的单文件（Three.js、模板和 base64 字体全部内联），20 课约 28MB，每打开一课都要重新下载一遍。拆开后 20 课合计约 2.1MB，学生第一次打开约 1.9MB（运行时 + 字体），之后每节新课只多下载约 20KB。
+为什么拆共享文件：原来每课是 1.35–1.49MB 的单文件（Three.js、模板和 base64 字体全部内联），32 课约 45MB，每打开一课都要重新下载一遍。拆开后 32 课合计约 2.5MB，学生第一次打开约 1.9MB（运行时 + 字体），之后每节新课只多下载约 20KB。
 
 ## 加一节新课 / 修正已有课
 1. 在课本源码目录（`/workspace/3d-textbook/textbook`）构建：`python3 tools/build_split.py <要发布的全部课号…>`，产物在 `dist-split/`。共享 chunk 由全部入口一起拆出，所以每次要带上全部要发布的课号，不要只构建一节。（旧的 `tools/build.py` 仍然输出内联单文件，只用于课本源码目录本地预览。）

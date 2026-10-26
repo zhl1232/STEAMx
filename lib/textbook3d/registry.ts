@@ -80,6 +80,39 @@ export const TEXTBOOK3D_CHAPTERS: Textbook3dChapter[] = [
     ],
   },
   {
+    id: "g8a-5",
+    volume: "八年级上册",
+    title: "第五章 透镜及其应用",
+    lessons: [
+      { id: "g8a-5-1", title: "透镜" },
+      { id: "g8a-5-2", title: "生活中的透镜" },
+      { id: "g8a-5-3", title: "凸透镜成像的规律" },
+      { id: "g8a-5-4", title: "眼睛和眼镜" },
+      { id: "g8a-5-5", title: "跨学科实践：制作望远镜" },
+    ],
+  },
+  {
+    id: "g8a-6",
+    volume: "八年级上册",
+    title: "第六章 质量与密度",
+    lessons: [
+      { id: "g8a-6-1", title: "质量" },
+      { id: "g8a-6-2", title: "密度" },
+      { id: "g8a-6-3", title: "测量液体和固体的密度" },
+      { id: "g8a-6-4", title: "密度的应用" },
+    ],
+  },
+  {
+    id: "g8b-7",
+    volume: "八年级下册",
+    title: "第七章 力",
+    lessons: [
+      { id: "g8b-7-1", title: "力" },
+      { id: "g8b-7-2", title: "弹力" },
+      { id: "g8b-7-3", title: "重力" },
+    ],
+  },
+  {
     id: "g8b-11",
     volume: "八年级下册",
     title: "第十一章 功和机械能",
