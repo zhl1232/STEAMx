@@ -49,7 +49,7 @@ function expectQueryError(statement, expected) {
   throw new Error(`expected query failure: ${expected}`)
 }
 
-const prelude = `CREATE EXTENSION IF NOT EXISTS pgcrypto; CREATE SCHEMA IF NOT EXISTS auth;
+const prelude = `CREATE SCHEMA IF NOT EXISTS extensions; CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions; CREATE SCHEMA IF NOT EXISTS auth;
 DO $$ BEGIN CREATE ROLE anon NOLOGIN; EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN CREATE ROLE authenticated NOLOGIN; EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN CREATE ROLE service_role NOLOGIN; EXCEPTION WHEN duplicate_object THEN NULL; END $$;
@@ -91,6 +91,11 @@ try {
   if (sql(`SELECT stock_reserved||':'||(SELECT count(*) FROM store_orders o JOIN store_order_items i ON i.order_id=o.id WHERE i.variant_id='${ids.raceVariant}') FROM store_product_variants WHERE id='${ids.raceVariant}'`) !== '1:1') throw new Error('concurrency final reservation mismatch')
   const same = await Promise.all([psqlAsync(`SELECT create_store_native_order('${ids.alice}','same-key','${ids.address}','x','北京市','[{"variant_id":"${ids.sameVariant}","quantity":1}]'::jsonb)`), psqlAsync(`SELECT create_store_native_order('${ids.alice}','same-key','${ids.address}','x','北京市','[{"variant_id":"${ids.sameVariant}","quantity":1}]'::jsonb)`)]); if (same[0].split('\n').pop() !== same[1].split('\n').pop()) throw new Error('same-key concurrency returned different ids')
   if (sql(`SELECT count(*) FROM store_orders WHERE user_id='${ids.alice}' AND external_order_id='same-key'`) !== '1') throw new Error('same-key duplicate order')
+  // Reproduce the production extension layout before applying the repair.
+  expectError(`start_store_payment_attempt('${order}','alipay','crypto-regression')`, 'function gen_random_bytes(integer) does not exist')
+  const cryptoFix = readFileSync(`${root}/supabase/migrations/20261027003000_store_payment_crypto_schema.sql`, 'utf8')
+  scopedSql(cryptoFix)
+  scopedSql(cryptoFix)
   const attempt = sql(`SELECT start_store_payment_attempt('${order}','alipay','token-a')`); if (sql(`SELECT start_store_payment_attempt('${order}','alipay','token-a')`) !== attempt) throw new Error('payment idempotency failed')
   expectError(`start_store_payment_attempt('${order}','wechat','token-b')`, 'close_previous_attempt_first'); expectError(`close_store_payment_attempt('${attempt}',false)`, 'channel_close_confirmation_required'); sql(`SELECT close_store_payment_attempt('${attempt}',true)`)
   const attempt2 = sql(`SELECT start_store_payment_attempt('${order}','wechat','token-b')`); sql(`SELECT confirm_store_payment('${attempt2}',1100,'CNY','provider-1')`); sql(`SELECT confirm_store_payment('${attempt2}',1100,'CNY','provider-1')`)

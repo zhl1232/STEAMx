@@ -36,14 +36,14 @@ function requireSuccess(result: Record<string, unknown>, orderId: string) {
   if (result.code !== '10000' || result.outTradeNo !== orderId)
     throw new Error('Alipay response code/order mismatch')
 }
-/** Alipay uses Beijing time without a timezone suffix. Round down to the minute. */
+/** Alipay requires Beijing time with seconds and no timezone suffix. */
 function alipayExpiry(value: string) {
   const date = new Date(value)
   if (!Number.isFinite(date.getTime()) || date.getTime() - Date.now() < 60_000)
     throw new Error('Payment deadline expired')
   return new Date(date.getTime() + 8 * 3600_000)
     .toISOString()
-    .slice(0, 16)
+    .slice(0, 19)
     .replace('T', ' ')
 }
 

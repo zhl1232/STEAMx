@@ -49,7 +49,7 @@ beforeEach(() => {
 })
 
 describe('alipay adapter protocol', () => {
-  it('uses page and WAP methods, exact cents, and Beijing minute expiry', async () => {
+  it('uses page and WAP methods, exact cents, and their Beijing expiry formats', async () => {
     const a = createAlipayAdapter(cfg)
     await a.create(order('page'))
     await a.create(order('wap'))
@@ -61,6 +61,7 @@ describe('alipay adapter protocol', () => {
         bizContent: expect.objectContaining({
           total_amount: '1.23',
           product_code: 'FAST_INSTANT_TRADE_PAY',
+          time_expire: expect.stringMatching(/^\d{4}-\d\d-\d\d \d\d:\d\d:\d\d$/),
         }),
       }),
     )
@@ -71,7 +72,7 @@ describe('alipay adapter protocol', () => {
       expect.objectContaining({
         bizContent: expect.objectContaining({
           product_code: 'QUICK_WAP_WAY',
-          time_expire: expect.stringMatching(/^\d{4}-\d\d-\d\d \d\d:\d\d$/),
+          time_expire: expect.stringMatching(/^\d{4}-\d\d-\d\d \d\d:\d\d:\d\d$/),
         }),
       }),
     )
@@ -81,6 +82,27 @@ describe('alipay adapter protocol', () => {
         expiresAt: new Date(Date.now() + 30_000).toISOString(),
       }),
     ).rejects.toThrow('Payment deadline expired')
+  })
+
+  it.each(['page', 'wap'] as const)('serializes %s expiry through the real SDK across a Beijing date boundary', async (device) => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2026-10-26T15:55:00Z'))
+      const adapter = createAlipayAdapter({ ...cfg, sdk: undefined })
+      const result = await adapter.create({
+        ...order(device),
+        expiresAt: '2026-10-26T16:25:37.123Z',
+        returnUrl: 'https://steam.bj.cn/store/orders/test',
+        notifyUrl: 'https://steam.bj.cn/api/store/payments/alipay/notify',
+      })
+      const url = new URL(result.checkout!)
+      const content = JSON.parse(url.searchParams.get('biz_content')!)
+      expect(content.time_expire).toBe('2026-10-27 00:25:37')
+      expect(content.total_amount).toBe('1.23')
+      expect(url.searchParams.get('method')).toBe(`alipay.trade.${device}.pay`)
+    } finally {
+      vi.useRealTimers()
+    }
   })
 
   it('requires exact signed camelCase query identity and amount', async () => {

@@ -69,6 +69,10 @@
 
 ## 支付实现约束
 
+支付宝 `time_expire` 使用北京时间、不带时区后缀，电脑网站支付（PAGE）和手机网站支付（WAP）均按 `yyyy-MM-dd HH:mm:ss`，不能截断到分钟。部分旧 WAP 文档仍描述分钟格式，以当前官方 SDK 模型为准；参数测试通过真实 Node SDK 检查最终链接的业务参数及跨日转换。[官方 PAGE 模型](https://github.com/alipay/alipay-sdk-java-all/blob/master/v2/src/main/java/com/alipay/api/domain/AlipayTradePagePayModel.java)、[官方 WAP 模型](https://github.com/alipay/alipay-sdk-java-all/blob/master/v2/src/main/java/com/alipay/api/domain/AlipayTradeWapPayModel.java)。
+
+支付尝试编号由数据库生成。托管库的 pgcrypto 位于 `extensions`，`start_store_payment_attempt` 保持 `search_path=public`，并显式调用 `extensions.gen_random_bytes`，不依赖会话搜索路径。修复迁移为 `20261027003000_store_payment_crypto_schema.sql`，只有目标环境应用后才生效。`node scripts/test-store-native.mjs` 使用相同扩展布局，先复现旧函数失败，再验证迁移及支付流程。
+
 支付宝使用官方 `alipay-sdk`，桌面网页支付和手机网页支付；微信使用 API v3 的 Native 二维码与 H5。微信内置浏览器提示用外部浏览器打开，本期不做 JSAPI、OAuth 或小程序支付。
 
 微信实现参考 wxstack 的公开代码，必须保留来源和许可证记录。其原有响应验签不能直接作为交易信任边界：缺少签名、未知公钥编号、验签失败均应拒绝，异步验签必须等待完成。商户私钥签名、平台公钥验签和 API v3 密钥解密分别处理。
