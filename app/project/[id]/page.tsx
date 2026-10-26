@@ -1,3 +1,5 @@
+import TextbookFrame from '@/components/features/textbook3d/textbook-frame'
+import { getTextbook3dLesson, textbook3dSrc } from '@/lib/textbook3d/registry'
 import { AskProjectQuestion } from '@/components/features/project/project-questions'
 import { getScienceSampleForProject } from '@/lib/project/science-samples'
 import { effectiveUpdatedAt } from '@/lib/project/effective-updated-at'
@@ -529,6 +531,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   ])
 
   const videoPilot = getProjectVideoPresentationPilot(project)
+  const textbook3d = project.textbook3dLessonId ? getTextbook3dLesson(project.textbook3dLessonId) : null
   const scienceSample = getScienceSampleForProject(project)
   const isSciencePracticePending = scienceSample?.mode === 'preparation'
   const isScienceViewingGuide = scienceSample?.mode === 'observation'
@@ -754,6 +757,11 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               )}
             </MobileSectionCard>
             {scienceSample ? <ScienceProjectSafety sample={scienceSample} /> : null}
+            {textbook3d ? (
+              <MobileSectionCard id="project-textbook-mobile" title="3D 课本">
+                <TextbookFrame lessonId={textbook3d.id} src={textbook3dSrc(textbook3d.id)} title={`3D 课本：${textbook3d.title}`} />
+              </MobileSectionCard>
+            ) : null}
             {videoPilot ? (
               <MobileSectionCard id="project-steps-mobile" title="制作视频">{tutorialContent}</MobileSectionCard>
             ) : <MobileProjectSteps projectId={project.id} key={project.id} steps={steps} practicePending={isSciencePracticePending} observationOnly={isScienceViewingGuide} />}
@@ -849,6 +857,13 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 </SectionCard>
               </div>
               {scienceSample ? <ScienceProjectSafety sample={scienceSample} /> : null}
+              {textbook3d ? (
+                <div id="project-textbook" className="scroll-mt-36">
+                  <SectionCard title="3D 课本">
+                    <TextbookFrame lessonId={textbook3d.id} src={textbook3dSrc(textbook3d.id)} title={`3D 课本：${textbook3d.title}`} />
+                  </SectionCard>
+                </div>
+              ) : null}
               <div id="project-steps" className="scroll-mt-36">
                 {videoPilot ? <SectionCard title="制作视频">{tutorialContent}</SectionCard> : <SectionCard title={`${isScienceViewingGuide ? '观看要点' : '制作步骤'}${steps.length ? `（共 ${steps.length} ${isScienceViewingGuide ? "项" : "步"}）` : ''}`}>
                   {steps.length ? (

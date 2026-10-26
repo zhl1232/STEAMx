@@ -180,6 +180,22 @@ const nextConfig = {
         ],
       },
       {
+        // 3D 课本课时 HTML：可能原地修正内容，只缓存一天，后台再验证。shared/ 不走这条，见下一条（同名响应头以后面的规则为准）。
+        source: '/textbook3d/:version/:lesson((?!shared/)[^/]+)/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+          { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
+        ],
+      },
+      {
+        // 3D 课本共享运行时和字体：文件名带内容哈希，可永久缓存。
+        source: '/textbook3d/:version/shared/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+          { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
+        ],
+      },
+      {
         source: '/gomoku-rapfi/:path*',
         headers: [
           {

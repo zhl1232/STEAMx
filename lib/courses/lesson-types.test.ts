@@ -28,6 +28,7 @@ describe('lesson type registry', () => {
       'scratch',
       'building_3d',
       'playground',
+      'textbook_3d',
     ])
     expect(getLessonTypeDefinition('reading').workspace).toBe('unsupported')
     expect(getLessonTypeDefinition('video').workspace).toBe('unsupported')

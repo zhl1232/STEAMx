@@ -881,6 +881,7 @@ async function buildCourseContext(
     scratch: '当前课时提供 Scratch 工作区和课时步骤；完整编辑器需在平板或电脑上使用。讲操作时让学生对照页面里的步骤标题和编辑器。',
     building_3d: '当前是实体积木搭建课，页面按课程流展示已有课件、动画或 3D 搭建步骤。这份课时上下文仅含标题和文字说明，没有读取课件图片、视频画面或模型连接几何；未由文字或本轮图片确认的颜色、零件数量与连接位置不可推断。需要判断时请学生描述或发送照片。',
     playground: '当前课时提供游乐场实训工作区和课时步骤，按课程导学进入对应游戏练习。',
+    textbook: '当前课时嵌入一册 3D 物理课本，学生翻页看演示、做预测，完成课本末尾的挑战即记为完成本课；你看不到课本画面，只能依据课时文字说明。',
     unsupported: '这个课时类型尚未接入学习工作区；只能依据已有课时文字说明，不要声称存在编辑器或搭建模型。',
   }[lessonWorkspace]
   const currentScratchEditorContext = lessonWorkspace === 'scratch' ? scratchEditorContext : undefined

@@ -1,3 +1,4 @@
+import { textbook3dLessonIdFromUrl } from "@/lib/textbook3d/registry"
 /**
  * 类型映射工具
  * 从数据库类型 (Database) 转换为前端友好的类型
@@ -106,6 +107,8 @@ export interface Project {
     description?: string
     /** Optional demo video (HTTPS mp4 or same-origin /api/assets path). */
     videoUrl?: string | null
+    /** 嵌入的 3D 课本课号（来自 projects.interactive_url，只收已登记的课）。列不存在或未设置时为 undefined。 */
+    textbook3dLessonId?: string
     materials?: string[]
     /** Validated AND clauses of alternative household material IDs for the active content. */
     householdRequirements?: string[][]
@@ -683,6 +686,8 @@ export function mapDbProject(
         completions_count: ('completions_count' in dbProject ? Number((dbProject as Record<string, unknown>).completions_count) : 0),
         description: dbProject.description || '',
         videoUrl: dbProject.video_url ?? null,
+        // interactive_url 列由 20261026120000 迁移添加；迁移执行前 select * 里没有这个字段，这里自然得到 undefined。
+        textbook3dLessonId: textbook3dLessonIdFromUrl((dbProject as Record<string, unknown>).interactive_url) ?? undefined,
         materials: dbProject.project_materials
             ?.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
             .map(m => m.material) || [],
