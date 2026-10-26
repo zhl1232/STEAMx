@@ -25,6 +25,7 @@ if [[ "$1" == login ]]; then
 fi
 if [[ "$1" == pull ]]; then
   if [[ "\${FAKE_PULL_TIMEOUT-}" == 1 ]]; then sleep 10; fi
+  if [[ -n "\${FAKE_PULL_SLEEP-}" ]]; then sleep "$FAKE_PULL_SLEEP"; fi
   if [[ "\${FAKE_PULL_FIRST_FAIL-}" == 1 && ! -f "$FAKE_COUNT.pull" ]]; then touch "$FAKE_COUNT.pull"; exit 1; fi
   [[ "\${FAKE_PULL_FAIL-}" != 1 ]]
   exit $?
@@ -108,6 +109,7 @@ async function setup(overrides = {}) {
     GHCR_TOKEN: 'secret-token',
     REGISTRY_IMAGE: 'ghcr.io/acme/steam',
     COMPOSE_WAIT_TIMEOUT: '17',
+    IMAGE_PULL_BACKOFF_SECONDS: '0',
     ...overrides.env,
   }
   return { root, app, log, env, cleanup: () => rm(root, { recursive: true, force: true }) }
@@ -479,4 +481,24 @@ test('a switch failure after migration restores the image and reports the schema
   assert.match(result.stderr, /Database migration phase completed/)
   assert.match(result.stderr, /older Tutor callers may reject new requests/)
   assert.equal((await text(fixture.log)).match(/scripts\/db-push.mjs push --only=/g)?.length, 1)
+})
+
+test('a slow but progressing pull is not killed by a short per-attempt limit', async (t) => {
+  const fixture = await setup({ env: { FAKE_PULL_SLEEP: '3', IMAGE_PULL_TIMEOUT: '20', IMAGE_PULL_HEARTBEAT_SECONDS: '1' } })
+  t.after(fixture.cleanup)
+  const result = run(fixture.env)
+  assert.equal(result.status, 0, result.stderr)
+  assert.equal((await text(fixture.log)).match(/ARGS=pull /g).length, 1)
+  assert.match(result.stdout, /still pulling/)
+  assert.match(result.stdout, /Image pull finished/)
+})
+
+test('pull failures retry up to the default attempt count, then leave config unchanged', async (t) => {
+  const fixture = await setup({ envFile: 'STEAM_APP_IMAGE=old\n', env: { FAKE_PULL_FAIL: '1' } })
+  t.after(fixture.cleanup)
+  const result = run(fixture.env)
+  assert.equal(result.status, 1)
+  assert.equal((await text(fixture.log)).match(/ARGS=pull /g).length, 4)
+  assert.match(result.stderr, /exhausted retries/)
+  assert.equal(await text(path.join(fixture.app, '.env')), 'STEAM_APP_IMAGE=old\n')
 })
