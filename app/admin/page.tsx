@@ -17,6 +17,7 @@ import { CourseManagement } from '@/components/admin/course-management'
 import { ResourceManagement } from '@/components/admin/resource-management'
 import { UserMembershipManagement } from '@/components/admin/user-membership-management'
 import { AiUsageDashboard } from '@/components/admin/ai-usage-dashboard'
+import { GrowthReviews } from '@/components/admin/growth-reviews'
 import { SafetyQueues } from '@/components/admin/safety-queues'
 import { UserAvatar } from '@/components/ui/user-avatar'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -804,6 +805,7 @@ export default function AdminPage() {
           </TabsContent>
 
           <TabsContent value="safety" className="space-y-4">
+            <GrowthReviews />
             <SafetyQueues />
           </TabsContent>
 

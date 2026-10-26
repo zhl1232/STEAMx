@@ -45,6 +45,7 @@ const EXPERIENCE_RULE_ICONS: Record<ExperienceRuleId, React.ReactNode> = {
   submit_observation: <Sparkles className="h-4 w-4 text-emerald-500" />,
   join_challenge: <Target className="h-4 w-4 text-red-500" />,
   complete_challenge: <Trophy className="h-4 w-4 text-orange-500" />,
+  growth_exchange: <Heart className="h-4 w-4 text-pink-500" />,
   like_project: <Heart className="h-4 w-4 text-pink-500" />,
   daily_login: <Zap className="h-4 w-4 text-purple-500" />,
 };
@@ -279,9 +280,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
                 <Info className="h-4 w-4 mt-0.5 shrink-0" />
                 <p>
                   <strong>升级小贴士：</strong>{" "}
-                  坚持每日登录是获取经验最稳定的方式。当前签到为基础 10 经验，连续登录每天额外
-                  +1 经验（封顶 +20），且连签达到 7/15/30 天后会进入更高奖励档；累计登录达到
-                  30/90/180/365 天时，还会获得额外里程碑经验。
+                  每日自动登录获得固定 3 XP 和 2 硬币。连签与累计登录天数继续记录，不再额外奖励 XP；历史 XP 和等级保留。
                 </p>
               </div>
             </div>

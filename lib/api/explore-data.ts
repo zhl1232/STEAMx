@@ -1489,6 +1489,7 @@ export async function getProjectComments(
       { count: "exact" },
     )
     .eq("project_id", Number(projectId))
+    .eq("is_project_question", false)
     .eq("moderation_state", "approved")
     .is("parent_id", null)
     .order("created_at", { ascending: false })

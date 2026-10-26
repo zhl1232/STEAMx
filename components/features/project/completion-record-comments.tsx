@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { Flag, Loader2 } from "lucide-react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
@@ -19,6 +19,8 @@ import {
   getApiErrorPayload,
 } from "@/lib/utils/http"
 
+import { ExchangeRewardHint, GrowthQualityBadge, useExchangeFeedback } from '@/components/features/growth/exchange-feedback'
+import { emptyQuestionDraft, loadQuestionDraft, saveQuestionDraft } from '@/lib/project/question-draft'
 import { UserAvatar } from "@/components/ui/user-avatar"
 
 interface CompletionRecordCommentsProps {
@@ -38,6 +40,14 @@ export function CompletionRecordComments({
   const queryClient = useQueryClient()
   const [content, setContent] = useState("")
   const [replyTo, setReplyTo] = useState<{ id: number; name: string } | null>(null)
+  const accountRef = useRef(user?.id || null)
+  const [submitted, setSubmitted] = useState<{id:number;at:number}|null>(null)
+  useEffect(() => {
+    accountRef.current = user?.id || null
+    const draft = loadQuestionDraft(user?.id || null, `work-${completionId}`)
+    setContent(draft.text); setReplyTo(draft.replyId ? {id:draft.replyId,name:draft.replyName || '探索者'} : null); setSubmitted(null)
+  }, [user?.id, completionId])
+  const persist = (text:string, reply: typeof replyTo) => saveQuestionDraft(user?.id || null, `work-${completionId}`, {...emptyQuestionDraft(),text,replyId:reply?.id || null,replyName:reply?.name || null})
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   const focusEditor = useCallback(() => {
@@ -47,7 +57,7 @@ export function CompletionRecordComments({
   }, [])
 
   const { data: comments = [], isLoading } = useQuery({
-    queryKey: ["completion_comments", completionId, "thread"],
+    queryKey: ["completion_comments", completionId, "thread", user?.id],
     queryFn: async () => {
       const response = await fetch(`/api/completions/${completionId}/comments?limit=200`)
       if (!response.ok) throw new Error(await response.text())
@@ -55,15 +65,18 @@ export function CompletionRecordComments({
       return (payload?.comments as Comment[]) || []
     },
     enabled,
+    refetchInterval: () => submitted && Date.now()-submitted.at<60_000 ? 5000 : false,
     staleTime: 30_000,
   })
 
+  const feedback = useExchangeFeedback('comment', comments.map(c=>Number(c.id)).concat(submitted?[submitted.id]:[]), submitted)
+
   const commentMutation = useMutation({
-    mutationFn: async (payload: { content: string; parent_id: number | null }) => {
+    mutationFn: async (payload: { content: string; parent_id: number | null; account: string }) => {
       const submitCommentRequest = () => fetch(`/api/completions/${completionId}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({content:payload.content,parent_id:payload.parent_id}),
       })
       const response = await submitCommentRequest()
       const errorPayload = await getApiErrorPayload(response)
@@ -72,7 +85,10 @@ export function CompletionRecordComments({
       }
       return (await response.json()).comment as Comment
     },
-    onSuccess: () => {
+    onSuccess: (comment, payload) => {
+      if (accountRef.current !== payload.account) return
+      if (comment?.id) setSubmitted({id:Number(comment.id),at:Date.now()})
+      persist('',null)
       setContent("")
       setReplyTo(null)
       queryClient.invalidateQueries({ queryKey: ["completion_comments", completionId] })
@@ -90,13 +106,13 @@ export function CompletionRecordComments({
     const trimmed = content.trim()
     if (!trimmed) return
     if (!user) {
-      promptLogin(() => commentMutation.mutate({ content: trimmed, parent_id: replyTo?.id ?? null }), {
+      promptLogin(nextUser => {if(accountRef.current && accountRef.current!==nextUser.id)return;accountRef.current=nextUser.id;commentMutation.mutate({ content: trimmed, parent_id: replyTo?.id ?? null, account:nextUser.id })}, {
         title: "登录以评论",
         description: "登录后即可回复探索记录",
       })
       return
     }
-    commentMutation.mutate({ content: trimmed, parent_id: replyTo?.id ?? null })
+    commentMutation.mutate({ content: trimmed, parent_id: replyTo?.id ?? null, account:user.id })
   }
 
   const rootComments = comments.filter((c) => !c.parent_id)
@@ -121,9 +137,10 @@ export function CompletionRecordComments({
                 key={String(comment.id)}
                 comment={comment}
                 replies={replies}
+                feedback={feedback}
                 viewerId={user?.id}
                 onReply={(id, name) => {
-                  setReplyTo({ id, name })
+                  setReplyTo({ id, name }); persist(content,{id,name})
                   focusEditor()
                 }}
               />
@@ -140,7 +157,7 @@ export function CompletionRecordComments({
             </span>
             <button
               type="button"
-              onClick={() => setReplyTo(null)}
+              onClick={() => {setReplyTo(null);persist(content,null)}}
               className="text-xs text-[hsl(var(--brand-green))] hover:underline"
             >
               取消回复
@@ -150,11 +167,13 @@ export function CompletionRecordComments({
         <Textarea
           ref={textareaRef}
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => {setContent(e.target.value);persist(e.target.value,replyTo)}}
+          maxLength={2000}
           placeholder={replyTo ? `回复 @${replyTo.name}…` : "聊聊这个作品，或提出你的问题与建议…"}
           rows={3}
           className="resize-none"
         />
+        <ExchangeRewardHint />
         <div className="flex justify-end">
           <Button
             type="button"
@@ -180,14 +199,17 @@ export function CompletionRecordComments({
 function CompletionCommentThread({
   comment,
   replies,
+  feedback,
   viewerId,
   onReply,
 }: {
   comment: Comment
   replies: Comment[]
+  feedback: Map<number, {qualified:boolean}>
   viewerId?: string
   onReply: (id: number, name: string) => void
 }) {
+  const [expanded, setExpanded] = useState(false)
   const displayName = comment.author || "探索者"
   const canReport = Boolean(viewerId && comment.userId && viewerId !== comment.userId)
 
@@ -204,7 +226,7 @@ function CompletionCommentThread({
         />
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-semibold text-foreground">{displayName}</span>
+            <span className="text-xs font-semibold text-foreground">{displayName}</span><GrowthQualityBadge qualified={feedback.get(Number(comment.id))?.qualified}/>
           </div>
 
           <p className="mt-1 text-sm leading-relaxed text-foreground whitespace-pre-wrap break-words">
@@ -243,7 +265,7 @@ function CompletionCommentThread({
 
       {replies.length > 0 ? (
         <div className="mt-3.5 w-full space-y-3.5 rounded-md bg-[hsl(var(--surface-muted)/0.45)] p-3 text-xs sm:mt-4 sm:p-3.5">
-          {replies.map((reply) => {
+          {(expanded ? replies : replies.slice(0,2)).map((reply) => {
             const replyDisplayName = reply.author || "探索者"
             const canReportReply = Boolean(viewerId && reply.userId && viewerId !== reply.userId)
 
@@ -259,7 +281,7 @@ function CompletionCommentThread({
                 />
                 <div className="min-w-0 flex-1">
                   <p className="leading-relaxed text-foreground">
-                    <span className="font-semibold">{replyDisplayName}</span>
+                    <span className="font-semibold">{replyDisplayName}</span><GrowthQualityBadge qualified={feedback.get(Number(reply.id))?.qualified}/>
                     {reply.userId && comment.userId && reply.userId === comment.userId ? (
                       <span className="ml-1 inline-flex items-center rounded-xs bg-[hsl(var(--brand-green)/0.12)] px-1 py-0.2 text-[10px] font-semibold text-[hsl(var(--brand-green))]">
                         作者
@@ -305,6 +327,7 @@ function CompletionCommentThread({
               </div>
             )
           })}
+          {replies.length>2 && <button type="button" onClick={()=>setExpanded(!expanded)}>{expanded?'收起回复':`展开其余 ${replies.length-2} 条回复`}</button>}
         </div>
       ) : null}
     </div>
@@ -337,13 +360,14 @@ export function CompletionRecordCommentsPreview({
   })
 
   const preview = (previewComments ?? fetchedComments).slice(-2)
+  const feedback = useExchangeFeedback('comment', preview.map(c=>Number(c.id)), null)
   if (preview.length === 0) return null
 
   return (
     <div className="mt-3 space-y-2 rounded-sm bg-muted/35 px-3 py-2.5">
       {preview.map((comment) => (
         <p key={String(comment.id)} className="text-xs leading-5 text-muted-foreground">
-          <span className="font-semibold text-foreground">{comment.author}</span>
+          <span className="font-semibold text-foreground">{comment.author}</span><GrowthQualityBadge qualified={feedback.get(Number(comment.id))?.qualified}/>
           {comment.reply_to_username ? (
             <span className="text-muted-foreground"> 回复 @{comment.reply_to_username}</span>
           ) : null}

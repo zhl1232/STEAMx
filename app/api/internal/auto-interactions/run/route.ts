@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { handleApiError } from '@/lib/api/auth'
 import { runDueAutoInteractions } from '@/lib/auto-interactions'
+import { after } from 'next/server'
+import { safelyRunGrowthReview } from '@/lib/growth/worker'
 import { logger } from '@/lib/logger'
 
 function verifyInternalAuth(request: NextRequest) {
@@ -24,6 +26,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}))
     const limit = Number(body?.limit ?? 20)
+    after(async () => { await safelyRunGrowthReview() })
     const result = await runDueAutoInteractions(limit)
     return NextResponse.json(result)
   } catch (error) {

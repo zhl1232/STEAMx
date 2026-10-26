@@ -5,7 +5,6 @@ import { requireInteractionAccess } from '@/lib/access/interaction-access'
 import { callRpc } from '@/lib/supabase/rpc'
 import { logger } from '@/lib/logger'
 import { getDefaultAvatarPath } from '@/lib/profile/avatar-options'
-import { awardXpOnce } from '@/lib/api/server-awards'
 import { assertUsersNotBlocked } from '@/lib/safety/server'
 import { getContentClassificationSettings } from '@/lib/content-classification'
 import { getAccessibleProject } from '@/lib/api/project-access'
@@ -151,15 +150,6 @@ export async function POST(
         const { error: rpcError } = await callRpc(supabase, 'increment_project_likes', { project_id: projectId })
         if (rpcError) throw rpcError
 
-        try {
-          await awardXpOnce({
-            userId: user.id,
-            actionType: 'like_project',
-            resourceId: projectId,
-          })
-        } catch (awardError) {
-          logger.error(awardError, { context: 'Project like XP award failed', projectId })
-        }
 
         try {
           await sendProjectLikeNotification({

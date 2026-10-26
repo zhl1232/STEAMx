@@ -65,7 +65,7 @@ export function CompletionReviewCard({ completion, onReview, readOnly = false }:
 
       toast({
         title: '作品已批准',
-        description: `${authorName} 的作品已通过审核，XP 已发放`,
+        description: `${authorName} 的作品已通过安全审核；成长 XP 需在成长审核中单独确认`,
       })
       onReview()
       setIsDetailOpen(false)

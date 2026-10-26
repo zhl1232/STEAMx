@@ -1,3 +1,4 @@
+import { scheduleGrowthReview } from '@/lib/growth/schedule'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireAuth, handleApiError } from '@/lib/api/auth'
@@ -52,14 +53,14 @@ export async function PATCH(
 
     const { data: row, error: fetchError } = await supabase
       .from('comments')
-      .select('author_id, moderation_state')
+      .select('author_id, moderation_state, is_project_question')
       .eq('id', commentId)
       .maybeSingle()
     if (fetchError) throw fetchError
     if (!row) {
       return NextResponse.json({ error: 'Comment not found' }, { status: 404 })
     }
-    const typedRow = row as { author_id: string; moderation_state?: string }
+    const typedRow = row as { author_id: string; moderation_state?: string; is_project_question?: boolean }
     if (typedRow.author_id !== user.id) {
       return NextResponse.json({ error: '无权编辑此评论' }, { status: 403 })
     }
@@ -69,12 +70,13 @@ export async function PATCH(
       .update({
         content,
         updated_at: new Date().toISOString(),
-        moderation_state: typedRow.moderation_state === 'hidden' ? 'pending' : moderation.state,
+        moderation_state: typedRow.is_project_question || typedRow.moderation_state === 'hidden' ? 'pending' : moderation.state,
       } as never)
       .eq('id', commentId)
       .eq('author_id', user.id)
     if (error) throw error
 
+    if (typedRow.is_project_question) { scheduleGrowthReview(); return NextResponse.json({ message: 'Updated, review pending', content }, { status: 202 }) }
     if (typedRow.moderation_state === 'hidden' || moderation.state === 'pending') {
       const caseId = await createModerationCase({
         contentType: 'comment',

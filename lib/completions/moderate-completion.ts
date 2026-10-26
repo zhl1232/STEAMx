@@ -1,3 +1,4 @@
+import { safelyRunGrowthReview } from '@/lib/growth/worker'
 import type { Json } from '@/lib/supabase/types'
 import { evaluateCompletionContent } from '@/lib/ai/completion-moderation'
 import { enqueueAutoInteractionsForTarget } from '@/lib/auto-interactions'
@@ -61,6 +62,7 @@ export async function runCompletionModeration(completionId: number): Promise<{
     const decision = await evaluateCompletionContent({
       notes: row.notes,
       imageUrls: row.proof_images || [],
+      allowTextOnly: row.record_kind !== 'final',
       skipImageModeration: row.moderation_state === 'approved',
     })
 
@@ -190,6 +192,7 @@ export async function runCompletionModeration(completionId: number): Promise<{
       } as never)
       .eq('completion_id', completionId)
 
+    await safelyRunGrowthReview()
     return { status: 'approved' }
   } catch (error) {
     logger.error(error, { context: 'runCompletionModeration', completionId })
