@@ -55,6 +55,16 @@ Release 与手机号提供商运维共用 `release-production` 并发组，服�
 
 手机号运维只重建主站并保持其实际镜像；失败恢复环境文件和服务，恢复失败保留备份。认证切换的准入和真实短信验收只在 [登录与短信](phone-auth.md) 维护，容器健康不能代替短信送达。
 
+## 商城与客服任务
+
+`commerce-worker` 与应用使用同一镜像，等待应用健康后运行 `deploy/commerce-worker.mjs`。以 `CRON_SECRET` 或 `INTERNAL_API_SECRET` 认证，每分钟独立调用订单对账和客服通知接口；单个任务失败不阻止另一个，下次循环须等本次结束。请求有界超时，退出信号停止新一轮任务；错误日志不打印 webhook 或密钥。
+
+启用飞书应用模式时，同一 worker 还启动 `deploy/feishu-bridge.mjs` 的 SDK 长连接，以及独立的收发队列循环；它们不阻塞原对账任务。收到的群聊文字只转发白名单字段到内部认证接口，必须先持久入队才确认接收；退出时关闭长连接、心跳和重连计时器。飞书 SDK 的原始事件日志保持关闭。配置与接入权限统一见 [客服专题](customer-support.md#飞书应用机器人与直接回复)。
+
+飞书 SDK 由 worker 在 Next 服务入口之外加载。Docker 构建完成后执行 `scripts/prepare-feishu-runtime.mjs`，使用项目固定版本 Next 自带的文件追踪器，将 SDK 及其依赖补入 standalone 目录并验证可加载；不能只复制 SDK 单个包而遗漏传递依赖。
+
+客服通知缺少配置时保留队列但不外发，变量见 [站内官方客服](customer-support.md)；订单查单仍可处理历史交易，不以新购开关关闭为依据丢弃在途交易。worker 的 Compose/Docker 配置已在本地实现，未启动生产任务或发送真实提醒。发布前需把获批准的商城、客服、报价及草稿迁移与其他待执行迁移一同核对允许名单，不能只更新容器而遗漏数据库。
+
 ## 部署后的独立检查
 
 SEO 检查在切换后运行；失败可标记 Release 失败并跳过主动推送，但不会自动回滚已经部署的应用，处理见 [SEO 日常运营](seo-daily-operations.md)。

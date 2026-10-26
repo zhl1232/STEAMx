@@ -16,6 +16,7 @@ let mockConversations: Array<{
 }> = []
 let mockDmUnreadCount = 0
 let mockNotificationUnreadCount = 0
+let mockSupportUnreadCount = 0
 const mockMarkAllAsRead = vi.fn()
 
 vi.mock('next/navigation', () => ({
@@ -50,6 +51,7 @@ vi.mock('@/lib/context/notification-context', () => ({
         unreadCount: mockDmUnreadCount,
         notificationUnreadCount: mockNotificationUnreadCount,
         dmUnreadCount: mockDmUnreadCount,
+        supportUnreadCount: mockSupportUnreadCount,
         markAsRead: vi.fn(),
         markAllAsRead: mockMarkAllAsRead,
         loadMore: vi.fn(),
@@ -80,6 +82,7 @@ describe('MessagesPage', () => {
         mockConversations = []
         mockDmUnreadCount = 0
         mockNotificationUnreadCount = 0
+        mockSupportUnreadCount = 0
     })
 
     it('falls back to the replies tab when the tab query parameter is invalid', async () => {
@@ -142,4 +145,19 @@ describe('MessagesPage', () => {
         expect(await screen.findByText('还没有私信对话')).toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '全部标为已读' })).not.toBeInTheDocument()
     })
+    it('keeps official support separate from private conversations and their read actions', async () => {
+        mockTab = 'support'
+        mockSupportUnreadCount = 3
+        mockNotificationUnreadCount = 2
+        mockConversations = [{ peerId: 'friend', displayName: '普通好友', avatarUrl: null, lastContent: '私人聊天', lastAt: new Date().toISOString(), unreadCount: 1 }]
+        render(<MessagesPage />)
+        expect(await screen.findByText('平台帮助')).toBeInTheDocument()
+        expect(screen.getByText('平台帮助有 3 条未读回复')).toBeInTheDocument()
+        expect(screen.getByRole('link', { name: '查看平台帮助会话' })).toHaveAttribute('href', '/support')
+        expect(screen.getByRole('link', { name: '查看商城客服会话' })).toHaveAttribute('href', '/store/support')
+        expect(screen.queryByText('私人聊天')).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '全部标为已读' })).not.toBeInTheDocument()
+        expect(screen.queryByText(/飞书/)).not.toBeInTheDocument()
+    })
+
 })

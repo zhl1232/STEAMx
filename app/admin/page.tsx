@@ -623,6 +623,11 @@ export default function AdminPage() {
               )}
               {isAdmin && (
                 <Button asChild variant="outline">
+                  <Link href="/admin/support">帮助与客服收件箱</Link>
+                </Button>
+              )}
+              {isAdmin && (
+                <Button asChild variant="outline">
                   <Link href="/admin/store">
                     <Store className="mr-2 h-4 w-4" />
                     实物商城

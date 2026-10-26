@@ -53,7 +53,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "如何联系客服？",
-    a: "问题反馈会直接发给平台客服，回复会回到站内消息。",
+    a: "问题反馈会直接发给平台帮助，留言后可在「消息中心 → 服务消息 → 平台帮助」查看回复。",
   },
   {
     q: "项目审核需要多久？",
@@ -70,12 +70,13 @@ export default function AboutSettingsPage() {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackSubmitting, setFeedbackSubmitting] = useState(false);
+  const [feedbackClientId, setFeedbackClientId] = useState(() => crypto.randomUUID());
 
   const openFeedback = () => {
     if (!user) {
       promptLogin(() => setFeedbackOpen(true), {
         title: "登录后提交反馈",
-        description: "登录后即可把问题发给平台客服，回复会回到站内消息。",
+        description: "登录后即可把问题发给平台帮助，留言后可在「消息中心 → 服务消息 → 平台帮助」查看回复。",
       });
       return;
     }
@@ -96,16 +97,17 @@ export default function AboutSettingsPage() {
       const response = await fetch("/api/settings/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content }),
+        body: JSON.stringify({ content, clientId: feedbackClientId }),
       });
       const payload = (await response.json().catch(() => ({}))) as { error?: string; recipientName?: string };
       if (!response.ok) throw new Error(payload.error || "反馈发送失败，请稍后重试");
 
       toast({
         title: "反馈已发送",
-        description: `已发送给${payload.recipientName || "平台客服"}，回复会回到站内消息。`,
+        description: `已发送给${payload.recipientName || "平台帮助"}，留言后可在「消息中心 → 服务消息 → 平台帮助」查看回复。`,
       });
       setFeedbackText("");
+      setFeedbackClientId(crypto.randomUUID());
       setFeedbackOpen(false);
     } catch (error) {
       toast({
@@ -170,9 +172,10 @@ export default function AboutSettingsPage() {
           <span id="contact" aria-hidden="true" className="block scroll-mt-24" />
           <div className="space-y-2 px-1">
             <h2 id="support-heading" className="settings-section-heading">联系客服</h2>
-            <p className="text-sm leading-6 text-muted-foreground">遇到问题可以直接反馈，回复会回到站内消息。</p>
+            <p className="text-sm leading-6 text-muted-foreground">遇到问题可以直接反馈，留言后可在「消息中心 → 服务消息 → 平台帮助」查看回复。</p>
           </div>
           <div className="settings-list">
+            <Link href="/support" className="settings-row min-h-11"><span>进入平台帮助会话</span><ChevronRight className="h-4 w-4" /></Link>
             <button id="feedback" type="button" className="settings-row min-h-11 scroll-mt-24" onClick={openFeedback}>
               <div className="flex min-w-0 flex-1 items-start gap-3">
                 <div className="settings-icon">
@@ -180,7 +183,7 @@ export default function AboutSettingsPage() {
                 </div>
                 <div className="min-w-0">
                   <div className="text-sm font-semibold">问题反馈</div>
-                  <p className="settings-description">直接发给平台客服，回复会回到站内消息。</p>
+                  <p className="settings-description">直接发给平台帮助，留言后可在「消息中心 → 服务消息 → 平台帮助」查看回复。</p>
                 </div>
               </div>
               <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
@@ -306,13 +309,14 @@ export default function AboutSettingsPage() {
         onOpenChange={(open) => {
           setFeedbackOpen(open);
           if (!open && !feedbackSubmitting) setFeedbackText("");
+      setFeedbackClientId(crypto.randomUUID());
         }}
       >
         <DialogContent className="w-[calc(100vw-2rem)] max-w-md gap-5 rounded-md p-5 sm:p-6">
           <DialogHeader className="text-left">
             <DialogTitle>提交问题反馈</DialogTitle>
             <DialogDescription className="leading-6">
-              反馈会发送给平台客服，管理员会在站内消息中回复你。
+              反馈会发送给平台帮助，管理员会在站内消息中回复你。
             </DialogDescription>
           </DialogHeader>
           <form className="space-y-4" onSubmit={handleFeedbackSubmit}>

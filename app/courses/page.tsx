@@ -22,7 +22,7 @@ export const metadata = buildPageMetadata({
 
 export default async function CoursesPage({ searchParams }: {
     searchParams?: Promise<{ category?: string | string[] }>;
-} = {}) {
+}) {
     const initialFilter = getStartCourseCategory((await searchParams)?.category);
     const retryHref = initialFilter === 'recommended' ? '/courses' : `/courses?category=${initialFilter}`;
     let courses: CourseListItem[] | null = null;

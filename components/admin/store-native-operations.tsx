@@ -1,8 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Surface } from '@/components/ui/surface'
+import { OptimizedImage } from '@/components/ui/optimized-image'
 import { MAINLAND_PROVINCES } from '@/lib/store/regions'
 
 type Variant = {
@@ -25,7 +28,11 @@ type Product = {
   description: string
   coverUrl: string
   priceCents: number
-  shippingCents: number
+  shippingCents: number | null
+  galleryUrls?: string[]
+  detailContent?: string
+  videoUrl?: string
+  category?: string
   status: string
   fulfillmentDescription: string
   contextKeys: string[]
@@ -71,7 +78,11 @@ const newProduct = (): Product => ({
   description: '',
   coverUrl: '',
   priceCents: 100,
-  shippingCents: 0,
+  shippingCents: null,
+  galleryUrls: [],
+  detailContent: '',
+  videoUrl: '',
+  category: '',
   status: 'draft',
   fulfillmentDescription: '',
   contextKeys: [],
@@ -120,15 +131,25 @@ export function StoreNativeOperations() {
   const [draft, setDraft] = useState(newProduct)
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState('')
-  async function load(page = orderPage) {
+  const [review, setReview] = useState(false)
+  const [focusedOrder, setFocusedOrder] = useState('')
+  async function load(page = orderPage, selectRequestedProduct = false) {
     setOrdersLoading(true)
     try {
+      const requestedOrder = new URLSearchParams(window.location.search).get('order') || ''
+      if (requestedOrder && !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(requestedOrder)) throw new Error('订单编号格式无效')
       const [catalog, list] = await Promise.all([
         json<{ products: Product[] }>('/api/admin/store/catalog'),
-        json<OrderPage>(`/api/admin/store/orders?page=${page}`),
+        json<OrderPage>(requestedOrder ? `/api/admin/store/orders?order=${encodeURIComponent(requestedOrder)}&page=1` : `/api/admin/store/orders?page=${page}`),
       ])
       setProducts(catalog.products)
+      if (selectRequestedProduct) {
+        const requestedProduct = new URLSearchParams(window.location.search).get('product')
+        const product = catalog.products.find(item => item.id === requestedProduct)
+        if (product) setDraft({ ...product, description: product.description || '', coverUrl: product.coverUrl || '', fulfillmentDescription: product.fulfillmentDescription || '' })
+      }
       setOrders(list.orders)
+      setFocusedOrder(requestedOrder)
       setOrderPage(list.page)
       setOrdersHaveMore(list.hasMore)
     } finally {
@@ -137,7 +158,7 @@ export function StoreNativeOperations() {
   }
   useEffect(() => {
     // eslint-disable-next-line react/set-state-in-effect -- State changes only after the API request resolves.
-    void load().catch((error) => setMessage(error.message))
+    void load(1, true).catch((error) => setMessage(error.message))
   }, [])
   function variant(index: number, patch: Partial<Variant>) {
     setDraft((current) => ({
@@ -191,8 +212,8 @@ export function StoreNativeOperations() {
               <p className="text-sm text-muted-foreground">还没有商品。</p>
             ) : (
               products.map((product) => (
+                <div key={product.id} className="space-y-1">
                 <button
-                  key={product.id}
                   type="button"
                   onClick={() =>
                     setDraft({
@@ -215,6 +236,10 @@ export function StoreNativeOperations() {
                     · ¥{(product.priceCents / 100).toFixed(2)}
                   </span>
                 </button>
+                <Button asChild variant="ghost" size="sm" className="w-full justify-start text-xs">
+                  <Link href={`/admin/store/products/${product.id}/preview`}>查看商品页面</Link>
+                </Button>
+                </div>
               ))
             )}
           </div>
@@ -250,7 +275,7 @@ export function StoreNativeOperations() {
               </Field>
               <Field title="每单运费（分，包邮填 0）">
                 <Input
-                  required
+                  required={draft.status === 'active'}
                   type="number"
                   min={0}
                   step={1}
@@ -258,14 +283,13 @@ export function StoreNativeOperations() {
                   onChange={(e) =>
                     setDraft({
                       ...draft,
-                      shippingCents: Number(e.target.value),
+                      shippingCents: e.target.value === '' ? null : Number(e.target.value),
                     })
                   }
                 />
               </Field>
-              <Field title="封面图片 HTTPS 地址">
+              <Field title="封面图片地址（HTTPS 或站内资源）">
                 <Input
-                  type="url"
                   value={draft.coverUrl}
                   onChange={(e) =>
                     setDraft({ ...draft, coverUrl: e.target.value })
@@ -286,6 +310,12 @@ export function StoreNativeOperations() {
                 </select>
               </Field>
             </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field title="商品分类"><Input value={draft.category || ''} onChange={e => setDraft({ ...draft, category: e.target.value })} /></Field>
+              <Field title="商品视频地址（可选）"><Input value={draft.videoUrl || ''} onChange={e => setDraft({ ...draft, videoUrl: e.target.value })} /></Field>
+            </div>
+            <Field title="商品相册（每行一个 HTTPS 或站内资源地址）"><textarea className="control-field min-h-24 p-3" value={(draft.galleryUrls || []).join('\n')} onChange={e => setDraft({ ...draft, galleryUrls: e.target.value.split('\n').filter(Boolean) })} /></Field>
+            <Field title="商品详情（公开文字）"><textarea className="control-field min-h-32 p-3" value={draft.detailContent || ''} onChange={e => setDraft({ ...draft, detailContent: e.target.value })} /></Field>
             <Field title="商品说明">
               <textarea
                 className="min-h-24 rounded-md border bg-background p-3"
@@ -297,8 +327,8 @@ export function StoreNativeOperations() {
             </Field>
             <Field title="发货和履约说明">
               <Input
-                required
-                placeholder="例如：付款后 3 个工作日内由供应商发货"
+                required={draft.status === 'active'}
+                placeholder="填写已确认的发货时效、配送及履约安排"
                 value={draft.fulfillmentDescription}
                 onChange={(e) =>
                   setDraft({ ...draft, fulfillmentDescription: e.target.value })
@@ -455,6 +485,9 @@ export function StoreNativeOperations() {
                 </div>
               </fieldset>
             ))}
+            <p className="text-sm leading-6 text-muted-foreground">草稿允许暂缺运费、履约说明与供货资料。上架前请逐项确认售价、库存、运费、发货安排及每个可售规格的供货链接；服务端会再次检查。供货链接和采购成本只供管理员查看。</p>
+            <Button type="button" variant="outline" onClick={() => setReview(!review)}>{review ? '收起商品审核' : '预览并审核商品资料'}</Button>
+            {review ? <Surface variant="subtle" className="space-y-4 p-5"><h3 className="text-panel-title">{draft.name || '未命名商品'} · {draft.status === 'active' ? '申请上架' : '草稿'}</h3><p className="whitespace-pre-line text-sm">{draft.description}</p><div className="grid grid-cols-2 gap-3 sm:grid-cols-3">{[draft.coverUrl, ...(draft.galleryUrls || [])].filter(Boolean).map((url, index) => <div key={`${url}-${index}`} className="relative aspect-square overflow-hidden rounded-md"><OptimizedImage src={url} alt={`审核图片 ${index + 1}`} fill className="object-contain" /></div>)}</div><p className="whitespace-pre-line text-sm">{draft.detailContent}</p>{draft.videoUrl ? <video controls preload="none" className="w-full" src={draft.videoUrl}><track kind="captions" /></video> : null}<p className="text-sm">运费：{draft.shippingCents == null ? '待确认' : `¥${(draft.shippingCents / 100).toFixed(2)}`} · 履约：{draft.fulfillmentDescription || '待确认'}</p><p className="text-sm">规格 {draft.variants.length} 种 · 缺供货链接 {draft.variants.filter(v => !v.supplierUrl).length} 种</p></Surface> : null}
             <div className="flex flex-wrap gap-3">
               <Button
                 type="button"
@@ -489,6 +522,7 @@ export function StoreNativeOperations() {
             刷新订单
           </Button>
         </div>
+        {focusedOrder ? <p className="mt-4 break-all text-sm">正在查看指定订单 {focusedOrder} · <Button variant="ghost" size="sm" onClick={() => window.location.assign('/admin/store')}>返回全部订单</Button></p> : null}
         <div className="mt-5 space-y-4">
           {orders.length === 0 ? (
             <p className="text-sm text-muted-foreground">暂无本站订单。</p>
@@ -550,6 +584,7 @@ function OrderOperations({
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState('')
   const [address, setAddress] = useState('')
+  const [sourceSnapshot, setSourceSnapshot] = useState<{ variantName?: string; sku?: string; supplierUrl?: string; costCents?: number | null; createdAt?: string } | null>(null)
   const choices: Array<[string, string]> = []
   if (['paid', 'sourcing', 'ordered'].includes(order.status))
     choices.push(['record_procurement', '记录采购'])
@@ -607,9 +642,10 @@ function OrderOperations({
   }
   async function showAddress() {
     try {
-      const result = await json<{ address: Record<string, string> }>(
+      const result = await json<{ address: Record<string, string>; procurementSnapshot?: { snapshot: { variantName?: string; sku?: string; supplierUrl?: string; costCents?: number | null }; created_at: string } | null }>(
         `/api/admin/store/orders/${order.id}`,
       )
+      setSourceSnapshot(result.procurementSnapshot ? { ...result.procurementSnapshot.snapshot, createdAt: result.procurementSnapshot.created_at } : null)
       setAddress(
         ['recipientName', 'phone', 'province', 'city', 'district', 'street']
           .map((key) => result.address[key])
@@ -678,6 +714,7 @@ function OrderOperations({
           {address}
         </p>
       )}
+      {sourceSnapshot ? <Surface variant="subtle" className="mt-3 space-y-2 p-4 text-sm"><p className="font-semibold">下单时供货快照（仅管理员可见）</p><p>{sourceSnapshot.variantName} · {sourceSnapshot.sku}</p>{sourceSnapshot.supplierUrl ? <a href={sourceSnapshot.supplierUrl} target="_blank" rel="noreferrer" className="break-all text-primary underline">原供货链接</a> : <p>下单时未记录供货链接</p>}<p>参考采购成本：{sourceSnapshot.costCents == null ? '未记录' : `¥${(sourceSnapshot.costCents / 100).toFixed(2)}`}</p><p className="text-xs text-muted-foreground">商品资料后续编辑不会改写此快照。</p></Surface> : null}
       {action && (
         <form
           onSubmit={submit}

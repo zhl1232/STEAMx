@@ -17,6 +17,6 @@ describe('start page', () => {
     }
     expect(screen.queryByText(/开始这次观察|观察身边的一棵树|申请入群/)).toBeNull()
     expect(screen.getByRole('link', { name: '先随便看看' }).getAttribute('href')).toBe('/explore')
-    expect(screen.getByRole('link', { name: '联系客服' }).getAttribute('href')).toBe('/about#support')
+    expect(screen.getByRole('link', { name: '联系客服' }).getAttribute('href')).toBe('/support')
   })
 })

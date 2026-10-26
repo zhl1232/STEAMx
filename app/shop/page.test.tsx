@@ -4,7 +4,11 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import ShopPage from './page'
 import { getShopMutationErrorMessage } from './mutation-error'
+import { SHOP_ITEMS } from '@/lib/shop/items'
 
+const mockUseShopPrices = vi.fn()
+const mockRpc = vi.fn()
+vi.mock('@/hooks/use-shop-prices', () => ({ useShopPrices: (...args: unknown[]) => mockUseShopPrices(...args) }))
 const mockUseQuery = vi.fn()
 const mockUseMutation = vi.fn()
 const mockInvalidateQueries = vi.fn()
@@ -59,7 +63,7 @@ vi.mock('@/lib/supabase/client', () => ({
       select: vi.fn().mockReturnThis(),
       eq: vi.fn().mockReturnThis(),
     })),
-    rpc: vi.fn(),
+    rpc: mockRpc,
   }),
 }))
 
@@ -74,6 +78,10 @@ vi.mock('@tanstack/react-query', () => ({
 describe('ShopPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    mockUseShopPrices.mockReturnValue({ data: {
+      membershipTier: 'free', coins: 100, level: 1,
+      items: SHOP_ITEMS.map(item => ({ id: item.id, basePrice: item.price, price: item.price, minLevel: item.minLevel ?? 0, owned: false }))
+    }, isLoading: false, isError: false, refetch: vi.fn() })
     mockUseMutation.mockReturnValue({
       mutate: vi.fn(),
       isPending: false,
@@ -167,5 +175,25 @@ describe('ShopPage', () => {
         message: 'min_level_required',
       }),
     ).toBe('等级不足，需达到 Lv.20')
+  })
+})
+
+
+describe('member-priced redemption', () => {
+  it('lets a member redeem with the discounted balance and sends exactly the displayed quote', async () => {
+    mockUseShopPrices.mockReturnValue({ data: { membershipTier: 'pro', coins: 13, level: 1,
+      items: [{ id: 'pixel_border', basePrice: 15, price: 13, minLevel: 0, owned: false }] }, isLoading: false, isError: false })
+    mockRpc.mockResolvedValue({ data: { ok: true }, error: null })
+    render(<ShopPage />)
+    const card = screen.getByText('像素边框').closest('article')!
+    expect(within(card).getByRole('button', { name: '兑换' })).toBeEnabled()
+    expect(within(card).getByText('13')).toBeInTheDocument()
+    const mutation = mockUseMutation.mock.calls.at(-2)![0]
+    await mutation.mutationFn('pixel_border')
+    expect(mockRpc).toHaveBeenCalledWith('purchase_item', { p_item_id: 'pixel_border', p_expected_price: 13 })
+  })
+
+  it('gives a price-change error that requires a new confirmation', () => {
+    expect(getShopMutationErrorMessage({ code: 'price_changed' })).toContain('确认后重新兑换')
   })
 })

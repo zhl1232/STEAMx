@@ -129,6 +129,8 @@ import { Surface } from "@/components/ui/surface"
 链接型按钮优先使用 `<Button asChild>`；如果整张卡片已经是 `Link`，内部右侧的按钮视觉必须复用 `buttonVariants({ tone, shape })`，不要手写 `rounded-*`、`bg-*` 形成局部圆角漂移。
 纯展示性的特性要点（Feature Items）禁止使用实体药丸背景，保持通透自然的图标+文本排版，避免被误判为可点击按钮。
 
+商城与官方客服沿用这套规范：购买、确认订单、发送留言等主要操作使用品牌色胶囊按钮，返回、查看订单和咨询入口通过 `Button asChild` 表达层级；文件选择由中文按钮触发原生文件输入，不展示浏览器默认文件按钮作为另一套视觉样式。
+
 ---
 
 ## 排版角色

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { LogOut, ChevronRight, Shield, ShieldAlert, Bell, Bot, Eye, HelpCircle, Palette, User } from "lucide-react";
+import { LogOut, ChevronRight, Shield, ShieldAlert, Bell, Bot, Eye, HelpCircle, Palette, User, Headphones } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -55,6 +55,8 @@ export default function SettingsPage() {
     {
       title: "支持",
       items: [
+        { icon: Headphones, label: "平台帮助", href: "/support" },
+        { icon: Headphones, label: "商城客服", href: "/store/support" },
         { icon: HelpCircle, label: "关于与帮助", href: "/about" },
       ],
     },

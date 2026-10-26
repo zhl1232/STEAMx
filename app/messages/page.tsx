@@ -13,6 +13,7 @@ import {
   MessageSquare,
   UserPlus,
   Megaphone,
+  Headphones,
 } from "lucide-react";
 
 import { WelcomeActions } from "@/components/features/communications/welcome-actions";
@@ -52,6 +53,7 @@ const TABS = [
     icon: MessageCircle,
   },
   { key: "system", label: "系统公告", shortLabel: "公告", icon: Megaphone },
+  { key: "support", label: "服务消息", shortLabel: "服务", icon: Headphones },
 ] as const;
 
 type TabKey = (typeof TABS)[number]["key"];
@@ -136,6 +138,8 @@ function MessagesContent() {
     notifications,
     notificationUnreadCount,
     dmUnreadCount,
+    supportUnreadCount = 0,
+    supportUnreadByChannel = { platform: supportUnreadCount, store: 0 },
     markAsRead,
     markAllAsRead,
     loadMore,
@@ -153,18 +157,18 @@ function MessagesContent() {
   } = useConversations();
 
   const filteredNotifications = tab !== "dm" ? filterByTab(notifications, tab) : [];
-  const unreadByTab = getUnreadByTab(notifications, Math.max(dmUnreadCount, conversationsDmUnreadCount), unreadCountsByCategory);
+  const unreadByTab = { ...getUnreadByTab(notifications, Math.max(dmUnreadCount, conversationsDmUnreadCount), unreadCountsByCategory), support: supportUnreadCount };
   const hasNotificationUnread = notificationUnreadCount > 0;
-  const canMarkAllNotificationsRead = tab !== "dm" && hasNotificationUnread;
+  const canMarkAllNotificationsRead = tab !== "dm" && tab !== "support" && hasNotificationUnread;
   const loadMoreRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
-    if (tab !== 'dm' && loadCategory) void loadCategory(tab as 'system' | 'replies' | 'likes' | 'follows');
+    if (tab !== 'dm' && tab !== 'support' && loadCategory) void loadCategory(tab);
   }, [tab, loadCategory]);
 
   useEffect(() => {
     const el = loadMoreRef.current;
-    if (!el || tab === "dm") return;
+    if (!el || tab === "dm" || tab === "support") return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -241,9 +245,9 @@ function MessagesContent() {
           <div className="flex items-start justify-between gap-6">
             <div>
               <p className="section-kicker">消息中心</p>
-              <h1 className="mt-3 text-3xl font-semibold tracking-tight">站内通知与私信</h1>
+              <h1 className="mt-3 text-3xl font-semibold tracking-tight">消息中心</h1>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
-                把回复、喜欢、关注和私信收拢在同一处，减少在不同页面之间来回切换。
+                查看互动、私信、服务回复和系统通知。
               </p>
             </div>
             {canMarkAllNotificationsRead ? (
@@ -275,7 +279,16 @@ function MessagesContent() {
         </div>
 
         <div className="px-0 py-5 sm:px-5 sm:py-6 md:px-6">
-          {tab !== "dm" ? (
+          {tab === "support" ? (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {([{channel:'platform',title:'平台帮助',description:'课程使用、账号问题与社区反馈。',href:'/support'}, {channel:'store',title:'商城客服',description:'商品咨询、订单配送与退换货售后。',href:'/store/support'}] as const).map(item=><section key={item.channel} className="surface-subtle px-5 py-8">
+                <div className="flex items-center gap-3"><Headphones className="h-6 w-6 text-primary" /><h2 className="text-panel-title">{item.title}</h2></div>
+                <p className="mt-3 text-sm text-muted-foreground">{item.description}</p>
+                {supportUnreadByChannel[item.channel]>0?<p className="mt-3 text-sm font-medium text-primary">{item.title}有 {supportUnreadByChannel[item.channel]} 条未读回复</p>:null}
+                <Button asChild className="mt-5" tone="brand"><Link href={item.href}>查看{item.title}会话</Link></Button>
+              </section>)}
+            </div>
+          ) : tab !== "dm" ? (
             notificationsLoading ? (
               <div className="space-y-3">
                 {[1, 2, 3].map((item) => (

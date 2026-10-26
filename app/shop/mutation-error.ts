@@ -9,6 +9,9 @@ export function getShopMutationErrorMessage(error: unknown): string {
   const code = shopError?.code || shopError?.message
 
   switch (code) {
+    case 'price_changed':
+    case 'quote_required':
+      return '会员价格已变化，已刷新价格，请确认后重新兑换'
     case 'insufficient_coins':
       return '硬币不足'
     case 'invalid_item':

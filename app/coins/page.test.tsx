@@ -5,8 +5,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import CoinsPage from "./page";
 import { getActionLabel } from "./action-label";
 
-const { mockRange, mockSelect, mockEq, mockOrder } = vi.hoisted(() => ({
-  mockRange: vi.fn(), mockSelect: vi.fn(), mockEq: vi.fn(), mockOrder: vi.fn(),
+const { mockRange, mockSelect, mockEq, mockOrder, mockRpc } = vi.hoisted(() => ({
+  mockRange: vi.fn(), mockSelect: vi.fn(), mockEq: vi.fn(), mockOrder: vi.fn(), mockRpc: vi.fn(),
 }));
 
 function renderPage() {
@@ -57,6 +57,7 @@ vi.mock("@/lib/context/gamification-context", () => ({
 
 vi.mock("@/lib/supabase/client", () => ({
   createClient: () => ({
+    rpc: mockRpc,
     from: vi.fn(() => ({
       select: mockSelect.mockReturnThis(),
       eq: mockEq.mockReturnThis(),
@@ -69,6 +70,11 @@ vi.mock("@/lib/supabase/client", () => ({
 describe("CoinsPage", () => {
   beforeEach(() => {
     vi.resetAllMocks();
+    mockRpc.mockResolvedValue({ data: { membershipTier: 'free', coins: 42, level: 5, items: [
+      { id: 'pixel_border', price: 15, basePrice: 15, minLevel: 0, owned: true },
+      { id: 'crystal_glass', price: 50, basePrice: 50, minLevel: 5, owned: false },
+      { id: 'science_orbit', price: 120, basePrice: 120, minLevel: 8, owned: false }
+    ] }, error: null });
     setViewport(390);
     mockRange.mockResolvedValue({
       data: [],

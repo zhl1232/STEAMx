@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { handleApiError, requireRole } from '@/lib/api/auth'
-import { ValidationError } from '@/lib/api/validation'
+import { ValidationError, validateUUID } from '@/lib/api/validation'
 import { createClient } from '@/lib/supabase/server'
 import { listAdminStoreOrders } from '@/lib/store/operations'
 export const runtime = 'nodejs'
@@ -16,9 +16,11 @@ function parsePage(value: string | null) {
 export async function GET(request: NextRequest) {
   try {
     await requireRole(await createClient(), ['admin'])
-    const page = parsePage(new URL(request.url).searchParams.get('page'))
+    const params = new URL(request.url).searchParams
+    const page = parsePage(params.get('page'))
+    const orderId = params.get('order') === null ? undefined : validateUUID(params.get('order'), '订单编号')
     return NextResponse.json(
-      await listAdminStoreOrders(page),
+      await listAdminStoreOrders(page, orderId),
       { headers: { 'Cache-Control': 'no-store' } },
     )
   } catch (error) {
