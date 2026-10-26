@@ -30,11 +30,12 @@ import {
 } from "@/components/ui/dialog";
 import { useAuth } from "@/lib/context/auth-context";
 import { useGamification } from "@/lib/context/gamification-context";
-import { getShopItemById, SHOP_ITEMS } from "@/lib/shop/items";
+import { getShopItemById } from "@/lib/shop/items";
 import { createClient } from "@/lib/supabase/client";
 import type { Database } from "@/lib/supabase/types";
 import { cn } from "@/lib/utils";
 import { getActionLabel } from "./action-label";
+import { useShopPrices } from "@/hooks/use-shop-prices";
 
 type CoinLogRow = Database["public"]["Tables"]["coin_logs"]["Row"];
 type CoinLogEntry = Omit<CoinLogRow, "id"> & {
@@ -65,6 +66,11 @@ const COIN_EARNING_RULES = [
 const COIN_SPENDING_RULES = [
   {
     icon: ShoppingBag,
+    title: "会员购物抵扣",
+    description: "有效会员购买实物商品时，可自选硬币抵扣。100 硬币抵 1 元，最多抵会员商品金额的 10%，不抵运费，与优惠券二选一。",
+  },
+  {
+    icon: ShoppingBag,
     title: "商店兑换",
     description: "可以兑换头像框、昵称颜色等装扮。",
   },
@@ -91,6 +97,10 @@ function getActionDescription(log: CoinLogEntry): string {
       return log.amount < 0 ? "支持社区创作者" : "作品获得社区支持";
     case "challenge_prize":
       return "挑战结算奖励";
+    case "store_redeem":
+      return "实物订单预扣，取消或整单退款确认后返还";
+    case "store_release":
+      return "订单取消或退款确认后返还原抵扣硬币";
     default:
       return "硬币账户变动";
   }
@@ -353,9 +363,11 @@ function CoinRulesContent() {
 function WalletSidePanel({
   coins,
   nextReward,
+  priceState,
 }: {
   coins: number;
   nextReward?: { name: string; price: number };
+  priceState: 'ready' | 'loading' | 'error';
 }) {
   const need = nextReward ? Math.max(nextReward.price - coins, 0) : 0;
   const progress = nextReward ? Math.min((coins / nextReward.price) * 100, 100) : 100;
@@ -369,7 +381,7 @@ function WalletSidePanel({
           <h3 className="font-bold">可兑换目标</h3>
         </div>
         <p className="relative mt-4 text-sm text-muted-foreground">
-          {nextReward ? `距离兑换「${nextReward.name}」还差` : "当前可兑换所有基础装扮"}
+          {priceState === 'loading' ? '正在确认会员价格…' : priceState === 'error' ? '价格暂时无法确认，请到硬币商城刷新' : nextReward ? `距离兑换「${nextReward.name}」还差` : "当前等级可兑换的装扮已拥有"}
         </p>
         <div className="relative mt-2 flex items-end gap-1">
           <span className="text-4xl font-black tabular-nums tracking-tight text-blue-600 dark:text-blue-400">{need.toLocaleString()}</span>
@@ -403,6 +415,7 @@ export default function CoinsPage() {
   const showDesktopSidePanel = useMediaQuery("(min-width: 1280px)");
   const supabase = useMemo(() => createClient(), []);
   const userId = user?.id ?? "";
+  const prices = useShopPrices(user?.id);
 
   const {
     data,
@@ -449,8 +462,11 @@ export default function CoinsPage() {
   const logs = useMemo(() => data?.pages.flatMap((page) => page.logs) ?? [], [data]);
 
   const nextReward = useMemo(
-    () => SHOP_ITEMS.filter((item) => item.price > coins).sort((a, b) => a.price - b.price)[0],
-    [coins],
+    () => prices.data?.items
+      .filter((item) => !item.owned && item.minLevel <= prices.data!.level)
+      .map((item) => ({ ...item, name: getShopItemById(item.id)?.name ?? '装扮' }))
+      .sort((a, b) => a.price - b.price)[0],
+    [prices.data],
   );
 
   const displayLogs = useMemo<CoinLogEntry[]>(() => {
@@ -614,7 +630,7 @@ export default function CoinsPage() {
 
           {showDesktopSidePanel ? (
             <div className="xl:self-start xl:sticky xl:top-24">
-              <WalletSidePanel coins={coins} nextReward={nextReward} />
+              <WalletSidePanel coins={coins} nextReward={nextReward} priceState={prices.isError ? 'error' : prices.data ? 'ready' : 'loading'} />
             </div>
           ) : null}
         </div>

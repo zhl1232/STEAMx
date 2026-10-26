@@ -17,6 +17,9 @@ export type NativeOrderInput = {
   province: string
   address: StoreAddressPayload
   items: NativeOrderItem[]
+  expectedQuote?: StoreQuote
+  couponId?: string | null
+  useCoins?: boolean
 }
 export type NativePaymentAttempt = {
   id: string
@@ -26,6 +29,12 @@ export type NativePaymentAttempt = {
   amountCents: number
   currency: 'CNY'
   status: 'pending' | 'succeeded' | 'failed' | 'closed'
+}
+
+export type StoreQuote = {
+  originalSubtotalCents: number; memberSubtotalCents: number; memberDiscountCents: number
+  membershipTier: 'free' | 'pro' | 'founder'; shippingCents: number
+  couponDiscountCents: number; coinDiscountCents: number; coinsUsed: number; totalCents: number; couponId: string | null
 }
 
 class NativeStoreError extends Error {
@@ -57,6 +66,8 @@ function nativeDb(): SupabaseClient {
 
 async function rpc<T>(name: string, args: Record<string, unknown>): Promise<T> {
   const { data, error } = await nativeDb().rpc(name, args)
+  if (error?.message?.includes('quote_changed'))
+    throw new NativeStoreError('结算金额或优惠已变化，请重新确认', 'QUOTE_CHANGED', 409)
   if (error?.message?.includes('catalog_version_conflict'))
     throw new NativeStoreError('商品或库存已变化，请刷新页面后重新编辑', 'CATALOG_VERSION_CONFLICT', 409)
   if (error)
@@ -72,6 +83,10 @@ async function rpc<T>(name: string, args: Record<string, unknown>): Promise<T> {
 
 export async function createNativeOrder(input: NativeOrderInput) {
   const key = input.idempotencyKey?.trim() || `native-${randomUUID()}`
+  const existing = await nativeDb().from('store_orders').select('id').eq('user_id', input.userId).eq('external_order_id', key).maybeSingle()
+  if (existing.error) throw existing.error
+  if (existing.data) return { orderId: existing.data.id as string, idempotencyKey: key }
+  if (!input.expectedQuote) throw new NativeStoreError('请先确认结算金额', 'QUOTE_REQUIRED', 400)
   let encrypted: string
   try {
     encrypted = encryptStoreAddress(input.address)
@@ -98,12 +113,15 @@ export async function createNativeOrder(input: NativeOrderInput) {
   if (addressError || !address)
     throw addressError || new Error('Failed to save address')
   try {
-    const orderId = await rpc<string>('create_store_native_order', {
+    const orderId = await rpc<string>('create_store_native_order_v1', {
       p_user_id: input.userId,
       p_external_order_id: key,
       p_address_id: address.id,
       p_address_snapshot_encrypted: encrypted,
       p_province: input.province,
+      p_expected_quote: input.expectedQuote,
+      p_coupon_id: input.couponId ?? null,
+      p_use_coins: input.useCoins ?? false,
       p_items: input.items.map((item) => ({
         variant_id: item.variantId,
         quantity: item.quantity,
@@ -224,10 +242,14 @@ export type NativeProductAdminInput = {
   slug: string
   name: string
   priceCents: number
-  shippingCents: number
+  shippingCents: number | null
   source?: 'manual' | '1688'
   description?: string
   coverUrl?: string
+  galleryUrls?: string[]
+  detailContent?: string | null
+  videoUrl?: string | null
+  category?: string | null
   blockedProvinces?: string[]
   createdBy?: string | null
 }
@@ -238,7 +260,7 @@ export type NativeVariantAdminInput = {
   name: string
   sku: string
   priceCents?: number | null
-  stockQuantity: number
+  stockQuantity: number | null
   minQuantity?: number
   supplierUrl?: string | null
   costCents?: number | null
@@ -263,6 +285,10 @@ export async function saveNativeCatalog(
       name: input.name,
       description: input.description ?? null,
       coverUrl: input.coverUrl ?? null,
+      galleryUrls: input.galleryUrls ?? [],
+      detailContent: input.detailContent ?? null,
+      videoUrl: input.videoUrl ?? null,
+      category: input.category ?? null,
       priceCents: input.priceCents,
       shippingCents: input.shippingCents,
       source: input.source ?? 'manual',
@@ -273,4 +299,42 @@ export async function saveNativeCatalog(
     },
     p_variants: input.variants,
   })
+}
+
+export async function quoteNativeOrder(input: {userId: string; province: string; items: NativeOrderItem[]; couponId?: string | null; useCoins?: boolean}): Promise<StoreQuote> {
+  return rpc<StoreQuote>('quote_store_native_order', {
+    p_user_id: input.userId, p_province: input.province,
+    p_items: input.items.map(item => ({variant_id: item.variantId, quantity: item.quantity})),
+    p_coupon_id: input.couponId ?? null, p_use_coins: input.useCoins ?? false,
+  })
+}
+
+export async function listUserStoreCoupons(userId: string) {
+  const [rows, tier] = await Promise.all([
+    nativeDb().from('store_user_coupons').select('id,title,threshold_cents,discount_cents,terms,eligible_product_ids,expires_at,status').eq('user_id', userId).order('expires_at'),
+    rpc<string>('store_effective_member_tier', {p_user_id: userId}),
+  ])
+  if (rows.error) throw rows.error
+  return (rows.data ?? []).map(c => ({...c, eligible: tier === 'founder' && c.status === 'available' && Date.parse(c.expires_at) > Date.now()}))
+}
+
+export async function listStoreCouponTemplates() {
+  const {data, error} = await nativeDb().from('store_coupon_templates').select('*').order('created_at', {ascending: false})
+  if (error) throw error
+  return data ?? []
+}
+export async function saveStoreCouponTemplate(input: {id?: string; title: string; thresholdCents: number; discountCents: number; validDays?: number | null; terms?: string | null; active: boolean; eligibleProductIds: string[]}, adminId: string) {
+  const row = {title: input.title, threshold_cents: input.thresholdCents, discount_cents: input.discountCents, valid_days: input.validDays ?? null, terms: input.terms ?? null, active: input.active, eligible_product_ids: input.eligibleProductIds}
+  const query = input.id ? nativeDb().from('store_coupon_templates').update(row).eq('id', input.id) : nativeDb().from('store_coupon_templates').insert({...row, created_by: adminId})
+  const {data, error} = await query.select('*').single()
+  if (error) throw new NativeStoreError('请检查优惠券门槛、金额、有效天数和使用条款', 'INVALID_COUPON_TEMPLATE', 400)
+  return data
+}
+export async function listStoreCouponBatches() {
+  const {data, error} = await nativeDb().from('store_coupon_batches').select('id,template_id,batch_key,created_by,created_at').order('created_at', {ascending: false}).limit(100)
+  if (error) throw error
+  return data ?? []
+}
+export async function grantStoreCouponBatch(input: {templateId: string; batchKey: string; userIds: string[]}, adminId: string) {
+  return rpc<{batchId: string; grantedCount: number}>('grant_store_coupon_batch', {p_admin_id: adminId, p_template_id: input.templateId, p_batch_key: input.batchKey, p_user_ids: input.userIds})
 }

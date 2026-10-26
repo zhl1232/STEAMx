@@ -8,11 +8,11 @@ vi.mock('@/lib/supabase/admin', () => ({
   supabaseAdmin: { from: mocks.from },
 }))
 
-import { listAdminStoreOrders, getSafeOrderExtras, listPublicNativeProducts } from './operations'
+import { listAdminStoreOrders, getSafeOrderExtras, listPublicNativeProducts, getAdminStoreProductPreview } from './operations'
 
 function queryResult(data: unknown) {
   const query = {
-    select: vi.fn(() => query),
+    select: vi.fn((_columns?: string) => query),
     eq: vi.fn(() => query),
     not: vi.fn(() => query),
     limit: vi.fn(() => Promise.resolve({ data, error: null })),
@@ -59,12 +59,45 @@ describe('store operations', () => {
     expect(result.orders).toHaveLength(100)
   })
 
+  it('finds an explicitly linked admin order before pagination', async () => {
+    const query = queryResult([])
+    mocks.from.mockReturnValue(query)
+    const result = await listAdminStoreOrders(99, 'older-order')
+    expect(query.eq).toHaveBeenCalledWith('id', 'older-order')
+    expect(query.range).toHaveBeenCalledWith(0, 100)
+    expect(result.page).toBe(1)
+  })
+
   it('filters a linked product before limiting the public catalog', async () => {
     const query = queryResult([])
     mocks.from.mockReturnValue(query)
     await listPublicNativeProducts('older-linked-product')
     expect(query.eq).toHaveBeenCalledWith('id', 'older-linked-product')
     expect(query.eq.mock.invocationCallOrder.at(-1)).toBeLessThan(query.limit.mock.invocationCallOrder[0])
+  })
+
+  it('reads a draft preview from stored rows without sourcing fields or invented availability', async () => {
+    const query = queryResult({
+      id: 'draft-1', name: '真实草稿', status: 'draft', checkout_mode: 'internal',
+      description: null, cover_url: null, gallery_urls: null, detail_content: null,
+      video_url: null, category: null, price_cents: 1200, shipping_cents: null,
+      fulfillment_description: null, blocked_provinces: null, supplier_url: 'private-supplier',
+      variants: [{ id: 'variant-1', name: '保存的规格', price_cents: null, stock_quantity: null, stock_reserved: 0, min_quantity: 1, status: 'paused', cost_cents: 700 }],
+    })
+    mocks.from.mockReturnValue(query)
+    const result = await getAdminStoreProductPreview('draft-1')
+    expect(query.eq).toHaveBeenCalledWith('id', 'draft-1')
+    expect(query.select.mock.calls[0][0]).not.toMatch(/supplier|cost|sources/)
+    expect(result).toMatchObject({ status: 'draft', product: {
+      shipping_cents: null,
+      variants: [{ id: 'variant-1', status: 'paused', stock_pending: true, stock_quantity: 0 }],
+    } })
+    expect(JSON.stringify(result)).not.toMatch(/private-supplier|cost_cents|supplier_url/)
+  })
+
+  it('returns no administrator preview when the stored product does not exist', async () => {
+    mocks.from.mockReturnValue(queryResult(null))
+    expect(await getAdminStoreProductPreview('missing')).toBeNull()
   })
 
   it('returns project learning links on the singular project route', async () => {

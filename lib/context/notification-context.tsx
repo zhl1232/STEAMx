@@ -40,6 +40,8 @@ type NotificationContextType = {
   notificationUnreadCount: number;
   unreadCountsByCategory: Record<NotificationCategory, number>;
   dmUnreadCount: number;
+  supportUnreadCount: number;
+  supportUnreadByChannel: { platform: number; store: number };
   hasMore: boolean;
   isLoadingMore: boolean;
   loadMore: () => Promise<void>;
@@ -62,6 +64,8 @@ const EMPTY_NOTIFICATION_CONTEXT: NotificationContextType = {
   notificationUnreadCount: 0,
   unreadCountsByCategory: { system: 0, replies: 0, likes: 0, follows: 0 },
   dmUnreadCount: 0,
+  supportUnreadCount: 0,
+  supportUnreadByChannel: { platform: 0, store: 0 },
   hasMore: false,
   isLoadingMore: false,
   loadMore: async () => {},
@@ -209,6 +213,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const [notificationUnreadCount, setNotificationUnreadCount] = useState(0);
   const [unreadCountsByCategory, setUnreadCountsByCategory] = useState<Record<NotificationCategory, number>>({ system: 0, replies: 0, likes: 0, follows: 0 });
   const [dmUnreadCount, setDmUnreadCount] = useState(0);
+  const [supportUnreadCount, setSupportUnreadCount] = useState(0);
+  const [supportUnreadByChannel, setSupportUnreadByChannel] = useState({ platform: 0, store: 0 });
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -217,6 +223,51 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const { user } = useAuth();
   const shouldLoadNotificationList = pathname === "/messages";
   const currentUserRef = useRef(user?.id);
+
+  // Support is a separate inbox. Only its count contributes to the common bell.
+  // A visible-page timer works without requiring Realtime on the private tables.
+  useEffect(() => {
+    setSupportUnreadCount(0);
+    setSupportUnreadByChannel({ platform: 0, store: 0 });
+    if (!user?.id) return;
+    const userId = user.id;
+    let disposed = false;
+    let pending = false;
+    const controller = new AbortController();
+    const refresh = async () => {
+      if (disposed || pending || document.visibilityState === 'hidden') return;
+      pending = true;
+      try {
+        const response = await fetch('/api/support/unread', { cache: 'no-store', signal: controller.signal });
+        if (!response.ok) return;
+        const payload = await response.json();
+        if (!disposed && currentUserRef.current === userId) {
+          const total=Math.max(0, Number(payload?.unreadCount) || 0);
+          setSupportUnreadCount(total);
+          setSupportUnreadByChannel({
+            platform: Math.max(0, Number(payload?.unreadByChannel?.platform ?? total) || 0),
+            store: Math.max(0, Number(payload?.unreadByChannel?.store) || 0),
+          });
+        }
+      } catch { /* A failed reminder count must not hide existing notifications. */ }
+      finally { pending = false; }
+    };
+    void refresh();
+    const timer = window.setInterval(refresh, 30_000);
+    window.addEventListener('focus', refresh);
+    window.addEventListener('online', refresh);
+    window.addEventListener('support:updated', refresh);
+    document.addEventListener('visibilitychange', refresh);
+    return () => {
+      disposed = true;
+      controller.abort();
+      window.clearInterval(timer);
+      window.removeEventListener('focus', refresh);
+      window.removeEventListener('online', refresh);
+      window.removeEventListener('support:updated', refresh);
+      document.removeEventListener('visibilitychange', refresh);
+    };
+  }, [user?.id]);
   const categoryRef = useRef<NotificationCategory | null>(null);
   const listRequestRef = useRef(0);
   if (currentUserRef.current !== user?.id) {
@@ -527,7 +578,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
-  const unreadCount = notificationUnreadCount + dmUnreadCount;
+  const unreadCount = notificationUnreadCount + dmUnreadCount + supportUnreadCount;
   const refreshUnreadCount = useCallback(() => fetchUnreadCount({ force: true }), [fetchUnreadCount]);
 
   const contextValue = useMemo(
@@ -537,6 +588,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       notificationUnreadCount,
       unreadCountsByCategory,
       dmUnreadCount,
+      supportUnreadCount,
+      supportUnreadByChannel,
       hasMore,
       isLoadingMore,
       loadMore,
@@ -554,6 +607,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
       notificationUnreadCount,
       unreadCountsByCategory,
       dmUnreadCount,
+      supportUnreadCount,
+      supportUnreadByChannel,
       hasMore,
       isLoadingMore,
       loadMore,

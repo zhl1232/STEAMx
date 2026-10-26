@@ -18,7 +18,7 @@ describe('welcome actions', () => {
     render(<WelcomeActions onRead={onRead} />)
     expect(screen.getByRole('link', { name: '选一个开始' }).getAttribute('href')).toBe('/start')
     expect(screen.queryByText(/申请入群|请备注|查看探索指南/)).toBeNull()
-    await waitFor(() => expect(screen.getByRole('link', { name: '联系客服' }).getAttribute('href')).toBe('/about#support'))
+    await waitFor(() => expect(screen.getByRole('link', { name: '联系客服' }).getAttribute('href')).toBe('/support'))
     fireEvent.click(screen.getByRole('link', { name: '联系客服' }))
     expect(onRead).toHaveBeenCalledTimes(1)
   })
@@ -27,7 +27,7 @@ describe('welcome actions', () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')))
     render(<WelcomeActions onRead={() => {}} />)
     expect(screen.queryByRole('link', { name: '选一个开始' })).toBeNull()
-    expect(screen.getByRole('link', { name: '联系客服' }).getAttribute('href')).toBe('/about#support')
+    expect(screen.getByRole('link', { name: '联系客服' }).getAttribute('href')).toBe('/support')
   })
   it('keeps a configured safe internal support page', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(Response.json({ settings: { contact_href: '/help#support' } })))

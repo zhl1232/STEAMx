@@ -6,6 +6,11 @@ import { isUuid } from '@/lib/store/http'
 import { getSafeOrderExtras } from '@/lib/store/operations'
 import { getUserStoreOrder } from '@/lib/store/service'
 import type { StoreOrderWithItems } from '@/lib/store/service'
+import { AppReadingShell } from '@/components/layout/app-shell'
+import { Surface } from '@/components/ui/surface'
+import { Button } from '@/components/ui/button'
+import { StoreQuoteBreakdown } from '@/components/store/store-checkout'
+import { isStorePaymentEnabled } from '@/lib/store/config'
 import { StoreOrderActions } from '@/components/store/store-order-actions'
 
 export const dynamic = 'force-dynamic'
@@ -43,17 +48,16 @@ export default async function StoreOrderDetailPage({
     | null
   if (!order) notFound()
   const extras = await getSafeOrderExtras(id)
+  const paymentProviders = (['alipay', 'wechat'] as const).filter(provider => isStorePaymentEnabled(provider))
+  const discounts = order as typeof order & { original_subtotal_cents?: number; member_subtotal_cents?: number; member_discount_cents?: number; coupon_discount_cents?: number; coin_discount_cents?: number; coins_used?: number; membership_tier_snapshot?: 'free' | 'pro' | 'founder'; coupon_id?: string | null }
   return (
-    <main className="min-h-screen bg-[hsl(var(--surface-sunken))] px-4 py-8">
-      <div className="mx-auto max-w-2xl">
-        <Link
-          href="/store/orders"
-          className="text-sm font-semibold text-primary"
-        >
-          ← 返回订单
-        </Link>
-        <div className="mt-5 rounded-2xl border bg-background p-6 shadow-sm">
-          <h1 className="text-2xl font-black">订单 {order.id.slice(0, 8)}</h1>
+    <main>
+      <AppReadingShell className="pb-24 pt-8">
+        <Button asChild variant="ghost" className="h-11">
+          <Link href="/store/orders">← 返回订单</Link>
+        </Button>
+        <Surface className="mt-5 p-6">
+          <h1 className="text-page-title">订单 {order.id.slice(0, 8)}</h1>
           <p className="mt-2 text-sm text-muted-foreground">
             状态：{statusText[order.status] || order.status} · 支付：
             {{
@@ -79,9 +83,7 @@ export default async function StoreOrderDetailPage({
               </div>
             ))}
           </div>
-          <p className="mt-5 text-right text-xl font-black">
-            合计 ¥{(order.total_cents / 100).toFixed(2)}
-          </p>
+          <div className="mt-6"><StoreQuoteBreakdown quote={{ originalSubtotalCents: discounts.original_subtotal_cents ?? order.subtotal_cents, memberSubtotalCents: discounts.member_subtotal_cents ?? order.subtotal_cents, memberDiscountCents: discounts.member_discount_cents || 0, couponDiscountCents: discounts.coupon_discount_cents || 0, coinDiscountCents: discounts.coin_discount_cents || 0, coinsUsed: discounts.coins_used || 0, shippingCents: order.shipping_cents, totalCents: order.total_cents, membershipTier: discounts.membership_tier_snapshot || 'free', couponId: discounts.coupon_id || null }} /></div>
           {order.events?.length ? (
             <div className="mt-5 rounded-lg bg-muted p-3 text-xs text-muted-foreground">
               <p className="font-semibold text-foreground">订单进度</p>
@@ -116,7 +118,9 @@ export default async function StoreOrderDetailPage({
               </Link>
             )}
           </div>
+          <Button asChild variant="outline" shape="pill" className="mt-5 h-11"><Link href={`/store/support?orderId=${order.id}`}>联系订单客服</Link></Button>
           <StoreOrderActions
+            paymentProviders={paymentProviders}
             orderId={order.id}
             status={order.status}
             paymentStatus={order.payment_status}
@@ -130,8 +134,8 @@ export default async function StoreOrderDetailPage({
             }
             aftersale={extras.aftersale}
           />
-        </div>
-      </div>
+        </Surface>
+      </AppReadingShell>
     </main>
   )
 }

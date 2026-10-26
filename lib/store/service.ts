@@ -38,6 +38,7 @@ function mapPublicOrderItem(item: OrderItemRow): PublicStoreOrderItem {
 
 const SAFE_ORDER_COLUMNS = [
   'id', 'user_id', 'status', 'payment_status', 'payment_provider', 'payment_reference',
+  'original_subtotal_cents', 'member_subtotal_cents', 'member_discount_cents', 'coupon_discount_cents', 'coin_discount_cents', 'coins_used', 'membership_tier_snapshot', 'coupon_id',
   'currency', 'subtotal_cents', 'shipping_cents', 'total_cents', 'external_order_id',
   'alibaba_order_id', 'alibaba_status', 'failure_code', 'failure_message', 'paid_at',
   'ordered_at', 'shipped_at', 'delivered_at', 'created_at', 'updated_at',
@@ -533,6 +534,14 @@ export async function getUserStoreOrder(supabase: StoreClient, userId: string, o
   if (eventsError) throw eventsError
 
   return { ...safeOrder, items: (items as unknown as OrderItemRow[] ?? []).map(mapPublicOrderItem), events: events ?? [] }
+}
+
+/** Recover a pending or completed purchase intention after a lost response/reload. */
+export async function getUserStoreOrderByIntent(supabase: StoreClient, userId: string, intent: string) {
+  const { data, error } = await supabase.from('store_orders').select('id')
+    .eq('user_id', userId).eq('external_order_id', intent).maybeSingle()
+  if (error) throw error
+  return data ? getUserStoreOrder(supabase, userId, data.id) : null
 }
 
 export type StoreOrderWithItems = Omit<OrderRow, 'address_snapshot_encrypted' | 'address_id'> & { items: PublicStoreOrderItem[] }

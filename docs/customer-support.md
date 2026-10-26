@@ -1,0 +1,98 @@
+# 站内官方客服
+
+服务会话分为「平台帮助」与「商城客服」：`/support` 处理课程使用、账号及社区反馈，`/store/support` 处理商品咨询、订单、配送和售后。消息中心提供两个独立入口及未读计数，管理员在 `/admin/support` 按频道处理。两者都独立于社交私信，不创建个人客服收件人，不借用私信额度、接收设置、陌生人限制或账号互动资格。登录但受限的账号仍可联系，发送内容继续经过安全校验和独立频率限制。
+
+桌面头像菜单、个人中心「购物与服务」和设置「支持」提供直接入口，商城目录关闭时仍可联系。客服页面复用主站 Button，图片选择使用中文「添加图片」按钮，上传或结果待确认时保持对应禁用状态。
+
+## 数据与权限
+
+实现入口为 `lib/support/`、`components/support/`、`app/api/support/`、`app/api/admin/support/`。基础迁移为 `20261026150000_support_conversations.sql`，频道迁移为 `20261026170000_support_channels.sql`，执行方式和授权按 [数据库规范](database-psql.md)。2026-10-26 按负责人要求，两份迁移均已应用到 `.env.local` 指定的现有真实实例；本地应用使用现有账号、真实会话表和私有存储，未推送应用或变更其他环境。
+
+每个用户在每个频道各有一个持久会话，分别维护消息、状态与已读位置；状态为 `open` 或 `resolved`，发送新消息会重新打开。新增迁移 `20261026170000_support_channels.sql` 将历史会话保留在平台帮助，不搬迁已有消息、附件或已读位置；旧版本按单一 `user_id` 查询及 upsert 的应用不能继续使用新结构，需要协调更新应用。所有消息保留真实 `actor_id`；面向用户的回复只展示对应频道身份。管理员角色在服务端通过认证会话及 `profiles.role='admin'` 检查，不接受请求中的身份、用户或角色。普通用户只能访问自己的会话，管理员可访问客服会话。表启用 RLS，撤销匿名及普通认证角色直接读写权限，只允许服务端在完成鉴权后使用 service role；事务函数同样只授予 service role。
+
+每条发送携带 UUID `clientId`。`conversation_id + actor_id + client_id` 唯一，事务先锁会话并查重，重复请求返回原消息。正文最多 2000 字，单条最多 3 张图片，普通用户每分钟最多 20 次发送，管理员每分钟 120 次，图片上传每分钟 12 次。已提交请求的重试在限流前查重，页面对网络或服务端不确定结果保留原请求身份，内容明确被拒绝后可修改重发。
+
+消息按单调 `seq` 排序，`before` 历史游标及 `after` 正向补齐游标每页最多 50 条；读取时只前移持久已读位置，避免多个设备倒退。用户与客服分别保留已读位置，客服的已读状态代表至少有一位管理员打开并读取。界面只显示数据库已确认的「已发送 / 已读」，不宣称在线或保证响应时间。会话在页面可见时每 10 秒轮询，回到页面、窗口聚焦、网络恢复时刷新；不依赖实时基础设施。恢复连接后从最后显示的位置逐页补齐，包含超过 50 条的新留言时也必须先完成补齐再推进已读；初次打开也从上次已读位置补齐未读范围。
+
+## 商品和订单上下文
+
+商城链接可携带 `/store/support?productId=<uuid>` 或 `/store/support?orderId=<uuid>`，旧 `/support` 商品/订单链接会跳转到商城客服。平台会话在服务端及数据库写入边界拒绝新的商品/订单上下文。上下文附在发送的消息上，商品须为当前有效商品，订单须属于会话用户，即使管理员附加订单也检查归属。只保存商品 ID/名称、订单 ID/状态；不取地址、手机号、供应商和采购成本。管理员从消息中的订单入口打开受保护的商城后台。商城目录关闭时，商城客服与既有订单仍可访问。
+
+## 私有图片
+
+用于说明破损、缺件等情况的图片存入 Supabase 私有桶 `support-private`，不进入公开作品、OSS 或公共图片通道。上传接口使用有界原始字节流，最大 5 MB，根据文件头而非客户端 MIME 判断 JPEG、PNG、WebP；不接受 SVG、HTML 或其他格式。存储对象使用服务端生成的随机路径和不可覆盖上传。
+
+附件记录固定会话和上传者；消息事务要求附件属于当前会话、当前发送者且尚未挂载，挂载后不可转移或重复使用。下载先鉴权会话，未发送图片仅上传者可查看，再生成 60 秒签名地址，响应禁止缓存。存储对象额外配置限制性策略，阻止匿名和普通认证角色直接访问此桶，即使存在其他宽泛的存储策略也不能绕过。未发送而放弃的图片当前保留为私有未挂载对象；后续如增加清理任务，应同时删除存储与记录，不可删除已关联的售后证据。
+
+## 群 Webhook 提醒兼容模式
+
+用户发送与 `support_notification_outbox` 写入处于同一数据库事务，提醒故障不影响消息保存。一个会话合并成一条待发任务，等待 30 秒以合并连续留言。数据库通过 `FOR UPDATE SKIP LOCKED` 分配带 UUID 的 60 秒租约；每轮最多 10 条并行发送，每次 HTTP 请求超时为 8 秒。成功确认同时匹配租约和消息代次，新留言不会被旧任务确认吞掉。失败释放租约并指数退避，间隔上限一小时，worker 继续重试。网络超时发生在供应方已接受之后时可能重复提醒，外部机器人没有端到端一次性送达保证；站内消息和队列代次不会因重试重复创建。
+
+worker 调用 `POST /api/internal/support/notifications`，通过 `Authorization: Bearer <CRON_SECRET 或 INTERNAL_API_SECRET>` 鉴权，优先使用 `CRON_SECRET`。页面客户端不会触发外部提醒。
+
+服务器配置：
+
+| 变量 | 用途 |
+|---|---|
+| `SUPPORT_FEISHU_WEBHOOK` | 飞书自定义机器人 HTTPS webhook，仅允许 `open.feishu.cn/open-apis/bot/v2/hook/` |
+| `SUPPORT_FEISHU_SECRET` | 机器人的签名密钥，必须与 webhook 一起配置 |
+| `SUPPORT_SITE_URL` | 正式站点 HTTPS origin，用于受保护的管理端链接 |
+
+这是原单群 Webhook 模式，只发提醒，不能接收群内回复。任一配置缺失或无效时停止外发并保留待发任务，管理员收件箱显示配置是否完整及待发数，不暴露密钥。提醒正文仅包含「收到新咨询」和管理员会话链接，不发送会话正文、用户名、联系方式、地址或图片。启用下节应用机器人后停止此模式的外发，避免同一咨询重复通知。用户界面不显示内部运营工具。当前没有面向用户的短信、邮件或 Web Push 通知。
+
+## 飞书应用机器人与直接回复
+
+负责人选择在飞书直接回复，再同步给网站用户。实现入口为 `lib/support/feishu/`、`app/api/internal/support/feishu/`、`deploy/feishu-bridge.mjs`，数据库结构使用 `20261026180000_feishu_service_bridge.sql`，消息投递顺序由 `20261026190000_feishu_delivery_order.sql` 补充。两份迁移已于 2026-10-26 通过限定 `pnpm db:push` 应用到 `.env.local` 指定的现有实例，并回读迁移记录、RLS 与函数权限；不能改写已应用的迁移。
+
+采用企业自建应用机器人，长连接运行在 `commerce-worker` 内，独立于订单对账循环。飞书事件先经内部认证接口持久入队，再由独立任务处理；长连接仅在持久化成功后确认接收。事件及回复按飞书消息 ID 去重，工作人员必须明确回复机器人发出的咨询消息并 `@机器人`。服务端根据已保存的机器人消息锚点定位会话，不从正文猜测订单或用户。普通群聊讨论、未绑定人员、跨群引用、非管理员及无对应会话的消息不会成为网站回复。
+
+应用配置只保存在服务端：
+
+| 变量 | 用途 |
+|---|---|
+| `FEISHU_BRIDGE_ENABLED` | 启用长连接与应用通知；未配置接收目标时不转发咨询 |
+| `FEISHU_APP_ID`、`FEISHU_APP_SECRET` | 企业自建应用凭据 |
+| `FEISHU_TENANT_KEY` | 可选的组织限制 |
+| `FEISHU_SITE_URL` | 可选的 HTTPS 站点 origin；只用于通知内后台链接，长连接本身不需要公网回调 |
+| `FEISHU_TARGETS_JSON` | 多个稳定目标 ID、群 `chatId`、频道和事件订阅；每群可有多位工作人员 |
+| `FEISHU_STAFF_JSON` | 飞书 `openId` 与站内管理员 `profileId` 的明确绑定 |
+
+每个目标分别记录投递结果、租约与重试时间。客服用户消息和管理员回复，以及新订单、付款成功、售后申请、退款完成事件均从业务事务原子入队；订单发送时读取提交后的最终金额，不在旧建单事件发生时快照优惠前金额。新订单提醒明确是待付款，付款成功提醒为待处理。新增群不会自动接收已经展开到其他目标的历史事件；尚无匹配目标的事件继续保留。停用目标会阻止新投递与该目标的回复，变更群需要使用新的目标 ID。
+
+同一目标内，同一会话或订单的前一条投递未完成时，后一条不能越过；不同会话与目标仍可并行。飞书回复按持久入队顺序处理，同一会话的重试与租约不会让后来的回复先写入。锚点延迟建立时，在回复事务内再次核对前序任务，避免首次领任务时尚未识别会话而出现乱序。
+
+工作人员回复在事务中再次核验当前管理员角色、目标群及频道，保留真实操作人；重复飞书消息只创建一次站内回复。来源群不会收到自身回复的回显，其他订阅群仍可同步。管理员每分钟最多回传 120 条；回复先到而机器人消息锚点尚未写回、临时网络错误及限频会进入重试。所有表及事务函数只允许服务端访问，普通用户不能伪造飞书事件或直接操作投递记录。
+
+本期同步文字。应用模式会向明确配置的工作人员群转发客服文字；附件只提示数量并引导回受保护的后台查看，不公开私有图片地址。订单提醒不发送地址、手机号或采购成本。飞书文字回复通过与网站一致的文本安全校验后写入，用户仍在对应平台帮助或商城客服会话查看。
+
+接入步骤：创建企业自建应用、开启机器人；开通 `im:message:send_as_bot` 与 `im:message.group_at_msg:readonly`，在「事件与回调」添加中文名称「接收消息」的 `im.message.receive_v1` 事件，选择长连接；建立连接后保存配置、发布应用并加入目标群。群内 `@机器人 绑定客服` 仅收集当前群及发送者的候选标识，不授权回复。维护者确认目标群、订阅范围及站内管理员后配置绑定。候选记录只在服务端临时文件中保存，内部认证的 GET 接口可读取，不向普通用户开放。凭据、候选绑定、连接成功都不等于双向会话已经验收。
+
+官方资料：[Node SDK](https://github.com/larksuite/node-sdk)、[接收消息事件](https://open.feishu.cn/document/server-docs/im-v1/message/events/receive)。
+
+当前本地凭据鉴权与长连接已实测成功，管理员账号已核验；目标群及飞书人员绑定仍待接收到群内绑定指令，尚未完成真实双向收发验收。凭据不写入仓库，应用未推送或发布。
+
+## API 契约与兼容入口
+
+| API | 行为 |
+|---|---|
+| `GET /api/support/conversation?channel=platform\|store` | 读取本人指定频道会话，不创建；省略频道兼容平台帮助 |
+| `POST /api/support/conversation?channel=platform\|store` | 幂等确保本人指定频道会话存在 |
+| `GET /api/support/unread` | 返回 `{ unreadCount, unreadByChannel: { platform, store } }`，只统计管理员回复，两个频道分别计算 |
+| `GET/POST /api/support/conversations/[id]/messages` | 查询 / 发送消息，发送字段 `clientId, content, attachmentIds?, productId?, orderId?` |
+| `POST /api/support/conversations/[id]/read` | `{ seq }` 更新本人已读位置 |
+| `POST /api/support/conversations/[id]/attachments` | 上传原始图片字节，返回私有附件 ID |
+| `GET /api/support/attachments/[id]` | 授权后跳转短时签名图片；管理员携带 `?staff=1` 并核验角色 |
+| `GET /api/admin/support/conversations?channel=platform\|store` | 按频道读取管理收件箱及待发数，默认平台帮助；`offset` 分页，每页 50 条 |
+| `GET/POST /api/admin/support/conversations/[id]/messages` | 管理员读取 / 官方回复 |
+| `POST /api/admin/support/conversations/[id]/read` | 客服侧已读位置 |
+| `PATCH /api/admin/support/conversations/[id]` | `{ status: 'open' | 'resolved', expectedLastMessageSeq }`，按实际已展示消息位置原子比较更新，出现新留言返回 409 并刷新 |
+
+页面读取或发送后分发 `support:updated` 浏览器事件，消息中心和全局提醒可据此刷新两个频道的未读数，不写入社交私信状态。`POST /api/settings/feedback` 固定写入本人平台帮助会话；欢迎及学习帮助链接由 `lib/product/support.ts` 归一到 `/support`，商品和订单入口指向 `/store/support`，原关于页保留微信备用联系信息。
+
+## 验证
+
+`pnpm exec vitest run lib/support lib/product/support.test.ts components/support` 检查输入、越权、管理员角色、订单最小上下文、机器人隔离与失败重试、界面重发身份及隐藏页不标已读。
+
+`node scripts/test-support-native.mjs` 使用一次性本地 Docker PostgreSQL，验证迁移、权限、事务查重、附件绑定、提醒租约及新代次保护，完成后删除容器。脚本不读取项目数据库凭据、不调用外部 webhook。当前真实实例的迁移、私有桶和本地 worker 已完成接入，已回读权限和 Storage API；用户及管理端登录收发仍由现有账号验收。未来部署到其他环境时须另行确认迁移、配置和发布范围，不能把本地接入当成应用已发布。
+
+`node scripts/test-feishu-native.mjs` 同样使用一次性本地 PostgreSQL，验证多目标投递、授权回复、重试去重及会话顺序竞态；`node --test deploy/commerce-worker.test.mjs deploy/feishu-bridge.test.mjs` 验证独立任务、SDK 事件封装、持久化失败与连接关闭。这些测试不代替真实群的通知和回复验收。

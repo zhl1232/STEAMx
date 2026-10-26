@@ -169,15 +169,17 @@ export async function listAdminStoreCatalog() {
 
 export const ADMIN_STORE_ORDER_PAGE_SIZE = 100
 
-export async function listAdminStoreOrders(page = 1) {
-  const safePage = Number.isSafeInteger(page) && page >= 1 && page <= 1_000_000 ? page : 1
+export async function listAdminStoreOrders(page = 1, orderId?: string) {
+  const safePage = !orderId && Number.isSafeInteger(page) && page >= 1 && page <= 1_000_000 ? page : 1
   const from = (safePage - 1) * ADMIN_STORE_ORDER_PAGE_SIZE
   const to = from + ADMIN_STORE_ORDER_PAGE_SIZE
-  const { data, error } = await db()
+  let query = db()
     .from('store_orders')
     .select(
       'id,user_id,status,payment_status,payment_provider,total_cents,shipping_cents,created_at,items:store_order_items(id,title_snapshot,sku_snapshot,quantity,unit_price_cents),procurement:store_procurements(*),shipment:store_shipments(*),aftersale:store_aftersales(*)',
     )
+  if (orderId) query = query.eq('id', orderId)
+  const { data, error } = await query
     .order('created_at', { ascending: false })
     .order('id', { ascending: false })
     .range(from, to)
@@ -278,7 +280,7 @@ export async function listPublicNativeProducts(productId?: string) {
   let query = db()
     .from('store_products')
     .select(
-      'id,slug,name,description,cover_url,price_cents,shipping_cents,currency,fulfillment_description,blocked_provinces,context_keys,variants:store_product_variants(id,name,sku,price_cents,stock_quantity,stock_reserved,min_quantity,status)',
+      'id,slug,name,description,cover_url,gallery_urls,detail_content,video_url,category,price_cents,shipping_cents,currency,fulfillment_description,blocked_provinces,context_keys,variants:store_product_variants(id,name,sku,price_cents,stock_quantity,stock_reserved,min_quantity,status)',
     )
     .eq('status', 'active')
     .eq('checkout_mode', 'internal')
@@ -297,6 +299,12 @@ export async function listPublicNativeProducts(productId?: string) {
           stock_reserved,
           ...variant
         }: {
+          id: string
+          name: string
+          sku: string
+          price_cents: number | null
+          min_quantity: number
+          status: string
           stock_reserved: number
           stock_quantity: number | null
         }) => ({
@@ -308,4 +316,52 @@ export async function listPublicNativeProducts(productId?: string) {
         }),
       ),
   }))
+}
+
+/** Administrator-only caller. Return display fields, never supplier or procurement data. */
+export async function getAdminStoreProductPreview(productId: string) {
+  const { data, error } = await db()
+    .from('store_products')
+    .select('id,name,description,cover_url,gallery_urls,detail_content,video_url,category,price_cents,shipping_cents,fulfillment_description,blocked_provinces,status,checkout_mode,variants:store_product_variants(id,name,price_cents,stock_quantity,stock_reserved,min_quantity,status)')
+    .eq('id', productId)
+    .maybeSingle()
+  if (error) throw error
+  if (!data) return null
+  return {
+    status: data.status as string,
+    checkoutMode: data.checkout_mode as string,
+    product: {
+      id: data.id as string,
+      name: data.name as string,
+      description: data.description as string | null,
+      cover_url: data.cover_url as string | null,
+      gallery_urls: (data.gallery_urls ?? []) as string[],
+      detail_content: data.detail_content as string | null,
+      video_url: data.video_url as string | null,
+      category: data.category as string | null,
+      price_cents: data.price_cents as number,
+      shipping_cents: data.shipping_cents as number | null,
+      fulfillment_description: data.fulfillment_description as string | null,
+      blocked_provinces: (data.blocked_provinces ?? []) as string[],
+      variants: (data.variants ?? []).map((variant: {
+        id: string; name: string; price_cents: number | null; stock_quantity: number | null
+        stock_reserved: number; min_quantity: number; status: string
+      }) => ({
+        id: variant.id,
+        name: variant.name,
+        price_cents: variant.price_cents,
+        stock_quantity: variant.stock_quantity == null ? 0 : Math.max(0, variant.stock_quantity - variant.stock_reserved),
+        stock_pending: variant.stock_quantity == null,
+        min_quantity: variant.min_quantity,
+        status: variant.status,
+      })),
+    },
+  }
+}
+
+/** Private immutable sourcing evidence, exposed only by the admin order detail route. */
+export async function getOrderProcurementSnapshot(orderId: string) {
+  const {data, error} = await db().from('store_order_procurement_snapshots').select('snapshot,created_at').eq('order_id', orderId).maybeSingle()
+  if (error) throw error
+  return data
 }

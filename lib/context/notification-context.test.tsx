@@ -8,6 +8,8 @@ import {
     useNotifications,
 } from './notification-context'
 
+let mockSupportCount = 0
+let mockSupportByChannel: {platform:number;store:number}|undefined
 const mockSupabaseChannel = vi.fn()
 const mockRemoveChannel = vi.fn()
 const mockRealtimeDisconnect = vi.fn()
@@ -52,7 +54,7 @@ function jsonResponse(body: unknown, init?: ResponseInit) {
 }
 
 function TestComponent() {
-    const { unreadCount, notificationUnreadCount, dmUnreadCount, isLoading, markAsRead, notifications, hasMore, loadCategory, loadMore } = useNotifications()
+    const { unreadCount, notificationUnreadCount, dmUnreadCount, supportUnreadByChannel, isLoading, markAsRead, notifications, hasMore, loadCategory, loadMore } = useNotifications()
 
     if (isLoading) {
         return <div>loading</div>
@@ -63,6 +65,7 @@ function TestComponent() {
             <div data-testid="unread-count">{unreadCount}</div>
             <div data-testid="notification-unread-count">{notificationUnreadCount}</div>
             <div data-testid="dm-unread-count">{dmUnreadCount}</div>
+            <div data-testid="support-counts">{JSON.stringify(supportUnreadByChannel)}</div>
             <div data-testid="has-more">{String(hasMore)}</div>
             <div data-testid="notification-list">{notifications.map((notification) => notification.content).join('|')}</div>
             <button type="button" onClick={() => void markAsRead(1)}>
@@ -78,6 +81,8 @@ function TestComponent() {
 describe('NotificationProvider', () => {
     beforeEach(() => {
         vi.clearAllMocks()
+        mockSupportCount = 0
+        mockSupportByChannel = undefined
         vi.useRealTimers()
         mockChannel = {
             on: vi.fn(() => mockChannel),
@@ -93,6 +98,8 @@ describe('NotificationProvider', () => {
                     ? input.toString()
                     : input.url
             const pathname = new URL(rawUrl, 'http://localhost').pathname
+
+            if (pathname === '/api/support/unread') return Promise.resolve(jsonResponse({ unreadCount: mockSupportCount, unreadByChannel:mockSupportByChannel }))
 
             if (pathname === '/api/notifications') {
                 return Promise.resolve(jsonResponse({
@@ -132,6 +139,25 @@ describe('NotificationProvider', () => {
 
             throw new Error(`Unexpected fetch: ${rawUrl}`)
         }))
+    })
+
+    it('preserves separate platform and store counts while adding both to the bell',async()=>{
+        mockSupportCount=5
+        mockSupportByChannel={platform:2,store:3}
+        render(<NotificationProvider><TestComponent /></NotificationProvider>)
+        await waitFor(()=>expect(screen.getByTestId('support-counts')).toHaveTextContent('{"platform":2,"store":3}'))
+        await waitFor(()=>expect(screen.getByTestId('unread-count')).toHaveTextContent('8'))
+    })
+
+    it('includes support in the bell while keeping DM count independent and refreshes after support read', async () => {
+        mockSupportCount = 4
+        render(<NotificationProvider><TestComponent /></NotificationProvider>)
+        await waitFor(() => expect(screen.getByTestId('unread-count')).toHaveTextContent('7'))
+        expect(screen.getByTestId('dm-unread-count')).toHaveTextContent('2')
+        mockSupportCount = 0
+        mockSupportByChannel = undefined
+        act(() => window.dispatchEvent(new Event('support:updated')))
+        await waitFor(() => expect(screen.getByTestId('unread-count')).toHaveTextContent('3'))
     })
 
     it('subscribes to unread counts through a private Realtime channel', async () => {

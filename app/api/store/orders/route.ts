@@ -4,7 +4,8 @@ import { handleApiError, requireAuth } from '@/lib/api/auth'
 import { ValidationError } from '@/lib/api/validation'
 import { createClient } from '@/lib/supabase/server'
 import { parseStoreAddress, parseStoreItems } from '@/lib/store/http'
-import { getUserStoreOrder, listUserStoreOrders } from '@/lib/store/service'
+import { getUserStoreOrder, getUserStoreOrderByIntent, listUserStoreOrders } from '@/lib/store/service'
+import { parseStoreBenefits } from '@/lib/store/benefit-input'
 import { createNativeOrder } from '@/lib/store/native'
 import { normalizeMainlandProvince } from '@/lib/store/regions'
 import { requireRateLimit } from '@/lib/api/rate-limit'
@@ -13,11 +14,16 @@ import { requireStoreCheckoutAccess, requireSameOrigin } from '@/lib/store/acces
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const supabase = await createClient()
   try {
     const user = await requireAuth(supabase)
-    return NextResponse.json({ orders: await listUserStoreOrders(supabase, user.id) })
+    const intent = request.nextUrl.searchParams.get('intent')
+    if (intent !== null) {
+      if (!intent.trim() || intent.length > 180) throw new ValidationError('订单查询标识无效')
+      return NextResponse.json({ order: await getUserStoreOrderByIntent(supabase, user.id, intent.trim()) }, { headers: { 'Cache-Control': 'private, no-store' } })
+    }
+    return NextResponse.json({ orders: await listUserStoreOrders(supabase, user.id) }, { headers: { 'Cache-Control': 'private, no-store' } })
   } catch (error) {
     return handleApiError(error)
   }
@@ -50,7 +56,8 @@ export async function POST(request: NextRequest) {
     const province = normalizeMainlandProvince(address.province)
     if (!province) throw new ValidationError('请选择中国大陆省份')
     await requireRateLimit(supabase, { key: `store-order:${user.id}`, limit: 10, windowMs: 60000 })
-    const created = await createNativeOrder({ userId: user.id, idempotencyKey, items, address: { ...address, province }, province })
+    const benefits = parseStoreBenefits(body)
+    const created = await createNativeOrder({ ...benefits, userId: user.id, idempotencyKey, items, address: { ...address, province }, province })
     const order = await getUserStoreOrder(supabase, user.id, created.orderId)
     return NextResponse.json({ order }, { status: 201 })
   } catch (error) {

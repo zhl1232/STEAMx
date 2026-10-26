@@ -43,7 +43,9 @@ export async function PATCH(
     const ch = challenge as { challenge_type: string; status: string }
     const allowed = VALID_TRANSITIONS[ch.challenge_type]?.[ch.status] || []
 
-    if (!allowed.includes(targetStatus)) {
+    // An interrupted settlement can be retried without awarding coins a second time.
+    const settlementRetry = ch.challenge_type === 'timed' && ch.status === 'ended' && targetStatus === 'ended'
+    if (!allowed.includes(targetStatus) && !settlementRetry) {
       return NextResponse.json(
         { error: `Cannot transition from ${ch.status} to ${targetStatus} for ${ch.challenge_type} challenge` },
         { status: 400 }

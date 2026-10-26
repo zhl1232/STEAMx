@@ -1,13 +1,14 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { DEFAULT_WELCOME_SETTINGS } from '@/lib/communications/types'
-import { PLATFORM_SUPPORT_HREF } from '@/lib/product/support'
 
 const read = (name: string) => readFileSync(new URL(`../supabase/migrations/${name}`, import.meta.url), 'utf8')
 const seed = read('20260922120000_platform_communications.sql')
 const brand = read('20261004100000_refresh_welcome_brand_copy.sql')
 const latest = read('20261013210000_simplify_mobile_onboarding.sql')
 const statements = latest.replace(/^--.*$/gm, '')
+// This applied migration preserves the support destination used in October 2026.
+const migrationSupportHref = '/about#support'
 
 describe('mobile onboarding migration', () => {
   it('covers both actual legacy defaults without editing historical migrations', () => {
@@ -21,11 +22,11 @@ describe('mobile onboarding migration', () => {
     }
     expect(latest).toContain('WHERE id = true AND body IN (')
   })
-  it('uses the new code defaults for rows and guarded column defaults', () => {
+  it('uses the welcome defaults and historical support destination for guarded updates', () => {
     expect(latest).toContain(`SET body = '${DEFAULT_WELCOME_SETTINGS.body}'`)
     expect(latest).toContain(`ALTER COLUMN body SET DEFAULT '${DEFAULT_WELCOME_SETTINGS.body}'`)
-    expect(latest).toContain(`SET contact_href = '${PLATFORM_SUPPORT_HREF}'`)
-    expect(latest).toContain(`ALTER COLUMN contact_href SET DEFAULT '${PLATFORM_SUPPORT_HREF}'`)
+    expect(latest).toContain(`SET contact_href = '${migrationSupportHref}'`)
+    expect(latest).toContain(`ALTER COLUMN contact_href SET DEFAULT '${migrationSupportHref}'`)
     expect(latest).toContain("contact_href IN ('/about#contact', '/settings/about#contact')")
     expect(latest.match(/IF EXISTS \(/g)).toHaveLength(2)
   })

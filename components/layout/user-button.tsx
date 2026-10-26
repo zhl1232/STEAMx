@@ -9,6 +9,8 @@ import {
   LayoutDashboard,
   WalletCards,
   Compass,
+  Package,
+  Headphones,
 } from 'lucide-react'
 import Link from 'next/link'
 import {
@@ -140,6 +142,19 @@ export function UserButton({ compact = false }: UserButtonProps) {
             </Link>
           </DropdownMenuItem>
         )}
+
+        {!compact ? <>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <Link href="/store/orders" className="cursor-pointer"><Package className="mr-2 h-4 w-4" /><span>我的订单</span></Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/support" className="cursor-pointer"><Headphones className="mr-2 h-4 w-4" /><span>平台帮助</span></Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/store/support" className="cursor-pointer"><Headphones className="mr-2 h-4 w-4" /><span>商城客服</span></Link>
+          </DropdownMenuItem>
+        </> : null}
 
         {canReview ? (
           <DropdownMenuItem asChild>

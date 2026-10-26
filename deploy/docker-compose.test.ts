@@ -12,8 +12,8 @@ describe("deploy/docker-compose.yml memory limits", () => {
     expect(compose).toContain('NODE_OPTIONS: "${STEAM_APP_NODE_OPTIONS:---max-old-space-size=512}"');
   });
 
-  it("caps both workers at 128m with swap disabled and a ~96MB heap", () => {
-    for (const prefix of ["AUTO_INTERACTION", "COMMUNICATIONS_WORKER"]) {
+  it("caps workers at 128m with swap disabled and a ~96MB heap", () => {
+    for (const prefix of ["AUTO_INTERACTION", "COMMUNICATIONS_WORKER", "COMMERCE_WORKER"]) {
       expect(compose).toContain(`mem_limit: "\${${prefix}_MEMORY_LIMIT:-128m}"`);
       expect(compose).toContain(`memswap_limit: "\${${prefix}_MEMORY_LIMIT:-128m}"`);
       expect(compose).toContain(`NODE_OPTIONS: "\${${prefix}_NODE_OPTIONS:---max-old-space-size=96}"`);
@@ -25,7 +25,7 @@ describe("deploy/docker-compose.yml memory limits", () => {
   it("sets memswap_limit for every service that sets mem_limit", () => {
     const memLimits = compose.match(/^\s+mem_limit:/gm) ?? [];
     const swapLimits = compose.match(/^\s+memswap_limit:/gm) ?? [];
-    expect(memLimits.length).toBe(3);
+    expect(memLimits.length).toBe(4);
     expect(swapLimits.length).toBe(memLimits.length);
   });
 });

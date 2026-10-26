@@ -76,6 +76,7 @@ import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
 import type { ProfileNextAction } from '@/lib/profile/next-action'
 import { isExploreVacuum as isProfileExploreVacuum, resolveProfileNextAction } from '@/lib/profile/next-action'
 import { getNameColorClassName } from '@/lib/shop/items'
+import { ProfileServices } from '@/components/profile/profile-services'
 import { cn } from '@/lib/utils'
 import { getDisplayName } from '@/lib/utils/user'
 import { profileHomeQueryKey, useProfilePageData } from '@/hooks/profile/use-profile-page-data'
@@ -568,6 +569,7 @@ function DesktopProfilePage({
                   studyCheckInState={studyCheckInState}
                   compact
                 />
+                <ProfileServices />
               </div>
             </aside>
           </div>
@@ -664,6 +666,7 @@ function MobileProfilePage({
           steamRadar={steamRadar}
           naturalObservationProgress={naturalObservationProgress}
         />
+        <ProfileServices />
       </div>
     </div>
   )
@@ -1160,7 +1163,7 @@ function HeroQuickActions() {
     { label: '我的内容', href: '/profile/library', src: PROFILE_ACTION_GRID_ICONS.content },
     { label: '消息中心', href: '/messages', src: PROFILE_ACTION_GRID_ICONS.messages },
     { label: '我的钱包', href: '/coins', src: PROFILE_ACTION_GRID_ICONS.wallet },
-    { label: '创客商店', href: '/shop', src: PROFILE_ACTION_GRID_ICONS.shop },
+    { label: '硬币商城', href: '/shop', src: PROFILE_ACTION_GRID_ICONS.shop },
   ]
 
   return (

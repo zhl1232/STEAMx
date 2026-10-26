@@ -36,8 +36,10 @@
 | 个人中心、时间线和内容库 | `app/profile/`、`components/profile/`、`components/features/profile/`、`lib/profile/` | [产品架构](docs/product-architecture.md)、[设计规范](docs/design-system.md) |
 | 等级、徽章与奖励 | `lib/gamification/`、`components/features/gamification/`、`app/api/admin/growth-reviews/`、`components/admin/growth-reviews.tsx`、`lib/growth/`、`components/features/growth/` | [课程奖励契约](docs/COURSE_PROGRESS_REWARDS_AND_STEAM_IMPLEMENTATION.md) |
 | 欢迎消息与客服入口 | `components/features/communications/welcome-actions.tsx`、`lib/communications/types.ts`、`lib/product/support.ts`、`app/settings/about/` | [产品方向](docs/product-direction.md) |
+| 平台帮助、商城客服与飞书双向接待 | `app/support/`、`app/store/support/`、`app/admin/support/`、`lib/support/`、`deploy/commerce-worker.mjs`、`deploy/feishu-bridge.mjs` | [站内官方客服](docs/customer-support.md) |
 | 私信、通知和自动互动 | `lib/messages/`、`lib/notifications/`、`lib/communications/`、`lib/auto-interactions.ts` | [互动资格](docs/TRUST_AND_INTERACTION_ACCESS.md) |
-| 商品、供应商和订单 | `lib/store/`、`lib/store/service.ts` | [商城与履约](docs/STORE_CHANNEL_FULFILLMENT_DECISION.md) |
+| 实物商城、优惠券、供应商和订单 | `app/store/`、`app/admin/store/`、`app/admin/store/products/[id]/preview/`、`lib/store/`、`app/api/store/`、`lib/context/store-availability-context.tsx`、`components/profile/profile-services.tsx` | [商城与履约](docs/STORE_CHANNEL_FULFILLMENT_DECISION.md) |
+| 硬币商城与会员报价 | `app/shop/`、`app/coins/`、`hooks/use-shop-prices.ts` | [商城与会员价格](docs/STORE_CHANNEL_FULFILLMENT_DECISION.md#硬币商城) |
 | 会员资格与开售准备 | `lib/membership.ts`（`/membership` 页面已下线，301 跳首页） | [开售交接](docs/MEMBERSHIP_PAGE_HANDOFF.md)；额度不在交接页重复维护 |
 
 ## 小迪与 AI

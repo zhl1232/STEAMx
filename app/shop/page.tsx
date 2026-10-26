@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UserAvatar } from "@/components/ui/user-avatar";
 import { useToast } from "@/hooks/use-toast";
+import { useShopPrices } from "@/hooks/use-shop-prices";
 import { useAuth } from "@/lib/context/auth-context";
 import { useGamification } from "@/lib/context/gamification-context";
 import { getDisplayName } from "@/lib/utils/user";
@@ -44,6 +45,8 @@ type ItemState = {
   equipped: boolean;
   levelLocked: boolean;
   canBuy: boolean;
+  price: number;
+  basePrice: number;
 };
 
 function createShopMutationError(result: ShopRpcResult, fallbackCode: string): ShopMutationError {
@@ -305,7 +308,8 @@ function ShopItemCard({
       <div className="mt-auto flex items-center justify-between gap-2 pt-3 sm:gap-3 sm:pt-4">
         <div className="flex shrink-0 items-center gap-1.5 text-orange-500">
           <CoinIcon className="h-4 w-4" />
-          <span className="whitespace-nowrap text-base font-black tabular-nums sm:text-lg">{item.price}</span>
+          <span className="whitespace-nowrap text-base font-black tabular-nums sm:text-lg">{state.price}</span>
+          {state.price < state.basePrice ? <del className="text-xs text-muted-foreground">{state.basePrice}</del> : null}
         </div>
         <ShopItemButton
           item={item}
@@ -345,6 +349,8 @@ export default function ShopPage() {
   const supabase = useMemo(() => createClient(), []);
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const prices = useShopPrices(user?.id);
+  const quotedItems = new Map(prices.data?.items.map((item) => [item.id, item]));
 
   const typedProfile = profile as Profile | null;
   const equippedAvatarFrameId = typedProfile?.equipped_avatar_frame_id ?? null;
@@ -372,7 +378,9 @@ export default function ShopPage() {
 
   const purchaseMutation = useMutation({
     mutationFn: async (itemId: string) => {
-      const { data, error } = await supabase.rpc("purchase_item", { p_item_id: itemId } as never);
+      const price = quotedItems.get(itemId)?.price;
+      if (price === undefined || prices.isError) throw new Error("价格暂时无法确认，请刷新后重试");
+      const { data, error } = await supabase.rpc("purchase_item", { p_item_id: itemId, p_expected_price: price });
       if (error) throw error;
       const res = data as ShopRpcResult;
       if (!res?.ok) throw createShopMutationError(res, "purchase_failed");
@@ -380,11 +388,15 @@ export default function ShopPage() {
     onSuccess: (_, itemId) => {
       queryClient.invalidateQueries({ queryKey: ["user_inventory", user?.id] });
       queryClient.invalidateQueries({ queryKey: ["coin_logs", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["shop_prices", user?.id] });
       refreshProfile();
       const item = getShopItemById(itemId);
       toast({ title: "兑换成功", description: item ? `已获得「${item.name}」` : undefined });
     },
     onError: (error: Error) => {
+      queryClient.invalidateQueries({ queryKey: ["shop_prices", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["user_inventory", user?.id] });
+      refreshProfile();
       toast({
         variant: "destructive",
         title: "兑换失败",
@@ -432,27 +444,30 @@ export default function ShopPage() {
   }, [activeItems, activeType, selectedItemId]);
 
   const getState = (item: ShopItem): ItemState => {
-    const owned = ownedItemIds.includes(item.id);
+    const quote = quotedItems.get(item.id);
+    const owned = quote?.owned || ownedItemIds.includes(item.id);
     const equipped = item.type === "avatar_frame"
       ? equippedAvatarFrameId === item.id
       : equippedNameColorId === item.id;
-    const levelLocked = (item.minLevel ?? 0) > level;
+    const levelLocked = (quote?.minLevel ?? item.minLevel ?? 0) > (prices.data?.level ?? level);
     return {
       owned,
       equipped,
       levelLocked,
-      canBuy: !owned && !levelLocked && coins >= item.price,
+      canBuy: !!quote && !prices.isError && !owned && !levelLocked && (prices.data?.coins ?? coins) >= quote.price,
+      price: quote?.price ?? item.price,
+      basePrice: quote?.basePrice ?? item.price,
     };
   };
   if (authLoading || !user) {
     return <LoadingState label="加载账号中..." />;
   }
 
-  if (inventoryLoading) {
+  if (inventoryLoading || prices.isLoading) {
     return <LoadingState label="加载商店中..." />;
   }
 
-  if (inventoryError) {
+  if (inventoryError || prices.isError) {
     return (
       <div className="app-canvas flex min-h-[calc(100dvh-var(--mobile-global-header-height,3rem))] items-center justify-center px-4 py-12">
         <section className="surface-panel flex w-full max-w-xl flex-col items-center gap-4 px-6 py-10 text-center">
@@ -460,10 +475,10 @@ export default function ShopPage() {
           <div className="space-y-1">
             <p className="font-semibold">加载商店失败</p>
             <p className="text-sm text-muted-foreground">
-              {inventoryErrorDetail instanceof Error ? inventoryErrorDetail.message : "请检查网络后重试"}
+              {(inventoryErrorDetail || prices.error) instanceof Error ? (inventoryErrorDetail || prices.error)?.message : "请检查网络后重试"}
             </p>
           </div>
-          <Button variant="outline" onClick={() => refetchInventory()}>
+          <Button variant="outline" onClick={() => { void refetchInventory(); void prices.refetch(); }}>
             刷新重试
           </Button>
         </section>
@@ -517,6 +532,9 @@ export default function ShopPage() {
             equippedNameColorId={equippedNameColorId}
           />
 
+          {prices.data?.membershipTier !== 'free' && prices.data?.membershipTier ? (
+            <p className="text-sm text-muted-foreground">已享{prices.data.membershipTier === 'founder' ? '创始会员 8 折' : '会员 8.8 折'}，下方显示本次兑换价格。</p>
+          ) : null}
           <section>
             <Tabs value={activeType} onValueChange={(value) => setActiveType(value as ShopItemType)}>
               <TabsList className="grid h-auto w-full grid-cols-2 rounded-md bg-muted/60 p-1 sm:max-w-md dark:bg-white/4">

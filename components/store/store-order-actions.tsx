@@ -17,6 +17,7 @@ export function StoreOrderActions({
   aftersale,
   shipment,
   onChanged,
+  paymentProviders = [],
 }: {
   orderId: string
   status: string
@@ -24,6 +25,7 @@ export function StoreOrderActions({
   aftersale?: { status?: string; returnAddress?: string | null } | null
   shipment?: { carrier?: string | null; trackingNumber?: string | null } | null
   onChanged?: () => void
+  paymentProviders?: Array<'alipay' | 'wechat'>
 }) {
   const [busy, setBusy] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -153,8 +155,9 @@ export function StoreOrderActions({
       <div className="mt-3 flex flex-wrap gap-2">
         {canPay ? (
           <>
-            <Button
-              size="sm"
+            {paymentProviders.includes('alipay') ? <Button
+              shape="pill"
+              className="h-11"
               tone="brand"
               disabled={Boolean(busy)}
               onClick={() => startPayment('alipay')}
@@ -163,20 +166,23 @@ export function StoreOrderActions({
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : null}
               支付宝支付
-            </Button>
-            <Button
-              size="sm"
+            </Button> : null}
+            {paymentProviders.includes('wechat') ? <Button
+              shape="pill"
+              className="h-11"
               variant="outline"
               disabled={Boolean(busy)}
               onClick={() => startPayment('wechat')}
             >
               微信支付
-            </Button>
+            </Button> : null}
+            {!paymentProviders.length ? <p className="text-sm text-muted-foreground">支付通道暂未开放，请联系客服了解安排。</p> : null}
           </>
         ) : null}
         {canCancel ? (
           <Button
-            size="sm"
+            shape="pill"
+            className="h-11"
             variant="outline"
             disabled={Boolean(busy)}
             onClick={() => call('cancel', { reason })}
@@ -186,7 +192,8 @@ export function StoreOrderActions({
         ) : null}
         {canRefund ? (
           <Button
-            size="sm"
+            shape="pill"
+            className="h-11"
             variant="outline"
             disabled={Boolean(busy) || !reason.trim()}
             onClick={() => call('request_refund', { reason })}
@@ -197,7 +204,8 @@ export function StoreOrderActions({
         ) : null}
         {canConfirm ? (
           <Button
-            size="sm"
+            shape="pill"
+            className="h-11"
             tone="brand"
             disabled={Boolean(busy)}
             onClick={() => call('confirm_delivery')}
@@ -236,6 +244,9 @@ export function StoreOrderActions({
               onChange={(event) => setTrackingNumber(event.target.value)}
             />
             <Button
+              tone="brand"
+              shape="pill"
+              className="h-11"
               disabled={
                 Boolean(busy) || !carrier.trim() || !trackingNumber.trim()
               }

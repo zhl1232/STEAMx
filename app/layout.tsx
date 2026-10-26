@@ -12,6 +12,7 @@ import QueryProvider from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/lib/context/auth-context";
+import { StoreAvailabilityProvider } from "@/lib/context/store-availability-context";
 import { BRAND_FULL_NAME } from "@/lib/brand";
 import { fontClassNames } from "@/lib/fonts";
 import { HOME_DOCUMENT_TITLE, SITE_DESCRIPTION, SITE_NAME, getMetadataBase } from "@/lib/seo/site";
@@ -117,7 +118,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               disableTransitionOnChange
             >
               <ErrorBoundary>
-                <ConditionalAppShell footer={<SiteFooter />}>{children}</ConditionalAppShell>
+                <StoreAvailabilityProvider>
+                  <ConditionalAppShell footer={<SiteFooter />}>{children}</ConditionalAppShell>
+                </StoreAvailabilityProvider>
               </ErrorBoundary>
               <BadgeUnlockOverlayMount />
               <Toaster />

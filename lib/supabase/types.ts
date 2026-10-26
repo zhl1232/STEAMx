@@ -3593,6 +3593,13 @@ export interface Database {
           name: string
           description: string | null
           cover_url: string | null
+          gallery_urls?: string[]
+          detail_content?: string | null
+          video_url?: string | null
+          category?: string | null
+          shipping_cents?: number | null
+          blocked_provinces?: string[]
+          catalog_version?: number
           checkout_mode: string
           external_channel: string | null
           external_url: string | null
@@ -3615,6 +3622,13 @@ export interface Database {
           name: string
           description?: string | null
           cover_url?: string | null
+          gallery_urls?: string[]
+          detail_content?: string | null
+          video_url?: string | null
+          category?: string | null
+          shipping_cents?: number | null
+          blocked_provinces?: string[]
+          catalog_version?: number
           checkout_mode?: string
           external_channel?: string | null
           external_url?: string | null
@@ -3637,6 +3651,13 @@ export interface Database {
           name?: string
           description?: string | null
           cover_url?: string | null
+          gallery_urls?: string[]
+          detail_content?: string | null
+          video_url?: string | null
+          category?: string | null
+          shipping_cents?: number | null
+          blocked_provinces?: string[]
+          catalog_version?: number
           checkout_mode?: string
           external_channel?: string | null
           external_url?: string | null
@@ -3796,6 +3817,14 @@ export interface Database {
           subtotal_cents: number
           shipping_cents: number
           total_cents: number
+          original_subtotal_cents?: number
+          member_subtotal_cents?: number
+          member_discount_cents?: number
+          coupon_discount_cents?: number
+          coin_discount_cents?: number
+          coins_used?: number
+          membership_tier_snapshot?: string
+          coupon_id?: string | null
           address_id: string | null
           address_snapshot_encrypted: string
           external_order_id: string | null
@@ -3821,6 +3850,14 @@ export interface Database {
           subtotal_cents: number
           shipping_cents?: number
           total_cents: number
+          original_subtotal_cents?: number
+          member_subtotal_cents?: number
+          member_discount_cents?: number
+          coupon_discount_cents?: number
+          coin_discount_cents?: number
+          coins_used?: number
+          membership_tier_snapshot?: string
+          coupon_id?: string | null
           address_id?: string | null
           address_snapshot_encrypted: string
           external_order_id?: string | null
@@ -3846,6 +3883,14 @@ export interface Database {
           subtotal_cents?: number
           shipping_cents?: number
           total_cents?: number
+          original_subtotal_cents?: number
+          member_subtotal_cents?: number
+          member_discount_cents?: number
+          coupon_discount_cents?: number
+          coin_discount_cents?: number
+          coins_used?: number
+          membership_tier_snapshot?: string
+          coupon_id?: string | null
           address_id?: string | null
           address_snapshot_encrypted?: string
           external_order_id?: string | null
@@ -4082,6 +4127,10 @@ export interface Database {
       }
     }
     Functions: {
+      settle_timed_challenge: { Args: { p_challenge_id: number }; Returns: Json }
+
+      get_shop_prices: { Args: Record<string, never>; Returns: Json }
+
       growth_manual_jobs: { Args: Record<string, never>; Returns: Json }
       claim_growth_ai_job: { Args: Record<string, never>; Returns: Json }
       finish_growth_ai_job: { Args: { p_job: string; p_lease: string; p_decision: Json | null; p_usage: Json; p_model: string | null; p_error?: string | null }; Returns: Json }
@@ -4534,7 +4583,7 @@ export interface Database {
         Returns: number
       }
       purchase_item: {
-        Args: { p_item_id: string }
+        Args: { p_item_id: string; p_expected_price: number }
         Returns: { ok: boolean; error?: string; item_id?: string; price?: number }
       }
       consume_rate_limit: {
