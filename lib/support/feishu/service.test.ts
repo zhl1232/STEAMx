@@ -1,10 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 vi.mock('server-only', () => ({}))
 const mock = vi.hoisted(() => ({
-  rpc: vi.fn(), from: vi.fn(), sendText: vi.fn(), botOpenId: vi.fn(), validate: vi.fn(), moderate: vi.fn(), file: '', mode: 0,
+  rpc: vi.fn(), from: vi.fn(), sendText: vi.fn(), sendPost: vi.fn(), uploadImage: vi.fn(), downloadImage: vi.fn(), storageDownload: vi.fn(), storageUpload: vi.fn(), botOpenId: vi.fn(), validate: vi.fn(), moderate: vi.fn(), file: '', mode: 0,
 }))
-vi.mock('../server', () => ({ supportDb: () => ({ rpc: mock.rpc, from: mock.from }) }))
-vi.mock('./client', () => ({ getFeishuClient: () => ({ sendText: mock.sendText, botOpenId: mock.botOpenId }) }))
+vi.mock('../server', () => ({ supportDb: () => ({ rpc: (...args: unknown[]) => Object.assign(mock.rpc(...args), { abortSignal() { return this } }), from: mock.from, storage: { from: () => ({ download: mock.storageDownload, upload: mock.storageUpload }) } }) }))
+vi.mock('./media', () => ({ feishuStorage: () => ({ download: mock.storageDownload, upload: mock.storageUpload }) }))
+vi.mock('./client', () => ({ getFeishuClient: () => ({ sendText: mock.sendText, sendPost: mock.sendPost, uploadImage: mock.uploadImage, downloadImage: mock.downloadImage, botOpenId: mock.botOpenId }) }))
 vi.mock('@/lib/api/validation', () => ({ validateContentSafe: mock.validate }))
 vi.mock('@/lib/safety/server', () => ({ moderateTextContent: mock.moderate }))
 vi.mock('node:fs/promises', () => ({ open: vi.fn(async () => ({
@@ -14,6 +15,10 @@ vi.mock('node:fs/promises', () => ({ open: vi.fn(async () => ({
 })) }))
 import { enqueueFeishuEvent, readDiscovery, runFeishuDispatch } from './service'
 
+const conversationId = '20000000-0000-4000-8000-000000000001'
+const attachmentId = '30000000-0000-4000-8000-000000000001'
+const png = Uint8Array.from([137, 80, 78, 71, 13, 10, 26, 10, ...Array(16).fill(0)])
+const attachment = { id: attachmentId, conversation_id: conversationId, uploader_id: '10000000-0000-4000-8000-000000000001', storage_path: `${conversationId}/${attachmentId}`, mime_type: 'image/png', size_bytes: png.length }
 const appId = 'cli_0123456789abcdef', profileId = '10000000-0000-4000-8000-000000000001'
 const target = { id: 'store-team', chatId: 'oc_store', channels: ['store'], events: ['support.user_message', 'support.admin_message', 'order.created'], enabled: true }
 const incoming = { message_id: 'om_reply', chat_id: 'oc_store', sender_open_id: 'ou_staff', parent_id: 'om_anchor', root_id: null, text: '已经为您安排补寄。', lease_id: 'lease-in', attempts: 1 }
@@ -24,17 +29,17 @@ function event(text = '@_bot 已经为您安排补寄。') {
 type Result = { data?: unknown; error?: unknown; count?: number }
 let resultFor: (table: string) => Result
 function query(table: string) {
-  const q = { select: vi.fn(), eq: vi.fn(), maybeSingle: vi.fn(async () => resultFor(table)), then: (resolve: (value: Result) => unknown) => Promise.resolve(resultFor(table)).then(resolve) }
-  q.select.mockReturnValue(q); q.eq.mockReturnValue(q)
+  const q = { select: vi.fn(), eq: vi.fn(), limit: vi.fn(), abortSignal: vi.fn(), maybeSingle: vi.fn(async () => resultFor(table)), then: (resolve: (value: Result) => unknown) => Promise.resolve(resultFor(table)).then(resolve) }
+  q.select.mockReturnValue(q); q.eq.mockReturnValue(q); q.limit.mockReturnValue(q); q.abortSignal.mockReturnValue(q)
   return q
 }
 beforeEach(() => {
   vi.clearAllMocks(); mock.file = ''; mock.mode = 0
   vi.stubEnv('FEISHU_BRIDGE_ENABLED', 'true'); vi.stubEnv('FEISHU_APP_ID', appId); vi.stubEnv('FEISHU_APP_SECRET', 'private-secret'); vi.stubEnv('FEISHU_TENANT_KEY', ''); vi.stubEnv('FEISHU_SITE_URL', 'https://example.test')
   vi.stubEnv('FEISHU_TARGETS_JSON', JSON.stringify([target])); vi.stubEnv('FEISHU_STAFF_JSON', JSON.stringify([{ openId: 'ou_staff', profileId }]))
-  mock.botOpenId.mockResolvedValue('ou_bot'); mock.sendText.mockResolvedValue('om_delivered'); mock.moderate.mockReturnValue({ state: 'approved' })
+  mock.sendPost.mockResolvedValue('om_delivered'); mock.uploadImage.mockResolvedValue('img_uploaded'); mock.downloadImage.mockResolvedValue(png); mock.storageDownload.mockResolvedValue({ data: new Blob([png]), error: null }); mock.storageUpload.mockResolvedValue({ data: {}, error: null }); mock.botOpenId.mockResolvedValue('ou_bot'); mock.sendText.mockResolvedValue('om_delivered'); mock.moderate.mockReturnValue({ state: 'approved' })
   mock.rpc.mockImplementation(async (name: string) => ({ data: name.startsWith('feishu_claim_') ? [] : true, error: null }))
-  resultFor = table => ({ data: table === 'profiles' ? { role: 'admin' } : table === 'support_messages' ? { content: '商品缺件', sender_role: 'user', conversation_id: 'conversation-one', phone: 'private-phone', address: 'private-address' } : table === 'support_conversations' ? { channel: 'store' } : table === 'store_order_events' ? { order_id: 'order-one' } : table === 'store_orders' ? { id: 'order-one', total_cents: 880, status: 'pending_payment', address_snapshot_encrypted: 'private-address', procurement_cost: 'private-cost' } : null, error: null, count: table === 'support_attachments' ? 1 : 0 })
+  resultFor = table => ({ data: table === 'profiles' ? { role: 'admin' } : table === 'support_messages' ? { content: '商品缺件', sender_role: 'user', conversation_id: conversationId, phone: 'private-phone', address: 'private-address' } : table === 'support_conversations' ? { channel: 'store' } : table === 'store_order_events' ? { order_id: 'order-one' } : table === 'store_orders' ? { id: 'order-one', total_cents: 880, status: 'pending_payment', address_snapshot_encrypted: 'private-address', procurement_cost: 'private-cost' } : table === 'support_attachments' ? [] : null, error: null })
   mock.from.mockImplementation(query)
 })
 afterEach(() => vi.unstubAllEnvs())
@@ -104,7 +109,7 @@ describe('Feishu durable dispatch', () => {
     mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
     expect(await runFeishuDispatch()).toMatchObject({ sent: 1, failed: 0 })
     const text = mock.sendText.mock.calls[0][1]
-    expect(text).toContain('商城客服'); expect(text).toContain('商品缺件'); expect(text).toContain('有图片，请在后台查看'); expect(text).not.toMatch(/private-phone|private-address/)
+    expect(text).toContain('商城客服'); expect(text).toContain('商品缺件'); expect(text).not.toMatch(/private-phone|private-address/)
     const anchor = mock.rpc.mock.calls.findIndex(([name]) => name === 'feishu_record_anchor')
     const ack = mock.rpc.mock.calls.findIndex(([name, body]) => name === 'feishu_complete_delivery' && body.p_success)
     expect(anchor).toBeGreaterThan(-1); expect(ack).toBeGreaterThan(anchor)
@@ -143,4 +148,127 @@ describe('Feishu durable dispatch', () => {
     expect(mock.sendText.mock.calls[0][1]).toContain('新订单，待付款'); expect(mock.sendText.mock.calls[0][1]).toContain('¥8.80'); expect(mock.sendText.mock.calls[0][1]).not.toMatch(/private-address|private-cost/)
     expect(mock.rpc.mock.calls.some(([name]) => name === 'feishu_record_anchor')).toBe(false)
   })
+})
+
+describe('Feishu private image bridge', () => {
+  function incomingMedia(keys = ['img_source']) { return { ...incoming, text: '', image_keys: keys } }
+  function mediaRpc(options: { duplicate?: boolean; prepareError?: string; applyError?: string } = {}) {
+    mock.rpc.mockImplementation(async (name: string) => ({
+      data: name === 'feishu_claim_inbound' ? [incomingMedia()] : name === 'feishu_claim_deliveries' ? [] : name === 'feishu_prepare_reply' ? { conversation_id: conversationId, duplicate: Boolean(options.duplicate), ...(options.duplicate ? { message_id: 'site-reply' } : {}) } : name === 'feishu_prepare_image_attachment' ? attachment : name === 'feishu_apply_reply_media' ? { message_id: 'site-reply' } : true,
+      error: (name === 'feishu_prepare_reply' && options.prepareError) || (name === 'feishu_apply_reply_media' && options.applyError) ? { message: options.prepareError || options.applyError } : null,
+    }))
+  }
+  it('queues authorized image-only replies and mentioned rich posts with image keys', async () => {
+    const image = event(); image.message.message_type = 'image'; image.message.mentions = []; image.message.content = JSON.stringify({ image_key: 'img_source' })
+    expect(await enqueueFeishuEvent(image)).toEqual({ queued: true, duplicate: false })
+    expect(mock.rpc).toHaveBeenLastCalledWith('feishu_enqueue_inbound_media', expect.objectContaining({ p_text: '', p_image_keys: ['img_source'] }))
+    const post = event(); post.message.message_type = 'post'; post.message.content = JSON.stringify({ content: [[{ tag: 'at', user_id: '@_bot' }, { tag: 'text', text: '请查看' }, { tag: 'img', image_key: 'img_source' }]] })
+    expect(await enqueueFeishuEvent(post)).toEqual({ queued: true, duplicate: false })
+    expect(mock.rpc).toHaveBeenLastCalledWith('feishu_enqueue_inbound_media', expect.objectContaining({ p_text: '请查看', p_image_keys: ['img_source'] }))
+    expect(mock.downloadImage).not.toHaveBeenCalled()
+  })
+  it('does not queue unbound, cross-group, unanchored images or posts without the bot mention', async () => {
+    for (const mutate of [(data: ReturnType<typeof event>) => { data.sender.sender_id.open_id = 'ou_other' }, (data: ReturnType<typeof event>) => { data.message.chat_id = 'oc_other' }, (data: ReturnType<typeof event>) => { data.message.parent_id = '' }]) {
+      const data = event(); data.message.message_type = 'image'; data.message.content = '{"image_key":"img_source"}'; mutate(data)
+      expect(await enqueueFeishuEvent(data)).toEqual({ ignored: true })
+    }
+    const post = event(); post.message.message_type = 'post'; post.message.content = '{"content":[[{"tag":"img","image_key":"img_source"}]]}'
+    expect(await enqueueFeishuEvent(post)).toEqual({ ignored: true })
+    expect(mock.rpc).not.toHaveBeenCalled(); expect(mock.downloadImage).not.toHaveBeenCalled()
+  })
+  it('authorizes the database anchor before downloading, reserves stable metadata and commits ordered attachments', async () => {
+    mediaRpc()
+    expect(await runFeishuDispatch()).toMatchObject({ replies: 1, failed: 0 })
+    expect(mock.rpc).toHaveBeenCalledWith('feishu_prepare_reply', expect.objectContaining({ p_actor: profileId, p_chat_id: incoming.chat_id }))
+    expect(mock.rpc.mock.invocationCallOrder[mock.rpc.mock.calls.findIndex(([name]) => name === 'feishu_prepare_reply')]).toBeLessThan(mock.downloadImage.mock.invocationCallOrder[0])
+    expect(mock.downloadImage).toHaveBeenCalledWith(incoming.message_id, 'img_source', expect.any(AbortSignal))
+    expect(mock.storageUpload).toHaveBeenCalledWith(attachment.storage_path, png, expect.objectContaining({ contentType: 'image/png', upsert: false }))
+    expect(mock.rpc).toHaveBeenCalledWith('feishu_apply_reply_media', expect.objectContaining({ p_attachments: [attachmentId], p_content: '' }))
+    const applyIndex = mock.rpc.mock.calls.findIndex(([name]) => name === 'feishu_apply_reply_media')
+    const ackIndex = mock.rpc.mock.calls.findIndex(([name, body]) => name === 'feishu_complete_inbound' && body.p_success)
+    expect(ackIndex).toBeGreaterThan(applyIndex)
+  })
+  it.each(['Feishu reply target unavailable', 'Ambiguous Feishu reply anchor', 'Feishu queued reply identity mismatch'])('rejects unauthorized database preflight before media access: %s', async prepareError => {
+    mediaRpc({ prepareError })
+    expect(await runFeishuDispatch()).toMatchObject({ rejected: 1, replies: 0 })
+    expect(mock.downloadImage).not.toHaveBeenCalled(); expect(mock.storageUpload).not.toHaveBeenCalled()
+  })
+  it('acknowledges an already committed reply without downloading or uploading again', async () => {
+    mediaRpc({ duplicate: true })
+    expect(await runFeishuDispatch()).toMatchObject({ replies: 1 })
+    expect(mock.downloadImage).not.toHaveBeenCalled(); expect(mock.storageUpload).not.toHaveBeenCalled()
+    expect(mock.rpc.mock.calls.some(([name]) => name === 'feishu_apply_reply_media')).toBe(false)
+  })
+  it('reuses the validated reserved path after a partial upload and retries database failures without overwriting', async () => {
+    mediaRpc({ applyError: 'Network request failed' })
+    expect(await runFeishuDispatch()).toMatchObject({ replies: 0, failed: 1 })
+    mediaRpc()
+    mock.storageUpload.mockResolvedValue({ data: null, error: { statusCode: '409', message: 'already exists' } })
+    expect(await runFeishuDispatch()).toMatchObject({ replies: 1 })
+    expect(mock.storageUpload.mock.calls.map(call => call[0])).toEqual([attachment.storage_path, attachment.storage_path])
+    expect(mock.storageUpload.mock.calls.every(call => call[2].upsert === false)).toBe(true)
+  })
+  it('keeps storage permission failures retryable and never commits or acknowledges success', async () => {
+    mediaRpc(); mock.storageUpload.mockResolvedValue({ data: null, error: { statusCode: '403', message: 'private-data' } })
+    expect(await runFeishuDispatch()).toMatchObject({ failed: 1, rejected: 0 })
+    expect(mock.rpc.mock.calls.some(([name]) => name === 'feishu_apply_reply_media')).toBe(false)
+    expect(mock.rpc).toHaveBeenCalledWith('feishu_complete_inbound', expect.objectContaining({ p_success: false, p_permanent: false }))
+  })
+  it('rejects invalid downloaded bytes or mismatched reservation metadata permanently', async () => {
+    mediaRpc(); mock.downloadImage.mockResolvedValueOnce(new TextEncoder().encode('<svg/>'))
+    expect(await runFeishuDispatch()).toMatchObject({ rejected: 1, replies: 0 })
+    expect(mock.storageUpload).not.toHaveBeenCalled()
+    mediaRpc()
+    const implementation = mock.rpc.getMockImplementation()!
+    mock.rpc.mockImplementation(async (name: string, ...args: unknown[]) => name === 'feishu_prepare_image_attachment' ? { data: { ...attachment, storage_path: '../private' }, error: null } : implementation(name, ...args))
+    expect(await runFeishuDispatch()).toMatchObject({ rejected: 1, replies: 0 })
+    expect(mock.storageUpload).not.toHaveBeenCalled()
+  })
+  it('sends private attachment bytes as one rich post and never emits private URLs or storage paths', async () => {
+    const previous = resultFor
+    resultFor = table => table === 'support_attachments' ? { data: [attachment] } : previous(table)
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
+    expect(await runFeishuDispatch()).toMatchObject({ sent: 1, failed: 0 })
+    expect(mock.storageDownload).toHaveBeenCalledWith(attachment.storage_path, {}, expect.objectContaining({ signal: expect.any(AbortSignal) }))
+    expect(mock.uploadImage).toHaveBeenCalledWith(png, expect.any(AbortSignal))
+    expect(mock.sendPost).toHaveBeenCalledTimes(1); expect(mock.sendText).not.toHaveBeenCalled()
+    expect(mock.sendPost.mock.calls[0][2]).toEqual(['img_uploaded'])
+    expect(mock.sendPost.mock.calls[0][1]).not.toMatch(/support-private|storage\/v1|private-address|private-phone/)
+    expect(mock.sendPost.mock.calls[0][1]).not.toContain(attachment.storage_path)
+    expect(mock.rpc).toHaveBeenCalledWith('feishu_record_anchor', expect.objectContaining({ p_message_id: 'om_delivered' }))
+  })
+  it.each(['ownership', 'too_many', 'size'])('rejects invalid outbound attachment %s before reading private storage', async reason => {
+    const previous = resultFor
+    const invalid = reason === 'ownership' ? { ...attachment, conversation_id: 'other' } : { ...attachment, size_bytes: 6 * 1024 * 1024 }
+    resultFor = table => table === 'support_attachments' ? { data: reason === 'too_many' ? [attachment, attachment, attachment, attachment] : [invalid] } : previous(table)
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
+    expect(await runFeishuDispatch()).toMatchObject({ sent: 0, failed: 1 })
+    expect(mock.storageDownload).not.toHaveBeenCalled(); expect(mock.uploadImage).not.toHaveBeenCalled(); expect(mock.sendPost).not.toHaveBeenCalled()
+  })
+})
+
+it('preserves queued image order when reserving multiple attachments', async () => {
+  const keys = ['img_one', 'img_two', 'img_three']
+  const ids = [attachmentId, '30000000-0000-4000-8000-000000000002', '30000000-0000-4000-8000-000000000003']
+  mock.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => ({
+    data: name === 'feishu_claim_inbound' ? [{ ...incoming, image_keys: keys }] : name === 'feishu_claim_deliveries' ? [] : name === 'feishu_prepare_reply' ? { conversation_id: conversationId, duplicate: false } : name === 'feishu_prepare_image_attachment' ? { ...attachment, id: ids[keys.indexOf(String(args.p_image_key))], storage_path: `${conversationId}/${ids[keys.indexOf(String(args.p_image_key))]}` } : name === 'feishu_apply_reply_media' ? { message_id: 'site-reply' } : true,
+    error: null,
+  }))
+  expect(await runFeishuDispatch()).toMatchObject({ replies: 1, failed: 0 })
+  expect(mock.rpc).toHaveBeenCalledWith('feishu_apply_reply_media', expect.objectContaining({ p_attachments: ids }))
+  expect(mock.rpc).toHaveBeenCalledWith('feishu_claim_inbound', { p_limit: 2 })
+  expect(mock.rpc).toHaveBeenCalledWith('feishu_claim_deliveries', { p_limit: 2 })
+})
+it('does not claim outgoing deliveries after the operation budget expires', async () => {
+  const controller = new AbortController()
+  const timeout = AbortSignal.timeout.bind(AbortSignal)
+  const spy = vi.spyOn(AbortSignal, 'timeout').mockImplementation(ms => ms === 45000 ? controller.signal : timeout(ms))
+  mock.rpc.mockImplementation(async (name: string) => {
+    if (name === 'feishu_claim_inbound') { controller.abort(); return { data: [], error: null } }
+    return { data: true, error: null }
+  })
+  try {
+    expect(await runFeishuDispatch()).toMatchObject({ sent: 0, replies: 0 })
+    expect(mock.rpc.mock.calls.some(([name]) => name === 'feishu_claim_deliveries')).toBe(false)
+  } finally { spy.mockRestore() }
 })

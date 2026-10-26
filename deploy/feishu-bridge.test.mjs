@@ -53,11 +53,11 @@ test('valid group text forwards only approved fields and authenticates durable i
   handle.stop()
 })
 
-test('unsupported bot, private chat, and image events are acknowledged without forwarding', async () => {
+test('unsupported bot, private chat, and file events are acknowledged without forwarding', async () => {
   const { state, sdkFactory } = fixture()
   let calls = 0
   const handle = await startFeishuBridge({ ...options, sdkFactory, fetchImpl: async () => { calls++; return new Response('{}') } })
-  for (const mutate of [e => { e.sender.sender_type = 'app' }, e => { e.message.chat_type = 'p2p' }, e => { e.message.message_type = 'image' }]) {
+  for (const mutate of [e => { e.sender.sender_type = 'app' }, e => { e.message.chat_type = 'p2p' }, e => { e.message.message_type = 'file' }]) {
     const data = event(); mutate(data)
     await state.handlers['im.message.receive_v1'](data)
   }
@@ -128,5 +128,23 @@ test('real EventDispatcher flattens the official v2 event envelope before forwar
   await state.started.invoke({ schema: '2.0', header: { event_type: 'im.message.receive_v1', event_id: flattened.event_id, app_id: flattened.app_id, tenant_key: flattened.tenant_key }, event: { sender: flattened.sender, message: flattened.message } }, { needCheck: false })
   assert.equal(requests[0].event_id, 'event-1')
   assert.equal(requests[0].app_id, env.FEISHU_APP_ID)
+  handle.stop()
+})
+
+test('group image and rich-post events persist only whitelisted metadata', async () => {
+  const { state, sdkFactory } = fixture()
+  const requests = []
+  const handle = await startFeishuBridge({ ...options, sdkFactory, fetchImpl: async (_url, init) => { requests.push(JSON.parse(init.body)); return new Response('{}') } })
+  for (const message_type of ['image', 'post']) {
+    const data = event()
+    data.message.message_type = message_type
+    data.message.content = JSON.stringify(message_type === 'image' ? { image_key: 'img_safe' } : { content: [[{ tag: 'img', image_key: 'img_safe' }]] })
+    await state.handlers['im.message.receive_v1'](data)
+  }
+  assert.deepEqual(requests.map(item => item.message.message_type), ['image', 'post'])
+  assert.equal(JSON.stringify(requests).includes('not-forwarded'), false)
+  const oversized = event(); oversized.message.content = 'x'.repeat(33 * 1024)
+  await assert.rejects(state.handlers['im.message.receive_v1'](oversized), /exceeds persistence limit/)
+  assert.equal(requests.length, 2)
   handle.stop()
 })

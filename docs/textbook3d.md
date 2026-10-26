@@ -6,6 +6,8 @@
 - 课程课时：课时类型 `textbook_3d`，`content.textbook3d.lessonId` 填课号（见下文）。
 - 项目页：`projects.interactive_url` 填 `/textbook3d/v1/<课号>/`（见下文，需要先跑迁移）。
 
+当前目录包含八年级上册第一至六章、下册第七至十二章；压强、浮力、功和机械能、简单机械均从同一登记表生成目录与前后节导航。具体课号和展示顺序以 `lib/textbook3d/registry.ts` 为准。新增课使用共享运行时、字体及滑轮模块，保留旧共享文件以兼容缓存中的课时 HTML。
+
 ## 文件放哪里
 ```
 public/textbook3d/v1/

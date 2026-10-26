@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
-import { skipVisitLoginPrompt } from './visit-prompt'
+import { skipVisitLoginPrompt, waitForRecordedPageView } from './visit-prompt'
 
 test.beforeEach(async ({ page }, testInfo) => {
   if (!testInfo.title.startsWith('首次访问')) await skipVisitLoginPrompt(page)
@@ -57,9 +57,10 @@ test('游乐场页 smoke', async ({ page }) => {
 })
 
 for (const width of [390, 1440]) {
-  test(`游乐场分组、折叠目录与搜索 ${width}px`, async ({ page }) => {
+  test(`游乐场分组、折叠目录与搜索 ${width}px`, { tag: '@smoke-playground' }, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/playground', { waitUntil: 'domcontentloaded' })
+    await waitForRecordedPageView(page, '/playground')
     await expect(page.locator('#playground-create').getByRole('heading', { name: '七巧板' })).toBeVisible()
     await expect(page.locator('#playground-more a[href="/playground/sudoku"]')).not.toBeVisible()
     await page.locator('#playground-more > summary').click()
@@ -78,14 +79,14 @@ for (const width of [390, 1440]) {
   })
 }
 
-test('游乐场已删除玩法直达返回 404', async ({ request }) => {
+test('游乐场已删除玩法直达返回 404', { tag: '@smoke-playground' }, async ({ request }) => {
   for (const game of ['2048', 'fifteen', 'quickmath']) {
     const response = await request.get(`/playground/${game}`)
     expect(response.status()).toBe(404)
   }
 })
 
-test('数织移动端先展示棋盘，竞速登录可选展开', async ({ page }) => {
+test('数织移动端先展示棋盘，竞速登录可选展开', { tag: '@smoke-playground' }, async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/playground/nonogram', { waitUntil: 'domcontentloaded' })
   await expect(page.getByRole('application', { name: '数织棋盘' })).toBeVisible()
@@ -143,7 +144,7 @@ test('手机验证码登录保持两步表单和重发倒计时', async ({ page 
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 })
 
-test('移动端自然观察页 smoke', async ({ page }) => {
+test('移动端自然观察页 smoke', { tag: '@smoke-nature' }, async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await expectHealthyPage(page, '/nature')
   await expect(page.getByText('发布观察').first()).toBeVisible()
@@ -191,7 +192,7 @@ for (const route of [
   { path: '/playground/minesweeper', name: '扫雷 在线逻辑推理游戏', crumbs: ['首页', '游乐场', '扫雷'] },
   { path: '/playground/minesweeper/course', name: '扫雷解局学 入门教程', crumbs: ['首页', '游乐场', '扫雷', '扫雷解局学'] },
 ]) {
-  test(`${route.path} SSR 页面身份一致`, async ({ browser, baseURL }) => {
+  test(`${route.path} SSR 页面身份一致`, { tag: '@smoke-playground' }, async ({ browser, baseURL }) => {
     const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
     try {
       const page = await context.newPage()
@@ -241,7 +242,7 @@ for (const viewport of [
   { width: 767, height: 1000, dark: false },
   { width: 390, height: 844, dark: true },
 ]) {
-  test(`手机首页 ${viewport.width}${viewport.dark ? ' 暗色' : ''} 精简首屏且免费课程仍可直达`, async ({ page }, testInfo) => {
+  test(`手机首页 ${viewport.width}${viewport.dark ? ' 暗色' : ''} 精简首屏且免费课程仍可直达`, { tag: '@smoke-home' }, async ({ page }, testInfo) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height })
     await expectHealthyPage(page, '/')
     await page.evaluate((dark) => document.documentElement.classList.toggle('dark', dark), viewport.dark)
@@ -280,7 +281,7 @@ for (const viewport of [
   { width: 1840, dark: false },
   { width: 1840, dark: true },
 ]) {
-  test(`首页 ${viewport.width}${viewport.dark ? ' 暗色' : ''} 精简横幅且保留兴趣入口`, async ({ page }, testInfo) => {
+  test(`首页 ${viewport.width}${viewport.dark ? ' 暗色' : ''} 精简横幅且保留兴趣入口`, { tag: '@smoke-home' }, async ({ page }, testInfo) => {
     await page.setViewportSize({ width: viewport.width, height: 1000 })
     await expectHealthyPage(page, '/')
     await page.evaluate((dark) => document.documentElement.classList.toggle('dark', dark), viewport.dark)
@@ -320,7 +321,7 @@ for (const viewport of [
   })
 }
 
-test('手机首页探索指南和免费推荐分别直达对应页面', async ({ page }) => {
+test('手机首页探索指南和免费推荐分别直达对应页面', { tag: '@smoke-home' }, async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await expectHealthyPage(page, '/')
   await page.getByRole('link', { name: '探索指南', exact: true }).click()
@@ -330,7 +331,7 @@ test('手机首页探索指南和免费推荐分别直达对应页面', async ({
   await expect(page).toHaveURL(/\/courses$/)
 })
 
-test('手机首屏放大文字仍保留完整标题和可点击指南', async ({ page }) => {
+test('手机首屏放大文字仍保留完整标题和可点击指南', { tag: '@smoke-home' }, async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 740 })
   await expectHealthyPage(page, '/')
   const hero = page.locator('section').filter({ has: page.locator('h1') })
@@ -364,13 +365,13 @@ test('首次访问不自动弹登录层，只显示首页横幅；看到第 2 �
   await page.goto('/', { waitUntil: 'domcontentloaded' })
   const dialog = page.getByRole('dialog', { name: '登录或注册' })
   await expect(page.getByTestId('home-login-banner')).toBeVisible()
-  await page.waitForTimeout(1500)
+  await waitForRecordedPageView(page, '/')
   await expect(dialog).toHaveCount(0)
   await page.goto('/explore', { waitUntil: 'domcontentloaded' })
   await expect(dialog).toBeVisible()
   await page.getByRole('button', { name: '先去探索，关闭登录层' }).click()
   await expect(dialog).toBeHidden()
   await page.goto('/nature', { waitUntil: 'domcontentloaded' })
-  await page.waitForTimeout(1500)
+  await waitForRecordedPageView(page, '/nature')
   await expect(dialog).toHaveCount(0)
 })

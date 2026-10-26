@@ -17,6 +17,6 @@
 
 ## 回归
 
-`node --test scripts/repository-cleanup-phase2.test.mjs` 保留既有界面资源范围、活动引用、自动删除入口不存在、两个旧命令的拒绝执行及现用资源/迁移保护检查；同时检查冗余上下文未重新入库、现行文件没有失效引用。不再要求旧源码副本永久存在，也不执行历史操作或读取生产环境。
+`node --test scripts/repository-cleanup-phase2.test.mjs` 保留自动删除入口不存在、两个旧命令的拒绝执行及现用资源/迁移保护检查。不再为一次性的旧素材、编辑器目录及文档快照清理结果维护永久缺失断言或全仓引用扫描；相关历史由 Git 留存。检查不执行历史操作或读取生产环境。
 
-`e2e/repository-cleanup-phase2.spec.ts` 继续检查现用与已删除资源地址。CI、构建、浏览器检查和生产业务验收分别记录，不能以一项通过替代其他项。
+`e2e/repository-cleanup-phase2.spec.ts` 继续检查现用界面资源的 HTTP 可达性，与核心 smoke 共用一次 Next dev 启动；旧素材地址的永久 404 断言已退役。CI、构建、浏览器检查和生产业务验收分别记录，不能以一项通过替代其他项。

@@ -34,3 +34,15 @@ test('Feishu processing uses its own authenticated internal request and rejects 
   assert.equal(result.sent,1)
   await assert.rejects(runFeishuTick({baseUrl:'http://localhost:1234',secret:'test-only',fetchImpl:async()=>new Response('{}',{status:503})}),/HTTP 503/)
 })
+
+test('Feishu dispatch has a 60 second request budget while commerce requests keep 30 seconds', async () => {
+  const original = AbortSignal.timeout
+  const budgets = []
+  AbortSignal.timeout = milliseconds => { budgets.push(milliseconds); return original(milliseconds) }
+  try {
+    const fetchImpl = async () => new Response('{}')
+    await runFeishuTick({ baseUrl: 'http://localhost:1234', secret: 'test-only', fetchImpl })
+    await runCommerceTick({ baseUrl: 'http://localhost:1234', secret: 'test-only', fetchImpl })
+    assert.deepEqual(budgets, [60000, 30000, 30000])
+  } finally { AbortSignal.timeout = original }
+})

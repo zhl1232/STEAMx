@@ -16,17 +16,3 @@ test('current profile, atlas and detail illustrations remain available after cle
     expect((await response.body()).length, url).toBeGreaterThan(0)
   }
 })
-
-test('retired interface assets are not accidentally retained in public output', async ({ request }) => {
-  const retired = [
-    '/assets/bird-topic-campus-lake-hero.png',
-    '/assets/observation-list-reeds-sky-bg.png',
-    '/assets/species-archive-blue-tech-bg.png',
-    '/assets/profile-hero-explorer-v4.webp',
-    ...['content', 'invite', 'messages', 'shop', 'wallet'].map(name => `/assets/profile-actions/${name}.webp`),
-  ]
-  for (const url of retired) {
-    const response = await request.get(url)
-    expect(response.status(), url).toBe(404)
-  }
-})

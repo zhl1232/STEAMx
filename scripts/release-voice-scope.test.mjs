@@ -38,7 +38,7 @@ test('only explicit homepage consumers/prose permit header checks on a successfu
 });
 test('shared, auth, data, renderer, voice, config, test and unknown paths force full even mixed with home', async () => {
   for (const path of ['app/page.tsx', 'app/layout.tsx', 'app/globals.css', 'components/ui/button.tsx',
-    'lib/utils.ts', 'lib/auth.ts', 'lib/store/payments.ts', 'lib/ai/tutor/usage.ts',
+    'lib/utils.ts', 'lib/auth.ts', 'lib/ai/tutor/usage.ts',
     'components/features/courses/building-voice-controls.tsx', 'lib/utils/ldraw-mpd.ts',
     'public/courses/ldraw/3-hu-die.mpd', 'public/courses/vosk/v2/assets.js',
     'public/courses/vosk/v2/resource-cache.js', 'public/courses/vosk/v2/prepare-worker.js',
@@ -47,6 +47,18 @@ test('shared, auth, data, renderer, voice, config, test and unknown paths force 
     'supabase/migrations/example.sql', 'components/home/home-showcase.test.tsx', 'docs/unknown.md', 'new-ui.tsx']) {
     assert.equal((await detectVoiceScope(env, git([...HOME_PATHS, path]), response())).mode, 'full', path);
   }
+});
+test('reviewed support and footer changes use headers after a successful deployed baseline', async () => {
+  const paths = ['lib/support/feishu/config.ts', 'lib/support/feishu/config.test.ts',
+    'components/layout/site-footer.tsx', 'components/layout/user-button.tsx',
+    'docs/customer-support.md', 'docs/design-system.md'];
+  const result = await detectVoiceScope(env, git(paths), response());
+  assert.equal(result.mode, 'headers');
+  assert.equal(result.before, before);
+  assert.equal(result.verifiedSha, after);
+  assert.equal(result.ciProfile, 'full', 'core checks stay enabled; specialties have a separate plan');
+  assert.equal((await detectVoiceScope(env, git(paths), response([{ ...previous, conclusion: 'failure' }]))).mode, 'full');
+  assert.equal(classifyVoiceChanges([change('lib/store/payments.ts')]).mode, 'headers');
 });
 test('new/deleted/renamed home components, symlinks and executable changes force full', () => {
   for (const path of HOME_PATHS) {

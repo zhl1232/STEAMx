@@ -6,7 +6,7 @@ export async function runFeishuTick({ baseUrl, secret, signal, fetchImpl = fetch
   const response = await fetchImpl(new URL('/api/internal/support/feishu/dispatch', baseUrl), {
     method: 'POST',
     redirect: 'error',
-    signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(30_000)]) : AbortSignal.timeout(30_000),
+    signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(60_000)]) : AbortSignal.timeout(60_000),
     headers: { authorization: `Bearer ${secret}`, 'content-type': 'application/json' },
     body: '{}',
   })

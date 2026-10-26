@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { appendFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { DOC_PATHS, parseChanges } from './ci-scope.mjs';
+import { classifyTestImpact } from './ci-test-impact.mjs';
 
 import { HOME_PATHS } from './home-ui-scope.mjs';
 import { classifyHomeChanges } from './ci-scope.mjs';
@@ -20,7 +21,9 @@ export function classifyVoiceChanges(changes) {
       ? ['000000', '100644'].includes(oldMode) && ['000000', '100644'].includes(newMode)
       // No new/deleted/renamed components or executable/symlink changes.
       : HOME_PATHS.has(path) && oldMode === '100644' && newMode === '100644');
-  return safe ? { mode: 'headers', reason: 'Only reviewed homepage presentation or prose changed' }
+  if (safe) return { mode: 'headers', reason: 'Only reviewed homepage presentation or prose changed' };
+  return !classifyTestImpact(changes).voice
+    ? { mode: 'headers', reason: 'Reviewed module changes do not affect the voice runtime' }
     : full('Shared, voice, configuration or unknown changes');
 }
 

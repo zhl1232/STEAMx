@@ -1,12 +1,13 @@
 "use client"
 
-import { useEffect, useId, useState } from "react"
+import { useEffect, useId, useRef, useState, type MouseEventHandler } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import {
     ArrowRight,
     Award,
     Beaker,
+    BookOpen,
     Bomb,
     Bot,
     Brain,
@@ -20,6 +21,7 @@ import {
     Crown,
     Dna,
     Gamepad2,
+    Grid3X3,
     Hash,
     Layers,
     Palette,
@@ -411,6 +413,23 @@ const DIRECTORY_GAMES = PLAYGROUND_DISCOVERY.flatMap((discovery) => {
 export default function PlaygroundPage() {
     const [stats, setStats] = useState<AggStats | null>(null)
     const [query, setQuery] = useState("")
+    const [moreOpen, setMoreOpen] = useState(false)
+    const [moreNavigation, setMoreNavigation] = useState(0)
+    const moreRef = useRef<HTMLDetailsElement>(null)
+
+    const openMore: MouseEventHandler<HTMLAnchorElement> = (event) => {
+        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+        event.preventDefault()
+        setQuery("")
+        setMoreOpen(true)
+        setMoreNavigation((request) => request + 1)
+    }
+
+    useEffect(() => {
+        if (moreNavigation === 0) return
+        window.location.hash = "playground-more"
+        moreRef.current?.scrollIntoView()
+    }, [moreNavigation])
 
     useEffect(() => {
         const refreshStats = () => setStats(aggregateStats())
@@ -433,9 +452,10 @@ export default function PlaygroundPage() {
     )
 
     return (
-        <div className="w-full space-y-8 px-4 py-4 sm:py-5 lg:px-8 lg:py-8">
-            <HeroPanel />
-            <Link href="/playground/physics-lab" className="surface-panel group flex items-center gap-4 p-5 transition-colors hover:bg-muted/50">
+        <div className="w-full space-y-6 px-4 py-4 sm:py-5 lg:space-y-8 lg:px-8 lg:py-8">
+            <div className="hidden lg:block"><HeroPanel /></div>
+            <MobileQuickEntries onOpenMore={openMore} />
+            <Link href="/playground/physics-lab" className="surface-panel group hidden lg:flex items-center gap-4 p-5 transition-colors hover:bg-muted/50">
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-md bg-primary/10 text-primary"><Beaker className="h-6 w-6" aria-hidden /></span>
                 <div className="min-w-0 flex-1">
                     <h2 className="font-sans text-lg font-black">物理实验室</h2>
@@ -444,11 +464,11 @@ export default function PlaygroundPage() {
                 <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground group-hover:text-primary" aria-hidden />
             </Link>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-xs leading-5 text-muted-foreground">年龄与时长仅供选玩参考，可按孩子的兴趣调整，随时停下来。</p>
+                <p className="hidden text-xs leading-5 text-muted-foreground lg:block">年龄与时长仅供选玩参考，可按孩子的兴趣调整，随时停下来。</p>
                 <div className="relative sm:w-64 sm:shrink-0">
                     <Search aria-hidden className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <input aria-label="搜索游乐场玩法" type="search" value={query} onChange={(event) => setQuery(event.target.value)}
-                        placeholder="搜索玩法，含更多逻辑游戏" className="control-field min-h-11 w-full pl-9 pr-3 text-sm" />
+                        placeholder="搜索玩法" className="control-field min-h-12 w-full pl-9 pr-3 text-base lg:min-h-11 lg:text-sm" />
                 </div>
             </div>
             {search ? (
@@ -460,19 +480,20 @@ export default function PlaygroundPage() {
             ) : PLAYGROUND_GROUPS.map((group) => {
                 const entries = DIRECTORY_GAMES.filter(({ discovery }) => discovery.group === group.id)
                 return group.id === "more" ? (
-                    <details key={group.id} id={`playground-${group.id}`} className="group scroll-mt-24 border-y border-border py-4">
+                    <details key={group.id} ref={moreRef} id={`playground-${group.id}`} open={moreOpen}
+                        onToggle={(event) => setMoreOpen(event.currentTarget.open)} className="group scroll-mt-24 border-y border-border py-4">
                         <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
                             <h2 className="text-panel-title">{group.title} <span className="text-sm font-normal text-muted-foreground">· {entries.length} 个玩法</span></h2>
                             <ChevronRight aria-hidden className="h-4 w-4 shrink-0 transition-transform group-open:rotate-90" />
                         </summary>
-                        <p className="mb-4 text-sm text-muted-foreground">{group.description}</p>
+                        <p className="mb-4 hidden text-sm text-muted-foreground lg:block">{group.description}</p>
                         {renderGames(entries)}
                     </details>
                 ) : (
                     <section key={group.id} id={`playground-${group.id}`} aria-labelledby={`heading-${group.id}`} className="scroll-mt-24 space-y-4">
                         <div>
                             <h2 id={`heading-${group.id}`} className="text-panel-title">{group.title}</h2>
-                            <p className="mt-1 text-sm text-muted-foreground">{group.description}</p>
+                            <p className="mt-1 hidden text-sm text-muted-foreground lg:block">{group.description}</p>
                         </div>
                         {renderGames(entries)}
                     </section>
@@ -515,6 +536,29 @@ function StatsGrid({ stats }: { stats: AggStats }) {
                 value={`${Object.values(stats.steamPlayed).filter((value) => value > 0).length} / 5`}
             />
         </div>
+    )
+}
+
+/** 手机端首屏：四个大入口替代长篇介绍，桌面端仍用 HeroPanel。 */
+function MobileQuickEntries({ onOpenMore }: { onOpenMore: MouseEventHandler<HTMLAnchorElement> }) {
+    const entries = [
+        { name: "物理实验室", hint: "电路 · 光 · 声 · 磁", href: "/playground/physics-lab", icon: Beaker, tone: "bg-primary/10 text-primary" },
+        { name: "3D 物理课本", hint: "八年级物理", href: "/textbook", icon: BookOpen, tone: "bg-[hsl(var(--tone-science-soft))] text-[hsl(var(--tone-science))]" },
+        { name: "七巧板", hint: "从这里开始", href: "/playground/tangram", icon: Palette, tone: "bg-[hsl(var(--tone-art-soft))] text-[hsl(var(--tone-art))]" },
+        { name: "更多玩法", hint: "逻辑挑战", href: "#playground-more", icon: Grid3X3, tone: "bg-muted text-foreground" },
+    ]
+    return (
+        <nav aria-label="游乐场主要入口" className="grid grid-cols-2 gap-3 lg:hidden">
+            {entries.map(({ name, hint, href, icon: Icon, tone }) => (
+                <Link key={href} href={href} onClick={href === "#playground-more" ? onOpenMore : undefined} className="surface-card flex min-h-[88px] flex-col justify-between gap-2 p-3.5 active:bg-muted/60">
+                    <span className={cn("grid h-10 w-10 place-items-center rounded-md", tone)}><Icon className="h-5 w-5" aria-hidden /></span>
+                    <span>
+                        <span className="block text-base font-black leading-6 text-foreground">{name}</span>
+                        <span className="block truncate text-sm leading-5 text-muted-foreground">{hint}</span>
+                    </span>
+                </Link>
+            ))}
+        </nav>
     )
 }
 
@@ -606,7 +650,7 @@ function ExplorationRecords({ stats }: { stats: AggStats }) {
 
 function GameTile({ game, discovery, played }: { game: GameCard; discovery: PlaygroundDiscovery; played: number }) {
     return (
-        <article className="surface-card flex flex-col p-4">
+        <article className="surface-card flex flex-col p-4 max-lg:py-3.5">
             <Link href={game.href} prefetch={false} className="group flex flex-1 items-start gap-3 rounded-sm focus-visible:outline-2 focus-visible:outline-primary">
                 <GameArtwork game={game} compact />
                 <div className="min-w-0 flex-1">
@@ -614,12 +658,12 @@ function GameTile({ game, discovery, played }: { game: GameCard; discovery: Play
                         <h3 className="text-base font-semibold group-hover:text-primary">{game.name}</h3>
                         {discovery.featured ? <ToneBadge tone="science" className="text-[11px]">一起试试</ToneBadge> : null}
                     </div>
-                    <p className="mt-1 text-xs text-muted-foreground">建议 {discovery.age} · 参考 {discovery.duration}</p>
-                    <p className="mt-2 text-sm leading-6 text-muted-foreground">{game.description}</p>
-                    <p className="mt-2 flex items-center gap-2 text-xs text-primary">{played > 0 ? `已玩 ${played} · 继续探索` : "开始探索"}<ArrowRight aria-hidden className="h-3.5 w-3.5" /></p>
+                    <p className="mt-1 hidden text-xs text-muted-foreground lg:block">建议 {discovery.age} · 参考 {discovery.duration}</p>
+                    <p className="mt-1 text-sm leading-6 text-foreground/80 lg:mt-2 lg:text-muted-foreground">{game.description}</p>
+                    <p className="mt-2 flex items-center gap-2 text-sm font-semibold text-primary lg:text-xs lg:font-normal">{played > 0 ? `已玩 ${played} · 继续探索` : "开始探索"}<ArrowRight aria-hidden className="h-3.5 w-3.5" /></p>
                 </div>
             </Link>
-            <details className="mt-3 border-t border-border pt-1">
+            <details className="mt-3 hidden border-t border-border pt-1 lg:block">
                 <summary className="min-h-11 cursor-pointer py-3 text-xs font-semibold text-muted-foreground">陪玩与延伸<span className="sr-only">：{game.name}</span></summary>
                 <dl className="space-y-2 pb-2 text-xs leading-6">
                     <div><dt className="inline font-semibold">家长怎么陪：</dt><dd className="inline text-muted-foreground">{discovery.together}</dd></div>

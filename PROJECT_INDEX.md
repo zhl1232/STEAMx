@@ -21,6 +21,7 @@
 | 自然首页、物种图鉴和观察 | `app/nature/`、`lib/nature-species-atlas.ts`、`lib/api/nature-observation-*`、`components/features/bird-observation/` | [物种图鉴](docs/NATURE_SPECIES_ATLAS_IMPLEMENTATION.md)、[内容质量](docs/content-quality.md) |
 | 物理实验室 | `app/playground/physics-lab/`、`app/api/physics-lab/state/`、`hooks/physics-lab/`、`public/physics-lab/navigation.mjs`、`public/physics-lab/curriculum-catalog.mjs`、`public/physics-lab/exploration-model.mjs`、`tests/physics-lab/` | [主站账号、学段目录、实验模型与迁移](docs/physics-lab.md) |
 | 游乐场亲子入口、探索记录及联网玩法 | `app/playground/`、`lib/playground/catalog.ts`、`lib/playground/` | [入口与联网规则](docs/playground-online-features.md)、[玩法删除与数据清理](docs/playground-online-features.md#已删除玩法的数据清理) |
+| 3D 物理课本目录与嵌入 | `app/textbook/`、`lib/textbook3d/`、`components/features/textbook3d/`、`scripts/textbook3d/sync.mjs`、`public/textbook3d/` | [课本接入与资源同步](docs/textbook3d.md) |
 | 函数战争弹道、教学操作与战场渲染 | `lib/playground/function-wars-trajectory.ts`、`function-wars-simulation.ts`、`hooks/playground/use-function-wars.ts`、`use-function-wars-immersive.ts`、`app/playground/functionwars/` | [弹道、关卡与地图版本](docs/playground-online-features.md#函数战争弹道与教学规则) |
 
 表中的短文件名相对于同格明确给出的目录；带 `*` 的位置表示文件组，不是可直接执行的路径。
@@ -57,7 +58,7 @@
 
 | 事项 | 实现入口 | 文档 |
 |---|---|---|
-| 命令、依赖、单元与浏览器检查 | `package.json`、`.github/workflows/ci.yml`、`scripts/ci-scope.mjs`、`scripts/home-ui-scope.mjs`、`__tests__/`、`e2e/` | [本地启动](README.md)、[CI 范围](docs/deployment.md#ci-范围与成本) |
+| 命令、依赖、单元与浏览器检查 | `package.json`、`.github/workflows/ci.yml`、`scripts/ci-scope.mjs`、`scripts/ci-test-impact.mjs`、`scripts/ci-test-plan.mjs`、`scripts/ci-unit-tests.mjs`、`scripts/home-ui-scope.mjs`、`__tests__/`、`e2e/` | [本地启动](README.md)、[CI 范围](docs/deployment.md#ci-范围与成本) |
 | 数据库迁移 | `scripts/db-push.mjs`、`supabase/migrations/` | [数据库连接与迁移](docs/database-psql.md) |
 | Docker、Nginx、worker 与回滚 | `Dockerfile`、`deploy/`、`.github/workflows/release.yml`、`scripts/release-scope.mjs`、`scripts/release-voice-scope.mjs`、`scripts/check-building-voice-headers.mjs` | [部署](docs/deployment.md) |
 | LDraw 源文件、审核和正式资源 | `scripts/ldraw-models/`、`scripts/ldraw-reviews/`、`scripts/ldraw-inspections.json`、`public/courses/ldraw/`、`scripts/publish-ldraw-assets.mjs` | [资源发布](docs/ldraw-publishing.md)、[资源状态](docs/ldraw-status.md) |

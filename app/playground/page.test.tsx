@@ -68,7 +68,8 @@ describe("PlaygroundPage", () => {
         for (const name of ["一起拼与创造", "做个小实验", "动脑与编程", "更多逻辑游戏"]) {
             expect(screen.getByRole("heading", { name: new RegExp(name) })).toBeInTheDocument()
         }
-        expect(screen.getByRole("link", { name: /物理实验室/ })).toHaveAttribute("href", "/playground/physics-lab")
+        expect(screen.getAllByRole("link", { name: /物理实验室/ }).every((link) => link.getAttribute("href") === "/playground/physics-lab")).toBe(true)
+        expect(screen.getByRole("link", { name: /3D 物理课本/ })).toHaveAttribute("href", "/textbook")
         expect(container.querySelectorAll('article')).toHaveLength(PLAYGROUND_DISCOVERY.length)
         for (const slug of ["2048", "fifteen", "quickmath"]) {
             expect(container.querySelector(`a[href="/playground/${slug}"]`)).toBeNull()
@@ -85,6 +86,31 @@ describe("PlaygroundPage", () => {
         }
         fireEvent.click(screen.getByRole("button", { name: "返回分类浏览" }))
         expect(screen.getByRole("heading", { name: "一起拼与创造" })).toBeInTheDocument()
+    })
+
+    it("restores and opens the more-games directory from an active search before scrolling", () => {
+        const { container } = render(<PlaygroundPage />)
+        fireEvent.change(screen.getByRole("searchbox"), { target: { value: "数独" } })
+        expect(container.querySelector("#playground-more")).toBeNull()
+        const scroll = vi.spyOn(HTMLElement.prototype, "scrollIntoView").mockImplementation(function (this: HTMLElement) {
+            expect(this).toHaveAttribute("id", "playground-more")
+            expect(this).toHaveAttribute("open")
+            expect(screen.getByRole("searchbox")).toHaveValue("")
+        })
+
+        try {
+            fireEvent.click(screen.getByRole("link", { name: /更多玩法/ }))
+
+            expect(screen.getByRole("heading", { name: "一起拼与创造" })).toBeInTheDocument()
+            const more = container.querySelector<HTMLDetailsElement>("#playground-more")!
+            expect(more.open).toBe(true)
+            expect(within(more).getAllByRole("article")).toHaveLength(PLAYGROUND_DISCOVERY.filter((game) => game.group === "more").length)
+            expect(window.location.hash).toBe("#playground-more")
+            expect(scroll).toHaveBeenCalledOnce()
+        } finally {
+            scroll.mockRestore()
+            window.history.replaceState(null, "", window.location.pathname)
+        }
     })
 
     it("excludes retired games from play, win, explored-game and STEAM totals", () => {

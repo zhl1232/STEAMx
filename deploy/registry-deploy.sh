@@ -16,11 +16,17 @@ image_ref="${REGISTRY_IMAGE}@${IMAGE_DIGEST}"
 # Use the same server lock as standalone operations, including manual invocations.
 exec 9>"$app_dir/.deploy.lock"
 flock -w "${DEPLOY_LOCK_TIMEOUT:-120}" 9 || { echo 'Another deployment is active.' >&2; exit 1; }
-pull_timeout="${IMAGE_PULL_TIMEOUT:-180}"
-pull_attempts="${IMAGE_PULL_ATTEMPTS:-2}"
-for value in "$pull_timeout" "$pull_attempts"; do
+# IMAGE_PULL_TIMEOUT is the total budget for all pull attempts, not a
+# per-attempt limit. A slow but progressing pull must not be killed and
+# restarted from zero (docker discards unextracted layers when interrupted).
+pull_timeout="${IMAGE_PULL_TIMEOUT:-900}"
+pull_attempts="${IMAGE_PULL_ATTEMPTS:-4}"
+pull_backoff="${IMAGE_PULL_BACKOFF_SECONDS:-10}"
+pull_heartbeat="${IMAGE_PULL_HEARTBEAT_SECONDS:-30}"
+for value in "$pull_timeout" "$pull_attempts" "$pull_heartbeat"; do
   [[ "$value" =~ ^[1-9][0-9]*$ ]] || { echo 'Pull limits must be positive integers.' >&2; exit 1; }
 done
+[[ "$pull_backoff" =~ ^[0-9]+$ ]] || { echo 'Pull backoff must be a nonnegative integer.' >&2; exit 1; }
 login_config="$(mktemp -d)"
 candidate_env="$(mktemp "${image_env_file}.new.XXXXXX")"
 rollback_env="$(mktemp "${image_env_file}.rollback.XXXXXX")"
@@ -35,6 +41,7 @@ nginx_site_path="${NGINX_SITE_PATH:-/etc/nginx/sites-available/steam-app}"
 nginx_site_enabled_path="${NGINX_SITE_ENABLED_PATH:-/etc/nginx/sites-enabled/steam-app}"
 config_changed=0
 cleanup() {
+  if [ -n "${heartbeat_pid:-}" ]; then kill "$heartbeat_pid" >/dev/null 2>&1 || true; fi
   if [ -n "$preflight_container" ]; then
     docker rm -f "$preflight_container" >/dev/null 2>&1 || true
   fi
@@ -79,16 +86,53 @@ fi
 printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USERNAME" --password-stdin >/dev/null
 echo "Pulling $image_ref ..."
 pulled=0
+pull_started=$SECONDS
+pull_deadline=$((SECONDS + pull_timeout))
+heartbeat_pid=""
+stop_heartbeat() {
+  if [ -n "$heartbeat_pid" ]; then
+    kill "$heartbeat_pid" >/dev/null 2>&1 || true
+    wait "$heartbeat_pid" 2>/dev/null || true
+    heartbeat_pid=""
+  fi
+}
 for ((attempt=1; attempt<=pull_attempts; attempt++)); do
-  echo "Image pull attempt $attempt/$pull_attempts (timeout ${pull_timeout}s)"
-  if timeout --kill-after=10s "${pull_timeout}s" docker pull "$image_ref"; then
-    pulled=1
+  remaining=$((pull_deadline - SECONDS))
+  if [ "$remaining" -le 0 ]; then
+    echo "Image pull budget of ${pull_timeout}s used up before attempt $attempt." >&2
     break
-  else
-    pull_status=$?
-    echo "Image pull attempt $attempt failed (exit $pull_status)." >&2
+  fi
+  echo "Image pull attempt $attempt/$pull_attempts (remaining budget ${remaining}s of ${pull_timeout}s)"
+  # Non-TTY docker pull only prints layer state changes; a heartbeat shows the
+  # job is still alive while one large layer downloads.
+  ( start=$SECONDS; sleeper=""
+    trap '[ -z "$sleeper" ] || kill "$sleeper" 2>/dev/null; exit 0' TERM
+    while :; do
+      sleep "$pull_heartbeat" & sleeper=$!
+      wait "$sleeper"
+      echo "  ... still pulling (attempt $attempt, $((SECONDS - start))s into this attempt)"
+    done ) &
+  heartbeat_pid=$!
+  pull_status=0
+  timeout --kill-after=10s "${remaining}s" docker pull "$image_ref" || pull_status=$?
+  stop_heartbeat
+  if [ "$pull_status" -eq 0 ]; then
+    pulled=1
+    echo "Image pull finished in $((SECONDS - pull_started))s."
+    break
+  fi
+  echo "Image pull attempt $attempt failed (exit $pull_status) after $((SECONDS - pull_started))s total." >&2
+  if [ "$attempt" -lt "$pull_attempts" ]; then
+    delay=$((pull_backoff * (1 << (attempt - 1))))
+    [ "$delay" -le 60 ] || delay=60
+    if [ $((SECONDS + delay)) -ge "$pull_deadline" ]; then
+      echo 'Not enough pull budget left for another attempt.' >&2
+      break
+    fi
+    [ "$delay" -eq 0 ] || { echo "Retrying in ${delay}s ..."; sleep "$delay"; }
   fi
 done
+stop_heartbeat
 if [ "$pulled" -ne 1 ]; then
   echo 'Image pull exhausted retries; application and configuration were not changed.' >&2
   exit 1

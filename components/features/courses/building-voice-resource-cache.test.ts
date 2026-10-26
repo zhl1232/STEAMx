@@ -9,7 +9,7 @@ const hash = createHash('sha256').update(payload).digest('hex')
 const origin = 'https://course.example'
 const key = `${origin}/courses/vosk/cache/${hash}/model.tar.gz`
 const legacy = `${origin}/courses/vosk/v1/model.tar.gz`
-function fixture(fallback = false) {
+function fixture(fallback = false, { noCache = false, locks = false } = {}) {
   const entries = new Map<string, Uint8Array<ArrayBuffer>>()
   const cache = {
     match: vi.fn(async (url: string) => entries.has(url) ? new Response(entries.get(url)) : undefined),
@@ -18,14 +18,39 @@ function fixture(fallback = false) {
   }
   const fetch = vi.fn(async () => new Response(payload))
   const postMessage = vi.fn()
+  let lock = Promise.resolve<unknown>(undefined)
+  const navigator = locks ? { locks: {
+    request: (_key: string, task: () => unknown) => {
+      const result = lock.then(task)
+      lock = result.catch(() => {})
+      return result
+    },
+  } } : {}
   const read = runInNewContext(`${script}; readBuildingVoiceAsset`, {
     BUILDING_VOICE_ASSETS: { 'model.tar.gz': { bytes: payload.length, sha256: hash, url: 'https://cdn.example/model.tar.gz', ...(fallback ? { fallbackUrl: '/courses/vosk/v1/model.tar.gz' } : {}) } },
-    self: { location: { href: `${origin}/courses/vosk/v2/prepare-worker.js` }, navigator: {}, postMessage },
-    caches: { open: async () => cache }, fetch, crypto: webcrypto, URL, Response, ReadableStream, Uint8Array, AbortController, setTimeout, clearTimeout,
+    self: { location: { href: `${origin}/courses/vosk/v2/prepare-worker.js` }, navigator, postMessage },
+    caches: { open: async () => { if (noCache) throw new Error('cache denied'); return cache } }, fetch, crypto: webcrypto, URL, Response, ReadableStream, Uint8Array, AbortController, setTimeout, clearTimeout,
   }) as (name: string, network: boolean) => Promise<{ bytes: ArrayBuffer; persisted: boolean; cached: boolean } | null>
   return { entries, cache, fetch, read, postMessage }
 }
 afterEach(() => vi.useRealTimers())
+it('does not fetch on a cache-only miss and deduplicates concurrent preparations with Web Locks', async () => {
+  const f = fixture(false, { locks: true })
+  expect(await f.read('model.tar.gz', false)).toBeNull()
+  expect(f.fetch).not.toHaveBeenCalled()
+  const [first, second] = await Promise.all([f.read('model.tar.gz', true), f.read('model.tar.gz', true)])
+  expect(first).toMatchObject({ cached: false, persisted: true })
+  expect(second).toMatchObject({ cached: true, persisted: true })
+  expect(f.fetch).toHaveBeenCalledOnce()
+})
+it('returns verified bytes for memory-only initialization when cache access is denied', async () => {
+  const f = fixture(false, { noCache: true })
+  const result = await f.read('model.tar.gz', true)
+  expect(result).toMatchObject({ persisted: false, cached: false })
+  expect(Array.from(new Uint8Array(result!.bytes))).toEqual(Array.from(payload))
+  expect(f.fetch).toHaveBeenCalledOnce()
+  expect(f.cache.put).not.toHaveBeenCalled()
+})
 it('migrates verified v1 cache without downloading and survives a CDN host change', async () => {
   const f = fixture(); f.entries.set(legacy, payload)
   expect(await f.read('model.tar.gz', false)).toMatchObject({ cached: true, persisted: true })
