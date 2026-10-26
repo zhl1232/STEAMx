@@ -238,9 +238,10 @@ for (const viewport of [
   { width: 360, height: 800, dark: false },
   { width: 390, height: 844, dark: false },
   { width: 430, height: 900, dark: false },
+  { width: 767, height: 1000, dark: false },
   { width: 390, height: 844, dark: true },
 ]) {
-  test(`手机首页 ${viewport.width}${viewport.dark ? ' 暗色' : ''} 精简首屏且免费课程仍可直达`, async ({ page }) => {
+  test(`手机首页 ${viewport.width}${viewport.dark ? ' 暗色' : ''} 精简首屏且免费课程仍可直达`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height })
     await expectHealthyPage(page, '/')
     await page.evaluate((dark) => document.documentElement.classList.toggle('dark', dark), viewport.dark)
@@ -267,6 +268,7 @@ for (const viewport of [
     await expect(recommendation).toContainText('免费积木课，跟着 3D 步骤一起搭')
     await expect(recommendation).toBeInViewport()
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    await testInfo.attach('home-hero', { body: await hero.screenshot(), contentType: 'image/png' })
   })
 }
 
@@ -274,29 +276,25 @@ for (const viewport of [
   { width: 768, dark: false },
   { width: 1024, dark: false },
   { width: 1280, dark: false },
+  { width: 1440, dark: false },
   { width: 1840, dark: false },
   { width: 1840, dark: true },
 ]) {
-  test(`首页 ${viewport.width}${viewport.dark ? ' 暗色' : ''} 精简重复信息并保留三个不同任务入口`, async ({ page }) => {
+  test(`首页 ${viewport.width}${viewport.dark ? ' 暗色' : ''} 精简横幅且保留兴趣入口`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width: viewport.width, height: 1000 })
     await expectHealthyPage(page, '/')
     await page.evaluate((dark) => document.documentElement.classList.toggle('dark', dark), viewport.dark)
-    const heading = page.getByRole('heading', { level: 1, name: /陪孩子找个有趣的项目，\s*一起动手做。/ })
+    const heading = page.getByRole('heading', { level: 1, name: '陪孩子找项目，一起动手做', exact: true })
     await expect(heading).toBeVisible()
     await expect(page.locator('h1')).toHaveCount(1)
     const hero = page.locator('section').filter({ has: heading })
     await expect(hero.getByText('陪孩子，一起动手做', { exact: true })).toBeHidden()
     await expect(hero.getByText('创探空间', { exact: true })).toHaveCount(0)
     await expect(hero.getByText('从孩子想做的开始，跟着指导一步步尝试。', { exact: true })).toHaveCount(0)
-    await expect(hero.getByRole('link', { name: '挑一节免费课程' })).toBeVisible()
-    await expect(hero.getByRole('link', { name: '看看动手项目' })).toBeVisible()
-    const guide = hero.getByRole('link', { name: '第一次来？看探索指南', exact: true })
-    await expect(guide).toBeVisible()
-    await expect(guide).toHaveAttribute('href', '/start')
-    await expect(page.getByRole('link', { name: /探索指南/ })).toHaveCount(1)
-    await expect(hero.getByRole('link')).toHaveCount(3)
-    await expect(hero.getByRole('link', { name: '挑一节免费课程' })).toHaveAttribute('href', '/courses')
-    await expect(hero.getByRole('link', { name: '看看动手项目' })).toHaveAttribute('href', '/explore')
+    await expect(hero.getByText('搭积木、做实验、学编程、观察自然。', { exact: true })).toBeVisible()
+    await expect(hero.getByRole('link')).toHaveCount(0)
+    const titleFits = await heading.evaluate((el) => el.scrollWidth <= el.clientWidth)
+    expect(titleFits).toBe(true)
     const categories = page.locator('section[aria-labelledby="home-start-heading"]')
     await expect(categories.getByRole('heading', { name: '按兴趣探索', exact: true })).toBeVisible()
     await expect(categories.getByRole('link')).toHaveCount(6)
@@ -318,6 +316,7 @@ for (const viewport of [
       expect(Math.abs(worksBox!.y - natureBox!.y)).toBeLessThanOrEqual(1)
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    await testInfo.attach('home-hero', { body: await hero.screenshot(), contentType: 'image/png' })
   })
 }
 

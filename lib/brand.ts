@@ -16,12 +16,11 @@ export const BRAND_TAGLINE = "探索 · 创造 · 成长";
  */
 export const BRAND_HERO_TITLE = "兴趣是最好的老师";
 /**
- * Homepage hero headline (desktop + mobile only). Both layouts may split it at "，"
- * so the parent-facing message stays readable on narrow screens.
+ * Desktop homepage hero headline; mobile keeps its own shorter copy.
  */
-export const BRAND_HOME_HERO_TITLE = "陪孩子找个有趣的项目，一起动手做。";
+export const BRAND_HOME_HERO_TITLE = "陪孩子找项目，一起动手做";
 /** Homepage hero subtitle shown under the headline. */
-export const BRAND_HERO_SUBTITLE = "搭积木、做小实验、学编程，去自然里观察。";
+export const BRAND_HERO_SUBTITLE = "搭积木、做实验、学编程、观察自然。";
 /** A practical next step shown with the homepage activities and free-course entry. */
 export const BRAND_HOME_HERO_GUIDE = "从孩子想做的开始，跟着指导一步步尝试。";
 /**
