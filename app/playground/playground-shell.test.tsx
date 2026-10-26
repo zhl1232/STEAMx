@@ -27,10 +27,11 @@ describe('playground navigation', () => {
             navigation.pathname = pathname
             render(<PlaygroundShell><p>页面内容</p></PlaygroundShell>)
             const siteNavigation = screen.getByRole('navigation', { name: '主站与账号导航' })
-            expect(within(siteNavigation).getByRole('link', { name: '返回项目' })).toHaveAttribute('href', '/explore')
+            const back = pathname === '/playground' ? { name: '返回项目', href: '/explore' } : { name: '返回游乐场首页', href: '/playground' }
+            expect(within(siteNavigation).getByRole('link', { name: back.name })).toHaveAttribute('href', back.href)
             expect(within(siteNavigation).getByRole('button', { name: '登录' })).toBeInTheDocument()
             expect(userButton).toHaveBeenCalledWith({ compact: true })
-            expect(within(siteNavigation).getByRole('button').parentElement).toHaveClass('md:hidden')
+            expect(within(siteNavigation).getByRole('button', { name: '登录' }).parentElement).toHaveClass('md:hidden')
         },
     )
 
@@ -91,7 +92,7 @@ describe('playground navigation', () => {
         navigation.pathname = '/playground/functionwars'
         render(<PlaygroundShell><p>函数控制台</p></PlaygroundShell>)
         const compactNavigation = screen.getByRole('navigation', { name: '主站与账号导航' })
-        expect(within(compactNavigation).getByRole('link', { name: '返回项目' })).toHaveAttribute('href', '/explore')
+        expect(within(compactNavigation).getByRole('link', { name: '返回游乐场首页' })).toHaveAttribute('href', '/playground')
         expect(within(compactNavigation).getByRole('button', { name: '登录' })).toBeInTheDocument()
         expect(within(compactNavigation).getByRole('heading', { name: '函数战争' })).toBeInTheDocument()
         expect(within(compactNavigation).getByRole('button', { name: '函数战争玩法说明' })).toBeInTheDocument()

@@ -407,22 +407,6 @@ function GameNavGlyph({
     )
 }
 
-function PlaygroundSiteNavigation() {
-    return (
-        <nav className="flex min-h-12 items-center justify-between gap-3 px-4" aria-label="主站与账号导航">
-            <div className="flex items-center gap-4">
-                <Link href="/explore" className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground">
-                    <ArrowLeft className="h-4 w-4" aria-hidden />
-                    返回项目
-                </Link>
-            </div>
-            <div className="shrink-0 md:hidden">
-                <UserButton compact />
-            </div>
-        </nav>
-    )
-}
-
 function MobilePlaygroundHeader() {
     const pathname = usePathname()
     const isHome = pathname === "/playground"
@@ -438,32 +422,24 @@ function MobilePlaygroundHeader() {
 
     return (
         <div className="playground-mobile-header surface-panel sticky top-(--mobile-global-header-height,0px) z-30 rounded-none border-x-0 border-t-0 lg:hidden">
-            {!isFunctionWars && <PlaygroundSiteNavigation />}
-            <div
-                className={cn("flex min-h-14 items-center justify-between", isFunctionWars ? "gap-1 px-3" : "gap-3 px-4")}
-                role={isFunctionWars ? "navigation" : undefined}
-                aria-label={isFunctionWars ? "主站与账号导航" : undefined}
-            >
-                {isFunctionWars && (
-                    <Link href="/explore" aria-label="返回项目" title="返回项目" className="grid h-11 w-11 shrink-0 place-items-center rounded-sm text-muted-foreground hover:bg-muted">
+            {/* 手机端只保留一行：返回 · 标题 · 账号/玩法说明 */}
+            <nav className="flex min-h-14 items-center gap-2 px-2" aria-label="主站与账号导航">
+                {isHome ? (
+                    <Link href="/explore" aria-label="返回项目" title="返回项目" className="grid h-11 w-11 shrink-0 place-items-center rounded-sm text-foreground hover:bg-muted">
                         <ArrowLeft className="h-5 w-5" aria-hidden />
                     </Link>
-                )}
-                {isHome ? (
-                    <div className="w-11" />
                 ) : (
                     <Link
                         href="/playground"
-                        className="grid h-11 w-11 place-items-center rounded-sm border border-[hsl(var(--surface-border))] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                        className="grid h-11 w-11 shrink-0 place-items-center rounded-sm text-foreground hover:bg-muted"
                         aria-label="返回游乐场首页"
                     >
-                        <Home className="h-5 w-5" />
+                        <ArrowLeft className="h-5 w-5" aria-hidden />
                     </Link>
                 )}
                 <h1 className="min-w-0 flex-1 truncate text-center font-sans text-lg font-black tracking-tight">
-                    {isHome ? "游乐场" : games.find((game) => pathname.startsWith(game.href))?.name ?? "游乐场"}
+                    {isHome ? "游乐场" : activeGame?.name ?? "游乐场"}
                 </h1>
-                {isFunctionWars && <div className="shrink-0 md:hidden"><UserButton compact /></div>}
                 {activeGame ? (
                     <GameHelp
                         name={activeGame.name}
@@ -473,31 +449,25 @@ function MobilePlaygroundHeader() {
                         badgeGoal={activeGame.badgeGoal}
                         shortcuts={GAME_SHORTCUTS[activeGame.href] ?? []}
                     />
-                ) : (
-                    <div className="w-11 shrink-0" aria-hidden />
-                )}
-            </div>
-            {!isHome && pathname !== "/playground/functionwars" ? (
-                <nav className="hidden gap-2 overflow-x-auto px-4 pb-3 no-scrollbar sm:flex" aria-label="游乐场游戏导航">
-                    {navItems.map((item) => {
-                        const active =
-                            pathname === item.href || (item.href !== "/playground" && pathname.startsWith(item.href))
+                ) : null}
+                <div className="flex min-w-11 shrink-0 justify-end md:hidden"><UserButton compact /></div>
+            </nav>
+            {!isHome && !isFunctionWars ? (
+                <nav className="flex gap-2 overflow-x-auto px-3 pb-2.5 no-scrollbar" aria-label="游乐场游戏导航">
+                    {navItems.filter((item) => item.href !== "/playground").map((item) => {
+                        const active = item.href !== "/playground" && pathname.startsWith(item.href)
                         return (
                             <Link
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    "inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-sm px-4 text-sm font-bold transition-colors",
+                                    "inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-full px-4 text-sm font-bold transition-colors",
                                     active
                                         ? "bg-primary text-primary-foreground shadow-xs"
-                                        : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground",
+                                        : "bg-muted text-foreground hover:bg-muted/70",
                                 )}
                             >
-                                {item.href === "/playground" ? (
-                                    <item.icon className="h-4 w-4" />
-                                ) : (
-                                    <GameNavGlyph href={item.href} icon={item.icon} active={active} />
-                                )}
+                                <item.icon className="h-4 w-4" aria-hidden />
                                 {item.name}
                             </Link>
                         )

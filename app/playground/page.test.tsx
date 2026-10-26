@@ -68,7 +68,8 @@ describe("PlaygroundPage", () => {
         for (const name of ["一起拼与创造", "做个小实验", "动脑与编程", "更多逻辑游戏"]) {
             expect(screen.getByRole("heading", { name: new RegExp(name) })).toBeInTheDocument()
         }
-        expect(screen.getByRole("link", { name: /物理实验室/ })).toHaveAttribute("href", "/playground/physics-lab")
+        expect(screen.getAllByRole("link", { name: /物理实验室/ }).every((link) => link.getAttribute("href") === "/playground/physics-lab")).toBe(true)
+        expect(screen.getByRole("link", { name: /3D 物理课本/ })).toHaveAttribute("href", "/textbook")
         expect(container.querySelectorAll('article')).toHaveLength(PLAYGROUND_DISCOVERY.length)
         for (const slug of ["2048", "fifteen", "quickmath"]) {
             expect(container.querySelector(`a[href="/playground/${slug}"]`)).toBeNull()
