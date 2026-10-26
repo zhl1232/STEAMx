@@ -2,15 +2,32 @@ name: CI / PR Checks
 
 on:
   workflow_call:
+    inputs:
+      profile:
+        type: string
+        default: full
+      before:
+        type: string
+        default: ''
+      verified-sha:
+        type: string
+        default: ''
   pull_request:
     branches: ["main"]
+    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
+
+permissions:
+  contents: read
 
 concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  # Only supersede runs for the same PR. Never cancel a release caller's CI.
+  group: ci-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || format('run-{0}', github.run_id) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   test-and-lint:
+    # Draft PRs create a skipped check but never allocate a runner.
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft != true
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_SUPABASE_URL: https://example.com
@@ -19,64 +36,90 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Classify CI scope
+        id: scope
+        env:
+          CI_PROFILE: ${{ inputs.profile }}
+          CI_BEFORE: ${{ inputs.before }}
+          CI_VERIFIED_SHA: ${{ inputs.verified-sha }}
+        run: node scripts/ci-scope.mjs
+
+      - name: Verify CI scope policy
+        run: node --test scripts/ci-scope.test.mjs scripts/release-voice-scope.test.mjs scripts/check-building-voice-headers.test.mjs scripts/home-ui-scope.test.mjs scripts/ci-workflow-contract.test.mjs
 
       - name: Setup pnpm
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
         uses: pnpm/action-setup@v4
         with:
           version: 10.22.0
           run_install: false
 
       - name: Setup Node.js
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
 
       - name: Verify repository cleanup safety
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
         run: node --test scripts/repository-cleanup-phase2.test.mjs
 
       - name: Install dependencies
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
         run: pnpm install --frozen-lockfile
 
       - name: Lint code base (oxlint)
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
         run: pnpm run lint
 
       - name: TypeScript type check (tsgo)
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
         run: pnpm run type-check
 
       - name: Run unit tests
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
         run: pnpm exec vitest run
 
       - name: Verify portable physics lab
+        if: steps.scope.outputs.mode == 'full'
         run: pnpm run test:physics-lab
 
       - name: Verify deployment, migration, and SEO scripts
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
         run: node --test deploy/registry-deploy.test.mjs scripts/db-push.test.mjs scripts/check-seo.test.mjs
 
       - name: Build app
-        if: github.event_name == 'pull_request'
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && github.event_name == 'pull_request'
         run: pnpm run build
 
       - name: Verify production and development route boundaries
-        if: github.event_name == 'pull_request'
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && github.event_name == 'pull_request'
         run: pnpm exec playwright test -c playwright.internal-routes.config.ts
 
       - name: Verify retained interface assets
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
         run: pnpm exec playwright test e2e/repository-cleanup-phase2.spec.ts --project=chromium
 
       - name: Run smoke E2E
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
         run: pnpm exec playwright test e2e/smoke.spec.ts e2e/learning-guides.spec.ts e2e/asset-cleanup.spec.ts e2e/physics-lab.spec.ts --project=chromium
 
       - name: Verify project video presentation pilot
+        if: steps.scope.outputs.mode == 'full'
         run: pnpm exec playwright test -c playwright.project-video-pilot.config.ts
 
       - name: Verify immersive building layout
+        if: steps.scope.outputs.mode == 'full'
         env:
           BUILDING_OUTLINE_EVIDENCE_DIR: ${{ runner.temp }}/building-immersive-evidence
         run: pnpm exec playwright test -c playwright.building-outline.config.ts immersive.spec.ts
 
       - name: Preserve immersive building evidence
-        if: always()
+        if: always() && steps.scope.outputs.mode == 'full'
         uses: actions/upload-artifact@v4
         with:
           name: immersive-building-evidence
@@ -84,12 +127,13 @@ jobs:
           retention-days: 7
 
       - name: Verify local Vosk engineering (silent input; acoustic benchmark is manual)
+        if: steps.scope.outputs.mode == 'full'
         env:
           BUILDING_VOSK_EVIDENCE_DIR: ${{ runner.temp }}/building-vosk-evidence
         run: pnpm test:e2e:building-vosk:engineering
 
       - name: Preserve local voice acceptance evidence
-        if: always()
+        if: always() && steps.scope.outputs.mode == 'full'
         uses: actions/upload-artifact@v4
         with:
           name: building-vosk-evidence

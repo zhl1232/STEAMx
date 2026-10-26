@@ -13,7 +13,8 @@
 | 当前任务及关闭条件 | [下一步](next-step.md) | 专项文档提供技术与验收依据，不另建竞争待办表 |
 | 内容证据与验收口径 | [内容质量](content-quality.md) | 批次记录只保存当次证据，不代替规则 |
 | 数据库连接、迁移命令与写入边界 | [数据库连接与迁移](database-psql.md) | README、编辑器规则、部署文档仅链接命令契约 |
-| 应用发布、切换与故障恢复 | [生产部署](deployment.md) | 指定版本允许迁移名单以该提交的 workflow 为准；发布记录是快照 |
+| Actions 预算与触发授权 | [AGENTS.md](../AGENTS.md#github-actions-预算与触发授权) | README、部署文档、ci-watch 只引用授权规则 |
+| CI 范围、应用发布、切换与故障恢复 | [生产部署](deployment.md) | 指定版本允许迁移名单以该提交的 workflow 为准；发布记录是快照 |
 | 登录、认证提供商与短信配置 | [登录与短信](phone-auth.md) | [管理员建号](custom-sms-and-manual-users.md) 只维护管理接口和使用限制 |
 | 代币发放、扣费、退款与预算 | [小迪代币计费](ai/tutor-credit-accounting.md) | 会员交接和待办不复制额度或换算规则 |
 | 会员开售、履约与验收 | [会员开售交接](MEMBERSHIP_PAGE_HANDOFF.md) | 不据此认定真实收款、退款或权益验收通过 |

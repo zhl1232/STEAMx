@@ -2,9 +2,12 @@
 /**
  * Report the CI result for a pushed commit.
  *
- * The pre-push hook no longer runs the full test suite, so CI is the only gate
- * after a push. Run this after pushing (or `pnpm push`, which chains both) to
- * find out whether the run passed, and which job and step failed if it did not.
+ * Read-only observer of existing runs; never creates or reruns Actions.
+ * Follow AGENTS.md (GitHub Actions budget and trigger authorization). No run
+ * does not authorize a push. `pnpm push` includes a real push and needs scope-
+ * specific authorization. Diagnose locally before any authorized remote run.
+ * A latest workflow success is not proof of all required checks or production
+ * acceptance; confirm workflow, SHA, scope and relevant jobs separately.
  *
  * Usage:
  *   node scripts/ci-watch.mjs                 # wait for the run on HEAD to finish
