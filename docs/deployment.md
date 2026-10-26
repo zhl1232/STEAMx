@@ -8,100 +8,70 @@
 
 Release 复用 `ci.yml`，检查与镜像构建并行，同一提交的两项均成功后才切换服务器。PR 有独立 CI，按下表分类。测试和镜像使用 Node.js 22；实际流程以对应提交的 `.github/workflows/release.yml`、`ci.yml` 和 `scripts/release-scope.mjs` 为准。
 
-纯文档或允许的课程资源变更按范围规则跳过应用镜像和服务器切换，但纯文档仍运行 Release CI；本次另对严格首页展示变更启用 `home-ui` profile 和发布后语音 HEAD 检查；混合应用变更、Release 配置变化、标签及手动发布不能按纯文档处理。仅独立 `ops-*` 工作流或对应手机号运维脚本变化的处理也由范围脚本决定，不能推断任意配置文件均无需部署。
+纯文档或允许的课程资源变更按范围规则跳过应用镜像和服务器切换，但纯文档仍运行 Release CI；应用变更保留基础检查，并按经过核验的影响范围选择独立专项及发布后语音 HEAD/full；混合应用变更、Release 配置变化、标签及手动发布不能按纯文档处理。仅独立 `ops-*` 工作流或对应手机号运维脚本变化的处理也由范围脚本决定，不能推断任意配置文件均无需部署。
 
 ## CI 范围与成本
 
-`ci.yml` 保留工作流名 `CI / PR Checks` 和 job 名 `test-and-lint`，草稿在 job 级跳过，不分配 runner；其他 PR 在同一个 job 内分类并运行范围策略测试；不使用顶层 `paths-ignore`，避免让 required check 无结果。纯文档轻量路径不安装应用依赖、不构建或启动浏览器，但 checkout 和策略测试仍消耗少量 runner 时间。草稿不执行这些轻量步骤，只留下 skipped run/check 记录。
+`ci.yml` 保留工作流名 `CI / PR Checks` 和必需检查入口 `test-and-lint`。草稿 PR 在 job 级跳过，不分配 runner；转为 ready 后重新分类。没有用 `paths-ignore`、`pull_request_target`、跳过提交标记或旧提交的绿灯替代当前提交检查。
 
-| 事件与改动 | 本次实现的检查 |
+### 基础检查和专项选择
+
+`scripts/ci-scope.mjs` 继续区分精确文档白名单、经过指纹核验的 home-ui 与其他应用变更。文档白名单仅有 `AGENTS.md`、`README.md`、`PROJECT_INDEX.md`、`docs/README.md`、`docs/deployment.md` 的普通文件；不能因 `.md` 后缀或位于 `docs/` 就跳过基础检查。home-ui 的两份首页组件仍要求导入及展示结构指纹匹配，不扩展为任意 UI 白名单。
+
+| 检查 | 执行范围 |
 |---|---|
-| draft PR opened / synchronize / reopened / converted_to_draft | 整个 test-and-lint job skipped，不分配 runner、不执行分类或策略测试；不代表代码通过测试 |
-| ready_for_review | 重新分类为 docs / home-ui / full；不沿用草稿绿灯 |
-| 非草稿 opened / synchronize / reopened，仅命中严格文档白名单 | 分类 + 范围策略测试 |
-| 非草稿严格首页展示改动（可混合白名单文档） | `home-ui`：核心检查保留，四项独立专项不运行，见下表 |
-| 其他非草稿代码、工作流、依赖、SQL、脚本、测试、混合或未知路径 | 完整 PR 检查，含现有 build 和路由边界检查 |
-| main push / v* tag / 手动 Release | 本次 SHA 上 CI：可信严格首页变更可 home-ui，其余 full；原镜像构建与部署范围规则保持；语音按下一表选择 |
-| 事件不完整、比较异常/空结果、SHA 或 merge parents 不匹配 | 回退完整检查；脚本无法执行或策略测试失败则 job 失败，不能轻量放行 |
+| 范围策略及工作流契约 | 所有实际启动的 CI job |
+| 清理保护、依赖安装、lint、types、全部 Vitest 单元测试、部署/迁移/SEO/worker 脚本测试 | home-ui 和其他应用变更均保留 |
+| PR app build、production/dev 路由边界 | 应用 PR 保留；Release 由当前 SHA 的 Docker 构建把关 |
+| 核心 smoke、学习指南、旧 logo 兼容、现用界面资源 | 合并到一次默认 Playwright 调用，复用同一个 Next dev 服务 |
+| 物理实验室 Node 及浏览器测试 | `physics` 专项被选中时运行；浏览器 spec 加入上述同一次调用 |
+| 项目视频、沉浸搭建、Vosk 语音工程 | 分别由 `project-video`、`building`、`voice` 决定 |
+| 搭建、语音证据上传 | 跟随对应专项，保留失败证据 |
 
-草稿 job skipped 可能满足 GitHub 的 required check 成功条件，但草稿本身不能合并。转 ready 后必须等待对应 SHA 的新运行完成，不把之前 skipped 当作通过；本次没有修改任何分支保护。`pull_request` 使用 PR 合并提交中的工作流，因此本次分支携带 job 条件时可在首次草稿创建生效，不必先更新 main。普通功能分支 push 不匹配现有 main/v* 发布触发；不要把“零 runner”描述成“没有 Actions 记录”。
+`scripts/ci-test-impact.mjs` 维护专项依赖归属，`scripts/ci-test-plan.mjs` 负责可信比较范围与输出。是否运行专项与基础检查的 `full/home-ui` 模式分开：`full` 不再表示无条件启动全部浏览器夹具。未运行的专项在 summary 明确标记 `not run`，不记为测试通过；工作流只有收到显式 `false` 才跳过，缺失输出按需要运行处理。
 
-文档白名单只包括 `AGENTS.md`、`README.md`、`PROJECT_INDEX.md`、`docs/README.md`、`docs/deployment.md` 的普通非可执行文件新增、修改或删除。其他 Markdown、docs 中的脚本/数据、符号链接、可执行位变化都不因此获豁免。分类用事件 base SHA 与实际 checkout 的合并 SHA 比较；检查两个 merge parents，与事件不符则全量。使用 NUL 分隔与禁用 rename 检测，避免路径换行、改名或删除代码漏检。实现与边界测试：`scripts/ci-scope.mjs`、`scripts/ci-scope.test.mjs`。
-
-同一 PR 的后续事件取消该 PR 的旧运行；不同 PR 不互相取消。可复用 CI 的非 PR 调用按 run ID 隔离，不取消生产发布；Release 自身继续使用 `release-production` 和 `cancel-in-progress: false`。没有新增 PR 分支 push 工作流，也没有新增 cron。仓库现有工作流未配置 merge queue 事件，本次不更改队列设置；若将来启用 merge queue，必须先接入 `merge_group`，分类器对此保守 full。
-
-节省来自草稿迭代不启动 runner、少数确定纯文档 PR、同 PR 过期运行取消，以及严格首页展示变更跳过独立专项、避免发布后语音冷下载，不承诺百分比。并行能缩短等待时间，不必然降低计费分钟。合并产生的新 SHA、不同配置或不同产物不能用旧 PR 绿灯替代；本次未引入跨运行结果缓存或扩大权限。
-
-PR 的 `full` / `home-ui` app build 使用 `http://127.0.0.1:54329` 上的 `e2e/store-integration/data-server.mjs` 匿名公共空内容夹具；启动后有界等待并校验 HTTP 200 与 JSON `[]`，进程提前退出或未就绪即失败。夹具仅提供空表读取和明确允许的公共只读 RPC，不支持认证或写入；首页仍严格处理真实数据读取错误。PID 与日志保存在 `RUNNER_TEMP`，服务保留到 production/development 路由边界检查结束，随后无论检查成败仅按记录的 PID 清理。该检查证明无生产凭据的公共空状态可构建，不代表真实 Supabase 数据或业务验收；Release 镜像仍使用当次真实发布构建配置。
-
-### 已实现的 home-ui 与发布语音分层
-
-`home-ui` 同时适用于非草稿 PR 和具备可信部署基线的 main 发布；不是任何首页文件改动都可用。只允许两个已审查组件中现有的静态展示文字和字面量样式变化，且代码结构及导入依赖保持不变。没有重用旧版本测试结果。
-
-| home-ui 检查 | 实际行为 |
+| 变更归属 | 专项选择 |
 |---|---|
-| 范围/工作流契约、cleanup、lint、types、全部 unit、部署/DB/SEO 脚本测试、retained assets | 保留 |
-| PR app build 与 production/development 路由边界 | 保留原 PR 行为；Release 继续由当次 Docker 构建把关，不增加 CI 占位配置构建 |
-| 原有 Run smoke E2E 整条命令 | 保留，包括 smoke、learning-guides、asset-cleanup、physics-lab 浏览器检查；没有任意删核心或首页相关用例 |
-| 独立 portable physics lab（Node 测试） | home-ui 不运行；其他 full 仍运行 |
-| project video presentation pilot | home-ui 不运行；其入口是项目页，不消费这两个首页组件 |
-| immersive building layout | home-ui 不运行；独立 Vite fixture 装载搭建 UI，并非主站首页 |
-| local Vosk engineering | home-ui 不运行；独立 Vite fixture/worker/model 工程测试，并非主站首页 |
-| 两份专项证据上传 | 随对应专项跳过；summary 明确写 not run，不表示通过 |
-| Release 镜像、部署预检/health、pending migration/allowlist、回滚、SEO | 保留；原 release-scope 不部署规则不变 |
+| 物理实验室页面、状态 API、hooks、模拟资源及其测试 | 物理实验室 |
+| 项目详情、视频呈现、项目映射、作者头像、项目页依赖的商城组件/数据与视频夹具 | 项目视频 |
+| 搭建播放器、课程/LDraw 共享依赖、模型和共享夹具 | 沉浸搭建 + 语音工程 |
+| 语音控件、Vosk worker/model/cache、音频会话及语音夹具 | 语音工程 |
+| 已核对独立的客服模块、商城路由、指定页脚/账号菜单组件、明确列出的专题文档 | 保留基础检查，不运行上述独立专项 |
+| 全局布局/样式、共享 UI/工具、鉴权、依赖、配置、工作流、未知路径或异常文件模式 | 所有专项 |
 
-共享 UI、全局样式、课程数据、播放器、语音资源、依赖/配置或测试变化都回 full。物理实验室浏览器 smoke 暂保留在原组合命令中，不把组合步骤耗时冒充已节省时间。
+混合变更取并集；出现未知或共享路径时直接全量。映射不是任意目录豁免，精确文件和目录以脚本为准。新增模块或改变跨模块依赖时，应同时更新映射及回归用例；不能仅凭页面名称推断它与专项无关。默认声学真人验收继续使用手动流程，CI Vosk 工程只验证 worker/WASM/cache/麦克风生命周期等工程行为。
 
-| 发布情况 | 发布后语音行为 |
-|---|---|
-| main push，仅有下列可验证展示变化及/或严格文档，且比较起点是紧邻、实际部署成功的 Release | health + 资源 HEAD；成功则省去 Chrome/依赖安装/约50.74 MB冷下载 |
-| 上述轻量探针失败：状态、MIME、CORS、长度、网络或格式不确定 | 自动回退原完整语音探针；完整探针失败仍使发布失败 |
-| 首页文件新增/删除/改名、任意未知/混合路径、共享组件、全局 CSS、认证/DB/依赖/Next/deploy/workflow/headers/SW 变化 | 原完整语音探针 |
-| 首次 push、缺失/空/错误比较范围、SHA不一致、API失败、上次发布失败/未完成/无法确认 | 原完整语音探针 |
-| v* tag 或手动 workflow_dispatch | 强制完整语音探针；可用于外部 CDN/OSS/环境配置变更后的明确获授权回归，无新增 cron |
+### 比较范围与失败回退
 
-首页白名单精确到 `components/home/home-showcase.tsx`、`components/home/mobile-shortcut-carousel.tsx` 的普通文件修改。`scripts/home-ui-scope.mjs` 固定两份已审查源码的 import preamble 哈希及展示归一化后的整文件哈希：仅现有 className/aria-label/alt/title 字面量和现有中文 JSX 文本节点可变化；导入、JSX 结构、链接、事件处理和程序逻辑变化均不匹配而回 full。另拒绝动态加载/求值、脚本嵌入、转导出及转义标识符；并非只靠关键词黑名单证明依赖安全。两端文件都要符合已审查形状，不能只因两端 import 相同就放行。源码调用点核对显示两者只在首页展示链中消费；它们引用的共享 UI、utils、brand、类别、鉴权等依赖**不在白名单**。`app/page.tsx` 涉及数据与 SEO，不放行。测试文件、资产、整个 home 目录或任意 UI 目录均没有被泛化放行。文档沿用上面的五个精确路径。
+PR 必须核对当前 checkout SHA 和两个 synthetic merge parents，比较完整 base..merge；草稿、未知事件、错误 parents、解析失败均不能得到缩小的专项计划。main push 比较事件的完整 before..after，核对 checkout 与祖先关系，不只看最后一条提交。
 
-`scripts/release-voice-scope.mjs` 比较完整 push 的 before..after，而非只比较最后一条提交；禁用 rename、使用 NUL 及文件模式校验。只读 Actions 历史确认紧邻的前次 Release 是成功的 main push 且 SHA 等于 before，并核实最新 attempt 的 CI、build-image、deploy-production、verify-course-voice-loading 四个 job 都实际成功；整体绿但部署 skipped 的内容发布不算可靠基线。较旧成功、不同 SHA、PR、tag/manual 运行或前次失败均不能作为轻量范围起点。当前 run 被排除；历史读取不确定就全量。范围 job 输出 profile、before 与 verified SHA；可复用 CI 再核对 checkout SHA、完整差异及两端展示形状。跳过或失败发布不能被中间一次纯文档绿灯掩盖。这个基线只用于证明比较范围，不能替代当前 CI/构建/部署。范围 job 权限由原继承权限收窄为 contents/actions read。
+main 缩小专项前还需只读核验 **before 精确 SHA 对应的最新 Release CI job** 已实际成功。只检查该次最新 attempt 的 `ci / test-and-lint`，不沿用较旧 SHA 或旧 attempt 的成功。CI 后面的部署失败/取消不改变该源码已通过 CI 的事实；CI 本身失败、取消、跳过、未完成，API/凭据/分页不完整或无法核对范围时，一律运行全部专项。这个基线只用于确定影响范围，当前提交仍执行自己的基础检查、所选专项和镜像构建。可复用 CI 与调用方仅增加 `actions: read` 以读取基线。
 
-`scripts/check-building-voice-headers.mjs` 只 GET `/api/health`，其他请求全为 HEAD（首页、worker/manifest/cache 脚本、CDN 及同源 fallback 两份大资源）。校验状态、脚本 MIME、CDN CORS 和资源长度，拒绝重定向，不读取模型正文。它不证明正文哈希或语音引擎功能，也无法穷尽无 Git 记录的远端配置漂移；这些变化应使用已有手动发布的 full 路径，仍需本次明确授权。轻量失败的 `continue-on-error` 只用于转入完整探针，不能吞掉完整检查失败。
+tag、手动发布、未知事件及不可靠范围默认全量。相同 PR 的新检查取消其旧检查；不同 PR 和生产发布的既有互斥不变。没有新增定时任务，也不因本地测试通过自动触发远端 Actions。
 
-更进一步的 UI→专项测试分层仍需逐模块维护影响映射。本轮只对严格 home-ui 跳过上述四项专项，其余代码发布仍保守 full，不泛化为任意 UI 改动或所有日常发布。
+### 构建与浏览器夹具
 
-本地检查：`node --test scripts/ci-scope.test.mjs scripts/release-scope.test.mjs scripts/release-voice-scope.test.mjs scripts/check-building-voice-headers.test.mjs scripts/home-ui-scope.test.mjs scripts/ci-workflow-contract.test.mjs`，另用 actionlint 验证 workflow。GitHub 事件与 required-check 行为参考 [官方事件说明](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)。2026-10-26 只读查询可见 rulesets 为空；分支保护接口返回 403（集成缺少访问权限），所以不能确认 required-check 清单或保护是否启用。未修改远端设置；检查名称保持兼容但尚未远端验收。
+PR build 使用 `http://127.0.0.1:54329` 的 `e2e/store-integration/data-server.mjs` 匿名公共空内容夹具。启动后有界等待并校验 HTTP 200 与 JSON `[]`；夹具不支持认证或写入。它保留到 production/development 路由边界检查结束，随后无论成败仅按记录 PID 清理。Release 镜像仍使用当次真实构建配置，空内容夹具不代表真实业务验收。
 
-### 全部发布检查的按需审查
+默认 Playwright 只启动一次，执行核心 smoke、学习指南、资源兼容和现用资源可达性，物理 spec 按计划追加。独立视频、搭建和语音夹具仅在选中时启动；它们有不同的浏览器集成目标，不能视为同一测试重复运行。没有删除登录、生产路由边界、管理员校验、支付事务或迁移保护来节省分钟。
 
-以下是源码审查后的完整检查清单；除上文已实现的 PR、home-ui 和发布后语音分层外，其余“可按需”仍是后续建议，未删除测试。耗时取自 [2026-10-26 的既有 Release #421](https://github.com/zhl1232/STEAMx/actions/runs/40288433036) 的步骤起止时间，只读查询，不是截图推算或平均值，亦不是本次新 profile 的实测耗时。CI job 12分58秒；镜像 job 6分18秒与 CI 并行；部署 job 1分52秒；线上语音 job 2分47秒。各行时间不可直接相加当作发布总等待时间或计费额度。
+交互 smoke 通过匿名页面浏览记录等待现有客户端初始化完成，再操作搜索框和原生折叠菜单；登录引导用例也等待真实页面记录，替代固定睡眠。链接跳转使用导航等待，仍受原有测试时限约束，不能把 SSR 内容可见当成客户端事件已绑定。
 
-| 检查 / 最近步骤耗时 | 目的与建议层级 | 直接影响与不能遗漏的间接影响 |
-|---|---|---|
-| CI scope 与策略测试（本次新增，未远端计时） | 每次分类必跑；异常全量 | 事件、差异、`scripts/ci-scope*`、workflow；不信任旧 SHA 结果 |
-| repository cleanup safety / 2秒 | 保留便宜的静态保护；可列基础检查 | 退役脚本、被删资源、引用与维护文档；全仓引用与迁移边界也会影响 |
-| lint / 2秒；types / 9秒 | types 保留基础检查；lint 很便宜，本轮无需为此复杂拆分 | app/components/hooks/lib/Scratch/config；共享类型、依赖、生成类型均影响 |
-| unit / 2分52秒 | 建立映射后按模块；高风险或未知全量后备 | 被测模块与其调用者、共享工具、认证/积分/支付/DB、测试夹具及配置；不能仅凭测试文件名选择 |
-| physics lab / 12秒 | 可按需专项 | `public/physics-lab/`、`tests/physics-lab/` 及对应入口；嵌入、路由、安全策略、依赖和测试工具变化也影响 |
-| deploy/db-push/SEO 脚本测试 / 7秒 | 发布基础保护，廉价保留 | `deploy/`、`scripts/db-push*`、`scripts/check-seo*`、迁移、发布配置；镜像/运行环境变化也影响 |
-| PR Build app；路由边界 / 此 Release 原本跳过 | PR 保留必要构建；路由安全边界不可随意省略 | app、proxy、`lib/development-only*`、Next 配置、环境开关、依赖；production/dev 三种配置都有关 |
-| retained interface assets / 14秒 | 可按需专项 | `e2e/repository-cleanup-phase2.spec.ts` 覆盖的 UI/资源；共享布局、图片重写/优化、样式和缓存兼容也影响 |
-| smoke E2E / 3分16秒（四份 spec 合计） | 核心可达性每次部署必保留；指引、资源兼容、物理专项可拆出按需 | `smoke.spec.ts` 自身还含游乐场和登录跳转等较多回归，并非极小冒烟；另含 learning-guides、asset-cleanup、physics-lab，需先明确哪些用例属于核心才能拆 |
-| project video pilot / 50秒 | 可按需专项 | 项目视频组件、项目页、媒体数据/夹具；共享布局、播放器依赖、资源 URL 与 Next 配置也影响 |
-| immersive building layout / 2分钟 | 可按需 3D 播放器专项 | `components/features/courses/` 搭建 UI、LDraw 解析/打包、课程模型与夹具；Three/WebGL、共享 UI/样式、动态加载、依赖升级也影响，课程数据不变不能保证播放器不变 |
-| Vosk engineering / 2分39秒 | 可按需语音工程专项；声学真人验收不在当前 CI | building voice 控件/状态、`lib/courses/building-voice*`、Vosk worker/WASM/model/manifest、模型夹具；鉴权、缓存、资源路由、浏览器/依赖和共享播放器也影响 |
-| 两份工程 evidence upload / 各1–2秒 | 跟随对应专项；保留失败证据 | 不应独立触发测试；轻量路径不上传 |
-| release-scope / 步骤不足1秒，job 10秒 | 每次发布必做范围决策 | `scripts/release-scope*`；已允许的内容不构建镜像，但不是免除所有校验 |
-| 镜像中的脚本预检 / 7秒；secrets / 1秒；磁盘 / 不足1秒 | 每次实际构建保留；磁盘不足才清理 | 发布脚本、凭据存在性、runner 空间；不能以之前成功代替当前前置条件 |
-| Docker image build / 5分29秒 | 每次应用发布构建当次产物；正常层缓存可复用 | Dockerfile、依赖、Scratch、应用源码、构建参数；不复用旧 SHA 的通过状态 |
-| Deploy on server / 1分02秒（含内部多项，未拆分计时） | 每次实际切换保留候选健康、Nginx 校验、迁移预检、切换健康/失败恢复 | 当次镜像和环境、Compose/Nginx、数据库待执行迁移与 allowlist；即使无新增迁移也不能凭源码差异取消 pending-migration 预检 |
-| public SEO / 11秒 | 基础线上可达性保留；完整 SEO 扩展可按需 | robots/sitemap/页面元数据/公共路由；域名、Nginx、proxy、Next 配置、部署产物与内容数据也影响 |
-| verify-course-voice-loading / 探针2分10秒，含安装等 job 2分47秒 | 已按上文严格白名单选择 headers/full 的**线上语音加载**专项，不是 3D 内容检查 | 语音 loader/worker/WASM/model/manifest、`scripts/check-building-voice-loading.mjs`、资源 URL 与签名/代理、CORS/CSP/缓存、CDN/OSS 域名、Docker/Nginx/部署环境/依赖；远端配置可能在无 Git diff 时变化，不能仅按课程数据目录判断 |
-| SEO / voice 报告上传 / 各1秒 | 跟随对应探针保留证据 | 不代表独立业务验收或自动回滚 |
+历史旧素材、编辑器目录和旧文档快照的清理结果由 Git 历史留存，不再每次发布断言它们仍不存在。旧 Vosk v1 缓存单测退役，其中仍适用的并发去重及缓存不可用用例已转到当前 v2 单测；v1 静态资源继续保留，保障旧客户端缓存兼容。清理入口的拒绝执行与现用资源/迁移保护仍在基础检查内。
 
-Checkout、Node/pnpm 初始化、依赖安装、Buildx/registry 登录、部署 bundle 传输和清理是上述检查/发布的执行成本，不是可随便删除的重复业务测试。此样本 CI 安装依赖4秒，语音 job 安装10秒；主耗时集中在单元和浏览器专项。多个 Playwright 配置各自启动服务器，相关重构可另行评估，但并行化不等于减少 runner 分钟。
+### 发布后的语音检查
 
-线上语音探针的成本还包括外部资源读取：当前 manifest 的 model 为 44,934,262 字节、vosk.js 为 5,806,881 字节，合计 50,741,143 字节（约 50.74 MB），不含页面/worker 等其他请求。探针每次新建浏览器，cold 必须下载，warm 才验证不再请求；CDN 网络失败可回退同源，完整性失败不能回退。这是源码中的预期有效载荷，不是本次实测 CDN 账单。按需映射必须包含 loader、worker（以及将来若引入的 service worker）、resource-cache、manifest、headers/CORS/CSP、资源路径、CDN/OSS 与部署配置和依赖，不能只看课程模型。现有 release-scope 判为不部署的文档本来就不会进入该 job；本次新增的是两个精确首页展示文件满足基线条件时走 HEAD，不再冷下载。
+`scripts/release-voice-scope.mjs` 使用同一专项归属判断：已审查的无语音影响模块可以使用 health + 资源 HEAD；语音/共享/未知变更仍走完整冷加载。首页展示变更继续核对原有源码指纹。
 
-对“课程基本不动”的结论：模型内容、3D 播放器、语音引擎、生产资源加载是四个不同影响面。真正无关的独立页面变更可以不跑后两类专项，但首先要有经过测试的独立路径白名单，并将共享依赖和远端环境未知纳入全量后备。本次语音选择不是仅按模型文件变化决定，而是严格首页展示白名单加发布基线、轻量在线检查与失败回退。没有执行真实生产探针验证这一新路径；部署配置漂移的限制见上文。
+缩小线上语音检查的基线比 CI 专项更严格：紧邻的前次 main Release 必须 SHA 等于 before，且最新 attempt 的 CI、build-image、deploy-production、verify-course-voice-loading 全部实际成功。整体绿但部署 skipped 的内容发布、失败/取消的部署、较旧成功或 API 不确定均不能作为已部署基线。
+
+HEAD 探针仅 GET `/api/health`，对首页、worker/manifest/cache 脚本、CDN 与同源 fallback 资源发 HEAD，校验状态、MIME、CORS 和长度，不下载模型正文。任何不确定都会回退完整语音加载；`continue-on-error` 只用于进入该回退，不吞掉完整检查失败。无 Git 记录的 CDN、OSS、环境配置变更仍需通过明确获授权的手动 full 路径验收。
+
+### 本地验证与耗时证据
+
+范围与接线验证：`node --test scripts/ci-scope.test.mjs scripts/ci-test-impact.test.mjs scripts/ci-test-plan.test.mjs scripts/release-scope.test.mjs scripts/release-voice-scope.test.mjs scripts/check-building-voice-headers.test.mjs scripts/home-ui-scope.test.mjs scripts/ci-workflow-contract.test.mjs`，另用 actionlint 检查工作流。单元测试中的 GitHub 请求使用本地替身，不发真实 API 请求；工作流契约还直接执行 smoke 参数组装，验证只启动一次且缺失选择结果时包含物理专项。
+
+历史 [Release #421](https://github.com/zhl1232/STEAMx/actions/runs/40288433036) 的 CI 为 12分58秒：unit 约2分52秒、组合 smoke 3分16秒、视频50秒、搭建2分钟、Vosk 2分39秒，而 lint/types/脚本保护只有秒级。该记录说明优先按模块减少重型浏览器工作的依据，不是新规则的实测速度，也不是发布时长承诺。镜像构建、服务器切换与生产互斥仍有自身成本，不能把跳过专项直接等同于固定总耗时。
 
 ## 构建与缓存
 

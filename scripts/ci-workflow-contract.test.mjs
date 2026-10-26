@@ -1,29 +1,58 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { readFileSync } from 'node:fs';
+import { chmodSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { execFileSync } from 'node:child_process';
 const ci = readFileSync('.github/workflows/ci.yml', 'utf8');
 const release = readFileSync('.github/workflows/release.yml', 'utf8');
 const steps = new Map(ci.split('      - name: ').slice(1).map(block => [block.split('\n')[0], block]));
 const core = "if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')";
-test('home-ui preserves core checks and the original complete smoke selection', () => {
+test('module selection preserves core checks and PR production route boundaries', () => {
   for (const name of ['Setup pnpm', 'Setup Node.js', 'Verify repository cleanup safety', 'Install dependencies',
     'Lint code base (oxlint)', 'TypeScript type check (tsgo)', 'Run unit tests',
-    'Verify deployment, migration, and SEO scripts', 'Verify retained interface assets', 'Run smoke E2E']) {
+    'Verify deployment, migration, and SEO scripts', 'Run smoke E2E']) {
     assert(steps.get(name).includes(core), name);
   }
-  assert(steps.get('Run smoke E2E').includes('pnpm exec playwright test e2e/smoke.spec.ts e2e/learning-guides.spec.ts e2e/asset-cleanup.spec.ts e2e/physics-lab.spec.ts --project=chromium'));
+  assert(!steps.has('Verify retained interface assets'), 'retained assets share the smoke server');
   for (const name of ['Build app', 'Verify production and development route boundaries']) {
     assert(steps.get(name).includes(`${core} && github.event_name == 'pull_request'`));
   }
 });
-test('only four independent specialties and their evidence are full-only', () => {
-  const expected = ['Verify portable physics lab', 'Verify project video presentation pilot',
-    'Verify immersive building layout', 'Verify local Vosk engineering (silent input; acoustic benchmark is manual)'];
-  const fullOnly = [...steps].filter(([, block]) => block.includes("        if: steps.scope.outputs.mode == 'full'\n")).map(([name]) => name);
-  assert.deepEqual(fullOnly, expected);
-  for (const name of ['Preserve immersive building evidence', 'Preserve local voice acceptance evidence']) {
-    assert(steps.get(name).includes("if: always() && steps.scope.outputs.mode == 'full'"));
+test('specialties and their evidence skip only after an explicit negative impact result', () => {
+  const expected = {
+    'Verify portable physics lab': 'physics',
+    'Verify project video presentation pilot': 'project-video',
+    'Verify immersive building layout': 'building',
+    'Verify local Vosk engineering (silent input; acoustic benchmark is manual)': 'voice',
+    'Preserve immersive building evidence': 'building',
+    'Preserve local voice acceptance evidence': 'voice',
+  };
+  for (const [name, output] of Object.entries(expected)) {
+    assert(steps.get(name).includes(`steps.test-plan.outputs.${output} != 'false'`), name);
+    assert(steps.get(name).includes("steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui'"));
   }
+  assert(steps.get('Select affected specialty checks').includes('node scripts/ci-test-plan.mjs'));
+  assert(steps.get('Verify CI scope policy').includes('scripts/ci-test-plan.test.mjs'));
+  assert(steps.get('Verify CI scope policy').includes('scripts/ci-test-impact.test.mjs'));
+});
+test('one smoke invocation retains core assets and selects physics, including conservative missing-output fallback', () => {
+  const script = steps.get('Run smoke E2E').split('        run: |\n')[1]
+    .split('\n').map(line => line.startsWith('          ') ? line.slice(10) : line).join('\n');
+  const directory = mkdtempSync(join(tmpdir(), 'ci-smoke-command-'));
+  try {
+    const stub = join(directory, 'pnpm');
+    writeFileSync(stub, '#!/bin/sh\nprintf "%s\\n" "$@"\n');
+    chmodSync(stub, 0o755);
+    const coreSpecs = ['e2e/smoke.spec.ts', 'e2e/learning-guides.spec.ts', 'e2e/asset-cleanup.spec.ts', 'e2e/repository-cleanup-phase2.spec.ts'];
+    for (const value of ['false', 'true', '']) {
+      const args = execFileSync('bash', ['-eu', '-c', script], {
+        encoding: 'utf8', env: { PATH: `${directory}:${process.env.PATH}`, CI_PHYSICS_TESTS: value },
+      }).trim().split('\n');
+      assert.deepEqual(args, ['exec', 'playwright', 'test', ...coreSpecs,
+        ...(value === 'false' ? [] : ['e2e/physics-lab.spec.ts']), '--project=chromium']);
+    }
+  } finally { rmSync(directory, { recursive: true, force: true }); }
 });
 test('release reuses scope proof and still gates deployment on current CI and image', () => {
   assert.match(release, /ci:\n    needs: release-scope\n    with:\n      profile: \$\{\{ needs.release-scope.outputs.ci-profile \}\}/);
@@ -50,14 +79,6 @@ test('draft PRs skip the entire stable job before any runner or light gate', () 
     # Draft PRs create a skipped check but never allocate a runner.
     ${condition}
     runs-on: ubuntu-latest`));
-  for (const action of ['opened', 'synchronize', 'reopened', 'converted_to_draft']) {
-    const jobRuns = (event, draft) => event !== 'pull_request' || draft !== true;
-    assert.equal(jobRuns('pull_request', true), false, action);
-    assert.equal(jobRuns('pull_request', false), true, action);
-    assert.equal(jobRuns('push', undefined), true);
-    assert.equal(jobRuns('workflow_dispatch', undefined), true);
-    assert.equal(jobRuns('pull_request', undefined), true, 'unknown draft state must not silently skip');
-  }
   assert(ci.includes('types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]'));
 });
 

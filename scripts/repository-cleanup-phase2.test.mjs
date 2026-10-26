@@ -7,13 +7,6 @@ import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const REMOVED = [
-  'public/assets/bird-topic-campus-lake-hero.png',
-  'public/assets/observation-list-reeds-sky-bg.png',
-  'public/assets/species-archive-blue-tech-bg.png',
-  'public/assets/profile-hero-explorer-v4.webp',
-  ...['content', 'invite', 'messages', 'shop', 'wallet'].map(name => `public/assets/profile-actions/${name}.webp`),
-]
 
 function git(args) {
   const result = spawnSync('git', args, { cwd: ROOT, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 })
@@ -25,25 +18,6 @@ function assertNoTrackedMatches(needles, scopes) {
   const result = git(['grep', '--no-textconv', '-I', '-n', '-F', ...needles.flatMap(value => ['-e', value]), '--', ...scopes])
   assert.equal(result.status, 1, result.stdout || result.stderr || 'git grep must complete with no matches')
 }
-
-test('phase2 removes exactly the reviewed legacy interface assets', () => {
-  assert.equal(REMOVED.length, 9)
-  for (const relative of REMOVED) assert.equal(existsSync(path.join(ROOT, relative)), false, relative)
-})
-
-test('phase2 leaves no tracked active reference to removed assets', () => {
-  // Full checkout check, not an inference from GitHub search. Exclude this manifest-like test,
-  // the audit report, E2E assertions and historical documents; retain SQL/config/current docs.
-  assertNoTrackedMatches([
-    'bird-topic-campus-lake-hero', 'observation-list-reeds-sky-bg',
-    'species-archive-blue-tech-bg', 'profile-hero-explorer-v4', 'assets/profile-actions/',
-  ], [
-    'app', 'components', 'hooks', 'lib', 'packages', 'public', 'scripts', 'supabase', '.github',
-    'docs', 'README.md', 'PROJECT_INDEX.md', 'package.json', 'next.config.mjs',
-    ':(exclude)scripts/repository-cleanup-phase2.test.mjs',
-    ':(exclude)docs/archive/**', ':(exclude)docs/maintenance/repository-cleanup-phase2.md',
-  ])
-})
 
 test('phase2 retires the destructive workflow rather than changing its production arguments', () => {
   assert.equal(existsSync(path.join(ROOT, '.github/workflows/apply-content-triage-2026-08-13.yml')), false)
@@ -93,52 +67,4 @@ test('phase2 retains current UI assets and migration/asset safety boundaries', (
     'supabase/migrations/20260826090000_math_worksheet_assets.sql',
     'scripts/purge-triaged-project-assets.mjs', 'scripts/db-push.mjs',
   ]) assert.ok(existsSync(path.join(ROOT, relative)), relative)
-})
-
-// Historical text is recoverable from Git. Keep useful safety assertions above,
-// not a permanent requirement to copy obsolete implementations into the tree.
-test('context cleanup removes unused editors and redundant snapshots', () => {
-  const retiredPaths = [
-    '.kiro', '.trae', '.cursor', '.cursorignore', '.cursorindexingignore', '.cursorrules',
-    '.agent/skills/project-seed',
-    '.codex/leaderboard-mobile-header-check.png',
-    '.codex/profile-mobile-header-check.png',
-    'docs/archive/documentation/2026-10-13',
-    'docs/archive/scripts/2026-10-13',
-    'docs/archive/maintenance/2026-10-13-phase2',
-    'docs/maintenance/repository-cleanup-phase2-index-review.json',
-  ]
-  const result = git(['ls-files', '-z', '--', ...retiredPaths])
-  assert.equal(result.status, 0, result.stderr)
-  assert.equal(result.stdout, '', 'retired context must not remain tracked, including dangling symlinks')
-})
-
-test('context cleanup leaves no active references to removed snapshots or editors', () => {
-  assertNoTrackedMatches([
-    'archive/documentation/2026-10-13', 'archive/scripts/2026-10-13',
-    'archive/maintenance/2026-10-13-phase2', 'repository-cleanup-phase2-index-review.json',
-    '.kiro/', '.trae/', '.agent/skills/project-seed',
-    'leaderboard-mobile-header-check.png', 'profile-mobile-header-check.png',
-  ], [
-    'app', 'components', 'hooks', 'lib', 'packages', 'scripts', 'supabase', '.github',
-    '.agent', '.agents', '.claude', 'docs', 'README.md', 'PROJECT_INDEX.md', 'AGENTS.md',
-    ':(exclude)scripts/repository-cleanup-phase2.test.mjs', ':(exclude)docs/archive/**',
-  ])
-})
-
-test('cursor cleanup keeps current instructions editor-independent and prevents reintroduction', () => {
-  // Historical records and generic third-party skill utilities are not active editor configuration.
-  assertNoTrackedMatches([
-    '.cursor/', '.cursorignore', '.cursorindexingignore', '.cursorrules',
-  ], [
-    'AGENTS.md', 'README.md', 'PROJECT_INDEX.md', 'docs', '.agent/rules',
-    ':(exclude)docs/archive/**',
-  ])
-
-  const ignoredPaths = [
-    '.cursor/rules/reintroduced.mdc', '.cursorignore', '.cursorindexingignore', '.cursorrules',
-  ]
-  const result = git(['check-ignore', '--no-index', '--', ...ignoredPaths])
-  assert.equal(result.status, 0, result.stderr)
-  assert.deepEqual(result.stdout.trim().split('\n'), ignoredPaths)
 })

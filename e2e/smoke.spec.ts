@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
-import { skipVisitLoginPrompt } from './visit-prompt'
+import { skipVisitLoginPrompt, waitForRecordedPageView } from './visit-prompt'
 
 test.beforeEach(async ({ page }, testInfo) => {
   if (!testInfo.title.startsWith('首次访问')) await skipVisitLoginPrompt(page)
@@ -60,6 +60,7 @@ for (const width of [390, 1440]) {
   test(`游乐场分组、折叠目录与搜索 ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/playground', { waitUntil: 'domcontentloaded' })
+    await waitForRecordedPageView(page, '/playground')
     await expect(page.locator('#playground-create').getByRole('heading', { name: '七巧板' })).toBeVisible()
     await expect(page.locator('#playground-more a[href="/playground/sudoku"]')).not.toBeVisible()
     await page.locator('#playground-more > summary').click()
@@ -364,13 +365,13 @@ test('首次访问不自动弹登录层，只显示首页横幅；看到第 2 �
   await page.goto('/', { waitUntil: 'domcontentloaded' })
   const dialog = page.getByRole('dialog', { name: '登录或注册' })
   await expect(page.getByTestId('home-login-banner')).toBeVisible()
-  await page.waitForTimeout(1500)
+  await waitForRecordedPageView(page, '/')
   await expect(dialog).toHaveCount(0)
   await page.goto('/explore', { waitUntil: 'domcontentloaded' })
   await expect(dialog).toBeVisible()
   await page.getByRole('button', { name: '先去探索，关闭登录层' }).click()
   await expect(dialog).toBeHidden()
   await page.goto('/nature', { waitUntil: 'domcontentloaded' })
-  await page.waitForTimeout(1500)
+  await waitForRecordedPageView(page, '/nature')
   await expect(dialog).toHaveCount(0)
 })

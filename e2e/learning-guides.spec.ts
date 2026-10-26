@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { skipVisitLoginPrompt } from './visit-prompt'
+import { skipVisitLoginPrompt, waitForRecordedPageView } from './visit-prompt'
 
 test.beforeEach(async ({ page }, testInfo) => {
   if (!testInfo.title.startsWith('首次访问')) await skipVisitLoginPrompt(page)
@@ -59,7 +59,9 @@ test('learn 总入口兼容到 /start，四个方向入口可直接进入内容'
   }
   const nature = page.getByRole('navigation', { name: '选择开始方向' }).getByRole('link', { name: /去自然里观察/ })
   await expect(nature).toBeInViewport()
+  await waitForRecordedPageView(page, '/start')
   await nature.click()
+  await page.waitForURL(/\/nature\/?$/)
   await expect(page).toHaveURL(/\/nature\/?$/)
 })
 
