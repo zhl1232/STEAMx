@@ -44,6 +44,8 @@ pnpm exec vitest run
 pnpm run build
 ```
 
+远端操作遵守 [Actions 预算与触发授权](AGENTS.md#github-actions-预算与触发授权)；只读查看已有 CI 不代表获准触发新运行。PR 轻量分类及发布范围见 [CI 范围与成本](docs/deployment.md#ci-范围与成本)。
+
 具体执行范围以 `package.json` 和 `.github/workflows/ci.yml` 为准。本地构建包含 Scratch；生产镜像的分层构建见 [部署说明](docs/deployment.md)。使用替身、占位配置的测试不代表真实账号、生产数据或供应商服务已验收。
 
 修改前遵循 [AGENTS.md](AGENTS.md)，先读索引中的相关模块与其规则来源。规则变更更新对应专题文档，只有入口变化才增改索引；不要把交付日志重复贴入索引。项目使用根目录 `proxy.ts`，不要恢复 `middleware.ts`。

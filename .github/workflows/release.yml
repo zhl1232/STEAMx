@@ -17,14 +17,26 @@ concurrency:
 
 jobs:
   ci:
+    needs: release-scope
+    with:
+      profile: ${{ needs.release-scope.outputs.ci-profile }}
+      before: ${{ needs.release-scope.outputs.before }}
+      verified-sha: ${{ needs.release-scope.outputs.verified-sha }}
     uses: ./.github/workflows/ci.yml
     permissions:
       contents: read
 
   release-scope:
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-latest
     outputs:
       deploy: ${{ steps.scope.outputs.deploy }}
+      voice-mode: ${{ steps.voice.outputs.mode }}
+      ci-profile: ${{ steps.voice.outputs.ci-profile }}
+      before: ${{ steps.voice.outputs.before }}
+      verified-sha: ${{ steps.voice.outputs.verified-sha }}
     steps:
       - uses: actions/checkout@v4
       - name: Decide whether the application image changed
@@ -32,6 +44,12 @@ jobs:
         env:
           RELEASE_BEFORE: ${{ github.event.before }}
         run: node scripts/release-scope.mjs
+      - name: Decide post-deploy voice validation scope
+        id: voice
+        env:
+          RELEASE_BEFORE: ${{ github.event.before }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/release-voice-scope.mjs
 
   build-image:
     needs: release-scope
@@ -125,24 +143,34 @@ jobs:
           cache-to: type=gha,mode=max,scope=steam-app,ignore-error=true
 
   verify-course-voice-loading:
-    needs: deploy-production
+    needs: [deploy-production, release-scope]
     runs-on: ubuntu-latest
     timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
+      - name: Verify voice health and resource headers without cold downloads
+        id: headers
+        if: needs.release-scope.outputs.voice-mode == 'headers'
+        continue-on-error: true
+        run: node scripts/check-building-voice-headers.mjs
       - uses: pnpm/action-setup@v4
+        if: needs.release-scope.outputs.voice-mode != 'headers' || steps.headers.outcome != 'success'
         with:
           version: 10.22.0
           run_install: false
       - uses: actions/setup-node@v4
+        if: needs.release-scope.outputs.voice-mode != 'headers' || steps.headers.outcome != 'success'
         with:
           node-version: "22"
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+        if: needs.release-scope.outputs.voice-mode != 'headers' || steps.headers.outcome != 'success'
       - name: Verify public CDN and actual voice engine without opening a microphone
+        id: full-voice
+        if: needs.release-scope.outputs.voice-mode != 'headers' || steps.headers.outcome != 'success'
         run: node scripts/check-building-voice-loading.mjs
       - name: Preserve production voice readiness evidence
-        if: always()
+        if: always() && steps.full-voice.outcome != 'skipped'
         uses: actions/upload-artifact@v4
         with:
           name: building-voice-loading-${{ github.sha }}
