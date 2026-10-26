@@ -124,6 +124,29 @@ export const TEXTBOOK3D_CHAPTERS: Textbook3dChapter[] = [
     ],
   },
   {
+    id: "g8b-9",
+    volume: "八年级下册",
+    title: "第九章 压强",
+    lessons: [
+      { id: "g8b-9-1", title: "压强" },
+      { id: "g8b-9-2", title: "液体的压强" },
+      { id: "g8b-9-3", title: "大气压强" },
+      { id: "g8b-9-4", title: "跨学科实践：制作简易活塞式抽水机" },
+      { id: "g8b-9-5", title: "流体压强与流速的关系" },
+    ],
+  },
+  {
+    id: "g8b-10",
+    volume: "八年级下册",
+    title: "第十章 浮力",
+    lessons: [
+      { id: "g8b-10-1", title: "浮力" },
+      { id: "g8b-10-2", title: "阿基米德原理" },
+      { id: "g8b-10-3", title: "物体的浮沉条件及应用" },
+      { id: "g8b-10-4", title: "跨学科实践：制作微型密度计" },
+    ],
+  },
+  {
     id: "g8b-11",
     volume: "八年级下册",
     title: "第十一章 功和机械能",
