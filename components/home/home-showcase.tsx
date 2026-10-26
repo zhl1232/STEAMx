@@ -34,7 +34,6 @@ const heroImage = "/assets/home-hero-steam-lake.png";
 const heroWideImage = "/assets/home-hero-steam-lake-banner.webp";
 const natureForegroundImage = "/assets/home-nature-channel-bird-foreground-v8.png";
 const leaderboardForegroundImage = "/assets/home-leaderboard-card-foreground-v2.png";
-const homeHeroTitleLines = BRAND_HOME_HERO_TITLE.match(/[^，]+，?/g) ?? [BRAND_HOME_HERO_TITLE];
 
 type HomeCategoryCountSource = { type: "projects"; category: HomeSteamCategoryKey } | { type: "playground" };
 
@@ -89,7 +88,7 @@ function HomeHero({ image }: { image: string }) {
   return (
     <section className="surface-card relative overflow-hidden rounded-sm">
       <div className="relative">
-        {/* 浅色：底部照片条 + 白卡下融；深色：照片铺满 + 很轻的护字遮罩，避免乌云压顶。 */}
+        {/* 浅色：照片渐隐至卡片自身底色，避免独立白色遮罩与半透明卡片在图片上沿接缝；深色保持铺满与护字遮罩。 */}
         <Image
           src={image}
           alt=""
@@ -98,7 +97,7 @@ function HomeHero({ image }: { image: string }) {
           priority
           loading="eager"
           sizes="(max-width: 768px) 100vw, 1800px"
-          className="absolute inset-x-0 bottom-0 h-[124px] w-full object-cover object-[74%_62%] dark:inset-0 dark:h-full dark:object-[74%_42%] md:hidden"
+          className="absolute inset-x-0 bottom-0 h-[124px] w-full object-cover object-[74%_62%] [mask-image:linear-gradient(180deg,transparent_0%,rgb(0_0_0/0.18)_18%,rgb(0_0_0/0.82)_44%,black_68%)] dark:[mask-image:none] dark:inset-0 dark:h-full dark:object-[74%_42%] md:hidden"
         />
         <Image
           src={heroWideImage}
@@ -110,23 +109,19 @@ function HomeHero({ image }: { image: string }) {
           className="hidden object-cover object-[69%_center] md:block md:object-[70%_center] lg:object-[73%_center] xl:object-[75%_center] md:[mask-image:linear-gradient(90deg,transparent_0%,transparent_43%,black_76%,black_100%)] lg:[mask-image:linear-gradient(90deg,transparent_0%,transparent_32%,black_64%,black_100%)] xl:[mask-image:linear-gradient(90deg,transparent_0%,transparent_26%,black_58%,black_100%)]"
         />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[124px] bg-[linear-gradient(180deg,hsl(var(--surface-raised))_0%,hsl(var(--surface-raised)/0.82)_18%,hsl(var(--surface-raised)/0.18)_44%,transparent_68%)] dark:inset-0 dark:h-auto dark:bg-[linear-gradient(180deg,rgba(8,14,24,0.42)_0%,rgba(8,14,24,0.18)_36%,rgba(8,14,24,0.04)_62%,transparent_82%)] md:hidden"
+          className="pointer-events-none absolute inset-0 hidden max-md:dark:block dark:bg-[linear-gradient(180deg,rgba(8,14,24,0.42)_0%,rgba(8,14,24,0.18)_36%,rgba(8,14,24,0.04)_62%,transparent_82%)] md:hidden"
           aria-hidden="true"
         />
 
         <div className="relative z-10 flex min-h-[200px] flex-col justify-start px-4 pb-[88px] pt-5 md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
-          <div className="min-w-0 max-w-[440px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[550px]">
+          <div className="min-w-0 max-w-[440px] md:max-w-[62%] lg:max-w-[58%] xl:max-w-[52%]">
             {/* One H1; CSS selects the visible copy without a viewport-dependent hydration pass. */}
             <h1
-              className="font-heading text-[clamp(1.375rem,6vw,1.5rem)] font-semibold leading-[1.3] tracking-normal text-foreground dark:drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)] md:text-[32px] md:font-black md:leading-[1.18] lg:text-[40px] xl:text-[44px]"
+              className="font-heading text-[clamp(1.375rem,6vw,1.5rem)] font-semibold leading-[1.3] tracking-normal text-foreground dark:drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)] md:text-[30px] md:font-black md:leading-[1.3] lg:text-[34px] xl:text-[36px]"
             >
               <span className="md:hidden">陪孩子，一起动手做</span>
               <span className="hidden md:block">
-                {homeHeroTitleLines.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
+                {BRAND_HOME_HERO_TITLE}
               </span>
             </h1>
 
@@ -142,35 +137,6 @@ function HomeHero({ image }: { image: string }) {
             >
               探索指南
               <ChevronRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-
-            <div className="mt-4 hidden flex-wrap items-center gap-2 md:mt-5 md:flex md:gap-3">
-              <Link
-                href="/courses"
-                className={cn(
-                  buttonVariants({ tone: "brand", size: "lg", shape: "pill" }),
-                  "group h-11 gap-2 px-4 text-[14px] font-semibold md:px-6",
-                )}
-              >
-                挑一节免费课程
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-              </Link>
-              <Link
-                href="/explore"
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "lg", shape: "pill" }),
-                  "h-11 px-4 text-[14px] font-semibold md:px-6",
-                )}
-              >
-                看看动手项目
-              </Link>
-            </div>
-            <Link
-              href="/start"
-              className="mt-3 hidden w-fit items-center gap-1 text-[13px] text-muted-foreground underline-offset-4 hover:text-foreground hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:inline-flex"
-            >
-              第一次来？看探索指南
-              <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </div>
         </div>

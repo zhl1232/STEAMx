@@ -68,28 +68,15 @@ describe("HomeShowcase hero", () => {
     expect(screen.queryByText(/科创/)).not.toBeInTheDocument();
   });
 
-  it("preserves the mobile guide and places the desktop guide after the hero buttons", () => {
+  it("preserves only the mobile guide in the hero and removes desktop actions", () => {
     const { hero } = renderHome();
     const guide = hero.getByRole("link", { name: "探索指南" });
-    const desktopGuide = hero.getByRole("link", { name: "第一次来？看探索指南" });
     expect(guide).toHaveAttribute("href", "/start");
     expect(guide).toHaveClass("inline-flex", "min-h-11", "md:hidden");
-    expect(desktopGuide).toHaveAttribute("href", "/start");
-    expect(desktopGuide).toHaveClass("hidden", "md:inline-flex");
-    expect(
-      hero.getByRole("link", { name: "看看动手项目" }).compareDocumentPosition(desktopGuide) & Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
-    expect(screen.getAllByRole("link", { name: /探索指南/ })).toEqual([guide, desktopGuide]);
-  });
-
-  it("keeps both original desktop buttons while removing them from the mobile layout", () => {
-    const { hero } = renderHome();
-    const courses = hero.getByRole("link", { name: "挑一节免费课程" });
-    const projects = hero.getByRole("link", { name: "看看动手项目" });
-    expect(courses).toHaveAttribute("href", "/courses");
-    expect(projects).toHaveAttribute("href", "/explore");
-    expect(courses.parentElement).toBe(projects.parentElement);
-    expect(courses.parentElement).toHaveClass("hidden", "md:flex");
+    expect(hero.queryByRole("link", { name: "第一次来？看探索指南" })).not.toBeInTheDocument();
+    expect(hero.queryByRole("link", { name: "挑一节免费课程" })).not.toBeInTheDocument();
+    expect(hero.queryByRole("link", { name: "看看动手项目" })).not.toBeInTheDocument();
+    expect(hero.getAllByRole("link")).toEqual([guide]);
   });
 
   it("preserves the mobile free-course recommendation and shortcuts without a duplicate category CTA", () => {
