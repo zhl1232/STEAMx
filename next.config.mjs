@@ -180,6 +180,14 @@ const nextConfig = {
         ],
       },
       {
+        // 3D 课本单文件课时包：可能原地修正内容，只缓存一天，后台再验证。
+        source: '/textbook3d/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+          { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
+        ],
+      },
+      {
         source: '/gomoku-rapfi/:path*',
         headers: [
           {

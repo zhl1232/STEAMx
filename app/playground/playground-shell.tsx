@@ -2,6 +2,7 @@
 
 import {
     ArrowLeft,
+    BookOpen,
     Bomb,
     Bot,
     Brain,
@@ -429,6 +430,7 @@ function MobilePlaygroundHeader() {
     const navItems = [
         { name: "首页", href: "/playground", icon: Home },
         { name: "物理实验室", href: "/playground/physics-lab", icon: TestTubes },
+        { name: "3D 物理课本", href: "/textbook", icon: BookOpen },
         ...publicGames.filter((game) => PLAYGROUND_DISCOVERY_BY_HREF.get(game.href)?.featured || pathname.startsWith(game.href)),
         { name: "更多玩法", href: "/playground#playground-more", icon: Grid3X3 },
     ]
@@ -581,6 +583,10 @@ function DesktopSidebar() {
                     <Link href="/playground/physics-lab" className="group flex min-h-[54px] items-center gap-3 rounded-md px-3 text-sm font-bold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground">
                         <TestTubes className="h-5 w-5" aria-hidden />
                         物理实验室
+                    </Link>
+                    <Link href="/textbook" className="group flex min-h-[54px] items-center gap-3 rounded-md px-3 text-sm font-bold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground">
+                        <BookOpen className="h-5 w-5" aria-hidden />
+                        3D 物理课本
                     </Link>
                     {PLAYGROUND_GROUPS.map((group) => {
                         const entries = publicGames.filter((game) => PLAYGROUND_DISCOVERY_BY_HREF.get(game.href)?.group === group.id)

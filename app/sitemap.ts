@@ -11,6 +11,7 @@ import { PLAYGROUND_METADATA_PATHS } from "@/lib/seo/playground-metadata";
 import { fetchAllSitemapRows } from "@/lib/seo/sitemap-pagination";
 import { buildAbsoluteUrl } from "@/lib/seo/site";
 import { createPublicClient } from "@/lib/supabase/server";
+import { listTextbook3dLessons } from "@/lib/textbook3d/registry";
 import {
   isVisibleSpeciesTopicKey,
   visibleSpeciesTopicKeys,
@@ -84,6 +85,12 @@ export const STATIC_SITEMAP_ROUTES: StaticSitemapRoute[] = [
   { path: "/nature/map", changeFrequency: "daily", priority: 0.7 },
   { path: "/leaderboard", changeFrequency: "daily", priority: 0.7 },
   { path: "/playground", changeFrequency: "weekly", priority: 0.6 },
+  { path: "/textbook", changeFrequency: "weekly", priority: 0.6 },
+  ...listTextbook3dLessons().map(({ id }) => ({
+    path: `/textbook/${id}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.5,
+  })),
   { path: "/about", changeFrequency: "monthly", priority: 0.5 },
   { path: "/legal/privacy", changeFrequency: "yearly", priority: 0.3 },
   { path: "/legal/terms", changeFrequency: "yearly", priority: 0.3 },
