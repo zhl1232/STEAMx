@@ -256,6 +256,7 @@ test('health failure restores config before rolling back the prior image', async
   const log = await text(fixture.log)
   assert.match(log, /ENV_FILE_BEGIN\nSTEAM_APP_IMAGE=steam-app:rollback/)
   assert.match(log, /COMPOSE_CONTENT_BEGIN\nold-compose\nCOMPOSE_CONTENT_END/)
+  assert.match(log, /ARGS=compose --env-file [^\n]+ up -d --remove-orphans --force-recreate[^\n]*\nENV_FILE_BEGIN\nSTEAM_APP_IMAGE=steam-app:rollback\nENV_FILE_END\nCOMPOSE_CONTENT_BEGIN\nold-compose\nCOMPOSE_CONTENT_END/)
 })
 
 test('successful candidate deploy reloads nginx and keeps new configs', async (t) => {
@@ -278,6 +279,8 @@ test('nginx reload failure restores config and rolls back the image', async (t) 
   assert.equal(await text(path.join(fixture.app, 'docker-compose.yml')), 'old-compose\n')
   assert.equal(await text(paths.nginxPath), 'old-nginx\n')
   assert.equal(await text(path.join(fixture.app, '.env')), 'STEAM_APP_IMAGE=steam-app:rollback\n')
+  const log = await text(fixture.log)
+  assert.match(log, /SYSTEMCTL reload nginx[\s\S]*ARGS=compose --env-file [^\n]+ up -d --remove-orphans --force-recreate[^\n]*\nENV_FILE_BEGIN\nSTEAM_APP_IMAGE=steam-app:rollback\nENV_FILE_END\nCOMPOSE_CONTENT_BEGIN\nold-compose\nCOMPOSE_CONTENT_END/)
 })
 
 

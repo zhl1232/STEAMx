@@ -60,3 +60,26 @@ test('draft PRs skip the entire stable job before any runner or light gate', () 
   }
   assert(ci.includes('types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]'));
 });
+
+test('PR build uses a bounded read-only public fixture through route boundary checks', () => {
+  const startName = 'Start anonymous public content fixture';
+  const stopName = 'Stop anonymous public content fixture';
+  const start = steps.get(startName);
+  const stop = steps.get(stopName);
+  assert(ci.includes('NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54329'));
+  assert(start.includes(`${core} && github.event_name == 'pull_request'`));
+  assert(stop.includes("if: always() && (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && github.event_name == 'pull_request'"));
+  assert(start.includes('node e2e/store-integration/data-server.mjs'));
+  assert(start.includes('"$RUNNER_TEMP/ci-public-content.log" 2>&1 &'));
+  assert(start.includes('echo "$!" > "$RUNNER_TEMP/ci-public-content.pid"'));
+  assert(start.includes('attempt < 30'));
+  assert(start.includes('AbortSignal.timeout(1000)'));
+  assert(start.includes('response.status === 200 && Array.isArray(data) && data.length === 0'));
+  assert.equal(start.split('process.kill(pid, 0)').length - 1, 2);
+  assert(stop.includes('kill "$fixture_pid"'));
+  assert(stop.includes('[[ "$fixture_pid" =~ ^[1-9][0-9]*$ ]]'));
+  assert(!stop.includes('pkill') && !stop.includes('killall'));
+  const names = [...steps.keys()];
+  assert(names.indexOf(startName) < names.indexOf('Build app'));
+  assert(names.indexOf('Verify production and development route boundaries') < names.indexOf(stopName));
+});

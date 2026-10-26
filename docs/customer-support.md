@@ -69,7 +69,7 @@ worker 调用 `POST /api/internal/support/notifications`，通过 `Authorization
 
 官方资料：[Node SDK](https://github.com/larksuite/node-sdk)、[接收消息事件](https://open.feishu.cn/document/server-docs/im-v1/message/events/receive)。
 
-当前本地凭据鉴权与长连接已实测成功，管理员账号已核验；目标群及飞书人员绑定仍待接收到群内绑定指令，尚未完成真实双向收发验收。凭据不写入仓库，应用未推送或发布。
+当前本地凭据鉴权与长连接已实测成功，管理员账号已核验；目标群及飞书人员绑定仍待接收到群内绑定指令，尚未完成真实双向收发验收。负责人已授权随商城与其他 PR 统一发布；线上凭据由负责人写入服务器环境文件，不随代码上传。发布及迁移结果以本次 Release 检查为准。
 
 ## API 契约与兼容入口
 

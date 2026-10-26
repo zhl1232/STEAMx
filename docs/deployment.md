@@ -32,6 +32,8 @@ Release 复用 `ci.yml`，检查与镜像构建并行，同一提交的两项均
 
 节省来自草稿迭代不启动 runner、少数确定纯文档 PR、同 PR 过期运行取消，以及严格首页展示变更跳过独立专项、避免发布后语音冷下载，不承诺百分比。并行能缩短等待时间，不必然降低计费分钟。合并产生的新 SHA、不同配置或不同产物不能用旧 PR 绿灯替代；本次未引入跨运行结果缓存或扩大权限。
 
+PR 的 `full` / `home-ui` app build 使用 `http://127.0.0.1:54329` 上的 `e2e/store-integration/data-server.mjs` 匿名公共空内容夹具；启动后有界等待并校验 HTTP 200 与 JSON `[]`，进程提前退出或未就绪即失败。夹具仅提供空表读取和明确允许的公共只读 RPC，不支持认证或写入；首页仍严格处理真实数据读取错误。PID 与日志保存在 `RUNNER_TEMP`，服务保留到 production/development 路由边界检查结束，随后无论检查成败仅按记录的 PID 清理。该检查证明无生产凭据的公共空状态可构建，不代表真实 Supabase 数据或业务验收；Release 镜像仍使用当次真实发布构建配置。
+
 ### 已实现的 home-ui 与发布语音分层
 
 `home-ui` 同时适用于非草稿 PR 和具备可信部署基线的 main 发布；不是任何首页文件改动都可用。只允许两个已审查组件中现有的静态展示文字和字面量样式变化，且代码结构及导入依赖保持不变。没有重用旧版本测试结果。
@@ -39,7 +41,7 @@ Release 复用 `ci.yml`，检查与镜像构建并行，同一提交的两项均
 | home-ui 检查 | 实际行为 |
 |---|---|
 | 范围/工作流契约、cleanup、lint、types、全部 unit、部署/DB/SEO 脚本测试、retained assets | 保留 |
-| PR app build 与 production/development 路由边界 | 保留原 PR 行为；Release 继续由当次 Docker 构建把关，不增加 example.com 占位配置构建 |
+| PR app build 与 production/development 路由边界 | 保留原 PR 行为；Release 继续由当次 Docker 构建把关，不增加 CI 占位配置构建 |
 | 原有 Run smoke E2E 整条命令 | 保留，包括 smoke、learning-guides、asset-cleanup、physics-lab 浏览器检查；没有任意删核心或首页相关用例 |
 | 独立 portable physics lab（Node 测试） | home-ui 不运行；其他 full 仍运行 |
 | project video presentation pilot | home-ui 不运行；其入口是项目页，不消费这两个首页组件 |
@@ -122,7 +124,7 @@ Docker 的 `scratch-builder` 只接收 Scratch 子包及依赖输入，产物处
 1. 拉取精确镜像，以生产配置启动不发布端口、不运行 worker 的候选容器，检查 `/api/health` 后移除。健康检查只证明进程启动，不证明计费、ASR 或数据库业务正确。
 2. 备份并安装候选 Compose、Nginx 配置和启用链接，校验 Nginx；通过后执行本次获批准的限定迁移。
 3. 迁移成功后切换主站和 worker，等待健康检查并 reload Nginx。成功才将 `STEAM_APP_IMAGE` 写入服务器 `.env`，保留其他配置。
-4. 失败时按脚本恢复原配置；已尝试切换容器时使用部署前实际镜像和原 Compose 恢复，Actions 标记失败。恢复失败保留备份路径，先修复配置/容器，不盲目重跑。
+4. 失败时按脚本恢复原配置；已尝试切换容器时使用部署前实际镜像和原 Compose 恢复，并通过同一 Compose 项目的 `up --remove-orphans` 清理新版本新增、旧配置未定义的 worker 等容器，Actions 标记失败。恢复失败保留备份路径，先修复配置/容器，不盲目重跑。
 
 部署 bundle 使用 run/attempt 专属临时目录，完成后清理。发布不自动清空旧镜像，保留恢复所需层。
 

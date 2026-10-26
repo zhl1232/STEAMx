@@ -30,7 +30,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.draft != true
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_SUPABASE_URL: https://example.com
+      NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54329
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder-anon-key
       PLAYWRIGHT_USE_SYSTEM_CHROME: '1'
     steps:
@@ -90,7 +90,37 @@ jobs:
 
       - name: Verify deployment, migration, and SEO scripts
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
-        run: node --test deploy/registry-deploy.test.mjs scripts/db-push.test.mjs scripts/check-seo.test.mjs
+        run: node --test deploy/registry-deploy.test.mjs scripts/db-push.test.mjs scripts/check-seo.test.mjs deploy/commerce-worker.test.mjs deploy/feishu-bridge.test.mjs
+
+      - name: Start anonymous public content fixture
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && github.event_name == 'pull_request'
+        run: |
+          node e2e/store-integration/data-server.mjs > "$RUNNER_TEMP/ci-public-content.log" 2>&1 &
+          echo "$!" > "$RUNNER_TEMP/ci-public-content.pid"
+          if ! node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          import { setTimeout } from 'node:timers/promises';
+          const pid = Number(readFileSync(`${process.env.RUNNER_TEMP}/ci-public-content.pid`, 'utf8').trim());
+          let ready = false;
+          for (let attempt = 0; attempt < 30; attempt++) {
+            process.kill(pid, 0);
+            try {
+              const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/projects`, {
+                signal: AbortSignal.timeout(1000),
+              });
+              const data = await response.json();
+              ready = response.status === 200 && Array.isArray(data) && data.length === 0;
+            } catch {}
+            process.kill(pid, 0);
+            if (ready) break;
+            await setTimeout(200);
+          }
+          if (!ready) throw new Error('Anonymous public content fixture did not become ready');
+          NODE
+          then
+            cat "$RUNNER_TEMP/ci-public-content.log"
+            exit 1
+          fi
 
       - name: Build app
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && github.event_name == 'pull_request'
@@ -99,6 +129,17 @@ jobs:
       - name: Verify production and development route boundaries
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && github.event_name == 'pull_request'
         run: pnpm exec playwright test -c playwright.internal-routes.config.ts
+
+      - name: Stop anonymous public content fixture
+        if: always() && (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && github.event_name == 'pull_request'
+        run: |
+          if [ -f "$RUNNER_TEMP/ci-public-content.pid" ]; then
+            fixture_pid="$(cat "$RUNNER_TEMP/ci-public-content.pid")"
+            if [[ "$fixture_pid" =~ ^[1-9][0-9]*$ ]]; then
+              kill "$fixture_pid" 2>/dev/null || true
+            fi
+            rm -f "$RUNNER_TEMP/ci-public-content.pid"
+          fi
 
       - name: Verify retained interface assets
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')

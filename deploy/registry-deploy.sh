@@ -261,7 +261,7 @@ if compose "$candidate_env" up -d --force-recreate --no-build --pull never --wai
   if [ -n "$candidate_nginx" ] && ! run_root systemctl reload nginx; then
     restore_configs
     if [ -n "$previous_image" ]; then
-      if compose "$rollback_env" up -d --force-recreate --no-build --pull never --wait --wait-timeout "$wait_timeout"; then
+      if compose "$rollback_env" up -d --remove-orphans --force-recreate --no-build --pull never --wait --wait-timeout "$wait_timeout"; then
         mv -f "$rollback_env" "$image_env_file"
       else
         echo 'Deployment failed and rollback health check failed.' >&2
@@ -278,7 +278,7 @@ fi
 
 restore_configs
 if [ -n "$previous_image" ]; then
-  if compose "$rollback_env" up -d --force-recreate --no-build --pull never --wait --wait-timeout "$wait_timeout"; then
+  if compose "$rollback_env" up -d --remove-orphans --force-recreate --no-build --pull never --wait --wait-timeout "$wait_timeout"; then
     mv -f "$rollback_env" "$image_env_file"
   else
     echo 'Deployment failed and rollback health check failed.' >&2
