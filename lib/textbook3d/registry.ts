@@ -150,7 +150,23 @@ export const TEXTBOOK3D_CHAPTERS: Textbook3dChapter[] = [
     id: "g8b-11",
     volume: "八年级下册",
     title: "第十一章 功和机械能",
-    lessons: [{ id: "g8b-11-4", title: "机械能及其转化" }],
+    lessons: [
+      { id: "g8b-11-1", title: "功" },
+      { id: "g8b-11-2", title: "功率" },
+      { id: "g8b-11-3", title: "动能和势能" },
+      { id: "g8b-11-4", title: "机械能及其转化" },
+    ],
+  },
+  {
+    id: "g8b-12",
+    volume: "八年级下册",
+    title: "第十二章 简单机械",
+    lessons: [
+      { id: "g8b-12-1", title: "杠杆" },
+      { id: "g8b-12-2", title: "跨学科实践：制作简易杆秤" },
+      { id: "g8b-12-3", title: "滑轮" },
+      { id: "g8b-12-4", title: "机械效率" },
+    ],
   },
 ]
 
