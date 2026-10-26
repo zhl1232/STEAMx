@@ -6,13 +6,23 @@
 
 触发授权统一遵守 [AGENTS.md 的 Actions 预算规则](../AGENTS.md#github-actions-预算与触发授权)。工作流不会检查用户是否授权：main push、`v*` 标签或手动 dispatch 都会触发 Release Deploy，所以必须在操作前守住授权边界。GitHub Actions 构建私有 GHCR 镜像，服务器按本次构建的 SHA-256 摘要拉取；创建 PR 不等于授权合并或发布。
 
-Release 复用 `ci.yml`，检查与镜像构建并行，同一提交的两项均成功后才切换服务器。PR 有独立 CI，按下表分类。测试和镜像使用 Node.js 22；实际流程以对应提交的 `.github/workflows/release.yml`、`ci.yml` 和 `scripts/release-scope.mjs` 为准。
+Release 复用 `ci.yml`，先查找同内容的已通过 PR 检查；证据匹配时直接复用，否则执行原 CI。验证结果与当前生产镜像构建均成功后才切换服务器，两条任务并行。PR 按下表分类。测试和镜像使用 Node.js 22；实际流程以对应提交的 `.github/workflows/release.yml`、`ci.yml` 和 `scripts/release-scope.mjs` 为准。
 
-纯文档或允许的课程资源变更按范围规则跳过应用镜像和服务器切换，但纯文档仍运行 Release CI；应用变更保留基础检查，并按经过核验的影响范围选择独立专项及发布后语音 HEAD/full；混合应用变更、Release 配置变化、标签及手动发布不能按纯文档处理。仅独立 `ops-*` 工作流或对应手机号运维脚本变化的处理也由范围脚本决定，不能推断任意配置文件均无需部署。
+纯文档或允许的课程资源变更按范围规则跳过应用镜像和服务器切换，但纯文档仍经过 Release CI 的验证或复用门；没有可复用证据的应用变更保留基础检查，并按经过核验的影响范围选择独立专项及发布后语音 HEAD/full；混合应用变更、Release 配置变化、标签及手动发布不能按纯文档处理。仅独立 `ops-*` 工作流或对应手机号运维脚本变化的处理也由范围脚本决定，不能推断任意配置文件均无需部署。
 
 ## CI 范围与成本
 
 `ci.yml` 保留工作流名 `CI / PR Checks` 和必需检查入口 `test-and-lint`。草稿 PR 在 job 级跳过，不分配 runner；转为 ready 后重新分类。没有用 `paths-ignore`、`pull_request_target`、跳过提交标记或旧提交的绿灯替代当前提交检查。
+
+### PR 检查结果复用
+
+`scripts/ci-source-proof.mjs` 在同仓库、非草稿 PR 的所有检查成功后，记录实际 checkout 的合并提交、内容树、有序 base/head、PR、run/attempt 和范围类型，上传不可覆盖的 `ci-source-proof-<run>-<attempt>` 小型 JSON 工件，保留 30 天。不能使用 Actions run 的 `head_sha` 代替实际 checkout：该字段是 PR 分支头，实际测试默认是 synthetic merge。
+
+`scripts/release-ci-reuse.mjs` 仅对 main 的普通双父合并复用：第一父必须等于本次 push 的 before，关联 PR 已合入当前提交且来自本仓库，第二父等于该 PR head。只接受固定 `ci.yml` 对此 head 的最新 run、最新 attempt 和实际成功的 `test-and-lint` job，不按 success 过滤后选择历史绿灯。下载工件后重新查询最新状态，核验唯一未过期工件、严格 JSON schema、实际测试提交的 Git 对象、有序父链及与本次发布完全相同的内容树；同时重新计算 `full/home-ui/docs` 范围并要求一致。轻量结果不冒充完整检查。
+
+匹配成功时，Release 的 `ci / test-and-lint` 保留为成功的验证门，summary 链接原 PR 检查；依赖安装、lint、types、单元、浏览器及专项检查均不再执行。本轮 skipped 不记作重新测过。生产镜像构建、限定迁移、服务器切换、健康检查和部署后探针照常保留。
+
+直接 push、多提交推送、squash/rebase、标签、手动发布、fork、关联不唯一、树或父链不符、最新 run/attempt 失败或未结束、工件缺失/过期/异常以及 API 不确定均不复用，执行下述原 CI。下载工件是唯一允许失败后继续的新增步骤，仅用于回退正常检查，不能吞掉测试失败。只增加 `pull-requests: read`，沿用 `actions: read`；不新增写权限、secret 或触发器。
 
 ### 基础检查和专项选择
 
@@ -20,9 +30,9 @@ Release 复用 `ci.yml`，检查与镜像构建并行，同一提交的两项均
 
 | 检查 | 执行范围 |
 |---|---|
-| 范围策略及工作流契约 | 所有实际启动的 CI job |
+| 范围策略及工作流契约 | PR 及未复用 PR 结果的 Release CI |
 | 清理保护、依赖安装、lint、types、部署/迁移/SEO/worker 脚本测试 | home-ui 和其他应用变更均保留 |
-| Vitest 单元测试 | main Release 全量；PR 对已核验的独立模块修改使用真实依赖图、模块测试与全局源码契约的并集，其余全量 |
+| Vitest 单元测试 | 未复用结果的 main Release 全量；PR 对已核验的独立模块修改使用真实依赖图、模块测试与全局源码契约的并集，其余全量 |
 | PR app build、production/dev 路由边界 | 应用 PR 保留；Release 由当前 SHA 的 Docker 构建把关 |
 | 核心 smoke、学习指南、旧 logo 兼容、现用界面资源 | 健康、登录与认证核心保留；细节标签和指南/资源 spec 按核验范围选择，同一次 Playwright 调用复用 Next dev 服务 |
 | 物理实验室 Node 及浏览器测试 | `physics` 专项被选中时运行；浏览器 spec 加入上述同一次调用 |
@@ -50,7 +60,7 @@ PR 单测仅对已审查的客服、商城、硬币商城和项目模块中既�
 
 PR 必须核对当前 checkout SHA 和两个 synthetic merge parents，比较完整 base..merge；草稿、未知事件、错误 parents、解析失败均不能得到缩小的专项计划。main push 比较事件的完整 before..after，核对 checkout 与祖先关系，不只看最后一条提交。
 
-main 缩小专项前还需只读核验 **before 精确 SHA 对应的最新 Release CI job** 已实际成功。只检查该次最新 attempt 的 `ci / test-and-lint`，不沿用较旧 SHA 或旧 attempt 的成功。CI 后面的部署失败/取消不改变该源码已通过 CI 的事实；CI 本身失败、取消、跳过、未完成，API/凭据/分页不完整或无法核对范围时，一律运行全部专项。这个基线只用于确定影响范围，当前提交仍执行自己的基础检查、所选专项和镜像构建。可复用 CI 与调用方仅增加 `actions: read` 以读取基线。
+main 缩小专项前还需只读核验 **before 精确 SHA 对应的最新 Release CI job** 已实际成功。只检查该次最新 attempt 的 `ci / test-and-lint`，不沿用较旧 SHA 或旧 attempt 的成功。CI 后面的部署失败/取消不改变该源码已通过 CI 的事实；CI 本身失败、取消、跳过、未完成，API/凭据/分页不完整或无法核对范围时，一律运行全部专项。这个基线只用于未命中结果复用时确定影响范围，该路径仍执行自己的基础检查、所选专项和镜像构建。读取基线使用 `actions: read`；它与上节的相同内容证明是两种不同判断。
 
 tag、手动发布、未知事件及不可靠范围默认全量。相同 PR 的新检查取消其旧检查；不同 PR 和生产发布的既有互斥不变。没有新增定时任务，也不因本地测试通过自动触发远端 Actions。
 
@@ -74,7 +84,7 @@ HEAD 探针仅 GET `/api/health`，对首页、worker/manifest/cache 脚本、CD
 
 ### 本地验证与耗时证据
 
-范围与接线验证：`node --test scripts/ci-scope.test.mjs scripts/ci-test-impact.test.mjs scripts/ci-test-plan.test.mjs scripts/ci-unit-tests.test.mjs scripts/release-scope.test.mjs scripts/release-voice-scope.test.mjs scripts/check-building-voice-headers.test.mjs scripts/home-ui-scope.test.mjs scripts/ci-workflow-contract.test.mjs`，另用 actionlint 检查工作流。单元测试中的 GitHub 请求使用本地替身，不发真实 API 请求；工作流契约还直接执行 smoke 参数组装，验证只启动一次且缺失选择结果时包含物理专项。
+范围与接线验证（无需为修改工作流重复运行整套应用测试）：`node --test scripts/ci-scope.test.mjs scripts/ci-test-impact.test.mjs scripts/ci-test-plan.test.mjs scripts/ci-unit-tests.test.mjs scripts/ci-source-proof.test.mjs scripts/release-ci-reuse.test.mjs scripts/release-scope.test.mjs scripts/release-voice-scope.test.mjs scripts/check-building-voice-headers.test.mjs scripts/home-ui-scope.test.mjs scripts/ci-workflow-contract.test.mjs`，另用 actionlint 检查工作流。单元测试中的 GitHub 请求使用本地替身，不发真实 API 请求；工作流契约还直接执行 smoke 参数组装，验证只启动一次且缺失选择结果时包含物理专项。
 
 历史 [Release #421](https://github.com/zhl1232/STEAMx/actions/runs/40288433036) 的 CI 为 12分58秒：unit 约2分52秒、组合 smoke 3分16秒、视频50秒、搭建2分钟、Vosk 2分39秒，而 lint/types/脚本保护只有秒级。该记录说明优先按模块减少重型浏览器工作的依据，不是新规则的实测速度，也不是发布时长承诺。镜像构建、服务器切换与生产互斥仍有自身成本，不能把跳过专项直接等同于固定总耗时。
 

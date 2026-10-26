@@ -113,11 +113,13 @@ test('PR build uses a bounded read-only public fixture through route boundary ch
 });
 
 
-test('related units use the conservative runner and main retains full unit execution', () => {
+test('fallback units use the conservative runner and main retains full unit execution', () => {
   assert(steps.get('Run unit tests').includes('node scripts/ci-unit-tests.mjs'));
   assert(steps.get('Verify CI scope policy').includes('scripts/ci-unit-tests.test.mjs'));
   assert(!ci.includes('--passWithNoTests'));
-  assert(!ci.includes('continue-on-error: true'));
+  assert.equal(ci.split('continue-on-error: true').length - 1, 1);
+  assert(steps.get('Download tested source proof').includes('continue-on-error: true'));
+  assert(!steps.get('Verify reusable PR checks').includes('continue-on-error: true'));
   const runner = readFileSync('scripts/ci-unit-tests.mjs', 'utf8');
   assert(runner.includes("process.env.GITHUB_EVENT_NAME === 'pull_request'"));
   assert(runner.includes("let plan = { unitMode: 'full' }"));
@@ -134,4 +136,43 @@ test('browser narrowing excludes reviewed tags only; core health/login/auth and 
   assert(smoke.includes("tag: '@smoke-playground'"));
   assert(smoke.includes("tag: '@smoke-nature'"));
   assert(smoke.includes("await expect(page.getByRole('checkbox')).toBeChecked()"), 'preserve hydration synchronization');
+});
+
+
+test('verified reuse gates classification before dependencies and every expensive check', () => {
+  const names = [...steps.keys()];
+  assert(names.indexOf('Verify reusable PR checks') < names.indexOf('Classify CI scope'));
+  assert(names.indexOf('Classify CI scope') < names.indexOf('Setup pnpm'));
+  for (const name of ['Classify CI scope', 'Verify CI scope policy']) {
+    assert(steps.get(name).includes("if: steps.reuse.outputs.reuse != 'true'"), name);
+  }
+  // No scope output is set on reuse; every dependency/test/build step must
+  // therefore retain its existing explicit full/home-ui condition.
+  const early = new Set(['Checkout repository', 'Locate passed PR checks', 'Download tested source proof',
+    'Verify reusable PR checks', 'Classify CI scope', 'Verify CI scope policy',
+    'Record tested PR source', 'Preserve tested PR source']);
+  for (const [name, block] of steps) {
+    if (!early.has(name)) assert(block.includes("steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui'"), name);
+  }
+  assert(steps.get('Locate passed PR checks').includes("github.event_name == 'push' && github.ref == 'refs/heads/main'"));
+  assert(steps.get('Download tested source proof').includes("if: steps.pr-ci.outputs.run-id != ''"));
+  assert(steps.get('Verify reusable PR checks').includes("if: steps.pr-ci.outputs.run-id != ''"));
+  assert(steps.get('Download tested source proof').includes('run-id: ${{ steps.pr-ci.outputs.run-id }}'));
+  assert(steps.get('Download tested source proof').includes('name: ${{ steps.pr-ci.outputs.artifact-name }}'));
+});
+
+test('only a successful same-repository PR uploads immutable source proof after checks', () => {
+  const names = [...steps.keys()];
+  assert.deepEqual(names.slice(-2), ['Record tested PR source', 'Preserve tested PR source']);
+  for (const name of names.slice(-2)) {
+    assert(steps.get(name).includes("if: success() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository"));
+    assert(!steps.get(name).includes('continue-on-error'));
+  }
+  const upload = steps.get('Preserve tested PR source');
+  assert(upload.includes('name: ${{ steps.source-proof.outputs.artifact-name }}'));
+  assert(upload.includes('overwrite: false'));
+  assert(upload.includes('if-no-files-found: error'));
+  assert(upload.includes('path: ${{ runner.temp }}/ci-source-proof/source-proof.json'));
+  assert(steps.get('Verify CI scope policy').includes('scripts/ci-source-proof.test.mjs scripts/release-ci-reuse.test.mjs'));
+  assert(release.includes('      actions: read\n      pull-requests: read'));
 });
