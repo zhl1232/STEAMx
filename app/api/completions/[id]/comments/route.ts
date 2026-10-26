@@ -1,3 +1,4 @@
+import { scheduleGrowthReview } from '@/lib/growth/schedule'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
@@ -122,7 +123,7 @@ export async function POST(
     if (parentId !== null) {
       const { data: parentComment } = await supabase
         .from('completion_comments')
-        .select('completed_project_id, author_id, profiles:author_id(display_name)')
+        .select('completed_project_id, author_id, moderation_state, profiles:author_id(display_name)')
         .eq('id', parentId)
         .maybeSingle()
 
@@ -133,9 +134,11 @@ export async function POST(
       const typed = parentComment as {
         completed_project_id: number
         author_id: string
+        moderation_state: string
         profiles?: { display_name?: string | null } | null
       }
 
+      if (typed.moderation_state !== 'approved') return NextResponse.json({error:'回复对象尚未公开'}, {status:400})
       if (typed.completed_project_id !== completionId) {
         return NextResponse.json({ error: '父评论不属于当前探索记录' }, { status: 400 })
       }
@@ -168,13 +171,14 @@ export async function POST(
         parent_id: parentId,
         reply_to_user_id: replyToUserId,
         reply_to_username: replyToUsername,
-        moderation_state: moderation.state,
+        moderation_state: 'pending',
       } as never)
       .select(COMMENT_SELECT)
       .single()
 
     if (error) throw error
 
+    scheduleGrowthReview()
     const typedComment = data as { id: number }
     if (moderation.state === 'pending') {
       const caseId = await createModerationCase({
@@ -197,7 +201,7 @@ export async function POST(
       )
     }
 
-    return NextResponse.json({ comment: mapDbComment(data as DbCommentWithProfile) })
+    return NextResponse.json({ comment: mapDbComment(data as DbCommentWithProfile), moderation: { state: 'pending' } }, { status: 202 })
   } catch (error) {
     return handleApiError(error)
   }

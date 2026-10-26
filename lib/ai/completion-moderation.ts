@@ -59,6 +59,7 @@ async function moderateCompletionText(text: string) {
 export async function evaluateCompletionContent(input: {
   notes?: string | null
   imageUrls: string[]
+  allowTextOnly?: boolean
   skipImageModeration?: boolean
 }): Promise<CompletionModerationDecision> {
   const text = (input.notes || '').trim()
@@ -92,6 +93,7 @@ export async function evaluateCompletionContent(input: {
   }
 
   const imageUrls = Array.from(new Set(input.imageUrls.filter(Boolean)))
+  if (imageUrls.length === 0 && input.allowTextOnly && text) return { pass: true, reason: null, imageResults: [] }
   if (imageUrls.length === 0) {
     return {
       pass: false,

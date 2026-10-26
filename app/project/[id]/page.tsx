@@ -1,3 +1,4 @@
+import { AskProjectQuestion } from '@/components/features/project/project-questions'
 import { getScienceSampleForProject } from '@/lib/project/science-samples'
 import { effectiveUpdatedAt } from '@/lib/project/effective-updated-at'
 import { ScienceProjectNotes, ScienceProjectSafety } from '@/components/features/project/science-project-notes'
@@ -351,7 +352,7 @@ function ProjectAuthorCard({ author }: { author: ProjectAuthorSummary | null }) 
   )
 }
 
-function StepItem({ step, index, viewingGuide = false }: { step: ProjectStep; index: number; viewingGuide?: boolean }) {
+function StepItem({ step, index, projectId, viewingGuide = false }: { projectId: string | number; step: ProjectStep; index: number; viewingGuide?: boolean }) {
   const stepTitle = step.title || `${viewingGuide ? "观看要点" : "步骤"} ${index + 1}`
 
   return (
@@ -373,6 +374,7 @@ function StepItem({ step, index, viewingGuide = false }: { step: ProjectStep; in
           ) : null}
           <ProjectStepCopy step={step} className="whitespace-pre-line text-base leading-7 text-foreground/85 wrap-anywhere" />
         </div>
+        <AskProjectQuestion projectId={projectId} context={{area: 'step', step: index + 1, title: stepTitle}} />
       </article>
     </li>
   )
@@ -745,7 +747,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 <ContextualStoreProducts products={purchasableKits} contextLabel="这个项目的" idSuffix="mobile" embedded materialAmount={onlyMaterial?.amount ?? ''} />
               ) : (
                 <>
-                  <MaterialsList materials={materials} preparationNotes={preparationNotes} />
+                  <MaterialsList materials={materials} preparationNotes={preparationNotes} /><AskProjectQuestion projectId={project.id} context={{area: 'materials'}} />
                   {videoPilot ? <p className="mt-3 text-sm leading-6 text-muted-foreground">{videoPilot.materialsNote}</p> : null}
                   {!usesScienceGuideOrAlternative ? <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="mobile" embedded /> : null}
                 </>
@@ -754,7 +756,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             {scienceSample ? <ScienceProjectSafety sample={scienceSample} /> : null}
             {videoPilot ? (
               <MobileSectionCard id="project-steps-mobile" title="制作视频">{tutorialContent}</MobileSectionCard>
-            ) : <MobileProjectSteps key={project.id} steps={steps} practicePending={isSciencePracticePending} observationOnly={isScienceViewingGuide} />}
+            ) : <MobileProjectSteps projectId={project.id} key={project.id} steps={steps} practicePending={isSciencePracticePending} observationOnly={isScienceViewingGuide} />}
             {scienceSample ? <ScienceProjectNotes sample={scienceSample} /> : Number(project.id) === 149 ? (
               <LedCardExtension className="rounded-md border border-[hsl(var(--surface-border)/0.86)] bg-[hsl(var(--surface-raised)/0.94)] px-4 py-3" />
             ) : (
@@ -841,7 +843,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             <div className="min-w-0 space-y-6">
               <div id="project-materials" className="scroll-mt-36">
                 <SectionCard title={materialsTitle}>
-                  <MaterialsList materials={materials} preparationNotes={preparationNotes} />
+                  <MaterialsList materials={materials} preparationNotes={preparationNotes} /><AskProjectQuestion projectId={project.id} context={{area: 'materials'}} />
                   {videoPilot ? <p className="mt-3 text-sm leading-6 text-muted-foreground">{videoPilot.materialsNote}</p> : null}
                   {!usesScienceGuideOrAlternative ? <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="desktop" embedded /> : null}
                 </SectionCard>
@@ -850,7 +852,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               <div id="project-steps" className="scroll-mt-36">
                 {videoPilot ? <SectionCard title="制作视频">{tutorialContent}</SectionCard> : <SectionCard title={`${isScienceViewingGuide ? '观看要点' : '制作步骤'}${steps.length ? `（共 ${steps.length} ${isScienceViewingGuide ? "项" : "步"}）` : ''}`}>
                   {steps.length ? (
-                    <ol className="divide-y divide-border/60">{steps.map((step, index) => <StepItem viewingGuide={isScienceViewingGuide} key={`${step.title || 'step'}-${index}`} step={step} index={index} />)}</ol>
+                    <ol className="divide-y divide-border/60">{steps.map((step, index) => <StepItem projectId={project.id} viewingGuide={isScienceViewingGuide} key={`${step.title || 'step'}-${index}`} step={step} index={index} />)}</ol>
                   ) : <p className="py-4 text-sm text-muted-foreground">{isScienceViewingGuide ? "暂无观看要点" : "暂无步骤说明"}</p>}
                 </SectionCard>}
               </div>

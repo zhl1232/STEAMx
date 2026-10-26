@@ -15,6 +15,7 @@
 | 积木模型、零件和套装核算 | `lib/courses/lesson-materials.ts`、`course-kit-config.ts`、`components/features/courses/lesson-materials-preparation.tsx`、`lib/utils/ldraw-*.ts`、`e2e/building-outline/`、`playwright.building-outline.config.ts` | [手机搭建](docs/courses/mobile-building-experience.md)、[小班材料覆盖](docs/courses/lesson-kit-coverage-small-class.md)、[中大班材料覆盖](docs/courses/lesson-kit-coverage-middle-senior.md) |
 | Scratch 工作区与内容 | `packages/scratch-host/`、`components/features/courses/`、`lib/courses/` | [Scratch 维护与验收](docs/SCRATCH_CURRICULUM_ROLLOUT.md) |
 | PBL 挑战 | `app/create/`、`app/pbl/`、`lib/pbl/`、`components/features/challenge/` | [PBL 指南](docs/PBL_CHALLENGE_GUIDE.md) |
+| 项目问答与回复 | `app/api/projects/[id]/questions/`、`components/features/project/project-questions.tsx`、`lib/project/question-draft.ts` | [探索记录与交流](docs/EXPLORATION_RECORDS.md) |
 | 一次实践与过程记录 | `lib/journeys/`、`lib/project/record-input.ts`、`record-draft.ts`、`app/api/journeys/` | [产品架构](docs/product-architecture.md)、[内容质量与同源修订](docs/content-quality.md)、[探索记录](docs/EXPLORATION_RECORDS.md) |
 | 统一作品及分享 | `lib/works/`、`components/features/works/`、`app/works/` | [内容质量](docs/content-quality.md)、[互动资格](docs/TRUST_AND_INTERACTION_ACCESS.md) |
 | 自然首页、物种图鉴和观察 | `app/nature/`、`lib/nature-species-atlas.ts`、`lib/api/nature-observation-*`、`components/features/bird-observation/` | [物种图鉴](docs/NATURE_SPECIES_ATLAS_IMPLEMENTATION.md)、[内容质量](docs/content-quality.md) |
@@ -33,7 +34,7 @@
 | 注册资料补建 | `lib/supabase/`、相关 `handle_new_user` 迁移 | [资料补建](docs/ensure-profile.md) |
 | 身份、内容访问与审核 | `lib/access/`、`lib/content-classification/`、`lib/content-filter/`、`app/admin/` | [互动资格](docs/TRUST_AND_INTERACTION_ACCESS.md)、[内容分级](docs/CONTENT_CLASSIFICATION_IMPLEMENTATION.md) |
 | 个人中心、时间线和内容库 | `app/profile/`、`components/profile/`、`components/features/profile/`、`lib/profile/` | [产品架构](docs/product-architecture.md)、[设计规范](docs/design-system.md) |
-| 等级、徽章与奖励 | `lib/gamification/`、`components/features/gamification/`、`app/api/admin/growth-reviews/`、`components/admin/growth-reviews.tsx` | [课程奖励契约](docs/COURSE_PROGRESS_REWARDS_AND_STEAM_IMPLEMENTATION.md) |
+| 等级、徽章与奖励 | `lib/gamification/`、`components/features/gamification/`、`app/api/admin/growth-reviews/`、`components/admin/growth-reviews.tsx`、`lib/growth/`、`components/features/growth/` | [课程奖励契约](docs/COURSE_PROGRESS_REWARDS_AND_STEAM_IMPLEMENTATION.md) |
 | 欢迎消息与客服入口 | `components/features/communications/welcome-actions.tsx`、`lib/communications/types.ts`、`lib/product/support.ts`、`app/settings/about/` | [产品方向](docs/product-direction.md) |
 | 私信、通知和自动互动 | `lib/messages/`、`lib/notifications/`、`lib/communications/`、`lib/auto-interactions.ts` | [互动资格](docs/TRUST_AND_INTERACTION_ACCESS.md) |
 | 商品、供应商和订单 | `lib/store/`、`lib/store/service.ts` | [商城与履约](docs/STORE_CHANNEL_FULFILLMENT_DECISION.md) |

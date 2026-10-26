@@ -40,7 +40,7 @@ INSERT INTO completion_comments(id,completed_project_id,author_id,content,modera
 SELECT pg_temp.denied($q$SELECT pg_temp.review('comment',10,ARRAY['exchange'])$q$,'pending comment');
 UPDATE completion_comments SET moderation_state='approved' WHERE id=10;
 SELECT pg_temp.assert((pg_temp.review('comment',10,ARRAY['exchange'])->>'xp_awarded')::int=5,'approved valuable exchange');
-SELECT pg_temp.assert((pg_temp.review('comment',11,ARRAY['exchange'])->>'xp_awarded')::int=0,'daily cap');
+SELECT pg_temp.assert((pg_temp.review('comment',11,ARRAY['exchange'])->>'xp_awarded')::int=5,'distinct root question can earn on same day');
 SELECT pg_temp.denied($q$SELECT pg_temp.review('comment',12,ARRAY['exchange'])$q$,'author top level self conversation');
 INSERT INTO completion_comments(id,completed_project_id,author_id,content,parent_id,reply_to_user_id) VALUES
 (13,1,'00000000-0000-0000-0000-000000000003','self reply',10,'00000000-0000-0000-0000-000000000003'),
@@ -50,7 +50,7 @@ SELECT pg_temp.assert((pg_temp.review('comment',14,ARRAY['exchange'])->>'xp_awar
 -- Rejection reversal once, reapproval does not regrant or release quota.
 UPDATE completion_comments SET moderation_state='rejected' WHERE id=10;
 UPDATE completion_comments SET moderation_state='rejected' WHERE id=10;
-SELECT pg_temp.assert((SELECT xp=0 FROM profiles WHERE id='00000000-0000-0000-0000-000000000003'),'revoke exactly 5');
+SELECT pg_temp.assert((SELECT xp=5 FROM profiles WHERE id='00000000-0000-0000-0000-000000000003'),'revoke exactly 5');
 UPDATE completion_comments SET moderation_state='approved' WHERE id=10;
 SELECT pg_temp.assert((pg_temp.review('comment',10,ARRAY['exchange'])->>'xp_awarded')::int=5,'human reapproval restores once');
 SELECT pg_temp.assert((pg_temp.review('comment',10,ARRAY['exchange'])->>'xp_awarded')::int=0,'repeat restoration no regrant');
@@ -61,21 +61,21 @@ SELECT pg_temp.assert((SELECT revoked_at IS NOT NULL FROM growth_reward_reviews 
 SELECT pg_temp.denied($q$SELECT public.review_growth_reward('comment',14,ARRAY['exchange'],'stale','note')$q$,'stale review');
 -- Same work/week even on another day. Then delete/recreate identical text next week.
 UPDATE growth_reward_reviews SET reward_day=reward_day-1 WHERE content_id=10 AND content_type='comment';
-SELECT pg_temp.assert((pg_temp.review('comment',11,ARRAY['exchange'])->>'xp_awarded')::int=0,'work weekly cap');
+SELECT pg_temp.assert((pg_temp.review('comment',11,ARRAY['exchange'])->>'xp_awarded')::int=0,'existing claim does not regrant');
 UPDATE growth_reward_reviews SET reward_day=reward_day-8,reward_week=reward_week-7 WHERE content_id=10 AND content_type='comment';
 DELETE FROM completion_comments WHERE id=10;
 INSERT INTO completion_comments(id,completed_project_id,author_id,content) VALUES(15,1,'00000000-0000-0000-0000-000000000003','why does the second wheel slip?');
 SELECT pg_temp.assert((pg_temp.review('comment',15,ARRAY['exchange'])->>'xp_awarded')::int=0,'fingerprint survives deletion/week');
-SELECT pg_temp.assert((pg_temp.review('comment',11,ARRAY['exchange'])->>'xp_awarded')::int=5,'new nonduplicate eligible');
+SELECT pg_temp.assert((pg_temp.review('comment',11,ARRAY['exchange'])->>'xp_awarded')::int=0,'existing distinct thread claim retained');
 SELECT pg_temp.assert((pg_temp.review('comment',11,ARRAY['skip'])->>'xp_awarded')::int=-5,'manual value rejection revokes safe content');
 SELECT pg_temp.assert((pg_temp.review('comment',11,ARRAY['skip'])->>'xp_awarded')::int=0,'manual reversal idempotent');
 -- Four awards on other days in this week block a fifth, another week permits it.
 INSERT INTO growth_reward_reviews(user_id,content_type,content_id,source_key,stage,content_hash,fingerprint,snapshot,reviewer_id,reason,xp,reward_day,reward_week)
 SELECT '00000000-0000-0000-0000-000000000004','comment',30+i,'work:'||(30+i),'exchange','test','test'||i,'{}','00000000-0000-0000-0000-000000000001','prior day',5,(now() AT TIME ZONE 'Asia/Shanghai')::date-i,date_trunc('week',now() AT TIME ZONE 'Asia/Shanghai')::date FROM generate_series(1,4) i;
 INSERT INTO completion_comments(id,completed_project_id,author_id,content) VALUES(20,1,'00000000-0000-0000-0000-000000000004','what measurement changed?');
-SELECT pg_temp.assert((pg_temp.review('comment',20,ARRAY['exchange'])->>'xp_awarded')::int=0,'weekly four');
+SELECT pg_temp.assert((pg_temp.review('comment',20,ARRAY['exchange'])->>'xp_awarded')::int=5,'prior days have no weekly cap');
 UPDATE growth_reward_reviews SET reward_week=reward_week-7 WHERE user_id='00000000-0000-0000-0000-000000000004';
-SELECT pg_temp.assert((pg_temp.review('comment',20,ARRAY['exchange'])->>'xp_awarded')::int=5,'next week eligible');
+SELECT pg_temp.assert((pg_temp.review('comment',20,ARRAY['exchange'])->>'xp_awarded')::int=0,'week change never duplicates a claim');
 -- Bot never rewarded even if approved.
 UPDATE profiles SET is_auto_interaction_account=true WHERE id='00000000-0000-0000-0000-000000000004';
 SELECT pg_temp.denied($q$SELECT pg_temp.review('comment',20,ARRAY['exchange'])$q$,'automated account');
@@ -109,3 +109,6 @@ INSERT INTO completion_comments(id,completed_project_id,author_id,content) VALUE
 INSERT INTO completed_projects(id,user_id,project_id,notes,status,moderation_state) VALUES
 (201,'00000000-0000-0000-0000-000000000005',201,'first process','approved','approved'),
 (202,'00000000-0000-0000-0000-000000000005',201,'another process same project','approved','approved');
+
+INSERT INTO growth_reward_reviews(user_id,content_type,content_id,source_key,stage,content_hash,fingerprint,snapshot,reason,xp)
+SELECT '00000000-0000-0000-0000-000000000005','comment',900+i,'work-thread:'||(900+i),'exchange','test','concurrent-seed'||i,'{}','prior slot today',5 FROM generate_series(1,4) i;

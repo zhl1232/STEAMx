@@ -9,7 +9,7 @@ export const EXPERIENCE_RULES = [
     id: 'publish_course_work',
     action: '上传课时作品',
     reward: '最多 +200',
-    description: '每课时首次真实过程 40、新观察/比较/调整 60、最终作品或总结 100，人工审核后各一次',
+    description: '每课时首次真实过程 40、新观察/比较/调整 60、最终作品或总结 100，独立内容证据审核后各一次',
   },
   {
     id: 'complete_project',
@@ -45,7 +45,7 @@ export const EXPERIENCE_RULES = [
     id: 'growth_exchange',
     action: '合格作品交流',
     reward: '+5',
-    description: '人工确认真实问题、尝试、建议或回复他人；上海时间每天最多一次、每周四次，同作品每周一次；违规撤回',
+    description: '项目问答与作品交流经审核符合条件后共享每天最多5次、同一线程每天一次（上海时间），无周上限；违规撤回',
   },
   {
     id: 'daily_login',

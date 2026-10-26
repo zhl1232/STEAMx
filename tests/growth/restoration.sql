@@ -47,9 +47,10 @@ SELECT pg_temp.assert((pg_temp.review('comment',302,ARRAY['exchange'])->>'xp_awa
 UPDATE completion_comments SET content='I measured distance and time three times' WHERE id=302;
 SELECT pg_temp.assert((pg_temp.review('comment',302,ARRAY['exchange'])->>'xp_awarded')::int=5,'edited exchange reviewed and restored');
 SELECT pg_temp.assert((SELECT count(*)=2 FROM growth_reward_fingerprints WHERE user_id='00000000-0000-0000-0000-000000000008'),'all reviewed fingerprints retained');
+INSERT INTO growth_reward_reviews(user_id,content_type,content_id,source_key,stage,content_hash,fingerprint,snapshot,reason,xp) SELECT '00000000-0000-0000-0000-000000000008','comment',950+i,'work-thread:'||(950+i),'exchange','test','restore-seed'||i,'{}','four other slots today',5 FROM generate_series(1,4) i;
 INSERT INTO completion_comments(id,completed_project_id,author_id,content) VALUES(303,303,'00000000-0000-0000-0000-000000000008','a different useful question');
 SELECT pg_temp.assert((pg_temp.review('comment',303,ARRAY['exchange'])->>'xp_awarded')::int=0,'restoration keeps occupied daily slot');
-SELECT pg_temp.assert((SELECT count(*)=1 FROM growth_reward_reviews WHERE user_id='00000000-0000-0000-0000-000000000008' AND stage='exchange'),'restoration never creates more quota claims');
+SELECT pg_temp.assert((SELECT count(*)=5 FROM growth_reward_reviews WHERE user_id='00000000-0000-0000-0000-000000000008' AND stage='exchange'),'restoration never creates more quota claims');
 DELETE FROM completion_comments WHERE id=301;
 SELECT pg_temp.assert(NOT EXISTS(SELECT 1 FROM completion_comments WHERE id=302),'real parent delete cascades');
 SELECT pg_temp.assert((SELECT xp=0 FROM profiles WHERE id='00000000-0000-0000-0000-000000000008'),'cascade revokes once after multiple restorations');

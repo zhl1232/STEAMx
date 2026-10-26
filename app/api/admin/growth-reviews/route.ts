@@ -2,13 +2,19 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { handleApiError, requireRole } from '@/lib/api/auth'
 import { callRpc } from '@/lib/supabase/rpc'
+import { createModerationCase } from '@/lib/safety/server'
 import { validateEnum, validateNumber } from '@/lib/api/validation'
 
 export async function GET(request: NextRequest) {
   const client = await createClient()
   try {
     await requireRole(client, ['moderator', 'admin'])
-    const type = validateEnum(request.nextUrl.searchParams.get('type'), 'type', ['completion', 'comment'] as const)
+    if (request.nextUrl.searchParams.get('queue') === 'manual') {
+      const {data,error} = await callRpc(client,'growth_manual_jobs',{})
+      if(error) throw error
+      return NextResponse.json({jobs:data},{headers:{'Cache-Control':'private, no-store'}})
+    }
+    const type = validateEnum(request.nextUrl.searchParams.get('type'), 'type', ['completion', 'comment', 'project_comment'] as const)
     const before = request.nextUrl.searchParams.get('before')
     const { data, error } = await callRpc(client, 'growth_review_queue', {
       p_type: type, p_before: before ? validateNumber(before, 'before', { min: 1, integer: true }) : null,
@@ -23,7 +29,15 @@ export async function POST(request: NextRequest) {
   try {
     await requireRole(client, ['moderator', 'admin'])
     const body = await request.json()
-    const type = validateEnum(body.type, 'type', ['completion', 'comment'] as const)
+    if (body.action === 'safety_case') {
+      const {data,error} = await callRpc(client,'growth_manual_jobs',{})
+      if(error) throw error
+      const job = (data as unknown as {id:string;content_type:string;content_id:number;user_id:string}[]).find(j=>j.id===body.jobId)
+      if(!job) return NextResponse.json({error:'待复核任务不存在'},{status:404})
+      await createModerationCase({contentType:job.content_type==='project_comment'?'comment':job.content_type==='comment'?'completion_comment':'completion',contentId:job.content_id,authorId:job.user_id,source:'admin',riskLevel:'medium',reason:'成长AI审核未完成，请核对发布安全；奖励资格另行复核'})
+      return NextResponse.json({ok:true})
+    }
+    const type = validateEnum(body.type, 'type', ['completion', 'comment', 'project_comment'] as const)
     const id = validateNumber(body.id, 'id', { min: 1, integer: true })
     const allowed = type === 'completion' ? ['process', 'discovery', 'final', 'skip'] : ['exchange', 'skip']
     if (!Array.isArray(body.stages) || body.stages.length < 1 || body.stages.length > 3 ||

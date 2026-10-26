@@ -13,6 +13,7 @@ sql < tests/growth/schema.sql
 sql < supabase/migrations/20260131100000_add_completion_interactions.sql
 sql < tests/growth/fixture.sql
 sql < supabase/migrations/20261026100000_reviewed_growth_rewards.sql
+sql < supabase/migrations/20261026110000_growth_ai_review_queue.sql
 sql < tests/growth/assertions.sql
 sql < tests/growth/restoration.sql
 # Different content rows, same recipient: one daily exchange can win.
@@ -22,7 +23,7 @@ for id in 101 102; do
   pids+=("$!")
 done
 for pid in "${pids[@]}"; do wait "$pid"; done
-sql -c "DO \$\$ BEGIN IF (SELECT count(*) FROM growth_reward_reviews WHERE user_id='00000000-0000-0000-0000-000000000005' AND stage='exchange')<>1 THEN RAISE EXCEPTION 'concurrent daily quota'; END IF; END \$\$;"
+sql -c "DO \$\$ BEGIN IF (SELECT count(*) FROM growth_reward_reviews WHERE user_id='00000000-0000-0000-0000-000000000005' AND stage='exchange')<>5 THEN RAISE EXCEPTION 'concurrent daily quota'; END IF; END \$\$;"
 # Independent records claiming the same source and stage award it once.
 pids=()
 for id in 201 202; do
@@ -50,7 +51,7 @@ sql -c "DO \$\$ BEGIN IF (SELECT xp FROM profiles WHERE id='00000000-0000-0000-0
 # Review holds dependency locks until commit; parent rejection then reverses it.
 sql -c "BEGIN; SET LOCAL request.jwt.claim.sub='00000000-0000-0000-0000-000000000001'; SELECT public.review_growth_reward('comment',402,ARRAY['exchange'],md5(public.growth_evidence('comment',402)::text),'still valid'); SELECT pg_sleep(0.3); COMMIT;" >"/tmp/$container-review.log" 2>&1 &
 review_pid=$!
-sql -c "UPDATE public.completion_comments SET moderation_state='rejected' WHERE id=401;" >/dev/null &
+sql -c "SET request.jwt.claim.role='service_role'; UPDATE public.completion_comments SET moderation_state='rejected' WHERE id=401;" >/dev/null &
 reject_pid=$!
 # Either rejection wins first and review rejects, or review commits first and is revoked.
 if ! wait "$review_pid"; then
@@ -61,4 +62,5 @@ fi
 rm -f "/tmp/$container-review.log"
 wait "$reject_pid"
 sql -c "DO \$\$ BEGIN IF (SELECT xp FROM profiles WHERE id='00000000-0000-0000-0000-000000000009')<>0 OR EXISTS (SELECT 1 FROM growth_reward_reviews WHERE content_id=402 AND stage='exchange' AND revoked_at IS NULL) THEN RAISE EXCEPTION 'concurrent parent rejection leaves no reward'; END IF; END \$\$;"
+sql < tests/growth/ai.sql
 printf 'Growth SQL, restoration, dependency and concurrency checks passed.\n'

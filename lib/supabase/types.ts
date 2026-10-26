@@ -1249,6 +1249,9 @@ export interface Database {
       comments: {
         Row: {
           id: number
+          is_project_question: boolean
+          question_root_id: number | null
+          question_context: Json
           project_id: number
           author_id: string
           content: string
@@ -1261,6 +1264,9 @@ export interface Database {
           moderation_state: string
         }
         Insert: {
+          is_project_question?: boolean
+          question_context?: Json
+          question_root_id?: number | null
           id?: number
           project_id: number
           author_id: string
@@ -1274,6 +1280,9 @@ export interface Database {
           moderation_state?: string
         }
         Update: {
+          is_project_question?: boolean
+          question_context?: Json
+          question_root_id?: number | null
           id?: number
           project_id?: number
           author_id?: string
@@ -4073,6 +4082,11 @@ export interface Database {
       }
     }
     Functions: {
+      growth_manual_jobs: { Args: Record<string, never>; Returns: Json }
+      claim_growth_ai_job: { Args: Record<string, never>; Returns: Json }
+      finish_growth_ai_job: { Args: { p_job: string; p_lease: string; p_decision: Json | null; p_usage: Json; p_model: string | null; p_error?: string | null }; Returns: Json }
+      growth_exchange_feedback: { Args: { p_type: string; p_ids: number[] }; Returns: Json }
+
       growth_review_queue: {
         Args: { p_type: string; p_before?: number | null }
         Returns: Json

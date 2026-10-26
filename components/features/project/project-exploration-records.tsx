@@ -1,4 +1,5 @@
 "use client"
+import { ProjectQuestionsTabs } from './project-questions'
 
 import type { KeyboardEvent, ReactNode } from "react"
 import { ChevronRight, Heart, MessageCircle } from "lucide-react"
@@ -158,7 +159,7 @@ export function ProjectExplorationRecordsBlock({
   viewingGuide?: boolean; practicePending?: boolean
 }) {
   return (
-    <div className={className}>
+    <div className={className}><ProjectQuestionsTabs projectId={projectId}>
       <ProjectExplorationRecordsHorizontal
         projectId={projectId}
         completions={completions}
@@ -175,7 +176,7 @@ export function ProjectExplorationRecordsBlock({
           <ChevronRight className="h-3.5 w-3.5" />
         </Link>
       ) : null}
-    </div>
+    </ProjectQuestionsTabs></div>
   )
 }
 
