@@ -13,14 +13,16 @@ const decisionSchema = z.object({
 }).strict()
 export type GrowthContext = { type: 'completion' | 'comment' | 'project_comment'; evidence: Record<string, unknown>; background?: unknown; parent?: unknown; history?: unknown; version: number; reviewed_duplicate?: boolean }
 export function boundedGrowthContext(context: GrowthContext) {
-  // Keep identifiers out of prompts. Limit every UGC string and whole request.
-  const sanitize = (value: unknown): unknown => {
-    if (typeof value === 'string') return value.slice(0, 1800)
-    if (Array.isArray(value)) return value.slice(0, 6).map(sanitize)
-    if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).filter(([key]) => !/(?:^id$|_id$|image|video|url)/.test(key)).map(([key, item]) => [key, sanitize(item)]))
+  // Current evidence is the content being approved: never truncate it. Only
+  // supporting context may be shortened; oversize requests fail closed below.
+  const sanitize = (value: unknown, trimBackground: boolean): unknown => {
+    if (typeof value === 'string') return trimBackground ? value.slice(0, 1800) : value
+    if (Array.isArray(value)) return (trimBackground ? value.slice(0, 6) : value).map(item => sanitize(item, trimBackground))
+    if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).filter(([key]) => !/(?:^id$|_id$|image|video|url)/.test(key)).map(([key, item]) => [key, sanitize(item, trimBackground)]))
     return value
   }
-  const payload = JSON.stringify(sanitize(context))
+  const { evidence, ...background } = context
+  const payload = JSON.stringify({ ...sanitize(background, true) as Record<string, unknown>, evidence: sanitize(evidence, false) })
   if (payload.length > 14000) throw new Error('growth_context_too_large')
   return payload
 }

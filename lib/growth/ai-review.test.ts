@@ -25,6 +25,24 @@ describe('growth structured evidence boundary (mock, not real model evaluation)'
  const practice={...eligible,reason_code:'practice',stages:[{stage:'process',evidence:'我连接两根线'},{stage:'discovery',evidence:'换短线后更亮'},{stage:'final',evidence:'总结：接触要稳'}]}
  expect(parseGrowthDecision(JSON.stringify(practice),{...context,type:'completion',evidence:{notes:'我连接两根线；换短线后更亮；总结：接触要稳'}}).stages).toHaveLength(3)
  })
+ it('includes all 2000 current characters, including semantic risks after position 1800',()=>{
+ const text='前'.repeat(1800)+'末尾必须审核'+'尾'.repeat(194)
+ expect(text).toHaveLength(2000)
+ const payload=JSON.parse(boundedGrowthContext({...context,evidence:{content:text},background:{description:'背'.repeat(3000)}}))
+ expect(payload.evidence.content).toBe(text)
+ expect(payload.background.description).toHaveLength(1800)
+ })
+ it('preserves all current captions, including later captions and their tails',()=>{
+ const captions=Array.from({length:8},(_,i)=>`${i}:`+'凭'.repeat(1900))
+ expect(()=>boundedGrowthContext({...context,evidence:{proof_captions:captions}})).toThrow('growth_context_too_large')
+ const small=Array.from({length:8},(_,i)=>`caption-${i}`)
+ expect(JSON.parse(boundedGrowthContext({...context,evidence:{proof_captions:small}})).evidence.proof_captions).toEqual(small)
+ })
+ it('never invokes the model for an over-budget complete current document',async()=>{
+ vi.mocked(dashScopeChatComplete).mockClear()
+ await expect(evaluateGrowth({...context,evidence:{content:'大'.repeat(14001)}},[])).rejects.toThrow('growth_context_too_large')
+ expect(dashScopeChatComplete).not.toHaveBeenCalled()
+ })
  it('caps physical provider attempts and records usage through observer',async()=>{
  vi.mocked(dashScopeChatComplete).mockImplementation(async options=>{
  const observer=options.usageObserver!
