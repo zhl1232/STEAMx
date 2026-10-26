@@ -16,20 +16,21 @@ export function AskProjectQuestion({ projectId, context }: { projectId:string|nu
   return <button type="button" className="mt-2 text-xs text-primary underline underline-offset-4" onClick={() => window.dispatchEvent(new CustomEvent('project-question',{detail:{projectId:String(projectId),context}}))}>{context.area==='materials'?'材料有疑问？':'这一步有疑问？'}</button>
 }
 export function ProjectQuestionsTabs({ projectId, children }: { projectId:string|number; children:ReactNode }) {
-  const [active,setActive]=useState(false); const [context,setContext]=useState<QuestionContext>({area:'general'}); const root=useRef<HTMLDivElement>(null)
+  const [active,setActive]=useState(false); const [context,setContext]=useState<QuestionContext|null>(null); const root=useRef<HTMLDivElement>(null)
   useEffect(() => {
     const ask=(event:Event) => { const detail=(event as CustomEvent).detail; if(detail?.projectId!==String(projectId)||!root.current?.getClientRects().length) return; setContext(detail.context);setActive(true);root.current.scrollIntoView({behavior:'smooth',block:'start'}) }
     window.addEventListener('project-question',ask);return()=>window.removeEventListener('project-question',ask)
   },[projectId])
-  return <div ref={root} className="scroll-mt-28"><div className="mb-4 flex gap-2" role="tablist" aria-label="项目交流"><button type="button" role="tab" aria-selected={!active} className="rounded px-3 py-2 text-sm" onClick={()=>setActive(false)}>大家的作品</button><button type="button" role="tab" aria-selected={active} className="rounded px-3 py-2 text-sm" onClick={()=>setActive(true)}>问题与解答</button></div><div hidden={active}>{children}</div><div hidden={!active}>{active && <ProjectQuestions projectId={projectId} context={context} enabled={active}/>}</div></div>
+  return <div ref={root} className="scroll-mt-28"><div className="mb-4 flex gap-2" role="tablist" aria-label="项目交流"><button type="button" role="tab" aria-selected={!active} className="rounded px-3 py-2 text-sm" onClick={()=>setActive(false)}>大家的作品</button><button type="button" role="tab" aria-selected={active} className="rounded px-3 py-2 text-sm" onClick={()=>setActive(true)}>问题与解答</button></div><div hidden={active}>{children}</div><div hidden={!active}>{active && <ProjectQuestions projectId={projectId} context={context} onContextApplied={setContext} enabled={active}/>}</div></div>
 }
-function ProjectQuestions({projectId,context,enabled}:{projectId:string|number;context:QuestionContext;enabled:boolean}) {
+function ProjectQuestions({projectId,context,onContextApplied,enabled}:{projectId:string|number;context:QuestionContext|null;onContextApplied:(context:null)=>void;enabled:boolean}) {
  const {user}=useAuth();const {promptLogin}=useLoginPrompt();const {toast}=useToast();const cache=useQueryClient()
  const [draft,setDraft]=useState<QuestionDraft>(emptyQuestionDraft);const [file,setFile]=useState<File|null>(null);const [busy,setBusy]=useState(false);const [submitted,setSubmitted]=useState<{id:number;at:number}|null>(null);const [before,setBefore]=useState<number|null>(null)
- const owner=useRef<string|null>(user?.id||null);const input=useRef<HTMLTextAreaElement>(null)
- useEffect(()=>{owner.current=user?.id||null;setDraft(loadQuestionDraft(user?.id||null,projectId));setFile(null);setSubmitted(null)},[user?.id,projectId])
- useEffect(()=>{setDraft(d=>({...d,context,replyId:null,replyName:null}))},[context])
- const change=(next:QuestionDraft)=>{setDraft(next);saveQuestionDraft(user?.id||null,projectId,next)}
+ const currentDraft=useRef(draft);const owner=useRef<string|null>(user?.id||null);const input=useRef<HTMLTextAreaElement>(null)
+ useEffect(()=>{owner.current=user?.id||null;const restored=loadQuestionDraft(user?.id||null,projectId);currentDraft.current=restored;setDraft(restored);setFile(null);setSubmitted(null)},[user?.id,projectId])
+ // Consume explicit shortcuts once; a tab remount must keep the stored reply/context.
+ useEffect(()=>{if(!context)return;const next={...currentDraft.current,context,replyId:null,replyName:null};currentDraft.current=next;setDraft(next);saveQuestionDraft(user?.id||null,projectId,next);onContextApplied(null)},[context,user?.id,projectId,onContextApplied])
+ const change=(next:QuestionDraft)=>{currentDraft.current=next;setDraft(next);saveQuestionDraft(user?.id||null,projectId,next)}
  const {data,isLoading,error}=useQuery<{questions:Question[];nextBefore:number|null;repliesTruncated?:boolean}>({queryKey:['project-questions',projectId,user?.id,before],enabled,queryFn:async()=>{const r=await fetch(`/api/projects/${projectId}/questions${before?`?before=${before}`:''}`);if(!r.ok)throw new Error('问题暂时无法加载');return r.json()},refetchInterval:()=>submitted&&Date.now()-submitted.at<60_000?5000:false})
  const questions=data?.questions||[];const feedback=useExchangeFeedback('project_comment',questions.map(q=>q.id).concat(submitted?[submitted.id]:[]),submitted)
  async function send(snapshot:QuestionDraft, photo:File|null, account:string) {
@@ -41,7 +42,7 @@ function ProjectQuestions({projectId,context,enabled}:{projectId:string|number;c
      const response=await fetch(`/api/projects/${projectId}/questions`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:snapshot.text,parent_id:snapshot.replyId,context:snapshot.context,image_url})})
      const body=await response.json();if(!response.ok)throw new Error(body.error||'发送失败')
      if(owner.current!==account)return
-     setDraft(emptyQuestionDraft());saveQuestionDraft(account,projectId,emptyQuestionDraft());setFile(null);setBefore(null);setSubmitted({id:body.question.id,at:Date.now()});cache.invalidateQueries({queryKey:['project-questions',projectId]});toast({title:'已提交，审核后公开'})
+     currentDraft.current=emptyQuestionDraft();setDraft(currentDraft.current);saveQuestionDraft(account,projectId,emptyQuestionDraft());setFile(null);setBefore(null);setSubmitted({id:body.question.id,at:Date.now()});cache.invalidateQueries({queryKey:['project-questions',projectId]});toast({title:'已提交，审核后公开'})
    }catch(err){toast({title:err instanceof Error?err.message:'发送失败',variant:'destructive'})}finally{setBusy(false)}
  }
  const submit=()=>{if(!draft.text.trim()||busy)return;const snapshot={...draft,text:draft.text.trim()};if(!user){promptLogin(nextUser=>{if(owner.current&&owner.current!==nextUser.id)return;owner.current=nextUser.id;return send(snapshot,file,nextUser.id)},{title:'登录后提问或回复',description:'保留当前输入与问题上下文'});return}void send(snapshot,file,user.id)}

@@ -117,6 +117,23 @@ REVOKE ALL ON public.growth_reward_events FROM PUBLIC,anon,authenticated;
 GRANT SELECT ON public.growth_reward_events TO authenticated;
 CREATE POLICY growth_event_read ON public.growth_reward_events FOR SELECT TO authenticated USING
  (EXISTS (SELECT 1 FROM public.growth_reward_reviews r WHERE r.id=review_id AND (r.user_id=auth.uid() OR public.is_moderator_or_admin())));
+
+-- A decision is distinct from a reward claim: repeating a human rejection or
+-- confirmation must remain auditable even when the ledger change is zero.
+CREATE TABLE public.growth_reward_decisions (
+ id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+ content_type text NOT NULL CHECK (content_type IN ('completion','comment','project_comment')),
+ content_id bigint NOT NULL, user_id uuid NOT NULL, reviewer_id uuid NOT NULL,
+ content_version integer NOT NULL, content_hash text NOT NULL, snapshot jsonb NOT NULL,
+ stages text[] NOT NULL, reason text NOT NULL, xp_delta integer NOT NULL,
+ created_at timestamptz NOT NULL DEFAULT clock_timestamp()
+);
+CREATE INDEX growth_human_decision_precedence ON public.growth_reward_decisions(content_type,content_id,created_at DESC);
+ALTER TABLE public.growth_reward_decisions ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON public.growth_reward_decisions FROM PUBLIC,anon,authenticated;
+GRANT SELECT ON public.growth_reward_decisions TO authenticated;
+CREATE POLICY growth_decision_read ON public.growth_reward_decisions FOR SELECT TO authenticated
+ USING (user_id=auth.uid() OR public.is_moderator_or_admin());
 -- Keep all reviewed comment fingerprints, including edited/restored versions.
 CREATE TABLE public.growth_reward_fingerprints (
  user_id uuid NOT NULL, fingerprint text NOT NULL,
@@ -556,6 +573,11 @@ BEGIN
      awarded:=awarded+amount; used:=used+amount;
    END IF;
  END LOOP;
+ IF NOT p_system THEN
+   INSERT INTO public.growth_reward_decisions(content_type,content_id,user_id,reviewer_id,content_version,content_hash,snapshot,stages,reason,xp_delta)
+   SELECT p_type,p_id,owner_id,auth.uid(),version,p_hash,evidence,p_stages,btrim(p_reason),awarded
+   FROM public.growth_reward_content WHERE content_type=p_type AND content_id=p_id;
+ END IF;
  RETURN jsonb_build_object('xp_awarded',awarded);
 END; $$;
 REVOKE ALL ON FUNCTION public._review_growth_reward(text,bigint,text[],text,text,boolean,uuid,text) FROM PUBLIC,anon,authenticated,service_role;

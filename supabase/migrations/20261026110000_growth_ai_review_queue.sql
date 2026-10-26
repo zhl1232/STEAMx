@@ -24,7 +24,7 @@ CREATE POLICY growth_ai_owner_read ON public.growth_ai_jobs FOR SELECT TO authen
 
 CREATE FUNCTION public.growth_ai_context(p_type text,p_id bigint) RETURNS jsonb
 LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path='' AS $$
-DECLARE e jsonb; background jsonb; history jsonb; parent jsonb; version integer;
+DECLARE e jsonb; background jsonb; history jsonb; parent jsonb; version integer; journey_hash text;
 BEGIN
  e:=public.growth_evidence(p_type,p_id);
  IF e IS NULL THEN RETURN NULL; END IF;
@@ -37,6 +37,9 @@ BEGIN
    SELECT jsonb_build_object('title',title,'description',left(description,1200),'steps',(SELECT COALESCE(jsonb_agg(jsonb_build_object('title',s.title,'description',left(s.description,400))),'[]') FROM (SELECT title,description FROM public.project_steps WHERE project_id=(e->>'project_id')::bigint ORDER BY sort_order,id LIMIT 6) s)) INTO background FROM public.projects WHERE id=(e->>'project_id')::bigint;
    parent:=public.growth_evidence('project_comment',(e->>'parent_id')::bigint);
  ELSE
+   SELECT md5(to_jsonb(r)::text) INTO journey_hash
+   FROM public.completed_projects c JOIN public.project_journey_records r ON r.id=c.journey_record_id
+   WHERE c.id=p_id;
    IF e->>'project_id' IS NOT NULL THEN
      SELECT jsonb_build_object('title',title,'description',left(description,1200)) INTO background FROM public.projects WHERE id=(e->>'project_id')::bigint;
    END IF;
@@ -53,7 +56,7 @@ BEGIN
      ) recent ORDER BY created_at DESC LIMIT 6
    ) h;
  END IF;
- RETURN jsonb_build_object('type',p_type,'version',version,'evidence',e,'background',background,'parent',parent,'history',history,
+ RETURN jsonb_build_object('type',p_type,'version',version,'evidence',e,'background',background,'parent',parent,'history',history,'journey_hash',journey_hash,
  'reviewed_duplicate',p_type<>'completion' AND EXISTS(SELECT 1 FROM public.growth_reward_fingerprints f JOIN public.growth_reward_reviews r ON r.id=f.review_id
  WHERE f.user_id=(e->>'author_id')::uuid AND f.fingerprint=md5(regexp_replace(lower(btrim(e->>'content')),'[[:space:]]+','','g')) AND r.revoked_at IS NULL AND NOT(r.content_type=p_type AND r.content_id=p_id)));
 
@@ -150,13 +153,25 @@ GRANT EXECUTE ON FUNCTION public.claim_growth_ai_job() TO service_role;
 
 CREATE FUNCTION public.finish_growth_ai_job(p_job uuid,p_lease uuid,p_decision jsonb,p_usage jsonb,p_model text,p_error text DEFAULT NULL) RETURNS jsonb
 LANGUAGE plpgsql SECURITY DEFINER SET search_path='' AS $$
-DECLARE j public.growth_ai_jobs%ROWTYPE; ctx jsonb; result jsonb:='{}'; stages text[]; safety text; quality text;
+DECLARE
+ j public.growth_ai_jobs%ROWTYPE; ctx jsonb; result jsonb:='{}'; stages text[]; safety text; quality text;
+ completion public.completed_projects%ROWTYPE; journey_record public.project_journey_records%ROWTYPE;
+ linked_record_id bigint; journey public.project_journeys%ROWTYPE;
+ safety_state text; reopen_deferred boolean:=false; failed_constraint text;
 BEGIN
  IF auth.role() IS DISTINCT FROM 'service_role' THEN RAISE EXCEPTION 'Service role required'; END IF;
  SELECT * INTO j FROM public.growth_ai_jobs WHERE id=p_job AND lease=p_lease AND state='running' AND lease_until>=now() FOR UPDATE;
  IF NOT FOUND THEN RETURN jsonb_build_object('state','lease_expired'); END IF;
  -- Lock dependencies in the same order as award and mutation paths.
- IF j.content_type='completion' THEN PERFORM 1 FROM public.completed_projects WHERE id=j.content_id FOR UPDATE;
+ IF j.content_type='completion' THEN
+   -- Journey writes precede compatibility projection writes. Lock and compare
+   -- both so a result cannot reject a newer authoritative edit between requests.
+   SELECT journey_record_id INTO linked_record_id FROM public.completed_projects WHERE id=j.content_id;
+   IF linked_record_id IS NOT NULL THEN
+     SELECT * INTO journey_record FROM public.project_journey_records WHERE id=linked_record_id FOR UPDATE;
+     SELECT * INTO journey FROM public.project_journeys WHERE id=journey_record.journey_id FOR UPDATE;
+   END IF;
+   SELECT * INTO completion FROM public.completed_projects WHERE id=j.content_id FOR UPDATE;
  ELSIF j.content_type='comment' THEN
    PERFORM 1 FROM public.completed_projects WHERE id=(SELECT completed_project_id FROM public.completion_comments WHERE id=j.content_id) FOR SHARE;
    PERFORM 1 FROM public.completion_comments WHERE id=(SELECT parent_id FROM public.completion_comments WHERE id=j.content_id) FOR SHARE;
@@ -173,16 +188,58 @@ BEGIN
    UPDATE public.growth_ai_jobs SET state=CASE WHEN attempts>=3 THEN 'manual' ELSE 'queued' END,available_at=now()+interval '5 minutes',error=left(p_error,300),usage=p_usage,model=p_model WHERE id=j.id;
    RETURN jsonb_build_object('state','retry_or_manual');
  END IF;
+ IF j.content_type='completion' AND (
+   completion.journey_record_id IS DISTINCT FROM linked_record_id
+   OR (linked_record_id IS NOT NULL AND (
+     journey_record.id IS NULL OR journey.id IS NULL
+     OR journey_record.status IS DISTINCT FROM 'approved'
+     OR journey_record.moderation_state IS DISTINCT FROM 'approved'
+     OR journey_record.visibility IS DISTINCT FROM 'public'
+     OR completion.status IS DISTINCT FROM 'approved' OR completion.moderation_state IS DISTINCT FROM 'approved'
+     OR completion.is_public IS DISTINCT FROM true
+     OR journey.source_type IS DISTINCT FROM 'project' OR completion.course_lesson_id IS NOT NULL
+     OR ROW(journey_record.user_id,journey.user_id,journey.project_id,journey_record.record_kind,
+            journey_record.notes,journey_record.images,journey_record.image_captions,journey_record.video_url)
+        IS DISTINCT FROM ROW(completion.user_id,completion.user_id,completion.project_id,completion.record_kind,
+            completion.notes,completion.proof_images,completion.proof_captions,completion.proof_video_url)
+   ))
+ ) THEN
+   UPDATE public.growth_ai_jobs SET state='manual',error='journey_projection_outdated',usage=p_usage,model=p_model WHERE id=j.id;
+   RETURN jsonb_build_object('state','manual');
+ END IF;
  safety:=p_decision->>'safety'; quality:=p_decision->>'quality';
  IF safety IS NULL OR quality IS NULL OR p_decision->'stages' IS NULL OR safety NOT IN ('allow','reject','uncertain') OR quality NOT IN ('eligible','ineligible','uncertain') OR jsonb_typeof(p_decision->'stages')<>'array' OR length(COALESCE(p_decision->>'reason',''))=0 THEN RAISE EXCEPTION 'Invalid AI decision'; END IF;
  SELECT COALESCE(array_agg(value),'{}') INTO stages FROM jsonb_array_elements_text(p_decision->'stages');
  IF j.content_type='completion' AND NOT(stages <@ ARRAY['process','discovery','final']) OR j.content_type<>'completion' AND NOT(stages <@ ARRAY['exchange']) THEN RAISE EXCEPTION 'Invalid AI stages'; END IF;
  -- Human decisions made after this job was queued take precedence.
- IF EXISTS(SELECT 1 FROM public.growth_reward_events e JOIN public.growth_reward_reviews r ON r.id=e.review_id WHERE r.content_type=j.content_type AND e.content_id=j.content_id AND e.actor_kind='human' AND e.reviewer_id IS NOT NULL AND e.created_at>=j.created_at) OR EXISTS(SELECT 1 FROM public.growth_quality WHERE content_type=j.content_type AND content_id=j.content_id AND actor_kind='human' AND reviewed_at>=j.created_at) THEN
+ IF EXISTS(SELECT 1 FROM public.growth_reward_decisions d WHERE d.content_type=j.content_type AND d.content_id=j.content_id AND d.created_at>=j.created_at) THEN
    UPDATE public.growth_ai_jobs SET state='manual',error='human_review_precedence',usage=p_usage,model=p_model WHERE id=j.id; RETURN jsonb_build_object('state','manual'); END IF;
  IF j.content_type='comment' THEN UPDATE public.completion_comments SET moderation_state=CASE safety WHEN 'allow' THEN 'approved' WHEN 'reject' THEN 'rejected' ELSE 'pending' END WHERE id=j.content_id;
  ELSIF j.content_type='project_comment' THEN UPDATE public.comments SET moderation_state=CASE safety WHEN 'allow' THEN 'approved' WHEN 'reject' THEN 'rejected' ELSE 'pending' END WHERE id=j.content_id;
- ELSIF safety<>'allow' THEN UPDATE public.completed_projects SET moderation_state=CASE safety WHEN 'reject' THEN 'rejected' ELSE 'pending' END WHERE id=j.content_id;
+ ELSIF safety<>'allow' THEN
+   safety_state:=CASE safety WHEN 'reject' THEN 'rejected' ELSE 'pending' END;
+   IF linked_record_id IS NOT NULL THEN
+     UPDATE public.project_journey_records SET status=safety_state,moderation_state=safety_state,
+       moderation_source='ai',rejection_reason=left(p_decision->>'reason',1000),reviewed_by=NULL,reviewed_at=NULL,
+       published_at=NULL,updated_at=now() WHERE id=linked_record_id;
+   END IF;
+   UPDATE public.completed_projects SET moderation_state=safety_state,
+     status=CASE WHEN linked_record_id IS NOT NULL THEN safety_state ELSE status END,moderation_source='ai',
+     rejection_reason=left(p_decision->>'reason',1000),reviewed_by=NULL,reviewed_at=NULL WHERE id=j.content_id;
+   IF linked_record_id IS NOT NULL AND journey_record.record_kind='final' THEN
+     -- A later attempt can already be active. Only the lifecycle update rolls
+     -- back on that conflict; the safety removal above must still commit.
+     BEGIN
+       UPDATE public.project_journeys SET status='active',completed_at=NULL,last_activity_at=now(),updated_at=now()
+       WHERE id=journey_record.journey_id AND status='completed';
+     EXCEPTION WHEN unique_violation THEN
+       GET STACKED DIAGNOSTICS failed_constraint=CONSTRAINT_NAME;
+       IF failed_constraint NOT IN ('project_journeys_one_active_project','project_journeys_one_active_challenge') THEN RAISE; END IF;
+       reopen_deferred:=true;
+     END;
+     UPDATE public.project_explorations SET status='active',completed_at=NULL,last_activity_at=now(),updated_at=now()
+     WHERE journey_id=journey_record.journey_id AND user_id=completion.user_id;
+   END IF;
  END IF;
  IF quality='eligible' AND j.content_type<>'completion' AND (
    EXISTS(SELECT 1 FROM public.profiles WHERE id=j.user_id AND is_auto_interaction_account)
@@ -193,7 +250,15 @@ BEGIN
    result:=public._review_growth_reward(j.content_type,j.content_id,CASE WHEN quality='eligible' AND cardinality(stages)>0 THEN stages ELSE ARRAY['skip'] END,
       md5(public.growth_evidence(j.content_type,j.content_id)::text),left(p_decision->>'reason',1000),true,j.id,p_decision->>'reason_code');
  END IF;
- UPDATE public.growth_ai_jobs SET state=CASE WHEN safety='uncertain' OR quality='uncertain' THEN 'manual' ELSE 'done' END,decision=p_decision,usage=p_usage,model=p_model,completed_at=now(),error=NULL WHERE id=j.id;
+ IF reopen_deferred THEN
+   result:=result||jsonb_build_object('journey_reopen_deferred',true);
+   -- Preserve the original conflict target even if the projection is unlinked
+   -- or deleted later. This metadata is derived here, never trusted from AI.
+   p_decision:=p_decision||jsonb_build_object('reopen_context',jsonb_build_object(
+     'journey_id',journey.id,'journey_record_id',linked_record_id));
+ END IF;
+ UPDATE public.growth_ai_jobs SET state=CASE WHEN safety='uncertain' OR quality='uncertain' OR reopen_deferred THEN 'manual' ELSE 'done' END,
+   decision=p_decision,usage=p_usage,model=p_model,completed_at=now(),error=CASE WHEN reopen_deferred THEN 'journey_reopen_conflict' END WHERE id=j.id;
  RETURN result;
 END; $$;
 REVOKE ALL ON FUNCTION public.finish_growth_ai_job(uuid,uuid,jsonb,jsonb,text,text) FROM PUBLIC,anon,authenticated;
@@ -218,7 +283,45 @@ GRANT EXECUTE ON FUNCTION public.growth_exchange_feedback(text,bigint[]) TO anon
 CREATE FUNCTION public.growth_manual_jobs() RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path='' AS $$
 BEGIN
  IF auth.uid() IS NULL OR NOT COALESCE(public.is_moderator_or_admin(),false) THEN RAISE EXCEPTION 'Moderator required'; END IF;
- RETURN (SELECT COALESCE(jsonb_agg(to_jsonb(j)),'[]') FROM (SELECT id,content_type,content_id,user_id,error,decision,attempts,created_at,public.growth_evidence(content_type,content_id) AS evidence FROM public.growth_ai_jobs jobs WHERE state='manual' AND NOT EXISTS(SELECT 1 FROM public.growth_reward_events e JOIN public.growth_reward_reviews r ON r.id=e.review_id WHERE r.content_type=jobs.content_type AND e.content_id=jobs.content_id AND e.actor_kind='human' AND e.created_at>=jobs.created_at) AND NOT EXISTS(SELECT 1 FROM public.growth_quality q WHERE q.content_type=jobs.content_type AND q.content_id=jobs.content_id AND q.actor_kind='human' AND q.reviewed_at>=jobs.created_at) ORDER BY created_at DESC LIMIT 50) j);
+ RETURN (
+   SELECT COALESCE(jsonb_agg(to_jsonb(item) ORDER BY item.created_at DESC,item.id DESC),'[]')
+   FROM (
+     SELECT jobs.id,jobs.content_type,jobs.content_id,jobs.user_id,jobs.error,jobs.decision,
+       jobs.attempts,jobs.created_at,public.growth_evidence(jobs.content_type,jobs.content_id) AS evidence
+     FROM public.growth_ai_jobs jobs
+     LEFT JOIN LATERAL (
+       SELECT COALESCE((jobs.decision->'reopen_context'->>'journey_id')::bigint,
+         (SELECT r.journey_id FROM public.completed_projects c
+          JOIN public.project_journey_records r ON r.id=c.journey_record_id
+          WHERE jobs.content_type='completion' AND c.id=jobs.content_id)) AS journey_id
+     ) conflict ON jobs.error='journey_reopen_conflict'
+     WHERE jobs.state='manual' AND CASE WHEN jobs.error='journey_reopen_conflict' THEN
+       -- Unknown targets stay pending. Otherwise only a still-completed attempt
+       -- without a matching approved public final needs lifecycle repair.
+       conflict.journey_id IS NULL OR EXISTS (
+         SELECT 1 FROM public.project_journeys journey
+         WHERE journey.id=conflict.journey_id AND journey.status='completed'
+           AND NOT EXISTS (
+             SELECT 1 FROM public.project_journey_records r
+             JOIN public.completed_projects c ON c.journey_record_id=r.id
+             WHERE r.journey_id=journey.id AND r.user_id=journey.user_id
+               AND r.record_kind='final' AND r.visibility='public'
+               AND r.status='approved' AND r.moderation_state='approved'
+               AND c.user_id=journey.user_id AND c.project_id=journey.project_id
+               AND journey.source_type='project' AND c.course_lesson_id IS NULL
+               AND c.record_kind='final' AND c.is_public
+               AND c.status='approved' AND c.moderation_state='approved'
+               AND ROW(r.notes,r.images,r.image_captions,r.video_url)
+                 IS NOT DISTINCT FROM ROW(c.notes,c.proof_images,c.proof_captions,c.proof_video_url)
+           )
+       )
+     ELSE NOT EXISTS (
+       SELECT 1 FROM public.growth_reward_decisions d
+       WHERE d.content_type=jobs.content_type AND d.content_id=jobs.content_id AND d.created_at>=jobs.created_at
+     ) END
+     ORDER BY jobs.created_at DESC,jobs.id DESC LIMIT 50
+   ) item
+ );
 END; $$;
 REVOKE ALL ON FUNCTION public.growth_manual_jobs() FROM PUBLIC,anon,service_role;
 GRANT EXECUTE ON FUNCTION public.growth_manual_jobs() TO authenticated;

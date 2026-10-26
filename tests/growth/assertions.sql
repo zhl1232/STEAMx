@@ -24,9 +24,9 @@ INSERT INTO completed_projects(id,user_id,project_id,notes,status,moderation_sta
 SELECT pg_temp.assert((pg_temp.review('completion',3,ARRAY['process','discovery','final'])->>'xp_awarded')::int=200,'deleted recreated stage restores original claim');
 -- Course takes precedence over project; historical final consumes final stage.
 INSERT INTO xp_logs(user_id,action_type,resource_id,xp_amount) VALUES('00000000-0000-0000-0000-000000000002','publish_course_work','10000000-0000-0000-0000-000000000001',20);
-INSERT INTO completed_projects(id,user_id,project_id,course_lesson_id,notes,status,moderation_state) VALUES
-(4,'00000000-0000-0000-0000-000000000002',2,'10000000-0000-0000-0000-000000000001','course process, comparison, conclusion','approved','approved'),
-(5,'00000000-0000-0000-0000-000000000002',99,'10000000-0000-0000-0000-000000000001','same lesson','approved','approved');
+INSERT INTO completed_projects(id,user_id,project_id,course_lesson_id,notes,status,moderation_state,record_kind) VALUES
+(4,'00000000-0000-0000-0000-000000000002',2,'10000000-0000-0000-0000-000000000001','course process, comparison, conclusion','approved','approved','progress'),
+(5,'00000000-0000-0000-0000-000000000002',99,'10000000-0000-0000-0000-000000000001','same lesson','approved','approved','progress');
 SELECT pg_temp.assert((pg_temp.review('completion',4,ARRAY['process','discovery','final'])->>'xp_awarded')::int=100,'legacy final no topup');
 SELECT pg_temp.assert((pg_temp.review('completion',5,ARRAY['process','discovery','final'])->>'xp_awarded')::int=0,'lesson identity canonical');
 INSERT INTO xp_logs(user_id,action_type,resource_id,xp_amount) VALUES('00000000-0000-0000-0000-000000000002','complete_lesson','10000000-0000-0000-0000-000000000002',180);
@@ -106,9 +106,9 @@ INSERT INTO completion_comments(id,completed_project_id,author_id,content) VALUE
 (101,1,'00000000-0000-0000-0000-000000000005','concurrent question one'),
 (102,3,'00000000-0000-0000-0000-000000000005','concurrent question two');
 
-INSERT INTO completed_projects(id,user_id,project_id,notes,status,moderation_state) VALUES
-(201,'00000000-0000-0000-0000-000000000005',201,'first process','approved','approved'),
-(202,'00000000-0000-0000-0000-000000000005',201,'another process same project','approved','approved');
+INSERT INTO completed_projects(id,user_id,project_id,notes,status,moderation_state,record_kind) VALUES
+(201,'00000000-0000-0000-0000-000000000005',201,'first process','approved','approved','progress'),
+(202,'00000000-0000-0000-0000-000000000005',201,'another process same project','approved','approved','progress');
 
 INSERT INTO growth_reward_reviews(user_id,content_type,content_id,source_key,stage,content_hash,fingerprint,snapshot,reason,xp)
 SELECT '00000000-0000-0000-0000-000000000005','comment',900+i,'work-thread:'||(900+i),'exchange','test','concurrent-seed'||i,'{}','prior slot today',5 FROM generate_series(1,4) i;

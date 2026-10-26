@@ -11,6 +11,7 @@ done
 sql() { docker exec -i "$container" psql -X -v ON_ERROR_STOP=1 -U postgres "$@"; }
 sql < tests/growth/schema.sql
 sql < supabase/migrations/20260131100000_add_completion_interactions.sql
+sql < supabase/migrations/20260819110000_harden_project_journey_consistency.sql
 sql < tests/growth/fixture.sql
 sql < supabase/migrations/20261026100000_reviewed_growth_rewards.sql
 sql < supabase/migrations/20261026110000_growth_ai_review_queue.sql
@@ -63,4 +64,5 @@ rm -f "/tmp/$container-review.log"
 wait "$reject_pid"
 sql -c "DO \$\$ BEGIN IF (SELECT xp FROM profiles WHERE id='00000000-0000-0000-0000-000000000009')<>0 OR EXISTS (SELECT 1 FROM growth_reward_reviews WHERE content_id=402 AND stage='exchange' AND revoked_at IS NULL) THEN RAISE EXCEPTION 'concurrent parent rejection leaves no reward'; END IF; END \$\$;"
 sql < tests/growth/ai.sql
+sql < tests/growth/review-regressions.sql
 printf 'Growth SQL, restoration, dependency and concurrency checks passed.\n'
