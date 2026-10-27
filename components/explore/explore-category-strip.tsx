@@ -1,8 +1,10 @@
 'use client'
 
 import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react'
+import Image from 'next/image'
 
 import { CATEGORY_META } from '@/lib/config/categories'
+import { CATEGORY_THEME_IMAGES } from '@/lib/config/category-images'
 import { categoryToneClasses } from '@/components/ui/tone-badge'
 import { FilterChip } from '@/components/ui/filter-chip'
 import { cn } from '@/lib/utils'
@@ -64,12 +66,14 @@ export function ExploreCategoryStrip({
       {overflow && canScrollLeft ? <button type="button" aria-label="向左滚动分类" onClick={() => scrollBy(-1)} className="absolute left-0 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border bg-background/90 shadow-sm md:hidden"><ChevronLeft className="h-4 w-4" /></button> : null}
       {overflow && canScrollRight ? <button type="button" aria-label="向右滚动分类" onClick={() => scrollBy(1)} className="absolute right-0 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border bg-background/90 shadow-sm md:hidden"><ChevronRight className="h-4 w-4" /></button> : null}
       <div ref={viewportRef} className="no-scrollbar overflow-x-auto">
-        <div className="flex min-w-max items-center gap-1.5 pb-0.5 md:min-w-0 md:flex-wrap md:gap-3">
+        {/* 手机：参考图 C 小照片+文字；电脑：原来的胶囊。同一按钮两套外观，避免测试/读屏重复。 */}
+        <div className="flex min-w-max items-start gap-3 pb-0.5 md:min-w-0 md:flex-wrap md:items-center md:gap-3">
           {categories.map((category) => {
             const meta = CATEGORY_META[category]
             const active = selectedCategory === category
             const tone = meta?.tone
             const Icon = meta?.icon ?? Sparkles
+            const src = CATEGORY_THEME_IMAGES[category] ?? CATEGORY_THEME_IMAGES['其他']
             return (
               <FilterChip
                 ref={active ? activeRef : undefined}
@@ -82,17 +86,26 @@ export function ExploreCategoryStrip({
                 shape="pill"
                 size="md"
                 className={cn(
-                  'h-11 min-w-[64px] px-3 text-[13px] font-semibold max-md:min-w-0 max-md:border-transparent! max-md:bg-transparent! max-md:p-0! max-md:shadow-none! max-md:text-inherit! md:h-10 md:min-w-0 md:rounded-sm md:px-5 md:text-sm',
+                  'max-md:h-auto max-md:min-w-0 max-md:border-transparent! max-md:bg-transparent! max-md:p-0! max-md:shadow-none! max-md:text-inherit!',
+                  'h-11 min-w-[64px] px-3 text-[13px] font-semibold md:h-10 md:min-w-0 md:rounded-sm md:px-5 md:text-sm',
                   !active && 'border-transparent bg-[hsl(var(--surface-muted)/0.62)] text-foreground/76 shadow-none hover:bg-[hsl(var(--surface-muted)/0.9)] dark:bg-white/8 dark:text-foreground/84 dark:hover:bg-white/12',
                   active && tone && categoryToneClasses[tone].badge,
                 )}
               >
-                <span className={cn(
-                  'contents max-md:inline-flex max-md:h-8 max-md:items-center max-md:gap-1.5 max-md:rounded-sm max-md:px-2.5 max-md:text-xs max-md:font-semibold max-md:leading-none max-md:transition-colors',
-                  active ? 'max-md:bg-[hsl(var(--brand-blue))] max-md:text-[hsl(var(--brand-blue-foreground))] max-md:shadow-xs' : 'max-md:bg-[hsl(var(--surface-muted)/0.62)] max-md:text-foreground/76 dark:max-md:bg-white/8 dark:max-md:text-foreground/84',
-                )}>
-                  <Icon className="mr-0.5 h-3.5 w-3.5 shrink-0 max-md:mr-0" strokeWidth={2.2} aria-hidden="true" />
-                  {category}
+                <span className="flex w-[64px] flex-col items-center gap-1.5 md:w-auto md:flex-row md:gap-0">
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      'relative mb-1.5 block h-[64px] w-[64px] overflow-hidden rounded-[12px] border-2 bg-[hsl(var(--surface-muted))] md:hidden',
+                      active ? 'border-[hsl(var(--brand-blue))]' : 'border-transparent',
+                    )}
+                  >
+                    <Image src={src} alt="" fill sizes="64px" className="object-cover" />
+                  </span>
+                  <Icon className="mr-0.5 hidden h-3.5 w-3.5 shrink-0 md:inline" strokeWidth={2.2} aria-hidden="true" />
+                  <span className={cn('text-[13px] font-semibold leading-none md:text-inherit', active ? 'max-md:text-[hsl(var(--brand-blue))]' : 'max-md:text-foreground/75')}>
+                    {category}
+                  </span>
                 </span>
               </FilterChip>
             )

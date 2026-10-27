@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { OptimizedImage } from "@/components/ui/optimized-image";
-import { Check, Heart, ImageOff, Images } from "lucide-react";
+import { Check, ChevronRight, Heart, ImageOff, Images } from "lucide-react";
 import { CoinIcon } from "@/components/icons/coin-icon";
 import { useOptionalProjects } from '@/lib/context/project-context';
 import { Project } from "@/lib/mappers/types";
@@ -94,7 +94,9 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                     className={cn(
                         "surface-card surface-card-interactive has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary group relative h-full overflow-hidden rounded-md",
                         isVerticalCompact
-                            ? "flex flex-col gap-0 p-0"
+                            ? isExploreVariant
+                                ? "flex flex-col gap-0 p-0 max-md:flex-row max-md:items-center max-md:gap-3 max-md:p-2.5"
+                                : "flex flex-col gap-0 p-0"
                             : isDenseCompact
                                 ? "grid min-h-[112px] grid-cols-[88px_minmax(0,1fr)] gap-3 border-transparent bg-[hsl(var(--surface-raised)/0.92)] p-2.5 shadow-[0_2px_10px_hsl(var(--surface-shadow)/0.045)] sm:flex sm:flex-col sm:gap-0 sm:p-0 dark:bg-[hsl(var(--surface-raised)/0.72)] dark:border-[hsl(var(--surface-border)/0.94)] dark:shadow-[0_10px_28px_hsl(var(--surface-shadow)/0.18)]"
                                 : "grid grid-cols-[128px_minmax(0,1fr)] gap-3 p-2.5 sm:flex sm:flex-col sm:gap-0 sm:p-0",
@@ -104,7 +106,9 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                         className={cn(
                             "pointer-events-none relative w-full overflow-hidden bg-[hsl(var(--surface-muted))]",
                             isVerticalCompact
-                                ? isExploreVariant ? "aspect-16/10 rounded-none md:aspect-video" : "aspect-16/10 rounded-none"
+                                ? isExploreVariant
+                                    ? "aspect-16/10 rounded-none md:aspect-video max-md:h-[72px] max-md:w-[72px] max-md:shrink-0 max-md:rounded-[10px] max-md:aspect-square"
+                                    : "aspect-16/10 rounded-none"
                                 : isDenseCompact
                                     ? "h-full min-h-[92px] rounded-sm sm:aspect-16/8.5 sm:h-auto sm:min-h-0 sm:rounded-none"
                                     : "aspect-square rounded-sm sm:aspect-16/8.5 sm:rounded-none",
@@ -156,19 +160,21 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                         className={cn(
                             "pointer-events-none flex min-w-0 flex-col justify-between gap-2",
                             isVerticalCompact
-                                ? isExploreVariant ? "flex-1 gap-3 p-3" : "flex-1 p-3"
+                                ? isExploreVariant
+                                    ? "flex-1 gap-3 p-3 max-md:flex-row max-md:items-center max-md:gap-2 max-md:p-0"
+                                    : "flex-1 p-3"
                                 : isDenseCompact
                                     ? "py-0 sm:flex-1 sm:p-3.5"
                                     : "py-0.5 sm:flex-1 sm:p-3.5",
                         )}
                     >
-                        <div className={cn("min-w-0", isExploreVariant ? "space-y-2" : isDenseCompact ? "space-y-1" : isVerticalCompact ? "space-y-1.5" : "space-y-2")}>
+                        <div className={cn("min-w-0", isExploreVariant ? "space-y-2 max-md:flex-1 max-md:space-y-1" : isDenseCompact ? "space-y-1" : isVerticalCompact ? "space-y-1.5" : "space-y-2")}>
                             <h3
                                 className={cn(
                                     "min-w-0 font-bold text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))]",
                                     isDenseCompact ? "line-clamp-1 text-[14px] leading-5 sm:line-clamp-1 sm:text-[15px] sm:leading-6" : "text-[15px] leading-5",
-                                    isVerticalCompact ? isExploreVariant ? "line-clamp-2 font-sans text-base leading-6" : "line-clamp-2" : !isDenseCompact && "line-clamp-2 sm:line-clamp-1 sm:leading-6",
-                                    isExploreVariant && materialMatch !== undefined && "h-12",
+                                    isVerticalCompact ? isExploreVariant ? "line-clamp-2 font-sans text-base leading-6 max-md:font-heading max-md:text-[17px] max-md:leading-6 max-md:line-clamp-2" : "line-clamp-2" : !isDenseCompact && "line-clamp-2 sm:line-clamp-1 sm:leading-6",
+                                    isExploreVariant && materialMatch !== undefined && "h-12 max-md:h-auto",
                                 )}
                             >
                                 {titleLink}
@@ -216,9 +222,9 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                         </p>}
                                     </div>
                                 ) : (
-                                    <div className="min-w-0 space-y-2">
+                                    <div className="min-w-0 space-y-2 max-md:space-y-0.5">
                                         {categoryLabel ? (
-                                            <ToneBadge tone={categoryTone} variant="explore" className="block w-fit max-w-full truncate rounded-xs px-1.5 py-0.5 text-xs font-medium leading-4">
+                                            <ToneBadge tone={categoryTone} variant="explore" className="hidden w-fit max-w-full truncate rounded-xs px-1.5 py-0.5 text-xs font-medium leading-4 md:block">
                                                 {categoryLabel}
                                             </ToneBadge>
                                         ) : null}
@@ -261,7 +267,8 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 </div>
                             </div>
                         ) : isExploreVariant ? (
-                            <div data-testid="explore-project-stats" className="mt-auto flex items-center justify-between gap-2 whitespace-nowrap border-t border-border/50 pt-2.5 text-xs leading-5 text-muted-foreground">
+                            <>
+                            <div data-testid="explore-project-stats" className="mt-auto flex items-center justify-between gap-2 whitespace-nowrap border-t border-border/50 pt-2.5 text-xs leading-5 text-muted-foreground max-md:hidden">
                                 <span className="flex min-w-0 items-center gap-1" title="点赞数" aria-label={`${likesCount} 点赞`}>
                                     <Heart className={cn("h-3 w-3 shrink-0", liked ? "fill-red-500 text-red-500" : "text-muted-foreground/80")} aria-hidden />
                                     <span>{formatCount(likesCount)} 点赞</span>
@@ -271,6 +278,8 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                     <span>{formatCount(project.completions_count ?? 0)} 作品</span>
                                 </span>
                             </div>
+                            <ChevronRight className="pointer-events-none hidden h-5 w-5 shrink-0 text-muted-foreground/55 max-md:block" aria-hidden />
+                            </>
                         ) : (
                             <div className="flex items-center gap-3 text-[11px] text-muted-foreground/90 sm:mt-auto">
                                 <span className="flex items-center gap-1" title="点赞数">

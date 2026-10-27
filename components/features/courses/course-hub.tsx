@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { memo, useMemo, useState } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 import { Blocks, BookOpen, ChevronRight, Compass, FlaskConical, Leaf, Lightbulb } from 'lucide-react'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import type { CourseListItem } from '@/lib/courses/types'
@@ -14,28 +14,32 @@ import styles from './course-hub.module.css'
 
 const CATEGORY_ORDER: CourseCategory[] = ['brick', 'programming', 'strategy', 'other']
 
-// 数据库里的旧封面地址在代码侧换成新图，不改线上数据。
 const COVER_OVERRIDES: Record<string, string> = {
   '/api/assets/courses/scratch-original/v1/cover.svg': '/assets/courses/scratch-course-cover.svg',
 }
+
+const BRICK_GRADE_SECTIONS: Array<{ key: string; label: string; test: (title: string) => boolean }> = [
+  { key: 'xiaoban', label: '小班（3 岁起）', test: (t) => t.includes('小班') },
+  { key: 'zhongban', label: '中班（4 岁起）', test: (t) => t.includes('中班') },
+  { key: 'daban', label: '大班（5 岁起）', test: (t) => t.includes('大班') },
+]
 
 function withRetry(src: string, attempt: number) {
   if (attempt === 0) return src
   return `${src}${src.includes('?') ? '&' : '?'}retry=${attempt}`
 }
 
-/** 封面加载失败时自动重试两次（600ms、1200ms 退避），仍失败才显示「暂无封面」。 */
-function CourseCover({ course, priority }: { course: CourseListItem; priority: boolean }) {
+function CourseCover({ course, priority, compact = false }: { course: CourseListItem; priority: boolean; compact?: boolean }) {
   const raw = course.image_url?.trim() || null
   const baseSrc = raw ? COVER_OVERRIDES[raw] ?? raw : null
   const [state, setState] = useState<{ src: string | null; attempt: number; failed: boolean }>({ src: null, attempt: 0, failed: false })
   const attempt = state.src === baseSrc ? state.attempt : 0
   const failed = state.src === baseSrc && state.failed
   return (
-    <div className={styles.cover} data-category={getCourseCategory(course)}>
+    <div className={cn(styles.cover, compact && styles.coverCompact)} data-category={getCourseCategory(course)}>
       {baseSrc && !failed ? (
         <OptimizedImage key={attempt} src={withRetry(baseSrc, attempt)} alt="" fill priority={priority} variant="thumbnail"
-          sizes="(min-width: 768px) 104px, 100px" className={styles.coverImage}
+          sizes={compact ? '(max-width: 767px) 148px, 104px' : '(min-width: 768px) 104px, 100px'} className={styles.coverImage}
           onError={() => {
             if (attempt < 2) window.setTimeout(() => setState({ src: baseSrc, attempt: attempt + 1, failed: false }), 600 * (attempt + 1))
             else setState({ src: baseSrc, attempt, failed: true })
@@ -50,14 +54,19 @@ function CourseCover({ course, priority }: { course: CourseListItem; priority: b
   )
 }
 
-// 积木课数据里没有年龄分级，按班级在代码里补；不改线上数据。
 const BRICK_AGE_BY_GRADE: Array<[string, string]> = [['小班', '3 岁起'], ['中班', '4 岁起'], ['大班', '5 岁起']]
 
-/** 只显示年龄和难度，不显示陪同/学习方式这类说明。 */
 function getAgeLine(course: CourseListItem) {
   const c = course.classification
   if (c) return [c.ageLabel, c.difficultyLabel].filter(Boolean).join(' · ')
   return BRICK_AGE_BY_GRADE.find(([grade]) => course.title.includes(grade))?.[1] ?? null
+}
+
+function getRailMeta(course: CourseListItem) {
+  const age = getAgeLine(course)
+  const parts = [`${course.lesson_count} 课时`]
+  if (age) parts.push(age.split(' · ')[0])
+  return parts.join(' · ')
 }
 
 const CourseCard = memo(function CourseCard({ course, featured = false, priority = false }: {
@@ -99,13 +108,166 @@ const CourseCard = memo(function CourseCard({ course, featured = false, priority
   )
 })
 
+/** 手机端横滑封面卡：封面 + 课名 + 课时/年龄 */
+const RailCard = memo(function RailCard({ course, priority = false }: { course: CourseListItem; priority?: boolean }) {
+  const action = getCourseAction(course)
+  return (
+    <Link
+      href={action.href}
+      prefetch={false}
+      aria-label={`${action.label}：${course.title}`}
+      className={styles.railCard}
+      data-course-id={course.id}
+    >
+      <CourseCover course={course} priority={priority} compact />
+      <strong className={styles.railTitle}>{course.title}</strong>
+      <span className={styles.railMeta}>{getRailMeta(course)}</span>
+    </Link>
+  )
+})
+
+function ContinueStrip({ course }: { course: CourseListItem }) {
+  const action = getCourseAction(course)
+  const progress = course.progress
+  const percent = progress && progress.total_lesson_count > 0
+    ? Math.max(0, Math.min(100, Math.round(progress.completed_lesson_count / progress.total_lesson_count * 100))) : 0
+  const lessonHint = progress
+    ? `已完成 ${progress.completed_lesson_count}/${progress.total_lesson_count} 课时`
+    : course.title
+  return (
+    <section className={styles.continueStrip} aria-labelledby="course-continue-heading">
+      <h2 id="course-continue-heading" className="sr-only">继续学习</h2>
+      <CourseCover course={course} priority compact />
+      <div className={styles.continueBody}>
+        <p className={styles.continueLabel}>继续学习</p>
+        <p className={styles.continueTitle}>{course.title}</p>
+        <p className={styles.continueHint}>{lessonHint}</p>
+        {progress ? (
+          <div role="progressbar" aria-label={`${course.title}学习进度`} aria-valuemin={0} aria-valuemax={100}
+            aria-valuenow={percent} aria-valuetext={`已完成 ${progress.completed_lesson_count} / ${progress.total_lesson_count} 课时`}
+            className={styles.continueTrack}><span style={{ width: `${percent}%` }} /></div>
+        ) : null}
+      </div>
+      <Link href={action.href} prefetch={false} aria-label={`${action.label}：${course.title}`} className={styles.continueBtn}>
+        继续
+      </Link>
+    </section>
+  )
+}
+
+function RailSection({ title, courses, headingId }: { title: string; courses: CourseListItem[]; headingId: string }) {
+  if (courses.length === 0) return null
+  return (
+    <section className={styles.railSection} aria-labelledby={headingId}>
+      <div className={styles.sectionHeading}>
+        <h2 id={headingId}>{title}</h2>
+      </div>
+      <div className={styles.rail}>
+        {courses.map((course, index) => (
+          <RailCard key={course.id} course={course} priority={index === 0} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function useIsMobileCourses() {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const update = () => setIsMobile(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+  return isMobile
+}
+
+function Directions() {
+  return (
+    <section className={styles.directions} aria-labelledby="course-directions-heading">
+      <div className={styles.sectionHeading}><h2 id="course-directions-heading">更多学习方向</h2></div>
+      <div className={styles.directionGrid}>
+        <Link href="/explore?category=科学"><FlaskConical aria-hidden="true" /><strong>科学实验</strong><span>找个小实验</span></Link>
+        <Link href="/nature"><Leaf aria-hidden="true" /><strong>自然观察</strong><span>去发现自然</span></Link>
+        <Link href="/explore"><Lightbulb aria-hidden="true" /><strong>动手项目</strong><span>挑个项目做</span></Link>
+        <Link href="/start"><Compass aria-hidden="true" /><strong>选一个开始</strong><span>换个方向</span></Link>
+      </div>
+    </section>
+  )
+}
+
+function MobileCourseHub({ courses, featured, visible, filter }: {
+  courses: CourseListItem[]
+  featured?: CourseListItem
+  visible: CourseListItem[]
+  filter: CourseFilter
+}) {
+  const byCategory = useMemo(() => {
+    const map: Record<CourseCategory, CourseListItem[]> = { brick: [], programming: [], strategy: [], other: [] }
+    for (const course of visible) map[getCourseCategory(course)].push(course)
+    return map
+  }, [visible])
+
+  const brickSections = useMemo(() => {
+    const brick = byCategory.brick
+    const sections = BRICK_GRADE_SECTIONS.map((grade) => ({
+      ...grade,
+      courses: brick.filter((c) => grade.test(c.title)),
+    })).filter((s) => s.courses.length > 0)
+    const matched = new Set(sections.flatMap((s) => s.courses.map((c) => c.id)))
+    const rest = brick.filter((c) => !matched.has(c.id))
+    return { sections, rest }
+  }, [byCategory.brick])
+
+  const showGrouped = filter === 'recommended' || filter === 'all'
+
+  return (
+    <div className={styles.hub} data-course-hub data-mobile-courses>
+      {courses.length > 0 ? (
+        <>
+          {featured ? <ContinueStrip course={featured} /> : null}
+          {showGrouped ? (
+            <>
+              {brickSections.sections.map((section) => (
+                <RailSection key={section.key} title={section.label} courses={section.courses} headingId={`course-brick-${section.key}`} />
+              ))}
+              {brickSections.rest.length > 0 ? (
+                <RailSection title="积木搭建" courses={brickSections.rest} headingId="course-brick-rest" />
+              ) : null}
+              {byCategory.programming.length > 0 ? (
+                <RailSection title="编程" courses={byCategory.programming} headingId="course-programming" />
+              ) : null}
+              {byCategory.strategy.length > 0 ? (
+                <RailSection title="思维与策略" courses={byCategory.strategy} headingId="course-strategy" />
+              ) : null}
+              {byCategory.other.length > 0 ? (
+                <RailSection title="其他技能" courses={byCategory.other} headingId="course-other" />
+              ) : null}
+            </>
+          ) : (
+            <RailSection
+              title={filter === 'learning' ? '在学课程' : COURSE_CATEGORY_LABELS[filter as CourseCategory] ?? '课程'}
+              courses={visible}
+              headingId="course-catalog"
+            />
+          )}
+        </>
+      ) : (
+        <div className={styles.empty}><BookOpen size={28} aria-hidden="true" /><p>技能课程即将上线，敬请期待。</p></div>
+      )}
+      <Directions />
+    </div>
+  )
+}
+
 export function CourseHub({ courses, initialFilter = 'recommended' }: {
   courses: CourseListItem[]; initialFilter?: CourseFilter
 }) {
+  const isMobile = useIsMobileCourses()
   const [filter, setFilter] = useState<CourseFilter>(initialFilter)
   const available = useMemo(() => CATEGORY_ORDER.filter(category => category === filter || courses.some(course => getCourseCategory(course) === category)), [courses, filter])
   const learning = useMemo(() => courses.filter(isLearningCourse), [courses])
-  // 无进度时不虚构「继续学习」；接口暂无最近学习时间，按原顺序取一个入口。
   const featured = filter === 'recommended' ? learning[0] : undefined
   const visible = useMemo(() => selectCourseCatalog(courses, filter).filter(course => course.id !== featured?.id), [courses, filter, featured?.id])
   const title = filter === 'recommended' ? '推荐课程' : filter === 'all' ? '全部课程' : filter === 'learning' ? '在学课程' : COURSE_CATEGORY_LABELS[filter]
@@ -114,6 +276,11 @@ export function CourseHub({ courses, initialFilter = 'recommended' }: {
     ...available.map(key => ({ key, label: COURSE_CATEGORY_LABELS[key] })),
     { key: 'all', label: '全部' },
   ]
+
+  if (isMobile) {
+    return <MobileCourseHub courses={courses} featured={featured} visible={filter === 'recommended' ? selectCourseCatalog(courses, 'recommended').filter(c => c.id !== featured?.id) : visible} filter={filter} />
+  }
+
   return (
     <div className={styles.hub} data-course-hub>
       {courses.length > 0 ? <>
@@ -139,16 +306,7 @@ export function CourseHub({ courses, initialFilter = 'recommended' }: {
           </div>}
         </section>
       </> : <div className={styles.empty}><BookOpen size={28} aria-hidden="true" /><p>技能课程即将上线，敬请期待。</p></div>}
-      <section className={styles.directions} aria-labelledby="course-directions-heading">
-        <div className={styles.sectionHeading}><h2 id="course-directions-heading">更多学习方向</h2>
-        </div>
-        <div className={styles.directionGrid}>
-          <Link href="/explore?category=科学"><FlaskConical aria-hidden="true" /><strong>科学实验</strong><span>找个小实验</span></Link>
-          <Link href="/nature"><Leaf aria-hidden="true" /><strong>自然观察</strong><span>去发现自然</span></Link>
-          <Link href="/explore"><Lightbulb aria-hidden="true" /><strong>动手项目</strong><span>挑个项目做</span></Link>
-          <Link href="/start"><Compass aria-hidden="true" /><strong>选一个开始</strong><span>换个方向</span></Link>
-        </div>
-      </section>
+      <Directions />
     </div>
   )
 }
