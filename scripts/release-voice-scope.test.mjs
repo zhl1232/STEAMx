@@ -3,6 +3,7 @@ import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { classifyVoiceChanges, detectVoiceScope, HOME_PATHS } from './release-voice-scope.mjs';
 import { DOC_PATHS } from './ci-scope.mjs';
+import { verifiedStoreMigrations } from './ci-test-impact.mjs';
 
 const before = 'a'.repeat(40), after = 'b'.repeat(40);
 const env = { GITHUB_EVENT_NAME: 'push', GITHUB_REF: 'refs/heads/main', RELEASE_BEFORE: before,
@@ -28,6 +29,23 @@ const git = (paths = [...HOME_PATHS]) => args => {
   assert.deepEqual(args, ['diff', '--raw', '--no-renames', '--no-ext-diff', '-z', before, after, '--']);
   return raw(paths);
 };
+
+test('payment and SQL changes do not launch the unrelated voice fixture', async () => {
+  const migration = 'supabase/migrations/20261027003000_store_payment_crypto_schema.sql';
+  const changes = [change('lib/store/payments/alipay.ts'),
+    change('lib/store/payments/alipay.test.ts'),
+    change('scripts/test-store-native.mjs', '100755', '100755'),
+    change(migration, '000000', '100644'),
+    change('docs/STORE_CHANNEL_FULFILLMENT_DECISION.md')];
+  const content = readFileSync(migration, 'utf8');
+  assert.equal(classifyVoiceChanges(changes, verifiedStoreMigrations(changes, () => content)).mode, 'headers');
+  assert.equal(classifyVoiceChanges(changes, verifiedStoreMigrations(changes, () => content + '\nDROP TABLE public.profiles;')).mode, 'headers');
+  const paymentGit = args => args[0] === 'diff'
+    ? changes.map(c => `:${c.oldMode} ${c.newMode} abc def M\0${c.path}\0`).join('')
+    : git([])(args);
+  assert.equal((await detectVoiceScope(env, paymentGit, response())).mode, 'headers');
+  assert.equal((await detectVoiceScope(env, paymentGit, response([], []))).mode, 'full');
+});
 
 test('only explicit homepage consumers/prose permit header checks on a successful main baseline', async () => {
   for (const path of [...HOME_PATHS, ...DOC_PATHS]) {
@@ -81,12 +99,15 @@ test('comparison failures, checkout mismatch and malformed or empty diffs force 
     assert.equal((await detectVoiceScope(env, fn, response())).mode, 'full');
   }
 });
-test('failed, in-progress, missing, older, other-SHA/tag/manual/PR releases are not scope baselines', async () => {
+test('missing deployment proof requires full voice validation and grants no CI scope proof', async () => {
   for (const overrides of [{ conclusion: 'failure' }, { status: 'in_progress' }, { head_sha: after },
     { event: 'workflow_dispatch' }, { event: 'pull_request' }, { head_branch: 'v1' }, { path: '.github/workflows/ci.yml' }]) {
     assert.equal((await detectVoiceScope(env, git(), response([{ ...previous, ...overrides }, previous]))).mode, 'full');
   }
-  assert.equal((await detectVoiceScope(env, git(), response([]))).mode, 'full');
+  const missing = await detectVoiceScope(env, git(), response([]));
+  assert.equal(missing.mode, 'full');
+  assert.equal(missing.verifiedSha, undefined);
+  assert.equal(missing.ciProfile, undefined);
   for (const request of [async () => { throw Error('network'); }, async () => ({ ok: false }),
     async () => ({ ok: true, json: async () => ({}) })]) {
     assert.equal((await detectVoiceScope(env, git(), request)).mode, 'full');
@@ -96,7 +117,7 @@ test('failed, in-progress, missing, older, other-SHA/tag/manual/PR releases are 
   }
 });
 
-test('a green run with skipped/missing deployment or validation is not a deployed baseline', async () => {
+test('unverified deployments require full voice validation without claiming a deployed baseline', async () => {
   for (const name of successfulJobs.map(j => j.name)) {
     for (const conclusion of ['skipped', 'failure', 'cancelled']) {
       const jobs = successfulJobs.map(j => j.name === name ? { ...j, conclusion } : j);
@@ -109,4 +130,29 @@ test('a green run with skipped/missing deployment or validation is not a deploye
   assert.equal(successful.ciProfile, 'home-ui');
   assert.equal(successful.before, before);
   assert.equal(successful.verifiedSha, after);
+});
+
+test('a store-only push fully validates voice changes left unverified by the previous release', async () => {
+  // A introduced voice changes; B changes only payments. A..B omits the voice
+  // changes even though B's image includes them, so A must be a proven deployment.
+  const storeGit = git(['lib/store/payments/alipay.ts']);
+  const scenarios = [
+    ['failed release', response([{ ...previous, conclusion: 'failure' }])],
+    ['skipped deployment', response(undefined, successfulJobs.map(job => job.name === 'deploy-production'
+      ? { ...job, conclusion: 'skipped' } : job))],
+    ['failed voice validation', response(undefined, successfulJobs.map(job => job.name === 'verify-course-voice-loading'
+      ? { ...job, conclusion: 'failure' } : job))],
+    ['unavailable history API', async () => ({ ok: false })],
+    ['unavailable jobs API', async (url, options) => url.includes('/jobs?')
+      ? { ok: false } : response()(url, options)],
+  ];
+  for (const [scenario, request] of scenarios) {
+    const result = await detectVoiceScope(env, storeGit, request);
+    assert.equal(result.mode, 'full', scenario);
+    assert.equal(result.verifiedSha, undefined, scenario);
+    assert.equal(result.ciProfile, undefined, scenario);
+  }
+  const verified = await detectVoiceScope(env, storeGit, response());
+  assert.equal(verified.mode, 'headers');
+  assert.equal(verified.verifiedSha, after);
 });

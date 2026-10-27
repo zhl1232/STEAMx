@@ -4,15 +4,25 @@
 
 ## 触发与范围
 
-触发授权统一遵守 [AGENTS.md 的 Actions 预算规则](../AGENTS.md#github-actions-预算与触发授权)。工作流不会检查用户是否授权：main push、`v*` 标签或手动 dispatch 都会触发 Release Deploy，所以必须在操作前守住授权边界。GitHub Actions 构建私有 GHCR 镜像，服务器按本次构建的 SHA-256 摘要拉取；创建 PR 不等于授权合并或发布。
+触发授权统一遵守 [AGENTS.md 的 Actions 预算规则](../AGENTS.md#github-actions-预算与触发授权)。工作流不会检查用户是否授权：main push、`v*` 标签或手动 dispatch 都会触发 Release Deploy，所以必须在操作前守住授权边界。GitHub Actions 构建私有 GHCR 镜像，并尽量把同一 digest 的归档镜像到杭州 OSS；服务器优先用 OSS 签名包加载并核验 CI 从该摘要取得的镜像 image ID，失败再回退 GHCR 拉取。创建 PR 不等于授权合并或发布。
 
-Release 复用 `ci.yml`，检查与镜像构建并行，同一提交的两项均成功后才切换服务器。PR 有独立 CI，按下表分类。测试和镜像使用 Node.js 22；实际流程以对应提交的 `.github/workflows/release.yml`、`ci.yml` 和 `scripts/release-scope.mjs` 为准。
+Release 复用 `ci.yml`，先查找同内容的已通过 PR 检查；证据匹配时直接复用，否则执行原 CI。验证结果与当前生产镜像构建均成功后才切换服务器，两条任务并行。PR 按下表分类。测试和镜像使用 Node.js 22；实际流程以对应提交的 `.github/workflows/release.yml`、`ci.yml` 和 `scripts/release-scope.mjs` 为准。
 
-纯文档或允许的课程资源变更按范围规则跳过应用镜像和服务器切换，但纯文档仍运行 Release CI；应用变更保留基础检查，并按经过核验的影响范围选择独立专项及发布后语音 HEAD/full；混合应用变更、Release 配置变化、标签及手动发布不能按纯文档处理。仅独立 `ops-*` 工作流或对应手机号运维脚本变化的处理也由范围脚本决定，不能推断任意配置文件均无需部署。
+纯文档或允许的课程资源变更按范围规则跳过应用镜像和服务器切换，但纯文档仍经过 Release CI 的验证或复用门；没有可复用证据的应用变更保留基础检查，并按经过核验的影响范围选择独立专项及发布后语音 HEAD/full；混合应用变更、Release 配置变化、标签及手动发布不能按纯文档处理。仅独立 `ops-*` 工作流或对应手机号运维脚本变化的处理也由范围脚本决定，不能推断任意配置文件均无需部署。
 
 ## CI 范围与成本
 
 `ci.yml` 保留工作流名 `CI / PR Checks` 和必需检查入口 `test-and-lint`。草稿 PR 在 job 级跳过，不分配 runner；转为 ready 后重新分类。没有用 `paths-ignore`、`pull_request_target`、跳过提交标记或旧提交的绿灯替代当前提交检查。
+
+### PR 检查结果复用
+
+`scripts/ci-source-proof.mjs` 在同仓库、非草稿 PR 的所有检查成功后，记录实际 checkout 的合并提交、内容树、有序 base/head、PR、run/attempt 和范围类型，上传不可覆盖的 `ci-source-proof-<run>-<attempt>` 小型 JSON 工件，保留 30 天。不能使用 Actions run 的 `head_sha` 代替实际 checkout：该字段是 PR 分支头，实际测试默认是 synthetic merge。
+
+`scripts/release-ci-reuse.mjs` 仅对 main 的普通双父合并复用：第一父必须等于本次 push 的 before，关联 PR 已合入当前提交且来自本仓库，第二父等于该 PR head。只接受固定 `ci.yml` 对此 head 的最新 run、最新 attempt 和实际成功的 `test-and-lint` job，不按 success 过滤后选择历史绿灯。下载工件后重新查询最新状态，核验唯一未过期工件、严格 JSON schema、实际测试提交的 Git 对象、有序父链及与本次发布完全相同的内容树；同时重新计算 `full/home-ui/docs` 范围并要求一致。轻量结果不冒充完整检查。
+
+匹配成功时，Release 的 `ci / test-and-lint` 保留为成功的验证门，summary 链接原 PR 检查；依赖安装、lint、types、单元、浏览器及专项检查均不再执行。本轮 skipped 不记作重新测过。生产镜像构建、限定迁移、服务器切换、健康检查和部署后探针照常保留。
+
+直接 push、多提交推送、squash/rebase、标签、手动发布、fork、关联不唯一、树或父链不符、最新 run/attempt 失败或未结束、工件缺失/过期/异常以及 API 不确定均不复用，执行下述原 CI。下载工件是唯一允许失败后继续的新增步骤，仅用于回退正常检查，不能吞掉测试失败。只增加 `pull-requests: read`，沿用 `actions: read`；不新增写权限、secret 或触发器。
 
 ### 基础检查和专项选择
 
@@ -20,18 +30,19 @@ Release 复用 `ci.yml`，检查与镜像构建并行，同一提交的两项均
 
 | 检查 | 执行范围 |
 |---|---|
-| 范围策略及工作流契约 | 所有实际启动的 CI job |
+| 范围策略及工作流契约 | PR 及未复用 PR 结果的 Release CI |
 | 清理保护、依赖安装、lint、types、部署/迁移/SEO/worker 脚本测试 | home-ui 和其他应用变更均保留 |
-| Vitest 单元测试 | main Release 全量；PR 对已核验的独立模块修改使用真实依赖图、模块测试与全局源码契约的并集，其余全量 |
+| Vitest 单元测试 | PR 和具备精确前次成功 CI 基线的 main Release，对已核验独立模块使用真实依赖图、模块测试与全局源码契约的并集；其余全量 |
 | PR app build、production/dev 路由边界 | 应用 PR 保留；Release 由当前 SHA 的 Docker 构建把关 |
 | 核心 smoke、学习指南、旧 logo 兼容、现用界面资源 | 健康、登录与认证核心保留；细节标签和指南/资源 spec 按核验范围选择，同一次 Playwright 调用复用 Next dev 服务 |
 | 物理实验室 Node 及浏览器测试 | `physics` 专项被选中时运行；浏览器 spec 加入上述同一次调用 |
 | 项目视频、沉浸搭建、Vosk 语音工程 | 分别由 `project-video`、`building`、`voice` 决定 |
 | 搭建、语音证据上传 | 跟随对应专项，保留失败证据 |
+| 商城数据库事务 | `store-db` 选中时运行 `node scripts/test-store-native.mjs`，覆盖支付、库存、优惠、取消和退款；输出缺失按需要运行处理 |
 
-`scripts/ci-test-impact.mjs` 维护专项和基础浏览器依赖归属，`scripts/ci-test-plan.mjs` 负责可信比较范围与输出，`scripts/ci-unit-tests.mjs` 执行 PR 单测选择。是否运行专项与基础检查的 `full/home-ui` 模式分开：`full` 不再表示无条件启动全部浏览器夹具。未运行的专项在 summary 明确标记 `not run`，不记为测试通过；工作流只有收到显式 `false` 才跳过，缺失输出按需要运行处理。
+`scripts/ci-test-impact.mjs` 维护专项和基础浏览器依赖归属，`scripts/ci-test-plan.mjs` 负责可信比较范围与输出，`scripts/ci-unit-tests.mjs` 执行 PR 与 main 的单测选择。是否运行专项与基础检查的 `full/home-ui` 模式分开：`full` 不再表示无条件启动全部浏览器夹具。未运行的专项在 summary 明确标记 `not run`，不记为测试通过；工作流只有收到显式 `false` 才跳过，缺失输出按需要运行处理。
 
-PR 单测仅对已审查的客服、商城、硬币商城和项目模块中既有 TS/TSX 普通文件修改缩小范围。使用安装版本 Vitest 的反向依赖图，合并模块全部测试、变更测试和全局内部链接/页面标题源码扫描；不使用 `--passWithNoTests`。新增、删除、重命名、数据文件、共享代码、配置及未知路径，或图解析失败、模块无测试、发现结果不完整时，在执行前回退全量。真正的测试失败直接失败，不再另跑全量掩盖或重试。
+PR 与有可信基线的 main 单测对已审查的客服、商城、硬币商城和项目模块中既有 TS/TSX 普通文件修改缩小范围。使用安装版本 Vitest 的反向依赖图，合并模块全部测试、变更测试和全局内部链接/页面标题源码扫描；不使用 `--passWithNoTests`。除下述已核验商城迁移外，新增、删除、重命名、数据文件、共享代码、配置及未知路径，或图解析失败、模块无测试、发现结果不完整时，在执行前回退全量。真正的测试失败直接失败，不再另跑全量掩盖或重试。
 
 浏览器细节用显式标签区分首页、游乐场、自然及其他专题；未标记的新用例仍属于核心检查，不会被默认排除。独立客服改动不运行游乐场交互和首页多尺寸细节；商城/项目保留首页依赖检查，项目模块还保留使用其科学项目数据的学习指南。生产构建与生产/开发访问边界仍保留，不从类型检查成功推断打包或路由安全已通过。
 
@@ -39,18 +50,23 @@ PR 单测仅对已审查的客服、商城、硬币商城和项目模块中既�
 |---|---|
 | 物理实验室页面、状态 API、hooks、模拟资源及其测试 | 物理实验室 |
 | 项目详情、视频呈现、项目映射、作者头像、项目页依赖的商城组件/数据与视频夹具 | 项目视频 |
+| `lib/store/payments/` 服务端支付适配器、已审查的商城事务测试脚本及内容指纹匹配的支付迁移 | 不运行物理、项目视频、搭建、语音专项；运行商城相关单测与数据库事务测试 |
 | 搭建播放器、课程/LDraw 共享依赖、模型和共享夹具 | 沉浸搭建 + 语音工程 |
 | 语音控件、Vosk worker/model/cache、音频会话及语音夹具 | 语音工程 |
 | 已核对独立的客服模块、商城路由、指定页脚/账号菜单组件、明确列出的专题文档 | 保留基础检查，不运行上述独立专项 |
-| 全局布局/样式、共享 UI/工具、鉴权、依赖、配置、工作流、未知路径或异常文件模式 | 所有专项 |
+| 已确认的共享运行依赖 | 选择实际使用它的专项；全局样式、共享工具和包依赖可影响全部，Next 布局/鉴权不自动影响隔离的搭建、语音夹具 |
+| 合法但未归属的脚本、文档、SQL、工作流 | 不因“未知”启动前端专项；基础检查保持保守范围；数据库测试按数据库依赖另行选择 |
+| 无法确定比较范围、损坏的路径记录或符号链接等异常模式 | 保守执行全部专项 |
 
-混合变更取并集；出现未知或共享路径时直接全量。映射不是任意目录豁免，精确文件和目录以脚本为准。新增模块或改变跨模块依赖时，应同时更新映射及回归用例；不能仅凭页面名称推断它与专项无关。默认声学真人验收继续使用手动流程，CI Vosk 工程只验证 worker/WASM/cache/麦克风生命周期等工程行为。
+专项范围接受正常源码和可执行脚本模式，不再因为脚本可执行就运行全部前端测试；商城事务脚本 `scripts/test-store-native.mjs` 另有明确的单元/数据库归属。迁移仅对已审查的 `20261027003000_store_payment_crypto_schema.sql` 核验 Git 目标提交内容的 SHA-256；文件名相同但内容变化、未知 SQL、读取失败或符号链接不能命中缩小单元/数据库范围的规则。SQL 本身不因未知而启动使用模拟数据库的前端专项。历史迁移不因商城前缀获得跳过权限。积木、语音完成后，无关业务修改不重跑它们；其自身、共享运行依赖或不可信范围变化仍须验证。
+
+混合变更取实际受影响专项的并集；不再把“未知文件”直接等同于“全部前端功能变化”。共享运行依赖按实际使用关系选择，基础单测对未知范围仍保守验证，数据库事务测试按独立归属选择。映射不是任意目录豁免，精确文件和目录以脚本为准。新增模块或改变跨模块依赖时，应同时更新映射及回归用例；不能仅凭页面名称推断它与专项无关。默认声学真人验收继续使用手动流程，CI Vosk 工程只验证 worker/WASM/cache/麦克风生命周期等工程行为。
 
 ### 比较范围与失败回退
 
 PR 必须核对当前 checkout SHA 和两个 synthetic merge parents，比较完整 base..merge；草稿、未知事件、错误 parents、解析失败均不能得到缩小的专项计划。main push 比较事件的完整 before..after，核对 checkout 与祖先关系，不只看最后一条提交。
 
-main 缩小专项前还需只读核验 **before 精确 SHA 对应的最新 Release CI job** 已实际成功。只检查该次最新 attempt 的 `ci / test-and-lint`，不沿用较旧 SHA 或旧 attempt 的成功。CI 后面的部署失败/取消不改变该源码已通过 CI 的事实；CI 本身失败、取消、跳过、未完成，API/凭据/分页不完整或无法核对范围时，一律运行全部专项。这个基线只用于确定影响范围，当前提交仍执行自己的基础检查、所选专项和镜像构建。可复用 CI 与调用方仅增加 `actions: read` 以读取基线。
+main 缩小基础单测范围前还需只读核验 **before 精确 SHA 对应的最新 Release CI job** 已实际成功。只检查该次最新 attempt 的 `ci / test-and-lint`，不沿用较旧 SHA 或旧 attempt 的成功。CI 后面的部署失败/取消不改变该源码已通过 CI 的事实；CI 本身失败、取消、跳过、未完成，API/凭据/分页不完整或无法核对范围时，基础单测回退完整验证，但已确定的专项及数据库依赖范围保持不变，不因基线缺失重跑未改的积木、语音等。这个基线只用于未命中结果复用时缩小基础检查范围，该路径仍执行自己的基础检查、所选专项和镜像构建。读取基线使用 `actions: read`；它与上节的相同内容证明是两种不同判断。
 
 tag、手动发布、未知事件及不可靠范围默认全量。相同 PR 的新检查取消其旧检查；不同 PR 和生产发布的既有互斥不变。没有新增定时任务，也不因本地测试通过自动触发远端 Actions。
 
@@ -66,15 +82,15 @@ PR build 使用 `http://127.0.0.1:54329` 的 `e2e/store-integration/data-server.
 
 ### 发布后的语音检查
 
-`scripts/release-voice-scope.mjs` 使用同一专项归属判断：已审查的无语音影响模块可以使用 health + 资源 HEAD；语音/共享/未知变更仍走完整冷加载。首页展示变更继续核对原有源码指纹。
+`scripts/release-voice-scope.mjs` 使用同一专项归属判断：已审查的无语音影响模块可以使用 health + 资源 HEAD；语音及实际共享运行依赖变更仍走完整冷加载；合法的未知业务文件不自动认定为语音变化。首页展示变更继续核对原有源码指纹。
 
-缩小线上语音检查的基线比 CI 专项更严格：紧邻的前次 main Release 必须 SHA 等于 before，且最新 attempt 的 CI、build-image、deploy-production、verify-course-voice-loading 全部实际成功。整体绿但部署 skipped 的内容发布、失败/取消的部署、较旧成功或 API 不确定均不能作为已部署基线。
+只有紧邻前次 main Release 的 SHA 等于 before，且最新 attempt 的 CI、build-image、deploy-production、verify-course-voice-loading 全部实际成功，才能核验部署基线；在此基础上，可信的 before..after 比较未涉及语音运行依赖时，才只做 health + 资源 HEAD 并附带范围证明。历史 run/API 缺失、基线失败、任一部署阶段跳过、比较不可用或确实修改语音依赖时，均完整冷加载，避免遗漏前次未实际部署的语音变化。
 
 HEAD 探针仅 GET `/api/health`，对首页、worker/manifest/cache 脚本、CDN 与同源 fallback 资源发 HEAD，校验状态、MIME、CORS 和长度，不下载模型正文。任何不确定都会回退完整语音加载；`continue-on-error` 只用于进入该回退，不吞掉完整检查失败。无 Git 记录的 CDN、OSS、环境配置变更仍需通过明确获授权的手动 full 路径验收。
 
 ### 本地验证与耗时证据
 
-范围与接线验证：`node --test scripts/ci-scope.test.mjs scripts/ci-test-impact.test.mjs scripts/ci-test-plan.test.mjs scripts/ci-unit-tests.test.mjs scripts/release-scope.test.mjs scripts/release-voice-scope.test.mjs scripts/check-building-voice-headers.test.mjs scripts/home-ui-scope.test.mjs scripts/ci-workflow-contract.test.mjs`，另用 actionlint 检查工作流。单元测试中的 GitHub 请求使用本地替身，不发真实 API 请求；工作流契约还直接执行 smoke 参数组装，验证只启动一次且缺失选择结果时包含物理专项。
+范围与接线验证（无需为修改工作流重复运行整套应用测试）：`node --test scripts/ci-scope.test.mjs scripts/ci-test-impact.test.mjs scripts/ci-test-plan.test.mjs scripts/ci-unit-tests.test.mjs scripts/ci-source-proof.test.mjs scripts/release-ci-reuse.test.mjs scripts/release-scope.test.mjs scripts/release-voice-scope.test.mjs scripts/check-building-voice-headers.test.mjs scripts/home-ui-scope.test.mjs scripts/ci-workflow-contract.test.mjs`，另用 actionlint 检查工作流。单元测试中的 GitHub 请求使用本地替身，不发真实 API 请求；工作流契约还直接执行 smoke 参数组装，验证只启动一次且缺失选择结果时包含物理专项。
 
 历史 [Release #421](https://github.com/zhl1232/STEAMx/actions/runs/40288433036) 的 CI 为 12分58秒：unit 约2分52秒、组合 smoke 3分16秒、视频50秒、搭建2分钟、Vosk 2分39秒，而 lint/types/脚本保护只有秒级。该记录说明优先按模块减少重型浏览器工作的依据，不是新规则的实测速度，也不是发布时长承诺。镜像构建、服务器切换与生产互斥仍有自身成本，不能把跳过专项直接等同于固定总耗时。
 
@@ -92,11 +108,47 @@ Docker 的 `scratch-builder` 只接收 Scratch 子包及依赖输入，产物处
 
 服务器连接复用现有 `SERVER_HOST`、`SERVER_USER`、`SSH_PRIVATE_KEY` 和可选 `SERVER_PORT`。GHCR 使用当次 Actions 的 `GITHUB_TOKEN` 与 `packages: write` 权限；同名包需允许该仓库访问，不新增长期仓库密码或把镜像改为公开。
 
-运行时配置由服务器 `/opt/steam-app/.env.production` 提供。本地同名文件不会自动上传。服务器须能连接 GHCR，Compose 须支持 `up --wait --wait-timeout`；令牌失效后已有本地镜像可继续使用，换服务器或删除本地镜像需通过获授权发布重新取得可用拉取凭证。
+### 生产镜像的 OSS 旁路（优先国内拉取）
+
+北京 ECS 从 GHCR 拉大镜像经常偏慢。Release 在镜像推到 GHCR 后，额外把**同一 digest** 的 gzip 归档上传到已有杭州 OSS 桶，CI 先 pull 精确 `repo@digest`，inspect 其完整 `sha256:<64hex>` image ID，再按该 ID 保存归档，同时经 workflow output 将可信 ID 与短期签名 URL 传给服务器。服务器下载并 `docker load` 后，必须 inspect 该预期 ID 且完全匹配，才以此不可变 ID 启动 Compose 并持久化 `STEAM_APP_IMAGE`；不依赖 save/load 不保留的 RepoDigest，也不信任包内 tag 或旁路 JSON。OSS 下载和 load 共用独立 300 秒预算；失败才回退现有 GHCR 拉取（另有完整 900 秒预算、最多 4 次），回退成功仍使用 `repo@digest`。拉不下来时应用和配置都不改。
+
+| 项 | 值 |
+|---|---|
+| 桶 | `steamx`（杭州 `oss-cn-hangzhou`） |
+| 对象路径 | `deploy/steamx/sha256-<64位十六进制>.tar.gz` |
+| 元数据旁路 | 同名 `.json`（digest、image ID、git SHA、大小、上传时间）；**仅便于核对，不是删除依据的唯一来源** |
+| CI 上传 | `scripts/upload-deploy-image-to-oss.mjs`（`docker pull repo@digest` → inspect image ID → `docker save ID \| gzip` → `ali-oss` multipart） |
+| 服务器下载 | `IMAGE_OSS_URL`（CI 生成、默认 7200 秒有效的签名 GET）及可信 `IMAGE_ID`；`curl` 下载后 `gunzip \| docker load`，管道任一失败均回退 |
+| 回退 | OSS 未配置、签名或可信 ID 缺失/无效、下载/load 失败或 load 后目标 image ID 缺失/不匹配 → 现有 GHCR `docker pull` |
+
+GitHub **production** 环境需要（与素材用的 `ALIYUN_OSS_*` 分开，避免混用主账号或素材权限）：
+
+| 名称 | 类型 | 说明 |
+|---|---|---|
+| `DEPLOY_OSS_ACCESS_KEY_ID` | Secret | 独立 RAM 子账号 AccessKey ID |
+| `DEPLOY_OSS_ACCESS_KEY_SECRET` | Secret | 对应 Secret；**不要用主账号 AK** |
+| `DEPLOY_OSS_BUCKET` | Variable（可选） | 默认 `steamx` |
+| `DEPLOY_OSS_REGION` | Variable（可选） | 默认 `oss-cn-hangzhou` |
+| `DEPLOY_OSS_ENDPOINT` | Variable（可选） | 需要时覆盖 region 推导的 endpoint |
+| `DEPLOY_OSS_PREFIX` | Variable（可选） | 默认 `deploy/steamx` |
+| `DEPLOY_OSS_SIGN_EXPIRES` | Variable（可选） | 签名 URL 秒数，默认 `7200` |
+
+RAM 建议：只给该桶 `deploy/steamx/*` 的 `oss:PutObject` / `oss:InitiateMultipartUpload` / `oss:UploadPart` / `oss:CompleteMultipartUpload` / `oss:AbortMultipartUpload` / `oss:GetObject` / `oss:HeadObject` / `oss:ListObjects`（List 仅清理方案需要）。桶内该前缀保持私有，不靠公共读。未配置上述 Secret 时上传步骤会跳过；上传步骤失败也允许继续发布并回退 GHCR，OSS 旁路故障不会阻断现有拉取路径。
+
+#### OSS 发布包清理（仅提案，本仓库不自动删）
+
+不要「单纯按 7 天一到就删光」。正确逻辑：
+
+1. 只考虑 `deploy/steamx/sha256-*.tar.gz`（及其同名 `.json`）这类发布包。
+2. **硬底线：至少保留最近 2 个包**（按 Last-Modified / 上传时间从新到旧）。少于等于 2 个时一律不删。
+3. 在已满足「至少 2 个」的前提下，仅当桶里**已经存在更新的发布包**时，才允许删除**超过 7 天**的旧包；若长期未发版，最新那份即使超过 7 天也必须保留，不能被误删。
+4. 清理须显式获授权、先 dry-run 列出将删对象，再执行；本 PR / 工作流**不静默删除、不自动执行删除**。
+
+运行时配置由服务器 `/opt/steam-app/.env.production` 提供。本地同名文件不会自动上传。服务器须能连接 GHCR（作回退）或通过签名 URL 访问 OSS；Compose 须支持 `up --wait --wait-timeout`；令牌失效后已有本地镜像可继续使用，换服务器或删除本地镜像需通过获授权发布重新取得可用拉取凭证。
 
 ## 发布事务与恢复边界
 
-1. 拉取精确镜像，以生产配置启动不发布端口、不运行 worker 的候选容器，检查 `/api/health` 后移除。健康检查只证明进程启动，不证明计费、ASR 或数据库业务正确。
+1. 取得精确 digest 的镜像（优先 OSS 归档 `docker load`，失败再 GHCR `docker pull`），以生产配置启动不发布端口、不运行 worker 的候选容器，检查 `/api/health` 后移除。健康检查只证明进程启动，不证明计费、ASR 或数据库业务正确。
 2. 备份并安装候选 Compose、Nginx 配置和启用链接，校验 Nginx；通过后执行本次获批准的限定迁移。
 3. 迁移成功后切换主站和 worker，等待健康检查并 reload Nginx。成功才将 `STEAM_APP_IMAGE` 写入服务器 `.env`，保留其他配置。
 4. 失败时按脚本恢复原配置；已尝试切换容器时使用部署前实际镜像和原 Compose 恢复，并通过同一 Compose 项目的 `up --remove-orphans` 清理新版本新增、旧配置未定义的 worker 等容器，Actions 标记失败。恢复失败保留备份路径，先修复配置/容器，不盲目重跑。
@@ -117,7 +169,7 @@ Release 的 `MIGRATION_ALLOWLIST` 是该提交的批准文件清单。通用指�
 
 ## 互斥、超时和手机号运维
 
-Release 与手机号提供商运维共用 `release-production` 并发组，服务器另以 `.deploy.lock` 互斥。默认锁等待 120 秒；镜像拉取总预算 900 秒（所有尝试合计，不再按单次 180 秒掐断，避免慢但在动的大层被杀掉后从零重下）、最多 4 次尝试、失败后退避 10/20/40 秒，拉取期间每 30 秒打印一次进度心跳，分别由 `DEPLOY_LOCK_TIMEOUT`、`IMAGE_PULL_TIMEOUT`、`IMAGE_PULL_ATTEMPTS`、`IMAGE_PULL_BACKOFF_SECONDS`、`IMAGE_PULL_HEARTBEAT_SECONDS` 调整。拉取失败时应用和配置都不改。若服务器到 GHCR 长期很慢，可考虑在服务器 Docker 上启用 containerd 镜像存储（中断后可续传已下载的层）或改用国内镜像仓库（如阿里云 ACR）。
+Release 与手机号提供商运维共用 `release-production` 并发组，服务器另以 `.deploy.lock` 互斥。默认锁等待 120 秒；OSS 下载+load 独立预算 300 秒，GHCR 回退另有完整总预算 900 秒（不按单次 180 秒掐断）、最多 4 次尝试、失败后退避 10/20/40 秒，过程中每 30 秒打印一次进度心跳，分别由 `DEPLOY_LOCK_TIMEOUT`、`IMAGE_OSS_TIMEOUT`、`IMAGE_PULL_TIMEOUT`、`IMAGE_PULL_ATTEMPTS`、`IMAGE_PULL_BACKOFF_SECONDS`、`IMAGE_PULL_HEARTBEAT_SECONDS` 调整。优先走 OSS 签名包；OSS 失败再回退 GHCR。获取失败时应用和配置都不改。
 
 候选预检默认最多 20 次、间隔 2 秒，每次 HTTP 请求最多 4 秒；相关变量为 `PREFLIGHT_ATTEMPTS`、`PREFLIGHT_INTERVAL_SECONDS`。超时限制不能修复网络问题。
 

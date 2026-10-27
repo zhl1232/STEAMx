@@ -233,12 +233,13 @@ export async function runFeishuDispatch() {
     try {
       const latest = currentConfig(config)
       const payload = await outboundText(job, latest, operationSignal)
+      const thread = await rpc<{ root_message_id: string | null }>('feishu_prepare_thread', { p_event: job.event_id, p_target: job.target_id, p_lease: job.lease_id }, operationSignal)
+      if (!thread || !(thread.root_message_id === null || feishuId(thread.root_message_id, 'om_'))) throw new FeishuBridgeError('thread_unavailable')
       const client = getFeishuClient(latest)
       const messageId = payload.imageKeys.length
-        ? await client.sendPost(job.chat_id, payload.text, payload.imageKeys, job.event_id, job.target_id, operationSignal)
-        : await client.sendText(job.chat_id, payload.text, job.event_id, job.target_id, operationSignal)
-      if (payload.support && !await rpc<boolean>('feishu_record_anchor', { p_event: job.event_id, p_target: job.target_id, p_lease: job.lease_id, p_message_id: messageId }, operationSignal)) throw new FeishuBridgeError('lease_lost')
-      if (!await rpc<boolean>('feishu_complete_delivery', { p_event: job.event_id, p_target: job.target_id, p_lease: job.lease_id, p_success: true }, operationSignal)) throw new FeishuBridgeError('lease_lost')
+        ? await client.sendPost(job.chat_id, payload.text, payload.imageKeys, job.event_id, job.target_id, operationSignal, thread.root_message_id ?? undefined)
+        : await client.sendText(job.chat_id, payload.text, job.event_id, job.target_id, operationSignal, thread.root_message_id ?? undefined)
+      if (!await rpc<boolean>('feishu_finish_thread_delivery', { p_event: job.event_id, p_target: job.target_id, p_lease: job.lease_id, p_message_id: messageId }, operationSignal)) throw new FeishuBridgeError('lease_lost')
       counters.sent++
     } catch {
       await rpc('feishu_complete_delivery', { p_event: job.event_id, p_target: job.target_id, p_lease: job.lease_id, p_success: false, p_error: 'delivery_failed' })

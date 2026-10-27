@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { appendFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { DOC_PATHS, parseChanges } from './ci-scope.mjs';
-import { classifyTestImpact } from './ci-test-impact.mjs';
+import { classifyTestImpact, verifiedStoreMigrations } from './ci-test-impact.mjs';
 
 import { HOME_PATHS } from './home-ui-scope.mjs';
 import { classifyHomeChanges } from './ci-scope.mjs';
@@ -14,7 +14,7 @@ const gitDefault = (args) => execFileSync('git', args, {
   encoding: 'utf8', maxBuffer: 8 * 1024 * 1024, timeout: 30_000,
 });
 
-export function classifyVoiceChanges(changes) {
+export function classifyVoiceChanges(changes, verifiedMigrations = new Set()) {
   if (!changes.length) return full('Empty comparison');
   const safe = changes.every(({ path, oldMode, newMode }) =>
     DOC_PATHS.has(path)
@@ -22,7 +22,7 @@ export function classifyVoiceChanges(changes) {
       // No new/deleted/renamed components or executable/symlink changes.
       : HOME_PATHS.has(path) && oldMode === '100644' && newMode === '100644');
   if (safe) return { mode: 'headers', reason: 'Only reviewed homepage presentation or prose changed' };
-  return !classifyTestImpact(changes).voice
+  return !classifyTestImpact(changes, verifiedMigrations).voice
     ? { mode: 'headers', reason: 'Reviewed module changes do not affect the voice runtime' }
     : full('Shared, voice, configuration or unknown changes');
 }
@@ -39,7 +39,8 @@ export async function detectVoiceScope(env = process.env, git = gitDefault, requ
     const changes = parseChanges(git([
       'diff', '--raw', '--no-renames', '--no-ext-diff', '-z', before, after, '--',
     ]));
-    const selection = classifyVoiceChanges(changes);
+    const verifiedMigrations = verifiedStoreMigrations(changes, path => git(['show', `${after}:${path}`]));
+    const selection = classifyVoiceChanges(changes, verifiedMigrations);
     if (selection.mode === 'full') return selection;
     const home = changes.some(change => HOME_PATHS.has(change.path));
     if (home && classifyHomeChanges(changes, before, after, git).mode !== 'home-ui') {
@@ -82,6 +83,8 @@ export async function detectVoiceScope(env = process.env, git = gitDefault, requ
     }
     return { ...selection, ciProfile: home ? 'home-ui' : 'full', before, verifiedSha: after };
   } catch {
+    // A previous push can contain voice changes that never reached production
+    // or passed validation. Its diff cannot justify skipping the full probe.
     return full('Comparison or successful-release baseline unavailable');
   }
 }

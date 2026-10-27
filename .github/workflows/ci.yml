@@ -19,6 +19,7 @@ on:
 permissions:
   contents: read
   actions: read
+  pull-requests: read
 
 concurrency:
   # Only supersede runs for the same PR. Never cancel a release caller's CI.
@@ -40,7 +41,34 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Locate passed PR checks
+        id: pr-ci
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RELEASE_BEFORE: ${{ github.event.before }}
+        run: node scripts/release-ci-reuse.mjs find --candidate "$RUNNER_TEMP/pr-ci-candidate.json"
+
+      - name: Download tested source proof
+        if: steps.pr-ci.outputs.run-id != ''
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ steps.pr-ci.outputs.run-id }}
+          name: ${{ steps.pr-ci.outputs.artifact-name }}
+          path: ${{ runner.temp }}/pr-ci-source-proof
+
+      - name: Verify reusable PR checks
+        id: reuse
+        if: steps.pr-ci.outputs.run-id != ''
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RELEASE_BEFORE: ${{ github.event.before }}
+        run: node scripts/release-ci-reuse.mjs verify --candidate "$RUNNER_TEMP/pr-ci-candidate.json" --proof-dir "$RUNNER_TEMP/pr-ci-source-proof"
+
       - name: Classify CI scope
+        if: steps.reuse.outputs.reuse != 'true'
         id: scope
         env:
           CI_PROFILE: ${{ inputs.profile }}
@@ -49,7 +77,8 @@ jobs:
         run: node scripts/ci-scope.mjs
 
       - name: Verify CI scope policy
-        run: node --test scripts/ci-scope.test.mjs scripts/ci-test-impact.test.mjs scripts/ci-test-plan.test.mjs scripts/ci-unit-tests.test.mjs scripts/release-voice-scope.test.mjs scripts/check-building-voice-headers.test.mjs scripts/home-ui-scope.test.mjs scripts/ci-workflow-contract.test.mjs
+        if: steps.reuse.outputs.reuse != 'true'
+        run: node --test scripts/ci-scope.test.mjs scripts/ci-test-impact.test.mjs scripts/ci-test-plan.test.mjs scripts/ci-unit-tests.test.mjs scripts/ci-source-proof.test.mjs scripts/release-ci-reuse.test.mjs scripts/release-voice-scope.test.mjs scripts/check-building-voice-headers.test.mjs scripts/home-ui-scope.test.mjs scripts/ci-workflow-contract.test.mjs
 
       - name: Select affected specialty checks
         id: test-plan
@@ -99,6 +128,10 @@ jobs:
       - name: Verify deployment, migration, and SEO scripts
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
         run: node --test deploy/registry-deploy.test.mjs scripts/db-push.test.mjs scripts/check-seo.test.mjs deploy/commerce-worker.test.mjs deploy/feishu-bridge.test.mjs
+
+      - name: Verify native store transactions
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && steps.reuse.outputs.reuse != 'true' && steps.test-plan.outputs.store-db != 'false'
+        run: node scripts/test-store-native.mjs
 
       - name: Start anonymous public content fixture
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && github.event_name == 'pull_request'
@@ -211,3 +244,22 @@ jobs:
           name: building-vosk-evidence
           path: ${{ runner.temp }}/building-vosk-evidence
           retention-days: 7
+
+      # Only a successful completed PR job can publish proof for Release reuse.
+      - name: Record tested PR source
+        id: source-proof
+        if: success() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          CI_PROOF_PROFILE: ${{ steps.scope.outputs.mode }}
+        run: node scripts/ci-source-proof.mjs record --output "$RUNNER_TEMP/ci-source-proof/source-proof.json" --profile "$CI_PROOF_PROFILE"
+
+      - name: Preserve tested PR source
+        if: success() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.source-proof.outputs.artifact-name }}
+          path: ${{ runner.temp }}/ci-source-proof/source-proof.json
+          if-no-files-found: error
+          overwrite: false
+          compression-level: 0
+          retention-days: 30

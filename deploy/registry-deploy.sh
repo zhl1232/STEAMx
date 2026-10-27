@@ -20,14 +20,16 @@ flock -w "${DEPLOY_LOCK_TIMEOUT:-120}" 9 || { echo 'Another deployment is active
 # per-attempt limit. A slow but progressing pull must not be killed and
 # restarted from zero (docker discards unextracted layers when interrupted).
 pull_timeout="${IMAGE_PULL_TIMEOUT:-900}"
+oss_timeout="${IMAGE_OSS_TIMEOUT:-300}"
 pull_attempts="${IMAGE_PULL_ATTEMPTS:-4}"
 pull_backoff="${IMAGE_PULL_BACKOFF_SECONDS:-10}"
 pull_heartbeat="${IMAGE_PULL_HEARTBEAT_SECONDS:-30}"
-for value in "$pull_timeout" "$pull_attempts" "$pull_heartbeat"; do
+for value in "$pull_timeout" "$oss_timeout" "$pull_attempts" "$pull_heartbeat"; do
   [[ "$value" =~ ^[1-9][0-9]*$ ]] || { echo 'Pull limits must be positive integers.' >&2; exit 1; }
 done
 [[ "$pull_backoff" =~ ^[0-9]+$ ]] || { echo 'Pull backoff must be a nonnegative integer.' >&2; exit 1; }
 login_config="$(mktemp -d)"
+oss_workdir=""
 candidate_env="$(mktemp "${image_env_file}.new.XXXXXX")"
 rollback_env="$(mktemp "${image_env_file}.rollback.XXXXXX")"
 backup_dir="$(mktemp -d)"
@@ -42,6 +44,7 @@ nginx_site_enabled_path="${NGINX_SITE_ENABLED_PATH:-/etc/nginx/sites-enabled/ste
 config_changed=0
 cleanup() {
   if [ -n "${heartbeat_pid:-}" ]; then kill "$heartbeat_pid" >/dev/null 2>&1 || true; fi
+  if [ -n "${oss_workdir:-}" ]; then rm -rf -- "$oss_workdir"; oss_workdir=""; fi
   if [ -n "$preflight_container" ]; then
     docker rm -f "$preflight_container" >/dev/null 2>&1 || true
   fi
@@ -83,11 +86,12 @@ if ! grep -q -- '--wait' <<<"$compose_help" || ! grep -q -- '--wait-timeout' <<<
   exit 1
 fi
 
-printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USERNAME" --password-stdin >/dev/null
-echo "Pulling $image_ref ..."
+# Prefer the image ID verified by CI from the exact registry digest. OSS has
+# a separate bounded budget so GHCR retains its full fallback time budget.
+# Never mutate the running app until the candidate image is present locally.
 pulled=0
 pull_started=$SECONDS
-pull_deadline=$((SECONDS + pull_timeout))
+pull_deadline=0
 heartbeat_pid=""
 stop_heartbeat() {
   if [ -n "$heartbeat_pid" ]; then
@@ -96,45 +100,120 @@ stop_heartbeat() {
     heartbeat_pid=""
   fi
 }
-for ((attempt=1; attempt<=pull_attempts; attempt++)); do
-  remaining=$((pull_deadline - SECONDS))
-  if [ "$remaining" -le 0 ]; then
-    echo "Image pull budget of ${pull_timeout}s used up before attempt $attempt." >&2
-    break
-  fi
-  echo "Image pull attempt $attempt/$pull_attempts (remaining budget ${remaining}s of ${pull_timeout}s)"
-  # Non-TTY docker pull only prints layer state changes; a heartbeat shows the
-  # job is still alive while one large layer downloads.
+start_heartbeat() {
+  local label="$1"
   ( start=$SECONDS; sleeper=""
     trap '[ -z "$sleeper" ] || kill "$sleeper" 2>/dev/null; exit 0' TERM
     while :; do
       sleep "$pull_heartbeat" & sleeper=$!
       wait "$sleeper"
-      echo "  ... still pulling (attempt $attempt, $((SECONDS - start))s into this attempt)"
+      echo "  ... still ${label} ($((SECONDS - start))s into this attempt)"
     done ) &
   heartbeat_pid=$!
-  pull_status=0
-  timeout --kill-after=10s "${remaining}s" docker pull "$image_ref" || pull_status=$?
-  stop_heartbeat
-  if [ "$pull_status" -eq 0 ]; then
-    pulled=1
-    echo "Image pull finished in $((SECONDS - pull_started))s."
-    break
+}
+try_load_from_oss() {
+  local url="${IMAGE_OSS_URL:-}" expected_id="${IMAGE_ID:-}" remaining status=0 archive actual_id oss_deadline
+  if [ -z "$url" ]; then
+    return 1
   fi
-  echo "Image pull attempt $attempt failed (exit $pull_status) after $((SECONDS - pull_started))s total." >&2
-  if [ "$attempt" -lt "$pull_attempts" ]; then
-    delay=$((pull_backoff * (1 << (attempt - 1))))
-    [ "$delay" -le 60 ] || delay=60
-    if [ $((SECONDS + delay)) -ge "$pull_deadline" ]; then
-      echo 'Not enough pull budget left for another attempt.' >&2
+  if [[ ! "$expected_id" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+    echo 'OSS image skipped: trusted IMAGE_ID is missing or invalid.' >&2
+    return 1
+  fi
+  oss_deadline=$((SECONDS + oss_timeout))
+  remaining=$oss_timeout
+  oss_workdir="$(mktemp -d "${TMPDIR:-/tmp}/steam-oss-image.XXXXXX")"
+  archive="$oss_workdir/image.tar.gz"
+  echo "Downloading release image archive from OSS (budget ${remaining}s) ..."
+  start_heartbeat "downloading from OSS"
+  status=0
+  timeout --kill-after=10s "${remaining}s" curl -fL --retry 3 --retry-delay 2     --connect-timeout 30 --output "$archive" -- "$url" || status=$?
+  stop_heartbeat
+  if [ "$status" -ne 0 ]; then
+    echo "OSS download failed (exit $status)." >&2
+    return 1
+  fi
+  if [ ! -s "$archive" ]; then
+    echo 'OSS download produced an empty archive.' >&2
+    return 1
+  fi
+  remaining=$((oss_deadline - SECONDS))
+  if [ "$remaining" -le 0 ]; then
+    echo 'OSS docker load skipped: OSS budget exhausted.' >&2
+    return 1
+  fi
+  echo "Loading OSS archive into local Docker (budget ${remaining}s) ..."
+  start_heartbeat "loading OSS archive"
+  status=0
+  timeout --kill-after=10s "${remaining}s" bash -o pipefail -c 'gunzip -c -- "$1" | docker load' bash "$archive" || status=$?
+  stop_heartbeat
+  if [ "$status" -ne 0 ]; then
+    echo "OSS docker load failed (exit $status)." >&2
+    return 1
+  fi
+  actual_id="$(docker image inspect --format '{{.Id}}' "$expected_id" 2>/dev/null)" || actual_id=""
+  if [ "$actual_id" != "$expected_id" ]; then
+    echo "OSS archive loaded, but trusted image ID $expected_id is missing or mismatched." >&2
+    return 1
+  fi
+  image_ref="$expected_id"
+  echo "OSS image ready in $((SECONDS - pull_started))s."
+  return 0
+}
+try_pull_from_ghcr() {
+  local attempt remaining delay pull_status
+  pull_started=$SECONDS
+  pull_deadline=$((SECONDS + pull_timeout))
+  printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USERNAME" --password-stdin >/dev/null
+  echo "Pulling $image_ref from GHCR ..."
+  for ((attempt=1; attempt<=pull_attempts; attempt++)); do
+    remaining=$((pull_deadline - SECONDS))
+    if [ "$remaining" -le 0 ]; then
+      echo "Image pull budget of ${pull_timeout}s used up before attempt $attempt." >&2
       break
     fi
-    [ "$delay" -eq 0 ] || { echo "Retrying in ${delay}s ..."; sleep "$delay"; }
+    echo "Image pull attempt $attempt/$pull_attempts (remaining budget ${remaining}s of ${pull_timeout}s)"
+    # Non-TTY docker pull only prints layer state changes; a heartbeat shows the
+    # job is still alive while one large layer downloads.
+    start_heartbeat "pulling from GHCR (attempt $attempt)"
+    pull_status=0
+    timeout --kill-after=10s "${remaining}s" docker pull "$image_ref" || pull_status=$?
+    stop_heartbeat
+    if [ "$pull_status" -eq 0 ]; then
+      echo "Image pull finished in $((SECONDS - pull_started))s."
+      return 0
+    fi
+    echo "Image pull attempt $attempt failed (exit $pull_status) after $((SECONDS - pull_started))s total." >&2
+    if [ "$attempt" -lt "$pull_attempts" ]; then
+      delay=$((pull_backoff * (1 << (attempt - 1))))
+      [ "$delay" -le 60 ] || delay=60
+      if [ $((SECONDS + delay)) -ge "$pull_deadline" ]; then
+        echo 'Not enough pull budget left for another attempt.' >&2
+        break
+      fi
+      [ "$delay" -eq 0 ] || { echo "Retrying in ${delay}s ..."; sleep "$delay"; }
+    fi
+  done
+  return 1
+}
+
+if try_load_from_oss; then
+  pulled=1
+else
+  if [ -n "${IMAGE_OSS_URL:-}" ]; then
+    echo 'Falling back to GHCR pull after OSS failure.' >&2
   fi
-done
+  if try_pull_from_ghcr; then
+    pulled=1
+  fi
+fi
 stop_heartbeat
+if [ -n "$oss_workdir" ]; then
+  rm -rf -- "$oss_workdir"
+  oss_workdir=""
+fi
 if [ "$pulled" -ne 1 ]; then
-  echo 'Image pull exhausted retries; application and configuration were not changed.' >&2
+  echo 'Image acquisition exhausted retries; application and configuration were not changed.' >&2
   exit 1
 fi
 

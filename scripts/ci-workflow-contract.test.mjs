@@ -21,6 +21,7 @@ test('module selection preserves core checks and PR production route boundaries'
 });
 test('specialties and their evidence skip only after an explicit negative impact result', () => {
   const expected = {
+    'Verify native store transactions': 'store-db',
     'Verify portable physics lab': 'physics',
     'Verify project video presentation pilot': 'project-video',
     'Verify immersive building layout': 'building',
@@ -35,6 +36,7 @@ test('specialties and their evidence skip only after an explicit negative impact
   assert(steps.get('Select affected specialty checks').includes('node scripts/ci-test-plan.mjs'));
   assert(steps.get('Verify CI scope policy').includes('scripts/ci-test-plan.test.mjs'));
   assert(steps.get('Verify CI scope policy').includes('scripts/ci-test-impact.test.mjs'));
+  assert(steps.get('Verify native store transactions').includes('node scripts/test-store-native.mjs'));
 });
 test('one smoke invocation retains untagged core and selects details only with explicit negative outputs', () => {
   const script = steps.get('Run smoke E2E').split('        run: |\n')[1]
@@ -113,13 +115,16 @@ test('PR build uses a bounded read-only public fixture through route boundary ch
 });
 
 
-test('related units use the conservative runner and main retains full unit execution', () => {
+test('PR and main use affected unit planning with a conservative fallback', () => {
   assert(steps.get('Run unit tests').includes('node scripts/ci-unit-tests.mjs'));
   assert(steps.get('Verify CI scope policy').includes('scripts/ci-unit-tests.test.mjs'));
   assert(!ci.includes('--passWithNoTests'));
-  assert(!ci.includes('continue-on-error: true'));
+  assert.equal(ci.split('continue-on-error: true').length - 1, 1);
+  assert(steps.get('Download tested source proof').includes('continue-on-error: true'));
+  assert(!steps.get('Verify reusable PR checks').includes('continue-on-error: true'));
   const runner = readFileSync('scripts/ci-unit-tests.mjs', 'utf8');
   assert(runner.includes("process.env.GITHUB_EVENT_NAME === 'pull_request'"));
+  assert(runner.includes("process.env.GITHUB_EVENT_NAME === 'push' && process.env.GITHUB_REF === 'refs/heads/main'"));
   assert(runner.includes("let plan = { unitMode: 'full' }"));
 });
 
@@ -134,4 +139,52 @@ test('browser narrowing excludes reviewed tags only; core health/login/auth and 
   assert(smoke.includes("tag: '@smoke-playground'"));
   assert(smoke.includes("tag: '@smoke-nature'"));
   assert(smoke.includes("await expect(page.getByRole('checkbox')).toBeChecked()"), 'preserve hydration synchronization');
+});
+
+
+test('verified reuse gates classification before dependencies and every expensive check', () => {
+  const names = [...steps.keys()];
+  assert(names.indexOf('Verify reusable PR checks') < names.indexOf('Classify CI scope'));
+  assert(names.indexOf('Classify CI scope') < names.indexOf('Setup pnpm'));
+  for (const name of ['Classify CI scope', 'Verify CI scope policy']) {
+    assert(steps.get(name).includes("if: steps.reuse.outputs.reuse != 'true'"), name);
+  }
+  // No scope output is set on reuse; every dependency/test/build step must
+  // therefore retain its existing explicit full/home-ui condition.
+  const early = new Set(['Checkout repository', 'Locate passed PR checks', 'Download tested source proof',
+    'Verify reusable PR checks', 'Classify CI scope', 'Verify CI scope policy',
+    'Record tested PR source', 'Preserve tested PR source']);
+  for (const [name, block] of steps) {
+    if (!early.has(name)) assert(block.includes("steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui'"), name);
+  }
+  assert(steps.get('Locate passed PR checks').includes("github.event_name == 'push' && github.ref == 'refs/heads/main'"));
+  assert(steps.get('Download tested source proof').includes("if: steps.pr-ci.outputs.run-id != ''"));
+  assert(steps.get('Verify reusable PR checks').includes("if: steps.pr-ci.outputs.run-id != ''"));
+  assert(steps.get('Download tested source proof').includes('run-id: ${{ steps.pr-ci.outputs.run-id }}'));
+  assert(steps.get('Download tested source proof').includes('name: ${{ steps.pr-ci.outputs.artifact-name }}'));
+});
+
+test('only a successful same-repository PR uploads immutable source proof after checks', () => {
+  const names = [...steps.keys()];
+  assert.deepEqual(names.slice(-2), ['Record tested PR source', 'Preserve tested PR source']);
+  for (const name of names.slice(-2)) {
+    assert(steps.get(name).includes("if: success() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository"));
+    assert(!steps.get(name).includes('continue-on-error'));
+  }
+  const upload = steps.get('Preserve tested PR source');
+  assert(upload.includes('name: ${{ steps.source-proof.outputs.artifact-name }}'));
+  assert(upload.includes('overwrite: false'));
+  assert(upload.includes('if-no-files-found: error'));
+  assert(upload.includes('path: ${{ runner.temp }}/ci-source-proof/source-proof.json'));
+  assert(steps.get('Verify CI scope policy').includes('scripts/ci-source-proof.test.mjs scripts/release-ci-reuse.test.mjs'));
+  assert(release.includes('      actions: read\n      pull-requests: read'));
+});
+
+test('optional OSS mirror failure preserves GHCR deployment fallback', () => {
+  const mirror = release.split('      - name: Mirror image archive to Aliyun OSS\n')[1]?.split('\n  verify-course-voice-loading:')[0];
+  assert(mirror?.includes('continue-on-error: true'));
+  assert(mirror?.includes('DEPLOY_OSS_ACCESS_KEY_ID'));
+  assert(release.includes('image_id: ${{ steps.oss.outputs.image_id }}'));
+  assert(release.includes('IMAGE_ID: ${{ needs.build-image.outputs.image_id }}'));
+  assert(release.includes('envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST,IMAGE_OSS_URL,IMAGE_ID,'));
 });

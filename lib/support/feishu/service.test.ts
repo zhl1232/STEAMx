@@ -79,20 +79,20 @@ describe('Feishu service event boundaries', () => {
 })
 describe('Feishu durable dispatch', () => {
   it('applies an authorized reply then completes its lease', async () => {
-    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_inbound' ? [incoming] : name === 'feishu_claim_deliveries' ? [] : name === 'feishu_apply_reply' ? { message_id: 'site-reply' } : true, error: null }))
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_inbound' ? [incoming] : name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [] : name === 'feishu_apply_reply' ? { message_id: 'site-reply' } : true, error: null }))
     expect(await runFeishuDispatch()).toMatchObject({ replies: 1, failed: 0 })
     expect(mock.rpc).toHaveBeenCalledWith('feishu_apply_reply', expect.objectContaining({ p_actor: profileId, p_content: incoming.text }))
     expect(mock.rpc).toHaveBeenCalledWith('feishu_complete_inbound', { p_message_id: incoming.message_id, p_lease: incoming.lease_id, p_success: true })
   })
   it('rechecks the actual website admin role before applying a reply', async () => {
     resultFor = table => ({ data: table === 'profiles' ? { role: 'user' } : null })
-    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_inbound' ? [incoming] : name === 'feishu_claim_deliveries' ? [] : true, error: null }))
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_inbound' ? [incoming] : name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [] : true, error: null }))
     expect(await runFeishuDispatch()).toMatchObject({ replies: 0, rejected: 1 })
     expect(mock.rpc.mock.calls.some(([name]) => name === 'feishu_apply_reply')).toBe(false)
     expect(mock.rpc).toHaveBeenCalledWith('feishu_complete_inbound', expect.objectContaining({ p_success: false, p_permanent: true }))
   })
   it('keeps a missing anchor retryable instead of swallowing an in-flight anchor race', async () => {
-    mock.rpc.mockImplementation(async (name: string) => name === 'feishu_apply_reply' ? { data: null, error: { message: 'Feishu reply anchor unavailable' } } : { data: name === 'feishu_claim_inbound' ? [incoming] : name === 'feishu_claim_deliveries' ? [] : true, error: null })
+    mock.rpc.mockImplementation(async (name: string) => name === 'feishu_apply_reply' ? { data: null, error: { message: 'Feishu reply anchor unavailable' } } : { data: name === 'feishu_claim_inbound' ? [incoming] : name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [] : true, error: null })
     expect(await runFeishuDispatch()).toMatchObject({ replies: 0, failed: 1, rejected: 0 })
     expect(mock.rpc).toHaveBeenCalledWith('feishu_complete_inbound', expect.objectContaining({ p_success: false, p_permanent: false }))
   })
@@ -101,35 +101,65 @@ describe('Feishu durable dispatch', () => {
     { message: 'Network request failed', permanent: false, code: 'reply_failed' },
     { message: 'Feishu reply rate limit', permanent: false, code: 'reply_failed' },
   ])('only rejects a fifth confirmed missing anchor, not transient failures: $message', async ({ message, permanent, code }) => {
-    mock.rpc.mockImplementation(async (name: string) => name === 'feishu_apply_reply' ? { data: null, error: { message } } : { data: name === 'feishu_claim_inbound' ? [{ ...incoming, attempts: 5 }] : name === 'feishu_claim_deliveries' ? [] : true, error: null })
+    mock.rpc.mockImplementation(async (name: string) => name === 'feishu_apply_reply' ? { data: null, error: { message } } : { data: name === 'feishu_claim_inbound' ? [{ ...incoming, attempts: 5 }] : name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [] : true, error: null })
     expect(await runFeishuDispatch()).toMatchObject({ replies: 0, rejected: permanent ? 1 : 0, failed: permanent ? 0 : 1 })
     expect(mock.rpc).toHaveBeenCalledWith('feishu_complete_inbound', expect.objectContaining({ p_success: false, p_permanent: permanent, p_error: code }))
   })
-  it('records a support anchor before acknowledging delivery and uses the real channel label', async () => {
-    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
+  it('atomically records a support anchor and acknowledges delivery with the real channel label', async () => {
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
     expect(await runFeishuDispatch()).toMatchObject({ sent: 1, failed: 0 })
     const text = mock.sendText.mock.calls[0][1]
     expect(text).toContain('商城客服'); expect(text).toContain('商品缺件'); expect(text).not.toMatch(/private-phone|private-address/)
-    const anchor = mock.rpc.mock.calls.findIndex(([name]) => name === 'feishu_record_anchor')
-    const ack = mock.rpc.mock.calls.findIndex(([name, body]) => name === 'feishu_complete_delivery' && body.p_success)
-    expect(anchor).toBeGreaterThan(-1); expect(ack).toBeGreaterThan(anchor)
+    expect(mock.rpc).toHaveBeenCalledWith('feishu_finish_thread_delivery', expect.objectContaining({ p_message_id: 'om_delivered' }))
   })
   it('does not mark a send successful when durable anchor recording fails', async () => {
-    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : name === 'feishu_record_anchor' ? false : true, error: null }))
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : name === 'feishu_finish_thread_delivery' ? false : true, error: null }))
     expect(await runFeishuDispatch()).toMatchObject({ sent: 0, failed: 1 })
     expect(mock.rpc).not.toHaveBeenCalledWith('feishu_complete_delivery', expect.objectContaining({ p_success: true }))
+  })
+  it('retries an unconfirmed root through the same create request identity', async () => {
+    let confirmations = 0
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : name === 'feishu_finish_thread_delivery' ? ++confirmations > 1 : true, error: null }))
+    expect(await runFeishuDispatch()).toMatchObject({ sent: 0, failed: 1 })
+    expect(await runFeishuDispatch()).toMatchObject({ sent: 1, failed: 0 })
+    expect(mock.sendText).toHaveBeenCalledTimes(2)
+    for (const args of mock.sendText.mock.calls) {
+      expect(args.slice(2, 4)).toEqual([delivery.event_id, delivery.target_id])
+      expect(args.at(-1)).toBeUndefined()
+    }
+  })
+  it.each([false, true])('routes text and rich messages to the persisted thread root: images=%s', async images => {
+    const previous = resultFor
+    if (images) resultFor = table => table === 'support_attachments' ? { data: [{ id: '22222222-2222-4222-8222-222222222222', conversation_id: conversationId, storage_path: `${conversationId}/22222222-2222-4222-8222-222222222222`, mime_type: 'image/png', size_bytes: png.length }] } : previous(table)
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_prepare_thread' ? { root_message_id: 'om_thread_root' } : name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
+    expect(await runFeishuDispatch()).toMatchObject({ sent: 1, failed: 0 })
+    const args = (images ? mock.sendPost : mock.sendText).mock.calls[0]
+    expect(args.at(-1)).toBe('om_thread_root')
+  })
+  it('keeps a root lookup failure queued without sending a standalone message', async () => {
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_prepare_thread' ? null : name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
+    expect(await runFeishuDispatch()).toMatchObject({ sent: 0, failed: 1 })
+    expect(mock.sendText).not.toHaveBeenCalled()
+    expect(mock.rpc).toHaveBeenCalledWith('feishu_complete_delivery', expect.objectContaining({ p_success: false }))
+  })
+  it('keeps a failed thread reply queued without falling back to standalone send', async () => {
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_prepare_thread' ? { root_message_id: 'om_missing_root' } : name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
+    mock.sendText.mockRejectedValueOnce(new Error('root deleted'))
+    expect(await runFeishuDispatch()).toMatchObject({ sent: 0, failed: 1 })
+    expect(mock.sendText).toHaveBeenCalledTimes(1)
+    expect(mock.sendText.mock.calls[0].at(-1)).toBe('om_missing_root')
   })
   it('labels platform conversations independently from store support', async () => {
     vi.stubEnv('FEISHU_TARGETS_JSON', JSON.stringify([{ ...target, channels: ['platform'] }]))
     const previous = resultFor
     resultFor = table => table === 'support_conversations' ? { data: { channel: 'platform' } } : previous(table)
-    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
     expect(await runFeishuDispatch()).toMatchObject({ sent: 1 })
     expect(mock.sendText.mock.calls[0][1]).toContain('平台帮助'); expect(mock.sendText.mock.calls[0][1]).not.toContain('商城客服')
   })
   it('rechecks the claimed job against current enabled target bindings before sending', async () => {
     vi.stubEnv('FEISHU_TARGETS_JSON', JSON.stringify([target, { ...target, id: 'disabled-team', chatId: 'oc_disabled', enabled: false }]))
-    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_deliveries' ? [{ ...delivery, target_id: 'disabled-team', chat_id: 'oc_disabled' }] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [{ ...delivery, target_id: 'disabled-team', chat_id: 'oc_disabled' }] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
     expect(await runFeishuDispatch()).toMatchObject({ sent: 0, failed: 1 })
     expect(mock.sendText).not.toHaveBeenCalled(); expect(mock.rpc).toHaveBeenCalledWith('feishu_complete_delivery', expect.objectContaining({ p_target: 'disabled-team', p_success: false }))
   })
@@ -137,16 +167,16 @@ describe('Feishu durable dispatch', () => {
     const other = { ...target, id: 'other-team', chatId: 'oc_other' }
     vi.stubEnv('FEISHU_TARGETS_JSON', JSON.stringify([target, other]))
     mock.sendText.mockImplementation(async (chat: string) => { if (chat === 'oc_other') throw new Error('private-provider-data'); return 'om_delivered' })
-    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_deliveries' ? [delivery, { ...delivery, target_id: 'other-team', chat_id: 'oc_other' }] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [delivery, { ...delivery, target_id: 'other-team', chat_id: 'oc_other' }] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
     expect(await runFeishuDispatch()).toMatchObject({ sent: 1, failed: 1 })
-    expect(mock.rpc).toHaveBeenCalledWith('feishu_complete_delivery', expect.objectContaining({ p_target: 'store-team', p_success: true }))
+    expect(mock.rpc).toHaveBeenCalledWith('feishu_finish_thread_delivery', expect.objectContaining({ p_target: 'store-team', p_message_id: 'om_delivered' }))
     expect(mock.rpc).toHaveBeenCalledWith('feishu_complete_delivery', expect.objectContaining({ p_target: 'other-team', p_success: false, p_error: 'delivery_failed' }))
   })
   it('reads committed final order cents and omits all procurement and address fields', async () => {
-    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_deliveries' ? [{ ...delivery, kind: 'order.created', support_message_id: null, order_event_id: 12 }] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [{ ...delivery, kind: 'order.created', support_message_id: null, order_event_id: 12 }] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
     expect(await runFeishuDispatch()).toMatchObject({ sent: 1 })
     expect(mock.sendText.mock.calls[0][1]).toContain('新订单，待付款'); expect(mock.sendText.mock.calls[0][1]).toContain('¥8.80'); expect(mock.sendText.mock.calls[0][1]).not.toMatch(/private-address|private-cost/)
-    expect(mock.rpc.mock.calls.some(([name]) => name === 'feishu_record_anchor')).toBe(false)
+    expect(mock.rpc).toHaveBeenCalledWith('feishu_finish_thread_delivery', expect.objectContaining({ p_message_id: 'om_delivered' }))
   })
 })
 
@@ -154,7 +184,7 @@ describe('Feishu private image bridge', () => {
   function incomingMedia(keys = ['img_source']) { return { ...incoming, text: '', image_keys: keys } }
   function mediaRpc(options: { duplicate?: boolean; prepareError?: string; applyError?: string } = {}) {
     mock.rpc.mockImplementation(async (name: string) => ({
-      data: name === 'feishu_claim_inbound' ? [incomingMedia()] : name === 'feishu_claim_deliveries' ? [] : name === 'feishu_prepare_reply' ? { conversation_id: conversationId, duplicate: Boolean(options.duplicate), ...(options.duplicate ? { message_id: 'site-reply' } : {}) } : name === 'feishu_prepare_image_attachment' ? attachment : name === 'feishu_apply_reply_media' ? { message_id: 'site-reply' } : true,
+      data: name === 'feishu_claim_inbound' ? [incomingMedia()] : name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [] : name === 'feishu_prepare_reply' ? { conversation_id: conversationId, duplicate: Boolean(options.duplicate), ...(options.duplicate ? { message_id: 'site-reply' } : {}) } : name === 'feishu_prepare_image_attachment' ? attachment : name === 'feishu_apply_reply_media' ? { message_id: 'site-reply' } : true,
       error: (name === 'feishu_prepare_reply' && options.prepareError) || (name === 'feishu_apply_reply_media' && options.applyError) ? { message: options.prepareError || options.applyError } : null,
     }))
   }
@@ -227,7 +257,7 @@ describe('Feishu private image bridge', () => {
   it('sends private attachment bytes as one rich post and never emits private URLs or storage paths', async () => {
     const previous = resultFor
     resultFor = table => table === 'support_attachments' ? { data: [attachment] } : previous(table)
-    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
     expect(await runFeishuDispatch()).toMatchObject({ sent: 1, failed: 0 })
     expect(mock.storageDownload).toHaveBeenCalledWith(attachment.storage_path, {}, expect.objectContaining({ signal: expect.any(AbortSignal) }))
     expect(mock.uploadImage).toHaveBeenCalledWith(png, expect.any(AbortSignal))
@@ -235,13 +265,13 @@ describe('Feishu private image bridge', () => {
     expect(mock.sendPost.mock.calls[0][2]).toEqual(['img_uploaded'])
     expect(mock.sendPost.mock.calls[0][1]).not.toMatch(/support-private|storage\/v1|private-address|private-phone/)
     expect(mock.sendPost.mock.calls[0][1]).not.toContain(attachment.storage_path)
-    expect(mock.rpc).toHaveBeenCalledWith('feishu_record_anchor', expect.objectContaining({ p_message_id: 'om_delivered' }))
+    expect(mock.rpc).toHaveBeenCalledWith('feishu_finish_thread_delivery', expect.objectContaining({ p_message_id: 'om_delivered' }))
   })
   it.each(['ownership', 'too_many', 'size'])('rejects invalid outbound attachment %s before reading private storage', async reason => {
     const previous = resultFor
     const invalid = reason === 'ownership' ? { ...attachment, conversation_id: 'other' } : { ...attachment, size_bytes: 6 * 1024 * 1024 }
     resultFor = table => table === 'support_attachments' ? { data: reason === 'too_many' ? [attachment, attachment, attachment, attachment] : [invalid] } : previous(table)
-    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
+    mock.rpc.mockImplementation(async (name: string) => ({ data: name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [delivery] : name === 'feishu_claim_inbound' ? [] : true, error: null }))
     expect(await runFeishuDispatch()).toMatchObject({ sent: 0, failed: 1 })
     expect(mock.storageDownload).not.toHaveBeenCalled(); expect(mock.uploadImage).not.toHaveBeenCalled(); expect(mock.sendPost).not.toHaveBeenCalled()
   })
@@ -251,7 +281,7 @@ it('preserves queued image order when reserving multiple attachments', async () 
   const keys = ['img_one', 'img_two', 'img_three']
   const ids = [attachmentId, '30000000-0000-4000-8000-000000000002', '30000000-0000-4000-8000-000000000003']
   mock.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => ({
-    data: name === 'feishu_claim_inbound' ? [{ ...incoming, image_keys: keys }] : name === 'feishu_claim_deliveries' ? [] : name === 'feishu_prepare_reply' ? { conversation_id: conversationId, duplicate: false } : name === 'feishu_prepare_image_attachment' ? { ...attachment, id: ids[keys.indexOf(String(args.p_image_key))], storage_path: `${conversationId}/${ids[keys.indexOf(String(args.p_image_key))]}` } : name === 'feishu_apply_reply_media' ? { message_id: 'site-reply' } : true,
+    data: name === 'feishu_claim_inbound' ? [{ ...incoming, image_keys: keys }] : name === 'feishu_prepare_thread' ? { root_message_id: null } : name === 'feishu_claim_deliveries' ? [] : name === 'feishu_prepare_reply' ? { conversation_id: conversationId, duplicate: false } : name === 'feishu_prepare_image_attachment' ? { ...attachment, id: ids[keys.indexOf(String(args.p_image_key))], storage_path: `${conversationId}/${ids[keys.indexOf(String(args.p_image_key))]}` } : name === 'feishu_apply_reply_media' ? { message_id: 'site-reply' } : true,
     error: null,
   }))
   expect(await runFeishuDispatch()).toMatchObject({ replies: 1, failed: 0 })

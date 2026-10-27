@@ -75,7 +75,8 @@ export async function runCIUnitTests(plan, { create = createDefault, execute = e
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   let plan = { unitMode: 'full' };
-  if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
+  if (process.env.GITHUB_EVENT_NAME === 'pull_request'
+      || process.env.GITHUB_EVENT_NAME === 'push' && process.env.GITHUB_REF === 'refs/heads/main') {
     try {
       plan = await planCIChecks(process.env, JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8')));
     } catch { /* Missing metadata means full units. */ }
