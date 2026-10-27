@@ -48,7 +48,6 @@ import { MobileProfileSectionTitle } from '@/components/features/profile/mobile-
 import { LevelGuideDialog } from '@/components/features/gamification/level-guide-dialog'
 import { LevelProgress } from '@/components/features/gamification/level-progress'
 import { ProfileSkeleton } from '@/components/features/profile/profile-skeleton'
-import { MobileGlobalHeader } from '@/components/layout/mobile-global-header'
 import { Button } from '@/components/ui/button'
 import { OptimizedImage } from '@/components/ui/optimized-image'
 import { UserAvatar } from '@/components/ui/user-avatar'
@@ -620,22 +619,7 @@ function MobileProfilePage({
 
   return (
     <div className="profile-page-surface min-h-screen pb-[calc(6rem+env(safe-area-inset-bottom))] text-foreground">
-      <MobileGlobalHeader
-        variant="title"
-        title="我的"
-        showNotification={false}
-        showUserButton={false}
-        rightSlot={
-          <div className="flex items-center gap-0.5">
-            <Button asChild variant="ghost" size="icon" className="h-9 w-9 shrink-0 text-muted-foreground transition hover:text-foreground" title="设置">
-              <Link href="/settings" aria-label="设置">
-                <Settings className="h-4.5 w-4.5" />
-              </Link>
-            </Button>
-          </div>
-        }
-      />
-      <div className="space-y-3 px-4 pt-1 min-[430px]:mx-auto min-[430px]:max-w-[430px]">
+      <div className="space-y-3 px-4 pt-[calc(env(safe-area-inset-top)+0.75rem)] min-[430px]:mx-auto min-[430px]:max-w-[430px]">
         {/* 层级 1：Hero 个人画像与资产中枢（身份 + 荣誉 + 资产 + 快捷入口） */}
         <ProfileHero
           profileContext={profileContext}
@@ -847,6 +831,10 @@ function PrimaryPlanCard({
   )
 }
 
+/** 手机端资料卡右上角圆形图标按钮：40px 触控区，浅底 + 细边框，暗色下同样清楚 */
+const COMPACT_ICON_BUTTON =
+  'h-10 w-10 rounded-full border border-[hsl(var(--surface-border))] bg-background/80 text-foreground/80 shadow-2xs backdrop-blur-sm transition-colors hover:bg-muted hover:text-foreground dark:border-[hsl(var(--surface-border-strong))] dark:bg-[hsl(var(--surface-raised)/0.85)]'
+
 function ProfileHeroBackdrop({ compact }: { compact: boolean }) {
   if (compact) {
     return (
@@ -915,7 +903,7 @@ function ProfileHero({
   const compactRemainingXP = Math.max(0, profileContext.nextLevelXP - profileContext.currentXP)
   const showInlineStats = compact ? !splitStats : false
   const editorActions = (
-    <div className="flex shrink-0 items-center gap-1">
+    <div className={"flex shrink-0 items-center gap-1"}>
       {!compact ? [
         { href: '/profile/library', label: '内容库', icon: FolderOpen },
         { href: '/leaderboard', label: '排行榜', icon: Trophy },
@@ -934,18 +922,26 @@ function ProfileHero({
         aria-label="编辑资料"
         title="编辑资料"
         className={compact
-          ? 'h-11 w-11 text-muted-foreground'
+          ? COMPACT_ICON_BUTTON
           : 'h-11 gap-1.5 border-border/60 bg-background/70 px-3 text-xs font-medium md:text-sm'}
         onClick={(event) => openEditor('overview', event.currentTarget)}
       >
         <Edit3 className={compact ? 'h-4 w-4' : 'h-3.5 w-3.5'} />
         {!compact ? '编辑资料' : null}
       </Button>
-      <Button asChild variant="ghost" size="icon" className="h-11 w-11 text-muted-foreground">
+      <Button asChild variant="ghost" size="icon" className={compact ? COMPACT_ICON_BUTTON : 'h-11 w-11 text-muted-foreground'}>
         <Link href={`/users/${profileContext.userId}`} aria-label="查看公开主页" title="查看公开主页">
           <Eye className="h-4 w-4" />
         </Link>
       </Button>
+      {/* 手机端「我的」不再有顶栏，设置入口收进资料卡；PC 端设置在全局头部，不重复 */}
+      {compact ? (
+        <Button asChild variant="ghost" size="icon" className={COMPACT_ICON_BUTTON}>
+          <Link href="/settings" aria-label="设置" title="设置">
+            <Settings className="h-4 w-4" />
+          </Link>
+        </Button>
+      ) : null}
     </div>
   )
   const identityTitle = (
