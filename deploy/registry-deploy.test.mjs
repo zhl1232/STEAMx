@@ -632,14 +632,18 @@ for (const [name, overrides] of [
 test('OSS timeout leaves the full independent GHCR pull budget available', async (t) => {
   const fixture = await setup({ env: {
     IMAGE_OSS_URL: 'https://oss.example/slow.tar.gz', IMAGE_ID: imageId,
-    IMAGE_OSS_TIMEOUT: '1', FAKE_CURL_SLEEP: '3',
-    IMAGE_PULL_TIMEOUT: '4', FAKE_PULL_SLEEP: '2',
+    // OSS consumes more time than the entire GHCR budget. A successful pull
+    // therefore proves that fallback receives a separate budget.
+    IMAGE_OSS_TIMEOUT: '5', FAKE_CURL_SLEEP: '8',
+    IMAGE_PULL_TIMEOUT: '4', FAKE_PULL_SLEEP: '1',
   } })
   t.after(fixture.cleanup)
   const result = run(fixture.env)
   assert.equal(result.status, 0, result.stderr + result.stdout)
-  assert.match(result.stdout, /remaining budget 4s of 4s/)
-  assert.match(await text(fixture.log), /ARGS=pull /)
+  assert.match(result.stderr, /OSS download failed \(exit 124\)/)
+  assert.match(result.stderr, /Falling back to GHCR/)
+  assert.match(await text(fixture.log), /ARGS=pull ghcr\.io\/acme\/steam@sha256:new/)
+  assert.equal(await text(path.join(fixture.app, '.env')), 'STEAM_APP_IMAGE=ghcr.io/acme/steam@sha256:new\n')
 })
 
 
