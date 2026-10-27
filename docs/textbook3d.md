@@ -57,5 +57,5 @@ public/textbook3d/v1/
 - 共享运行时已含 Web Audio 合成音效（`sfx`）：翻页、按钮、滑块、翻卡、对错、盖章；实验/运动主题音；右上角静音（localStorage）；首次点击解锁；`?embed=1` 可用。
 - 翻页：盖章不再自动跳页；仅左右箭头 / 合册书角可翻页。合册模式 `?book=1`：课末/课首向父页发 `prev-lesson`/`next-lesson`，并接受 `steamx-textbook-jump`。
 - 3D 交互样板：`g8b-11-4`（拖小球上坡 + 点摩擦垫）、`p4b-2-2`（拖导线接灯泡）。逻辑在课本源码 `core/interact.js`，经场景 import 打进共享 chunk。
-- 合册 HTML 源：`/workspace/3d-textbook/textbook/dist/book-{p3a…p6b,g8a,g8b,g9}.html`（目录、单元分隔、iframe 懒加载 cur±1）。合入本仓库时放到 `public/textbook3d/v1/book-<册>.html`，并需同步该册全部课目录；当前分支先同步登记课 + 两课样板，合册文件可选附带。
+- 合册：`public/textbook3d/v1/book-{p3a…p6b,g8a,g8b,g9}.html` 与课目录同级（iframe 相对路径 `课号/index.html?book=1`）；目录、单元分隔、只保活 cur±1。源码 `tools/book.py` → `dist/book-*.html`。
 - 课本源码目录：`/workspace/3d-textbook/textbook`（`core/`、`lessons/`、`tools/build_split.py`、`tools/book.py`）。
