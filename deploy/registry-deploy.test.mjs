@@ -8,6 +8,8 @@ import { spawnSync } from 'node:child_process'
 
 const script = path.join(process.cwd(), 'deploy', 'registry-deploy.sh')
 
+const imageId = `sha256:${'c'.repeat(64)}`
+
 const fakeDocker = `#!/usr/bin/env bash
 set -u
 printf 'CONFIG=%s ARGS=%s\\n' "\${DOCKER_CONFIG-}" "$*" >> "$FAKE_LOG"
@@ -30,9 +32,21 @@ if [[ "$1" == pull ]]; then
   [[ "\${FAKE_PULL_FAIL-}" != 1 ]]
   exit $?
 fi
+if [[ "$1" == image && "$2" == inspect ]]; then
+  if [[ "\${FAKE_IMAGE_PRESENT-}" == 1 ]]; then
+    printf '%s\\n' "\${FAKE_INSPECT_IMAGE_ID:-$IMAGE_ID}"
+    exit 0
+  fi
+  exit 1
+fi
 if [[ "$1" == inspect ]]; then
   [[ -n "\${FAKE_RUNNING_IMAGE_ID-}" ]] && printf '%s\\n' "$FAKE_RUNNING_IMAGE_ID"
   exit 0
+fi
+if [[ "$1" == load ]]; then
+  cat >/dev/null
+  [[ "\${FAKE_LOAD_FAIL-}" != 1 ]]
+  exit $?
 fi
 if [[ "$1" == tag ]]; then
   printf 'TAG %s\\n' "$*" >> "$FAKE_LOG"
@@ -94,6 +108,36 @@ async function setup(overrides = {}) {
   await chmod(systemctl, 0o755)
   await writeFile(sudo, '#!/usr/bin/env bash\n[[ "$1" == -n ]] && shift\n"$@"\n')
   await chmod(sudo, 0o755)
+  const curl = path.join(bin, 'curl')
+  await writeFile(curl, `#!/usr/bin/env bash
+set -u
+printf 'CURL %s\\n' "$*" >> "$FAKE_LOG"
+if [[ "\${FAKE_CURL_FAIL-}" == 1 ]]; then exit 22; fi
+out=""
+while (($#)); do
+  if [[ "$1" == --output || "$1" == -o ]]; then out="$2"; shift 2; continue; fi
+  shift
+done
+if [[ -z "$out" ]]; then exit 2; fi
+if [[ "\${FAKE_CURL_EMPTY-}" == 1 ]]; then : >"$out"; exit 0; fi
+if [[ -n "\${FAKE_CURL_SLEEP-}" ]]; then sleep "$FAKE_CURL_SLEEP"; fi
+printf 'fake-image-archive' >"$out"
+`)
+  await chmod(curl, 0o755)
+  const gunzip = path.join(bin, 'gunzip')
+  await writeFile(gunzip, `#!/usr/bin/env bash
+set -u
+if [[ "\${FAKE_GUNZIP_FAIL-}" == 1 ]]; then exit 1; fi
+printf 'GUNZIP %s\\n' "$*" >> "$FAKE_LOG"
+while (($#)); do
+  if [[ "$1" == -c || "$1" == --stdout ]]; then shift; continue; fi
+  if [[ "$1" == -- ]]; then shift; continue; fi
+  if [[ -f "$1" ]]; then cat "$1"; exit 0; fi
+  shift
+done
+exit 1
+`)
+  await chmod(gunzip, 0o755)
   await writeFile(path.join(app, 'docker-compose.yml'), 'services: {}\n')
   if (overrides.envFile !== undefined) await writeFile(path.join(app, '.env'), overrides.envFile)
   const env = {
@@ -501,4 +545,118 @@ test('pull failures retry up to the default attempt count, then leave config unc
   assert.equal((await text(fixture.log)).match(/ARGS=pull /g).length, 4)
   assert.match(result.stderr, /exhausted retries/)
   assert.equal(await text(path.join(fixture.app, '.env')), 'STEAM_APP_IMAGE=old\n')
+})
+
+
+test('OSS load verifies trusted config ID and persists that immutable ID without GHCR', async (t) => {
+  const fixture = await setup({
+    envFile: 'STEAM_APP_IMAGE=old\n',
+    env: {
+      IMAGE_OSS_URL: 'https://oss.example/deploy/steamx/sha256-new.tar.gz',
+      IMAGE_ID: imageId,
+      FAKE_IMAGE_PRESENT: '1',
+    },
+  })
+  t.after(fixture.cleanup)
+  const result = run(fixture.env)
+  assert.equal(result.status, 0, result.stderr + result.stdout)
+  const log = await text(fixture.log)
+  assert.match(log, /CURL /)
+  assert.match(log, /ARGS=load/)
+  assert.doesNotMatch(log, /ARGS=login/)
+  assert.doesNotMatch(log, /ARGS=pull /)
+  assert.match(log, new RegExp(`ENV_FILE_BEGIN[\\s\\S]*STEAM_APP_IMAGE=${imageId}`))
+  assert.equal(await text(path.join(fixture.app, '.env')), `STEAM_APP_IMAGE=${imageId}\n`)
+  assert.match(log, new RegExp(`ARGS=image inspect --format {{.Id}} ${imageId}`))
+})
+
+test('OSS download failure falls back to GHCR pull before any config mutation', async (t) => {
+  const fixture = await setup({
+    envFile: 'STEAM_APP_IMAGE=old\nKEEP=1\n',
+    env: {
+      IMAGE_OSS_URL: 'https://oss.example/missing.tar.gz',
+      IMAGE_ID: imageId,
+      FAKE_CURL_FAIL: '1',
+    },
+  })
+  t.after(fixture.cleanup)
+  const result = run(fixture.env)
+  assert.equal(result.status, 0, result.stderr + result.stdout)
+  const log = await text(fixture.log)
+  assert.match(result.stderr + result.stdout, /Falling back to GHCR/)
+  assert.match(log, /ARGS=login/)
+  assert.match(log, /ARGS=pull ghcr\.io\/acme\/steam@sha256:new/)
+})
+
+test('OSS and GHCR both failing leave the running configuration untouched', async (t) => {
+  const fixture = await setup({
+    envFile: 'STEAM_APP_IMAGE=old\n',
+    env: {
+      IMAGE_OSS_URL: 'https://oss.example/missing.tar.gz',
+      IMAGE_ID: imageId,
+      FAKE_CURL_FAIL: '1',
+      FAKE_PULL_FAIL: '1',
+      IMAGE_PULL_ATTEMPTS: '2',
+    },
+  })
+  t.after(fixture.cleanup)
+  const result = run(fixture.env)
+  assert.notEqual(result.status, 0)
+  assert.match(result.stderr, /Image acquisition exhausted retries/)
+  assert.equal(await text(path.join(fixture.app, '.env')), 'STEAM_APP_IMAGE=old\n')
+  assert.doesNotMatch(await text(fixture.log), /ARGS=compose --env-file .* up -d/)
+})
+
+
+for (const [name, overrides] of [
+  ['missing trusted config ID', { IMAGE_ID: '' }],
+  ['malformed trusted config ID', { IMAGE_ID: 'sha256:bad' }],
+  ['absent loaded config ID', {}],
+  ['mismatched loaded config ID', { FAKE_IMAGE_PRESENT: '1', FAKE_INSPECT_IMAGE_ID: `sha256:${'d'.repeat(64)}` }],
+  ['failed docker load', { FAKE_LOAD_FAIL: '1', FAKE_IMAGE_PRESENT: '1' }],
+  ['failed gunzip even when docker load succeeds', { FAKE_GUNZIP_FAIL: '1', FAKE_IMAGE_PRESENT: '1' }],
+]) {
+  test(`OSS ${name} falls back and persists the GHCR digest`, async (t) => {
+    const fixture = await setup({ env: {
+      IMAGE_OSS_URL: 'https://oss.example/image.tar.gz', IMAGE_ID: imageId, ...overrides,
+    } })
+    t.after(fixture.cleanup)
+    const result = run(fixture.env)
+    assert.equal(result.status, 0, result.stderr + result.stdout)
+    const log = await text(fixture.log)
+    assert.match(log, /ARGS=pull ghcr\.io\/acme\/steam@sha256:new/)
+    assert.equal(await text(path.join(fixture.app, '.env')), 'STEAM_APP_IMAGE=ghcr.io/acme/steam@sha256:new\n')
+  })
+}
+
+test('OSS timeout leaves the full independent GHCR pull budget available', async (t) => {
+  const fixture = await setup({ env: {
+    IMAGE_OSS_URL: 'https://oss.example/slow.tar.gz', IMAGE_ID: imageId,
+    // OSS consumes more time than the entire GHCR budget. A successful pull
+    // therefore proves that fallback receives a separate budget.
+    IMAGE_OSS_TIMEOUT: '5', FAKE_CURL_SLEEP: '8',
+    IMAGE_PULL_TIMEOUT: '4', FAKE_PULL_SLEEP: '1',
+  } })
+  t.after(fixture.cleanup)
+  const result = run(fixture.env)
+  assert.equal(result.status, 0, result.stderr + result.stdout)
+  assert.match(result.stderr, /OSS download failed \(exit 124\)/)
+  assert.match(result.stderr, /Falling back to GHCR/)
+  assert.match(await text(fixture.log), /ARGS=pull ghcr\.io\/acme\/steam@sha256:new/)
+  assert.equal(await text(path.join(fixture.app, '.env')), 'STEAM_APP_IMAGE=ghcr.io/acme/steam@sha256:new\n')
+})
+
+
+test('wrong loaded ID with failed GHCR fallback never switches configuration', async (t) => {
+  const fixture = await setup({ envFile: 'STEAM_APP_IMAGE=old\n', env: {
+    IMAGE_OSS_URL: 'https://oss.example/wrong.tar.gz', IMAGE_ID: imageId,
+    FAKE_IMAGE_PRESENT: '1', FAKE_INSPECT_IMAGE_ID: `sha256:${'d'.repeat(64)}`,
+    FAKE_PULL_FAIL: '1', IMAGE_PULL_ATTEMPTS: '1',
+  } })
+  t.after(fixture.cleanup)
+  const result = run(fixture.env)
+  assert.notEqual(result.status, 0)
+  assert.match(result.stderr, /missing or mismatched/)
+  assert.equal(await text(path.join(fixture.app, '.env')), 'STEAM_APP_IMAGE=old\n')
+  assert.doesNotMatch(await text(fixture.log), /ARGS=compose --env-file /)
 })

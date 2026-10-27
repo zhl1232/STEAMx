@@ -380,8 +380,20 @@ try {
   // The database enforces the staff reply rate across independent conversations/threads.
   for(let i=0;i<117;i++)json(reply(`rate-${i}`))
   assert.equal(sql(`select count(*) from feishu_reply_origins where actor_id='${staff}'`),'120')
-  deny(reply('rate-excess'),/rate limit/)
-  assert.equal(json(reply('incoming-1')).duplicate,true,'a committed retry remains idempotent after hitting the rate limit')
+  // Earlier replies may be older than one minute on a busy machine. Pin this
+  // fixture and both checks to one transaction's now(), independent of runtime.
+  sql(`do $rate_test$ begin
+    update feishu_reply_origins set created_at=now() where actor_id='${staff}';
+    begin
+      ${reply('rate-excess').replace(/^select /,'perform ')};
+      raise exception 'expected Feishu reply rate limit';
+    exception when others then
+      if sqlerrm<>'Feishu reply rate limit' then raise; end if;
+    end;
+    if (((${reply('incoming-1')}) ->> 'duplicate')::boolean) is distinct from true then
+      raise exception 'a committed retry must remain idempotent after hitting the rate limit';
+    end if;
+  end $rate_test$;`)
   // Topics start with the first new delivery; old standalone history is not rewritten.
   for(let i=0;i<8;i++)for(const job of claim())complete(job)
   const prepareThread=job=>json(`select feishu_prepare_thread('${job.event_id}',${literal(job.target_id)},'${job.lease_id}')`)
