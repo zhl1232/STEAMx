@@ -115,6 +115,7 @@ export function useBalance() {
     const [time, setTime] = useState(0)
     const [status, setStatus] = useState<"playing" | "solved" | "failed">("playing")
     const [message, setMessage] = useState<string | null>(null)
+    const [stepFeedback, setStepFeedback] = useState<string | null>(null)
     const [stats, setStats] = useState<BalanceStats>(EMPTY_STATS)
     const solvedRecordedRef = useRef(false)
     const level = BALANCE_LEVELS[levelIndex]
@@ -164,6 +165,7 @@ export function useBalance() {
             if (status !== "playing") return
             setLastResult(null)
             setMessage(null)
+            setStepFeedback(null)
             if (side === "left") {
                 setLeft((prev) => (prev.includes(coin) ? prev.filter((item) => item !== coin) : [...prev, coin].sort((a, b) => a - b)))
                 setRight((prev) => prev.filter((item) => item !== coin))
@@ -180,6 +182,7 @@ export function useBalance() {
         setLeft([])
         setRight([])
         setLastResult(null)
+        setStepFeedback(null)
     }, [status])
 
     const doWeigh = useCallback(() => {
@@ -202,6 +205,23 @@ export function useBalance() {
         setLastResult(result)
         const label =
             result === "equal" ? "平衡" : result === "left" ? "左边更重" : "右边更重"
+        const leftLabel = left.map((n) => n + 1).join("、")
+        const rightLabel = right.map((n) => n + 1).join("、")
+        let feedback: string
+        if (result === "equal") {
+            feedback = level.fakeLighter
+                ? `第 ${nextWeighings} 次称量：左右一样重。假币不在这次上盘的硬币里，去看没上盘的那些。`
+                : `第 ${nextWeighings} 次称量：左右一样重。假币不在这次上盘的硬币里。`
+        } else if (result === "left") {
+            feedback = level.fakeLighter
+                ? `第 ${nextWeighings} 次称量：左边更重 → 假币在右边（更轻的那边）：${rightLabel}。`
+                : `第 ${nextWeighings} 次称量：左边更重 → 假币在左边（更重的那边）：${leftLabel}。`
+        } else {
+            feedback = level.fakeLighter
+                ? `第 ${nextWeighings} 次称量：右边更重 → 假币在左边（更轻的那边）：${leftLabel}。`
+                : `第 ${nextWeighings} 次称量：右边更重 → 假币在右边（更重的那边）：${rightLabel}。`
+        }
+        setStepFeedback(feedback)
         setHistory((prev) => [
             ...prev,
             `第 ${nextWeighings} 次：L[${left.map((n) => n + 1).join(",")}] vs R[${right.map((n) => n + 1).join(",")}] → ${label}`,
@@ -240,6 +260,7 @@ export function useBalance() {
         setTime(0)
         setStatus("playing")
         setMessage(null)
+        setStepFeedback(null)
     }, [])
 
     return {
@@ -255,6 +276,7 @@ export function useBalance() {
         time,
         status,
         message,
+        stepFeedback,
         stats,
         toggleCoin,
         clearPans,

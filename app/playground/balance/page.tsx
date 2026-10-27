@@ -52,15 +52,21 @@ function formatResult(result: WeighResult | null) {
 }
 
 function getBeamTilt(result: WeighResult | null) {
-    if (result === "left") return "-rotate-[4deg]"
-    if (result === "right") return "rotate-[4deg]"
+    if (result === "left") return "-rotate-[9deg]"
+    if (result === "right") return "rotate-[9deg]"
     return "rotate-0"
+}
+
+function getBeamTiltVar(result: WeighResult | null) {
+    if (result === "left") return "-9deg"
+    if (result === "right") return "9deg"
+    return "0deg"
 }
 
 function getPanShift(side: PanSide, result: WeighResult | null) {
     if (!result || result === "equal") return "translate-y-0"
-    if (result === side) return "translate-y-3"
-    return "-translate-y-2"
+    if (result === side) return "translate-y-5"
+    return "-translate-y-4"
 }
 
 function getPanStatusText(leftCount: number, rightCount: number, weighings: number, maxWeighings: number) {
@@ -106,7 +112,7 @@ function BalanceCoin({
             {side ? (
                 <span
                     className={cn(
-                        "absolute -bottom-1 grid h-4 min-w-4 place-items-center rounded-full px-1 text-[9px] font-black text-white shadow-sm",
+                        "absolute -bottom-1 grid h-5 min-w-5 place-items-center rounded-full px-1 text-xs font-black text-white shadow-sm",
                         side === "left" ? "bg-teal-600" : "bg-amber-600",
                     )}
                 >
@@ -171,7 +177,7 @@ function PanTray({
                             />
                         ))
                     ) : (
-                        <span className="grid min-h-[5.5rem] place-items-center text-center text-[11px] font-semibold leading-5 text-muted-foreground">
+                        <span className="grid min-h-[5.5rem] place-items-center text-center text-sm font-semibold leading-5 text-muted-foreground">
                             {active ? "点击下方硬币放入这里" : "空盘"}
                         </span>
                     )}
@@ -280,7 +286,7 @@ export default function BalancePage() {
                             </div>
                             <div className="min-w-0">
                                 <h1 className="truncate text-lg font-black sm:text-xl">天平称重 · {game.level.name}</h1>
-                                <p className="text-[11px] text-muted-foreground sm:text-xs">
+                                <p className="text-sm text-muted-foreground">
                                     假币{game.level.fakeLighter ? "更轻" : "更重"} · 最多称 {game.level.maxWeighings} 次 · {game.level.coinCount} 枚硬币
                                 </p>
                             </div>
@@ -334,24 +340,31 @@ export default function BalancePage() {
 
                     <div
                         className={cn(
-                            "mb-4 flex min-h-11 items-center justify-between gap-3 rounded-md border px-3 py-2 text-xs transition-colors",
+                            "mb-4 flex min-h-14 items-start justify-between gap-3 rounded-md border px-4 py-3 text-sm transition-colors",
                             game.status === "solved" && "border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-400/35 dark:bg-emerald-500/10 dark:text-emerald-200",
                             game.status === "failed" && "border-rose-300 bg-rose-50 text-rose-700 dark:border-rose-500/35 dark:bg-rose-500/10 dark:text-rose-200",
                             showIssue && "border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-400/35 dark:bg-amber-500/10 dark:text-amber-200",
-                            game.status === "playing" && !showIssue && game.lastResult && "border-teal-300 bg-teal-50 text-teal-800 dark:border-teal-400/35 dark:bg-teal-500/10 dark:text-teal-200",
-                            game.status === "playing" && !showIssue && !game.lastResult && "border-border bg-muted/40 text-muted-foreground",
+                            game.status === "playing" && !showIssue && (game.stepFeedback || game.lastResult) && "border-teal-300 bg-teal-50 text-teal-900 dark:border-teal-400/35 dark:bg-teal-500/10 dark:text-teal-100",
+                            game.status === "playing" && !showIssue && !game.stepFeedback && !game.lastResult && "border-border bg-muted/40 text-foreground",
                         )}
                         aria-live="polite"
                     >
-                        <span className="min-w-0 leading-5">{statusText}</span>
+                        <div className="min-w-0 space-y-1">
+                            <p className="font-bold leading-6">{game.stepFeedback || statusText}</p>
+                            {game.status === "playing" && !showIssue ? (
+                                <p className="text-sm font-semibold leading-5 text-foreground/80">
+                                    这一步：左盘 {game.left.length} 枚 · 右盘 {game.right.length} 枚 · 剩余 {remainingWeighings} 次称量
+                                </p>
+                            ) : null}
+                        </div>
                         {game.status === "solved" ? (
-                            <Sparkles className="h-4 w-4 shrink-0" />
+                            <Sparkles className="mt-0.5 h-5 w-5 shrink-0" />
                         ) : showIssue || game.status === "failed" ? (
-                            <AlertCircle className="h-4 w-4 shrink-0" />
+                            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
                         ) : game.lastResult ? (
-                            <ArrowLeftRight className="h-4 w-4 shrink-0" />
+                            <ArrowLeftRight className="mt-0.5 h-5 w-5 shrink-0" />
                         ) : (
-                            <Lightbulb className="h-4 w-4 shrink-0" />
+                            <Lightbulb className="mt-0.5 h-5 w-5 shrink-0" />
                         )}
                     </div>
 
@@ -369,9 +382,11 @@ export default function BalancePage() {
                             <div
                                 key={`beam-${game.weighings}-${game.lastResult ?? "idle"}`}
                                 className={cn(
-                                    "balance-stage-settle absolute left-[11%] right-[11%] top-[6rem] z-10 h-2 origin-center rounded-full bg-slate-700 shadow-[0_8px_16px_-12px_rgba(15,23,42,0.85)] transition-transform duration-300 dark:bg-slate-300",
+                                    "absolute left-[11%] right-[11%] top-[6rem] z-10 h-2.5 origin-center rounded-full bg-slate-700 shadow-[0_8px_16px_-12px_rgba(15,23,42,0.85)] dark:bg-slate-300",
+                                    game.lastResult ? "balance-beam-swing" : "transition-transform duration-300",
                                     getBeamTilt(game.lastResult),
                                 )}
+                                style={{ ["--balance-tilt" as string]: getBeamTiltVar(game.lastResult) }}
                             />
                             <PanTray
                                 side="left"
@@ -391,8 +406,8 @@ export default function BalancePage() {
                                 onSelect={setSelectedPan}
                                 onRemove={game.toggleCoin}
                             />
-                            <div className="absolute bottom-0 left-1/2 z-20 -translate-x-1/2 rounded-full border border-border bg-background/90 px-3 py-1.5 text-xs font-black shadow-sm backdrop-blur">
-                                <span className={cn(game.lastResult ? "balance-result-pulse text-teal-700 dark:text-teal-300" : "text-muted-foreground")}>
+                            <div className="absolute bottom-0 left-1/2 z-20 -translate-x-1/2 rounded-full border border-border bg-background/95 px-4 py-2 text-sm font-black shadow-sm backdrop-blur">
+                                <span className={cn(game.lastResult ? "balance-result-pulse text-teal-700 dark:text-teal-300" : "text-foreground")}>
                                     {formatResult(game.lastResult)}
                                 </span>
                             </div>
@@ -457,7 +472,7 @@ export default function BalancePage() {
                                                 onClick={() => game.toggleCoin(coin, selectedPan)}
                                                 label={`${coin + 1} 号硬币${side ? `，当前在${PAN_META[side].label}` : ""}，点击放入${PAN_META[selectedPan].label}`}
                                             />
-                                            <span className={cn("text-[10px] font-bold", side ? PAN_META[side].color : "text-muted-foreground")}>
+                                            <span className={cn("text-xs font-bold", side ? PAN_META[side].color : "text-muted-foreground")}>
                                                 {side ? PAN_META[side].label : `去${PAN_META[selectedPan].shortLabel}盘`}
                                             </span>
                                         </div>
@@ -520,7 +535,7 @@ export default function BalancePage() {
                                         {game.status === "solved" ? <Sparkles className="h-5 w-5" /> : <AlertCircle className="h-5 w-5" />}
                                     </div>
                                     <div className="min-w-0">
-                                        <p className={cn("text-[10px] font-black tracking-[0.16em]", game.status === "solved" ? "text-emerald-700 dark:text-emerald-300" : "text-rose-700 dark:text-rose-300")}>
+                                        <p className={cn("text-sm font-black", game.status === "solved" ? "text-emerald-700 dark:text-emerald-300" : "text-rose-700 dark:text-rose-300")}>
                                             {game.status === "solved" ? "推理完成" : "本局结束"}
                                         </p>
                                         <p className="text-base font-black text-foreground">{game.message}</p>
@@ -548,7 +563,7 @@ export default function BalancePage() {
                                 <ArrowLeftRight className="h-4 w-4 text-teal-600 dark:text-teal-300" />
                                 <h2 className="text-sm font-black">称量记录</h2>
                             </div>
-                            <ol className="space-y-2 text-xs leading-5 text-muted-foreground">
+                            <ol className="space-y-2 text-sm leading-6 text-foreground">
                                 {game.history.map((line) => (
                                     <li key={line} className="rounded-sm border border-border/70 bg-background/72 px-3 py-2">
                                         {line}

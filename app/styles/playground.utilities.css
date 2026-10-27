@@ -431,6 +431,28 @@
   }
 }
 
+@keyframes balance-beam-swing {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  28% {
+    transform: rotate(var(--balance-tilt, 0deg));
+  }
+
+  52% {
+    transform: rotate(calc(var(--balance-tilt, 0deg) * -0.35));
+  }
+
+  74% {
+    transform: rotate(calc(var(--balance-tilt, 0deg) * 1.05));
+  }
+
+  100% {
+    transform: rotate(var(--balance-tilt, 0deg));
+  }
+}
+
 @keyframes balance-result-pulse {
   0%,
   100% {
@@ -450,6 +472,10 @@
   animation: balance-stage-settle 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+@utility balance-beam-swing {
+  animation: balance-beam-swing 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 @utility balance-result-pulse {
   animation: balance-result-pulse 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -465,6 +491,7 @@
   .ball-sort-victory-glow,
   .balance-coin-pop,
   .balance-stage-settle,
+  .balance-beam-swing,
   .balance-result-pulse {
     animation: none;
   }
