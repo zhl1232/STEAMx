@@ -31,6 +31,13 @@ import {
 import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
+/** 手机端首图副标题：四个词各自是站内入口 */
+const heroTopicLinks = [
+  { label: "搭积木", href: MAINLINE_ENTRY_HREF },
+  { label: "做实验", href: "/learn/science" },
+  { label: "学编程", href: "/learn/scratch" },
+  { label: "观察自然", href: "/nature" },
+];
 const heroWideImage = "/assets/home-hero-steam-lake-banner.webp";
 const natureForegroundImage = "/assets/home-nature-channel-bird-foreground-v8.png";
 const leaderboardForegroundImage = "/assets/home-leaderboard-card-foreground-v2.png";
@@ -126,18 +133,21 @@ function HomeHero({ image }: { image: string }) {
             </h1>
 
             <p className="mt-2 max-w-[32rem] text-[14px] font-medium leading-6 text-foreground/85 md:mt-3 md:text-[15px] md:leading-7 lg:text-[16px]">
-              <span className="md:hidden">搭积木 · 做实验 · 学编程 · 观察自然</span>
+              <span className="md:hidden">
+                {heroTopicLinks.map((topic, index) => (
+                  <span key={topic.href}>
+                    {index > 0 ? " · " : null}
+                    <Link
+                      href={topic.href}
+                      className="-my-2.5 inline-block py-2.5 underline decoration-current/35 decoration-1 underline-offset-[5px] transition-colors active:text-[hsl(var(--brand-blue))] hover:text-[hsl(var(--brand-blue))] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                      {topic.label}
+                    </Link>
+                  </span>
+                ))}
+              </span>
               <span className="hidden md:inline">{BRAND_HERO_SUBTITLE}</span>
             </p>
-
-            {/* On phones the card below remains the direct free-course entry. */}
-            <Link
-              href="/start"
-              className="mt-1 inline-flex min-h-11 w-fit items-center gap-1 text-sm font-semibold text-[hsl(var(--brand-blue))] underline-offset-4 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:hidden"
-            >
-              探索指南
-              <ChevronRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
           </div>
         </div>
       </div>
@@ -207,7 +217,7 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
             <div className="min-w-0 flex-1">
               <span className={cn("block whitespace-nowrap font-sans text-[12px] font-bold leading-none text-foreground md:text-[15px] min-[1480px]:text-[16px]")}>{category.labelOverride ?? meta.label}</span>
               <p className="mt-1 hidden truncate text-[11px] text-muted-foreground min-[1480px]:block">{meta.description}</p>
-              <p className="mt-0.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground md:mt-1.5 md:text-[12px]">{countLabel}</p>
+              <p className="mt-0.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground max-md:hidden md:mt-1.5 md:text-[12px]">{countLabel}</p>
             </div>
           </Link>
         );
@@ -515,11 +525,14 @@ export function HomeShowcase({
     <div className="app-canvas min-h-screen">
       <div className="app-shell-wide flex flex-col gap-2.5 pb-2.5 pt-1 min-[390px]:gap-3 min-[390px]:pb-3 min-[390px]:pt-1.5 md:gap-5 md:py-6 lg:gap-5">
         <HomeHero image={heroImage} />
-        <MobileShortcutCarousel>
-          <MainlineStartCard className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
-          <NatureChannel className="h-full" />
-          <LeaderboardEntry className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
-        </MobileShortcutCarousel>
+        {/* 手机端不显示快捷轮播（含圆点），桌面保持原样 */}
+        <div className="max-md:hidden md:contents">
+          <MobileShortcutCarousel>
+            <MainlineStartCard className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
+            <NatureChannel className="h-full" />
+            <LeaderboardEntry className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
+          </MobileShortcutCarousel>
+        </div>
 
         <StartExploreSection categoryTileCounts={categoryTileCounts} />
 

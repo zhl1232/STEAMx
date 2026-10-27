@@ -59,7 +59,8 @@ describe("HomeShowcase hero", () => {
     const desktopTitle = heading.querySelector("span.hidden");
     expect(desktopTitle).toHaveClass("md:block");
     expect(desktopTitle).toHaveTextContent(BRAND_HOME_HERO_TITLE);
-    expect(hero.getByText("搭积木 · 做实验 · 学编程 · 观察自然")).toHaveClass("md:hidden");
+    const mobileSubtitle = hero.getByRole("link", { name: "搭积木" }).closest("span.md\\:hidden");
+    expect(mobileSubtitle).toHaveTextContent("搭积木 · 做实验 · 学编程 · 观察自然");
     expect(hero.getByText(BRAND_HERO_SUBTITLE)).toHaveClass("hidden", "md:inline");
     expect(hero.queryByText(BRAND_HOME_HERO_GUIDE)).not.toBeInTheDocument();
     expect(screen.queryByText("把好奇心做成作品")).not.toBeInTheDocument();
@@ -68,15 +69,19 @@ describe("HomeShowcase hero", () => {
     expect(screen.queryByText(/科创/)).not.toBeInTheDocument();
   });
 
-  it("preserves only the mobile guide in the hero and removes desktop actions", () => {
+  it("turns the mobile subtitle words into text links and drops the guide", () => {
     const { hero } = renderHome();
-    const guide = hero.getByRole("link", { name: "探索指南" });
-    expect(guide).toHaveAttribute("href", "/start");
-    expect(guide).toHaveClass("inline-flex", "min-h-11", "md:hidden");
-    expect(hero.queryByRole("link", { name: "第一次来？看探索指南" })).not.toBeInTheDocument();
+    const expected = [
+      ["搭积木", "/courses"],
+      ["做实验", "/learn/science"],
+      ["学编程", "/learn/scratch"],
+      ["观察自然", "/nature"],
+    ];
+    const links = hero.getAllByRole("link");
+    expect(links.map((link) => [link.textContent, link.getAttribute("href")])).toEqual(expected);
+    for (const link of links) expect(link).toHaveClass("underline", "py-2.5");
+    expect(hero.queryByRole("link", { name: "探索指南" })).not.toBeInTheDocument();
     expect(hero.queryByRole("link", { name: "挑一节免费课程" })).not.toBeInTheDocument();
-    expect(hero.queryByRole("link", { name: "看看动手项目" })).not.toBeInTheDocument();
-    expect(hero.getAllByRole("link")).toEqual([guide]);
   });
 
   it("preserves the mobile free-course recommendation and shortcuts without a duplicate category CTA", () => {
@@ -85,6 +90,7 @@ describe("HomeShowcase hero", () => {
     expect(recommendation).toHaveAttribute("href", "/courses");
     expect(recommendation).toHaveTextContent("免费积木课，跟着 3D 步骤一起搭");
     expect(section).not.toContainElement(recommendation);
+    expect(recommendation.closest("div.max-md\\:hidden")).not.toBeNull();
     expect(screen.queryByRole("link", { name: "免费积木课" })).not.toBeInTheDocument();
     const leaderboardLinks = screen.getAllByRole("link", { name: /社区排行榜/ });
     expect(leaderboardLinks).toHaveLength(2);
