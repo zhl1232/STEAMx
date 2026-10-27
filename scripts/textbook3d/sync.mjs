@@ -12,7 +12,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..")
 const registry = readFileSync(join(root, "lib/textbook3d/registry.ts"), "utf8")
 const version = registry.match(/TEXTBOOK3D_VERSION = "(v\d+)"/)?.[1]
 const sharedBase = registry.match(/TEXTBOOK3D_SHARED_BASE = `([^`]+)`/)?.[1]?.replace("${TEXTBOOK3D_VERSION}", version ?? "")
-const registered = [...registry.matchAll(/\{ id: "(g\d+[ab]-\d+-\d+)"/g)].map((m) => m[1])
+const registered = [...registry.matchAll(/\{ id: "((?:g\d+|p[3-6])[ab]-\d+-\d+)"/g)].map((m) => m[1])
 const args = process.argv.slice(2)
 const prune = args.includes("--prune")
 const [distArg, ...only] = args.filter((a) => a !== "--prune")

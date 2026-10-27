@@ -85,9 +85,15 @@ export const TEXTBOOK3D_CHAPTERS: Textbook3dChapter[] = [
     title: "第十一章 功和机械能",
     lessons: [{ id: "g8b-11-4", title: "机械能及其转化" }],
   },
+  {
+    id: "p4b-2",
+    volume: "四年级下册",
+    title: "第二单元 电路",
+    lessons: [{ id: "p4b-2-2", title: "点亮小灯泡" }],
+  },
 ]
 
-export const TEXTBOOK3D_LESSON_ID = /^g\d+[ab]-\d+-\d+$/
+export const TEXTBOOK3D_LESSON_ID = /^(?:g\d+|p[3-6])[ab]-\d+-\d+$/
 
 export function listTextbook3dLessons() {
   return TEXTBOOK3D_CHAPTERS.flatMap((chapter) =>
@@ -117,6 +123,6 @@ export function resolveTextbook3dLessonId(value: unknown): string | null {
 /** 项目的 interactive_url 形如 /textbook3d/v1/<课号>/ 或 /textbook3d/v1/<课号>/index.html，解析出已登记的课号。 */
 export function textbook3dLessonIdFromUrl(url: unknown): string | null {
   if (typeof url !== "string") return null
-  const match = url.match(/^\/textbook3d\/v\d+\/(g\d+[ab]-\d+-\d+)(?:\/(?:index\.html)?)?$/)
+  const match = url.match(/^\/textbook3d\/v\d+\/((?:g\d+|p[3-6])[ab]-\d+-\d+)(?:\/(?:index\.html)?)?$/)
   return match ? resolveTextbook3dLessonId(match[1]) : null
 }
