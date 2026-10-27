@@ -4,7 +4,7 @@
 
 ## 触发与范围
 
-触发授权统一遵守 [AGENTS.md 的 Actions 预算规则](../AGENTS.md#github-actions-预算与触发授权)。工作流不会检查用户是否授权：main push、`v*` 标签或手动 dispatch 都会触发 Release Deploy，所以必须在操作前守住授权边界。GitHub Actions 构建私有 GHCR 镜像，服务器按本次构建的 SHA-256 摘要拉取；创建 PR 不等于授权合并或发布。
+触发授权统一遵守 [AGENTS.md 的 Actions 预算规则](../AGENTS.md#github-actions-预算与触发授权)。工作流不会检查用户是否授权：main push、`v*` 标签或手动 dispatch 都会触发 Release Deploy，所以必须在操作前守住授权边界。GitHub Actions 构建私有 GHCR 镜像，并尽量把同一 digest 的归档镜像到杭州 OSS；服务器优先用 OSS 签名包加载该摘要，失败再回退 GHCR 拉取。创建 PR 不等于授权合并或发布。
 
 Release 复用 `ci.yml`，先查找同内容的已通过 PR 检查；证据匹配时直接复用，否则执行原 CI。验证结果与当前生产镜像构建均成功后才切换服务器，两条任务并行。PR 按下表分类。测试和镜像使用 Node.js 22；实际流程以对应提交的 `.github/workflows/release.yml`、`ci.yml` 和 `scripts/release-scope.mjs` 为准。
 
@@ -108,11 +108,47 @@ Docker 的 `scratch-builder` 只接收 Scratch 子包及依赖输入，产物处
 
 服务器连接复用现有 `SERVER_HOST`、`SERVER_USER`、`SSH_PRIVATE_KEY` 和可选 `SERVER_PORT`。GHCR 使用当次 Actions 的 `GITHUB_TOKEN` 与 `packages: write` 权限；同名包需允许该仓库访问，不新增长期仓库密码或把镜像改为公开。
 
-运行时配置由服务器 `/opt/steam-app/.env.production` 提供。本地同名文件不会自动上传。服务器须能连接 GHCR，Compose 须支持 `up --wait --wait-timeout`；令牌失效后已有本地镜像可继续使用，换服务器或删除本地镜像需通过获授权发布重新取得可用拉取凭证。
+### 生产镜像的 OSS 旁路（优先国内拉取）
+
+北京 ECS 从 GHCR 拉大镜像经常偏慢。Release 在镜像推到 GHCR 后，额外把**同一 digest** 的 gzip 归档上传到已有杭州 OSS 桶，部署时优先用短期签名 URL 下载再 `docker load`；失败才回退现有 GHCR 拉取（总预算 900 秒、最多 4 次）。拉不下来时应用和配置都不改。
+
+| 项 | 值 |
+|---|---|
+| 桶 | `steamx`（杭州 `oss-cn-hangzhou`） |
+| 对象路径 | `deploy/steamx/sha256-<64位十六进制>.tar.gz` |
+| 元数据旁路 | 同名 `.json`（digest、git SHA、大小、上传时间）；**仅便于核对，不是删除依据的唯一来源** |
+| CI 上传 | `scripts/upload-deploy-image-to-oss.mjs`（`docker pull` → `docker save \| gzip` → `ali-oss` multipart） |
+| 服务器下载 | `IMAGE_OSS_URL`（CI 生成、默认 7200 秒有效的签名 GET）；`curl` 下载后 `gunzip \| docker load` |
+| 回退 | OSS 未配置、签名缺失、下载/load 失败或 load 后仍无目标 digest → 现有 GHCR `docker pull` |
+
+GitHub **production** 环境需要（与素材用的 `ALIYUN_OSS_*` 分开，避免混用主账号或素材权限）：
+
+| 名称 | 类型 | 说明 |
+|---|---|---|
+| `DEPLOY_OSS_ACCESS_KEY_ID` | Secret | 独立 RAM 子账号 AccessKey ID |
+| `DEPLOY_OSS_ACCESS_KEY_SECRET` | Secret | 对应 Secret；**不要用主账号 AK** |
+| `DEPLOY_OSS_BUCKET` | Variable（可选） | 默认 `steamx` |
+| `DEPLOY_OSS_REGION` | Variable（可选） | 默认 `oss-cn-hangzhou` |
+| `DEPLOY_OSS_ENDPOINT` | Variable（可选） | 需要时覆盖 region 推导的 endpoint |
+| `DEPLOY_OSS_PREFIX` | Variable（可选） | 默认 `deploy/steamx` |
+| `DEPLOY_OSS_SIGN_EXPIRES` | Variable（可选） | 签名 URL 秒数，默认 `7200` |
+
+RAM 建议：只给该桶 `deploy/steamx/*` 的 `oss:PutObject` / `oss:InitiateMultipartUpload` / `oss:UploadPart` / `oss:CompleteMultipartUpload` / `oss:AbortMultipartUpload` / `oss:GetObject` / `oss:HeadObject` / `oss:ListObjects`（List 仅清理方案需要）。桶内该前缀保持私有，不靠公共读。未配置上述 Secret 时上传步骤会跳过，发布仍只走 GHCR，便于合入后由运维补齐密钥。
+
+#### OSS 发布包清理（仅提案，本仓库不自动删）
+
+不要「单纯按 7 天一到就删光」。正确逻辑：
+
+1. 只考虑 `deploy/steamx/sha256-*.tar.gz`（及其同名 `.json`）这类发布包。
+2. **硬底线：至少保留最近 2 个包**（按 Last-Modified / 上传时间从新到旧）。少于等于 2 个时一律不删。
+3. 在已满足「至少 2 个」的前提下，仅当桶里**已经存在更新的发布包**时，才允许删除**超过 7 天**的旧包；若长期未发版，最新那份即使超过 7 天也必须保留，不能被误删。
+4. 清理须显式获授权、先 dry-run 列出将删对象，再执行；本 PR / 工作流**不静默删除、不自动执行删除**。
+
+运行时配置由服务器 `/opt/steam-app/.env.production` 提供。本地同名文件不会自动上传。服务器须能连接 GHCR（作回退）或通过签名 URL 访问 OSS；Compose 须支持 `up --wait --wait-timeout`；令牌失效后已有本地镜像可继续使用，换服务器或删除本地镜像需通过获授权发布重新取得可用拉取凭证。
 
 ## 发布事务与恢复边界
 
-1. 拉取精确镜像，以生产配置启动不发布端口、不运行 worker 的候选容器，检查 `/api/health` 后移除。健康检查只证明进程启动，不证明计费、ASR 或数据库业务正确。
+1. 取得精确 digest 的镜像（优先 OSS 归档 `docker load`，失败再 GHCR `docker pull`），以生产配置启动不发布端口、不运行 worker 的候选容器，检查 `/api/health` 后移除。健康检查只证明进程启动，不证明计费、ASR 或数据库业务正确。
 2. 备份并安装候选 Compose、Nginx 配置和启用链接，校验 Nginx；通过后执行本次获批准的限定迁移。
 3. 迁移成功后切换主站和 worker，等待健康检查并 reload Nginx。成功才将 `STEAM_APP_IMAGE` 写入服务器 `.env`，保留其他配置。
 4. 失败时按脚本恢复原配置；已尝试切换容器时使用部署前实际镜像和原 Compose 恢复，并通过同一 Compose 项目的 `up --remove-orphans` 清理新版本新增、旧配置未定义的 worker 等容器，Actions 标记失败。恢复失败保留备份路径，先修复配置/容器，不盲目重跑。
@@ -133,7 +169,7 @@ Release 的 `MIGRATION_ALLOWLIST` 是该提交的批准文件清单。通用指�
 
 ## 互斥、超时和手机号运维
 
-Release 与手机号提供商运维共用 `release-production` 并发组，服务器另以 `.deploy.lock` 互斥。默认锁等待 120 秒；镜像拉取总预算 900 秒（所有尝试合计，不再按单次 180 秒掐断，避免慢但在动的大层被杀掉后从零重下）、最多 4 次尝试、失败后退避 10/20/40 秒，拉取期间每 30 秒打印一次进度心跳，分别由 `DEPLOY_LOCK_TIMEOUT`、`IMAGE_PULL_TIMEOUT`、`IMAGE_PULL_ATTEMPTS`、`IMAGE_PULL_BACKOFF_SECONDS`、`IMAGE_PULL_HEARTBEAT_SECONDS` 调整。拉取失败时应用和配置都不改。若服务器到 GHCR 长期很慢，可考虑在服务器 Docker 上启用 containerd 镜像存储（中断后可续传已下载的层）或改用国内镜像仓库（如阿里云 ACR）。
+Release 与手机号提供商运维共用 `release-production` 并发组，服务器另以 `.deploy.lock` 互斥。默认锁等待 120 秒；镜像获取总预算 900 秒（OSS 下载+load 与 GHCR 拉取共用，不再按单次 180 秒掐断）、GHCR 最多 4 次尝试、失败后退避 10/20/40 秒，过程中每 30 秒打印一次进度心跳，分别由 `DEPLOY_LOCK_TIMEOUT`、`IMAGE_PULL_TIMEOUT`、`IMAGE_PULL_ATTEMPTS`、`IMAGE_PULL_BACKOFF_SECONDS`、`IMAGE_PULL_HEARTBEAT_SECONDS` 调整。优先走 OSS 签名包；OSS 失败再回退 GHCR。获取失败时应用和配置都不改。
 
 候选预检默认最多 20 次、间隔 2 秒，每次 HTTP 请求最多 4 秒；相关变量为 `PREFLIGHT_ATTEMPTS`、`PREFLIGHT_INTERVAL_SECONDS`。超时限制不能修复网络问题。
 

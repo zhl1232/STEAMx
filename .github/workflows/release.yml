@@ -61,6 +61,8 @@ jobs:
     outputs:
       image: ${{ steps.image.outputs.name }}
       digest: ${{ steps.build.outputs.digest }}
+      oss_url: ${{ steps.oss.outputs.signed_url }}
+      oss_object: ${{ steps.oss.outputs.object_key }}
     env:
       NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
@@ -144,6 +146,28 @@ jobs:
           cache-from: type=gha,scope=steam-app
           cache-to: type=gha,mode=max,scope=steam-app,ignore-error=true
 
+      - name: Mirror image archive to Aliyun OSS
+        id: oss
+        env:
+          REGISTRY_IMAGE: ${{ steps.image.outputs.name }}
+          IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
+          DEPLOY_OSS_ACCESS_KEY_ID: ${{ secrets.DEPLOY_OSS_ACCESS_KEY_ID }}
+          DEPLOY_OSS_ACCESS_KEY_SECRET: ${{ secrets.DEPLOY_OSS_ACCESS_KEY_SECRET }}
+          DEPLOY_OSS_BUCKET: ${{ vars.DEPLOY_OSS_BUCKET || 'steamx' }}
+          DEPLOY_OSS_REGION: ${{ vars.DEPLOY_OSS_REGION || 'oss-cn-hangzhou' }}
+          DEPLOY_OSS_ENDPOINT: ${{ vars.DEPLOY_OSS_ENDPOINT }}
+          DEPLOY_OSS_PREFIX: ${{ vars.DEPLOY_OSS_PREFIX || 'deploy/steamx' }}
+          DEPLOY_OSS_SIGN_EXPIRES: ${{ vars.DEPLOY_OSS_SIGN_EXPIRES || '7200' }}
+        run: |
+          set -euo pipefail
+          if [ -z "${DEPLOY_OSS_ACCESS_KEY_ID:-}" ] || [ -z "${DEPLOY_OSS_ACCESS_KEY_SECRET:-}" ]; then
+            echo "DEPLOY_OSS_* secrets not set; skipping OSS mirror (GHCR-only deploy)."
+            echo "uploaded=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          npm install --no-save ali-oss@6.23.0
+          node scripts/upload-deploy-image-to-oss.mjs
+
   verify-course-voice-loading:
     needs: [deploy-production, release-scope]
     runs-on: ubuntu-latest
@@ -192,7 +216,7 @@ jobs:
       DEPLOY_DIR: /tmp/steam-deploy-${{ github.run_id }}-${{ github.run_attempt }}
       # Reviewed database changes for this release. Other pending migrations fail
       # before writes; future schema changes require an explicit allowlist update.
-      MIGRATION_ALLOWLIST: 20261012160000_tutor_total_usage_billing.sql,20261012170000_ai_credit_grants.sql,20261012171000_tutor_daily_credit_billing.sql,20261013090000_tutor_speech_budget.sql,20261013120000_tutor_speech_usage_limits.sql,20261013200000_ai_credit_rules_v2.sql,20261013210000_simplify_mobile_onboarding.sql,20261013223000_ai_credit_member_daily_zero.sql,20261014103000_observation_suggested_species_name.sql,20261014110000_observation_identify_daily_quota.sql,20261021130000_observation_location_privacy.sql,20261023173000_function_wars_crate_pickup_limit.sql,20261026100000_reviewed_growth_rewards.sql,20261026110000_growth_ai_review_queue.sql,20261026130000_shop_membership_and_atomic_challenge.sql,20261026140000_store_member_benefits.sql,20261026150000_support_conversations.sql,20261026160000_store_source_drafts.sql,20261026170000_support_channels.sql,20261026180000_feishu_service_bridge.sql,20261026190000_feishu_delivery_order.sql,20261026200000_feishu_support_images.sql
+      MIGRATION_ALLOWLIST: 20261012160000_tutor_total_usage_billing.sql,20261012170000_ai_credit_grants.sql,20261012171000_tutor_daily_credit_billing.sql,20261013090000_tutor_speech_budget.sql,20261013120000_tutor_speech_usage_limits.sql,20261013200000_ai_credit_rules_v2.sql,20261013210000_simplify_mobile_onboarding.sql,20261013223000_ai_credit_member_daily_zero.sql,20261014103000_observation_suggested_species_name.sql,20261014110000_observation_identify_daily_quota.sql,20261021130000_observation_location_privacy.sql,20261023173000_function_wars_crate_pickup_limit.sql,20261026100000_reviewed_growth_rewards.sql,20261026110000_growth_ai_review_queue.sql,20261026130000_shop_membership_and_atomic_challenge.sql,20261026140000_store_member_benefits.sql,20261026150000_support_conversations.sql,20261026160000_store_source_drafts.sql,20261026170000_support_channels.sql,20261026180000_feishu_service_bridge.sql,20261026190000_feishu_delivery_order.sql,20261026200000_feishu_support_images.sql,20261027003000_store_payment_crypto_schema.sql,20261027010000_store_catalog_lock_order.sql,20261027011000_store_refund_recovery.sql,20261027012000_store_payment_attempt_deadline.sql,20261027020000_feishu_threads.sql
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -245,13 +269,14 @@ jobs:
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REGISTRY_IMAGE: ${{ needs.build-image.outputs.image }}
           IMAGE_DIGEST: ${{ needs.build-image.outputs.digest }}
+          IMAGE_OSS_URL: ${{ needs.build-image.outputs.oss_url }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           command_timeout: 60m
-          envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST,DEPLOY_DIR,NGINX_SITE_PATH,NGINX_SITE_ENABLED_PATH,MIGRATION_ALLOWLIST
+          envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST,IMAGE_OSS_URL,DEPLOY_DIR,NGINX_SITE_PATH,NGINX_SITE_ENABLED_PATH,MIGRATION_ALLOWLIST
           script: |
             set -eu
             trap 'rm -rf -- "$DEPLOY_DIR"' EXIT
