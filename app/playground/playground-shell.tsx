@@ -489,7 +489,7 @@ function DesktopSidebar() {
                 href={game.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                    "group flex min-h-[54px] items-center gap-3 rounded-md px-3 transition-colors",
+                    "group flex min-h-11 items-center gap-3 rounded-md px-3 transition-colors",
                     active
                         ? "bg-primary/10 text-foreground ring-1 ring-inset ring-primary/20"
                         : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
@@ -498,25 +498,7 @@ function DesktopSidebar() {
                 <GameNavGlyph href={game.href} icon={game.icon} active={active} />
                 <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-bold">{game.name}</span>
-                    <span className="block truncate text-xs text-muted-foreground">{game.nameEn || game.description}</span>
                 </span>
-                {game.steamTags?.length ? (
-                    <span
-                        className="flex items-center gap-1 rounded-full bg-muted px-1.5 py-1"
-                        title={game.steamTags.map((tag) => STEAM_DOT_META[tag].label).join(" / ")}
-                        aria-label={`STEAM 维度：${game.steamTags.map((tag) => STEAM_DOT_META[tag].label).join("、")}`}
-                    >
-                        {game.steamTags.map((tag) => (
-                            <span
-                                key={`${game.href}-${tag}`}
-                                className={cn(
-                                    "h-1.5 w-1.5 rounded-full",
-                                    categoryToneClasses[STEAM_DOT_META[tag].tone].badge,
-                                )}
-                            />
-                        ))}
-                    </span>
-                ) : null}
             </Link>
         )
     }
@@ -531,12 +513,11 @@ function DesktopSidebar() {
                         </span>
                         <div>
                             <h2 className="font-sans text-lg font-black">游乐场</h2>
-                            <p className="mt-0.5 text-xs leading-4 text-muted-foreground">进度登录后自动同步</p>
                         </div>
                     </div>
                 </div>
 
-                <nav className="flex h-[calc(100%-7.5rem)] flex-col gap-1.5 overflow-y-auto pr-1 no-scrollbar" aria-label="游乐场游戏导航">
+                <nav className="flex h-[calc(100%-4rem)] flex-col gap-1 overflow-y-auto pr-1 no-scrollbar" aria-label="游乐场游戏导航">
                     <Link
                         href="/playground"
                         aria-current={pathname === "/playground" ? "page" : undefined}
@@ -550,11 +531,11 @@ function DesktopSidebar() {
                         <Home className="h-5 w-5" />
                         首页
                     </Link>
-                    <Link href="/playground/physics-lab" className="group flex min-h-[54px] items-center gap-3 rounded-md px-3 text-sm font-bold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground">
+                    <Link href="/playground/physics-lab" className="group flex min-h-11 items-center gap-3 rounded-md px-3 text-sm font-bold text-foreground/80 transition-colors hover:bg-muted/60 hover:text-foreground">
                         <TestTubes className="h-5 w-5" aria-hidden />
                         物理实验室
                     </Link>
-                    <Link href="/textbook" className="group flex min-h-[54px] items-center gap-3 rounded-md px-3 text-sm font-bold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground">
+                    <Link href="/textbook" className="group flex min-h-11 items-center gap-3 rounded-md px-3 text-sm font-bold text-foreground/80 transition-colors hover:bg-muted/60 hover:text-foreground">
                         <BookOpen className="h-5 w-5" aria-hidden />
                         3D 物理课本
                     </Link>
@@ -562,27 +543,17 @@ function DesktopSidebar() {
                         const entries = publicGames.filter((game) => PLAYGROUND_DISCOVERY_BY_HREF.get(game.href)?.group === group.id)
                         return group.id === "more" ? (
                             <details key={group.id} open={entries.some((game) => pathname.startsWith(game.href)) || undefined}>
-                                <summary className="min-h-11 cursor-pointer px-3 py-3 text-xs font-semibold text-muted-foreground">{group.title}</summary>
+                                <summary className="min-h-11 cursor-pointer px-3 py-3 text-sm font-semibold text-foreground/70">{group.title}</summary>
                                 {entries.map(renderGame)}
                             </details>
                         ) : (
                             <div key={group.id}>
-                                <p className="px-3 pb-1 pt-4 text-xs font-semibold text-muted-foreground">{group.title}</p>
+                                <p className="px-3 pb-1 pt-4 text-sm font-semibold text-foreground/70">{group.title}</p>
                                 {entries.map(renderGame)}
                             </div>
                         )
                     })}
                 </nav>
-
-                <div className="mt-4">
-                    <div className="surface-subtle px-3 py-3 text-center">
-                        <p className="text-xs font-semibold leading-5 text-muted-foreground">
-                            一起玩，说说为什么
-                            <br />
-                            把好奇带回生活
-                        </p>
-                    </div>
-                </div>
             </div>
         </aside>
     )
