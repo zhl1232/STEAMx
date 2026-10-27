@@ -1156,10 +1156,11 @@ function HeroQuickActions() {
     { label: '消息中心', href: '/messages', src: PROFILE_ACTION_GRID_ICONS.messages },
     { label: '我的钱包', href: '/coins', src: PROFILE_ACTION_GRID_ICONS.wallet },
     { label: '硬币商城', href: '/shop', src: PROFILE_ACTION_GRID_ICONS.shop },
+    { label: '排行榜', href: '/leaderboard', src: PROFILE_ACTION_GRID_ICONS.leaderboard },
   ]
 
   return (
-    <div className="grid grid-cols-4 gap-1">
+    <div className="grid grid-cols-5 gap-0.5">
       {actions.map((action) => (
         <Link
           key={action.label}
