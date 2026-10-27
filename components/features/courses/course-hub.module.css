@@ -44,6 +44,31 @@
 .directionGrid a:nth-child(3) svg { color: hsl(var(--brand-amber)); }
 .directionGrid strong { font-size: 11px; font-weight: 650; color: hsl(var(--foreground)); }
 .directionGrid span { font-size: 10px; color: hsl(var(--muted-foreground)); }
+/* 手机端：借自然观察页的做法——字放大、统一中性浅边框、去掉外层面板避免嵌套边框。 */
+@media (max-width: 767px) {
+  .filters { gap: 6px; }
+  .filters button { min-height: 36px; line-height: 36px; padding-inline: 12px; font-size: 14px; font-weight: 600; }
+  .section { margin-top: 22px; }
+  .sectionHeading h2 { padding-inline: 4px; font-size: 18px; font-weight: 700; letter-spacing: .01em; }
+  .sectionHeading > button, .sectionHeading > a { font-size: 14px; font-weight: 600; }
+  .cardGrid { gap: 12px; }
+  .card { border-color: #e2e7ee; box-shadow: none; }
+  .featured { border-color: hsl(var(--brand-blue) / .4); }
+  .category { font-size: 12px; padding: 2px 7px; margin-bottom: 6px; }
+  .metadata { margin-top: 4px; font-size: 13px; color: hsl(var(--foreground) / .68); }
+  .metadata svg { width: 14px; height: 14px; }
+  .modeLabel, .progress { font-size: 13px; }
+  .action { font-size: 14px; min-height: 36px; }
+  .directions { margin-top: 28px; padding: 0; background: none; }
+  .directions .sectionHeading h2 { font-size: 18px; }
+  .directionGrid { gap: 8px; }
+  .directionGrid a { border-color: #e2e7ee; background: #f7f9fc; }
+  .directionGrid strong { font-size: 13px; }
+  .directionGrid span { font-size: 12px; color: hsl(var(--foreground) / .62); }
+  :global(.dark) .card { border-color: rgb(255 255 255 / .12); }
+  :global(.dark) .featured { border-color: hsl(var(--brand-blue) / .5); }
+  :global(.dark) .directionGrid a { border-color: rgb(255 255 255 / .12); background: rgb(255 255 255 / .04); }
+}
 @media (max-width: 359px) {
   .card { grid-template-columns: 84px minmax(0, 1fr); gap: 10px; padding: 9px; }
   .cardBody { min-height: 84px; }

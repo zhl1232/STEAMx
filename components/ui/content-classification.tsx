@@ -154,11 +154,11 @@ export function ContentClassification({
   if (variant === 'explore') {
     return (
       <div
-        className={cn('flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1 text-xs leading-5', className)}
+        className={cn('flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1 text-xs leading-5 max-md:text-[13px]', className)}
         aria-label={`适龄 ${classification.ageLabel}，${classification.supportLabel}`}
       >
         <span className="shrink-0 font-medium text-foreground">{classification.ageLabel}</span>
-        <span className="break-words text-[11px] text-muted-foreground">{classification.supportLabel}</span>
+        <span className="break-words text-[11px] text-muted-foreground max-md:text-xs max-md:text-foreground/62">{classification.supportLabel}</span>
       </div>
     )
   }

@@ -1092,7 +1092,7 @@ export function ExploreClient({
                 className="pointer-events-none absolute inset-x-0 top-[300px] hidden h-[560px] bg-[radial-gradient(ellipse_at_50%_0%,hsl(var(--brand-blue)/0.16),hsl(var(--app-canvas-soft)/0)_64%)] md:block"
             />
             <div className="relative z-10" aria-hidden={sheetOpen}>
-                <div className="app-shell-wide min-w-0 pt-6 md:px-8 md:pt-5">
+                <div className="app-shell-wide min-w-0 pt-3 md:px-8 md:pt-5">
                     <div className={cn("grid items-stretch gap-5", !isResultsMode && "xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]")}>
                         <main className={cn(
                             "relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg",
@@ -1286,10 +1286,10 @@ export function ExploreClient({
                                                     >
                                                         <span
                                                             className={cn(
-                                                                "contents max-md:inline-flex max-md:h-8 max-md:min-w-[68px] max-md:items-center max-md:justify-center max-md:rounded-sm max-md:px-3 max-md:text-xs max-md:font-semibold max-md:leading-none max-md:transition-colors",
+                                                                "contents max-md:inline-flex max-md:h-8 max-md:items-center max-md:justify-center max-md:px-2 max-md:text-[15px] max-md:font-semibold max-md:leading-none max-md:transition-colors",
                                                                 isActive
-                                                                    ? "max-md:border max-md:border-[hsl(var(--brand-blue)/0.34)] max-md:bg-[hsl(var(--brand-blue)/0.1)] max-md:text-[hsl(var(--brand-blue))] max-md:shadow-none"
-                                                                    : "max-md:bg-[hsl(var(--surface-raised)/0.66)] max-md:text-foreground/68 max-md:hover:bg-[hsl(var(--surface-muted)/0.58)]",
+                                                                    ? "max-md:font-bold max-md:text-[hsl(var(--brand-blue))]"
+                                                                    : "max-md:text-foreground/72",
                                                             )}
                                                         >
                                                             {preset.label}
