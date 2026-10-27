@@ -102,7 +102,9 @@ function loadStats(): BalanceStats {
 }
 
 function saveStats(stats: BalanceStats) {
-    setPlaygroundItem(STATS_KEY, stats)
+    // 保留同一键里其他模式（杠杆 / 密度）的进度字段
+    const current = getPlaygroundItem<Record<string, unknown>>(STATS_KEY) ?? {}
+    setPlaygroundItem(STATS_KEY, { ...current, ...stats })
 }
 
 export function useBalance() {

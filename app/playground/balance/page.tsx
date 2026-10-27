@@ -7,6 +7,7 @@ import { BALANCE_LEVELS, useBalance, type WeighResult } from "@/hooks/playground
 import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
+import { DensityMode, LeverMode } from "@/components/features/playground/balance-physics-modes"
 import { RaceOnlineDisclosure, RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
 import { cn } from "@/lib/utils"
 
@@ -187,7 +188,7 @@ function PanTray({
     )
 }
 
-export default function BalancePage() {
+function CoinMode({ modeTabs }: { modeTabs: React.ReactNode }) {
     const game = useBalance()
     const race = useRaceOnline("balance", { levelId: game.level.id, levelIndex: game.levelIndex })
     const raceIsWaiting = race.isWaiting
@@ -279,6 +280,7 @@ export default function BalancePage() {
         <div className="playground-game-page">
             <div className="playground-game-main justify-start py-3 sm:py-6 xl:py-8">
                 <div className="w-full max-w-5xl playground-game-board !p-3 sm:!p-5">
+                    {modeTabs}
                     <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                         <div className="flex min-w-0 items-center gap-3">
                             <div className="hidden h-11 w-11 shrink-0 place-items-center rounded-md border border-teal-400/45 bg-teal-500/10 sm:grid">
@@ -618,6 +620,50 @@ export default function BalancePage() {
                     ) : null}
                 </div>
             </aside>
+        </div>
+    )
+}
+
+type BalanceMode = "coin" | "lever" | "density"
+
+const BALANCE_MODES: Array<{ key: BalanceMode; label: string; desc: string }> = [
+    { key: "coin", label: "找假币", desc: "用最少的称量次数找出假币" },
+    { key: "lever", label: "杠杆平衡", desc: "F₁ × L₁ = F₂ × L₂" },
+    { key: "density", label: "密度比较", desc: "ρ = m ÷ V" },
+]
+
+export default function BalancePage() {
+    const [mode, setMode] = useState<BalanceMode>("coin")
+    const tabs = (
+        <div className="mb-4 grid grid-cols-3 gap-1 rounded-lg border border-border bg-muted/40 p-1" role="tablist" aria-label="玩法">
+            {BALANCE_MODES.map((m) => (
+                <button
+                    key={m.key}
+                    type="button"
+                    role="tab"
+                    aria-selected={mode === m.key}
+                    onClick={() => setMode(m.key)}
+                    className={cn(
+                        "flex min-h-11 flex-col items-center justify-center rounded-md px-1 py-1 text-[15px] font-black transition-colors",
+                        mode === m.key ? "bg-teal-700 text-white shadow-xs dark:bg-teal-200 dark:text-teal-950" : "text-muted-foreground hover:text-foreground",
+                    )}
+                >
+                    {m.label}
+                    <span className={cn("hidden text-sm font-semibold sm:block", mode === m.key ? "opacity-90" : "opacity-80")}>{m.desc}</span>
+                </button>
+            ))}
+        </div>
+    )
+    if (mode === "coin") return <CoinMode modeTabs={tabs} />
+    return (
+        <div className="playground-game-page">
+            <div className="playground-game-main justify-start py-3 sm:py-6 xl:py-8">
+                <div className="w-full max-w-3xl playground-game-board !p-3 sm:!p-5">
+                    {tabs}
+                    <h1 className="mb-2 hidden text-xl font-black sm:block">天平称重 · {mode === "lever" ? "杠杆平衡" : "密度比较"}</h1>
+                    {mode === "lever" ? <LeverMode /> : <DensityMode />}
+                </div>
+            </div>
         </div>
     )
 }
