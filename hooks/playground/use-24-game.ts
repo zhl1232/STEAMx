@@ -356,6 +356,7 @@ export function use24Game(timerDuration = 60) {
   const [round, setRound] = useState(1)
   const [streak, setStreak] = useState(0)
   const [solutions, setSolutions] = useState<string[]>([])
+  const [hintLevel, setHintLevel] = useState(0)
   const [stats, setStats] = useState<Game24Stats>(() => ({ ...EMPTY_STATS }))
 
   usePlaygroundStatsLoader(() => setStats(loadStats()))
@@ -414,6 +415,7 @@ export function use24Game(timerDuration = 60) {
     setCards(newCards)
     solutionsRef.current = newSolutions
     setSolutions([])
+    setHintLevel(0)
     setStatus('playing')
     setTimeLeft(timerDuration)
     setRound(nextRound)
@@ -496,6 +498,30 @@ export function use24Game(timerDuration = 60) {
     })
   }, [clearTimer, status])
 
+  const getHintText = useCallback((): string | null => {
+    const sols = solutionsRef.current
+    if (!sols.length) return null
+    const sample = sols[0]
+    if (hintLevel <= 0) return null
+    if (hintLevel === 1) {
+      // Reveal first operator / grouping idea from sample
+      const nums = cards.map((c) => c.value)
+      const factors = [3, 4, 6, 8, 2, 12].filter((f) => 24 % f === 0)
+      return `提示：试试把 24 拆成两个整数相乘，例如 ${factors.slice(0, 3).map((f) => `${f}×${24 / f}`).join('、')}。手上是 ${nums.join('、')}。`
+    }
+    if (hintLevel === 2) {
+      // Reveal half the expression
+      const mid = Math.ceil(sample.length / 2)
+      return `提示：解法开头类似 ${sample.slice(0, mid)}…`
+    }
+    return `提示：一种完整解法是 ${sample} = 24`
+  }, [cards, hintLevel])
+
+  const requestHint = useCallback(() => {
+    if (status !== 'playing') return
+    setHintLevel((prev) => Math.min(prev + 1, 3))
+  }, [status])
+
   return {
     cards,
     status,
@@ -504,6 +530,9 @@ export function use24Game(timerDuration = 60) {
     streak,
     stats,
     solutions,
+    hintLevel,
+    getHintText,
+    requestHint,
     submitExpression,
     skipRound,
     newGame,

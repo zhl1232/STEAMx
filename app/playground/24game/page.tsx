@@ -20,6 +20,7 @@ import {
   Calculator,
   Sparkles,
   Brain,
+  Lightbulb,
 } from "lucide-react"
 import confetti from "canvas-confetti"
 
@@ -30,30 +31,65 @@ const SUIT_SYMBOL: Record<Card24["suit"], string> = {
   clubs: "♣",
 }
 
-function PlayingCard({ card }: { card: Card24 }) {
+function PlayingCard({ card, highlight = false }: { card: Card24; highlight?: boolean }) {
   const isRed = card.suit === "hearts" || card.suit === "diamonds"
-  const color = isRed ? "text-red-500" : "text-gray-900 dark:text-gray-100"
+  const color = isRed ? "text-red-600 dark:text-red-400" : "text-foreground"
   const symbol = SUIT_SYMBOL[card.suit]
 
   return (
     <div
       className={cn(
         "relative flex flex-col items-center justify-center",
-        "w-[72px] h-[100px] sm:w-[100px] sm:h-[140px] md:w-[120px] md:h-[170px]",
-        "rounded-md border border-border/60 bg-white dark:bg-gray-50/95",
-        "shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200",
-        "select-none"
+        "h-[132px] w-[96px] sm:h-[180px] sm:w-[130px] md:h-[210px] md:w-[150px]",
+        "rounded-xl border-2 bg-card",
+        "shadow-[0_18px_40px_-24px_hsl(var(--surface-shadow)/0.7)]",
+        "transition-all duration-300 select-none",
+        highlight
+          ? "border-primary scale-105 shadow-[0_0_0_4px_hsl(var(--primary)/0.25)]"
+          : "border-border hover:-translate-y-1",
       )}
     >
-      <div className={cn("absolute top-1.5 left-2 sm:top-2 sm:left-3 flex flex-col items-center leading-none", color)}>
-        <span className="text-xs sm:text-sm md:text-base font-bold">{card.label}</span>
-        <span className="text-[10px] sm:text-xs">{symbol}</span>
+      <div className={cn("absolute top-2.5 left-3 flex flex-col items-center leading-none", color)}>
+        <span className="text-base sm:text-xl font-black">{card.label}</span>
+        <span className="text-sm sm:text-base">{symbol}</span>
       </div>
-      <span className={cn("text-2xl sm:text-4xl md:text-5xl", color)}>{symbol}</span>
-      <div className={cn("absolute bottom-1.5 right-2 sm:bottom-2 sm:right-3 flex flex-col items-center leading-none rotate-180", color)}>
-        <span className="text-xs sm:text-sm md:text-base font-bold">{card.label}</span>
-        <span className="text-[10px] sm:text-xs">{symbol}</span>
+      <span className={cn("text-5xl sm:text-6xl md:text-7xl font-bold", color)}>{symbol}</span>
+      <div className={cn("absolute bottom-2.5 right-3 flex flex-col items-center leading-none rotate-180", color)}>
+        <span className="text-base sm:text-xl font-black">{card.label}</span>
+        <span className="text-sm sm:text-base">{symbol}</span>
       </div>
+    </div>
+  )
+}
+
+/** 逐步点亮解法字符串，做成解题动画。 */
+function SolutionAnimator({ expression }: { expression: string }) {
+  const [shown, setShown] = useState(0)
+  useEffect(() => {
+    setShown(0)
+    if (!expression) return
+    const tokens = expression.replace(/\s+/g, "").split("")
+    let i = 0
+    const id = window.setInterval(() => {
+      i += 1
+      setShown(i)
+      if (i >= tokens.length + 1) window.clearInterval(id)
+    }, 140)
+    return () => window.clearInterval(id)
+  }, [expression])
+
+  const compact = expression.replace(/\s+/g, "")
+  const visible = compact.slice(0, Math.min(shown, compact.length))
+  const done = shown > compact.length
+
+  return (
+    <div className="rounded-md border border-primary/30 bg-primary/10 px-4 py-3">
+      <p className="text-sm font-bold text-foreground">解法演示</p>
+      <p className="mt-2 font-mono text-lg sm:text-xl font-black tracking-wide text-primary">
+        {visible}
+        {!done && <span className="animate-pulse">▍</span>}
+        {done && <span className="text-foreground"> = 24</span>}
+      </p>
     </div>
   )
 }
@@ -86,6 +122,9 @@ export default function Game24Page() {
     streak,
     stats,
     solutions,
+    hintLevel,
+    getHintText,
+    requestHint,
     submitExpression,
     skipRound,
     newGame,
@@ -222,7 +261,7 @@ export default function Game24Page() {
           </div>
           <div className="flex justify-center gap-2 sm:gap-4">
             {Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="h-[100px] w-[72px] animate-pulse rounded-md bg-muted sm:h-[140px] sm:w-[100px] md:h-[170px] md:w-[120px]" />
+              <div key={index} className="h-[132px] w-[96px] animate-pulse rounded-xl bg-muted sm:h-[180px] sm:w-[130px] md:h-[210px] md:w-[150px]" />
             ))}
           </div>
         </div>
@@ -244,8 +283,8 @@ export default function Game24Page() {
               <h1 className="text-base sm:text-2xl font-bold tracking-tight leading-tight">
                 24 点 · 组合数学挑战
               </h1>
-              <p className="text-[11px] sm:text-sm text-muted-foreground">
-                用四则运算与括号，让 4 张牌恰好算出 24。
+              <p className="text-sm text-muted-foreground">
+                用加减乘除和括号，让四张牌算出 24。
               </p>
             </div>
           </div>
@@ -277,9 +316,9 @@ export default function Game24Page() {
           </div>
 
           {/* Cards row */}
-          <div className="flex justify-center gap-2 sm:gap-4">
+          <div className="flex justify-center gap-3 sm:gap-5">
             {cards.map((card, i) => (
-              <PlayingCard key={`${card.suit}-${card.value}-${i}`} card={card} />
+              <PlayingCard key={`${card.suit}-${card.value}-${i}`} card={card} highlight={status === "solved"} />
             ))}
           </div>
 
@@ -352,7 +391,7 @@ export default function Game24Page() {
                   <span className="hidden sm:inline">提交</span>
                 </Button>
               </div>
-              <p className="text-[11px] text-muted-foreground pl-1">
+              <p className="text-sm text-muted-foreground pl-1">
                 支持直接输入 <span className="font-mono">A / J / Q / K</span>，也可写成{" "}
                 <span className="font-mono">1 / 11 / 12 / 13</span>。
               </p>
@@ -402,15 +441,27 @@ export default function Game24Page() {
                 </button>
               </div>
               {error && (
-                <p className="text-xs text-red-500 pl-1">{error}</p>
+                <p className="text-sm font-semibold text-red-500 pl-1">{error}</p>
               )}
             </div>
           )}
 
+          {status === "playing" && hintLevel > 0 && getHintText() && (
+            <div className="rounded-md border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm font-semibold text-foreground">
+              {getHintText()}
+            </div>
+          )}
+
           {/* Action buttons */}
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {status === "playing" && (
-              <Button variant="outline" size="sm" className="gap-1.5" onClick={skipRound} disabled={raceIsWaiting}>
+              <Button variant="outline" size="sm" className="gap-1.5 min-h-10" onClick={requestHint} disabled={raceIsWaiting || hintLevel >= 3}>
+                <Lightbulb className="w-4 h-4" />
+                {hintLevel === 0 ? "提示" : hintLevel >= 3 ? "已看完提示" : "再提示一下"}
+              </Button>
+            )}
+            {status === "playing" && (
+              <Button variant="outline" size="sm" className="gap-1.5 min-h-10" onClick={skipRound} disabled={raceIsWaiting}>
                 <SkipForward className="w-3.5 h-3.5" />
                 跳过
               </Button>
@@ -432,14 +483,15 @@ export default function Game24Page() {
             <Card className="playground-info-panel space-y-3 p-4">
               <div className="flex items-center gap-2">
                 <Eye className="w-4 h-4 text-primary" />
-                <h3 className="text-sm font-semibold">可行解法</h3>
-                <span className="text-[11px] text-muted-foreground ml-auto">共 {solutions.length} 种</span>
+                <h3 className="text-base font-bold">可行解法</h3>
+                <span className="text-sm text-muted-foreground ml-auto">共 {solutions.length} 种</span>
               </div>
+              <SolutionAnimator expression={solutions[0]} />
               <div className="max-h-40 overflow-y-auto space-y-1.5 pr-1">
-                {solutions.map((sol, i) => (
+                {solutions.slice(1).map((sol, i) => (
                   <div
                     key={i}
-                    className="text-xs font-mono bg-muted/40 rounded-xs px-3 py-1.5 text-muted-foreground"
+                    className="text-sm font-mono bg-muted/40 rounded-sm px-3 py-2 text-foreground"
                   >
                     {sol} = 24
                   </div>

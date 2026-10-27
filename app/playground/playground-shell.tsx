@@ -16,11 +16,9 @@ import {
     Hash,
     Home,
     Layers,
-    Medal,
     Scale,
     TableCellsSplit,
     TestTubes,
-    Touchpad,
     type LucideIcon,
 } from "lucide-react"
 import Link from "next/link"
@@ -28,7 +26,7 @@ import { usePathname } from "next/navigation"
 
 import { GameHelp, type GameHelpShortcut } from "@/components/features/playground/game-help"
 import { UserButton } from "@/components/layout/user-button"
-import { categoryToneClasses, type CategoryTone } from "@/components/ui/tone-badge"
+import { type CategoryTone } from "@/components/ui/tone-badge"
 import { usePlaygroundSync } from "@/hooks/playground/use-playground-sync"
 import { cn } from "@/lib/utils"
 import { PLAYGROUND_DISCOVERY, PLAYGROUND_DISCOVERY_BY_HREF, PLAYGROUND_GROUPS } from "@/lib/playground/catalog"
@@ -481,72 +479,6 @@ function DesktopSidebar() {
     )
 }
 
-function MissionHintCard({
-    kicker,
-    icon: Icon,
-    tone,
-    children,
-}: {
-    kicker: string
-    icon: LucideIcon
-    tone: CategoryTone
-    children: string
-}) {
-    const toneClass = categoryToneClasses[tone]
-
-    return (
-        <div className={cn("flex min-w-0 items-start gap-3 rounded-sm px-3 py-3", toneClass.bg)}>
-            <span
-                className={cn(
-                    "grid h-10 w-10 shrink-0 place-items-center rounded-sm bg-background/80",
-                    toneClass.text,
-                )}
-            >
-                <Icon className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-                <div className={cn("text-xs font-bold", toneClass.text)}>{kicker}</div>
-                <p className="mt-0.5 text-sm font-semibold leading-6 text-foreground md:truncate">{children}</p>
-            </div>
-        </div>
-    )
-}
-
-function GameMissionCards({ game }: { game: PlaygroundNavItem }) {
-    const Icon = game.icon
-
-    return (
-        <div className="grid gap-2 p-3 sm:gap-3 lg:grid-cols-3">
-            <MissionHintCard kicker="本局目标" icon={Icon} tone="tech">
-                {game.mission}
-            </MissionHintCard>
-            <MissionHintCard kicker="操作提示" icon={Touchpad} tone="science">
-                {game.controls}
-            </MissionHintCard>
-            <MissionHintCard kicker="下一枚徽章" icon={Medal} tone="engineering">
-                {game.badgeGoal}
-            </MissionHintCard>
-        </div>
-    )
-}
-
-function GameMissionBar({ game }: { game: PlaygroundNavItem }) {
-    return (
-        <section className="hidden pt-3 lg:block lg:px-8 lg:pt-5">
-            <details className="surface-panel group xl:hidden">
-                <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3.5 [&::-webkit-details-marker]:hidden">
-                    <span className="text-sm font-black">本局提示</span>
-                    <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition group-open:rotate-90" />
-                </summary>
-                <GameMissionCards game={game} />
-            </details>
-            <div className="surface-panel hidden xl:block">
-                <GameMissionCards game={game} />
-            </div>
-        </section>
-    )
-}
-
 export default function PlaygroundLayout({ children }: { children: React.ReactNode }) {
     usePlaygroundSync()
     const pathname = usePathname()
@@ -567,7 +499,6 @@ export default function PlaygroundLayout({ children }: { children: React.ReactNo
                 <DesktopSidebar />
                 <main className="relative min-w-0 flex-1 overflow-x-hidden pb-28 lg:pb-0">
                     <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_0%,hsl(var(--brand-blue)/0.12),transparent_34%),radial-gradient(circle_at_88%_8%,hsl(var(--brand-green)/0.12),transparent_30%),linear-gradient(180deg,hsl(var(--app-canvas)),hsl(var(--background))_78%)]" />
-                    {activeGame && pathname !== "/playground/functionwars" ? <GameMissionBar game={activeGame} /> : null}
                     {children}
                 </main>
             </div>

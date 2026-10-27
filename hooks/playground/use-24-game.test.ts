@@ -96,3 +96,32 @@ describe('24 game expression validation', () => {
     }
   })
 })
+
+  it('reveals progressive hints without ending the round', () => {
+    const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0.39)
+
+    try {
+      const { result } = renderHook(() => use24Game())
+
+      expect(result.current.hintLevel).toBe(0)
+      expect(result.current.getHintText()).toBeNull()
+
+      act(() => {
+        result.current.requestHint()
+      })
+      expect(result.current.hintLevel).toBe(1)
+      expect(result.current.getHintText()).toMatch(/提示/)
+      expect(result.current.status).toBe('playing')
+
+      act(() => {
+        result.current.requestHint()
+        result.current.requestHint()
+        result.current.requestHint()
+      })
+      expect(result.current.hintLevel).toBe(3)
+      expect(result.current.getHintText()).toMatch(/= 24/)
+    } finally {
+      randomSpy.mockRestore()
+    }
+  })
+
