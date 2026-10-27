@@ -110,7 +110,7 @@ Docker 的 `scratch-builder` 只接收 Scratch 子包及依赖输入，产物处
 
 ### 生产镜像的 OSS 旁路（优先国内拉取）
 
-北京 ECS 从 GHCR 拉大镜像经常偏慢。Release 在镜像推到 GHCR 后，额外把**同一 digest** 的 gzip 归档上传到已有杭州 OSS 桶，CI 先 pull 精确 `repo@digest`，inspect 其完整 `sha256:<64hex>` image ID，再按该 ID 保存归档，同时经 workflow output 将可信 ID 与短期签名 URL 传给服务器。服务器下载并 `docker load` 后，必须 inspect 该预期 ID 且完全匹配，才以此不可变 ID 启动 Compose 并持久化 `STEAM_APP_IMAGE`；不依赖 save/load 不保留的 RepoDigest，也不信任包内 tag 或旁路 JSON。OSS 下载和 load 共用独立 300 秒预算；失败才回退现有 GHCR 拉取（另有完整 900 秒预算、最多 4 次），回退成功仍使用 `repo@digest`。拉不下来时应用和配置都不改。
+北京 ECS 从 GHCR 拉大镜像经常偏慢。Release 在镜像推到 GHCR 后，额外把**同一 digest** 的 gzip 归档上传到已有杭州 OSS 桶，CI 先 pull 精确 `repo@digest`，inspect 其完整 `sha256:<64hex>` image ID，再按该 ID 保存归档，构建 job 仅经 workflow output 传递对象 key、可信 ID 和上传成功标记。部署 job 在复制 bundle 后、SSH 前校验该 key 与当前 digest/prefix 一致，使用同一 production OSS 凭据生成短期 URL；先 `add-mask`，再写 `GITHUB_ENV` 供同 job 的 SSH 步骤继承，SSH 不显式覆盖该变量。签名 URL 不经跨 job output、日志正文或 artifact 传递，避免 GitHub 将含密钥的 job output 过滤掉。服务器下载并 `docker load` 后，必须 inspect 该预期 ID 且完全匹配，才以此不可变 ID 启动 Compose 并持久化 `STEAM_APP_IMAGE`；不依赖 save/load 不保留的 RepoDigest，也不信任包内 tag 或旁路 JSON。OSS 下载和 load 共用独立 300 秒预算；失败才回退现有 GHCR 拉取（另有完整 900 秒预算、最多 4 次），回退成功仍使用 `repo@digest`。拉不下来时应用和配置都不改。
 
 | 项 | 值 |
 |---|---|
@@ -118,7 +118,8 @@ Docker 的 `scratch-builder` 只接收 Scratch 子包及依赖输入，产物处
 | 对象路径 | `deploy/steamx/sha256-<64位十六进制>.tar.gz` |
 | 元数据旁路 | 同名 `.json`（digest、image ID、git SHA、大小、上传时间）；**仅便于核对，不是删除依据的唯一来源** |
 | CI 上传 | `scripts/upload-deploy-image-to-oss.mjs`（`docker pull repo@digest` → inspect image ID → `docker save ID \| gzip` → `ali-oss` multipart） |
-| 服务器下载 | `IMAGE_OSS_URL`（CI 生成、默认 7200 秒有效的签名 GET）及可信 `IMAGE_ID`；`curl` 下载后 `gunzip \| docker load`，管道任一失败均回退 |
+| 同 job 签名 | `scripts/sign-deploy-image-url.mjs`（校验安全元数据 → 本地签名 → mask → `GITHUB_ENV`；SDK 异常只记录通用回退信息） |
+| 服务器下载 | `IMAGE_OSS_URL`（部署 job 生成、默认 7200 秒有效的签名 GET）及可信 `IMAGE_ID`；`curl` 下载后 `gunzip \| docker load`，管道任一失败均回退 |
 | 回退 | OSS 未配置、签名或可信 ID 缺失/无效、下载/load 失败或 load 后目标 image ID 缺失/不匹配 → 现有 GHCR `docker pull` |
 
 GitHub **production** 环境需要（与素材用的 `ALIYUN_OSS_*` 分开，避免混用主账号或素材权限）：
@@ -133,7 +134,9 @@ GitHub **production** 环境需要（与素材用的 `ALIYUN_OSS_*` 分开，避
 | `DEPLOY_OSS_PREFIX` | Variable（可选） | 默认 `deploy/steamx` |
 | `DEPLOY_OSS_SIGN_EXPIRES` | Variable（可选） | 签名 URL 秒数，默认 `7200` |
 
-RAM 建议：只给该桶 `deploy/steamx/*` 的 `oss:PutObject` / `oss:InitiateMultipartUpload` / `oss:UploadPart` / `oss:CompleteMultipartUpload` / `oss:AbortMultipartUpload` / `oss:GetObject` / `oss:HeadObject` / `oss:ListObjects`（List 仅清理方案需要）。桶内该前缀保持私有，不靠公共读。未配置上述 Secret 时上传步骤会跳过；上传步骤失败也允许继续发布并回退 GHCR，OSS 旁路故障不会阻断现有拉取路径。
+RAM 建议：只给该桶 `deploy/steamx/*` 的 `oss:PutObject` / `oss:InitiateMultipartUpload` / `oss:UploadPart` / `oss:CompleteMultipartUpload` / `oss:AbortMultipartUpload` / `oss:GetObject` / `oss:HeadObject` / `oss:ListObjects`（List 仅清理方案需要）。桶内该前缀保持私有，不靠公共读。未配置上述 Secret 时上传步骤会跳过；上传步骤失败也允许继续发布并回退 GHCR。未上传对象、缺少签名凭据、对象 key/可信 ID 无效、签名或临时 SDK 安装失败时，清空 URL 并保持 GHCR 回退。上传与签名仅在临时目录安装固定版本 `ali-oss`，不安装整项目依赖。OSS 旁路故障不会阻断现有拉取路径。
+
+GitHub 的 [workflow commands](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands) 规定 `GITHUB_ENV` 供同 job 后续步骤使用；[workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idoutputs) 说明疑似含 secret 的 job output 会被跳过。因此签名 URL 必须在消费它的部署 job 内生成。
 
 #### OSS 发布包清理（仅提案，本仓库不自动删）
 

@@ -188,3 +188,53 @@ test('optional OSS mirror failure preserves GHCR deployment fallback', () => {
   assert(release.includes('IMAGE_ID: ${{ needs.build-image.outputs.image_id }}'));
   assert(release.includes('envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST,IMAGE_OSS_URL,IMAGE_ID,'));
 });
+
+
+test('OSS URLs stay in the deploy job and SSH inherits the masked same-job environment', () => {
+  const build = release.split('  build-image:')[1].split('  verify-course-voice-loading:')[0];
+  const deploy = release.split('  deploy-production:')[1];
+  const signing = deploy.split('      - name: Sign OSS image URL for this deployment\n')[1].split('      - name: Deploy on server')[0];
+  const ssh = deploy.split('      - name: Deploy on server')[1];
+  assert(build.includes('oss_uploaded: ${{ steps.oss.outputs.uploaded }}'));
+  assert(build.includes('oss_object: ${{ steps.oss.outputs.object_key }}'));
+  assert(!build.includes('signed_url') && !build.includes('oss_url:'));
+  assert(!release.includes('needs.build-image.outputs.oss_url'));
+  assert(deploy.indexOf('Copy deployment bundle to server') < deploy.indexOf('Sign OSS image URL for this deployment'));
+  assert(signing.includes('continue-on-error: true'));
+  assert(signing.includes('IMAGE_OSS_UPLOADED: ${{ needs.build-image.outputs.oss_uploaded }}'));
+  assert(signing.includes('IMAGE_OSS_OBJECT: ${{ needs.build-image.outputs.oss_object }}'));
+  assert(signing.includes('DEPLOY_OSS_ACCESS_KEY_SECRET: ${{ secrets.DEPLOY_OSS_ACCESS_KEY_SECRET }}'));
+  assert(signing.includes('node scripts/sign-deploy-image-url.mjs'));
+  const checks = steps.get('Verify deployment, migration, and SEO scripts');
+  assert(checks.includes('scripts/upload-deploy-image-to-oss.test.mjs'));
+  assert(checks.includes('scripts/sign-deploy-image-url.test.mjs'));
+  assert(signing.includes('echo \'IMAGE_OSS_URL=\' >> "$GITHUB_ENV"'));
+  assert(!signing.includes('GITHUB_OUTPUT'));
+  assert(!ssh.includes('IMAGE_OSS_URL:'));
+  assert(ssh.includes('envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST,IMAGE_OSS_URL,IMAGE_ID,'));
+  for (const block of [build, signing]) {
+    assert(block.includes('npm install --prefix "$oss_deps_dir" --no-save --package-lock=false --ignore-scripts'));
+    assert(block.includes('NODE_PATH="$oss_deps_dir/node_modules"'));
+  }
+});
+
+test('signing workflow clears stale URLs before missing configuration or SDK installation failure', () => {
+  const block = release.split('      - name: Sign OSS image URL for this deployment\n')[1].split('      - name: Deploy on server')[0];
+  const script = block.split('        run: |\n')[1].split('\n').map(line => line.startsWith('          ') ? line.slice(10) : line).join('\n');
+  const directory = mkdtempSync(join(tmpdir(), 'oss-sign-command-'));
+  try {
+    const stub = join(directory, 'npm');
+    writeFileSync(stub, '#!/bin/sh\nexit 1\n');
+    chmodSync(stub, 0o755);
+    for (const uploaded of ['', 'true']) {
+      const envFile = join(directory, `env-${uploaded || 'missing'}`);
+      const env = { PATH: `${directory}:${process.env.PATH}`, GITHUB_ENV: envFile,
+        IMAGE_OSS_URL: 'https://stale.example/private', IMAGE_OSS_UPLOADED: uploaded,
+        IMAGE_OSS_OBJECT: 'object', IMAGE_ID: 'id',
+        DEPLOY_OSS_ACCESS_KEY_ID: 'id', DEPLOY_OSS_ACCESS_KEY_SECRET: 'secret' };
+      try { execFileSync('bash', ['-c', script], { encoding: 'utf8', env, stdio: 'pipe' }); }
+      catch (error) { assert.equal(uploaded, 'true'); assert.equal(error.status, 1); }
+      assert.equal(readFileSync(envFile, 'utf8'), 'IMAGE_OSS_URL=\n');
+    }
+  } finally { rmSync(directory, { recursive: true, force: true }); }
+});

@@ -60,7 +60,7 @@
 |---|---|---|
 | 命令、依赖、单元与浏览器检查 | `package.json`、`.github/workflows/ci.yml`、`scripts/ci-scope.mjs`、`scripts/ci-test-impact.mjs`、`scripts/ci-test-plan.mjs`、`scripts/ci-unit-tests.mjs`、`scripts/ci-source-proof.mjs`、`scripts/release-ci-reuse.mjs`、`scripts/home-ui-scope.mjs`、`__tests__/`、`e2e/` | [本地启动](README.md)、[CI 范围](docs/deployment.md#ci-范围与成本) |
 | 数据库迁移 | `scripts/db-push.mjs`、`supabase/migrations/` | [数据库连接与迁移](docs/database-psql.md) |
-| Docker、Nginx、worker 与回滚 | `Dockerfile`、`deploy/`、`.github/workflows/release.yml`、`scripts/release-scope.mjs`、`scripts/release-voice-scope.mjs`、`scripts/check-building-voice-headers.mjs` | [部署](docs/deployment.md) |
+| Docker、Nginx、worker 与回滚 | `Dockerfile`、`deploy/`、`.github/workflows/release.yml`、`scripts/release-scope.mjs`、`scripts/release-voice-scope.mjs`、`scripts/check-building-voice-headers.mjs`、`scripts/upload-deploy-image-to-oss.mjs`、`scripts/sign-deploy-image-url.mjs` | [部署](docs/deployment.md) |
 | LDraw 源文件、审核和正式资源 | `scripts/ldraw-models/`、`scripts/ldraw-reviews/`、`scripts/ldraw-inspections.json`、`public/courses/ldraw/`、`scripts/publish-ldraw-assets.mjs` | [资源发布](docs/ldraw-publishing.md)、[资源状态](docs/ldraw-status.md) |
 | 公开图片与 OSS 路径 | `lib/utils/asset-url.ts`、`lib/assets/`、`public/`、`.gitignore`、`.dockerignore` | [SEO 图片核验](docs/seo-indexing-checklist.md)、[LDraw 发布](docs/ldraw-publishing.md) |
 | SEO、爬虫、sitemap 与推送 | `lib/seo/`、`lib/project/effective-updated-at.ts`、`scripts/check-seo.mjs`、`next.config.mjs`、`playwright.project-card.config.ts` | [索引检查](docs/seo-indexing-checklist.md)、[日常运营](docs/seo-daily-operations.md) |

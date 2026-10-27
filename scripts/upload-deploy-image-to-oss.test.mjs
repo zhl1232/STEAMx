@@ -22,7 +22,7 @@ test('digestObjectKey rejects malformed digests', () => {
   assert.throws(() => digestObjectKey('sha256:' + 'g'.repeat(64)), /must look like/)
 })
 
-test('uploadDeployImage saves the exact pulled image ID and publishes it with the signed URL', async (t) => {
+test('uploadDeployImage saves the exact pulled image ID and publishes only safe cross-job metadata', async (t) => {
   const outputDir = await mkdtemp(path.join(tmpdir(), 'oss-output-test-'))
   t.after(() => rm(outputDir, { recursive: true, force: true }))
   const output = path.join(outputDir, 'output')
@@ -41,7 +41,7 @@ test('uploadDeployImage saves the exact pulled image ID and publishes it with th
       puts.push({ key, body: Buffer.isBuffer(body) ? body.toString('utf8') : body, options })
     },
     signatureUrl(key, options) {
-      return `https://example.test/${key}?expires=${options.expires}`
+      assert.fail('build job must never generate a signed URL')
     },
   }
   const saved = []
@@ -66,14 +66,15 @@ test('uploadDeployImage saves the exact pulled image ID and publishes it with th
   })
 
   assert.equal(result.objectKey, `deploy/steamx/sha256-${'b'.repeat(64)}.tar.gz`)
-  assert.equal(result.signedUrl, `https://example.test/${result.objectKey}?expires=7200`)
+  assert.equal(result.signedUrl, undefined)
   assert.equal(multipart.length, 1)
   assert.equal(multipart[0].key, result.objectKey)
   assert.deepEqual(pulled, [`ghcr.io/acme/steam@${digest}`])
   assert.deepEqual(inspected, pulled)
   assert.equal(saved[0].ref, imageId)
   assert.equal(result.imageId, imageId)
-  assert.match(await readFile(output, 'utf8'), new RegExp(`image_id=${imageId}`))
+  const outputs = Object.fromEntries((await readFile(output, 'utf8')).trim().split('\n').map(line => line.split('=')))
+  assert.deepEqual(outputs, { uploaded: 'true', image_id: imageId, object_key: result.objectKey, size_bytes: '11' })
   assert.equal(puts.length, 1)
   assert.equal(puts[0].key, result.objectKey.replace(/\.tar\.gz$/, '.json'))
   assert.match(puts[0].body, /"gitSha": "deadbeef"/)

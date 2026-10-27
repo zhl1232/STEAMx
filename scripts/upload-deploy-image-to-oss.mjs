@@ -19,9 +19,8 @@
  *   DEPLOY_OSS_REGION       default oss-cn-hangzhou
  *   DEPLOY_OSS_ENDPOINT     overrides region-derived endpoint
  *   DEPLOY_OSS_PREFIX       default deploy/steamx
- *   DEPLOY_OSS_SIGN_EXPIRES signed URL lifetime in seconds (default 7200)
  *   GITHUB_SHA              recorded in the sidecar JSON
- *   GITHUB_OUTPUT           when set, writes signed_url / image_id / object_key / uploaded
+ *   GITHUB_OUTPUT           when set, writes image_id / object_key / uploaded (no signed URL)
  *
  * This script never deletes OSS objects. Cleanup is a separate, manual proposal.
  */
@@ -38,21 +37,24 @@ import { createRequire } from 'node:module'
 const require = createRequire(import.meta.url)
 
 export function digestObjectKey(digest, prefix = 'deploy/steamx') {
-  const match = /^(sha256:)([0-9a-f]{64})$/i.exec(String(digest || '').trim())
+  const match = /^(sha256:)([0-9a-f]{64})$/i.exec(String(digest || ''))
   if (!match) {
     throw new Error(`IMAGE_DIGEST must look like sha256:<64 hex>, got: ${digest}`)
   }
   const cleanPrefix = String(prefix || 'deploy/steamx').replace(/^\/+|\/+$/g, '')
+  if (!/^[a-zA-Z0-9][a-zA-Z0-9._/-]*$/.test(cleanPrefix) || cleanPrefix.split('/').some(part => !part || part === '.' || part === '..')) {
+    throw new Error('DEPLOY_OSS_PREFIX must be a safe relative object prefix')
+  }
   return `${cleanPrefix}/sha256-${match[2].toLowerCase()}.tar.gz`
 }
 
 export function createDeployOssClient(env = process.env) {
-  const OSS = require('ali-oss')
   const accessKeyId = env.DEPLOY_OSS_ACCESS_KEY_ID
   const accessKeySecret = env.DEPLOY_OSS_ACCESS_KEY_SECRET
   if (!accessKeyId || !accessKeySecret) {
     throw new Error('DEPLOY_OSS_ACCESS_KEY_ID and DEPLOY_OSS_ACCESS_KEY_SECRET are required')
   }
+  const OSS = require('ali-oss')
   const bucket = env.DEPLOY_OSS_BUCKET || 'steamx'
   const region = env.DEPLOY_OSS_REGION || 'oss-cn-hangzhou'
   const endpoint = env.DEPLOY_OSS_ENDPOINT
@@ -128,10 +130,6 @@ export async function uploadDeployImage({
   const prefix = env.DEPLOY_OSS_PREFIX || 'deploy/steamx'
   const objectKey = digestObjectKey(digest, prefix)
   const imageRef = `${registryImage}@${digest}`
-  const expires = Number(env.DEPLOY_OSS_SIGN_EXPIRES || 7200)
-  if (!Number.isFinite(expires) || expires < 60) {
-    throw new Error('DEPLOY_OSS_SIGN_EXPIRES must be an integer >= 60')
-  }
 
   const workDir = await mkdtemp(path.join(tmpdir(), 'steam-deploy-oss-'))
   const archivePath = path.join(workDir, 'image.tar.gz')
@@ -186,16 +184,14 @@ export async function uploadDeployImage({
       },
     })
 
-    const signedUrl = client.signatureUrl(objectKey, { expires, method: 'GET' })
-    console.info(`Uploaded ${objectKey}; signed URL expires in ${expires}s`)
+    console.info(`Uploaded ${objectKey}`)
     await appendGithubOutput({
       uploaded: 'true',
       image_id: imageId,
       object_key: objectKey,
-      signed_url: signedUrl,
       size_bytes: String(sizeBytes),
     }, env)
-    return { objectKey, signedUrl, imageId, sizeBytes, sidecarKey }
+    return { objectKey, imageId, sizeBytes, sidecarKey }
   } finally {
     await rm(workDir, { recursive: true, force: true })
   }
@@ -203,8 +199,9 @@ export async function uploadDeployImage({
 
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname)
 if (isMain) {
-  uploadDeployImage().catch((error) => {
-    console.error(error?.stack || error)
+  uploadDeployImage().catch(() => {
+    // SDK errors can contain authenticated request URLs.
+    console.error('OSS mirror failed; deployment will use GHCR.')
     process.exit(1)
   })
 }

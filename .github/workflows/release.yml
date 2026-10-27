@@ -61,7 +61,7 @@ jobs:
     outputs:
       image: ${{ steps.image.outputs.name }}
       digest: ${{ steps.build.outputs.digest }}
-      oss_url: ${{ steps.oss.outputs.signed_url }}
+      oss_uploaded: ${{ steps.oss.outputs.uploaded }}
       oss_object: ${{ steps.oss.outputs.object_key }}
       image_id: ${{ steps.oss.outputs.image_id }}
     env:
@@ -159,7 +159,6 @@ jobs:
           DEPLOY_OSS_REGION: ${{ vars.DEPLOY_OSS_REGION || 'oss-cn-hangzhou' }}
           DEPLOY_OSS_ENDPOINT: ${{ vars.DEPLOY_OSS_ENDPOINT }}
           DEPLOY_OSS_PREFIX: ${{ vars.DEPLOY_OSS_PREFIX || 'deploy/steamx' }}
-          DEPLOY_OSS_SIGN_EXPIRES: ${{ vars.DEPLOY_OSS_SIGN_EXPIRES || '7200' }}
         run: |
           set -euo pipefail
           if [ -z "${DEPLOY_OSS_ACCESS_KEY_ID:-}" ] || [ -z "${DEPLOY_OSS_ACCESS_KEY_SECRET:-}" ]; then
@@ -167,8 +166,10 @@ jobs:
             echo "uploaded=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          npm install --no-save ali-oss@6.23.0
-          node scripts/upload-deploy-image-to-oss.mjs
+          oss_deps_dir="$(mktemp -d)"
+          trap 'rm -rf -- "$oss_deps_dir"' EXIT
+          npm install --prefix "$oss_deps_dir" --no-save --package-lock=false --ignore-scripts --no-audit --no-fund ali-oss@6.23.0
+          NODE_PATH="$oss_deps_dir/node_modules" node scripts/upload-deploy-image-to-oss.mjs
 
   verify-course-voice-loading:
     needs: [deploy-production, release-scope]
@@ -264,6 +265,34 @@ jobs:
           target: ${{ env.DEPLOY_DIR }}
           strip_components: 2
 
+      - name: Sign OSS image URL for this deployment
+        continue-on-error: true
+        env:
+          IMAGE_OSS_UPLOADED: ${{ needs.build-image.outputs.oss_uploaded }}
+          IMAGE_OSS_OBJECT: ${{ needs.build-image.outputs.oss_object }}
+          IMAGE_DIGEST: ${{ needs.build-image.outputs.digest }}
+          IMAGE_ID: ${{ needs.build-image.outputs.image_id }}
+          DEPLOY_OSS_ACCESS_KEY_ID: ${{ secrets.DEPLOY_OSS_ACCESS_KEY_ID }}
+          DEPLOY_OSS_ACCESS_KEY_SECRET: ${{ secrets.DEPLOY_OSS_ACCESS_KEY_SECRET }}
+          DEPLOY_OSS_BUCKET: ${{ vars.DEPLOY_OSS_BUCKET || 'steamx' }}
+          DEPLOY_OSS_REGION: ${{ vars.DEPLOY_OSS_REGION || 'oss-cn-hangzhou' }}
+          DEPLOY_OSS_ENDPOINT: ${{ vars.DEPLOY_OSS_ENDPOINT }}
+          DEPLOY_OSS_PREFIX: ${{ vars.DEPLOY_OSS_PREFIX || 'deploy/steamx' }}
+          DEPLOY_OSS_SIGN_EXPIRES: ${{ vars.DEPLOY_OSS_SIGN_EXPIRES || '7200' }}
+        run: |
+          set -euo pipefail
+          # Clear first: install/signing failure must leave the GHCR fallback.
+          echo 'IMAGE_OSS_URL=' >> "$GITHUB_ENV"
+          if [ "$IMAGE_OSS_UPLOADED" != true ] || [ -z "$IMAGE_OSS_OBJECT" ] || [ -z "$IMAGE_ID" ] ||
+             [ -z "$DEPLOY_OSS_ACCESS_KEY_ID" ] || [ -z "$DEPLOY_OSS_ACCESS_KEY_SECRET" ]; then
+            echo 'OSS signing not configured; deployment will use GHCR.'
+            exit 0
+          fi
+          oss_deps_dir="$(mktemp -d)"
+          trap 'rm -rf -- "$oss_deps_dir"' EXIT
+          npm install --prefix "$oss_deps_dir" --no-save --package-lock=false --ignore-scripts --no-audit --no-fund ali-oss@6.23.0
+          NODE_PATH="$oss_deps_dir/node_modules" node scripts/sign-deploy-image-url.mjs
+
       - name: Deploy on server
         uses: appleboy/ssh-action@v1
         env:
@@ -271,7 +300,6 @@ jobs:
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REGISTRY_IMAGE: ${{ needs.build-image.outputs.image }}
           IMAGE_DIGEST: ${{ needs.build-image.outputs.digest }}
-          IMAGE_OSS_URL: ${{ needs.build-image.outputs.oss_url }}
           IMAGE_ID: ${{ needs.build-image.outputs.image_id }}
         with:
           host: ${{ secrets.SERVER_HOST }}

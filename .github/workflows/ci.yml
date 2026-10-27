@@ -127,7 +127,7 @@ jobs:
 
       - name: Verify deployment, migration, and SEO scripts
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
-        run: node --test deploy/registry-deploy.test.mjs scripts/db-push.test.mjs scripts/check-seo.test.mjs deploy/commerce-worker.test.mjs deploy/feishu-bridge.test.mjs
+        run: node --test deploy/registry-deploy.test.mjs scripts/db-push.test.mjs scripts/check-seo.test.mjs deploy/commerce-worker.test.mjs deploy/feishu-bridge.test.mjs scripts/upload-deploy-image-to-oss.test.mjs scripts/sign-deploy-image-url.test.mjs
 
       - name: Verify native store transactions
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && steps.reuse.outputs.reuse != 'true' && steps.test-plan.outputs.store-db != 'false'
