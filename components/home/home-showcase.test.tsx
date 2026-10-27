@@ -79,7 +79,10 @@ describe("HomeShowcase hero", () => {
     ];
     const links = hero.getAllByRole("link");
     expect(links.map((link) => [link.textContent, link.getAttribute("href")])).toEqual(expected);
-    for (const link of links) expect(link).toHaveClass("underline", "py-2.5");
+    for (const link of links) {
+      expect(link).toHaveClass("py-2.5");
+      expect(link).not.toHaveClass("underline");
+    }
     expect(hero.queryByRole("link", { name: "探索指南" })).not.toBeInTheDocument();
     expect(hero.queryByRole("link", { name: "挑一节免费课程" })).not.toBeInTheDocument();
   });

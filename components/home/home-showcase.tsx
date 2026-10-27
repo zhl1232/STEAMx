@@ -139,7 +139,7 @@ function HomeHero({ image }: { image: string }) {
                     {index > 0 ? " · " : null}
                     <Link
                       href={topic.href}
-                      className="-my-2.5 inline-block py-2.5 underline decoration-current/35 decoration-1 underline-offset-[5px] transition-colors active:text-[hsl(var(--brand-blue))] hover:text-[hsl(var(--brand-blue))] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+                      className="-my-2.5 inline-block py-2.5 text-[hsl(var(--brand-blue))] [text-shadow:0_0_6px_rgba(255,255,255,0.6)] transition-opacity active:opacity-70 dark:text-[#9fd8ff] dark:[text-shadow:0_1px_2px_rgba(0,0,0,0.85),0_0_8px_rgba(0,0,0,0.55)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       {topic.label}
                     </Link>
@@ -207,7 +207,7 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
             key={category.metaKey}
             href={category.href}
             className={cn(
-              "group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.6)] max-md:relative max-md:border-[hsl(var(--surface-border)/0.88)] max-md:bg-[hsl(var(--surface-raised))] max-md:shadow-[0_14px_36px_-30px_hsl(var(--surface-shadow)/0.22)] max-md:active:scale-[0.99] px-2.5 py-2.5 text-left transition-colors hover:bg-[hsl(var(--surface-raised)/0.96)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3.5 lg:min-h-[88px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
+              "group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.6)] max-md:relative max-md:border-[#e2e7ee] max-md:bg-[#f7f9fc] max-md:shadow-none max-md:dark:border-white/[0.12] max-md:dark:bg-white/[0.04] max-md:active:scale-[0.99] px-2.5 py-2.5 text-left transition-colors hover:bg-[hsl(var(--surface-raised)/0.96)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3.5 lg:min-h-[88px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
               "border-border/60",
             )}
           >
