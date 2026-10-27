@@ -20,10 +20,11 @@ flock -w "${DEPLOY_LOCK_TIMEOUT:-120}" 9 || { echo 'Another deployment is active
 # per-attempt limit. A slow but progressing pull must not be killed and
 # restarted from zero (docker discards unextracted layers when interrupted).
 pull_timeout="${IMAGE_PULL_TIMEOUT:-900}"
+oss_timeout="${IMAGE_OSS_TIMEOUT:-300}"
 pull_attempts="${IMAGE_PULL_ATTEMPTS:-4}"
 pull_backoff="${IMAGE_PULL_BACKOFF_SECONDS:-10}"
 pull_heartbeat="${IMAGE_PULL_HEARTBEAT_SECONDS:-30}"
-for value in "$pull_timeout" "$pull_attempts" "$pull_heartbeat"; do
+for value in "$pull_timeout" "$oss_timeout" "$pull_attempts" "$pull_heartbeat"; do
   [[ "$value" =~ ^[1-9][0-9]*$ ]] || { echo 'Pull limits must be positive integers.' >&2; exit 1; }
 done
 [[ "$pull_backoff" =~ ^[0-9]+$ ]] || { echo 'Pull backoff must be a nonnegative integer.' >&2; exit 1; }
@@ -85,12 +86,12 @@ if ! grep -q -- '--wait' <<<"$compose_help" || ! grep -q -- '--wait-timeout' <<<
   exit 1
 fi
 
-# Prefer a same-digest archive from Aliyun OSS (domestic backbone), then fall
-# back to the existing GHCR pull with the shared time budget. Never mutate the
-# running app until the candidate image is present locally.
+# Prefer the image ID verified by CI from the exact registry digest. OSS has
+# a separate bounded budget so GHCR retains its full fallback time budget.
+# Never mutate the running app until the candidate image is present locally.
 pulled=0
 pull_started=$SECONDS
-pull_deadline=$((SECONDS + pull_timeout))
+pull_deadline=0
 heartbeat_pid=""
 stop_heartbeat() {
   if [ -n "$heartbeat_pid" ]; then
@@ -110,19 +111,17 @@ start_heartbeat() {
     done ) &
   heartbeat_pid=$!
 }
-image_present() {
-  docker image inspect --format '{{.Id}}' "$image_ref" >/dev/null 2>&1
-}
 try_load_from_oss() {
-  local url="${IMAGE_OSS_URL:-}" remaining status=0 archive
+  local url="${IMAGE_OSS_URL:-}" expected_id="${IMAGE_ID:-}" remaining status=0 archive actual_id oss_deadline
   if [ -z "$url" ]; then
     return 1
   fi
-  remaining=$((pull_deadline - SECONDS))
-  if [ "$remaining" -le 0 ]; then
-    echo 'OSS image download skipped: pull budget already exhausted.' >&2
+  if [[ ! "$expected_id" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+    echo 'OSS image skipped: trusted IMAGE_ID is missing or invalid.' >&2
     return 1
   fi
+  oss_deadline=$((SECONDS + oss_timeout))
+  remaining=$oss_timeout
   oss_workdir="$(mktemp -d "${TMPDIR:-/tmp}/steam-oss-image.XXXXXX")"
   archive="$oss_workdir/image.tar.gz"
   echo "Downloading release image archive from OSS (budget ${remaining}s) ..."
@@ -138,29 +137,33 @@ try_load_from_oss() {
     echo 'OSS download produced an empty archive.' >&2
     return 1
   fi
-  remaining=$((pull_deadline - SECONDS))
+  remaining=$((oss_deadline - SECONDS))
   if [ "$remaining" -le 0 ]; then
-    echo 'OSS docker load skipped: pull budget already exhausted.' >&2
+    echo 'OSS docker load skipped: OSS budget exhausted.' >&2
     return 1
   fi
   echo "Loading OSS archive into local Docker (budget ${remaining}s) ..."
   start_heartbeat "loading OSS archive"
   status=0
-  timeout --kill-after=10s "${remaining}s" bash -c 'gunzip -c -- "$1" | docker load' bash "$archive" || status=$?
+  timeout --kill-after=10s "${remaining}s" bash -o pipefail -c 'gunzip -c -- "$1" | docker load' bash "$archive" || status=$?
   stop_heartbeat
   if [ "$status" -ne 0 ]; then
     echo "OSS docker load failed (exit $status)." >&2
     return 1
   fi
-  if ! image_present; then
-    echo "OSS archive loaded, but $image_ref is still missing locally." >&2
+  actual_id="$(docker image inspect --format '{{.Id}}' "$expected_id" 2>/dev/null)" || actual_id=""
+  if [ "$actual_id" != "$expected_id" ]; then
+    echo "OSS archive loaded, but trusted image ID $expected_id is missing or mismatched." >&2
     return 1
   fi
+  image_ref="$expected_id"
   echo "OSS image ready in $((SECONDS - pull_started))s."
   return 0
 }
 try_pull_from_ghcr() {
   local attempt remaining delay pull_status
+  pull_started=$SECONDS
+  pull_deadline=$((SECONDS + pull_timeout))
   printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USERNAME" --password-stdin >/dev/null
   echo "Pulling $image_ref from GHCR ..."
   for ((attempt=1; attempt<=pull_attempts; attempt++)); do

@@ -4,7 +4,7 @@
 
 ## 触发与范围
 
-触发授权统一遵守 [AGENTS.md 的 Actions 预算规则](../AGENTS.md#github-actions-预算与触发授权)。工作流不会检查用户是否授权：main push、`v*` 标签或手动 dispatch 都会触发 Release Deploy，所以必须在操作前守住授权边界。GitHub Actions 构建私有 GHCR 镜像，并尽量把同一 digest 的归档镜像到杭州 OSS；服务器优先用 OSS 签名包加载该摘要，失败再回退 GHCR 拉取。创建 PR 不等于授权合并或发布。
+触发授权统一遵守 [AGENTS.md 的 Actions 预算规则](../AGENTS.md#github-actions-预算与触发授权)。工作流不会检查用户是否授权：main push、`v*` 标签或手动 dispatch 都会触发 Release Deploy，所以必须在操作前守住授权边界。GitHub Actions 构建私有 GHCR 镜像，并尽量把同一 digest 的归档镜像到杭州 OSS；服务器优先用 OSS 签名包加载并核验 CI 从该摘要取得的镜像 image ID，失败再回退 GHCR 拉取。创建 PR 不等于授权合并或发布。
 
 Release 复用 `ci.yml`，先查找同内容的已通过 PR 检查；证据匹配时直接复用，否则执行原 CI。验证结果与当前生产镜像构建均成功后才切换服务器，两条任务并行。PR 按下表分类。测试和镜像使用 Node.js 22；实际流程以对应提交的 `.github/workflows/release.yml`、`ci.yml` 和 `scripts/release-scope.mjs` 为准。
 
@@ -84,7 +84,7 @@ PR build 使用 `http://127.0.0.1:54329` 的 `e2e/store-integration/data-server.
 
 `scripts/release-voice-scope.mjs` 使用同一专项归属判断：已审查的无语音影响模块可以使用 health + 资源 HEAD；语音及实际共享运行依赖变更仍走完整冷加载；合法的未知业务文件不自动认定为语音变化。首页展示变更继续核对原有源码指纹。
 
-可信的 before..after 比较未涉及语音运行依赖时，只做 health + 资源 HEAD。历史 run/API 缺失不再单独触发完整语音冷加载，也不冒充已验证的部署基线：只有紧邻前次 main Release 的 SHA 等于 before，且最新 attempt 的 CI、build-image、deploy-production、verify-course-voice-loading 全部实际成功时，才附带可验证的范围证明。比较本身不可用或确实修改语音依赖时仍完整验证。
+只有紧邻前次 main Release 的 SHA 等于 before，且最新 attempt 的 CI、build-image、deploy-production、verify-course-voice-loading 全部实际成功，才能核验部署基线；在此基础上，可信的 before..after 比较未涉及语音运行依赖时，才只做 health + 资源 HEAD 并附带范围证明。历史 run/API 缺失、基线失败、任一部署阶段跳过、比较不可用或确实修改语音依赖时，均完整冷加载，避免遗漏前次未实际部署的语音变化。
 
 HEAD 探针仅 GET `/api/health`，对首页、worker/manifest/cache 脚本、CDN 与同源 fallback 资源发 HEAD，校验状态、MIME、CORS 和长度，不下载模型正文。任何不确定都会回退完整语音加载；`continue-on-error` 只用于进入该回退，不吞掉完整检查失败。无 Git 记录的 CDN、OSS、环境配置变更仍需通过明确获授权的手动 full 路径验收。
 
@@ -110,16 +110,16 @@ Docker 的 `scratch-builder` 只接收 Scratch 子包及依赖输入，产物处
 
 ### 生产镜像的 OSS 旁路（优先国内拉取）
 
-北京 ECS 从 GHCR 拉大镜像经常偏慢。Release 在镜像推到 GHCR 后，额外把**同一 digest** 的 gzip 归档上传到已有杭州 OSS 桶，部署时优先用短期签名 URL 下载再 `docker load`；失败才回退现有 GHCR 拉取（总预算 900 秒、最多 4 次）。拉不下来时应用和配置都不改。
+北京 ECS 从 GHCR 拉大镜像经常偏慢。Release 在镜像推到 GHCR 后，额外把**同一 digest** 的 gzip 归档上传到已有杭州 OSS 桶，CI 先 pull 精确 `repo@digest`，inspect 其完整 `sha256:<64hex>` image ID，再按该 ID 保存归档，同时经 workflow output 将可信 ID 与短期签名 URL 传给服务器。服务器下载并 `docker load` 后，必须 inspect 该预期 ID 且完全匹配，才以此不可变 ID 启动 Compose 并持久化 `STEAM_APP_IMAGE`；不依赖 save/load 不保留的 RepoDigest，也不信任包内 tag 或旁路 JSON。OSS 下载和 load 共用独立 300 秒预算；失败才回退现有 GHCR 拉取（另有完整 900 秒预算、最多 4 次），回退成功仍使用 `repo@digest`。拉不下来时应用和配置都不改。
 
 | 项 | 值 |
 |---|---|
 | 桶 | `steamx`（杭州 `oss-cn-hangzhou`） |
 | 对象路径 | `deploy/steamx/sha256-<64位十六进制>.tar.gz` |
-| 元数据旁路 | 同名 `.json`（digest、git SHA、大小、上传时间）；**仅便于核对，不是删除依据的唯一来源** |
-| CI 上传 | `scripts/upload-deploy-image-to-oss.mjs`（`docker pull` → `docker save \| gzip` → `ali-oss` multipart） |
-| 服务器下载 | `IMAGE_OSS_URL`（CI 生成、默认 7200 秒有效的签名 GET）；`curl` 下载后 `gunzip \| docker load` |
-| 回退 | OSS 未配置、签名缺失、下载/load 失败或 load 后仍无目标 digest → 现有 GHCR `docker pull` |
+| 元数据旁路 | 同名 `.json`（digest、image ID、git SHA、大小、上传时间）；**仅便于核对，不是删除依据的唯一来源** |
+| CI 上传 | `scripts/upload-deploy-image-to-oss.mjs`（`docker pull repo@digest` → inspect image ID → `docker save ID \| gzip` → `ali-oss` multipart） |
+| 服务器下载 | `IMAGE_OSS_URL`（CI 生成、默认 7200 秒有效的签名 GET）及可信 `IMAGE_ID`；`curl` 下载后 `gunzip \| docker load`，管道任一失败均回退 |
+| 回退 | OSS 未配置、签名或可信 ID 缺失/无效、下载/load 失败或 load 后目标 image ID 缺失/不匹配 → 现有 GHCR `docker pull` |
 
 GitHub **production** 环境需要（与素材用的 `ALIYUN_OSS_*` 分开，避免混用主账号或素材权限）：
 
@@ -133,7 +133,7 @@ GitHub **production** 环境需要（与素材用的 `ALIYUN_OSS_*` 分开，避
 | `DEPLOY_OSS_PREFIX` | Variable（可选） | 默认 `deploy/steamx` |
 | `DEPLOY_OSS_SIGN_EXPIRES` | Variable（可选） | 签名 URL 秒数，默认 `7200` |
 
-RAM 建议：只给该桶 `deploy/steamx/*` 的 `oss:PutObject` / `oss:InitiateMultipartUpload` / `oss:UploadPart` / `oss:CompleteMultipartUpload` / `oss:AbortMultipartUpload` / `oss:GetObject` / `oss:HeadObject` / `oss:ListObjects`（List 仅清理方案需要）。桶内该前缀保持私有，不靠公共读。未配置上述 Secret 时上传步骤会跳过，发布仍只走 GHCR，便于合入后由运维补齐密钥。
+RAM 建议：只给该桶 `deploy/steamx/*` 的 `oss:PutObject` / `oss:InitiateMultipartUpload` / `oss:UploadPart` / `oss:CompleteMultipartUpload` / `oss:AbortMultipartUpload` / `oss:GetObject` / `oss:HeadObject` / `oss:ListObjects`（List 仅清理方案需要）。桶内该前缀保持私有，不靠公共读。未配置上述 Secret 时上传步骤会跳过；上传步骤失败也允许继续发布并回退 GHCR，OSS 旁路故障不会阻断现有拉取路径。
 
 #### OSS 发布包清理（仅提案，本仓库不自动删）
 
@@ -169,7 +169,7 @@ Release 的 `MIGRATION_ALLOWLIST` 是该提交的批准文件清单。通用指�
 
 ## 互斥、超时和手机号运维
 
-Release 与手机号提供商运维共用 `release-production` 并发组，服务器另以 `.deploy.lock` 互斥。默认锁等待 120 秒；镜像获取总预算 900 秒（OSS 下载+load 与 GHCR 拉取共用，不再按单次 180 秒掐断）、GHCR 最多 4 次尝试、失败后退避 10/20/40 秒，过程中每 30 秒打印一次进度心跳，分别由 `DEPLOY_LOCK_TIMEOUT`、`IMAGE_PULL_TIMEOUT`、`IMAGE_PULL_ATTEMPTS`、`IMAGE_PULL_BACKOFF_SECONDS`、`IMAGE_PULL_HEARTBEAT_SECONDS` 调整。优先走 OSS 签名包；OSS 失败再回退 GHCR。获取失败时应用和配置都不改。
+Release 与手机号提供商运维共用 `release-production` 并发组，服务器另以 `.deploy.lock` 互斥。默认锁等待 120 秒；OSS 下载+load 独立预算 300 秒，GHCR 回退另有完整总预算 900 秒（不按单次 180 秒掐断）、最多 4 次尝试、失败后退避 10/20/40 秒，过程中每 30 秒打印一次进度心跳，分别由 `DEPLOY_LOCK_TIMEOUT`、`IMAGE_OSS_TIMEOUT`、`IMAGE_PULL_TIMEOUT`、`IMAGE_PULL_ATTEMPTS`、`IMAGE_PULL_BACKOFF_SECONDS`、`IMAGE_PULL_HEARTBEAT_SECONDS` 调整。优先走 OSS 签名包；OSS 失败再回退 GHCR。获取失败时应用和配置都不改。
 
 候选预检默认最多 20 次、间隔 2 秒，每次 HTTP 请求最多 4 秒；相关变量为 `PREFLIGHT_ATTEMPTS`、`PREFLIGHT_INTERVAL_SECONDS`。超时限制不能修复网络问题。
 

@@ -179,3 +179,12 @@ test('only a successful same-repository PR uploads immutable source proof after 
   assert(steps.get('Verify CI scope policy').includes('scripts/ci-source-proof.test.mjs scripts/release-ci-reuse.test.mjs'));
   assert(release.includes('      actions: read\n      pull-requests: read'));
 });
+
+test('optional OSS mirror failure preserves GHCR deployment fallback', () => {
+  const mirror = release.split('      - name: Mirror image archive to Aliyun OSS\n')[1]?.split('\n  verify-course-voice-loading:')[0];
+  assert(mirror?.includes('continue-on-error: true'));
+  assert(mirror?.includes('DEPLOY_OSS_ACCESS_KEY_ID'));
+  assert(release.includes('image_id: ${{ steps.oss.outputs.image_id }}'));
+  assert(release.includes('IMAGE_ID: ${{ needs.build-image.outputs.image_id }}'));
+  assert(release.includes('envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST,IMAGE_OSS_URL,IMAGE_ID,'));
+});

@@ -21,7 +21,7 @@
  *   DEPLOY_OSS_PREFIX       default deploy/steamx
  *   DEPLOY_OSS_SIGN_EXPIRES signed URL lifetime in seconds (default 7200)
  *   GITHUB_SHA              recorded in the sidecar JSON
- *   GITHUB_OUTPUT           when set, writes signed_url / object_key / uploaded
+ *   GITHUB_OUTPUT           when set, writes signed_url / image_id / object_key / uploaded
  *
  * This script never deletes OSS objects. Cleanup is a separate, manual proposal.
  */
@@ -78,23 +78,38 @@ function run(command, args, { stdio = 'inherit' } = {}) {
   })
 }
 
-async function saveImageArchive(imageRef, archivePath) {
-  await new Promise((resolve, reject) => {
-    const save = spawn('docker', ['save', imageRef], { stdio: ['ignore', 'pipe', 'inherit'] })
-    const gzip = createGzip({ level: 1 })
-    const out = createWriteStream(archivePath)
-    save.on('error', reject)
-    gzip.on('error', reject)
-    out.on('error', reject)
-    save.on('close', (code) => {
-      if (code !== 0) reject(new Error(`docker save exited with ${code}`))
+async function inspectImageId(imageRef) {
+  return new Promise((resolve, reject) => {
+    const child = spawn('docker', ['image', 'inspect', '--format', '{{.Id}}', imageRef], {
+      stdio: ['ignore', 'pipe', 'inherit'],
     })
-    pipeline(save.stdout, gzip, out).then(resolve).catch(reject)
+    let output = ''
+    child.stdout.setEncoding('utf8').on('data', (chunk) => { output += chunk })
+    child.on('error', reject)
+    child.on('close', (code) => {
+      if (code === 0) resolve(output.trim())
+      else reject(new Error(`docker image inspect exited with ${code}`))
+    })
   })
 }
 
-async function appendGithubOutput(values) {
-  const file = process.env.GITHUB_OUTPUT
+async function saveImageArchive(imageRef, archivePath) {
+  const save = spawn('docker', ['save', imageRef], { stdio: ['ignore', 'pipe', 'inherit'] })
+  const completed = new Promise((resolve, reject) => {
+    save.on('error', reject)
+    save.on('close', (code) => {
+      if (code === 0) resolve()
+      else reject(new Error(`docker save exited with ${code}`))
+    })
+  })
+  await Promise.all([
+    completed,
+    pipeline(save.stdout, createGzip({ level: 1 }), createWriteStream(archivePath)),
+  ])
+}
+
+async function appendGithubOutput(values, env) {
+  const file = env.GITHUB_OUTPUT
   if (!file) return
   const lines = Object.entries(values).map(([key, value]) => `${key}=${value}`)
   await writeFile(file, `${lines.join('\n')}\n`, { flag: 'a' })
@@ -104,6 +119,7 @@ export async function uploadDeployImage({
   env = process.env,
   clientFactory = createDeployOssClient,
   pull = (ref) => run('docker', ['pull', ref]),
+  inspect = inspectImageId,
   save = saveImageArchive,
   now = () => new Date(),
 } = {}) {
@@ -122,8 +138,14 @@ export async function uploadDeployImage({
   try {
     console.info(`Pulling ${imageRef} for OSS archive ...`)
     await pull(imageRef)
+    // The registry digest is not preserved by docker save/load. Trust the
+    // image ID inspected from the exact pulled digest, never archive metadata.
+    const imageId = await inspect(imageRef)
+    if (!/^sha256:[0-9a-f]{64}$/.test(imageId)) {
+      throw new Error(`Invalid Docker image ID: ${imageId}`)
+    }
     console.info(`Saving gzip archive to ${archivePath} ...`)
-    await save(imageRef, archivePath)
+    await save(imageId, archivePath)
     const sizeBytes = (await stat(archivePath)).size
     console.info(`Archive size: ${sizeBytes} bytes`)
 
@@ -136,6 +158,7 @@ export async function uploadDeployImage({
         'Content-Type': 'application/gzip',
         'Cache-Control': 'private, no-cache',
         'x-oss-meta-image-digest': digest,
+        'x-oss-meta-image-id': imageId,
         'x-oss-meta-git-sha': env.GITHUB_SHA || '',
         'x-oss-meta-registry-image': registryImage,
       },
@@ -150,6 +173,7 @@ export async function uploadDeployImage({
     const sidecar = {
       objectKey,
       digest,
+      imageId,
       registryImage,
       gitSha: env.GITHUB_SHA || null,
       sizeBytes,
@@ -166,11 +190,12 @@ export async function uploadDeployImage({
     console.info(`Uploaded ${objectKey}; signed URL expires in ${expires}s`)
     await appendGithubOutput({
       uploaded: 'true',
+      image_id: imageId,
       object_key: objectKey,
       signed_url: signedUrl,
       size_bytes: String(sizeBytes),
-    })
-    return { objectKey, signedUrl, sizeBytes, sidecarKey }
+    }, env)
+    return { objectKey, signedUrl, imageId, sizeBytes, sidecarKey }
   } finally {
     await rm(workDir, { recursive: true, force: true })
   }

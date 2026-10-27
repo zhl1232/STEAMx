@@ -63,6 +63,7 @@ jobs:
       digest: ${{ steps.build.outputs.digest }}
       oss_url: ${{ steps.oss.outputs.signed_url }}
       oss_object: ${{ steps.oss.outputs.object_key }}
+      image_id: ${{ steps.oss.outputs.image_id }}
     env:
       NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
@@ -148,6 +149,7 @@ jobs:
 
       - name: Mirror image archive to Aliyun OSS
         id: oss
+        continue-on-error: true
         env:
           REGISTRY_IMAGE: ${{ steps.image.outputs.name }}
           IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
@@ -270,13 +272,14 @@ jobs:
           REGISTRY_IMAGE: ${{ needs.build-image.outputs.image }}
           IMAGE_DIGEST: ${{ needs.build-image.outputs.digest }}
           IMAGE_OSS_URL: ${{ needs.build-image.outputs.oss_url }}
+          IMAGE_ID: ${{ needs.build-image.outputs.image_id }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           command_timeout: 60m
-          envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST,IMAGE_OSS_URL,DEPLOY_DIR,NGINX_SITE_PATH,NGINX_SITE_ENABLED_PATH,MIGRATION_ALLOWLIST
+          envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST,IMAGE_OSS_URL,IMAGE_ID,DEPLOY_DIR,NGINX_SITE_PATH,NGINX_SITE_ENABLED_PATH,MIGRATION_ALLOWLIST
           script: |
             set -eu
             trap 'rm -rf -- "$DEPLOY_DIR"' EXIT
