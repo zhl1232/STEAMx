@@ -70,7 +70,12 @@ function CellOverlay({ state, size }: { state: CellState; size: number }) {
                 </div>
             )
         case "attacking":
-            return <div className="absolute inset-0 bg-red-500/15 z-10" />
+            return (
+                <div className="absolute inset-0 z-10 bg-rose-500/30">
+                    <div className="absolute inset-x-[18%] top-1/2 h-0.5 -translate-y-1/2 rotate-45 bg-rose-500/80" />
+                    <div className="absolute inset-x-[18%] top-1/2 h-0.5 -translate-y-1/2 -rotate-45 bg-rose-500/80" />
+                </div>
+            )
         case "trying":
             return <div className="absolute inset-0 bg-blue-400/30 ring-3 ring-blue-400 animate-pulse z-10" />
         case "backtracked":
@@ -348,7 +353,7 @@ export default function NQueensPage() {
                                             key={s}
                                             onClick={() => setSpeed(s)}
                                             className={cn(
-                                                "min-h-11 px-3 py-1 text-[10px] font-medium transition-colors sm:min-h-0 sm:px-2",
+                                                "min-h-11 px-3 py-1 text-sm font-bold transition-colors sm:min-h-0 sm:px-2",
                                                 speed === s
                                                     ? "bg-primary text-primary-foreground"
                                                     : "text-muted-foreground hover:text-foreground",
@@ -365,6 +370,7 @@ export default function NQueensPage() {
                     {/* Chess Board */}
                     <div className="relative overflow-x-auto no-scrollbar touch-pan-x bg-muted/20 rounded-md p-3 sm:p-5 border border-border shadow-xl" aria-label="N 皇后棋盘，可横向滑动查看大棋盘">
                         <div className="flex items-center justify-start sm:justify-center">
+                            <div className="relative" style={{ width: boardSize, height: boardSize }}>
                             <div
                                 className="grid border border-amber-900/30 rounded-xs overflow-hidden shadow-lg"
                                 style={{
@@ -402,6 +408,45 @@ export default function NQueensPage() {
                                         </button>
                                     )
                                 })}
+                            </div>
+                            {/* Attack lines from each queen */}
+                            <svg
+                                className="pointer-events-none absolute left-0 top-0 z-[12]"
+                                width={boardSize}
+                                height={boardSize}
+                                viewBox={`0 0 ${boardSize} ${boardSize}`}
+                                aria-hidden
+                            >
+                                {Array.from({ length: n * n }, (_, i) => {
+                                    const row = Math.floor(i / n)
+                                    const col = i % n
+                                    if (cellStates[row]?.[col] !== "queen") return null
+                                    const cx = col * cellSize + cellSize / 2
+                                    const cy = row * cellSize + cellSize / 2
+                                    const lines = [
+                                        // row
+                                        { x1: 0, y1: cy, x2: boardSize, y2: cy },
+                                        // col
+                                        { x1: cx, y1: 0, x2: cx, y2: boardSize },
+                                        // diag down-right
+                                        { x1: cx - Math.min(col, row) * cellSize, y1: cy - Math.min(col, row) * cellSize, x2: cx + Math.min(n - 1 - col, n - 1 - row) * cellSize, y2: cy + Math.min(n - 1 - col, n - 1 - row) * cellSize },
+                                        // diag down-left
+                                        { x1: cx - Math.min(col, n - 1 - row) * cellSize, y1: cy + Math.min(col, n - 1 - row) * cellSize, x2: cx + Math.min(n - 1 - col, row) * cellSize, y2: cy - Math.min(n - 1 - col, row) * cellSize },
+                                    ]
+                                    return lines.map((line, idx) => (
+                                        <line
+                                            key={`atk-${row}-${col}-${idx}`}
+                                            x1={line.x1}
+                                            y1={line.y1}
+                                            x2={line.x2}
+                                            y2={line.y2}
+                                            stroke="rgb(244 63 94 / 0.55)"
+                                            strokeWidth={Math.max(2, cellSize * 0.08)}
+                                            strokeLinecap="round"
+                                        />
+                                    ))
+                                })}
+                            </svg>
                             </div>
                         </div>
 
@@ -473,10 +518,10 @@ export default function NQueensPage() {
                     </div>
 
                     {/* Hint text */}
-                    <p className="text-center text-[10px] sm:text-xs text-muted-foreground mt-3 sm:mt-4">
+                    <p className="mt-3 text-center text-sm font-semibold text-foreground sm:mt-4">
                         {mode === "manual"
-                            ? "点击棋盘格子放置或移除皇后 · 每行每列每条对角线最多一个皇后"
-                            : "观察回溯算法逐行尝试放置皇后，遇到冲突时回溯"}
+                            ? "点格子放皇后。粉红射线是攻击线：同行、同列、同对角线都会被攻击。"
+                            : "观察回溯：蓝格是尝试，红叉是冲突，绿格是安全。"}
                     </p>
                 </div>
             </div>
