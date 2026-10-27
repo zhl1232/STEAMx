@@ -207,7 +207,7 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
             key={category.metaKey}
             href={category.href}
             className={cn(
-              "group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.6)] px-2.5 py-2.5 text-left transition-colors hover:bg-[hsl(var(--surface-raised)/0.96)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3.5 lg:min-h-[88px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
+              "group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.6)] max-md:relative max-md:border-[hsl(var(--surface-border)/0.88)] max-md:bg-[hsl(var(--surface-raised))] max-md:shadow-[0_14px_36px_-30px_hsl(var(--surface-shadow)/0.22)] max-md:active:scale-[0.99] px-2.5 py-2.5 text-left transition-colors hover:bg-[hsl(var(--surface-raised)/0.96)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3.5 lg:min-h-[88px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
               "border-border/60",
             )}
           >
@@ -261,8 +261,13 @@ function MainlineStartCard({ className }: { className?: string }) {
 
 function StartExploreSection({ categoryTileCounts }: { categoryTileCounts: HomeCategoryTileCounts }) {
   return (
-    <section aria-labelledby="home-start-heading">
-      <h2 id="home-start-heading" className="mb-2 text-[17px] font-extrabold text-foreground md:mb-3 md:text-[20px]">
+    <section aria-labelledby="home-start-heading" className="max-md:relative">
+      {/* 手机端：借自然页的淡淡光晕点缀 */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-4 -top-6 h-32 w-40 rounded-full bg-[radial-gradient(closest-side,hsl(var(--brand-green)/0.12),transparent)] md:hidden"
+      />
+      <h2 id="home-start-heading" className="mb-2 text-[17px] font-extrabold text-foreground max-md:relative max-md:px-1 max-md:text-[18px] max-md:font-bold max-md:tracking-[0.01em] md:mb-3 md:text-[20px]">
         按兴趣探索
       </h2>
       <CategoryGrid categoryTileCounts={categoryTileCounts} />
@@ -360,7 +365,7 @@ function HomeNatureSection({ observations }: { observations: ObservationEvent[] 
     <section className="flex min-w-0 flex-col justify-between" aria-labelledby="home-nature-heading">
       <div>
         <div className="mb-2 flex items-center justify-between md:mb-3">
-          <h2 id="home-nature-heading" className="text-[17px] font-extrabold text-foreground md:text-[20px]">
+          <h2 id="home-nature-heading" className="text-[17px] font-extrabold text-foreground max-md:px-1 max-md:text-[18px] max-md:font-bold max-md:tracking-[0.01em] md:text-[20px]">
             自然观察
           </h2>
           <Link
