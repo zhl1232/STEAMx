@@ -13,6 +13,15 @@ import {
     type MemoryTheme,
     type MemoryThemeOption,
 } from "@/lib/playground/memory-online"
+import {
+    getMemoryLevel,
+    isMemoryLevelUnlocked,
+    MEMORY_LEVEL_THEMES,
+    MEMORY_LEVELS,
+    memoryLevelColumns,
+    memoryLevelPairs,
+    type MemoryLevel,
+} from "@/lib/playground/memory-levels"
 
 export {
     getMemoryColumns,
@@ -41,6 +50,8 @@ export type MemoryStats = {
     wins: number
     bestMoves: Record<string, number>
     bestTimes: Record<string, number>
+    /** 已通过的主题关卡 id，例如 "optics-1" */
+    clearedLevels: string[]
 }
 
 const STATS_KEY = "memory_match_stats"
@@ -50,6 +61,7 @@ const EMPTY_STATS: MemoryStats = {
     wins: 0,
     bestMoves: {},
     bestTimes: {},
+    clearedLevels: [],
 }
 
 function loadStats(): MemoryStats {
@@ -60,6 +72,9 @@ function loadStats(): MemoryStats {
         wins: typeof raw.wins === "number" ? raw.wins : 0,
         bestMoves: raw.bestMoves && typeof raw.bestMoves === "object" ? raw.bestMoves : {},
         bestTimes: raw.bestTimes && typeof raw.bestTimes === "object" ? raw.bestTimes : {},
+        clearedLevels: Array.isArray(raw.clearedLevels)
+            ? raw.clearedLevels.filter((id): id is string => typeof id === "string")
+            : [],
     }
 }
 
@@ -115,10 +130,6 @@ function buildDeck(
         .map(({ card }) => card)
 }
 
-function buildInitialDeck(pack: MemoryConceptPack, difficulty: MemoryDifficulty): MemoryCard[] {
-    return buildDeck(pack, difficulty, createSeededRandom(initialDeckSeed(pack, difficulty)))
-}
-
 export function createMemoryDeck(
     difficulty: MemoryDifficulty,
     pack: MemoryConceptPack = "physics",
@@ -126,20 +137,25 @@ export function createMemoryDeck(
     return buildDeck(pack, difficulty)
 }
 
-export type StartMemoryGameOptions = {
-    difficulty?: MemoryDifficulty
-    pack?: MemoryConceptPack
-    /** @deprecated use pack; kept so old callers compiling against theme still typecheck if any */
-    theme?: MemoryTheme
+export function buildLevelDeck(level: MemoryLevel, random: RandomSource = Math.random): MemoryCard[] {
+    const cards = memoryLevelPairs(level).flatMap((pair, pairIndex) => [
+        { id: `${level.id}-${pairIndex}-a`, symbol: pair.key, face: "term" as const, label: pair.term, matched: false },
+        { id: `${level.id}-${pairIndex}-b`, symbol: pair.key, face: "def" as const, label: pair.def, matched: false },
+    ])
+    return cards
+        .map((card) => ({ card, sort: random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ card }) => card)
 }
 
-export function useMemoryMatch(
-    initialDifficulty: MemoryDifficulty = "easy",
-    initialPack: MemoryConceptPack = "physics",
-) {
-    const [difficulty, setDifficulty] = useState(initialDifficulty)
-    const [pack, setPack] = useState(initialPack)
-    const [cards, setCards] = useState<MemoryCard[]>(() => buildInitialDeck(initialPack, initialDifficulty))
+function initialLevelDeck(level: MemoryLevel): MemoryCard[] {
+    return buildLevelDeck(level, createSeededRandom(initialDeckSeed("physics", "easy") ^ level.pairCount))
+}
+
+export function useMemoryMatch(initialLevelId: string = MEMORY_LEVELS[0].id) {
+    const [levelId, setLevelId] = useState(initialLevelId)
+    const level = getMemoryLevel(levelId)
+    const [cards, setCards] = useState<MemoryCard[]>(() => initialLevelDeck(getMemoryLevel(initialLevelId)))
     const [openIds, setOpenIds] = useState<string[]>([])
     const [moves, setMoves] = useState(0)
     const [time, setTime] = useState(0)
@@ -149,9 +165,8 @@ export function useMemoryMatch(
     usePlaygroundStatsLoader(() => setStats(loadStats()))
 
     useEffect(() => {
-        setCards(buildDeck(initialPack, initialDifficulty))
-        setPack(initialPack)
-    }, [initialDifficulty, initialPack])
+        setCards(buildLevelDeck(getMemoryLevel(initialLevelId)))
+    }, [initialLevelId])
 
     useEffect(() => {
         if (status !== "playing") return
@@ -182,34 +197,28 @@ export function useMemoryMatch(
         if (status === "won" || cards.some((card) => !card.matched)) return
         setStatus("won")
         setStats((prev) => {
-            const updated = {
+            const key = level.id
+            const updated: MemoryStats = {
                 totalGames: prev.totalGames + 1,
                 wins: prev.wins + 1,
-                bestMoves: {
-                    ...prev.bestMoves,
-                    [difficulty]: prev.bestMoves[difficulty] ? Math.min(prev.bestMoves[difficulty], moves) : moves,
-                },
-                bestTimes: {
-                    ...prev.bestTimes,
-                    [difficulty]: prev.bestTimes[difficulty] ? Math.min(prev.bestTimes[difficulty], time) : time,
-                },
+                bestMoves: { ...prev.bestMoves, [key]: prev.bestMoves[key] ? Math.min(prev.bestMoves[key], moves) : moves },
+                bestTimes: { ...prev.bestTimes, [key]: prev.bestTimes[key] ? Math.min(prev.bestTimes[key], time) : time },
+                clearedLevels: prev.clearedLevels.includes(key) ? prev.clearedLevels : [...prev.clearedLevels, key],
             }
             saveStats(updated)
             return updated
         })
-    }, [cards, difficulty, moves, status, time])
+    }, [cards, level.id, moves, status, time])
 
-    const startNewGame = useCallback((options?: StartMemoryGameOptions) => {
-        const nextDifficulty = options?.difficulty ?? difficulty
-        const nextPack = options?.pack ?? pack
-        setDifficulty(nextDifficulty)
-        setPack(nextPack)
-        setCards(buildDeck(nextPack, nextDifficulty))
+    const startLevel = useCallback((nextId?: string) => {
+        const next = getMemoryLevel(nextId ?? levelId)
+        setLevelId(next.id)
+        setCards(buildLevelDeck(next))
         setOpenIds([])
         setMoves(0)
         setTime(0)
         setStatus("playing")
-    }, [difficulty, pack])
+    }, [levelId])
 
     const flipCard = useCallback((id: string) => {
         if (status === "won" || openIds.length >= 2 || openIds.includes(id)) return
@@ -227,18 +236,22 @@ export function useMemoryMatch(
         })),
     [cards, openIds])
 
+    const nextLevel = useMemo(() => {
+        const t = MEMORY_LEVEL_THEMES.find((item) => item.id === level.themeId)
+        return t?.levels[level.index + 1] ?? null
+    }, [level])
+
     return {
-        difficulty,
-        pack,
-        /** alias for older UI that still said theme */
-        theme: pack,
+        level,
+        nextLevel,
         cards: visibleCards,
         moves,
         time,
         status,
         stats,
-        columns: getMemoryColumns(difficulty),
+        columns: memoryLevelColumns(level.pairCount),
+        isUnlocked: (target: MemoryLevel) => isMemoryLevelUnlocked(target, stats.clearedLevels),
         flipCard,
-        startNewGame,
+        startLevel,
     }
 }

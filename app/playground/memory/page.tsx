@@ -2,24 +2,15 @@
 
 import { Suspense, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
-import { Brain, Globe, RotateCcw, Sparkles, Timer, Trophy, User } from "lucide-react"
-import {
-    MEMORY_CONCEPT_OPTIONS,
-    useMemoryMatch,
-    type MemoryDifficulty,
-} from "@/hooks/playground/use-memory-match"
+import { Brain, Check, Globe, Lock, RotateCcw, Sparkles, Timer, Trophy, User } from "lucide-react"
+import { useMemoryMatch } from "@/hooks/playground/use-memory-match"
+import { getMemoryLevelTheme, MEMORY_LEVEL_THEMES } from "@/lib/playground/memory-levels"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { MemoryOnlineView } from "@/components/features/playground/memory-online-view"
 
 type PageMode = "single" | "online"
-
-const DIFFICULTIES: Array<{ key: MemoryDifficulty; label: string }> = [
-    { key: "easy", label: "4×4" },
-    { key: "normal", label: "4×5" },
-    { key: "hard", label: "6×6" },
-]
 
 function formatTime(seconds: number) {
     const minutes = Math.floor(seconds / 60)
@@ -40,7 +31,8 @@ function MemoryPageInner() {
     const initialRoomCode = searchParams.get("room")
     // 带 room 参数时直接进入在线模式
     const [mode, setMode] = useState<PageMode>(initialRoomCode ? "online" : "single")
-    const game = useMemoryMatch("easy", "physics")
+    const game = useMemoryMatch()
+    const currentTheme = getMemoryLevelTheme(game.level.themeId)
     const { checkBadges } = useGamification()
 
     useEffect(() => {
@@ -68,7 +60,7 @@ function MemoryPageInner() {
                             </div>
                             <div>
                                 <h1 className="text-xl font-black">记忆翻牌</h1>
-                                <p className="text-sm text-muted-foreground">把物理或数学名词，和它的解释配对。</p>
+                                <p className="text-sm text-muted-foreground">选一个主题闯关，把名词和它的解释配对。</p>
                             </div>
                         </div>
                         {mode === "single" ? (
@@ -76,7 +68,7 @@ function MemoryPageInner() {
                                 variant="outline"
                                 size="icon"
                                 className="h-11 w-11"
-                                onClick={() => game.startNewGame()}
+                                onClick={() => game.startLevel()}
                                 aria-label="重新开始"
                             >
                                 <RotateCcw className="h-4 w-4" />
@@ -119,7 +111,7 @@ function MemoryPageInner() {
                             variant="outline"
                             size="icon"
                             className="h-11 w-11 shrink-0 rounded-full sm:hidden"
-                            onClick={() => game.startNewGame()}
+                            onClick={() => game.startLevel()}
                             aria-label="重新开始"
                         >
                             <RotateCcw className="h-4 w-4" />
@@ -131,45 +123,72 @@ function MemoryPageInner() {
                         <MemoryOnlineView initialRoomCode={initialRoomCode} />
                     ) : null}
 
-                    <div className={cn("mb-3 flex flex-wrap items-center gap-2", mode === "online" && "hidden")}>
-                        <span className="text-sm font-bold text-muted-foreground">难度</span>
-                        {DIFFICULTIES.map((item) => (
-                            <Button
-                                key={item.key}
-                                size="sm"
-                                variant={game.difficulty === item.key ? "default" : "outline"}
-                                className="min-h-11 px-4"
-                                onClick={() => game.startNewGame({ difficulty: item.key })}
-                            >
-                                {item.label}
-                            </Button>
-                        ))}
-                        <span className="ml-auto rounded-full bg-muted px-3 py-1 text-xs font-bold">
-                            {game.moves} 次配对 · {formatTime(game.time)}
-                        </span>
-                    </div>
-
-                    <div className={cn("mb-4 flex flex-wrap items-center gap-2", mode === "online" && "hidden")}>
-                        <span className="text-sm font-bold text-muted-foreground">题库</span>
-                        {MEMORY_CONCEPT_OPTIONS.map((item) => {
-                            const selected = game.pack === item.key
-                            return (
-                                <button
-                                    key={item.key}
-                                    type="button"
-                                    onClick={() => game.startNewGame({ pack: item.key })}
-                                    className={cn(
-                                        "inline-flex min-h-11 items-center gap-1.5 rounded-md border px-3 text-sm font-bold transition-colors",
-                                        selected
-                                            ? "border-fuchsia-400/50 bg-fuchsia-500/15 text-foreground"
-                                            : "border-border bg-background text-muted-foreground hover:bg-muted/60 hover:text-foreground",
-                                    )}
-                                    aria-pressed={selected}
-                                >
-                                    {item.label}
-                                </button>
-                            )
-                        })}
+                    <div className={cn("mb-4 space-y-3", mode === "online" && "hidden")}>
+                        <div className="flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="主题">
+                            {MEMORY_LEVEL_THEMES.map((t) => {
+                                const selected = game.level.themeId === t.id
+                                const done = t.levels.filter((lv) => game.stats.clearedLevels.includes(lv.id)).length
+                                return (
+                                    <button
+                                        key={t.id}
+                                        type="button"
+                                        role="tab"
+                                        aria-selected={selected}
+                                        onClick={() => {
+                                            const firstOpen = [...t.levels].reverse().find((lv) => game.isUnlocked(lv) && !game.stats.clearedLevels.includes(lv.id)) ?? t.levels[0]
+                                            game.startLevel(firstOpen.id)
+                                        }}
+                                        className={cn(
+                                            "inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border px-4 text-[15px] font-bold transition-colors",
+                                            selected
+                                                ? "border-fuchsia-400/60 bg-fuchsia-500/15 text-foreground"
+                                                : "border-border bg-background text-muted-foreground hover:bg-muted/60 hover:text-foreground",
+                                        )}
+                                    >
+                                        <span aria-hidden>{t.emoji}</span>
+                                        {t.label}
+                                        <span className="text-sm font-semibold text-muted-foreground">{done}/{t.levels.length}</span>
+                                    </button>
+                                )
+                            })}
+                        </div>
+                        <div className="grid grid-cols-3 gap-2">
+                            {currentTheme.levels.map((lv) => {
+                                const unlocked = game.isUnlocked(lv)
+                                const cleared = game.stats.clearedLevels.includes(lv.id)
+                                const selected = game.level.id === lv.id
+                                return (
+                                    <button
+                                        key={lv.id}
+                                        type="button"
+                                        disabled={!unlocked}
+                                        onClick={() => game.startLevel(lv.id)}
+                                        aria-pressed={selected}
+                                        aria-label={`第 ${lv.index + 1} 关 ${lv.name}${unlocked ? "" : "（未解锁）"}`}
+                                        className={cn(
+                                            "flex min-h-14 flex-col items-center justify-center rounded-lg border px-2 py-1.5 text-center transition-colors",
+                                            selected
+                                                ? "border-fuchsia-400/70 bg-fuchsia-500/15"
+                                                : "border-border bg-background hover:bg-muted/60",
+                                            !unlocked && "cursor-not-allowed opacity-60",
+                                        )}
+                                    >
+                                        <span className="flex items-center gap-1 text-[15px] font-black">
+                                            {unlocked ? (cleared ? <Check className="h-4 w-4 text-emerald-500" /> : null) : <Lock className="h-4 w-4" />}
+                                            第 {lv.index + 1} 关
+                                        </span>
+                                        <span className="text-sm leading-tight text-muted-foreground">{lv.name}</span>
+                                        <span className="text-sm leading-tight text-muted-foreground">{lv.pairCount} 对</span>
+                                    </button>
+                                )
+                            })}
+                        </div>
+                        <div className="flex items-center justify-between gap-2 text-sm font-bold text-muted-foreground">
+                            <span>配对 {game.cards.filter((c) => c.matched).length / 2}/{game.level.pairCount}</span>
+                            <span className="rounded-full bg-muted px-3 py-1 text-foreground">
+                                {game.moves} 次翻对 · {formatTime(game.time)}
+                            </span>
+                        </div>
                     </div>
 
                     <div
@@ -184,7 +203,7 @@ function MemoryPageInner() {
                                 disabled={card.open || game.status === "won"}
                                 aria-label={card.open ? (card.face === "term" ? `名词 ${card.label}` : `解释 ${card.label}`) : "未翻开的牌"}
                                 className={cn(
-                                    "memory-card-scene aspect-square rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400/60",
+                                    "memory-card-scene aspect-[4/5] rounded-lg sm:aspect-square focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400/60",
                                     card.matched && "memory-card-matched",
                                 )}
                             >
@@ -225,12 +244,8 @@ function MemoryPageInner() {
                                             className={cn(
                                                 "select-none text-center font-black leading-snug text-foreground",
                                                 card.face === "term"
-                                                    ? game.columns >= 6
-                                                        ? "text-base sm:text-xl"
-                                                        : "text-lg sm:text-2xl"
-                                                    : game.columns >= 6
-                                                      ? "text-xs sm:text-sm"
-                                                      : "text-sm sm:text-base",
+                                                    ? "text-base sm:text-xl"
+                                                    : "text-sm sm:text-base",
                                             )}
                                         >
                                             {card.label}
@@ -242,10 +257,25 @@ function MemoryPageInner() {
                     </div>
 
                     {mode === "single" && game.status === "won" && (
-                        <div className="mt-4 rounded-lg border border-fuchsia-400/40 bg-fuchsia-500/10 p-4 text-center">
+                        <div className="mt-4 rounded-lg border border-fuchsia-400/40 bg-fuchsia-500/10 p-4 text-center" role="status">
                             <Sparkles className="mx-auto mb-2 h-6 w-6 text-fuchsia-500" />
-                            <p className="font-black">全部配对完成！</p>
-                            <p className="text-xs text-muted-foreground">{game.moves} 次配对 · {formatTime(game.time)}</p>
+                            <p className="text-lg font-black">第 {game.level.index + 1} 关「{game.level.name}」通过！</p>
+                            <p className="mb-2 text-sm text-muted-foreground">{game.moves} 次翻对 · {formatTime(game.time)}</p>
+                            <p className="mx-auto max-w-xl rounded-md bg-background/70 p-3 text-left text-[15px] leading-relaxed text-foreground">
+                                💡 {game.level.takeaway}
+                            </p>
+                            <div className="mt-3 flex flex-wrap justify-center gap-2">
+                                <Button variant="outline" className="min-h-11" onClick={() => game.startLevel()}>
+                                    再玩一次
+                                </Button>
+                                {game.nextLevel ? (
+                                    <Button className="min-h-11" onClick={() => game.startLevel(game.nextLevel!.id)}>
+                                        下一关：{game.nextLevel.name}
+                                    </Button>
+                                ) : (
+                                    <span className="self-center text-[15px] font-bold">🎉 {currentTheme.label}主题全部通关</span>
+                                )}
+                            </div>
                         </div>
                     )}
                 </div>
@@ -258,12 +288,12 @@ function MemoryPageInner() {
                             <Trophy className="h-4 w-4 text-fuchsia-500" />
                             最佳记录
                         </h2>
-                        <div className="space-y-2 text-xs">
-                            {DIFFICULTIES.map((item) => (
-                                <div key={item.key} className="flex justify-between rounded-sm bg-muted/30 p-3">
-                                    <span>{item.label}</span>
+                        <div className="space-y-2 text-sm">
+                            {currentTheme.levels.map((lv) => (
+                                <div key={lv.id} className="flex justify-between rounded-sm bg-muted/30 p-3">
+                                    <span>{currentTheme.label} · 第 {lv.index + 1} 关</span>
                                     <span className="font-mono">
-                                        {game.stats.bestMoves[item.key] ? `${game.stats.bestMoves[item.key]} 次 / ${formatTime(game.stats.bestTimes[item.key] ?? 0)}` : "暂无"}
+                                        {game.stats.bestMoves[lv.id] ? `${game.stats.bestMoves[lv.id]} 次 / ${formatTime(game.stats.bestTimes[lv.id] ?? 0)}` : "暂无"}
                                     </span>
                                 </div>
                             ))}
@@ -272,7 +302,7 @@ function MemoryPageInner() {
                     <section className="rounded-sm border border-border bg-muted/20 p-4 text-sm text-muted-foreground">
                         <h3 className="mb-2 font-bold text-foreground">怎么配对</h3>
                         <p className="leading-relaxed text-foreground">
-                            紫色牌是名词，黄色牌是解释。找出意思相同的一对即可。一边练记忆，一边记概念。
+                            紫色牌是名词，黄色牌是解释或图示。每个主题 3 关，配对数逐关增加；过关会解锁下一关，并告诉你背后的道理。
                         </p>
                     </section>
                     <section className="flex items-center gap-2 rounded-sm bg-muted/20 p-4 text-sm text-foreground">
