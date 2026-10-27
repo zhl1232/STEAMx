@@ -108,11 +108,19 @@ describe('shared profile editor', () => {
   it('retries a failed load instead of showing a submittable empty form', async () => {
     fetchMock.mockResolvedValueOnce(response({ error: '资料暂时无法加载' }, 503))
     render(<ProfileEditor />)
-    expect(await screen.findByText('资料暂时无法加载')).toBeInTheDocument()
+    expect(await screen.findByText('加载失败，请重试')).toBeInTheDocument()
+    expect(screen.queryByText('资料暂时无法加载')).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: '保存更改' })).not.toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: /重试/ }))
     await screen.findByDisplayValue('小探索家')
     expect(patchPayloads).toHaveLength(0)
+  })
+
+  it('shows a Chinese re-login hint instead of the raw Unauthorized error', async () => {
+    fetchMock.mockResolvedValueOnce(response({ error: 'Unauthorized' }, 401))
+    render(<ProfileEditor />)
+    expect(await screen.findByText('登录已失效，请重新登录')).toBeInTheDocument()
+    expect(screen.queryByText('Unauthorized')).not.toBeInTheDocument()
   })
 
   it('rejects a blank nickname locally with a focused field', async () => {

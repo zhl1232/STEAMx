@@ -1,6 +1,6 @@
 'use client'
 
-import { forwardRef, useEffect, useId, useImperativeHandle, useRef, useState } from 'react'
+import { forwardRef, useEffect, useId, useImperativeHandle, useRef, useState, type ReactNode } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ArrowUpRight, Loader2, RefreshCcw, Save } from 'lucide-react'
@@ -26,6 +26,8 @@ interface ProfileEditorProps {
   mode?: 'dialog' | 'page'
   onSaved?: () => void
   onCancel?: () => void
+  /** 「公开资料」标题右侧的操作（如预览公开主页）；不传时显示说明文字 */
+  publicHeadingAction?: ReactNode
 }
 
 export const ProfileEditor = forwardRef<ProfileEditorHandle, ProfileEditorProps>(function ProfileEditor({
@@ -34,6 +36,7 @@ export const ProfileEditor = forwardRef<ProfileEditorHandle, ProfileEditorProps>
   mode = 'page',
   onSaved,
   onCancel,
+  publicHeadingAction,
 }, ref) {
   const editor = useProfileEditor(active)
   const router = useRouter()
@@ -163,9 +166,9 @@ export const ProfileEditor = forwardRef<ProfileEditorHandle, ProfileEditorProps>
 
           <div className="min-w-0 space-y-7">
             <section className="space-y-4" aria-labelledby={`${id}-public-heading`}>
-              <div className="flex items-baseline justify-between gap-3">
+              <div className="flex items-center justify-between gap-3">
                 <h2 id={`${id}-public-heading`} className="text-base font-semibold">公开资料</h2>
-                <span className="text-xs text-muted-foreground">展示在个人主页</span>
+                {publicHeadingAction ?? <span className="text-xs text-muted-foreground">展示在个人主页</span>}
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center justify-between gap-3">

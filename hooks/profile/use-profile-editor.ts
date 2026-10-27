@@ -77,7 +77,8 @@ export function useProfileEditor(active = true) {
         })
         const data = await response.json().catch(() => null)
         if (controller.signal.aborted) return
-        if (!response.ok || !data?.profile) throw new Error(data?.error || '个人资料加载失败')
+        if (response.status === 401) throw new Error('登录已失效，请重新登录')
+        if (!response.ok || !data?.profile) throw new Error('加载失败，请重试')
         const profile = data.profile as ProfilePayload
         const next = toForm(profile)
         clearPreview()
@@ -92,7 +93,7 @@ export function useProfileEditor(active = true) {
       } catch (error) {
         if (controller.signal.aborted) return
         logger.error(error, { context: 'load profile editor' })
-        setLoadError(error instanceof Error ? error.message : '个人资料加载失败')
+        setLoadError(error instanceof Error && error.message === '登录已失效，请重新登录' ? error.message : '加载失败，请重试')
         setPhase('error')
       }
     })()

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, ExternalLink, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { ProfileEditor, type ProfileEditorHandle, type ProfileEditorTarget } from './profile-editor'
@@ -26,7 +26,7 @@ interface EditProfileDialogProps {
   onOpenChange?: (open: boolean) => void
   initialTarget?: ProfileEditorTarget
   onCloseAutoFocus?: (event: Event) => void
-  /** 传入后在顶部显示「预览我的公开主页」，跳到 /users/{id} */
+  /** 传入后在「公开资料」标题右侧显示「预览公开主页 ›」，跳到 /users/{id} */
   publicProfileUserId?: string | null
 }
 
@@ -146,16 +146,6 @@ export function EditProfileDialog({
         <DialogHeader className="relative shrink-0 border-b border-border/70 px-16 py-4 pt-[calc(1rem+env(safe-area-inset-top))] text-left md:px-6 md:py-5">
           <DialogTitle className="text-left text-lg font-semibold">编辑资料</DialogTitle>
           <DialogDescription className="text-left text-xs">让大家更好地认识你</DialogDescription>
-          {publicProfileUserId ? (
-            <button
-              type="button"
-              onClick={previewPublicProfile}
-              className="mt-3 inline-flex h-10 w-fit items-center gap-1.5 rounded-full border border-[hsl(var(--surface-border-strong))] bg-[hsl(var(--surface-raised))] px-4 text-sm font-medium text-foreground transition-colors hover:border-primary/50 hover:text-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              <ExternalLink className="h-4 w-4" aria-hidden="true" />
-              预览我的公开主页
-            </button>
-          ) : null}
           <button
             ref={closeRef}
             type="button"
@@ -167,7 +157,23 @@ export function EditProfileDialog({
             <X className="hidden h-5 w-5 md:block" />
           </button>
         </DialogHeader>
-        <ProfileEditor ref={editorRef} mode="dialog" initialTarget={initialTarget} onSaved={close} onCancel={close} />
+        <ProfileEditor
+          ref={editorRef}
+          mode="dialog"
+          initialTarget={initialTarget}
+          onSaved={close}
+          onCancel={close}
+          publicHeadingAction={publicProfileUserId ? (
+            <button
+              type="button"
+              onClick={previewPublicProfile}
+              className="-mr-2 inline-flex min-h-11 items-center gap-0.5 rounded-md px-2 text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              预览公开主页
+              <ChevronRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+          ) : undefined}
+        />
       </DialogContent>
     </Dialog>
   )
