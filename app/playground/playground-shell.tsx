@@ -330,14 +330,6 @@ function GameNavGlyph({
 function MobilePlaygroundHeader() {
     const pathname = usePathname()
     const isHome = pathname === "/playground"
-    const isFunctionWars = pathname === "/playground/functionwars"
-    const navItems = [
-        { name: "首页", href: "/playground", icon: Home },
-        { name: "物理实验室", href: "/playground/physics-lab", icon: TestTubes },
-        { name: "3D 物理课本", href: "/textbook", icon: BookOpen },
-        ...publicGames.filter((game) => PLAYGROUND_DISCOVERY_BY_HREF.get(game.href)?.featured || pathname.startsWith(game.href)),
-        { name: "更多玩法", href: "/playground#playground-more", icon: Grid3X3 },
-    ]
     const activeGame = games.find((game) => pathname.startsWith(game.href))
 
     return (
@@ -370,30 +362,8 @@ function MobilePlaygroundHeader() {
                         shortcuts={GAME_SHORTCUTS[activeGame.href] ?? []}
                     />
                 ) : null}
-                <div className="flex min-w-11 shrink-0 justify-end md:hidden"><UserButton compact /></div>
+                <div className="flex min-w-11 shrink-0 justify-end md:hidden [&_a]:min-h-11 [&_a]:text-[15px] [&_button]:min-h-11 [&_button]:min-w-11 [&_button]:text-[15px]"><UserButton compact /></div>
             </nav>
-            {!isHome && !isFunctionWars ? (
-                <nav className="flex gap-2 overflow-x-auto px-3 pb-2.5 no-scrollbar" aria-label="游乐场游戏导航">
-                    {navItems.filter((item) => item.href !== "/playground").map((item) => {
-                        const active = item.href !== "/playground" && pathname.startsWith(item.href)
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={cn(
-                                    "inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-full px-4 text-sm font-bold transition-colors",
-                                    active
-                                        ? "bg-primary text-primary-foreground shadow-xs"
-                                        : "bg-muted text-foreground hover:bg-muted/70",
-                                )}
-                            >
-                                <item.icon className="h-4 w-4" aria-hidden />
-                                {item.name}
-                            </Link>
-                        )
-                    })}
-                </nav>
-            ) : null}
         </div>
     )
 }
@@ -497,7 +467,7 @@ export default function PlaygroundLayout({ children }: { children: React.ReactNo
             <MobilePlaygroundHeader />
             <div className="relative app-shell-wide flex w-full max-md:px-0">
                 <DesktopSidebar />
-                <main className="relative min-w-0 flex-1 overflow-x-hidden pb-28 lg:pb-0">
+                <main data-playground-main className="relative min-w-0 flex-1 overflow-x-hidden pb-28 lg:pb-0">
                     <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_0%,hsl(var(--brand-blue)/0.12),transparent_34%),radial-gradient(circle_at_88%_8%,hsl(var(--brand-green)/0.12),transparent_30%),linear-gradient(180deg,hsl(var(--app-canvas)),hsl(var(--background))_78%)]" />
                     {children}
                 </main>

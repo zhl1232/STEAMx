@@ -278,7 +278,7 @@ export default function HanoiPage() {
             <div className="playground-game-main playground-game-center relative overflow-hidden">
                 <div className="max-w-full lg:max-w-2xl w-full playground-game-board relative">
                     {/* Header */}
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6">
+                    <div className="hidden sm:flex flex-row items-center justify-between gap-3 mb-6">
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
                                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
@@ -295,7 +295,7 @@ export default function HanoiPage() {
                         <Button
                             size="icon"
                             variant="outline"
-                            className="rounded-full h-8 w-8 self-end sm:self-auto"
+                            className="rounded-full h-8 w-8"
                             onClick={resetGame}
                             aria-label="重置游戏"
                             title="重置"
@@ -305,10 +305,20 @@ export default function HanoiPage() {
                     </div>
 
                     {/* Controls bar */}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-sm border border-border shadow-inner">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 sm:mb-6 sm:bg-background/60 sm:p-4 sm:rounded-sm sm:border sm:border-border sm:shadow-inner">
+                        <Button
+                            size="icon"
+                            variant="outline"
+                            className="h-11 w-11 rounded-xs sm:hidden"
+                            onClick={resetGame}
+                            aria-label="重置游戏"
+                            title="重置"
+                        >
+                            <RotateCcw className="w-4 h-4" aria-hidden />
+                        </Button>
                         {/* Disk count */}
                         <div className="flex items-center gap-1.5">
-                            <span className="text-[10px] sm:text-xs text-muted-foreground font-medium">圆盘</span>
+                            <span className="text-[15px] sm:text-xs text-foreground/80 font-bold">圆盘</span>
                             <Button
                                 variant="outline"
                                 size="icon"
@@ -629,7 +639,7 @@ export default function HanoiPage() {
                                                             ? isPerfect
                                                                 ? "text-amber-500"
                                                                 : "text-foreground"
-                                                            : "text-muted-foreground/40",
+                                                            : "text-muted-foreground",
                                                     )}
                                                 >
                                                     {best != null ? (
@@ -675,7 +685,7 @@ export default function HanoiPage() {
                                                         "font-mono font-bold",
                                                         best != null
                                                             ? "text-foreground"
-                                                            : "text-muted-foreground/40",
+                                                            : "text-muted-foreground",
                                                     )}
                                                 >
                                                     {best != null ? formatTime(best) : "—"}
@@ -688,12 +698,12 @@ export default function HanoiPage() {
 
                             <div className="mt-6 p-4 rounded-md border border-border bg-muted/10">
                                 <div className="flex items-start gap-3">
-                                    <Trophy className="w-5 h-5 text-muted-foreground/40 shrink-0 mt-0.5" />
+                                    <Trophy className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
                                     <div>
-                                        <h4 className="text-sm font-bold text-muted-foreground/70">
+                                        <h4 className="text-sm font-bold text-muted-foreground">
                                             挑战目标
                                         </h4>
-                                        <p className="text-xs text-muted-foreground/50 mt-1 leading-relaxed">
+                                        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                                             尝试用最少步数（2ⁿ−1）完成每种盘数的挑战，获得 ★ 标记！从 3 个盘开始练习递归思维，逐步挑战更多圆盘。
                                         </p>
                                     </div>

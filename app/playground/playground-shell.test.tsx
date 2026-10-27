@@ -41,7 +41,8 @@ describe('playground navigation', () => {
         expect(screen.getByRole('heading', { name: '24 点' })).toBeInTheDocument()
         expect(screen.getByRole('link', { name: '返回游乐场首页' })).toHaveAttribute('href', '/playground')
         expect(screen.getByRole('button', { name: '24 点玩法说明' })).toBeInTheDocument()
-        expect(screen.getAllByRole('navigation', { name: '游乐场游戏导航' })).toHaveLength(2)
+        // 手机端已去掉顶部玩法横条，只剩桌面侧栏这一处玩法导航。
+        expect(screen.getAllByRole('navigation', { name: '游乐场游戏导航' })).toHaveLength(1)
     })
 
     it('leaves physics navigation and account controls to the main-site shell', () => {

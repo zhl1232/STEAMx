@@ -61,7 +61,7 @@ function MemoryPageInner() {
         <div className="playground-game-page">
             <div className="playground-game-main playground-game-center">
                 <div className="w-full max-w-3xl playground-game-board">
-                    <div className="mb-5 flex items-center justify-between gap-3">
+                    <div className="mb-5 hidden items-center justify-between gap-3 sm:flex">
                         <div className="flex items-center gap-3">
                             <div className="flex h-10 w-10 items-center justify-center rounded-md border border-fuchsia-400/40 bg-fuchsia-500/10">
                                 <Brain className="h-5 w-5 text-fuchsia-500" />
@@ -84,9 +84,10 @@ function MemoryPageInner() {
                         ) : null}
                     </div>
 
-                    {/* 单机 / 在线模式切换 */}
+                    {/* 单机 / 在线模式切换；手机端把重新开始并到同一行 */}
+                    <div className="mb-4 flex items-center gap-2">
                     <div
-                        className="mb-4 flex h-10 w-full items-center rounded-full border border-border/60 bg-muted/40 p-0.5 sm:h-9 sm:w-auto"
+                        className="flex h-11 w-full items-center rounded-full border border-border/60 bg-muted/40 p-0.5 sm:h-9 sm:w-auto"
                         role="group"
                         aria-label="游戏模式"
                     >
@@ -101,7 +102,7 @@ function MemoryPageInner() {
                                 type="button"
                                 onClick={() => setMode(value)}
                                 className={cn(
-                                    "inline-flex h-full flex-1 items-center justify-center gap-1 rounded-full px-3 text-xs font-medium transition-colors sm:flex-none sm:px-4 sm:text-[13px]",
+                                    "inline-flex h-full flex-1 items-center justify-center gap-1 rounded-full px-3 text-[15px] font-semibold transition-colors sm:flex-none sm:px-4 sm:text-[13px]",
                                     mode === value
                                         ? "bg-primary text-primary-foreground shadow-xs"
                                         : "text-muted-foreground hover:text-foreground",
@@ -112,6 +113,18 @@ function MemoryPageInner() {
                                 {label}
                             </button>
                         ))}
+                    </div>
+                    {mode === "single" ? (
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-11 w-11 shrink-0 rounded-full sm:hidden"
+                            onClick={() => game.startNewGame()}
+                            aria-label="重新开始"
+                        >
+                            <RotateCcw className="h-4 w-4" />
+                        </Button>
+                    ) : null}
                     </div>
 
                     {mode === "online" ? (

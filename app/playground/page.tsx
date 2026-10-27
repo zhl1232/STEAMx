@@ -384,7 +384,7 @@ export default function PlaygroundPage() {
         `${game.name} ${game.subtitle} ${game.description}`.toLocaleLowerCase().replace(/\s+/g, "").includes(search),
     )
     const renderGames = (entries: typeof DIRECTORY_GAMES) => (
-        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 group-open:mt-4 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4 max-lg:[&>*:last-child:nth-child(odd)]:col-span-2">
             {entries.map(({ game, discovery }) => (
                 <GameTile key={game.href} game={game} discovery={discovery} played={displayStats.perGame.get(game.href)?.played ?? 0} />
             ))}
@@ -469,7 +469,7 @@ function StatsGrid({ stats }: { stats: AggStats }) {
 /** 手机端首屏：四个大入口替代长篇介绍，桌面端仍用 HeroPanel。 */
 function MobileQuickEntries() {
     const entries = [
-        { name: "物理实验室", hint: "电路 · 光 · 声 · 磁", href: "/playground/physics-lab", icon: Beaker, tone: "bg-primary/10 text-primary" },
+        { name: "物理实验室", hint: "电路 · 光 · 声", href: "/playground/physics-lab", icon: Beaker, tone: "bg-primary/10 text-primary" },
         { name: "3D 物理课本", hint: "按章节互动学", href: "/textbook", icon: BookOpen, tone: "bg-[hsl(var(--tone-science-soft))] text-[hsl(var(--tone-science))]" },
         { name: "迷宫探险", hint: "从这里开始", href: "/playground/maze", icon: Compass, tone: "bg-[hsl(var(--tone-tech-soft))] text-[hsl(var(--tone-tech))]" },
         { name: "更多玩法", hint: "逻辑挑战", href: "#playground-more", icon: Grid3X3, tone: "bg-muted text-foreground" },
@@ -480,11 +480,11 @@ function MobileQuickEntries() {
                 <Link key={href} href={href} onClick={href === "#playground-more" ? () => {
                     const more = document.getElementById("playground-more")
                     if (more instanceof HTMLDetailsElement) more.open = true
-                } : undefined} className="surface-card flex min-h-[88px] flex-col justify-between gap-2 p-3.5 active:bg-muted/60">
+                } : undefined} className="surface-card flex min-h-[104px] flex-col justify-between gap-2.5 p-4 active:bg-muted/60">
                     <span className={cn("grid h-10 w-10 place-items-center rounded-md", tone)}><Icon className="h-5 w-5" aria-hidden /></span>
                     <span>
                         <span className="block text-base font-black leading-6 text-foreground">{name}</span>
-                        <span className="block truncate text-sm leading-5 text-muted-foreground">{hint}</span>
+                        <span className="block truncate text-[15px] leading-5 text-foreground/75">{hint}</span>
                     </span>
                 </Link>
             ))}
@@ -542,7 +542,7 @@ function StatCard({
             </div>
             <div className="min-w-0">
                 <div className="text-2xl font-black leading-none tracking-tight text-foreground">{value}</div>
-                <div className="mt-1.5 truncate text-xs font-semibold text-muted-foreground">{label}</div>
+                <div className="mt-1.5 truncate text-sm font-semibold text-foreground/75">{label}</div>
             </div>
         </div>
     )
@@ -551,11 +551,11 @@ function StatCard({
 function ExplorationRecords({ stats }: { stats: AggStats }) {
     return (
         <div className="space-y-4 pb-5">
-            <p className="text-xs leading-6 text-muted-foreground">按当前玩法的已有游玩记录汇总。胜利、解题和已完成关卡沿用各玩法口径；旧版仅存最佳成绩时按成绩条目计数，记录不一定覆盖每一局。</p>
+            <p className="text-[15px] leading-6 text-foreground/75">按当前玩法的已有游玩记录汇总。胜利、解题和已完成关卡沿用各玩法口径；旧版仅存最佳成绩时按成绩条目计数，记录不一定覆盖每一局。</p>
             <StatsGrid stats={stats} />
             <div>
                 <h2 className="text-sm font-semibold">探索过的 STEAM 主题</h2>
-                <p className="mt-1 text-xs leading-5 text-muted-foreground">这里只记录玩过什么、记录了多少次，不代表能力测评或学习效果。同一玩法可属于多个主题。</p>
+                <p className="mt-1 text-[15px] leading-6 text-foreground/75">这里只记录玩过什么、记录了多少次，不代表能力测评或学习效果。同一玩法可属于多个主题。</p>
                 <ul className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
                     {STEAM_DIMS.map((dim) => {
                         const playedInDim = GAMES.filter((game) => game.tags.includes(dim.key) && (stats.perGame.get(game.href)?.played ?? 0) > 0).length
@@ -565,7 +565,7 @@ function ExplorationRecords({ stats }: { stats: AggStats }) {
                                 <Icon aria-hidden className={cn("h-5 w-5 shrink-0", dim.color)} />
                                 <div>
                                     <p className="text-sm font-semibold">{dim.label}</p>
-                                    <p className="mt-1 text-xs text-muted-foreground">{playedInDim} 款 · {stats.steamPlayed[dim.key]} 次记录</p>
+                                    <p className="mt-1 text-sm text-foreground/75">{playedInDim} 款 · {stats.steamPlayed[dim.key]} 次记录</p>
                                 </div>
                             </li>
                         )
@@ -578,14 +578,15 @@ function ExplorationRecords({ stats }: { stats: AggStats }) {
 
 function GameTile({ game, played }: { game: GameCard; discovery: PlaygroundDiscovery; played: number }) {
     return (
-        <article className="surface-card flex flex-col p-4 max-lg:py-3.5 lg:p-0">
-            <Link href={game.href} prefetch={false} className="group flex flex-1 items-start gap-3 rounded-sm focus-visible:outline-2 focus-visible:outline-primary lg:flex-col lg:items-stretch lg:gap-0">
+        <article className="surface-card flex flex-col p-3.5 lg:p-0">
+            <Link href={game.href} prefetch={false} className="group flex min-h-[132px] flex-1 flex-col gap-2.5 rounded-sm focus-visible:outline-2 focus-visible:outline-primary lg:min-h-0 lg:gap-0">
                 <span className="lg:hidden"><GameArtwork game={game} compact /></span>
                 <span className="hidden lg:block"><GameArtwork game={game} wide /></span>
                 <div className="min-w-0 flex-1 lg:p-4">
-                    <h3 className="text-base font-semibold group-hover:text-primary lg:text-lg lg:font-black">{game.name}</h3>
-                    <p className="mt-1 text-sm leading-6 text-foreground/80">{game.description}</p>
-                    <p className="mt-2 flex items-center gap-2 text-sm font-semibold text-primary">{played > 0 ? `已玩 ${played} · 继续探索` : "开始探索"}<ArrowRight aria-hidden className="h-4 w-4" /></p>
+                    <h3 className="text-base font-black leading-6 group-hover:text-primary lg:text-lg">{game.name}</h3>
+                    <p className="mt-0.5 line-clamp-2 text-[15px] leading-[22px] text-foreground/80 lg:line-clamp-none lg:mt-1 lg:text-sm lg:leading-6">{game.description}</p>
+                    <p className="mt-2 hidden items-center gap-2 text-sm font-semibold text-primary lg:flex">{played > 0 ? `已玩 ${played} · 继续探索` : "开始探索"}<ArrowRight aria-hidden className="h-4 w-4" /></p>
+                    {played > 0 ? <p className="mt-1 text-sm font-semibold text-primary lg:hidden">已玩 {played} 次</p> : null}
                 </div>
             </Link>
         </article>

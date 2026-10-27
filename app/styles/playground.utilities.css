@@ -496,3 +496,24 @@
     animation: none;
   }
 }
+
+/*
+ * 手机端可读性与触控兜底：游戏页里遗留的 10–13px 小字统一抬到 14/15px，
+ * 按钮至少 44px。棋盘等密集区域加 data-dense 跳过（格子尺寸由各自计算）。
+ */
+@media (max-width: 1023px) {
+  [data-playground-main] :where(.text-xs, .text-\[10px\], .text-\[11px\], .text-\[12px\], .text-\[13px\]):not(:where([data-dense], [data-dense] *)) {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  [data-playground-main] :where(.text-sm):not(:where([data-dense], [data-dense] *)) {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  [data-playground-main] :where(button, [role="tab"], a.inline-flex):not(:where([data-dense], [data-dense] *)) {
+    min-height: 44px;
+  }
+  [data-playground-main] :where(button[aria-label], button:has(> svg:only-child)):not(:where([data-dense], [data-dense] *)) {
+    min-width: 44px;
+  }
+}

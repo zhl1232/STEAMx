@@ -274,7 +274,7 @@ export default function Game24Page() {
       {/* Main game area */}
       <div className="playground-game-main xl:justify-center">
         {/* Header */}
-        <div className="w-full max-w-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3 sm:mb-5">
+        <div className="w-full max-w-2xl hidden sm:flex flex-row items-center justify-between gap-3 mb-5">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
               <Calculator className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
@@ -305,6 +305,9 @@ export default function Game24Page() {
         <div className="w-full max-w-2xl space-y-4 sm:space-y-6">
           {/* Timer */}
           <div className="flex items-center gap-3">
+            <span className="shrink-0 text-[15px] font-bold text-foreground sm:hidden">
+              第 {round} 轮{streak > 0 ? <span className="ml-1.5 text-amber-600 dark:text-amber-400">连胜 {streak}</span> : null}
+            </span>
             <Timer className={cn("w-4 h-4 shrink-0", timeLeft <= 10 ? "text-red-500 animate-pulse" : "text-muted-foreground")} />
             <TimerBar timeLeft={timeLeft} total={60} />
             <span className={cn(
@@ -373,7 +376,7 @@ export default function Game24Page() {
                   placeholder="用 +, -, *, / 和括号组出 24"
                   className={cn(
                     "flex-1 h-11 sm:h-12 rounded-sm border bg-background px-4 text-sm sm:text-base",
-                    "placeholder:text-muted-foreground/60",
+                    "placeholder:text-muted-foreground",
                     "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary/40",
                     "transition-colors",
                     error
@@ -533,7 +536,7 @@ export default function Game24Page() {
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xs font-semibold text-muted-foreground/80 flex items-center gap-1.5">
+                <h3 className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
                   <Calculator className="w-3.5 h-3.5" />
                   逆运算思维
                 </h3>
@@ -544,7 +547,7 @@ export default function Game24Page() {
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xs font-semibold text-muted-foreground/80 flex items-center gap-1.5">
+                <h3 className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" />
                   表达式树
                 </h3>
@@ -555,7 +558,7 @@ export default function Game24Page() {
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xs font-semibold text-muted-foreground/80 flex items-center gap-1.5">
+                <h3 className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
                   <Brain className="w-3.5 h-3.5" />
                   为什么它能训练数学思维？
                 </h3>

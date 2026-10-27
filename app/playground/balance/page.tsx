@@ -281,13 +281,13 @@ export default function BalancePage() {
                 <div className="w-full max-w-5xl playground-game-board !p-3 sm:!p-5">
                     <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                         <div className="flex min-w-0 items-center gap-3">
-                            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md border border-teal-400/45 bg-teal-500/10">
+                            <div className="hidden h-11 w-11 shrink-0 place-items-center rounded-md border border-teal-400/45 bg-teal-500/10 sm:grid">
                                 <Scale className="h-5 w-5 text-teal-600 dark:text-teal-300" />
                             </div>
                             <div className="min-w-0">
-                                <h1 className="truncate text-lg font-black sm:text-xl">天平称重 · {game.level.name}</h1>
-                                <p className="text-sm text-muted-foreground">
-                                    假币{game.level.fakeLighter ? "更轻" : "更重"} · 最多称 {game.level.maxWeighings} 次 · {game.level.coinCount} 枚硬币
+                                <h1 className="hidden truncate text-lg font-black sm:block sm:text-xl">天平称重 · {game.level.name}</h1>
+                                <p className="text-[15px] font-semibold text-foreground/80 sm:text-sm sm:font-normal sm:text-muted-foreground">
+                                    <span className="sm:hidden">{game.level.name} · </span>假币{game.level.fakeLighter ? "更轻" : "更重"} · 最多称 {game.level.maxWeighings} 次 · {game.level.coinCount} 枚硬币
                                 </p>
                             </div>
                         </div>
@@ -321,7 +321,7 @@ export default function BalancePage() {
                                     onClick={() => game.startLevel(index)}
                                     aria-pressed={active}
                                     className={cn(
-                                        "min-h-10 shrink-0 rounded-sm border px-3 text-left text-xs font-bold transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.98]",
+                                        "min-h-11 shrink-0 rounded-sm border px-3 text-left text-xs font-bold transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.98]",
                                         active
                                             ? "border-teal-700 bg-teal-800 text-white dark:border-teal-200 dark:bg-teal-100 dark:text-teal-950"
                                             : "border-border bg-background text-muted-foreground hover:bg-muted hover:text-foreground",
