@@ -71,6 +71,60 @@ describe('official support composer',()=>{
     await waitFor(()=>expect(bodies).toHaveLength(1))
     expect(bodies[0].attachmentIds).toEqual(['uploaded-image'])
   })
+  it('keeps upload errors beside the composer through background refresh and allows retry',async()=>{
+    let uploads=0
+    let reads=0
+    vi.stubGlobal('fetch',vi.fn(async(url:string)=>{
+      if(url.endsWith('/attachments')) {
+        uploads++
+        return uploads===1
+          ? {ok:false,status:400,json:async()=>({error:'请选择 JPEG、PNG 或 WebP 图片'})}
+          : {ok:true,json:async()=>({attachment:{id:'retry-image'}})}
+      }
+      reads++
+      return {ok:true,json:async()=>snapshot}
+    }))
+    render(<SupportChat conversationId="conversation" />)
+    await screen.findByText('课程使用、账号或社区遇到问题？请留下具体情况，我们会在此回复。')
+    const input=screen.getByLabelText('添加客服图片')
+    const file=new File(['image'],'photo.heic',{type:'image/heic'})
+    fireEvent.change(input,{target:{files:[file]}})
+    const alert=await screen.findByRole('alert')
+    expect(alert).toHaveTextContent('photo.heic')
+    expect(alert.parentElement).toContainElement(input)
+    await act(async()=>{fireEvent(window,new Event('focus'))})
+    expect(reads).toBeGreaterThan(1)
+    expect(screen.getByRole('alert')).toHaveTextContent('请选择 JPEG、PNG 或 WebP 图片')
+    fireEvent.change(input,{target:{files:[new File(['image'],'photo.png',{type:'image/png'})]}})
+    await screen.findByRole('button',{name:'图片 1 · 移除'})
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+  it('explains oversized files without uploading them',async()=>{
+    const fetchMock=vi.fn(async()=>({ok:true,json:async()=>snapshot}))
+    vi.stubGlobal('fetch',fetchMock)
+    render(<SupportChat conversationId="conversation" />)
+    await screen.findByText('课程使用、账号或社区遇到问题？请留下具体情况，我们会在此回复。')
+    const file=new File(['image'],'large.jpg',{type:'image/jpeg'})
+    Object.defineProperty(file,'size',{value:5*1024*1024+1})
+    fireEvent.change(screen.getByLabelText('添加客服图片'),{target:{files:[file]}})
+    expect(await screen.findByRole('alert')).toHaveTextContent('图片不能超过 5 MB')
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    expect(screen.getByRole('button',{name:'添加图片'})).toBeEnabled()
+  })
+  it.each(['network','proxy'])('shows readable feedback for %s upload failures',async(kind)=>{
+    vi.stubGlobal('fetch',vi.fn(async(url:string)=>{
+      if(url.endsWith('/attachments')) {
+        if(kind==='network')throw new TypeError('Failed to fetch')
+        return {ok:false,status:413,json:async()=>{throw new SyntaxError('Unexpected token <')}}
+      }
+      return {ok:true,json:async()=>snapshot}
+    }))
+    render(<SupportChat conversationId="conversation" />)
+    await screen.findByText('课程使用、账号或社区遇到问题？请留下具体情况，我们会在此回复。')
+    fireEvent.change(screen.getByLabelText('添加客服图片'),{target:{files:[new File(['image'],'photo.png',{type:'image/png'})]}})
+    expect(await screen.findByRole('alert')).toHaveTextContent(kind==='network'?'网络连接失败':'图片超过上传服务的大小限制')
+    expect(screen.getByRole('button',{name:'添加图片'})).toBeEnabled()
+  })
   it('does not mark a hidden conversation as read',async()=>{
     const fetchMock=vi.fn(async()=>({ok:true,json:async()=>snapshot}))
     vi.stubGlobal('fetch',fetchMock)

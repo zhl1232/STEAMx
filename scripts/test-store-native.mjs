@@ -39,7 +39,7 @@ async function holdRowLock(statement) {
   })
   child.stdin.write(`BEGIN; ${statement}; SELECT '${marker}';\n`)
   try { await ready } catch (error) { child.stdin.end('ROLLBACK;\n'); await closed; throw error } finally { clearTimeout(timer) }
-  return async () => { child.stdin.end('ROLLBACK;\n'); await closed }
+  return async (statement = 'ROLLBACK;') => { child.stdin.end(`${statement}\n`); await closed }
 }
 function expectQueryError(statement, expected) {
   try { sql(statement) } catch (error) {
@@ -49,7 +49,7 @@ function expectQueryError(statement, expected) {
   throw new Error(`expected query failure: ${expected}`)
 }
 
-const prelude = `CREATE EXTENSION IF NOT EXISTS pgcrypto; CREATE SCHEMA IF NOT EXISTS auth;
+const prelude = `CREATE SCHEMA IF NOT EXISTS extensions; CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions; CREATE SCHEMA IF NOT EXISTS auth;
 DO $$ BEGIN CREATE ROLE anon NOLOGIN; EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN CREATE ROLE authenticated NOLOGIN; EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN CREATE ROLE service_role NOLOGIN; EXCEPTION WHEN duplicate_object THEN NULL; END $$;
@@ -91,6 +91,18 @@ try {
   if (sql(`SELECT stock_reserved||':'||(SELECT count(*) FROM store_orders o JOIN store_order_items i ON i.order_id=o.id WHERE i.variant_id='${ids.raceVariant}') FROM store_product_variants WHERE id='${ids.raceVariant}'`) !== '1:1') throw new Error('concurrency final reservation mismatch')
   const same = await Promise.all([psqlAsync(`SELECT create_store_native_order('${ids.alice}','same-key','${ids.address}','x','北京市','[{"variant_id":"${ids.sameVariant}","quantity":1}]'::jsonb)`), psqlAsync(`SELECT create_store_native_order('${ids.alice}','same-key','${ids.address}','x','北京市','[{"variant_id":"${ids.sameVariant}","quantity":1}]'::jsonb)`)]); if (same[0].split('\n').pop() !== same[1].split('\n').pop()) throw new Error('same-key concurrency returned different ids')
   if (sql(`SELECT count(*) FROM store_orders WHERE user_id='${ids.alice}' AND external_order_id='same-key'`) !== '1') throw new Error('same-key duplicate order')
+  // Reproduce the production extension layout before applying the repair.
+  expectError(`start_store_payment_attempt('${order}','alipay','crypto-regression')`, 'function gen_random_bytes(integer) does not exist')
+  const cryptoFix = readFileSync(`${root}/supabase/migrations/20261027003000_store_payment_crypto_schema.sql`, 'utf8')
+  scopedSql(cryptoFix)
+  scopedSql(cryptoFix)
+  const deadlineFix = readFileSync(`${root}/supabase/migrations/20261027012000_store_payment_attempt_deadline.sql`, 'utf8')
+  const paymentFunctionSecurity = () => sql(`SELECT jsonb_build_object('owner',proowner,'acl',proacl,'definer',prosecdef,'config',proconfig) FROM pg_proc WHERE oid='public.start_store_payment_attempt(uuid,text,text)'::regprocedure`)
+  const beforeDeadlineSecurity = paymentFunctionSecurity()
+  scopedSql(deadlineFix)
+  scopedSql(deadlineFix)
+  if (paymentFunctionSecurity() !== beforeDeadlineSecurity) throw new Error('payment deadline migration changed ownership, ACLs or security settings')
+  if (sql(`SELECT has_function_privilege('anon','public.start_store_payment_attempt(uuid,text,text)','execute') OR has_function_privilege('authenticated','public.start_store_payment_attempt(uuid,text,text)','execute') OR NOT has_function_privilege('service_role','public.start_store_payment_attempt(uuid,text,text)','execute')`) !== 'f') throw new Error('payment attempt RPC permissions leaked')
   const attempt = sql(`SELECT start_store_payment_attempt('${order}','alipay','token-a')`); if (sql(`SELECT start_store_payment_attempt('${order}','alipay','token-a')`) !== attempt) throw new Error('payment idempotency failed')
   expectError(`start_store_payment_attempt('${order}','wechat','token-b')`, 'close_previous_attempt_first'); expectError(`close_store_payment_attempt('${attempt}',false)`, 'channel_close_confirmation_required'); sql(`SELECT close_store_payment_attempt('${attempt}',true)`)
   const attempt2 = sql(`SELECT start_store_payment_attempt('${order}','wechat','token-b')`); sql(`SELECT confirm_store_payment('${attempt2}',1100,'CNY','provider-1')`); sql(`SELECT confirm_store_payment('${attempt2}',1100,'CNY','provider-1')`)
@@ -157,6 +169,46 @@ try {
   console.info('PASS legacy order creator fills nonzero original/member snapshots without applying implicit benefits')
   const quote = (user, coupon='NULL', coins=false, quantity=3) => sql(`SELECT quote_store_native_order('${user}','北京市','${JSON.stringify([{variant_id:memberVariant,quantity}])}',${coupon},${coins})`)
   const createMember = (user,key,address,q,coupon='NULL',coins=false,quantity=3) => sql(`SELECT create_store_native_order_v1('${user}','${key}','${address}','encrypted','北京市','${JSON.stringify([{variant_id:memberVariant,quantity}])}','${q}'::jsonb,${coupon},${coins})`)
+  async function testPaymentDeadlineDuringLock(expireDuringWait) {
+    const key = `payment-deadline-${expireDuringWait ? 'expired' : 'valid'}`
+    const paymentOrder = createMember(ids.alice,key,ids.address,quote(ids.alice))
+    const release = await holdRowLock(`SELECT id FROM store_orders WHERE id='${paymentOrder}' FOR UPDATE`)
+    const application = `payment-deadline-${randomUUID()}`
+    let result
+    let before
+    try {
+      sql(`UPDATE store_inventory_reservations SET expires_at=clock_timestamp()+interval '${expireDuringWait ? '5 seconds' : '1 day'}' WHERE order_id='${paymentOrder}'`)
+      before = sql(`SELECT to_jsonb(o) FROM store_orders o WHERE id='${paymentOrder}'`)
+      result = psqlAsync(`SET statement_timeout='20s'; SET application_name='${application}'; SET ROLE service_role; SELECT start_store_payment_attempt('${paymentOrder}','alipay','${key}')`).then(value=>({value}),error=>({error}))
+      let waiting = false
+      for (let i=0;i<100;i++) {
+        const activity = sql(`SELECT (wait_event_type='Lock' AND cardinality(pg_blocking_pids(pid))>0)::text||':'||(xact_start<(SELECT expires_at FROM store_inventory_reservations WHERE order_id='${paymentOrder}'))::text FROM pg_stat_activity WHERE application_name='${application}'`)
+        if (activity === 'true:true') { waiting = true; break }
+        if (activity === 'true:false') throw new Error('payment transaction began after the fixture deadline')
+        await new Promise(resolve=>setTimeout(resolve,25))
+      }
+      if (!waiting) throw new Error('payment attempt never reached the order row-lock wait')
+      if (expireDuringWait) {
+        // Wait against PostgreSQL's real deadline, after proving the transaction began before it.
+        sql(`SELECT pg_sleep(greatest(extract(epoch FROM ((SELECT expires_at FROM store_inventory_reservations WHERE order_id='${paymentOrder}')-clock_timestamp())),0)+0.1)`)
+        if (sql(`SELECT bool_and(expires_at<=clock_timestamp()) FROM store_inventory_reservations WHERE order_id='${paymentOrder}'`) !== 't') throw new Error('payment reservation did not expire before releasing the order lock')
+      }
+    } finally { await release(); if (result) await result }
+    const outcome = await result
+    const attempts = sql(`SELECT count(*) FROM store_payment_attempts WHERE order_id='${paymentOrder}'`)
+    if (expireDuringWait) {
+      if (!outcome.error || !String(outcome.error).includes('order_expired')) throw new Error(`expired blocked payment must fail with order_expired: ${JSON.stringify(outcome)}`)
+      if (attempts !== '0' || sql(`SELECT to_jsonb(o) FROM store_orders o WHERE id='${paymentOrder}'`) !== before) throw new Error('expired blocked payment created an attempt or changed the order/payment status')
+    } else {
+      if (outcome.error) throw new Error(`unexpired blocked payment failed: ${outcome.error}`)
+      if (attempts !== '1' || sql(`SELECT status||':'||payment_status FROM store_orders WHERE id='${paymentOrder}'`) !== 'pending_payment:pending') throw new Error('unexpired blocked payment did not create exactly one pending attempt')
+      sql(`SELECT close_store_payment_attempt(id,true) FROM store_payment_attempts WHERE order_id='${paymentOrder}'`)
+    }
+    sql(`SELECT cancel_store_native_order('${paymentOrder}','${ids.alice}')`)
+  }
+  await testPaymentDeadlineDuringLock(false)
+  await testPaymentDeadlineDuringLock(true)
+  console.log('PASS payment deadline after real order-lock waits: valid attempt succeeds; expired attempt rolls back without order changes; migration replay and service-only ACL preserved')
   const proQuote = quote(ids.alice,'NULL',true)
   const pro = JSON.parse(proQuote)
   if (pro.memberSubtotalCents !== 2643 || pro.coinsUsed !== 264 || pro.totalCents !== 2479) throw new Error(`bad aggregate member/coin rounding ${proQuote}`)
@@ -286,7 +338,127 @@ try {
   const beforeReapply = seedState()
   sql(seed)
   if (seedState() !== beforeReapply) throw new Error('reapplying source seed overwrote reviewed operational data or duplicated rows')
+  const lockFix = readFileSync(`${root}/supabase/migrations/20261027010000_store_catalog_lock_order.sql`, 'utf8')
+  const catalogFunctionSecurity = () => sql(`SELECT jsonb_agg(jsonb_build_object('signature',p.oid::regprocedure::text,'owner',p.proowner,'acl',p.proacl,'definer',p.prosecdef,'config',p.proconfig) ORDER BY p.oid) FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='public' AND p.proname IN ('create_store_native_order','create_store_native_order_v1','save_store_native_catalog')`)
+  const beforeLockFixSecurity = catalogFunctionSecurity()
+  scopedSql(lockFix)
+  scopedSql(lockFix)
+  if (catalogFunctionSecurity() !== beforeLockFixSecurity) throw new Error('catalog lock migration changed function ownership, ACLs or security settings')
+
+  // Reproduce the actual cycle: administrator owns the product, creator waits
+  // for it, then that same administrator saves the child variant. Both entry
+  // points must wait before taking the variant, or the save will deadlock.
+  async function testCatalogCheckoutLockOrder({ legacy = false, changedQuote = false }) {
+    const productId = randomUUID(); const variantId = randomUUID()
+    const key = `catalog-lock-${randomUUID()}`
+    const application = `catalog-lock-${randomUUID()}`
+    sql(`UPDATE profiles SET membership_tier='pro',membership_period='lifetime',coins=500 WHERE id='${ids.alice}';
+      INSERT INTO store_products(id,slug,name,source,status,price_cents,shipping_cents,fulfillment_description) VALUES('${productId}','${key}','Lock order fixture','manual','active',1000,100,'Reviewed delivery');
+      INSERT INTO store_product_variants(id,product_id,name,sku,price_cents,stock_quantity,status) VALUES('${variantId}','${productId}','Lock variant','${key}',1000,10,'active');
+      INSERT INTO store_product_sources(variant_id,supplier_id,is_primary,source_url,source_price_cents) VALUES('${variantId}','${ids.supplier}',true,'manual://lock-fixture',400);`)
+    const items = JSON.stringify([{variant_id:variantId,quantity:1}])
+    const expected = sql(`SELECT quote_store_native_order('${ids.alice}','北京市','${items}',NULL,true)`)
+    const financialState = () => sql(`SELECT jsonb_build_object('coins',(SELECT coins FROM profiles WHERE id='${ids.alice}'),'holds',(SELECT count(*) FROM store_coin_holds WHERE user_id='${ids.alice}'),'ledger',(SELECT count(*) FROM store_benefit_ledger WHERE user_id='${ids.alice}'),'reserved',(SELECT stock_reserved FROM store_product_variants WHERE id='${variantId}'))`)
+    const before = financialState()
+    const release = await holdRowLock(`SELECT id FROM store_products WHERE id='${productId}' FOR UPDATE`)
+    const createStatement = legacy
+      ? `SELECT create_store_native_order('${ids.alice}','${key}','${ids.address}','x','北京市','${items}')`
+      : `SELECT create_store_native_order_v1('${ids.alice}','${key}','${ids.address}','x','北京市','${items}','${expected}'::jsonb,NULL,true)`
+    const result = psqlAsync(`SET statement_timeout='10s'; SET application_name='${application}'; ${createStatement}`).then(value=>({value}),error=>({error}))
+    let waiting = false
+    try {
+      for (let i=0;i<80;i++) {
+        if (sql(`SELECT count(*) FROM pg_stat_activity WHERE application_name='${application}' AND wait_event_type='Lock'`) === '1') { waiting = true; break }
+        await new Promise(resolve=>setTimeout(resolve,25))
+      }
+      if (!waiting) throw new Error('checkout did not reach the catalog row lock')
+      const price = changedQuote ? 1100 : 1000
+      const product = {version:Number(sql(`SELECT catalog_version FROM store_products WHERE id='${productId}'`)),slug:key,name:'Saved during checkout',status:'active',priceCents:price,shippingCents:100,fulfillmentDescription:'Reviewed delivery'}
+      const variants = [{id:variantId,version:Number(sql(`SELECT catalog_version FROM store_product_variants WHERE id='${variantId}'`)),name:'Lock variant',sku:key,priceCents:price,stockQuantity:10,minQuantity:1,supplierUrl:'manual://lock-fixture',costCents:400}]
+      await release(`SET LOCAL statement_timeout='10s'; SELECT save_store_native_catalog('${productId}','${JSON.stringify(product)}','${JSON.stringify(variants)}'); COMMIT;`)
+    } catch (error) { await release().catch(()=>{}); await result; throw error }
+    const outcome = await result
+    if (changedQuote) {
+      if (!outcome.error || !String(outcome.error).includes('quote_changed')) throw new Error(`changed catalog quote did not fail safely: ${JSON.stringify(outcome)}`)
+      if (financialState() !== before || sql(`SELECT count(*) FROM store_orders WHERE user_id='${ids.alice}' AND external_order_id='${key}'`) !== '0') throw new Error('catalog race failure leaked an order, inventory, coins or benefit ledger')
+    } else {
+      if (outcome.error) throw new Error(`catalog save/checkout deadlocked or failed: ${outcome.error}`)
+      if (sql(`SELECT count(*) FROM store_orders WHERE user_id='${ids.alice}' AND external_order_id='${key}'`) !== '1' || sql(`SELECT stock_reserved FROM store_product_variants WHERE id='${variantId}'`) !== '1') throw new Error('catalog race did not create exactly one reservation')
+      if (sql(`SELECT coins FROM profiles WHERE id='${ids.alice}'`) !== (legacy ? '500' : '412')) throw new Error('catalog race coin debit mismatch')
+      sql(`SELECT cancel_store_native_order(id,'${ids.alice}') FROM store_orders WHERE user_id='${ids.alice}' AND external_order_id='${key}'`)
+      // Cancellation keeps ledger history but restores balances and reservations.
+      if (sql(`SELECT coins FROM profiles WHERE id='${ids.alice}'`) !== '500' || sql(`SELECT stock_reserved FROM store_product_variants WHERE id='${variantId}'`) !== '0' || sql(`SELECT count(*) FROM store_coin_holds h JOIN store_orders o ON o.id=h.order_id WHERE o.external_order_id='${key}' AND h.status='reserved'`) !== '0') throw new Error('catalog race cancellation leaked inventory or coin reservation')
+    }
+  }
+  await testCatalogCheckoutLockOrder({legacy:true})
+  await testCatalogCheckoutLockOrder({})
+  await testCatalogCheckoutLockOrder({changedQuote:true})
+  console.log('PASS real product-lock/catalog-save races for legacy/v1 checkout, changed-quote rollback, migration replay and ACL preservation')
   console.log('PASS source seed: two drafts, eighteen paused zero-stock variants, unconfirmed shipping, no source mappings, reapply preserves edits')
   console.log('PASS membership discounts, frozen quotes, coin reserve/pay/cancel/refund replay, coupon grant/use/restore and immutable procurement')
+  const makeRecoveryRefund = ({user=ids.alice,address=ids.address,coupon='NULL',coins=true,provider='wechat',key}) => {
+    const quoted = quote(user,coupon,coins)
+    const recoveryOrder = createMember(user,key,address,quoted,coupon,coins)
+    const amount = JSON.parse(quoted).totalCents
+    const paymentAttempt = sql(`SELECT start_store_payment_attempt('${recoveryOrder}','${provider}','${key}')`)
+    sql(`SELECT confirm_store_payment('${paymentAttempt}',${amount},'CNY','${key}-provider-payment')`)
+    const paymentReference = sql(`SELECT payment_reference FROM store_orders WHERE id='${recoveryOrder}'`)
+    const aftersale = sql(`SELECT request_store_refund('${recoveryOrder}','${user}','Refund recovery fixture',false)`)
+    sql(`SELECT store_native_admin_action('${recoveryOrder}','approve_refund','{}','${ids.admin}')`)
+    return {order:recoveryOrder,aftersale,amount,paymentReference,reference:aftersale.replaceAll('-',''),provider}
+  }
+  // This approved refund predates the migration and must keep its channel ID.
+  const recoveredClosed = makeRecoveryRefund({key:'recovery-legacy-pending'})
+  const refundFix = readFileSync(`${root}/supabase/migrations/20261027011000_store_refund_recovery.sql`, 'utf8')
+  scopedSql(refundFix)
+  scopedSql(refundFix)
+  const refundState = fixture => sql(`SELECT jsonb_build_object('order',(SELECT status||':'||payment_status FROM store_orders WHERE id='${fixture.order}'),'aftersale',(SELECT to_jsonb(a) FROM store_aftersales a WHERE id='${fixture.aftersale}'),'attempts',(SELECT jsonb_agg(to_jsonb(r) ORDER BY attempt_no) FROM store_refund_attempts r WHERE aftersale_id='${fixture.aftersale}'),'coins',(SELECT coins FROM profiles WHERE id='${ids.alice}'),'ledger',(SELECT count(*) FROM store_benefit_ledger WHERE order_id='${fixture.order}'))`)
+  const getAttempt = fixture => JSON.parse(sql(`SELECT get_store_refund_attempt('${fixture.order}')`))
+  const recordResult = (fixture,reference,status,amount=fixture.amount) => `record_store_refund_result('${fixture.order}','${reference}','${fixture.provider}','${fixture.paymentReference}',${amount},'CNY','${status}')`
+  const recoveredInitial = getAttempt(recoveredClosed)
+  if (recoveredInitial.refund_reference !== recoveredClosed.reference || recoveredInitial.attempt_no !== 1 || recoveredInitial.status !== 'pending') throw new Error('pending legacy refund lost its original channel reference')
+  const oldRefundLedger = sql(`SELECT count(*) FROM store_benefit_ledger WHERE order_id='${memberOrder}'`)
+  if (JSON.parse(sql(`SELECT get_store_refund_attempt('${memberOrder}')`)).refund_reference !== memberAfter.replaceAll('-','')) throw new Error('refunded legacy order lost its channel reference')
+  sql(`SELECT confirm_store_refund('${memberAfter}',2479,'alipay','${memberAfter.replaceAll('-','')}')`)
+  if (sql(`SELECT count(*) FROM store_benefit_ledger WHERE order_id='${memberOrder}'`) !== oldRefundLedger) throw new Error('legacy refund replay duplicated benefit settlement')
+  const beforeMismatch = refundState(recoveredClosed)
+  expectError(recordResult(recoveredClosed,recoveredClosed.reference,'closed',recoveredClosed.amount+1),'refund_confirmation_mismatch')
+  if (refundState(recoveredClosed) !== beforeMismatch) throw new Error('mismatched refund amount persisted a channel result')
+  expectError(`restart_store_refund_attempt('${recoveredClosed.order}','${recoveredClosed.reference}','${ids.admin}')`,'refund_closure_not_confirmed')
+  expectError(`restart_store_refund_attempt('${recoveredClosed.order}','${recoveredClosed.reference}','${ids.outsider}')`,'admin_required')
+  const beforeClosedCoins = sql(`SELECT coins FROM profiles WHERE id='${ids.alice}'`)
+  sql(`SELECT ${recordResult(recoveredClosed,recoveredClosed.reference,'closed')}`)
+  if (sql(`SELECT coins FROM profiles WHERE id='${ids.alice}'`) !== beforeClosedCoins || sql(`SELECT count(*) FROM store_benefit_ledger WHERE order_id='${recoveredClosed.order}' AND event='coin_returned'`) !== '0' || sql(`SELECT status FROM store_coin_holds WHERE order_id='${recoveredClosed.order}'`) !== 'consumed') throw new Error('closed channel refund returned coins before verified success')
+  expectError(`confirm_store_refund('${recoveredClosed.aftersale}',${recoveredClosed.amount},'wechat','${recoveredClosed.reference}')`,'refund_requires_manual_reconciliation')
+  const restarts = await Promise.all([
+    psqlAsync(`SELECT restart_store_refund_attempt('${recoveredClosed.order}','${recoveredClosed.reference}','${ids.admin}')`),
+    psqlAsync(`SELECT restart_store_refund_attempt('${recoveredClosed.order}','${recoveredClosed.reference}','${ids.admin}')`),
+  ])
+  const nextAttempt = getAttempt(recoveredClosed)
+  if (restarts[0] !== restarts[1] || nextAttempt.attempt_no !== 2 || nextAttempt.refund_reference === recoveredClosed.reference || sql(`SELECT count(*) FROM store_refund_attempts WHERE aftersale_id='${recoveredClosed.aftersale}'`) !== '2') throw new Error('concurrent refund restart created more than one successor')
+  expectError(recordResult(recoveredClosed,recoveredClosed.reference,'closed'),'stale_refund_attempt')
+  expectError(`confirm_store_refund('${recoveredClosed.aftersale}',${recoveredClosed.amount},'wechat','${recoveredClosed.reference}')`,'refund_confirmation_mismatch')
+  expectError(`restart_store_refund_attempt('${recoveredClosed.order}','unknown-old-reference','${ids.admin}')`,'stale_refund_attempt')
+  const rotatedState = refundState(recoveredClosed)
+  scopedSql(refundFix)
+  if (refundState(recoveredClosed) !== rotatedState) throw new Error('refund migration replay overwrote a rotated channel reference or state')
+  sql(`SELECT confirm_store_refund('${recoveredClosed.aftersale}',${recoveredClosed.amount},'wechat','${nextAttempt.refund_reference}'); SELECT confirm_store_refund('${recoveredClosed.aftersale}',${recoveredClosed.amount},'wechat','${nextAttempt.refund_reference}');`)
+  if (sql(`SELECT coins FROM profiles WHERE id='${ids.alice}'`) !== '500' || sql(`SELECT count(*) FROM store_benefit_ledger WHERE order_id='${recoveredClosed.order}' AND event='coin_returned'`) !== '1' || sql(`SELECT count(*) FROM store_order_events WHERE order_id='${recoveredClosed.order}' AND event_type='refunded'`) !== '1') throw new Error('restarted refund did not return coins exactly once')
+
+  const recoveredAbnormal = makeRecoveryRefund({user:ids.bob,address:ids.address2,coupon:couponArg,coins:false,key:'recovery-abnormal-coupon'})
+  if (getAttempt(recoveredAbnormal).refund_reference !== recoveredAbnormal.reference) throw new Error('new refund initial reference changed')
+  sql(`SELECT ${recordResult(recoveredAbnormal,recoveredAbnormal.reference,'abnormal')}`)
+  expectError(`restart_store_refund_attempt('${recoveredAbnormal.order}','${recoveredAbnormal.reference}','${ids.admin}')`,'refund_closure_not_confirmed')
+  sql(`SELECT ${recordResult(recoveredAbnormal,recoveredAbnormal.reference,'pending')}`)
+  if (getAttempt(recoveredAbnormal).status !== 'abnormal' || sql(`SELECT status FROM store_user_coupons WHERE id='${coupon}'`) !== 'used') throw new Error('abnormal refund regressed to pending or prematurely returned coupon')
+  sql(`SELECT confirm_store_refund('${recoveredAbnormal.aftersale}',${recoveredAbnormal.amount},'wechat','${recoveredAbnormal.reference}'); SELECT confirm_store_refund('${recoveredAbnormal.aftersale}',${recoveredAbnormal.amount},'wechat','${recoveredAbnormal.reference}');`)
+  if (getAttempt(recoveredAbnormal).status !== 'refunded' || sql(`SELECT status FROM store_user_coupons WHERE id='${coupon}'`) !== 'available' || sql(`SELECT count(*) FROM store_benefit_ledger WHERE order_id='${recoveredAbnormal.order}' AND event='coupon_returned'`) !== '1') throw new Error('verified abnormal refund success did not return its coupon once')
+  const refundFunctions = ['get_store_refund_attempt(uuid)','record_store_refund_result(uuid,text,text,text,integer,text,text)','restart_store_refund_attempt(uuid,text,uuid)','confirm_store_refund(uuid,integer,text,text)']
+  for (const signature of refundFunctions) {
+    if (sql(`SELECT has_function_privilege('anon','${signature}','execute') OR has_function_privilege('authenticated','${signature}','execute') OR NOT has_function_privilege('service_role','${signature}','execute')`) !== 'f') throw new Error(`refund RPC permissions leaked: ${signature}`)
+  }
+  if (sql(`SELECT has_table_privilege('authenticated','store_refund_attempts','select') OR has_table_privilege('anon','store_refund_attempts','select')`) !== 'f') throw new Error('private refund attempts exposed to browser roles')
+  expectQueryError(`BEGIN; SET LOCAL ROLE authenticated; SELECT * FROM store_refund_attempts; COMMIT;`,'permission denied for table store_refund_attempts')
+  console.log('PASS refund recovery: legacy/new channel references, closed concurrent restart, stale/admin/amount guards, abnormal-to-success, exactly-once coin/coupon return, replay and private ACLs')
   console.log('PASS native commerce PostgreSQL integration suite')
 } catch (error) { console.error(`FAIL native commerce PostgreSQL integration suite\n${error.stack || error}`); process.exitCode = 1 } finally { if (started) run(['rm','-f',name]) }

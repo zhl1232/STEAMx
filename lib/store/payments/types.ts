@@ -8,6 +8,8 @@ export type PaymentStatus =
   | 'failed'
   | 'not_found'
   | 'unknown'
+  | 'refund_closed'
+  | 'refund_abnormal'
 
 export interface PaymentOrder {
   orderId: string

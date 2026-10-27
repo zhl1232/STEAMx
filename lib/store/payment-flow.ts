@@ -9,6 +9,7 @@ import {
 } from './native'
 import {
   getAftersale,
+  getRefundAttempt,
   getOrderAttempts,
   getPrivateStoreOrder,
   listReconcileWork,
@@ -16,6 +17,7 @@ import {
   getReservationExpiry,
   scheduleNextReconcile,
   type StoreAttempt,
+  type StoreRefundAttempt,
 } from './operations'
 import { configuredPaymentAdapter, paymentOrigin } from './payments/registry'
 import type {
@@ -161,64 +163,77 @@ export async function cancelStoreOrder(orderId: string, userId?: string) {
   })
 }
 
-async function confirmRefundResult(orderId: string, result: RefundResult) {
-  const aftersale = await getAftersale(orderId)
+async function applyRefundResult(orderId: string, attempt: StoreRefundAttempt, result: RefundResult) {
   const order = await getPrivateStoreOrder(orderId)
-  if (
-    !aftersale ||
-    result.refundId !== aftersale.id.replaceAll('-', '') ||
-    result.orderId !== order.payment_reference ||
-    result.provider !== order.payment_provider ||
-    result.currency !== 'CNY'
-  )
+  if (result.refundId !== attempt.refund_reference || result.orderId !== order.payment_reference || result.provider !== attempt.provider || result.provider !== order.payment_provider || result.currency !== 'CNY')
     conflict('退款结果与订单不符')
-  if (result.status !== 'refunded') return false
-  if (result.amountCents !== aftersale.amount_cents) conflict('退款金额不符')
-  return confirmNativeRefund({
-    aftersaleId: aftersale.id,
-    amountCents: result.amountCents,
-    provider: result.provider,
-    providerReference: result.refundId,
-  })
-}
-
-export async function processStoreRefund(orderId: string, submit = false) {
-  const [order, aftersale] = await Promise.all([
-    getPrivateStoreOrder(orderId),
-    getAftersale(orderId),
-  ])
-  if (!aftersale || aftersale.status !== 'refund_pending') return
-  if (
-    (order.payment_provider !== 'alipay' &&
-      order.payment_provider !== 'wechat') ||
-    !order.payment_reference
-  )
-    conflict('订单没有可原路退款的支付记录')
-  const adapter = configuredPaymentAdapter(order.payment_provider)
-  const refundId = aftersale.id.replaceAll('-', '')
-  if (!submit) {
-    try {
-      const result = await adapter.queryRefund(
-        order.payment_reference,
-        refundId,
-      )
-      await confirmRefundResult(orderId, result)
-      if (result.status === 'refunded' || result.status === 'pending') return
-    } catch {
-      // Retry the SAME refund ID. A crash before dispatch must not strand an
-      // approved refund, and idempotent retries cannot create a second refund.
+  if (['refunded', 'pending', 'refund_closed', 'refund_abnormal'].includes(result.status)) {
+    if (result.amountCents !== attempt.amount_cents) conflict('退款金额不符')
+    if (result.status === 'refunded') {
+      await confirmNativeRefund({ aftersaleId: attempt.aftersale_id, amountCents: result.amountCents, provider: result.provider, providerReference: result.refundId })
+    } else {
+      await storeRpc('record_store_refund_result', {
+        p_order_id: orderId, p_refund_reference: result.refundId, p_provider: result.provider,
+        p_payment_reference: result.orderId, p_amount_cents: result.amountCents, p_currency: result.currency,
+        p_status: result.status === 'refund_closed' ? 'closed' : result.status === 'refund_abnormal' ? 'abnormal' : 'pending',
+      })
     }
   }
-  const result = await adapter.refund({
-    orderId: order.payment_reference,
-    refundId,
-    amountCents: aftersale.amount_cents,
-    totalAmountCents: order.total_cents,
-    reason: aftersale.reason,
-  })
-  await confirmRefundResult(orderId, result)
-  if (result.status !== 'refunded' && result.status !== 'pending')
-    conflict('退款结果待核查，请稍后对账')
+}
+
+export async function processStoreRefund(orderId: string, _submit = false) {
+  const [order, aftersale] = await Promise.all([getPrivateStoreOrder(orderId), getAftersale(orderId)])
+  if (!aftersale || aftersale.status !== 'refund_pending') return
+  if ((order.payment_provider !== 'alipay' && order.payment_provider !== 'wechat') || !order.payment_reference)
+    conflict('订单没有可原路退款的支付记录')
+  let attempt = await getRefundAttempt(orderId)
+  if (attempt.status === 'refunded' || (attempt.status === 'closed' && !_submit)) return attempt.status
+  const adapter = configuredPaymentAdapter(order.payment_provider)
+  let queried: RefundResult | undefined
+  try {
+    queried = await adapter.queryRefund(order.payment_reference, attempt.refund_reference)
+  } catch (cause) {
+    // Abnormal refunds need merchant action. An unavailable query is never
+    // evidence that it is safe to submit another ordinary refund request.
+    if (attempt.status === 'abnormal' || attempt.status === 'closed') throw cause
+  }
+  if (queried) {
+    await applyRefundResult(orderId, attempt, queried)
+    if (queried.status === 'refunded') return 'refunded'
+    if (queried.status === 'refund_closed') return 'closed'
+    if (queried.status === 'refund_abnormal') return 'abnormal'
+    if (queried.status === 'pending') return attempt.status === 'abnormal' || attempt.status === 'closed' ? attempt.status : 'pending'
+  }
+  // A concurrent callback/operator may have persisted a terminal state since
+  // the query began. Recheck the current immutable identity before dispatch.
+  const current = await getRefundAttempt(orderId)
+  if (current.refund_reference !== attempt.refund_reference) conflict('退款状态已变化，请刷新后重试')
+  attempt = current
+  if (attempt.status !== 'pending') return attempt.status
+  const result = await adapter.refund({ orderId: order.payment_reference, refundId: attempt.refund_reference, amountCents: attempt.amount_cents, totalAmountCents: order.total_cents, reason: aftersale.reason })
+  await applyRefundResult(orderId, attempt, result)
+  if (result.status === 'refund_closed') return 'closed'
+  if (result.status === 'refund_abnormal') return 'abnormal'
+  if (result.status !== 'refunded' && result.status !== 'pending') conflict('退款结果待核查，请稍后对账')
+  return result.status
+}
+
+/** Only an explicit reviewed action can replace a channel-confirmed closed ID. */
+export async function restartStoreRefund(orderId: string, expectedRefundReference: string, adminId: string) {
+  const [order, aftersale] = await Promise.all([getPrivateStoreOrder(orderId), getAftersale(orderId)])
+  if (!aftersale || aftersale.status !== 'refund_pending' || order.payment_provider !== 'wechat' || !order.payment_reference)
+    conflict('当前退款不能重新发起')
+  const attempt = await getRefundAttempt(orderId)
+  if (attempt.refund_reference === expectedRefundReference) {
+    if (attempt.status !== 'closed') conflict('退款尚未确认关闭')
+    const result = await configuredPaymentAdapter('wechat').queryRefund(order.payment_reference, expectedRefundReference)
+    await applyRefundResult(orderId, attempt, result)
+    if (result.status !== 'refund_closed') conflict('渠道尚未确认退款关闭')
+  }
+  // SQL serializes operators, verifies the expected closed predecessor, and
+  // returns its existing immediate successor for a replay of the same action.
+  await storeRpc('restart_store_refund_attempt', { p_order_id: orderId, p_expected_refund_reference: expectedRefundReference, p_actor_id: adminId })
+  return processStoreRefund(orderId)
 }
 
 export async function acceptStoreNotification(
@@ -230,14 +245,12 @@ export async function acceptStoreNotification(
   const attempt = await getNativePaymentAttemptByReference(notification.orderId)
   if (!attempt || attempt.provider !== provider) conflict('支付订单不存在')
   if (notification.refundId) {
-    const aftersale = await getAftersale(attempt.orderId)
-    if (
-      !aftersale ||
-      notification.refundId !== aftersale.id.replaceAll('-', '')
-    )
-      conflict('退款订单不存在')
-    // Query the original refund to reconcile channel callback variants.
-    await processStoreRefund(attempt.orderId)
+    const current = await getRefundAttempt(attempt.orderId)
+    if (notification.refundId !== current.refund_reference) conflict('退款通知不属于当前退款尝试，请人工核查')
+    // Query the exact channel refund identity; notification variants do not
+    // bypass amount checks or authorize starting another refund request.
+    const result = await configuredPaymentAdapter(provider).queryRefund(notification.orderId, notification.refundId)
+    await applyRefundResult(attempt.orderId, current, result)
     return
   }
   await applyPaymentResult(
@@ -257,7 +270,11 @@ export async function acceptStoreNotification(
 export async function reconcileStoreTransactions() {
   const work = await listReconcileWork()
   let completed = 0
-  const failed: Array<{ orderId: string; operation: string }> = []
+  const failed: Array<{
+    orderId: string
+    operation: string
+    reason?: 'REFUND_CLOSED' | 'REFUND_ABNORMAL'
+  }> = []
   for (const attempt of work.attempts) {
     await scheduleNextReconcile('store_payment_attempts', attempt.order_id)
     try {
@@ -275,8 +292,17 @@ export async function reconcileStoreTransactions() {
   for (const refund of work.refunds) {
     await scheduleNextReconcile('store_aftersales', refund.order_id)
     try {
-      await processStoreRefund(refund.order_id)
-      completed++
+      const status = await processStoreRefund(refund.order_id)
+      if (status === 'closed' || status === 'abnormal') {
+        await scheduleNextReconcile('store_aftersales', refund.order_id, true)
+        failed.push({
+          orderId: refund.order_id,
+          operation: 'review_refund',
+          reason: status === 'closed' ? 'REFUND_CLOSED' : 'REFUND_ABNORMAL',
+        })
+      } else {
+        completed++
+      }
     } catch {
       await scheduleNextReconcile('store_aftersales', refund.order_id, true)
       failed.push({ orderId: refund.order_id, operation: 'query_refund' })

@@ -54,6 +54,8 @@ type Order = {
     reason: string
     carrier?: string
     tracking_number?: string
+    refundChannelStatus?: 'pending' | 'closed' | 'abnormal' | 'refunded' | null
+    refundReference?: string | null
   } | null
 }
 type OrderPage = {
@@ -597,8 +599,16 @@ function OrderOperations({
     )
   if (order.aftersale?.status === 'returned')
     choices.push(['receive_return', '确认收到退货并退款'])
-  if (order.aftersale?.status === 'refund_pending')
-    choices.push(['retry_refund', '核查并重试退款'])
+  const refundChannelStatus = order.aftersale?.refundChannelStatus
+  if (order.aftersale?.status === 'refund_pending') {
+    if (refundChannelStatus === 'closed') {
+      choices.push(['retry_refund', '核查退款结果'])
+      if (order.aftersale.refundReference)
+        choices.push(['restart_refund', '重新发起整单退款'])
+    } else if (refundChannelStatus === 'abnormal') {
+      choices.push(['retry_refund', '核查退款结果'])
+    } else choices.push(['retry_refund', '核查并重试退款'])
+  }
   const fields: Record<string, Array<[string, string]>> = {
     record_procurement: [
       ['reference', '采购单号'],
@@ -683,6 +693,13 @@ function OrderOperations({
       {order.aftersale && (
         <div className="mt-3 rounded-lg bg-muted p-3 text-sm">
           <p>售后原因：{order.aftersale.reason}</p>
+          {order.aftersale.status === 'refund_pending' && refundChannelStatus === 'closed' ? (
+            <p className="mt-2 leading-6">本次退款已被微信关闭，尚未退款成功。请先在微信支付商户平台核对退款记录与账户余额，再重新发起整单退款。</p>
+          ) : null}
+          {order.aftersale.status === 'refund_pending' && refundChannelStatus === 'abnormal' ? (
+            <p className="mt-2 leading-6">微信原路退款异常。请到微信支付商户平台的交易中心处理这笔异常退款，处理后核查退款结果。系统会继续查询结果，不会重复提交退款。</p>
+          ) : null}
+          {order.aftersale.refundReference ? <p className="mt-2 break-all text-xs text-muted-foreground">退款单号：{order.aftersale.refundReference}</p> : null}
           {order.aftersale.tracking_number && (
             <p>
               退货：{order.aftersale.carrier} {order.aftersale.tracking_number}
@@ -702,7 +719,7 @@ function OrderOperations({
             disabled={busy}
             onClick={() => {
               setAction(key)
-              setPayload({})
+              setPayload(key === 'restart_refund' ? { expectedRefundReference: order.aftersale?.refundReference || '' } : {})
             }}
           >
             {label}
@@ -737,7 +754,11 @@ function OrderOperations({
               />
             </Field>
           ))}
-          {['approve_refund', 'receive_return', 'retry_refund'].includes(
+          {action === 'restart_refund' ? (
+            <p className="text-sm leading-6 text-muted-foreground">确认重新按原支付渠道退还整单 ¥{(order.total_cents / 100).toFixed(2)}（含运费）。系统会再次核查原退款已关闭后发起新退款；连续点击或网络重试会沿用同一笔新退款。</p>
+          ) : action === 'retry_refund' && ['closed', 'abnormal'].includes(refundChannelStatus || '') ? (
+            <p className="text-sm leading-6 text-muted-foreground">仅向微信核查这笔退款的最新结果，不重新提交退款。渠道确认成功后，本站才会更新为已退款。</p>
+          ) : ['approve_refund', 'receive_return', 'retry_refund'].includes(
             action,
           ) && (
             <p className="text-sm text-muted-foreground">

@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { appendFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { DOC_PATHS, parseChanges } from './ci-scope.mjs';
-import { classifyTestImpact } from './ci-test-impact.mjs';
+import { classifyTestImpact, verifiedStoreMigrations } from './ci-test-impact.mjs';
 
 import { HOME_PATHS } from './home-ui-scope.mjs';
 import { classifyHomeChanges } from './ci-scope.mjs';
@@ -14,7 +14,7 @@ const gitDefault = (args) => execFileSync('git', args, {
   encoding: 'utf8', maxBuffer: 8 * 1024 * 1024, timeout: 30_000,
 });
 
-export function classifyVoiceChanges(changes) {
+export function classifyVoiceChanges(changes, verifiedMigrations = new Set()) {
   if (!changes.length) return full('Empty comparison');
   const safe = changes.every(({ path, oldMode, newMode }) =>
     DOC_PATHS.has(path)
@@ -22,7 +22,7 @@ export function classifyVoiceChanges(changes) {
       // No new/deleted/renamed components or executable/symlink changes.
       : HOME_PATHS.has(path) && oldMode === '100644' && newMode === '100644');
   if (safe) return { mode: 'headers', reason: 'Only reviewed homepage presentation or prose changed' };
-  return !classifyTestImpact(changes).voice
+  return !classifyTestImpact(changes, verifiedMigrations).voice
     ? { mode: 'headers', reason: 'Reviewed module changes do not affect the voice runtime' }
     : full('Shared, voice, configuration or unknown changes');
 }
@@ -33,18 +33,21 @@ export async function detectVoiceScope(env = process.env, git = gitDefault, requ
   }
   const before = env.RELEASE_BEFORE, after = env.GITHUB_SHA;
   if (!sha(before) || !sha(after) || before === after) return full('Missing reliable comparison range');
+  let unaffected;
   try {
     if (git(['rev-parse', 'HEAD']).trim() !== after) throw Error('Checkout SHA mismatch');
     git(['fetch', '--no-tags', '--depth=1', 'origin', before]);
     const changes = parseChanges(git([
       'diff', '--raw', '--no-renames', '--no-ext-diff', '-z', before, after, '--',
     ]));
-    const selection = classifyVoiceChanges(changes);
+    const verifiedMigrations = verifiedStoreMigrations(changes, path => git(['show', `${after}:${path}`]));
+    const selection = classifyVoiceChanges(changes, verifiedMigrations);
     if (selection.mode === 'full') return selection;
     const home = changes.some(change => HOME_PATHS.has(change.path));
     if (home && classifyHomeChanges(changes, before, after, git).mode !== 'home-ui') {
       return full('Homepage dependency inspection did not qualify');
     }
+    unaffected = selection;
     // Compare only against a known successful release, not merely the previous push.
     // This is a scope baseline, never a replacement for this SHA's CI/build/deploy.
     if (!env.GITHUB_TOKEN || !/^[\w.-]+\/[\w.-]+$/.test(env.GITHUB_REPOSITORY ?? '')) {
@@ -82,6 +85,10 @@ export async function detectVoiceScope(env = process.env, git = gitDefault, requ
     }
     return { ...selection, ciProfile: home ? 'home-ui' : 'full', before, verifiedSha: after };
   } catch {
+    // Missing history is not evidence of a voice change. Keep health/resource
+    // checks, without granting a CI reuse/profile proof from an unknown baseline.
+    if (unaffected) return { ...unaffected,
+      reason: `${unaffected.reason}; deployed baseline unavailable, health and headers retained without CI scope proof` };
     return full('Comparison or successful-release baseline unavailable');
   }
 }

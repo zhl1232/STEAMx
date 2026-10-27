@@ -12,8 +12,9 @@ import type { SupportConversation,SupportMessage } from '@/lib/support/types'
 type Snapshot={conversation:SupportConversation; messages:SupportMessage[]; nextCursor:number|null;nextAfterCursor?:number|null}
 async function api(url:string,init?:RequestInit) {
   const response=await fetch(url,{cache:'no-store',...init})
-  const data=await response.json()
-  if(!response.ok) throw Object.assign(new Error(data.error || '暂时无法连接客服，请重试'), {status:response.status})
+  const data=await response.json().catch(()=>null)
+  if(!response.ok) throw Object.assign(new Error(data?.error || (response.status===413?'图片超过上传服务的大小限制，请压缩后重试':'暂时无法连接客服，请重试')), {status:response.status})
+  if(!data) throw new Error('服务返回异常，请重试')
   return data
 }
 export function SupportChat({conversationId,admin=false,productId,orderId,onChannelResolved}:{conversationId:string;admin?:boolean;productId?:string;orderId?:string;onChannelResolved?:(channel:SupportChannel)=>void}) {
@@ -23,6 +24,7 @@ export function SupportChat({conversationId,admin=false,productId,orderId,onChan
   const [attachments,setAttachments]=useState<{id:string}[]>([])
   const [busy,setBusy]=useState(false)
   const [uploading,setUploading]=useState(false)
+  const [uploadError,setUploadError]=useState('')
   const [error,setError]=useState('')
   const [retrying,setRetrying]=useState(false)
   const [loadingOlder,setLoadingOlder]=useState(false)
@@ -91,6 +93,18 @@ export function SupportChat({conversationId,admin=false,productId,orderId,onChan
     } catch(e){const status=(e as {status?:number}).status;const definitive=!!status&&status>=400&&status<500&&status!==408;if(definitive)pending.current=null;setRetrying(!definitive);setError(e instanceof Error?e.message:'发送失败，请重试')}
     finally {setBusy(false)}
   }
+  async function upload(file:File) {
+    setUploading(true);setUploadError('')
+    try {
+      if(file.size>5*1024*1024) throw new Error('图片不能超过 5 MB，请压缩后重新选择')
+      if(!file.size) throw new Error('图片文件为空，请重新选择')
+      const data=await api(`/api/support/conversations/${conversationId}/attachments`,{method:'POST',body:file})
+      setAttachments(old=>[...old,data.attachment])
+    } catch(err) {
+      const reason=err instanceof TypeError?'网络连接失败，请检查网络后重试':err instanceof Error?err.message:'请稍后重试'
+      setUploadError(`“${file.name}”上传失败：${reason}`)
+    } finally {setUploading(false)}
+  }
   async function older() {
     if(!snapshot?.nextCursor || loadingOlder) return
     setLoadingOlder(true)
@@ -127,11 +141,12 @@ export function SupportChat({conversationId,admin=false,productId,orderId,onChan
       <div className="flex flex-wrap items-center justify-between gap-3">
         {!admin ? <div className="flex flex-wrap items-center gap-3">
           <Button type="button" variant="outline" shape="pill" className="h-11" aria-describedby={`support-images-help-${conversationId}`} aria-busy={uploading} disabled={busy||retrying||uploading||attachments.length>=3} onClick={()=>fileInput.current?.click()}>{uploading?'正在上传图片…':'添加图片'}</Button>
-          <span id={`support-images-help-${conversationId}`} className="text-xs text-muted-foreground">最多 3 张，每张 5 MB</span>
-          <input ref={fileInput} aria-label="添加客服图片" type="file" accept="image/jpeg,image/png,image/webp" className="hidden" disabled={busy||retrying||uploading||attachments.length>=3} onChange={async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;setUploading(true);try{if(file.size>5*1024*1024)throw new Error('图片不能超过 5 MB');const data=await api(`/api/support/conversations/${conversationId}/attachments`,{method:'POST',body:file});setAttachments(old=>[...old,data.attachment])}catch(err){setError(err instanceof Error?err.message:'上传失败')}finally{setUploading(false)}}} />
+          <span id={`support-images-help-${conversationId}`} className="text-xs text-muted-foreground">支持 JPG、PNG、WebP，最多 3 张，每张 5 MB</span>
+          <input ref={fileInput} aria-label="添加客服图片" type="file" accept="image/jpeg,image/png,image/webp" className="hidden" disabled={busy||retrying||uploading||attachments.length>=3} onChange={e=>{const file=e.target.files?.[0];e.target.value='';if(file)void upload(file)}} />
         </div> : null}
         <Button type="button" tone="brand" shape="pill" className="h-12" disabled={busy||uploading||(!content.trim()&&!attachments.length&&!retrying)} onClick={()=>void send()}>{busy?'发送中…':retrying?'重试发送':uploading?'上传中…':'发送留言'}</Button>
       </div>
+      {uploadError?<p role="alert" className="text-sm text-destructive">{uploadError}</p>:null}
       {attachments.length?<div className="flex flex-wrap gap-2">{attachments.map((attachment,index)=><Button key={attachment.id} type="button" variant="outline" className="h-11" disabled={busy||retrying} onClick={()=>setAttachments(old=>old.filter(a=>a.id!==attachment.id))}>图片 {index+1} · 移除</Button>)}</div>:null}
       {retrying?<p className="text-xs text-muted-foreground">发送结果尚未确认，请重试确认这条留言。</p>:null}
     </Surface>

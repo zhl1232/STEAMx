@@ -97,24 +97,26 @@ export class FeishuClient {
       throw new FeishuBridgeError('feishu_image_unavailable')
     }
   }
-  async sendPost(chatId: string, text: string, imageKeys: string[], eventId: string, targetId: string, signal?: AbortSignal): Promise<string> {
+  async sendPost(chatId: string, text: string, imageKeys: string[], eventId: string, targetId: string, signal?: AbortSignal, rootId?: string): Promise<string> {
     if (!feishuId(chatId, 'oc_') || text.length > 12000 || imageKeys.length > 3 || imageKeys.some(key => !validImageKey(key))) throw new FeishuBridgeError('feishu_message_invalid', 400)
-    const uuid = createHash('sha256').update(`${eventId}\0${targetId}`).digest('hex').slice(0, 32)
+    const uuid = createHash('sha256').update(rootId ? `reply\0${rootId}\0${eventId}\0${targetId}` : `${eventId}\0${targetId}`).digest('hex').slice(0, 32)
     const content = JSON.stringify({ zh_cn: { content: [[{ tag: 'text', text }], ...imageKeys.map(image_key => [{ tag: 'img', image_key }])] } })
-    const body = JSON.stringify({ receive_id: chatId, msg_type: 'post', content, uuid })
+    if (rootId !== undefined && !feishuId(rootId, 'om_')) throw new FeishuBridgeError('feishu_message_invalid', 400)
+    const body = JSON.stringify({ ...(rootId ? { reply_in_thread: true } : { receive_id: chatId }), msg_type: 'post', content, uuid })
     if (Buffer.byteLength(body, 'utf8') > 30000) throw new FeishuBridgeError('feishu_message_invalid', 400)
     const token = await this.accessToken(signal)
-    const result = await this.request('/im/v1/messages?receive_id_type=chat_id', { method: 'POST', headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' }, body }, signal)
+    const result = await this.request(rootId ? `/im/v1/messages/${rootId}/reply` : '/im/v1/messages?receive_id_type=chat_id', { method: 'POST', headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' }, body }, signal)
     if (!feishuId(result.data?.message_id, 'om_')) throw new FeishuBridgeError('feishu_message_invalid')
     return result.data.message_id
   }
-  async sendText(chatId: string, text: string, eventId: string, targetId: string, signal?: AbortSignal): Promise<string> {
+  async sendText(chatId: string, text: string, eventId: string, targetId: string, signal?: AbortSignal, rootId?: string): Promise<string> {
     if (!feishuId(chatId, 'oc_') || text.length > 12000) throw new FeishuBridgeError('feishu_message_invalid')
     const token = await this.accessToken(signal)
-    const uuid = createHash('sha256').update(`${eventId}\0${targetId}`).digest('hex').slice(0, 32)
+    const uuid = createHash('sha256').update(rootId ? `reply\0${rootId}\0${eventId}\0${targetId}` : `${eventId}\0${targetId}`).digest('hex').slice(0, 32)
     // Feishu text parses <at ...> markup; site-authored content must remain plain text.
+    if (rootId !== undefined && !feishuId(rootId, 'om_')) throw new FeishuBridgeError('feishu_message_invalid', 400)
     const plainText = text.replace(/</g, '＜')
-    const result = await this.request('/im/v1/messages?receive_id_type=chat_id', { method: 'POST', headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' }, body: JSON.stringify({ receive_id: chatId, msg_type: 'text', content: JSON.stringify({ text: plainText }), uuid }) }, signal)
+    const result = await this.request(rootId ? `/im/v1/messages/${rootId}/reply` : '/im/v1/messages?receive_id_type=chat_id', { method: 'POST', headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' }, body: JSON.stringify({ ...(rootId ? { reply_in_thread: true } : { receive_id: chatId }), msg_type: 'text', content: JSON.stringify({ text: plainText }), uuid }) }, signal)
     if (!feishuId(result.data?.message_id, 'om_')) throw new FeishuBridgeError('feishu_message_invalid')
     return result.data.message_id
   }

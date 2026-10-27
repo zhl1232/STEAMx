@@ -2,8 +2,6 @@ import 'server-only'
 import { constants } from 'node:fs'
 import { open } from 'node:fs/promises'
 import { supportDb } from '../server'
-import { validateContentSafe } from '@/lib/api/validation'
-import { moderateTextContent } from '@/lib/safety/server'
 import { FeishuBridgeError, feishuId, getFeishuConfig, type FeishuConfig, type FeishuEventKind, type FeishuTarget } from './config'
 import { getFeishuClient } from './client'
 import { parseFeishuContent, validImageKey } from './message-content'
@@ -179,10 +177,7 @@ export async function runFeishuDispatch() {
       const profile = await supportDb().from('profiles').select('role').eq('id', person.profileId).abortSignal(requestSignal(operationSignal)).maybeSingle()
       if (profile.error) throw new FeishuBridgeError('database_unavailable')
       if (!profile.data || profile.data.role !== 'admin') { permanent = true; throw new FeishuBridgeError('reply_rejected') }
-      try {
-        validateContentSafe(job.text, '客服消息')
-        if ((!job.text.trim() && !job.image_keys?.length) || job.text.length > 2000 || moderateTextContent(job.text, 'public').state === 'rejected') throw new Error()
-      } catch { permanent = true; throw new FeishuBridgeError('reply_rejected') }
+      if ((!job.text.trim() && !job.image_keys?.length) || job.text.length > 2000) { permanent = true; throw new FeishuBridgeError('reply_rejected') }
       const identity = { p_message_id: job.message_id, p_chat_id: job.chat_id, p_actor: person.profileId, p_parent_id: job.parent_id, p_root_id: job.root_id }
       const check = async <T>(name: string, args: Record<string, unknown>): Promise<T> => {
         const result = await supportDb().rpc(name, args).abortSignal(requestSignal(operationSignal))
@@ -233,12 +228,13 @@ export async function runFeishuDispatch() {
     try {
       const latest = currentConfig(config)
       const payload = await outboundText(job, latest, operationSignal)
+      const thread = await rpc<{ root_message_id: string | null }>('feishu_prepare_thread', { p_event: job.event_id, p_target: job.target_id, p_lease: job.lease_id }, operationSignal)
+      if (!thread || !(thread.root_message_id === null || feishuId(thread.root_message_id, 'om_'))) throw new FeishuBridgeError('thread_unavailable')
       const client = getFeishuClient(latest)
       const messageId = payload.imageKeys.length
-        ? await client.sendPost(job.chat_id, payload.text, payload.imageKeys, job.event_id, job.target_id, operationSignal)
-        : await client.sendText(job.chat_id, payload.text, job.event_id, job.target_id, operationSignal)
-      if (payload.support && !await rpc<boolean>('feishu_record_anchor', { p_event: job.event_id, p_target: job.target_id, p_lease: job.lease_id, p_message_id: messageId }, operationSignal)) throw new FeishuBridgeError('lease_lost')
-      if (!await rpc<boolean>('feishu_complete_delivery', { p_event: job.event_id, p_target: job.target_id, p_lease: job.lease_id, p_success: true }, operationSignal)) throw new FeishuBridgeError('lease_lost')
+        ? await client.sendPost(job.chat_id, payload.text, payload.imageKeys, job.event_id, job.target_id, operationSignal, thread.root_message_id ?? undefined)
+        : await client.sendText(job.chat_id, payload.text, job.event_id, job.target_id, operationSignal, thread.root_message_id ?? undefined)
+      if (!await rpc<boolean>('feishu_finish_thread_delivery', { p_event: job.event_id, p_target: job.target_id, p_lease: job.lease_id, p_message_id: messageId }, operationSignal)) throw new FeishuBridgeError('lease_lost')
       counters.sent++
     } catch {
       await rpc('feishu_complete_delivery', { p_event: job.event_id, p_target: job.target_id, p_lease: job.lease_id, p_success: false, p_error: 'delivery_failed' })

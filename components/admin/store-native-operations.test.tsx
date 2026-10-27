@@ -53,4 +53,47 @@ describe('native store operations', () => {
       .filter((call) => String(call[0]).includes('/api/admin/store/orders?page='))
     expect(orderCalls.at(-1)?.[0]).toBe('/api/admin/store/orders?page=2')
   })
+
+  it('offers an explicit restart for a closed refund and submits the displayed refund reference', async () => {
+    const user = userEvent.setup()
+    const existingFetch = vi.mocked(fetch).getMockImplementation()!
+    vi.mocked(fetch).mockImplementation(async (...args) => {
+      if (String(args[0]).includes('/orders?')) return new Response(JSON.stringify({
+        orders: [{ id: 'ord-closed', status: 'refund_pending', total_cents: 1200, items: [], procurement: null, shipment: null,
+          aftersale: { status: 'refund_pending', reason: '退货', refundChannelStatus: 'closed', refundReference: 'original-refund' } }],
+        page: 1, pageSize: 100, hasMore: false,
+      }))
+      return existingFetch(...args)
+    })
+    render(<StoreNativeOperations />)
+    await user.click(await screen.findByRole('button', { name: '重新发起整单退款' }))
+    expect(screen.getByText(/系统会再次核查原退款已关闭/)).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: '确认操作' }))
+    await waitFor(() => expect(fetch).toHaveBeenCalledWith('/api/admin/store/orders/ord-closed/actions', expect.objectContaining({
+      body: JSON.stringify({ expectedRefundReference: 'original-refund', action: 'restart_refund' }),
+    })))
+  })
+
+  it('directs abnormal refunds to merchant handling and only offers a status check', async () => {
+    const user = userEvent.setup()
+    const existingFetch = vi.mocked(fetch).getMockImplementation()!
+    vi.mocked(fetch).mockImplementation(async (...args) => {
+      if (String(args[0]).includes('/orders?')) return new Response(JSON.stringify({
+        orders: [{ id: 'ord-abnormal', status: 'refund_pending', total_cents: 1200, items: [], procurement: null, shipment: null,
+          aftersale: { status: 'refund_pending', reason: '退货', refundChannelStatus: 'abnormal', refundReference: 'abnormal-refund' } }],
+        page: 1, pageSize: 100, hasMore: false,
+      }))
+      return existingFetch(...args)
+    })
+    render(<StoreNativeOperations />)
+    await screen.findByText(/微信原路退款异常/)
+    expect(screen.queryByRole('button', { name: '重新发起整单退款' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '核查并重试退款' })).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: '核查退款结果' }))
+    expect(screen.getByText(/不重新提交退款/)).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: '确认操作' }))
+    await waitFor(() => expect(fetch).toHaveBeenCalledWith('/api/admin/store/orders/ord-abnormal/actions', expect.objectContaining({
+      body: JSON.stringify({ action: 'retry_refund' }),
+    })))
+  })
 })

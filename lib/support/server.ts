@@ -2,8 +2,6 @@ import 'server-only'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { requireAuth, requireRole } from '@/lib/api/auth'
 import { requireRateLimit } from '@/lib/api/rate-limit'
-import { validateContentSafe } from '@/lib/api/validation'
-import { moderateTextContent } from '@/lib/safety/server'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { SupportError, supportChannel, uuid } from './validation'
@@ -43,8 +41,6 @@ export async function sendSupportMessage(ctx: SupportSession, conversation: Supp
   if (!Array.isArray(attachments) || attachments.length > 3) throw new SupportError('每条消息最多添加 3 张图片')
   const attachmentIds = attachments.map(uuid)
   if (new Set(attachmentIds).size !== attachmentIds.length || (!content && !attachmentIds.length) || content.length > 2000) throw new SupportError('请输入 2000 字以内的内容或添加图片')
-  validateContentSafe(content, '客服消息')
-  if (moderateTextContent(content, 'public').state === 'rejected') throw new SupportError('内容包含不适宜信息，请修改后发送', 422)
   if (conversation.channel !== 'store' && (body.orderId || body.productId)) throw new SupportError('请在商城客服中咨询商品或订单')
   const context: SupportMessage['context'] = {}
   if (body.orderId) {

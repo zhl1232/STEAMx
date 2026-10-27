@@ -7,6 +7,8 @@ import { getSafeOrderExtras } from '@/lib/store/operations'
 import { getUserStoreOrder } from '@/lib/store/service'
 import type { StoreOrderWithItems } from '@/lib/store/service'
 import { AppReadingShell } from '@/components/layout/app-shell'
+import { StatusBadge } from '@/components/ui/status-badge'
+import { storeOrderEventLabel } from '@/lib/store/order-presentation'
 import { Surface } from '@/components/ui/surface'
 import { Button } from '@/components/ui/button'
 import { StoreQuoteBreakdown } from '@/components/store/store-checkout'
@@ -17,7 +19,7 @@ export const dynamic = 'force-dynamic'
 const statusText: Record<string, string> = {
   pending_payment: '待支付',
   paid: '已支付',
-  sourcing: '采购中',
+  sourcing: '备货中',
   ordered: '待发货',
   partially_shipped: '部分发货',
   shipped: '已发货',
@@ -56,48 +58,71 @@ export default async function StoreOrderDetailPage({
         <Button asChild variant="ghost" className="h-11">
           <Link href="/store/orders">← 返回订单</Link>
         </Button>
-        <Surface className="mt-5 p-6">
-          <h1 className="text-page-title">订单 {order.id.slice(0, 8)}</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            状态：{statusText[order.status] || order.status} · 支付：
-            {{
-              paid: '已支付',
-              refunded: '已退款',
-              pending: '待确认',
-              unpaid: '未支付',
-              failed: '已关闭',
-            }[order.payment_status] || '待确认'}
-          </p>
+        <header className="mt-6 flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="section-kicker">我的订单</p>
+            <h1 className="mt-2 text-page-title">{statusText[order.status] || '订单处理中'}</h1>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">
+              {order.status === 'pending_payment' ? '请在下单后 30 分钟内完成付款，付款成功后我们会安排备货。' : '在这里查看商品、配送与售后进度。'}
+            </p>
+          </div>
+          <StatusBadge className="mt-2 px-3 py-1.5 text-sm" status={order.payment_status === 'paid' ? 'success' : order.status === 'pending_payment' ? 'warning' : 'neutral'}>
+            {{ paid: '已支付', refunded: '已退款', pending: '支付待确认', unpaid: '未支付', failed: '支付已关闭' }[order.payment_status] || '支付待确认'}
+          </StatusBadge>
+        </header>
+        <Surface className="mt-6 p-5 sm:p-8">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/70 pb-4">
+            <h2 className="text-panel-title">商品与金额</h2>
+            <span className="text-sm text-muted-foreground">订单 {order.id.slice(0, 8)}</span>
+          </div>
           <div className="mt-6 space-y-3">
             {order.items.map((item) => (
               <div
                 key={item.id}
-                className="flex justify-between border-b pb-3 text-sm"
+                className="flex items-start justify-between gap-4 border-b border-border/60 pb-4 text-sm"
               >
-                <span>
-                  {item.title_snapshot} / {item.sku_snapshot} × {item.quantity}
-                </span>
-                <span>
+                <div className="min-w-0">
+                  <p className="break-words font-semibold leading-6">{item.title_snapshot}</p>
+                  <p className="mt-1 break-words text-muted-foreground">规格：{item.sku_snapshot} · 数量：{item.quantity}</p>
+                </div>
+                <span className="shrink-0 pt-1 font-medium tabular-nums">
                   ¥{((item.unit_price_cents * item.quantity) / 100).toFixed(2)}
                 </span>
               </div>
             ))}
           </div>
           <div className="mt-6"><StoreQuoteBreakdown quote={{ originalSubtotalCents: discounts.original_subtotal_cents ?? order.subtotal_cents, memberSubtotalCents: discounts.member_subtotal_cents ?? order.subtotal_cents, memberDiscountCents: discounts.member_discount_cents || 0, couponDiscountCents: discounts.coupon_discount_cents || 0, coinDiscountCents: discounts.coin_discount_cents || 0, coinsUsed: discounts.coins_used || 0, shippingCents: order.shipping_cents, totalCents: order.total_cents, membershipTier: discounts.membership_tier_snapshot || 'free', couponId: discounts.coupon_id || null }} /></div>
+          <StoreOrderActions
+            paymentProviders={paymentProviders}
+            orderId={order.id}
+            status={order.status}
+            paymentStatus={order.payment_status}
+            shipment={
+              extras.shipment
+                ? {
+                    carrier: extras.shipment.carrier,
+                    trackingNumber: extras.shipment.tracking_number,
+                  }
+                : null
+            }
+            aftersale={extras.aftersale}
+          />
           {order.events?.length ? (
-            <div className="mt-5 rounded-lg bg-muted p-3 text-xs text-muted-foreground">
-              <p className="font-semibold text-foreground">订单进度</p>
-              {order.events.map((event) => (
-                <p key={event.id} className="mt-2">
-                  {new Date(event.created_at).toLocaleString('zh-CN', { timeZone: "Asia/Shanghai" })} ·{' '}
-                  {event.message || event.event_type}
-                </p>
-              ))}
-            </div>
+            <section className="mt-8 border-t border-border/70 pt-6" aria-label="订单进度">
+              <h2 className="text-panel-title">订单进度</h2>
+              <ol className="mt-5 space-y-5 border-l border-border pl-5">
+                {order.events.map((event) => (
+                  <li key={event.id} className="relative">
+                    <span aria-hidden="true" className="absolute -left-[25px] top-1.5 h-2 w-2 rounded-full bg-primary" />
+                    <p className="text-sm leading-6">{storeOrderEventLabel(event.event_type)}</p>
+                    <time dateTime={event.created_at} className="mt-1 block text-xs text-muted-foreground">
+                      {new Date(event.created_at).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}
+                    </time>
+                  </li>
+                ))}
+              </ol>
+            </section>
           ) : null}
-          <p className="mt-3 text-right text-sm text-muted-foreground">
-            含运费 ¥{(order.shipping_cents / 100).toFixed(2)}
-          </p>
           <div className="mt-4 flex flex-wrap gap-4">
             {extras.learningLinks.length ? (
               extras.learningLinks.map((link) => (
@@ -119,21 +144,6 @@ export default async function StoreOrderDetailPage({
             )}
           </div>
           <Button asChild variant="outline" shape="pill" className="mt-5 h-11"><Link href={`/store/support?orderId=${order.id}`}>联系订单客服</Link></Button>
-          <StoreOrderActions
-            paymentProviders={paymentProviders}
-            orderId={order.id}
-            status={order.status}
-            paymentStatus={order.payment_status}
-            shipment={
-              extras.shipment
-                ? {
-                    carrier: extras.shipment.carrier,
-                    trackingNumber: extras.shipment.tracking_number,
-                  }
-                : null
-            }
-            aftersale={extras.aftersale}
-          />
         </Surface>
       </AppReadingShell>
     </main>

@@ -55,8 +55,10 @@ const refundStatus = (value: unknown): PaymentStatus =>
     : value === 'PROCESSING'
       ? 'pending'
       : value === 'CLOSED'
-        ? 'failed'
-        : 'unknown'
+        ? 'refund_closed'
+        : value === 'ABNORMAL'
+          ? 'refund_abnormal'
+          : 'unknown'
 const paths = {
   native: '/v3/pay/transactions/native',
   h5: '/v3/pay/transactions/h5',
@@ -243,9 +245,7 @@ export function createWechatAdapter(config: WechatConfig): PaymentAdapter {
       orderId: payload.out_trade_no,
       providerOrderId: payload.transaction_id,
       status: refund
-        ? payload.refund_status === 'SUCCESS'
-          ? 'refunded'
-          : status(payload.refund_status)
+        ? refundStatus(payload.refund_status)
         : status(payload.trade_state),
       amountCents: amount,
       refundId: payload.out_refund_no,

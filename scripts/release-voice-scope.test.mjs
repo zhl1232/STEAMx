@@ -3,6 +3,7 @@ import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { classifyVoiceChanges, detectVoiceScope, HOME_PATHS } from './release-voice-scope.mjs';
 import { DOC_PATHS } from './ci-scope.mjs';
+import { verifiedStoreMigrations } from './ci-test-impact.mjs';
 
 const before = 'a'.repeat(40), after = 'b'.repeat(40);
 const env = { GITHUB_EVENT_NAME: 'push', GITHUB_REF: 'refs/heads/main', RELEASE_BEFORE: before,
@@ -28,6 +29,23 @@ const git = (paths = [...HOME_PATHS]) => args => {
   assert.deepEqual(args, ['diff', '--raw', '--no-renames', '--no-ext-diff', '-z', before, after, '--']);
   return raw(paths);
 };
+
+test('payment and SQL changes do not launch the unrelated voice fixture', async () => {
+  const migration = 'supabase/migrations/20261027003000_store_payment_crypto_schema.sql';
+  const changes = [change('lib/store/payments/alipay.ts'),
+    change('lib/store/payments/alipay.test.ts'),
+    change('scripts/test-store-native.mjs', '100755', '100755'),
+    change(migration, '000000', '100644'),
+    change('docs/STORE_CHANNEL_FULFILLMENT_DECISION.md')];
+  const content = readFileSync(migration, 'utf8');
+  assert.equal(classifyVoiceChanges(changes, verifiedStoreMigrations(changes, () => content)).mode, 'headers');
+  assert.equal(classifyVoiceChanges(changes, verifiedStoreMigrations(changes, () => content + '\nDROP TABLE public.profiles;')).mode, 'headers');
+  const paymentGit = args => args[0] === 'diff'
+    ? changes.map(c => `:${c.oldMode} ${c.newMode} abc def M\0${c.path}\0`).join('')
+    : git([])(args);
+  assert.equal((await detectVoiceScope(env, paymentGit, response())).mode, 'headers');
+  assert.equal((await detectVoiceScope(env, paymentGit, response([], []))).mode, 'headers');
+});
 
 test('only explicit homepage consumers/prose permit header checks on a successful main baseline', async () => {
   for (const path of [...HOME_PATHS, ...DOC_PATHS]) {
@@ -57,7 +75,7 @@ test('reviewed support and footer changes use headers after a successful deploye
   assert.equal(result.before, before);
   assert.equal(result.verifiedSha, after);
   assert.equal(result.ciProfile, 'full', 'core checks stay enabled; specialties have a separate plan');
-  assert.equal((await detectVoiceScope(env, git(paths), response([{ ...previous, conclusion: 'failure' }]))).mode, 'full');
+  assert.equal((await detectVoiceScope(env, git(paths), response([{ ...previous, conclusion: 'failure' }]))).mode, 'headers');
   assert.equal(classifyVoiceChanges([change('lib/store/payments.ts')]).mode, 'headers');
 });
 test('new/deleted/renamed home components, symlinks and executable changes force full', () => {
@@ -81,30 +99,33 @@ test('comparison failures, checkout mismatch and malformed or empty diffs force 
     assert.equal((await detectVoiceScope(env, fn, response())).mode, 'full');
   }
 });
-test('failed, in-progress, missing, older, other-SHA/tag/manual/PR releases are not scope baselines', async () => {
+test('missing deployment proof does not launch unchanged voice and grants no CI scope proof', async () => {
   for (const overrides of [{ conclusion: 'failure' }, { status: 'in_progress' }, { head_sha: after },
     { event: 'workflow_dispatch' }, { event: 'pull_request' }, { head_branch: 'v1' }, { path: '.github/workflows/ci.yml' }]) {
-    assert.equal((await detectVoiceScope(env, git(), response([{ ...previous, ...overrides }, previous]))).mode, 'full');
+    assert.equal((await detectVoiceScope(env, git(), response([{ ...previous, ...overrides }, previous]))).mode, 'headers');
   }
-  assert.equal((await detectVoiceScope(env, git(), response([]))).mode, 'full');
+  const missing = await detectVoiceScope(env, git(), response([]));
+  assert.equal(missing.mode, 'headers');
+  assert.equal(missing.verifiedSha, undefined);
+  assert.equal(missing.ciProfile, undefined);
   for (const request of [async () => { throw Error('network'); }, async () => ({ ok: false }),
     async () => ({ ok: true, json: async () => ({}) })]) {
-    assert.equal((await detectVoiceScope(env, git(), request)).mode, 'full');
+    assert.equal((await detectVoiceScope(env, git(), request)).mode, 'headers');
   }
   for (const key of ['GITHUB_TOKEN', 'GITHUB_REPOSITORY', 'GITHUB_RUN_ID']) {
-    assert.equal((await detectVoiceScope({ ...env, [key]: '' }, git(), response())).mode, 'full');
+    assert.equal((await detectVoiceScope({ ...env, [key]: '' }, git(), response())).mode, 'headers');
   }
 });
 
-test('a green run with skipped/missing deployment or validation is not a deployed baseline', async () => {
+test('unverified deployments retain header checks without claiming a deployed baseline', async () => {
   for (const name of successfulJobs.map(j => j.name)) {
     for (const conclusion of ['skipped', 'failure', 'cancelled']) {
       const jobs = successfulJobs.map(j => j.name === name ? { ...j, conclusion } : j);
-      assert.equal((await detectVoiceScope(env, git(), response(undefined, jobs))).mode, 'full');
+      assert.equal((await detectVoiceScope(env, git(), response(undefined, jobs))).mode, 'headers');
     }
-    assert.equal((await detectVoiceScope(env, git(), response(undefined, successfulJobs.filter(j => j.name !== name)))).mode, 'full');
+    assert.equal((await detectVoiceScope(env, git(), response(undefined, successfulJobs.filter(j => j.name !== name)))).mode, 'headers');
   }
-  assert.equal((await detectVoiceScope(env, git(), response(undefined, []))).mode, 'full');
+  assert.equal((await detectVoiceScope(env, git(), response(undefined, []))).mode, 'headers');
   const successful = await detectVoiceScope(env, git(), response());
   assert.equal(successful.ciProfile, 'home-ui');
   assert.equal(successful.before, before);
