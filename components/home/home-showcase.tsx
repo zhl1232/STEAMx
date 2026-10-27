@@ -207,7 +207,7 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
             key={category.metaKey}
             href={category.href}
             className={cn(
-              "group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.6)] max-md:relative max-md:border-[#e2e7ee] max-md:bg-[#f7f9fc] max-md:shadow-none max-md:dark:border-white/[0.12] max-md:dark:bg-white/[0.04] max-md:active:scale-[0.99] px-2.5 py-2.5 text-left transition-colors hover:bg-[hsl(var(--surface-raised)/0.96)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3.5 lg:min-h-[88px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
+              "group flex min-h-[66px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.6)] max-md:relative max-md:border-[#e2e7ee] max-md:bg-[#f7f9fc] max-md:shadow-none max-md:dark:border-white/[0.12] max-md:dark:bg-white/[0.04] max-md:active:scale-[0.99] px-2.5 py-2.5 text-left transition-colors hover:bg-[hsl(var(--surface-raised)/0.96)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3.5 lg:min-h-[88px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
               "border-border/60",
             )}
           >
@@ -215,7 +215,7 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
               <Icon className={cn("h-5 w-5 md:h-[22px] md:w-[22px]", tone.text)} strokeWidth={2.2} />
             </span>
             <div className="min-w-0 flex-1">
-              <span className={cn("block whitespace-nowrap font-sans text-[12px] font-bold leading-none text-foreground md:text-[15px] min-[1480px]:text-[16px]")}>{category.labelOverride ?? meta.label}</span>
+              <span className={cn("block whitespace-nowrap font-sans text-[14px] font-bold leading-none text-foreground md:text-[15px] min-[1480px]:text-[16px]")}>{category.labelOverride ?? meta.label}</span>
               <p className="mt-1 hidden truncate text-[11px] text-muted-foreground min-[1480px]:block">{meta.description}</p>
               <p className="mt-0.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground max-md:hidden md:mt-1.5 md:text-[12px]">{countLabel}</p>
             </div>
