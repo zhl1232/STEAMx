@@ -60,6 +60,8 @@ jobs:
     outputs:
       image: ${{ steps.image.outputs.name }}
       digest: ${{ steps.build.outputs.digest }}
+      oss_url: ${{ steps.oss.outputs.signed_url }}
+      oss_object: ${{ steps.oss.outputs.object_key }}
     env:
       NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
@@ -142,6 +144,28 @@ jobs:
             NEXT_PUBLIC_ASSETS_BASE_URL=${{ env.NEXT_PUBLIC_ASSETS_BASE_URL }}
           cache-from: type=gha,scope=steam-app
           cache-to: type=gha,mode=max,scope=steam-app,ignore-error=true
+
+      - name: Mirror image archive to Aliyun OSS
+        id: oss
+        env:
+          REGISTRY_IMAGE: ${{ steps.image.outputs.name }}
+          IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
+          DEPLOY_OSS_ACCESS_KEY_ID: ${{ secrets.DEPLOY_OSS_ACCESS_KEY_ID }}
+          DEPLOY_OSS_ACCESS_KEY_SECRET: ${{ secrets.DEPLOY_OSS_ACCESS_KEY_SECRET }}
+          DEPLOY_OSS_BUCKET: ${{ vars.DEPLOY_OSS_BUCKET || 'steamx' }}
+          DEPLOY_OSS_REGION: ${{ vars.DEPLOY_OSS_REGION || 'oss-cn-hangzhou' }}
+          DEPLOY_OSS_ENDPOINT: ${{ vars.DEPLOY_OSS_ENDPOINT }}
+          DEPLOY_OSS_PREFIX: ${{ vars.DEPLOY_OSS_PREFIX || 'deploy/steamx' }}
+          DEPLOY_OSS_SIGN_EXPIRES: ${{ vars.DEPLOY_OSS_SIGN_EXPIRES || '7200' }}
+        run: |
+          set -euo pipefail
+          if [ -z "${DEPLOY_OSS_ACCESS_KEY_ID:-}" ] || [ -z "${DEPLOY_OSS_ACCESS_KEY_SECRET:-}" ]; then
+            echo "DEPLOY_OSS_* secrets not set; skipping OSS mirror (GHCR-only deploy)."
+            echo "uploaded=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          npm install --no-save ali-oss@6.23.0
+          node scripts/upload-deploy-image-to-oss.mjs
 
   verify-course-voice-loading:
     needs: [deploy-production, release-scope]
@@ -244,13 +268,14 @@ jobs:
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REGISTRY_IMAGE: ${{ needs.build-image.outputs.image }}
           IMAGE_DIGEST: ${{ needs.build-image.outputs.digest }}
+          IMAGE_OSS_URL: ${{ needs.build-image.outputs.oss_url }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           command_timeout: 60m
-          envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST,DEPLOY_DIR,NGINX_SITE_PATH,NGINX_SITE_ENABLED_PATH,MIGRATION_ALLOWLIST
+          envs: GHCR_USERNAME,GHCR_TOKEN,REGISTRY_IMAGE,IMAGE_DIGEST,IMAGE_OSS_URL,DEPLOY_DIR,NGINX_SITE_PATH,NGINX_SITE_ENABLED_PATH,MIGRATION_ALLOWLIST
           script: |
             set -eu
             trap 'rm -rf -- "$DEPLOY_DIR"' EXIT
