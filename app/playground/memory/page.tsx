@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
-import { Brain, Check, ChevronLeft, ChevronRight, Globe, Lock, RotateCcw, Sparkles, Timer, Trophy, User } from "lucide-react"
+import { Brain, Check, ChevronDown, Globe, Lock, RotateCcw, Sparkles, Timer, Trophy, User, X } from "lucide-react"
 import { useMemoryMatch } from "@/hooks/playground/use-memory-match"
 import { getMemoryLevelTheme, MEMORY_LEVEL_THEMES } from "@/lib/playground/memory-levels"
 import { useGamification } from "@/lib/context/gamification-context"
@@ -12,6 +12,23 @@ import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { MemoryOnlineView } from "@/components/features/playground/memory-online-view"
 
 type PageMode = "single" | "online"
+
+/** 配对成功后两张牌共用的柔和色（同一对同色） */
+const PAIR_TONES = [
+    "bg-emerald-100 text-emerald-950 dark:bg-emerald-500/25 dark:text-emerald-50",
+    "bg-amber-100 text-amber-950 dark:bg-amber-500/25 dark:text-amber-50",
+    "bg-rose-100 text-rose-950 dark:bg-rose-500/25 dark:text-rose-50",
+    "bg-violet-100 text-violet-950 dark:bg-violet-500/25 dark:text-violet-50",
+    "bg-sky-100 text-sky-950 dark:bg-sky-500/25 dark:text-sky-50",
+    "bg-lime-100 text-lime-950 dark:bg-lime-500/25 dark:text-lime-50",
+    "bg-orange-100 text-orange-950 dark:bg-orange-500/25 dark:text-orange-50",
+    "bg-fuchsia-100 text-fuchsia-950 dark:bg-fuchsia-500/25 dark:text-fuchsia-50",
+]
+
+function splitEmoji(label: string): { icon: string | null; text: string } {
+    const m = label.match(/^(\p{Extended_Pictographic}\uFE0F?)\s*/u)
+    return m ? { icon: m[1], text: label.slice(m[0].length) } : { icon: null, text: label }
+}
 
 function formatTime(seconds: number) {
     const minutes = Math.floor(seconds / 60)
@@ -41,8 +58,10 @@ function MemoryPageInner() {
         return clearTutorOverride
     }, [clearTutorOverride, setTutorOverride])
     const levelIndex = game.level.index
-    const canPrev = levelIndex > 0 && game.isUnlocked(currentTheme.levels[levelIndex - 1])
-    const canNext = levelIndex < currentTheme.levels.length - 1 && game.isUnlocked(currentTheme.levels[levelIndex + 1])
+    const [pickerThemeId, setPickerThemeId] = useState(game.level.themeId)
+    const pickerTheme = getMemoryLevelTheme(pickerThemeId)
+    const matchedPairs = game.cards.filter((c) => c.matched).length / 2
+    const symbolOrder = new Map(currentTheme.pairs.map((pair, i) => [pair.key, i]))
 
     useEffect(() => {
         if (game.status !== "won") return
@@ -61,7 +80,7 @@ function MemoryPageInner() {
     return (
         <div className="playground-game-page">
             <div className="playground-game-main playground-game-center pb-10">
-                <div className="w-full max-w-3xl playground-game-board !p-3 sm:!p-5">
+                <div className="w-full max-w-3xl playground-game-board !p-3 sm:min-w-[600px] sm:!p-5">
                     <div className="mb-4 hidden items-center justify-between gap-3 sm:flex">
                         <div className="flex items-center gap-3">
                             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
@@ -109,108 +128,40 @@ function MemoryPageInner() {
 
                     {mode === "online" ? <MemoryOnlineView initialRoomCode={initialRoomCode} /> : null}
 
-                    <div className={cn("mb-3 space-y-3", mode === "online" && "hidden")}>
-                        {/* 主题：自动换行，不横向裁切 */}
-                        <div className="space-y-2">
-                            <button
-                                type="button"
-                                onClick={() => setThemeOpen((v) => !v)}
-                                aria-expanded={themeOpen}
-                                aria-controls="memory-theme-sheet"
-                                className="flex min-h-11 w-full items-center justify-between gap-2 rounded-full bg-muted/50 px-4 text-[15px] font-bold"
-                            >
-                                <span className="inline-flex min-w-0 items-center gap-2 truncate">
-                                    <span aria-hidden>{currentTheme.emoji}</span>
-                                    {currentTheme.label}
-                                    <span className="font-semibold text-muted-foreground">
-                                        {currentTheme.levels.filter((lv) => game.stats.clearedLevels.includes(lv.id)).length}/{currentTheme.levels.length}
-                                    </span>
-                                </span>
-                                <span className="shrink-0 text-muted-foreground">{themeOpen ? "收起" : "换主题"}</span>
-                            </button>
-                            {themeOpen ? (
-                                <div id="memory-theme-sheet" className="grid grid-cols-1 gap-1.5 sm:grid-cols-2" role="listbox" aria-label="选择主题">
-                                    {MEMORY_LEVEL_THEMES.map((t) => {
-                                        const selected = game.level.themeId === t.id
-                                        const done = t.levels.filter((lv) => game.stats.clearedLevels.includes(lv.id)).length
-                                        return (
-                                            <button
-                                                key={t.id}
-                                                type="button"
-                                                role="option"
-                                                aria-selected={selected}
-                                                onClick={() => {
-                                                    const firstOpen = [...t.levels].reverse().find((lv) => game.isUnlocked(lv) && !game.stats.clearedLevels.includes(lv.id)) ?? t.levels[0]
-                                                    game.startLevel(firstOpen.id)
-                                                    setThemeOpen(false)
-                                                }}
-                                                className={cn(
-                                                    "inline-flex min-h-11 items-center gap-2 rounded-xl px-3 text-left text-[15px] font-bold transition-colors",
-                                                    selected ? "bg-primary text-primary-foreground shadow-xs" : "bg-background/70 text-foreground hover:bg-background",
-                                                )}
-                                            >
-                                                <span aria-hidden>{t.emoji}</span>
-                                                <span className="min-w-0 flex-1 truncate">{t.label}</span>
-                                                <span className={cn("shrink-0 text-sm font-semibold", selected ? "opacity-90" : "text-muted-foreground")}>{done}/{t.levels.length}</span>
-                                            </button>
-                                        )
-                                    })}
-                                </div>
-                            ) : null}
-                        </div>
-
-                        {/* 关卡步进 */}
-                        <div className="flex items-center gap-2" role="group" aria-label="关卡">
-                            <button
-                                type="button"
-                                disabled={!canPrev}
-                                onClick={() => game.startLevel(currentTheme.levels[levelIndex - 1].id)}
-                                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-muted/70 disabled:opacity-40"
-                                aria-label="上一关"
-                            >
-                                <ChevronLeft className="h-5 w-5" />
-                            </button>
-                            <div className="min-w-0 flex-1 text-center">
-                                <p className="text-[15px] font-black">
-                                    第 {levelIndex + 1} 关
-                                    <span className="mx-1 font-semibold text-muted-foreground">/</span>
-                                    {currentTheme.levels.length}
-                                    {game.stats.clearedLevels.includes(game.level.id) ? (
-                                        <Check className="ml-1 inline h-4 w-4 text-primary" />
-                                    ) : !game.isUnlocked(game.level) ? (
-                                        <Lock className="ml-1 inline h-4 w-4 text-muted-foreground" />
-                                    ) : null}
-                                </p>
-                                <p className="truncate text-[15px] font-semibold text-muted-foreground">
-                                    {game.level.name} · {game.level.pairCount} 对
-                                </p>
-                            </div>
-                            <button
-                                type="button"
-                                disabled={!canNext}
-                                onClick={() => game.startLevel(currentTheme.levels[levelIndex + 1].id)}
-                                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-muted/70 disabled:opacity-40"
-                                aria-label="下一关"
-                            >
-                                <ChevronRight className="h-5 w-5" />
-                            </button>
-                        </div>
-
-                        <div className="flex items-center justify-between gap-2 text-[15px] font-bold">
-                            <span className="text-muted-foreground">
-                                配对 {game.cards.filter((c) => c.matched).length / 2}/{game.level.pairCount}
+                    <div className={cn("mb-4 flex flex-wrap items-center justify-between gap-x-3 gap-y-1", mode === "online" && "hidden")}>
+                        <button
+                            type="button"
+                            onClick={() => { setPickerThemeId(game.level.themeId); setThemeOpen(true) }}
+                            aria-haspopup="dialog"
+                            className="inline-flex min-h-11 min-w-0 items-center gap-1.5 rounded-full py-1 pr-2 text-left text-base font-black hover:text-primary"
+                        >
+                            <span aria-hidden className="text-lg">{currentTheme.emoji}</span>
+                            <span className="truncate">
+                                {currentTheme.label}
+                                <span className="mx-1.5 text-muted-foreground">·</span>
+                                第 {levelIndex + 1}/{currentTheme.levels.length} 关
+                                <span className="ml-1.5 font-bold text-muted-foreground">{game.level.name}</span>
                             </span>
-                            <span className="rounded-full bg-muted/70 px-3 py-1.5 text-foreground">
-                                {game.moves} 次 · {formatTime(game.time)}
-                            </span>
-                        </div>
+                            {game.stats.clearedLevels.includes(game.level.id) ? <Check className="h-4 w-4 shrink-0 text-primary" /> : null}
+                            <ChevronDown className="h-5 w-5 shrink-0 text-muted-foreground" />
+                        </button>
+                        <span className="text-[15px] font-semibold text-muted-foreground tabular-nums">
+                            配对 {matchedPairs}/{game.level.pairCount} · {game.moves} 步 · {formatTime(game.time)}
+                        </span>
                     </div>
 
                     <div
-                        className={cn("grid gap-2.5 sm:gap-3", mode === "online" && "hidden")}
-                        style={{ gridTemplateColumns: `repeat(${game.columns}, minmax(0, 1fr))` }}
+                        className={cn(
+                            "grid gap-3 sm:grid-cols-4",
+                            game.level.pairCount > 6 ? "grid-cols-3" : "grid-cols-2",
+                            mode === "online" && "hidden",
+                        )}
                     >
-                        {game.cards.map((card) => (
+                        {game.cards.map((card) => {
+                            const tone = PAIR_TONES[(symbolOrder.get(card.symbol) ?? 0) % PAIR_TONES.length]
+                            const { icon, text } = splitEmoji(card.label)
+                            const dense = game.level.pairCount > 6
+                            return (
                             <button
                                 key={card.id}
                                 type="button"
@@ -219,77 +170,62 @@ function MemoryPageInner() {
                                 disabled={card.open || game.status === "won"}
                                 aria-label={card.open ? (card.face === "term" ? `名词 ${card.label}` : `解释 ${card.label}`) : "未翻开的牌"}
                                 className={cn(
-                                    "memory-card-scene aspect-[4/5] rounded-xl sm:aspect-square focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
+                                    "memory-card-scene rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
+                                    dense ? "aspect-[4/5]" : "aspect-[4/3]",
+                                    "sm:aspect-[5/4]",
                                     card.matched && "memory-card-matched",
                                 )}
                             >
                                 <div className={cn("memory-card-face relative h-full w-full", card.open && "memory-card-face-open")}>
                                     {/* 背面 */}
-                                    <div
-                                        className={cn(
-                                            "memory-card-side absolute inset-0 flex items-center justify-center overflow-hidden rounded-xl",
-                                            "bg-gradient-to-br from-primary/90 to-primary shadow-[0_8px_20px_-10px_hsl(var(--primary)/0.55)]",
-                                            "dark:from-primary/80 dark:to-primary/60",
-                                        )}
-                                    >
+                                    <div className="memory-card-side absolute inset-0 flex items-center justify-center overflow-hidden rounded-2xl bg-primary shadow-[0_6px_16px_-8px_hsl(var(--primary)/0.6)]">
                                         <div
-                                            className="absolute inset-0 opacity-25"
+                                            className="absolute inset-0 opacity-[0.18]"
                                             style={{
-                                                backgroundImage:
-                                                    "radial-gradient(circle at 28% 28%, white 0 1.4px, transparent 2px), radial-gradient(circle at 72% 68%, white 0 1px, transparent 1.6px)",
-                                                backgroundSize: "16px 16px, 20px 20px",
+                                                backgroundImage: "radial-gradient(circle, white 1.2px, transparent 1.6px)",
+                                                backgroundSize: "14px 14px",
                                             }}
                                         />
-                                        <Brain className="relative h-[30%] w-[30%] text-primary-foreground/90 drop-shadow-sm" />
+                                        <div className="absolute inset-2 rounded-xl border-2 border-white/25" />
+                                        <span className="relative flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
+                                            <Sparkles className="h-5 w-5 text-white" />
+                                        </span>
                                     </div>
                                     {/* 正面 */}
                                     <div
                                         className={cn(
-                                            "memory-card-side memory-card-front absolute inset-0 flex items-center justify-center rounded-xl p-2 shadow-[0_8px_18px_-12px_hsl(var(--surface-shadow)/0.5)] sm:p-2.5",
+                                            "memory-card-side memory-card-front absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-2xl p-2.5 text-center transition-opacity",
                                             card.matched
-                                                ? "bg-primary/10 ring-2 ring-primary/35"
-                                                : "bg-card ring-1 ring-border/60",
+                                                ? cn(tone, "opacity-90")
+                                                : card.face === "term"
+                                                    ? "bg-primary text-primary-foreground shadow-[0_6px_16px_-8px_hsl(var(--primary)/0.6)]"
+                                                    : "bg-card text-foreground shadow-[0_6px_18px_-8px_rgb(0_0_0/0.25)] dark:bg-zinc-800",
                                         )}
                                     >
+                                        {card.matched ? (
+                                            <span className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-white/80 dark:bg-black/30">
+                                                <Check className="h-4 w-4" strokeWidth={3} />
+                                            </span>
+                                        ) : null}
+                                        {card.face === "def" ? (
+                                            <span aria-hidden className={cn("leading-none", dense ? "text-xl" : "text-2xl")}>{icon ?? "💡"}</span>
+                                        ) : null}
                                         <span
                                             className={cn(
-                                                "select-none text-center font-black leading-snug text-foreground",
-                                                card.face === "term" ? "text-base sm:text-xl" : "text-sm sm:text-[15px]",
+                                                "select-none font-black leading-snug [word-break:keep-all] [text-wrap:balance]",
+                                                card.face === "term"
+                                                    ? dense ? "text-[15px] sm:text-[17px]" : "text-lg sm:text-[17px]"
+                                                    : dense ? "text-[15px] font-bold" : "text-base font-bold sm:text-[15px]",
                                             )}
                                         >
-                                            {card.label}
+                                            {text}
                                         </span>
                                     </div>
                                 </div>
                             </button>
-                        ))}
+                            )
+                        })}
                     </div>
-
-                    {mode === "single" && game.status === "won" ? (
-                        <div
-                            className="mt-4 mb-8 rounded-2xl bg-muted/40 p-4 text-center sm:p-5"
-                            role="status"
-                        >
-                            <Sparkles className="mx-auto mb-1.5 h-6 w-6 text-primary" />
-                            <p className="text-lg font-black">第 {game.level.index + 1} 关「{game.level.name}」通过！</p>
-                            <p className="mb-2 text-[15px] text-muted-foreground">{game.moves} 次翻对 · {formatTime(game.time)}</p>
-                            <p className="mx-auto mb-3 max-w-xl text-left text-[15px] leading-relaxed text-foreground">
-                                💡 {game.level.takeaway}
-                            </p>
-                            <div className="mx-auto flex w-full max-w-sm flex-col gap-2">
-                                <Button variant="outline" className="min-h-11 w-full rounded-full" onClick={() => game.startLevel()}>
-                                    再玩一次
-                                </Button>
-                                {game.nextLevel ? (
-                                    <Button className="min-h-11 w-full rounded-full" onClick={() => game.startLevel(game.nextLevel!.id)}>
-                                        下一关：{game.nextLevel.name}
-                                    </Button>
-                                ) : (
-                                    <span className="self-center text-[15px] font-bold">🎉 {currentTheme.label}主题全部通关</span>
-                                )}
-                            </div>
-                        </div>
-                    ) : null}
                 </div>
             </div>
 
@@ -323,6 +259,92 @@ function MemoryPageInner() {
                     </section>
                 </div>
             </aside>
+            {themeOpen ? (
+                <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 sm:items-center" onClick={() => setThemeOpen(false)}>
+                    <div
+                        role="dialog"
+                        aria-label="选择主题和关卡"
+                        onClick={(e) => e.stopPropagation()}
+                        className="w-full max-w-md rounded-t-3xl bg-background p-5 pb-8 shadow-2xl sm:rounded-3xl sm:pb-5"
+                    >
+                        <div className="mx-auto mb-4 h-1.5 w-10 rounded-full bg-muted sm:hidden" />
+                        <div className="mb-3 flex items-center justify-between">
+                            <h2 className="text-lg font-black">选主题和关卡</h2>
+                            <button type="button" onClick={() => setThemeOpen(false)} className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-muted" aria-label="关闭">
+                                <X className="h-5 w-5" />
+                            </button>
+                        </div>
+                        <div className="mb-4 grid grid-cols-3 gap-2">
+                            {MEMORY_LEVEL_THEMES.map((t) => (
+                                <button
+                                    key={t.id}
+                                    type="button"
+                                    onClick={() => setPickerThemeId(t.id)}
+                                    aria-pressed={pickerTheme.id === t.id}
+                                    className={cn(
+                                        "flex min-h-16 flex-col items-center justify-center gap-0.5 rounded-2xl text-[15px] font-bold transition-colors",
+                                        pickerTheme.id === t.id ? "bg-primary text-primary-foreground" : "bg-muted text-foreground",
+                                    )}
+                                >
+                                    <span aria-hidden className="text-xl">{t.emoji}</span>
+                                    {t.label}
+                                </button>
+                            ))}
+                        </div>
+                        <div className="space-y-2">
+                            {pickerTheme.levels.map((lv) => {
+                                const unlocked = game.isUnlocked(lv)
+                                const cleared = game.stats.clearedLevels.includes(lv.id)
+                                const current = lv.id === game.level.id
+                                return (
+                                    <button
+                                        key={lv.id}
+                                        type="button"
+                                        disabled={!unlocked}
+                                        onClick={() => { game.startLevel(lv.id); setThemeOpen(false) }}
+                                        className={cn(
+                                            "flex min-h-12 w-full items-center gap-3 rounded-2xl px-4 text-left text-base font-bold transition-colors disabled:opacity-50",
+                                            current ? "bg-primary/12 text-primary ring-2 ring-primary/40" : "bg-muted/70 text-foreground",
+                                        )}
+                                    >
+                                        <span className="w-14 shrink-0">第 {lv.index + 1} 关</span>
+                                        <span className="min-w-0 flex-1 truncate">{lv.name}</span>
+                                        <span className="shrink-0 text-[15px] font-semibold text-muted-foreground">{lv.pairCount} 对</span>
+                                        {cleared ? <Check className="h-5 w-5 shrink-0 text-primary" /> : !unlocked ? <Lock className="h-4 w-4 shrink-0 text-muted-foreground" /> : null}
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>
+            ) : null}
+
+            {mode === "single" && game.status === "won" ? (
+                <div className="memory-win-backdrop fixed inset-0 z-50 flex items-end justify-center bg-black/35 sm:items-center">
+                    <div role="dialog" aria-label="过关" className="memory-win-sheet w-full max-w-md rounded-t-3xl bg-background p-6 pb-8 text-center shadow-2xl sm:rounded-3xl">
+                        <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-primary/12 text-3xl">🎉</div>
+                        <p className="text-xl font-black">第 {game.level.index + 1} 关「{game.level.name}」通过！</p>
+                        <p className="mt-1 text-[15px] font-semibold text-muted-foreground">{game.moves} 步 · {formatTime(game.time)}</p>
+                        <p className="mx-auto mt-3 rounded-2xl bg-muted/60 px-4 py-3 text-left text-base leading-relaxed text-foreground">
+                            💡 {game.level.takeaway}
+                        </p>
+                        <div className="mt-5 grid grid-cols-2 gap-3">
+                            <Button variant="outline" className="min-h-12 rounded-2xl text-base font-bold" onClick={() => game.startLevel()}>
+                                再玩一次
+                            </Button>
+                            {game.nextLevel ? (
+                                <Button className="min-h-12 rounded-2xl text-base font-bold" onClick={() => game.startLevel(game.nextLevel!.id)}>
+                                    下一关
+                                </Button>
+                            ) : (
+                                <Button className="min-h-12 rounded-2xl text-base font-bold" onClick={() => { setPickerThemeId(game.level.themeId); setThemeOpen(true) }}>
+                                    换个主题
+                                </Button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            ) : null}
         </div>
     )
 }
