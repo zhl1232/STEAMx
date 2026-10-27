@@ -133,6 +133,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Keep expensive dependency/Scratch intermediate layers without exporting
+      # the changing application source and full Next build tree on every push.
+      # Both builds share this job's Buildx builder, including cold-build work.
+      - name: Cache dependencies and Scratch build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: scratch-builder
+          outputs: type=cacheonly
+          cache-from: |
+            type=gha,scope=steam-deps-scratch-v1
+            type=gha,scope=steam-app
+          cache-to: type=gha,mode=max,scope=steam-deps-scratch-v1,ignore-error=true
+
       - name: Build Docker image
         id: build
         uses: docker/build-push-action@v6
@@ -144,8 +158,11 @@ jobs:
             NEXT_PUBLIC_SUPABASE_URL=${{ env.NEXT_PUBLIC_SUPABASE_URL }}
             NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
             NEXT_PUBLIC_ASSETS_BASE_URL=${{ env.NEXT_PUBLIC_ASSETS_BASE_URL }}
-          cache-from: type=gha,scope=steam-app
-          cache-to: type=gha,mode=max,scope=steam-app,ignore-error=true
+          cache-from: |
+            type=gha,scope=steam-deps-scratch-v1
+            type=gha,scope=steam-app-runtime-v1
+            type=gha,scope=steam-app
+          cache-to: type=gha,mode=min,scope=steam-app-runtime-v1,ignore-error=true
 
       - name: Mirror image archive to Aliyun OSS
         id: oss
@@ -173,30 +190,22 @@ jobs:
 
   verify-course-voice-loading:
     needs: [deploy-production, release-scope]
+    if: needs.release-scope.outputs.voice-mode != 'skip'
     runs-on: ubuntu-latest
     timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
-      - name: Verify voice health and resource headers without cold downloads
-        id: headers
-        if: needs.release-scope.outputs.voice-mode == 'headers'
-        continue-on-error: true
-        run: node scripts/check-building-voice-headers.mjs
       - uses: pnpm/action-setup@v4
-        if: needs.release-scope.outputs.voice-mode != 'headers' || steps.headers.outcome != 'success'
         with:
           version: 10.22.0
           run_install: false
       - uses: actions/setup-node@v4
-        if: needs.release-scope.outputs.voice-mode != 'headers' || steps.headers.outcome != 'success'
         with:
           node-version: "22"
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-        if: needs.release-scope.outputs.voice-mode != 'headers' || steps.headers.outcome != 'success'
       - name: Verify public CDN and actual voice engine without opening a microphone
         id: full-voice
-        if: needs.release-scope.outputs.voice-mode != 'headers' || steps.headers.outcome != 'success'
         run: node scripts/check-building-voice-loading.mjs
       - name: Preserve production voice readiness evidence
         if: always() && steps.full-voice.outcome != 'skipped'

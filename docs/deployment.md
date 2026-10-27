@@ -66,7 +66,7 @@ PR 与有可信基线的 main 单测对已审查的客服、商城、硬币商�
 
 PR 必须核对当前 checkout SHA 和两个 synthetic merge parents，比较完整 base..merge；草稿、未知事件、错误 parents、解析失败均不能得到缩小的专项计划。main push 比较事件的完整 before..after，核对 checkout 与祖先关系，不只看最后一条提交。
 
-main 缩小基础单测范围前还需只读核验 **before 精确 SHA 对应的最新 Release CI job** 已实际成功。只检查该次最新 attempt 的 `ci / test-and-lint`，不沿用较旧 SHA 或旧 attempt 的成功。CI 后面的部署失败/取消不改变该源码已通过 CI 的事实；CI 本身失败、取消、跳过、未完成，API/凭据/分页不完整或无法核对范围时，基础单测回退完整验证，但已确定的专项及数据库依赖范围保持不变，不因基线缺失重跑未改的积木、语音等。这个基线只用于未命中结果复用时缩小基础检查范围，该路径仍执行自己的基础检查、所选专项和镜像构建。读取基线使用 `actions: read`；它与上节的相同内容证明是两种不同判断。
+main 缩小基础单测范围前还需只读核验 **before 精确 SHA 对应的最新 Release CI job** 已实际成功。只检查该次最新 attempt 的 `ci / test-and-lint`，不沿用较旧 SHA 或旧 attempt 的成功。CI 后面的部署失败/取消不改变该源码已通过 CI 的事实；CI 本身失败、取消、跳过、未完成，API/凭据/分页不完整或无法核对范围时，基础单测回退完整验证，但已确定的专项及数据库依赖范围保持不变，不因基线缺失重跑未改的积木、语音等。这个基线只用于未命中结果复用时缩小基础检查范围，该路径仍执行自己的基础检查、所选专项和镜像构建。专项计划与单测执行步骤都显式传入只读 `GITHUB_TOKEN`，保证单测重新核验基线时不会因缺少凭据意外回退全量。读取基线使用 `actions: read`；它与上节的相同内容证明是两种不同判断。
 
 tag、手动发布、未知事件及不可靠范围默认全量。相同 PR 的新检查取消其旧检查；不同 PR 和生产发布的既有互斥不变。没有新增定时任务，也不因本地测试通过自动触发远端 Actions。
 
@@ -82,11 +82,11 @@ PR build 使用 `http://127.0.0.1:54329` 的 `e2e/store-integration/data-server.
 
 ### 发布后的语音检查
 
-`scripts/release-voice-scope.mjs` 使用同一专项归属判断：已审查的无语音影响模块可以使用 health + 资源 HEAD；语音及实际共享运行依赖变更仍走完整冷加载；合法的未知业务文件不自动认定为语音变化。首页展示变更继续核对原有源码指纹。
+`scripts/release-voice-scope.mjs` 使用同一专项归属判断：确认语音及其运行依赖未变化时输出 `skip`，整个 `verify-course-voice-loading` job 跳过，不分配 runner、不安装依赖，也不发起语音 health、HEAD、CDN 或模型下载请求。语音及实际共享运行依赖变更仍走完整验证；合法的无关业务文件不自动认定为语音变化。首页展示变更继续核对原有源码指纹。
 
-只有紧邻前次 main Release 的 SHA 等于 before，且最新 attempt 的 CI、build-image、deploy-production、verify-course-voice-loading 全部实际成功，才能核验部署基线；在此基础上，可信的 before..after 比较未涉及语音运行依赖时，才只做 health + 资源 HEAD 并附带范围证明。历史 run/API 缺失、基线失败、任一部署阶段跳过、比较不可用或确实修改语音依赖时，均完整冷加载，避免遗漏前次未实际部署的语音变化。
+跳过必须有可信的部署基线和 before..after 比较，不能只看最后一次推送而遗漏此前未成功部署的语音改动。连续无语音变化的发布可以沿用经核验的主动跳过记录；旧策略中无来源的 skipped、失败或未完成记录不能充当通过证明。历史 run/API 缺失、基线失败、比较不可用或确实修改语音依赖时，保留完整验证。
 
-HEAD 探针仅 GET `/api/health`，对首页、worker/manifest/cache 脚本、CDN 与同源 fallback 资源发 HEAD，校验状态、MIME、CORS 和长度，不下载模型正文。任何不确定都会回退完整语音加载；`continue-on-error` 只用于进入该回退，不吞掉完整检查失败。无 Git 记录的 CDN、OSS、环境配置变更仍需通过明确获授权的手动 full 路径验收。
+发布流程不再调用轻量 HEAD 探针，也不存在轻量探针失败后升级为模型下载的路径。`scripts/check-building-voice-headers.mjs` 仅保留为明确获授权时的独立诊断工具；CDN、OSS 或环境配置等 Git 以外的改动，仍须通过明确获授权的手动验证验收。
 
 ### 本地验证与耗时证据
 
@@ -97,6 +97,8 @@ HEAD 探针仅 GET `/api/health`，对首页、worker/manifest/cache 脚本、CD
 ## 构建与缓存
 
 Docker 的 `scratch-builder` 只接收 Scratch 子包及依赖输入，产物处于应用文件之前的独立镜像层；主站运行 `pnpm exec next build`。本地 `pnpm build` 仍同时构建 Scratch 和主站。
+
+Release 在同一个 Buildx builder 内先以 `cacheonly` 构建 `scratch-builder`，向 `steam-deps-scratch-v1` 导出 `mode=max`，保留安装依赖和 Scratch 中间层。最终应用镜像导入该稳定缓存，只向 `steam-app-runtime-v1` 导出 `mode=min`，不再每次上传变动的应用源码层和完整 Next 中间构建目录。两步继续读取旧 `steam-app` 缓存以支持迁移；共享 builder 使首次依赖构建可在同一任务内复用。新范围首次填充可能有额外成本，后续实际节省时间以运行日志为准。
 
 与源码同目录的测试仍参与 Next.js 类型检查；它们引用的夹具必须进入构建上下文。`.dockerignore` 为视频试点的 `__tests__/fixtures/project-video-pilot.json` 和家庭材料修订的四份 `household-source-*.json` 保留逐文件例外，其他独立测试目录继续排除。
 
@@ -194,4 +196,4 @@ SEO 检查在切换后运行；失败可标记 Release 失败并跳过主动推�
 
 每次发布分别记录代码提交、镜像摘要、迁移结果、应用健康和实际业务检查。没有检查对应数据或真实功能时写“未核验”，不从 workflow 成功推定用户余额、供应商连通或课程体验全部通过。
 
-生产部署成功后，`verify-course-voice-loading` 按上面的范围策略选择轻量 health/HEAD 或完整探针。完整探针使用启用沙箱的 Chromium 打开实际主站，在新浏览器上下文中验证冷下载、同源 Worker/WASM 模型初始化与热缓存复用，并区分 CDN 与原同源公开文件保底，保存 `building-voice-loading-<commit>` 工件。探针不登录、不申请麦克风、不执行课程动作；不能代表手机、真人口令或投屏验收。`passed`只表示加载可用，另以`cdnReady`记录CDN迁移是否完成。探针失败会标记 Release 失败，但不自动回滚已部署应用，需要核对部署步骤和线上状态后处理。可用 `node scripts/check-building-voice-loading.mjs` 单独复核，浏览器必须具备正常沙箱和有效证书链。
+生产部署成功后，`verify-course-voice-loading` 按上面的范围策略整体跳过或运行完整探针。完整探针使用启用沙箱的 Chromium 打开实际主站，在新浏览器上下文中验证冷下载、同源 Worker/WASM 模型初始化与热缓存复用，并区分 CDN 与原同源公开文件保底，保存 `building-voice-loading-<commit>` 工件。探针不登录、不申请麦克风、不执行课程动作；不能代表手机、真人口令或投屏验收。`passed`只表示加载可用，另以`cdnReady`记录CDN迁移是否完成。探针失败会标记 Release 失败，但不自动回滚已部署应用，需要核对部署步骤和线上状态后处理。可用 `node scripts/check-building-voice-loading.mjs` 单独复核，浏览器必须具备正常沙箱和有效证书链。

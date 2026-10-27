@@ -119,6 +119,8 @@ jobs:
 
       - name: Run unit tests
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/ci-unit-tests.mjs
 
       - name: Verify portable physics lab

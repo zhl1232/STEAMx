@@ -38,21 +38,21 @@ test('payment and SQL changes do not launch the unrelated voice fixture', async 
     change(migration, '000000', '100644'),
     change('docs/STORE_CHANNEL_FULFILLMENT_DECISION.md')];
   const content = readFileSync(migration, 'utf8');
-  assert.equal(classifyVoiceChanges(changes, verifiedStoreMigrations(changes, () => content)).mode, 'headers');
-  assert.equal(classifyVoiceChanges(changes, verifiedStoreMigrations(changes, () => content + '\nDROP TABLE public.profiles;')).mode, 'headers');
+  assert.equal(classifyVoiceChanges(changes, verifiedStoreMigrations(changes, () => content)).mode, 'skip');
+  assert.equal(classifyVoiceChanges(changes, verifiedStoreMigrations(changes, () => content + '\nDROP TABLE public.profiles;')).mode, 'skip');
   const paymentGit = args => args[0] === 'diff'
     ? changes.map(c => `:${c.oldMode} ${c.newMode} abc def M\0${c.path}\0`).join('')
     : git([])(args);
-  assert.equal((await detectVoiceScope(env, paymentGit, response())).mode, 'headers');
+  assert.equal((await detectVoiceScope(env, paymentGit, response())).mode, 'skip');
   assert.equal((await detectVoiceScope(env, paymentGit, response([], []))).mode, 'full');
 });
 
-test('only explicit homepage consumers/prose permit header checks on a successful main baseline', async () => {
+test('only explicit homepage consumers/prose skip voice checks on a successful main baseline', async () => {
   for (const path of [...HOME_PATHS, ...DOC_PATHS]) {
-    assert.equal(classifyVoiceChanges([change(path)]).mode, 'headers', path);
-    assert.equal((await detectVoiceScope(env, git([path]), response())).mode, 'headers', path);
+    assert.equal(classifyVoiceChanges([change(path)]).mode, 'skip', path);
+    assert.equal((await detectVoiceScope(env, git([path]), response())).mode, 'skip', path);
   }
-  assert.equal((await detectVoiceScope(env, git([...HOME_PATHS, ...DOC_PATHS]), response())).mode, 'headers');
+  assert.equal((await detectVoiceScope(env, git([...HOME_PATHS, ...DOC_PATHS]), response())).mode, 'skip');
 });
 test('shared, auth, data, renderer, voice, config, test and unknown paths force full even mixed with home', async () => {
   for (const path of ['app/page.tsx', 'app/layout.tsx', 'app/globals.css', 'components/ui/button.tsx',
@@ -66,17 +66,17 @@ test('shared, auth, data, renderer, voice, config, test and unknown paths force 
     assert.equal((await detectVoiceScope(env, git([...HOME_PATHS, path]), response())).mode, 'full', path);
   }
 });
-test('reviewed support and footer changes use headers after a successful deployed baseline', async () => {
+test('reviewed support and footer changes skip voice checks after a successful deployed baseline', async () => {
   const paths = ['lib/support/feishu/config.ts', 'lib/support/feishu/config.test.ts',
     'components/layout/site-footer.tsx', 'components/layout/user-button.tsx',
     'docs/customer-support.md', 'docs/design-system.md'];
   const result = await detectVoiceScope(env, git(paths), response());
-  assert.equal(result.mode, 'headers');
+  assert.equal(result.mode, 'skip');
   assert.equal(result.before, before);
   assert.equal(result.verifiedSha, after);
   assert.equal(result.ciProfile, 'full', 'core checks stay enabled; specialties have a separate plan');
   assert.equal((await detectVoiceScope(env, git(paths), response([{ ...previous, conclusion: 'failure' }]))).mode, 'full');
-  assert.equal(classifyVoiceChanges([change('lib/store/payments.ts')]).mode, 'headers');
+  assert.equal(classifyVoiceChanges([change('lib/store/payments.ts')]).mode, 'skip');
 });
 test('new/deleted/renamed home components, symlinks and executable changes force full', () => {
   for (const path of HOME_PATHS) {
@@ -153,6 +153,63 @@ test('a store-only push fully validates voice changes left unverified by the pre
     assert.equal(result.ciProfile, undefined, scenario);
   }
   const verified = await detectVoiceScope(env, storeGit, response());
-  assert.equal(verified.mode, 'headers');
+  assert.equal(verified.mode, 'skip');
   assert.equal(verified.verifiedSha, after);
+});
+
+test('consecutive unchanged releases preserve an intentional skip without requesting voice resources', async () => {
+  const jobs = [...successfulJobs.map(job => job.name === 'verify-course-voice-loading'
+    ? { ...job, conclusion: 'skipped' } : job),
+  { name: 'release-scope', status: 'completed', conclusion: 'success' }];
+  for (let release = 0; release < 3; release++) {
+    const base = String(release + 1).repeat(40), next = String(release + 2).repeat(40);
+    const localGit = args => {
+      if (args[0] === 'rev-parse') return next;
+      if (args[0] === 'fetch') {
+        assert.deepEqual(args, ['fetch', '--no-tags', '--depth=1', 'origin', base]);
+        return '';
+      }
+      if (args[0] === 'show') return readFileSync(args[1].split(':')[1], 'utf8');
+      assert.deepEqual(args, ['diff', '--raw', '--no-renames', '--no-ext-diff', '-z', base, next, '--']);
+      return raw(['lib/support/server.ts']);
+    };
+    const request = response([{ id: 2 }, { ...previous, head_sha: base }], jobs);
+    const result = await detectVoiceScope({ ...env, RELEASE_BEFORE: base, GITHUB_SHA: next }, localGit, request);
+    assert.equal(result.mode, 'skip');
+    assert.equal(result.before, base);
+    assert.equal(result.verifiedSha, next);
+  }
+});
+
+test('an intentionally skipped baseline still fully validates new voice changes', async () => {
+  const result = await detectVoiceScope(env, git(['public/courses/vosk/v2/assets.js']),
+    () => { throw Error('Unneeded history request'); });
+  assert.equal(result.mode, 'full');
+  assert.equal(result.verifiedSha, undefined);
+});
+
+test('skipped legacy, changed or incomplete policies cannot establish a voice baseline', async () => {
+  const jobs = [...successfulJobs.map(job => job.name === 'verify-course-voice-loading'
+    ? { ...job, conclusion: 'skipped' } : job),
+  { name: 'release-scope', status: 'completed', conclusion: 'success' }];
+  const guard = "    if: needs.release-scope.outputs.voice-mode != 'skip'\n";
+  for (const scenario of ['legacy workflow', 'changed workflow', 'changed scope policy', 'unreadable policy']) {
+    const localGit = args => {
+      if (args[0] !== 'show') return git(['lib/support/server.ts'])(args);
+      const [revision, path] = args[1].split(':');
+      const content = readFileSync(path, 'utf8');
+      if (scenario === 'unreadable policy') throw Error('Missing historical file');
+      if (scenario === 'legacy workflow' && path.endsWith('.yml')) return content.replace(guard, '');
+      if (revision === before && (scenario === 'changed workflow' && path.endsWith('.yml')
+        || scenario === 'changed scope policy' && path.endsWith('.mjs'))) return content + '\n// different policy';
+      return content;
+    };
+    assert.equal((await detectVoiceScope(env, localGit, response(undefined, jobs))).mode, 'full', scenario);
+  }
+  for (const conclusion of ['failure', 'cancelled', 'skipped']) {
+    const unproven = jobs.map(job => job.name === 'release-scope' ? { ...job, conclusion } : job);
+    assert.equal((await detectVoiceScope(env, git(['lib/support/server.ts']), response(undefined, unproven))).mode, 'full');
+  }
+  const missingScope = jobs.filter(job => job.name !== 'release-scope');
+  assert.equal((await detectVoiceScope(env, git(['lib/support/server.ts']), response(undefined, missingScope))).mode, 'full');
 });

@@ -38,6 +38,13 @@ test('specialties and their evidence skip only after an explicit negative impact
   assert(steps.get('Verify CI scope policy').includes('scripts/ci-test-impact.test.mjs'));
   assert(steps.get('Verify native store transactions').includes('node scripts/test-store-native.mjs'));
 });
+test('unit scope recomputation receives the same read-only baseline credentials as specialty planning', () => {
+  for (const name of ['Select affected specialty checks', 'Run unit tests']) {
+    assert.match(steps.get(name), /env:\n          GITHUB_TOKEN: \$\{\{ github.token \}\}/, name);
+  }
+  assert.match(ci, /permissions:\n  contents: read\n  actions: read\n  pull-requests: read/);
+  assert(steps.get('Run unit tests').includes('node scripts/ci-unit-tests.mjs'));
+});
 test('one smoke invocation retains untagged core and selects details only with explicit negative outputs', () => {
   const script = steps.get('Run smoke E2E').split('        run: |\n')[1]
     .split('\n').map(line => line.startsWith('          ') ? line.slice(10) : line).join('\n');
@@ -63,6 +70,28 @@ test('one smoke invocation retains untagged core and selects details only with e
         '--grep-invert', '@smoke-playground|@smoke-nature']);
   } finally { rmSync(directory, { recursive: true, force: true }); }
 });
+test('stable deps and Scratch retain max cache while application intermediate layers are not exported', () => {
+  const blocks = new Map(release.split('      - name: ').slice(1).map(block => [block.split('\n')[0], block]));
+  const stable = blocks.get('Cache dependencies and Scratch build');
+  const image = blocks.get('Build Docker image');
+  assert(stable.includes('target: scratch-builder'));
+  assert(stable.includes('outputs: type=cacheonly'));
+  assert(!stable.includes('push: true'), 'cache preparation must not publish a second image');
+  assert(stable.includes('cache-to: type=gha,mode=max,scope=steam-deps-scratch-v1,ignore-error=true'));
+  assert(image.includes('cache-to: type=gha,mode=min,scope=steam-app-runtime-v1,ignore-error=true'));
+  assert(!image.includes('mode=max'), 'changing Next intermediate output must not return to max export');
+  for (const block of [stable, image]) {
+    assert(block.includes('type=gha,scope=steam-deps-scratch-v1'));
+    assert(block.includes('type=gha,scope=steam-app\n'), 'retain prior cache during scope migration');
+    assert(!block.includes('builder:'), 'both stages share the same job builder and cold work');
+  }
+  assert(image.includes('type=gha,scope=steam-app-runtime-v1'));
+  assert(release.indexOf('Cache dependencies and Scratch build') < release.indexOf('      - name: Build Docker image'));
+  const dockerfile = readFileSync('Dockerfile', 'utf8');
+  const scratch = dockerfile.split('FROM deps AS scratch-builder')[1].split('FROM deps AS builder')[0];
+  assert(scratch.includes('COPY packages/scratch-host ./packages/scratch-host'));
+  assert(!scratch.includes('COPY . .'), 'stable cache target must not consume unrelated app source');
+});
 test('release reuses scope proof and still gates deployment on current CI and image', () => {
   assert.match(release, /ci:\n    needs: release-scope\n    with:\n      profile: \$\{\{ needs.release-scope.outputs.ci-profile \}\}/);
   assert(release.includes('before: ${{ needs.release-scope.outputs.before }}'));
@@ -73,13 +102,15 @@ test('release reuses scope proof and still gates deployment on current CI and im
   assert(ci.includes("cancel-in-progress: ${{ github.event_name == 'pull_request' }}"));
   assert(!ci.includes('paths-ignore:') && !ci.includes('pull_request_target:'));
 });
-test('header uncertainty executes the full voice probe and never ignores its failure', () => {
+test('unchanged voice skips the whole job before any runner or resource request', () => {
   const voice = release.split('  verify-course-voice-loading:')[1].split('  deploy-production:')[0];
-  const fallback = "if: needs.release-scope.outputs.voice-mode != 'headers' || steps.headers.outcome != 'success'";
-  assert.equal(voice.split(fallback).length - 1, 4);
-  assert.equal(voice.split('continue-on-error: true').length - 1, 1);
-  assert.match(voice, /id: headers[\s\S]+continue-on-error: true[\s\S]+run: node scripts\/check-building-voice-headers.mjs/);
-  assert(voice.includes(`id: full-voice\n        ${fallback}\n        run: node scripts/check-building-voice-loading.mjs`));
+  assert(voice.includes(`    needs: [deploy-production, release-scope]
+    if: needs.release-scope.outputs.voice-mode != 'skip'
+    runs-on: ubuntu-latest`));
+  assert(!voice.includes('check-building-voice-headers.mjs'));
+  assert(!voice.includes('steps.headers') && !voice.includes('continue-on-error'));
+  assert(voice.includes('run: node scripts/check-building-voice-loading.mjs'));
+  assert(voice.includes("if: always() && steps.full-voice.outcome != 'skipped'"));
 });
 
 test('draft PRs skip the entire stable job before any runner or light gate', () => {

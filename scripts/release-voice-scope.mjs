@@ -21,9 +21,9 @@ export function classifyVoiceChanges(changes, verifiedMigrations = new Set()) {
       ? ['000000', '100644'].includes(oldMode) && ['000000', '100644'].includes(newMode)
       // No new/deleted/renamed components or executable/symlink changes.
       : HOME_PATHS.has(path) && oldMode === '100644' && newMode === '100644');
-  if (safe) return { mode: 'headers', reason: 'Only reviewed homepage presentation or prose changed' };
+  if (safe) return { mode: 'skip', reason: 'Only reviewed homepage presentation or prose changed' };
   return !classifyTestImpact(changes, verifiedMigrations).voice
-    ? { mode: 'headers', reason: 'Reviewed module changes do not affect the voice runtime' }
+    ? { mode: 'skip', reason: 'Reviewed module changes do not affect the voice runtime' }
     : full('Shared, voice, configuration or unknown changes');
 }
 
@@ -75,11 +75,27 @@ export async function detectVoiceScope(env = process.env, git = gitDefault, requ
     });
     if (!jobsResponse.ok) throw Error('Baseline jobs unavailable');
     const jobData = await jobsResponse.json();
-    if (!Array.isArray(jobData.jobs) || jobData.total_count !== jobData.jobs.length
-      || !['ci / test-and-lint', 'build-image', 'deploy-production', 'verify-course-voice-loading']
-        .every(name => jobData.jobs.some(job => job.name === name
-          && job.status === 'completed' && job.conclusion === 'success'))) {
-      throw Error('Baseline did not complete CI, image, deployment and voice validation');
+    if (!Array.isArray(jobData.jobs) || jobData.total_count !== jobData.jobs.length) {
+      throw Error('Incomplete baseline jobs');
+    }
+    const succeeded = name => jobData.jobs.some(job => job.name === name
+      && job.status === 'completed' && job.conclusion === 'success');
+    if (!['ci / test-and-lint', 'build-image', 'deploy-production'].every(succeeded)) {
+      throw Error('Baseline did not complete CI, image and deployment');
+    }
+    if (!succeeded('verify-course-voice-loading')) {
+      const skipped = jobData.jobs.some(job => job.name === 'verify-course-voice-loading'
+        && job.status === 'completed' && job.conclusion === 'skipped');
+      // An intentional skip can carry a proven unchanged voice baseline forward.
+      // Require the same executed scope policy and guarded workflow at both SHAs;
+      // a legacy or otherwise unexplained skipped job never supplies that proof.
+      const policyPaths = ['scripts/release-voice-scope.mjs', '.github/workflows/release.yml'];
+      if (!skipped || !succeeded('release-scope') || !policyPaths.every(path => {
+        const current = git(['show', `${after}:${path}`]);
+        if (path.endsWith('.yml') && !current.includes(
+          "  verify-course-voice-loading:\n    needs: [deploy-production, release-scope]\n    if: needs.release-scope.outputs.voice-mode != 'skip'\n")) return false;
+        return current === git(['show', `${before}:${path}`]);
+      })) throw Error('Baseline voice validation or intentional skip proof unavailable');
     }
     return { ...selection, ciProfile: home ? 'home-ui' : 'full', before, verifiedSha: after };
   } catch {
@@ -94,5 +110,5 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   console.log(`Release voice scope: ${result.mode} — ${result.reason}`);
   if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `mode=${result.mode}\nci-profile=${result.ciProfile ?? 'full'}\nbefore=${result.before ?? ''}\nverified-sha=${result.verifiedSha ?? ''}\n`);
   if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY,
-    `Voice validation: **${result.mode}** — ${result.reason}. Header failure falls back to the full probe.\n`);
+    `Voice validation: **${result.mode}** — ${result.reason}. Unchanged voice skips the entire job without requesting voice resources.\n`);
 }
