@@ -929,11 +929,6 @@ function ProfileHero({
         <Edit3 className={compact ? 'h-4 w-4' : 'h-3.5 w-3.5'} />
         {!compact ? '编辑资料' : null}
       </Button>
-      <Button asChild variant="ghost" size="icon" className={compact ? COMPACT_ICON_BUTTON : 'h-11 w-11 text-muted-foreground'}>
-        <Link href={`/users/${profileContext.userId}`} aria-label="查看公开主页" title="查看公开主页">
-          <Eye className="h-4 w-4" />
-        </Link>
-      </Button>
       {/* 手机端「我的」不再有顶栏，设置入口收进资料卡；PC 端设置在全局头部，不重复 */}
       {compact ? (
         <Button asChild variant="ghost" size="icon" className={COMPACT_ICON_BUTTON}>
@@ -981,6 +976,7 @@ function ProfileHero({
         open={editorOpen}
         onOpenChange={setEditorOpen}
         initialTarget={editorTarget}
+        publicProfileUserId={profileContext.userId}
         onCloseAutoFocus={(event) => {
           event.preventDefault()
           editorTriggerRef.current?.focus()
