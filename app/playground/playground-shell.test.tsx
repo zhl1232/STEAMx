@@ -78,7 +78,7 @@ describe('playground navigation', () => {
         }
         const secondary = container.querySelector('a[href="/playground/sudoku"]')!.closest('details')!
         expect(secondary.open).toBe(false)
-        expect(container.querySelector('a[href="/playground/tangram"]')!.closest('details')).toBeNull()
+        expect(container.querySelector('a[href="/playground/balance"]')!.closest('details')).toBeNull()
     })
 
     it('opens secondary navigation when visiting one of its direct routes', () => {

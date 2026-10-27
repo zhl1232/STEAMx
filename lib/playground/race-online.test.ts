@@ -51,9 +51,9 @@ describe("race-online", () => {
         ).toBe("host")
         expect(
             decideRaceWinner(
-                "ballsort",
-                { completed: true, levelId: "stage-1", moves: 20, timeSeconds: 120 },
-                { completed: true, levelId: "stage-1", moves: 20, timeSeconds: 90 },
+                "hanoi",
+                { completed: true, diskCount: 4, moves: 15, timeSeconds: 120 },
+                { completed: true, diskCount: 4, moves: 15, timeSeconds: 90 },
             ),
         ).toBe("guest")
     })
@@ -70,20 +70,4 @@ describe("race-online", () => {
         ).toThrow(/diskCount/)
     })
 
-    it("compares symmetry by stars, mistakes, moves and time", () => {
-        expect(
-            compareRaceResults(
-                "symmetry",
-                { completed: true, stars: 3, mistakes: 2, moves: 10, timeSeconds: 50 },
-                { completed: true, stars: 2, mistakes: 0, moves: 8, timeSeconds: 20 },
-            ),
-        ).toBe(-1)
-        expect(
-            compareRaceResults(
-                "symmetry",
-                { completed: true, stars: 3, mistakes: 2, moves: 10, timeSeconds: 50 },
-                { completed: true, stars: 3, mistakes: 1, moves: 12, timeSeconds: 80 },
-            ),
-        ).toBe(1)
-    })
 })

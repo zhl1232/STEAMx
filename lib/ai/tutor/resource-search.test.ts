@@ -188,15 +188,15 @@ describe('searchTutorResources', () => {
   it('searches retained playground games without offering deleted game resources', async () => {
     const { client, calls } = createFakeSupabase(() => ({ data: [], error: null }))
     const plan = { status: 'model' as const, shouldSearch: true, resourceTypes: ['game' as const] }
-    const current = await searchTutorResources(client as never, { ...plan, queries: ['七巧板'] })
+    const current = await searchTutorResources(client as never, { ...plan, queries: ['数织'] })
     expect(current?.status).toBe('complete')
-    expect(current?.games?.map((game) => game.key)).toEqual(['tangram'])
+    expect(current?.games?.map((game) => game.key)).toEqual(['nonogram'])
 
     for (const name of ['2048', '数字华容道', '速算闪电战']) {
       const result = await searchTutorResources(client as never, { ...plan, queries: [name] })
       // The existing search may broaden a phrase to other games; none may point to a deleted route.
       const keys = result?.games?.map((game) => game.key) ?? []
-      for (const retired of ['2048', 'fifteen', 'quickmath']) expect(keys).not.toContain(retired)
+      for (const retired of ['2048', 'fifteen', 'quickmath', 'tangram', 'ballsort', 'symmetry']) expect(keys).not.toContain(retired)
     }
     expect(calls).toEqual([])
   })

@@ -9,8 +9,8 @@ describe("canonical URLs", () => {
     expect(buildCanonicalUrl("/nature/species/osmoderma-barnabita?from=%2Fnature%2Fspecies")).toBe(
       buildAbsoluteUrl("/nature/species/osmoderma-barnabita"),
     );
-    expect(buildCanonicalUrl("/playground/tangram?utm_source=wechat&utm_medium=share#top")).toBe(
-      buildAbsoluteUrl("/playground/tangram"),
+    expect(buildCanonicalUrl("/playground/sudoku?utm_source=wechat&utm_medium=share#top")).toBe(
+      buildAbsoluteUrl("/playground/sudoku"),
     );
     expect(buildCanonicalUrl("/project/1?from=explore-for-you")).toBe(buildAbsoluteUrl("/project/1"));
   });

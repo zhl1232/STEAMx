@@ -15,7 +15,6 @@ import {
     ChevronRight,
     Code2,
     Cog,
-    Columns2,
     Compass,
     Crosshair,
     Crown,
@@ -30,7 +29,6 @@ import {
     Sigma,
     Star,
     TableCellsSplit,
-    TestTubes,
     Trophy,
     type LucideIcon,
 } from "lucide-react"
@@ -44,7 +42,7 @@ import { readMergedMinesweeperStats } from "@/lib/playground/minesweeper-stats"
 import { cn } from "@/lib/utils"
 
 type SteamTag = "Science" | "Technology" | "Engineering" | "Arts" | "Math"
-type GameVisual = "mines" | "gomoku" | "life" | "24" | "hanoi" | "sudoku" | "nqueens" | "memory" | "maze" | "tangram" | "nonogram" | "ballsort" | "balance" | "symmetry" | "functionwars"
+type GameVisual = "mines" | "gomoku" | "life" | "24" | "hanoi" | "sudoku" | "nqueens" | "memory" | "maze" | "nonogram" | "balance" | "functionwars"
 
 type GameCard = {
     name: string
@@ -181,19 +179,6 @@ const GAMES: GameCard[] = [
         getWins: (raw) => safeNum(raw, "wins"),
     },
     {
-        name: "七巧板",
-        subtitle: "Tangram",
-        href: "/playground/tangram",
-        icon: Palette,
-        color: "text-violet-600 dark:text-violet-300",
-        visual: "tangram",
-        tags: ["Arts", "Math"],
-        description: "转一转、翻一翻，用七块图形拼出剪影。",
-        statsKey: "tangram_stats",
-        getPlayed: (raw) => safeNum(raw, "totalGames"),
-        getWins: (raw) => raw && typeof raw === "object" && Array.isArray((raw as Record<string, unknown>).solvedLevels) ? ((raw as Record<string, unknown>).solvedLevels as unknown[]).length : 0,
-    },
-    {
         name: "数织",
         subtitle: "Nonogram",
         href: "/playground/nonogram",
@@ -207,19 +192,6 @@ const GAMES: GameCard[] = [
         getWins: (raw) => countStringArray(raw, "solvedLevels"),
     },
     {
-        name: "球排序",
-        subtitle: "Ball Sort",
-        href: "/playground/ballsort",
-        icon: TestTubes,
-        color: "text-cyan-600 dark:text-cyan-300",
-        visual: "ballsort",
-        tags: ["Engineering", "Math"],
-        description: "10 关试管排序，从五色练到八色复杂周转。",
-        statsKey: "ball_sort_stats",
-        getPlayed: (raw) => safeNum(raw, "totalGames"),
-        getWins: (raw) => countStringArray(raw, "solvedLevels"),
-    },
-    {
         name: "天平称重",
         subtitle: "Balance",
         href: "/playground/balance",
@@ -229,19 +201,6 @@ const GAMES: GameCard[] = [
         tags: ["Science", "Math"],
         description: "先预测，再称量，一步步找出重量不同的硬币。",
         statsKey: "balance_stats",
-        getPlayed: (raw) => safeNum(raw, "totalGames"),
-        getWins: (raw) => countStringArray(raw, "solvedLevels"),
-    },
-    {
-        name: "像素对称",
-        subtitle: "Symmetry",
-        href: "/playground/symmetry",
-        icon: Columns2,
-        color: "text-pink-600 dark:text-pink-300",
-        visual: "symmetry",
-        tags: ["Arts", "Math"],
-        description: "观察半边图案，补出它的另一半。",
-        statsKey: "symmetry_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => countStringArray(raw, "solvedLevels"),
     },
@@ -276,7 +235,6 @@ const BADGE_PREVIEW_IDS = [
     "game24_speed",
     "hanoi_perfect",
     "life_challenge_all",
-    "tangram_all",
     "function_wars_all",
     "function_wars_challenge_all",
 ] as const
@@ -512,8 +470,8 @@ function StatsGrid({ stats }: { stats: AggStats }) {
 function MobileQuickEntries() {
     const entries = [
         { name: "物理实验室", hint: "电路 · 光 · 声 · 磁", href: "/playground/physics-lab", icon: Beaker, tone: "bg-primary/10 text-primary" },
-        { name: "3D 物理课本", hint: "八年级物理", href: "/textbook", icon: BookOpen, tone: "bg-[hsl(var(--tone-science-soft))] text-[hsl(var(--tone-science))]" },
-        { name: "七巧板", hint: "从这里开始", href: "/playground/tangram", icon: Palette, tone: "bg-[hsl(var(--tone-art-soft))] text-[hsl(var(--tone-art))]" },
+        { name: "3D 物理课本", hint: "按章节互动学", href: "/textbook", icon: BookOpen, tone: "bg-[hsl(var(--tone-science-soft))] text-[hsl(var(--tone-science))]" },
+        { name: "迷宫探险", hint: "从这里开始", href: "/playground/maze", icon: Compass, tone: "bg-[hsl(var(--tone-tech-soft))] text-[hsl(var(--tone-tech))]" },
         { name: "更多玩法", hint: "逻辑挑战", href: "#playground-more", icon: Grid3X3, tone: "bg-muted text-foreground" },
     ]
     return (
@@ -548,7 +506,7 @@ function SearchBox({ query, onChange, className }: { query: string; onChange: (v
 function DesktopFeatureEntries() {
     const entries = [
         { name: "物理实验室", hint: "66 个可调参数的实验：电路、光、声、热、磁、力", href: "/playground/physics-lab", icon: Beaker, tone: "bg-primary/10 text-primary" },
-        { name: "3D 物理课本", hint: "八年级物理，按章节一课一课学", href: "/textbook", icon: BookOpen, tone: "bg-[hsl(var(--tone-science-soft))] text-[hsl(var(--tone-science))]" },
+        { name: "3D 物理课本", hint: "按章节互动学，小学到高中都会陆续加入", href: "/textbook", icon: BookOpen, tone: "bg-[hsl(var(--tone-science-soft))] text-[hsl(var(--tone-science))]" },
     ]
     return (
         <nav aria-label="游乐场科学入口" className="hidden gap-4 lg:grid lg:grid-cols-2">
@@ -675,11 +633,8 @@ function GameArtwork({ game, compact = false, wide = false }: { game: GameCard; 
                     {game.visual === "nqueens" ? <NQueensArtwork /> : null}
                     {game.visual === "memory" ? <MemoryArtwork /> : null}
                     {game.visual === "maze" ? <MazeArtwork /> : null}
-                    {game.visual === "tangram" ? <TangramArtwork /> : null}
                     {game.visual === "nonogram" ? <NonogramArtwork /> : null}
-                    {game.visual === "ballsort" ? <BallSortArtwork /> : null}
                     {game.visual === "balance" ? <BalanceArtwork /> : null}
-                    {game.visual === "symmetry" ? <SymmetryArtwork /> : null}
                     {game.visual === "functionwars" ? <FunctionWarsArtwork /> : null}
                 </>
             )}
@@ -882,20 +837,6 @@ function MazeArtwork() {
     )
 }
 
-function TangramArtwork() {
-    return (
-        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
-            <rect width="92" height="92" rx="18" className="fill-violet-50 dark:fill-violet-950/45" />
-            <path d="M18 18 L54 18 L18 54 Z" className="fill-violet-500 dark:fill-violet-300" />
-            <path d="M56 18 L74 36 L56 54 Z" className="fill-sky-500 dark:fill-sky-300" />
-            <path d="M20 56 H54 L37 73 Z" className="fill-emerald-500 dark:fill-emerald-300" />
-            <path d="M56 56 H74 V74 H56 Z" className="fill-amber-400 dark:fill-amber-300" />
-            <path d="M39 38 L55 54 L39 54 Z" className="fill-rose-400 dark:fill-rose-300" />
-            <path d="M20 57 L36 73 H20 Z" className="fill-fuchsia-400 dark:fill-fuchsia-300" />
-            <path d="M57 19 L73 35 L73 19 Z" className="fill-blue-400 dark:fill-blue-300" />
-        </svg>
-    )
-}
 
 function NonogramArtwork() {
     return (
@@ -932,24 +873,6 @@ function NonogramArtwork() {
     )
 }
 
-function BallSortArtwork() {
-    return (
-        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
-            <rect width="92" height="92" rx="18" className="fill-cyan-50 dark:fill-cyan-950/45" />
-            <rect x="14" y="75" width="64" height="5" rx="2.5" className="fill-cyan-800/20 dark:fill-cyan-100/20" />
-            <path d="M23 22 V66 Q23 76 33 76 H34 Q44 76 44 66 V22" className="fill-white/70 stroke-cyan-700/45 dark:fill-white/8 dark:stroke-cyan-100/45" strokeWidth="3" strokeLinejoin="round" />
-            <path d="M49 22 V66 Q49 76 59 76 H60 Q70 76 70 66 V22" className="fill-white/70 stroke-cyan-700/45 dark:fill-white/8 dark:stroke-cyan-100/45" strokeWidth="3" strokeLinejoin="round" />
-            <path d="M20 21 H47 M46 21 H73" className="stroke-cyan-900/35 dark:stroke-cyan-100/35" strokeWidth="3" strokeLinecap="round" />
-            <circle cx="33.5" cy="65" r="6.2" className="fill-rose-500" />
-            <circle cx="33.5" cy="51" r="6.2" className="fill-sky-500" />
-            <circle cx="59.5" cy="65" r="6.2" className="fill-emerald-500" />
-            <circle cx="59.5" cy="51" r="6.2" className="fill-amber-400" />
-            <circle cx="59.5" cy="37" r="6.2" className="fill-rose-500" />
-            <path d="M33 28 C38 15 57 14 62 28" className="fill-none stroke-sky-500 dark:stroke-sky-300" strokeWidth="3" strokeLinecap="round" strokeDasharray="5 4" />
-            <path d="M61 28 L65 27 L63 31" className="fill-none stroke-sky-500 dark:stroke-sky-300" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-    )
-}
 
 function BalanceArtwork() {
     return (
@@ -970,28 +893,6 @@ function BalanceArtwork() {
     )
 }
 
-function SymmetryArtwork() {
-    return (
-        <svg viewBox="0 0 92 92" className="h-full w-full" aria-hidden="true">
-            <rect width="92" height="92" rx="18" className="fill-pink-50 dark:fill-pink-950/45" />
-            <rect x="14" y="14" width="64" height="64" rx="10" className="fill-white stroke-pink-200 dark:fill-white/8 dark:stroke-pink-200/15" />
-            <path d="M46 16 V76" className="stroke-pink-500 dark:stroke-pink-300" strokeWidth="2.5" strokeDasharray="4 4" />
-            {[22, 34, 58].map((y) => (
-                <rect key={`sample-a-${y}`} x="23" y={y} width="10" height="10" rx="2" className="fill-rose-500 dark:fill-rose-300" />
-            ))}
-            {[34, 46, 58].map((y) => (
-                <rect key={`sample-b-${y}`} x="34" y={y} width="10" height="10" rx="2" className="fill-rose-500 dark:fill-rose-300" />
-            ))}
-            {[22, 34, 58].map((y) => (
-                <rect key={`mirror-a-${y}`} x="59" y={y} width="10" height="10" rx="2" className="fill-sky-500 dark:fill-sky-300" />
-            ))}
-            {[34, 46, 58].map((y) => (
-                <rect key={`mirror-b-${y}`} x="48" y={y} width="10" height="10" rx="2" className="fill-sky-500 dark:fill-sky-300" />
-            ))}
-            <rect x="59" y="46" width="10" height="10" rx="2" className="fill-amber-300 stroke-amber-500 dark:fill-amber-400 dark:stroke-amber-200" />
-        </svg>
-    )
-}
 
 function FunctionWarsArtwork() {
     return (

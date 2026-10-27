@@ -8,7 +8,6 @@ import {
     Brain,
     Calculator,
     ChevronRight,
-    Columns2,
     Compass,
     Crosshair,
     Crown,
@@ -18,7 +17,6 @@ import {
     Home,
     Layers,
     Medal,
-    Palette,
     Scale,
     TableCellsSplit,
     TestTubes,
@@ -169,18 +167,6 @@ const games: PlaygroundNavItem[] = [
         steamTags: ["Technology", "Science"],
     },
     {
-        name: "七巧板",
-        nameEn: "Tangram",
-        href: "/playground/tangram",
-        icon: Palette,
-        description: "几何拼合与空间想象",
-        mission: "拖拽七块拼图，拼出目标剪影。",
-        controls: "拖拽移动，单击旋转 45°，双击翻转平行四边形。",
-        badgeGoal: "完成所有剪影挑战。",
-        color: "text-violet-500 dark:text-violet-300",
-        steamTags: ["Arts", "Math"],
-    },
-    {
         name: "数织",
         nameEn: "Nonogram",
         href: "/playground/nonogram",
@@ -193,18 +179,6 @@ const games: PlaygroundNavItem[] = [
         steamTags: ["Math", "Arts"],
     },
     {
-        name: "球排序",
-        nameEn: "Ball Sort",
-        href: "/playground/ballsort",
-        icon: TestTubes,
-        description: "10 关状态空间与中转规划",
-        mission: "把同色球倒进同一试管并填满。",
-        controls: "先点源管再点目标管倾倒，空管可作中转。",
-        badgeGoal: "刷新 10 关最少步数。",
-        color: "text-cyan-500 dark:text-cyan-300",
-        steamTags: ["Engineering", "Math"],
-    },
-    {
         name: "天平称重",
         nameEn: "Balance",
         href: "/playground/balance",
@@ -215,18 +189,6 @@ const games: PlaygroundNavItem[] = [
         badgeGoal: "用更少称量通关。",
         color: "text-teal-500 dark:text-teal-300",
         steamTags: ["Science", "Math"],
-    },
-    {
-        name: "像素对称",
-        nameEn: "Symmetry",
-        href: "/playground/symmetry",
-        icon: Columns2,
-        description: "半图镜像与坐标对应",
-        mission: "观察锁定样本半边，在挑战半边补出镜像图案。",
-        controls: "点击挑战半边填色或清除；样本半边不可编辑，误点会压低星级。",
-        badgeGoal: "完成全部镜像挑战并刷新星级。",
-        color: "text-pink-500 dark:text-pink-300",
-        steamTags: ["Arts", "Math"],
     },
     {
         name: "函数战争",
@@ -293,29 +255,15 @@ const GAME_SHORTCUTS: Record<string, GameHelpShortcut[]> = {
         { key: "← / A", label: "向地图左方移动" },
         { key: "手机箭头", label: "直接控制地图上的移动方向" },
     ],
-    "/playground/tangram": [
-        { key: "拖拽", label: "移动拼图片" },
-        { key: "单击", label: "旋转 45°" },
-        { key: "双击", label: "翻转平行四边形" },
-    ],
     "/playground/nonogram": [
         { key: "点击 / 滑动", label: "连续填色或标叉" },
         { key: "模式按钮", label: "切换填色与叉号" },
-    ],
-    "/playground/ballsort": [
-        { key: "点击源管", label: "拿起顶部同色球" },
-        { key: "点击目标管", label: "倒入可用试管" },
     ],
     "/playground/balance": [
         { key: "左盘 / 右盘", label: "选择当前投放托盘" },
         { key: "点击硬币", label: "放入当前托盘或从原盘移除" },
         { key: "称量", label: "比较两侧重量" },
         { key: "指认", label: "选择你认为的假币" },
-    ],
-    "/playground/symmetry": [
-        { key: "样本半边", label: "观察锁定图案" },
-        { key: "挑战半边", label: "手动补出镜像" },
-        { key: "误点", label: "可修正但影响星级" },
     ],
     "/playground/functionwars": [
         { key: "输入 f(x)", label: "定义炮弹相对炮口的轨迹" },
@@ -348,18 +296,6 @@ function GameNavGlyph({
                         <text x="8" y="13" className="fill-slate-400 text-[4px] font-black">3</text>
                     </>
                 )
-            case "/playground/ballsort":
-                return (
-                    <>
-                        <rect x="5" y="25" width="22" height="2" rx="1" className="fill-cyan-800/25 dark:fill-cyan-100/25" />
-                        <path d="M8 7 V22 Q8 26 12 26 H13 Q17 26 17 22 V7" className="fill-cyan-50 stroke-cyan-700/55 dark:fill-cyan-950 dark:stroke-cyan-100/50" strokeWidth="1.4" />
-                        <path d="M17 7 V22 Q17 26 21 26 H22 Q26 26 26 22 V7" className="fill-cyan-50 stroke-cyan-700/55 dark:fill-cyan-950 dark:stroke-cyan-100/50" strokeWidth="1.4" />
-                        <circle cx="12.5" cy="21.5" r="2.2" className="fill-rose-500" />
-                        <circle cx="12.5" cy="16.4" r="2.2" className="fill-sky-500" />
-                        <circle cx="21.5" cy="21.5" r="2.2" className="fill-emerald-500" />
-                        <circle cx="21.5" cy="16.4" r="2.2" className="fill-amber-400" />
-                    </>
-                )
             case "/playground/balance":
                 return (
                     <>
@@ -368,20 +304,6 @@ function GameNavGlyph({
                         <path d="M8 12 L5 19 H12 Z" className="fill-teal-500 dark:fill-teal-300" />
                         <path d="M25 10 L21 17 H29 Z" className="fill-amber-400 dark:fill-amber-300" />
                         <rect x="11" y="25" width="10" height="2.5" rx="1.2" className="fill-teal-800 dark:fill-teal-100" />
-                    </>
-                )
-            case "/playground/symmetry":
-                return (
-                    <>
-                        <rect x="5" y="5" width="22" height="22" rx="5" className="fill-pink-50 stroke-pink-200 dark:fill-pink-950 dark:stroke-pink-200/20" />
-                        <path d="M16 7 V25" className="stroke-pink-500 dark:stroke-pink-300" strokeWidth="1.2" strokeDasharray="2 2" />
-                        {[9, 14, 19].map((y) => (
-                            <rect key={`l-${y}`} x="9" y={y} width="4" height="4" rx="0.8" className="fill-rose-500 dark:fill-rose-300" />
-                        ))}
-                        {[9, 14, 19].map((y) => (
-                            <rect key={`r-${y}`} x="19" y={y} width="4" height="4" rx="0.8" className="fill-sky-500 dark:fill-sky-300" />
-                        ))}
-                        <rect x="14" y="14" width="4" height="4" rx="0.8" className="fill-rose-500 dark:fill-rose-300" />
                     </>
                 )
             default:

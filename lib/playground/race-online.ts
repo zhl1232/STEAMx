@@ -7,10 +7,7 @@ export const RACE_GAME_KEYS = [
     "hanoi",
     "nqueens",
     "nonogram",
-    "ballsort",
     "balance",
-    "symmetry",
-    "tangram",
 ] as const
 
 export type RaceGameKey = (typeof RACE_GAME_KEYS)[number]
@@ -147,17 +144,6 @@ export const RACE_GAME_META: Record<RaceGameKey, RaceGameMeta> = {
                 ? `${formatTime(result.timeSeconds)} · 误点 ${result.mistakes ?? 0}`
                 : "等待提交",
     },
-    ballsort: {
-        key: "ballsort",
-        label: "球排序",
-        shortLabel: "球排序",
-        objective: "同一关卡通关，步数少者胜，步数相同比用时。",
-        settingLabel: levelName,
-        resultLabel: (result) =>
-            result
-                ? `${result.moves ?? 0} 步 · ${formatTime(result.timeSeconds)}`
-                : "等待提交",
-    },
     balance: {
         key: "balance",
         label: "天平称重",
@@ -168,26 +154,6 @@ export const RACE_GAME_META: Record<RaceGameKey, RaceGameMeta> = {
             result
                 ? `${result.weighings ?? 0} 次 · ${formatTime(result.timeSeconds)}`
                 : "等待提交",
-    },
-    symmetry: {
-        key: "symmetry",
-        label: "像素对称",
-        shortLabel: "对称",
-        objective: "同一关卡通关，星级高者胜，再比误点、步数和用时。",
-        settingLabel: levelName,
-        resultLabel: (result) =>
-            result
-                ? `${result.stars ?? 0} 星 · ${result.moves ?? 0} 步 · ${formatTime(result.timeSeconds)}`
-                : "等待提交",
-    },
-    tangram: {
-        key: "tangram",
-        label: "七巧板",
-        shortLabel: "七巧板",
-        objective: "同一关卡完成拼图，用时少者胜。",
-        settingLabel: levelName,
-        resultLabel: (result) =>
-            result ? `${formatTime(result.timeSeconds)}` : "等待提交",
     },
 }
 
@@ -363,10 +329,7 @@ export function normalizeRaceSettings(
         case "nqueens":
             return { n: readInteger(raw.n, "n", 4, 12, 8) }
         case "nonogram":
-        case "ballsort":
         case "balance":
-        case "symmetry":
-        case "tangram":
             return readLevelSettings(raw)
     }
 }
@@ -450,17 +413,6 @@ export function normalizeRaceResult(
                 mistakes: readInteger(raw.mistakes, "mistakes", 0, 100, 0),
             }
         }
-        case "ballsort": {
-            const levelId = typeof raw.levelId === "string" ? raw.levelId.trim() : ""
-            ensureMatches(levelId, settings.levelId, "levelId")
-            return {
-                ...result,
-                levelId,
-                levelIndex: settings.levelIndex,
-                moves: readInteger(raw.moves, "moves", 1, 10_000),
-                timeSeconds: readInteger(raw.timeSeconds, "timeSeconds", 0, 86_400),
-            }
-        }
         case "balance": {
             const levelId = typeof raw.levelId === "string" ? raw.levelId.trim() : ""
             ensureMatches(levelId, settings.levelId, "levelId")
@@ -469,29 +421,6 @@ export function normalizeRaceResult(
                 levelId,
                 levelIndex: settings.levelIndex,
                 weighings: readInteger(raw.weighings, "weighings", 0, 100),
-                timeSeconds: readInteger(raw.timeSeconds, "timeSeconds", 0, 86_400),
-            }
-        }
-        case "symmetry": {
-            const levelId = typeof raw.levelId === "string" ? raw.levelId.trim() : ""
-            ensureMatches(levelId, settings.levelId, "levelId")
-            return {
-                ...result,
-                levelId,
-                levelIndex: settings.levelIndex,
-                stars: readInteger(raw.stars, "stars", 0, 3, 0),
-                mistakes: readInteger(raw.mistakes, "mistakes", 0, 1_000, 0),
-                moves: readInteger(raw.moves, "moves", 1, 10_000),
-                timeSeconds: readInteger(raw.timeSeconds, "timeSeconds", 0, 86_400),
-            }
-        }
-        case "tangram": {
-            const levelId = typeof raw.levelId === "string" ? raw.levelId.trim() : ""
-            ensureMatches(levelId, settings.levelId, "levelId")
-            return {
-                ...result,
-                levelId,
-                levelIndex: settings.levelIndex,
                 timeSeconds: readInteger(raw.timeSeconds, "timeSeconds", 0, 86_400),
             }
         }
@@ -528,25 +457,16 @@ export function compareRaceResults(
             if (!a.completed && !b.completed) return 0
             return compareLower(a.timeSeconds, b.timeSeconds)
         case "hanoi":
-        case "ballsort":
             return firstNonDraw([
                 compareLower(a.moves, b.moves),
                 compareLower(a.timeSeconds, b.timeSeconds),
             ])
         case "nqueens":
         case "nonogram":
-        case "tangram":
             return compareLower(a.timeSeconds, b.timeSeconds)
         case "balance":
             return firstNonDraw([
                 compareLower(a.weighings, b.weighings),
-                compareLower(a.timeSeconds, b.timeSeconds),
-            ])
-        case "symmetry":
-            return firstNonDraw([
-                compareHigher(a.stars, b.stars),
-                compareLower(a.mistakes, b.mistakes),
-                compareLower(a.moves, b.moves),
                 compareLower(a.timeSeconds, b.timeSeconds),
             ])
     }

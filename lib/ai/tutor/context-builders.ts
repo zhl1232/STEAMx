@@ -342,25 +342,13 @@ const PLAYGROUND_GAME_SCENES: Record<TutorPlaygroundGameKey, { title: string; su
       '如果学生问“运气步数少吗”“为什么我走了很多步”，应解释：迷宫的随机性来自地图生成和玩家早期选择岔路；复盘里的 BFS/A* 是基于已知全图的算法基准，玩家闯关时看不到全图，所以多走路主要来自探索和记忆策略，不是扫雷式概率运气。',
     ].join('\n'),
   },
-  tangram: {
-    title: '七巧板',
-    summary: '学生正在玩七巧板。围绕旋转、翻转、边角对齐和轮廓分解给提示。',
-  },
   nonogram: {
     title: '数织',
     summary: '学生正在玩数织。围绕行列线索、连续色块长度、确定空格和逐步排除给提示。',
   },
-  ballsort: {
-    title: '球排序',
-    summary: '学生正在玩球排序。围绕同色归并、腾出空管和避免堵住关键颜色给提示。',
-  },
   balance: {
     title: '天平称重',
     summary: '学生正在玩天平称重。围绕分组称量、比较左右盘和用最少次数找异常硬币给提示。',
-  },
-  symmetry: {
-    title: '像素对称',
-    summary: '学生正在玩像素对称。当前规则是观察锁定的半边样本，在另一半手动补出镜像图案；围绕镜像轴、行列对应、误点修正和图案平衡给提示。',
   },
   functionwars: {
     title: '函数战争',

@@ -60,7 +60,7 @@ for (const width of [390, 1440]) {
   test(`游乐场分组、折叠目录与搜索 ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/playground', { waitUntil: 'domcontentloaded' })
-    await expect(page.locator('#playground-create').getByRole('heading', { name: '七巧板' })).toBeVisible()
+    await expect(page.locator('#playground-create').getByRole('heading', { name: '数织' })).toBeVisible()
     await expect(page.locator('#playground-more a[href="/playground/sudoku"]')).not.toBeVisible()
     await page.locator('#playground-more > summary').click()
     await expect(page.locator('#playground-more a[href="/playground/sudoku"]')).toBeVisible()

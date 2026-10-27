@@ -10,6 +10,9 @@ describe("playground badge stats", () => {
       game_2048_stats: { wins: 500, maxTile: 8192, bestScore: 10000 },
       fifteen_puzzle_stats: { wins: 500, totalGames: 600 },
       quick_math_stats: { bestScore: 10000, bestStreak: 100 },
+      tangram_stats: { solvedLevels: ["classic-square", "mountain", "slide", "mushroom"] },
+      ball_sort_stats: { solvedLevels: ["1", "2"] },
+      symmetry_stats: { solvedLevels: ["1"] },
     }
 
     expect(buildPlaygroundUserStats(legacyStats)).toEqual(buildPlaygroundUserStats(activeStats))
@@ -24,8 +27,8 @@ describe("playground badge stats", () => {
         wins: 2,
         bestMoves: { 3: 7, 8: 300 },
       },
-      tangram_stats: {
-        solvedLevels: ["classic-square", "mountain", "slide", "mushroom"],
+      nonogram_stats: {
+        solvedLevels: ["1", "2", "3", "4"],
       },
       function_wars_stats: {
         totalGames: 12,
@@ -41,7 +44,7 @@ describe("playground badge stats", () => {
     expect(stats.hanoiWins).toBe(2)
     expect(stats.hanoiPerfect).toBe(1)
     expect(stats.hanoiMaxDisksCleared).toBe(8)
-    expect(stats.tangramSolved).toBe(4)
+    expect(stats.nonogramSolved).toBe(4)
     expect(stats.functionWarsSolved).toBe(10)
     expect(stats.functionWarsChallengeSolved).toBe(0)
     expect(stats.functionWarsOnlineWins).toBe(2)
@@ -88,8 +91,8 @@ describe("playground badge stats", () => {
         wins: 1,
         bestMoves: { 3: 7 },
       },
-      tangram_stats: {
-        solvedLevels: ["classic-square", "mountain", "slide", "mushroom"],
+      nonogram_stats: {
+        solvedLevels: ["1", "2", "3", "4"],
       },
       function_wars_stats: {
         solvedLevels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
@@ -99,13 +102,12 @@ describe("playground badge stats", () => {
     expect(unlocked).toEqual(
       expect.arrayContaining([
         "minesweeper_speedster",
-        "tangram_all",
         "function_wars_all",
         "playground_explorer_bronze",
         "playground_victories_bronze",
       ]),
     )
-    expect(unlocked).not.toEqual(expect.arrayContaining(["sorting_first_run", "tangram_first"]))
+    expect(unlocked).not.toEqual(expect.arrayContaining(["sorting_first_run", "tangram_first", "tangram_all"]))
   })
 
   test("counts challenge ids separately and unlocks the commander badge", () => {

@@ -211,12 +211,6 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         expect(BADGES.find((b) => b.id === "level_gold")?.name).toBe("高阶探索者");
     });
 
-    test("tangram_all requires completing the current 4 silhouettes", () => {
-        const badge = BADGES.find((b) => b.id === "tangram_all");
-        expect(badge).toBeDefined();
-        expect(badge!.condition(createStats({ tangramSolved: 3 }))).toBe(false);
-        expect(badge!.condition(createStats({ tangramSolved: 4 }))).toBe(true);
-    });
 
     test("function_wars_all requires completing all 10 levels", () => {
         const badge = BADGES.find((b) => b.id === "function_wars_all");
@@ -271,6 +265,7 @@ describe("Badge System Logic (Dynamic Badges)", () => {
             "maze_first",
             "maze_master",
             "tangram_first",
+            "tangram_all",
         ];
         for (const id of removedIds) {
             expect(BADGES.find((b) => b.id === id)).toBeUndefined();
@@ -283,7 +278,6 @@ describe("Badge System Logic (Dynamic Badges)", () => {
             "game24_speed",
             "hanoi_perfect",
             "life_challenge_all",
-            "tangram_all",
             "function_wars_all",
             "function_wars_challenge_all",
         ];
@@ -299,8 +293,8 @@ describe("Badge System Logic (Dynamic Badges)", () => {
         const platinum = BADGES.find((b) => b.id === "playground_explorer_platinum");
         expect(bronze!.condition(createStats({ playgroundGamesPlayed: 2 }))).toBe(false);
         expect(bronze!.condition(createStats({ playgroundGamesPlayed: 3 }))).toBe(true);
-        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 14 }))).toBe(false);
-        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 15 }))).toBe(true);
+        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 11 }))).toBe(false);
+        expect(platinum!.condition(createStats({ playgroundGamesPlayed: 12 }))).toBe(true);
     });
 
     test("playground_victories tiers require total wins thresholds", () => {
@@ -355,7 +349,7 @@ describe("Badge System Logic (Dynamic Badges)", () => {
             badge.seriesKey === "playground_star"
         ).length;
 
-        expect(PLAYGROUND_BADGE_COUNT).toBe(15);
+        expect(PLAYGROUND_BADGE_COUNT).toBe(14);
         expect(PLAYGROUND_BADGE_COUNT).toBe(count);
     });
 

@@ -65,35 +65,17 @@ export const PLAYGROUND_METADATA = {
     description: "探索 9×9 到 25×25 五档迷雾迷宫，练习路径记忆与方向判断。通关后解锁算法地图，用 BFS、DFS 和 A* 复盘最佳路线。",
     keywords: ["迷宫游戏", "BFS", "DFS", "A*算法", "路径规划"],
   },
-  "/playground/tangram": {
-    title: "七巧板",
-    seoTitle: "七巧板 在线拼图",
-    description: "在线玩七巧板，用 7 块几何拼板拼出方块、高山、滑梯、蘑菇屋等目标剪影。拖拽、旋转与翻转拼块，练习面积关系和空间想象力。",
-    keywords: ["七巧板", "几何游戏", "空间想象", "在线益智游戏"],
-  },
   "/playground/nonogram": {
     title: "数织",
     seoTitle: "数织 Nonogram 逻辑填图",
     description: "在线挑战数织（Nonogram），根据每行每列的数字线索填出隐藏的像素图案。28 关由易到难，支持滑动连填，每局 3 次试错机会。",
     keywords: ["数织", "Nonogram", "逻辑填图", "像素谜题"],
   },
-  "/playground/ballsort": {
-    title: "球排序",
-    seoTitle: "球排序 在线颜色排序益智游戏",
-    description: "在线玩球排序，把同色球倒进同一试管，练习状态空间与规划。10 关从双色入门到七色漩涡，空管可作中转，挑战最少步数。",
-    keywords: ["球排序", "颜色排序", "状态空间", "益智游戏"],
-  },
   "/playground/balance": {
     title: "天平称重",
     seoTitle: "天平称重 假币推理挑战",
     description: "用有限次称量找出假币，练习三分法和科学推理。从三币寻轻到十二枚硬币挑战，体会「每次称量把可能性分成三份」的思路。",
     keywords: ["天平称重", "假币问题", "三分法", "科学推理"],
-  },
-  "/playground/symmetry": {
-    title: "像素对称",
-    seoTitle: "像素对称 镜像补图游戏",
-    description: "观察半边图案并补出镜像，练习坐标对应、对称与空间想象。蝴蝶、对称心、镜像塔等 10 个像素关卡，误点越少星级越高。",
-    keywords: ["像素对称", "镜像", "坐标", "空间想象"],
   },
   "/playground/functionwars": {
     title: "函数战争",
