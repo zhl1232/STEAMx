@@ -30,7 +30,7 @@ try {
     create schema storage;create table storage.objects(id uuid primary key,bucket_id text);create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);
     create table store_orders(id uuid primary key,total_amount_cents integer,status text);
     create table store_order_events(id bigint generated always as identity primary key,order_id uuid not null references store_orders(id),event_type text,payload jsonb default '{}');`)
-  for(const file of ['20261026150000_support_conversations.sql','20261026170000_support_channels.sql','20261026180000_feishu_service_bridge.sql','20261026190000_feishu_delivery_order.sql','20261026200000_feishu_support_images.sql']) {
+  for(const file of ['20261026150000_support_conversations.sql','20261026170000_support_channels.sql','20261026180000_feishu_service_bridge.sql','20261026190000_feishu_delivery_order.sql','20261026200000_feishu_support_images.sql','20261027020000_feishu_threads.sql']) {
     const text=readFileSync(new URL(`../supabase/migrations/${file}`,import.meta.url),'utf8')
     // Match the formal db-push runner's nested DO -> EXECUTE migration behavior.
     sql(`do $runner$ begin execute ${literal(text)}; end $runner$;`)
@@ -382,7 +382,66 @@ try {
   assert.equal(sql(`select count(*) from feishu_reply_origins where actor_id='${staff}'`),'120')
   deny(reply('rate-excess'),/rate limit/)
   assert.equal(json(reply('incoming-1')).duplicate,true,'a committed retry remains idempotent after hitting the rate limit')
-  for(const table of ['feishu_targets','feishu_events','feishu_deliveries','feishu_reply_anchors','feishu_reply_origins','feishu_inbound','feishu_inbound_attachments']) {
+  // Topics start with the first new delivery; old standalone history is not rewritten.
+  for(let i=0;i<8;i++)for(const job of claim())complete(job)
+  const prepareThread=job=>json(`select feishu_prepare_thread('${job.event_id}',${literal(job.target_id)},'${job.lease_id}')`)
+  const finishThread=(job,message,lease=job.lease_id)=>`select feishu_finish_thread_delivery('${job.event_id}',${literal(job.target_id)},'${lease}',${literal(message)})`
+  const topicUsers=[randomUUID(),randomUUID()]
+  sql(`insert into profiles values('${topicUsers[0]}','user'),('${topicUsers[1]}','user')`)
+  const topicConversations=topicUsers.map(actor=>json(`select support_ensure_conversation('${actor}','store')`))
+  const topicMessages=topicConversations.map((c,i)=>send(c.id,'user',topicUsers[i]))
+  const topicJobs=claim().filter(job=>topicMessages.some(m=>m.id===job.support_message_id))
+  assert.equal(topicJobs.length,4)
+  const rootJob=topicJobs.find(job=>job.target_id==='store-a' && job.support_message_id===topicMessages[0].id)
+  assert.deepEqual(prepareThread(rootJob),{root_message_id:null})
+  deny(finishThread(rootJob,'om-topic-a',randomUUID()),/lease unavailable/)
+  // Existing anchor collision forces the entire root/anchor/ack transaction to roll back.
+  deny(finishThread(rootJob,'om-a'),/anchor mismatch/)
+  assert.deepEqual(prepareThread(rootJob),{root_message_id:null},'failed confirmation retries root creation, never a self reply')
+  assert.equal(sql(`select root_message_id is null from feishu_threads where target_id='store-a' and subject_id='${topicConversations[0].id}'`),'t')
+  assert.equal(sql(finishThread(rootJob,'om-topic-a')),'t')
+  assert.equal(sql(`select delivered_at is not null from feishu_deliveries where event_id='${rootJob.event_id}' and target_id='store-a'`),'t')
+  for(const [i,job] of topicJobs.filter(job=>job!==rootJob).entries()){
+    assert.deepEqual(prepareThread(job),{root_message_id:null},'different conversations and targets each reserve a root')
+    assert.equal(sql(finishThread(job,`om-topic-independent-${i}`)),'t')
+  }
+  const nextTopicMessage=send(topicConversations[0].id,'user',topicUsers[0])
+  const topicReplies=claim().filter(job=>job.support_message_id===nextTopicMessage.id)
+  assert.equal(topicReplies.length,2)
+  const topicReply=topicReplies.find(job=>job.target_id==='store-a')
+  assert.deepEqual(prepareThread(topicReply),{root_message_id:'om-topic-a'})
+  deny(finishThread(topicReply,'om-topic-a'),/reply mismatch/)
+  assert.equal(sql(finishThread(topicReply,'om-topic-child')),'t')
+  assert.equal(sql(`select count(*) from feishu_reply_anchors where message_id in ('om-topic-a','om-topic-child') and conversation_id='${topicConversations[0].id}'`),'2')
+  assert.equal(json(reply('topic-child-reply','chat-a',otherStaff,'om-topic-child','om-topic-a')).duplicate,false)
+  deny(reply('topic-cross-group','chat-b',otherStaff,'om-topic-child','om-topic-a'),/anchor unavailable|anchor|target/)
+  for(const job of topicReplies.filter(job=>job!==topicReply))sql(finishThread(job,'om-topic-child-other-target'))
+
+  const topicOrders=[randomUUID(),randomUUID()]
+  sql(`insert into store_orders values('${topicOrders[0]}',100,'pending_payment'),('${topicOrders[1]}',200,'pending_payment')`)
+  const orderEventIds=topicOrders.map(id=>Number(sql(`insert into store_order_events(order_id,event_type) values('${id}','created') returning id` ).split('\n')[0]))
+  const orderTopicJobs=claim().filter(job=>orderEventIds.includes(job.order_event_id))
+  assert.equal(orderTopicJobs.length,4)
+  for(const [i,job] of orderTopicJobs.entries()){
+    assert.deepEqual(prepareThread(job),{root_message_id:null})
+    sql(finishThread(job,`om-order-topic-${i}`))
+  }
+  assert.equal(sql(`select count(*) from feishu_threads where subject_kind='order' and subject_id in ('${topicOrders[0]}','${topicOrders[1]}')`),'4')
+  assert.equal(sql(`select count(*) from feishu_reply_anchors where message_id like 'om-order-topic-%'`),'0','order topics never authorize website support replies')
+  deny(reply('order-topic-is-not-support','chat-a',otherStaff,'om-order-topic-0'),/anchor unavailable/)
+  const paidEvent=Number(sql(`insert into store_order_events(order_id,event_type) values('${topicOrders[0]}','paid') returning id`).split('\n')[0])
+  const paidJobs=claim().filter(job=>job.order_event_id===paidEvent)
+  assert.equal(paidJobs.length,2)
+  for(const job of paidJobs){
+    const firstOrderJob=orderTopicJobs.find(previous=>previous.order_event_id===orderEventIds[0] && previous.target_id===job.target_id)
+    const root=`om-order-topic-${orderTopicJobs.indexOf(firstOrderJob)}`
+    assert.deepEqual(prepareThread(job),{root_message_id:root})
+    sql(finishThread(job,`om-order-paid-${job.target_id}`))
+  }
+  for(const query of [`select feishu_prepare_thread('${rootJob.event_id}','store-a','${rootJob.lease_id}')`,finishThread(rootJob,'om-forbidden')]){
+    for(const role of ['anon','authenticated'])deny(`set role ${role};${query}`,/permission denied/)
+  }
+  for(const table of ['feishu_targets','feishu_events','feishu_deliveries','feishu_reply_anchors','feishu_reply_origins','feishu_inbound','feishu_inbound_attachments','feishu_threads']) {
     assert.equal(sql(`select relrowsecurity from pg_class where oid='public.${table}'::regclass`),'t')
     for(const role of ['anon','authenticated'])deny(`set role ${role};select * from ${table}`,/permission denied/)
   }

@@ -22,7 +22,7 @@ export function StoreOrderActions({
   orderId: string
   status: string
   paymentStatus: string
-  aftersale?: { status?: string; returnAddress?: string | null } | null
+  aftersale?: { status?: string; returnAddress?: string | null; refundChannelStatus?: string | null } | null
   shipment?: { carrier?: string | null; trackingNumber?: string | null } | null
   onChanged?: () => void
   paymentProviders?: Array<'alipay' | 'wechat'>
@@ -52,14 +52,15 @@ export function StoreOrderActions({
             order?: {
               status?: string
               payment_status?: string
-              aftersale?: { status?: string }
+              aftersale?: { status?: string; refundChannelStatus?: string | null }
             }
           }
           if (
             body.order &&
             (body.order.status !== status ||
               body.order.payment_status !== paymentStatus ||
-              body.order.aftersale?.status !== aftersale?.status)
+              body.order.aftersale?.status !== aftersale?.status ||
+              body.order.aftersale?.refundChannelStatus !== aftersale?.refundChannelStatus)
           ) {
             if (body.order.status !== 'pending_payment') setPayment(null)
             router.refresh()
@@ -77,7 +78,7 @@ export function StoreOrderActions({
       clearTimeout(timer)
       controller.abort()
     }
-  }, [orderId, status, paymentStatus, aftersale?.status, router])
+  }, [orderId, status, paymentStatus, aftersale?.status, aftersale?.refundChannelStatus, router])
 
   const call = async (action: string, body: Record<string, unknown> = {}) => {
     setBusy(action)
@@ -144,7 +145,9 @@ export function StoreOrderActions({
               requested: '等待审核',
               return_required: '等待寄回商品',
               returned: '等待商家收货',
-              refund_pending: '原路退款处理中',
+              refund_pending: ['closed', 'abnormal'].includes(aftersale.refundChannelStatus || '')
+                ? '退款暂未完成，商家正在处理，可联系订单客服了解进度'
+                : '原路退款处理中',
               refunded: '已退款',
               rejected: '申请未通过，请联系客服',
               received: '已收到退货',

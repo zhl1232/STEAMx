@@ -1,10 +1,34 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { StoreOrderActions } from './store-order-actions'
 
-vi.mock('next/navigation', () => ({ useRouter: () => ({ refresh: vi.fn() }) }))
+const router = vi.hoisted(() => ({ refresh: vi.fn() }))
+vi.mock('next/navigation', () => ({ useRouter: () => router }))
 describe('store order actions', () => {
+  it('refreshes when only the refund channel state changes', async () => {
+    vi.useFakeTimers()
+    router.refresh.mockClear()
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({ order: {
+      status: 'refund_pending', payment_status: 'paid', aftersale: { status: 'refund_pending', refundChannelStatus: 'abnormal' },
+    } }))))
+    const { unmount } = render(<StoreOrderActions orderId="ord-refund" status="refund_pending" paymentStatus="paid" aftersale={{ status: 'refund_pending', refundChannelStatus: 'pending' }} />)
+    try {
+      await act(async () => { await vi.advanceTimersByTimeAsync(5000) })
+      expect(router.refresh).toHaveBeenCalledOnce()
+    } finally {
+      unmount()
+      vi.useRealTimers()
+    }
+  })
+
+  it.each(['closed', 'abnormal'])('explains a %s refund without claiming completion', (refundChannelStatus) => {
+    render(<StoreOrderActions orderId="ord-refund" status="refund_pending" paymentStatus="paid" aftersale={{ status: 'refund_pending', refundChannelStatus }} />)
+    expect(screen.getByText(/退款暂未完成，商家正在处理/)).toBeInTheDocument()
+    expect(screen.queryByText('原路退款处理中')).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '申请退款' })).not.toBeInTheDocument()
+  })
+
   it('does not offer unconfigured payment providers', () => {
     render(<StoreOrderActions orderId="ord-closed" status="pending_payment" paymentStatus="pending" paymentProviders={['alipay']} />)
     expect(screen.getByRole('button', { name: '支付宝支付' })).toBeInTheDocument()

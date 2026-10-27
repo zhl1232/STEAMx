@@ -249,6 +249,11 @@ describe('wechat payment protocol', () => {
     await expect(wrong.query('o')).rejects.toThrow(/identity\/amount/)
   })
 
+  it.each([['CLOSED', 'refund_closed'], ['ABNORMAL', 'refund_abnormal'], ['PROCESSING', 'pending'], ['SUCCESS', 'refunded']])('preserves verified WeChat refund status %s', async (channelStatus, expected) => {
+    const adapter = createWechatAdapter({ ...base, transport: { request: async () => signed(200, JSON.stringify({ out_trade_no: 'o', out_refund_no: 'r', status: channelStatus, amount: { refund: 123, currency: 'CNY' } })) } })
+    await expect(adapter.queryRefund('o', 'r')).resolves.toMatchObject({ status: expected, amountCents: 123, refundId: 'r' })
+  })
+
   it('validates encrypted payment and refund callbacks including merchant and money fields', async () => {
     const adapter = createWechatAdapter({
       ...base,

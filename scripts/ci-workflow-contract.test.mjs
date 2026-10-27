@@ -21,6 +21,7 @@ test('module selection preserves core checks and PR production route boundaries'
 });
 test('specialties and their evidence skip only after an explicit negative impact result', () => {
   const expected = {
+    'Verify native store transactions': 'store-db',
     'Verify portable physics lab': 'physics',
     'Verify project video presentation pilot': 'project-video',
     'Verify immersive building layout': 'building',
@@ -35,6 +36,7 @@ test('specialties and their evidence skip only after an explicit negative impact
   assert(steps.get('Select affected specialty checks').includes('node scripts/ci-test-plan.mjs'));
   assert(steps.get('Verify CI scope policy').includes('scripts/ci-test-plan.test.mjs'));
   assert(steps.get('Verify CI scope policy').includes('scripts/ci-test-impact.test.mjs'));
+  assert(steps.get('Verify native store transactions').includes('node scripts/test-store-native.mjs'));
 });
 test('one smoke invocation retains untagged core and selects details only with explicit negative outputs', () => {
   const script = steps.get('Run smoke E2E').split('        run: |\n')[1]
@@ -113,7 +115,7 @@ test('PR build uses a bounded read-only public fixture through route boundary ch
 });
 
 
-test('fallback units use the conservative runner and main retains full unit execution', () => {
+test('PR and main use affected unit planning with a conservative fallback', () => {
   assert(steps.get('Run unit tests').includes('node scripts/ci-unit-tests.mjs'));
   assert(steps.get('Verify CI scope policy').includes('scripts/ci-unit-tests.test.mjs'));
   assert(!ci.includes('--passWithNoTests'));
@@ -122,6 +124,7 @@ test('fallback units use the conservative runner and main retains full unit exec
   assert(!steps.get('Verify reusable PR checks').includes('continue-on-error: true'));
   const runner = readFileSync('scripts/ci-unit-tests.mjs', 'utf8');
   assert(runner.includes("process.env.GITHUB_EVENT_NAME === 'pull_request'"));
+  assert(runner.includes("process.env.GITHUB_EVENT_NAME === 'push' && process.env.GITHUB_REF === 'refs/heads/main'"));
   assert(runner.includes("let plan = { unitMode: 'full' }"));
 });
 

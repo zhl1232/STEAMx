@@ -3,6 +3,23 @@ vi.mock('server-only', () => ({}))
 import { FeishuClient } from './client'
 const credentials = { appId: 'cli_0123456789abcdef', appSecret: 'private-test-secret' }
 describe('Feishu API transport', () => {
+  it.each(['text', 'post'] as const)('replies %s in the root topic with stable reply-specific UUIDs', async type => {
+    const requests: { url: string; body: Record<string, unknown> }[] = []
+    const fetchImpl = vi.fn(async (url: string | URL | Request, init?: RequestInit) => {
+      if (String(url).includes('/auth/')) return authResponse()
+      requests.push({ url: String(url), body: JSON.parse(String(init?.body)) })
+      return new Response(JSON.stringify({ code: 0, data: { message_id: 'om_reply' } }))
+    })
+    const client = new FeishuClient(credentials, fetchImpl)
+    const send = (root?: string) => type === 'text' ? client.sendText('oc_team', '<at user_id="all">hello</at>', 'event', 'target', undefined, root) : client.sendPost('oc_team', 'hello', ['img_safe'], 'event', 'target', undefined, root)
+    await send(); await send('om_root'); await send('om_root')
+    expect(requests[1].url).toBe('https://open.feishu.cn/open-apis/im/v1/messages/om_root/reply')
+    expect(requests[1].body).toMatchObject({ reply_in_thread: true, msg_type: type })
+    expect(requests[1].body).not.toHaveProperty('receive_id')
+    expect(requests[1].body.uuid).toBe(requests[2].body.uuid)
+    expect(requests[1].body.uuid).not.toBe(requests[0].body.uuid)
+    expect(String(requests[1].body.uuid)).toHaveLength(32)
+  })
   it('caches the token and uses the same stable delivery UUID on retries', async () => {
     const requests: { url: string; init: RequestInit }[] = []
     const fetchImpl = vi.fn(async (url: string | URL | Request, init?: RequestInit) => {

@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { appendFileSync, readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { parseChanges, classifyHomeChanges } from './ci-scope.mjs';
-import { classifyTestImpact, classifyCoreTestImpact, fullCoreTestImpact } from './ci-test-impact.mjs';
+import { classifyTestImpact, classifyCoreTestImpact, fullCoreTestImpact, verifiedStoreMigrations } from './ci-test-impact.mjs';
 
 const full = reason => ({ physics: true, projectVideo: true, building: true, voice: true, reason,
   ...fullCoreTestImpact() });
@@ -72,19 +72,19 @@ export async function planCIChecks(env = process.env, event = {}, git = gitDefau
     } else return full('Manual, tag or unknown event requires every specialty');
 
     const changes = parseChanges(git(['diff', '--raw', '--no-renames', '--no-ext-diff', '-z', before, after, '--']));
-    let selection = classifyTestImpact(changes);
+    const verified = verifiedStoreMigrations(changes, path => git(['show', `${after}:${path}`]));
+    let selection = classifyTestImpact(changes, verified);
+    const core = classifyCoreTestImpact(changes, verified);
     if (classifyHomeChanges(changes, before, after, git).mode === 'home-ui') {
       selection = { physics: false, projectVideo: false, building: false, voice: false,
         reason: 'Reviewed homepage changes with pinned dependencies; specialties not run' };
     }
-    if (mainPush && Object.values(selection).some(value => value === false)
-        && !await testedMainBase(env, before, request)) {
-      return full('Exact preceding main CI baseline unavailable; run every specialty');
+    if (mainPush && (Object.values(selection).some(value => value === false) || core.unitMode === 'related')) {
+      let baseline = false;
+      try { baseline = await testedMainBase(env, before, request); } catch { /* Full core checks below. */ }
+      if (!baseline) return { ...selection, ...fullCoreTestImpact(), storeDb: core.storeDb,
+        reason: `${selection.reason}; exact preceding main CI baseline unavailable, full core checks retained` };
     }
-    const core = classifyCoreTestImpact(changes);
-    // Release always executes every unit test. Its successful CI job can then
-    // remain the exact source baseline for future main comparisons.
-    if (mainPush) { core.unitMode = 'full'; core.unitSources = []; core.unitOwners = []; }
     return { ...selection, ...core };
   } catch {
     // Do not include API bodies, request headers, environment values or thrown
@@ -108,7 +108,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   } catch { selection = full('Event unavailable or invalid; run every specialty'); }
   const names = [['physics', 'physics'], ['projectVideo', 'project-video'], ['building', 'building'], ['voice', 'voice'],
     ['smokeHome', 'smoke-home'], ['smokePlayground', 'smoke-playground'], ['smokeNature', 'smoke-nature'],
-    ['guides', 'guides'], ['assets', 'assets']];
+    ['guides', 'guides'], ['assets', 'assets'], ['storeDb', 'store-db']];
   console.info(`CI specialties: ${selection.reason}`);
   if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT,
     names.map(([key, output]) => `${output}=${selection[key]}\n`).join('') + `unit-mode=${selection.unitMode}\n`);

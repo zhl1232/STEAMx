@@ -13,6 +13,16 @@ export type StoreAttempt = {
   status: 'pending' | 'succeeded' | 'closed' | 'failed'
   created_at: string
 }
+export type StoreRefundAttempt = {
+  id: string
+  order_id: string
+  aftersale_id: string
+  attempt_no: number
+  refund_reference: string
+  provider: 'alipay' | 'wechat'
+  amount_cents: number
+  status: 'pending' | 'closed' | 'abnormal' | 'refunded'
+}
 export type StoreAftersale = {
   id: string
   order_id: string
@@ -24,6 +34,8 @@ export type StoreAftersale = {
   provider: string | null
   provider_ref: string | null
   created_at: string
+  refund_reference?: string | null
+  refund_channel_status?: StoreRefundAttempt['status'] | null
   return_address_encrypted?: string | null
   carrier?: string | null
   tracking_number?: string | null
@@ -105,6 +117,10 @@ export async function getAftersale(
   return data as StoreAftersale | null
 }
 
+export async function getRefundAttempt(orderId: string): Promise<StoreRefundAttempt> {
+  return storeRpc<StoreRefundAttempt>('get_store_refund_attempt', { p_order_id: orderId })
+}
+
 /** Call only after verifying the caller owns this order. Never send raw rows. */
 export async function getSafeOrderExtras(orderId: string) {
   const [shipment, aftersale, itemContexts] = await Promise.all([
@@ -150,6 +166,7 @@ export async function getSafeOrderExtras(orderId: string) {
           carrier: aftersale.carrier,
           tracking_number: aftersale.tracking_number,
           returnAddress,
+          refundChannelStatus: aftersale.refund_channel_status ?? null,
         }
       : null,
   }
@@ -201,7 +218,7 @@ export async function listAdminStoreOrders(page = 1, orderId?: string) {
       ...order,
       procurement: first(procurement),
       shipment: first(shipment),
-      aftersale: privateAftersale ? safeAftersale : null,
+      aftersale: privateAftersale ? { ...safeAftersale, refundChannelStatus: privateAftersale.refund_channel_status ?? null, refundReference: privateAftersale.refund_reference ?? null } : null,
     }
     }),
   }
@@ -257,12 +274,25 @@ export async function scheduleNextReconcile(
       reconcile_after: new Date(
         Date.now() + (failed ? 300_000 : 60_000),
       ).toISOString(),
-      ...(table === 'store_payment_attempts'
-        ? { failure_code: failed ? 'RECONCILIATION_PENDING' : null }
-        : { last_reconcile_error: failed ? 'RECONCILIATION_PENDING' : null }),
+      ...(table === 'store_aftersales'
+        ? {}
+        : table === 'store_payment_attempts'
+          ? { failure_code: failed ? 'RECONCILIATION_PENDING' : null }
+          : { last_reconcile_error: failed ? 'RECONCILIATION_PENDING' : null }),
     })
     .eq('order_id', orderId)
   if (error) throw error
+  if (table === 'store_aftersales') {
+    // Filter at write time: a concurrent callback can change the channel state
+    // while scheduling. Never erase its manual-review reason or a final result.
+    const { error: refundError } = await db()
+      .from(table)
+      .update({ last_reconcile_error: failed ? 'RECONCILIATION_PENDING' : null })
+      .eq('order_id', orderId)
+      .eq('status', 'refund_pending')
+      .or('refund_channel_status.is.null,refund_channel_status.eq.pending')
+    if (refundError) throw refundError
+  }
 }
 
 export async function getReservationExpiry(orderId: string): Promise<string> {

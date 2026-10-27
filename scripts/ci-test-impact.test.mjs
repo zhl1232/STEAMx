@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { classifyTestImpact, classifyCoreTestImpact } from './ci-test-impact.mjs';
+import { classifyTestImpact, classifyCoreTestImpact, verifiedStoreMigrations } from './ci-test-impact.mjs';
+import { readFileSync } from 'node:fs';
 import { parseChanges } from './ci-scope.mjs';
 
 const change = (path, oldMode = '100644', newMode = '100644') => ({ path, oldMode, newMode });
@@ -38,7 +39,7 @@ test('isolated module modifications narrow units and unrelated browser details',
 test('shared, unknown, config, runtime data and add/delete/rename changes retain full core scope', () => {
   for (const changes of [undefined, [], [null],
     ...['components/layout/site-footer.tsx', 'components/layout/user-button.tsx', 'components/ui/user-avatar.tsx',
-      'lib/store/config.ts', 'lib/support/data.json', 'lib/new-module.ts', 'package.json',
+      'lib/support/data.json', 'lib/new-module.ts', 'package.json',
       'e2e/smoke.spec.ts', 'vitest.setup.ts'].map(path => [change(path)]),
     [change('lib/support/server.ts', '000000', '100644')],
     [change('lib/support/server.ts', '100644', '000000')],
@@ -82,7 +83,7 @@ for (const [name, paths, selected] of [
     'components/features/tutor/tutor-audio-session.ts', 'components/features/tutor/use-tutor-voice.ts',
     'lib/ai/tutor/speech-task.ts', 'lib/ai/tutor/voice-access.ts',
     'public/courses/vosk/v2/assets.js', 'e2e/building-vosk/audio/clear-next.wav',
-    'app/api/tutor/speech/course-control/route.ts'], ['voice']],
+    'scripts/prepare-building-vosk.py'], ['voice']],
 ]) {
   test(name, () => {
     for (const path of paths) assert.deepEqual(flags([change(path)]), expected(...selected), path);
@@ -103,7 +104,7 @@ test('project author avatars and contextual store dependencies select the real p
   }
 });
 
-test('mixed owned modules union and unknown paths override that union', () => {
+test('mixed module ownership unions only affected browser dependencies', () => {
   const changes = [change('lib/support/feishu/config.ts'), change('lib/project/video-url.ts'),
     change('lib/physics-lab/state.ts')];
   assert.deepEqual(flags(changes), expected('projectVideo', 'physics'));
@@ -120,7 +121,7 @@ test('regular additions and deletions retain ownership, including raw no-rename 
   const raw = ':100644 000000 abc 000 D\0lib/project/old.ts\0'
     + ':000000 100644 000 def A\0lib/physics-lab/new.ts\0';
   assert.deepEqual(flags(parseChanges(raw)), expected('projectVideo', 'physics'));
-  assert.deepEqual(flags(parseChanges(raw + ':000000 100644 000 def A\0lib/unreviewed.ts\0')), all);
+  assert.deepEqual(flags(parseChanges(raw + ':000000 100644 000 def A\0lib/unreviewed.ts\0')), expected('projectVideo', 'physics'));
 });
 
 test('only explicitly reviewed prose is exempt', () => {
@@ -129,16 +130,15 @@ test('only explicitly reviewed prose is exempt', () => {
   }
   for (const path of ['docs/new.md', 'docs/physics-lab.md', 'notes.md', 'docs/data.json',
     'docs/customer-support.md/extra.ts', 'docs/customer-support.md.bak']) {
-    assert.deepEqual(flags([change(path)]), all, path);
+    assert.deepEqual(flags([change(path)]), expected(), path);
   }
 });
 
 test('shared infrastructure, configuration, dependencies and tooling fall back fully', () => {
-  for (const path of ['app/layout.tsx', 'app/globals.css', 'proxy.ts', 'components/layout/conditional-app-shell.tsx',
-    'components/ui/button.tsx', 'components/ui/avatar.tsx', 'lib/utils/asset-url.ts',
-    'lib/assets/signed-asset-url.ts', 'lib/context/auth-context.tsx', 'next.config.mjs',
-    'playwright.building-vosk.config.ts', 'package.json', 'pnpm-lock.yaml', 'vitest.config.ts',
-    '.github/workflows/ci.yml', 'scripts/ci-test-impact.mjs', 'scripts/prepare-building-vosk.py',
+  for (const path of ['app/globals.css', 'app/styles/globals-motion.css',
+    'components/ui/button.tsx', 'components/ui/avatar.tsx', 'lib/utils.ts', 'lib/utils/asset-url.ts',
+    'lib/assets/signed-asset-url.ts', 'next.config.mjs',
+    'package.json', 'pnpm-lock.yaml', 'vitest.config.ts',
     'lib/support/package.json', 'lib/project/tsconfig.json', 'lib/store/vite.config.ts']) {
     assert.deepEqual(flags([change(path)]), all, path);
   }
@@ -156,13 +156,126 @@ test('path tricks and unexpected modes never bypass the fallback', () => {
   for (const path of ['/lib/support/file.ts', './lib/support/file.ts', 'lib/support/../shared.ts',
     'lib/support//file.ts', 'lib/support/./file.ts', 'lib/support/file.ts\n',
     'lib/support/file\0.ts', 'lib/support\\file.ts', 'lib/support/',
-    'lib/supportive/file.ts', 'lib/physics-lab-evil/file.ts']) {
+    'lib/support/../shared.ts']) {
     assert.deepEqual(flags([change(path)]), all, JSON.stringify(path));
   }
-  for (const mode of ['120000', '100755', '160000', '100664', '', null, 100644]) {
+  for (const mode of ['120000', '160000', '100664', '', null, 100644]) {
     for (const path of ['docs/customer-support.md', 'lib/support/feishu/config.ts', 'lib/physics-lab/state.ts']) {
       assert.deepEqual(flags([change(path, mode, '100644')]), all);
       assert.deepEqual(flags([change(path, '100644', mode)]), all);
     }
+  }
+});
+
+test('payment adapters do not launch the project video or course fixtures', () => {
+  for (const path of ['lib/store/payments/alipay.ts', 'lib/store/payments/alipay.test.ts',
+    'lib/store/payments/wechat.ts']) assert.deepEqual(flags([change(path)]), expected());
+  assert.deepEqual(flags([change('lib/store/service.ts')]), expected('projectVideo'));
+});
+
+test('the executable commerce database test has explicit ownership without exempting executable modes globally', () => {
+  const script = change('scripts/test-store-native.mjs', '100755', '100755');
+  assert.deepEqual(flags([script]), expected());
+  const plan = classifyCoreTestImpact([script]);
+  assert.equal(plan.unitMode, 'related');
+  assert.equal(plan.storeDb, true);
+  assert.deepEqual(plan.unitSources, ['lib/store/native.ts']);
+  for (const altered of [change(script.path, '100644', '100755'),
+    change(script.path, '000000', '100755'), change(script.path, '100755', '000000'),
+    change('scripts/unknown.mjs', '100755', '100755')]) {
+    assert.deepEqual(flags([altered]), expected());
+    assert.equal(classifyCoreTestImpact([altered]).unitMode, 'full');
+  }
+});
+
+test('only exact reviewed SQL content qualifies for commerce ownership', () => {
+  const path = 'supabase/migrations/20261027003000_store_payment_crypto_schema.sql';
+  const changes = [change(path, '000000', '100644')];
+  const verified = verifiedStoreMigrations(changes, name => readFileSync(name));
+  assert.deepEqual([...verified], [path]);
+  const { reason, ...selected } = classifyTestImpact(changes, verified);
+  assert.deepEqual(selected, expected());
+  assert.equal(classifyCoreTestImpact(changes, verified).storeDb, true);
+  assert.equal(classifyCoreTestImpact(changes, verified).unitMode, 'related');
+  for (const read of [() => readFileSync(path, 'utf8') + '\nSELECT 1;',
+    () => { throw Error('Unavailable SQL'); }]) {
+    const rejected = verifiedStoreMigrations(changes, read);
+    assert.deepEqual([...rejected], []);
+    assert.deepEqual(classifyTestImpact(changes, rejected), classifyTestImpact(changes));
+    assert.equal(classifyCoreTestImpact(changes, rejected).unitMode, 'full');
+  }
+  assert.deepEqual([...verifiedStoreMigrations([change(path, '100644', '000000')],
+    () => readFileSync(path))], []);
+  assert.deepEqual(flags([change('supabase/migrations/20990101000000_store_unknown.sql', '000000')]), expected());
+});
+
+test('unrelated scripts, workflow policy, docs and SQL never imply a changed browser feature', () => {
+  for (const path of ['.github/workflows/ci.yml', 'scripts/ci-test-impact.mjs',
+    'scripts/unrelated.mjs',
+    'supabase/migrations/20990101000000_unknown.sql', 'docs/physics-lab.md',
+    'lib/unreviewed.ts', 'lib/supportive/file.ts', 'lib/physics-lab-evil/file.ts']) {
+    assert.deepEqual(flags([change(path)]), expected(), path);
+    assert.equal(classifyCoreTestImpact([change(path)]).unitMode, 'full', path);
+  }
+});
+
+test('regular executable scripts are valid paths, not evidence of changed browser dependencies', () => {
+  for (const [oldMode, newMode] of [['100755', '100755'], ['000000', '100755'],
+    ['100755', '000000'], ['100644', '100755']]) {
+    assert.deepEqual(flags([change('scripts/unrelated.mjs', oldMode, newMode)]), expected());
+    assert.equal(classifyCoreTestImpact([change('scripts/unrelated.mjs', oldMode, newMode)]).unitMode, 'full');
+  }
+});
+
+test('fixture dependency ownership excludes mocked Next shell and unrelated configs', () => {
+  for (const path of ['app/layout.tsx', 'proxy.ts', 'components/layout/conditional-app-shell.tsx',
+    'components/layout/theme-provider.tsx', 'components/layout/error-boundary.tsx',
+    'components/pwa/service-worker-register.tsx', 'components/navigation/return-href.tsx',
+    'lib/brand.ts', 'lib/seo/site.ts', 'lib/seo/title.ts', 'public/sw.js',
+    'lib/context/auth-context.tsx', 'lib/auth.ts', 'lib/supabase/client.ts',
+    'lib/seo/metadata.ts', 'lib/fonts.ts', 'components/providers/query-provider.tsx', 'e2e/visit-prompt.ts']) {
+    assert.deepEqual(flags([change(path)]), expected('physics', 'projectVideo'), path);
+  }
+  assert.deepEqual(flags([change('lib/works/capability.ts')]), expected('building', 'voice'));
+  assert.deepEqual(flags([change('playwright.project-video-pilot.config.ts')]), expected('projectVideo'));
+  assert.deepEqual(flags([change('playwright.building-outline.config.ts')]), expected('building'));
+  assert.deepEqual(flags([change('playwright.building-vosk.config.ts')]), expected('voice'));
+  assert.deepEqual(flags([change('playwright.config.ts')]), expected('physics'));
+  assert.deepEqual(flags([change('app/api/tutor/speech/course-control/route.ts')]), expected());
+});
+
+test('full unit fallback never adds an unrelated commerce database suite', () => {
+  for (const path of ['docs/new.md', 'scripts/unrelated.mjs', 'scripts/ci-test-impact.mjs',
+    'lib/physics-lab/state.ts', 'lib/courses/progress.ts', 'components/ui/button.tsx',
+    'app/layout.tsx', '.github/workflows/ci.yml']) {
+    const plan = classifyCoreTestImpact([change(path)]);
+    assert.equal(plan.unitMode, 'full', path);
+    assert.equal(plan.storeDb, false, path);
+  }
+  for (const path of ['supabase/migrations/20990101000000_unknown.sql',
+    'scripts/db-push.mjs', 'lib/supabase/types.ts', 'lib/membership.ts',
+    'lib/auth/session.ts', 'lib/gamification/coins.ts', 'lib/shop/items.ts',
+    'package.json', 'pnpm-lock.yaml']) {
+    assert.equal(classifyCoreTestImpact([change(path)]).storeDb, true, path);
+  }
+  assert.equal(classifyCoreTestImpact([null]).storeDb, true);
+});
+
+test('project route data and contextual storefront imports select video, checkout internals do not', () => {
+  for (const path of ['lib/api/explore-data.ts', 'lib/api/courses.ts', 'lib/api/validation.ts',
+    'lib/explore/project-navigation-context.ts', 'lib/explore/material-matching.ts',
+    'lib/explore/household-materials.data.json', 'components/features/project-interactions.tsx',
+    'components/features/social/follow-button.tsx', 'hooks/use-follow.ts',
+    'lib/store/service.ts', 'lib/store/config.ts', 'lib/store/address-crypto.ts',
+    'lib/store/external-channel.ts', 'components/store/contextual-store-products.tsx']) {
+    assert.deepEqual(flags([change(path)]), expected('projectVideo'), path);
+    if (/\.tsx?$/.test(path)) {
+      const testPath = path.replace(/\.(tsx?)$/, '.test.$1');
+      assert.deepEqual(flags([change(testPath)]), expected('projectVideo'), testPath);
+    }
+  }
+  for (const path of ['components/store/store-checkout.tsx', 'lib/store/native.ts',
+    'lib/store/payment-flow.ts', 'lib/store/payments/alipay.ts']) {
+    assert.deepEqual(flags([change(path)]), expected(), path);
   }
 });

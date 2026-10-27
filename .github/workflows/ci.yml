@@ -129,6 +129,10 @@ jobs:
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui')
         run: node --test deploy/registry-deploy.test.mjs scripts/db-push.test.mjs scripts/check-seo.test.mjs deploy/commerce-worker.test.mjs deploy/feishu-bridge.test.mjs
 
+      - name: Verify native store transactions
+        if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && steps.reuse.outputs.reuse != 'true' && steps.test-plan.outputs.store-db != 'false'
+        run: node scripts/test-store-native.mjs
+
       - name: Start anonymous public content fixture
         if: (steps.scope.outputs.mode == 'full' || steps.scope.outputs.mode == 'home-ui') && github.event_name == 'pull_request'
         run: |
