@@ -6,6 +6,7 @@ import { GAME24_LEVELS } from "@/lib/playground/game24-levels"
 import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
+import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
@@ -150,6 +151,11 @@ export default function Game24Page() {
   const submitRaceResult = race.submitResult
   const { checkBadges } = useGamification()
 
+  const { setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext()
+  useEffect(() => {
+    setTutorOverride({ subtitle: "正在玩 24 点", hideFabOnMobile: true })
+    return clearTutorOverride
+  }, [clearTutorOverride, setTutorOverride])
   const [expression, setExpression] = useState("")
   const [error, setError] = useState("")
   const [isMounted, setIsMounted] = useState(false)
@@ -281,7 +287,7 @@ export default function Game24Page() {
   return (
     <div className="playground-game-page">
       {/* Main game area */}
-      <div className="playground-game-main xl:justify-center pb-44">
+      <div className="playground-game-main xl:justify-center pb-10">
         {/* Header */}
         <div className="w-full max-w-2xl hidden sm:flex flex-row items-center justify-between gap-3 mb-5">
           <div className="flex items-center gap-3">
@@ -468,45 +474,42 @@ export default function Game24Page() {
                   <span className="hidden sm:inline">提交</span>
                 </Button>
               </div>
-              <p className="pl-1 text-[15px] text-muted-foreground">
-                支持直接输入 <span className="font-mono">A / J / Q / K</span>，也可写成{" "}
-                <span className="font-mono">1 / 11 / 12 / 13</span>。
-              </p>
-              <div className="space-y-1.5 sm:hidden">
-                <div className="grid grid-cols-4 gap-1.5">
+              <p className="pl-1 text-[15px] text-muted-foreground">A=1　J=11　Q=12　K=13</p>
+              <div className="space-y-2 sm:hidden">
+                <div className="grid grid-cols-4 gap-2">
                   {cards.map((card, index) => (
                     <button
                       key={`${card.suit}-${card.value}-${index}-quick`}
                       type="button"
                       onClick={() => appendToken(card.label)}
                       disabled={raceIsWaiting}
-                      className="min-h-11 rounded-xl bg-muted/60 text-[15px] font-black active:scale-95"
+                      className="min-h-12 rounded-xl border border-border/70 bg-muted shadow-sm text-lg font-black active:scale-95 active:shadow-none transition-transform disabled:opacity-50 text-foreground"
                       aria-label={`输入 ${card.label}`}
                     >
                       {card.label}
                     </button>
                   ))}
                 </div>
-                <div className={cn("grid gap-1.5", level.ops.length === 2 ? "grid-cols-4" : "grid-cols-6")}>
+                <div className={cn("grid gap-2", level.ops.length === 2 ? "grid-cols-4" : "grid-cols-6")}>
                   {(level.ops.length === 2 ? ["+", "-", "(", ")"] : ["+", "-", "×", "÷", "(", ")"]).map((token) => (
                     <button
                       key={token}
                       type="button"
                       onClick={() => appendToken(token)}
                       disabled={raceIsWaiting}
-                      className="min-h-11 rounded-xl bg-muted/60 text-[15px] font-black text-primary active:scale-95"
+                      className="min-h-12 rounded-xl border border-primary/25 bg-primary/12 shadow-sm text-lg font-black text-primary active:scale-95 active:shadow-none transition-transform disabled:opacity-50"
                       aria-label={`输入 ${token}`}
                     >
                       {token}
                     </button>
                   ))}
                 </div>
-                <div className="grid grid-cols-2 gap-1.5">
+                <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={deleteToken}
                     disabled={raceIsWaiting}
-                    className="min-h-11 rounded-xl bg-muted/60 text-[15px] font-bold text-foreground active:scale-95"
+                    className="min-h-12 rounded-xl border border-border/70 bg-muted shadow-sm text-lg font-black active:scale-95 active:shadow-none transition-transform disabled:opacity-50 text-foreground"
                   >
                     删除
                   </button>
@@ -517,7 +520,7 @@ export default function Game24Page() {
                       if (error) setError("")
                     }}
                     disabled={raceIsWaiting}
-                    className="min-h-11 rounded-xl bg-muted/60 text-[15px] font-bold text-foreground active:scale-95"
+                    className="min-h-12 rounded-xl border border-destructive/25 bg-destructive/10 text-lg font-black text-destructive active:scale-95 transition-transform disabled:opacity-50"
                   >
                     清空
                   </button>
@@ -536,26 +539,26 @@ export default function Game24Page() {
           )}
 
           {/* Action buttons */}
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="grid grid-cols-3 gap-2">
             {status === "playing" && (
-              <Button variant="outline" size="sm" className="min-h-11 gap-1.5 rounded-full" onClick={requestHint} disabled={raceIsWaiting || hintLevel >= 3}>
+              <Button variant="outline" size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={requestHint} disabled={raceIsWaiting || hintLevel >= 3}>
                 <Lightbulb className="w-4 h-4" />
                 {hintLevel === 0 ? "提示" : hintLevel >= 3 ? "已看完提示" : "再提示一下"}
               </Button>
             )}
             {status === "playing" && (
-              <Button variant="outline" size="sm" className="min-h-11 gap-1.5 rounded-full" onClick={skipRound} disabled={raceIsWaiting}>
+              <Button variant="outline" size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={skipRound} disabled={raceIsWaiting}>
                 <SkipForward className="w-3.5 h-3.5" />
                 跳过
               </Button>
             )}
             {(status === "solved" || status === "skipped" || status === "timeout") && (
-              <Button size="sm" className="min-h-11 gap-1.5 rounded-full" onClick={dealNewRound} disabled={raceIsWaiting}>
+              <Button size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={dealNewRound} disabled={raceIsWaiting}>
                 <Zap className="w-3.5 h-3.5" />
                 下一轮
               </Button>
             )}
-            <Button variant="outline" size="sm" className="min-h-11 gap-1.5 rounded-full" onClick={newGame} disabled={raceIsWaiting}>
+            <Button variant="outline" size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={newGame} disabled={raceIsWaiting}>
               <RefreshCw className="w-3.5 h-3.5" />
               新游戏
             </Button>

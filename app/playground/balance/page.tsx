@@ -598,6 +598,12 @@ const BALANCE_MODES: Array<{ key: BalanceMode; label: string; desc: string }> = 
 
 export default function BalancePage() {
     const [mode, setMode] = useState<BalanceMode>("coin")
+    const { setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext()
+    useEffect(() => {
+        if (mode === "coin") return
+        setTutorOverride({ subtitle: "正在看天平称重关卡", hideFabOnMobile: true })
+        return clearTutorOverride
+    }, [clearTutorOverride, mode, setTutorOverride])
     const tabs = (
         <div className="mb-4 grid grid-cols-3 gap-1 rounded-full bg-muted/50 p-1" role="tablist" aria-label="玩法">
             {BALANCE_MODES.map((m) => (

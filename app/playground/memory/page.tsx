@@ -8,6 +8,7 @@ import { getMemoryLevelTheme, MEMORY_LEVEL_THEMES } from "@/lib/playground/memor
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { MemoryOnlineView } from "@/components/features/playground/memory-online-view"
 
 type PageMode = "single" | "online"
@@ -34,6 +35,11 @@ function MemoryPageInner() {
     const game = useMemoryMatch()
     const currentTheme = getMemoryLevelTheme(game.level.themeId)
     const { checkBadges } = useGamification()
+    const { setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext()
+    useEffect(() => {
+        setTutorOverride({ subtitle: "正在玩记忆翻牌", hideFabOnMobile: true })
+        return clearTutorOverride
+    }, [clearTutorOverride, setTutorOverride])
     const levelIndex = game.level.index
     const canPrev = levelIndex > 0 && game.isUnlocked(currentTheme.levels[levelIndex - 1])
     const canNext = levelIndex < currentTheme.levels.length - 1 && game.isUnlocked(currentTheme.levels[levelIndex + 1])
@@ -54,7 +60,7 @@ function MemoryPageInner() {
 
     return (
         <div className="playground-game-page">
-            <div className="playground-game-main playground-game-center pb-44">
+            <div className="playground-game-main playground-game-center pb-10">
                 <div className="w-full max-w-3xl playground-game-board !p-3 sm:!p-5">
                     <div className="mb-4 hidden items-center justify-between gap-3 sm:flex">
                         <div className="flex items-center gap-3">
@@ -209,6 +215,7 @@ function MemoryPageInner() {
                                 key={card.id}
                                 type="button"
                                 onClick={() => game.flipCard(card.id)}
+                                data-symbol={card.symbol}
                                 disabled={card.open || game.status === "won"}
                                 aria-label={card.open ? (card.face === "term" ? `名词 ${card.label}` : `解释 ${card.label}`) : "未翻开的牌"}
                                 className={cn(
@@ -269,7 +276,7 @@ function MemoryPageInner() {
                             <p className="mx-auto mb-3 max-w-xl text-left text-[15px] leading-relaxed text-foreground">
                                 💡 {game.level.takeaway}
                             </p>
-                            <div className="mr-14 flex w-auto max-w-sm flex-col gap-2 sm:mx-auto sm:mr-auto">
+                            <div className="mx-auto flex w-full max-w-sm flex-col gap-2">
                                 <Button variant="outline" className="min-h-11 w-full rounded-full" onClick={() => game.startLevel()}>
                                     再玩一次
                                 </Button>
