@@ -4,28 +4,35 @@ import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-
 import {
     getMemoryColumns,
     getMemoryThemeSymbols,
+    MEMORY_CONCEPT_OPTIONS,
     MEMORY_THEMES,
-    memorySymbolsFor,
+    memoryConceptsFor,
+    type MemoryConceptFace,
+    type MemoryConceptPack,
     type MemoryDifficulty,
     type MemoryTheme,
     type MemoryThemeOption,
 } from "@/lib/playground/memory-online"
 
-// 主题符号表、难度对数、列数等静态数据已下沉到 lib/playground/memory-online.ts（服务端安全），
-// 单机与在线对战共用。此处 re-export 保持既有导入路径不变。
 export {
     getMemoryColumns,
     getMemoryThemeSymbols,
+    MEMORY_CONCEPT_OPTIONS,
     MEMORY_THEMES,
+    type MemoryConceptFace,
+    type MemoryConceptPack,
     type MemoryDifficulty,
     type MemoryTheme,
     type MemoryThemeOption,
 }
 
-/** 单机模式的牌：matched 为布尔（在线模式记录归属方，见 memory-online.ts） */
+/** Solo card: term paired with definition; match by shared pairKey (stored in symbol). */
 export type MemoryCard = {
     id: string
+    /** Shared pair key used for matching */
     symbol: string
+    face: MemoryConceptFace
+    label: string
     matched: boolean
 }
 
@@ -70,8 +77,8 @@ function createSeededRandom(seed: number): RandomSource {
     }
 }
 
-function initialDeckSeed(theme: MemoryTheme, difficulty: MemoryDifficulty): number {
-    const value = `${theme}:${difficulty}`
+function initialDeckSeed(pack: MemoryConceptPack, difficulty: MemoryDifficulty): number {
+    const value = `${pack}:${difficulty}`
     let hash = 2166136261
     for (let index = 0; index < value.length; index += 1) {
         hash ^= value.charCodeAt(index)
@@ -81,14 +88,26 @@ function initialDeckSeed(theme: MemoryTheme, difficulty: MemoryDifficulty): numb
 }
 
 function buildDeck(
-    theme: MemoryTheme,
+    pack: MemoryConceptPack,
     difficulty: MemoryDifficulty,
     random: RandomSource = Math.random,
 ): MemoryCard[] {
-    const symbols = memorySymbolsFor(theme, difficulty)
-    const cards = symbols.flatMap((symbol, pairIndex) => [
-        { id: `${theme}-${pairIndex}-a`, symbol, matched: false },
-        { id: `${theme}-${pairIndex}-b`, symbol, matched: false },
+    const pairs = memoryConceptsFor(pack, difficulty)
+    const cards = pairs.flatMap((pair, pairIndex) => [
+        {
+            id: `${pack}-${pairIndex}-a`,
+            symbol: pair.key,
+            face: "term" as const,
+            label: pair.term,
+            matched: false,
+        },
+        {
+            id: `${pack}-${pairIndex}-b`,
+            symbol: pair.key,
+            face: "def" as const,
+            label: pair.def,
+            matched: false,
+        },
     ])
     return cards
         .map((card) => ({ card, sort: random() }))
@@ -96,31 +115,31 @@ function buildDeck(
         .map(({ card }) => card)
 }
 
-function buildInitialDeck(theme: MemoryTheme, difficulty: MemoryDifficulty): MemoryCard[] {
-    return buildDeck(theme, difficulty, createSeededRandom(initialDeckSeed(theme, difficulty)))
+function buildInitialDeck(pack: MemoryConceptPack, difficulty: MemoryDifficulty): MemoryCard[] {
+    return buildDeck(pack, difficulty, createSeededRandom(initialDeckSeed(pack, difficulty)))
 }
 
 export function createMemoryDeck(
     difficulty: MemoryDifficulty,
-    theme: MemoryTheme = "animals",
+    pack: MemoryConceptPack = "physics",
 ): MemoryCard[] {
-    return buildDeck(theme, difficulty)
+    return buildDeck(pack, difficulty)
 }
 
 export type StartMemoryGameOptions = {
     difficulty?: MemoryDifficulty
+    pack?: MemoryConceptPack
+    /** @deprecated use pack; kept so old callers compiling against theme still typecheck if any */
     theme?: MemoryTheme
 }
 
 export function useMemoryMatch(
     initialDifficulty: MemoryDifficulty = "easy",
-    initialTheme: MemoryTheme = "animals",
+    initialPack: MemoryConceptPack = "physics",
 ) {
     const [difficulty, setDifficulty] = useState(initialDifficulty)
-    const [theme, setTheme] = useState(initialTheme)
-    // The first render is server-rendered and hydrated independently. Keep its deck
-    // deterministic; the mount effect below replaces it with a fresh random deck.
-    const [cards, setCards] = useState<MemoryCard[]>(() => buildInitialDeck(initialTheme, initialDifficulty))
+    const [pack, setPack] = useState(initialPack)
+    const [cards, setCards] = useState<MemoryCard[]>(() => buildInitialDeck(initialPack, initialDifficulty))
     const [openIds, setOpenIds] = useState<string[]>([])
     const [moves, setMoves] = useState(0)
     const [time, setTime] = useState(0)
@@ -130,9 +149,9 @@ export function useMemoryMatch(
     usePlaygroundStatsLoader(() => setStats(loadStats()))
 
     useEffect(() => {
-        setCards(buildDeck(initialTheme, initialDifficulty))
-        setTheme(initialTheme)
-    }, [initialDifficulty, initialTheme])
+        setCards(buildDeck(initialPack, initialDifficulty))
+        setPack(initialPack)
+    }, [initialDifficulty, initialPack])
 
     useEffect(() => {
         if (status !== "playing") return
@@ -145,8 +164,9 @@ export function useMemoryMatch(
         const [firstId, secondId] = openIds
         const first = cards.find((card) => card.id === firstId)
         const second = cards.find((card) => card.id === secondId)
+        const matched = Boolean(first && second && first.symbol === second.symbol)
         const id = setTimeout(() => {
-            if (first && second && first.symbol === second.symbol) {
+            if (matched && first) {
                 setCards((current) =>
                     current.map((card) =>
                         card.symbol === first.symbol ? { ...card, matched: true } : card,
@@ -154,7 +174,7 @@ export function useMemoryMatch(
                 )
             }
             setOpenIds([])
-        }, first && second && first.symbol === second.symbol ? 250 : 700)
+        }, matched ? 320 : 900)
         return () => clearTimeout(id)
     }, [cards, openIds])
 
@@ -181,15 +201,15 @@ export function useMemoryMatch(
 
     const startNewGame = useCallback((options?: StartMemoryGameOptions) => {
         const nextDifficulty = options?.difficulty ?? difficulty
-        const nextTheme = options?.theme ?? theme
+        const nextPack = options?.pack ?? pack
         setDifficulty(nextDifficulty)
-        setTheme(nextTheme)
-        setCards(buildDeck(nextTheme, nextDifficulty))
+        setPack(nextPack)
+        setCards(buildDeck(nextPack, nextDifficulty))
         setOpenIds([])
         setMoves(0)
         setTime(0)
         setStatus("playing")
-    }, [difficulty, theme])
+    }, [difficulty, pack])
 
     const flipCard = useCallback((id: string) => {
         if (status === "won" || openIds.length >= 2 || openIds.includes(id)) return
@@ -209,7 +229,9 @@ export function useMemoryMatch(
 
     return {
         difficulty,
-        theme,
+        pack,
+        /** alias for older UI that still said theme */
+        theme: pack,
         cards: visibleCards,
         moves,
         time,

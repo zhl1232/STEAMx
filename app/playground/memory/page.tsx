@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { Brain, Globe, RotateCcw, Sparkles, Timer, Trophy, User } from "lucide-react"
 import {
-    MEMORY_THEMES,
+    MEMORY_CONCEPT_OPTIONS,
     useMemoryMatch,
     type MemoryDifficulty,
 } from "@/hooks/playground/use-memory-match"
@@ -40,7 +40,7 @@ function MemoryPageInner() {
     const initialRoomCode = searchParams.get("room")
     // 带 room 参数时直接进入在线模式
     const [mode, setMode] = useState<PageMode>(initialRoomCode ? "online" : "single")
-    const game = useMemoryMatch("easy", "animals")
+    const game = useMemoryMatch("easy", "physics")
     const { checkBadges } = useGamification()
 
     useEffect(() => {
@@ -68,7 +68,7 @@ function MemoryPageInner() {
                             </div>
                             <div>
                                 <h1 className="text-xl font-black">记忆翻牌</h1>
-                                <p className="text-xs text-muted-foreground">选一套图案，记住位置，找出所有配对。</p>
+                                <p className="text-sm text-muted-foreground">把物理或数学名词，和它的解释配对。</p>
                             </div>
                         </div>
                         {mode === "single" ? (
@@ -119,7 +119,7 @@ function MemoryPageInner() {
                     ) : null}
 
                     <div className={cn("mb-3 flex flex-wrap items-center gap-2", mode === "online" && "hidden")}>
-                        <span className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">难度</span>
+                        <span className="text-sm font-bold text-muted-foreground">难度</span>
                         {DIFFICULTIES.map((item) => (
                             <Button
                                 key={item.key}
@@ -137,27 +137,22 @@ function MemoryPageInner() {
                     </div>
 
                     <div className={cn("mb-4 flex flex-wrap items-center gap-2", mode === "online" && "hidden")}>
-                        <span className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">图案</span>
-                        {MEMORY_THEMES.map((item) => {
-                            const selected = game.theme === item.key
+                        <span className="text-sm font-bold text-muted-foreground">题库</span>
+                        {MEMORY_CONCEPT_OPTIONS.map((item) => {
+                            const selected = game.pack === item.key
                             return (
                                 <button
                                     key={item.key}
                                     type="button"
-                                    onClick={() => game.startNewGame({ theme: item.key })}
+                                    onClick={() => game.startNewGame({ pack: item.key })}
                                     className={cn(
-                                        "inline-flex min-h-11 items-center gap-1.5 rounded-md border px-2.5 text-xs font-bold transition-colors",
+                                        "inline-flex min-h-11 items-center gap-1.5 rounded-md border px-3 text-sm font-bold transition-colors",
                                         selected
                                             ? "border-fuchsia-400/50 bg-fuchsia-500/15 text-foreground"
                                             : "border-border bg-background text-muted-foreground hover:bg-muted/60 hover:text-foreground",
                                     )}
                                     aria-pressed={selected}
                                 >
-                                    <span className="flex gap-0.5 text-sm leading-none" aria-hidden="true">
-                                        {item.preview.slice(0, 2).map((emoji) => (
-                                            <span key={emoji}>{emoji}</span>
-                                        ))}
-                                    </span>
                                     {item.label}
                                 </button>
                             )
@@ -174,7 +169,7 @@ function MemoryPageInner() {
                                 type="button"
                                 onClick={() => game.flipCard(card.id)}
                                 disabled={card.open || game.status === "won"}
-                                aria-label={card.open ? `图案 ${card.symbol}` : "未翻开的牌"}
+                                aria-label={card.open ? (card.face === "term" ? `名词 ${card.label}` : `解释 ${card.label}`) : "未翻开的牌"}
                                 className={cn(
                                     "memory-card-scene aspect-square rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400/60",
                                     card.matched && "memory-card-matched",
@@ -205,20 +200,27 @@ function MemoryPageInner() {
                                     </div>
                                     <div
                                         className={cn(
-                                            "memory-card-side memory-card-front absolute inset-0 flex items-center justify-center rounded-lg border shadow-sm",
+                                            "memory-card-side memory-card-front absolute inset-0 flex items-center justify-center rounded-lg border p-1.5 shadow-sm sm:p-2",
                                             card.matched
                                                 ? "border-emerald-400/50 bg-emerald-500/15"
-                                                : "border-amber-300/45 bg-amber-50 dark:border-amber-400/35 dark:bg-amber-500/15",
+                                                : card.face === "term"
+                                                  ? "border-violet-300/50 bg-violet-50 dark:border-violet-400/40 dark:bg-violet-500/15"
+                                                  : "border-amber-300/45 bg-amber-50 dark:border-amber-400/35 dark:bg-amber-500/15",
                                         )}
                                     >
                                         <span
                                             className={cn(
-                                                "select-none leading-none",
-                                                game.columns >= 6 ? "text-xl sm:text-2xl" : "text-2xl sm:text-3xl",
+                                                "select-none text-center font-black leading-snug text-foreground",
+                                                card.face === "term"
+                                                    ? game.columns >= 6
+                                                        ? "text-base sm:text-xl"
+                                                        : "text-lg sm:text-2xl"
+                                                    : game.columns >= 6
+                                                      ? "text-xs sm:text-sm"
+                                                      : "text-sm sm:text-base",
                                             )}
-                                            aria-hidden="true"
                                         >
-                                            {card.symbol}
+                                            {card.label}
                                         </span>
                                     </div>
                                 </div>
@@ -254,15 +256,15 @@ function MemoryPageInner() {
                             ))}
                         </div>
                     </section>
-                    <section className="rounded-sm border border-border bg-muted/20 p-4 text-xs text-muted-foreground">
-                        <h3 className="mb-2 font-bold text-foreground">工作记忆</h3>
-                        <p className="leading-relaxed">
-                            翻牌游戏训练的是工作记忆：短时间保存并更新信息。你会在脑中建立一张空间地图，把图案与位置关联起来。
+                    <section className="rounded-sm border border-border bg-muted/20 p-4 text-sm text-muted-foreground">
+                        <h3 className="mb-2 font-bold text-foreground">怎么配对</h3>
+                        <p className="leading-relaxed text-foreground">
+                            紫色牌是名词，黄色牌是解释。找出意思相同的一对即可。一边练记忆，一边记概念。
                         </p>
                     </section>
-                    <section className="flex items-center gap-2 rounded-sm bg-muted/20 p-4 text-xs text-muted-foreground">
-                        <Timer className="h-4 w-4" />
-                        <span>减少重复翻牌，比单纯追求速度更重要。</span>
+                    <section className="flex items-center gap-2 rounded-sm bg-muted/20 p-4 text-sm text-foreground">
+                        <Timer className="h-4 w-4 shrink-0" />
+                        <span>先记住名词位置，再翻解释去对，比乱翻更省步数。</span>
                     </section>
                 </div>
             </aside>

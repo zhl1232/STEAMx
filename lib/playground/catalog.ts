@@ -25,7 +25,7 @@ export const PLAYGROUND_DISCOVERY: PlaygroundDiscovery[] = [
   { href: "/playground/maze", group: "think", featured: true, age: "6 岁起", duration: "5–15 分钟", together: "让孩子指路，遇到岔路再讨论选择。", afterwards: "画一个迷宫，用箭头写下走到终点的指令。" },
   { href: "/playground/hanoi", group: "think", age: "7 岁起", duration: "10–15 分钟", together: "先用三片圆盘，每次移动前说出计划。", afterwards: "用不同大小的纸片复现，再试着增加一片。" },
   { href: "/playground/24game", group: "think", age: "8 岁起", duration: "5–10 分钟", together: "轮流提出一个算式，比较有没有别的解法。", afterwards: "拿四张扑克牌，给彼此出一道题。" },
-  { href: "/playground/memory", group: "think", age: "5 岁起", duration: "5–10 分钟", together: "轮流翻牌，说说你用什么线索记位置。", afterwards: "画几对图案，做一套自己的配对卡。" },
+  { href: "/playground/memory", group: "think", age: "7 岁起", duration: "5–10 分钟", together: "先翻名词，再找它的解释，说说一对概念。", afterwards: "写几组自己的名词和解释，做一套配对卡。" },
   { href: "/playground/gomoku", group: "think", age: "7 岁起", duration: "10–20 分钟", together: "偶尔暂停，请双方各说一个下一步的想法。", afterwards: "在纸上留下一个局面，一起找两种应对。" },
   { href: "/playground/minesweeper", group: "think", age: "8 岁起", duration: "10–15 分钟", together: "从入门课程开始，区分有依据的判断和猜测。", afterwards: "画下一个数字局面，说明哪些格子还不能确定。" },
   { href: "/playground/functionwars", group: "think", age: "11 岁起", duration: "15–25 分钟", together: "每次只改一个参数，先猜弹道会怎么变。", afterwards: "在纸上画出两条轨迹，标出改变的参数。" },
