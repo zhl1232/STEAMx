@@ -333,8 +333,8 @@ export default function SudokuPage() {
                                                 })}
                                                 aria-pressed={isSelected}
                                                 className={cn(
-                                                    "w-11 h-11 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center text-sm sm:text-base md:text-lg transition-colors duration-100 select-none relative",
-                                                    "border-border/60 border-r border-b",
+                                                    "relative flex h-12 w-12 items-center justify-center text-lg font-bold transition-colors duration-100 select-none sm:h-11 sm:w-11 md:h-14 md:w-14 md:text-xl",
+                                                    "border-r border-b border-border/60",
                                                     thickLeft
                                                         ? "border-l-2 border-l-foreground/30"
                                                         : "border-l-0",
@@ -346,9 +346,9 @@ export default function SudokuPage() {
                                                     !thickLeft && "border-l border-l-border/40",
                                                     !thickTop && "border-t border-t-border/40",
                                                     isSelected
-                                                        ? "bg-primary/20 ring-2 ring-primary/50 ring-inset z-10"
+                                                        ? "z-10 bg-primary/20 ring-2 ring-inset ring-primary/60"
                                                         : isConflict
-                                                          ? "bg-red-500/20"
+                                                          ? "z-10 bg-rose-500/25 ring-2 ring-inset ring-rose-500"
                                                           : isSameNumber
                                                             ? "bg-primary/10"
                                                             : inSameRow || inSameCol || inSameBox
@@ -360,22 +360,22 @@ export default function SudokuPage() {
                                                     <span
                                                         className={cn(
                                                             "leading-none",
-                                                            isConflict && "text-red-500",
-                                                            !isConflict && isInitial && "font-bold text-foreground",
-                                                            !isConflict && !isInitial && "font-medium text-primary",
+                                                            isConflict && "font-black text-rose-600 dark:text-rose-400",
+                                                            !isConflict && isInitial && "font-black text-foreground",
+                                                            !isConflict && !isInitial && "font-bold text-primary",
                                                         )}
                                                     >
                                                         {cellValue}
                                                     </span>
                                                 ) : hasNotes ? (
-                                                    <div className="grid grid-cols-3 grid-rows-3 w-full h-full p-px">
+                                                    <div className="grid h-full w-full grid-cols-3 grid-rows-3 p-0.5">
                                                         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
                                                             <span
                                                                 key={n}
                                                                 className={cn(
-                                                                    "flex items-center justify-center text-[7px] sm:text-[8px] md:text-[9px] leading-none",
+                                                                    "flex items-center justify-center text-xs font-bold leading-none",
                                                                     cellNotes.has(n)
-                                                                        ? "text-primary/70"
+                                                                        ? "text-primary"
                                                                         : "text-transparent",
                                                                 )}
                                                             >
@@ -442,66 +442,77 @@ export default function SudokuPage() {
                         </div>
                     </div>
 
+                    {conflicts.size > 0 && status !== "won" ? (
+                        <p className="mt-3 rounded-md border border-rose-400/50 bg-rose-500/10 px-3 py-2 text-center text-sm font-bold text-rose-700 dark:text-rose-300">
+                            有 {conflicts.size} 个格子互相冲突（同行、同列或同宫出现了相同数字），已用红框标出。
+                        </p>
+                    ) : null}
+
                     {/* Number input pad */}
-                    <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-5">
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => {
-                            const count = numberCounts[num]
-                            const isFull = count >= 9
-                            return (
-                                <button
-                                    key={num}
-                                    onClick={() => setNumber(num)}
-                                    disabled={isFull || status === "won"}
-                                    className={cn(
-                                        "relative h-12 min-w-11 sm:w-12 sm:h-14 rounded-sm text-lg sm:text-xl font-bold transition-all border",
-                                        isFull
-                                            ? "bg-muted/30 text-muted-foreground/30 border-border/30 cursor-not-allowed"
-                                            : "bg-background/80 text-foreground border-border hover:bg-primary/10 hover:border-primary/40 active:scale-95",
-                                    )}
-                                >
-                                    {num}
-                                    <span
+                    <div className="mx-auto mt-3 w-full max-w-sm sm:mt-5">
+                        <div className="grid grid-cols-3 gap-2">
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => {
+                                const count = numberCounts[num]
+                                const isFull = count >= 9
+                                return (
+                                    <button
+                                        key={num}
+                                        type="button"
+                                        onClick={() => setNumber(num)}
+                                        disabled={isFull || status === "won"}
                                         className={cn(
-                                            "absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] rounded-full text-[10px] font-bold flex items-center justify-center border",
+                                            "relative flex h-14 items-center justify-center rounded-md border text-2xl font-black transition-all sm:h-16 sm:text-3xl",
                                             isFull
-                                                ? "bg-muted text-muted-foreground border-border/50"
-                                                : "bg-primary/10 text-primary border-primary/30",
+                                                ? "cursor-not-allowed border-border/30 bg-muted/30 text-muted-foreground/40"
+                                                : "border-border bg-background text-foreground hover:border-primary/50 hover:bg-primary/10 active:scale-95",
                                         )}
                                     >
-                                        {9 - count}
-                                    </span>
-                                </button>
-                            )
-                        })}
-
-                        <div className="w-px h-10 bg-border mx-1 hidden sm:block" />
-
-                        <button
-                            onClick={clearCell}
-                            disabled={status === "won"}
-                            className="h-12 min-w-11 sm:w-12 sm:h-14 rounded-sm text-lg font-bold transition-all border bg-background/80 text-muted-foreground border-border hover:bg-destructive/10 hover:text-destructive hover:border-destructive/40 active:scale-95 flex items-center justify-center"
-                            title="清除"
-                        >
-                            <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
-                        </button>
-
-                        <button
-                            onClick={toggleNoteMode}
-                            disabled={status === "won"}
-                            className={cn(
-                                "h-12 min-w-11 sm:w-12 sm:h-14 rounded-sm text-lg font-bold transition-all border flex items-center justify-center",
-                                isNoteMode
-                                    ? "bg-primary/20 text-primary border-primary/50 ring-2 ring-primary/30"
-                                    : "bg-background/80 text-muted-foreground border-border hover:bg-primary/10 hover:border-primary/40",
-                            )}
-                            title="笔记模式"
-                        >
-                            <Pencil className="w-4 h-4 sm:w-5 sm:h-5" />
-                        </button>
+                                        {num}
+                                        <span
+                                            className={cn(
+                                                "absolute right-1.5 top-1.5 flex h-6 min-w-6 items-center justify-center rounded-full border px-1 text-xs font-bold",
+                                                isFull
+                                                    ? "border-border/50 bg-muted text-muted-foreground"
+                                                    : "border-primary/30 bg-primary/10 text-primary",
+                                            )}
+                                        >
+                                            {9 - count}
+                                        </span>
+                                    </button>
+                                )
+                            })}
+                        </div>
+                        <div className="mt-2 grid grid-cols-2 gap-2">
+                            <button
+                                type="button"
+                                onClick={clearCell}
+                                disabled={status === "won"}
+                                className="flex h-12 items-center justify-center gap-2 rounded-md border border-border bg-background text-sm font-bold text-foreground transition-all hover:border-destructive/40 hover:bg-destructive/10 hover:text-destructive active:scale-95"
+                                title="清除"
+                            >
+                                <Trash2 className="h-5 w-5" />
+                                清除
+                            </button>
+                            <button
+                                type="button"
+                                onClick={toggleNoteMode}
+                                disabled={status === "won"}
+                                className={cn(
+                                    "flex h-12 items-center justify-center gap-2 rounded-md border text-sm font-bold transition-all",
+                                    isNoteMode
+                                        ? "border-primary/50 bg-primary/20 text-primary ring-2 ring-primary/30"
+                                        : "border-border bg-background text-foreground hover:border-primary/40 hover:bg-primary/10",
+                                )}
+                                title="笔记模式"
+                            >
+                                <Pencil className="h-5 w-5" />
+                                笔记
+                            </button>
+                        </div>
                     </div>
 
-                    <p className="text-center text-[10px] sm:text-xs text-muted-foreground mt-3">
-                        点击格子选中，按数字键填入 · 键盘 N 切换笔记 · Delete 清除
+                    <p className="mt-3 text-center text-sm font-semibold text-foreground">
+                        先点格子，再点下方大数字填入。键盘 N 切换笔记，Delete 清除。
                     </p>
                     <KeyboardHelp shortcuts={SHORTCUTS_SUDOKU} />
                 </div>
