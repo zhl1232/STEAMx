@@ -1,8 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useMemo, useState } from "react"
-import { ArrowRight, Check, FlaskConical, Minus, Plus, RotateCcw, Sparkles } from "lucide-react"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { ArrowRight, ChevronLeft, ChevronRight, FlaskConical, RotateCcw, Sparkles, Undo2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
@@ -40,35 +40,51 @@ function useProgress(field: PhysicsProgressField) {
     return { solved, markSolved }
 }
 
-function LevelTabs({
-    items, index, solved, onPick, label,
-}: { items: Array<{ id: string; name: string }>; index: number; solved: string[]; onPick: (i: number) => void; label: string }) {
+/** 紧凑关卡步进：第 n 关 / N，无横向裁切 */
+function LevelStepper({
+    index,
+    total,
+    name,
+    onPrev,
+    onNext,
+    canPrev,
+    canNext,
+}: {
+    index: number
+    total: number
+    name: string
+    onPrev: () => void
+    onNext: () => void
+    canPrev: boolean
+    canNext: boolean
+}) {
     return (
-        <div className="no-scrollbar -mx-1 mb-4 flex gap-2 overflow-x-auto px-1 pb-1" role="group" aria-label={label}>
-            {items.map((item, i) => {
-                const active = i === index
-                const done = solved.includes(item.id)
-                const locked = i > 0 && !solved.includes(items[i - 1].id) && !done
-                return (
-                    <button
-                        key={item.id}
-                        type="button"
-                        disabled={locked}
-                        onClick={() => onPick(i)}
-                        aria-pressed={active}
-                        className={cn(
-                            "min-h-11 shrink-0 rounded-md border px-3 text-[15px] font-bold transition-colors",
-                            active
-                                ? "border-teal-700 bg-teal-800 text-white dark:border-teal-200 dark:bg-teal-100 dark:text-teal-950"
-                                : "border-border bg-background text-muted-foreground hover:bg-muted hover:text-foreground",
-                            locked && "cursor-not-allowed opacity-60",
-                        )}
-                    >
-                        {i + 1}. {item.name}
-                        {done ? <Check className="ml-1 inline h-4 w-4 text-emerald-500" /> : null}
-                    </button>
-                )
-            })}
+        <div className="mb-4 flex items-center gap-2" role="group" aria-label="关卡">
+            <button
+                type="button"
+                onClick={onPrev}
+                disabled={!canPrev}
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-muted/70 text-foreground transition-colors hover:bg-muted disabled:opacity-40"
+                aria-label="上一关"
+            >
+                <ChevronLeft className="h-5 w-5" />
+            </button>
+            <div className="min-w-0 flex-1 text-center">
+                <p className="text-[15px] font-black text-foreground">
+                    第 {index + 1} 关<span className="mx-1 font-semibold text-muted-foreground">/</span>
+                    {total}
+                </p>
+                <p className="truncate text-[15px] font-semibold text-muted-foreground">{name}</p>
+            </div>
+            <button
+                type="button"
+                onClick={onNext}
+                disabled={!canNext}
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-muted/70 text-foreground transition-colors hover:bg-muted disabled:opacity-40"
+                aria-label="下一关"
+            >
+                <ChevronRight className="h-5 w-5" />
+            </button>
         </div>
     )
 }
@@ -77,7 +93,7 @@ function LabLink({ experiment, label }: { experiment: string; label: string }) {
     return (
         <Link
             href={`/playground/physics-lab?experiment=${experiment}`}
-            className="inline-flex min-h-11 items-center gap-2 rounded-md border border-teal-400/50 bg-teal-500/10 px-4 text-[15px] font-bold text-teal-800 hover:bg-teal-500/20 dark:text-teal-200"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full bg-primary/10 px-4 text-[15px] font-bold text-primary hover:bg-primary/15"
         >
             <FlaskConical className="h-4 w-4" />
             {label}
@@ -86,29 +102,204 @@ function LabLink({ experiment, label }: { experiment: string; label: string }) {
     )
 }
 
-function Feedback({ tone, children }: { tone: "info" | "good" | "warn"; children: React.ReactNode }) {
+function FeedbackLine({ children, good }: { children: React.ReactNode; good?: boolean }) {
     return (
-        <div
+        <p
             role="status"
             aria-live="polite"
             className={cn(
-                "mb-4 rounded-lg border p-3 text-[15px] font-semibold leading-relaxed",
-                tone === "good" && "border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-400/35 dark:bg-emerald-500/10 dark:text-emerald-200",
-                tone === "warn" && "border-amber-300 bg-amber-50 text-amber-900 dark:border-amber-400/35 dark:bg-amber-500/10 dark:text-amber-100",
-                tone === "info" && "border-teal-300 bg-teal-50 text-teal-900 dark:border-teal-400/35 dark:bg-teal-500/10 dark:text-teal-100",
+                "mb-3 text-center text-[15px] font-semibold leading-relaxed",
+                good ? "text-primary" : "text-foreground",
             )}
         >
             {children}
-        </div>
+        </p>
     )
 }
 
-/* ====================== 杠杆平衡 ====================== */
+/* ====================== 杠杆平衡 · SVG 跷跷板 ====================== */
+
+const SVG_W = 400
+const SVG_H = 210
+const BEAM_Y = 78
+const FULCRUM_X = 200
+const PEG_GAP = 38
+
+function pegX(side: -1 | 1, d: number) {
+    return FULCRUM_X + side * d * PEG_GAP
+}
+
+function WeightDisc({ x, y, tone }: { x: number; y: number; tone: "left" | "right" }) {
+    const fill = tone === "left" ? "url(#wLeft)" : "url(#wRight)"
+    return (
+        <g transform={`translate(${x}, ${y})`}>
+            <ellipse cx={0} cy={3} rx={14} ry={5} fill="oklch(0.2 0.02 250 / 0.18)" />
+            <ellipse cx={0} cy={0} rx={14} ry={6.5} fill={fill} stroke="oklch(0.35 0.04 250 / 0.35)" strokeWidth={1} />
+            <ellipse cx={0} cy={-2.2} rx={10} ry={3} fill="oklch(1 0 0 / 0.28)" />
+        </g>
+    )
+}
+
+function LeverSeesaw({
+    left,
+    right,
+    tilt,
+    interactive,
+    onAdd,
+    onRemove,
+}: {
+    left: Record<number, number>
+    right: Record<number, number>
+    tilt: number
+    interactive: boolean
+    onAdd: (d: number) => void
+    onRemove: (d: number) => void
+}) {
+    const longPressRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const didLongRef = useRef(false)
+
+    const clearLong = () => {
+        if (longPressRef.current) {
+            clearTimeout(longPressRef.current)
+            longPressRef.current = null
+        }
+    }
+
+    const handlePegPointerDown = (d: number, count: number) => {
+        if (!interactive) return
+        didLongRef.current = false
+        clearLong()
+        longPressRef.current = setTimeout(() => {
+            didLongRef.current = true
+            if (count > 0) onRemove(d)
+            longPressRef.current = null
+        }, 450)
+    }
+
+    const handlePegClick = (d: number) => {
+        if (!interactive) return
+        if (didLongRef.current) {
+            didLongRef.current = false
+            return
+        }
+        onAdd(d)
+    }
+
+    const renderStack = (side: -1 | 1, d: number, count: number, tone: "left" | "right") => {
+        const x = pegX(side, d)
+        const discs = Array.from({ length: count }, (_, i) => (
+            <WeightDisc key={i} x={x} y={BEAM_Y + 18 + i * 11} tone={tone} />
+        ))
+        return (
+            <g key={`${side}-${d}`}>
+                {/* 挂钩 */}
+                <line x1={x} y1={BEAM_Y + 4} x2={x} y2={BEAM_Y + 14} stroke="oklch(0.45 0.02 250)" strokeWidth={2} strokeLinecap="round" />
+                <path d={`M ${x - 5} ${BEAM_Y + 14} Q ${x} ${BEAM_Y + 20} ${x + 5} ${BEAM_Y + 14}`} fill="none" stroke="oklch(0.45 0.02 250)" strokeWidth={2} strokeLinecap="round" />
+                {discs}
+                {/* 可点区域（仅右侧） */}
+                {side === 1 ? (
+                    <rect
+                        x={x - 20}
+                        y={BEAM_Y - 8}
+                        width={40}
+                        height={Math.max(56, 22 + count * 11)}
+                        fill="transparent"
+                        className={interactive ? "cursor-pointer" : undefined}
+                        onClick={() => handlePegClick(d)}
+                        onPointerDown={() => handlePegPointerDown(d, count)}
+                        onPointerUp={clearLong}
+                        onPointerLeave={clearLong}
+                        onContextMenu={(e) => {
+                            e.preventDefault()
+                            if (interactive && count > 0) onRemove(d)
+                        }}
+                        aria-label={`右 ${d} 格，${count} 个砝码。点一下加减，长按拿走`}
+                        role="button"
+                    />
+                ) : null}
+            </g>
+        )
+    }
+
+    return (
+        <div className="mx-auto mb-3 w-full max-w-xl select-none" data-testid="lever-beam">
+            <svg viewBox={`0 0 ${SVG_W} ${SVG_H}`} className="h-auto w-full" role="img" aria-label="杠杆跷跷板">
+                <defs>
+                    <linearGradient id="plank" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="oklch(0.82 0.04 75)" />
+                        <stop offset="55%" stopColor="oklch(0.7 0.06 65)" />
+                        <stop offset="100%" stopColor="oklch(0.58 0.05 55)" />
+                    </linearGradient>
+                    <linearGradient id="plankDark" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="oklch(0.48 0.04 70)" />
+                        <stop offset="100%" stopColor="oklch(0.32 0.03 55)" />
+                    </linearGradient>
+                    <linearGradient id="wLeft" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="oklch(0.72 0.12 250)" />
+                        <stop offset="100%" stopColor="oklch(0.48 0.14 250)" />
+                    </linearGradient>
+                    <linearGradient id="wRight" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="oklch(0.78 0.1 250)" />
+                        <stop offset="100%" stopColor="oklch(0.52 0.13 250)" />
+                    </linearGradient>
+                    <linearGradient id="fulcrum" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="oklch(0.55 0.03 250)" />
+                        <stop offset="100%" stopColor="oklch(0.32 0.02 250)" />
+                    </linearGradient>
+                </defs>
+
+                {/* 底座阴影 */}
+                <ellipse cx={FULCRUM_X} cy={188} rx={54} ry={8} fill="oklch(0.3 0.02 250 / 0.12)" />
+
+                {/* 支点三角 */}
+                <polygon points={`${FULCRUM_X},92 ${FULCRUM_X - 28},168 ${FULCRUM_X + 28},168`} fill="url(#fulcrum)" />
+                <rect x={FULCRUM_X - 36} y={166} width={72} height={10} rx={3} fill="oklch(0.4 0.02 250)" />
+
+                {/* 倾斜的梁 + 砝码 */}
+                <g
+                    style={{
+                        transformOrigin: `${FULCRUM_X}px ${BEAM_Y}px`,
+                        transform: `rotate(${tilt}deg)`,
+                        transition: "transform 520ms cubic-bezier(0.22, 1, 0.36, 1)",
+                    }}
+                >
+                    {/* 木板 */}
+                    <rect x={28} y={BEAM_Y - 7} width={344} height={14} rx={4} className="fill-[url(#plank)] dark:fill-[url(#plankDark)]" fill="url(#plank)" />
+                    <rect x={28} y={BEAM_Y - 7} width={344} height={3} rx={2} fill="oklch(1 0 0 / 0.22)" />
+
+                    {/* 刻度线 */}
+                    {([-4, -3, -2, -1, 0, 1, 2, 3, 4] as const).map((d) => {
+                        const x = FULCRUM_X + d * PEG_GAP
+                        return (
+                            <g key={d}>
+                                <line x1={x} y1={BEAM_Y - 7} x2={x} y2={BEAM_Y + 7} stroke="oklch(0.3 0.02 60 / 0.45)" strokeWidth={d === 0 ? 2.5 : 1.5} />
+                                {d !== 0 ? (
+                                    <text x={x} y={BEAM_Y - 14} textAnchor="middle" className="fill-foreground" style={{ fontSize: 11, fontWeight: 700, opacity: 0.7 }}>
+                                        {Math.abs(d)}
+                                    </text>
+                                ) : null}
+                            </g>
+                        )
+                    })}
+
+                    {/* 左侧固定砝码 */}
+                    {LEVER_PEGS.map((d) => renderStack(-1, d, left[d] ?? 0, "left"))}
+                    {/* 右侧可交互 */}
+                    {LEVER_PEGS.map((d) => renderStack(1, d, right[d] ?? 0, "right"))}
+                </g>
+            </svg>
+            <p className="mt-1 text-center text-sm font-semibold text-muted-foreground">
+                点右边挂钩挂砝码 · 长按拿走 · 或用下方撤销
+            </p>
+        </div>
+    )
+}
 
 export function LeverMode() {
     const { solved, markSolved } = useProgress("leverSolved")
     const [index, setIndex] = useState(0)
     const [right, setRight] = useState<Record<number, number>>({})
+    const [history, setHistory] = useState<Record<number, number>[]>([])
     const puzzle = LEVER_PUZZLES[index]
     const leftT = leverTorque(puzzle.left)
     const rightT = leverTorque(right)
@@ -122,114 +313,102 @@ export function LeverMode() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSolved, puzzle.id])
 
-    const pick = (i: number) => { setIndex(i); setRight({}) }
+    const unlockedMax = (() => {
+        let max = 0
+        for (let i = 0; i < LEVER_PUZZLES.length; i += 1) {
+            if (i === 0 || solved.includes(LEVER_PUZZLES[i - 1].id) || solved.includes(LEVER_PUZZLES[i].id)) max = i
+            else break
+        }
+        return max
+    })()
+
+    const pick = (i: number) => {
+        setIndex(i)
+        setRight({})
+        setHistory([])
+    }
+
+    const pushRight = (next: Record<number, number>) => {
+        setHistory((h) => [...h, right])
+        setRight(next)
+    }
+
     const add = (d: number) => {
         if (isSolved || used >= puzzle.maxWeights) return
-        setRight((r) => ({ ...r, [d]: (r[d] ?? 0) + 1 }))
+        pushRight({ ...right, [d]: (right[d] ?? 0) + 1 })
     }
     const remove = (d: number) => {
-        if (isSolved) return
-        setRight((r) => ({ ...r, [d]: Math.max(0, (r[d] ?? 0) - 1) }))
+        if (isSolved || !(right[d] > 0)) return
+        pushRight({ ...right, [d]: Math.max(0, (right[d] ?? 0) - 1) })
+    }
+    const undo = () => {
+        setHistory((h) => {
+            if (!h.length) return h
+            const prev = h[h.length - 1]
+            setRight(prev)
+            return h.slice(0, -1)
+        })
     }
 
     const verdict = used === 0
-        ? "在右边的挂点上点 ＋ 放砝码。"
+        ? "在右边的挂钩上点一下，挂上砝码。"
         : leftT === rightT
-          ? `左边 ${describeLever(puzzle.left)} = ${leftT}，右边 ${describeLever(right)} = ${rightT}，相等 → 杠杆平衡！`
+          ? `左 ${describeLever(puzzle.left)} = ${leftT}，右 ${describeLever(right)} = ${rightT} → 平衡！`
           : leftT > rightT
-            ? `左边 ${describeLever(puzzle.left)} = ${leftT}，右边 ${describeLever(right)} = ${rightT}，左边大 → 向左倾。`
-            : `左边 ${describeLever(puzzle.left)} = ${leftT}，右边 ${describeLever(right)} = ${rightT}，右边大 → 向右倾。`
-
-    // 视图：beam 宽度上 9 个位置（-4..4）
-    const pegX = (side: -1 | 1, d: number) => 50 + side * d * 11
+            ? `左 ${describeLever(puzzle.left)} = ${leftT}，右 ${describeLever(right)} = ${rightT} → 向左倾`
+            : `左 ${describeLever(puzzle.left)} = ${leftT}，右 ${describeLever(right)} = ${rightT} → 向右倾`
 
     return (
-        <div>
-            <LevelTabs items={LEVER_PUZZLES} index={index} solved={solved} onPick={pick} label="杠杆关卡" />
-            <p className="mb-3 text-[15px] leading-relaxed text-foreground">
-                <span className="font-black">目标：</span>{puzzle.tip}
-                <span className="ml-1 font-bold text-muted-foreground">（砝码 {used}/{puzzle.maxWeights}）</span>
+        <div className="pb-8">
+            <LevelStepper
+                index={index}
+                total={LEVER_PUZZLES.length}
+                name={puzzle.name}
+                onPrev={() => pick(Math.max(0, index - 1))}
+                onNext={() => pick(Math.min(unlockedMax, index + 1))}
+                canPrev={index > 0}
+                canNext={index < unlockedMax}
+            />
+            <p className="mb-2 text-center text-[15px] leading-relaxed text-foreground">
+                {puzzle.tip}
+                <span className="ml-1 font-bold text-muted-foreground">砝码 {used}/{puzzle.maxWeights}</span>
             </p>
 
-            <div className="relative mx-auto mb-4 w-full max-w-2xl select-none rounded-lg border border-border bg-muted/30 px-2 pb-3 pt-6">
-                <div className="relative h-40 sm:h-48">
-                    <div
-                        className="absolute left-0 right-0 top-6 transition-transform duration-500 ease-out"
-                        style={{ transform: `rotate(${tilt}deg)` }}
-                        data-testid="lever-beam"
-                    >
-                        <div className="mx-[4%] h-3 rounded-full bg-teal-700 dark:bg-teal-300" />
-                        {([-1, 1] as const).flatMap((side) =>
-                            LEVER_PEGS.map((d) => {
-                                const count = side === -1 ? puzzle.left[d] ?? 0 : right[d] ?? 0
-                                return (
-                                    <div key={`${side}-${d}`} className="absolute top-3 flex -translate-x-1/2 flex-col items-center" style={{ left: `${pegX(side, d)}%` }}>
-                                        <span className="h-3 w-0.5 bg-foreground/50" />
-                                        {Array.from({ length: count }).map((_, k) => (
-                                            <span
-                                                key={k}
-                                                className={cn(
-                                                    "mt-0.5 h-4 w-6 rounded-sm border sm:w-8",
-                                                    side === -1 ? "border-rose-700 bg-rose-500" : "border-sky-700 bg-sky-500",
-                                                )}
-                                            />
-                                        ))}
-                                    </div>
-                                )
-                            }),
-                        )}
-                    </div>
-                    {/* 支点 */}
-                    <div className="absolute left-1/2 top-9 h-0 w-0 -translate-x-1/2 border-x-[14px] border-b-[26px] border-x-transparent border-b-foreground/70" />
-                    {/* 刻度 */}
-                    <div className="absolute bottom-0 left-0 right-0 flex text-sm font-bold text-muted-foreground">
-                        {[4, 3, 2, 1, 0, 1, 2, 3, 4].map((d, i) => (
-                            <span key={i} className="absolute -translate-x-1/2" style={{ left: `${50 + (i - 4) * 11}%` }}>{d === 0 ? "▲" : d}</span>
-                        ))}
-                    </div>
-                </div>
-            </div>
+            <LeverSeesaw
+                left={puzzle.left}
+                right={right}
+                tilt={tilt}
+                interactive={!isSolved}
+                onAdd={add}
+                onRemove={remove}
+            />
 
-            <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-4" role="group" aria-label="右侧挂点">
-                {LEVER_PEGS.map((d) => (
-                    <div key={d} className="flex flex-col items-center gap-1 rounded-md border border-border bg-background p-1.5">
-                        <span className="text-sm font-bold text-muted-foreground">右 {d} 格 · {right[d] ?? 0} 个</span>
-                        <div className="flex w-full gap-1">
-                            <Button variant="outline" className="h-11 flex-1 px-0" onClick={() => remove(d)} disabled={!right[d] || isSolved} aria-label={`从右 ${d} 格拿走一个砝码`}>
-                                <Minus className="h-4 w-4" />
-                            </Button>
-                            <Button className="h-11 flex-1 px-0" onClick={() => add(d)} disabled={used >= puzzle.maxWeights || isSolved} aria-label={`在右 ${d} 格加一个砝码`}>
-                                <Plus className="h-4 w-4" />
-                            </Button>
-                        </div>
-                    </div>
-                ))}
-            </div>
+            <FeedbackLine good={isSolved}>{verdict}</FeedbackLine>
 
-            <Feedback tone={isSolved ? "good" : used >= puzzle.maxWeights && !balanced ? "warn" : "info"}>
-                {verdict}
-                {!isSolved && used >= puzzle.maxWeights && !balanced ? " 砝码用完了，拿走一个换个位置。" : null}
-                {balanced && used > puzzle.maxWeights ? " 但砝码超出数量。" : null}
-            </Feedback>
+            <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
+                <Button variant="outline" className="min-h-11 rounded-full" onClick={undo} disabled={!history.length || isSolved}>
+                    <Undo2 className="mr-1.5 h-4 w-4" />撤销
+                </Button>
+                <Button variant="outline" className="min-h-11 rounded-full" onClick={() => { setRight({}); setHistory([]) }} disabled={used === 0 && !isSolved}>
+                    <RotateCcw className="mr-1.5 h-4 w-4" />清空
+                </Button>
+                {isSolved && index < LEVER_PUZZLES.length - 1 ? (
+                    <Button className="min-h-11 rounded-full" onClick={() => pick(index + 1)}>
+                        下一关：{LEVER_PUZZLES[index + 1].name}
+                    </Button>
+                ) : null}
+            </div>
 
             {isSolved ? (
-                <div className="mb-4 rounded-lg border border-emerald-300 bg-emerald-50/70 p-4 dark:border-emerald-400/35 dark:bg-emerald-500/10">
-                    <p className="mb-1 flex items-center gap-2 text-lg font-black"><Sparkles className="h-5 w-5 text-emerald-500" />平衡啦！</p>
-                    <p className="mb-3 text-[15px] leading-relaxed">杠杆平衡条件：<b>F₁ × L₁ = F₂ × L₂</b>。力臂越长，需要的力越小——这就是撬棍、剪刀省力的秘密。</p>
-                    <div className="flex flex-wrap gap-2">
-                        <Button variant="outline" className="min-h-11" onClick={() => setRight({})}><RotateCcw className="mr-1 h-4 w-4" />换种挂法</Button>
-                        {index < LEVER_PUZZLES.length - 1 ? (
-                            <Button className="min-h-11" onClick={() => pick(index + 1)}>下一关：{LEVER_PUZZLES[index + 1].name}</Button>
-                        ) : null}
-                    </div>
-                </div>
-            ) : (
-                <div className="mb-4 flex justify-end">
-                    <Button variant="outline" className="min-h-11" onClick={() => setRight({})}><RotateCcw className="mr-1 h-4 w-4" />清空右边</Button>
-                </div>
-            )}
+                <p className="mb-4 text-center text-[15px] leading-relaxed text-foreground">
+                    <Sparkles className="mr-1 inline h-4 w-4 text-primary" />
+                    杠杆平衡：<b>F₁ × L₁ = F₂ × L₂</b>。力臂越长，需要的力越小。
+                </p>
+            ) : null}
 
-            <LabLink experiment="lever" label="去物理实验室：让杠杆平衡" />
+            <div className="flex justify-center">
+                <LabLink experiment="lever" label="去物理实验室：让杠杆平衡" />
+            </div>
         </div>
     )
 }
@@ -238,12 +417,11 @@ export function LeverMode() {
 
 function BlockView({ block, size }: { block: DensityBlock; size: "sm" | "md" }) {
     const m = DENSITY_MATERIALS[block.material]
-    // 视觉边长 ∝ 体积的立方根（夹在合理范围内）
-    const edge = Math.max(26, Math.min(64, Math.cbrt(block.volume) * 20))
-    const px = size === "sm" ? edge * 0.75 : edge
+    const edge = Math.max(28, Math.min(58, Math.cbrt(block.volume) * 18))
+    const px = size === "sm" ? edge * 0.8 : edge
     return (
         <span
-            className={cn("inline-grid place-items-center rounded-md border border-black/20 text-base shadow-sm", m.color)}
+            className={cn("inline-grid place-items-center rounded-md text-base shadow-sm", m.color)}
             style={{ width: px, height: px }}
             aria-hidden
         >
@@ -265,6 +443,15 @@ export function DensityMode() {
     const result = pans.left && pans.right ? weighBlocks(pans.left, pans.right) : null
     const tilt = result === "left" ? -10 : result === "right" ? 10 : 0
 
+    const unlockedMax = (() => {
+        let max = 0
+        for (let i = 0; i < DENSITY_PUZZLES.length; i += 1) {
+            if (i === 0 || solved.includes(DENSITY_PUZZLES[i - 1].id) || solved.includes(DENSITY_PUZZLES[i].id)) max = i
+            else break
+        }
+        return max
+    })()
+
     const reset = (i = index) => {
         setIndex(i); setPans({ left: null, right: null }); setLog([]); setAnswer([]); setVerdict("none")
     }
@@ -278,8 +465,8 @@ export function DensityMode() {
             if (next.left && next.right) {
                 const r = weighBlocks(next.left, next.right)
                 const L = DENSITY_MATERIALS[next.left.material].name, R = DENSITY_MATERIALS[next.right.material].name
-                const line = r === "equal" ? `${L} 和 ${R} 一样重（平衡）` : r === "left" ? `${L} 比 ${R} 重（左边下沉）` : `${R} 比 ${L} 重（右边下沉）`
-                setLog((l) => [line, ...l.filter((x) => x !== line)].slice(0, 4))
+                const line = r === "equal" ? `${L} 和 ${R} 一样重` : r === "left" ? `${L} 比 ${R} 重` : `${R} 比 ${L} 重`
+                setLog((l) => [line, ...l.filter((x) => x !== line)].slice(0, 3))
             }
             return next
         })
@@ -308,31 +495,39 @@ export function DensityMode() {
     }
 
     const kindLabel = puzzle.kind === "same-volume" ? "体积相同" : "质量相同"
-    const goalLabel = puzzle.goal === "pick-densest" ? "点选密度最大的那个" : `按密度从小到大依次点选（${answer.length}/${puzzle.blocks.length}）`
+    const goalLabel = puzzle.goal === "pick-densest" ? "点选密度最大的" : `按密度从小到大点选（${answer.length}/${puzzle.blocks.length}）`
 
     const panContent = (b: DensityBlock | null, label: string) => (
-        <div className="flex h-20 w-24 flex-col items-center justify-end rounded-b-full border-b-4 border-foreground/50 pb-1 sm:w-32">
+        <div className="flex h-16 w-20 flex-col items-center justify-end rounded-b-full border-b-[3px] border-foreground/40 pb-1 sm:w-24">
             {b ? <BlockView block={b} size="sm" /> : <span className="text-sm font-bold text-muted-foreground">{label}</span>}
         </div>
     )
 
     const feedback = useMemo(() => {
         if (verdict === "right") return null
-        if (verdict === "wrong") return puzzle.goal === "pick-densest" ? "不对哦。再称一称：体积相同时看谁更重；质量相同时看谁更小。" : "顺序不对。点已选的方块可以撤回，再用天平比一比。"
-        if (result === "equal") return puzzle.kind === "same-mass" ? "天平平衡：它们质量相同。那体积越小的，密度就越大。" : "天平平衡。"
-        if (result) return `${puzzle.kind === "same-volume" ? "体积相同，" : ""}下沉的一边更重${puzzle.kind === "same-volume" ? "，所以密度更大" : ""}。`
-        return "点上面的方块放到天平上（先左后右），比较轻重。"
+        if (verdict === "wrong") return puzzle.goal === "pick-densest" ? "不对，再称一称：体积相同看谁更重，质量相同看谁更小。" : "顺序不对，点已选的可撤回。"
+        if (result === "equal") return puzzle.kind === "same-mass" ? "平衡：质量相同。体积越小，密度越大。" : "天平平衡。"
+        if (result) return `${puzzle.kind === "same-volume" ? "体积相同，" : ""}下沉的一边更重${puzzle.kind === "same-volume" ? "，密度更大" : ""}。`
+        return "点方块放到天平上，先左后右。"
     }, [puzzle, result, verdict])
 
     return (
-        <div>
-            <LevelTabs items={DENSITY_PUZZLES} index={index} solved={solved} onPick={(i) => reset(i)} label="密度关卡" />
-            <p className="mb-3 text-[15px] leading-relaxed">
-                <span className="mr-1 rounded-full bg-teal-500/15 px-2 py-0.5 font-black text-teal-800 dark:text-teal-200">{kindLabel}</span>
+        <div className="pb-8">
+            <LevelStepper
+                index={index}
+                total={DENSITY_PUZZLES.length}
+                name={puzzle.name}
+                onPrev={() => reset(Math.max(0, index - 1))}
+                onNext={() => reset(Math.min(unlockedMax, index + 1))}
+                canPrev={index > 0}
+                canNext={index < unlockedMax}
+            />
+            <p className="mb-3 text-center text-[15px] leading-relaxed">
+                <span className="mr-1.5 rounded-full bg-primary/10 px-2.5 py-0.5 font-black text-primary">{kindLabel}</span>
                 {puzzle.tip}
             </p>
 
-            <div className="mb-3 flex flex-wrap items-end justify-center gap-3" role="group" aria-label="可称量的方块">
+            <div className="mb-3 flex flex-wrap items-end justify-center gap-2" role="group" aria-label="可称量的方块">
                 {puzzle.blocks.map((b) => {
                     const onPan = pans.left?.id === b.id || pans.right?.id === b.id
                     const m = DENSITY_MATERIALS[b.material]
@@ -342,48 +537,47 @@ export function DensityMode() {
                             type="button"
                             onClick={() => placeOnPan(b)}
                             aria-pressed={onPan}
-                            aria-label={`${m.name}，体积 ${b.volume} 立方厘米${onPan ? "（在天平上）" : ""}`}
+                            aria-label={`${m.name}${onPan ? "（在天平上）" : ""}`}
                             className={cn(
-                                "flex min-h-11 min-w-20 flex-col items-center gap-1 rounded-lg border p-2 transition-colors",
-                                onPan ? "border-teal-500 bg-teal-500/15" : "border-border bg-background hover:bg-muted",
+                                "flex min-h-11 min-w-[4.5rem] flex-col items-center gap-1 rounded-xl px-2 py-2 transition-colors",
+                                onPan ? "bg-primary/15 ring-2 ring-primary/40" : "bg-muted/50 hover:bg-muted",
                             )}
                         >
                             <BlockView block={b} size="md" />
                             <span className="text-sm font-bold">{m.name}</span>
-                            <span className="text-sm text-muted-foreground">{b.volume < 2 ? b.volume.toFixed(1) : b.volume} cm³</span>
                         </button>
                     )
                 })}
             </div>
 
-            <div className="relative mx-auto mb-3 h-40 w-full max-w-md select-none">
-                <div className="absolute left-[10%] right-[10%] top-4 transition-transform duration-500 ease-out" style={{ transform: `rotate(${tilt}deg)` }} data-testid="density-beam">
-                    <div className="h-2.5 rounded-full bg-teal-700 dark:bg-teal-300" />
-                    <div className="absolute -left-2 top-2 transition-transform duration-500" style={{ transform: `rotate(${-tilt}deg)` }}>{panContent(pans.left, "左盘")}</div>
-                    <div className="absolute -right-2 top-2 transition-transform duration-500" style={{ transform: `rotate(${-tilt}deg)` }}>{panContent(pans.right, "右盘")}</div>
+            <div className="relative mx-auto mb-3 h-40 w-full max-w-sm select-none" data-testid="density-beam">
+                <div className="absolute left-[10%] right-[10%] top-4 transition-transform duration-500 ease-out" style={{ transform: `rotate(${tilt}deg)` }}>
+                    <div className="h-3 rounded-full bg-gradient-to-b from-stone-300 via-stone-500 to-stone-600 shadow-sm dark:from-stone-500 dark:via-stone-600 dark:to-stone-800" />
+                    <div className="absolute -left-1 top-2.5 transition-transform duration-500" style={{ transform: `rotate(${-tilt}deg)` }}>{panContent(pans.left, "左")}</div>
+                    <div className="absolute -right-1 top-2.5 transition-transform duration-500" style={{ transform: `rotate(${-tilt}deg)` }}>{panContent(pans.right, "右")}</div>
                 </div>
-                <div className="absolute bottom-0 left-1/2 h-32 w-2 -translate-x-1/2 rounded-full bg-foreground/60" />
-                <div className="absolute bottom-0 left-1/2 h-2 w-24 -translate-x-1/2 rounded-full bg-foreground/60" />
+                <div className="absolute bottom-2 left-1/2 h-0 w-0 -translate-x-1/2 border-x-[18px] border-b-[72px] border-x-transparent border-b-foreground/45" />
+                <div className="absolute bottom-1 left-1/2 h-2.5 w-24 -translate-x-1/2 rounded-full bg-foreground/45" />
             </div>
 
-            {feedback ? <Feedback tone={verdict === "wrong" ? "warn" : "info"}>{feedback}</Feedback> : null}
+            {feedback ? <FeedbackLine>{feedback}</FeedbackLine> : null}
 
             {log.length ? (
-                <ul className="mb-4 space-y-1 text-[15px]" aria-label="称量记录">
-                    {log.map((l) => <li key={l} className="rounded-md bg-muted/50 px-3 py-1.5">⚖️ {l}</li>)}
+                <ul className="mb-3 space-y-1 text-center text-[15px]" aria-label="称量记录">
+                    {log.map((l) => <li key={l} className="text-muted-foreground">⚖ {l}</li>)}
                 </ul>
             ) : null}
 
-            <div className="mb-4 rounded-lg border border-border p-3">
-                <p className="mb-2 text-[15px] font-black">{goalLabel}</p>
-                <div className="flex flex-wrap gap-2">
+            <div className="mb-4">
+                <p className="mb-2 text-center text-[15px] font-black">{goalLabel}</p>
+                <div className="flex flex-wrap justify-center gap-2">
                     {puzzle.blocks.map((b) => {
                         const pos = answer.findIndex((x) => x.id === b.id)
                         return (
                             <Button
                                 key={b.id}
                                 variant={pos >= 0 ? "default" : "outline"}
-                                className="min-h-11 text-[15px]"
+                                className="min-h-11 rounded-full text-[15px]"
                                 onClick={() => tapAnswer(b)}
                                 disabled={isSolved}
                             >
@@ -395,23 +589,26 @@ export function DensityMode() {
             </div>
 
             {isSolved ? (
-                <div className="mb-4 rounded-lg border border-emerald-300 bg-emerald-50/70 p-4 dark:border-emerald-400/35 dark:bg-emerald-500/10" role="status">
-                    <p className="mb-1 flex items-center gap-2 text-lg font-black"><Sparkles className="h-5 w-5 text-emerald-500" />答对了！</p>
+                <div className="mb-4 text-center" role="status">
+                    <p className="mb-1 text-lg font-black text-primary"><Sparkles className="mr-1 inline h-5 w-5" />答对了！</p>
                     <p className="mb-2 text-[15px] leading-relaxed">{puzzle.takeaway}</p>
-                    <ul className="mb-3 grid gap-1 text-[15px] sm:grid-cols-2">
+                    <ul className="mb-3 space-y-1 text-[15px]">
                         {puzzle.blocks.map((b) => (
-                            <li key={b.id} className="rounded-md bg-background/70 px-3 py-1.5">
-                                {DENSITY_MATERIALS[b.material].name}：{blockMass(b)} g ÷ {b.volume < 2 ? b.volume.toFixed(2) : b.volume} cm³ ≈ <b>{blockDensity(b)} g/cm³</b>
+                            <li key={b.id}>
+                                {DENSITY_MATERIALS[b.material].name} ≈ <b>{blockDensity(b)} g/cm³</b>
+                                <span className="text-muted-foreground">（{blockMass(b)} g ÷ {b.volume < 2 ? b.volume.toFixed(2) : b.volume}）</span>
                             </li>
                         ))}
                     </ul>
                     {index < DENSITY_PUZZLES.length - 1 ? (
-                        <Button className="min-h-11" onClick={() => reset(index + 1)}>下一关：{DENSITY_PUZZLES[index + 1].name}</Button>
+                        <Button className="min-h-11 rounded-full" onClick={() => reset(index + 1)}>下一关：{DENSITY_PUZZLES[index + 1].name}</Button>
                     ) : null}
                 </div>
             ) : null}
 
-            <LabLink experiment="density-measurement" label="去物理实验室：天平与排水法测密度" />
+            <div className="flex justify-center">
+                <LabLink experiment="density-measurement" label="去物理实验室：测密度" />
+            </div>
         </div>
     )
 }
