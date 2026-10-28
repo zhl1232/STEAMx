@@ -65,5 +65,8 @@ describe("textbook3d registry", () => {
     expect(textbook3dLessonIdFromUrl("/textbook3d/v1/g8a-2-3")).toBe("g8a-2-3")
     expect(textbook3dLessonIdFromUrl("https://evil.example/textbook3d/v1/g8a-2-3/")).toBeNull()
     expect(textbook3dLessonIdFromUrl(undefined)).toBeNull()
+    expect(resolveTextbook3dLessonId("p1a-1-1")).toBe("p1a-1-1")
+    expect(textbook3dLessonIdFromUrl("/textbook3d/v1/p2b-2-6/")).toBe("p2b-2-6")
+    expect(listTextbook3dLessons().filter((l) => /^p[12][ab]-/.test(l.id))).toHaveLength(51)
   })
 })

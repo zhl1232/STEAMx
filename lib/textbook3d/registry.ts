@@ -279,6 +279,113 @@ export const TEXTBOOK3D_CHAPTERS: Textbook3dChapter[] = [
     ],
   },
   {
+    id: "p1a-1",
+    volume: "一年级上册",
+    title: "第一单元　周围的植物",
+    lessons: [
+      { id: "p1a-1-1", title: "我们知道的植物" },
+      { id: "p1a-1-2", title: "观察植物" },
+      { id: "p1a-1-3", title: "植物长在哪里" },
+      { id: "p1a-1-4", title: "给植物画张\"像\"" },
+      { id: "p1a-1-5", title: "植物的变化" },
+      { id: "p1a-1-6", title: "校园里的植物" },
+    ],
+  },
+  {
+    id: "p1a-2",
+    volume: "一年级上册",
+    title: "第二单元　我们自己",
+    lessons: [
+      { id: "p1a-2-1", title: "我们的身体" },
+      { id: "p1a-2-2", title: "发现生长" },
+      { id: "p1a-2-3", title: "游戏中的观察" },
+      { id: "p1a-2-4", title: "气味告诉我们" },
+      { id: "p1a-2-5", title: "通过感官来发现" },
+      { id: "p1a-2-6", title: "观察与比较" },
+      { id: "p1a-2-7", title: "做个\"时间胶囊\"" },
+    ],
+  },
+  {
+    id: "p1b-1",
+    volume: "一年级下册",
+    title: "第一单元　身边的物体",
+    lessons: [
+      { id: "p1b-1-1", title: "观察物体的特征" },
+      { id: "p1b-1-2", title: "给物体分类" },
+      { id: "p1b-1-3", title: "比较物体的轻重" },
+      { id: "p1b-1-4", title: "认识物体的形状" },
+      { id: "p1b-1-5", title: "观察一杯水" },
+      { id: "p1b-1-6", title: "哪个流动得快" },
+      { id: "p1b-1-7", title: "它们去哪里了" },
+    ],
+  },
+  {
+    id: "p1b-2",
+    volume: "一年级下册",
+    title: "第二单元　常见的动物",
+    lessons: [
+      { id: "p1b-2-1", title: "我们周围的动物" },
+      { id: "p1b-2-2", title: "观察一种动物" },
+      { id: "p1b-2-3", title: "给蜗牛建个\"家\"" },
+      { id: "p1b-2-4", title: "水中的动物" },
+      { id: "p1b-2-5", title: "它们吃什么" },
+      { id: "p1b-2-6", title: "动物联欢会" },
+    ],
+  },
+  {
+    id: "p2a-1",
+    volume: "二年级上册",
+    title: "第一单元　我们的地球家园",
+    lessons: [
+      { id: "p2a-1-1", title: "地球家园中有什么" },
+      { id: "p2a-1-2", title: "土壤——动植物的乐园" },
+      { id: "p2a-1-3", title: "太阳的位置和方向" },
+      { id: "p2a-1-4", title: "观察月相" },
+      { id: "p2a-1-5", title: "各种各样的天气" },
+      { id: "p2a-1-6", title: "不同的季节" },
+      { id: "p2a-1-7", title: "做大自然的孩子" },
+    ],
+  },
+  {
+    id: "p2a-2",
+    volume: "二年级上册",
+    title: "第二单元　材料",
+    lessons: [
+      { id: "p2a-2-1", title: "我们生活的世界" },
+      { id: "p2a-2-2", title: "不同材料的餐具" },
+      { id: "p2a-2-3", title: "书的历史" },
+      { id: "p2a-2-4", title: "神奇的纸" },
+      { id: "p2a-2-5", title: "椅子不简单" },
+    ],
+  },
+  {
+    id: "p2b-1",
+    volume: "二年级下册",
+    title: "第一单元　探秘恐龙",
+    lessons: [
+      { id: "p2b-1-1", title: "恐龙的故事" },
+      { id: "p2b-1-2", title: "挖掘恐龙\"化石\"" },
+      { id: "p2b-1-3", title: "测量恐龙\"化石\"" },
+      { id: "p2b-1-4", title: "拼接恐龙\"化石\"" },
+      { id: "p2b-1-5", title: "复原恐龙" },
+      { id: "p2b-1-6", title: "制作恐龙模型" },
+      { id: "p2b-1-7", title: "我们的恐龙公园" },
+    ],
+  },
+  {
+    id: "p2b-2",
+    volume: "二年级下册",
+    title: "第二单元　玩磁铁",
+    lessons: [
+      { id: "p2b-2-1", title: "磁铁能吸引什么" },
+      { id: "p2b-2-2", title: "比较力量的大小" },
+      { id: "p2b-2-3", title: "让小车动起来" },
+      { id: "p2b-2-4", title: "隔物吸铁" },
+      { id: "p2b-2-5", title: "设计钓鱼玩具" },
+      { id: "p2b-2-6", title: "我们来钓鱼" },
+    ],
+  },
+  {
     id: "p3a-1",
     volume: "三年级上册",
     title: "第一单元　天气",
@@ -684,7 +791,7 @@ export const TEXTBOOK3D_CHAPTERS: Textbook3dChapter[] = [
   },
 ]
 
-export const TEXTBOOK3D_LESSON_ID = /^(?:g8[ab]|g9|p[3-6][ab])-\d+-\d+$/
+export const TEXTBOOK3D_LESSON_ID = /^(?:g8[ab]|g9|p[1-6][ab])-\d+-\d+$/
 
 export function listTextbook3dLessons() {
   return TEXTBOOK3D_CHAPTERS.flatMap((chapter) =>
@@ -714,7 +821,7 @@ export function resolveTextbook3dLessonId(value: unknown): string | null {
 /** 项目的 interactive_url 形如 /textbook3d/v1/<课号>/ 或 /textbook3d/v1/<课号>/index.html，解析出已登记的课号。 */
 export function textbook3dLessonIdFromUrl(url: unknown): string | null {
   if (typeof url !== "string") return null
-  const match = url.match(/^\/textbook3d\/v\d+\/((?:g8[ab]|g9|p[3-6][ab])-\d+-\d+)(?:\/(?:index\.html)?)?$/)
+  const match = url.match(/^\/textbook3d\/v\d+\/((?:g8[ab]|g9|p[1-6][ab])-\d+-\d+)(?:\/(?:index\.html)?)?$/)
   return match ? resolveTextbook3dLessonId(match[1]) : null
 }
 
