@@ -37,7 +37,7 @@ describe('手机端课程页：每门课露出课时', () => {
       makeCourse({ id: 5, title: '小班大颗粒积木', tags: ['得宝'], lesson_count: 100,
         preview_lessons: [lesson(501, 1, '埃菲尔铁塔', { image_url: 'https://x/a.webp' })] }),
     ]} />)
-    const sections = screen.getAllByRole('region')
+    const sections = screen.getAllByRole('region').filter(r => r.hasAttribute('data-course-id'))
     expect(within(sections[0]).getByRole('heading').textContent).toBe('小班大颗粒积木')
     expect(within(sections[0]).getByRole('link', { name: /全部 100 课/ }).getAttribute('href')).toBe('/courses/5')
     const brickTile = within(sections[0]).getByRole('link', { name: '第1课 埃菲尔铁塔' })
@@ -47,17 +47,25 @@ describe('手机端课程页：每门课露出课时', () => {
     expect(screen.queryByText(/分钟/)).toBeNull()
   })
 
-  it('登录在学：继续第N课排在最前，已完成课时有完成标记且不重复', () => {
+  it('登录在学：顶部只有一个「继续上次的课」入口，行内不重复，已完成课时有完成标记', () => {
     render(<CourseHub courses={[makeCourse({
       id: 7, title: '大班大颗粒积木', tags: ['得宝'], lesson_count: 100,
       progress: { completed_lesson_count: 1, total_lesson_count: 100, status: 'in_progress', next_lesson_id: 702, milestone_completed_at: null },
       preview_lessons: [lesson(701, 1, '扁担', { is_completed: true }), lesson(702, 2, '变速风扇')],
       next_lesson: lesson(702, 2, '变速风扇'),
     })]} />)
-    const links = screen.getAllByRole('link').filter(a => a.getAttribute('href')?.includes('/lessons/'))
-    expect(links[0].getAttribute('aria-label')).toBe('继续学习：大班大颗粒积木 第2课 变速风扇')
-    expect(links[0].textContent).toContain('继续 第2课')
-    expect(links.map(a => a.getAttribute('href'))).toEqual(['/courses/7/lessons/702', '/courses/7/lessons/701'])
-    expect(links[1].getAttribute('aria-label')).toBe('第1课 扁担（已完成）')
+    const cards = screen.getAllByRole('link', { name: /^继续上次的课/ })
+    expect(cards).toHaveLength(1)
+    expect(cards[0].getAttribute('href')).toBe('/courses/7/lessons/702')
+    expect(cards[0].textContent).toContain('第2课 · 变速风扇')
+    expect(screen.queryByRole('heading', { name: /坚持一小步/ })).toBeNull()
+    expect(screen.getByRole('link', { name: '第1课 扁担（已完成）' })).toBeTruthy()
+    expect(screen.getByRole('link', { name: '第2课 变速风扇' }).getAttribute('href')).toBe('/courses/7/lessons/702')
+  })
+
+  it('未登录显示横幅标题', () => {
+    render(<CourseHub courses={[makeCourse({ id: 3, title: '五子棋博弈论入门', tags: ['五子棋'], preview_lessons: [lesson(1, 1, '认识棋盘')] })]} />)
+    expect(screen.getByRole('heading', { name: /坚持一小步/ }).textContent).toBe('坚持一小步，进步一大截')
+    expect(screen.queryByRole('link', { name: /^继续上次的课/ })).toBeNull()
   })
 })

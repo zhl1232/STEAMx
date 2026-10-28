@@ -101,9 +101,25 @@ const CourseCard = memo(function CourseCard({ course, featured = false, priority
   )
 })
 
-const TILE_TONES = ['blue', 'green', 'amber', 'rose', 'violet', 'teal'] as const
+type CourseTheme = 'xiaoban' | 'zhongban' | 'daban' | 'scratch' | 'gomoku' | 'other'
 
-function LessonTileImage({ lesson, courseCategory }: { lesson: CoursePreviewLesson; courseCategory: CourseCategory }) {
+function getCourseTheme(course: CourseListItem): CourseTheme {
+  const category = getCourseCategory(course)
+  if (category === 'brick') return (BRICK_GRADE_SECTIONS.find((s) => s.test(course.title))?.key as CourseTheme | undefined) ?? 'other'
+  if (category === 'programming') return 'scratch'
+  if (category === 'strategy') return 'gomoku'
+  return 'other'
+}
+
+function CourseIcon({ theme }: { theme: CourseTheme }) {
+  const [failed, setFailed] = useState(false)
+  if (theme === 'other' || failed) return null
+  // 小图标为本地静态 webp，直接用原生 img 避免再走图片优化
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={`/courses/icons/${theme}.webp`} alt="" width={46} height={46} className={styles.courseIcon} onError={() => setFailed(true)} />
+}
+
+function LessonTileImage({ lesson }: { lesson: CoursePreviewLesson }) {
   const [load, setLoad] = useState({ attempt: 0, failed: false })
   if (lesson.image_url && !load.failed) {
     const { attempt } = load
@@ -117,19 +133,18 @@ function LessonTileImage({ lesson, courseCategory }: { lesson: CoursePreviewLess
       </span>
     )
   }
-  const tone = TILE_TONES[(lesson.number - 1) % TILE_TONES.length]
   return (
-    <span className={styles.lessonThumb} data-kind="number" data-tone={tone} data-category={courseCategory}>
+    <span className={styles.lessonThumb} data-kind="number">
       <span className={styles.lessonNumber}>{String(lesson.number).padStart(2, '0')}</span>
     </span>
   )
 }
 
-function LessonTile({ course, lesson, category }: { course: CourseListItem; lesson: CoursePreviewLesson; category: CourseCategory }) {
+function LessonTile({ course, lesson }: { course: CourseListItem; lesson: CoursePreviewLesson }) {
   return (
     <Link href={`/courses/${course.id}/lessons/${lesson.id}`} prefetch={false} className={styles.lessonTile}
       aria-label={`第${lesson.number}课 ${lesson.title}${lesson.is_completed ? '（已完成）' : ''}`} data-lesson-id={lesson.id}>
-      <LessonTileImage lesson={lesson} courseCategory={category} />
+      <LessonTileImage lesson={lesson} />
       {lesson.is_completed ? <span className={styles.doneBadge} aria-hidden="true"><Check size={14} strokeWidth={3} /></span> : null}
       <span className={styles.lessonNo}>第{lesson.number}课</span>
       <strong className={styles.lessonTitle}>{lesson.title}</strong>
@@ -137,31 +152,15 @@ function LessonTile({ course, lesson, category }: { course: CourseListItem; less
   )
 }
 
-function ContinueTile({ course, lesson }: { course: CourseListItem; lesson: CoursePreviewLesson }) {
-  return (
-    <Link href={`/courses/${course.id}/lessons/${lesson.id}`} prefetch={false} className={styles.lessonTile}
-      aria-label={`继续学习：${course.title} 第${lesson.number}课 ${lesson.title}`} data-continue-tile>
-      <span className={styles.lessonThumb} data-kind="continue">
-        <Play size={22} aria-hidden="true" />
-        <span>继续 第{lesson.number}课</span>
-      </span>
-      <span className={styles.lessonNo}>
-        {course.progress ? `已学 ${course.progress.completed_lesson_count}/${course.progress.total_lesson_count}` : '继续学习'}
-      </span>
-      <strong className={styles.lessonTitle}>{lesson.title}</strong>
-    </Link>
-  )
-}
-
 function CourseLessonSection({ course }: { course: CourseListItem }) {
-  const category = getCourseCategory(course)
+  const theme = getCourseTheme(course)
   const age = getAgeLine(course)?.split(' · ')[0]
   const headingId = `course-${course.id}-heading`
   const lessons = course.preview_lessons ?? []
-  const next = isLearningCourse(course) ? course.next_lesson ?? null : null
   return (
-    <section className={styles.lessonSection} aria-labelledby={headingId} data-course-id={course.id}>
+    <section className={styles.lessonSection} aria-labelledby={headingId} data-course-id={course.id} data-course-theme={theme}>
       <div className={styles.lessonHeader}>
+        <CourseIcon theme={theme} />
         <div className={styles.lessonHeaderText}>
           <h2 id={headingId}>{course.title}</h2>
           <p>{[age, `${course.lesson_count} 课`].filter(Boolean).join(' · ')}</p>
@@ -171,16 +170,56 @@ function CourseLessonSection({ course }: { course: CourseListItem }) {
           全部 {course.lesson_count} 课<ChevronRight size={16} aria-hidden="true" />
         </Link>
       </div>
-      {lessons.length > 0 || next ? (
+      {lessons.length > 0 ? (
         <div className={styles.lessonRailWrap}>
           <div className={styles.lessonRail}>
-            {next ? <ContinueTile course={course} lesson={next} /> : null}
-            {lessons.filter((l) => l.id !== next?.id).map((lesson) => (
-              <LessonTile key={lesson.id} course={course} lesson={lesson} category={category} />
-            ))}
+            {lessons.map((lesson) => <LessonTile key={lesson.id} course={course} lesson={lesson} />)}
           </div>
         </div>
       ) : <p className={styles.lessonEmpty}>课时准备中</p>}
+    </section>
+  )
+}
+
+/** 顶部横幅文案（占位，待定稿后替换；subtitle 留空则不显示） */
+export const HERO_COPY = { title: '坚持一小步，进步一大截', subtitle: '' }
+
+/** 顶部：登录在学显示「继续上次的课」，否则显示插画横幅 */
+function MobileCoursesHero({ continueCourse }: { continueCourse?: CourseListItem }) {
+  const next = continueCourse?.next_lesson
+  if (continueCourse && next) {
+    const theme = getCourseTheme(continueCourse)
+    const progress = continueCourse.progress
+    return (
+      <Link href={`/courses/${continueCourse.id}/lessons/${next.id}`} prefetch={false} className={styles.heroContinue}
+        data-course-theme={theme} data-continue-card aria-label={`继续上次的课：${continueCourse.title} 第${next.number}课 ${next.title}`}>
+        <span className={styles.heroContinueThumb}>
+          {next.image_url ? <OptimizedImage src={next.image_url} alt="" fill variant="thumbnail" sizes="88px" className={styles.lessonPhoto} />
+            : <span className={styles.lessonNumber}>{String(next.number).padStart(2, '0')}</span>}
+        </span>
+        <span className={styles.heroContinueBody}>
+          <span className={styles.heroContinueLabel}>继续上次的课</span>
+          <strong>第{next.number}课 · {next.title}</strong>
+          <span className={styles.heroContinueMeta}>
+            {continueCourse.title}{progress ? ` · 已学 ${progress.completed_lesson_count}/${progress.total_lesson_count}` : ''}
+          </span>
+        </span>
+        <span className={styles.heroContinueGo} aria-hidden="true"><Play size={18} /></span>
+      </Link>
+    )
+  }
+  return (
+    <section className={styles.hero} aria-labelledby="courses-hero-heading">
+      <div className={styles.heroText}>
+        <h2 id="courses-hero-heading">
+          {HERO_COPY.title.split(/(?<=，)/).map((line) => <span key={line}>{line}</span>)}
+        </h2>
+        {HERO_COPY.subtitle ? <p>{HERO_COPY.subtitle}</p> : null}
+      </div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/courses/hero.webp" alt="" className={styles.heroImage} data-variant="light" width={1200} height={400} />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/courses/hero-dark.webp" alt="" className={styles.heroImage} data-variant="dark" width={1200} height={400} />
     </section>
   )
 }
@@ -225,10 +264,14 @@ function Directions() {
 
 function MobileCourseHub({ courses, visible }: { courses: CourseListItem[]; visible: CourseListItem[] }) {
   const ordered = useMemo(() => orderMobileCourses(visible), [visible])
+  const continueCourse = useMemo(() => courses.find((c) => isLearningCourse(c) && c.next_lesson), [courses])
   return (
     <div className={styles.hub} data-course-hub data-mobile-courses>
       {courses.length > 0 ? (
-        ordered.map((course) => <CourseLessonSection key={course.id} course={course} />)
+        <>
+          <MobileCoursesHero continueCourse={continueCourse} />
+          {ordered.map((course) => <CourseLessonSection key={course.id} course={course} />)}
+        </>
       ) : (
         <div className={styles.empty}><BookOpen size={28} aria-hidden="true" /><p>技能课程即将上线，敬请期待。</p></div>
       )}

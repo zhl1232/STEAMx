@@ -112,7 +112,7 @@
 .continueBody { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 2px; }
 .continueLabel {
   margin: 0;
-  font-family: var(--font-heading), "Noto Serif SC", "Songti SC", serif;
+  font-family: inherit;
   font-size: 16px;
   font-weight: 700;
   line-height: 1.35;
@@ -163,7 +163,7 @@
 }
 .railSection { margin-top: 20px; }
 .railSection .sectionHeading h2 {
-  font-family: var(--font-heading), "Noto Serif SC", "Songti SC", serif;
+  font-family: inherit;
   font-size: 18px;
   font-weight: 700;
   letter-spacing: .01em;
@@ -204,7 +204,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin: 0;
-  font-family: var(--font-heading), "Noto Serif SC", "Songti SC", serif;
+  font-family: inherit;
   font-size: 15px;
   font-weight: 700;
   line-height: 1.35;
@@ -219,7 +219,7 @@
 @media (max-width: 767px) {
   .hub[data-mobile-courses] .directions { margin-top: 28px; padding: 0; background: none; }
   .hub[data-mobile-courses] .directions .sectionHeading h2 {
-    font-family: var(--font-heading), "Noto Serif SC", "Songti SC", serif;
+    font-family: inherit;
     font-size: 18px;
   }
   .hub[data-mobile-courses] .directionGrid a { border-color: #e2e7ee; background: #f7f9fc; }
@@ -232,10 +232,11 @@
 /* 手机端：每门课 = 标题行 + 课时横滑 */
 .lessonSection { margin-top: 24px; }
 .lessonSection:first-child { margin-top: 8px; }
+.hero + .lessonSection, .heroContinue + .lessonSection { margin-top: 20px; }
 .lessonHeader { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
 .lessonHeaderText { min-width: 0; }
 .lessonHeaderText h2 {
-  margin: 0; font-family: var(--font-heading), "Noto Serif SC", "Songti SC", serif;
+  margin: 0; font-family: inherit;
   font-size: 18px; font-weight: 700; line-height: 1.35; letter-spacing: .01em; color: hsl(var(--foreground));
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
@@ -266,16 +267,7 @@
 }
 .lessonThumb[data-kind='photo'] { background: #fff; box-shadow: inset 0 0 0 1px #ebe5dc; }
 .lessonPhoto { object-fit: contain; padding: 4px; }
-.lessonThumb[data-tone='blue'] { background: #e3edfb; color: #2f5fa8; }
-.lessonThumb[data-tone='green'] { background: #e2f1e4; color: #2f7a43; }
-.lessonThumb[data-tone='amber'] { background: #fbeed6; color: #9a5b0e; }
-.lessonThumb[data-tone='rose'] { background: #fbe4e1; color: #a8413a; }
-.lessonThumb[data-tone='violet'] { background: #ece6fa; color: #5b45a3; }
-.lessonThumb[data-tone='teal'] { background: #dff2f0; color: #23756c; }
 .lessonNumber { font-size: 34px; font-weight: 800; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
-.lessonThumb[data-kind='continue'] {
-  flex-direction: column; gap: 6px; background: hsl(var(--brand-blue)); color: #fff; font-size: 14px; font-weight: 700;
-}
 .doneBadge {
   position: absolute; top: 6px; right: 6px; display: flex; align-items: center; justify-content: center;
   width: 24px; height: 24px; border-radius: 999px; background: #2f8a4c; color: #fff; box-shadow: 0 0 0 2px #fff;
@@ -288,12 +280,54 @@
 .lessonEmpty { margin: 0; font-size: 14px; color: hsl(var(--foreground) / .64); }
 :global(.dark) .lessonThumb { background: rgb(255 255 255 / .07); }
 :global(.dark) .lessonThumb[data-kind='photo'] { background: #f4f4f2; box-shadow: none; }
-:global(.dark) .lessonThumb[data-tone='blue'] { background: rgb(96 140 220 / .2); color: #a9c6f5; }
-:global(.dark) .lessonThumb[data-tone='green'] { background: rgb(90 180 120 / .2); color: #9fdcb0; }
-:global(.dark) .lessonThumb[data-tone='amber'] { background: rgb(230 170 70 / .2); color: #f2cd8a; }
-:global(.dark) .lessonThumb[data-tone='rose'] { background: rgb(230 110 100 / .2); color: #f3b0a9; }
-:global(.dark) .lessonThumb[data-tone='violet'] { background: rgb(150 120 230 / .22); color: #c9b9f5; }
-:global(.dark) .lessonThumb[data-tone='teal'] { background: rgb(70 180 170 / .2); color: #9fe0d8; }
-:global(.dark) .lessonThumb[data-kind='continue'] { background: hsl(var(--brand-blue)); color: #fff; }
 :global(.dark) .doneBadge { box-shadow: 0 0 0 2px hsl(var(--background)); }
 :global(.dark) .allLessons { border-color: hsl(var(--brand-blue) / .7); }
+
+/* a2：课程浅色底、图标、顶部横幅 */
+.hub[data-mobile-courses] { --tint-xiaoban: #FFF3D6; --tint-zhongban: #DDF3E6; --tint-daban: #FDE6D3; --tint-scratch: #DCEBFB; --tint-gomoku: #E8E2F8; --tint-other: #EFEAE1;
+  --ink-xiaoban: #8a5a00; --ink-zhongban: #23703f; --ink-daban: #a3501c; --ink-scratch: #2a5ea6; --ink-gomoku: #5a45a0; --ink-other: #6b5d48; }
+:global(.dark) .hub[data-mobile-courses] { --tint-xiaoban: rgb(240 190 80 / .14); --tint-zhongban: rgb(90 190 130 / .14); --tint-daban: rgb(240 140 80 / .14); --tint-scratch: rgb(100 150 230 / .16); --tint-gomoku: rgb(150 125 230 / .16); --tint-other: rgb(200 185 160 / .12);
+  --ink-xiaoban: #f2cd8a; --ink-zhongban: #9fdcb0; --ink-daban: #f5b58a; --ink-scratch: #a9c6f5; --ink-gomoku: #c9b9f5; --ink-other: #ddd0bb; }
+.hub [data-course-theme='xiaoban'] { --tint: var(--tint-xiaoban); --ink: var(--ink-xiaoban); }
+.hub [data-course-theme='zhongban'] { --tint: var(--tint-zhongban); --ink: var(--ink-zhongban); }
+.hub [data-course-theme='daban'] { --tint: var(--tint-daban); --ink: var(--ink-daban); }
+.hub [data-course-theme='scratch'] { --tint: var(--tint-scratch); --ink: var(--ink-scratch); }
+.hub [data-course-theme='gomoku'] { --tint: var(--tint-gomoku); --ink: var(--ink-gomoku); }
+.hub [data-course-theme='other'] { --tint: var(--tint-other); --ink: var(--ink-other); }
+.courseIcon { flex-shrink: 0; width: 46px; height: 46px; border-radius: 14px; object-fit: cover; }
+.lessonHeader .lessonHeaderText { flex: 1; }
+.lessonSection .lessonRailWrap { margin-inline: 0; border-radius: 16px; background: var(--tint); padding-block: 12px 10px; }
+.lessonSection .lessonRail { padding-inline: 12px; scroll-padding-inline: 12px; }
+.lessonSection .lessonRailWrap::after { border-radius: 0 16px 16px 0; background: linear-gradient(to right, transparent, var(--tint)); bottom: 0; }
+:global(.dark) .lessonSection .lessonRailWrap::after { background: none; }
+.lessonSection .lessonThumb[data-kind='number'] { background: rgb(255 255 255 / .78); color: var(--ink); }
+.lessonSection .lessonThumb[data-kind='photo'] { box-shadow: none; }
+:global(.dark) .lessonSection .lessonThumb[data-kind='number'] { background: rgb(255 255 255 / .07); }
+.hero { position: relative; margin-top: 4px; overflow: hidden; border-radius: 16px; background: #FDF2D4; }
+.heroText { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); max-width: 48%; z-index: 1; }
+.heroText h2 { margin: 0; font-family: inherit; font-size: 20px; line-height: 1.35; font-weight: 700; color: #3b2a12; }
+.heroText h2 span { display: block; white-space: nowrap; }
+.heroText p { margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: #5d4a2e; }
+.heroImage { display: block; width: 100%; height: auto; aspect-ratio: 3 / 1; object-fit: cover; object-position: right center; min-height: 128px; }
+:global(.dark) .hero { background: #2e2315; }
+.heroImage[data-variant='dark'] { display: none; }
+:global(.dark) .heroImage[data-variant='light'] { display: none; }
+:global(.dark) .heroImage[data-variant='dark'] { display: block; }
+:global(.dark) .heroText h2 { color: #fbe9c4; }
+:global(.dark) .heroText p { color: #e6d6b4; }
+.heroContinue { display: flex; align-items: center; gap: 12px; margin-top: 4px; padding: 12px; border-radius: 16px; background: var(--tint); color: inherit; text-decoration: none; }
+.heroContinueThumb { position: relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 72px; height: 72px; overflow: hidden; border-radius: 14px; background: #fff; color: var(--ink); }
+.heroContinueThumb .lessonNumber { font-size: 26px; }
+.heroContinueBody { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.heroContinueLabel { font-size: 14px; font-weight: 700; color: var(--ink); }
+.heroContinueBody strong { font-size: 16px; line-height: 1.35; color: hsl(var(--foreground)); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.heroContinueMeta { font-size: 14px; color: hsl(var(--foreground) / .68); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.heroContinueGo { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; background: hsl(var(--brand-blue)); color: #fff; }
+@media (max-width: 767px) {
+  .hub[data-mobile-courses] .directionGrid strong { font-size: 14px; }
+  .hub[data-mobile-courses] .directionGrid span { font-size: 14px; }
+  .hub[data-mobile-courses] .directionGrid a { min-height: 96px; padding-inline: 2px; }
+}
+
+/* 课程页统一用站内无衬线字体（全局 h1–h3 默认是宋体 --font-heading） */
+.hub :is(h1, h2, h3, h4, strong, p, span, a) { font-family: var(--font-sans), sans-serif; }
