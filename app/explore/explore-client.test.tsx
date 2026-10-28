@@ -882,14 +882,14 @@ describe('ExploreClient', () => {
         expect(input).toHaveValue('草稿')
     })
 
-    it('clears mobile search while preserving other applied filters', async () => {
+    it('clears search while preserving other applied filters', async () => {
         currentSearchParams = new URLSearchParams('q=旧词&category=科学')
         const fetchMock = vi.mocked(fetch)
         fetchMock.mockResolvedValue({ ok: true, json: async () => ({ projects: [], hasMore: false, total: 0 }) } as Response)
         const user = userEvent.setup()
         render(<ExploreClient initialProjects={[makeProject(1, '初始项目')]} initialHasMore={false} categories={['全部', '科学']} />)
 
-        await user.click(within(screen.getByRole('search')).getByRole('button', { name: '清空搜索' }))
+        await user.click(screen.getAllByRole('button', { name: '清空搜索' })[0])
         await waitFor(() => expect(fetchMock).toHaveBeenCalled())
         const requestUrl = String(fetchMock.mock.calls[0]?.[0] ?? '')
         expect(requestUrl).not.toContain('q=')

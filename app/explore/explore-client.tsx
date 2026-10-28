@@ -1,5 +1,6 @@
 "use client"
 
+import { ExploreSearchOverlay } from '@/components/explore/explore-search-overlay'
 import { Fragment, useState, useRef, useCallback, useEffect, useLayoutEffect, useMemo, type FormEvent, type MouseEvent } from 'react'
 import Link from 'next/link'
 import { buildExplorePageHref } from '@/lib/seo/explore-pagination'
@@ -206,6 +207,8 @@ export function ExploreClient({
     const [selectedTags, setSelectedTags] = useState<string[]>(initialTags)
     const [searchQuery, setSearchQuery] = useState(initialQuery)
     const [searchDraft, setSearchDraft] = useState(initialQuery)
+    const [searchOverlayOpen, setSearchOverlayOpen] = useState(false)
+    const closeSearchOverlay = useCallback(() => setSearchOverlayOpen(false), [])
     const searchComposingRef = useRef(false)
     const searchDraftRevisionRef = useRef(0)
     const searchDraftDirtyRef = useRef(false)
@@ -1084,7 +1087,7 @@ export function ExploreClient({
                 showUserButton={false}
                 className="bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--app-canvas)/0.92)_100%)] md:bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.88)_0%,hsl(var(--app-canvas)/0.72)_100%)] md:backdrop-blur-xl"
                 searchValue={searchDraft}
-                searchPlaceholder="搜索项目、材料、作者..."
+                searchPlaceholder="搜索项目"
                 onSearchChange={(value) => {
                     searchDraftRevisionRef.current += 1
                     searchDraftDirtyRef.current = true
@@ -1092,25 +1095,17 @@ export function ExploreClient({
                 }}
                 onSearchSubmit={(value) => void submitSearch(value)}
                 onSearchClear={clearSearch}
-                rightSlot={
-                    <button
-                        type="button"
-                        onClick={openSheet}
-                        data-testid="explore-more-filters"
-                        className={cn(
-                            "relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] text-muted-foreground transition hover:text-foreground md:hidden",
-                            hasActiveAdvancedFilters && "border-[hsl(var(--brand-blue)/0.56)] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]"
-                        )}
-                        aria-label="筛选条件"
-                    >
-                        <Filter className="h-4 w-4" strokeWidth={2.2} />
-                        {advancedFilterCount > 0 && (
-                            <span className="absolute -right-1 -top-1 grid h-4 min-w-4 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-1 text-[9px] font-bold leading-none text-[hsl(var(--brand-blue-foreground))]">
-                                {advancedFilterCount}
-                            </span>
-                        )}
-                    </button>
-                }
+                onSearchEntryClick={() => setSearchOverlayOpen(true)}
+            />
+            <ExploreSearchOverlay
+                open={searchOverlayOpen}
+                initialValue={searchQuery}
+                onClose={closeSearchOverlay}
+                onSubmit={(value) => {
+                    searchDraftRevisionRef.current += 1
+                    setSearchDraft(value)
+                    void submitSearch(value)
+                }}
             />
             <div
                 aria-hidden="true"
@@ -1296,6 +1291,22 @@ export function ExploreClient({
                                                         {option.label}
                                                     </FilterChip>
                                                 ))}
+                                                <button
+                                                    type="button"
+                                                    onClick={openSheet}
+                                                    data-testid="explore-more-filters"
+                                                    aria-label="筛选条件"
+                                                    className={cn(
+                                                        "relative ml-1 inline-flex h-9 items-center gap-1.5 rounded-full border border-[#d5dbe3] px-3.5 text-[14px] font-semibold text-foreground dark:border-white/25 md:hidden",
+                                                        hasActiveAdvancedFilters && "border-[hsl(var(--brand-blue))]! bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]",
+                                                    )}
+                                                >
+                                                    <Filter className="h-4 w-4" strokeWidth={2.2} />
+                                                    筛选
+                                                    {advancedFilterCount > 0 ? (
+                                                        <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-1 text-[11px] font-bold leading-none text-[hsl(var(--brand-blue-foreground))]">{advancedFilterCount}</span>
+                                                    ) : null}
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

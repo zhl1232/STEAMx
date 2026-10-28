@@ -38,6 +38,8 @@ interface MobileGlobalHeaderProps {
   onSearchSubmit?: (value: string) => void
   /** variant='search' 时的清空回调（清空并提交） */
   onSearchClear?: () => void
+  /** variant='search' 时传入则顶栏只显示一个搜索入口按钮，点击交给页面打开搜索页 */
+  onSearchEntryClick?: () => void
 }
 
 /**
@@ -62,6 +64,7 @@ export function MobileGlobalHeader({
   onSearchChange,
   onSearchSubmit,
   onSearchClear,
+  onSearchEntryClick,
 }: MobileGlobalHeaderProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const composingRef = useRef(false)
@@ -129,7 +132,19 @@ export function MobileGlobalHeader({
         </div>
 
         {/* 中间：搜索框（仅 variant='search'） */}
-        {variant === 'search' ? (
+        {variant === 'search' && onSearchEntryClick ? (
+          <button
+            type="button"
+            onClick={onSearchEntryClick}
+            data-testid="mobile-search-entry"
+            className="flex h-9 min-w-0 flex-1 items-center gap-2 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised))] px-3.5 text-left text-[14px] dark:border-white/20"
+          >
+            <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
+            <span className={cn('truncate', currentValue ? 'text-foreground' : 'text-muted-foreground')}>
+              {currentValue || searchPlaceholder}
+            </span>
+          </button>
+        ) : variant === 'search' ? (
           <form
             role="search"
             onSubmit={handleSubmit}
