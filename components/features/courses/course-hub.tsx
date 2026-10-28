@@ -2,9 +2,9 @@
 
 import Link from 'next/link'
 import { memo, useEffect, useMemo, useState } from 'react'
-import { Blocks, BookOpen, ChevronRight, Compass, FlaskConical, Leaf, Lightbulb } from 'lucide-react'
+import { Blocks, BookOpen, Check, ChevronRight, Play, Compass, FlaskConical, Leaf, Lightbulb } from 'lucide-react'
 import { OptimizedImage } from '@/components/ui/optimized-image'
-import type { CourseListItem } from '@/lib/courses/types'
+import type { CourseListItem, CoursePreviewLesson } from '@/lib/courses/types'
 import { cn } from '@/lib/utils'
 import {
   COURSE_CATEGORY_LABELS, getCourseAction, getCourseCategory, isLearningCourse, selectCourseCatalog,
@@ -62,13 +62,6 @@ function getAgeLine(course: CourseListItem) {
   return BRICK_AGE_BY_GRADE.find(([grade]) => course.title.includes(grade))?.[1] ?? null
 }
 
-function getRailMeta(course: CourseListItem) {
-  const age = getAgeLine(course)
-  const parts = [`${course.lesson_count} 课时`]
-  if (age) parts.push(age.split(' · ')[0])
-  return parts.join(' · ')
-}
-
 const CourseCard = memo(function CourseCard({ course, featured = false, priority = false }: {
   course: CourseListItem; featured?: boolean; priority?: boolean
 }) {
@@ -108,67 +101,100 @@ const CourseCard = memo(function CourseCard({ course, featured = false, priority
   )
 })
 
-/** 手机端横滑封面卡：封面 + 课名 + 课时/年龄 */
-const RailCard = memo(function RailCard({ course, priority = false }: { course: CourseListItem; priority?: boolean }) {
-  const action = getCourseAction(course)
+const TILE_TONES = ['blue', 'green', 'amber', 'rose', 'violet', 'teal'] as const
+
+function LessonTileImage({ lesson, courseCategory }: { lesson: CoursePreviewLesson; courseCategory: CourseCategory }) {
+  const [load, setLoad] = useState({ attempt: 0, failed: false })
+  if (lesson.image_url && !load.failed) {
+    const { attempt } = load
+    return (
+      <span className={styles.lessonThumb} data-kind="photo">
+        <OptimizedImage key={attempt} src={withRetry(lesson.image_url, attempt)} alt="" fill variant="thumbnail" sizes="104px"
+          className={styles.lessonPhoto} onError={() => {
+            if (attempt < 2) window.setTimeout(() => setLoad({ attempt: attempt + 1, failed: false }), 600 * (attempt + 1))
+            else setLoad({ attempt, failed: true })
+          }} />
+      </span>
+    )
+  }
+  const tone = TILE_TONES[(lesson.number - 1) % TILE_TONES.length]
   return (
-    <Link
-      href={action.href}
-      prefetch={false}
-      aria-label={`${action.label}：${course.title}`}
-      className={styles.railCard}
-      data-course-id={course.id}
-    >
-      <CourseCover course={course} priority={priority} compact />
-      <strong className={styles.railTitle}>{course.title}</strong>
-      <span className={styles.railMeta}>{getRailMeta(course)}</span>
+    <span className={styles.lessonThumb} data-kind="number" data-tone={tone} data-category={courseCategory}>
+      <span className={styles.lessonNumber}>{String(lesson.number).padStart(2, '0')}</span>
+    </span>
+  )
+}
+
+function LessonTile({ course, lesson, category }: { course: CourseListItem; lesson: CoursePreviewLesson; category: CourseCategory }) {
+  return (
+    <Link href={`/courses/${course.id}/lessons/${lesson.id}`} prefetch={false} className={styles.lessonTile}
+      aria-label={`第${lesson.number}课 ${lesson.title}${lesson.is_completed ? '（已完成）' : ''}`} data-lesson-id={lesson.id}>
+      <LessonTileImage lesson={lesson} courseCategory={category} />
+      {lesson.is_completed ? <span className={styles.doneBadge} aria-hidden="true"><Check size={14} strokeWidth={3} /></span> : null}
+      <span className={styles.lessonNo}>第{lesson.number}课</span>
+      <strong className={styles.lessonTitle}>{lesson.title}</strong>
     </Link>
   )
-})
+}
 
-function ContinueStrip({ course }: { course: CourseListItem }) {
-  const action = getCourseAction(course)
-  const progress = course.progress
-  const percent = progress && progress.total_lesson_count > 0
-    ? Math.max(0, Math.min(100, Math.round(progress.completed_lesson_count / progress.total_lesson_count * 100))) : 0
-  const lessonHint = progress
-    ? `已完成 ${progress.completed_lesson_count}/${progress.total_lesson_count} 课时`
-    : course.title
+function ContinueTile({ course, lesson }: { course: CourseListItem; lesson: CoursePreviewLesson }) {
   return (
-    <section className={styles.continueStrip} aria-labelledby="course-continue-heading">
-      <h2 id="course-continue-heading" className="sr-only">继续学习</h2>
-      <CourseCover course={course} priority compact />
-      <div className={styles.continueBody}>
-        <p className={styles.continueLabel}>继续学习</p>
-        <p className={styles.continueTitle}>{course.title}</p>
-        <p className={styles.continueHint}>{lessonHint}</p>
-        {progress ? (
-          <div role="progressbar" aria-label={`${course.title}学习进度`} aria-valuemin={0} aria-valuemax={100}
-            aria-valuenow={percent} aria-valuetext={`已完成 ${progress.completed_lesson_count} / ${progress.total_lesson_count} 课时`}
-            className={styles.continueTrack}><span style={{ width: `${percent}%` }} /></div>
-        ) : null}
+    <Link href={`/courses/${course.id}/lessons/${lesson.id}`} prefetch={false} className={styles.lessonTile}
+      aria-label={`继续学习：${course.title} 第${lesson.number}课 ${lesson.title}`} data-continue-tile>
+      <span className={styles.lessonThumb} data-kind="continue">
+        <Play size={22} aria-hidden="true" />
+        <span>继续 第{lesson.number}课</span>
+      </span>
+      <span className={styles.lessonNo}>
+        {course.progress ? `已学 ${course.progress.completed_lesson_count}/${course.progress.total_lesson_count}` : '继续学习'}
+      </span>
+      <strong className={styles.lessonTitle}>{lesson.title}</strong>
+    </Link>
+  )
+}
+
+function CourseLessonSection({ course }: { course: CourseListItem }) {
+  const category = getCourseCategory(course)
+  const age = getAgeLine(course)?.split(' · ')[0]
+  const headingId = `course-${course.id}-heading`
+  const lessons = course.preview_lessons ?? []
+  const next = isLearningCourse(course) ? course.next_lesson ?? null : null
+  return (
+    <section className={styles.lessonSection} aria-labelledby={headingId} data-course-id={course.id}>
+      <div className={styles.lessonHeader}>
+        <div className={styles.lessonHeaderText}>
+          <h2 id={headingId}>{course.title}</h2>
+          <p>{[age, `${course.lesson_count} 课`].filter(Boolean).join(' · ')}</p>
+        </div>
+        <Link href={`/courses/${course.id}`} prefetch={false} className={styles.allLessons}
+          aria-label={`${course.title}：全部 ${course.lesson_count} 课`}>
+          全部 {course.lesson_count} 课<ChevronRight size={16} aria-hidden="true" />
+        </Link>
       </div>
-      <Link href={action.href} prefetch={false} aria-label={`${action.label}：${course.title}`} className={styles.continueBtn}>
-        继续
-      </Link>
+      {lessons.length > 0 || next ? (
+        <div className={styles.lessonRailWrap}>
+          <div className={styles.lessonRail}>
+            {next ? <ContinueTile course={course} lesson={next} /> : null}
+            {lessons.filter((l) => l.id !== next?.id).map((lesson) => (
+              <LessonTile key={lesson.id} course={course} lesson={lesson} category={category} />
+            ))}
+          </div>
+        </div>
+      ) : <p className={styles.lessonEmpty}>课时准备中</p>}
     </section>
   )
 }
 
-function RailSection({ title, courses, headingId }: { title: string; courses: CourseListItem[]; headingId: string }) {
-  if (courses.length === 0) return null
-  return (
-    <section className={styles.railSection} aria-labelledby={headingId}>
-      <div className={styles.sectionHeading}>
-        <h2 id={headingId}>{title}</h2>
-      </div>
-      <div className={styles.rail}>
-        {courses.map((course, index) => (
-          <RailCard key={course.id} course={course} priority={index === 0} />
-        ))}
-      </div>
-    </section>
-  )
+function orderMobileCourses(visible: CourseListItem[]) {
+  const rank = (c: CourseListItem) => {
+    const cat = getCourseCategory(c)
+    if (cat === 'brick') {
+      const g = BRICK_GRADE_SECTIONS.findIndex((s) => s.test(c.title))
+      return g === -1 ? 3 : g
+    }
+    return 4 + CATEGORY_ORDER.indexOf(cat)
+  }
+  return visible.map((c, i) => ({ c, i })).sort((a, b) => rank(a.c) - rank(b.c) || a.i - b.i).map(({ c }) => c)
 }
 
 function useIsMobileCourses() {
@@ -197,62 +223,12 @@ function Directions() {
   )
 }
 
-function MobileCourseHub({ courses, featured, visible, filter }: {
-  courses: CourseListItem[]
-  featured?: CourseListItem
-  visible: CourseListItem[]
-  filter: CourseFilter
-}) {
-  const byCategory = useMemo(() => {
-    const map: Record<CourseCategory, CourseListItem[]> = { brick: [], programming: [], strategy: [], other: [] }
-    for (const course of visible) map[getCourseCategory(course)].push(course)
-    return map
-  }, [visible])
-
-  const brickSections = useMemo(() => {
-    const brick = byCategory.brick
-    const sections = BRICK_GRADE_SECTIONS.map((grade) => ({
-      ...grade,
-      courses: brick.filter((c) => grade.test(c.title)),
-    })).filter((s) => s.courses.length > 0)
-    const matched = new Set(sections.flatMap((s) => s.courses.map((c) => c.id)))
-    const rest = brick.filter((c) => !matched.has(c.id))
-    return { sections, rest }
-  }, [byCategory.brick])
-
-  const showGrouped = filter === 'recommended' || filter === 'all'
-
+function MobileCourseHub({ courses, visible }: { courses: CourseListItem[]; visible: CourseListItem[] }) {
+  const ordered = useMemo(() => orderMobileCourses(visible), [visible])
   return (
     <div className={styles.hub} data-course-hub data-mobile-courses>
       {courses.length > 0 ? (
-        <>
-          {featured ? <ContinueStrip course={featured} /> : null}
-          {showGrouped ? (
-            <>
-              {brickSections.sections.map((section) => (
-                <RailSection key={section.key} title={section.label} courses={section.courses} headingId={`course-brick-${section.key}`} />
-              ))}
-              {brickSections.rest.length > 0 ? (
-                <RailSection title="积木搭建" courses={brickSections.rest} headingId="course-brick-rest" />
-              ) : null}
-              {byCategory.programming.length > 0 ? (
-                <RailSection title="编程" courses={byCategory.programming} headingId="course-programming" />
-              ) : null}
-              {byCategory.strategy.length > 0 ? (
-                <RailSection title="思维与策略" courses={byCategory.strategy} headingId="course-strategy" />
-              ) : null}
-              {byCategory.other.length > 0 ? (
-                <RailSection title="其他技能" courses={byCategory.other} headingId="course-other" />
-              ) : null}
-            </>
-          ) : (
-            <RailSection
-              title={filter === 'learning' ? '在学课程' : COURSE_CATEGORY_LABELS[filter as CourseCategory] ?? '课程'}
-              courses={visible}
-              headingId="course-catalog"
-            />
-          )}
-        </>
+        ordered.map((course) => <CourseLessonSection key={course.id} course={course} />)
       ) : (
         <div className={styles.empty}><BookOpen size={28} aria-hidden="true" /><p>技能课程即将上线，敬请期待。</p></div>
       )}
@@ -278,7 +254,7 @@ export function CourseHub({ courses, initialFilter = 'recommended' }: {
   ]
 
   if (isMobile) {
-    return <MobileCourseHub courses={courses} featured={featured} visible={filter === 'recommended' ? selectCourseCatalog(courses, 'recommended').filter(c => c.id !== featured?.id) : visible} filter={filter} />
+    return <MobileCourseHub courses={courses} visible={selectCourseCatalog(courses, filter)} />
   }
 
   return (

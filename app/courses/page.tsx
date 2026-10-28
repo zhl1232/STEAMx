@@ -35,6 +35,7 @@ export default async function CoursesPage({ searchParams }: {
         courses = await listApprovedCourses(supabase, {
             userId: user?.id ?? null,
             includeClassification: classificationSettings.publicV1Enabled,
+            previewLessonLimit: 8,
         });
     } catch {
         courses = null;

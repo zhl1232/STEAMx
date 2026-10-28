@@ -262,9 +262,23 @@ export interface CourseLessonRow {
   updated_at: string
 }
 
+/** 课程列表横滑预览用的轻量课时：只含序号、标题与成品图 */
+export interface CoursePreviewLesson {
+  id: number
+  /** 课程内序号，从 1 开始 */
+  number: number
+  title: string
+  image_url: string | null
+  is_completed: boolean
+}
+
 export interface CourseListItem extends CourseRow {
   lesson_count: number
   progress: CourseProgressSummary | null
+  /** 仅在请求 previewLessonLimit 时返回：前 N 节课 */
+  preview_lessons?: CoursePreviewLesson[]
+  /** 登录用户的下一节课（可能不在前 N 节内） */
+  next_lesson?: CoursePreviewLesson | null
 }
 
 export interface CourseLessonSummary {
