@@ -797,10 +797,9 @@ export function ExploreClient({
     const handleCategoryClick = (category: string) => {
         setSelectedCategory(category)
         setSelectedSubCategory("")
-        setSelectedTags([])
+        // 分类和主题是两个独立筛选（AND），切换分类保留主题；「全部」只清分类。
         setDraftSubCategory("")
-        setDraftTags([])
-        const params = buildSearchParams({ category, subCategory: "", tags: [] })
+        const params = buildSearchParams({ category, subCategory: "" })
         executeFilter(params)
     }
 
@@ -864,7 +863,9 @@ export function ExploreClient({
         executeFilter(buildSearchParams({ sortBy }))
     }
 
-    const handlePresetClick = (presetId: ExplorePresetId) => {
+    const handlePresetClick = (requestedId: ExplorePresetId) => {
+        // 再点已选中的主题 = 取消主题，回到默认热门。
+        const presetId: ExplorePresetId = requestedId !== 'browse' && detectActivePreset(getFilterState()) === requestedId ? 'browse' : requestedId
         const preset = EXPLORE_PRESETS.find((item) => item.id === presetId)
         if (!preset) return
 
@@ -1162,6 +1163,7 @@ export function ExploreClient({
                                                     onClick={() => handleCategoryClick("全部")}
                                                     active
                                                     shape="pill"
+                                                    className="max-md:hidden"
                                                 >
                                                     {selectedCategory}
                                                     <X className="h-3 w-3" />
@@ -1215,6 +1217,7 @@ export function ExploreClient({
                                                     onClick={() => handleRemoveTag(tag)}
                                                     active
                                                     shape="pill"
+                                                    className={cn(activeListTabId && activeListPreset?.tags?.includes(tag) && "max-md:hidden")}
                                                 >
                                                     {tag}
                                                     <X className="h-3 w-3" />
@@ -1269,9 +1272,11 @@ export function ExploreClient({
                                         </div>
                                     )}
 
-                                    {!isResultsMode ? (
+                                    {/* 手机：分类和主题可叠加，选了分类也保留主题行（搜索时不显示）。 */}
+                                    {!isResultsMode || (isMobileLayout && !searchQuery) ? (
                                     <div className="mb-3 flex items-center justify-between gap-3">
                                         <div className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1 py-0.5 max-md:gap-2">
+                                            <span className="mr-1 shrink-0 text-[14px] font-semibold text-foreground/80 md:hidden">主题</span>
                                             {EXPLORE_PRESETS.map((preset) => {
                                                 const isActive = activeListTabId === preset.id
 
@@ -1286,8 +1291,8 @@ export function ExploreClient({
                                                         shape="pill"
                                                         size="md"
                                                         className={cn(
-                                                            preset.id === 'browse' && "max-md:hidden!", "h-11 min-w-[78px] px-3.5 text-[12px] font-semibold max-md:h-10 max-md:min-w-0 max-md:rounded-full max-md:border-[1.5px] max-md:px-4 max-md:shadow-none! md:h-10 md:min-w-[96px] md:text-sm",
-                                                            isActive ? "max-md:border-[hsl(var(--brand-blue))]! max-md:bg-[hsl(var(--brand-blue))]! max-md:text-white!" : "max-md:border-[#cfd6e0]! max-md:bg-white! max-md:text-foreground! dark:max-md:border-white/25! dark:max-md:bg-white/[0.04]!",
+                                                            preset.id === 'browse' && "max-md:hidden!", "h-11 min-w-[78px] px-3.5 text-[12px] font-semibold max-md:h-9 max-md:min-w-0 max-md:rounded-full max-md:border max-md:px-3.5 max-md:shadow-none! md:h-10 md:min-w-[96px] md:text-sm",
+                                                            isActive ? "max-md:border-[hsl(var(--brand-blue))]! max-md:bg-[hsl(var(--brand-blue)/0.1)]! max-md:text-[hsl(var(--brand-blue))]! dark:max-md:bg-[hsl(var(--brand-blue)/0.22)]!" : "max-md:border-[#d5dbe3]! max-md:bg-transparent! max-md:text-foreground! dark:max-md:border-white/25!",
                                                             isActive
                                                                 ? "border-[hsl(var(--brand-blue)/0.42)] dark:border-[hsl(var(--brand-blue)/0.6)] bg-[hsl(var(--brand-blue)/0.1)] dark:bg-[hsl(var(--brand-blue)/0.18)] shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.5)] dark:shadow-[0_8px_20px_-12px_hsl(var(--brand-blue)/0.66)]"
                                                                 : "border-transparent bg-[hsl(var(--surface-raised)/0.66)] text-foreground/68 shadow-none md:bg-[hsl(var(--surface-muted)/0.58)]",
@@ -1295,10 +1300,10 @@ export function ExploreClient({
                                                     >
                                                         <span
                                                             className={cn(
-                                                                "contents max-md:inline-flex max-md:items-center max-md:justify-center max-md:text-[15px] max-md:font-semibold max-md:leading-none",
+                                                                "contents max-md:inline-flex max-md:items-center max-md:justify-center max-md:text-[14px] max-md:font-semibold max-md:leading-none",
                                                                 isActive
-                                                                    ? "max-md:font-bold max-md:text-white"
-                                                                    : "max-md:text-foreground",
+                                                                    ? "max-md:font-bold max-md:text-[hsl(var(--brand-blue))]"
+                                                                    : "max-md:text-foreground/85",
                                                             )}
                                                         >
                                                             {preset.label}
