@@ -964,7 +964,12 @@ export async function getExploreFilterOptions(): Promise<ExploreFilterOptions> {
       excludedNames,
     );
 
-    const data = { categories, availableTags: tagScope.all, popularTags, tagScope };
+    // 没有任何已上架项目的分类（如目前的「其他」）不在分类条显示，避免点进去是空页。
+    const populatedCategories = new Set(projectRows.map((project) => project.category).filter(Boolean));
+    const visibleCategories = populatedCategories.size > 0
+      ? categories.filter((category) => category === "全部" || populatedCategories.has(category))
+      : categories;
+    const data = { categories: visibleCategories, availableTags: tagScope.all, popularTags, tagScope };
     cachedExploreFilterOptions = {
       key: cacheKey,
       data,

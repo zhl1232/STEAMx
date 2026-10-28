@@ -105,10 +105,14 @@ export function ExploreCategoryStrip({
                     aria-hidden="true"
                     className={cn(
                       'relative mb-1 block aspect-square w-full overflow-hidden rounded-[16px] md:hidden dark:brightness-[0.92]',
-                      active ? 'ring-2 ring-[hsl(var(--brand-blue))] ring-offset-2 ring-offset-background' : 'ring-1 ring-black/[0.06] dark:ring-white/[0.12]',
+                      !active && 'ring-1 ring-black/[0.06] dark:ring-white/[0.12]',
                     )}
                   >
                     <Image src={src} alt="" fill sizes="78px" className="object-cover" />
+                    {/* 选中框画在图片内侧（蓝 3px + 底色 2px 间隙），不会被任何外层 overflow 裁掉。 */}
+                    {active ? (
+                      <span className="pointer-events-none absolute inset-0 rounded-[16px] shadow-[inset_0_0_0_3px_hsl(var(--brand-blue)),inset_0_0_0_5px_hsl(var(--app-canvas))]" />
+                    ) : null}
                   </span>
                   <Icon className="mr-0.5 hidden h-3.5 w-3.5 shrink-0 md:inline" strokeWidth={2.2} aria-hidden="true" />
                   <span className={cn('text-[13px] font-semibold leading-none max-md:text-[14px] md:text-inherit', active ? 'max-md:text-[hsl(var(--brand-blue))] max-md:font-bold' : 'max-md:text-foreground/80')}>
