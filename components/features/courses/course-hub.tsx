@@ -185,7 +185,7 @@ function CourseLessonSection({ course }: { course: CourseListItem }) {
 }
 
 /** 顶部横幅文案（占位，待定稿后替换；subtitle 留空则不显示） */
-export const HERO_COPY = { title: '坚持一小步，进步一大截', subtitle: '', emphasis: ['一小步', '一大截'] }
+export const HERO_COPY = { title: '每一步坚持，都算数。', subtitle: '', emphasis: ['都算数'] }
 
 /** 把标题按逗号分行，并把重点词包成高亮 */
 function HeroTitle({ text, emphasis }: { text: string; emphasis: string[] }) {
@@ -203,7 +203,7 @@ function HeroTitle({ text, emphasis }: { text: string; emphasis: string[] }) {
 }
 
 /** 顶部：登录在学显示「继续上次的课」，否则显示插画横幅 */
-function MobileCoursesHero({ continueCourse, courseCount }: { continueCourse?: CourseListItem; courseCount: number }) {
+function MobileCoursesHero({ continueCourse }: { continueCourse?: CourseListItem }) {
   const next = continueCourse?.next_lesson
   if (continueCourse && next) {
     const theme = getCourseTheme(continueCourse)
@@ -231,7 +231,6 @@ function MobileCoursesHero({ continueCourse, courseCount }: { continueCourse?: C
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/courses/hero.webp" alt="" className={styles.heroImage} width={1200} height={400} />
       <div className={styles.heroText}>
-        <p className={styles.heroEyebrow}>技能课程 · {courseCount} 门</p>
         <h2 id="courses-hero-heading" aria-label={HERO_COPY.title}><HeroTitle text={HERO_COPY.title} emphasis={HERO_COPY.emphasis} /></h2>
         {HERO_COPY.subtitle ? <p className={styles.heroSub}>{HERO_COPY.subtitle}</p> : null}
       </div>
@@ -284,7 +283,7 @@ function MobileCourseHub({ courses, visible }: { courses: CourseListItem[]; visi
     <div className={styles.hub} data-course-hub data-mobile-courses>
       {courses.length > 0 ? (
         <>
-          <MobileCoursesHero continueCourse={continueCourse} courseCount={courses.length} />
+          <MobileCoursesHero continueCourse={continueCourse} />
           {ordered.map((course) => <CourseLessonSection key={course.id} course={course} />)}
         </>
       ) : (

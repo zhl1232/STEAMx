@@ -58,15 +58,15 @@ describe('手机端课程页：每门课露出课时', () => {
     expect(cards).toHaveLength(1)
     expect(cards[0].getAttribute('href')).toBe('/courses/7/lessons/702')
     expect(cards[0].textContent).toContain('第2课 · 变速风扇')
-    expect(screen.queryByRole('heading', { name: /坚持一小步/ })).toBeNull()
+    expect(screen.queryByRole('heading', { name: /每一步坚持/ })).toBeNull()
     expect(screen.getByRole('link', { name: '第1课 扁担（已完成）' })).toBeTruthy()
     expect(screen.getByRole('link', { name: '第2课 变速风扇' }).getAttribute('href')).toBe('/courses/7/lessons/702')
   })
 
   it('未登录显示横幅标题', () => {
     render(<CourseHub courses={[makeCourse({ id: 3, title: '五子棋博弈论入门', tags: ['五子棋'], preview_lessons: [lesson(1, 1, '认识棋盘')] })]} />)
-    expect(screen.getByRole('heading', { name: '坚持一小步，进步一大截' }).textContent).toBe('坚持一小步，进步一大截')
-    expect(screen.getByText('技能课程 · 1 门')).toBeTruthy()
+    expect(screen.getByRole('heading', { name: '每一步坚持，都算数。' }).textContent).toBe('每一步坚持，都算数。')
+    expect(screen.queryByText(/技能课程 · \d+ 门/)).toBeNull()
     expect(screen.queryByRole('link', { name: /^继续上次的课/ })).toBeNull()
   })
 })
