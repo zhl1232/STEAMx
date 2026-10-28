@@ -1021,9 +1021,9 @@ export function ExploreClient({
         return tags.length > 0 && tags.length === selectedTags.length && tags.every((t) => selectedTags.includes(t))
     })?.id ?? null
     const topicRow = (
-<div className="mb-3 flex items-center justify-between gap-3 max-md:mb-4">
+<div className="mb-3 flex items-center justify-between gap-3 max-md:mb-0">
                                         <div className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1 py-0.5 max-md:gap-2">
-                                            <span className="mr-1 shrink-0 text-[13px] font-medium text-muted-foreground md:hidden">主题</span>
+                                            <span className="mr-1 shrink-0 text-[14px] font-medium text-foreground md:hidden">主题</span>
                                             {EXPLORE_PRESETS.map((preset) => {
                                                 const isActive = preset.id === 'browse' ? activeListTabId === 'browse' : activeTopicId === preset.id
 
@@ -1149,7 +1149,7 @@ export function ExploreClient({
                 className="pointer-events-none absolute inset-x-0 top-[300px] hidden h-[560px] bg-[radial-gradient(ellipse_at_50%_0%,hsl(var(--brand-blue)/0.16),hsl(var(--app-canvas-soft)/0)_64%)] md:block"
             />
             <div className="relative z-10" aria-hidden={sheetOpen}>
-                <div className="app-shell-wide min-w-0 pt-3 md:px-8 md:pt-5">
+                <div className="app-shell-wide min-w-0 pt-1 md:px-8 md:pt-5">
                     <div className={cn("grid items-stretch gap-5", !isResultsMode && "xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]")}>
                         <main className={cn(
                             "relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg",
@@ -1179,7 +1179,7 @@ export function ExploreClient({
                                     {advancedFilterCount > 0 ? <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-amber))] px-1 text-[11px] font-bold text-[hsl(var(--brand-amber-foreground))]">{advancedFilterCount}</span> : null}
                                 </button>
                             </div>
-                            <div className="space-y-2.5 pt-1 max-md:space-y-4 max-md:pt-4 md:px-5 md:pt-4">
+                            <div className="space-y-2.5 pt-1 max-md:space-y-3 max-md:pt-0 md:px-5 md:pt-4">
                                 <span className="hidden text-[13px] font-semibold text-muted-foreground md:block">分类</span>
                                 <ExploreCategoryStrip
                                     categories={displayCategories}
@@ -1188,7 +1188,7 @@ export function ExploreClient({
                                     onSelect={handleCategoryClick}
                                 />
                                 {/* 手机：主题紧跟分类条，可与分类叠加（搜索时不显示）。 */}
-                                {isMobileLayout && !searchQuery ? <div className="pb-1">{topicRow}</div> : null}
+                                {isMobileLayout && !searchQuery ? <div className="pb-3.5">{topicRow}</div> : null}
                             </div>
                             <div className={cn(
                                 "bg-transparent",
