@@ -52,7 +52,7 @@ export function HomeWorksSection({ initialData }: { initialData: WorksBatch }) {
   return (
     <section className="min-w-0" aria-labelledby="home-works-heading">
       <div className="mb-2 flex items-center justify-between md:mb-3 md:min-h-11">
-        <h2 id="home-works-heading" className="text-[17px] font-extrabold text-foreground md:text-[20px]">
+        <h2 id="home-works-heading" className="text-[17px] font-extrabold text-foreground max-md:px-1 max-md:text-[18px] max-md:font-bold max-md:tracking-[0.01em] md:text-[20px]">
           大家的作品
         </h2>
         {works.length > 0 && canRotate ? (

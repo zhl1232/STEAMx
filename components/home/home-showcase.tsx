@@ -31,6 +31,13 @@ import {
 import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
+/** 手机端首图副标题：四个词各自是站内入口 */
+const heroTopicLinks = [
+  { label: "搭积木", href: MAINLINE_ENTRY_HREF },
+  { label: "做实验", href: "/learn/science" },
+  { label: "学编程", href: "/learn/scratch" },
+  { label: "观察自然", href: "/nature" },
+];
 const heroWideImage = "/assets/home-hero-steam-lake-banner.webp";
 const natureForegroundImage = "/assets/home-nature-channel-bird-foreground-v8.png";
 const leaderboardForegroundImage = "/assets/home-leaderboard-card-foreground-v2.png";
@@ -126,18 +133,21 @@ function HomeHero({ image }: { image: string }) {
             </h1>
 
             <p className="mt-2 max-w-[32rem] text-[14px] font-medium leading-6 text-foreground/85 md:mt-3 md:text-[15px] md:leading-7 lg:text-[16px]">
-              <span className="md:hidden">搭积木 · 做实验 · 学编程 · 观察自然</span>
+              <span className="md:hidden">
+                {heroTopicLinks.map((topic, index) => (
+                  <span key={topic.href}>
+                    {index > 0 ? " · " : null}
+                    <Link
+                      href={topic.href}
+                      className="-my-2.5 inline-block py-2.5 text-[hsl(var(--brand-blue))] [text-shadow:0_0_6px_rgba(255,255,255,0.6)] transition-opacity active:opacity-70 dark:text-[#9fd8ff] dark:[text-shadow:0_1px_2px_rgba(0,0,0,0.85),0_0_8px_rgba(0,0,0,0.55)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                      {topic.label}
+                    </Link>
+                  </span>
+                ))}
+              </span>
               <span className="hidden md:inline">{BRAND_HERO_SUBTITLE}</span>
             </p>
-
-            {/* On phones the card below remains the direct free-course entry. */}
-            <Link
-              href="/start"
-              className="mt-1 inline-flex min-h-11 w-fit items-center gap-1 text-sm font-semibold text-[hsl(var(--brand-blue))] underline-offset-4 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:hidden"
-            >
-              探索指南
-              <ChevronRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
           </div>
         </div>
       </div>
@@ -197,7 +207,7 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
             key={category.metaKey}
             href={category.href}
             className={cn(
-              "group flex min-h-[62px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.6)] px-2.5 py-2.5 text-left transition-colors hover:bg-[hsl(var(--surface-raised)/0.96)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3.5 lg:min-h-[88px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
+              "group flex min-h-[66px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.6)] max-md:relative max-md:border-[#e2e7ee] max-md:bg-[#f7f9fc] max-md:shadow-none max-md:dark:border-white/[0.12] max-md:dark:bg-white/[0.04] max-md:active:scale-[0.99] px-2.5 py-2.5 text-left transition-colors hover:bg-[hsl(var(--surface-raised)/0.96)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3.5 lg:min-h-[88px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
               "border-border/60",
             )}
           >
@@ -205,9 +215,9 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
               <Icon className={cn("h-5 w-5 md:h-[22px] md:w-[22px]", tone.text)} strokeWidth={2.2} />
             </span>
             <div className="min-w-0 flex-1">
-              <span className={cn("block whitespace-nowrap font-sans text-[12px] font-bold leading-none text-foreground md:text-[15px] min-[1480px]:text-[16px]")}>{category.labelOverride ?? meta.label}</span>
+              <span className={cn("block whitespace-nowrap font-sans text-[14px] font-bold leading-none text-foreground md:text-[15px] min-[1480px]:text-[16px]")}>{category.labelOverride ?? meta.label}</span>
               <p className="mt-1 hidden truncate text-[11px] text-muted-foreground min-[1480px]:block">{meta.description}</p>
-              <p className="mt-0.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground md:mt-1.5 md:text-[12px]">{countLabel}</p>
+              <p className="mt-0.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground max-md:hidden md:mt-1.5 md:text-[12px]">{countLabel}</p>
             </div>
           </Link>
         );
@@ -251,8 +261,13 @@ function MainlineStartCard({ className }: { className?: string }) {
 
 function StartExploreSection({ categoryTileCounts }: { categoryTileCounts: HomeCategoryTileCounts }) {
   return (
-    <section aria-labelledby="home-start-heading">
-      <h2 id="home-start-heading" className="mb-2 text-[17px] font-extrabold text-foreground md:mb-3 md:text-[20px]">
+    <section aria-labelledby="home-start-heading" className="max-md:relative">
+      {/* 手机端：借自然页的淡淡光晕点缀 */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-4 -top-6 h-32 w-40 rounded-full bg-[radial-gradient(closest-side,hsl(var(--brand-green)/0.12),transparent)] md:hidden"
+      />
+      <h2 id="home-start-heading" className="mb-2 text-[17px] font-extrabold text-foreground max-md:relative max-md:px-1 max-md:text-[18px] max-md:font-bold max-md:tracking-[0.01em] md:mb-3 md:text-[20px]">
         按兴趣探索
       </h2>
       <CategoryGrid categoryTileCounts={categoryTileCounts} />
@@ -350,7 +365,7 @@ function HomeNatureSection({ observations }: { observations: ObservationEvent[] 
     <section className="flex min-w-0 flex-col justify-between" aria-labelledby="home-nature-heading">
       <div>
         <div className="mb-2 flex items-center justify-between md:mb-3">
-          <h2 id="home-nature-heading" className="text-[17px] font-extrabold text-foreground md:text-[20px]">
+          <h2 id="home-nature-heading" className="text-[17px] font-extrabold text-foreground max-md:px-1 max-md:text-[18px] max-md:font-bold max-md:tracking-[0.01em] md:text-[20px]">
             自然观察
           </h2>
           <Link
@@ -515,11 +530,14 @@ export function HomeShowcase({
     <div className="app-canvas min-h-screen">
       <div className="app-shell-wide flex flex-col gap-2.5 pb-2.5 pt-1 min-[390px]:gap-3 min-[390px]:pb-3 min-[390px]:pt-1.5 md:gap-5 md:py-6 lg:gap-5">
         <HomeHero image={heroImage} />
-        <MobileShortcutCarousel>
-          <MainlineStartCard className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
-          <NatureChannel className="h-full" />
-          <LeaderboardEntry className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
-        </MobileShortcutCarousel>
+        {/* 手机端不显示快捷轮播（含圆点），桌面保持原样 */}
+        <div className="max-md:hidden md:contents">
+          <MobileShortcutCarousel>
+            <MainlineStartCard className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
+            <NatureChannel className="h-full" />
+            <LeaderboardEntry className="h-full min-h-[90px] min-[390px]:min-h-[94px]" />
+          </MobileShortcutCarousel>
+        </div>
 
         <StartExploreSection categoryTileCounts={categoryTileCounts} />
 

@@ -1,5 +1,6 @@
 "use client"
 
+import { ExploreSearchOverlay } from '@/components/explore/explore-search-overlay'
 import { Fragment, useState, useRef, useCallback, useEffect, useLayoutEffect, useMemo, type FormEvent, type MouseEvent } from 'react'
 import Link from 'next/link'
 import { buildExplorePageHref } from '@/lib/seo/explore-pagination'
@@ -206,6 +207,8 @@ export function ExploreClient({
     const [selectedTags, setSelectedTags] = useState<string[]>(initialTags)
     const [searchQuery, setSearchQuery] = useState(initialQuery)
     const [searchDraft, setSearchDraft] = useState(initialQuery)
+    const [searchOverlayOpen, setSearchOverlayOpen] = useState(false)
+    const closeSearchOverlay = useCallback(() => setSearchOverlayOpen(false), [])
     const searchComposingRef = useRef(false)
     const searchDraftRevisionRef = useRef(0)
     const searchDraftDirtyRef = useRef(false)
@@ -797,10 +800,9 @@ export function ExploreClient({
     const handleCategoryClick = (category: string) => {
         setSelectedCategory(category)
         setSelectedSubCategory("")
-        setSelectedTags([])
+        // 分类和主题是两个独立筛选（AND），切换分类保留主题；「全部」只清分类。
         setDraftSubCategory("")
-        setDraftTags([])
-        const params = buildSearchParams({ category, subCategory: "", tags: [] })
+        const params = buildSearchParams({ category, subCategory: "" })
         executeFilter(params)
     }
 
@@ -864,14 +866,18 @@ export function ExploreClient({
         executeFilter(buildSearchParams({ sortBy }))
     }
 
-    const handlePresetClick = (presetId: ExplorePresetId) => {
+    const handlePresetClick = (requestedId: ExplorePresetId) => {
+        // 主题只看标签，与排序无关：再点已选中的主题 = 取消主题；切主题保留当前排序。
+        const isToggleOff = requestedId !== 'browse' && activeTopicId === requestedId
+        const presetId: ExplorePresetId = isToggleOff ? 'browse' : requestedId
         const preset = EXPLORE_PRESETS.find((item) => item.id === presetId)
         if (!preset) return
 
+        const nextSortBy = requestedId === 'browse' ? preset.sortBy : selectedSortBy
         const presetTags = preset.tags ?? []
         const params = buildSearchParams({
             difficulty: preset.difficulty,
-            sortBy: preset.sortBy,
+            sortBy: nextSortBy,
             tags: presetTags,
         })
         if (serializeExploreFilterParams(params) === activeFiltersKeyRef.current) {
@@ -879,7 +885,7 @@ export function ExploreClient({
         }
 
         setSelectedDifficulty(preset.difficulty)
-        setSelectedSortBy(preset.sortBy)
+        setSelectedSortBy(nextSortBy)
         setDraftDifficulty(preset.difficulty)
         setSelectedTags(presetTags)
         setDraftTags(presetTags)
@@ -1003,7 +1009,61 @@ export function ExploreClient({
     }
 
     const activePresetId = detectActivePreset(getFilterState())
+    const [isMobileLayout, setIsMobileLayout] = useState(false)
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 767px)')
+        const update = () => setIsMobileLayout(mq.matches)
+        update()
+        mq.addEventListener('change', update)
+        return () => mq.removeEventListener('change', update)
+    }, [])
     const activeListTabId = isExploreListTabPreset(activePresetId) ? activePresetId : null
+    // 主题高亮只按标签判断（与排序无关），切到「最新」也保持高亮。
+    const activeTopicId: ExplorePresetId | null = EXPLORE_PRESETS.find((item) => {
+        const tags = item.tags ?? []
+        return tags.length > 0 && tags.length === selectedTags.length && tags.every((t) => selectedTags.includes(t))
+    })?.id ?? null
+    const topicRow = (
+<div className="mb-3 flex items-center justify-between gap-3 max-md:mb-0">
+                                        <div className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1 py-0.5 max-md:gap-2">
+                                            <span className="mr-1 shrink-0 text-[14px] font-medium text-foreground md:hidden">主题</span>
+                                            {EXPLORE_PRESETS.map((preset) => {
+                                                const isActive = preset.id === 'browse' ? activeListTabId === 'browse' : activeTopicId === preset.id
+
+                                                return (
+                                                    <FilterChip
+                                                        key={preset.id}
+                                                        onClick={() => handlePresetClick(preset.id)}
+                                                        disabled={isFiltering}
+                                                        aria-pressed={isActive}
+                                                        active={isActive}
+                                                        tone="primary"
+                                                        shape="pill"
+                                                        size="md"
+                                                        className={cn(
+                                                            preset.id === 'browse' && "max-md:hidden!", "h-11 min-w-[78px] px-3.5 text-[12px] font-semibold max-md:h-8 max-md:min-w-0 max-md:rounded-full max-md:border max-md:px-3.5 max-md:shadow-none! md:h-10 md:min-w-[96px] md:text-sm",
+                                                            isActive ? "max-md:border-[hsl(var(--brand-blue))]! max-md:bg-[hsl(var(--brand-blue)/0.1)]! max-md:text-[hsl(var(--brand-blue))]! dark:max-md:bg-[hsl(var(--brand-blue)/0.22)]!" : "max-md:border-[#e1e6ec]! max-md:bg-transparent! max-md:text-foreground! dark:max-md:border-white/25!",
+                                                            isActive
+                                                                ? "border-[hsl(var(--brand-blue)/0.42)] dark:border-[hsl(var(--brand-blue)/0.6)] bg-[hsl(var(--brand-blue)/0.1)] dark:bg-[hsl(var(--brand-blue)/0.18)] shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.5)] dark:shadow-[0_8px_20px_-12px_hsl(var(--brand-blue)/0.66)]"
+                                                                : "border-transparent bg-[hsl(var(--surface-raised)/0.66)] text-foreground/68 shadow-none md:bg-[hsl(var(--surface-muted)/0.58)]",
+                                                        )}
+                                                    >
+                                                        <span
+                                                            className={cn(
+                                                                "contents max-md:inline-flex max-md:items-center max-md:justify-center max-md:text-[14px] max-md:leading-none",
+                                                                isActive
+                                                                    ? "max-md:font-semibold max-md:text-[hsl(var(--brand-blue))]"
+                                                                    : "max-md:font-medium max-md:text-foreground",
+                                                            )}
+                                                        >
+                                                            {preset.label}
+                                                        </span>
+                                                    </FilterChip>
+                                                )
+                                            })}
+                                        </div>
+                                    </div>
+    )
     const activeListPreset = activeListTabId
         ? EXPLORE_PRESETS.find((item) => item.id === activeListTabId)
         : undefined
@@ -1027,7 +1087,7 @@ export function ExploreClient({
                 showUserButton={false}
                 className="bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--app-canvas)/0.92)_100%)] md:bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.88)_0%,hsl(var(--app-canvas)/0.72)_100%)] md:backdrop-blur-xl"
                 searchValue={searchDraft}
-                searchPlaceholder="搜索项目、材料、作者..."
+                searchPlaceholder="搜索项目"
                 onSearchChange={(value) => {
                     searchDraftRevisionRef.current += 1
                     searchDraftDirtyRef.current = true
@@ -1035,25 +1095,17 @@ export function ExploreClient({
                 }}
                 onSearchSubmit={(value) => void submitSearch(value)}
                 onSearchClear={clearSearch}
-                rightSlot={
-                    <button
-                        type="button"
-                        onClick={openSheet}
-                        data-testid="explore-more-filters"
-                        className={cn(
-                            "relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[hsl(var(--surface-border)/0.78)] bg-[hsl(var(--surface-raised)/0.82)] text-muted-foreground transition hover:text-foreground md:hidden",
-                            hasActiveAdvancedFilters && "border-[hsl(var(--brand-blue)/0.56)] bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]"
-                        )}
-                        aria-label="筛选条件"
-                    >
-                        <Filter className="h-4 w-4" strokeWidth={2.2} />
-                        {advancedFilterCount > 0 && (
-                            <span className="absolute -right-1 -top-1 grid h-4 min-w-4 shrink-0 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-1 text-[9px] font-bold leading-none text-[hsl(var(--brand-blue-foreground))]">
-                                {advancedFilterCount}
-                            </span>
-                        )}
-                    </button>
-                }
+                onSearchEntryClick={() => setSearchOverlayOpen(true)}
+            />
+            <ExploreSearchOverlay
+                open={searchOverlayOpen}
+                initialValue={searchQuery}
+                onClose={closeSearchOverlay}
+                onSubmit={(value) => {
+                    searchDraftRevisionRef.current += 1
+                    setSearchDraft(value)
+                    void submitSearch(value)
+                }}
             />
             <div
                 aria-hidden="true"
@@ -1092,7 +1144,7 @@ export function ExploreClient({
                 className="pointer-events-none absolute inset-x-0 top-[300px] hidden h-[560px] bg-[radial-gradient(ellipse_at_50%_0%,hsl(var(--brand-blue)/0.16),hsl(var(--app-canvas-soft)/0)_64%)] md:block"
             />
             <div className="relative z-10" aria-hidden={sheetOpen}>
-                <div className="app-shell-wide min-w-0 pt-6 md:px-8 md:pt-5">
+                <div className="app-shell-wide min-w-0 pt-1 md:px-8 md:pt-5">
                     <div className={cn("grid items-stretch gap-5", !isResultsMode && "xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]")}>
                         <main className={cn(
                             "relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg",
@@ -1122,7 +1174,7 @@ export function ExploreClient({
                                     {advancedFilterCount > 0 ? <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-amber))] px-1 text-[11px] font-bold text-[hsl(var(--brand-amber-foreground))]">{advancedFilterCount}</span> : null}
                                 </button>
                             </div>
-                            <div className="space-y-2.5 pt-3 md:px-5 md:pt-4">
+                            <div className="space-y-2.5 pt-1 max-md:space-y-3 max-md:pt-0 md:px-5 md:pt-4">
                                 <span className="hidden text-[13px] font-semibold text-muted-foreground md:block">分类</span>
                                 <ExploreCategoryStrip
                                     categories={displayCategories}
@@ -1130,6 +1182,8 @@ export function ExploreClient({
                                     disabled={isFiltering}
                                     onSelect={handleCategoryClick}
                                 />
+                                {/* 手机：主题紧跟分类条，可与分类叠加（搜索时不显示）。 */}
+                                {isMobileLayout && !searchQuery ? <div className="pb-3.5">{topicRow}</div> : null}
                             </div>
                             <div className={cn(
                                 "bg-transparent",
@@ -1154,6 +1208,7 @@ export function ExploreClient({
                                                     onClick={() => handleCategoryClick("全部")}
                                                     active
                                                     shape="pill"
+                                                    className="max-md:hidden"
                                                 >
                                                     {selectedCategory}
                                                     <X className="h-3 w-3" />
@@ -1207,6 +1262,7 @@ export function ExploreClient({
                                                     onClick={() => handleRemoveTag(tag)}
                                                     active
                                                     shape="pill"
+                                                    className={cn(activeTopicId && selectedTags.includes(tag) && "max-md:hidden")}
                                                 >
                                                     {tag}
                                                     <X className="h-3 w-3" />
@@ -1235,6 +1291,22 @@ export function ExploreClient({
                                                         {option.label}
                                                     </FilterChip>
                                                 ))}
+                                                <button
+                                                    type="button"
+                                                    onClick={openSheet}
+                                                    data-testid="explore-more-filters"
+                                                    aria-label="筛选条件"
+                                                    className={cn(
+                                                        "relative ml-1 inline-flex h-9 items-center gap-1.5 rounded-full border border-[#d5dbe3] px-3.5 text-[14px] font-semibold text-foreground dark:border-white/25 md:hidden",
+                                                        hasActiveAdvancedFilters && "border-[hsl(var(--brand-blue))]! bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]",
+                                                    )}
+                                                >
+                                                    <Filter className="h-4 w-4" strokeWidth={2.2} />
+                                                    筛选
+                                                    {advancedFilterCount > 0 ? (
+                                                        <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-1 text-[11px] font-bold leading-none text-[hsl(var(--brand-blue-foreground))]">{advancedFilterCount}</span>
+                                                    ) : null}
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -1261,60 +1333,14 @@ export function ExploreClient({
                                         </div>
                                     )}
 
-                                    {!isResultsMode ? (
-                                    <div className="mb-3 flex items-center justify-between gap-3">
-                                        <div className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1">
-                                            {EXPLORE_PRESETS.map((preset) => {
-                                                const isActive = activeListTabId === preset.id
-
-                                                return (
-                                                    <FilterChip
-                                                        key={preset.id}
-                                                        onClick={() => handlePresetClick(preset.id)}
-                                                        disabled={isFiltering}
-                                                        aria-pressed={isActive}
-                                                        active={isActive}
-                                                        tone="primary"
-                                                        shape="pill"
-                                                        size="md"
-                                                        className={cn(
-                                                            "h-11 min-w-[78px] px-3.5 text-[12px] font-semibold max-md:min-w-0 max-md:border-transparent! max-md:bg-transparent! max-md:p-0! max-md:shadow-none! max-md:text-inherit! md:h-10 md:min-w-[96px] md:text-sm",
-                                                            isActive
-                                                                ? "border-[hsl(var(--brand-blue)/0.42)] dark:border-[hsl(var(--brand-blue)/0.6)] bg-[hsl(var(--brand-blue)/0.1)] dark:bg-[hsl(var(--brand-blue)/0.18)] shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.5)] dark:shadow-[0_8px_20px_-12px_hsl(var(--brand-blue)/0.66)]"
-                                                                : "border-transparent bg-[hsl(var(--surface-raised)/0.66)] text-foreground/68 shadow-none md:bg-[hsl(var(--surface-muted)/0.58)]",
-                                                        )}
-                                                    >
-                                                        <span
-                                                            className={cn(
-                                                                "contents max-md:inline-flex max-md:h-8 max-md:min-w-[68px] max-md:items-center max-md:justify-center max-md:rounded-sm max-md:px-3 max-md:text-xs max-md:font-semibold max-md:leading-none max-md:transition-colors",
-                                                                isActive
-                                                                    ? "max-md:border max-md:border-[hsl(var(--brand-blue)/0.34)] max-md:bg-[hsl(var(--brand-blue)/0.1)] max-md:text-[hsl(var(--brand-blue))] max-md:shadow-none"
-                                                                    : "max-md:bg-[hsl(var(--surface-raised)/0.66)] max-md:text-foreground/68 max-md:hover:bg-[hsl(var(--surface-muted)/0.58)]",
-                                                            )}
-                                                        >
-                                                            {preset.label}
-                                                        </span>
-                                                    </FilterChip>
-                                                )
-                                            })}
-                                        </div>
-                                    </div>
-                                    ) : null}
+                                    {!isResultsMode && !isMobileLayout ? topicRow : null}
 
                                     {showMaterials ? (
                                         <HouseholdMaterialPicker selectedIds={ownedMaterialIds} onChange={updateOwnedMaterials} matchedCount={matchedProjectCount} />
                                     ) : null}
 
-                                    <div
-                                        data-testid="explore-project-grid"
-                                        className={cn(
-                                            EXPLORE_PROJECT_GRID_CLASS,
-                                            "transition-opacity duration-300",
-                                            isFiltering && "opacity-40 pointer-events-none"
-                                        )}
-                                        onClickCapture={handleExploreProjectLinkClick}
-                                    >
-                                        {displayedProjects.map((project, index) => {
+                                    {(() => {
+                                        const renderProject = (project: Project, index: number) => {
                                             const isPriority = index < 2
                                             const detailHref = buildProjectDetailHref(project.id)
                                             const card = (
@@ -1346,9 +1372,68 @@ export function ExploreClient({
                                                     {projectNode}
                                                 </Fragment>
                                             )
-                                        })}
+                                        }
+                                        if (!isMobileLayout || showMaterials || displayedProjects.length === 0) {
+                                            return (
+                                    <div
+                                        data-testid="explore-project-grid"
+                                        className={cn(
+                                            EXPLORE_PROJECT_GRID_CLASS,
+                                            "transition-opacity duration-300",
+                                            isFiltering && "opacity-40 pointer-events-none"
+                                        )}
+                                        onClickCapture={handleExploreProjectLinkClick}
+                                    >
+                                        {displayedProjects.map((project, index) => renderProject(project, index))}
 
                                     </div>
+
+                                            )
+                                        }
+                                        // 手机端：按项目已有分类分段；已选分类或搜索结果时只有一段。
+                                        const single = isResultsMode || selectedCategory !== '全部'
+                                        const groups: Array<{ key: string; items: Array<{ project: Project; index: number }> }> = []
+                                        displayedProjects.forEach((project, index) => {
+                                            const key = single ? '__single' : (project.category || '其他')
+                                            let group = groups.find(g => g.key === key)
+                                            if (!group) { group = { key, items: [] }; groups.push(group) }
+                                            group.items.push({ project, index })
+                                        })
+                                        const singleTitle = isResultsMode
+                                            ? (selectedCategory !== '全部' ? selectedCategory : '搜索结果')
+                                            : (activeListPreset?.label ?? selectedCategory)
+                                        return (
+                                            <div
+                                                data-testid="explore-project-grid"
+                                                className={cn("space-y-5 transition-opacity duration-300", isFiltering && "pointer-events-none opacity-40")}
+                                                onClickCapture={handleExploreProjectLinkClick}
+                                            >
+                                                {groups.map(group => {
+                                                    const title = group.key === '__single' ? singleTitle : group.key
+                                                    const canLinkAll = group.key !== '__single' && displayCategories.includes(group.key)
+                                                    return (
+                                                        <section key={group.key} aria-label={title} className="explore-group border-t border-[hsl(var(--surface-border))] pt-5 first:border-t-0 first:pt-0">
+                                                            <div className="mb-3 flex items-center justify-between gap-3">
+                                                                <h2 className="font-heading text-[18px] font-bold leading-6 tracking-[0.01em] text-foreground">{title}</h2>
+                                                                {canLinkAll && !isMobileLayout ? (
+                                                                    <a
+                                                                        href={`/explore?category=${encodeURIComponent(group.key)}`}
+                                                                        onClick={(event) => { event.preventDefault(); handleCategoryClick(group.key) }}
+                                                                        className="shrink-0 text-[14px] font-semibold text-[hsl(var(--brand-blue))]"
+                                                                    >
+                                                                        全部 ›
+                                                                    </a>
+                                                                ) : null}
+                                                            </div>
+                                                            <div className="grid grid-cols-2 items-stretch gap-2 [&_.explore-card>div]:border-transparent! [&_.explore-card>div]:bg-white dark:[&_.explore-card>div]:bg-white/[0.05]">
+                                                                {group.items.map(({ project, index }) => renderProject(project, index))}
+                                                            </div>
+                                                        </section>
+                                                    )
+                                                })}
+                                            </div>
+                                        )
+                                    })()}
 
                                     {restoreError && (
                                         <div role="alert" className="mt-4 flex items-center justify-center gap-3 text-sm">

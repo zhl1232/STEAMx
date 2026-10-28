@@ -4,7 +4,8 @@ import { createHash } from 'node:crypto';
 // merely compared to each other: a previously changed graph cannot silently qualify.
 const HOME_SOURCES = new Map([
   ['components/home/home-showcase.tsx', {
-    shape: '92e2f1b7c48e19b9aebb46fa54433790597907b3fe40f4ee088566d2751d2fe7', boundary: 'const heroImage =', prefix: '41d4853169745db37c0b8e5957c655ac5394b891c326903649da664c58e841bd',
+    // Structure reviewed again at 245edced; imports and homepage-only consumers are unchanged.
+    shape: '76bdf6b676ef8cc7e317caa57af585d353b22264394b1e75f14952919b82d835', boundary: 'const heroImage =', prefix: '41d4853169745db37c0b8e5957c655ac5394b891c326903649da664c58e841bd',
   }],
   ['components/home/mobile-shortcut-carousel.tsx', {
     shape: '81dae3bcb7a9ae4b4f9d118504544405cc838cf39e1e60a3a3ea559c8095b941', boundary: 'interface MobileShortcutCarouselProps', prefix: '12809eb3fd7fe3afb4c39d6d2cf012cb859cbfc98ea5893595572a4bbe7cc8d9',

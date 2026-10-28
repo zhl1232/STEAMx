@@ -26,7 +26,7 @@ Release 复用 `ci.yml`，先查找同内容的已通过 PR 检查；证据匹�
 
 ### 基础检查和专项选择
 
-`scripts/ci-scope.mjs` 继续区分精确文档白名单、经过指纹核验的 home-ui 与其他应用变更。文档白名单仅有 `AGENTS.md`、`README.md`、`PROJECT_INDEX.md`、`docs/README.md`、`docs/deployment.md` 的普通文件；不能因 `.md` 后缀或位于 `docs/` 就跳过基础检查。home-ui 的两份首页组件仍要求导入及展示结构指纹匹配，不扩展为任意 UI 白名单。
+`scripts/ci-scope.mjs` 继续区分精确文档白名单、经过指纹核验的 home-ui 与其他应用变更。文档白名单仅有 `AGENTS.md`、`README.md`、`PROJECT_INDEX.md`、`docs/README.md`、`docs/deployment.md` 的普通文件；不能因 `.md` 后缀或位于 `docs/` 就跳过基础检查。home-ui 的两份首页组件仍要求导入及展示结构指纹匹配，不扩展为任意 UI 白名单。结构调整后须重新核对消费者和依赖，才能替换该组件的单一批准指纹；不同时保留旧指纹。旧结构到新结构的过渡提交仍按 `full` 检查，只有比较两端均匹配新指纹的后续展示调整才可使用 home-ui。
 
 | 检查 | 执行范围 |
 |---|---|

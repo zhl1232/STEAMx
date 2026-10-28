@@ -50,6 +50,7 @@ export const PROFILE_ACTION_GRID_ICONS = {
   shop: '/assets/profile-icons/action-shop.webp',
   invite: '/assets/profile-icons/action-invite.webp',
   messages: '/assets/profile-icons/action-messages.webp',
+  leaderboard: '/assets/profile-icons/timeline-achievement.webp',
 } as const
 
 const TIMELINE_TO_SPOT: Record<ProfileTimelineIconName, ProfileSpotIconName> = {

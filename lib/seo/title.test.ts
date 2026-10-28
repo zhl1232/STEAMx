@@ -38,7 +38,7 @@ describe("site title template", () => {
   });
 
   it("formats titles with exactly one brand suffix", () => {
-    expect(formatDocumentTitle("七巧板 在线拼图")).toBe("七巧板 在线拼图 | 创探空间");
+    expect(formatDocumentTitle("数独 在线九宫格解谜")).toBe("数独 在线九宫格解谜 | 创探空间");
     expect(formatDocumentTitle("探索指南 | 创探空间")).toBe("探索指南 | 创探空间");
     expect(formatDocumentTitle("探索指南｜创探空间")).toBe("探索指南 | 创探空间");
     expect(formatDocumentTitle("LDraw 3D 预览工作台 · 创探空间")).toBe("LDraw 3D 预览工作台 | 创探空间");
@@ -47,17 +47,17 @@ describe("site title template", () => {
   });
 
   it("keeps the brand suffix on nested segments (layout title no longer drops the template)", () => {
-    // Before: /playground layout set a plain string, so /playground/tangram rendered just "七巧板".
-    expect(resolveChain(rootMetadata.title as TitleInput, "游乐场", "七巧板")).toBe("七巧板");
+    // Before: /playground layout set a plain string, so /playground/sudoku rendered just "数独".
+    expect(resolveChain(rootMetadata.title as TitleInput, "游乐场", "数独")).toBe("数独");
 
     const playgroundLayout = buildPageMetadata({ title: "游乐场 在线益智小游戏", description: "d", path: "/playground" });
-    const tangram = buildPlaygroundMetadata("/playground/tangram");
+    const sudoku = buildPlaygroundMetadata("/playground/sudoku");
     expect(resolveChain(rootMetadata.title as TitleInput, playgroundLayout.title as TitleInput)).toBe(
       "游乐场 在线益智小游戏 | 创探空间",
     );
     expect(
-      resolveChain(rootMetadata.title as TitleInput, playgroundLayout.title as TitleInput, tangram.title as TitleInput),
-    ).toBe("七巧板 在线拼图 | 创探空间");
+      resolveChain(rootMetadata.title as TitleInput, playgroundLayout.title as TitleInput, sudoku.title as TitleInput),
+    ).toBe("数独 在线九宫格解谜 | 创探空间");
     // A plain string child below a builder-made layout still gets exactly one suffix.
     expect(resolveChain(rootMetadata.title as TitleInput, buildSegmentTitle("游乐场"), "某子页")).toBe("某子页 | 创探空间");
   });

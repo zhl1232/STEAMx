@@ -69,7 +69,7 @@ describe("PlaygroundPage", () => {
             expect(screen.getByRole("heading", { name: new RegExp(name) })).toBeInTheDocument()
         }
         expect(screen.getAllByRole("link", { name: /物理实验室/ }).every((link) => link.getAttribute("href") === "/playground/physics-lab")).toBe(true)
-        expect(screen.getByRole("link", { name: /3D 物理课本/ })).toHaveAttribute("href", "/textbook")
+        expect(screen.getAllByRole("link", { name: /3D 物理课本/ }).every((link) => link.getAttribute("href") === "/textbook")).toBe(true)
         expect(container.querySelectorAll('article')).toHaveLength(PLAYGROUND_DISCOVERY.length)
         for (const slug of ["2048", "fifteen", "quickmath"]) {
             expect(container.querySelector(`a[href="/playground/${slug}"]`)).toBeNull()
@@ -131,12 +131,12 @@ describe("PlaygroundPage", () => {
         expect(storageState.get("quick_math_stats")).toEqual(quickMath)
     })
 
-    it("offers family guidance and reflects the actual function-wars campaign and challenge counts", async () => {
+    it("keeps cards short and reflects the actual function-wars campaign and challenge counts", async () => {
         const { FUNCTION_WARS_CAMPAIGN_LEVELS, FUNCTION_WARS_CHALLENGE_LEVELS } = await import("@/lib/playground/function-wars-levels")
         render(<PlaygroundPage />)
-        expect(screen.getAllByText("一起试试")).toHaveLength(5)
+        expect(screen.queryByText("一起试试")).not.toBeInTheDocument()
+        expect(screen.queryByText(/陪玩与延伸/)).not.toBeInTheDocument()
+        expect(screen.queryByText(/建议 .* · 参考/)).not.toBeInTheDocument()
         expect(screen.getByText("改变函数观察弹道，探索 " + FUNCTION_WARS_CAMPAIGN_LEVELS.length + " 个战役关与 " + FUNCTION_WARS_CHALLENGE_LEVELS.length + " 个挑战关。")).toBeInTheDocument()
-        expect(screen.getByText("进入扫雷解局学 · 9 课")).toHaveAttribute("href", "/playground/minesweeper/course")
-        expect(screen.getByText("用纸片或积木复现，再给家长出一道题。")).toBeInTheDocument()
     })
 })

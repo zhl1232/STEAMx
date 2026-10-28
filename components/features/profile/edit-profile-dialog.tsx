@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
-import { ChevronLeft, X } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { ProfileEditor, type ProfileEditorHandle, type ProfileEditorTarget } from './profile-editor'
@@ -25,10 +26,12 @@ interface EditProfileDialogProps {
   onOpenChange?: (open: boolean) => void
   initialTarget?: ProfileEditorTarget
   onCloseAutoFocus?: (event: Event) => void
+  /** 传入后在「公开资料」标题右侧显示「预览公开主页 ›」，跳到 /users/{id} */
+  publicProfileUserId?: string | null
 }
 
 export function EditProfileDialog({
-  children, open: controlledOpen, onOpenChange, initialTarget = 'overview', onCloseAutoFocus,
+  children, open: controlledOpen, onOpenChange, initialTarget = 'overview', onCloseAutoFocus, publicProfileUserId,
 }: EditProfileDialogProps) {
   const [internalOpen, setInternalOpen] = useState(false)
   const [viewport, setViewport] = useState<{ height: number; top: number } | null>(null)
@@ -44,6 +47,31 @@ export function EditProfileDialog({
   const requestClose = () => {
     if (editorRef.current) editorRef.current.requestLeave(close)
     else close()
+  }
+  const router = useRouter()
+  const previewPublicProfile = () => {
+    if (!publicProfileUserId) return
+    const href = `/users/${publicProfileUserId}`
+    const leave = () => {
+      // 关弹窗时会 history.back() 去掉弹窗标记；等它落定再跳，避免新页面被 back 弹掉
+      const hadMarker = historyPushedRef.current
+      close()
+      if (!hadMarker) {
+        router.push(href)
+        return
+      }
+      let done = false
+      const go = () => {
+        if (done) return
+        done = true
+        window.removeEventListener('popstate', go)
+        router.push(href)
+      }
+      window.addEventListener('popstate', go)
+      window.setTimeout(go, 400)
+    }
+    if (editorRef.current) editorRef.current.requestLeave(leave)
+    else leave()
   }
 
   useEffect(() => {
@@ -129,7 +157,23 @@ export function EditProfileDialog({
             <X className="hidden h-5 w-5 md:block" />
           </button>
         </DialogHeader>
-        <ProfileEditor ref={editorRef} mode="dialog" initialTarget={initialTarget} onSaved={close} onCancel={close} />
+        <ProfileEditor
+          ref={editorRef}
+          mode="dialog"
+          initialTarget={initialTarget}
+          onSaved={close}
+          onCancel={close}
+          publicHeadingAction={publicProfileUserId ? (
+            <button
+              type="button"
+              onClick={previewPublicProfile}
+              className="-mr-2 inline-flex min-h-11 items-center gap-0.5 rounded-md px-2 text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              预览公开主页
+              <ChevronRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+          ) : undefined}
+        />
       </DialogContent>
     </Dialog>
   )

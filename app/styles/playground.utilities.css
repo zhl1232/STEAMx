@@ -431,6 +431,28 @@
   }
 }
 
+@keyframes balance-beam-swing {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  28% {
+    transform: rotate(var(--balance-tilt, 0deg));
+  }
+
+  52% {
+    transform: rotate(calc(var(--balance-tilt, 0deg) * -0.35));
+  }
+
+  74% {
+    transform: rotate(calc(var(--balance-tilt, 0deg) * 1.05));
+  }
+
+  100% {
+    transform: rotate(var(--balance-tilt, 0deg));
+  }
+}
+
 @keyframes balance-result-pulse {
   0%,
   100% {
@@ -450,6 +472,10 @@
   animation: balance-stage-settle 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+@utility balance-beam-swing {
+  animation: balance-beam-swing 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 @utility balance-result-pulse {
   animation: balance-result-pulse 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -465,7 +491,29 @@
   .ball-sort-victory-glow,
   .balance-coin-pop,
   .balance-stage-settle,
+  .balance-beam-swing,
   .balance-result-pulse {
     animation: none;
+  }
+}
+
+/*
+ * 手机端可读性与触控兜底：游戏页里遗留的 10–13px 小字统一抬到 14/15px，
+ * 按钮至少 44px。棋盘等密集区域加 data-dense 跳过（格子尺寸由各自计算）。
+ */
+@media (max-width: 1023px) {
+  [data-playground-main] :where(.text-xs, .text-\[10px\], .text-\[11px\], .text-\[12px\], .text-\[13px\]):not(:where([data-dense], [data-dense] *)) {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  [data-playground-main] :where(.text-sm):not(:where([data-dense], [data-dense] *)) {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  [data-playground-main] :where(button, [role="tab"], a.inline-flex):not(:where([data-dense], [data-dense] *)) {
+    min-height: 44px;
+  }
+  [data-playground-main] :where(button[aria-label], button:has(> svg:only-child)):not(:where([data-dense], [data-dense] *)) {
+    min-width: 44px;
   }
 }

@@ -1,6 +1,15 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage"
 import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader"
+import {
+  checkGame24Rule,
+  DEFAULT_GAME24_LEVEL,
+  GAME24_CLEAR_WINS,
+  getGame24Level,
+  isGame24LevelUnlocked,
+  type Game24Level,
+  type Game24Op,
+} from "@/lib/playground/game24-levels"
 
 // ── Types ─────────────────────────────────────────────────────────────
 
@@ -19,6 +28,8 @@ export type Game24Stats = {
   bestStreak: number
   bestTime: number | null
   averageTime: number | null
+  /** 每个难度关卡答对的轮数 */
+  levelWins: Record<string, number>
 }
 
 export type Game24Round = {
@@ -43,6 +54,7 @@ const EMPTY_STATS: Game24Stats = {
   bestStreak: 0,
   bestTime: null,
   averageTime: null,
+  levelWins: {},
 }
 
 // ── Stats persistence ─────────────────────────────────────────────────
@@ -57,6 +69,7 @@ function loadStats(): Game24Stats {
     bestStreak: p.bestStreak ?? 0,
     bestTime: p.bestTime ?? null,
     averageTime: p.averageTime ?? null,
+    levelWins: p.levelWins && typeof p.levelWins === 'object' ? p.levelWins : {},
   }
 }
 
@@ -92,8 +105,7 @@ function fmt(a: string, op: string, b: string): string {
   return `(${a} ${op} ${b})`
 }
 
-function solve24(nums: number[]): string[] {
-  const ops = ['+', '-', '*', '/']
+function solve24(nums: number[], target = 24, ops: string[] = ['+', '-', '*', '/']): string[] {
   const solutions = new Set<string>()
   const perms = getPermutations(nums)
 
@@ -109,7 +121,7 @@ function solve24(nums: number[]): string[] {
             let r2 = applyOp(r1, op2, c)
             if (r2 !== null) {
               let r3 = applyOp(r2, op3, d)
-              if (r3 !== null && Math.abs(r3 - 24) < EPSILON) {
+              if (r3 !== null && Math.abs(r3 - target) < EPSILON) {
                 solutions.add(fmt(fmt(fmt(sa, op1, sb), op2, sc), op3, sd))
               }
             }
@@ -121,7 +133,7 @@ function solve24(nums: number[]): string[] {
             let r2 = applyOp(a, op1, r1)
             if (r2 !== null) {
               let r3 = applyOp(r2, op3, d)
-              if (r3 !== null && Math.abs(r3 - 24) < EPSILON) {
+              if (r3 !== null && Math.abs(r3 - target) < EPSILON) {
                 solutions.add(fmt(fmt(sa, op1, fmt(sb, op2, sc)), op3, sd))
               }
             }
@@ -132,7 +144,7 @@ function solve24(nums: number[]): string[] {
           let r2 = applyOp(c, op3, d)
           if (r1 !== null && r2 !== null) {
             let r3 = applyOp(r1, op2, r2)
-            if (r3 !== null && Math.abs(r3 - 24) < EPSILON) {
+            if (r3 !== null && Math.abs(r3 - target) < EPSILON) {
               solutions.add(fmt(fmt(sa, op1, sb), op2, fmt(sc, op3, sd)))
             }
           }
@@ -143,7 +155,7 @@ function solve24(nums: number[]): string[] {
             r2 = applyOp(r1, op3, d)
             if (r2 !== null) {
               let r3 = applyOp(a, op1, r2)
-              if (r3 !== null && Math.abs(r3 - 24) < EPSILON) {
+              if (r3 !== null && Math.abs(r3 - target) < EPSILON) {
                 solutions.add(fmt(sa, op1, fmt(fmt(sb, op2, sc), op3, sd)))
               }
             }
@@ -155,7 +167,7 @@ function solve24(nums: number[]): string[] {
             r2 = applyOp(b, op2, r1)
             if (r2 !== null) {
               let r3 = applyOp(a, op1, r2)
-              if (r3 !== null && Math.abs(r3 - 24) < EPSILON) {
+              if (r3 !== null && Math.abs(r3 - target) < EPSILON) {
                 solutions.add(fmt(sa, op1, fmt(sb, op2, fmt(sc, op3, sd))))
               }
             }
@@ -174,6 +186,11 @@ function makeCard(value: number, suit: Card24['suit']): Card24 {
   return { value, suit, label: VALUE_LABELS[value] }
 }
 
+/** 本关可行解：按目标和运算符求解，再按挑战规则过滤 */
+export function solveForLevel(nums: number[], level: Game24Level): string[] {
+  return solve24(nums, level.target, level.ops as Game24Op[] as string[]).filter((expr) => checkGame24Rule(expr, level) === null)
+}
+
 export function create24RoundFromValues(values: number[]): Game24Round {
   if (values.length !== 4 || values.some((value) => !Number.isInteger(value) || value < 1 || value > 13)) {
     throw new Error('24 点牌面必须是 4 个 1-13 之间的整数')
@@ -186,15 +203,15 @@ export function create24RoundFromValues(values: number[]): Game24Round {
   return { cards, solutions }
 }
 
-function generateCards(): Game24Round {
+function generateCards(level: Game24Level = getGame24Level(DEFAULT_GAME24_LEVEL)): Game24Round {
   for (;;) {
     const cards: Card24[] = []
     for (let i = 0; i < 4; i++) {
-      const value = Math.floor(Math.random() * 13) + 1
+      const value = Math.floor(Math.random() * level.maxValue) + 1
       const suit = SUITS[Math.floor(Math.random() * 4)]
       cards.push(makeCard(value, suit))
     }
-    const solutions = solve24(cards.map((c) => c.value))
+    const solutions = solveForLevel(cards.map((c) => c.value), level)
     if (solutions.length > 0) return { cards, solutions }
   }
 }
@@ -296,7 +313,9 @@ function extractNumbers(expr: string): number[] {
 export function validate24Expression(
   expr: string,
   cardValues: number[],
+  level?: Game24Level,
 ): { valid: boolean; result: number; error?: string } {
+  const target = level?.target ?? 24
   if (!/^[\dAJQKajqk+\-*/×÷() ]+$/.test(expr)) {
     return { valid: false, result: 0, error: '表达式包含无效字符' }
   }
@@ -326,11 +345,13 @@ export function validate24Expression(
     if (p < normalizedExpr.length) {
       return { valid: false, result: 0, error: '表达式语法错误' }
     }
-    const isCorrect = Math.abs(result.value - 24) < EPSILON
+    const isCorrect = Math.abs(result.value - target) < EPSILON
+    const ruleError = isCorrect && level ? checkGame24Rule(normalizedExpr, level) : null
+    if (ruleError) return { valid: false, result: result.value, error: ruleError }
     return {
       valid: isCorrect,
       result: result.value,
-      error: isCorrect ? undefined : `表达式结果为 ${result.value}，不等于 24`,
+      error: isCorrect ? undefined : `表达式结果为 ${Number.isInteger(result.value) ? result.value : result.value.toFixed(2)}，不等于 ${target}`,
     }
   } catch (e) {
     return {
@@ -344,6 +365,10 @@ export function validate24Expression(
 // ── React Hook ────────────────────────────────────────────────────────
 
 export function use24Game(timerDuration = 60) {
+  const [levelId, setLevelId] = useState(DEFAULT_GAME24_LEVEL)
+  const level = getGame24Level(levelId)
+  const levelRef = useRef(level)
+  levelRef.current = level
   const initialRoundRef = useRef<{ cards: Card24[]; solutions: string[] } | null>(null)
   if (initialRoundRef.current === null) {
     initialRoundRef.current = generateCards()
@@ -356,6 +381,7 @@ export function use24Game(timerDuration = 60) {
   const [round, setRound] = useState(1)
   const [streak, setStreak] = useState(0)
   const [solutions, setSolutions] = useState<string[]>([])
+  const [hintLevel, setHintLevel] = useState(0)
   const [stats, setStats] = useState<Game24Stats>(() => ({ ...EMPTY_STATS }))
 
   usePlaygroundStatsLoader(() => setStats(loadStats()))
@@ -408,12 +434,14 @@ export function use24Game(timerDuration = 60) {
 
   const beginRound = useCallback((
     nextRound: number | ((prev: number) => number),
-    roundData: Game24Round = generateCards(),
+    roundData?: Game24Round,
   ) => {
+    roundData ??= generateCards(levelRef.current)
     const { cards: newCards, solutions: newSolutions } = roundData
     setCards(newCards)
     solutionsRef.current = newSolutions
     setSolutions([])
+    setHintLevel(0)
     setStatus('playing')
     setTimeLeft(timerDuration)
     setRound(nextRound)
@@ -430,6 +458,9 @@ export function use24Game(timerDuration = 60) {
   }, [beginRound])
 
   const loadRoundFromValues = useCallback((values: number[], nextRound = 1) => {
+    // 在线竞速固定用经典 24 点规则
+    setLevelId(DEFAULT_GAME24_LEVEL)
+    levelRef.current = getGame24Level(DEFAULT_GAME24_LEVEL)
     setStreak(0)
     beginRound(nextRound, create24RoundFromValues(values))
   }, [beginRound])
@@ -440,7 +471,7 @@ export function use24Game(timerDuration = 60) {
         return { success: false, error: '当前不在游戏中' }
       }
 
-      const validation = validate24Expression(expr, cards.map((c) => c.value))
+      const validation = validate24Expression(expr, cards.map((c) => c.value), level)
       if (!validation.valid) {
         return { success: false, error: validation.error }
       }
@@ -469,6 +500,7 @@ export function use24Game(timerDuration = 60) {
               ? solveTime
               : Math.min(prev.bestTime, solveTime),
           averageTime: newAvgTime,
+          levelWins: { ...prev.levelWins, [level.id]: (prev.levelWins[level.id] ?? 0) + 1 },
         }
         saveStats(next)
         return next
@@ -476,7 +508,7 @@ export function use24Game(timerDuration = 60) {
 
       return { success: true }
     },
-    [cards, clearTimer, status, streak, timerDuration, timeLeft],
+    [cards, clearTimer, level, status, streak, timerDuration, timeLeft],
   )
 
   const skipRound = useCallback(() => {
@@ -496,7 +528,50 @@ export function use24Game(timerDuration = 60) {
     })
   }, [clearTimer, status])
 
+  const getHintText = useCallback((): string | null => {
+    const sols = solutionsRef.current
+    if (!sols.length) return null
+    const sample = sols[0]
+    if (hintLevel <= 0) return null
+    if (hintLevel === 1) {
+      // Reveal first operator / grouping idea from sample
+      const nums = cards.map((c) => c.value)
+      if (!level.ops.includes('*')) {
+        const sum = nums.reduce((a, b) => a + b, 0)
+        return `提示：四张牌加起来是 ${sum}，比 ${level.target} ${sum > level.target ? `多 ${sum - level.target}` : sum < level.target ? `少 ${level.target - sum}` : '正好'}。把哪张牌改成“减”能补上差距？（减一张牌，总和会少它的 2 倍）`
+      }
+      if (level.requireDivision) return `提示：先找两张牌相除得到整数或分数，例如 8÷2=4、6÷3=2，再想办法凑 24。手上是 ${nums.join('、')}。`
+      const factors = [3, 4, 6, 8, 2, 12].filter((f) => 24 % f === 0)
+      return `提示：试试把 24 拆成两个整数相乘，例如 ${factors.slice(0, 3).map((f) => `${f}×${24 / f}`).join('、')}。手上是 ${nums.join('、')}。`
+    }
+    if (hintLevel === 2) {
+      // Reveal half the expression
+      const mid = Math.ceil(sample.length / 2)
+      return `提示：解法开头类似 ${sample.slice(0, mid)}…`
+    }
+    return `提示：一种完整解法是 ${sample} = ${level.target}`
+  }, [cards, hintLevel, level])
+
+  const requestHint = useCallback(() => {
+    if (status !== 'playing') return
+    setHintLevel((prev) => Math.min(prev + 1, 3))
+  }, [status])
+
+  const selectLevel = useCallback((id: string) => {
+    const next = getGame24Level(id)
+    if (!isGame24LevelUnlocked(next, stats.levelWins)) return
+    setLevelId(next.id)
+    levelRef.current = next
+    setStreak(0)
+    beginRound(1, generateCards(next))
+  }, [beginRound, stats.levelWins])
+
   return {
+    level,
+    levelWins: stats.levelWins,
+    clearWins: GAME24_CLEAR_WINS,
+    isLevelUnlocked: (target: Game24Level) => isGame24LevelUnlocked(target, stats.levelWins),
+    selectLevel,
     cards,
     status,
     timeLeft,
@@ -504,6 +579,9 @@ export function use24Game(timerDuration = 60) {
     streak,
     stats,
     solutions,
+    hintLevel,
+    getHintText,
+    requestHint,
     submitExpression,
     skipRound,
     newGame,

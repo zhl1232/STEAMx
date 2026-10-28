@@ -53,7 +53,7 @@ test('技能课程页 smoke', async ({ page }) => {
 
 test('游乐场页 smoke', async ({ page }) => {
   await expectHealthyPage(page, '/playground')
-  await expect(page.getByRole('heading', { name: "一起玩，把好奇带回生活" })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '游乐场', exact: true, level: 1 })).toBeVisible()
 })
 
 for (const width of [390, 1440]) {
@@ -61,17 +61,17 @@ for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/playground', { waitUntil: 'domcontentloaded' })
     await waitForRecordedPageView(page, '/playground')
-    await expect(page.locator('#playground-create').getByRole('heading', { name: '七巧板' })).toBeVisible()
+    await expect(page.locator('#playground-create').getByRole('heading', { name: '数织' })).toBeVisible()
     await expect(page.locator('#playground-more a[href="/playground/sudoku"]')).not.toBeVisible()
     await page.locator('#playground-more > summary').click()
     await expect(page.locator('#playground-more a[href="/playground/sudoku"]')).toBeVisible()
-    for (const game of ['2048', 'fifteen', 'quickmath']) {
+    for (const game of ['2048', 'fifteen', 'quickmath', 'tangram', 'symmetry', 'ballsort']) {
       await expect(page.locator(`a[href="/playground/${game}"]`)).toHaveCount(0)
     }
     await page.getByRole('searchbox', { name: '搜索游乐场玩法' }).fill('数独')
     await expect(page.locator('#main-content').getByRole('link', { name: /数独/ })).toBeVisible()
     await expect(page.getByRole('heading', { name: '搜索结果 · 1 个玩法' })).toBeVisible()
-    for (const name of ['2048', '数字华容道', '速算']) {
+    for (const name of ['2048', '数字华容道', '速算', '七巧板', '像素对称', '球排序']) {
       await page.getByRole('searchbox', { name: '搜索游乐场玩法' }).fill(name)
       await expect(page.getByText(/没找到这个玩法/)).toBeVisible()
     }
@@ -80,7 +80,7 @@ for (const width of [390, 1440]) {
 }
 
 test('游乐场已删除玩法直达返回 404', { tag: '@smoke-playground' }, async ({ request }) => {
-  for (const game of ['2048', 'fifteen', 'quickmath']) {
+  for (const game of ['2048', 'fifteen', 'quickmath', 'tangram', 'symmetry', 'ballsort']) {
     const response = await request.get(`/playground/${game}`)
     expect(response.status()).toBe(404)
   }

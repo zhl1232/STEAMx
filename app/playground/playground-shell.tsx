@@ -8,7 +8,6 @@ import {
     Brain,
     Calculator,
     ChevronRight,
-    Columns2,
     Compass,
     Crosshair,
     Crown,
@@ -17,12 +16,9 @@ import {
     Hash,
     Home,
     Layers,
-    Medal,
-    Palette,
     Scale,
     TableCellsSplit,
     TestTubes,
-    Touchpad,
     type LucideIcon,
 } from "lucide-react"
 import Link from "next/link"
@@ -30,7 +26,7 @@ import { usePathname } from "next/navigation"
 
 import { GameHelp, type GameHelpShortcut } from "@/components/features/playground/game-help"
 import { UserButton } from "@/components/layout/user-button"
-import { categoryToneClasses, type CategoryTone } from "@/components/ui/tone-badge"
+import { type CategoryTone } from "@/components/ui/tone-badge"
 import { usePlaygroundSync } from "@/hooks/playground/use-playground-sync"
 import { cn } from "@/lib/utils"
 import { PLAYGROUND_DISCOVERY, PLAYGROUND_DISCOVERY_BY_HREF, PLAYGROUND_GROUPS } from "@/lib/playground/catalog"
@@ -149,9 +145,9 @@ const games: PlaygroundNavItem[] = [
         nameEn: "Memory",
         href: "/playground/memory",
         icon: Brain,
-        description: "工作记忆与图案联想",
-        mission: "记住图案位置，翻出所有配对。",
-        controls: "点击两张卡牌，配对成功后会保持翻开。",
+        description: "物理与数学概念配对",
+        mission: "把名词和对应的解释翻成一对。",
+        controls: "点两张牌：紫色是名词，黄色是解释。",
         badgeGoal: "完成高难度翻牌可解锁记忆达人。",
         color: "text-fuchsia-500 dark:text-fuchsia-300",
         steamTags: ["Science", "Arts"],
@@ -169,18 +165,6 @@ const games: PlaygroundNavItem[] = [
         steamTags: ["Technology", "Science"],
     },
     {
-        name: "七巧板",
-        nameEn: "Tangram",
-        href: "/playground/tangram",
-        icon: Palette,
-        description: "几何拼合与空间想象",
-        mission: "拖拽七块拼图，拼出目标剪影。",
-        controls: "拖拽移动，单击旋转 45°，双击翻转平行四边形。",
-        badgeGoal: "完成所有剪影挑战。",
-        color: "text-violet-500 dark:text-violet-300",
-        steamTags: ["Arts", "Math"],
-    },
-    {
         name: "数织",
         nameEn: "Nonogram",
         href: "/playground/nonogram",
@@ -193,18 +177,6 @@ const games: PlaygroundNavItem[] = [
         steamTags: ["Math", "Arts"],
     },
     {
-        name: "球排序",
-        nameEn: "Ball Sort",
-        href: "/playground/ballsort",
-        icon: TestTubes,
-        description: "10 关状态空间与中转规划",
-        mission: "把同色球倒进同一试管并填满。",
-        controls: "先点源管再点目标管倾倒，空管可作中转。",
-        badgeGoal: "刷新 10 关最少步数。",
-        color: "text-cyan-500 dark:text-cyan-300",
-        steamTags: ["Engineering", "Math"],
-    },
-    {
         name: "天平称重",
         nameEn: "Balance",
         href: "/playground/balance",
@@ -215,18 +187,6 @@ const games: PlaygroundNavItem[] = [
         badgeGoal: "用更少称量通关。",
         color: "text-teal-500 dark:text-teal-300",
         steamTags: ["Science", "Math"],
-    },
-    {
-        name: "像素对称",
-        nameEn: "Symmetry",
-        href: "/playground/symmetry",
-        icon: Columns2,
-        description: "半图镜像与坐标对应",
-        mission: "观察锁定样本半边，在挑战半边补出镜像图案。",
-        controls: "点击挑战半边填色或清除；样本半边不可编辑，误点会压低星级。",
-        badgeGoal: "完成全部镜像挑战并刷新星级。",
-        color: "text-pink-500 dark:text-pink-300",
-        steamTags: ["Arts", "Math"],
     },
     {
         name: "函数战争",
@@ -293,29 +253,15 @@ const GAME_SHORTCUTS: Record<string, GameHelpShortcut[]> = {
         { key: "← / A", label: "向地图左方移动" },
         { key: "手机箭头", label: "直接控制地图上的移动方向" },
     ],
-    "/playground/tangram": [
-        { key: "拖拽", label: "移动拼图片" },
-        { key: "单击", label: "旋转 45°" },
-        { key: "双击", label: "翻转平行四边形" },
-    ],
     "/playground/nonogram": [
         { key: "点击 / 滑动", label: "连续填色或标叉" },
         { key: "模式按钮", label: "切换填色与叉号" },
-    ],
-    "/playground/ballsort": [
-        { key: "点击源管", label: "拿起顶部同色球" },
-        { key: "点击目标管", label: "倒入可用试管" },
     ],
     "/playground/balance": [
         { key: "左盘 / 右盘", label: "选择当前投放托盘" },
         { key: "点击硬币", label: "放入当前托盘或从原盘移除" },
         { key: "称量", label: "比较两侧重量" },
         { key: "指认", label: "选择你认为的假币" },
-    ],
-    "/playground/symmetry": [
-        { key: "样本半边", label: "观察锁定图案" },
-        { key: "挑战半边", label: "手动补出镜像" },
-        { key: "误点", label: "可修正但影响星级" },
     ],
     "/playground/functionwars": [
         { key: "输入 f(x)", label: "定义炮弹相对炮口的轨迹" },
@@ -348,18 +294,6 @@ function GameNavGlyph({
                         <text x="8" y="13" className="fill-slate-400 text-[4px] font-black">3</text>
                     </>
                 )
-            case "/playground/ballsort":
-                return (
-                    <>
-                        <rect x="5" y="25" width="22" height="2" rx="1" className="fill-cyan-800/25 dark:fill-cyan-100/25" />
-                        <path d="M8 7 V22 Q8 26 12 26 H13 Q17 26 17 22 V7" className="fill-cyan-50 stroke-cyan-700/55 dark:fill-cyan-950 dark:stroke-cyan-100/50" strokeWidth="1.4" />
-                        <path d="M17 7 V22 Q17 26 21 26 H22 Q26 26 26 22 V7" className="fill-cyan-50 stroke-cyan-700/55 dark:fill-cyan-950 dark:stroke-cyan-100/50" strokeWidth="1.4" />
-                        <circle cx="12.5" cy="21.5" r="2.2" className="fill-rose-500" />
-                        <circle cx="12.5" cy="16.4" r="2.2" className="fill-sky-500" />
-                        <circle cx="21.5" cy="21.5" r="2.2" className="fill-emerald-500" />
-                        <circle cx="21.5" cy="16.4" r="2.2" className="fill-amber-400" />
-                    </>
-                )
             case "/playground/balance":
                 return (
                     <>
@@ -368,20 +302,6 @@ function GameNavGlyph({
                         <path d="M8 12 L5 19 H12 Z" className="fill-teal-500 dark:fill-teal-300" />
                         <path d="M25 10 L21 17 H29 Z" className="fill-amber-400 dark:fill-amber-300" />
                         <rect x="11" y="25" width="10" height="2.5" rx="1.2" className="fill-teal-800 dark:fill-teal-100" />
-                    </>
-                )
-            case "/playground/symmetry":
-                return (
-                    <>
-                        <rect x="5" y="5" width="22" height="22" rx="5" className="fill-pink-50 stroke-pink-200 dark:fill-pink-950 dark:stroke-pink-200/20" />
-                        <path d="M16 7 V25" className="stroke-pink-500 dark:stroke-pink-300" strokeWidth="1.2" strokeDasharray="2 2" />
-                        {[9, 14, 19].map((y) => (
-                            <rect key={`l-${y}`} x="9" y={y} width="4" height="4" rx="0.8" className="fill-rose-500 dark:fill-rose-300" />
-                        ))}
-                        {[9, 14, 19].map((y) => (
-                            <rect key={`r-${y}`} x="19" y={y} width="4" height="4" rx="0.8" className="fill-sky-500 dark:fill-sky-300" />
-                        ))}
-                        <rect x="14" y="14" width="4" height="4" rx="0.8" className="fill-rose-500 dark:fill-rose-300" />
                     </>
                 )
             default:
@@ -410,14 +330,6 @@ function GameNavGlyph({
 function MobilePlaygroundHeader() {
     const pathname = usePathname()
     const isHome = pathname === "/playground"
-    const isFunctionWars = pathname === "/playground/functionwars"
-    const navItems = [
-        { name: "首页", href: "/playground", icon: Home },
-        { name: "物理实验室", href: "/playground/physics-lab", icon: TestTubes },
-        { name: "3D 物理课本", href: "/textbook", icon: BookOpen },
-        ...publicGames.filter((game) => PLAYGROUND_DISCOVERY_BY_HREF.get(game.href)?.featured || pathname.startsWith(game.href)),
-        { name: "更多玩法", href: "/playground#playground-more", icon: Grid3X3 },
-    ]
     const activeGame = games.find((game) => pathname.startsWith(game.href))
 
     return (
@@ -450,30 +362,8 @@ function MobilePlaygroundHeader() {
                         shortcuts={GAME_SHORTCUTS[activeGame.href] ?? []}
                     />
                 ) : null}
-                <div className="flex min-w-11 shrink-0 justify-end md:hidden"><UserButton compact /></div>
+                <div className="flex min-w-11 shrink-0 justify-end md:hidden [&_a]:min-h-11 [&_a]:text-[15px] [&_button]:min-h-11 [&_button]:min-w-11 [&_button]:text-[15px]"><UserButton compact /></div>
             </nav>
-            {!isHome && !isFunctionWars ? (
-                <nav className="flex gap-2 overflow-x-auto px-3 pb-2.5 no-scrollbar" aria-label="游乐场游戏导航">
-                    {navItems.filter((item) => item.href !== "/playground").map((item) => {
-                        const active = item.href !== "/playground" && pathname.startsWith(item.href)
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={cn(
-                                    "inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-full px-4 text-sm font-bold transition-colors",
-                                    active
-                                        ? "bg-primary text-primary-foreground shadow-xs"
-                                        : "bg-muted text-foreground hover:bg-muted/70",
-                                )}
-                            >
-                                <item.icon className="h-4 w-4" aria-hidden />
-                                {item.name}
-                            </Link>
-                        )
-                    })}
-                </nav>
-            ) : null}
         </div>
     )
 }
@@ -489,7 +379,7 @@ function DesktopSidebar() {
                 href={game.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                    "group flex min-h-[54px] items-center gap-3 rounded-md px-3 transition-colors",
+                    "group flex min-h-11 items-center gap-3 rounded-md px-3 transition-colors",
                     active
                         ? "bg-primary/10 text-foreground ring-1 ring-inset ring-primary/20"
                         : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",
@@ -498,25 +388,7 @@ function DesktopSidebar() {
                 <GameNavGlyph href={game.href} icon={game.icon} active={active} />
                 <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-bold">{game.name}</span>
-                    <span className="block truncate text-xs text-muted-foreground">{game.nameEn || game.description}</span>
                 </span>
-                {game.steamTags?.length ? (
-                    <span
-                        className="flex items-center gap-1 rounded-full bg-muted px-1.5 py-1"
-                        title={game.steamTags.map((tag) => STEAM_DOT_META[tag].label).join(" / ")}
-                        aria-label={`STEAM 维度：${game.steamTags.map((tag) => STEAM_DOT_META[tag].label).join("、")}`}
-                    >
-                        {game.steamTags.map((tag) => (
-                            <span
-                                key={`${game.href}-${tag}`}
-                                className={cn(
-                                    "h-1.5 w-1.5 rounded-full",
-                                    categoryToneClasses[STEAM_DOT_META[tag].tone].badge,
-                                )}
-                            />
-                        ))}
-                    </span>
-                ) : null}
             </Link>
         )
     }
@@ -531,12 +403,11 @@ function DesktopSidebar() {
                         </span>
                         <div>
                             <h2 className="font-sans text-lg font-black">游乐场</h2>
-                            <p className="mt-0.5 text-xs leading-4 text-muted-foreground">进度登录后自动同步</p>
                         </div>
                     </div>
                 </div>
 
-                <nav className="flex h-[calc(100%-7.5rem)] flex-col gap-1.5 overflow-y-auto pr-1 no-scrollbar" aria-label="游乐场游戏导航">
+                <nav className="flex h-[calc(100%-4rem)] flex-col gap-1 overflow-y-auto pr-1 no-scrollbar" aria-label="游乐场游戏导航">
                     <Link
                         href="/playground"
                         aria-current={pathname === "/playground" ? "page" : undefined}
@@ -550,11 +421,11 @@ function DesktopSidebar() {
                         <Home className="h-5 w-5" />
                         首页
                     </Link>
-                    <Link href="/playground/physics-lab" className="group flex min-h-[54px] items-center gap-3 rounded-md px-3 text-sm font-bold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground">
+                    <Link href="/playground/physics-lab" className="group flex min-h-11 items-center gap-3 rounded-md px-3 text-sm font-bold text-foreground/80 transition-colors hover:bg-muted/60 hover:text-foreground">
                         <TestTubes className="h-5 w-5" aria-hidden />
                         物理实验室
                     </Link>
-                    <Link href="/textbook" className="group flex min-h-[54px] items-center gap-3 rounded-md px-3 text-sm font-bold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground">
+                    <Link href="/textbook" className="group flex min-h-11 items-center gap-3 rounded-md px-3 text-sm font-bold text-foreground/80 transition-colors hover:bg-muted/60 hover:text-foreground">
                         <BookOpen className="h-5 w-5" aria-hidden />
                         3D 物理课本
                     </Link>
@@ -562,95 +433,19 @@ function DesktopSidebar() {
                         const entries = publicGames.filter((game) => PLAYGROUND_DISCOVERY_BY_HREF.get(game.href)?.group === group.id)
                         return group.id === "more" ? (
                             <details key={group.id} open={entries.some((game) => pathname.startsWith(game.href)) || undefined}>
-                                <summary className="min-h-11 cursor-pointer px-3 py-3 text-xs font-semibold text-muted-foreground">{group.title}</summary>
+                                <summary className="min-h-11 cursor-pointer px-3 py-3 text-sm font-semibold text-foreground/70">{group.title}</summary>
                                 {entries.map(renderGame)}
                             </details>
                         ) : (
                             <div key={group.id}>
-                                <p className="px-3 pb-1 pt-4 text-xs font-semibold text-muted-foreground">{group.title}</p>
+                                <p className="px-3 pb-1 pt-4 text-sm font-semibold text-foreground/70">{group.title}</p>
                                 {entries.map(renderGame)}
                             </div>
                         )
                     })}
                 </nav>
-
-                <div className="mt-4">
-                    <div className="surface-subtle px-3 py-3 text-center">
-                        <p className="text-xs font-semibold leading-5 text-muted-foreground">
-                            一起玩，说说为什么
-                            <br />
-                            把好奇带回生活
-                        </p>
-                    </div>
-                </div>
             </div>
         </aside>
-    )
-}
-
-function MissionHintCard({
-    kicker,
-    icon: Icon,
-    tone,
-    children,
-}: {
-    kicker: string
-    icon: LucideIcon
-    tone: CategoryTone
-    children: string
-}) {
-    const toneClass = categoryToneClasses[tone]
-
-    return (
-        <div className={cn("flex min-w-0 items-start gap-3 rounded-sm px-3 py-3", toneClass.bg)}>
-            <span
-                className={cn(
-                    "grid h-10 w-10 shrink-0 place-items-center rounded-sm bg-background/80",
-                    toneClass.text,
-                )}
-            >
-                <Icon className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-                <div className={cn("text-xs font-bold", toneClass.text)}>{kicker}</div>
-                <p className="mt-0.5 text-sm font-semibold leading-6 text-foreground md:truncate">{children}</p>
-            </div>
-        </div>
-    )
-}
-
-function GameMissionCards({ game }: { game: PlaygroundNavItem }) {
-    const Icon = game.icon
-
-    return (
-        <div className="grid gap-2 p-3 sm:gap-3 lg:grid-cols-3">
-            <MissionHintCard kicker="本局目标" icon={Icon} tone="tech">
-                {game.mission}
-            </MissionHintCard>
-            <MissionHintCard kicker="操作提示" icon={Touchpad} tone="science">
-                {game.controls}
-            </MissionHintCard>
-            <MissionHintCard kicker="下一枚徽章" icon={Medal} tone="engineering">
-                {game.badgeGoal}
-            </MissionHintCard>
-        </div>
-    )
-}
-
-function GameMissionBar({ game }: { game: PlaygroundNavItem }) {
-    return (
-        <section className="hidden pt-3 lg:block lg:px-8 lg:pt-5">
-            <details className="surface-panel group xl:hidden">
-                <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3.5 [&::-webkit-details-marker]:hidden">
-                    <span className="text-sm font-black">本局提示</span>
-                    <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition group-open:rotate-90" />
-                </summary>
-                <GameMissionCards game={game} />
-            </details>
-            <div className="surface-panel hidden xl:block">
-                <GameMissionCards game={game} />
-            </div>
-        </section>
     )
 }
 
@@ -672,9 +467,8 @@ export default function PlaygroundLayout({ children }: { children: React.ReactNo
             <MobilePlaygroundHeader />
             <div className="relative app-shell-wide flex w-full max-md:px-0">
                 <DesktopSidebar />
-                <main className="relative min-w-0 flex-1 overflow-x-hidden pb-28 lg:pb-0">
+                <main data-playground-main className="relative min-w-0 flex-1 overflow-x-hidden pb-28 lg:pb-0">
                     <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_0%,hsl(var(--brand-blue)/0.12),transparent_34%),radial-gradient(circle_at_88%_8%,hsl(var(--brand-green)/0.12),transparent_30%),linear-gradient(180deg,hsl(var(--app-canvas)),hsl(var(--background))_78%)]" />
-                    {activeGame && pathname !== "/playground/functionwars" ? <GameMissionBar game={activeGame} /> : null}
                     {children}
                 </main>
             </div>

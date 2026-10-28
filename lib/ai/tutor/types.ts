@@ -30,11 +30,8 @@ export const TUTOR_PLAYGROUND_GAME_KEYS = [
   'nqueens',
   'memory',
   'maze',
-  'tangram',
   'nonogram',
-  'ballsort',
   'balance',
-  'symmetry',
   'functionwars',
 ] as const
 export type TutorPlaygroundGameKey = (typeof TUTOR_PLAYGROUND_GAME_KEYS)[number]

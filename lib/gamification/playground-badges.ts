@@ -138,11 +138,8 @@ function countPlaygroundGamesPlayed(args: {
   nqueens: Record<string, unknown>
   memory: Record<string, unknown>
   maze: Record<string, unknown>
-  tangramSolvedLevels: string[]
   nonogramSolvedLevels: string[]
-  ballSortSolvedLevels: string[]
   balanceSolvedLevels: string[]
-  symmetrySolvedLevels: string[]
   functionWars: Record<string, unknown>
   functionWarsSolvedLevels: string[]
 }): number {
@@ -156,11 +153,8 @@ function countPlaygroundGamesPlayed(args: {
   if (getNumber(args.nqueens, "manualSolves") > 0) count++
   if (hasPlayedGame(getNumber(args.memory, "totalGames"), getNumber(args.memory, "wins"))) count++
   if (hasPlayedGame(getNumber(args.maze, "totalGames"), getNumber(args.maze, "wins"))) count++
-  if (args.tangramSolvedLevels.length > 0) count++
   if (args.nonogramSolvedLevels.length > 0) count++
-  if (args.ballSortSolvedLevels.length > 0) count++
   if (args.balanceSolvedLevels.length > 0) count++
-  if (args.symmetrySolvedLevels.length > 0) count++
   if (hasPlayedGame(getNumber(args.functionWars, "totalGames"), getNumber(args.functionWars, "onlineGames")) || args.functionWarsSolvedLevels.length > 0) count++
   return count
 }
@@ -176,11 +170,8 @@ function sumPlaygroundWins(args: {
   memory: Record<string, unknown>
   maze: Record<string, unknown>
   lifeChallengesSolved: number
-  tangramSolved: number
   nonogramSolved: number
-  ballSortSolved: number
   balanceSolved: number
-  symmetrySolved: number
   functionWarsSolved: number
   functionWarsChallengeSolved: number
   functionWarsOnlineWins: number
@@ -195,11 +186,8 @@ function sumPlaygroundWins(args: {
     getNumber(args.memory, "wins") +
     getNumber(args.maze, "wins") +
     args.lifeChallengesSolved +
-    args.tangramSolved +
     args.nonogramSolved +
-    args.ballSortSolved +
     args.balanceSolved +
-    args.symmetrySolved +
     args.functionWarsSolved +
     args.functionWarsChallengeSolved +
     args.functionWarsOnlineWins
@@ -224,19 +212,13 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
   const nqueens = getRecord(source, "nqueens_stats")
   const memory = getRecord(source, "memory_match_stats")
   const maze = getRecord(source, "maze_runner_stats")
-  const tangram = getRecord(source, "tangram_stats")
   const nonogram = getRecord(source, "nonogram_stats")
-  const ballSort = getRecord(source, "ball_sort_stats")
   const balance = getRecord(source, "balance_stats")
-  const symmetry = getRecord(source, "symmetry_stats")
   const functionWars = getRecord(source, "function_wars_stats")
 
   const game24BestTime = game24.bestTime
-  const tangramSolvedLevels = getStringArray(tangram, "solvedLevels")
   const nonogramSolvedLevels = getStringArray(nonogram, "solvedLevels")
-  const ballSortSolvedLevels = getStringArray(ballSort, "solvedLevels")
   const balanceSolvedLevels = getStringArray(balance, "solvedLevels")
-  const symmetrySolvedLevels = getStringArray(symmetry, "solvedLevels")
   const functionWarsSolvedLevels = [...new Set(getStringArray(functionWars, "solvedLevels"))]
   const functionWarsChallengeSolved = functionWarsSolvedLevels.filter((id) => id.startsWith("challenge-")).length
   const functionWarsCampaignSolved = functionWarsSolvedLevels.length - functionWarsChallengeSolved
@@ -253,11 +235,8 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     nqueens,
     memory,
     maze,
-    tangramSolvedLevels,
     nonogramSolvedLevels,
-    ballSortSolvedLevels,
     balanceSolvedLevels,
-    symmetrySolvedLevels,
     functionWars,
     functionWarsSolvedLevels,
   })
@@ -272,11 +251,8 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     memory,
     maze,
     lifeChallengesSolved,
-    tangramSolved: tangramSolvedLevels.length,
     nonogramSolved: nonogramSolvedLevels.length,
-    ballSortSolved: ballSortSolvedLevels.length,
     balanceSolved: balanceSolvedLevels.length,
-    symmetrySolved: symmetrySolvedLevels.length,
     functionWarsSolved: functionWarsCampaignSolved,
     functionWarsChallengeSolved,
     functionWarsOnlineWins: getNumber(functionWars, "onlineWins"),
@@ -303,11 +279,8 @@ export function buildPlaygroundUserStats(playgroundStats: unknown): UserStats {
     nqueensManualSolves: getNumber(nqueens, "manualSolves"),
     memoryWins: getNumber(memory, "wins"),
     mazeWins: getNumber(maze, "wins"),
-    tangramSolved: tangramSolvedLevels.length,
     nonogramSolved: nonogramSolvedLevels.length,
-    ballSortSolved: ballSortSolvedLevels.length,
     balanceSolved: balanceSolvedLevels.length,
-    symmetrySolved: symmetrySolvedLevels.length,
     functionWarsSolved: functionWarsCampaignSolved,
     functionWarsChallengeSolved,
     functionWarsOnlineWins: getNumber(functionWars, "onlineWins"),

@@ -5,11 +5,11 @@ import { buildAbsoluteUrl } from '@/lib/seo/site'
 
 describe('buildPlaygroundMetadata', () => {
   it('keeps each public game on its own canonical URL', () => {
-    const metadata = buildPlaygroundMetadata('/playground/tangram')
+    const metadata = buildPlaygroundMetadata('/playground/sudoku')
 
-    expect(metadata.title).toEqual({ absolute: '七巧板 在线拼图 | 创探空间', template: '%s | 创探空间' })
-    expect(metadata.alternates?.canonical).toBe(buildAbsoluteUrl('/playground/tangram'))
-    expect(metadata.openGraph?.url).toBe(buildAbsoluteUrl('/playground/tangram'))
+    expect(metadata.title).toEqual({ absolute: '数独 在线九宫格解谜 | 创探空间', template: '%s | 创探空间' })
+    expect(metadata.alternates?.canonical).toBe(buildAbsoluteUrl('/playground/sudoku'))
+    expect(metadata.openGraph?.url).toBe(buildAbsoluteUrl('/playground/sudoku'))
   })
 
   it('supports the nested minesweeper course canonical', () => {
@@ -33,7 +33,7 @@ describe('playground document titles', () => {
       return title.absolute
     })
     expect(new Set(titles).size).toBe(titles.length)
-    expect(buildPlaygroundMetadata('/playground/tangram').title).toMatchObject({ absolute: '七巧板 在线拼图 | 创探空间' })
+    expect(buildPlaygroundMetadata('/playground/sudoku').title).toMatchObject({ absolute: '数独 在线九宫格解谜 | 创探空间' })
   })
 })
 

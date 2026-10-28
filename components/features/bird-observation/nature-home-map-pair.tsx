@@ -203,8 +203,8 @@ export function NatureHomeMapPair({
 
       {/* 桌面端：优雅的宽屏左右联动面板 */}
       <section className="nature-section-card nature-home-map-panel hidden overflow-hidden p-0 md:block">
-        <div className="flex items-center justify-between gap-2 border-b border-[hsl(var(--surface-border)/0.6)] px-5 py-2.5">
-          <h2 className="section-kicker tracking-normal">最近观察</h2>
+        <div className="flex items-center justify-between gap-2 border-b border-[hsl(var(--surface-border)/0.6)] px-5 py-3">
+          <h2 className="text-lg font-bold text-foreground">最近观察</h2>
           <Link
             href="/nature/observations"
             className="nature-link relative z-1 -my-3.5 -mx-2 inline-flex h-11 shrink-0 items-center gap-0.5 px-2 text-sm"
@@ -214,11 +214,11 @@ export function NatureHomeMapPair({
           </Link>
         </div>
         <div className="grid gap-0 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-          <div className="relative">
+          <div className="relative h-[300px] lg:h-auto lg:min-h-[400px]">
             <DomesticMiniMap
               markers={markers}
-              heightClassName="h-[300px] lg:h-[560px]"
-              className="rounded-xs border border-[#cfe3d5] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] dark:border-[#274d37] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+              heightClassName="h-full lg:absolute lg:inset-0"
+              className="rounded-none border-0"
               defaultCenter={BEIJING_CENTER}
               defaultZoom={10}
               fitMode="default"
@@ -227,7 +227,7 @@ export function NatureHomeMapPair({
               onMarkerHover={setHoveredId}
             />
           </div>
-          <div className="relative overflow-hidden border-t border-[hsl(var(--surface-border)/0.6)] max-h-[320px] overflow-y-auto bg-transparent lg:max-h-[560px] lg:border-l lg:border-t-0">
+          <div className="nature-thin-scroll relative flex max-h-[320px] flex-col overflow-y-auto border-t border-[hsl(var(--surface-border)/0.6)] lg:max-h-[560px] lg:border-l lg:border-t-0">
             {observations.length === 0 ? (
               <div className="flex h-full min-h-[200px] flex-col items-center justify-center gap-3 px-6 py-10 text-center">
                 <Leaf className="h-8 w-8 text-muted-foreground" />
@@ -240,7 +240,7 @@ export function NatureHomeMapPair({
                 </Link>
               </div>
             ) : (
-              <ul className="divide-y divide-border/40">
+              <ul className="flex flex-1 flex-col divide-y divide-[hsl(var(--surface-border)/0.6)]">
                 {observations.map((observation) => {
                   const id = String(observation.id)
                   const isActive = id === hoveredId
@@ -248,7 +248,7 @@ export function NatureHomeMapPair({
                   const suggestedLabel = getSuggestedSpeciesLabel(observation)
 
                   return (
-                    <li key={observation.id}>
+                    <li key={observation.id} className="flex flex-1">
                       <Link
                         href={`/nature/observations/${observation.id}`}
                         ref={(el) => {
@@ -259,7 +259,7 @@ export function NatureHomeMapPair({
                         onMouseLeave={() => setHoveredId(null)}
                         onFocus={() => setHoveredId(id)}
                         onBlur={() => setHoveredId(null)}
-                        className={`group flex items-center gap-3.5 px-4 py-3 transition-colors duration-200 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary ${
+                        className={`group flex w-full items-center gap-3.5 px-4 py-3 transition-colors duration-200 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary ${
                           isActive ? "bg-[hsl(var(--status-info-surface)/0.6)] shadow-xs" : "hover:bg-[hsl(var(--surface-raised)/0.8)]"
                         }`}
                       >
@@ -291,7 +291,7 @@ export function NatureHomeMapPair({
                                 </span>
                               )}
                             </p>
-                            <span className="shrink-0 text-[11px] text-muted-foreground/75">
+                            <span className="shrink-0 text-xs text-muted-foreground">
                               {formatDate(observation.createdAt)}
                             </span>
                           </div>

@@ -171,7 +171,7 @@ export default function SudokuPage() {
             <div className="playground-game-main playground-game-center relative overflow-hidden">
                 <div className="max-w-full lg:max-w-max w-full playground-game-board relative">
                     {/* Header */}
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6">
+                    <div className="hidden sm:flex flex-row items-center justify-between gap-3 mb-6">
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
                                 <Grid3X3 className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
@@ -188,7 +188,7 @@ export default function SudokuPage() {
                         <Button
                             size="icon"
                             variant="outline"
-                            className="rounded-full h-11 w-11 self-end sm:h-8 sm:w-8 sm:self-auto"
+                            className="rounded-full h-8 w-8"
                             onClick={() => newGame()}
                             aria-label="新游戏"
                             title="新游戏"
@@ -198,7 +198,7 @@ export default function SudokuPage() {
                     </div>
 
                     {/* Controls bar */}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-sm border border-border shadow-inner">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 sm:mb-6 sm:bg-background/60 sm:p-4 sm:rounded-sm sm:border sm:border-border sm:shadow-inner">
                         {/* Difficulty selector */}
                         <div className="flex items-center gap-1 bg-primary/10 p-1 rounded-xs border border-primary/20">
                             {(["easy", "medium", "hard"] as SudokuDifficulty[]).map((d) => (
@@ -207,7 +207,7 @@ export default function SudokuPage() {
                                     onClick={() => newGame(d)}
                                     disabled={isPlaying}
                                 className={cn(
-                                        "min-h-11 px-3 py-1.5 text-xs font-bold rounded-xs transition-all sm:min-h-0",
+                                        "min-h-11 px-3.5 py-1.5 text-[15px] font-bold rounded-xs transition-all sm:min-h-0 sm:text-xs",
                                         difficulty === d
                                             ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
                                             : "text-muted-foreground hover:text-foreground hover:bg-accent",
@@ -232,7 +232,17 @@ export default function SudokuPage() {
                         <div className="flex-1" />
 
                         {/* Action buttons */}
-                        <div className="flex items-center gap-1">
+                        <div className="flex w-full items-center justify-between gap-1 sm:w-auto sm:justify-start">
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                className="h-11 w-11 rounded-xs sm:hidden"
+                                onClick={() => newGame()}
+                                aria-label="新游戏"
+                                title="新游戏"
+                            >
+                                <RotateCcw className="w-4 h-4" aria-hidden />
+                            </Button>
                             <Button
                                 variant="outline"
                                 size="icon"
@@ -262,6 +272,7 @@ export default function SudokuPage() {
                                 onClick={checkErrors}
                                 disabled={status === "won"}
                                 title="检查错误"
+                                aria-label="检查错误"
                             >
                                 <CheckCircle2 className="w-3 h-3" />
                                 <span className="hidden sm:inline">检查</span>
@@ -273,6 +284,7 @@ export default function SudokuPage() {
                                 onClick={solve}
                                 disabled={status === "won"}
                                 title="显示答案"
+                                aria-label="显示答案"
                             >
                                 <Eye className="w-3 h-3" />
                                 <span className="hidden sm:inline">答案</span>
@@ -281,11 +293,8 @@ export default function SudokuPage() {
                     </div>
 
                     {/* Board */}
-                    <p id="sudoku-scroll-hint" className="mb-2 text-center text-xs leading-5 text-muted-foreground sm:hidden">
-                        左右滑动棋盘可查看全部 9 列，格子保持原大小。
-                    </p>
-                    <div className="w-full overflow-x-auto touch-pan-x pb-2" tabIndex={0} role="region" aria-describedby="sudoku-scroll-hint" aria-label="数独棋盘，可横向滑动查看完整 9×9 棋盘">
-                        <div className="relative w-max bg-background/40 rounded-md p-1.5 sm:p-2.5 border border-border shadow-xl">
+                    <div data-dense className="flex w-full justify-center pb-2 [--sd-cell:min(44px,calc((100vw-60px)/9))]" role="region" aria-label="数独棋盘">
+                        <div className="relative w-max bg-background/40 rounded-md p-0.5 sm:p-2.5 border border-border shadow-xl">
                             <div
                                 className="grid"
                                 style={{ gridTemplateColumns: "repeat(9, 1fr)" }}
@@ -333,8 +342,8 @@ export default function SudokuPage() {
                                                 })}
                                                 aria-pressed={isSelected}
                                                 className={cn(
-                                                    "w-11 h-11 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center text-sm sm:text-base md:text-lg transition-colors duration-100 select-none relative",
-                                                    "border-border/60 border-r border-b",
+                                                    "relative flex h-(--sd-cell) w-(--sd-cell) items-center justify-center text-lg font-bold transition-colors duration-100 select-none sm:h-11 sm:w-11 md:h-14 md:w-14 md:text-xl",
+                                                    "border-r border-b border-border/60",
                                                     thickLeft
                                                         ? "border-l-2 border-l-foreground/30"
                                                         : "border-l-0",
@@ -346,9 +355,9 @@ export default function SudokuPage() {
                                                     !thickLeft && "border-l border-l-border/40",
                                                     !thickTop && "border-t border-t-border/40",
                                                     isSelected
-                                                        ? "bg-primary/20 ring-2 ring-primary/50 ring-inset z-10"
+                                                        ? "z-10 bg-primary/20 ring-2 ring-inset ring-primary/60"
                                                         : isConflict
-                                                          ? "bg-red-500/20"
+                                                          ? "z-10 bg-rose-500/25 ring-2 ring-inset ring-rose-500"
                                                           : isSameNumber
                                                             ? "bg-primary/10"
                                                             : inSameRow || inSameCol || inSameBox
@@ -360,22 +369,22 @@ export default function SudokuPage() {
                                                     <span
                                                         className={cn(
                                                             "leading-none",
-                                                            isConflict && "text-red-500",
-                                                            !isConflict && isInitial && "font-bold text-foreground",
-                                                            !isConflict && !isInitial && "font-medium text-primary",
+                                                            isConflict && "font-black text-rose-600 dark:text-rose-400",
+                                                            !isConflict && isInitial && "font-black text-foreground",
+                                                            !isConflict && !isInitial && "font-bold text-primary",
                                                         )}
                                                     >
                                                         {cellValue}
                                                     </span>
                                                 ) : hasNotes ? (
-                                                    <div className="grid grid-cols-3 grid-rows-3 w-full h-full p-px">
+                                                    <div className="grid h-full w-full grid-cols-3 grid-rows-3 p-0.5">
                                                         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
                                                             <span
                                                                 key={n}
                                                                 className={cn(
-                                                                    "flex items-center justify-center text-[7px] sm:text-[8px] md:text-[9px] leading-none",
+                                                                    "flex items-center justify-center text-xs font-bold leading-none",
                                                                     cellNotes.has(n)
-                                                                        ? "text-primary/70"
+                                                                        ? "text-primary"
                                                                         : "text-transparent",
                                                                 )}
                                                             >
@@ -442,66 +451,77 @@ export default function SudokuPage() {
                         </div>
                     </div>
 
+                    {conflicts.size > 0 && status !== "won" ? (
+                        <p className="mt-3 rounded-md border border-rose-400/50 bg-rose-500/10 px-3 py-2 text-center text-sm font-bold text-rose-700 dark:text-rose-300">
+                            有 {conflicts.size} 个格子互相冲突（同行、同列或同宫出现了相同数字），已用红框标出。
+                        </p>
+                    ) : null}
+
                     {/* Number input pad */}
-                    <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-5">
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => {
-                            const count = numberCounts[num]
-                            const isFull = count >= 9
-                            return (
-                                <button
-                                    key={num}
-                                    onClick={() => setNumber(num)}
-                                    disabled={isFull || status === "won"}
-                                    className={cn(
-                                        "relative h-12 min-w-11 sm:w-12 sm:h-14 rounded-sm text-lg sm:text-xl font-bold transition-all border",
-                                        isFull
-                                            ? "bg-muted/30 text-muted-foreground/30 border-border/30 cursor-not-allowed"
-                                            : "bg-background/80 text-foreground border-border hover:bg-primary/10 hover:border-primary/40 active:scale-95",
-                                    )}
-                                >
-                                    {num}
-                                    <span
+                    <div className="mx-auto mt-3 w-full max-w-sm sm:mt-5">
+                        <div className="grid grid-cols-9 gap-1 sm:grid-cols-3 sm:gap-2">
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => {
+                                const count = numberCounts[num]
+                                const isFull = count >= 9
+                                return (
+                                    <button
+                                        key={num}
+                                        type="button"
+                                        onClick={() => setNumber(num)}
+                                        disabled={isFull || status === "won"}
                                         className={cn(
-                                            "absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] rounded-full text-[10px] font-bold flex items-center justify-center border",
+                                            "relative flex h-12 items-center justify-center rounded-md border text-xl font-black transition-all sm:h-16 sm:text-3xl",
                                             isFull
-                                                ? "bg-muted text-muted-foreground border-border/50"
-                                                : "bg-primary/10 text-primary border-primary/30",
+                                                ? "cursor-not-allowed border-border/30 bg-muted/30 text-muted-foreground"
+                                                : "border-border bg-background text-foreground hover:border-primary/50 hover:bg-primary/10 active:scale-95",
                                         )}
                                     >
-                                        {9 - count}
-                                    </span>
-                                </button>
-                            )
-                        })}
-
-                        <div className="w-px h-10 bg-border mx-1 hidden sm:block" />
-
-                        <button
-                            onClick={clearCell}
-                            disabled={status === "won"}
-                            className="h-12 min-w-11 sm:w-12 sm:h-14 rounded-sm text-lg font-bold transition-all border bg-background/80 text-muted-foreground border-border hover:bg-destructive/10 hover:text-destructive hover:border-destructive/40 active:scale-95 flex items-center justify-center"
-                            title="清除"
-                        >
-                            <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
-                        </button>
-
-                        <button
-                            onClick={toggleNoteMode}
-                            disabled={status === "won"}
-                            className={cn(
-                                "h-12 min-w-11 sm:w-12 sm:h-14 rounded-sm text-lg font-bold transition-all border flex items-center justify-center",
-                                isNoteMode
-                                    ? "bg-primary/20 text-primary border-primary/50 ring-2 ring-primary/30"
-                                    : "bg-background/80 text-muted-foreground border-border hover:bg-primary/10 hover:border-primary/40",
-                            )}
-                            title="笔记模式"
-                        >
-                            <Pencil className="w-4 h-4 sm:w-5 sm:h-5" />
-                        </button>
+                                        {num}
+                                        <span
+                                            className={cn(
+                                                "absolute right-1.5 top-1.5 hidden h-6 min-w-6 sm:flex items-center justify-center rounded-full border px-1 text-xs font-bold",
+                                                isFull
+                                                    ? "border-border/50 bg-muted text-muted-foreground"
+                                                    : "border-primary/30 bg-primary/10 text-primary",
+                                            )}
+                                        >
+                                            {9 - count}
+                                        </span>
+                                    </button>
+                                )
+                            })}
+                        </div>
+                        <div className="mt-2 grid grid-cols-2 gap-2">
+                            <button
+                                type="button"
+                                onClick={clearCell}
+                                disabled={status === "won"}
+                                className="flex h-12 items-center justify-center gap-2 rounded-md border border-border bg-background text-sm font-bold text-foreground transition-all hover:border-destructive/40 hover:bg-destructive/10 hover:text-destructive active:scale-95"
+                                title="清除"
+                            >
+                                <Trash2 className="h-5 w-5" />
+                                清除
+                            </button>
+                            <button
+                                type="button"
+                                onClick={toggleNoteMode}
+                                disabled={status === "won"}
+                                className={cn(
+                                    "flex h-12 items-center justify-center gap-2 rounded-md border text-sm font-bold transition-all",
+                                    isNoteMode
+                                        ? "border-primary/50 bg-primary/20 text-primary ring-2 ring-primary/30"
+                                        : "border-border bg-background text-foreground hover:border-primary/40 hover:bg-primary/10",
+                                )}
+                                title="笔记模式"
+                            >
+                                <Pencil className="h-5 w-5" />
+                                笔记
+                            </button>
+                        </div>
                     </div>
 
-                    <p className="text-center text-[10px] sm:text-xs text-muted-foreground mt-3">
-                        点击格子选中，按数字键填入 · 键盘 N 切换笔记 · Delete 清除
+                    <p className="mt-3 text-center text-sm font-semibold text-foreground">
+                        先点格子，再点下方数字填入。<span className="hidden sm:inline">键盘 N 切换笔记，Delete 清除。</span>
                     </p>
                     <KeyboardHelp shortcuts={SHORTCUTS_SUDOKU} />
                 </div>
@@ -678,7 +698,7 @@ export default function SudokuPage() {
                                                         "font-mono font-bold",
                                                         best != null
                                                             ? "text-foreground"
-                                                            : "text-muted-foreground/40",
+                                                            : "text-muted-foreground",
                                                     )}
                                                 >
                                                     {best != null ? formatTime(best) : "—"}
@@ -711,7 +731,7 @@ export default function SudokuPage() {
                                                         "font-mono font-bold",
                                                         wins > 0
                                                             ? "text-foreground"
-                                                            : "text-muted-foreground/40",
+                                                            : "text-muted-foreground",
                                                     )}
                                                 >
                                                     {wins > 0 ? wins : "—"}
@@ -724,12 +744,12 @@ export default function SudokuPage() {
 
                             <div className="mt-6 p-4 rounded-md border border-border bg-muted/10">
                                 <div className="flex items-start gap-3">
-                                    <Trophy className="w-5 h-5 text-muted-foreground/40 shrink-0 mt-0.5" />
+                                    <Trophy className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
                                     <div>
-                                        <h4 className="text-sm font-bold text-muted-foreground/70">
+                                        <h4 className="text-sm font-bold text-muted-foreground">
                                             挑战目标
                                         </h4>
-                                        <p className="text-xs text-muted-foreground/50 mt-1 leading-relaxed">
+                                        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                                             尝试挑战"困难"难度并刷新最佳用时！完成困难模式可解锁专属数独徽章。
                                         </p>
                                     </div>

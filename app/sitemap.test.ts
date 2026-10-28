@@ -35,7 +35,7 @@ describe("sitemap route coverage", () => {
     for (const game of ["2048", "fifteen", "quickmath"]) {
       expect(urls).not.toContain(`/playground/${game}`);
     }
-    expect(urls).toContain("/playground/tangram");
+    expect(urls).toContain("/playground/maze");
     expect(urls).toContain("/playground/24game");
   });
 

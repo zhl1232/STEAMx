@@ -5,6 +5,7 @@ import type {
   CourseLessonRow,
   CourseLessonSummary,
   CourseListItem,
+  CoursePreviewLesson,
   CourseOverview,
   CourseRow,
   UserLessonProgressRow,
@@ -145,7 +146,7 @@ async function loadCourseProgress(
 
 export async function listApprovedCourses(
   supabase: DbClient,
-  options?: { userId?: string | null; includeClassification?: boolean },
+  options?: { userId?: string | null; includeClassification?: boolean; previewLessonLimit?: number },
 ): Promise<CourseListItem[]> {
   const classificationSettings = await getContentClassificationSettings()
   const includeClassification = options?.includeClassification === true && classificationSettings.publicV1Enabled
@@ -193,7 +194,7 @@ export async function listApprovedCourses(
   )
   const lessonsByCourse = groupLessonsByCourse(typedLessonRows)
 
-  return courseRows.map(({ user_course_completions: _milestones, ...course }) => ({
+  const items: CourseListItem[] = courseRows.map(({ user_course_completions: _milestones, ...course }) => ({
     ...mapPublicCourseRow(course, includeClassification),
     lesson_count: lessonsByCourse.get(course.id)?.length ?? 0,
     progress: options?.userId
@@ -204,6 +205,48 @@ export async function listApprovedCourses(
         )
       : null,
   }))
+
+  const limit = options?.previewLessonLimit ?? 0
+  if (limit <= 0) return items
+
+  // 每门课只取前 N 节 + 下一节课的标题和成品图，避免列表页加载全部课时内容
+  const numberById = new Map<number, number>()
+  const wanted = new Set<number>()
+  for (const item of items) {
+    const rows = lessonsByCourse.get(item.id) ?? []
+    rows.forEach((row, index) => numberById.set(row.id, index + 1))
+    rows.slice(0, limit).forEach((row) => wanted.add(row.id))
+    const next = item.progress?.next_lesson_id
+    if (next) wanted.add(next)
+  }
+  if (wanted.size === 0) return items
+  const { data: previewRows, error: previewError } = await supabase
+    .from('course_lessons')
+    .select('id, course_id, title, finished_image_url:content->building3d->>finishedImageUrl')
+    .in('id', [...wanted])
+  if (previewError) throw previewError
+
+  const previewById = new Map<number, CoursePreviewLesson>()
+  for (const raw of (previewRows ?? []) as Array<{ id: number; course_id: number; title: string; finished_image_url: string | null }>) {
+    const completed = progressByCourse.get(raw.course_id)?.has(raw.id) ?? false
+    previewById.set(raw.id, {
+      id: raw.id,
+      number: numberById.get(raw.id) ?? 0,
+      title: raw.title,
+      image_url: raw.finished_image_url?.trim() || null,
+      is_completed: completed,
+    })
+  }
+
+  return items.map((item) => {
+    const rows = (lessonsByCourse.get(item.id) ?? []).slice(0, limit)
+    const next = item.progress?.next_lesson_id
+    return {
+      ...item,
+      preview_lessons: rows.flatMap((row) => previewById.get(row.id) ?? []),
+      next_lesson: next ? previewById.get(next) ?? null : null,
+    }
+  })
 }
 
 export type CourseSummary = { id: number; title: string }

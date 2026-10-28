@@ -44,6 +44,31 @@
 .directionGrid a:nth-child(3) svg { color: hsl(var(--brand-amber)); }
 .directionGrid strong { font-size: 11px; font-weight: 650; color: hsl(var(--foreground)); }
 .directionGrid span { font-size: 10px; color: hsl(var(--muted-foreground)); }
+/* 手机端：借自然观察页的做法——字放大、统一中性浅边框、去掉外层面板避免嵌套边框。 */
+@media (max-width: 767px) {
+  .filters { gap: 6px; }
+  .filters button { min-height: 36px; line-height: 36px; padding-inline: 12px; font-size: 14px; font-weight: 600; }
+  .section { margin-top: 22px; }
+  .sectionHeading h2 { padding-inline: 4px; font-size: 18px; font-weight: 700; letter-spacing: .01em; }
+  .sectionHeading > button, .sectionHeading > a { font-size: 14px; font-weight: 600; }
+  .cardGrid { gap: 12px; }
+  .card { border-color: #e2e7ee; box-shadow: none; }
+  .featured { border-color: hsl(var(--brand-blue) / .4); }
+  .category { font-size: 12px; padding: 2px 7px; margin-bottom: 6px; }
+  .metadata { margin-top: 4px; font-size: 13px; color: hsl(var(--foreground) / .68); }
+  .metadata svg { width: 14px; height: 14px; }
+  .modeLabel, .progress { font-size: 13px; }
+  .action { font-size: 14px; min-height: 36px; }
+  .directions { margin-top: 28px; padding: 0; background: none; }
+  .directions .sectionHeading h2 { font-size: 18px; }
+  .directionGrid { gap: 8px; }
+  .directionGrid a { border-color: #e2e7ee; background: #f7f9fc; }
+  .directionGrid strong { font-size: 13px; }
+  .directionGrid span { font-size: 12px; color: hsl(var(--foreground) / .62); }
+  :global(.dark) .card { border-color: rgb(255 255 255 / .12); }
+  :global(.dark) .featured { border-color: hsl(var(--brand-blue) / .5); }
+  :global(.dark) .directionGrid a { border-color: rgb(255 255 255 / .12); background: rgb(255 255 255 / .04); }
+}
 @media (max-width: 359px) {
   .card { grid-template-columns: 84px minmax(0, 1fr); gap: 10px; padding: 9px; }
   .cardBody { min-height: 84px; }
@@ -68,3 +93,298 @@
 @media (min-width: 1440px) {
   .cardGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+/* —— 手机端布局 C：继续学习窄条 + 按班/方向横滑封面 —— */
+.coverCompact { width: 64px; height: 64px; aspect-ratio: 1; border-radius: 12px; flex-shrink: 0; }
+.coverCompact .coverImage { padding: 4px; }
+.continueStrip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  border: 1px solid #e2e7ee;
+  background: #fff;
+  box-shadow: none;
+}
+.continueBody { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.continueLabel {
+  margin: 0;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: .01em;
+  color: hsl(var(--foreground));
+}
+.continueTitle {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: hsl(var(--foreground) / .72);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.continueHint {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: hsl(var(--foreground) / .55);
+}
+.continueTrack {
+  margin-top: 6px;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: hsl(var(--surface-muted));
+}
+.continueTrack > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: hsl(var(--brand-blue));
+}
+.continueBtn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: 11px;
+  background: hsl(var(--brand-blue));
+  color: #fff;
+  font-size: 14px;
+  font-weight: 650;
+  text-decoration: none;
+}
+.railSection { margin-top: 20px; }
+.railSection .sectionHeading h2 {
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+.rail {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-inline: -4px;
+  padding-inline: 4px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar { display: none; }
+.railCard {
+  flex: 0 0 148px;
+  width: 148px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scroll-snap-align: start;
+  text-decoration: none;
+  color: inherit;
+}
+.railCard .cover,
+.railCard .coverCompact {
+  width: 148px;
+  height: 148px;
+  border-radius: 14px;
+  border: 1px solid #e2e7ee;
+  background: #f7f9fc;
+}
+.railTitle {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: .01em;
+  color: hsl(var(--foreground));
+}
+.railMeta {
+  font-size: 12px;
+  line-height: 1.35;
+  color: hsl(var(--foreground) / .62);
+}
+@media (max-width: 767px) {
+  .hub[data-mobile-courses] .directions { margin-top: 28px; padding: 0; background: none; }
+  .hub[data-mobile-courses] .directions .sectionHeading h2 {
+    font-family: inherit;
+    font-size: 18px;
+  }
+  .hub[data-mobile-courses] .directionGrid a { border-color: #e2e7ee; background: #f7f9fc; }
+  :global(.dark) .continueStrip { border-color: rgb(255 255 255 / .12); background: rgb(255 255 255 / .04); }
+  :global(.dark) .railCard .cover,
+  :global(.dark) .railCard .coverCompact { border-color: rgb(255 255 255 / .12); background: rgb(255 255 255 / .04); }
+  :global(.dark) .hub[data-mobile-courses] .directionGrid a { border-color: rgb(255 255 255 / .12); background: rgb(255 255 255 / .04); }
+}
+
+/* 手机端：每门课 = 标题行 + 课时横滑 */
+.lessonSection { margin-top: 24px; }
+.lessonSection:first-child { margin-top: 8px; }
+.hero + .lessonSection, .heroContinue + .lessonSection { margin-top: 20px; }
+.lessonHeader { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.lessonHeaderText { min-width: 0; }
+.lessonHeaderText h2 {
+  margin: 0; font-family: inherit;
+  font-size: 18px; font-weight: 700; line-height: 1.35; letter-spacing: .01em; color: hsl(var(--foreground));
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.lessonHeaderText p { margin: 2px 0 0; font-size: 14px; line-height: 1.45; color: hsl(var(--foreground) / .68); }
+.allLessons {
+  display: inline-flex; flex-shrink: 0; align-items: center; gap: 1px; min-height: 36px; padding: 0 8px 0 12px;
+  border: 1px solid hsl(var(--brand-blue) / .45); border-radius: 999px; color: hsl(var(--brand-blue));
+  font-size: 14px; font-weight: 650; text-decoration: none; white-space: nowrap;
+}
+.lessonRailWrap { position: relative; margin-inline: -16px; }
+.lessonRailWrap::after {
+  content: ""; position: absolute; top: 0; right: 0; bottom: 4px; width: 24px; pointer-events: none;
+  background: linear-gradient(to right, transparent, hsl(var(--background)));
+}
+.lessonRail {
+  display: flex; gap: 12px; overflow-x: auto; padding: 0 16px 4px; scroll-padding-inline: 16px;
+  scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.lessonRail::-webkit-scrollbar { display: none; }
+.lessonRail::after { content: ""; flex: 0 0 4px; }
+.lessonTile {
+  position: relative; flex: 0 0 104px; width: 104px; display: flex; flex-direction: column; gap: 2px;
+  scroll-snap-align: start; color: inherit; text-decoration: none;
+}
+.lessonThumb {
+  position: relative; display: flex; align-items: center; justify-content: center; width: 104px; height: 104px;
+  margin-bottom: 6px; overflow: hidden; border-radius: 16px; background: #f4efe8;
+}
+.lessonThumb[data-kind='photo'] { background: #fff; box-shadow: inset 0 0 0 1px #ebe5dc; }
+.lessonPhoto { object-fit: contain; padding: 4px; }
+.lessonNumber { font-size: 34px; font-weight: 800; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.doneBadge {
+  position: absolute; top: 6px; right: 6px; display: flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 999px; background: #2f8a4c; color: #fff; box-shadow: 0 0 0 2px #fff;
+}
+.lessonNo { font-size: 14px; line-height: 1.35; color: hsl(var(--foreground) / .64); }
+.lessonTitle {
+  font-size: 15px; font-weight: 650; line-height: 1.35; color: hsl(var(--foreground));
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.lessonEmpty { margin: 0; font-size: 14px; color: hsl(var(--foreground) / .64); }
+:global(.dark) .lessonThumb { background: rgb(255 255 255 / .07); }
+:global(.dark) .lessonThumb[data-kind='photo'] { background: #f4f4f2; box-shadow: none; }
+:global(.dark) .doneBadge { box-shadow: 0 0 0 2px hsl(var(--background)); }
+:global(.dark) .allLessons { border-color: hsl(var(--brand-blue) / .7); }
+
+/* a2：课程浅色底、图标、顶部横幅 */
+.hub[data-mobile-courses] { --tint-xiaoban: #FFF3D6; --tint-zhongban: #DDF3E6; --tint-daban: #FDE6D3; --tint-scratch: #DCEBFB; --tint-gomoku: #E8E2F8; --tint-other: #EFEAE1;
+  --ink-xiaoban: #8a5a00; --ink-zhongban: #23703f; --ink-daban: #a3501c; --ink-scratch: #2a5ea6; --ink-gomoku: #5a45a0; --ink-other: #6b5d48; }
+:global(.dark) .hub[data-mobile-courses] { --tint-xiaoban: rgb(240 190 80 / .14); --tint-zhongban: rgb(90 190 130 / .14); --tint-daban: rgb(240 140 80 / .14); --tint-scratch: rgb(100 150 230 / .16); --tint-gomoku: rgb(150 125 230 / .16); --tint-other: rgb(200 185 160 / .12);
+  --ink-xiaoban: #f2cd8a; --ink-zhongban: #9fdcb0; --ink-daban: #f5b58a; --ink-scratch: #a9c6f5; --ink-gomoku: #c9b9f5; --ink-other: #ddd0bb; }
+.hub [data-course-theme='xiaoban'] { --tint: var(--tint-xiaoban); --ink: var(--ink-xiaoban); }
+.hub [data-course-theme='zhongban'] { --tint: var(--tint-zhongban); --ink: var(--ink-zhongban); }
+.hub [data-course-theme='daban'] { --tint: var(--tint-daban); --ink: var(--ink-daban); }
+.hub [data-course-theme='scratch'] { --tint: var(--tint-scratch); --ink: var(--ink-scratch); }
+.hub [data-course-theme='gomoku'] { --tint: var(--tint-gomoku); --ink: var(--ink-gomoku); }
+.hub [data-course-theme='other'] { --tint: var(--tint-other); --ink: var(--ink-other); }
+.heroContinue { display: flex; align-items: center; gap: 12px; margin-top: 4px; padding: 12px; border-radius: 16px; background: var(--tint); color: inherit; text-decoration: none; }
+.heroContinueThumb { position: relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 72px; height: 72px; overflow: hidden; border-radius: 14px; background: #fff; color: var(--ink); }
+.heroContinueThumb .lessonNumber { font-size: 26px; }
+.heroContinueBody { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.heroContinueLabel { font-size: 14px; font-weight: 700; color: var(--ink); }
+.heroContinueBody strong { font-size: 16px; line-height: 1.35; color: hsl(var(--foreground)); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.heroContinueMeta { font-size: 14px; color: hsl(var(--foreground) / .68); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.heroContinueGo { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; background: hsl(var(--brand-blue)); color: #fff; }
+@media (max-width: 767px) {
+  .hub[data-mobile-courses] .directionGrid strong { font-size: 14px; }
+  .hub[data-mobile-courses] .directionGrid span { font-size: 14px; }
+  .hub[data-mobile-courses] .directionGrid a { min-height: 96px; padding-inline: 2px; }
+}
+
+/* 课程页统一用站内无衬线字体（全局 h1–h3 默认是宋体 --font-heading） */
+.hub :is(h1, h2, h3, h4, strong, p, span, a) { font-family: var(--font-sans), sans-serif; }
+
+/* a3：精修——课时卡去掉浅色底板，色调只留在图标和角标；横幅一张图明暗共用 */
+.lessonSection { margin-top: 32px; }
+.hero + .lessonSection, .heroContinue + .lessonSection { margin-top: 28px; }
+.lessonHeader { gap: 12px; margin-bottom: 14px; }
+.lessonHeader .lessonHeaderText { flex: 1; }
+.courseIcon { flex-shrink: 0; width: 48px; height: 48px; border-radius: 15px; object-fit: cover; box-shadow: 0 0 0 1px rgb(0 0 0 / .04), 0 4px 10px -4px rgb(80 60 30 / .25); }
+.lessonHeaderText h2 { font-size: 17px; font-weight: 750; line-height: 1.35; letter-spacing: .005em; }
+.lessonHeaderText p { margin-top: 3px; font-size: 14px; color: hsl(var(--foreground) / .66); font-variant-numeric: tabular-nums; }
+.allLessons { min-height: 34px; padding: 0 8px 0 12px; gap: 2px; border: 1px solid hsl(var(--foreground) / .16); background: hsl(var(--background)); color: hsl(var(--foreground)); font-weight: 650; box-shadow: 0 1px 2px rgb(0 0 0 / .04); }
+.allLessons svg { color: hsl(var(--foreground) / .55); }
+:global(.dark) .allLessons { border-color: rgb(255 255 255 / .2); background: rgb(255 255 255 / .04); box-shadow: none; }
+
+.lessonSection .lessonRailWrap { margin-inline: -16px; }
+.lessonSection .lessonRail { gap: 12px; padding: 2px 16px 10px; scroll-padding-inline: 16px; }
+.lessonSection .lessonRailWrap::after { bottom: 0; width: 28px; background: linear-gradient(to right, transparent, hsl(var(--background))); }
+.lessonSection .lessonTile { flex: 0 0 124px; width: 124px; gap: 0; }
+.lessonSection .lessonThumb { width: 124px; height: 124px; margin-bottom: 8px; border-radius: 18px; background: #fff;
+  box-shadow: 0 0 0 1px rgb(60 45 20 / .05), 0 6px 16px -8px rgb(60 45 20 / .22); }
+.lessonSection .lessonThumb[data-kind='photo'] { background: #f7f5f1; }
+.lessonSection .lessonPhoto { padding: 6px; object-fit: contain; mix-blend-mode: multiply; }
+.lessonSection .lessonThumb[data-kind='icon'] { background: var(--tint); }
+.lessonIconArt { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); }
+.lessonBadge { position: absolute; top: 8px; left: 8px; z-index: 1; min-width: 30px; height: 24px; padding: 0 7px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 999px; background: var(--tint); color: var(--ink); font-size: 13px; font-weight: 800; letter-spacing: .02em; font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 1.5px #fff; }
+.lessonSection .lessonThumb[data-kind='icon'] ~ .lessonBadge { background: #fff; }
+.lessonSection .doneBadge { top: 8px; right: 8px; }
+.lessonSection .lessonTitle { padding-inline: 2px; font-size: 15px; font-weight: 700; line-height: 1.4; }
+:global(.dark) .lessonSection .lessonThumb { background: #f3f1ec; box-shadow: none; }
+:global(.dark) .lessonSection .lessonThumb[data-kind='icon'] { background: var(--tint); }
+:global(.dark) .lessonIconArt { filter: brightness(.92); }
+:global(.dark) .lessonBadge { background: #fff; color: #3a2f20; box-shadow: none; }
+:global(.dark) .lessonSection .lessonThumb[data-kind='icon'] ~ .lessonBadge { background: rgb(255 255 255 / .92); }
+
+.hero { position: relative; margin-top: 4px; overflow: hidden; border-radius: 22px; background: #FBEFDC; min-height: 150px; isolation: isolate; }
+.heroImage { position: absolute; inset: 0 0 0 auto; width: 64%; height: 100%; min-height: 0; aspect-ratio: auto; object-fit: cover; object-position: right center; z-index: 0;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 26%); mask-image: linear-gradient(to right, transparent 0, #000 26%); }
+.heroText { position: relative; left: auto; top: auto; transform: none; max-width: 52%; z-index: 1; padding: 22px 0 22px 18px; }
+.heroEyebrow { display: inline-flex; align-items: center; height: 26px; margin: 0 0 10px; padding: 0 10px; border-radius: 999px; background: rgb(255 255 255 / .75);
+  color: #7a4f08; font-size: 13px; font-weight: 700; letter-spacing: .04em; }
+.heroText h2 { margin: 0; font-size: 22px; line-height: 1.36; font-weight: 800; letter-spacing: .03em; color: #2f2414; }
+.heroLine { display: block; white-space: nowrap; }
+.heroEm { font-style: normal; color: #c2620c; background: linear-gradient(transparent 74%, rgb(246 190 70 / .5) 74%, rgb(246 190 70 / .5) 94%, transparent 94%); padding-inline: 1px; }
+.heroSub { margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: #5d4a2e; }
+:global(.dark) .hero { background: linear-gradient(100deg, #241c12 0%, #2f2517 55%, #3a2e1d 100%); }
+:global(.dark) .heroImage { filter: brightness(.74) saturate(1.08);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 55%); mask-image: linear-gradient(to right, transparent 0, #000 55%); }
+:global(.dark) .heroEyebrow { background: rgb(255 255 255 / .1); color: #f5d38f; }
+:global(.dark) .heroText h2 { color: #fbefd6; }
+:global(.dark) .heroEm { color: #ffc56b; background: linear-gradient(transparent 76%, rgb(255 197 107 / .35) 76%, rgb(255 197 107 / .35) 92%, transparent 92%); }
+:global(.dark) .heroSub { color: #e6d6b4; }
+
+/* a5 — dark mode refinement */
+:global(.dark) .hero { background: hsl(var(--background)); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .07); }
+:global(.dark) .heroImage { inset: 0; width: 100%; object-position: right center; filter: brightness(.84) saturate(1.14);
+  -webkit-mask-image: none; mask-image: none; }
+:global(.dark) .hero::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(90deg, hsl(220 34% 8%) 0%, hsl(220 34% 8% / .94) 26%, hsl(220 34% 8% / .7) 38%, hsl(220 34% 8% / .32) 50%, hsl(220 34% 8% / .08) 60%, hsl(220 34% 8% / 0) 68%); }
+:global(.dark) .heroText { z-index: 2; }
+:global(.dark) .heroText h2 { color: #f3f5fa; }
+:global(.dark) .heroEm { color: #ffc56b; background: linear-gradient(transparent 76%, rgb(255 197 107 / .3) 76%, rgb(255 197 107 / .3) 92%, transparent 92%); }
+
+:global(.dark) .lessonSection .lessonRailWrap::after { width: 56px;
+  background: linear-gradient(to right, hsl(var(--background) / 0), hsl(var(--background) / .1) 25%, hsl(var(--background) / .35) 50%, hsl(var(--background) / .72) 75%, hsl(var(--background)) 100%); }
+:global(.dark) .lessonSection .courseIcon { box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08); }
+:global(.dark) .lessonSection .allLessons { border-color: color-mix(in srgb, var(--ink) 22%, rgb(255 255 255 / .1)); background: color-mix(in srgb, var(--tint) 40%, hsl(220 34% 9%)); color: #eef2fa; }
+
+/* a7 — hero image at full opacity, no edge fades */
+.hub .heroImage { inset: 0 0 0 auto; width: 100%; height: 100%; object-fit: cover; object-position: right center; filter: none; -webkit-mask-image: none; mask-image: none; }
+.hub .heroText { max-width: 46%; }
+/* a8 — night version of the same illustration, full bleed */
+.hub .heroImageDark { display: none; }
+:global(.dark) .hub .heroImageLight { display: none; }
+:global(.dark) .hub .heroImageDark { display: block; filter: none; }
+:global(.dark) .hub .hero::before { content: none; }
+:global(.dark) .hub .hero { background: rgb(14 22 40); box-shadow: none; }
+:global(.dark) .hub .heroText h2 { color: #fff; }

@@ -40,7 +40,10 @@ it.each([390, 768, 1440])('keeps profile destinations visible even for an empty 
     } else {
       expect(await screen.findByRole('link', { name: /我的内容/ })).toHaveAttribute('href', '/profile/library')
       expect(screen.queryByRole('link', { name: '内容库' })).not.toBeInTheDocument()
-      expect(screen.queryByRole('link', { name: /排行榜/ })).not.toBeInTheDocument()
+      // 手机端排行榜只出现在头图快捷入口里一次
+      const leaderboard = screen.getAllByRole('link', { name: /排行榜/ })
+      expect(leaderboard).toHaveLength(1)
+      expect(leaderboard[0]).toHaveAttribute('href', '/leaderboard')
     }
     expect(screen.queryByRole('navigation', { name: '个人中心常用入口' })).not.toBeInTheDocument()
     for (const link of screen.getAllByRole('link', { name: /作品/ })) {

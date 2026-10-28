@@ -42,11 +42,10 @@ function formatTime(seconds: number) {
     return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`
 }
 
-function cellSizeForN(n: number, isMobile: boolean): number {
+function cellSizeForN(n: number, isMobile: boolean, viewportWidth: number): number {
     if (isMobile) {
-        if (n <= 8) return 44
-        if (n <= 10) return 34
-        return 28
+        // 手机端按屏宽整盘放下（左右留约 52px 给页面与卡片边距），不再横向滑动。
+        return Math.max(24, Math.min(48, Math.floor((viewportWidth - 52) / n)))
     }
     if (n <= 6) return 56
     if (n <= 8) return 48
@@ -70,7 +69,12 @@ function CellOverlay({ state, size }: { state: CellState; size: number }) {
                 </div>
             )
         case "attacking":
-            return <div className="absolute inset-0 bg-red-500/15 z-10" />
+            return (
+                <div className="absolute inset-0 z-10 bg-rose-500/30">
+                    <div className="absolute inset-x-[18%] top-1/2 h-0.5 -translate-y-1/2 rotate-45 bg-rose-500/80" />
+                    <div className="absolute inset-x-[18%] top-1/2 h-0.5 -translate-y-1/2 -rotate-45 bg-rose-500/80" />
+                </div>
+            )
         case "trying":
             return <div className="absolute inset-0 bg-blue-400/30 ring-3 ring-blue-400 animate-pulse z-10" />
         case "backtracked":
@@ -130,14 +134,21 @@ export default function NQueensPage() {
     const { checkBadges } = useGamification()
     const [activeTab, setActiveTab] = useState<"concepts" | "stats">("concepts")
     const [isMobile, setIsMobile] = useState(false)
+    const [viewportWidth, setViewportWidth] = useState(390)
     const prevStatusRef = useRef(status)
 
     useEffect(() => {
         const mql = window.matchMedia("(max-width: 640px)")
         setIsMobile(mql.matches)
         const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+        const onResize = () => setViewportWidth(window.innerWidth)
+        onResize()
         mql.addEventListener("change", handler)
-        return () => mql.removeEventListener("change", handler)
+        window.addEventListener("resize", onResize)
+        return () => {
+            mql.removeEventListener("change", handler)
+            window.removeEventListener("resize", onResize)
+        }
     }, [])
 
     useEffect(() => {
@@ -189,7 +200,7 @@ export default function NQueensPage() {
         })
     }, [mode, n, raceHasSubmitted, raceIsPlaying, status, submitRaceResult, time])
 
-    const cellSize = useMemo(() => cellSizeForN(n, isMobile), [n, isMobile])
+    const cellSize = useMemo(() => cellSizeForN(n, isMobile, viewportWidth), [n, isMobile, viewportWidth])
     const boardSize = cellSize * n
 
     const isVisualizing = status === "visualizing"
@@ -201,7 +212,7 @@ export default function NQueensPage() {
             <div className="playground-game-main playground-game-center overflow-hidden">
                 <div className="max-w-full lg:max-w-3xl w-full playground-game-board relative">
                     {/* Header */}
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6">
+                    <div className="hidden sm:flex flex-row items-center justify-between gap-3 mb-6">
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-amber-500/10 border border-amber-500/40 flex items-center justify-center shrink-0">
                                 <Crown className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500" />
@@ -218,7 +229,7 @@ export default function NQueensPage() {
                         <Button
                             size="icon"
                             variant="outline"
-                            className="rounded-full h-11 w-11 self-end sm:h-8 sm:w-8 sm:self-auto"
+                            className="rounded-full h-8 w-8"
                             onClick={reset}
                             aria-label="重置棋盘"
                             title="重置"
@@ -228,10 +239,20 @@ export default function NQueensPage() {
                     </div>
 
                     {/* Controls bar */}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-sm border border-border shadow-inner">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 sm:mb-6 sm:bg-background/60 sm:p-4 sm:rounded-sm sm:border sm:border-border sm:shadow-inner">
+                        <Button
+                            size="icon"
+                            variant="outline"
+                            className="h-11 w-11 rounded-xs sm:hidden"
+                            onClick={reset}
+                            aria-label="重置棋盘"
+                            title="重置"
+                        >
+                            <RotateCcw className="w-4 h-4" aria-hidden />
+                        </Button>
                         {/* N selector */}
                         <div className="flex items-center gap-1.5">
-                            <span className="text-[10px] sm:text-xs text-muted-foreground font-medium">N</span>
+                            <span className="text-[15px] sm:text-xs text-foreground/80 font-bold">N</span>
                             <Button
                                 variant="outline"
                                 size="icon"
@@ -267,7 +288,7 @@ export default function NQueensPage() {
                                     onClick={() => setMode(m)}
                                     disabled={raceActive || isVisualizing}
                                     className={cn(
-                                        "min-h-11 px-3 py-1 text-[10px] sm:min-h-0 sm:px-2.5 sm:text-xs font-medium transition-colors flex items-center gap-1",
+                                        "min-h-11 px-3 py-1 text-[15px] sm:min-h-0 sm:px-2.5 sm:text-xs font-semibold transition-colors flex items-center gap-1",
                                         mode === m
                                             ? "bg-primary text-primary-foreground"
                                             : "text-muted-foreground hover:text-foreground",
@@ -348,7 +369,7 @@ export default function NQueensPage() {
                                             key={s}
                                             onClick={() => setSpeed(s)}
                                             className={cn(
-                                                "min-h-11 px-3 py-1 text-[10px] font-medium transition-colors sm:min-h-0 sm:px-2",
+                                                "min-h-11 px-3 py-1 text-sm font-bold transition-colors sm:min-h-0 sm:px-2",
                                                 speed === s
                                                     ? "bg-primary text-primary-foreground"
                                                     : "text-muted-foreground hover:text-foreground",
@@ -363,8 +384,9 @@ export default function NQueensPage() {
                     </div>
 
                     {/* Chess Board */}
-                    <div className="relative overflow-x-auto no-scrollbar touch-pan-x bg-muted/20 rounded-md p-3 sm:p-5 border border-border shadow-xl" aria-label="N 皇后棋盘，可横向滑动查看大棋盘">
-                        <div className="flex items-center justify-start sm:justify-center">
+                    <div data-dense className="relative overflow-x-auto no-scrollbar bg-muted/20 rounded-md p-1.5 sm:p-5 border border-border shadow-xl" aria-label="N 皇后棋盘">
+                        <div className="flex items-center justify-center">
+                            <div className="relative" style={{ width: boardSize, height: boardSize }}>
                             <div
                                 className="grid border border-amber-900/30 rounded-xs overflow-hidden shadow-lg"
                                 style={{
@@ -402,6 +424,45 @@ export default function NQueensPage() {
                                         </button>
                                     )
                                 })}
+                            </div>
+                            {/* Attack lines from each queen */}
+                            <svg
+                                className="pointer-events-none absolute left-0 top-0 z-[12]"
+                                width={boardSize}
+                                height={boardSize}
+                                viewBox={`0 0 ${boardSize} ${boardSize}`}
+                                aria-hidden
+                            >
+                                {Array.from({ length: n * n }, (_, i) => {
+                                    const row = Math.floor(i / n)
+                                    const col = i % n
+                                    if (cellStates[row]?.[col] !== "queen") return null
+                                    const cx = col * cellSize + cellSize / 2
+                                    const cy = row * cellSize + cellSize / 2
+                                    const lines = [
+                                        // row
+                                        { x1: 0, y1: cy, x2: boardSize, y2: cy },
+                                        // col
+                                        { x1: cx, y1: 0, x2: cx, y2: boardSize },
+                                        // diag down-right
+                                        { x1: cx - Math.min(col, row) * cellSize, y1: cy - Math.min(col, row) * cellSize, x2: cx + Math.min(n - 1 - col, n - 1 - row) * cellSize, y2: cy + Math.min(n - 1 - col, n - 1 - row) * cellSize },
+                                        // diag down-left
+                                        { x1: cx - Math.min(col, n - 1 - row) * cellSize, y1: cy + Math.min(col, n - 1 - row) * cellSize, x2: cx + Math.min(n - 1 - col, row) * cellSize, y2: cy - Math.min(n - 1 - col, row) * cellSize },
+                                    ]
+                                    return lines.map((line, idx) => (
+                                        <line
+                                            key={`atk-${row}-${col}-${idx}`}
+                                            x1={line.x1}
+                                            y1={line.y1}
+                                            x2={line.x2}
+                                            y2={line.y2}
+                                            stroke="rgb(244 63 94 / 0.55)"
+                                            strokeWidth={Math.max(2, cellSize * 0.08)}
+                                            strokeLinecap="round"
+                                        />
+                                    ))
+                                })}
+                            </svg>
                             </div>
                         </div>
 
@@ -473,10 +534,10 @@ export default function NQueensPage() {
                     </div>
 
                     {/* Hint text */}
-                    <p className="text-center text-[10px] sm:text-xs text-muted-foreground mt-3 sm:mt-4">
+                    <p className="mt-3 text-center text-sm font-semibold text-foreground sm:mt-4">
                         {mode === "manual"
-                            ? "点击棋盘格子放置或移除皇后 · 每行每列每条对角线最多一个皇后"
-                            : "观察回溯算法逐行尝试放置皇后，遇到冲突时回溯"}
+                            ? "点格子放皇后。粉红射线是攻击线：同行、同列、同对角线都会被攻击。"
+                            : "观察回溯：蓝格是尝试，红叉是冲突，绿格是安全。"}
                     </p>
                 </div>
             </div>
@@ -631,7 +692,7 @@ export default function NQueensPage() {
                                                         "font-mono font-bold",
                                                         best != null
                                                             ? "text-foreground"
-                                                            : "text-muted-foreground/40",
+                                                            : "text-muted-foreground",
                                                     )}
                                                 >
                                                     {best != null ? formatTime(best) : "—"}
@@ -669,12 +730,12 @@ export default function NQueensPage() {
 
                             <div className="mt-6 p-4 rounded-md border border-border bg-muted/10">
                                 <div className="flex items-start gap-3">
-                                    <Trophy className="w-5 h-5 text-muted-foreground/40 shrink-0 mt-0.5" />
+                                    <Trophy className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
                                     <div>
-                                        <h4 className="text-sm font-bold text-muted-foreground/70">
+                                        <h4 className="text-sm font-bold text-muted-foreground">
                                             挑战目标
                                         </h4>
-                                        <p className="text-xs text-muted-foreground/50 mt-1 leading-relaxed">
+                                        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                                             从 4 皇后开始，逐步挑战更大的棋盘。尝试在不使用可视化提示的情况下手动完成 8 皇后——锻炼你的空间推理能力！
                                         </p>
                                     </div>

@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from "react"
 import { use24Game, type Card24 } from "@/hooks/playground/use-24-game"
+import { GAME24_LEVELS } from "@/lib/playground/game24-levels"
 import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
+import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
@@ -20,6 +22,10 @@ import {
   Calculator,
   Sparkles,
   Brain,
+  Lightbulb,
+  ChevronLeft,
+  ChevronRight,
+  CheckCircle2,
 } from "lucide-react"
 import confetti from "canvas-confetti"
 
@@ -30,30 +36,65 @@ const SUIT_SYMBOL: Record<Card24["suit"], string> = {
   clubs: "♣",
 }
 
-function PlayingCard({ card }: { card: Card24 }) {
+function PlayingCard({ card, highlight = false }: { card: Card24; highlight?: boolean }) {
   const isRed = card.suit === "hearts" || card.suit === "diamonds"
-  const color = isRed ? "text-red-500" : "text-gray-900 dark:text-gray-100"
+  const color = isRed ? "text-red-600 dark:text-red-400" : "text-foreground"
   const symbol = SUIT_SYMBOL[card.suit]
 
   return (
     <div
       className={cn(
         "relative flex flex-col items-center justify-center",
-        "w-[72px] h-[100px] sm:w-[100px] sm:h-[140px] md:w-[120px] md:h-[170px]",
-        "rounded-md border border-border/60 bg-white dark:bg-gray-50/95",
-        "shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200",
-        "select-none"
+        "h-[132px] w-[96px] sm:h-[180px] sm:w-[130px] md:h-[210px] md:w-[150px]",
+        "rounded-xl border-2 bg-card",
+        "shadow-[0_18px_40px_-24px_hsl(var(--surface-shadow)/0.7)]",
+        "transition-all duration-300 select-none",
+        highlight
+          ? "border-primary scale-105 shadow-[0_0_0_4px_hsl(var(--primary)/0.25)]"
+          : "border-border hover:-translate-y-1",
       )}
     >
-      <div className={cn("absolute top-1.5 left-2 sm:top-2 sm:left-3 flex flex-col items-center leading-none", color)}>
-        <span className="text-xs sm:text-sm md:text-base font-bold">{card.label}</span>
-        <span className="text-[10px] sm:text-xs">{symbol}</span>
+      <div className={cn("absolute top-2.5 left-3 flex flex-col items-center leading-none", color)}>
+        <span className="text-base sm:text-xl font-black">{card.label}</span>
+        <span className="text-sm sm:text-base">{symbol}</span>
       </div>
-      <span className={cn("text-2xl sm:text-4xl md:text-5xl", color)}>{symbol}</span>
-      <div className={cn("absolute bottom-1.5 right-2 sm:bottom-2 sm:right-3 flex flex-col items-center leading-none rotate-180", color)}>
-        <span className="text-xs sm:text-sm md:text-base font-bold">{card.label}</span>
-        <span className="text-[10px] sm:text-xs">{symbol}</span>
+      <span className={cn("text-5xl sm:text-6xl md:text-7xl font-bold", color)}>{symbol}</span>
+      <div className={cn("absolute bottom-2.5 right-3 flex flex-col items-center leading-none rotate-180", color)}>
+        <span className="text-base sm:text-xl font-black">{card.label}</span>
+        <span className="text-sm sm:text-base">{symbol}</span>
       </div>
+    </div>
+  )
+}
+
+/** 逐步点亮解法字符串，做成解题动画。 */
+function SolutionAnimator({ expression, target }: { expression: string; target: number }) {
+  const [shown, setShown] = useState(0)
+  useEffect(() => {
+    setShown(0)
+    if (!expression) return
+    const tokens = expression.replace(/\s+/g, "").split("")
+    let i = 0
+    const id = window.setInterval(() => {
+      i += 1
+      setShown(i)
+      if (i >= tokens.length + 1) window.clearInterval(id)
+    }, 140)
+    return () => window.clearInterval(id)
+  }, [expression])
+
+  const compact = expression.replace(/\s+/g, "")
+  const visible = compact.slice(0, Math.min(shown, compact.length))
+  const done = shown > compact.length
+
+  return (
+    <div className="rounded-md border border-primary/30 bg-primary/10 px-4 py-3">
+      <p className="text-sm font-bold text-foreground">解法演示</p>
+      <p className="mt-2 font-mono text-lg sm:text-xl font-black tracking-wide text-primary">
+        {visible}
+        {!done && <span className="animate-pulse">▍</span>}
+        {done && <span className="text-foreground"> = {target}</span>}
+      </p>
     </div>
   )
 }
@@ -79,6 +120,11 @@ function TimerBar({ timeLeft, total }: { timeLeft: number; total: number }) {
 
 export default function Game24Page() {
   const {
+    level,
+    levelWins,
+    clearWins,
+    isLevelUnlocked,
+    selectLevel,
     cards,
     status,
     timeLeft,
@@ -86,6 +132,9 @@ export default function Game24Page() {
     streak,
     stats,
     solutions,
+    hintLevel,
+    getHintText,
+    requestHint,
     submitExpression,
     skipRound,
     newGame,
@@ -102,6 +151,11 @@ export default function Game24Page() {
   const submitRaceResult = race.submitResult
   const { checkBadges } = useGamification()
 
+  const { setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext()
+  useEffect(() => {
+    setTutorOverride({ subtitle: "正在玩 24 点", hideFabOnMobile: true })
+    return clearTutorOverride
+  }, [clearTutorOverride, setTutorOverride])
   const [expression, setExpression] = useState("")
   const [error, setError] = useState("")
   const [isMounted, setIsMounted] = useState(false)
@@ -222,7 +276,7 @@ export default function Game24Page() {
           </div>
           <div className="flex justify-center gap-2 sm:gap-4">
             {Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="h-[100px] w-[72px] animate-pulse rounded-md bg-muted sm:h-[140px] sm:w-[100px] md:h-[170px] md:w-[120px]" />
+              <div key={index} className="h-[132px] w-[96px] animate-pulse rounded-xl bg-muted sm:h-[180px] sm:w-[130px] md:h-[210px] md:w-[150px]" />
             ))}
           </div>
         </div>
@@ -233,9 +287,9 @@ export default function Game24Page() {
   return (
     <div className="playground-game-page">
       {/* Main game area */}
-      <div className="playground-game-main xl:justify-center">
+      <div className="playground-game-main xl:justify-center pb-10">
         {/* Header */}
-        <div className="w-full max-w-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3 sm:mb-5">
+        <div className="w-full max-w-2xl hidden sm:flex flex-row items-center justify-between gap-3 mb-5">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
               <Calculator className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
@@ -244,8 +298,8 @@ export default function Game24Page() {
               <h1 className="text-base sm:text-2xl font-bold tracking-tight leading-tight">
                 24 点 · 组合数学挑战
               </h1>
-              <p className="text-[11px] sm:text-sm text-muted-foreground">
-                用四则运算与括号，让 4 张牌恰好算出 24。
+              <p className="text-sm text-muted-foreground">
+                {level.rule}
               </p>
             </div>
           </div>
@@ -264,8 +318,80 @@ export default function Game24Page() {
         </div>
 
         <div className="w-full max-w-2xl space-y-4 sm:space-y-6">
+          {/* Difficulty ladder: tier segment + stepper */}
+          <div className="space-y-2.5" data-testid="game24-levels">
+            <div className="grid grid-cols-3 gap-1 rounded-full bg-muted/50 p-1" role="tablist" aria-label="难度">
+              {(["入门", "进阶", "挑战"] as const).map((tier) => {
+                const first = GAME24_LEVELS.find((l) => l.tier === tier)!
+                const active = level.tier === tier
+                const unlocked = isLevelUnlocked(first) || GAME24_LEVELS.some((l) => l.tier === tier && isLevelUnlocked(l))
+                return (
+                  <button
+                    key={tier}
+                    type="button"
+                    role="tab"
+                    aria-selected={active}
+                    disabled={!unlocked || raceIsWaiting || raceIsPlaying}
+                    onClick={() => {
+                      const pick = GAME24_LEVELS.find((l) => l.tier === tier && isLevelUnlocked(l)) ?? first
+                      selectLevel(pick.id)
+                    }}
+                    className={cn(
+                      "flex min-h-11 items-center justify-center rounded-full text-[15px] font-black transition-colors",
+                      active ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
+                      !unlocked && "opacity-50",
+                    )}
+                  >
+                    {tier}
+                  </button>
+                )
+              })}
+            </div>
+            {(() => {
+              const tierLevels = GAME24_LEVELS.filter((l) => l.tier === level.tier)
+              const idx = tierLevels.findIndex((l) => l.id === level.id)
+              const prev = idx > 0 ? tierLevels[idx - 1] : null
+              const next = idx < tierLevels.length - 1 ? tierLevels[idx + 1] : null
+              const wins = Math.min(levelWins[level.id] ?? 0, clearWins)
+              return (
+                <div className="flex items-center gap-2" role="group" aria-label="关卡">
+                  <button
+                    type="button"
+                    disabled={!prev || !isLevelUnlocked(prev) || raceIsWaiting || raceIsPlaying}
+                    onClick={() => prev && selectLevel(prev.id)}
+                    className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-muted/70 disabled:opacity-40"
+                    aria-label="上一关"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </button>
+                  <div className="min-w-0 flex-1 text-center">
+                    <p className="text-[15px] font-black">
+                      {level.name}
+                      <span className="ml-1.5 text-sm font-semibold text-muted-foreground">{idx + 1}/{tierLevels.length}</span>
+                      {wins >= clearWins ? <CheckCircle2 className="ml-1 inline h-4 w-4 text-primary" /> : null}
+                    </p>
+                    <p className="truncate text-[15px] font-semibold text-muted-foreground">{level.rule}</p>
+                    <p className="text-sm font-semibold text-muted-foreground">过关 {wins}/{clearWins}</p>
+                  </div>
+                  <button
+                    type="button"
+                    disabled={!next || !isLevelUnlocked(next) || raceIsWaiting || raceIsPlaying}
+                    onClick={() => next && selectLevel(next.id)}
+                    className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-muted/70 disabled:opacity-40"
+                    aria-label="下一关"
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+                </div>
+              )
+            })()}
+          </div>
+
           {/* Timer */}
           <div className="flex items-center gap-3">
+            <span className="shrink-0 text-[15px] font-bold text-foreground sm:hidden">
+              第 {round} 轮{streak > 0 ? <span className="ml-1.5 text-amber-600 dark:text-amber-400">连胜 {streak}</span> : null}
+            </span>
             <Timer className={cn("w-4 h-4 shrink-0", timeLeft <= 10 ? "text-red-500 animate-pulse" : "text-muted-foreground")} />
             <TimerBar timeLeft={timeLeft} total={60} />
             <span className={cn(
@@ -277,43 +403,39 @@ export default function Game24Page() {
           </div>
 
           {/* Cards row */}
-          <div className="flex justify-center gap-2 sm:gap-4">
+          <div className="flex justify-center gap-3 sm:gap-5">
             {cards.map((card, i) => (
-              <PlayingCard key={`${card.suit}-${card.value}-${i}`} card={card} />
+              <PlayingCard key={`${card.suit}-${card.value}-${i}`} card={card} highlight={status === "solved"} />
             ))}
           </div>
 
           {/* Status banners */}
           {status === "solved" && (
-            <div className="rounded-sm bg-emerald-500/10 border border-emerald-500/30 px-4 py-3 flex items-center gap-3">
-              <Trophy className="w-5 h-5 text-emerald-500 shrink-0" />
+            <div className="flex items-center gap-3 rounded-2xl bg-primary/10 px-4 py-3">
+              <Trophy className="w-5 h-5 text-primary shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">太棒了！</p>
-                <p className="text-xs text-emerald-600/70 dark:text-emerald-400/70">
-                  你成功算出了 24，点击「下一轮」继续挑战。
+                <p className="text-[15px] font-bold text-foreground">太棒了！算出了 {level.target}</p>
+                <p className="text-[15px] font-semibold text-muted-foreground">
+                  {(levelWins[level.id] ?? 0) === clearWins ? "本关已通关，下一关已解锁！" : "点击「下一轮」继续挑战。"}
                 </p>
               </div>
             </div>
           )}
           {status === "timeout" && (
-            <div className="rounded-sm bg-red-500/10 border border-red-500/30 px-4 py-3 flex items-center gap-3">
-              <Timer className="w-5 h-5 text-red-500 shrink-0" />
+            <div className="flex items-center gap-3 rounded-2xl bg-muted/60 px-4 py-3">
+              <Timer className="w-5 h-5 text-foreground shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-red-600 dark:text-red-400">时间到！</p>
-                <p className="text-xs text-red-600/70 dark:text-red-400/70">
-                  别灰心，看看下方的解法，学习新思路。
-                </p>
+                <p className="text-[15px] font-bold text-foreground">时间到！</p>
+                <p className="text-[15px] font-semibold text-muted-foreground">看看下方解法，学习新思路。</p>
               </div>
             </div>
           )}
           {status === "skipped" && (
-            <div className="rounded-sm bg-blue-500/10 border border-blue-500/30 px-4 py-3 flex items-center gap-3">
-              <Eye className="w-5 h-5 text-blue-500 shrink-0" />
+            <div className="flex items-center gap-3 rounded-2xl bg-muted/60 px-4 py-3">
+              <Eye className="w-5 h-5 text-foreground shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">已跳过，查看解法</p>
-                <p className="text-xs text-blue-600/70 dark:text-blue-400/70">
-                  跳过不丢人，理解解法才是关键。
-                </p>
+                <p className="text-[15px] font-bold text-foreground">已跳过，查看解法</p>
+                <p className="text-[15px] font-semibold text-muted-foreground">跳过不丢人，理解解法才是关键。</p>
               </div>
             </div>
           )}
@@ -331,10 +453,10 @@ export default function Game24Page() {
                   }}
                   onKeyDown={handleKeyDown}
                   disabled={raceIsWaiting}
-                  placeholder="用 +, -, *, / 和括号组出 24"
+                  placeholder={level.ops.length === 2 ? `用 + - 组出 ${level.target}` : `用 + - * / 和括号组出 ${level.target}`}
                   className={cn(
                     "flex-1 h-11 sm:h-12 rounded-sm border bg-background px-4 text-sm sm:text-base",
-                    "placeholder:text-muted-foreground/60",
+                    "placeholder:text-muted-foreground",
                     "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary/40",
                     "transition-colors",
                     error
@@ -352,76 +474,91 @@ export default function Game24Page() {
                   <span className="hidden sm:inline">提交</span>
                 </Button>
               </div>
-              <p className="text-[11px] text-muted-foreground pl-1">
-                支持直接输入 <span className="font-mono">A / J / Q / K</span>，也可写成{" "}
-                <span className="font-mono">1 / 11 / 12 / 13</span>。
-              </p>
-              <div className="grid grid-cols-6 gap-1.5 rounded-md border border-border/70 bg-muted/35 p-2 sm:hidden">
-                {cards.map((card, index) => (
+              <p className="pl-1 text-[15px] text-muted-foreground">A=1　J=11　Q=12　K=13</p>
+              <div className="space-y-2 sm:hidden">
+                <div className="grid grid-cols-4 gap-2">
+                  {cards.map((card, index) => (
+                    <button
+                      key={`${card.suit}-${card.value}-${index}-quick`}
+                      type="button"
+                      onClick={() => appendToken(card.label)}
+                      disabled={raceIsWaiting}
+                      className="min-h-12 rounded-xl border border-border/70 bg-muted shadow-sm text-lg font-black active:scale-95 active:shadow-none transition-transform disabled:opacity-50 text-foreground"
+                      aria-label={`输入 ${card.label}`}
+                    >
+                      {card.label}
+                    </button>
+                  ))}
+                </div>
+                <div className={cn("grid gap-2", level.ops.length === 2 ? "grid-cols-4" : "grid-cols-6")}>
+                  {(level.ops.length === 2 ? ["+", "-", "(", ")"] : ["+", "-", "×", "÷", "(", ")"]).map((token) => (
+                    <button
+                      key={token}
+                      type="button"
+                      onClick={() => appendToken(token)}
+                      disabled={raceIsWaiting}
+                      className="min-h-12 rounded-xl border border-primary/25 bg-primary/12 shadow-sm text-lg font-black text-primary active:scale-95 active:shadow-none transition-transform disabled:opacity-50"
+                      aria-label={`输入 ${token}`}
+                    >
+                      {token}
+                    </button>
+                  ))}
+                </div>
+                <div className="grid grid-cols-2 gap-2">
                   <button
-                    key={`${card.suit}-${card.value}-${index}-quick`}
                     type="button"
-                    onClick={() => appendToken(card.label)}
+                    onClick={deleteToken}
                     disabled={raceIsWaiting}
-                    className="min-h-10 rounded-sm bg-background text-sm font-black shadow-xs active:scale-95"
-                    aria-label={`输入 ${card.label}`}
+                    className="min-h-12 rounded-xl border border-border/70 bg-muted shadow-sm text-lg font-black active:scale-95 active:shadow-none transition-transform disabled:opacity-50 text-foreground"
                   >
-                    {card.label}
+                    删除
                   </button>
-                ))}
-                {["+", "-", "×", "÷", "(", ")"].map((token) => (
                   <button
-                    key={token}
                     type="button"
-                    onClick={() => appendToken(token)}
+                    onClick={() => {
+                      setExpression("")
+                      if (error) setError("")
+                    }}
                     disabled={raceIsWaiting}
-                    className="min-h-10 rounded-sm bg-background text-sm font-black text-primary shadow-xs active:scale-95"
-                    aria-label={`输入 ${token}`}
+                    className="min-h-12 rounded-xl border border-destructive/25 bg-destructive/10 text-lg font-black text-destructive active:scale-95 transition-transform disabled:opacity-50"
                   >
-                    {token}
+                    清空
                   </button>
-                ))}
-                <button
-                  type="button"
-                  onClick={deleteToken}
-                  disabled={raceIsWaiting}
-                  className="col-span-3 min-h-10 rounded-sm bg-background text-xs font-bold text-muted-foreground shadow-xs active:scale-95"
-                >
-                  删除
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setExpression("")
-                    if (error) setError("")
-                  }}
-                  disabled={raceIsWaiting}
-                  className="col-span-3 min-h-10 rounded-sm bg-background text-xs font-bold text-muted-foreground shadow-xs active:scale-95"
-                >
-                  清空
-                </button>
+                </div>
               </div>
               {error && (
-                <p className="text-xs text-red-500 pl-1">{error}</p>
+                <p className="pl-1 text-[15px] font-semibold text-destructive">{error}</p>
               )}
             </div>
           )}
 
+          {status === "playing" && hintLevel > 0 && getHintText() && (
+            <div className="rounded-2xl bg-muted/50 px-4 py-3 text-[15px] font-semibold text-foreground">
+              {getHintText()}
+            </div>
+          )}
+
           {/* Action buttons */}
-          <div className="flex items-center gap-2">
+          <div className="grid grid-cols-3 gap-2">
             {status === "playing" && (
-              <Button variant="outline" size="sm" className="gap-1.5" onClick={skipRound} disabled={raceIsWaiting}>
+              <Button variant="outline" size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={requestHint} disabled={raceIsWaiting || hintLevel >= 3}>
+                <Lightbulb className="w-4 h-4" />
+                {hintLevel === 0 ? "提示" : hintLevel >= 3 ? "已看完提示" : "再提示一下"}
+              </Button>
+            )}
+            {status === "playing" && (
+              <Button variant="outline" size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={skipRound} disabled={raceIsWaiting}>
                 <SkipForward className="w-3.5 h-3.5" />
                 跳过
               </Button>
             )}
             {(status === "solved" || status === "skipped" || status === "timeout") && (
-              <Button size="sm" className="gap-1.5" onClick={dealNewRound} disabled={raceIsWaiting}>
+              <Button size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={dealNewRound} disabled={raceIsWaiting}>
                 <Zap className="w-3.5 h-3.5" />
                 下一轮
               </Button>
             )}
-            <Button variant="outline" size="sm" className="gap-1.5" onClick={newGame} disabled={raceIsWaiting}>
+            <Button variant="outline" size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={newGame} disabled={raceIsWaiting}>
               <RefreshCw className="w-3.5 h-3.5" />
               新游戏
             </Button>
@@ -432,16 +569,17 @@ export default function Game24Page() {
             <Card className="playground-info-panel space-y-3 p-4">
               <div className="flex items-center gap-2">
                 <Eye className="w-4 h-4 text-primary" />
-                <h3 className="text-sm font-semibold">可行解法</h3>
-                <span className="text-[11px] text-muted-foreground ml-auto">共 {solutions.length} 种</span>
+                <h3 className="text-base font-bold">可行解法</h3>
+                <span className="text-sm text-muted-foreground ml-auto">共 {solutions.length} 种</span>
               </div>
+              <SolutionAnimator expression={solutions[0]} target={level.target} />
               <div className="max-h-40 overflow-y-auto space-y-1.5 pr-1">
-                {solutions.map((sol, i) => (
+                {solutions.slice(1).map((sol, i) => (
                   <div
                     key={i}
-                    className="text-xs font-mono bg-muted/40 rounded-xs px-3 py-1.5 text-muted-foreground"
+                    className="text-sm font-mono bg-muted/40 rounded-sm px-3 py-2 text-foreground"
                   >
-                    {sol} = 24
+                    {sol} = {level.target}
                   </div>
                 ))}
               </div>
@@ -481,7 +619,7 @@ export default function Game24Page() {
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xs font-semibold text-muted-foreground/80 flex items-center gap-1.5">
+                <h3 className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
                   <Calculator className="w-3.5 h-3.5" />
                   逆运算思维
                 </h3>
@@ -492,7 +630,7 @@ export default function Game24Page() {
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xs font-semibold text-muted-foreground/80 flex items-center gap-1.5">
+                <h3 className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" />
                   表达式树
                 </h3>
@@ -503,7 +641,7 @@ export default function Game24Page() {
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xs font-semibold text-muted-foreground/80 flex items-center gap-1.5">
+                <h3 className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
                   <Brain className="w-3.5 h-3.5" />
                   为什么它能训练数学思维？
                 </h3>

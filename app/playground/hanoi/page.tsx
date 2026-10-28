@@ -32,15 +32,15 @@ const SHORTCUTS_HANOI = [
     { key: "?", label: "快捷键" },
 ]
 
-const DISK_COLORS = [
-    "bg-red-500",
-    "bg-orange-500",
-    "bg-amber-400",
-    "bg-green-500",
-    "bg-blue-500",
-    "bg-indigo-500",
-    "bg-purple-500",
-    "bg-pink-500",
+const DISK_STYLES = [
+    "bg-gradient-to-b from-rose-400 to-rose-600 shadow-[inset_0_2px_0_rgba(255,255,255,0.35),0_6px_14px_-6px_rgba(225,29,72,0.7)]",
+    "bg-gradient-to-b from-orange-300 to-orange-500 shadow-[inset_0_2px_0_rgba(255,255,255,0.35),0_6px_14px_-6px_rgba(249,115,22,0.7)]",
+    "bg-gradient-to-b from-amber-300 to-amber-500 shadow-[inset_0_2px_0_rgba(255,255,255,0.4),0_6px_14px_-6px_rgba(245,158,11,0.7)]",
+    "bg-gradient-to-b from-emerald-300 to-emerald-600 shadow-[inset_0_2px_0_rgba(255,255,255,0.35),0_6px_14px_-6px_rgba(16,185,129,0.7)]",
+    "bg-gradient-to-b from-sky-300 to-sky-600 shadow-[inset_0_2px_0_rgba(255,255,255,0.35),0_6px_14px_-6px_rgba(14,165,233,0.7)]",
+    "bg-gradient-to-b from-indigo-300 to-indigo-600 shadow-[inset_0_2px_0_rgba(255,255,255,0.35),0_6px_14px_-6px_rgba(99,102,241,0.7)]",
+    "bg-gradient-to-b from-violet-300 to-violet-600 shadow-[inset_0_2px_0_rgba(255,255,255,0.35),0_6px_14px_-6px_rgba(139,92,246,0.7)]",
+    "bg-gradient-to-b from-fuchsia-300 to-fuchsia-600 shadow-[inset_0_2px_0_rgba(255,255,255,0.35),0_6px_14px_-6px_rgba(217,70,239,0.7)]",
 ]
 
 const PEG_LABELS: Record<HanoiPeg, string> = {
@@ -92,35 +92,38 @@ function Peg({
             {/* Peg label */}
             <span
                 className={cn(
-                    "text-[10px] sm:text-xs font-bold mb-1 sm:mb-2 transition-colors",
-                    isSelected ? "text-primary" : "text-muted-foreground",
+                    "mb-2 text-sm font-black transition-colors",
+                    isSelected ? "text-primary" : "text-foreground",
                 )}
             >
                 {PEG_LABELS[pegKey]}
             </span>
 
             {/* Rod + Disks area */}
-            <div className="relative w-full flex flex-col items-center" style={{ height: `${maxSlots * 22 + 16}px` }}>
+            <div className="relative w-full flex flex-col items-center" style={{ height: `${maxSlots * 28 + 20}px` }}>
                 {/* Vertical rod */}
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-1 sm:w-1.5 rounded-t-full bg-muted-foreground/30" style={{ height: `${maxSlots * 22 + 8}px` }} />
+                <div
+                    className="absolute left-1/2 bottom-0 w-2 sm:w-2.5 -translate-x-1/2 rounded-t-full bg-gradient-to-b from-muted-foreground/50 to-muted-foreground/80"
+                    style={{ height: `${maxSlots * 28 + 12}px` }}
+                />
 
                 {/* Disks stacked from bottom */}
                 {disks.map((disk, index) => {
-                    const widthPercent = 30 + (disk / diskCount) * 65
-                    const bottom = index * 22
+                    const widthPercent = 34 + (disk / diskCount) * 62
+                    const bottom = index * 28
                     return (
                         <div
                             key={`${pegKey}-${disk}`}
                             className={cn(
-                                "absolute left-1/2 -translate-x-1/2 h-[20px] rounded-xs shadow-md border border-white/20 transition-all duration-300",
-                                DISK_COLORS[disk - 1] ?? "bg-gray-500",
+                                "absolute left-1/2 -translate-x-1/2 h-6 sm:h-7 rounded-full border border-white/30 transition-all duration-300",
+                                DISK_STYLES[disk - 1] ?? "bg-muted",
                             )}
                             style={{
                                 width: `${widthPercent}%`,
                                 bottom: `${bottom}px`,
                             }}
                         >
-                            <span className="absolute inset-0 flex items-center justify-center text-[9px] sm:text-[10px] font-bold text-white/90 drop-shadow-xs">
+                            <span className="absolute inset-0 flex items-center justify-center text-sm font-black text-white drop-shadow-sm">
                                 {disk}
                             </span>
                         </div>
@@ -131,8 +134,8 @@ function Peg({
             {/* Base */}
             <div
                 className={cn(
-                    "w-full h-2 sm:h-2.5 rounded-full mt-1 transition-colors duration-200",
-                    isSelected ? "bg-primary/60" : "bg-muted-foreground/25",
+                    "mt-2 h-3 w-full rounded-full transition-colors duration-200",
+                    isSelected ? "bg-primary" : "bg-muted-foreground/40",
                 )}
             />
         </button>
@@ -275,7 +278,7 @@ export default function HanoiPage() {
             <div className="playground-game-main playground-game-center relative overflow-hidden">
                 <div className="max-w-full lg:max-w-2xl w-full playground-game-board relative">
                     {/* Header */}
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-6">
+                    <div className="hidden sm:flex flex-row items-center justify-between gap-3 mb-6">
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-primary/10 border border-primary/40 flex items-center justify-center shrink-0">
                                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
@@ -284,15 +287,15 @@ export default function HanoiPage() {
                                 <h1 className="text-base sm:text-2xl font-bold tracking-tight leading-tight">
                                     汉诺塔 · 递归与分治
                                 </h1>
-                                <p className="text-[11px] sm:text-sm text-muted-foreground">
-                                    将所有圆盘从起点移动到终点，体会递归的优雅。
+                                <p className="text-sm text-muted-foreground">
+                                    把所有圆盘从 A 移到 C，试试能不能用最少步数完成。
                                 </p>
                             </div>
                         </div>
                         <Button
                             size="icon"
                             variant="outline"
-                            className="rounded-full h-8 w-8 self-end sm:self-auto"
+                            className="rounded-full h-8 w-8"
                             onClick={resetGame}
                             aria-label="重置游戏"
                             title="重置"
@@ -302,10 +305,20 @@ export default function HanoiPage() {
                     </div>
 
                     {/* Controls bar */}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6 bg-background/60 p-3 sm:p-4 rounded-sm border border-border shadow-inner">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3 sm:mb-6 sm:bg-background/60 sm:p-4 sm:rounded-sm sm:border sm:border-border sm:shadow-inner">
+                        <Button
+                            size="icon"
+                            variant="outline"
+                            className="h-11 w-11 rounded-xs sm:hidden"
+                            onClick={resetGame}
+                            aria-label="重置游戏"
+                            title="重置"
+                        >
+                            <RotateCcw className="w-4 h-4" aria-hidden />
+                        </Button>
                         {/* Disk count */}
                         <div className="flex items-center gap-1.5">
-                            <span className="text-[10px] sm:text-xs text-muted-foreground font-medium">圆盘</span>
+                            <span className="text-[15px] sm:text-xs text-foreground/80 font-bold">圆盘</span>
                             <Button
                                 variant="outline"
                                 size="icon"
@@ -336,11 +349,11 @@ export default function HanoiPage() {
                         {/* Moves */}
                         <div className="flex items-center gap-1.5">
                             <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
-                            <span className="text-xs text-muted-foreground">
-                                <span className="font-bold text-foreground font-mono">{moves}</span>
+                            <span className="text-sm text-foreground">
+                                <span className="font-black font-mono">{moves}</span>
                                 {" / "}
-                                <span className="font-mono">{optimalMoves}</span>
-                                <span className="text-[10px] ml-0.5">(2ⁿ−1)</span>
+                                <span className="font-mono font-bold text-primary">{optimalMoves}</span>
+                                <span className="ml-1 text-sm font-semibold text-muted-foreground">最少步</span>
                             </span>
                         </div>
 
@@ -407,6 +420,16 @@ export default function HanoiPage() {
                         </div>
                     </div>
 
+                    <div className="mb-4 rounded-md border border-primary/30 bg-primary/10 px-4 py-3 text-sm leading-6 text-foreground">
+                        <p className="font-bold">最少步数：{optimalMoves} 步</p>
+                        <p className="mt-1">
+                            n 个圆盘最少要走 <span className="font-mono font-black">2ⁿ − 1</span> 步。
+                            现在 n = {diskCount}，所以最少是{" "}
+                            <span className="font-mono font-black">2^{diskCount} − 1 = {optimalMoves}</span>。
+                            每多一个圆盘，最少步数大约翻一倍再加 1。
+                        </p>
+                    </div>
+
                     {/* Pegs area */}
                     <div className="relative bg-muted/20 rounded-md p-3 sm:p-5 border border-border shadow-xl">
                         <div className="flex gap-2 sm:gap-4">
@@ -445,11 +468,13 @@ export default function HanoiPage() {
                                         <span className="text-xl sm:text-2xl font-black text-foreground">
                                             {moves === optimalMoves ? "完美通关！" : "恭喜通关！"}
                                         </span>
-                                        <div className="text-sm text-muted-foreground space-y-0.5 text-center">
+                                        <div className="space-y-1 text-center text-sm text-foreground">
                                             <div>
-                                                步数: <span className="text-foreground font-bold">{moves}</span>
+                                                步数 <span className="font-black">{moves}</span>
+                                                {" / 最少 "}
+                                                <span className="font-black text-primary">{optimalMoves}</span>
                                                 {moves === optimalMoves && (
-                                                    <span className="text-amber-500 ml-1 text-xs font-bold">最优解!</span>
+                                                    <span className="ml-2 font-bold text-amber-500">刚好最优解</span>
                                                 )}
                                             </div>
                                             <div>
@@ -467,8 +492,8 @@ export default function HanoiPage() {
                     </div>
 
                     {/* Hint text */}
-                    <p className="text-center text-[10px] sm:text-xs text-muted-foreground mt-3 sm:mt-4">
-                        点击起始柱选取顶部圆盘，再点击目标柱放下 · 大盘不能叠在小盘上
+                    <p className="mt-3 text-center text-sm font-semibold text-foreground sm:mt-4">
+                        先点起始柱拿起顶部圆盘，再点目标柱放下。大盘不能压在小盘上。
                     </p>
                     <KeyboardHelp shortcuts={SHORTCUTS_HANOI} />
                 </div>
@@ -614,7 +639,7 @@ export default function HanoiPage() {
                                                             ? isPerfect
                                                                 ? "text-amber-500"
                                                                 : "text-foreground"
-                                                            : "text-muted-foreground/40",
+                                                            : "text-muted-foreground",
                                                     )}
                                                 >
                                                     {best != null ? (
@@ -660,7 +685,7 @@ export default function HanoiPage() {
                                                         "font-mono font-bold",
                                                         best != null
                                                             ? "text-foreground"
-                                                            : "text-muted-foreground/40",
+                                                            : "text-muted-foreground",
                                                     )}
                                                 >
                                                     {best != null ? formatTime(best) : "—"}
@@ -673,12 +698,12 @@ export default function HanoiPage() {
 
                             <div className="mt-6 p-4 rounded-md border border-border bg-muted/10">
                                 <div className="flex items-start gap-3">
-                                    <Trophy className="w-5 h-5 text-muted-foreground/40 shrink-0 mt-0.5" />
+                                    <Trophy className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
                                     <div>
-                                        <h4 className="text-sm font-bold text-muted-foreground/70">
+                                        <h4 className="text-sm font-bold text-muted-foreground">
                                             挑战目标
                                         </h4>
-                                        <p className="text-xs text-muted-foreground/50 mt-1 leading-relaxed">
+                                        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
                                             尝试用最少步数（2ⁿ−1）完成每种盘数的挑战，获得 ★ 标记！从 3 个盘开始练习递归思维，逐步挑战更多圆盘。
                                         </p>
                                     </div>

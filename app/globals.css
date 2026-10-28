@@ -1934,3 +1934,19 @@
   }
 
 }
+
+/* 细滚动条：只在需要滚动时出现，颜色跟随主题边框色 */
+.nature-thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--surface-border)) transparent;
+}
+.nature-thin-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.nature-thin-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nature-thin-scroll::-webkit-scrollbar-thumb {
+  background: hsl(var(--surface-border));
+  border-radius: 9999px;
+}
