@@ -4,7 +4,6 @@
  */
 
 export const CATEGORY_THEME_IMAGES: Record<string, string> = {
-  '全部': '/assets/community-hero-kids-robot.png',
   '科学': '/projects/science_physics.webp',
   '技术': '/projects/tech_programming.webp',
   '工程': '/projects/eng_mechanical.webp',

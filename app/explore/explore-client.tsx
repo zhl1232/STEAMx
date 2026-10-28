@@ -1399,7 +1399,7 @@ export function ExploreClient({
                                                                     </a>
                                                                 ) : null}
                                                             </div>
-                                                            <div className="grid grid-cols-1 gap-2 [&_.explore-card>div]:border-transparent! [&_.explore-card>div]:bg-white dark:[&_.explore-card>div]:bg-white/[0.05]">
+                                                            <div className="grid grid-cols-2 items-stretch gap-2 [&_.explore-card>div]:border-transparent! [&_.explore-card>div]:bg-white dark:[&_.explore-card>div]:bg-white/[0.05]">
                                                                 {group.items.map(({ project, index }) => renderProject(project, index))}
                                                             </div>
                                                         </section>

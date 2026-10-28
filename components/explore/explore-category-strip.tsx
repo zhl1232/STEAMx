@@ -4,10 +4,14 @@ import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react'
 import Image from 'next/image'
 
 import { CATEGORY_META } from '@/lib/config/categories'
-import { CATEGORY_THEME_IMAGES } from '@/lib/config/category-images'
 import { categoryToneClasses } from '@/components/ui/tone-badge'
 import { FilterChip } from '@/components/ui/filter-chip'
 import { cn } from '@/lib/utils'
+
+/** 手机分类条插画（Codex 生成，提示词见 ux-1027/refs/category-prompts.md） */
+const CATEGORY_STRIP_IMAGES: Record<string, string> = {
+  全部: 'all', 科学: 'science', 技术: 'tech', 工程: 'engineering', 艺术: 'art', 数学: 'math', 其他: 'other',
+}
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 interface ExploreCategoryStripProps {
@@ -73,7 +77,7 @@ export function ExploreCategoryStrip({
             const active = selectedCategory === category
             const tone = meta?.tone
             const Icon = meta?.icon ?? Sparkles
-            const src = CATEGORY_THEME_IMAGES[category] ?? CATEGORY_THEME_IMAGES['其他']
+            const src = `/explore/categories/${CATEGORY_STRIP_IMAGES[category] ?? 'other'}.webp`
             return (
               <FilterChip
                 ref={active ? activeRef : undefined}
@@ -96,7 +100,7 @@ export function ExploreCategoryStrip({
                   <span
                     aria-hidden="true"
                     className={cn(
-                      'relative mb-1.5 block h-[64px] w-[64px] overflow-hidden rounded-[12px] border-2 bg-[hsl(var(--surface-muted))] md:hidden',
+                      'relative mb-1.5 block h-[64px] w-[64px] overflow-hidden rounded-[12px] border-2 bg-[#F6F1E7] md:hidden',
                       active ? 'border-[hsl(var(--brand-blue))]' : 'border-transparent',
                     )}
                   >
