@@ -864,15 +864,17 @@ export function ExploreClient({
     }
 
     const handlePresetClick = (requestedId: ExplorePresetId) => {
-        // 再点已选中的主题 = 取消主题，回到默认热门。
-        const presetId: ExplorePresetId = requestedId !== 'browse' && detectActivePreset(getFilterState()) === requestedId ? 'browse' : requestedId
+        // 主题只看标签，与排序无关：再点已选中的主题 = 取消主题；切主题保留当前排序。
+        const isToggleOff = requestedId !== 'browse' && activeTopicId === requestedId
+        const presetId: ExplorePresetId = isToggleOff ? 'browse' : requestedId
         const preset = EXPLORE_PRESETS.find((item) => item.id === presetId)
         if (!preset) return
 
+        const nextSortBy = requestedId === 'browse' ? preset.sortBy : selectedSortBy
         const presetTags = preset.tags ?? []
         const params = buildSearchParams({
             difficulty: preset.difficulty,
-            sortBy: preset.sortBy,
+            sortBy: nextSortBy,
             tags: presetTags,
         })
         if (serializeExploreFilterParams(params) === activeFiltersKeyRef.current) {
@@ -880,7 +882,7 @@ export function ExploreClient({
         }
 
         setSelectedDifficulty(preset.difficulty)
-        setSelectedSortBy(preset.sortBy)
+        setSelectedSortBy(nextSortBy)
         setDraftDifficulty(preset.difficulty)
         setSelectedTags(presetTags)
         setDraftTags(presetTags)
@@ -1013,6 +1015,52 @@ export function ExploreClient({
         return () => mq.removeEventListener('change', update)
     }, [])
     const activeListTabId = isExploreListTabPreset(activePresetId) ? activePresetId : null
+    // 主题高亮只按标签判断（与排序无关），切到「最新」也保持高亮。
+    const activeTopicId: ExplorePresetId | null = EXPLORE_PRESETS.find((item) => {
+        const tags = item.tags ?? []
+        return tags.length > 0 && tags.length === selectedTags.length && tags.every((t) => selectedTags.includes(t))
+    })?.id ?? null
+    const topicRow = (
+<div className="mb-3 flex items-center justify-between gap-3 max-md:mb-4">
+                                        <div className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1 py-0.5 max-md:gap-2">
+                                            <span className="mr-1 shrink-0 text-[13px] font-medium text-muted-foreground md:hidden">主题</span>
+                                            {EXPLORE_PRESETS.map((preset) => {
+                                                const isActive = preset.id === 'browse' ? activeListTabId === 'browse' : activeTopicId === preset.id
+
+                                                return (
+                                                    <FilterChip
+                                                        key={preset.id}
+                                                        onClick={() => handlePresetClick(preset.id)}
+                                                        disabled={isFiltering}
+                                                        aria-pressed={isActive}
+                                                        active={isActive}
+                                                        tone="primary"
+                                                        shape="pill"
+                                                        size="md"
+                                                        className={cn(
+                                                            preset.id === 'browse' && "max-md:hidden!", "h-11 min-w-[78px] px-3.5 text-[12px] font-semibold max-md:h-8 max-md:min-w-0 max-md:rounded-full max-md:border max-md:px-3.5 max-md:shadow-none! md:h-10 md:min-w-[96px] md:text-sm",
+                                                            isActive ? "max-md:border-[hsl(var(--brand-blue))]! max-md:bg-[hsl(var(--brand-blue)/0.1)]! max-md:text-[hsl(var(--brand-blue))]! dark:max-md:bg-[hsl(var(--brand-blue)/0.22)]!" : "max-md:border-[#e1e6ec]! max-md:bg-transparent! max-md:text-foreground! dark:max-md:border-white/25!",
+                                                            isActive
+                                                                ? "border-[hsl(var(--brand-blue)/0.42)] dark:border-[hsl(var(--brand-blue)/0.6)] bg-[hsl(var(--brand-blue)/0.1)] dark:bg-[hsl(var(--brand-blue)/0.18)] shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.5)] dark:shadow-[0_8px_20px_-12px_hsl(var(--brand-blue)/0.66)]"
+                                                                : "border-transparent bg-[hsl(var(--surface-raised)/0.66)] text-foreground/68 shadow-none md:bg-[hsl(var(--surface-muted)/0.58)]",
+                                                        )}
+                                                    >
+                                                        <span
+                                                            className={cn(
+                                                                "contents max-md:inline-flex max-md:items-center max-md:justify-center max-md:text-[14px] max-md:leading-none",
+                                                                isActive
+                                                                    ? "max-md:font-semibold max-md:text-[hsl(var(--brand-blue))]"
+                                                                    : "max-md:font-medium max-md:text-foreground",
+                                                            )}
+                                                        >
+                                                            {preset.label}
+                                                        </span>
+                                                    </FilterChip>
+                                                )
+                                            })}
+                                        </div>
+                                    </div>
+    )
     const activeListPreset = activeListTabId
         ? EXPLORE_PRESETS.find((item) => item.id === activeListTabId)
         : undefined
@@ -1131,7 +1179,7 @@ export function ExploreClient({
                                     {advancedFilterCount > 0 ? <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-amber))] px-1 text-[11px] font-bold text-[hsl(var(--brand-amber-foreground))]">{advancedFilterCount}</span> : null}
                                 </button>
                             </div>
-                            <div className="space-y-2.5 pt-1 md:px-5 md:pt-4">
+                            <div className="space-y-2.5 pt-1 max-md:space-y-4 max-md:pt-4 md:px-5 md:pt-4">
                                 <span className="hidden text-[13px] font-semibold text-muted-foreground md:block">分类</span>
                                 <ExploreCategoryStrip
                                     categories={displayCategories}
@@ -1139,6 +1187,8 @@ export function ExploreClient({
                                     disabled={isFiltering}
                                     onSelect={handleCategoryClick}
                                 />
+                                {/* 手机：主题紧跟分类条，可与分类叠加（搜索时不显示）。 */}
+                                {isMobileLayout && !searchQuery ? <div className="pb-1">{topicRow}</div> : null}
                             </div>
                             <div className={cn(
                                 "bg-transparent",
@@ -1217,7 +1267,7 @@ export function ExploreClient({
                                                     onClick={() => handleRemoveTag(tag)}
                                                     active
                                                     shape="pill"
-                                                    className={cn(activeListTabId && activeListPreset?.tags?.includes(tag) && "max-md:hidden")}
+                                                    className={cn(activeTopicId && selectedTags.includes(tag) && "max-md:hidden")}
                                                 >
                                                     {tag}
                                                     <X className="h-3 w-3" />
@@ -1272,48 +1322,7 @@ export function ExploreClient({
                                         </div>
                                     )}
 
-                                    {/* 手机：分类和主题可叠加，选了分类也保留主题行（搜索时不显示）。 */}
-                                    {!isResultsMode || (isMobileLayout && !searchQuery) ? (
-                                    <div className="mb-3 flex items-center justify-between gap-3">
-                                        <div className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1 py-0.5 max-md:gap-2">
-                                            <span className="mr-1 shrink-0 text-[14px] font-semibold text-foreground/80 md:hidden">主题</span>
-                                            {EXPLORE_PRESETS.map((preset) => {
-                                                const isActive = activeListTabId === preset.id
-
-                                                return (
-                                                    <FilterChip
-                                                        key={preset.id}
-                                                        onClick={() => handlePresetClick(preset.id)}
-                                                        disabled={isFiltering}
-                                                        aria-pressed={isActive}
-                                                        active={isActive}
-                                                        tone="primary"
-                                                        shape="pill"
-                                                        size="md"
-                                                        className={cn(
-                                                            preset.id === 'browse' && "max-md:hidden!", "h-11 min-w-[78px] px-3.5 text-[12px] font-semibold max-md:h-9 max-md:min-w-0 max-md:rounded-full max-md:border max-md:px-3.5 max-md:shadow-none! md:h-10 md:min-w-[96px] md:text-sm",
-                                                            isActive ? "max-md:border-[hsl(var(--brand-blue))]! max-md:bg-[hsl(var(--brand-blue)/0.1)]! max-md:text-[hsl(var(--brand-blue))]! dark:max-md:bg-[hsl(var(--brand-blue)/0.22)]!" : "max-md:border-[#d5dbe3]! max-md:bg-transparent! max-md:text-foreground! dark:max-md:border-white/25!",
-                                                            isActive
-                                                                ? "border-[hsl(var(--brand-blue)/0.42)] dark:border-[hsl(var(--brand-blue)/0.6)] bg-[hsl(var(--brand-blue)/0.1)] dark:bg-[hsl(var(--brand-blue)/0.18)] shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.5)] dark:shadow-[0_8px_20px_-12px_hsl(var(--brand-blue)/0.66)]"
-                                                                : "border-transparent bg-[hsl(var(--surface-raised)/0.66)] text-foreground/68 shadow-none md:bg-[hsl(var(--surface-muted)/0.58)]",
-                                                        )}
-                                                    >
-                                                        <span
-                                                            className={cn(
-                                                                "contents max-md:inline-flex max-md:items-center max-md:justify-center max-md:text-[14px] max-md:font-semibold max-md:leading-none",
-                                                                isActive
-                                                                    ? "max-md:font-bold max-md:text-[hsl(var(--brand-blue))]"
-                                                                    : "max-md:text-foreground/85",
-                                                            )}
-                                                        >
-                                                            {preset.label}
-                                                        </span>
-                                                    </FilterChip>
-                                                )
-                                            })}
-                                        </div>
-                                    </div>
-                                    ) : null}
+                                    {!isResultsMode && !isMobileLayout ? topicRow : null}
 
                                     {showMaterials ? (
                                         <HouseholdMaterialPicker selectedIds={ownedMaterialIds} onChange={updateOwnedMaterials} matchedCount={matchedProjectCount} />
@@ -1395,7 +1404,7 @@ export function ExploreClient({
                                                         <section key={group.key} aria-label={title} className="explore-group rounded-[18px] bg-[#f7f9fc] px-3 pb-3 pt-3.5 dark:bg-white/[0.04]">
                                                             <div className="mb-2.5 flex items-center justify-between gap-3 px-1">
                                                                 <h2 className="font-heading text-[18px] font-bold leading-6 tracking-[0.01em] text-foreground">{title}</h2>
-                                                                {canLinkAll ? (
+                                                                {canLinkAll && !isMobileLayout ? (
                                                                     <a
                                                                         href={`/explore?category=${encodeURIComponent(group.key)}`}
                                                                         onClick={(event) => { event.preventDefault(); handleCategoryClick(group.key) }}
