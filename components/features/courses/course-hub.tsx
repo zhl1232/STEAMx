@@ -229,7 +229,8 @@ function MobileCoursesHero({ continueCourse }: { continueCourse?: CourseListItem
   return (
     <section className={styles.hero} aria-labelledby="courses-hero-heading">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/courses/hero.webp" alt="" className={styles.heroImage} width={1200} height={400} />
+      <img src="/courses/hero.webp" alt="" className={`${styles.heroImage} ${styles.heroImageLight}`} width={1200} height={400} />
+      <img src="/courses/hero-dark.webp" alt="" className={`${styles.heroImage} ${styles.heroImageDark}`} width={1200} height={400} />
       <div className={styles.heroText}>
         <h2 id="courses-hero-heading" aria-label={HERO_COPY.title}><HeroTitle text={HERO_COPY.title} emphasis={HERO_COPY.emphasis} /></h2>
         {HERO_COPY.subtitle ? <p className={styles.heroSub}>{HERO_COPY.subtitle}</p> : null}

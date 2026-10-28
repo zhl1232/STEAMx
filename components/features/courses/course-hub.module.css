@@ -381,6 +381,10 @@
 /* a7 — hero image at full opacity, no edge fades */
 .hub .heroImage { inset: 0 0 0 auto; width: 100%; height: 100%; object-fit: cover; object-position: right center; filter: none; -webkit-mask-image: none; mask-image: none; }
 .hub .heroText { max-width: 46%; }
+/* a8 — night version of the same illustration, full bleed */
+.hub .heroImageDark { display: none; }
+:global(.dark) .hub .heroImageLight { display: none; }
+:global(.dark) .hub .heroImageDark { display: block; filter: none; }
 :global(.dark) .hub .hero::before { content: none; }
-:global(.dark) .hub .hero { background: hsl(220 34% 10%); }
-:global(.dark) .hub .heroImage { inset: 8px 8px 8px auto; width: 56%; object-position: 90% center; height: calc(100% - 16px); border-radius: 16px; filter: brightness(.9); }
+:global(.dark) .hub .hero { background: rgb(14 22 40); box-shadow: none; }
+:global(.dark) .hub .heroText h2 { color: #fff; }
