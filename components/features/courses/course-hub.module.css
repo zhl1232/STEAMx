@@ -362,3 +362,29 @@
 :global(.dark) .heroText h2 { color: #fbefd6; }
 :global(.dark) .heroEm { color: #ffc56b; background: linear-gradient(transparent 76%, rgb(255 197 107 / .35) 76%, rgb(255 197 107 / .35) 92%, transparent 92%); }
 :global(.dark) .heroSub { color: #e6d6b4; }
+
+/* a5 — dark mode refinement */
+:global(.dark) .hero { background: hsl(var(--background)); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .07); }
+:global(.dark) .heroImage { inset: 0; width: 100%; object-position: right center; filter: brightness(.62) saturate(.82) contrast(1.02);
+  -webkit-mask-image: none; mask-image: none; }
+:global(.dark) .hero::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(90deg, hsl(220 30% 8%) 0%, hsl(220 30% 8% / .92) 24%, hsl(220 30% 8% / .62) 46%, hsl(220 30% 8% / .2) 70%, hsl(220 30% 8% / 0) 88%); }
+:global(.dark) .heroText { z-index: 2; }
+:global(.dark) .heroText h2 { color: #f3f5fa; }
+:global(.dark) .heroEm { color: #ffc56b; background: linear-gradient(transparent 76%, rgb(255 197 107 / .3) 76%, rgb(255 197 107 / .3) 92%, transparent 92%); }
+
+:global(.dark) .lessonSection .lessonThumb { background: #1a2130; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .07), 0 8px 18px -10px rgb(0 0 0 / .7); }
+:global(.dark) .lessonSection .lessonThumb[data-kind='photo'] { background: #1a2130; }
+:global(.dark) .lessonSection .lessonPhoto { inset: 8px; width: calc(100% - 16px); height: calc(100% - 16px); padding: 4px; border-radius: 12px;
+  background: #dcd9d2; mix-blend-mode: normal; filter: brightness(.86) saturate(.95); }
+:global(.dark) .lessonSection .lessonThumb[data-kind='icon'] { background: #1a2130; }
+:global(.dark) .lessonIconArt { filter: brightness(.8) saturate(.9); }
+:global(.dark) .lessonBadge { background: rgb(20 26 38 / .82); color: #e9edf5; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); backdrop-filter: blur(4px); }
+:global(.dark) .lessonSection .lessonThumb[data-kind='icon'] ~ .lessonBadge { background: rgb(20 26 38 / .82); }
+:global(.dark) .lessonSection .lessonRailWrap::after { width: 40px;
+  background: linear-gradient(to right, hsl(var(--background) / 0), hsl(var(--background) / .55) 45%, hsl(var(--background)) 100%); }
+:global(.dark) .lessonSection .courseIcon { box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08); }
+:global(.dark) .lessonSection .allLessons { border-color: rgb(255 255 255 / .16); background: #1a2130; color: #e9edf5; }
+:global(.dark) .lessonSection .lessonThumb[data-kind='photo'] { padding: 7px; box-sizing: border-box; }
+:global(.dark) .lessonSection .lessonThumb[data-kind='photo'] .lessonPhoto { inset: 7px !important; width: calc(100% - 14px) !important; height: calc(100% - 14px) !important; border-radius: 12px; padding: 4px;
+  background: #d9d6cf; filter: brightness(.78) saturate(.95); }

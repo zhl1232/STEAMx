@@ -185,7 +185,7 @@ function CourseLessonSection({ course }: { course: CourseListItem }) {
 }
 
 /** 顶部横幅文案（占位，待定稿后替换；subtitle 留空则不显示） */
-export const HERO_COPY = { title: '每一步坚持，都算数。', subtitle: '', emphasis: ['都算数'] }
+export const HERO_COPY = { title: '每一次坚持，都算数。', subtitle: '', emphasis: ['都算数'] }
 
 /** 把标题按逗号分行，并把重点词包成高亮 */
 function HeroTitle({ text, emphasis }: { text: string; emphasis: string[] }) {
