@@ -64,7 +64,7 @@ export function ExploreCategoryStrip({
   return (
     <div className="relative md:static" data-testid="explore-category-strip">
       {overflow && canScrollRight ? <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-linear-to-l from-[hsl(var(--app-canvas))] to-transparent md:hidden" /> : null}
-      <div ref={viewportRef} className="no-scrollbar @container overflow-x-auto">
+      <div ref={viewportRef} className="no-scrollbar @container -mx-1 overflow-x-auto md:mx-0">
         {/* 手机：参考图 C 小照片+文字；电脑：原来的胶囊。同一按钮两套外观，避免测试/读屏重复。 */}
         <div className="flex min-w-max items-start gap-2 px-1 pb-1 pt-1 md:min-w-0 md:flex-wrap md:items-center md:gap-3">
           {categories.map((category) => {

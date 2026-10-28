@@ -1401,8 +1401,8 @@ export function ExploreClient({
                                                     const title = group.key === '__single' ? singleTitle : group.key
                                                     const canLinkAll = group.key !== '__single' && displayCategories.includes(group.key)
                                                     return (
-                                                        <section key={group.key} aria-label={title} className="explore-group rounded-[18px] bg-[#f7f9fc] px-3 pb-3 pt-3.5 dark:bg-white/[0.04]">
-                                                            <div className="mb-2.5 flex items-center justify-between gap-3 px-1">
+                                                        <section key={group.key} aria-label={title} className="explore-group border-t border-[hsl(var(--surface-border))] pt-5 first:border-t-0 first:pt-0">
+                                                            <div className="mb-3 flex items-center justify-between gap-3">
                                                                 <h2 className="font-heading text-[18px] font-bold leading-6 tracking-[0.01em] text-foreground">{title}</h2>
                                                                 {canLinkAll && !isMobileLayout ? (
                                                                     <a
