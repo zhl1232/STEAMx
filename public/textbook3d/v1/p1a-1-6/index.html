@@ -1,0 +1,76 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><link rel="icon" href="data:,"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>创探空间 3D 课本</title>
+<style>
+@font-face{font-family:NSerif;font-weight:400 600;font-display:swap;src:url(/textbook3d/v1/shared/serif-r-c33cb8867e.woff2) format('woff2')}@font-face{font-family:NSerif;font-weight:700;font-display:swap;src:url(/textbook3d/v1/shared/serif-b-746c8a7026.woff2) format('woff2')}@font-face{font-family:WK;font-display:swap;src:url(/textbook3d/v1/shared/wk-0620ae9f14.woff2) format('woff2')}
+html,body{margin:0;height:100%;overflow:hidden;background:#d9ccb6;font:14px/1.4 system-ui,-apple-system,"PingFang SC","Noto Sans CJK SC",sans-serif;color:#233052}
+#gl{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#cover{position:fixed;inset:0;background:radial-gradient(120% 90% at 50% 40%,#2a3358,#141a30);display:grid;place-items:center;color:#e9e3d2;z-index:5;transition:opacity .8s cubic-bezier(.2,.8,.2,1),visibility 0s .8s;font-family:NSerif,serif}
+#cover b{font-size:30px;letter-spacing:.2em}#cover span{display:block;font-size:12px;letter-spacing:.3em;color:#9aa3c4;margin-top:10px;text-align:center}
+body.ready #cover{opacity:0;visibility:hidden}
+.nav{position:fixed;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:999px;background:rgba(255,253,247,.74);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 30px rgba(40,30,10,.18),inset 0 0 0 1px rgba(255,255,255,.6);white-space:nowrap;z-index:3}
+.nav button{all:unset;cursor:pointer;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#233052;transition:background .2s}
+.nav button:hover{background:rgba(35,48,82,.08)}.nav button.on{background:#233052;color:#fbf7ee}.nav button:disabled{opacity:.3;cursor:default}
+.nav svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.nav .ttl{font-family:NSerif,serif;font-size:15px;padding:0 8px}.nav .ttl em{font-style:normal;color:#a23a28;margin-right:6px;font-weight:700}
+.nav .sep{width:1px;height:22px;background:rgba(35,48,82,.15);margin:0 4px}
+#dots{display:flex;gap:5px;padding:0 4px}#dots i{width:6px;height:6px;border-radius:50%;background:rgba(35,48,82,.22);transition:all .3s}#dots i.on{background:#a23a28;width:16px;border-radius:3px}
+.nav input[type=range]{width:90px;accent-color:#233052}.nav .lbl{font-size:12px;color:rgba(35,48,82,.7)}
+#go{width:auto;padding:0 12px;border-radius:999px;background:#233052;color:#fbf7ee;font-size:13px;height:30px}
+#pg{font-size:12px;color:rgba(35,48,82,.6);min-width:34px;text-align:center}
+#toast{position:fixed;left:50%;top:22px;transform:translate(-50%,-20px);opacity:0;background:#233052;color:#fbf7ee;padding:8px 16px;border-radius:999px;font-family:NSerif,serif;transition:all .35s cubic-bezier(.2,.8,.2,1);z-index:4;pointer-events:none}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.brand{position:fixed;right:16px;bottom:18px;font-size:11px;letter-spacing:.08em;color:rgba(35,48,82,.55);font-family:NSerif,serif}
+.hint{position:fixed;left:18px;top:16px;font-family:WK,serif;font-size:15px;color:rgba(35,48,82,.7)}
+@media (max-width:760px){.nav{gap:0;padding:4px 6px;bottom:10px;flex-wrap:wrap;justify-content:center;width:calc(100% - 24px);border-radius:22px;box-sizing:border-box}.nav .ttl,.brand,.nav .sep.s2{display:none}.nav button{width:32px;height:32px}.nav input[type=range]{width:70px}.hint{font-size:13px}}
+#drawer{display:none}
+body.portrait #drawer{display:block;position:fixed;left:8px;right:8px;bottom:118px;z-index:2;background:#fbf7ee;border-radius:18px 18px 14px 14px;box-shadow:0 -6px 24px rgba(40,25,10,.28),inset 0 0 0 1px rgba(255,255,255,.7);max-height:76px;overflow:hidden;transition:max-height .45s cubic-bezier(.2,.8,.2,1);font-family:NSerif,serif;color:#233052;background-image:radial-gradient(rgba(120,90,50,.06) 1px,transparent 1px);background-size:5px 5px}
+body.portrait.dopen #drawer{max-height:62vh}
+#dhandle{display:grid;grid-template-columns:1fr auto;padding:16px 18px 10px;cursor:pointer;position:relative}
+#dhandle i{position:absolute;left:50%;top:6px;width:40px;height:4px;border-radius:2px;background:rgba(35,48,82,.2);transform:translateX(-50%)}
+#dhandle .dk{grid-column:1;font-size:11px;letter-spacing:.2em;color:#a23a28}#dhandle b{grid-column:1;font-size:20px;letter-spacing:.04em}
+#dhandle em{grid-row:1/3;grid-column:2;align-self:center;font-style:normal;font-family:WK,serif;font-size:14px;color:rgba(35,48,82,.6)}
+body.dopen #dhandle em{transform:none}
+#dbody{overflow-y:auto;max-height:calc(62vh - 76px);padding:0 20px 24px;font-size:16px;line-height:1.72;text-align:justify}
+#dbody h1{display:none}#dbody .kick{font-size:11px;letter-spacing:.2em;color:#a23a28;margin:14px 0 2px}#dbody h2{font-size:22px;margin:0 0 6px}
+#dbody h3{font-size:12px;letter-spacing:.3em;color:#a23a28;margin:18px 0 6px;font-weight:600}
+#dbody .lead{font-size:17px;margin-top:4px}body.kid #dbody{font-size:19px;line-height:1.8}body.kid #dbody .lead{font-size:21px}body.kid #dbody h2{font-size:26px}body.kid #dbody h3{font-size:15px}body.kid .hint{font-size:18px}
+.fcard{border:1.5px dashed rgba(35,48,82,.45);border-radius:10px;padding:12px;text-align:center;background:rgba(255,253,246,.9)}
+.fcard .f{font-size:22px;font-weight:700;display:flex;justify-content:center;gap:10px}.fcard .c1,.fcard .c3{color:#999;font-weight:400}.fcard .c2{color:#e08a2c}.fcard .c4{color:#3f63b5}.fcard small{font-size:12px;color:rgba(35,48,82,.66)}
+#dbody dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0}#dbody dt{font-weight:700}#dbody dd{margin:0;color:rgba(35,48,82,.85)}
+.opts{display:grid;gap:6px}.opts button{all:unset;padding:8px 12px;border:1.5px solid rgba(35,48,82,.35);border-radius:10px;cursor:pointer}.opts button.on{border-color:#a23a28;background:rgba(162,58,40,.08);color:#a23a28}
+.flapbtn{all:unset;display:block;box-sizing:border-box;width:100%;margin-top:12px;padding:14px 16px;border-radius:10px;background:#f2e3c1;border:1.5px dashed rgba(35,48,82,.35);cursor:pointer;transition:transform .3s}
+.flapbtn b{display:block;font-size:19px}.flapbtn span{font-family:WK,serif;color:rgba(35,48,82,.7)}.flapbtn.shake{animation:sh .4s}
+@keyframes sh{25%{transform:translateX(-6px) rotate(-1deg)}75%{transform:translateX(6px) rotate(1deg)}}
+.ans{max-height:0;overflow:hidden;transition:max-height .5s;background:rgba(255,240,205,.7);border-radius:0 0 10px 10px;padding:0 14px}.ans.on{max-height:300px;padding:10px 14px}.ans i{font-style:normal;font-family:WK,serif;color:#a23a28;font-size:20px;margin-right:8px}
+#dbody hr{border:0;border-top:1px solid rgba(35,48,82,.15);margin:22px 0 0}#dbody ol{padding-left:22px}
+.chal{position:relative;border:2px solid #a23a28;border-radius:12px;padding:4px 92px 8px 14px;background:rgba(162,58,40,.05)}.chal h3{margin-top:8px!important}
+.stamp{position:absolute;right:12px;top:50%;width:64px;height:64px;margin-top:-32px;border:2px dashed rgba(162,58,40,.4);border-radius:50%;display:grid;place-items:center;color:transparent;font-weight:700;transform:rotate(-14deg)}
+.stamp.on{border:4px double #a23a28;color:#a23a28;animation:st .4s}@keyframes st{from{transform:scale(1.8) rotate(-14deg);opacity:0}}
+.hand{font-family:WK,serif;color:rgba(35,48,82,.6)}
+body.portrait .hint{display:none}
+.ctl{display:flex;align-items:center;gap:4px}.nav button.txt{width:auto;padding:0 11px;height:30px;border-radius:999px;font-size:13px;background:rgba(35,48,82,.07)}.nav button.txt.on{background:#233052;color:#fbf7ee}
+.seg{display:inline-flex;gap:2px}.pk{color:#a23a28}
+table.tb{border-collapse:collapse;width:100%;font-size:14px;text-align:center}table.tb th,table.tb td{border:1px solid rgba(35,48,82,.4);padding:4px}table.tb td.hv{font-family:WK,serif;color:#a23a28}
+body.embed .brand,body.embed .hint{display:none}body.embed{background:#efe7d6}body.embed #cover{background:#efe7d6;color:#233052}
+@media (max-width:760px){.nav .ctl{flex-wrap:wrap;justify-content:center}}
+body.nogl::after{content:"你的浏览器不支持 WebGL，无法显示 3D 课本";position:fixed;inset:0;display:grid;place-items:center;background:#fbf7ee}
+</style><link rel="preload" href="/textbook3d/v1/shared/serif-r-c33cb8867e.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/textbook3d/v1/shared/serif-b-746c8a7026.woff2" as="font" type="font/woff2" crossorigin></head><body>
+<canvas id="gl"></canvas>
+<div id="cover"><div><b id="ctitle"></b><span id="csub"></span></div></div>
+<div class="hint" id="hintTop">拖动桌面可转动视角</div>
+<div class="nav">
+ <button id="toc" title="目录"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h9"/></svg></button>
+ <button id="prev" title="上一页"><svg viewBox="0 0 24 24"><path d="M14.5 6.5 9 12l5.5 5.5"/></svg></button>
+ <button id="play" title="演示"><svg viewBox="0 0 24 24"><path d="M8.5 6v12l10-6z"/></svg></button>
+ <span id="dots"></span>
+ <span class="ttl" id="ttl"></span><span id="pg">1 / 2</span>
+ <button id="next" title="下一页"><svg viewBox="0 0 24 24"><path d="M9.5 6.5 15 12l-5.5 5.5"/></svg></button>
+ <span class="sep"></span>
+ <span id="ctl" class="ctl"></span>
+ <button id="still" title="静止模式"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/><path d="M12 4.5v15"/><path d="M12 4.5a7.5 7.5 0 0 1 0 15z" fill="currentColor"/></svg></button>
+ <button id="side" title="换页" style="display:none"><svg viewBox="0 0 24 24"><path d="M7 8h11l-3-3M17 16H6l3 3"/></svg></button>
+</div>
+<div id="drawer"><div id="dhandle"><i></i><span class="dk" id="dk"></span><b id="db"></b><em>课文 ▲</em></div><div id="dbody"></div></div>
+<div id="toast"></div><div class="brand">© 2026 创探空间</div>
+<script type="module" src="/textbook3d/v1/shared/p1a-1-6-EBQL4T6N.js"></script>
+</body></html>
