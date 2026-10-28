@@ -65,7 +65,8 @@ describe('手机端课程页：每门课露出课时', () => {
 
   it('未登录显示横幅标题', () => {
     render(<CourseHub courses={[makeCourse({ id: 3, title: '五子棋博弈论入门', tags: ['五子棋'], preview_lessons: [lesson(1, 1, '认识棋盘')] })]} />)
-    expect(screen.getByRole('heading', { name: /坚持一小步/ }).textContent).toBe('坚持一小步，进步一大截')
+    expect(screen.getByRole('heading', { name: '坚持一小步，进步一大截' }).textContent).toBe('坚持一小步，进步一大截')
+    expect(screen.getByText('技能课程 · 1 门')).toBeTruthy()
     expect(screen.queryByRole('link', { name: /^继续上次的课/ })).toBeNull()
   })
 })

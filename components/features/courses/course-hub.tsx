@@ -119,7 +119,7 @@ function CourseIcon({ theme }: { theme: CourseTheme }) {
   return <img src={`/courses/icons/${theme}.webp`} alt="" width={46} height={46} className={styles.courseIcon} onError={() => setFailed(true)} />
 }
 
-function LessonTileImage({ lesson }: { lesson: CoursePreviewLesson }) {
+function LessonTileImage({ lesson, theme }: { lesson: CoursePreviewLesson; theme: CourseTheme }) {
   const [load, setLoad] = useState({ attempt: 0, failed: false })
   if (lesson.image_url && !load.failed) {
     const { attempt } = load
@@ -134,19 +134,22 @@ function LessonTileImage({ lesson }: { lesson: CoursePreviewLesson }) {
     )
   }
   return (
-    <span className={styles.lessonThumb} data-kind="number">
-      <span className={styles.lessonNumber}>{String(lesson.number).padStart(2, '0')}</span>
+    <span className={styles.lessonThumb} data-kind="icon">
+      {theme !== 'other' ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={`/courses/icons/${theme}.webp`} alt="" width={64} height={64} className={styles.lessonIconArt} />
+      ) : null}
     </span>
   )
 }
 
-function LessonTile({ course, lesson }: { course: CourseListItem; lesson: CoursePreviewLesson }) {
+function LessonTile({ course, lesson, theme }: { course: CourseListItem; lesson: CoursePreviewLesson; theme: CourseTheme }) {
   return (
     <Link href={`/courses/${course.id}/lessons/${lesson.id}`} prefetch={false} className={styles.lessonTile}
       aria-label={`第${lesson.number}课 ${lesson.title}${lesson.is_completed ? '（已完成）' : ''}`} data-lesson-id={lesson.id}>
-      <LessonTileImage lesson={lesson} />
+      <LessonTileImage lesson={lesson} theme={theme} />
+      <span className={styles.lessonBadge} aria-hidden="true">{String(lesson.number).padStart(2, '0')}</span>
       {lesson.is_completed ? <span className={styles.doneBadge} aria-hidden="true"><Check size={14} strokeWidth={3} /></span> : null}
-      <span className={styles.lessonNo}>第{lesson.number}课</span>
       <strong className={styles.lessonTitle}>{lesson.title}</strong>
     </Link>
   )
@@ -167,13 +170,13 @@ function CourseLessonSection({ course }: { course: CourseListItem }) {
         </div>
         <Link href={`/courses/${course.id}`} prefetch={false} className={styles.allLessons}
           aria-label={`${course.title}：全部 ${course.lesson_count} 课`}>
-          全部 {course.lesson_count} 课<ChevronRight size={16} aria-hidden="true" />
+          全部 {course.lesson_count} 课<ChevronRight size={16} strokeWidth={2.4} aria-hidden="true" />
         </Link>
       </div>
       {lessons.length > 0 ? (
         <div className={styles.lessonRailWrap}>
           <div className={styles.lessonRail}>
-            {lessons.map((lesson) => <LessonTile key={lesson.id} course={course} lesson={lesson} />)}
+            {lessons.map((lesson) => <LessonTile key={lesson.id} course={course} lesson={lesson} theme={theme} />)}
           </div>
         </div>
       ) : <p className={styles.lessonEmpty}>课时准备中</p>}
@@ -182,10 +185,25 @@ function CourseLessonSection({ course }: { course: CourseListItem }) {
 }
 
 /** 顶部横幅文案（占位，待定稿后替换；subtitle 留空则不显示） */
-export const HERO_COPY = { title: '坚持一小步，进步一大截', subtitle: '' }
+export const HERO_COPY = { title: '坚持一小步，进步一大截', subtitle: '', emphasis: ['一小步', '一大截'] }
+
+/** 把标题按逗号分行，并把重点词包成高亮 */
+function HeroTitle({ text, emphasis }: { text: string; emphasis: string[] }) {
+  const pattern = new RegExp(`(${emphasis.join('|')})`)
+  return (
+    <>
+      {text.split(/(?<=，)/).map((line) => (
+        <span key={line} className={styles.heroLine}>
+          {line.split(pattern).filter(Boolean).map((part, i) => emphasis.includes(part)
+            ? <em key={i} className={styles.heroEm}>{part}</em> : <span key={i}>{part}</span>)}
+        </span>
+      ))}
+    </>
+  )
+}
 
 /** 顶部：登录在学显示「继续上次的课」，否则显示插画横幅 */
-function MobileCoursesHero({ continueCourse }: { continueCourse?: CourseListItem }) {
+function MobileCoursesHero({ continueCourse, courseCount }: { continueCourse?: CourseListItem; courseCount: number }) {
   const next = continueCourse?.next_lesson
   if (continueCourse && next) {
     const theme = getCourseTheme(continueCourse)
@@ -210,16 +228,13 @@ function MobileCoursesHero({ continueCourse }: { continueCourse?: CourseListItem
   }
   return (
     <section className={styles.hero} aria-labelledby="courses-hero-heading">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/courses/hero.webp" alt="" className={styles.heroImage} width={1200} height={400} />
       <div className={styles.heroText}>
-        <h2 id="courses-hero-heading">
-          {HERO_COPY.title.split(/(?<=，)/).map((line) => <span key={line}>{line}</span>)}
-        </h2>
-        {HERO_COPY.subtitle ? <p>{HERO_COPY.subtitle}</p> : null}
+        <p className={styles.heroEyebrow}>技能课程 · {courseCount} 门</p>
+        <h2 id="courses-hero-heading" aria-label={HERO_COPY.title}><HeroTitle text={HERO_COPY.title} emphasis={HERO_COPY.emphasis} /></h2>
+        {HERO_COPY.subtitle ? <p className={styles.heroSub}>{HERO_COPY.subtitle}</p> : null}
       </div>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/courses/hero.webp" alt="" className={styles.heroImage} data-variant="light" width={1200} height={400} />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/courses/hero-dark.webp" alt="" className={styles.heroImage} data-variant="dark" width={1200} height={400} />
     </section>
   )
 }
@@ -269,7 +284,7 @@ function MobileCourseHub({ courses, visible }: { courses: CourseListItem[]; visi
     <div className={styles.hub} data-course-hub data-mobile-courses>
       {courses.length > 0 ? (
         <>
-          <MobileCoursesHero continueCourse={continueCourse} />
+          <MobileCoursesHero continueCourse={continueCourse} courseCount={courses.length} />
           {ordered.map((course) => <CourseLessonSection key={course.id} course={course} />)}
         </>
       ) : (
