@@ -2,7 +2,6 @@
 
 import { Fragment, useState, useRef, useCallback, useEffect, useLayoutEffect, useMemo, type FormEvent, type MouseEvent } from 'react'
 import Link from 'next/link'
-import { OptimizedImage } from '@/components/ui/optimized-image'
 import { buildExplorePageHref } from '@/lib/seo/explore-pagination'
 import { useSearchParams } from 'next/navigation'
 import {
@@ -1023,10 +1022,6 @@ export function ExploreClient({
     const hasActiveAdvancedFilters = !!selectedSubCategory || (!difficultyBelongsToListTab && selectedDifficulty !== "all") || selectedAge !== null || (!tagsBelongToListTab && selectedTags.length > 0)
     const advancedFilterCount = (selectedSubCategory ? 1 : 0) + (!difficultyBelongsToListTab && selectedDifficulty !== "all" ? 1 : 0) + (selectedAge !== null ? 1 : 0) + (tagsBelongToListTab ? 0 : selectedTags.length)
     const isResultsMode = isExploreResultsMode(getFilterState())
-    // 手机主推位：默认「热门」排序下第一条项目（现有数据，无新表）；在下方分组里不再重复出现。
-    const featuredProject = isMobileLayout && !isResultsMode && !showMaterials && selectedCategory === '全部' && (activeListTabId ?? 'browse') === 'browse'
-        ? displayedProjects[0] ?? null
-        : null
     const hasDraftFilters = draftCategory !== selectedCategory || !!draftSubCategory || draftDifficulty !== "all" || draftAge !== null || draftTags.length > 0
     const draftFilterCount = (draftSubCategory ? 1 : 0) + (draftDifficulty !== "all" ? 1 : 0) + (draftAge !== null ? 1 : 0) + draftTags.length
     const getDifficultyLabel = (value: string) => DIFFICULTY_OPTIONS.find(o => o.value === value)?.label || value
@@ -1135,26 +1130,7 @@ export function ExploreClient({
                                     {advancedFilterCount > 0 ? <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-amber))] px-1 text-[11px] font-bold text-[hsl(var(--brand-amber-foreground))]">{advancedFilterCount}</span> : null}
                                 </button>
                             </div>
-                            {featuredProject ? (
-                                <Link
-                                    href={buildProjectDetailHref(featuredProject.id)}
-                                    data-testid="explore-featured"
-                                    className="group mt-1 block overflow-hidden rounded-[18px] border border-[#e2e7ee] bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:hidden dark:border-white/[0.12] dark:bg-white/[0.04]"
-                                >
-                                    <div className="relative aspect-[2/1] w-full bg-[hsl(var(--surface-muted))]">
-                                        <OptimizedImage src={featuredProject.image} alt={featuredProject.title} fill variant="card" priority className="object-cover" />
-                                        <span className="absolute left-3 top-3 rounded-full bg-white/92 px-2.5 py-1 text-[13px] font-bold text-[hsl(var(--brand-blue))] dark:bg-black/60 dark:text-white">本周主推</span>
-                                    </div>
-                                    <div className="flex items-center gap-3 px-4 py-3">
-                                        <div className="min-w-0 flex-1">
-                                            <h2 className="font-heading truncate text-[18px] font-bold leading-6 text-foreground">{featuredProject.title}</h2>
-                                            {featuredProject.description ? <p className="mt-1 line-clamp-2 text-[14px] leading-5 text-foreground/75">{featuredProject.description}</p> : null}
-                                        </div>
-                                        <ChevronRight className="h-5 w-5 shrink-0 text-foreground/60" aria-hidden />
-                                    </div>
-                                </Link>
-                            ) : null}
-                            <div className="space-y-2.5 pt-4 md:px-5 md:pt-4">
+                            <div className="space-y-2.5 pt-1 md:px-5 md:pt-4">
                                 <span className="hidden text-[13px] font-semibold text-muted-foreground md:block">分类</span>
                                 <ExploreCategoryStrip
                                     categories={displayCategories}
@@ -1295,7 +1271,7 @@ export function ExploreClient({
 
                                     {!isResultsMode ? (
                                     <div className="mb-3 flex items-center justify-between gap-3">
-                                        <div className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1">
+                                        <div className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1 py-0.5 max-md:gap-2">
                                             {EXPLORE_PRESETS.map((preset) => {
                                                 const isActive = activeListTabId === preset.id
 
@@ -1310,7 +1286,8 @@ export function ExploreClient({
                                                         shape="pill"
                                                         size="md"
                                                         className={cn(
-                                                            preset.id === 'browse' && "max-md:hidden!", "h-11 min-w-[78px] px-3.5 text-[12px] font-semibold max-md:min-w-0 max-md:border-transparent! max-md:bg-transparent! max-md:p-0! max-md:shadow-none! max-md:text-inherit! md:h-10 md:min-w-[96px] md:text-sm",
+                                                            preset.id === 'browse' && "max-md:hidden!", "h-11 min-w-[78px] px-3.5 text-[12px] font-semibold max-md:h-10 max-md:min-w-0 max-md:rounded-full max-md:border-[1.5px] max-md:px-4 max-md:shadow-none! md:h-10 md:min-w-[96px] md:text-sm",
+                                                            isActive ? "max-md:border-[hsl(var(--brand-blue))]! max-md:bg-[hsl(var(--brand-blue))]! max-md:text-white!" : "max-md:border-[#cfd6e0]! max-md:bg-white! max-md:text-foreground! dark:max-md:border-white/25! dark:max-md:bg-white/[0.04]!",
                                                             isActive
                                                                 ? "border-[hsl(var(--brand-blue)/0.42)] dark:border-[hsl(var(--brand-blue)/0.6)] bg-[hsl(var(--brand-blue)/0.1)] dark:bg-[hsl(var(--brand-blue)/0.18)] shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.5)] dark:shadow-[0_8px_20px_-12px_hsl(var(--brand-blue)/0.66)]"
                                                                 : "border-transparent bg-[hsl(var(--surface-raised)/0.66)] text-foreground/68 shadow-none md:bg-[hsl(var(--surface-muted)/0.58)]",
@@ -1318,10 +1295,10 @@ export function ExploreClient({
                                                     >
                                                         <span
                                                             className={cn(
-                                                                "contents max-md:inline-flex max-md:h-8 max-md:items-center max-md:justify-center max-md:px-2 max-md:text-[15px] max-md:font-semibold max-md:leading-none max-md:transition-colors",
+                                                                "contents max-md:inline-flex max-md:items-center max-md:justify-center max-md:text-[15px] max-md:font-semibold max-md:leading-none",
                                                                 isActive
-                                                                    ? "max-md:font-bold max-md:text-[hsl(var(--brand-blue))]"
-                                                                    : "max-md:text-foreground/72",
+                                                                    ? "max-md:font-bold max-md:text-white"
+                                                                    : "max-md:text-foreground",
                                                             )}
                                                         >
                                                             {preset.label}
@@ -1392,7 +1369,6 @@ export function ExploreClient({
                                         const single = isResultsMode || selectedCategory !== '全部'
                                         const groups: Array<{ key: string; items: Array<{ project: Project; index: number }> }> = []
                                         displayedProjects.forEach((project, index) => {
-                                            if (featuredProject && project.id === featuredProject.id) return
                                             const key = single ? '__single' : (project.category || '其他')
                                             let group = groups.find(g => g.key === key)
                                             if (!group) { group = { key, items: [] }; groups.push(group) }

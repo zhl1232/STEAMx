@@ -1,6 +1,6 @@
 'use client'
 
-import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
 import Image from 'next/image'
 
 import { CATEGORY_META } from '@/lib/config/categories'
@@ -61,15 +61,10 @@ export function ExploreCategoryStrip({
     updateScrollState()
   }, [selectedCategory, updateScrollState])
 
-  const scrollBy = (direction: number) => {
-    viewportRef.current?.scrollBy({ left: direction * Math.max(160, viewportRef.current.clientWidth * 0.7), behavior: 'smooth' })
-  }
-
   return (
     <div className="relative md:static" data-testid="explore-category-strip">
-      {overflow && canScrollLeft ? <button type="button" aria-label="向左滚动分类" onClick={() => scrollBy(-1)} className="absolute left-0 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border bg-background/90 shadow-sm md:hidden"><ChevronLeft className="h-4 w-4" /></button> : null}
-      {overflow && canScrollRight ? <button type="button" aria-label="向右滚动分类" onClick={() => scrollBy(1)} className="absolute right-0 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border bg-background/90 shadow-sm md:hidden"><ChevronRight className="h-4 w-4" /></button> : null}
-      <div ref={viewportRef} className="no-scrollbar overflow-x-auto">
+      {overflow && canScrollRight ? <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-linear-to-l from-[hsl(var(--app-canvas))] to-transparent md:hidden" /> : null}
+      <div ref={viewportRef} className="no-scrollbar @container overflow-x-auto">
         {/* 手机：参考图 C 小照片+文字；电脑：原来的胶囊。同一按钮两套外观，避免测试/读屏重复。 */}
         <div className="flex min-w-max items-start gap-2 px-1 pb-1 pt-1 md:min-w-0 md:flex-wrap md:items-center md:gap-3">
           {categories.map((category) => {
@@ -96,15 +91,15 @@ export function ExploreCategoryStrip({
                   active && tone && categoryToneClasses[tone].badge,
                 )}
               >
-                <span className="flex w-[70px] flex-col items-center gap-1.5 md:w-auto md:flex-row md:gap-0">
+                <span className="flex w-[clamp(56px,calc((100cqw-36px)/4.5),78px)] flex-col items-center gap-1.5 md:w-auto md:flex-row md:gap-0">
                   <span
                     aria-hidden="true"
                     className={cn(
-                      'relative mb-1 block h-[70px] w-[70px] overflow-hidden rounded-[16px] md:hidden dark:brightness-[0.92]',
+                      'relative mb-1 block aspect-square w-full overflow-hidden rounded-[16px] md:hidden dark:brightness-[0.92]',
                       active ? 'ring-2 ring-[hsl(var(--brand-blue))] ring-offset-2 ring-offset-background' : 'ring-1 ring-black/[0.06] dark:ring-white/[0.12]',
                     )}
                   >
-                    <Image src={src} alt="" fill sizes="70px" className="object-cover" />
+                    <Image src={src} alt="" fill sizes="78px" className="object-cover" />
                   </span>
                   <Icon className="mr-0.5 hidden h-3.5 w-3.5 shrink-0 md:inline" strokeWidth={2.2} aria-hidden="true" />
                   <span className={cn('text-[13px] font-semibold leading-none max-md:text-[14px] md:text-inherit', active ? 'max-md:text-[hsl(var(--brand-blue))] max-md:font-bold' : 'max-md:text-foreground/80')}>
