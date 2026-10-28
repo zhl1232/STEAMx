@@ -1003,6 +1003,14 @@ export function ExploreClient({
     }
 
     const activePresetId = detectActivePreset(getFilterState())
+    const [isMobileLayout, setIsMobileLayout] = useState(false)
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 767px)')
+        const update = () => setIsMobileLayout(mq.matches)
+        update()
+        mq.addEventListener('change', update)
+        return () => mq.removeEventListener('change', update)
+    }, [])
     const activeListTabId = isExploreListTabPreset(activePresetId) ? activePresetId : null
     const activeListPreset = activeListTabId
         ? EXPLORE_PRESETS.find((item) => item.id === activeListTabId)
@@ -1305,16 +1313,8 @@ export function ExploreClient({
                                         <HouseholdMaterialPicker selectedIds={ownedMaterialIds} onChange={updateOwnedMaterials} matchedCount={matchedProjectCount} />
                                     ) : null}
 
-                                    <div
-                                        data-testid="explore-project-grid"
-                                        className={cn(
-                                            EXPLORE_PROJECT_GRID_CLASS,
-                                            "transition-opacity duration-300",
-                                            isFiltering && "opacity-40 pointer-events-none"
-                                        )}
-                                        onClickCapture={handleExploreProjectLinkClick}
-                                    >
-                                        {displayedProjects.map((project, index) => {
+                                    {(() => {
+                                        const renderProject = (project: Project, index: number) => {
                                             const isPriority = index < 2
                                             const detailHref = buildProjectDetailHref(project.id)
                                             const card = (
@@ -1346,9 +1346,68 @@ export function ExploreClient({
                                                     {projectNode}
                                                 </Fragment>
                                             )
-                                        })}
+                                        }
+                                        if (!isMobileLayout || showMaterials || displayedProjects.length === 0) {
+                                            return (
+                                    <div
+                                        data-testid="explore-project-grid"
+                                        className={cn(
+                                            EXPLORE_PROJECT_GRID_CLASS,
+                                            "transition-opacity duration-300",
+                                            isFiltering && "opacity-40 pointer-events-none"
+                                        )}
+                                        onClickCapture={handleExploreProjectLinkClick}
+                                    >
+                                        {displayedProjects.map((project, index) => renderProject(project, index))}
 
                                     </div>
+
+                                            )
+                                        }
+                                        // 手机端：按项目已有分类分段；已选分类或搜索结果时只有一段。
+                                        const single = isResultsMode || selectedCategory !== '全部'
+                                        const groups: Array<{ key: string; items: Array<{ project: Project; index: number }> }> = []
+                                        displayedProjects.forEach((project, index) => {
+                                            const key = single ? '__single' : (project.category || '其他')
+                                            let group = groups.find(g => g.key === key)
+                                            if (!group) { group = { key, items: [] }; groups.push(group) }
+                                            group.items.push({ project, index })
+                                        })
+                                        const singleTitle = isResultsMode
+                                            ? (selectedCategory !== '全部' ? selectedCategory : '搜索结果')
+                                            : (activeListPreset?.label ?? selectedCategory)
+                                        return (
+                                            <div
+                                                data-testid="explore-project-grid"
+                                                className={cn("space-y-5 transition-opacity duration-300", isFiltering && "pointer-events-none opacity-40")}
+                                                onClickCapture={handleExploreProjectLinkClick}
+                                            >
+                                                {groups.map(group => {
+                                                    const title = group.key === '__single' ? singleTitle : group.key
+                                                    const canLinkAll = group.key !== '__single' && displayCategories.includes(group.key)
+                                                    return (
+                                                        <section key={group.key} aria-label={title} className="explore-group rounded-[18px] bg-[#f7f9fc] px-3 pb-3 pt-3.5 dark:bg-white/[0.04]">
+                                                            <div className="mb-2.5 flex items-center justify-between gap-3 px-1">
+                                                                <h2 className="font-heading text-[18px] font-bold leading-6 tracking-[0.01em] text-foreground">{title}</h2>
+                                                                {canLinkAll ? (
+                                                                    <a
+                                                                        href={`/explore?category=${encodeURIComponent(group.key)}`}
+                                                                        onClick={(event) => { event.preventDefault(); handleCategoryClick(group.key) }}
+                                                                        className="shrink-0 text-[14px] font-semibold text-[hsl(var(--brand-blue))]"
+                                                                    >
+                                                                        全部 ›
+                                                                    </a>
+                                                                ) : null}
+                                                            </div>
+                                                            <div className="grid grid-cols-1 gap-2 [&_.explore-card>div]:border-transparent! [&_.explore-card>div]:bg-white dark:[&_.explore-card>div]:bg-white/[0.05]">
+                                                                {group.items.map(({ project, index }) => renderProject(project, index))}
+                                                            </div>
+                                                        </section>
+                                                    )
+                                                })}
+                                            </div>
+                                        )
+                                    })()}
 
                                     {restoreError && (
                                         <div role="alert" className="mt-4 flex items-center justify-center gap-3 text-sm">
