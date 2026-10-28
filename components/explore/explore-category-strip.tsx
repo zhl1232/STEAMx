@@ -57,16 +57,25 @@ export function ExploreCategoryStrip({
   }, [categories.length, updateScrollState])
 
   useEffect(() => {
-    activeRef.current?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+    // 只滚动分类条自身；scrollIntoView 会连带滚动外层 overflow-hidden 容器，导致整页左移。
+    const viewport = viewportRef.current
+    const active = activeRef.current
+    if (viewport && active) {
+      const v = viewport.getBoundingClientRect()
+      const a = active.getBoundingClientRect()
+      const pad = 8
+      if (a.left < v.left + pad) viewport.scrollLeft += a.left - v.left - pad
+      else if (a.right > v.right - pad) viewport.scrollLeft += a.right - v.right + pad
+    }
     updateScrollState()
   }, [selectedCategory, updateScrollState])
 
   return (
     <div className="relative md:static" data-testid="explore-category-strip">
       {overflow && canScrollRight ? <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-linear-to-l from-[hsl(var(--app-canvas))] to-transparent md:hidden" /> : null}
-      <div ref={viewportRef} className="no-scrollbar @container -mx-1 overflow-x-auto md:mx-0">
+      <div ref={viewportRef} className="no-scrollbar @container -mx-2 -my-1 overflow-x-auto md:mx-0 md:my-0">
         {/* 手机：参考图 C 小照片+文字；电脑：原来的胶囊。同一按钮两套外观，避免测试/读屏重复。 */}
-        <div className="flex min-w-max items-start gap-2 px-1 pb-1 pt-1 md:min-w-0 md:flex-wrap md:items-center md:gap-3">
+        <div className="flex min-w-max items-start gap-2 px-2 pb-2 pt-2 md:px-1 md:pb-1 md:pt-1 md:min-w-0 md:flex-wrap md:items-center md:gap-3">
           {categories.map((category) => {
             const meta = CATEGORY_META[category]
             const active = selectedCategory === category
@@ -91,7 +100,7 @@ export function ExploreCategoryStrip({
                   active && tone && categoryToneClasses[tone].badge,
                 )}
               >
-                <span className="flex w-[clamp(56px,calc((100cqw-36px)/4.5),78px)] flex-col items-center gap-1.5 md:w-auto md:flex-row md:gap-0">
+                <span className="flex w-[clamp(56px,calc((100cqw-52px)/4.5),78px)] flex-col items-center gap-1.5 md:w-auto md:flex-row md:gap-0">
                   <span
                     aria-hidden="true"
                     className={cn(
