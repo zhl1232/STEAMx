@@ -377,4 +377,10 @@
   background: linear-gradient(to right, hsl(var(--background) / 0), hsl(var(--background) / .1) 25%, hsl(var(--background) / .35) 50%, hsl(var(--background) / .72) 75%, hsl(var(--background)) 100%); }
 :global(.dark) .lessonSection .courseIcon { box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08); }
 :global(.dark) .lessonSection .allLessons { border-color: color-mix(in srgb, var(--ink) 22%, rgb(255 255 255 / .1)); background: color-mix(in srgb, var(--tint) 40%, hsl(220 34% 9%)); color: #eef2fa; }
-.hub .heroEm, :global(.dark) .hub .heroEm { background: none; padding-inline: 0; }
+
+/* a7 — hero image at full opacity, no edge fades */
+.hub .heroImage { inset: 0 0 0 auto; width: 100%; height: 100%; object-fit: cover; object-position: right center; filter: none; -webkit-mask-image: none; mask-image: none; }
+.hub .heroText { max-width: 46%; }
+:global(.dark) .hub .hero::before { content: none; }
+:global(.dark) .hub .hero { background: hsl(220 34% 10%); }
+:global(.dark) .hub .heroImage { inset: 8px 8px 8px auto; width: 56%; object-position: 90% center; height: calc(100% - 16px); border-radius: 16px; filter: brightness(.9); }
