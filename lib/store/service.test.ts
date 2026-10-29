@@ -83,3 +83,18 @@ describe('quoteStoreCheckout', () => {
     ]), [{ variantId, quantity: 1 }])).rejects.toMatchObject({ code: 'EXTERNAL_CHECKOUT_REQUIRED', statusCode: 409 })
   })
 })
+
+// Product-level keys cannot bypass the kit/SKU evidence checks.
+describe('scientific kit legacy recommendations', () => {
+  it('omits a kit-managed product even when a project context key was assigned', async () => {
+    const { listStoreProductsForContext } = await import('./service')
+    const previous=process.env.STORE_CATALOG_ENABLED
+    process.env.STORE_CATALOG_ENABLED='true'
+    const response={data:[{...product(id(40)),category:'科学实验',metadata:{kitManaged:true}}],error:null}
+    const builder:Record<string,unknown>={}
+    for(const m of ['select','eq','not','contains','order','limit']) builder[m]=()=>builder
+    builder.then=(resolve:(x:unknown)=>unknown)=>Promise.resolve(response).then(resolve)
+    try { expect(await listStoreProductsForContext({from:()=>builder} as never,'project:7')).toEqual([]) }
+    finally {if(previous===undefined) delete process.env.STORE_CATALOG_ENABLED;else process.env.STORE_CATALOG_ENABLED=previous}
+  })
+})

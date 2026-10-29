@@ -16,7 +16,7 @@ export function visibleProjectTags(
   const result: string[] = []
   for (const tag of tags ?? []) {
     const value = tag?.trim()
-    if (!value || isInternalProjectTag(value) || seen.has(value)) continue
+    if (!value || isInternalProjectTag(value) || isSeriesSourceProjectTag(value) || seen.has(value)) continue
     seen.add(value)
     result.push(value)
   }
@@ -31,7 +31,7 @@ export function isGradeProjectTag(tag: string | null | undefined): boolean {
 }
 
 export function isSeriesSourceProjectTag(tag: string | null | undefined): boolean {
-  return tag?.trim() === '科教版'
+  return tag?.trim() === '科教版' || tag?.trim() === '趣味实验'
 }
 
 /** Public chips and keywords omit grades and import series labels. */
@@ -41,14 +41,14 @@ export function displayProjectTags(
   return visibleProjectTags(tags).filter((tag) => !isGradeProjectTag(tag) && !isSeriesSourceProjectTag(tag))
 }
 
-/** Series remain reachable through preset pills, not tag options. */
+/** Retired source labels are not public filtering options. */
 export function filterOptionProjectTags(
   tags: Array<string | null | undefined> | null | undefined,
 ): string[] {
   return displayProjectTags(tags)
 }
 
-/** Legacy URLs ignore grades but retain series filters used by presets. */
+/** URL filters omit retired source labels and grades. */
 export function sanitizeProjectTagsParam(value: string | null | undefined): string[] {
   return visibleProjectTags(value?.split(',')).filter((tag) => !isGradeProjectTag(tag))
 }

@@ -248,6 +248,7 @@ export type NativeProductAdminInput = {
   name: string
   priceCents: number
   shippingCents: number | null
+  shippingProvinceOverrides?: Record<string, number>
   source?: 'manual' | '1688'
   description?: string
   coverUrl?: string
@@ -296,6 +297,7 @@ export async function saveNativeCatalog(
       category: input.category ?? null,
       priceCents: input.priceCents,
       shippingCents: input.shippingCents,
+      shippingProvinceOverrides: input.shippingProvinceOverrides,
       source: input.source ?? 'manual',
       blockedProvinces: input.blockedProvinces ?? [],
       fulfillmentDescription: input.fulfillmentDescription ?? null,

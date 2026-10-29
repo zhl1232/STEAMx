@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import type { ExperimentKit } from '@/lib/kits/types'
 import { useEffect, useState } from 'react'
 import { Package } from 'lucide-react'
 import { AppWideShell } from '@/components/layout/app-shell'
@@ -14,8 +15,8 @@ import { StorePrice, storeMoney, useStoreMembershipTier } from './store-price'
 export type StoreProduct = {
   id: string; name: string; description?: string | null; cover_url?: string | null
   gallery_urls?: string[]; detail_content?: string | null; video_url?: string | null; category?: string | null
-  price_cents: number; shipping_cents: number | null; fulfillment_description?: string | null; blocked_provinces?: string[]
-  variants: Array<{ id: string; name: string; price_cents: number | null; stock_quantity: number; min_quantity: number; status?: string; stock_pending?: boolean }>
+  price_cents: number; shipping_cents: number | null; fulfillment_description?: string | null; blocked_provinces?: string[]; shipping_province_overrides?: Record<string, number>
+  variants: Array<{ id: string; name: string; price_cents: number | null; stock_quantity: number; min_quantity: number; status?: string; stock_pending?: boolean; kit?: ExperimentKit }>
 }
 export const money = storeMoney
 export async function storeJson<T>(url: string, init?: RequestInit): Promise<T> {

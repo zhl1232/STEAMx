@@ -3598,6 +3598,7 @@ export interface Database {
           video_url?: string | null
           category?: string | null
           shipping_cents?: number | null
+          shipping_province_overrides?: Json
           blocked_provinces?: string[]
           catalog_version?: number
           checkout_mode: string
@@ -3627,6 +3628,7 @@ export interface Database {
           video_url?: string | null
           category?: string | null
           shipping_cents?: number | null
+          shipping_province_overrides?: Json
           blocked_provinces?: string[]
           catalog_version?: number
           checkout_mode?: string
@@ -3656,6 +3658,7 @@ export interface Database {
           video_url?: string | null
           category?: string | null
           shipping_cents?: number | null
+          shipping_province_overrides?: Json
           blocked_provinces?: string[]
           catalog_version?: number
           checkout_mode?: string

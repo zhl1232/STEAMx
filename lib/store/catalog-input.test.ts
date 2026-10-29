@@ -42,3 +42,13 @@ describe('catalog asset and supplier URLs', () => {
     expect(() => parseNativeCatalog({...draft, coverUrl: '/\\external.test/image'})).toThrow()
   })
 })
+
+describe('province shipping overrides', () => {
+  const draft = {slug: 'shipping', name: '实验套装', priceCents: 1000, shippingCents: 0, status: 'draft', variants: [{name: '默认', sku: 'SHIP'}]}
+  it('accepts fixed per-order province fees including free overrides', () => {
+    expect(parseNativeCatalog({...draft, shippingProvinceOverrides: {'新疆维吾尔自治区': 3200, '西藏自治区': 3200, '北京市': 0}}).shippingProvinceOverrides).toEqual({'新疆维吾尔自治区': 3200, '西藏自治区': 3200, '北京市': 0})
+  })
+  it.each([{'新疆': 3200}, {'北京市': -1}, {'北京市': 1.5}, {'北京市': '3200'}, {'北京市': 100000001}])('rejects invalid province fees: %j', shippingProvinceOverrides => {
+    expect(() => parseNativeCatalog({...draft, shippingProvinceOverrides})).toThrow('商品信息有误')
+  })
+})

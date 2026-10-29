@@ -1,3 +1,5 @@
+import { getProjectKitMatches } from '@/lib/kits/service'
+import { ProjectKitMatches } from '@/components/kits/project-kit-matches'
 import TextbookFrame from '@/components/features/textbook3d/textbook-frame'
 import { getTextbook3dLesson, textbook3dSrc } from '@/lib/textbook3d/registry'
 import { getScienceSampleForProject } from '@/lib/project/science-samples'
@@ -87,6 +89,7 @@ import { BRAND_FULL_NAME } from '@/lib/brand'
 import type { ProjectStep } from '@/lib/mappers/types'
 
 interface ProjectDetailPageProps {
+  searchParams?: Promise<{kit?: string}>
   params: Promise<{ id: string }>
 }
 
@@ -479,7 +482,7 @@ export async function generateMetadata(
   }
 }
 
-export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
+export default async function ProjectDetailPage({ params, searchParams }: ProjectDetailPageProps) {
   const { id } = await params
   const numericId = Number(id)
   if (!Number.isInteger(numericId) || numericId <= 0) {
@@ -528,6 +531,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     listStoreProductsForContext(supabase, `project:${project.id}`),
   ])
 
+  const kitMatches = await getProjectKitMatches(project, (await searchParams)?.kit)
   const videoPilot = getProjectVideoPresentationPilot(project)
   const textbook3d = project.textbook3dLessonId ? getTextbook3dLesson(project.textbook3dLessonId) : null
   const scienceSample = getScienceSampleForProject(project)
@@ -749,6 +753,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               ) : (
                 <>
                   <MaterialsList materials={materials} preparationNotes={preparationNotes} />
+                  <ProjectKitMatches matches={kitMatches} />
                   {videoPilot ? <p className="mt-3 text-sm leading-6 text-muted-foreground">{videoPilot.materialsNote}</p> : null}
                   {!usesScienceGuideOrAlternative ? <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="mobile" embedded /> : null}
                 </>
@@ -850,6 +855,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               <div id="project-materials" className="scroll-mt-36">
                 <SectionCard title={materialsTitle}>
                   <MaterialsList materials={materials} preparationNotes={preparationNotes} />
+                  <ProjectKitMatches matches={kitMatches} />
                   {videoPilot ? <p className="mt-3 text-sm leading-6 text-muted-foreground">{videoPilot.materialsNote}</p> : null}
                   {!usesScienceGuideOrAlternative ? <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="desktop" embedded /> : null}
                 </SectionCard>

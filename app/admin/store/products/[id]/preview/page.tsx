@@ -1,3 +1,4 @@
+import { getKitsForVariants } from '@/lib/kits/service'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { StoreProductDetail } from '@/components/store/store-product-detail'
@@ -18,8 +19,10 @@ export default async function AdminStoreProductPreviewPage({ params }: { params:
   if (!isUuid(id)) notFound()
   const result = await getAdminStoreProductPreview(id)
   if (!result) notFound()
+  const kits=await getKitsForVariants(result.product.variants.map(v=>v.id),{includeDraft:true})
+  const product={...result.product,variants:result.product.variants.map(v=>({...v,kit:kits[v.id]}))}
   const publicProductHref = isStoreCatalogVisible() && result.status === 'active'
     && result.checkoutMode === 'internal' && result.product.shipping_cents !== null
     ? `/store/products/${id}` : undefined
-  return <StoreProductDetail product={result.product} checkoutEnabled={false} preview={{ status: result.status, publicProductHref }} />
+  return <StoreProductDetail product={product} checkoutEnabled={false} preview={{ status: result.status, publicProductHref }} />
 }

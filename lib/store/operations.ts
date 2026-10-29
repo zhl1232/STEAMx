@@ -311,7 +311,7 @@ export async function listPublicNativeProducts(productId?: string) {
   let query = db()
     .from('store_products')
     .select(
-      'id,slug,name,description,cover_url,gallery_urls,detail_content,video_url,category,price_cents,shipping_cents,currency,fulfillment_description,blocked_provinces,context_keys,variants:store_product_variants(id,name,sku,price_cents,stock_quantity,stock_reserved,min_quantity,status)',
+      'id,slug,name,description,cover_url,gallery_urls,detail_content,video_url,category,price_cents,shipping_cents,shipping_province_overrides,currency,fulfillment_description,blocked_provinces,context_keys,variants:store_product_variants(id,name,sku,price_cents,stock_quantity,stock_reserved,min_quantity,status)',
     )
     .eq('status', 'active')
     .eq('checkout_mode', 'internal')
@@ -353,7 +353,7 @@ export async function listPublicNativeProducts(productId?: string) {
 export async function getAdminStoreProductPreview(productId: string) {
   const { data, error } = await db()
     .from('store_products')
-    .select('id,name,description,cover_url,gallery_urls,detail_content,video_url,category,price_cents,shipping_cents,fulfillment_description,blocked_provinces,status,checkout_mode,variants:store_product_variants(id,name,price_cents,stock_quantity,stock_reserved,min_quantity,status)')
+    .select('id,name,description,cover_url,gallery_urls,detail_content,video_url,category,price_cents,shipping_cents,shipping_province_overrides,fulfillment_description,blocked_provinces,status,checkout_mode,variants:store_product_variants(id,name,price_cents,stock_quantity,stock_reserved,min_quantity,status)')
     .eq('id', productId)
     .maybeSingle()
   if (error) throw error
@@ -372,6 +372,7 @@ export async function getAdminStoreProductPreview(productId: string) {
       category: data.category as string | null,
       price_cents: data.price_cents as number,
       shipping_cents: data.shipping_cents as number | null,
+      shipping_province_overrides: data.shipping_province_overrides as Record<string, number>,
       fulfillment_description: data.fulfillment_description as string | null,
       blocked_provinces: (data.blocked_provinces ?? []) as string[],
       variants: (data.variants ?? []).map((variant: {

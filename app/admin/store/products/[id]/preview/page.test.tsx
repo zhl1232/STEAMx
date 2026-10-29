@@ -4,9 +4,11 @@ import { beforeEach, expect, it, vi } from 'vitest'
 const mocks = vi.hoisted(() => ({
   requirePageRole: vi.fn(),
   getProduct: vi.fn(),
+  getKits: vi.fn(),
   visible: vi.fn(() => true),
   detail: vi.fn((_props: Record<string, unknown>) => null),
 }))
+vi.mock('@/lib/kits/service',()=>({getKitsForVariants:mocks.getKits}))
 vi.mock('@/lib/auth/server', () => ({ requirePageRole: mocks.requirePageRole }))
 vi.mock('@/lib/store/operations', () => ({ getAdminStoreProductPreview: mocks.getProduct }))
 vi.mock('@/lib/store/config', () => ({ isStoreCatalogVisible: mocks.visible }))
@@ -22,6 +24,7 @@ const page = (productId = id) => Page({ params: Promise.resolve({ id: productId 
 beforeEach(() => {
   vi.clearAllMocks()
   mocks.requirePageRole.mockResolvedValue({ role: 'admin' })
+  mocks.getKits.mockResolvedValue({})
   mocks.getProduct.mockResolvedValue({ status: 'draft', checkoutMode: 'internal', product })
   mocks.visible.mockReturnValue(true)
 })
@@ -53,4 +56,11 @@ it.each([true, false])('offers a separate public page for an active product only
   expect(mocks.detail.mock.calls[0][0]).toMatchObject({ checkoutEnabled: false, preview: {
     status: 'active', publicProductHref: visible ? `/store/products/${id}` : undefined,
   } })
+})
+
+it('attaches draft kit materials only after administrator access and keeps checkout disabled',async()=>{
+ const variant={id:'variant',name:'小班',price_cents:7200};const kit={id:'kit',status:'draft',materials:['纸杯'],gallery_urls:['/kit.jpg']}
+ mocks.getProduct.mockResolvedValueOnce({status:'draft',checkoutMode:'internal',product:{...product,variants:[variant]}});mocks.getKits.mockResolvedValueOnce({variant:kit})
+ render(await page());expect(mocks.getKits).toHaveBeenCalledWith(['variant'],{includeDraft:true});expect(mocks.detail.mock.calls[0][0]).toMatchObject({checkoutEnabled:false,product:{variants:[{id:'variant',kit}]}})
+ expect(mocks.requirePageRole.mock.invocationCallOrder[0]).toBeLessThan(mocks.getKits.mock.invocationCallOrder[0])
 })

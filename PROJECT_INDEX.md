@@ -11,6 +11,7 @@
 | 品牌、首页和全站布局 | `lib/brand.ts`、`lib/seo/site.ts`、`components/home/`、`components/layout/` | [SEO 页面身份](docs/seo-indexing-checklist.md)、[设计规范](docs/design-system.md) |
 | 新人开始、可选指南和入门专题 | `app/start/`、`components/learning/`、`lib/product/`、`app/learn/` | [产品方向](docs/product-direction.md)、[内容质量](docs/content-quality.md) |
 | 项目浏览、筛选、详情与家庭材料匹配 | `app/explore/`、`app/project/`、`components/explore/`、`lib/project/`、`lib/explore/`（统一材料词表：`material-taxonomy.ts`） | [产品架构](docs/product-architecture.md)、[内容质量与同源修订](docs/content-quality.md)、[探索记录](docs/EXPLORATION_RECORDS.md) |
+| 套装配套目录与项目关联 | `app/kits/`、`lib/kits/`、`app/admin/kits/` | [产品架构](docs/product-architecture.md)、[内容质量](docs/content-quality.md)、[商城与履约](docs/STORE_CHANNEL_FULFILLMENT_DECISION.md) |
 | 课程目录、课时和工作区 | `app/courses/`、`app/api/courses/[courseId]/catalog/`、`lib/api/course-catalog.ts`、`lib/courses/catalog-url.ts`、`lib/courses/lesson-preview-image.ts`、`lib/courses/`、`components/features/courses/`（桌面分类网格：`desktop-course-catalog.tsx`；手机横列：`mobile-course-catalog.tsx`） | [课程进度与奖励](docs/COURSE_PROGRESS_REWARDS_AND_STEAM_IMPLEMENTATION.md) |
 | 积木模型、零件和套装核算 | `lib/courses/lesson-materials.ts`、`course-kit-config.ts`、`components/features/courses/lesson-materials-preparation.tsx`、`lib/utils/ldraw-*.ts`、`scripts/audit-part-thumbnails.mjs`、`scripts/render-local-part-thumbnail.mjs`、`e2e/building-outline/`、`playwright.building-outline.config.ts` | [手机搭建](docs/courses/mobile-building-experience.md)、[小班材料覆盖](docs/courses/lesson-kit-coverage-small-class.md)、[中大班材料覆盖](docs/courses/lesson-kit-coverage-middle-senior.md) |
 | Scratch 工作区与内容 | `packages/scratch-host/`、`components/features/courses/`、`lib/courses/` | [Scratch 维护与验收](docs/SCRATCH_CURRICULUM_ROLLOUT.md) |
@@ -39,7 +40,7 @@
 | 欢迎消息与客服入口 | `components/features/communications/welcome-actions.tsx`、`lib/communications/types.ts`、`lib/product/support.ts`、`app/settings/about/` | [产品方向](docs/product-direction.md) |
 | 平台帮助、商城客服与飞书双向接待 | `app/support/`、`app/store/support/`、`app/admin/support/`、`lib/support/`、`deploy/commerce-worker.mjs`、`deploy/feishu-bridge.mjs` | [站内官方客服](docs/customer-support.md) |
 | 私信、通知和自动互动 | `lib/messages/`、`lib/notifications/`、`lib/communications/`、`lib/auto-interactions.ts` | [互动资格](docs/TRUST_AND_INTERACTION_ACCESS.md) |
-| 实物商城、优惠券、供应商和订单 | `app/store/`、`app/admin/store/`、`app/admin/store/products/[id]/preview/`、`lib/store/`、`app/api/store/`、`lib/context/store-availability-context.tsx`、`components/profile/profile-services.tsx` | [商城与履约](docs/STORE_CHANNEL_FULFILLMENT_DECISION.md) |
+| 实物商城、优惠券、供应商和订单 | `app/store/`、`app/admin/store/`、`app/admin/store/products/[id]/preview/`、`lib/store/`、`scripts/import-science-kits.mjs`、`app/api/store/`、`lib/context/store-availability-context.tsx`、`components/profile/profile-services.tsx` | [商城与履约](docs/STORE_CHANNEL_FULFILLMENT_DECISION.md) |
 | 我的硬币、装扮与优惠券兑换 | `app/coins/`、`app/shop/`（旧入口跳转）、`app/api/coins/`、`hooks/use-shop-prices.ts` | [商城与会员价格](docs/STORE_CHANNEL_FULFILLMENT_DECISION.md#装扮兑换) |
 | 会员资格与开售准备 | `lib/membership.ts`（`/membership` 页面已下线，301 跳首页） | [开售交接](docs/MEMBERSHIP_PAGE_HANDOFF.md)；额度不在交接页重复维护 |
 

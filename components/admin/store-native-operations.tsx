@@ -29,6 +29,7 @@ type Product = {
   coverUrl: string
   priceCents: number
   shippingCents: number | null
+  shippingProvinceOverrides?: Record<string, number>
   galleryUrls?: string[]
   detailContent?: string
   videoUrl?: string
@@ -81,6 +82,7 @@ const newProduct = (): Product => ({
   coverUrl: '',
   priceCents: 100,
   shippingCents: null,
+  shippingProvinceOverrides: {},
   galleryUrls: [],
   detailContent: '',
   videoUrl: '',
@@ -290,6 +292,9 @@ export function StoreNativeOperations() {
                   }
                 />
               </Field>
+              <details><summary className="cursor-pointer text-sm font-medium">指定省份每单运费</summary><fieldset className="mt-3 space-y-2"><legend className="sr-only">指定省份每单运费（分，留空沿用默认运费）</legend><p className="text-sm text-muted-foreground">单位为分；留空沿用默认运费，填写 0 表示该省份包邮。</p>
+                {MAINLAND_PROVINCES.map(province => <label key={province} className="flex items-center gap-3 text-sm"><span className="w-32 shrink-0">{province}</span><Input type="number" min={0} max={100000000} step={1} value={draft.shippingProvinceOverrides?.[province] ?? ''} onChange={e => { const overrides = { ...draft.shippingProvinceOverrides }; if (e.target.value === '') delete overrides[province]; else overrides[province] = Number(e.target.value); setDraft({ ...draft, shippingProvinceOverrides: overrides }) }} /></label>)}
+              </fieldset></details>
               <Field title="封面图片地址（HTTPS 或站内资源）">
                 <Input
                   value={draft.coverUrl}

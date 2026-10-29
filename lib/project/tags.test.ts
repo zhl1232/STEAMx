@@ -73,7 +73,7 @@ describe('public tag policies', () => {
   it('separates display, options and internal-only visibility without mutating data', () => {
     const tags = Object.freeze(['科教版', ...grades, 'kejiao16a-src:1', ' 平衡 ', '平衡', '启蒙版'])
     const input = [...tags]
-    expect(visibleProjectTags(input)).toEqual(['科教版', ...grades, '平衡', '启蒙版'])
+    expect(visibleProjectTags(input)).toEqual([...grades, '平衡', '启蒙版'])
     expect(displayProjectTags(input)).toEqual(['平衡', '启蒙版'])
     expect(filterOptionProjectTags(input)).toEqual(['平衡', '启蒙版'])
     expect(input).toEqual(tags)
@@ -83,8 +83,8 @@ describe('public tag policies', () => {
 
   it.each([
     [null, []], [undefined, []], ['', []], ['初中', []],
-    ['科教版,初中', ['科教版']],
-    [' 科教版 ,二年级,kejiao16a-src:1, 平衡 ,平衡,,', ['科教版', '平衡']],
+    ['科教版,初中', []],
+    [' 科教版 ,二年级,kejiao16a-src:1, 平衡 ,平衡,,', ['平衡']],
   ])('sanitizes legacy tags parameter %s', (value, expected) => {
     expect(sanitizeProjectTagsParam(value)).toEqual(expected)
   })

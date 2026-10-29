@@ -223,7 +223,7 @@ export async function listStoreProductsForContext(
     const limit = Math.min(6, Math.max(1, options.limit ?? 3))
     const { data: products, error: productsError } = await supabase
       .from('store_products')
-      .select('id, slug, name, description, cover_url, currency, price_cents, compare_at_price_cents, checkout_mode, external_channel, external_url, context_keys')
+      .select('id, slug, name, description, cover_url, currency, price_cents, compare_at_price_cents, checkout_mode, external_channel, external_url, context_keys, category, metadata')
       .eq('status', 'active')
       .eq('checkout_mode', 'internal')
       .not('shipping_cents', 'is', null)
@@ -232,7 +232,13 @@ export async function listStoreProductsForContext(
       .limit(48)
     if (productsError) throw productsError
 
-    const matched = (products ?? []).slice(0, limit)
+    // Scientific kits are recommended by the separately reviewed SKU relationship.
+    // A manually added context key must never re-enable all of a kit's variants.
+    const matched = (products ?? []).filter((product) => {
+      const metadata = product.metadata as Record<string, unknown> | null
+      return metadata?.kitManaged !== true
+        && !['科学实验', '实验材料包', '通用材料套装'].includes(product.category ?? '')
+    }).slice(0, limit)
     if (!matched.length) return []
 
     const { data: variants, error: variantsError } = await supabase

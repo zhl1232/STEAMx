@@ -17,6 +17,7 @@ const schema = z.object({
   slug: z.string().trim().min(1).max(100).regex(/^[a-z0-9][a-z0-9-]*$/),
   name: z.string().trim().min(1).max(180), description: z.string().max(10000).nullish(),
   coverUrl: assetUrl.nullish(), priceCents: money.min(1), shippingCents: money.nullish(),
+  shippingProvinceOverrides: z.record(z.string().refine(value => (MAINLAND_PROVINCES as readonly string[]).includes(value), '请选择中国大陆省份'), money).optional(),
   status: z.enum(['draft','active','archived']),
   fulfillmentDescription: z.string().trim().max(2000).nullish(),
   galleryUrls: z.array(assetUrl).max(20).default([]), detailContent: z.string().max(50000).nullish(),
@@ -42,6 +43,7 @@ type CatalogRow = {
   id: string; catalog_version: number; slug: string; name: string; description: string | null; cover_url: string | null;
   price_cents: number; shipping_cents: number | null; status: string; fulfillment_description: string | null;
   gallery_urls?: string[]; detail_content?: string | null; video_url?: string | null; category?: string | null;
+  shipping_province_overrides?: Record<string, number>;
   context_keys: string[]; blocked_provinces: string[];
   variants: Array<{ id: string; catalog_version: number; name: string; sku: string; price_cents: number | null; stock_quantity: number | null; stock_reserved: number; min_quantity: number; status: string; sources: Array<{ is_primary: boolean; source_url: string | null; source_price_cents: number | null }> }>
 }
@@ -49,7 +51,7 @@ export function mapAdminCatalog(row: CatalogRow) {
   return {
     id: row.id, version: row.catalog_version, slug: row.slug, name: row.name, description: row.description, coverUrl: row.cover_url,
     galleryUrls: row.gallery_urls ?? [], detailContent: row.detail_content ?? null, videoUrl: row.video_url ?? null, category: row.category ?? null,
-    priceCents: row.price_cents, shippingCents: row.shipping_cents, status: row.status,
+    priceCents: row.price_cents, shippingCents: row.shipping_cents, shippingProvinceOverrides: row.shipping_province_overrides ?? {}, status: row.status,
     fulfillmentDescription: row.fulfillment_description, contextKeys: row.context_keys, blockedProvinces: row.blocked_provinces,
     variants: row.variants.map(variant => {
       const source = variant.sources.find(item => item.is_primary)

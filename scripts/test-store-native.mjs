@@ -2,6 +2,7 @@
 import { spawn, spawnSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { randomUUID } from 'node:crypto'
+import { buildScienceKitActivation } from './import-science-kits.mjs'
 
 const root = new URL('..', import.meta.url).pathname
 const name = `store-native-${process.pid}-${Date.now()}`
@@ -480,5 +481,69 @@ try {
   expectError(`exchange_store_coupon('${ids.alice}','${offer.id}','${latestVersion}','exchange-limit')`,'exchange_limit')
   expectError(`quote_store_native_order('${ids.alice}','北京市','[]',NULL,true)`,'direct_coins_disabled')
   console.log('PASS coupon exchange: migration, eligibility, atomic debit, retry, limits and direct coins removal')
+  scopedSql(readFileSync(new URL('../supabase/migrations/20261029140000_store_province_shipping.sql', import.meta.url), 'utf8'))
+  sql(`UPDATE store_products SET shipping_cents=0,shipping_province_overrides='{"新疆维吾尔自治区":3200,"西藏自治区":3200}' WHERE id=(SELECT product_id FROM store_product_variants WHERE id='${memberVariant}')`)
+  for (const province of ['北京市','新疆维吾尔自治区','西藏自治区']) {
+    for (const quantity of [1,2]) {
+      const expected = province==='北京市' ? 0 : 3200
+      const q = JSON.parse(sql(`SELECT quote_store_native_order('${ids.alice}','${province}','${JSON.stringify([{variant_id:memberVariant,quantity}])}',NULL,false)`))
+      if (q.shippingCents!==expected || q.totalCents!==q.memberSubtotalCents+expected) throw new Error('province quote or quantity changed per-order shipping')
+    }
+  }
+  sql(`UPDATE store_product_variants SET stock_quantity=1000 WHERE id='${memberVariant}'`)
+  for (const legacy of [true,false]) {
+    const items = JSON.stringify([{variant_id:memberVariant,quantity:2}])
+    const q = sql(`SELECT quote_store_native_order('${ids.alice}','新疆维吾尔自治区','${items}',NULL,false)`)
+    const id = legacy
+      ? sql(`SELECT create_store_native_order('${ids.alice}','shipping-legacy','${ids.address}','encrypted','新疆维吾尔自治区','${items}')`)
+      : sql(`SELECT create_store_native_order_v1('${ids.alice}','shipping-current','${ids.address}','encrypted','新疆维吾尔自治区','${items}','${q}',NULL,false)`)
+    if (sql(`SELECT shipping_cents FROM store_orders WHERE id='${id}'`)!=='3200') throw new Error('creator shipping differs from quote')
+    if (!legacy && Number(sql(`SELECT total_cents FROM store_orders WHERE id='${id}'`))!==JSON.parse(q).totalCents) throw new Error('creator total differs from quote')
+    sql(`SELECT cancel_store_native_order('${id}','${ids.alice}')`)
+  }
+  const shippingProduct = {version:Number(sql(`SELECT catalog_version FROM store_products WHERE id='${memberProduct}'`)),slug:'member-fixture',name:'Member fixture',priceCents:1001,shippingCents:0,status:'active',fulfillmentDescription:'48小时内发货',shippingProvinceOverrides:{'新疆维吾尔自治区':3200,'西藏自治区':3200}}
+  const shippingVariants = [{id:memberVariant,version:Number(sql(`SELECT catalog_version FROM store_product_variants WHERE id='${memberVariant}'`)),name:'Member variant',sku:'MEMBER',stockQuantity:1000,minQuantity:1,status:'active',supplierUrl:'https://supplier.test/shipping',costCents:400}]
+  sql(`SELECT save_store_native_catalog('${memberProduct}','${JSON.stringify(shippingProduct)}','${JSON.stringify(shippingVariants)}')`)
+  if (sql(`SELECT shipping_province_overrides->>'新疆维吾尔自治区' FROM store_products WHERE id='${memberProduct}'`)!=='3200') throw new Error('catalog did not save province override')
+  const shippingItems = JSON.stringify([{variant_id:memberVariant,quantity:1}])
+  const staleShippingQuote = sql(`SELECT quote_store_native_order('${ids.alice}','新疆维吾尔自治区','${shippingItems}',NULL,false)`)
+  const reservedBeforeShippingConflict = sql(`SELECT stock_reserved FROM store_product_variants WHERE id='${memberVariant}'`)
+  sql(`UPDATE store_products SET shipping_province_overrides='{"新疆维吾尔自治区":3300}' WHERE id='${memberProduct}'`)
+  expectError(`create_store_native_order_v1('${ids.alice}','shipping-conflict','${ids.address}','encrypted','新疆维吾尔自治区','${shippingItems}','${staleShippingQuote}',NULL,false)`,'quote_changed')
+  if (sql(`SELECT stock_reserved FROM store_product_variants WHERE id='${memberVariant}'`)!==reservedBeforeShippingConflict) throw new Error('stale shipping quote reserved stock')
+  if (sql(`SELECT shipping_cents FROM store_orders WHERE user_id='${ids.alice}' AND external_order_id='shipping-current'`)!=='3200') throw new Error('fee edit changed prior order snapshot')
+  expectQueryError(`SELECT calculate_store_shipping(0,'{}','新疆')`,'mainland_province_required')
+  expectQueryError(`UPDATE store_products SET shipping_province_overrides='{"北京市":-1}' WHERE id='${ids.product}'`,'check constraint')
+  if (sql(`SELECT has_function_privilege('authenticated','calculate_store_shipping(integer,jsonb,text)','execute')`) !== 'f') throw new Error('shipping helper exposed')
+  console.log('PASS fixed per-order province shipping: region validation, quantity independence and private helper')
+  sql(`CREATE TABLE public.projects(id bigint PRIMARY KEY,title text,tags text[]); INSERT INTO projects VALUES(476,'调色大师',ARRAY['趣味实验','qimeng-src:1071369']), (1175,'造雪实验',ARRAY['科教版','幼儿园小班']);`)
+  scopedSql(readFileSync(new URL('../supabase/migrations/20261029150000_experiment_kits.sql', import.meta.url), 'utf8'))
+  const currentScienceSeed=readFileSync(new URL('../supabase/migrations/20261029160000_current_science_kits.sql', import.meta.url), 'utf8')
+  expectQueryError(`BEGIN; ${currentScienceSeed} COMMIT;`,'old_science_drafts_have_dependencies_or_edits')
+  sql(`DELETE FROM store_products WHERE id IN (${seededProducts});`)
+  scopedSql(seed)
+  scopedSql(currentScienceSeed)
+  if (sql(`SELECT count(*) FROM store_products WHERE metadata->>'currentOfferId'='731063650115' AND status='draft'`)!=='2' || sql(`SELECT count(*) FROM experiment_kits WHERE status='draft'`)!=='18') throw new Error('current science import missing draft products or kits')
+  if (sql(`SELECT count(*) FROM store_variant_kits WHERE verified`)!=='18' || sql(`SELECT count(*) FROM experiment_kit_projects WHERE status<>'candidate' OR preparation_status<>'unknown'`)!=='0') throw new Error('science import invents project confirmation')
+  if (sql(`SELECT count(*) FROM store_product_variants v JOIN store_products p ON p.id=v.product_id WHERE p.metadata->>'currentOfferId'='731063650115' AND (v.status<>'paused' OR v.stock_quantity<>100 OR v.price_cents<>2*(SELECT source_price_cents FROM store_product_sources WHERE variant_id=v.id AND is_primary))`)!=='0') throw new Error('science draft commercial fields incorrect')
+  const importCandidateCount=sql(`SELECT count(*) FROM experiment_kit_projects`)
+  if (Number(importCandidateCount)<1 || sql(`SELECT tags::text FROM projects WHERE id=476`)!=='{qimeng-src:1071369}') throw new Error('source tag cleanup broke import identity')
+  const scienceActivation=buildScienceKitActivation(JSON.parse(readFileSync(new URL('../data/store/science-kits-source.json',import.meta.url),'utf8')))
+  expectQueryError(`BEGIN; UPDATE store_products SET metadata=metadata||'{"reviewChanged":true}'::jsonb WHERE metadata->>'currentOfferId'='731063650115'; ${scienceActivation}`,'science_activation_product_state_changed')
+  sql(`UPDATE store_variant_kits SET evidence='{"tampered":true}' WHERE variant_id=(SELECT variant_id FROM store_variant_kits LIMIT 1)`)
+  expectQueryError(scienceActivation,'science_activation_evidence_changed')
+  sql(`UPDATE store_variant_kits m SET evidence=k.source_evidence FROM experiment_kits k WHERE k.id=m.kit_id`)
+  sql(scienceActivation)
+  if(sql(`SELECT count(*) FROM experiment_kits k JOIN store_variant_kits m ON k.id=m.kit_id WHERE k.status='published' AND k.revision=m.kit_revision AND m.verified`)!=='18') throw new Error('activation invalidated SKU kit revisions')
+  if(sql(`SELECT count(*) FROM experiment_kits WHERE revision=1 AND edit_version=2`)!=='18') throw new Error('status-only publish changed content revision')
+  sql(`UPDATE experiment_kits SET preparation_note='Administrator edit' WHERE id=(SELECT kit_id FROM store_variant_kits LIMIT 1)`)
+  if(sql(`SELECT count(*) FROM experiment_kits k JOIN store_variant_kits m ON k.id=m.kit_id WHERE k.preparation_note='Administrator edit' AND k.revision<>m.kit_revision`)!=='1') throw new Error('material preparation edit retained stale verification')
+  scopedSql(currentScienceSeed)
+  if (sql(`SELECT count(*) FROM experiment_kit_projects`)!==importCandidateCount || sql(`SELECT count(*) FROM experiment_kits WHERE preparation_note='Administrator edit'`)!=='1') throw new Error('import replay overwrote administration or duplicated relations')
+  const protectedOldProduct='61000000-0000-4000-8000-000000000001'
+  sql(`INSERT INTO store_products(id,slug,name,source,status,price_cents) VALUES('${protectedOldProduct}','protected-old-science','Protected old draft','manual','draft',1); INSERT INTO store_order_items(order_id,product_id,title_snapshot,sku_snapshot,quantity,unit_price_cents) SELECT id,'${protectedOldProduct}','Historical title','Historical SKU',1,1 FROM store_orders LIMIT 1;`)
+  expectQueryError(`BEGIN; ${currentScienceSeed} COMMIT;`,'old_science_drafts_have_dependencies_or_edits')
+  if (sql(`SELECT count(*) FROM store_products WHERE id='${protectedOldProduct}'`)!=='1') throw new Error('import removed an order-referenced old draft')
+  console.log('PASS current science import: 18 draft SKUs/kits, exact sourcing, candidate-only project links, source cleanup, replay preservation and historical order guard')
   console.log('PASS native commerce PostgreSQL integration suite')
 } catch (error) { console.error(`FAIL native commerce PostgreSQL integration suite\n${error.stack || error}`); process.exitCode = 1 } finally { if (started) run(['rm','-f',name]) }

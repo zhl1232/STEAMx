@@ -12,18 +12,22 @@ import { money, type StoreProduct } from './store-catalog-client'
 import { StoreHeader } from './store-header'
 import { StorePrice, useStoreMembershipTier } from './store-price'
 
-export function StoreProductDetail({ product, checkoutEnabled, preview }: { product: StoreProduct; checkoutEnabled: boolean; preview?: { status: string; publicProductHref?: string } }) {
+export function StoreProductDetail({ product, checkoutEnabled, preview, requestedVariantId }: { product: StoreProduct; checkoutEnabled: boolean; requestedVariantId?: string; preview?: { status: string; publicProductHref?: string } }) {
   const router = useRouter()
   const tier = useStoreMembershipTier()
-  const [variantId, setVariantId] = useState(product.variants[0]?.id || '')
+  const [variantId, setVariantId] = useState(requestedVariantId ?? product.variants[0]?.id ?? '')
   const variant = product.variants.find(v => v.id === variantId)
   const [quantity, setQuantity] = useState(variant?.min_quantity || 1)
-  const images = [...new Set([product.cover_url, ...(product.gallery_urls || [])].filter((url): url is string => Boolean(url)))]
-  const [image, setImage] = useState(images[0])
+  const kit = variant?.kit
+  const images = [...new Set((kit ? [kit.cover_url, ...kit.gallery_urls] : [product.cover_url, ...(product.gallery_urls || [])]).filter((url): url is string => Boolean(url)))]
+  const [selectedImage, setImage] = useState<string | undefined>()
+  const image = selectedImage && images.includes(selectedImage) ? selectedImage : images[0]
   const unit = variant?.price_cents ?? product.price_cents
   const minimum = variant?.min_quantity || 1
   const maximum = Math.min(100, variant?.stock_quantity || 0)
   const available = variant && !variant.stock_pending && variant.stock_quantity >= quantity && quantity >= variant.min_quantity && Number.isInteger(quantity) && quantity <= 100
+  const requestedUnavailable = Boolean(requestedVariantId && !product.variants.some(v => v.id === requestedVariantId))
+  const shippingText = product.shipping_cents == null ? '每单运费待确认' : Object.keys(product.shipping_province_overrides ?? {}).length ? `${product.shipping_cents === 0 ? '其他大陆地区包邮' : `默认每单 ${money(product.shipping_cents)}`}；${Object.entries(product.shipping_province_overrides ?? {}).map(([province, fee]) => `${province}每单${money(fee)}`).join('，')}` : product.shipping_cents === 0 ? '免运费' : `每单运费 ${money(product.shipping_cents)}`
   const purchaseLabel = preview ? '预览期间不发起购买'
     : !checkoutEnabled ? '购买暂未开放'
     : !variant ? '暂无可售规格'
@@ -39,6 +43,7 @@ export function StoreProductDetail({ product, checkoutEnabled, preview }: { prod
     <StoreHeader back={{ href: preview ? `/admin/store?product=${product.id}` : '/store', label: preview ? '← 返回编辑商品' : '返回商城' }} />
     {preview ? <div className="mt-5 rounded-md bg-muted/60 p-4" role="status"><p className="font-semibold">管理员商品预览 · {statusText}</p><p className="mt-2 text-sm leading-6 text-muted-foreground">正在读取已保存的商品资料。库存、运费和发货安排以后台记录为准；请回到商品编辑页补齐待确认项。</p>{preview.publicProductHref ? <Button asChild variant="outline" className="mt-3 h-11"><Link href={preview.publicProductHref}>查看正式商品页面</Link></Button> : null}</div> : null}
 
+    {requestedUnavailable ? <p role="alert" className="mt-4 text-sm text-destructive">链接中的规格已不可用，请核对材料后重新选择规格。</p> : null}
     <div className="grid items-start gap-7 pt-2 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] md:gap-8 xl:grid-cols-[minmax(0,560px)_minmax(0,640px)] xl:gap-12">
       <div className="min-w-0">
         <div className="relative aspect-square overflow-hidden rounded-lg bg-muted/60">
@@ -53,7 +58,7 @@ export function StoreProductDetail({ product, checkoutEnabled, preview }: { prod
         {product.description ? <p className="mt-3 whitespace-pre-line text-sm leading-7 text-muted-foreground">{product.description}</p> : null}
         <div className="border-b border-border/70 py-6 sm:py-7"><StorePrice cents={unit} tier={tier} large /></div>
 
-        {product.variants.length === 1 && variant ? <div className="mt-6 flex items-start gap-5 text-sm leading-6"><span className="shrink-0 font-medium">规格</span><div><p>{variant.name}</p>{variantStatus(variant) ? <p className="mt-1 text-xs text-muted-foreground">{variantStatus(variant)}</p> : null}</div></div> : <fieldset className="mt-6"><legend className="mb-3 text-sm font-medium">选择规格</legend><div className="flex flex-wrap gap-2.5">{product.variants.map(value => <button type="button" key={value.id} className={`min-h-11 rounded-sm border px-4 py-2.5 text-left text-sm leading-6 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary ${variantId === value.id ? 'border-primary bg-primary/5' : 'border-border bg-transparent hover:border-foreground/50'} ${variantStatus(value) ? 'text-muted-foreground' : 'text-foreground'}`} aria-pressed={variantId === value.id} onClick={() => { setVariantId(value.id); setQuantity(value.min_quantity) }}>{value.name}{variantStatus(value) ? `（${variantStatus(value)}）` : ''}</button>)}</div></fieldset>}
+        {product.variants.length === 1 && variant ? <div className="mt-6 flex items-start gap-5 text-sm leading-6"><span className="shrink-0 font-medium">规格</span><div><p>{variant.name}</p>{variantStatus(variant) ? <p className="mt-1 text-xs text-muted-foreground">{variantStatus(variant)}</p> : null}</div></div> : <fieldset className="mt-6"><legend className="mb-3 text-sm font-medium">选择规格</legend><div className="flex flex-wrap gap-2.5">{product.variants.map(value => <button type="button" key={value.id} className={`min-h-11 rounded-sm border px-4 py-2.5 text-left text-sm leading-6 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary ${variantId === value.id ? 'border-primary bg-primary/5' : 'border-border bg-transparent hover:border-foreground/50'} ${variantStatus(value) ? 'text-muted-foreground' : 'text-foreground'}`} aria-pressed={variantId === value.id} onClick={() => { setVariantId(value.id); setQuantity(value.min_quantity); setImage(undefined) }}>{value.name}{variantStatus(value) ? `（${variantStatus(value)}）` : ''}</button>)}</div></fieldset>}
 
 
         <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
@@ -67,7 +72,7 @@ export function StoreProductDetail({ product, checkoutEnabled, preview }: { prod
         </div>
 
         <dl className="mt-6 space-y-3 border-t border-border/70 pt-5 text-sm leading-6">
-          <div className="grid grid-cols-[3rem_1fr] gap-3"><dt className="text-muted-foreground">配送</dt><dd>{product.shipping_cents == null ? '每单运费待确认' : product.shipping_cents === 0 ? '免运费' : `每单运费 ${money(product.shipping_cents)}`}</dd></div>
+          <div className="grid grid-cols-[3rem_1fr] gap-3"><dt className="text-muted-foreground">配送</dt><dd>{shippingText}</dd></div>
           <div className="grid grid-cols-[3rem_1fr] gap-3"><dt className="text-muted-foreground">发货</dt><dd>{product.fulfillment_description || (preview ? '发货安排待确认' : '发货安排以结算页说明为准。')}</dd></div>
           {product.blocked_provinces?.length ? <div className="grid grid-cols-[3rem_1fr] gap-3"><dt className="text-muted-foreground">区域</dt><dd className="text-muted-foreground">暂不配送：{product.blocked_provinces.join('、')}</dd></div> : null}
         </dl>
@@ -78,6 +83,14 @@ export function StoreProductDetail({ product, checkoutEnabled, preview }: { prod
       </section>
     </div>
 
+    {kit ? <section aria-label="所选规格材料" className="mt-10 border-t border-border/70 pt-6">
+      <h2 className="text-lg font-semibold">{kit.name}</h2>
+      <p className="mt-3 whitespace-pre-line text-sm leading-7 text-muted-foreground">{kit.preparation_note}</p>
+      {kit.materials.length ? <><h3 className="mt-5 font-medium">材料清单</h3><ul className="mt-3 grid gap-2 text-sm sm:grid-cols-2 lg:grid-cols-3">{kit.materials.map((material, i) => <li key={i}>{material}</li>)}</ul></> : null}
+      {kit.catalog.length ? <><h3 className="mt-5 font-medium">实验目录</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{kit.catalog.join('、')}</p></> : null}
+      <Button asChild variant="outline" className="mt-5"><Link href={`/kits/${kit.slug}`}>查看对应探索项目</Link></Button>
+      {kit.gallery_urls.map(url => <div key={url} className="mt-6"><img src={url} alt={`${kit.name}供应商详情`} loading="lazy" className="mx-auto h-auto w-full max-w-3xl" /></div>)}
+    </section> : null}
     <section className="mt-12 border-t border-border/70 pt-6 sm:mt-16 sm:pt-8"><h2 className="text-lg font-semibold">商品详情</h2><p className="mt-5 max-w-prose whitespace-pre-line text-sm leading-8 text-muted-foreground">{product.detail_content || product.description || '更多商品信息正在准备中。'}</p>{product.video_url ? <video controls preload="none" poster={product.cover_url || undefined} className="mt-6 w-full rounded-md" src={product.video_url}><track kind="captions" />你的浏览器暂不支持视频播放。</video> : null}</section>
   </AppWideShell>
 }

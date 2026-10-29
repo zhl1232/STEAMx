@@ -1,242 +1,27 @@
 import { describe, expect, it } from 'vitest'
+import { EXPLORE_PRESETS, EXPLORE_TOPICS, normalizeExploreThemeTags, buildPresetSearchParams, detectActivePreset, parseExploreSortBy, serializeExploreFilterParams, toggleExploreTopicTag } from './presets'
 
-import {
-    EXPLORE_PRESETS,
-    EXPLORE_TOPICS,
-    normalizeExploreThemeTags,
-    isExploreTopicTag,
-    toggleExploreTopicTag,
-    buildPresetSearchParams,
-    detectActivePreset,
-    getPresetHintLabel,
-    isExploreListTabPreset,
-    isExploreResultsMode,
-    parseExploreSortBy,
-    resolveHighlightedPresetId,
-    resolveSuggestedPresetId,
-    serializeExploreFilterParams,
-} from '@/lib/explore/presets'
-
-describe('explore presets', () => {
-    it('registers the materials tab between popular and the existing science tabs', () => {
-        expect(EXPLORE_PRESETS.map((preset) => preset.id)).toEqual([
-            'browse',
-            'everyday-materials',
-            'fun-science',
-            'science-edu',
-        ])
-        expect(EXPLORE_PRESETS.find((preset) => preset.id === 'fun-science')).toMatchObject({
-            label: '趣味实验',
-            tags: ['趣味实验'],
-            sortBy: 'popular',
-            difficulty: 'all',
-        })
-        expect(EXPLORE_PRESETS.find((preset) => preset.id === 'science-edu')).toMatchObject({
-            label: '科教版',
-            tags: ['科教版'],
-            sortBy: 'popular',
-            difficulty: 'all',
-        })
-        expect(getPresetHintLabel('fun-science')).toBe('趣味实验')
-        expect(getPresetHintLabel('science-edu')).toBe('科教版')
-        expect(EXPLORE_PRESETS.find((preset) => preset.id === 'browse')).toMatchObject({
-            label: '热门推荐',
-            sortBy: 'popular',
-            difficulty: 'all',
-        })
-        expect(isExploreListTabPreset('browse')).toBe(true)
-        expect(isExploreListTabPreset('fun-science')).toBe(true)
-        expect(isExploreListTabPreset('science-edu')).toBe(true)
-        expect(isExploreListTabPreset('latest')).toBe(false)
-        expect(isExploreListTabPreset('beginner-friendly')).toBe(false)
-    })
-
-    it('keeps the everyday-materials URL in browse mode and preserves the label', () => {
-        const preset = EXPLORE_PRESETS.find((item) => item.id === 'everyday-materials')!
-        const params = buildPresetSearchParams(preset)
-        expect(params.get('tags')).toBe('日常材料')
-        const state = { category: '全部', subCategory: '', difficulty: 'all', age: null, tags: ['日常材料'], searchQuery: '', sortBy: 'popular' as const }
-        expect(detectActivePreset(state)).toBe('everyday-materials')
-        expect(isExploreListTabPreset('everyday-materials')).toBe(true)
-        expect(isExploreResultsMode(state)).toBe(false)
-        expect(getPresetHintLabel('everyday-materials')).toBe('日常材料')
-        expect(isExploreResultsMode({ ...state, category: '艺术' })).toBe(true)
-    })
-
-    it('detects fun-science, science-edu, and browse; ignores legacy latest/beginner highlight', () => {
-        expect(detectActivePreset({
-            category: '全部',
-            subCategory: '',
-            difficulty: 'all',
-            age: null,
-            tags: [],
-            searchQuery: '',
-            sortBy: 'latest',
-        })).toBeNull()
-
-        expect(detectActivePreset({
-            category: '全部',
-            subCategory: '',
-            difficulty: 'beginner',
-            age: null,
-            tags: [],
-            searchQuery: '',
-            sortBy: 'popular',
-        })).toBeNull()
-
-        expect(detectActivePreset({
-            category: '全部',
-            subCategory: '',
-            difficulty: 'all',
-            age: null,
-            tags: ['趣味实验'],
-            searchQuery: '',
-            sortBy: 'popular',
-        })).toBe('fun-science')
-
-        expect(detectActivePreset({
-            category: '全部',
-            subCategory: '',
-            difficulty: 'all',
-            age: null,
-            tags: ['科教版'],
-            searchQuery: '',
-            sortBy: 'popular',
-        })).toBe('science-edu')
-
-        expect(detectActivePreset({
-            category: '全部',
-            subCategory: '',
-            difficulty: 'all',
-            age: null,
-            tags: [],
-            searchQuery: '',
-            sortBy: 'popular',
-        })).toBe('browse')
-    })
-
-    it('builds distinct preset search params for remaining pills', () => {
-        const popular = buildPresetSearchParams(EXPLORE_PRESETS.find((preset) => preset.id === 'browse')!)
-        const funScience = buildPresetSearchParams(EXPLORE_PRESETS.find((preset) => preset.id === 'fun-science')!)
-        const scienceEdu = buildPresetSearchParams(EXPLORE_PRESETS.find((preset) => preset.id === 'science-edu')!)
-
-        expect(popular.toString()).toBe('')
-        expect(funScience.get('tags')).toBe('趣味实验')
-        expect(funScience.get('sortBy')).toBeNull()
-        expect(funScience.get('difficulty')).toBeNull()
-        expect(scienceEdu.get('tags')).toBe('科教版')
-        expect(scienceEdu.get('sortBy')).toBeNull()
-        expect(scienceEdu.get('difficulty')).toBeNull()
-        expect(new Set([
-            serializeExploreFilterParams(popular),
-            serializeExploreFilterParams(funScience),
-            serializeExploreFilterParams(scienceEdu),
-        ]).size).toBe(3)
-    })
-
-    it('highlights remaining pills and degrades legacy latest/beginner', () => {
-        expect(resolveHighlightedPresetId('browse')).toBe('browse')
-        expect(resolveHighlightedPresetId('fun-science')).toBe('fun-science')
-        expect(resolveHighlightedPresetId('science-edu')).toBe('science-edu')
-        expect(resolveHighlightedPresetId('latest')).toBeNull()
-        expect(resolveHighlightedPresetId('beginner-friendly')).toBeNull()
-        expect(resolveHighlightedPresetId(null)).toBeNull()
-    })
-
-    it('suggests fun-science as the fallback helper', () => {
-        expect(resolveSuggestedPresetId({
-            isLoggedIn: true,
-            level: 5,
-            projectsCompleted: 8,
-        })).toBe('fun-science')
-    })
-
-    it('defaults to popular and keeps explicit latest URLs', () => {
-        expect(parseExploreSortBy(null)).toBe('popular')
-        expect(parseExploreSortBy('weekly')).toBe('popular')
-        expect(parseExploreSortBy('latest')).toBe('latest')
-    })
-
-    it('enters results mode for explicit filters but keeps fun-science and science-edu in explore mode', () => {
-        const exploreState = {
-            category: '全部',
-            subCategory: '',
-            difficulty: 'all',
-            age: null,
-            tags: [] as string[],
-            searchQuery: '',
-            sortBy: 'popular' as const,
-        }
-
-        expect(isExploreResultsMode(exploreState)).toBe(false)
-
-        expect(isExploreResultsMode({
-            ...exploreState,
-            tags: ['趣味实验'],
-        })).toBe(false)
-
-        expect(isExploreResultsMode({
-            ...exploreState,
-            tags: ['科教版'],
-        })).toBe(false)
-
-        // Legacy beginner filter: no pill, but results mode via difficulty
-        expect(isExploreResultsMode({
-            ...exploreState,
-            difficulty: 'beginner',
-        })).toBe(true)
-
-        expect(isExploreResultsMode({
-            ...exploreState,
-            category: '技术',
-        })).toBe(true)
-
-        expect(isExploreResultsMode({
-            ...exploreState,
-            searchQuery: '化学',
-        })).toBe(true)
-
-        expect(isExploreResultsMode({
-            ...exploreState,
-            tags: ['磁力'],
-        })).toBe(false)
-    })
-})
-
-it('serializes only supported theme tags without mutating the input URL', () => {
-    const params = new URLSearchParams({ tags: '科教版,磁力,初中' })
-    expect(serializeExploreFilterParams(params)).toBe(new URLSearchParams({ tags: '科教版' }).toString())
-    expect(params.get('tags')).toBe('科教版,磁力,初中')
-    expect(serializeExploreFilterParams(new URLSearchParams({ tags: '初中' }))).toBe('')
-})
-
-
-describe('independent explore themes', () => {
-    it('exposes only tagged themes and toggles one without discarding other tags', () => {
-        expect(EXPLORE_TOPICS.map(({ label }) => label)).toEqual(['日常材料', '趣味实验', '科教版'])
-        const tags = ['日常材料', '趣味实验']
-        expect(toggleExploreTopicTag(tags, '科教版')).toEqual(['日常材料', '趣味实验', '科教版'])
-        expect(toggleExploreTopicTag(tags, '趣味实验')).toEqual(['日常材料'])
-        expect(tags).toEqual(['日常材料', '趣味实验'])
-        expect(isExploreTopicTag('热门推荐')).toBe(false)
-    })
-
-    it('keeps theme-only browsing independent of sort and counts other filters as results', () => {
-        const state = {
-            category: '全部', subCategory: '', difficulty: 'all', age: null,
-            tags: ['趣味实验', '科教版'], searchQuery: '', sortBy: 'latest' as const,
-        }
-        expect(isExploreResultsMode(state)).toBe(false)
-        expect(isExploreResultsMode({ ...state, tags: [...state.tags, '磁力'] })).toBe(false)
-        expect(isExploreResultsMode({ ...state, difficulty: 'beginner' })).toBe(true)
-        expect(isExploreResultsMode({ ...state, age: 8 })).toBe(true)
-    })
-})
-
-
-it('normalizes explore tags to three supported themes with stable deduplication', () => {
-    expect(normalizeExploreThemeTags('磁力,趣味实验,初中,科教版,趣味实验,日常材料')).toEqual(['趣味实验', '科教版', '日常材料'])
-    expect(normalizeExploreThemeTags('磁力,未知标签')).toEqual([])
-    expect(normalizeExploreThemeTags(null)).toEqual([])
-    expect(normalizeExploreThemeTags(undefined)).toEqual([])
+describe('content browsing after retiring supplier groupings', () => {
+  it('offers household materials independently of the kit directory', () => {
+    expect(EXPLORE_PRESETS.map(p => p.id)).toEqual(['browse', 'everyday-materials'])
+    expect(EXPLORE_TOPICS.map(p => p.label)).toEqual(['日常材料'])
+    expect(buildPresetSearchParams(EXPLORE_TOPICS[0]).get('tags')).toBe('日常材料')
+  })
+  it('drops retired source filters while preserving household materials', () => {
+    expect(normalizeExploreThemeTags('趣味实验,日常材料,科教版,日常材料,初中')).toEqual(['日常材料'])
+    expect(normalizeExploreThemeTags('科教版,趣味实验')).toEqual([])
+    const original = new URLSearchParams({ tags: '科教版', category: '科学', q: '电池', age: '8', sortBy: 'latest' })
+    const normalized = new URLSearchParams(serializeExploreFilterParams(original))
+    expect(normalized.has('tags')).toBe(false)
+    expect(normalized.get('category')).toBe('科学')
+    expect(normalized.get('q')).toBe('电池')
+    expect(normalized.get('age')).toBe('8')
+    expect(original.get('tags')).toBe('科教版')
+  })
+  it('retains material toggles and independent ordering', () => {
+    expect(toggleExploreTopicTag(['日常材料'], '日常材料')).toEqual([])
+    expect(parseExploreSortBy('latest')).toBe('latest')
+    expect(parseExploreSortBy('unknown')).toBe('popular')
+    expect(detectActivePreset({ category: '全部', subCategory: '', difficulty: 'all', age: null, tags: ['日常材料'], searchQuery: '', sortBy: 'popular' })).toBe('everyday-materials')
+  })
 })

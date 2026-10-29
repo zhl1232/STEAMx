@@ -4,7 +4,7 @@ export type SortBy = 'latest' | 'popular'
 
 /** browse = 兼容旧热门态（无 tab 高亮） */
 /** beginner-friendly / latest 保留为遗留 id，旧 URL 可解析但不在 UI pills 中展示 */
-export type ExplorePresetId = 'browse' | 'beginner-friendly' | 'latest' | 'everyday-materials' | 'fun-science' | 'science-edu'
+export type ExplorePresetId = 'browse' | 'beginner-friendly' | 'latest' | 'everyday-materials'
 
 export const EVERYDAY_MATERIALS_TAG = '日常材料'
 
@@ -21,8 +21,6 @@ export type ExplorePreset = {
 export const EXPLORE_PRESETS: ExplorePreset[] = [
     { id: 'browse', label: '热门推荐', sortBy: 'popular', difficulty: 'all' },
     { id: 'everyday-materials', label: EVERYDAY_MATERIALS_TAG, sortBy: 'popular', difficulty: 'all', tags: [EVERYDAY_MATERIALS_TAG] },
-    { id: 'fun-science', label: '趣味实验', sortBy: 'popular', difficulty: 'all', tags: ['趣味实验'] },
-    { id: 'science-edu', label: '科教版', sortBy: 'popular', difficulty: 'all', tags: ['科教版'] },
 ]
 
 /** 快捷主题与同名标签共用筛选状态，不包含排序入口。 */
@@ -36,7 +34,7 @@ export function isExploreTopicTag(tag: string): boolean {
     return topicTagSet.has(tag)
 }
 
-/** 探索页 URL 只接受三个快捷主题，不再支持任意标签筛选。 */
+/** 探索页 URL 只接受日常材料主题，不再支持任意标签筛选。 */
 export function normalizeExploreThemeTags(raw: string | null | undefined): string[] {
     const tags = raw?.split(',').map(tag => tag.trim()) ?? []
     return [...new Set(tags.filter(isExploreTopicTag))]
@@ -79,7 +77,7 @@ function presetTags(preset: ExplorePreset): string[] {
 
 /** List-tab presets shown in explore mode (not results mode). */
 export function isExploreListTabPreset(id: ExplorePresetId | null): id is ExplorePresetId {
-    return id === 'browse' || id === 'everyday-materials' || id === 'fun-science' || id === 'science-edu'
+    return id === 'browse' || id === 'everyday-materials'
 }
 
 /** 用户主动筛选/搜索后进入「结果模式」，与默认「探索逛」分离。 */
@@ -146,16 +144,14 @@ export function resolveSuggestedPresetId(args: {
     projectsCompleted: number | undefined
 }): Exclude<ExplorePresetId, 'browse' | 'beginner-friendly' | 'latest'> {
     void args
-    return 'fun-science'
+    return 'everyday-materials'
 }
 
 export function getPresetHintLabel(presetId: ExplorePresetId): string {
     const preset = EXPLORE_PRESETS.find((item) => item.id === presetId)
     if (preset) return preset.label
     if (presetId === 'browse') return '热门推荐'
-    if (presetId === 'fun-science') return '趣味实验'
-    if (presetId === 'science-edu') return '科教版'
-    return '趣味实验'
+    return EVERYDAY_MATERIALS_TAG
 }
 
 export function buildPresetSearchParams(preset: ExplorePreset): URLSearchParams {

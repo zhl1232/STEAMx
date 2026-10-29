@@ -71,3 +71,40 @@ it('keeps the purchase gate closed even with stock', () => {
   expect(screen.getByRole('button', { name: '购买暂未开放' })).toBeDisabled()
   expect(push).not.toHaveBeenCalled()
 })
+
+it('selects the exact linked variant and its minimum quantity', () => {
+  render(<StoreProductDetail product={{ ...product, variants: [...product.variants, { id: 'v2', name: '指定套装', price_cents: 2200, stock_quantity: 100, min_quantity: 3 }] }} requestedVariantId="v2" checkoutEnabled />)
+  expect(screen.getByRole('button', { name: '指定套装' })).toHaveAttribute('aria-pressed', 'true')
+  expect(screen.getByRole('spinbutton', { name: '数量' })).toHaveValue(3)
+  fireEvent.click(screen.getByRole('button', { name: '立即购买' }))
+  expect(push.mock.calls[0][0]).toContain('variant=v2&quantity=3')
+})
+
+it('does not silently purchase a different variant when the linked variant is unavailable', () => {
+  render(<StoreProductDetail product={product} requestedVariantId="missing" checkoutEnabled />)
+  expect(screen.getByRole('alert')).toHaveTextContent('链接中的规格已不可用')
+  expect(screen.getByRole('button', { name: '暂无可售规格' })).toBeDisabled()
+  expect(push).not.toHaveBeenCalled()
+})
+
+it('shows the actual remote-region charges instead of unconditional free delivery', () => {
+  render(<StoreProductDetail product={{ ...product, shipping_province_overrides: { '新疆维吾尔自治区': 3200, '西藏自治区': 3200 } }} checkoutEnabled />)
+  expect(screen.getByText(/新疆维吾尔自治区每单¥32.00/)).toHaveTextContent('其他大陆地区包邮')
+  expect(screen.queryByText('免运费')).not.toBeInTheDocument()
+})
+
+it('changes the exact kit images, material list and project link with the chosen specification', () => {
+  const kit = { id: 'k1', slug: 'small', name: '小班材料', kind: 'material_pack' as const, revision: 1, status: 'published' as const, cover_url: '/small.jpg', gallery_urls: ['/small-detail.jpg'], materials: ['小班配件'], catalog: ['土电话'], preparation_note: '纸杯需按说明准备' }
+  render(<StoreProductDetail product={{ ...product, variants: [
+    { ...product.variants[0], kit },
+    { ...product.variants[0], id: 'v2', name: '中班规格', kit: { ...kit, id: 'k2', slug: 'middle', name: '中班材料', cover_url: '/middle.jpg', gallery_urls: ['/middle-detail.jpg'], materials: ['中班配件'], catalog: ['液压机械手'] } },
+  ] }} checkoutEnabled />)
+  expect(screen.getByRole('link', { name: '查看对应探索项目' })).toHaveAttribute('href', '/kits/small')
+  fireEvent.click(screen.getByRole('button', { name: '查看商品图片 2' }))
+  fireEvent.click(screen.getByRole('button', { name: '中班规格' }))
+  expect(screen.queryByText('小班配件')).not.toBeInTheDocument()
+  expect(screen.getByText('中班配件')).toBeInTheDocument()
+  expect(screen.getByRole('link', { name: '查看对应探索项目' })).toHaveAttribute('href', '/kits/middle')
+  expect(screen.getByRole('button', { name: '查看商品图片 1' })).toHaveAttribute('aria-pressed', 'true')
+  expect(screen.getByAltText('中班材料供应商详情')).toHaveAttribute('src', '/middle-detail.jpg')
+})

@@ -1,5 +1,7 @@
 "use client"
 
+import Link from 'next/link'
+
 import filterMotion from './explore-filter-motion.module.css'
 import { ExploreSearchOverlay } from '@/components/explore/explore-search-overlay'
 import { useState, useRef, useCallback, useEffect, useLayoutEffect, useMemo, memo, type FormEvent, type MouseEvent, type ComponentProps } from 'react'
@@ -881,6 +883,17 @@ export function ExploreClient({
         executeFilter(params)
     }
 
+    useEffect(() => {
+        const raw = searchParams.get('tags')
+        if (!raw) return
+        const tags = normalizeExploreThemeTags(raw)
+        if (tags.join(',') === raw) return
+        const params = new URLSearchParams(searchParams.toString())
+        if (tags.length) params.set('tags', tags.join(','))
+        else params.delete('tags')
+        window.history.replaceState(null, '', params.size ? `/explore?${params}` : '/explore')
+    }, [searchParams])
+
     const advancedFilterCount = (selectedSubCategory ? 1 : 0) + (selectedDifficulty !== "all" ? 1 : 0) + (selectedAge !== null ? 1 : 0)
     const isResultsMode = isExploreResultsMode(getFilterState())
     const hasSummaryFilters = !!searchQuery || !!selectedSubCategory || selectedDifficulty !== 'all'
@@ -890,6 +903,7 @@ export function ExploreClient({
     const topicRow = (
         <div className="flex min-w-0 items-center justify-between gap-2 md:gap-4">
             <div role="group" aria-label="快捷主题" className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-2 overflow-x-auto px-1 py-0.5">
+                <Link href="/kits" className="inline-flex h-11 shrink-0 items-center px-2 text-sm text-foreground underline-offset-4 hover:underline">按套装找</Link>
                 {EXPLORE_TOPICS.map((topic) => {
                     const tag = topic.tags[0]
                     const isActive = selectedTags.includes(tag)
