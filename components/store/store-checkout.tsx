@@ -64,6 +64,13 @@ export function StoreCheckout({ userId, productId, variantId, quantity, intentId
         persist({ key: record.current.key, orderId: body.order.id })
         setOrderId(body.order.id)
         resetBenefitsOnLookup.current = false
+      } else if (record.current.pending?.discount === 'coins') {
+        persist({ key: record.current.key })
+        originalRequest.current = null
+        setAttempted(false); setRecovering(false); setDiscount('none'); setQuote(null)
+        setReconfirm(value => value + 1)
+        resetBenefitsOnLookup.current = false
+        setError('尚未查到原订单。硬币抵扣已调整为兑换优惠券，请重新选择优惠并核对最新金额后确认下单。')
       } else if (resetBenefitsOnLookup.current) {
         persist({ key: record.current.key })
         originalRequest.current = null
@@ -108,7 +115,7 @@ export function StoreCheckout({ userId, productId, variantId, quantity, intentId
     // eslint-disable-next-line react/set-state-in-effect -- Invalidate the previous network quote before requesting the new one.
     setQuote(null)
     setLoadingQuote(true)
-    void storeJson<{ quote: Quote }>('/api/store/quote', { method: 'POST', headers: { 'content-type': 'application/json' }, signal: controller.signal, body: JSON.stringify({ items: [{ variantId, quantity }], province, couponId: discount.startsWith('coupon:') ? discount.slice(7) : null, useCoins: discount === 'coins' }) }).then(body => { if (active) setQuote(body.quote) }).catch(e => { if (active) setError(e.message) }).finally(() => { if (active) setLoadingQuote(false) })
+    void storeJson<{ quote: Quote }>('/api/store/quote', { method: 'POST', headers: { 'content-type': 'application/json' }, signal: controller.signal, body: JSON.stringify({ items: [{ variantId, quantity }], province, couponId: discount.startsWith('coupon:') ? discount.slice(7) : null, useCoins: false }) }).then(body => { if (active) setQuote(body.quote) }).catch(e => { if (active) setError(e.message) }).finally(() => { if (active) setLoadingQuote(false) })
     return () => { active = false; controller.abort() }
   }, [variantId, quantity, province, discount, reconfirm, ready, orderId, attempted])
   const variant = product?.variants.find(v => v.id === variantId)
@@ -119,7 +126,7 @@ export function StoreCheckout({ userId, productId, variantId, quantity, intentId
     requestLock.current = true
     setBusy(true); setError('')
     try {
-      const request = originalRequest.current || JSON.stringify({ items: [{ variantId, quantity }], address: { ...address, province, postalCode: '' }, expectedQuote: quote, couponId: discount.startsWith('coupon:') ? discount.slice(7) : null, useCoins: discount === 'coins' })
+      const request = originalRequest.current || JSON.stringify({ items: [{ variantId, quantity }], address: { ...address, province, postalCode: '' }, expectedQuote: quote, couponId: discount.startsWith('coupon:') ? discount.slice(7) : null, useCoins: false })
       persist({ key: record.current.key, pending: { province, discount } })
       originalRequest.current = request
       setAttempted(true)
@@ -152,7 +159,7 @@ export function StoreCheckout({ userId, productId, variantId, quantity, intentId
   return <main><AppWideShell className="pb-24 pt-5 sm:pt-8">
     <Button asChild variant="ghost" className="h-11"><Link href={`/store/products/${productId}`}>← 返回商品</Link></Button>
     <header className="mt-5 flex flex-col justify-between gap-4 border-b border-border pb-6 sm:flex-row sm:items-end">
-      <div><p className="section-kicker">材料包商城 · 结算</p><h1 className="mt-2 text-page-title">确认订单并支付</h1><p className="mt-3 text-sm leading-6 text-muted-foreground">核对商品、收货信息和实付金额，确认后直接前往支付。</p></div>
+      <div><p className="section-kicker">材料商城 · 结算</p><h1 className="mt-2 text-page-title">确认订单并支付</h1><p className="mt-3 text-sm leading-6 text-muted-foreground">核对商品、收货信息和实付金额，确认后直接前往支付。</p></div>
       <p className="flex items-center gap-2 text-sm text-muted-foreground"><span className="font-semibold text-foreground">确认信息</span><span aria-hidden>→</span><span>完成支付</span></p>
     </header>
     <form onSubmit={submit} className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(20rem,1fr)]">
@@ -169,9 +176,9 @@ export function StoreCheckout({ userId, productId, variantId, quantity, intentId
             {(['city', 'district', 'street'] as const).map((field, i) => <label key={field} className={`grid gap-2 text-sm font-medium ${field === 'street' ? 'sm:col-span-2' : ''}`}>{['城市', '区县', '详细地址'][i]}<Input required className="h-12" placeholder={['如：北京市', '如：海淀区', '街道、小区、楼栋及门牌号'][i]} autoComplete={field === 'street' ? 'street-address' : 'off'} value={address[field]} onChange={e => setAddress({ ...address, [field]: e.target.value })} /></label>)}
           </fieldset>
         </Surface>
-        <Surface className="p-5 sm:p-6"><h2 className="flex items-center gap-2 text-panel-title"><Tag aria-hidden className="h-5 w-5 text-primary" />优惠选择</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">会员优惠自动计算。硬币和优惠券可任选一种，也可不使用。</p>
-          <fieldset disabled={!ready || attempted || recovering || busy || Boolean(orderId)} className="mt-5 min-w-0 space-y-3"><legend className="sr-only">优惠方式</legend>{[{ id: 'none', title: '不使用硬币或优惠券' }, { id: 'coins', title: '使用硬币抵扣' }, ...coupons.filter(c => c.eligible && c.eligible_product_ids?.includes(productId)).map(c => ({ id: `coupon:${c.id}`, title: `${c.title} · 满${money(c.threshold_cents)}减${money(c.discount_cents)} · ${new Date(c.expires_at).toLocaleDateString('zh-CN')}到期` }))].map(option => <label key={option.id} className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm leading-6 transition-colors ${discount === option.id ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/40'}`}><input className="h-4 w-4 shrink-0 accent-primary" type="radio" name="discount" value={option.id} checked={discount === option.id} onChange={() => { setQuote(null); setError(''); setDiscount(option.id) }} /><span className="min-w-0 break-words [overflow-wrap:anywhere]">{option.title}</span></label>)}</fieldset>
-          <details className="mt-4 text-sm text-muted-foreground"><summary className="min-h-11 cursor-pointer py-3">查看优惠规则</summary><p className="leading-6">有效 Pro 会员商品 8.8 折，创始会员商品 8 折。硬币每枚抵 1 分，最多抵会员折后商品金额的 10%；运费不参与优惠。</p></details>
+        <Surface className="p-5 sm:p-6"><h2 className="flex items-center gap-2 text-panel-title"><Tag aria-hidden className="h-5 w-5 text-primary" />优惠选择</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">会员优惠自动计算，可选择一张优惠券。</p>
+          <fieldset disabled={!ready || attempted || recovering || busy || Boolean(orderId)} className="mt-5 min-w-0 space-y-3"><legend className="sr-only">优惠方式</legend>{[{ id: 'none', title: '不使用优惠券' }, ...coupons.filter(c => c.eligible && c.eligible_product_ids?.includes(productId)).map(c => ({ id: `coupon:${c.id}`, title: `${c.title} · 满${money(c.threshold_cents)}减${money(c.discount_cents)} · ${new Date(c.expires_at).toLocaleDateString('zh-CN')}到期` }))].map(option => <label key={option.id} className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm leading-6 transition-colors ${discount === option.id ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/40'}`}><input className="h-4 w-4 shrink-0 accent-primary" type="radio" name="discount" value={option.id} checked={discount === option.id} onChange={() => { setQuote(null); setError(''); setDiscount(option.id) }} /><span className="min-w-0 break-words [overflow-wrap:anywhere]">{option.title}</span></label>)}</fieldset>
+          <details className="mt-4 text-sm text-muted-foreground"><summary className="min-h-11 cursor-pointer py-3">查看优惠规则</summary><p className="leading-6">有效 Pro 会员商品 8.8 折，创始会员商品 8 折。优惠券门槛按会员折后商品金额计算；运费不参与优惠。硬币可在“我的硬币”中兑换优惠券。</p></details>
         </Surface>
       </div>
       <Surface className="min-w-0 p-5 sm:p-6 lg:sticky lg:top-24"><h2 className="mb-6 text-panel-title">付款明细</h2>

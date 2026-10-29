@@ -32,7 +32,7 @@ describe("sitemap route coverage", () => {
       projects: [], species: [], observations: [], courses: [], lessons: [], works: [], resources: [], challenges: [],
     }).map((entry) => new URL(entry.url).pathname);
 
-    for (const game of ["2048", "fifteen", "quickmath"]) {
+    for (const game of ["2048", "fifteen", "quickmath", "tangram", "symmetry", "ballsort"]) {
       expect(urls).not.toContain(`/playground/${game}`);
     }
     expect(urls).toContain("/playground/maze");
@@ -52,13 +52,13 @@ describe("sitemap route coverage", () => {
       works: [{ id: 6, completed_at: "2026-01-07T00:00:00Z" }],
       resources: [{ id: 7, updated_at: "2026-01-08T00:00:00Z" }],
       challenges: [{ id: 8, created_at: "2026-01-09T00:00:00Z" }],
-    }).map((entry) => new URL(entry.url).pathname);
+    }).map((entry) => { const url = new URL(entry.url); return url.pathname + url.search; });
 
     expect(urls).toEqual(expect.arrayContaining([
       "/project/1",
       "/nature/species/passer-montanus",
       "/nature/observations/2",
-      "/courses/3",
+      "/courses?course=3",
       "/courses/3/lessons/4",
       "/courses/3/lessons/4/parts",
       "/courses/3/lessons/5",
@@ -67,6 +67,7 @@ describe("sitemap route coverage", () => {
       "/pbl/8",
     ]));
     expect(urls).not.toContain("/courses/3/lessons/5/parts");
+    expect(urls).not.toContain("/courses/3");
   });
 
   it("excludes retired projects even before their database moderation state is hidden", () => {

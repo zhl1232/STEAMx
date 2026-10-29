@@ -7,6 +7,13 @@ import {
 } from '@/lib/ai/tutor/resolve-context'
 
 describe('resolveTutorContextFromPath', () => {
+  it('resolves the explicit catalog selection and switches course context', () => {
+    expect(resolveTutorContextFromPath('/courses', 'course=5')).toEqual({ contextType: 'course', contextId: '5' })
+    expect(resolveTutorContextFromPath('/courses', 'course=8')).toEqual({ contextType: 'course', contextId: '8' })
+    expect(resolveTutorContextFromPath('/courses', 'course=5&course=8')).toEqual({ contextType: 'global', contextId: '', surface: 'courses' })
+    expect(resolveTutorContextFromPath('/courses', 'course=bad')).toEqual({ contextType: 'global', contextId: '', surface: 'courses' })
+  })
+
   it('resolves species detail pages by slug', () => {
     expect(resolveTutorContextFromPath('/nature/species/turdus-merula')).toEqual({
       contextType: 'species',
@@ -88,5 +95,6 @@ describe('shouldShowGlobalTutor', () => {
 
   it('hides the tutor on routes without a tutor context', () => {
     expect(shouldShowGlobalTutor('/login')).toBe(false)
+    expect(shouldShowGlobalTutor('/courses/5')).toBe(false)
   })
 })

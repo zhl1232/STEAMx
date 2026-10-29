@@ -50,6 +50,29 @@ export async function GET(
       return NextResponse.json({ error: '作品不存在' }, { status: 404 })
     }
 
+    // Cursor mode is opt-in so existing compact previews keep their original contract.
+    if (request.nextUrl.searchParams.get('pagination') === 'cursor') {
+      const rawAfter = request.nextUrl.searchParams.get('after')
+      if (rawAfter !== null && (!/^[1-9]\d*$/.test(rawAfter) || !Number.isSafeInteger(Number(rawAfter)))) {
+        return NextResponse.json({ error: '无效的评论游标' }, { status: 400 })
+      }
+      const limit = Math.min(50, Math.max(1, parseNumber(request.nextUrl.searchParams.get('limit'), 10)))
+      let query = supabase
+        .from('completion_comments')
+        .select(COMMENT_SELECT)
+        .eq('completed_project_id', completionId)
+        .order('id', { ascending: true })
+      if (rawAfter !== null) query = query.gt('id', Number(rawAfter))
+      const { data, error } = await query.limit(limit + 1)
+      if (error) throw error
+      const rows = (data || []) as DbCommentWithProfile[]
+      const page = rows.slice(0, limit)
+      return NextResponse.json({
+        comments: page.map(mapDbComment),
+        nextCursor: rows.length > limit ? page[page.length - 1].id : null,
+      })
+    }
+
     const limit = Math.min(200, Math.max(1, parseNumber(request.nextUrl.searchParams.get('limit'), 200)))
 
     const { data, error } = await supabase

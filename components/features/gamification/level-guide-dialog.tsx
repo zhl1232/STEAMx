@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { useGamification } from '@/lib/context/gamification-context';
 import { EXPERIENCE_RULES, type ExperienceRuleId } from "@/lib/gamification/experience-rules";
+import { LEVEL_BENEFITS as levelBenefits, type BenefitType } from "@/lib/gamification/level-benefits";
 import { cn } from "@/lib/utils";
 
 interface LevelGuideDialogProps {
@@ -35,8 +36,6 @@ interface LevelGuideDialogProps {
 
 type LevelGuideTab = "overview" | "earn" | "levels";
 
-// === 权益数据结构 ===
-type BenefitType = "vanity" | "feature" | "power" | "wealth";
 
 const EXPERIENCE_RULE_ICONS: Record<ExperienceRuleId, React.ReactNode> = {
   publish_course_work: <Blocks className="h-4 w-4 text-blue-500" />,
@@ -47,6 +46,7 @@ const EXPERIENCE_RULE_ICONS: Record<ExperienceRuleId, React.ReactNode> = {
   complete_challenge: <Trophy className="h-4 w-4 text-orange-500" />,
   growth_exchange: <Heart className="h-4 w-4 text-pink-500" />,
   like_project: <Heart className="h-4 w-4 text-pink-500" />,
+  starter_tasks: <Target className="h-4 w-4 text-emerald-500" />,
   daily_login: <Zap className="h-4 w-4 text-purple-500" />,
 };
 
@@ -75,62 +75,6 @@ const BENEFIT_TAG_CONFIG: Record<
     icon: <CoinIcon className="h-3 w-3" />,
   },
 };
-
-const levelBenefits: {
-  level: number;
-  xp: number;
-  benefits: { text: string; type: BenefitType; highlight?: boolean }[];
-}[] = [
-  {
-    level: 2,
-    xp: 100,
-    benefits: [
-      { text: "解锁商店入门头像框 & 昵称颜色兑换", type: "wealth" },
-    ],
-  },
-  {
-    level: 5,
-    xp: 1600,
-    benefits: [
-      { text: "申请成为社区审核员", type: "power", highlight: true },
-      { text: "解锁「深海琉璃」头像框兑换权", type: "wealth" },
-      { text: "解锁「深渊幽蓝」昵称颜色兑换权", type: "wealth" },
-    ],
-  },
-  {
-    level: 10,
-    xp: 8100,
-    benefits: [
-      { text: "解锁「霓虹光环」头像框兑换权", type: "wealth", highlight: true },
-      { text: "解锁「赛博霓虹」昵称颜色兑换权", type: "wealth" },
-    ],
-  },
-  {
-    level: 20,
-    xp: 36100,
-    benefits: [
-      { text: "解锁「赛博故障」高阶头像框兑换权", type: "wealth", highlight: true },
-      { text: "解锁「真命暗金」传说昵称颜色兑换权", type: "wealth" },
-      { text: "作品在推荐位获得额外曝光加权", type: "power" },
-    ],
-  },
-  {
-    level: 30,
-    xp: 84100,
-    benefits: [
-      { text: "解锁「黄金王冠」传说头像框兑换权", type: "vanity", highlight: true },
-      { text: "推荐位曝光加权提升", type: "power" },
-    ],
-  },
-  {
-    level: 50,
-    xp: 240100,
-    benefits: [
-      { text: "「传说元老」专属黑金界面主题", type: "vanity", highlight: true },
-      { text: "推荐位曝光加权达到最高档", type: "power" },
-    ],
-  },
-];
 
 export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGuideDialogProps) {
   const { level, xp, nextLevelXp, progress, levelProgress, levelTotalNeeded } = useGamification();
@@ -223,7 +167,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
                   </p>
                 ) : (
                   <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                    已解锁当前全部等级权益，继续积累经验可保持排行榜表现。
+                    已达到当前全部等级门槛；装扮仍需兑换，审核员仍需申请审核。
                   </p>
                 )}
               </div>
@@ -234,7 +178,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
                   <h3 className="text-sm font-bold">稳定获取</h3>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                  发布作品、完成项目、提交自然观察和每日登录都会进入同一套经验记录。
+                  实践记录、自然观察等按各自审核条件发放；新手任务达成后需领取，经验以到账记录为准。
                 </p>
               </div>
             </div>
@@ -308,15 +252,19 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
                     再获得{" "}
                     <strong className="text-foreground">{xpRemaining.toLocaleString()}</strong>{" "}
                     经验即可到达 <strong className="text-foreground">Lv.{nextBenefit.level}</strong>
-                    ，解锁新权益
+                    ，达到下一档等级条件
                   </>
                 ) : (
                   <span className="text-amber-600 dark:text-amber-400 font-medium">
-                    已解锁全部升级权益
+                    已达到全部权益的等级条件
                   </span>
                 )}
               </p>
             </div>
+
+            <p className="mb-3 text-xs leading-5 text-muted-foreground">
+              等级达标不等于自动获得权益。装扮需花费硬币兑换，审核员需另行申请并审核。
+            </p>
 
             {/* 权益列表 */}
             <div className="rounded-xs border bg-card text-card-foreground shadow-xs">
@@ -338,7 +286,7 @@ export function LevelGuideDialog({ children, defaultTab = "overview" }: LevelGui
                           </span>
                           {unlocked && (
                             <span className="status-success-surface text-[10px] px-1.5 py-0.5 rounded border text-[hsl(var(--status-success))] font-medium">
-                              已解锁
+                              等级已达标
                             </span>
                           )}
                         </div>

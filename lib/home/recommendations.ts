@@ -3,7 +3,6 @@ import { unstable_rethrow } from "next/navigation";
 import { getProjects, getRecommendedProjects } from "@/lib/api/explore-data";
 import { getRecentNatureObservations } from "@/lib/api/nature-observation-homepage";
 import { getFeaturedPblChallenge, type FeaturedPblChallenge } from "@/lib/api/pbl-challenges";
-import { getHomepageCategoryTileCounts, type HomeCategoryTileCounts } from "@/lib/home/category-tiles";
 import { getHomepageCommunityFeed, type HomeCommunityFeedItem } from "@/lib/home/community-feed";
 import { logger } from "@/lib/logger";
 import { getRecommendationViewerKey } from "@/lib/recommendations/viewer";
@@ -27,7 +26,6 @@ export interface HomepageShowcaseData {
   worksHasMore: boolean;
   recentNatureObservations: ObservationEvent[];
   communityFeed: HomeCommunityFeedItem[];
-  categoryTileCounts: HomeCategoryTileCounts;
   featuredChallenge: FeaturedPblChallenge | null;
 }
 
@@ -346,15 +344,14 @@ export async function getHomepageRecommendations(args: {
 }
 
 export async function getHomepageShowcaseData(): Promise<HomepageShowcaseData> {
-  const [worksResult, recentNatureObservations, communityFeed, categoryTileCounts, featuredChallenge] = await Promise.all([
+  const [worksResult, recentNatureObservations, communityFeed, featuredChallenge] = await Promise.all([
     getTrendingWorks(6).catch((error) => {
       unstable_rethrow(error);
       logger.warn("Failed to load homepage works", { error });
       return { works: [], nextOffset: 0, hasMore: false };
     }),
-    getRecentNatureObservations(3, { strictErrors: true }),
+    getRecentNatureObservations(5, { strictErrors: true }),
     getHomepageCommunityFeed(),
-    getHomepageCategoryTileCounts(),
     getFeaturedPblChallenge(),
   ]);
 
@@ -364,7 +361,6 @@ export async function getHomepageShowcaseData(): Promise<HomepageShowcaseData> {
     worksHasMore: worksResult.hasMore,
     recentNatureObservations,
     communityFeed,
-    categoryTileCounts,
     featuredChallenge,
   };
 }

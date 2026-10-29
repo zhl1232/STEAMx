@@ -2,6 +2,7 @@ import type { ComponentProps } from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { StoreCatalogClient } from './store-catalog-client'
+vi.mock('@/lib/context/auth-context', () => ({ useAuth: () => ({ profile: null }) }))
 vi.mock('next/link', () => ({ default: ({ children, ...p }: ComponentProps<'a'>) => <a {...p}>{children}</a> }))
 describe('store catalog', () => {
   beforeEach(() => { vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ products: [{ id: 'p1', name: '齿轮车', price_cents: 1200, variants: [{ id: 'v1', price_cents: null }] }] })))) })

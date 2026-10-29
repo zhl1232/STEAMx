@@ -229,7 +229,7 @@ export function OptimizedImage({
   if (!showSkeleton) return image
   return (
     <>
-      <span aria-hidden data-image-skeleton className="pointer-events-none absolute inset-0 animate-pulse bg-muted" />
+      <span aria-hidden data-image-skeleton className="pointer-events-none absolute inset-0 animate-pulse motion-reduce:animate-none bg-muted" />
       {image}
     </>
   )

@@ -18,109 +18,80 @@ import { OptimizedImage } from "@/components/ui/optimized-image";
 import { categoryToneClasses } from "@/components/ui/tone-badge";
 import { CATEGORY_META } from "@/lib/config/categories";
 import { formatRelativeTime } from "@/lib/date-utils";
-import { type HomeCategoryTileCounts, type HomeSteamCategoryKey } from "@/lib/home/category-tiles";
 import { type HomeCommunityFeedItem, type HomeCommunityFeedKind } from "@/lib/home/community-feed";
 import { type FeaturedPblChallenge } from "@/lib/api/pbl-challenges";
 import { type ObservationEvent, type Work } from "@/lib/mappers/types";
 import { getObservationDisplayTitle } from "@/lib/observations/display";
 import { MAINLINE_ENTRY_HREF } from "@/lib/product/mainline";
 import {
-  BRAND_HERO_SUBTITLE,
   BRAND_HOME_HERO_TITLE,
 } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 const heroImage = "/assets/home-hero-steam-lake.png";
-/** 手机端首图副标题：四个词各自是站内入口 */
+/** 首图副标题：桌面与手机共用四个文本入口 */
 const heroTopicLinks = [
   { label: "搭积木", href: MAINLINE_ENTRY_HREF },
   { label: "做实验", href: "/learn/science" },
   { label: "学编程", href: "/learn/scratch" },
   { label: "观察自然", href: "/nature" },
 ];
-const heroWideImage = "/assets/home-hero-steam-lake-banner.webp";
 const natureForegroundImage = "/assets/home-nature-channel-bird-foreground-v8.png";
 const leaderboardForegroundImage = "/assets/home-leaderboard-card-foreground-v2.png";
-
-type HomeCategoryCountSource = { type: "projects"; category: HomeSteamCategoryKey } | { type: "playground" };
 
 const homeCategoryTiles: Array<{
   metaKey: keyof typeof CATEGORY_META;
   href: string;
   labelOverride?: string;
-  countSource: HomeCategoryCountSource;
 }> = [
   {
     metaKey: "科学",
     href: "/explore?category=科学",
-    countSource: { type: "projects", category: "科学" },
   },
   {
     metaKey: "技术",
     href: "/explore?category=技术",
-    countSource: { type: "projects", category: "技术" },
   },
   {
     metaKey: "工程",
     href: "/explore?category=工程",
-    countSource: { type: "projects", category: "工程" },
   },
   {
     metaKey: "艺术",
     href: "/explore?category=艺术",
-    countSource: { type: "projects", category: "艺术" },
   },
   {
     metaKey: "数学",
     href: "/explore?category=数学",
-    countSource: { type: "projects", category: "数学" },
   },
   {
     metaKey: "其他",
     href: "/playground",
     labelOverride: "游乐场",
-    countSource: { type: "playground" },
   },
 ];
-
-function formatCategoryTileCountLabel(source: HomeCategoryCountSource, counts: HomeCategoryTileCounts): string {
-  const nf = new Intl.NumberFormat("zh-CN");
-  if (source.type === "playground") {
-    return `${nf.format(counts.playgroundGames)} 个玩法`;
-  }
-  return `${nf.format(counts[source.category])} 个项目`;
-}
 
 function HomeHero({ image }: { image: string }) {
   return (
     <section className="surface-card relative overflow-hidden rounded-sm">
       <div className="relative">
-        {/* 浅色：照片渐隐至卡片自身底色，避免独立白色遮罩与半透明卡片在图片上沿接缝；深色保持铺满与护字遮罩。 */}
+        {/* 共用原图，桌面只在右侧裁切，保留高清细节；渐隐至卡片底色，手机暗色保持铺满与护字遮罩。 */}
         <Image
           src={image}
           alt=""
           width={1672}
           height={941}
-          priority
           loading="eager"
-          sizes="(max-width: 768px) 100vw, 1800px"
-          className="absolute inset-x-0 bottom-0 h-[124px] w-full object-cover object-[74%_62%] [mask-image:linear-gradient(180deg,transparent_0%,rgb(0_0_0/0.18)_18%,rgb(0_0_0/0.82)_44%,black_68%)] dark:[mask-image:none] dark:inset-0 dark:h-full dark:object-[74%_42%] md:hidden"
-        />
-        <Image
-          src={heroWideImage}
-          alt=""
-          fill
-          priority
-          loading="eager"
-          sizes="1800px"
-          className="hidden object-cover object-[69%_center] md:block md:object-[70%_center] lg:object-[73%_center] xl:object-[75%_center] md:[mask-image:linear-gradient(90deg,transparent_0%,transparent_43%,black_76%,black_100%)] lg:[mask-image:linear-gradient(90deg,transparent_0%,transparent_32%,black_64%,black_100%)] xl:[mask-image:linear-gradient(90deg,transparent_0%,transparent_26%,black_58%,black_100%)]"
+          fetchPriority="high"
+          sizes="(min-width: 1400px) 960px, (min-width: 768px) 72vw, 100vw"
+          className="absolute inset-x-0 bottom-0 h-[124px] w-full object-cover object-[74%_62%] [mask-image:linear-gradient(180deg,transparent_0%,rgb(0_0_0/0.18)_18%,rgb(0_0_0/0.82)_44%,black_68%)] max-md:dark:[mask-image:none] max-md:dark:inset-0 max-md:dark:h-full max-md:dark:object-[74%_42%] md:inset-y-0 md:left-auto md:h-full md:w-[72%] md:max-w-[60rem] md:object-right-bottom [@media(min-width:1024px)_and_(max-width:1535px)_and_(max-height:850px)]:object-right-top md:[mask-image:linear-gradient(90deg,transparent_0%,transparent_15%,black_75%)] lg:[mask-image:linear-gradient(90deg,transparent_0%,black_40%)]"
         />
         <div
           className="pointer-events-none absolute inset-0 hidden max-md:dark:block dark:bg-[linear-gradient(180deg,rgba(8,14,24,0.42)_0%,rgba(8,14,24,0.18)_36%,rgba(8,14,24,0.04)_62%,transparent_82%)] md:hidden"
           aria-hidden="true"
         />
 
-        <div className="relative z-10 flex min-h-[200px] flex-col justify-start px-4 pb-[88px] pt-5 md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px]">
+        <div className="relative z-10 flex min-h-[200px] flex-col justify-start px-4 pb-[88px] pt-5 md:min-h-[340px] md:justify-center md:px-10 md:py-8 lg:min-h-[370px] lg:px-12 xl:min-h-[390px] [@media(min-width:1024px)_and_(max-width:1535px)_and_(max-height:850px)]:min-h-[300px]">
           <div className="min-w-0 max-w-[440px] md:max-w-[62%] lg:max-w-[58%] xl:max-w-[52%]">
             {/* One H1; CSS selects the visible copy without a viewport-dependent hydration pass. */}
             <h1
@@ -133,20 +104,19 @@ function HomeHero({ image }: { image: string }) {
             </h1>
 
             <p className="mt-2 max-w-[32rem] text-[14px] font-medium leading-6 text-foreground/85 md:mt-3 md:text-[15px] md:leading-7 lg:text-[16px]">
-              <span className="md:hidden">
+              <span>
                 {heroTopicLinks.map((topic, index) => (
                   <span key={topic.href}>
                     {index > 0 ? " · " : null}
                     <Link
                       href={topic.href}
-                      className="-my-2.5 inline-block py-2.5 text-[hsl(var(--brand-blue))] [text-shadow:0_0_6px_rgba(255,255,255,0.6)] transition-opacity active:opacity-70 dark:text-[#9fd8ff] dark:[text-shadow:0_1px_2px_rgba(0,0,0,0.85),0_0_8px_rgba(0,0,0,0.55)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+                      className="-my-2.5 inline-block py-2.5 text-[hsl(var(--brand-blue))] [text-shadow:0_0_6px_rgba(255,255,255,0.6)] transition-opacity hover:underline hover:underline-offset-4 active:opacity-70 dark:text-[#9fd8ff] dark:[text-shadow:0_1px_2px_rgba(0,0,0,0.85),0_0_8px_rgba(0,0,0,0.55)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       {topic.label}
                     </Link>
                   </span>
                 ))}
               </span>
-              <span className="hidden md:inline">{BRAND_HERO_SUBTITLE}</span>
             </p>
           </div>
         </div>
@@ -193,21 +163,20 @@ function LeaderboardEntry({ className }: { className?: string }) {
   );
 }
 
-function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategoryTileCounts }) {
+function CategoryGrid() {
   return (
     <div className="grid grid-cols-2 gap-2 min-[380px]:grid-cols-3 md:gap-3 lg:grid-cols-6 lg:gap-3">
       {homeCategoryTiles.map((category) => {
         const meta = CATEGORY_META[category.metaKey];
         const Icon = meta.icon;
         const tone = categoryToneClasses[meta.tone ?? "science"];
-        const countLabel = formatCategoryTileCountLabel(category.countSource, categoryTileCounts);
 
         return (
           <Link
             key={category.metaKey}
             href={category.href}
             className={cn(
-              "group flex min-h-[66px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.6)] max-md:relative max-md:border-[#e2e7ee] max-md:bg-[#f7f9fc] max-md:shadow-none max-md:dark:border-white/[0.12] max-md:dark:bg-white/[0.04] max-md:active:scale-[0.99] px-2.5 py-2.5 text-left transition-colors hover:bg-[hsl(var(--surface-raised)/0.96)] min-[390px]:gap-2.5 md:min-h-[88px] md:gap-3 md:px-4 md:py-3.5 lg:min-h-[88px] min-[1480px]:min-h-[96px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
+              "group flex min-h-[66px] min-w-0 items-center justify-start gap-2 rounded-sm border bg-[hsl(var(--surface-raised)/0.6)] max-md:relative max-md:border-[#e2e7ee] max-md:bg-[#f7f9fc] max-md:shadow-none max-md:dark:border-white/[0.12] max-md:dark:bg-white/[0.04] max-md:active:scale-[0.99] px-2.5 py-2.5 text-left transition-colors hover:bg-[hsl(var(--surface-raised)/0.96)] min-[390px]:gap-2.5 md:min-h-[72px] md:gap-3 md:px-4 md:py-3.5 min-[1480px]:min-h-[80px] min-[1480px]:gap-3.5 min-[1480px]:px-4",
               "border-border/60",
             )}
           >
@@ -217,7 +186,6 @@ function CategoryGrid({ categoryTileCounts }: { categoryTileCounts: HomeCategory
             <div className="min-w-0 flex-1">
               <span className={cn("block whitespace-nowrap font-sans text-[14px] font-bold leading-none text-foreground md:text-[15px] min-[1480px]:text-[16px]")}>{category.labelOverride ?? meta.label}</span>
               <p className="mt-1 hidden truncate text-[11px] text-muted-foreground min-[1480px]:block">{meta.description}</p>
-              <p className="mt-0.5 whitespace-nowrap text-[10px] font-medium leading-4 text-muted-foreground max-md:hidden md:mt-1.5 md:text-[12px]">{countLabel}</p>
             </div>
           </Link>
         );
@@ -259,7 +227,7 @@ function MainlineStartCard({ className }: { className?: string }) {
   );
 }
 
-function StartExploreSection({ categoryTileCounts }: { categoryTileCounts: HomeCategoryTileCounts }) {
+function StartExploreSection() {
   return (
     <section aria-labelledby="home-start-heading" className="max-md:relative">
       {/* 手机端：借自然页的淡淡光晕点缀 */}
@@ -270,7 +238,7 @@ function StartExploreSection({ categoryTileCounts }: { categoryTileCounts: HomeC
       <h2 id="home-start-heading" className="mb-2 text-[17px] font-extrabold text-foreground max-md:relative max-md:px-1 max-md:text-[18px] max-md:font-bold max-md:tracking-[0.01em] md:mb-3 md:text-[20px]">
         按兴趣探索
       </h2>
-      <CategoryGrid categoryTileCounts={categoryTileCounts} />
+      <CategoryGrid />
     </section>
   );
 }
@@ -378,8 +346,8 @@ function HomeNatureSection({ observations }: { observations: ObservationEvent[] 
         </div>
 
         {observations.length > 0 ? (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-            {observations.slice(0, 3).map((observation, index) => (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 max-lg:[&>a:nth-child(4)]:hidden max-[1536px]:[&>a:nth-child(5)]:hidden">
+            {observations.slice(0, 5).map((observation, index) => (
               <HomeObservationCard key={observation.id} observation={observation} priority={index === 0} />
             ))}
           </div>
@@ -515,7 +483,6 @@ export function HomeShowcase({
   worksHasMore,
   recentNatureObservations,
   communityFeed,
-  categoryTileCounts,
   featuredChallenge,
 }: {
   works: Work[];
@@ -523,7 +490,6 @@ export function HomeShowcase({
   worksHasMore: boolean;
   recentNatureObservations: ObservationEvent[];
   communityFeed: HomeCommunityFeedItem[];
-  categoryTileCounts: HomeCategoryTileCounts;
   featuredChallenge: FeaturedPblChallenge | null;
 }) {
   return (
@@ -539,13 +505,13 @@ export function HomeShowcase({
           </MobileShortcutCarousel>
         </div>
 
-        <StartExploreSection categoryTileCounts={categoryTileCounts} />
+        <StartExploreSection />
 
-        <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1.65fr)_minmax(320px,0.85fr)]">
+        <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(320px,400px)]">
           <HomeWorksSection
             initialData={{ works, nextOffset: worksNextOffset, hasMore: worksHasMore }}
           />
-          <div className="min-w-0 md:space-y-5">
+          <div className="min-w-0 md:flex md:flex-col md:gap-5">
             <HomeNatureSection observations={recentNatureObservations} />
             <div className="hidden md:block">
               <LeaderboardEntry />

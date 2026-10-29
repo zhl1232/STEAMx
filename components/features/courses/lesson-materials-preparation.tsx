@@ -229,6 +229,19 @@ function safeLocalStorage(): Storage | null {
 
 const AllocationContext = createContext<MaterialRequirement[]>([]);
 
+function SubstituteParts({ entry }: { entry: MaterialRequirement }) {
+  const detail = substituteDetail(entry);
+  const text = entry.allocations.some((allocation) => allocation.areaLabel)
+    ? detail
+    : `可以用 ${detail.replaceAll("可以用 ", "").replaceAll("可用", "")}替代`;
+  return (
+    <span className="block text-foreground">
+      {text}
+      {entry.missing === 0 ? <Check role="img" aria-label="已备齐" className="ml-1 inline-block h-3.5 w-3.5 align-text-bottom text-muted-foreground" /> : null}
+    </span>
+  );
+}
+
 function PartAvailability({ entry }: { entry: MaterialRequirement }) {
   const unit = entry.figureFolded ? "个" : "块";
   const substitutes = entry.substituted > 0 && !entry.figureFolded;
@@ -246,15 +259,14 @@ function PartAvailability({ entry }: { entry: MaterialRequirement }) {
               <span className="inline-flex items-center gap-1 text-muted-foreground"><Check className="h-3.5 w-3.5" aria-hidden />已备齐</span>
             ) : null}
             {exact > 0 && (entry.missing > 0 || substitutes) ? (
-              <span className="py-0.5 text-muted-foreground">套装已有 {exact} {unit}</span>
+              <span className="py-0.5 text-muted-foreground">{entry.figureFolded ? "套装已有" : "同色已有"} {exact} {unit}</span>
             ) : null}
             {entry.status === "requiredMissing" ? <StatusBadge status="warning" className="text-foreground">还缺 {entry.missing} {unit}</StatusBadge> : null}
-            {substitutes ? <StatusBadge status="info" className="text-foreground">可替代 {entry.substituted} {unit}</StatusBadge> : null}
             {entry.status === "optionalMissing" ? <span className="text-muted-foreground">可选，缺 {entry.missing} {unit}</span> : null}
           </>
         )}
       </span>
-      {substitutes ? <span className="block text-foreground">{substituteDetail(entry).replaceAll("可以用 ", "")}</span> : null}
+      {substitutes ? <SubstituteParts entry={entry} /> : null}
       {entry.status === "unknown" ? <span className="block text-muted-foreground">套装清单未收录</span> : null}
       {entry.figureFolded ? <span className="block text-muted-foreground">服装颜色不限</span> : null}
     </span>
@@ -279,7 +291,7 @@ export function MaterialPartTable({ entries, showAvailability = false }: { entri
   return (
     <ul className="grid md:grid-cols-2 md:gap-x-6">
       {rows.map(({ original, match }) => {
-        const entry = match?.mapping.flags.kitColor ? { ...original, colorCode: match.colorCode, colorName: match.colorName, colorHex: match.colorHex } : original;
+        const entry = original;
         const availability = showAvailability ? match : undefined;
         const needsAttention = availability?.status === "requiredMissing" || availability?.status === "unknown";
         const unit = match?.mapping.flags.externalMaterial ? "份" : match?.figureFolded ? "个" : "块";

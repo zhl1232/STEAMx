@@ -41,7 +41,7 @@ export default async function ObservationsPage({ searchParams }: ObservationsPag
   if (page > 0 && observations.length === 0) notFound();
 
   return (
-    <div className="page-shell pt-4 pb-24 md:pt-6 md:pb-10">
+    <div className="app-shell-wide pt-4 pb-24 md:pt-6 md:pb-10">
       <div className="md:hidden">
         <MobilePageHeader title="观察记录" fallbackHref="/nature" />
       </div>

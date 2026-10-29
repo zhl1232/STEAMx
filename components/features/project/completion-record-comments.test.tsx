@@ -14,6 +14,7 @@ const mocks = vi.hoisted(() => ({
 vi.mock("@tanstack/react-query", () => ({
   useMutation: () => ({ mutate: vi.fn(), isPending: false }),
   useQuery: () => ({ data: mocks.comments, isLoading: false }),
+  useInfiniteQuery: () => ({ data: { pages: [{ comments: mocks.comments, nextCursor: null }] }, isLoading: false }),
   useQueryClient: () => ({ invalidateQueries: vi.fn() }),
 }))
 

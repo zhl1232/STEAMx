@@ -66,6 +66,10 @@ function nativeDb(): SupabaseClient {
 
 async function rpc<T>(name: string, args: Record<string, unknown>): Promise<T> {
   const { data, error } = await nativeDb().rpc(name, args)
+  if (error?.message?.includes('direct_coins_disabled')) throw new NativeStoreError('硬币抵扣已调整为兑换优惠券', 'DIRECT_COINS_DISABLED', 409)
+  if (error?.message?.includes('offer_changed')) throw new NativeStoreError('兑换价格或条款已变化，请重新确认', 'OFFER_CHANGED', 409)
+  if (error?.message?.includes('insufficient_coins')) throw new NativeStoreError('硬币不足', 'INSUFFICIENT_COINS', 409)
+  if (error?.message?.includes('exchange_limit')) throw new NativeStoreError('已达到兑换数量上限', 'EXCHANGE_LIMIT', 409)
   if (error?.message?.includes('quote_changed'))
     throw new NativeStoreError('结算金额或优惠已变化，请重新确认', 'QUOTE_CHANGED', 409)
   if (error?.message?.includes('catalog_version_conflict'))
@@ -86,6 +90,7 @@ export async function createNativeOrder(input: NativeOrderInput) {
   const existing = await nativeDb().from('store_orders').select('id').eq('user_id', input.userId).eq('external_order_id', key).maybeSingle()
   if (existing.error) throw existing.error
   if (existing.data) return { orderId: existing.data.id as string, idempotencyKey: key }
+  if (input.useCoins) throw new NativeStoreError('硬币抵扣已调整为兑换优惠券', 'DIRECT_COINS_DISABLED', 409)
   if (!input.expectedQuote) throw new NativeStoreError('请先确认结算金额', 'QUOTE_REQUIRED', 400)
   let encrypted: string
   try {
@@ -311,11 +316,11 @@ export async function quoteNativeOrder(input: {userId: string; province: string;
 
 export async function listUserStoreCoupons(userId: string) {
   const [rows, tier] = await Promise.all([
-    nativeDb().from('store_user_coupons').select('id,title,threshold_cents,discount_cents,terms,eligible_product_ids,expires_at,status').eq('user_id', userId).order('expires_at'),
+    nativeDb().from('store_user_coupons').select('id,title,threshold_cents,discount_cents,terms,eligible_product_ids,expires_at,status,source,usage_policy').eq('user_id', userId).order('expires_at'),
     rpc<string>('store_effective_member_tier', {p_user_id: userId}),
   ])
   if (rows.error) throw rows.error
-  return (rows.data ?? []).map(c => ({...c, eligible: tier === 'founder' && c.status === 'available' && Date.parse(c.expires_at) > Date.now()}))
+  return (rows.data ?? []).map(c => ({...c, eligible: (c.usage_policy === 'all' || tier === 'founder') && c.status === 'available' && Date.parse(c.expires_at) > Date.now()}))
 }
 
 export async function listStoreCouponTemplates() {
@@ -337,4 +342,27 @@ export async function listStoreCouponBatches() {
 }
 export async function grantStoreCouponBatch(input: {templateId: string; batchKey: string; userIds: string[]}, adminId: string) {
   return rpc<{batchId: string; grantedCount: number}>('grant_store_coupon_batch', {p_admin_id: adminId, p_template_id: input.templateId, p_batch_key: input.batchKey, p_user_ids: input.userIds})
+}
+
+export async function listCouponOffers(userId?: string) {
+  if (userId) return rpc<Record<string, unknown>[]>('list_store_coupon_offers', {p_user_id: userId})
+  const {data, error} = await nativeDb().from('store_coupon_offers').select('*').order('created_at')
+  if (error) throw error
+  return data ?? []
+}
+export async function getCouponExchange(userId: string, key: string) {
+  const {data,error}=await nativeDb().from('store_coupon_exchanges').select('*').eq('user_id',userId).eq('intent_key',key).maybeSingle(); if(error) throw error; return data
+}
+export async function exchangeCoupon(userId: string, input: {offerId:string;expectedVersion:string;idempotencyKey:string}) {
+  const {data,error}=await nativeDb().rpc('exchange_store_coupon',{p_user_id:userId,p_offer_id:input.offerId,p_expected_version:input.expectedVersion,p_intent_key:input.idempotencyKey})
+  if(error){
+    const failures: Record<string,[string,string]> = {offer_changed:['兑换价格或条款已变化，请重新确认','OFFER_CHANGED'],offer_unavailable:['该优惠券暂不可兑换','OFFER_UNAVAILABLE'],insufficient_coins:['硬币不足','INSUFFICIENT_COINS'],exchange_limit:['已达到兑换数量上限','EXCHANGE_LIMIT'],intent_conflict:['兑换标识已使用','INTENT_CONFLICT']}
+    for(const [key,[message,code]] of Object.entries(failures)) if(error.message.includes(key)) throw new NativeStoreError(message,code,409)
+    throw new Error('兑换结果暂未确认，请使用原兑换标识核查')
+  }
+  if(!data) throw new Error('兑换结果暂未确认')
+  return data
+}
+export async function saveCouponOffer(input: {id?:string;templateId:string;coinPrice:number;totalLimit:number;perUserLimit:number;active:boolean;expectedVersion?:number}) {
+  return rpc('save_store_coupon_offer',{p_input:input})
 }

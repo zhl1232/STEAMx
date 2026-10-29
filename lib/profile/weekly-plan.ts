@@ -337,7 +337,7 @@ function buildStarterPlan(weekStart: string, growthTasks?: ProfileGrowthTask[]):
   const steps = pending.length > 0 ? pending.map(growthTaskToStep) : [MAINLINE_FALLBACK_STEP]
 
   return {
-    title: '本周探索计划',
+    title: '继续探索',
     subtitle: `先走通这条：${MAINLINE_SHORT_PITCH}`,
     weekStart,
     completedCount: 0,
@@ -377,7 +377,7 @@ export function buildWeeklyPlan(input: BuildWeeklyPlanInput): WeeklyPlan {
   const completedCount = steps.filter((step) => step.status === 'done').length
 
   return {
-    title: '本周探索计划',
+    title: '继续探索',
     subtitle:
       completedCount > 0
         ? '这周进展不错，继续完成下一步吧。'
@@ -396,7 +396,7 @@ function stepProjectTag(step: WeeklyPlanStep) {
 }
 
 export function formatWeeklyPlanForTutor(plan: WeeklyPlan): string {
-  if (!plan.steps.length) return '本周探索计划暂时为空，可以先建议学生去探索页找一个感兴趣的项目。'
+  if (!plan.steps.length) return '探索建议暂时为空，可以先建议学生去探索页找一个感兴趣的项目。'
 
   const lines = plan.steps.map((step, index) => {
     const projectTag = stepProjectTag(step)
@@ -406,7 +406,7 @@ export function formatWeeklyPlanForTutor(plan: WeeklyPlan): string {
   })
 
   return [
-    `本周计划进度：${plan.completedCount}/${plan.steps.length}`,
+    '探索建议（根据当前记录更新）：',
     ...lines,
     '学生问下一步时，优先从第一个待完成步骤开始引导；如果引用站内项目，必须原样保留 [project:ID|标题] 格式。',
   ].join('\n')

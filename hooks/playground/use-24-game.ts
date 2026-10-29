@@ -457,6 +457,13 @@ export function use24Game(timerDuration = 60) {
     beginRound(1)
   }, [beginRound])
 
+  const suspendRound = useCallback(() => {
+    clearTimer()
+    setStatus('idle')
+    setSolutions([])
+    setHintLevel(0)
+  }, [clearTimer])
+
   const loadRoundFromValues = useCallback((values: number[], nextRound = 1) => {
     // 在线竞速固定用经典 24 点规则
     setLevelId(DEFAULT_GAME24_LEVEL)
@@ -587,5 +594,6 @@ export function use24Game(timerDuration = 60) {
     newGame,
     dealNewRound,
     loadRoundFromValues,
+    suspendRound,
   }
 }

@@ -12,7 +12,6 @@ import {
     Crosshair,
     Crown,
     Dna,
-    Grid3X3,
     Hash,
     Home,
     Layers,
@@ -370,6 +369,7 @@ function MobilePlaygroundHeader() {
 
 function DesktopSidebar() {
     const pathname = usePathname()
+    const isHome = pathname === "/playground"
 
     const renderGame = (game: PlaygroundNavItem) => {
         const active = pathname.startsWith(game.href)
@@ -396,25 +396,14 @@ function DesktopSidebar() {
     return (
         <aside className="hidden w-[220px] shrink-0 lg:block">
             <div className="surface-panel sticky top-16 h-[calc(100vh-4rem)] overflow-hidden rounded-none border-y-0 border-l-0 p-4">
-                <div className="mb-5">
-                    <div className="flex items-center gap-2">
-                        <span className="grid h-10 w-10 place-items-center rounded-md bg-primary/10 text-primary">
-                            <Grid3X3 className="h-5 w-5" />
-                        </span>
-                        <div>
-                            <h2 className="font-sans text-lg font-black">游乐场</h2>
-                        </div>
-                    </div>
-                </div>
-
-                <nav className="flex h-[calc(100%-4rem)] flex-col gap-1 overflow-y-auto pr-1 no-scrollbar" aria-label="游乐场游戏导航">
+                <nav className="flex h-full flex-col gap-1 overflow-y-auto pr-1 no-scrollbar" aria-label="游乐场游戏导航">
                     <Link
                         href="/playground"
-                        aria-current={pathname === "/playground" ? "page" : undefined}
+                        aria-current={isHome ? "page" : undefined}
                         className={cn(
                             "flex min-h-12 items-center gap-3 rounded-md px-3 text-sm font-bold transition-colors",
-                            pathname === "/playground"
-                                ? "bg-primary text-primary-foreground shadow-xs"
+                            isHome
+                                ? "bg-primary/10 text-primary"
                                 : "text-muted-foreground hover:bg-muted hover:text-foreground",
                         )}
                     >
@@ -466,7 +455,7 @@ export default function PlaygroundLayout({ children }: { children: React.ReactNo
         <div className="app-canvas min-h-[calc(100dvh-var(--mobile-global-header-height,3rem))] md:min-h-[calc(100vh-4rem)]">
             <MobilePlaygroundHeader />
             <div className="relative app-shell-wide flex w-full max-md:px-0">
-                <DesktopSidebar />
+                {pathname !== "/playground" && <DesktopSidebar />}
                 <main data-playground-main className="relative min-w-0 flex-1 overflow-x-hidden pb-28 lg:pb-0">
                     <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_0%,hsl(var(--brand-blue)/0.12),transparent_34%),radial-gradient(circle_at_88%_8%,hsl(var(--brand-green)/0.12),transparent_30%),linear-gradient(180deg,hsl(var(--app-canvas)),hsl(var(--background))_78%)]" />
                     {children}

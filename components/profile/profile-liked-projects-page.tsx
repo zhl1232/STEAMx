@@ -56,7 +56,7 @@ export function ProfileLikedProjectsPage() {
   }
 
   return (
-    <div className="page-shell pb-24 pt-6 md:py-8">
+    <div className="app-shell-wide pb-24 pt-6 md:py-8">
       <div className="md:hidden">
         <MobilePageHeader title="获赞" fallbackHref="/profile" />
       </div>

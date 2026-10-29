@@ -26,7 +26,7 @@ export function formatDocumentTitle(title: string): string {
  *
  * Next.js only applies a parent `title.template` to the *direct* resolution of a
  * string title and resets the template for descendants whenever a segment sets a
- * plain string title (e.g. `/playground` layout → `/playground/tangram` rendered
+ * plain string title (e.g. `/playground` layout → `/playground/sudoku` rendered
  * without the brand suffix). Emitting the fully formatted `absolute` title plus
  * the same `template` keeps every level consistent and idempotent.
  */

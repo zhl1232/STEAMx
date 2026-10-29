@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton"
 import Link from "next/link";
 import { ChevronRight, Trophy, UsersRound } from "lucide-react";
 
@@ -236,11 +237,11 @@ export function ChallengeRail({
                 <div className="space-y-3">
                     {[1, 2, 3].map((item) => (
                         <div key={item} className="grid grid-cols-[120px_minmax(0,1fr)] gap-3 rounded-md border border-border/80 bg-[hsl(var(--surface-raised)/0.7)] p-2">
-                            <div className="h-[98px] animate-pulse rounded-sm bg-muted" />
+                            <Skeleton className="h-[98px] rounded-sm" />
                             <div className="space-y-3 py-2">
-                                <div className="h-4 w-3/4 animate-pulse rounded-full bg-muted" />
-                                <div className="h-3 w-full animate-pulse rounded-full bg-muted" />
-                                <div className="h-3 w-2/3 animate-pulse rounded-full bg-muted" />
+                                <Skeleton className="h-4 w-3/4 rounded-full" />
+                                <Skeleton className="h-3 w-full rounded-full" />
+                                <Skeleton className="h-3 w-2/3 rounded-full" />
                             </div>
                         </div>
                     ))}

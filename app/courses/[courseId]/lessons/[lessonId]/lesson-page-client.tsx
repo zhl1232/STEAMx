@@ -1,5 +1,6 @@
 "use client";
 
+import { courseCatalogHref } from '@/lib/courses/catalog-url'
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
@@ -13,6 +14,7 @@ import { getTutorSceneCapabilities } from "@/components/features/tutor/tool-hand
 import type { ScratchWorkspaceBlockHint } from "@/components/features/courses/scratch-workspace";
 import { useTutorContext } from "@/components/features/tutor/tutor-context";
 import { LessonCompletionDialog, type LessonCompletionResult } from "@/components/features/courses/lesson-completion-dialog";
+import { useCourseReturnHref } from "@/components/features/courses/use-course-return-href";
 import { useOptionalGamification } from "@/lib/context/gamification-context";
 import { rememberLessonStep, readRememberedLessonStep } from "@/lib/courses/lesson-step-memory";
 import { isWorkSubmissionEnabled } from "@/lib/works/capability";
@@ -113,6 +115,7 @@ export function LessonPageClient({
     noticeSlot?: ReactNode;
 }) {
     const router = useRouter();
+    const courseReturnHref = useCourseReturnHref(courseId);
     const lessonWorkspace = getLessonTypeDefinition(lesson.lesson_type).workspace;
     const steps = useMemo(
         () => lessonWorkspace === "building_3d"
@@ -139,6 +142,7 @@ export function LessonPageClient({
     const [completed, setCompleted] = useState(initialCompleted);
     // 电脑端左侧目录可收起，记在本机
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+    const [buildingView, setBuildingView] = useState<"lesson" | "works">("lesson");
     useEffect(() => {
         try { setSidebarCollapsed(window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "1"); } catch { /* ignore */ }
     }, []);
@@ -399,7 +403,7 @@ export function LessonPageClient({
                     {noticeSlot}
                 </div>
                 <div className="flex min-h-0 flex-1">
-                    <div className={cn("hidden w-56 shrink-0 border-r border-border [&>aside]:w-full", !sidebarCollapsed && "xl:flex")}>
+                    <div className={cn("hidden w-56 shrink-0 border-r border-border [&>aside]:w-full", buildingView === "lesson" && !sidebarCollapsed && "xl:flex")}>
                         <LessonSidebar
                             courseId={courseId}
                             courseTitle={courseTitle}
@@ -433,14 +437,21 @@ export function LessonPageClient({
                                 />
                             }
                             buildingSidebar={{ collapsed: sidebarCollapsed, onToggle: toggleSidebar }}
-                            buildingMobileHeaderSlot={
+                            onBuildingViewChange={setBuildingView}
+                            buildingMobileHeaderSlot={({ view, onBackToLesson }) => (
                                 <span className="flex min-w-0 items-center gap-1">
-                                    <Link href={`/courses/${courseId}`} aria-label={`返回${courseTitle}`} className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-foreground/[0.06] md:hidden">
-                                        <ArrowLeft className="h-5 w-5" />
-                                    </Link>
+                                    {view === "works" ? (
+                                        <button type="button" onClick={onBackToLesson} aria-label="返回课件" className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-foreground/[0.06] md:hidden">
+                                            <ArrowLeft className="h-5 w-5" />
+                                        </button>
+                                    ) : (
+                                        <Link href={courseReturnHref} aria-label={`返回${courseTitle}`} className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-foreground/[0.06] md:hidden">
+                                            <ArrowLeft className="h-5 w-5" />
+                                        </Link>
+                                    )}
                                     <span data-testid="lesson-breadcrumb" className="flex min-w-0 items-center gap-1 text-[15px] leading-5">
                                         <Link
-                                            href={`/courses/${courseId}`}
+                                            href={courseCatalogHref(courseId)}
                                             title={courseTitle}
                                             className="hidden min-w-0 max-w-[14rem] shrink-[2] truncate rounded-md px-1.5 py-1.5 text-[15px] leading-5 text-muted-foreground underline-offset-4 transition-colors hover:text-[hsl(var(--brand-blue))] hover:underline md:block"
                                         >
@@ -450,7 +461,7 @@ export function LessonPageClient({
                                         <span title={lesson.title} className="min-w-0 truncate py-1.5 text-base font-semibold leading-5 text-foreground md:text-[15px]">{lesson.title}</span>
                                     </span>
                                 </span>
-                            }
+                            )}
                             buildingNavigationSlot={
                                 <LessonStepGuide
                                     steps={steps}
@@ -482,7 +493,7 @@ export function LessonPageClient({
             <MobileGlobalHeader variant="title" title={lesson.title} />
             <div className="flex items-center gap-2 border-b border-border bg-card px-3 py-2 md:hidden">
                 <Link
-                    href={`/courses/${courseId}`}
+                    href={courseReturnHref}
                     className="inline-flex items-center gap-1 text-sm text-muted-foreground"
                 >
                     <ArrowLeft className="h-4 w-4 shrink-0" />

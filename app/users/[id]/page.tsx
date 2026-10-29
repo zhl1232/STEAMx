@@ -78,7 +78,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
   });
 
   return (
-    <div className="page-shell pt-0 pb-24 md:py-8">
+    <div className="app-shell-wide pt-0 pb-24 md:py-8">
       <div className="md:hidden">
         <MobilePageHeader
           title="公开主页"

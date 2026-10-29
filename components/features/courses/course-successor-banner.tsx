@@ -1,3 +1,4 @@
+import { courseCatalogHref } from '@/lib/courses/catalog-url'
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 
@@ -28,7 +29,7 @@ export function CourseSuccessorBanner({
     if (variant === "compact") {
         return (
             <Link
-                href={`/courses/${successor.id}`}
+                href={courseCatalogHref(successor.id)}
                 data-testid="course-successor-banner"
                 className={cn(
                     "group flex min-h-11 shrink-0 items-center gap-2 border-b border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--brand-blue)/0.08)] px-3 py-1.5 text-xs font-semibold text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--brand-blue)/0.12)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[hsl(var(--brand-blue))] md:px-5 md:text-sm",
@@ -46,7 +47,7 @@ export function CourseSuccessorBanner({
 
     return (
         <Link
-            href={`/courses/${successor.id}`}
+            href={courseCatalogHref(successor.id)}
             data-testid="course-successor-banner"
             className={cn(
                 "group flex items-center gap-3 rounded-xl border border-[hsl(var(--brand-blue)/0.28)] bg-[hsl(var(--brand-blue)/0.08)] p-3.5 text-[hsl(var(--brand-blue))] transition-colors hover:bg-[hsl(var(--brand-blue)/0.12)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[hsl(var(--brand-blue))] md:gap-4 md:p-4",

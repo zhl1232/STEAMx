@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ProjectQuestionsTabs } from './project-questions'
 const mocks=vi.hoisted(()=>({user:null as null|{id:string},login:vi.fn(),fetch:vi.fn()}))
@@ -10,14 +10,14 @@ vi.mock('@/lib/comment-image',()=>({uploadCommentImage:vi.fn()}))
 beforeEach(()=>{sessionStorage.clear();mocks.user=null;vi.restoreAllMocks();vi.clearAllMocks();vi.stubGlobal('fetch',mocks.fetch);mocks.fetch.mockResolvedValue({ok:true,json:async()=>({questions:[],feedback:[]})})})
 const mount=()=>render(<QueryClientProvider client={new QueryClient({defaultOptions:{queries:{retry:false}}})}><ProjectQuestionsTabs projectId={7}><p>Existing works</p></ProjectQuestionsTabs></QueryClientProvider>)
 describe('questions preserve works and login context',()=>{
- it('defaults to works and requires no prior work to ask',async()=>{mount();expect(screen.getByRole('tab',{name:'大家的作品'})).toHaveAttribute('aria-selected','true');fireEvent.click(screen.getByRole('tab',{name:'问题与解答'}));expect(await screen.findByLabelText('问题或回复')).toBeInTheDocument()})
- it('login continuation captures draft and submits with authenticated identity',async()=>{mount();fireEvent.click(screen.getByRole('tab',{name:'问题与解答'}));const input=await screen.findByLabelText('问题或回复');fireEvent.change(input,{target:{value:'能换铜线吗？'}});fireEvent.click(screen.getByRole('button',{name:'发布问题'}));expect(mocks.login).toHaveBeenCalled();expect(sessionStorage.length).toBe(0);mocks.fetch.mockResolvedValue({ok:true,json:async()=>({question:{id:77},feedback:[],questions:[]})});await mocks.login.mock.calls[0][0]({id:'signed-in'});await waitFor(()=>expect(mocks.fetch).toHaveBeenCalledWith('/api/projects/7/questions',expect.objectContaining({method:'POST',body:expect.stringContaining('能换铜线吗？')})))})
- it('collapses replies after two and shows current quality independent of XP',async()=>{mocks.user={id:'viewer'};const root={id:1,parent_id:null,question_root_id:1,author_id:'a',content:'具体问题',moderation_state:'approved',profiles:{display_name:'甲'}};mocks.fetch.mockImplementation(async(url:string)=>({ok:true,json:async()=>url.includes('/feedback')?{feedback:[{id:1,qualified:true,xp:0,award_event:null}]}:{questions:[root,...[2,3,4].map(id=>({...root,id,parent_id:1,content:`回复${id}`,reply_to_username:'甲'}))]}}));mount();fireEvent.click(screen.getByRole('tab',{name:'问题与解答'}));expect(await screen.findByText('回复2')).toBeInTheDocument();expect(screen.queryByText('回复4')).toBeNull();fireEvent.click(screen.getByText('展开其余 1 条回复'));expect(screen.getByText('回复4')).toBeInTheDocument();expect(await screen.findByText('高质量回复')).toBeInTheDocument()})
+ it('defaults to works and requires no prior work to ask',async()=>{mount();expect(screen.getByRole('tab',{name:'作品'})).toHaveAttribute('aria-selected','true');fireEvent.mouseDown(screen.getByRole('tab',{name:'讨论'}),{button:0,ctrlKey:false});expect(await screen.findByLabelText('问题或回复')).toBeInTheDocument()})
+ it('login continuation captures draft and submits with authenticated identity',async()=>{mount();fireEvent.mouseDown(screen.getByRole('tab',{name:'讨论'}),{button:0,ctrlKey:false});const input=await screen.findByLabelText('问题或回复');fireEvent.change(input,{target:{value:'能换铜线吗？'}});fireEvent.click(screen.getByRole('button',{name:'发布'}));expect(mocks.login).toHaveBeenCalled();expect(sessionStorage.length).toBe(0);mocks.fetch.mockResolvedValue({ok:true,json:async()=>({question:{id:77},feedback:[],questions:[]})});await mocks.login.mock.calls[0][0]({id:'signed-in'});await waitFor(()=>expect(mocks.fetch).toHaveBeenCalledWith('/api/projects/7/questions',expect.objectContaining({method:'POST',body:expect.stringContaining('能换铜线吗？')})))})
+ it('collapses replies after two and shows current quality independent of XP',async()=>{mocks.user={id:'viewer'};const root={id:1,parent_id:null,question_root_id:1,author_id:'a',is_project_question:true,content:'具体问题',moderation_state:'approved',profiles:{display_name:'甲'}};mocks.fetch.mockImplementation(async(url:string)=>({ok:true,json:async()=>url.includes('/feedback')?{feedback:[{id:1,qualified:true,xp:0,award_event:null}]}:{questions:[root,...[2,3,4].map(id=>({...root,id,parent_id:1,content:`回复${id}`,reply_to_username:'甲'}))]}}));mount();fireEvent.mouseDown(screen.getByRole('tab',{name:'讨论'}),{button:0,ctrlKey:false});expect(await screen.findByText('回复2')).toBeInTheDocument();expect(screen.queryByText('回复4')).toBeNull();fireEvent.click(screen.getByText('展开其余 1 条回复'));expect(screen.getByText('回复4')).toBeInTheDocument();expect(await screen.findByText('高质量回复')).toBeInTheDocument()})
 })
 
-const question={id:1,parent_id:null,question_root_id:1,author_id:'a',content:'具体问题',moderation_state:'approved',profiles:{display_name:'甲'}}
+const question={id:1,parent_id:null,question_root_id:1,author_id:'a',is_project_question:true,content:'具体问题',moderation_state:'approved',profiles:{display_name:'甲'}}
 const serveQuestions=()=>mocks.fetch.mockImplementation(async(url:string,options?:RequestInit)=>({ok:true,json:async()=>options?.method==='POST'?{question:{id:77}}:url.includes('/feedback')?{feedback:[]}:{questions:[question]}}))
-const openQuestions=()=>fireEvent.click(screen.getByRole('tab',{name:'问题与解答'}))
+const openQuestions=()=>fireEvent.mouseDown(screen.getByRole('tab',{name:'讨论'}),{button:0,ctrlKey:false})
 const submitBody=()=>JSON.parse(mocks.fetch.mock.calls.find(([,options])=>options?.method==='POST')![1].body)
 const shortcut=(context:object)=>act(()=>window.dispatchEvent(new CustomEvent('project-question',{detail:{projectId:'7',context}})))
 
@@ -30,13 +30,13 @@ describe('question draft restoration',()=>{
   fireEvent.click(await screen.findByRole('button',{name:'回复'}))
   fireEvent.change(screen.getByLabelText('问题或回复'),{target:{value:'补充一个具体回复'}})
   if(mode==='tab switch'){
-   fireEvent.click(screen.getByRole('tab',{name:'大家的作品'}));openQuestions()
+   fireEvent.mouseDown(screen.getByRole('tab',{name:'作品'}),{button:0,ctrlKey:false});openQuestions()
   }else{
    view.unmount();mount();openQuestions()
   }
   expect(await screen.findByLabelText('问题或回复')).toHaveValue('补充一个具体回复')
   expect(screen.getByText('回复 @甲')).toBeInTheDocument()
-  fireEvent.click(screen.getByRole('button',{name:'发表回复'}))
+  fireEvent.click(screen.getByRole('button',{name:'发布'}))
   await waitFor(()=>expect(submitBody()).toMatchObject({content:'补充一个具体回复',parent_id:1,context:{area:'materials'}}))
  })
  it.each([true,false])('applies an explicit shortcut with questions mounted=%s and keeps it on remount',async(mounted)=>{
@@ -45,7 +45,7 @@ describe('question draft restoration',()=>{
   const view=mount();openQuestions()
   fireEvent.click(await screen.findByRole('button',{name:'回复'}))
   fireEvent.change(screen.getByLabelText('问题或回复'),{target:{value:'这个步骤能换材料吗？'}})
-  if(!mounted)fireEvent.click(screen.getByRole('tab',{name:'大家的作品'}))
+  if(!mounted)fireEvent.mouseDown(screen.getByRole('tab',{name:'作品'}),{button:0,ctrlKey:false})
   shortcut({area:'materials'})
   expect(await screen.findByText('关于项目材料')).toBeInTheDocument()
   shortcut({area:'step',step:2,title:'连接铜线'})
@@ -53,7 +53,7 @@ describe('question draft restoration',()=>{
   view.unmount();mount();openQuestions()
   expect(await screen.findByLabelText('问题或回复')).toHaveValue('这个步骤能换材料吗？')
   expect(screen.getByText('关于第2步：连接铜线')).toBeInTheDocument()
-  fireEvent.click(screen.getByRole('button',{name:'发布问题'}))
+  fireEvent.click(screen.getByRole('button',{name:'发布'}))
   await waitFor(()=>expect(submitBody()).toMatchObject({parent_id:null,context:{area:'step',step:2,title:'连接铜线'}}))
  })
  it('keeps an anonymous shortcut draft for the login continuation',async()=>{
@@ -64,7 +64,7 @@ describe('question draft restoration',()=>{
   fireEvent.change(await screen.findByLabelText('问题或回复'),{target:{value:'匿名材料问题'}})
   shortcut({area:'step',step:3,title:'固定连接'})
   expect(screen.getByLabelText('问题或回复')).toHaveValue('匿名材料问题')
-  fireEvent.click(screen.getByRole('button',{name:'发布问题'}))
+  fireEvent.click(screen.getByRole('button',{name:'发布'}))
   expect(sessionStorage.length).toBe(0)
   await act(async()=>{await mocks.login.mock.calls[0][0]({id:'signed-in'})})
   expect(submitBody()).toMatchObject({content:'匿名材料问题',parent_id:null,context:{area:'step',step:3,title:'固定连接'}})
@@ -75,8 +75,91 @@ describe('question draft restoration',()=>{
   fireEvent.change(screen.getByLabelText('问题或回复'),{target:{value:'原账户的回复'}})
   view.unmount();mocks.user={id:'another-viewer'};const other=mount();openQuestions()
   expect(await screen.findByLabelText('问题或回复')).toHaveValue('')
-  expect(screen.queryByRole('button',{name:'发表回复'})).toBeNull()
+  expect(screen.queryByText('回复 @甲')).toBeNull()
   other.unmount();mocks.user={id:'viewer'};mount();openQuestions()
   expect(await screen.findByLabelText('问题或回复')).toHaveValue('')
+ })
+})
+
+describe('unified discussion',()=>{
+ it('keeps original authors, times and reply relations while legacy threads stay read-only',async()=>{
+  const legacy={...question,id:20,question_root_id:20,is_project_question:false,content:'早先的发现',profiles:{display_name:'旧作者'},created_at:'2026-09-01T08:00:00Z'}
+  mocks.fetch.mockImplementation(async(url:string)=>({ok:true,json:async()=>url.includes('/feedback')?{feedback:[]}:{questions:[{...question,is_project_question:true,created_at:'2026-10-01T08:00:00Z'},legacy,{...legacy,id:21,parent_id:20,reply_to_username:'旧作者',profiles:{display_name:'旧回复者'},content:'接着试一试'}]}}))
+  mount();openQuestions()
+  const legacyThread=(await screen.findByText('早先的发现')).closest('article')!
+  expect(within(legacyThread).getByText('旧作者')).toBeInTheDocument()
+  expect(within(legacyThread).getByText('旧回复者')).toBeInTheDocument()
+  expect(within(legacyThread).getByText('回复 @旧作者')).toBeInTheDocument()
+  expect(within(legacyThread).getByText('接着试一试')).toBeInTheDocument()
+  expect(legacyThread.querySelector('time')).toHaveAttribute('datetime','2026-09-01T08:00:00Z')
+  expect(within(legacyThread).queryByRole('button',{name:'回复'})).toBeNull()
+  expect(screen.getAllByRole('button',{name:'回复'})).toHaveLength(1)
+  expect(screen.queryByText('历史项目留言')).toBeNull()
+  await waitFor(()=>expect(mocks.fetch).toHaveBeenCalledWith('/api/growth/feedback?type=project_comment&ids=1'))
+  expect(mocks.fetch).toHaveBeenCalledWith('/api/projects/7/questions?includeLegacy=1')
+  fireEvent.click(screen.getByRole('button',{name:'回复'}))
+  expect(screen.getByLabelText('问题或回复')).toHaveFocus()
+  expect(screen.getByText('回复 @甲')).toBeInTheDocument()
+ })
+ it('does not offer replies or request rewards without an explicit new-question flag',async()=>{
+  mocks.fetch.mockResolvedValue({ok:true,json:async()=>({questions:[{...question,is_project_question:undefined}],feedback:[]})})
+  mount();openQuestions()
+  expect(await screen.findByText('具体问题')).toBeInTheDocument()
+  expect(screen.queryByRole('button',{name:'回复'})).toBeNull()
+  expect(mocks.fetch.mock.calls.some(([url])=>url.includes('/growth/feedback'))).toBe(false)
+ })
+ it('shows a retry action after loading fails and recovers the discussion',async()=>{
+  mocks.fetch.mockResolvedValueOnce({ok:false})
+  mount();openQuestions()
+  expect(await screen.findByRole('alert')).toHaveTextContent('讨论暂时无法加载')
+  serveQuestions()
+  fireEvent.click(screen.getByRole('button',{name:'重试'}))
+  expect(await screen.findByText('具体问题')).toBeInTheDocument()
+  expect(screen.queryByRole('alert')).toBeNull()
+ })
+ it('links accessible panels and supports keyboard tab activation',async()=>{
+  mount()
+  const works=screen.getByRole('tab',{name:'作品'})
+  const discussion=screen.getByRole('tab',{name:'讨论'})
+  expect(screen.getByRole('tabpanel',{name:'作品'})).toHaveAttribute('id',works.getAttribute('aria-controls'))
+  fireEvent.keyDown(discussion,{key:'Enter'})
+  expect(await screen.findByLabelText('问题或回复')).toBeInTheDocument()
+  expect(discussion).toHaveAttribute('aria-selected','true')
+  expect(screen.getByRole('tabpanel',{name:'讨论'})).toHaveAttribute('id',discussion.getAttribute('aria-controls'))
+  expect(screen.getByText('Existing works')).not.toBeVisible()
+  fireEvent.keyDown(works,{key:' '})
+  expect(works).toHaveAttribute('aria-selected','true')
+ })
+ it('lets a selected image be removed and clears it after publishing',async()=>{
+  mocks.user={id:'viewer'};serveQuestions()
+  const {uploadCommentImage}=await import('@/lib/comment-image')
+  vi.mocked(uploadCommentImage).mockResolvedValue('https://example.com/image.jpg')
+  mount();openQuestions()
+  const photo=screen.getByLabelText('添加图片') as HTMLInputElement
+  const image=new File(['photo'],'experiment.png',{type:'image/png'})
+  fireEvent.change(photo,{target:{files:[image]}})
+  expect(screen.getByText('experiment.png')).toBeInTheDocument()
+  fireEvent.click(screen.getByRole('button',{name:'移除图片'}))
+  expect(screen.queryByText('experiment.png')).toBeNull()
+  expect(photo.value).toBe('')
+  fireEvent.change(photo,{target:{files:[image]}})
+  fireEvent.change(screen.getByLabelText('问题或回复'),{target:{value:'这是我的发现'}})
+  fireEvent.click(screen.getByRole('button',{name:'发布'}))
+  await waitFor(()=>expect(screen.queryByText('experiment.png')).toBeNull())
+  expect(photo.value).toBe('')
+  expect(uploadCommentImage).toHaveBeenCalledWith(image,'viewer')
+  expect(submitBody()).toMatchObject({image_url:'https://example.com/image.jpg'})
+ })
+ it('clears an attached image when the account changes',async()=>{
+  mocks.user={id:'viewer'};serveQuestions()
+  const client=new QueryClient({defaultOptions:{queries:{retry:false}}})
+  const content=()=> <QueryClientProvider client={client}><ProjectQuestionsTabs projectId={7}><p>Existing works</p></ProjectQuestionsTabs></QueryClientProvider>
+  const view=render(content());openQuestions()
+  const photo=screen.getByLabelText('添加图片') as HTMLInputElement
+  fireEvent.change(photo,{target:{files:[new File(['photo'],'private.png',{type:'image/png'})]}})
+  expect(screen.getByText('private.png')).toBeInTheDocument()
+  mocks.user={id:'different-viewer'};view.rerender(content())
+  expect(screen.queryByText('private.png')).toBeNull()
+  expect(photo.value).toBe('')
  })
 })

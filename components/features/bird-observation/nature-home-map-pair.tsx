@@ -140,10 +140,12 @@ export function NatureHomeMapPair({
                         <h3 className="truncate text-[13px] font-bold text-foreground transition-colors group-hover:text-[hsl(var(--primary))] min-[390px]:text-[14px]">
                           {speciesName ?? suggestedLabel ?? "自然观察记录"}
                         </h3>
-                        <p className="mt-1 flex items-center gap-1 truncate text-[11px] text-muted-foreground">
-                          <MapPin className="h-3 w-3 shrink-0 text-[hsl(var(--primary))]" />
-                          <span className="truncate">{observation.locationName || "未知地点"}</span>
-                        </p>
+                        {observation.locationName ? (
+                          <p className="mt-1 flex items-center gap-1 truncate text-[11px] text-muted-foreground">
+                            <MapPin className="h-3 w-3 shrink-0 text-[hsl(var(--primary))]" />
+                            <span className="truncate">{observation.locationName}</span>
+                          </p>
+                        ) : null}
                         <div className="mt-1.5 flex items-center justify-between border-t border-[hsl(var(--surface-border)/0.6)] pt-1.5 text-[10px] text-muted-foreground/85 min-[390px]:mt-2 min-[390px]:pt-2">
                           <span className="flex min-w-0 items-center gap-1">
                             <UserAvatar
@@ -202,23 +204,23 @@ export function NatureHomeMapPair({
       </div>
 
       {/* 桌面端：优雅的宽屏左右联动面板 */}
-      <section className="nature-section-card nature-home-map-panel hidden overflow-hidden p-0 md:block">
-        <div className="flex items-center justify-between gap-2 border-b border-[hsl(var(--surface-border)/0.6)] px-5 py-3">
+      <section className="nature-section-card nature-home-map-panel hidden overflow-hidden p-0 md:block [&_[data-testid=nature-map-skeleton]]:rounded-none">
+        <div className="flex min-h-12 items-center justify-between gap-2 border-b border-[hsl(var(--surface-border)/0.6)] px-5">
           <h2 className="text-lg font-bold text-foreground">最近观察</h2>
           <Link
             href="/nature/observations"
-            className="nature-link relative z-1 -my-3.5 -mx-2 inline-flex h-11 shrink-0 items-center gap-0.5 px-2 text-sm"
+            className="nature-link -mr-2 inline-flex h-11 shrink-0 items-center gap-1 rounded-sm px-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             查看全部
             <ChevronRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="grid gap-0 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-          <div className="relative h-[300px] lg:h-auto lg:min-h-[400px]">
+        <div className="grid min-w-0 gap-0 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+          <div className="relative">
             <DomesticMiniMap
               markers={markers}
-              heightClassName="h-full lg:absolute lg:inset-0"
-              className="rounded-none border-0"
+              heightClassName="h-[300px] lg:h-[560px]"
+              className="rounded-none border-0 shadow-none dark:shadow-none"
               defaultCenter={BEIJING_CENTER}
               defaultZoom={10}
               fitMode="default"
@@ -227,7 +229,7 @@ export function NatureHomeMapPair({
               onMarkerHover={setHoveredId}
             />
           </div>
-          <div className="nature-thin-scroll relative flex max-h-[320px] flex-col overflow-y-auto border-t border-[hsl(var(--surface-border)/0.6)] lg:max-h-[560px] lg:border-l lg:border-t-0">
+          <div className="nature-home-observation-list relative min-h-0 min-w-0 max-h-[320px] overflow-x-hidden overflow-y-auto overscroll-contain border-t border-[hsl(var(--surface-border)/0.6)] bg-transparent lg:h-[560px] lg:max-h-none lg:border-l lg:border-t-0">
             {observations.length === 0 ? (
               <div className="flex h-full min-h-[200px] flex-col items-center justify-center gap-3 px-6 py-10 text-center">
                 <Leaf className="h-8 w-8 text-muted-foreground" />
@@ -240,7 +242,7 @@ export function NatureHomeMapPair({
                 </Link>
               </div>
             ) : (
-              <ul className="flex flex-1 flex-col divide-y divide-[hsl(var(--surface-border)/0.6)]">
+              <ul className="divide-y divide-border/40 px-2">
                 {observations.map((observation) => {
                   const id = String(observation.id)
                   const isActive = id === hoveredId
@@ -248,7 +250,7 @@ export function NatureHomeMapPair({
                   const suggestedLabel = getSuggestedSpeciesLabel(observation)
 
                   return (
-                    <li key={observation.id} className="flex flex-1">
+                    <li key={observation.id}>
                       <Link
                         href={`/nature/observations/${observation.id}`}
                         ref={(el) => {
@@ -259,8 +261,8 @@ export function NatureHomeMapPair({
                         onMouseLeave={() => setHoveredId(null)}
                         onFocus={() => setHoveredId(id)}
                         onBlur={() => setHoveredId(null)}
-                        className={`group flex w-full items-center gap-3.5 px-4 py-3 transition-colors duration-200 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary ${
-                          isActive ? "bg-[hsl(var(--status-info-surface)/0.6)] shadow-xs" : "hover:bg-[hsl(var(--surface-raised)/0.8)]"
+                        className={`group my-1 flex items-center gap-3 rounded-sm px-3 py-3 transition-colors duration-200 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary ${
+                          isActive ? "bg-[hsl(var(--status-info-surface)/0.6)]" : "hover:bg-[hsl(var(--surface-muted)/0.5)]"
                         }`}
                       >
                         <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.5)] bg-muted/40 shadow-2xs">
@@ -296,9 +298,13 @@ export function NatureHomeMapPair({
                             </span>
                           </div>
                           <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-muted-foreground">
-                            <MapPin className="h-3 w-3 shrink-0 text-[hsl(var(--primary))]" />
-                            <span className="truncate">{observation.locationName || "未知地点"}</span>
-                            <span className="mx-1 text-muted-foreground/40">•</span>
+                            {observation.locationName ? (
+                              <>
+                                <MapPin className="h-3 w-3 shrink-0 text-[hsl(var(--primary))]" />
+                                <span className="truncate">{observation.locationName}</span>
+                                <span className="mx-1 text-muted-foreground/40">•</span>
+                              </>
+                            ) : null}
                             <span className="truncate">{observation.authorDisplayName || "匿名观察者"}</span>
                           </p>
                         </div>

@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card"
 import { Sparkles, RefreshCw, Target, User, Bot, Trophy, Globe } from "lucide-react"
 import confetti from "canvas-confetti"
 import { GomokuOnlineView } from "@/components/features/playground/gomoku-online-view"
+import { ChallengeOnlineView } from "@/components/features/playground/challenge-online-view"
 import { GomokuBoard } from "@/components/features/playground/gomoku-board"
 
 type PageMode = GomokuMode | "online"
@@ -32,6 +33,7 @@ function GomokuPageInner() {
     const initialRoomCode = searchParams.get("room")
     // 带 room 参数时直接进入在线模式
     const [mode, setMode] = useState<PageMode>(initialRoomCode ? "online" : "pve")
+    const [legacyOnline, setLegacyOnline] = useState(false)
     const [level, setLevel] = useState<GomokuLevel>("normal")
     const [humanPlayer, setHumanPlayer] = useState<"black" | "white">("black")
     const { checkBadges } = useGamification()
@@ -271,7 +273,7 @@ function GomokuPageInner() {
                 </div>
 
                 {mode === "online" ? (
-                    <GomokuOnlineView initialRoomCode={initialRoomCode} />
+                    legacyOnline ? <GomokuOnlineView initialRoomCode={initialRoomCode} /> : <ChallengeOnlineView game="gomoku" initialRoomCode={initialRoomCode} onLegacyRoom={() => setLegacyOnline(true)} />
                 ) : null}
 
                 {mode !== "online" && (

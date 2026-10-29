@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Check, CircleHelp, Heart, Lock, PaintBucket, RotateCcw, Sparkles, Table, Trophy, X } from "lucide-react"
 import { NONOGRAM_LEVELS, useNonogram, type NonogramTool } from "@/hooks/playground/use-nonogram"
+import { useRaceRound } from "@/hooks/playground/use-race-round"
 import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { NonogramVictoryArt } from "@/components/features/playground/nonogram-victory-art"
 import { RaceOnlineDisclosure, RaceOnlinePanel } from "@/components/features/playground/race-online-panel"
@@ -30,8 +31,6 @@ function cellFromPoint(clientX: number, clientY: number): { row: number; col: nu
 export default function NonogramPage() {
     const game = useNonogram()
     const race = useRaceOnline("nonogram", { levelId: game.level.id, levelIndex: game.levelIndex })
-    const raceIsWaiting = race.isWaiting
-    const raceIsPlaying = race.isPlaying
     const raceHasSubmitted = race.hasSubmitted
     const raceLevelId = race.settings.levelId
     const submitRaceResult = race.submitResult
@@ -75,17 +74,15 @@ export default function NonogramPage() {
     }, [checkBadges, game.stats.solvedLevels.length, game.status])
 
     const raceLevelIndex = typeof race.settings.levelIndex === "number" ? race.settings.levelIndex : null
-    const raceActive = raceIsWaiting || raceIsPlaying
-
-    useEffect(() => {
-        if (!raceActive || raceLevelIndex === null || raceLevelIndex === game.levelIndex) return
-        game.startLevel(raceLevelIndex)
-    }, [game, raceActive, raceLevelIndex])
+    const raceRound = useRaceRound(race, () => {
+        if (raceLevelIndex !== null) game.startLevel(raceLevelIndex, { race: true })
+    })
+    const raceActive = raceRound.active
 
     useEffect(() => {
         const justSolved = prevStatusRef.current === "playing" && game.status === "solved"
         prevStatusRef.current = game.status
-        if (!justSolved || !raceIsPlaying || raceHasSubmitted) return
+        if (!justSolved || !raceRound.canSubmit || raceHasSubmitted) return
         if (raceLevelId !== game.level.id) return
         void submitRaceResult({
             levelId: game.level.id,
@@ -100,29 +97,31 @@ export default function NonogramPage() {
         game.status,
         game.time,
         raceHasSubmitted,
-        raceIsPlaying,
+        raceRound.canSubmit,
         raceLevelId,
         submitRaceResult,
     ])
 
     const startAtPoint = useCallback(
         (clientX: number, clientY: number, strokeTool: NonogramTool) => {
+            if (!raceRound.canPlay) return
             const cell = cellFromPoint(clientX, clientY)
             if (!cell) return
             paintingRef.current = true
             game.beginStroke(cell.row, cell.col, strokeTool)
         },
-        [game],
+        [game, raceRound.canPlay],
     )
 
     const moveAtPoint = useCallback(
         (clientX: number, clientY: number) => {
             if (!paintingRef.current) return
+            if (!raceRound.canPlay) return
             const cell = cellFromPoint(clientX, clientY)
             if (!cell) return
             game.continueStroke(cell.row, cell.col)
         },
-        [game],
+        [game, raceRound.canPlay],
     )
 
     const stopPainting = useCallback(() => {
@@ -132,9 +131,9 @@ export default function NonogramPage() {
 
     const startLevel = useCallback(
         (index: number) => {
-            game.startLevel(index)
+            if (!raceActive) game.startLevel(index)
         },
-        [game],
+        [game, raceActive],
     )
 
     return (
@@ -181,7 +180,7 @@ export default function NonogramPage() {
                                 variant="outline"
                                 size="icon"
                                 className="h-11 w-11"
-                                onClick={() => startLevel(game.levelIndex)}
+                                disabled={raceActive} onClick={() => startLevel(game.levelIndex)}
                                 aria-label="重开本关"
                             >
                                 <RotateCcw className="h-4 w-4" />
@@ -198,7 +197,7 @@ export default function NonogramPage() {
                                 <button
                                     key={level.id}
                                     type="button"
-                                    disabled={!unlocked}
+                                    disabled={!unlocked || raceActive}
                                     onClick={() => {
                                         if (!unlocked) return
                                         startLevel(index)
@@ -235,7 +234,7 @@ export default function NonogramPage() {
                             aria-label={game.tool === "mark" ? "当前叉号模式，点击切换到填色" : "当前填色模式，点击切换到叉号"}
                             aria-pressed={game.tool === "mark"}
                             data-testid="nonogram-tool-toggle"
-                            disabled={game.status !== "playing"}
+                            disabled={game.status !== "playing" || !raceRound.canPlay}
                         >
                             <span
                                 aria-hidden
@@ -294,7 +293,7 @@ export default function NonogramPage() {
                         aria-label="数织棋盘"
                         className="mx-auto w-full max-w-[min(100%,36rem)] scroll-mt-[calc(var(--mobile-global-header-height,0px)+4.5rem)] select-none touch-none rounded-md border border-slate-300/70 bg-slate-100/80 p-2 dark:border-slate-600/50 dark:bg-slate-900/40 sm:p-3"
                         onPointerDown={(event) => {
-                            if (game.status !== "playing") return
+                            if (game.status !== "playing" || !raceRound.canPlay) return
                             if (event.pointerType === "mouse" && event.button === 2) return
                             if (event.pointerType === "mouse" && event.button !== 0) return
                             // 阻止移动端把格子滚进视口，避免顶部/左侧线索被 sticky 栏挡住
@@ -306,7 +305,7 @@ export default function NonogramPage() {
                             startAtPoint(event.clientX, event.clientY, game.tool)
                         }}
                         onPointerMove={(event) => {
-                            if (!paintingRef.current || game.status !== "playing") return
+                            if (!paintingRef.current || game.status !== "playing" || !raceRound.canPlay) return
                             event.preventDefault()
                             moveAtPoint(event.clientX, event.clientY)
                         }}
@@ -319,7 +318,7 @@ export default function NonogramPage() {
                         onPointerCancel={stopPainting}
                         onContextMenu={(event) => {
                             event.preventDefault()
-                            if (game.status !== "playing") return
+                            if (game.status !== "playing" || !raceRound.canPlay) return
                             const cell = cellFromPoint(event.clientX, event.clientY)
                             if (!cell) return
                             const alt: NonogramTool = game.tool === "fill" ? "mark" : "fill"
@@ -502,7 +501,7 @@ export default function NonogramPage() {
                                     <Button
                                         className="w-full shrink-0 sm:w-auto"
                                         size="sm"
-                                        onClick={() => startLevel(game.levelIndex + 1)}
+                                        disabled={raceActive} onClick={() => startLevel(game.levelIndex + 1)}
                                     >
                                         解锁下一幅
                                     </Button>
@@ -520,7 +519,7 @@ export default function NonogramPage() {
                             <X className="mx-auto mb-2 h-6 w-6 text-rose-500" />
                             <p className="font-black">试错已用完</p>
                             <p className="text-xs text-muted-foreground">填错实心格会扣次数；叉号不影响。再开一局仔细推线索。</p>
-                            <Button className="mt-3" size="sm" variant="outline" onClick={() => startLevel(game.levelIndex)}>
+                            <Button className="mt-3" size="sm" variant="outline" disabled={raceActive} onClick={() => startLevel(game.levelIndex)}>
                                 重开本关
                             </Button>
                         </div>

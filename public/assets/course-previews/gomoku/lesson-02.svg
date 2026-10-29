@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="356" height="356" viewBox="0 0 356 356"><title>开局与先手优势</title><desc>中心开局比边角开局拥有更多延伸方向</desc><rect width="356" height="356" rx="16" fill="#f5e6c8"/>
+<path d="M24 24H332M24 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 46H332M46 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 68H332M68 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 90H332M90 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 112H332M112 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 134H332M134 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 156H332M156 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 178H332M178 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 200H332M200 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 222H332M222 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 244H332M244 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 266H332M266 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 288H332M288 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 310H332M310 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 332H332M332 24V332" stroke="#baa582" stroke-width=".8"/>
+<circle cx="90" cy="90" r="2.4" fill="#947d59"/>
+<circle cx="266" cy="90" r="2.4" fill="#947d59"/>
+<circle cx="178" cy="178" r="2.4" fill="#947d59"/>
+<circle cx="90" cy="266" r="2.4" fill="#947d59"/>
+<circle cx="266" cy="266" r="2.4" fill="#947d59"/>
+<circle cx="178" cy="178" r="9.4" fill="#253142" stroke="#172333"/>
+<circle cx="178" cy="156" r="8" fill="#fff" fill-opacity=".8" stroke="#29845a" stroke-width="2"/>
+<circle cx="178" cy="200" r="8" fill="#fff" fill-opacity=".8" stroke="#29845a" stroke-width="2"/>
+<circle cx="156" cy="178" r="8" fill="#fff" fill-opacity=".8" stroke="#29845a" stroke-width="2"/>
+<circle cx="200" cy="178" r="8" fill="#fff" fill-opacity=".8" stroke="#29845a" stroke-width="2"/>
+<circle cx="156" cy="156" r="8" fill="#fff" fill-opacity=".8" stroke="#29845a" stroke-width="2"/>
+<circle cx="200" cy="200" r="8" fill="#fff" fill-opacity=".8" stroke="#29845a" stroke-width="2"/>
+<circle cx="200" cy="156" r="8" fill="#fff" fill-opacity=".8" stroke="#29845a" stroke-width="2"/>
+<circle cx="156" cy="200" r="8" fill="#fff" fill-opacity=".8" stroke="#29845a" stroke-width="2"/>
+</svg>

@@ -6,11 +6,11 @@ import { GlobalTutorFab } from './global-tutor-fab'
 import { TutorProvider, useTutorContext } from './tutor-context'
 import type { TutorToolCall } from '@/lib/ai/tutor/tool-calls'
 
-const mock = vi.hoisted(() => ({ noop: vi.fn(), tool: vi.fn(), userId: 'a', dispatch: undefined as undefined | ((call: TutorToolCall) => Promise<boolean>) }))
+const mock = vi.hoisted(() => ({ noop: vi.fn(), tool: vi.fn(), userId: 'a', loginOpen: false, dispatch: undefined as undefined | ((call: TutorToolCall) => Promise<boolean>) }))
 let pathname = '/project/1213'
 vi.mock('next/navigation', () => ({ usePathname: () => pathname }))
 vi.mock('@/lib/context/auth-context', () => ({ useAuth: () => ({ user: { id: mock.userId } }) }))
-vi.mock('@/lib/context/login-prompt-context', () => ({ useLoginPrompt: () => ({ promptLogin: mock.noop }) }))
+vi.mock('@/lib/context/login-prompt-context', () => ({ useLoginPrompt: () => ({ promptLogin: mock.noop, isOpen: mock.loginOpen }) }))
 vi.mock('@/hooks/use-toast', () => ({ useToast: () => ({ toast: mock.noop }) }))
 vi.mock('@tanstack/react-query', () => ({ useQuery: () => ({}), useQueryClient: () => ({}) }))
 vi.mock('./use-tutor-chat-stream', () => ({ useTutorChatStream: (options: { dispatchToolCall: typeof mock.dispatch }) => {
@@ -41,6 +41,7 @@ beforeEach(() => {
   vi.clearAllMocks()
   pathname = '/project/1213'
   mock.userId = 'a'
+  mock.loginOpen = false
   vi.stubGlobal('innerHeight', 800)
   vi.stubGlobal('visualViewport', undefined)
   vi.stubGlobal('matchMedia', () => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() }))
@@ -123,4 +124,62 @@ it('keeps text and pending photos across pages and clears them on account change
   rerender(<GlobalTutorFab open onToggle={mock.noop} context={{ contextType: 'project', contextId: '2' }} />)
   expect(screen.getByRole('textbox')).toHaveValue('')
   expect(screen.queryByAltText('待发图片')).not.toBeInTheDocument()
+})
+
+it('offers the mobile course hint once per session and opens the existing tutor on click', () => {
+  vi.useFakeTimers()
+  sessionStorage.clear()
+  const toggle = vi.fn()
+  const props = { open: false, onToggle: toggle, context: { contextType: 'global' as const, contextId: '', surface: 'courses' as const } }
+  try {
+    const view = render(<GlobalTutorFab {...props} />)
+    act(() => vi.advanceTimersByTime(800))
+    fireEvent.click(screen.getByRole('button', { name: '想找哪节课？问我。' }))
+    expect(toggle).toHaveBeenCalledOnce()
+    expect(screen.queryByText('想找哪节课？问我。')).not.toBeInTheDocument()
+    view.unmount()
+    render(<GlobalTutorFab {...props} />)
+    act(() => vi.advanceTimersByTime(800))
+    expect(screen.queryByText('想找哪节课？问我。')).not.toBeInTheDocument()
+  } finally {
+    vi.useRealTimers()
+    sessionStorage.clear()
+  }
+})
+
+it('removes the course hint after eight seconds without opening the tutor', () => {
+  vi.useFakeTimers()
+  sessionStorage.clear()
+  const toggle = vi.fn()
+  try {
+    render(<GlobalTutorFab open={false} onToggle={toggle} context={{ contextType: 'global', contextId: '', surface: 'courses' }} />)
+    act(() => vi.advanceTimersByTime(800))
+    expect(screen.getByText('想找哪节课？问我。')).toBeInTheDocument()
+    act(() => vi.advanceTimersByTime(8_000))
+    expect(screen.queryByText('想找哪节课？问我。')).not.toBeInTheDocument()
+    expect(toggle).not.toHaveBeenCalled()
+  } finally {
+    vi.useRealTimers()
+    sessionStorage.clear()
+  }
+})
+
+it('waits for the login prompt to close before showing or consuming the course hint', () => {
+  vi.useFakeTimers()
+  sessionStorage.clear()
+  mock.loginOpen = true
+  const props = { open: false, onToggle: mock.noop, context: { contextType: 'global' as const, contextId: '', surface: 'courses' as const } }
+  try {
+    const view = render(<GlobalTutorFab {...props} />)
+    act(() => vi.advanceTimersByTime(10_000))
+    expect(screen.queryByText('想找哪节课？问我。')).not.toBeInTheDocument()
+    expect(sessionStorage.getItem('tutor:courses-hint:v1')).toBeNull()
+    mock.loginOpen = false
+    view.rerender(<GlobalTutorFab {...props} />)
+    act(() => vi.advanceTimersByTime(800))
+    expect(screen.getByText('想找哪节课？问我。')).toBeInTheDocument()
+  } finally {
+    vi.useRealTimers()
+    sessionStorage.clear()
+  }
 })

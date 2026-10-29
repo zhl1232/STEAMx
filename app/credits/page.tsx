@@ -41,9 +41,9 @@ const groups: Array<{ title: string; items: CreditItem[] }> = [
 
 export default function CreditsPage() {
   return (
-    <div className="page-shell pt-0 pb-24 md:pt-6 md:pb-10">
+    <div className="app-shell-narrow pt-0 pb-24 md:pt-6 md:pb-10">
       <MobilePageHeader title="图片来源" fallbackHref="/about" className="md:hidden" />
-      <div className="mx-auto max-w-3xl space-y-5">
+      <div className="space-y-5">
         <div className="hidden md:block">
           <h1 className="text-3xl font-semibold tracking-tight">图片来源</h1>
         </div>

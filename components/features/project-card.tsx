@@ -74,19 +74,23 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
             ? "材料信息待核对"
             : materialMatch?.hasSelection
                 ? `需要 ${materialMatch.requiredCount} 样，你有 ${materialMatch.ownedCount} 样`
-                : materialMatch ? `${materialMatch.requiredCount} 样材料` : "";
+                : materialMatch ? `需要 ${materialMatch.requiredCount} 样材料` : "";
+        const pendingCount = materialMatch?.pendingLabels?.length ?? 0;
+        const missingDetail = materialMatch && materialMatch.missingLabels.length <= 2
+            ? `还差：${materialMatch.missingLabels.join("、")}`
+            : `还差 ${materialMatch?.missingLabels.length ?? 0} 样`;
         const matchDetail = materialMatch === null
             ? "点进项目查看清单"
             : !materialMatch?.hasSelection
                 ? ""
                 : materialMatch.missingLabels.length === 0
-                    ? "材料已匹配"
-                    : materialMatch.missingLabels.length <= 2
-                        ? `还差：${materialMatch.missingLabels.join("、")}`
-                        : `还差 ${materialMatch.missingLabels.length} 样`;
-        const isMatched = !!materialMatch?.hasSelection && materialMatch.missingLabels.length === 0;
+                    ? pendingCount > 0 ? "已有材料，需核对规格" : "材料已匹配"
+                    : `${missingDetail}${pendingCount > 0 ? ` · ${pendingCount} 样需核对规格` : ""}`;
+        const isMatched = !!materialMatch?.hasSelection && materialMatch.missingLabels.length === 0 && pendingCount === 0;
         const isVerticalCompact = compactLayout === "vertical" || isExploreVariant;
         const isDenseCompact = !isExploreVariant && compactLayout === "dense";
+        const completionsCount = project.completions_count ?? 0;
+        const hasExploreStats = likesCount > 0 || completionsCount > 0;
 
         return (
             <div className={cn("h-full transition-transform duration-300 hover:-translate-y-1", isExploreVariant && "explore-card", className)}>
@@ -126,11 +130,6 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                             </div>
                         )}
                         <div className="absolute inset-0 bg-linear-to-t from-slate-950/18 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                        {isExploreVariant && materialMatch !== undefined && categoryLabel ? (
-                            <ToneBadge tone={categoryTone} variant="explore" className="absolute bottom-2 left-2 max-w-[calc(100%_-_1rem)] truncate rounded-xs px-1.5 py-0.5 text-xs font-medium">
-                                {categoryLabel}
-                            </ToneBadge>
-                        ) : null}
                         {showStatus && project.status && (
                             <div className="absolute left-2 top-2 z-10">
                                 {project.status === 'pending' && (
@@ -168,7 +167,6 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                     "min-w-0 font-bold text-foreground transition-colors group-hover:text-[hsl(var(--brand-blue))]",
                                     isDenseCompact ? "line-clamp-1 text-[14px] leading-5 sm:line-clamp-1 sm:text-[15px] sm:leading-6" : "text-[15px] leading-5",
                                     isVerticalCompact ? isExploreVariant ? "line-clamp-2 font-sans text-base leading-6" : "line-clamp-2" : !isDenseCompact && "line-clamp-2 sm:line-clamp-1 sm:leading-6",
-                                    isExploreVariant && materialMatch !== undefined && "h-12",
                                 )}
                             >
                                 {titleLink}
@@ -207,24 +205,30 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 </>
                             )}
                             {isExploreVariant && (
-                                materialMatch !== undefined ? (
-                                    <div className={cn("h-11 min-w-0 text-xs leading-5 text-muted-foreground", !matchDetail && "flex items-center")}>
-                                        <p className="truncate" title={matchSummary}>{matchSummary}</p>
-                                        {matchDetail && <p className={cn("flex min-w-0 items-center gap-1", isMatched && "text-[hsl(var(--status-success))]")} title={matchDetail}>
-                                            {isMatched && <Check className="h-3 w-3 shrink-0" aria-hidden />}
-                                            <span className="min-w-0 truncate">{matchDetail}</span>
-                                        </p>}
-                                    </div>
-                                ) : (
+                                <>
                                     <div className="min-w-0 space-y-2">
                                         {categoryLabel ? (
                                             <ToneBadge tone={categoryTone} variant="explore" className="block w-fit max-w-full truncate rounded-xs px-1.5 py-0.5 text-xs font-medium leading-4">
                                                 {categoryLabel}
                                             </ToneBadge>
                                         ) : null}
-                                        <ContentClassification classification={project.classification} compact variant="explore" />
+                                        <ContentClassification
+                                            classification={project.classification}
+                                            compact
+                                            variant="explore"
+                                            className="max-md:gap-x-1.5 max-md:gap-y-0.5 max-md:text-xs max-md:[&>span:last-child]:block max-md:[&>span:last-child]:text-xs"
+                                        />
                                     </div>
-                                )
+                                    {materialMatch !== undefined ? (
+                                        <div className="min-w-0 text-xs leading-5 text-muted-foreground">
+                                            <p className="truncate" title={matchSummary}>{matchSummary}</p>
+                                            {matchDetail && <p className={cn("flex min-w-0 items-center gap-1", isMatched && "text-[hsl(var(--status-success))]")} title={matchDetail}>
+                                                {isMatched && <Check className="h-3 w-3 shrink-0" aria-hidden />}
+                                                <span className="min-w-0 truncate">{matchDetail}</span>
+                                            </p>}
+                                        </div>
+                                    ) : null}
+                                </>
                             )}
                             {!isVerticalCompact && (
                                 <p
@@ -261,16 +265,16 @@ export function ProjectCard({ project, searchQuery = "", showStatus = false, pri
                                 </div>
                             </div>
                         ) : isExploreVariant ? (
-                            <div data-testid="explore-project-stats" className="mt-auto flex items-center justify-between gap-2 whitespace-nowrap border-t border-border/50 pt-2.5 text-xs leading-5 text-muted-foreground">
-                                <span className="flex min-w-0 items-center gap-1" title="点赞数" aria-label={`${likesCount} 点赞`}>
+                            hasExploreStats ? <div data-testid="explore-project-stats" className="mt-auto flex items-center justify-between gap-2 whitespace-nowrap border-t border-border/50 pt-2.5 text-xs leading-5 text-muted-foreground/90">
+                                {likesCount > 0 ? <span className="flex min-w-0 items-center gap-1" title="点赞数" aria-label={`${likesCount} 点赞`}>
                                     <Heart className={cn("h-3 w-3 shrink-0", liked ? "fill-red-500 text-red-500" : "text-muted-foreground/80")} aria-hidden />
                                     <span>{formatCount(likesCount)} 点赞</span>
-                                </span>
-                                <span className="flex min-w-0 items-center gap-1" title="作品数" aria-label={`${project.completions_count ?? 0} 作品`}>
+                                </span> : null}
+                                {completionsCount > 0 ? <span className="ml-auto flex min-w-0 items-center gap-1" title="作品数" aria-label={`${completionsCount} 作品`}>
                                     <Images className="h-3 w-3 shrink-0 text-muted-foreground/80" aria-hidden />
-                                    <span>{formatCount(project.completions_count ?? 0)} 作品</span>
-                                </span>
-                            </div>
+                                    <span>{formatCount(completionsCount)} 作品</span>
+                                </span> : null}
+                            </div> : null
                         ) : (
                             <div className="flex items-center gap-3 text-[11px] text-muted-foreground/90 sm:mt-auto">
                                 <span className="flex items-center gap-1" title="点赞数">

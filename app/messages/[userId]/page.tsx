@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton"
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import Link from "next/link";
@@ -156,19 +157,19 @@ export default function ConversationPage() {
 
   if (authLoading || (user && !otherUserId)) {
     return (
-      <div className="page-shell pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 md:pb-10">
-        <div className="mx-auto w-full max-w-3xl">
+      <div className="app-shell-narrow pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 md:pb-10">
+        <div className="w-full min-w-0">
           <div className="surface-panel overflow-hidden">
-            <div className="h-14 animate-pulse border-b border-border/60 bg-muted/60" />
+            <Skeleton className="h-14 border-b border-border/60" />
             <div className="space-y-3 px-4 py-5">
               {[1, 2].map((item) => (
                 <div key={item} className="flex justify-start">
-                  <div className="h-10 w-48 animate-pulse rounded-md bg-muted" />
+                  <Skeleton className="h-10 w-48 rounded-md" />
                 </div>
               ))}
             </div>
             <div className="border-t border-border/60 px-4 py-4">
-              <div className="h-11 animate-pulse rounded-md bg-muted" />
+              <Skeleton className="h-11 rounded-md" />
             </div>
           </div>
         </div>
@@ -202,8 +203,8 @@ export default function ConversationPage() {
   );
 
   return (
-    <div className="page-shell pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 md:pb-10">
-      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col">
+    <div className="app-shell-narrow pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 md:pb-10">
+      <div className="flex w-full min-w-0 flex-1 flex-col">
         <MobilePageHeader
           title={displayName}
           fallbackHref="/messages"
@@ -293,7 +294,7 @@ export default function ConversationPage() {
                 <div className="space-y-3">
                   {[1, 2].map((item) => (
                     <div key={item} className="flex justify-start">
-                      <div className="h-10 w-48 animate-pulse rounded-md bg-muted" />
+                      <Skeleton className="h-10 w-48 rounded-md" />
                     </div>
                   ))}
                 </div>

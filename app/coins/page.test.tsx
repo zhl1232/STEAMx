@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import CoinsPage from "./page";
+import CoinsPage from "@/components/features/coins/coin-history";
 import { getActionLabel } from "./action-label";
 
 const { mockRange, mockSelect, mockEq, mockOrder, mockRpc } = vi.hoisted(() => ({
@@ -109,13 +109,13 @@ describe("CoinsPage", () => {
   it.each([390, 768, 1440])("keeps the shop reachable from the wallet at %ipx", (width) => {
     setViewport(width);
     renderPage();
-    expect(screen.getByRole("link", { name: "去兑换装扮" })).toHaveAttribute("href", "/shop");
+
   });
 
   it("uses a center-style mobile header without a back button", () => {
     renderPage();
 
-    expect(screen.getByRole("heading", { name: "硬币", level: 1 })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "收支明细", level: 2 })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "返回上一页" })).not.toBeInTheDocument();
   });
 

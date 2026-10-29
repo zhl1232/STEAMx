@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { Surface } from '@/components/ui/surface'
 import { Textarea } from '@/components/ui/textarea'
 import { SUPPORT_CHANNEL_LABELS } from '@/lib/support/channels'
 import type { SupportChannel } from '@/lib/support/channels'
@@ -118,10 +117,11 @@ export function SupportChat({conversationId,admin=false,productId,orderId,onChan
   }
   const channel=snapshot?.conversation.channel
   const label=channel?SUPPORT_CHANNEL_LABELS[channel]:'服务人员'
+  const compact=!admin&&channel==='store'
   return <div className="space-y-4">
-    <div className="flex items-center justify-between gap-3"><p className="text-sm text-muted-foreground">{snapshot?.conversation.status==='resolved'?'本次问题已处理，仍可继续留言。':`留言后可在「消息中心 → 服务消息 → ${label}」查看回复。`}</p>{admin&&snapshot?<Button variant="outline" className="h-11 shrink-0" onClick={async()=>{try{await api(prefix,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:snapshot.conversation.status==='open'?'resolved':'open',expectedLastMessageSeq:snapshot.messages.at(-1)?.seq??0})});await load()}catch(e){if((e as {status?:number}).status===409)await load();setError(e instanceof Error?e.message:'操作失败')}}}>{snapshot.conversation.status==='open'?'标为已处理':'重新打开'}</Button>:null}</div>
+    {!compact||snapshot?.conversation.status==='resolved'?<div className="flex items-center justify-between gap-3"><p className="text-sm text-muted-foreground">{snapshot?.conversation.status==='resolved'?'本次问题已处理，仍可继续留言。':`留言后可在「消息中心 → 服务消息 → ${label}」查看回复。`}</p>{admin&&snapshot?<Button variant="outline" className="h-11 shrink-0" onClick={async()=>{try{await api(prefix,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:snapshot.conversation.status==='open'?'resolved':'open',expectedLastMessageSeq:snapshot.messages.at(-1)?.seq??0})});await load()}catch(e){if((e as {status?:number}).status===409)await load();setError(e instanceof Error?e.message:'操作失败')}}}>{snapshot.conversation.status==='open'?'标为已处理':'重新打开'}</Button>:null}</div>:null}
     {error?<p role="alert" className="text-sm text-destructive">{error}</p>:null}
-    <Surface className="space-y-4 p-4 sm:p-6">
+    {!compact||Boolean(snapshot?.messages.length)?<div className={compact?'space-y-4 border-b border-border pb-6':'surface-card space-y-4 p-4 sm:p-6'}>
       {snapshot?.nextCursor?<Button variant="ghost" className="h-11" disabled={loadingOlder} onClick={()=>void older()}>查看更早消息</Button>:null}
       {!snapshot?<p role="status">正在加载会话…</p>:snapshot.messages.length===0?<p className="py-8 text-center text-muted-foreground">{channel==='store'?'商品、订单或配送遇到问题？请留下具体情况，商城客服会在此回复。':'课程使用、账号或社区遇到问题？请留下具体情况，我们会在此回复。'}</p>:null}
       <div role="log" aria-label="客服会话" className="space-y-5">
@@ -133,15 +133,15 @@ export function SupportChat({conversationId,admin=false,productId,orderId,onChan
           {message.attachments?.length?<div className="flex flex-wrap gap-2">{message.attachments.map(attachment=><a key={attachment.id} href={`/api/support/attachments/${attachment.id}${admin?'?staff=1':''}`} target="_blank" rel="noreferrer" className="block"><Image unoptimized width={96} height={96} src={`/api/support/attachments/${attachment.id}${admin?'?staff=1':''}`} alt="客服会话附件，点击查看原图" loading="lazy" referrerPolicy="no-referrer" className="h-24 w-24 rounded-md object-cover" /></a>)}</div>:null}
         </article>)}
       </div>
-    </Surface>
-    <Surface className="space-y-3 p-4">
+    </div>:null}
+    <div className={compact?'space-y-3':'surface-card space-y-3 p-4'}>
       {productId||orderId?<p className="text-xs text-muted-foreground">将随留言附上当前{orderId?'订单':'商品'}，请勿填写完整地址或手机号。</p>:null}
-      <label htmlFor={`support-draft-${conversationId}`} className="text-sm font-semibold">{admin?'回复用户':'描述问题'}</label>
+      <label htmlFor={`support-draft-${conversationId}`} className={compact?'sr-only':'text-sm font-semibold'}>{admin?'回复用户':'描述问题'}</label>
       <Textarea id={`support-draft-${conversationId}`} value={content} maxLength={2000} rows={4} disabled={busy||retrying} onChange={e=>setContent(e.target.value)} placeholder={admin?'填写回复内容…':channel==='store'?'描述商品、订单或售后问题…':'描述课程使用、账号或社区问题…'} />
       <div className="flex flex-wrap items-center justify-between gap-3">
         {!admin ? <div className="flex flex-wrap items-center gap-3">
           <Button type="button" variant="outline" shape="pill" className="h-11" aria-describedby={`support-images-help-${conversationId}`} aria-busy={uploading} disabled={busy||retrying||uploading||attachments.length>=3} onClick={()=>fileInput.current?.click()}>{uploading?'正在上传图片…':'添加图片'}</Button>
-          <span id={`support-images-help-${conversationId}`} className="text-xs text-muted-foreground">支持 JPG、PNG、WebP，最多 3 张，每张 5 MB</span>
+          {compact?<details className="text-xs text-muted-foreground"><summary className="cursor-pointer py-3">图片要求</summary><p id={`support-images-help-${conversationId}`}>支持 JPG、PNG、WebP，最多 3 张，每张 5 MB</p></details>:<span id={`support-images-help-${conversationId}`} className="text-xs text-muted-foreground">支持 JPG、PNG、WebP，最多 3 张，每张 5 MB</span>}
           <input ref={fileInput} aria-label="添加客服图片" type="file" accept="image/jpeg,image/png,image/webp" className="hidden" disabled={busy||retrying||uploading||attachments.length>=3} onChange={e=>{const file=e.target.files?.[0];e.target.value='';if(file)void upload(file)}} />
         </div> : null}
         <Button type="button" tone="brand" shape="pill" className="h-12" disabled={busy||uploading||(!content.trim()&&!attachments.length&&!retrying)} onClick={()=>void send()}>{busy?'发送中…':retrying?'重试发送':uploading?'上传中…':'发送留言'}</Button>
@@ -149,7 +149,7 @@ export function SupportChat({conversationId,admin=false,productId,orderId,onChan
       {uploadError?<p role="alert" className="text-sm text-destructive">{uploadError}</p>:null}
       {attachments.length?<div className="flex flex-wrap gap-2">{attachments.map((attachment,index)=><Button key={attachment.id} type="button" variant="outline" className="h-11" disabled={busy||retrying} onClick={()=>setAttachments(old=>old.filter(a=>a.id!==attachment.id))}>图片 {index+1} · 移除</Button>)}</div>:null}
       {retrying?<p className="text-xs text-muted-foreground">发送结果尚未确认，请重试确认这条留言。</p>:null}
-    </Surface>
+    </div>
   </div>
 }
 export { api as supportFetch }

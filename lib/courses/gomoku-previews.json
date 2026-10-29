@@ -1,0 +1,10 @@
+{
+  "认识棋盘与连五规则": "/assets/course-previews/gomoku/lesson-01.svg",
+  "开局与先手优势": "/assets/course-previews/gomoku/lesson-02.svg",
+  "关键棋型：活二、活三、冲四、活四": "/assets/course-previews/gomoku/lesson-03.svg",
+  "防守优先级与堵点选择": "/assets/course-previews/gomoku/lesson-04.svg",
+  "双威胁：双三、四三、双四": "/assets/course-previews/gomoku/lesson-05.svg",
+  "VCF 与 VCT：连续威胁读棋": "/assets/course-previews/gomoku/lesson-06.svg",
+  "AI 是怎么想棋的：评估函数与搜索": "/assets/course-previews/gomoku/lesson-07.svg",
+  "实战复盘：从入门到高手的训练清单": "/assets/course-previews/gomoku/lesson-08.svg"
+}

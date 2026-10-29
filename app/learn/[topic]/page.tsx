@@ -1,3 +1,4 @@
+import { courseCatalogHref } from '@/lib/courses/catalog-url'
 import { scienceSampleIds } from '@/lib/project/science-samples';
 import { selectScienceResources, scienceResourceSummary } from '@/lib/seo/science-resources';
 import { isPlaceholderProjectStep } from '@/lib/seo/project-description';
@@ -83,7 +84,7 @@ async function loadTopicResources(topic: LearningTopicSlug): Promise<LearningRes
             id: course.id,
             title: course.title,
             description: course.description,
-            href: `/courses/${course.id}`,
+            href: courseCatalogHref(course.id),
             image: course.image_url,
             detail: `${course.lesson_count} 节课时`,
         }));

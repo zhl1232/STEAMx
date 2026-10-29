@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import { WeeklyPlanCardSkeleton } from "@/components/features/profile/weekly-plan-card";
 
 type ProfileSkeletonVariant = "dashboard" | "public";
 
@@ -19,85 +20,39 @@ function SectionTitleSkeleton({ action = true, actionWidth = "w-16" }: { action?
   );
 }
 
-function DashboardHeroSkeleton({ compact }: { compact: boolean }) {
+function MobileDashboardHeroSkeleton() {
   return (
-    <section className={`profile-hero-card surface-panel relative overflow-hidden ${compact ? "rounded-lg" : "min-h-[270px] rounded-lg"}`}>
-      <div className="absolute inset-0">
-        <div
-          className={
-            compact
-              ? "absolute inset-0 bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.98)_0%,hsl(var(--tone-science-soft)/0.32)_100%)] dark:bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.98)_0%,hsl(var(--surface-muted)/0.22)_100%)]"
-              : "absolute inset-0 bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.98)_0%,hsl(var(--surface-raised)/0.94)_38%,hsl(var(--tone-science-soft)/0.72)_72%,hsl(var(--background)/0.22)_100%)] dark:bg-[linear-gradient(90deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--surface-raised)/0.88)_42%,hsl(var(--brand-blue)/0.14)_100%)]"
-          }
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,hsl(var(--surface-raised)/0.08)_100%)]" />
-        {!compact ? <SkeletonBlock className="absolute bottom-6 right-8 h-40 w-[36%] rounded-xl bg-muted/35" /> : null}
-      </div>
-
-      <div className={`relative ${compact ? "px-4 pb-4 pt-4" : "px-7 pb-5 pt-7"}`}>
-        {compact ? (
-          <div className="flex justify-center">
-            <SkeletonBlock className="h-7 w-24 rounded-full" />
+    <section className="profile-mobile-hero relative overflow-visible">
+      <div className="relative px-4 pb-4 pt-4">
+        <div className="grid grid-cols-[78px_minmax(0,1fr)] items-start gap-4">
+          <div className="flex flex-col items-center">
+            <SkeletonBlock className="h-[78px] w-[78px] rounded-full border-[3px] border-background" />
           </div>
-        ) : null}
-
-        <div className={`mt-4 ${compact ? "grid grid-cols-[78px_minmax(0,1fr)] gap-4" : "flex min-h-[156px] flex-wrap items-start gap-6"}`}>
-          <div className="relative shrink-0 pt-1">
-            <SkeletonBlock className={`${compact ? "h-[76px] w-[76px]" : "h-[112px] w-[112px]"} rounded-full border-4 border-background`} />
-            <SkeletonBlock className="absolute -bottom-1.5 left-1/2 h-7 w-16 -translate-x-1/2 rounded-full bg-muted/90" />
-          </div>
-
           <div className="min-w-0">
-            <div className="flex items-start gap-2">
-              <SkeletonBlock className={compact ? "h-9 w-40 rounded-full" : "h-10 w-48 rounded-full"} />
-              {compact ? <SkeletonBlock className="h-9 w-16 shrink-0 rounded-full" /> : null}
-            </div>
-            <SkeletonBlock className={`mt-2 h-4 rounded-full ${compact ? "w-full" : "max-w-[460px]"}`} />
-            <SkeletonBlock className={`mt-2 h-4 rounded-full ${compact ? "w-5/6" : "max-w-[360px]"}`} />
-
-            {compact ? (
-              <div className="mt-3">
-                <div className="flex items-center justify-between gap-2">
-                  <SkeletonBlock className="h-3 w-28 rounded-full" />
-                  <SkeletonBlock className="h-3 w-8 rounded-full" />
-                </div>
-                <SkeletonBlock className="mt-2 h-2.5 w-full rounded-full" />
-                <SkeletonBlock className="mt-2 h-3 w-32 rounded-full" />
+            <div className="flex h-11 items-center justify-between gap-1.5">
+              <SkeletonBlock className="h-6 w-24 max-w-full rounded-full" />
+              <div className="flex shrink-0 gap-1.5">
+                <SkeletonBlock className="h-11 w-11 rounded-full" />
+                <SkeletonBlock className="h-11 w-11 rounded-full" />
               </div>
-            ) : (
-              <>
-                <div className="mt-4 flex flex-wrap gap-3">
-                  <SkeletonBlock className="h-8 w-28 rounded-full" />
-                  <SkeletonBlock className="h-8 w-36 rounded-full" />
-                </div>
-                <div className="mt-5 flex flex-wrap items-center gap-3">
-                  <SkeletonBlock className="h-11 w-28 rounded-lg" />
-                  <SkeletonBlock className="h-4 w-48 rounded-full" />
-                </div>
-              </>
-            )}
+            </div>
+            <SkeletonBlock className="h-5.5 w-20 rounded-full" />
+            <SkeletonBlock className="mt-1 h-4 w-full rounded-full" />
           </div>
         </div>
-
-        <div
-          className={`grid overflow-hidden ${
-            compact
-              ? "mt-4 grid-cols-4 rounded-md border border-[hsl(var(--surface-border)/0.62)] bg-[hsl(var(--surface-raised)/0.94)] shadow-[0_12px_24px_-22px_hsl(var(--surface-shadow)/0.14)]"
-              : "profile-stats-bar mt-6 max-w-[610px] grid-cols-4 rounded-lg"
-          }`}
-        >
+        <div className="mt-3 grid grid-cols-4 overflow-hidden border-t border-border/50">
           {Array.from({ length: 4 }).map((_, index) => (
-            <div
-              key={index}
-              className={`flex items-center justify-center gap-3 ${compact ? "min-h-[68px] flex-col gap-1.5 px-2 py-3" : "min-h-[62px] px-4 py-3"} ${
-                index > 0 ? "border-l border-[hsl(var(--surface-border)/0.56)]" : ""
-              }`}
-            >
-              <SkeletonBlock className={`${compact ? "h-8 w-8" : "h-10 w-10"} shrink-0`} />
-              <div className={compact ? "w-full" : "min-w-0"}>
-                <SkeletonBlock className={`mx-auto h-5 rounded-full ${compact ? "w-10" : "w-12"}`} />
-                <SkeletonBlock className={`mx-auto mt-2 h-3 rounded-full ${compact ? "w-8" : "w-10"}`} />
-              </div>
+            <div key={index} className={cn("flex min-h-[58px] flex-col items-center justify-center gap-1 px-1 py-2.5", index > 0 && "border-l border-[hsl(var(--surface-border)/0.65)]")}>
+              <SkeletonBlock className="h-6 w-10 rounded-full" />
+              <SkeletonBlock className="h-3 w-8 rounded-full" />
+            </div>
+          ))}
+        </div>
+        <div className="mt-3.5 grid grid-cols-4 gap-0.5 border-t border-[hsl(var(--surface-border)/0.4)] pt-2.5">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div key={index} className="flex min-w-0 flex-col items-center justify-center gap-1 py-1.5">
+              <SkeletonBlock className="h-12 w-12" />
+              <SkeletonBlock className="h-3 w-11 max-w-full rounded-full" />
             </div>
           ))}
         </div>
@@ -106,33 +61,40 @@ function DashboardHeroSkeleton({ compact }: { compact: boolean }) {
   );
 }
 
-function MobileActionGridSkeleton() {
+function StudyCheckInSkeleton() {
   return (
-    <section className="surface-panel grid grid-cols-4 gap-1.5 p-3 min-[390px]:gap-2">
-      {Array.from({ length: 4 }).map((_, index) => (
-        <div key={index} className="grid min-h-[76px] place-items-center gap-1.5 rounded-md px-0.5 py-2.5 text-center min-[390px]:min-h-[84px] min-[390px]:gap-2 min-[390px]:py-3">
-          <SkeletonBlock className="h-12 w-12 rounded-md min-[390px]:h-[52px] min-[390px]:w-[52px]" />
-          <SkeletonBlock className="h-3 w-10 rounded-full min-[390px]:w-12" />
+    <div className="@container/check-in min-w-0">
+      <div className="flex items-center justify-between gap-2">
+        <SkeletonBlock className="h-5 w-24 rounded-full" />
+        <SkeletonBlock className="h-5 w-16 rounded-full" />
+      </div>
+      <div className="mt-2.5 flex flex-col gap-3 @min-[20rem]/check-in:flex-row @min-[20rem]/check-in:items-center @min-[20rem]/check-in:justify-between">
+        <SkeletonBlock className="h-7 w-20 rounded-full" />
+        <div className="grid grid-cols-6 gap-1 @min-[20rem]/check-in:gap-1.5">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className="flex flex-col items-center">
+              <SkeletonBlock className="h-6 w-6 rounded-full" />
+              <SkeletonBlock className="mt-0.5 h-3.5 w-4 rounded-full" />
+            </div>
+          ))}
         </div>
-      ))}
-    </section>
+      </div>
+    </div>
   );
 }
 
-function NextActionCardSkeleton() {
+function ProfileServicesSkeleton() {
   return (
-    <section className="surface-panel p-4">
-      <div className="flex items-center justify-between gap-3">
-        <SkeletonBlock className="h-5 w-28 rounded-full" />
-        <SkeletonBlock className="h-8 w-12 rounded-full" />
+    <section className="surface-panel p-4 sm:p-5">
+      <SkeletonBlock className="h-5 w-24 rounded-full" />
+      <div className="mt-3 grid grid-cols-2 gap-2">
+        {Array.from({ length: 2 }).map((_, index) => (
+          <SkeletonBlock key={index} className="h-11 rounded-md" />
+        ))}
       </div>
-      <div className="mt-4 flex items-center gap-3 rounded-md bg-[hsl(var(--surface-muted)/0.46)] p-3 ring-1 ring-[hsl(var(--surface-border)/0.58)]">
-        <SkeletonBlock className="h-16 w-16 shrink-0 rounded-md" />
-        <div className="min-w-0 flex-1">
-          <SkeletonBlock className="h-4 w-24 rounded-full" />
-          <SkeletonBlock className="mt-2 h-3 w-32 rounded-full" />
-        </div>
-        <SkeletonBlock className="h-10 w-16 rounded-md" />
+      <div className="mt-4 grid grid-cols-2 gap-2 border-t border-border pt-3">
+        <SkeletonBlock className="h-11 rounded-md" />
+        <SkeletonBlock className="h-11 rounded-md" />
       </div>
     </section>
   );
@@ -141,57 +103,22 @@ function NextActionCardSkeleton() {
 function MobileDashboardProfileSkeleton() {
   return (
     <div className="profile-page-surface min-h-screen pb-[calc(6rem+env(safe-area-inset-bottom))] text-foreground md:hidden">
-      <header className="app-mobile-header">
-        <div className="flex h-12 items-center px-4">
-          <SkeletonBlock className="h-7 w-14 rounded-full" />
-          <div className="ml-auto">
-            <SkeletonBlock className="h-9 w-9 rounded-full border border-[hsl(var(--surface-border))] bg-[hsl(var(--surface-raised)/0.82)]" />
-          </div>
-        </div>
-      </header>
-
-      <div className="px-4 pb-4 min-[430px]:mx-auto min-[430px]:max-w-[430px]">
-        <DashboardHeroSkeleton compact />
-      </div>
-
-      <div className="space-y-4 px-4 min-[430px]:mx-auto min-[430px]:max-w-[430px]">
-        <MobileActionGridSkeleton />
-
-        <NextActionCardSkeleton />
-
-        <section className="surface-panel p-4">
-          <SectionTitleSkeleton />
-          <SkeletonBlock className="mt-4 h-[260px] w-full rounded-md" />
-        </section>
-
-        <section className="surface-panel p-4">
-          <SectionTitleSkeleton />
-          <div className="mt-4">
-            <div className="flex items-baseline justify-between gap-4">
-              <div className="flex items-baseline gap-2">
-                <SkeletonBlock className="h-4 w-12 rounded-full" />
-                <SkeletonBlock className="h-7 w-24 rounded-full" />
-              </div>
-              <SkeletonBlock className="h-5 w-10 rounded-full" />
-            </div>
-            <SkeletonBlock className="mt-3 h-2 w-full rounded-full" />
-          </div>
-        </section>
-
-        <section className="surface-panel p-4">
+      <div className="space-y-3 px-4 pt-[calc(env(safe-area-inset-top)+0.75rem)] min-[430px]:mx-auto min-[430px]:max-w-[430px]">
+        <MobileDashboardHeroSkeleton />
+        <WeeklyPlanCardSkeleton />
+        <section className="profile-mobile-panel p-4">
           <div className="flex items-center justify-between gap-3">
-            <SkeletonBlock className="h-5 w-32 rounded-full" />
-            <SkeletonBlock className="h-8 w-16 rounded-full" />
+            <SkeletonBlock className="h-5 w-24 rounded-full" />
+            <SkeletonBlock className="h-11 w-16 rounded-md" />
           </div>
-          <div className="mt-4 flex justify-between gap-2">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <div key={index} className="flex min-w-0 flex-1 flex-col items-center">
-                <SkeletonBlock className="h-11 w-11 rounded-full" />
-                <SkeletonBlock className="mt-2 h-3 w-10 rounded-full" />
-              </div>
-            ))}
-          </div>
+          <div className="mt-3"><EmbeddedRowsSkeleton /></div>
         </section>
+        <section className="profile-mobile-panel flex min-h-14 items-center justify-between px-4 py-3">
+          <SkeletonBlock className="h-5 w-24 rounded-full" />
+          <SkeletonBlock className="h-5 w-14 rounded-full" />
+        </section>
+        <section className="profile-mobile-panel p-4"><StudyCheckInSkeleton /></section>
+        <ProfileServicesSkeleton />
       </div>
     </div>
   );
@@ -220,14 +147,14 @@ function DesktopDashboardProfileSkeleton() {
   return (
     <div className="hidden md:block">
       <div className="profile-page-surface profile-desktop-page min-h-screen pb-10 text-foreground">
-        <div className="app-shell-wide py-4 md:px-8 md:py-6 min-[90rem]:px-10">
+        <div className="app-shell-wide py-6">
           <div className="space-y-5">
             <section className="profile-hero-card surface-panel rounded-lg p-6">
               <div className="grid grid-cols-[112px_minmax(0,1fr)] items-start gap-x-6 gap-y-4 min-[80rem]:grid-cols-[minmax(0,1fr)_22.5rem] min-[80rem]:gap-x-8">
                 <div className="contents min-[80rem]:grid min-[80rem]:grid-cols-[112px_minmax(0,1fr)] min-[80rem]:items-start min-[80rem]:gap-6">
                   <div className="flex flex-col items-center gap-2">
-                    <SkeletonBlock className="h-28 w-28 rounded-full" />
-                    <SkeletonBlock className="h-6 w-14 rounded-full" />
+                    <SkeletonBlock className="h-24 w-24 rounded-full" />
+                    <SkeletonBlock className="h-11 w-14 rounded-full" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center justify-between gap-3">
@@ -235,11 +162,6 @@ function DesktopDashboardProfileSkeleton() {
                       <SkeletonBlock className="h-11 w-28 shrink-0 rounded-md min-[80rem]:hidden" />
                     </div>
                     <SkeletonBlock className="mt-3 h-4 w-52 max-w-full rounded-full" />
-                    <div className="mt-3 flex gap-1.5">
-                      {Array.from({ length: 5 }).map((_, index) => (
-                        <SkeletonBlock key={index} className="h-8 w-8 rounded-full" />
-                      ))}
-                    </div>
                   </div>
                 </div>
                 <div className="col-span-2 flex min-w-0 flex-col items-end gap-4 min-[80rem]:col-span-1">
@@ -255,73 +177,37 @@ function DesktopDashboardProfileSkeleton() {
                 </div>
               </div>
             </section>
-
-            <section className="surface-panel p-4">
-              <SkeletonBlock className="h-4 w-36 rounded-full" />
-              <SkeletonBlock className="mt-3 h-3 w-52 rounded-full" />
-              <div className="mt-4 grid grid-cols-[40px_minmax(0,1fr)_64px] items-center gap-3 rounded-md bg-muted/40 p-3">
-                <SkeletonBlock className="h-10 w-10 rounded-md" />
-                <div className="space-y-2">
-                  <SkeletonBlock className="h-3 w-32 rounded-full" />
-                  <SkeletonBlock className="h-3 w-44 rounded-full" />
-                </div>
-                <SkeletonBlock className="h-8 rounded-full" />
-              </div>
-            </section>
-
-            <div className="grid items-start gap-5 min-[90rem]:grid-cols-[minmax(0,1fr)_400px] min-[105rem]:grid-cols-[minmax(0,1fr)_420px]">
+            <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_360px] min-[105rem]:grid-cols-[minmax(0,1fr)_440px]">
               <main className="min-w-0 space-y-5">
-                <section className="surface-panel flex min-h-[220px] flex-col rounded-lg p-5">
+                <WeeklyPlanCardSkeleton />
+                <section className="surface-panel rounded-lg p-5">
                   <SectionTitleSkeleton />
-                  <SkeletonBlock className="mt-5 h-20 rounded-md" />
+                  <div className="mt-4"><EmbeddedRowsSkeleton /></div>
                 </section>
-
-                <section className="surface-panel flex flex-col overflow-hidden rounded-lg p-5">
-                  <SectionTitleSkeleton />
-                  <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-                    <EmbeddedRowsSkeleton />
-                    <EmbeddedRowsSkeleton imageClassName="h-16 w-20" />
+                <section className="surface-panel flex min-h-14 items-center justify-between rounded-lg px-4 py-3">
+                  <SkeletonBlock className="h-5 w-24 rounded-full" />
+                  <SkeletonBlock className="h-5 w-5 rounded-full" />
+                </section>
+              </main>
+              <aside className="min-w-0 space-y-5">
+                <section className="surface-panel rounded-lg p-6">
+                  <SectionTitleSkeleton action={false} />
+                  <div className="mt-4 rounded-md bg-muted/50 p-4">
+                    <SkeletonBlock className="h-8 w-24 rounded-full" />
+                    <SkeletonBlock className="mt-4 h-2 w-full rounded-full" />
+                    <SkeletonBlock className="mt-3 h-3 w-36 rounded-full" />
+                  </div>
+                  <div className="mt-5 flex items-center justify-between gap-3 border-t border-border pt-4">
+                    <SkeletonBlock className="h-4 w-28 rounded-full" />
+                    <SkeletonBlock className="h-11 w-20 rounded-md" />
                   </div>
                 </section>
-
-                <div className="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] min-[90rem]:grid-cols-1 min-[105rem]:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
-                  <section className="surface-panel rounded-lg p-5">
-                    <SectionTitleSkeleton />
-                    <SkeletonBlock className="mt-5 h-16 rounded-md" />
-                  </section>
-
-                  <section className="surface-panel rounded-lg p-5">
-                    <SectionTitleSkeleton />
-                    <SkeletonBlock className="mt-5 h-16 rounded-md" />
-                  </section>
-                </div>
-              </main>
-
-              <aside className="min-w-0">
-                <div className="grid items-start gap-5 lg:grid-cols-2 min-[90rem]:grid-cols-1">
-                  <section className="surface-panel rounded-lg p-5">
-                    <SectionTitleSkeleton action={false} />
-                    <div className="mt-4 rounded-md bg-muted/50 p-4">
-                      <SkeletonBlock className="h-8 w-24 rounded-full" />
-                      <SkeletonBlock className="mt-4 h-2 w-full rounded-full" />
-                      <SkeletonBlock className="mt-3 h-3 w-36 rounded-full" />
-                    </div>
-                    <div className="mt-5 flex items-center justify-between gap-3 border-t border-border pt-4">
-                      <SkeletonBlock className="h-4 w-28 rounded-full" />
-                      <SkeletonBlock className="h-8 w-20 rounded-full" />
-                    </div>
-                  </section>
-
-                  <section className="surface-panel rounded-lg p-5">
-                    <SectionTitleSkeleton />
-                    <SkeletonBlock className="mt-4 h-24 rounded-lg" />
-                    <div className="mt-4 grid grid-cols-6 gap-2">
-                      {Array.from({ length: 6 }).map((_, index) => (
-                        <SkeletonBlock key={index} className="h-9 rounded-full" />
-                      ))}
-                    </div>
-                  </section>
-                </div>
+                <section className="surface-panel rounded-lg p-4"><StudyCheckInSkeleton /></section>
+                <section className="surface-panel rounded-lg p-5">
+                  <SectionTitleSkeleton />
+                  <SkeletonBlock className="mt-4 h-16 rounded-md" />
+                </section>
+                <ProfileServicesSkeleton />
               </aside>
             </div>
           </div>
@@ -423,7 +309,7 @@ function PublicMobileProfileSkeleton() {
 function PublicDesktopProfileSkeleton() {
   return (
     <div className="hidden md:block">
-      <div className="page-shell py-8">
+      <div className="app-shell-wide py-8">
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_340px]">
           <div className="space-y-6">
             <section className="surface-panel overflow-hidden">

@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton"
 import { Suspense, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -96,25 +97,25 @@ function MessagePageSkeleton() {
         <MobilePageHeader title="消息" fallbackHref="/" />
         <div className="mobile-subnav sticky top-(--mobile-page-header-height) z-20">
           <div className="px-4 pb-3 pt-1">
-            <div className="h-10 w-full animate-pulse rounded-full bg-muted" />
+            <Skeleton className="h-10 w-full rounded-full" />
           </div>
         </div>
       </div>
 
-      <div className="page-shell flex-1 md:pt-8">
+      <div className="app-shell-narrow flex-1 md:pt-8">
       <div className="surface-panel overflow-hidden">
         <div className="hidden border-b border-border/60 px-4 py-4 sm:px-6 sm:py-5 md:block">
-          <div className="h-3 w-16 animate-pulse rounded-full bg-muted" />
-          <div className="mt-3 h-9 w-40 animate-pulse rounded-md bg-muted" />
-          <div className="mt-4 h-10 w-full animate-pulse rounded-full bg-muted" />
+          <Skeleton className="h-3 w-16 rounded-full" />
+          <Skeleton className="mt-3 h-9 w-40 rounded-md" />
+          <Skeleton className="mt-4 h-10 w-full rounded-full" />
         </div>
         <div className="space-y-3 px-4 py-5 sm:px-6">
           {[1, 2, 3].map((item) => (
             <div key={item} className="surface-subtle flex items-center gap-3 px-4 py-4">
-              <div className="h-11 w-11 animate-pulse rounded-full bg-muted" />
+              <Skeleton className="h-11 w-11 rounded-full" />
               <div className="flex-1 space-y-2">
-                <div className="h-4 w-3/4 animate-pulse rounded-full bg-muted" />
-                <div className="h-3 w-24 animate-pulse rounded-full bg-muted" />
+                <Skeleton className="h-4 w-3/4 rounded-full" />
+                <Skeleton className="h-3 w-24 rounded-full" />
               </div>
             </div>
           ))}
@@ -239,7 +240,7 @@ function MessagesContent() {
         </div>
       </div>
 
-      <div className="page-shell flex-1 md:pt-8">
+      <div className="app-shell-narrow flex-1 md:pt-8">
       <section className="surface-panel overflow-hidden max-md:rounded-none max-md:border-0 max-md:bg-transparent max-md:shadow-none max-md:backdrop-blur-0">
         <div className="hidden border-b border-border/60 px-6 py-6 md:block">
           <div className="flex items-start justify-between gap-6">
@@ -293,10 +294,10 @@ function MessagesContent() {
               <div className="space-y-3">
                 {[1, 2, 3].map((item) => (
                   <div key={item} className="surface-subtle flex items-center gap-3 px-4 py-4">
-                    <div className="h-11 w-11 animate-pulse rounded-full bg-muted" />
+                    <Skeleton className="h-11 w-11 rounded-full" />
                     <div className="flex-1 space-y-2">
-                      <div className="h-4 w-4/5 animate-pulse rounded-full bg-muted" />
-                      <div className="h-3 w-24 animate-pulse rounded-full bg-muted" />
+                      <Skeleton className="h-4 w-4/5 rounded-full" />
+                      <Skeleton className="h-3 w-24 rounded-full" />
                     </div>
                   </div>
                 ))}
@@ -390,10 +391,10 @@ function MessagesContent() {
             <div className="space-y-3">
               {[1, 2, 3].map((item) => (
                 <div key={item} className="surface-subtle flex items-center gap-3 px-4 py-4">
-                  <div className="h-12 w-12 animate-pulse rounded-full bg-muted" />
+                  <Skeleton className="h-12 w-12 rounded-full" />
                   <div className="flex-1 space-y-2">
-                    <div className="h-4 w-32 animate-pulse rounded-full bg-muted" />
-                    <div className="h-3 w-4/5 animate-pulse rounded-full bg-muted" />
+                    <Skeleton className="h-4 w-32 rounded-full" />
+                    <Skeleton className="h-3 w-4/5 rounded-full" />
                   </div>
                 </div>
               ))}

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="356" height="356" viewBox="0 0 356 356"><title>认识棋盘与连五规则</title><desc>横向五连：黑方已经获胜</desc><rect width="356" height="356" rx="16" fill="#f5e6c8"/>
+<path d="M24 24H332M24 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 46H332M46 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 68H332M68 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 90H332M90 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 112H332M112 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 134H332M134 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 156H332M156 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 178H332M178 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 200H332M200 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 222H332M222 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 244H332M244 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 266H332M266 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 288H332M288 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 310H332M310 24V332" stroke="#baa582" stroke-width=".8"/>
+<path d="M24 332H332M332 24V332" stroke="#baa582" stroke-width=".8"/>
+<circle cx="90" cy="90" r="2.4" fill="#947d59"/>
+<circle cx="266" cy="90" r="2.4" fill="#947d59"/>
+<circle cx="178" cy="178" r="2.4" fill="#947d59"/>
+<circle cx="90" cy="266" r="2.4" fill="#947d59"/>
+<circle cx="266" cy="266" r="2.4" fill="#947d59"/>
+<circle cx="134" cy="178" r="9.4" fill="#253142" stroke="#172333"/>
+<circle cx="156" cy="178" r="9.4" fill="#253142" stroke="#172333"/>
+<circle cx="178" cy="178" r="9.4" fill="#253142" stroke="#172333"/>
+<circle cx="200" cy="178" r="9.4" fill="#253142" stroke="#172333"/>
+<circle cx="222" cy="178" r="9.4" fill="#253142" stroke="#172333"/>
+<circle cx="178" cy="134" r="9.4" fill="#fffdf7" stroke="#9c978d"/>
+<circle cx="156" cy="222" r="9.4" fill="#fffdf7" stroke="#9c978d"/>
+<path d="M134 178L222 178" stroke="#319563" stroke-width="4" stroke-linecap="round"/>
+</svg>

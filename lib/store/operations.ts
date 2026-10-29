@@ -1,3 +1,4 @@
+import { courseCatalogHref } from '@/lib/courses/catalog-url'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { StoreServiceError } from './service'
@@ -149,7 +150,7 @@ export async function getSafeOrderExtras(orderId: string) {
     ].flatMap((key) => {
       const [kind, id] = key.split(':')
       if (kind === 'course')
-        return [{ href: `/courses/${id}`, label: '返回配套课程' }]
+        return [{ href: courseCatalogHref(id), label: '返回配套课程' }]
       if (kind === 'project')
         return [{ href: `/project/${id}`, label: '返回配套项目' }]
       return []

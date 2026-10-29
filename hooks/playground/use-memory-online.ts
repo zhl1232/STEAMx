@@ -8,14 +8,15 @@ import { getPlaygroundItem, setPlaygroundItem } from "@/lib/playground/storage";
 import { usePlaygroundStatsLoader } from "@/lib/playground/use-playground-stats-loader";
 import { createClient } from "@/lib/supabase/client";
 import {
-    getMemoryColumns,
+    getMemoryOnlineColumns,
     opponentRole,
     type MemoryDifficulty,
     type MemoryFlipResult,
     type MemoryMatchRow,
     type MemoryRole,
-    type MemoryTheme,
 } from "@/lib/playground/memory-online";
+
+import type { MemoryLevelThemeId } from "@/lib/playground/memory-levels";
 
 export type MemoryOnlineResult = "win" | "loss" | "draw";
 
@@ -37,7 +38,7 @@ const MEMORY_ROOM_CONFIG: GameRoomConfig = {
     apiBase: "/api/playground/memory-rooms",
     channelPrefix: "memory-match",
     createBody: (options) => {
-        const opts = (options ?? {}) as { theme?: MemoryTheme; difficulty?: MemoryDifficulty };
+        const opts = (options ?? {}) as { theme?: MemoryLevelThemeId; difficulty?: MemoryDifficulty };
         return { theme: opts.theme, difficulty: opts.difficulty };
     },
 };
@@ -180,7 +181,7 @@ export function useMemoryOnline() {
     const resultSeq = match?.result_seq ?? 0;
     const isMyTurn = match?.status === "playing" && myRole !== null && currentTurn === myRole;
     const isFinished = match?.status === "finished" || match?.status === "cancelled";
-    const columns = getMemoryColumns((match?.difficulty ?? "easy") as MemoryDifficulty);
+    const columns = getMemoryOnlineColumns(match?.theme ?? "optics", (match?.difficulty ?? "easy") as MemoryDifficulty);
 
     // 记录活跃对局 id，便于刷新/断线后重连
     useEffect(() => {
@@ -236,7 +237,7 @@ export function useMemoryOnline() {
     );
 
     const createRoom = useCallback(
-        (theme: MemoryTheme = "animals", difficulty: MemoryDifficulty = "easy") =>
+        (theme: MemoryLevelThemeId = "optics", difficulty: MemoryDifficulty = "easy") =>
             room.createRoom({ theme, difficulty }),
         [room],
     );

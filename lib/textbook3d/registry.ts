@@ -31,7 +31,7 @@ export type Textbook3dChapter = {
   lessons: Textbook3dLesson[]
 }
 
-export const TEXTBOOK3D_CHAPTERS: Textbook3dChapter[] = [
+const chapterRegistry: Textbook3dChapter[] = [
   {
     id: "g8a-1",
     volume: "八年级上册",
@@ -790,6 +790,37 @@ export const TEXTBOOK3D_CHAPTERS: Textbook3dChapter[] = [
     ],
   },
 ]
+
+export type Textbook3dVolume = {
+  id: string
+  title: string
+  subject: "科学" | "物理"
+  publisher: string
+  edition: string
+  chapters: Textbook3dChapter[]
+}
+
+/** 册次显式排序；目录、课时导航和 sitemap 共用同一顺序。 */
+const volumeOrder = [
+  "p1a", "p1b", "p2a", "p2b", "p3a", "p3b",
+  "p4a", "p4b", "p5a", "p5b", "p6a", "p6b",
+  "g8a", "g8b", "g9",
+]
+
+export const TEXTBOOK3D_VOLUMES: Textbook3dVolume[] = volumeOrder.map((id) => {
+  const chapters = chapterRegistry.filter((chapter) => chapter.id.startsWith(`${id}-`))
+  const primary = id.startsWith("p")
+  return {
+    id,
+    title: chapters[0].volume,
+    subject: primary ? "科学" : "物理",
+    publisher: primary ? "教育科学出版社" : "人民教育出版社",
+    edition: primary ? "教科版" : "人教版",
+    chapters,
+  }
+})
+
+export const TEXTBOOK3D_CHAPTERS: Textbook3dChapter[] = TEXTBOOK3D_VOLUMES.flatMap((volume) => volume.chapters)
 
 export const TEXTBOOK3D_LESSON_ID = /^(?:g8[ab]|g9|p[1-6][ab])-\d+-\d+$/
 

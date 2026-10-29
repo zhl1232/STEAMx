@@ -62,14 +62,14 @@ const sections = [
 
 export default function PrivacyPage() {
   return (
-    <div className="page-shell pt-0 pb-24 md:pt-6 md:pb-10">
+    <div className="app-shell-narrow pt-0 pb-24 md:pt-6 md:pb-10">
       <MobilePageHeader
         title="隐私政策"
         fallbackHref="/about"
         className="md:hidden"
       />
 
-      <div className="mx-auto max-w-3xl">
+      <div className="min-w-0">
         <section className="surface-panel overflow-hidden border-[hsl(var(--surface-border)/0.68)] shadow-none">
           <div className="hidden border-b border-border/60 bg-[hsl(var(--surface-muted)/0.56)] px-6 py-6 md:block">
             <p className="section-kicker">规则说明</p>

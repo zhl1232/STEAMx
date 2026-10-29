@@ -1,7 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { useOptionalTutorContext } from '@/components/features/tutor/tutor-context'
@@ -32,7 +32,13 @@ function loadGlobalTutorFab() {
 }
 
 export function GlobalTutorMount() {
+  return <Suspense fallback={null}><GlobalTutorMountContent /></Suspense>
+}
+
+function GlobalTutorMountContent() {
   const pathname = usePathname() ?? '/'
+  const search = useSearchParams()?.toString() ?? ''
+  const routeIdentity = pathname === '/courses' ? `${pathname}?${search}` : pathname
   const tutorCtx = useOptionalTutorContext()
   const queryClient = useQueryClient()
   const { user } = useAuth()
@@ -42,7 +48,7 @@ export function GlobalTutorMount() {
   const consumeGuestLoginDraft = useCallback(() => setGuestLoginDraft(null), [])
   // Keep the account key below: only an explicitly completed guest login may
   // hand its text to the new instance. Never carry account data across remounts.
-  useEffect(() => { setGuestLoginDraft(null) }, [pathname, user?.id])
+  useEffect(() => { setGuestLoginDraft(null) }, [routeIdentity, user?.id])
   const open = tutorCtx?.open ?? false
   const setOpen = tutorCtx?.setOpen ?? (() => undefined)
   const previousUserRef = useRef(user?.id)
@@ -55,9 +61,9 @@ export function GlobalTutorMount() {
   }, [user?.id, queryClient, tutorCtx])
 
   const clearPendingDraft = tutorCtx?.clearPendingDraft
-  useEffect(() => { clearPendingDraft?.() }, [pathname, user?.id, clearPendingDraft])
+  useEffect(() => { clearPendingDraft?.() }, [routeIdentity, user?.id, clearPendingDraft])
 
-  const baseContext = useMemo(() => resolveTutorContextFromPath(pathname), [pathname])
+  const baseContext = useMemo(() => resolveTutorContextFromPath(pathname, search), [pathname, search])
   const hideTutorOnMobile = pathname === '/nature/observations'
     || pathname === '/nature/submit'
     || pathname === '/nature/species'
@@ -184,10 +190,10 @@ export function GlobalTutorMount() {
 
   return (
     <TutorFab
-      key={user?.id ?? 'anonymous'}
-      loginDraft={guestLoginDraft?.userId === user?.id && guestLoginDraft?.pathname === pathname ? guestLoginDraft : null}
+      key={`${user?.id ?? 'anonymous'}:${baseContext.contextType}:${baseContext.contextId}:${baseContext.lessonId ?? ''}`}
+      loginDraft={guestLoginDraft?.userId === user?.id && guestLoginDraft?.pathname === routeIdentity ? guestLoginDraft : null}
       onLoginDraftConsumed={consumeGuestLoginDraft}
-      onGuestLoginSuccess={(text, userId) => setGuestLoginDraft({ text, userId, pathname })}
+      onGuestLoginSuccess={(text, userId) => setGuestLoginDraft({ text, userId, pathname: routeIdentity })}
       open={open}
       onToggle={() => setOpen(!open)}
       context={baseContext}

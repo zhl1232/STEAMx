@@ -136,6 +136,29 @@ describe('ConditionalAppShell mobile header policy', () => {
     expect(screen.getByTestId('page-content')).toBeInTheDocument()
   })
 
+  it.each(['/store', '/store/products/123', '/store/checkout', '/store/orders', '/store/orders/123', '/store/support', '/store/coupons'])(
+    'uses the focused commerce navigation on %s',
+    (pathname) => {
+      renderShell(pathname)
+
+      expect(screen.queryByTestId('shell-mobile-global-header')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('bottom-nav')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('desktop-main-nav')).not.toBeInTheDocument()
+      expect(screen.getByRole('link', { name: '返回主站' })).toHaveAttribute('href', '/')
+      expect(screen.getByTestId('page-owned-mobile-header')).toBeInTheDocument()
+      expect(screen.getByTestId('site-footer').parentElement).toHaveClass('hidden', 'md:block')
+    },
+  )
+
+  it('keeps site navigation on similarly named non-commerce routes', () => {
+    renderShell('/storefront')
+
+    expect(screen.getByTestId('shell-mobile-global-header')).toBeInTheDocument()
+    expect(screen.getByTestId('bottom-nav')).toBeInTheDocument()
+    expect(screen.getByTestId('desktop-main-nav')).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: '返回主站' })).not.toBeInTheDocument()
+  })
+
   it('gives the physics lab the shared mobile account header and site navigation', () => {
     renderShell('/playground/physics-lab', <div data-testid="physics-workspace" />)
     expect(screen.getByTestId('shell-mobile-global-header')).toBeInTheDocument()
@@ -240,7 +263,7 @@ describe('ConditionalAppShell provider tree stability', () => {
 
   // 包装层数量随登录态变化会让 React 把整棵页面子树当成新节点重挂，
   // 首屏渲染好的页面会在鉴权返回后被整个丢掉重建。
-  it.each(['/', '/nature', '/nature/observations/1', '/explore'])(
+  it.each(['/', '/nature', '/nature/observations/1', '/explore', '/store', '/store/orders'])(
     'keeps the page subtree mounted on %s when auth resolves',
     (pathname) => {
       const onMount = vi.fn()

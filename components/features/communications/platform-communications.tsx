@@ -283,7 +283,7 @@ export function PlatformCommunications() {
   return (
     <>
       {banner ? (
-        <div className="mx-auto w-full max-w-5xl px-4 pt-3">
+        <div className="app-shell-wide pt-3">
           <aside
             aria-label="平台公告"
             className="flex items-center gap-3 rounded-md border border-border bg-muted/60 px-3 py-2 text-sm"

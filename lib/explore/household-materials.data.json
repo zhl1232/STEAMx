@@ -185,7 +185,8 @@
   },
   {
     "id": "material-f64dc22f12",
-    "label": "丙烯颜料（多色）"
+    "label": "丙烯颜料（多色）",
+    "canonicalId": "material-b79c606b1a"
   },
   {
     "id": "material-1a00bbb6fa",
@@ -221,19 +222,23 @@
   },
   {
     "id": "material-d033877321",
-    "label": "彩色笔（多色）"
+    "label": "彩色笔（多色）",
+    "canonicalId": "material-c93769ba51"
   },
   {
     "id": "material-a010b44888",
-    "label": "彩色笔（黑红橙）"
+    "label": "彩色笔（黑红橙）",
+    "canonicalId": "material-c93769ba51"
   },
   {
     "id": "material-c5a71a9803",
-    "label": "彩色笔（绿橙黑）"
+    "label": "彩色笔（绿橙黑）",
+    "canonicalId": "material-c93769ba51"
   },
   {
     "id": "material-e66df6aa0a",
-    "label": "彩色笔（四种颜色）"
+    "label": "彩色笔（四种颜色）",
+    "canonicalId": "material-c93769ba51"
   },
   {
     "id": "material-5caa16be8f",
@@ -245,11 +250,13 @@
   },
   {
     "id": "material-3914a0f1e5",
-    "label": "彩色马克笔"
+    "label": "彩色马克笔",
+    "canonicalId": "material-d48df092c4"
   },
   {
     "id": "material-ec5131afee",
-    "label": "彩色毛根"
+    "label": "彩色毛根",
+    "canonicalId": "material-ca0eb43914"
   },
   {
     "id": "material-7fe8de6841",
@@ -261,7 +268,8 @@
   },
   {
     "id": "material-2d6bee47b4",
-    "label": "彩色水笔"
+    "label": "彩色水笔",
+    "canonicalId": "material-7030e52347"
   },
   {
     "id": "material-bf2444d0fc",
@@ -281,7 +289,8 @@
   },
   {
     "id": "material-2cabaaa9a2",
-    "label": "超轻黏土（多色）"
+    "label": "超轻黏土（多色）",
+    "canonicalId": "material-b6f7b7fe61"
   },
   {
     "id": "material-ceddefdd38",
@@ -678,7 +687,8 @@
   },
   {
     "id": "material-5829793ff4",
-    "label": "蜡笔（蓝黄）"
+    "label": "蜡笔（蓝黄）",
+    "canonicalId": "material-02ef5bf214"
   },
   {
     "id": "material-7abab69f06",
@@ -686,7 +696,8 @@
   },
   {
     "id": "material-1c0ef16a52",
-    "label": "蓝色色素"
+    "label": "蓝色色素",
+    "canonicalId": "material-3dbd609350"
   },
   {
     "id": "material-0a1b6b290c",
@@ -930,15 +941,18 @@
   },
   {
     "id": "material-656019e817",
-    "label": "色素（多色）"
+    "label": "色素（多色）",
+    "canonicalId": "material-3dbd609350"
   },
   {
     "id": "material-f80c46b4da",
-    "label": "色素（红黄蓝）"
+    "label": "色素（红黄蓝）",
+    "canonicalId": "material-3dbd609350"
   },
   {
     "id": "material-0cac004a3b",
-    "label": "色素（红黄紫蓝）"
+    "label": "色素（红黄紫蓝）",
+    "canonicalId": "material-3dbd609350"
   },
   {
     "id": "material-f5cea75922",
@@ -1018,11 +1032,13 @@
   },
   {
     "id": "material-d6020b2ea0",
-    "label": "水彩颜料（多色）"
+    "label": "水彩颜料（多色）",
+    "canonicalId": "material-79786688a6"
   },
   {
     "id": "material-2b69c2454a",
-    "label": "水粉颜料（多色）"
+    "label": "水粉颜料（多色）",
+    "canonicalId": "material-041ed3a18b"
   },
   {
     "id": "material-f8586e5c37",
@@ -1038,15 +1054,18 @@
   },
   {
     "id": "material-8be52f95c0",
-    "label": "水溶性色素（多色）"
+    "label": "水溶性色素（多色）",
+    "canonicalId": "material-92da034878"
   },
   {
     "id": "material-53c5568981",
-    "label": "水溶性色素（红黄蓝）"
+    "label": "水溶性色素（红黄蓝）",
+    "canonicalId": "material-92da034878"
   },
   {
     "id": "material-a442c94882",
-    "label": "水溶性色素（两种颜色）"
+    "label": "水溶性色素（两种颜色）",
+    "canonicalId": "material-92da034878"
   },
   {
     "id": "material-53441a0bba",
@@ -1278,7 +1297,8 @@
   },
   {
     "id": "material-608540894d",
-    "label": "橡皮泥（红黄绿橙紫）"
+    "label": "橡皮泥（红黄绿橙紫）",
+    "canonicalId": "clay"
   },
   {
     "id": "material-047a16fd08",
@@ -1346,7 +1366,8 @@
   },
   {
     "id": "material-a056cca856",
-    "label": "绣线（多色）"
+    "label": "绣线（多色）",
+    "canonicalId": "material-cda5d02b7c"
   },
   {
     "id": "material-3e2515ddd3",
@@ -1630,7 +1651,8 @@
   },
   {
     "id": "material-33adbcbc48",
-    "label": "彩色珠子"
+    "label": "彩色珠子",
+    "canonicalId": "material-d3533c793a"
   },
   {
     "id": "material-5bd397e2c5",
@@ -1638,7 +1660,8 @@
   },
   {
     "id": "material-1f9b2ce9db",
-    "label": "彩色碎纸"
+    "label": "彩色碎纸",
+    "canonicalId": "material-510d5f75a0"
   },
   {
     "id": "material-7159a0d414",
@@ -1662,7 +1685,8 @@
   },
   {
     "id": "material-7259af92fe",
-    "label": "积木块"
+    "label": "积木块",
+    "canonicalId": "material-e6df1df966"
   },
   {
     "id": "material-3841b8bdb6",
@@ -1698,7 +1722,8 @@
   },
   {
     "id": "material-f0db712685",
-    "label": "食用色素（多色）"
+    "label": "食用色素（多色）",
+    "canonicalId": "material-335eb755b1"
   },
   {
     "id": "material-2c3a6e82eb",
@@ -1810,7 +1835,8 @@
   },
   {
     "id": "material-9b27accd13",
-    "label": "食用色素（红蓝绿）"
+    "label": "食用色素（红蓝绿）",
+    "canonicalId": "material-335eb755b1"
   },
   {
     "id": "material-6c81d4829a",
@@ -1986,7 +2012,8 @@
   },
   {
     "id": "material-501e83764b",
-    "label": "绿色色素"
+    "label": "绿色色素",
+    "canonicalId": "material-3dbd609350"
   },
   {
     "id": "material-c93b2d1459",
@@ -2022,7 +2049,8 @@
   },
   {
     "id": "material-0c79e1c44a",
-    "label": "纸皮"
+    "label": "纸皮",
+    "canonicalId": "material-27e8bfc921"
   },
   {
     "id": "material-d9bd29947d",
@@ -2042,7 +2070,8 @@
   },
   {
     "id": "material-4102a1cf71",
-    "label": "水溶性色素（红蓝）"
+    "label": "水溶性色素（红蓝）",
+    "canonicalId": "material-92da034878"
   },
   {
     "id": "material-23a635f2f0",
@@ -2074,7 +2103,8 @@
   },
   {
     "id": "material-828358c515",
-    "label": "硬纸皮"
+    "label": "硬纸皮",
+    "canonicalId": "material-d423a6b172"
   },
   {
     "id": "material-30443a283c",
@@ -2098,7 +2128,8 @@
   },
   {
     "id": "material-fc6785694c",
-    "label": "色素（三色）"
+    "label": "色素（三色）",
+    "canonicalId": "material-3dbd609350"
   },
   {
     "id": "material-d41c21214c",
@@ -2122,11 +2153,13 @@
   },
   {
     "id": "material-755c8c25d2",
-    "label": "红色黏土"
+    "label": "红色黏土",
+    "canonicalId": "material-a807a4e990"
   },
   {
     "id": "material-560e53a5d9",
-    "label": "蓝色黏土"
+    "label": "蓝色黏土",
+    "canonicalId": "material-a807a4e990"
   },
   {
     "id": "material-f29f4c87be",
@@ -2170,7 +2203,8 @@
   },
   {
     "id": "material-59031f1647",
-    "label": "铝箔纸（15×15厘米）"
+    "label": "铝箔纸（15×15厘米）",
+    "canonicalId": "material-86fea91e87"
   },
   {
     "id": "material-75e72c68cc",
@@ -2190,7 +2224,8 @@
   },
   {
     "id": "material-3a7d7ad66b",
-    "label": "木棒"
+    "label": "木棒",
+    "canonicalId": "material-7172364c67"
   },
   {
     "id": "material-e72d5a07f2",
@@ -2206,7 +2241,8 @@
   },
   {
     "id": "material-47b40b7c15",
-    "label": "纸板箱"
+    "label": "纸板箱",
+    "canonicalId": "material-bb247e6849"
   },
   {
     "id": "material-b410791230",
@@ -2274,7 +2310,8 @@
   },
   {
     "id": "material-c33456e442",
-    "label": "超轻黏土（红粉黄棕）"
+    "label": "超轻黏土（红粉黄棕）",
+    "canonicalId": "material-b6f7b7fe61"
   },
   {
     "id": "material-034b10c9ab",
@@ -2354,11 +2391,13 @@
   },
   {
     "id": "material-84c8b18879",
-    "label": "丙烯颜料（黄橙粉蓝绿）"
+    "label": "丙烯颜料（黄橙粉蓝绿）",
+    "canonicalId": "material-b79c606b1a"
   },
   {
     "id": "material-8eb9dbd7b6",
-    "label": "水粉颜料（黄橙粉蓝绿）"
+    "label": "水粉颜料（黄橙粉蓝绿）",
+    "canonicalId": "material-041ed3a18b"
   },
   {
     "id": "material-9b1a87a917",
@@ -2450,7 +2489,8 @@
   },
   {
     "id": "material-afaa66b229",
-    "label": "绒布（多色）"
+    "label": "绒布（多色）",
+    "canonicalId": "material-61c203af6c"
   },
   {
     "id": "material-66cb283b50",
@@ -2470,7 +2510,8 @@
   },
   {
     "id": "material-638dfe4f65",
-    "label": "塑料刀具"
+    "label": "塑料刀具",
+    "canonicalId": "material-4e50a7b616"
   },
   {
     "id": "material-5b972ba2cb",
@@ -2494,7 +2535,8 @@
   },
   {
     "id": "material-7eef46b333",
-    "label": "废报纸"
+    "label": "废报纸",
+    "canonicalId": "material-bdd34dcdba"
   },
   {
     "id": "material-676018b62d",
@@ -2502,7 +2544,8 @@
   },
   {
     "id": "material-28c7367848",
-    "label": "超轻黏土（绿粉紫棕）"
+    "label": "超轻黏土（绿粉紫棕）",
+    "canonicalId": "material-b6f7b7fe61"
   },
   {
     "id": "material-575d10df2e",
@@ -2510,7 +2553,8 @@
   },
   {
     "id": "material-11e6f66122",
-    "label": "棕色碎纸"
+    "label": "棕色碎纸",
+    "canonicalId": "material-510d5f75a0"
   },
   {
     "id": "material-32cc2c329e",
@@ -2606,7 +2650,8 @@
   },
   {
     "id": "material-db8b1f5249",
-    "label": "绿色滴口瓶装水溶性色素"
+    "label": "绿色滴口瓶装水溶性色素",
+    "canonicalId": "material-3f43d5d5b0"
   },
   {
     "id": "material-db3fbe1314",

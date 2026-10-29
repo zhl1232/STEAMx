@@ -1,3 +1,4 @@
+import { courseCatalogHref } from '@/lib/courses/catalog-url'
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, Award, ImageOff } from "lucide-react";
@@ -37,7 +38,7 @@ export default async function CourseCertificatePage({ params }: PageProps) {
   if (!certificate) notFound();
 
   const completedAt = formatCertificateDate(certificate.completedAtIso);
-  const courseHref = `/courses/${certificate.courseId}`;
+  const courseHref = courseCatalogHref(certificate.courseId);
   const cover = certificate.works.find((work) => work.image)?.image ?? certificate.courseImage;
 
   return (
@@ -45,7 +46,7 @@ export default async function CourseCertificatePage({ params }: PageProps) {
       <div className="md:hidden">
         <MobilePageHeader title="结课凭证" fallbackHref={courseHref} />
       </div>
-      <main className="app-shell pb-28 pt-4 md:py-6">
+      <main className="app-shell-wide pb-28 pt-4 md:py-6">
         <Link
           href={courseHref}
           className="mb-3 hidden items-center gap-1 text-xs font-medium text-muted-foreground transition hover:text-foreground md:mb-4 md:inline-flex md:text-sm"

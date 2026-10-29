@@ -1,6 +1,5 @@
 "use client"
 
-import { AskProjectQuestion } from "./project-questions"
 import { useState } from "react"
 import { ChevronDown, ChevronRight } from "lucide-react"
 
@@ -14,7 +13,7 @@ const SUMMARY_GRID_WITH_THUMB =
 const SUMMARY_GRID_NO_THUMB =
   "grid min-h-[54px] cursor-pointer list-none grid-cols-[30px_minmax(0,1fr)_20px] items-center gap-2.5 px-2.5 py-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden"
 
-export function MobileProjectSteps({ steps, projectId, observationOnly = false }: { projectId?: string | number; steps: ProjectStep[]; observationOnly?: boolean; practicePending?: boolean }) {
+export function MobileProjectSteps({ steps, observationOnly = false }: { projectId?: string | number; steps: ProjectStep[]; observationOnly?: boolean; practicePending?: boolean }) {
   const [openStates, setOpenStates] = useState<boolean[]>(() => steps.map((_, index) => index === 0))
   const allExpanded = steps.length > 0 && openStates.length === steps.length && openStates.every(Boolean)
   const toggleExpandAll = () => {
@@ -104,7 +103,6 @@ export function MobileProjectSteps({ steps, projectId, observationOnly = false }
                       ) : null}
                     </div>
                   )}
-                  {projectId && <AskProjectQuestion projectId={projectId} context={{area: "step", step: displayIndex, title: stepTitle}} />}
                 </details>
               </li>
             )

@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor, within } from '@testing-library/rea
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import ShopPage from './page'
+import ShopPage from '@/components/features/coins/appearance-exchange'
 import { getShopMutationErrorMessage } from './mutation-error'
 import { SHOP_ITEMS } from '@/lib/shop/items'
 
@@ -116,7 +116,7 @@ describe('ShopPage', () => {
   it('uses the top profile card as the item preview', () => {
     render(<ShopPage />)
 
-    expect(screen.getByRole('heading', { name: '商店', level: 1 })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: '头像框' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: '返回上一页' })).not.toBeInTheDocument()
     expect(screen.queryByRole('region', { name: '手机实时预览' })).not.toBeInTheDocument()
     const topPreview = screen.getByRole('region', { name: '商店个人预览' })

@@ -1,0 +1,6894 @@
+{
+  "sections": [
+    {
+      "id": "paper_drawing",
+      "label": "纸张与绘画"
+    },
+    {
+      "id": "craft_building",
+      "label": "手工与搭建"
+    },
+    {
+      "id": "containers_household",
+      "label": "容器与日用品"
+    },
+    {
+      "id": "tools_measurement",
+      "label": "工具与测量"
+    },
+    {
+      "id": "kitchen_food",
+      "label": "厨房与食品"
+    },
+    {
+      "id": "experiment_cleaning",
+      "label": "实验与清洁"
+    },
+    {
+      "id": "nature_gardening",
+      "label": "自然与种植"
+    },
+    {
+      "id": "electronics_optics",
+      "label": "电器与光学"
+    },
+    {
+      "id": "reference_models",
+      "label": "玩具与教具"
+    }
+  ],
+  "families": [
+    {
+      "id": "group:tissue",
+      "name": "纸巾",
+      "section": "containers_household",
+      "baseId": "tissue",
+      "featured": true
+    },
+    {
+      "id": "group:balloon",
+      "name": "气球",
+      "section": "containers_household",
+      "baseId": "balloon",
+      "featured": true
+    },
+    {
+      "id": "group:straw",
+      "name": "吸管",
+      "section": "containers_household",
+      "featured": true
+    },
+    {
+      "id": "group:water",
+      "name": "水",
+      "section": "experiment_cleaning",
+      "baseId": "water",
+      "featured": true
+    },
+    {
+      "id": "group:paper-cup",
+      "name": "纸杯",
+      "section": "containers_household",
+      "baseId": "paper-cup",
+      "featured": true
+    },
+    {
+      "id": "group:colored-pen",
+      "name": "彩笔",
+      "section": "paper_drawing",
+      "baseId": "material-c93769ba51",
+      "featured": true
+    },
+    {
+      "id": "group:flashlight",
+      "name": "手电筒",
+      "section": "electronics_optics",
+      "baseId": "material-c389ea0e76"
+    },
+    {
+      "id": "group:plate",
+      "name": "盘子",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:clay",
+      "name": "橡皮泥",
+      "section": "craft_building",
+      "baseId": "clay"
+    },
+    {
+      "id": "group:stickers",
+      "name": "贴纸",
+      "section": "craft_building",
+      "baseId": "stickers"
+    },
+    {
+      "id": "group:yarn",
+      "name": "毛线",
+      "section": "craft_building",
+      "baseId": "yarn"
+    },
+    {
+      "id": "group:needle",
+      "name": "针",
+      "section": "tools_measurement",
+      "baseId": "needle"
+    },
+    {
+      "id": "group:scissors",
+      "name": "剪刀",
+      "section": "tools_measurement",
+      "baseId": "scissors",
+      "featured": true
+    },
+    {
+      "id": "group:string",
+      "name": "绳子",
+      "section": "craft_building",
+      "featured": true
+    },
+    {
+      "id": "group:tape",
+      "name": "双面胶",
+      "section": "craft_building",
+      "baseId": "tape",
+      "featured": true
+    },
+    {
+      "id": "group:bottle",
+      "name": "瓶子",
+      "section": "containers_household",
+      "baseId": "material-912c83d022",
+      "featured": true
+    },
+    {
+      "id": "group:milk",
+      "name": "牛奶",
+      "section": "kitchen_food",
+      "baseId": "milk"
+    },
+    {
+      "id": "group:material-c471aae1a9",
+      "name": "毛巾",
+      "section": "containers_household",
+      "baseId": "material-c471aae1a9"
+    },
+    {
+      "id": "group:paper",
+      "name": "纸张",
+      "section": "paper_drawing",
+      "baseId": "material-8362011f8e",
+      "featured": true
+    },
+    {
+      "id": "group:cotton-rope",
+      "name": "棉绳",
+      "section": "craft_building",
+      "baseId": "material-8d36947089"
+    },
+    {
+      "id": "group:coin",
+      "name": "硬币",
+      "section": "reference_models",
+      "baseId": "material-e8031d14f2",
+      "featured": true
+    },
+    {
+      "id": "group:pencil",
+      "name": "铅笔",
+      "section": "paper_drawing",
+      "baseId": "material-f77e30ee1a",
+      "featured": true
+    },
+    {
+      "id": "group:material-7739a40a40",
+      "name": "安全别针",
+      "section": "tools_measurement",
+      "baseId": "material-7739a40a40"
+    },
+    {
+      "id": "group:material-6738887fcf",
+      "name": "白板笔",
+      "section": "paper_drawing",
+      "baseId": "material-6738887fcf"
+    },
+    {
+      "id": "group:material-4efe95ac94",
+      "name": "白醋",
+      "section": "kitchen_food",
+      "baseId": "material-4efe95ac94"
+    },
+    {
+      "id": "group:material-2932d52b08",
+      "name": "胶水",
+      "section": "craft_building",
+      "baseId": "material-2932d52b08",
+      "featured": true
+    },
+    {
+      "id": "group:card-paper",
+      "name": "卡纸",
+      "section": "paper_drawing",
+      "baseId": "material-d6a5c54c96",
+      "featured": true
+    },
+    {
+      "id": "group:material-bcdc796b7c",
+      "name": "白糖",
+      "section": "kitchen_food",
+      "baseId": "material-bcdc796b7c"
+    },
+    {
+      "id": "group:material-fd1cd2eb29",
+      "name": "描图纸",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "group:plastic-bag",
+      "name": "塑料袋",
+      "section": "containers_household",
+      "baseId": "material-180ced5504",
+      "featured": true
+    },
+    {
+      "id": "group:material-0b53370157",
+      "name": "保鲜膜",
+      "section": "containers_household",
+      "baseId": "material-0b53370157"
+    },
+    {
+      "id": "group:material-7ae13e57ba",
+      "name": "纸筒",
+      "section": "craft_building"
+    },
+    {
+      "id": "group:material-bdd34dcdba",
+      "name": "报纸",
+      "section": "paper_drawing",
+      "baseId": "material-bdd34dcdba"
+    },
+    {
+      "id": "group:material-e72d5a07f2",
+      "name": "打孔工具",
+      "section": "tools_measurement",
+      "baseId": "material-e72d5a07f2"
+    },
+    {
+      "id": "group:cup",
+      "name": "杯子",
+      "section": "containers_household",
+      "baseId": "material-95f9e8e792",
+      "featured": true
+    },
+    {
+      "id": "group:writing-pen",
+      "name": "书写笔",
+      "section": "paper_drawing",
+      "baseId": "material-3afda9c1bd",
+      "featured": true
+    },
+    {
+      "id": "group:material-4457da8582",
+      "name": "便签纸",
+      "section": "paper_drawing",
+      "baseId": "material-4457da8582"
+    },
+    {
+      "id": "group:material-226b062885",
+      "name": "标签纸",
+      "section": "paper_drawing",
+      "baseId": "material-226b062885"
+    },
+    {
+      "id": "group:material-10fa48e819",
+      "name": "冰块",
+      "section": "experiment_cleaning",
+      "baseId": "material-10fa48e819"
+    },
+    {
+      "id": "group:stirring-stick",
+      "name": "搅拌工具",
+      "section": "tools_measurement",
+      "baseId": "material-6c81d4829a"
+    },
+    {
+      "id": "group:material-3f482c0c2d",
+      "name": "弹珠",
+      "section": "reference_models",
+      "baseId": "material-3f482c0c2d"
+    },
+    {
+      "id": "group:bowl",
+      "name": "碗",
+      "section": "containers_household",
+      "baseId": "material-41bb76350c"
+    },
+    {
+      "id": "group:material-24c570dde7",
+      "name": "玻璃纸",
+      "section": "paper_drawing",
+      "baseId": "material-24c570dde7"
+    },
+    {
+      "id": "group:material-7ee1b67f4e",
+      "name": "糖果",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "group:material-5caa16be8f",
+      "name": "不织布",
+      "section": "craft_building"
+    },
+    {
+      "id": "group:material-7fe8de6841",
+      "name": "彩色铅笔",
+      "section": "paper_drawing",
+      "baseId": "material-7fe8de6841"
+    },
+    {
+      "id": "group:material-bf2444d0fc",
+      "name": "彩纸",
+      "section": "paper_drawing",
+      "baseId": "material-bf2444d0fc",
+      "featured": true
+    },
+    {
+      "id": "group:material-25f813d1eb",
+      "name": "苍耳刺果",
+      "section": "nature_gardening",
+      "baseId": "material-25f813d1eb"
+    },
+    {
+      "id": "group:material-c2d259d7c6",
+      "name": "叉子",
+      "section": "containers_household",
+      "baseId": "material-c2d259d7c6"
+    },
+    {
+      "id": "group:material-7abab69f06",
+      "name": "蜡烛",
+      "section": "containers_household",
+      "baseId": "material-7abab69f06"
+    },
+    {
+      "id": "group:material-ceddefdd38",
+      "name": "火柴盒",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:phone",
+      "name": "手机",
+      "section": "electronics_optics",
+      "baseId": "material-2e07333c8c"
+    },
+    {
+      "id": "group:dryer",
+      "name": "吹风机",
+      "section": "electronics_optics",
+      "baseId": "material-9cd8dac6a8"
+    },
+    {
+      "id": "group:material-77071b054c",
+      "name": "磁铁",
+      "section": "electronics_optics",
+      "baseId": "material-77071b054c"
+    },
+    {
+      "id": "group:material-38c151df87",
+      "name": "打火机",
+      "section": "tools_measurement",
+      "baseId": "material-38c151df87"
+    },
+    {
+      "id": "group:material-6da6bf8b24",
+      "name": "打气筒",
+      "section": "tools_measurement",
+      "baseId": "material-6da6bf8b24"
+    },
+    {
+      "id": "group:material-72b068e589",
+      "name": "打印地图",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-22cba8330a",
+      "name": "字母表对照卡",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-273fcb3549",
+      "name": "贝类图鉴",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-5f83c726cb",
+      "name": "岩石分类图",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-ad3ce8a1db",
+      "name": "白菜",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "group:material-e20973ff78",
+      "name": "肥皂",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "group:material-9c4b23d6a0",
+      "name": "大米",
+      "section": "kitchen_food",
+      "baseId": "material-9c4b23d6a0"
+    },
+    {
+      "id": "group:material-fa12f06d43",
+      "name": "大头针",
+      "section": "tools_measurement",
+      "baseId": "material-fa12f06d43"
+    },
+    {
+      "id": "group:material-9f23695c0a",
+      "name": "玻璃罐",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:shoe-box",
+      "name": "纸盒",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:material-d571ef53e4",
+      "name": "瓜子",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "group:material-bbb29a1e0f",
+      "name": "易拉罐",
+      "section": "containers_household",
+      "baseId": "material-bbb29a1e0f"
+    },
+    {
+      "id": "group:material-b929b9443e",
+      "name": "鲜花",
+      "section": "nature_gardening",
+      "baseId": "material-b929b9443e"
+    },
+    {
+      "id": "group:material-664446a10a",
+      "name": "弹力球",
+      "section": "reference_models",
+      "baseId": "material-664446a10a"
+    },
+    {
+      "id": "group:material-218b24fee5",
+      "name": "蛋壳",
+      "section": "kitchen_food",
+      "baseId": "material-218b24fee5"
+    },
+    {
+      "id": "group:material-bac9c4c0c9",
+      "name": "滴管",
+      "section": "tools_measurement",
+      "baseId": "material-bac9c4c0c9"
+    },
+    {
+      "id": "group:material-92da034878",
+      "name": "水溶性色素",
+      "section": "experiment_cleaning",
+      "baseId": "material-92da034878"
+    },
+    {
+      "id": "group:material-2fda1f9fd4",
+      "name": "碘伏",
+      "section": "experiment_cleaning",
+      "baseId": "material-2fda1f9fd4"
+    },
+    {
+      "id": "group:material-ccb78b9ea3",
+      "name": "调色盘",
+      "section": "paper_drawing",
+      "baseId": "material-ccb78b9ea3"
+    },
+    {
+      "id": "group:material-802fed187e",
+      "name": "订书机",
+      "section": "tools_measurement",
+      "baseId": "material-802fed187e"
+    },
+    {
+      "id": "group:material-4e4383adce",
+      "name": "方便面袋",
+      "section": "containers_household",
+      "baseId": "material-4e4383adce"
+    },
+    {
+      "id": "group:material-e6df1df966",
+      "name": "积木",
+      "section": "reference_models",
+      "baseId": "material-e6df1df966"
+    },
+    {
+      "id": "group:material-399893f69b",
+      "name": "筷子",
+      "section": "containers_household",
+      "baseId": "material-399893f69b"
+    },
+    {
+      "id": "group:material-a1f29d646a",
+      "name": "放大镜",
+      "section": "electronics_optics",
+      "baseId": "material-a1f29d646a"
+    },
+    {
+      "id": "group:material-3d8b66d6a9",
+      "name": "书本",
+      "section": "paper_drawing",
+      "baseId": "material-3d8b66d6a9"
+    },
+    {
+      "id": "group:material-954ce8e5f9",
+      "name": "金属环",
+      "section": "craft_building"
+    },
+    {
+      "id": "group:material-0cd241f0c8",
+      "name": "圆柱筒",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "group:material-88b84527b3",
+      "name": "海绵",
+      "section": "experiment_cleaning",
+      "baseId": "material-88b84527b3"
+    },
+    {
+      "id": "group:marker",
+      "name": "记号笔",
+      "section": "paper_drawing",
+      "baseId": "material-53737b7a7f"
+    },
+    {
+      "id": "group:material-3a155a0b64",
+      "name": "颜料",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "group:material-5b78ce9aa2",
+      "name": "墨水",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "group:material-d501c4761e",
+      "name": "画板",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "group:cardboard",
+      "name": "纸板",
+      "section": "craft_building",
+      "baseId": "material-27e8bfc921",
+      "featured": true
+    },
+    {
+      "id": "group:paintbrush",
+      "name": "画笔",
+      "section": "paper_drawing",
+      "baseId": "material-05731b92ad"
+    },
+    {
+      "id": "group:material-571f79710d",
+      "name": "黄豆",
+      "section": "kitchen_food",
+      "baseId": "material-571f79710d"
+    },
+    {
+      "id": "group:material-e1337e15ca",
+      "name": "黄瓜",
+      "section": "kitchen_food",
+      "baseId": "material-e1337e15ca"
+    },
+    {
+      "id": "group:material-d52b71a223",
+      "name": "回形针",
+      "section": "craft_building",
+      "baseId": "material-d52b71a223"
+    },
+    {
+      "id": "group:material-dada50c4e2",
+      "name": "绘画参考图",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-246771cdc3",
+      "name": "名画参考图",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-7640cdcfab",
+      "name": "自然螺旋参考图",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-034b10c9ab",
+      "name": "人体解剖参考图",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-9b1a87a917",
+      "name": "色轮图",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-f40b603301",
+      "name": "动物参考图",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-636808b78b",
+      "name": "多肉植物参考图",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-f043347097",
+      "name": "眼睛贴片",
+      "section": "craft_building"
+    },
+    {
+      "id": "group:material-e9f5b71a47",
+      "name": "鸡蛋",
+      "section": "kitchen_food",
+      "baseId": "material-e9f5b71a47"
+    },
+    {
+      "id": "group:material-1283ddbf69",
+      "name": "计算器",
+      "section": "tools_measurement",
+      "baseId": "material-1283ddbf69"
+    },
+    {
+      "id": "group:material-ae4b9bfcbf",
+      "name": "本子",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "group:material-b36eb31f4b",
+      "name": "胶棒",
+      "section": "craft_building",
+      "baseId": "material-b36eb31f4b"
+    },
+    {
+      "id": "group:adhesive-tape",
+      "name": "胶带",
+      "section": "craft_building",
+      "baseId": "material-2d225ee850",
+      "featured": true
+    },
+    {
+      "id": "group:material-72407ec665",
+      "name": "勺子",
+      "section": "containers_household",
+      "baseId": "material-72407ec665"
+    },
+    {
+      "id": "group:basin",
+      "name": "水盆",
+      "section": "containers_household",
+      "baseId": "material-713ee67e85"
+    },
+    {
+      "id": "group:material-8656b686ea",
+      "name": "解剖盘",
+      "section": "tools_measurement",
+      "baseId": "material-8656b686ea"
+    },
+    {
+      "id": "group:material-77b187d6e2",
+      "name": "戒指",
+      "section": "containers_household",
+      "baseId": "material-77b187d6e2"
+    },
+    {
+      "id": "group:material-e1a4f5479f",
+      "name": "镜子",
+      "section": "electronics_optics",
+      "baseId": "material-e1a4f5479f"
+    },
+    {
+      "id": "group:material-db9d4b39be",
+      "name": "光盘",
+      "section": "electronics_optics"
+    },
+    {
+      "id": "group:material-511f41ee59",
+      "name": "杂志",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "group:material-0775a683ad",
+      "name": "卷尺",
+      "section": "tools_measurement",
+      "baseId": "material-0775a683ad"
+    },
+    {
+      "id": "group:material-bde12dd100",
+      "name": "卡牌",
+      "section": "reference_models",
+      "baseId": "material-bde12dd100"
+    },
+    {
+      "id": "group:material-dbe286d922",
+      "name": "可乐",
+      "section": "kitchen_food",
+      "baseId": "material-dbe286d922"
+    },
+    {
+      "id": "group:bottle-cap",
+      "name": "瓶盖",
+      "section": "containers_household",
+      "baseId": "material-137369a96a",
+      "featured": true
+    },
+    {
+      "id": "group:material-02ef5bf214",
+      "name": "蜡笔",
+      "section": "paper_drawing",
+      "baseId": "material-02ef5bf214"
+    },
+    {
+      "id": "group:material-4e98bb5388",
+      "name": "量角器",
+      "section": "tools_measurement",
+      "baseId": "material-4e98bb5388"
+    },
+    {
+      "id": "group:material-8959482213",
+      "name": "漏斗",
+      "section": "tools_measurement",
+      "baseId": "material-8959482213"
+    },
+    {
+      "id": "group:material-86fea91e87",
+      "name": "铝箔纸",
+      "section": "craft_building",
+      "baseId": "material-86fea91e87"
+    },
+    {
+      "id": "group:material-2b7b9856fb",
+      "name": "铝丝",
+      "section": "craft_building",
+      "baseId": "material-2b7b9856fb"
+    },
+    {
+      "id": "group:material-fae4b84bf0",
+      "name": "滤纸",
+      "section": "experiment_cleaning",
+      "baseId": "material-fae4b84bf0"
+    },
+    {
+      "id": "group:material-ca0eb43914",
+      "name": "毛根",
+      "section": "craft_building",
+      "baseId": "material-ca0eb43914"
+    },
+    {
+      "id": "group:material-4db0b8f384",
+      "name": "毛衣",
+      "section": "containers_household",
+      "baseId": "material-4db0b8f384"
+    },
+    {
+      "id": "group:material-047a16fd08",
+      "name": "小刀",
+      "section": "tools_measurement",
+      "baseId": "material-047a16fd08"
+    },
+    {
+      "id": "group:material-cfd47e02b4",
+      "name": "棉签",
+      "section": "experiment_cleaning",
+      "baseId": "material-cfd47e02b4"
+    },
+    {
+      "id": "group:material-8a37dc536c",
+      "name": "布料",
+      "section": "craft_building"
+    },
+    {
+      "id": "group:material-21eaff4331",
+      "name": "面粉",
+      "section": "kitchen_food",
+      "baseId": "material-21eaff4331"
+    },
+    {
+      "id": "group:material-5bd56b437a",
+      "name": "木板",
+      "section": "craft_building",
+      "baseId": "material-5bd56b437a"
+    },
+    {
+      "id": "group:material-edaf450ceb",
+      "name": "木刻刀",
+      "section": "tools_measurement",
+      "baseId": "material-edaf450ceb"
+    },
+    {
+      "id": "group:material-3594f9e351",
+      "name": "树木横切面",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "group:clip",
+      "name": "夹子",
+      "section": "tools_measurement",
+      "baseId": "material-087d05946b"
+    },
+    {
+      "id": "group:material-e029db5c69",
+      "name": "镊子",
+      "section": "tools_measurement",
+      "baseId": "material-e029db5c69"
+    },
+    {
+      "id": "group:material-bde7045a39",
+      "name": "烤盘",
+      "section": "tools_measurement",
+      "baseId": "material-bde7045a39"
+    },
+    {
+      "id": "group:material-e7383939f6",
+      "name": "泥水",
+      "section": "experiment_cleaning",
+      "baseId": "material-e7383939f6"
+    },
+    {
+      "id": "group:material-a807a4e990",
+      "name": "黏土",
+      "section": "craft_building",
+      "baseId": "material-a807a4e990"
+    },
+    {
+      "id": "group:material-a437dcd402",
+      "name": "塑形工具",
+      "section": "tools_measurement",
+      "baseId": "material-a437dcd402"
+    },
+    {
+      "id": "group:material-2e2eadd9e4",
+      "name": "柠檬",
+      "section": "kitchen_food",
+      "baseId": "material-2e2eadd9e4"
+    },
+    {
+      "id": "group:material-669899a1c4",
+      "name": "柠檬酸",
+      "section": "kitchen_food",
+      "baseId": "material-669899a1c4"
+    },
+    {
+      "id": "group:material-6f5578490e",
+      "name": "纽扣",
+      "section": "craft_building",
+      "baseId": "material-6f5578490e"
+    },
+    {
+      "id": "group:material-2e3bf4a7ae",
+      "name": "泡沫板",
+      "section": "craft_building",
+      "baseId": "material-2e3bf4a7ae"
+    },
+    {
+      "id": "group:material-633d457aaf",
+      "name": "泡腾片",
+      "section": "experiment_cleaning",
+      "baseId": "material-633d457aaf"
+    },
+    {
+      "id": "group:material-99c978837d",
+      "name": "配重物",
+      "section": "tools_measurement",
+      "baseId": "material-99c978837d"
+    },
+    {
+      "id": "group:material-6ce042f403",
+      "name": "啤酒",
+      "section": "kitchen_food",
+      "baseId": "material-6ce042f403"
+    },
+    {
+      "id": "group:material-f58a4aba88",
+      "name": "乒乓球",
+      "section": "reference_models",
+      "baseId": "material-f58a4aba88"
+    },
+    {
+      "id": "group:material-b597151f9e",
+      "name": "葡萄干",
+      "section": "kitchen_food",
+      "baseId": "material-b597151f9e"
+    },
+    {
+      "id": "group:material-e8c8c0c637",
+      "name": "蒲公英绒球",
+      "section": "nature_gardening",
+      "baseId": "material-e8c8c0c637"
+    },
+    {
+      "id": "group:material-ebafc5a4d7",
+      "name": "棋子",
+      "section": "reference_models",
+      "baseId": "material-ebafc5a4d7"
+    },
+    {
+      "id": "group:material-85597e080c",
+      "name": "钳子",
+      "section": "tools_measurement",
+      "baseId": "material-85597e080c"
+    },
+    {
+      "id": "group:material-2b911820de",
+      "name": "热熔胶",
+      "section": "craft_building",
+      "baseId": "material-2b911820de"
+    },
+    {
+      "id": "group:material-61c203af6c",
+      "name": "绒布",
+      "section": "craft_building",
+      "baseId": "material-61c203af6c"
+    },
+    {
+      "id": "group:material-f43b1dc61d",
+      "name": "软尺",
+      "section": "tools_measurement",
+      "baseId": "material-f43b1dc61d"
+    },
+    {
+      "id": "group:material-7aa61782f2",
+      "name": "软管",
+      "section": "containers_household",
+      "baseId": "material-7aa61782f2"
+    },
+    {
+      "id": "group:material-5664b2c607",
+      "name": "三角板",
+      "section": "tools_measurement",
+      "baseId": "material-5664b2c607"
+    },
+    {
+      "id": "group:material-3dbd609350",
+      "name": "色素",
+      "section": "experiment_cleaning",
+      "baseId": "material-3dbd609350"
+    },
+    {
+      "id": "group:material-71c7820ea3",
+      "name": "沙子",
+      "section": "experiment_cleaning",
+      "baseId": "material-71c7820ea3"
+    },
+    {
+      "id": "group:material-ab8052bf3d",
+      "name": "纱布",
+      "section": "experiment_cleaning",
+      "baseId": "material-ab8052bf3d"
+    },
+    {
+      "id": "group:material-81c871e7e5",
+      "name": "筛网",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "group:material-b1dec78a9d",
+      "name": "食盐",
+      "section": "kitchen_food",
+      "baseId": "material-b1dec78a9d"
+    },
+    {
+      "id": "group:material-c8ba8b9b5c",
+      "name": "食用油",
+      "section": "kitchen_food",
+      "baseId": "material-c8ba8b9b5c"
+    },
+    {
+      "id": "group:material-4ad7622a7a",
+      "name": "试管",
+      "section": "tools_measurement",
+      "baseId": "material-4ad7622a7a"
+    },
+    {
+      "id": "group:material-b727ee62fc",
+      "name": "计时工具",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "group:thermometer",
+      "name": "温度计",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "group:material-28b9b8e453",
+      "name": "水性印台",
+      "section": "paper_drawing",
+      "baseId": "material-28b9b8e453"
+    },
+    {
+      "id": "group:material-deae9ce751",
+      "name": "丝带",
+      "section": "craft_building",
+      "baseId": "material-deae9ce751"
+    },
+    {
+      "id": "group:material-4e50a7b616",
+      "name": "塑料刀",
+      "section": "tools_measurement",
+      "baseId": "material-4e50a7b616"
+    },
+    {
+      "id": "group:material-fb5640f8e1",
+      "name": "卡片",
+      "section": "paper_drawing",
+      "baseId": "material-fb5640f8e1"
+    },
+    {
+      "id": "group:ruler",
+      "name": "直尺",
+      "section": "tools_measurement",
+      "baseId": "material-7fb418fe69",
+      "featured": true
+    },
+    {
+      "id": "group:material-1013a213e6",
+      "name": "塑料片",
+      "section": "craft_building"
+    },
+    {
+      "id": "group:material-510d5f75a0",
+      "name": "碎纸屑",
+      "section": "paper_drawing",
+      "baseId": "material-510d5f75a0"
+    },
+    {
+      "id": "group:material-7997dc4c6e",
+      "name": "填充棉",
+      "section": "craft_building",
+      "baseId": "material-7997dc4c6e"
+    },
+    {
+      "id": "group:material-b974db7842",
+      "name": "铁丝",
+      "section": "craft_building",
+      "baseId": "material-b974db7842"
+    },
+    {
+      "id": "group:material-7e2c66c760",
+      "name": "骰子",
+      "section": "reference_models",
+      "baseId": "material-7e2c66c760"
+    },
+    {
+      "id": "group:measuring-cup",
+      "name": "量杯",
+      "section": "tools_measurement",
+      "baseId": "material-b1b8e9ca9f"
+    },
+    {
+      "id": "group:material-41ac5e1b7c",
+      "name": "图钉",
+      "section": "tools_measurement",
+      "baseId": "material-41ac5e1b7c"
+    },
+    {
+      "id": "group:material-a64a92c865",
+      "name": "土豆",
+      "section": "kitchen_food",
+      "baseId": "material-a64a92c865"
+    },
+    {
+      "id": "group:material-610fd6b152",
+      "name": "土壤",
+      "section": "nature_gardening",
+      "baseId": "material-610fd6b152"
+    },
+    {
+      "id": "group:corrugated-cardboard",
+      "name": "瓦楞纸板",
+      "section": "craft_building",
+      "baseId": "material-1ec985f428"
+    },
+    {
+      "id": "group:material-fb1fa04982",
+      "name": "豌豆荚",
+      "section": "nature_gardening",
+      "baseId": "material-fb1fa04982"
+    },
+    {
+      "id": "group:material-324b8091c4",
+      "name": "网球",
+      "section": "reference_models",
+      "baseId": "material-324b8091c4"
+    },
+    {
+      "id": "group:material-7574ace5ce",
+      "name": "维生素C片",
+      "section": "experiment_cleaning",
+      "baseId": "material-7574ace5ce"
+    },
+    {
+      "id": "group:material-6325ecb993",
+      "name": "桌面小物件",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-3ff81231c4",
+      "name": "链条",
+      "section": "craft_building"
+    },
+    {
+      "id": "group:material-edf001fccd",
+      "name": "洗洁精",
+      "section": "experiment_cleaning",
+      "baseId": "material-edf001fccd"
+    },
+    {
+      "id": "group:material-09850ac98d",
+      "name": "洗衣粉",
+      "section": "experiment_cleaning",
+      "baseId": "material-09850ac98d"
+    },
+    {
+      "id": "group:insulating-gloves",
+      "name": "防护手套",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "group:material-b38d7276de",
+      "name": "橡皮",
+      "section": "paper_drawing",
+      "baseId": "material-b38d7276de"
+    },
+    {
+      "id": "group:material-b68c151289",
+      "name": "橡皮筋",
+      "section": "craft_building",
+      "baseId": "material-b68c151289",
+      "featured": true
+    },
+    {
+      "id": "group:material-84bdd7004e",
+      "name": "果篮",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:material-82fef3d1a4",
+      "name": "橘子",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "group:wooden-stick",
+      "name": "木棍",
+      "section": "craft_building",
+      "baseId": "material-7172364c67"
+    },
+    {
+      "id": "group:material-5a28849b09",
+      "name": "小球",
+      "section": "reference_models",
+      "baseId": "material-5a28849b09"
+    },
+    {
+      "id": "group:material-744ac4a531",
+      "name": "石头",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "group:material-1f7f099417",
+      "name": "小苏打",
+      "section": "kitchen_food",
+      "baseId": "material-1f7f099417"
+    },
+    {
+      "id": "group:material-6dcec08145",
+      "name": "桶",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:material-0d359251f3",
+      "name": "树叶",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "group:material-f79f7d6d06",
+      "name": "鱼",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "group:material-66cb283b50",
+      "name": "缝纫线",
+      "section": "craft_building"
+    },
+    {
+      "id": "group:material-3e2515ddd3",
+      "name": "雪碧",
+      "section": "kitchen_food",
+      "baseId": "material-3e2515ddd3"
+    },
+    {
+      "id": "group:material-d0173adea0",
+      "name": "雪糕棒",
+      "section": "craft_building",
+      "baseId": "material-d0173adea0"
+    },
+    {
+      "id": "group:material-ea1de1cdb8",
+      "name": "牙签",
+      "section": "containers_household",
+      "baseId": "material-ea1de1cdb8"
+    },
+    {
+      "id": "group:material-aeb4c474be",
+      "name": "牙刷",
+      "section": "containers_household",
+      "baseId": "material-aeb4c474be"
+    },
+    {
+      "id": "group:material-6d132744a9",
+      "name": "钥匙",
+      "section": "containers_household",
+      "baseId": "material-6d132744a9"
+    },
+    {
+      "id": "group:material-04cd061d58",
+      "name": "钥匙扣配件",
+      "section": "craft_building",
+      "baseId": "material-04cd061d58"
+    },
+    {
+      "id": "group:material-4d4e3974ec",
+      "name": "饮料",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "group:material-384f546fc9",
+      "name": "印泥",
+      "section": "paper_drawing",
+      "baseId": "material-384f546fc9"
+    },
+    {
+      "id": "group:material-3ea653ce9e",
+      "name": "玉米粒",
+      "section": "kitchen_food",
+      "baseId": "material-3ea653ce9e"
+    },
+    {
+      "id": "group:material-bcb07928ea",
+      "name": "圆杆",
+      "section": "tools_measurement",
+      "baseId": "material-bcb07928ea"
+    },
+    {
+      "id": "group:material-848077d583",
+      "name": "圆规",
+      "section": "tools_measurement",
+      "baseId": "material-848077d583"
+    },
+    {
+      "id": "group:material-ff5b37f058",
+      "name": "圆形物品",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:material-f9aaa17309",
+      "name": "电池",
+      "section": "electronics_optics"
+    },
+    {
+      "id": "group:plastic-box",
+      "name": "塑料盒",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:material-27c180751a",
+      "name": "水果",
+      "section": "kitchen_food",
+      "baseId": "material-27c180751a"
+    },
+    {
+      "id": "group:material-8be28d7c5f",
+      "name": "纸币",
+      "section": "containers_household",
+      "baseId": "material-8be28d7c5f"
+    },
+    {
+      "id": "group:material-c938a839d0",
+      "name": "纸盘",
+      "section": "containers_household",
+      "baseId": "material-c938a839d0"
+    },
+    {
+      "id": "group:material-fb735e3bd2",
+      "name": "指南针",
+      "section": "tools_measurement",
+      "baseId": "material-fb735e3bd2"
+    },
+    {
+      "id": "group:material-d3533c793a",
+      "name": "珠子",
+      "section": "craft_building",
+      "baseId": "material-d3533c793a"
+    },
+    {
+      "id": "group:material-418ffbdb61",
+      "name": "竹签",
+      "section": "craft_building",
+      "baseId": "material-418ffbdb61"
+    },
+    {
+      "id": "group:material-fa01390e57",
+      "name": "软垫",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "group:material-ed52a121f7",
+      "name": "水壶",
+      "section": "containers_household",
+      "baseId": "material-ed52a121f7"
+    },
+    {
+      "id": "group:material-ac907c4670",
+      "name": "镜面卡纸",
+      "section": "paper_drawing",
+      "baseId": "material-ac907c4670"
+    },
+    {
+      "id": "group:material-5bd397e2c5",
+      "name": "亮片",
+      "section": "craft_building",
+      "baseId": "material-5bd397e2c5"
+    },
+    {
+      "id": "group:material-18cf6b6115",
+      "name": "砂纸",
+      "section": "tools_measurement",
+      "baseId": "material-18cf6b6115"
+    },
+    {
+      "id": "group:material-c36c54eec1",
+      "name": "玩具车",
+      "section": "reference_models",
+      "baseId": "material-c36c54eec1"
+    },
+    {
+      "id": "group:material-913aa33fa9",
+      "name": "灯具",
+      "section": "electronics_optics"
+    },
+    {
+      "id": "group:material-34fb1a8214",
+      "name": "甘油",
+      "section": "kitchen_food",
+      "baseId": "material-34fb1a8214"
+    },
+    {
+      "id": "group:material-6dcb74e54f",
+      "name": "落叶",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "group:material-d0073727cc",
+      "name": "蚯蚓",
+      "section": "nature_gardening",
+      "baseId": "material-d0073727cc"
+    },
+    {
+      "id": "group:material-b83883c480",
+      "name": "喷水壶",
+      "section": "nature_gardening",
+      "baseId": "material-b83883c480"
+    },
+    {
+      "id": "group:material-557e69ad7a",
+      "name": "贝壳",
+      "section": "nature_gardening",
+      "baseId": "material-557e69ad7a"
+    },
+    {
+      "id": "group:material-85f86c68b8",
+      "name": "分类盒",
+      "section": "nature_gardening",
+      "baseId": "material-85f86c68b8"
+    },
+    {
+      "id": "group:material-52700bae20",
+      "name": "展示板",
+      "section": "paper_drawing",
+      "baseId": "material-52700bae20"
+    },
+    {
+      "id": "group:insect-specimen",
+      "name": "昆虫标本",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "group:material-deb33881b8",
+      "name": "软木板",
+      "section": "craft_building",
+      "baseId": "material-deb33881b8"
+    },
+    {
+      "id": "group:material-641c4e614f",
+      "name": "昆虫针",
+      "section": "tools_measurement",
+      "baseId": "material-641c4e614f"
+    },
+    {
+      "id": "group:material-d199c88c33",
+      "name": "标本盒",
+      "section": "nature_gardening",
+      "baseId": "material-d199c88c33"
+    },
+    {
+      "id": "group:material-0a20942cfb",
+      "name": "种子",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "group:material-9ee1b8672f",
+      "name": "棉花",
+      "section": "experiment_cleaning",
+      "baseId": "material-9ee1b8672f"
+    },
+    {
+      "id": "group:material-0619551f1a",
+      "name": "大葱",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "group:material-dd1a68cb2c",
+      "name": "胡萝卜",
+      "section": "kitchen_food",
+      "baseId": "material-dd1a68cb2c"
+    },
+    {
+      "id": "group:material-02a1917823",
+      "name": "发芽豆苗",
+      "section": "nature_gardening",
+      "baseId": "material-02a1917823"
+    },
+    {
+      "id": "group:material-a745bfdf30",
+      "name": "植物",
+      "section": "nature_gardening",
+      "baseId": "material-a745bfdf30"
+    },
+    {
+      "id": "group:material-50537dab76",
+      "name": "苹果",
+      "section": "kitchen_food",
+      "baseId": "material-50537dab76"
+    },
+    {
+      "id": "group:material-0f483f3a70",
+      "name": "柠檬汁",
+      "section": "kitchen_food",
+      "baseId": "material-0f483f3a70"
+    },
+    {
+      "id": "group:material-f311d0c0d3",
+      "name": "盐水",
+      "section": "kitchen_food",
+      "baseId": "material-f311d0c0d3"
+    },
+    {
+      "id": "group:fridge",
+      "name": "冰箱",
+      "section": "electronics_optics",
+      "baseId": "material-f8781a5f97"
+    },
+    {
+      "id": "group:material-ac5d46025b",
+      "name": "活性炭",
+      "section": "experiment_cleaning",
+      "baseId": "material-ac5d46025b"
+    },
+    {
+      "id": "group:material-83e87c9a97",
+      "name": "苔藓",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "group:material-f64959d3b3",
+      "name": "装饰摆件",
+      "section": "craft_building"
+    },
+    {
+      "id": "group:material-aa9e00d571",
+      "name": "植物营养液",
+      "section": "nature_gardening",
+      "baseId": "material-aa9e00d571"
+    },
+    {
+      "id": "group:material-bd723dd29b",
+      "name": "花盆",
+      "section": "nature_gardening",
+      "baseId": "material-bd723dd29b"
+    },
+    {
+      "id": "group:material-7292a6b226",
+      "name": "多肉植物",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "group:material-4d26d3b6d0",
+      "name": "育苗盒",
+      "section": "nature_gardening",
+      "baseId": "material-4d26d3b6d0"
+    },
+    {
+      "id": "group:material-596482e76c",
+      "name": "电子秤",
+      "section": "tools_measurement",
+      "baseId": "material-596482e76c"
+    },
+    {
+      "id": "group:material-dacf070260",
+      "name": "相机",
+      "section": "electronics_optics",
+      "baseId": "material-dacf070260"
+    },
+    {
+      "id": "group:material-aa0697f23f",
+      "name": "底座",
+      "section": "craft_building"
+    },
+    {
+      "id": "group:material-845072288c",
+      "name": "袋子",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:material-36db94ca75",
+      "name": "盒子",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:material-fdd8a64bc5",
+      "name": "水管",
+      "section": "containers_household",
+      "baseId": "material-fdd8a64bc5"
+    },
+    {
+      "id": "group:material-361e5aadf8",
+      "name": "浇水壶",
+      "section": "nature_gardening",
+      "baseId": "material-361e5aadf8"
+    },
+    {
+      "id": "group:material-f2f707c179",
+      "name": "旗子",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:material-c93b2d1459",
+      "name": "塑料膜",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:material-aae4f38a62",
+      "name": "盛水容器",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:material-d9bd29947d",
+      "name": "胡椒粉",
+      "section": "kitchen_food",
+      "baseId": "material-d9bd29947d"
+    },
+    {
+      "id": "group:material-182c902d0e",
+      "name": "纱网",
+      "section": "experiment_cleaning",
+      "baseId": "material-182c902d0e"
+    },
+    {
+      "id": "group:material-5a358f47fa",
+      "name": "衣物色母片",
+      "section": "experiment_cleaning",
+      "baseId": "material-5a358f47fa"
+    },
+    {
+      "id": "group:material-9fd9da4417",
+      "name": "剃须泡沫",
+      "section": "experiment_cleaning",
+      "baseId": "material-9fd9da4417"
+    },
+    {
+      "id": "group:material-522d3edeb6",
+      "name": "小米",
+      "section": "kitchen_food",
+      "baseId": "material-522d3edeb6"
+    },
+    {
+      "id": "group:material-c1864d71a7",
+      "name": "塑料管",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:material-4caa308bce",
+      "name": "工字钉",
+      "section": "tools_measurement",
+      "baseId": "material-4caa308bce"
+    },
+    {
+      "id": "group:material-75e72c68cc",
+      "name": "热熔胶枪",
+      "section": "tools_measurement",
+      "baseId": "material-75e72c68cc"
+    },
+    {
+      "id": "group:material-b645561141",
+      "name": "绒球",
+      "section": "craft_building"
+    },
+    {
+      "id": "group:material-89bc9d96f7",
+      "name": "泡沫管",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:material-dd5dcd84ae",
+      "name": "木块",
+      "section": "craft_building",
+      "baseId": "material-dd5dcd84ae"
+    },
+    {
+      "id": "group:material-04ce447e04",
+      "name": "木条",
+      "section": "craft_building",
+      "baseId": "material-04ce447e04"
+    },
+    {
+      "id": "group:material-6f5cb1dc2c",
+      "name": "注射器",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "group:material-335eb755b1",
+      "name": "食用色素",
+      "section": "experiment_cleaning",
+      "baseId": "material-335eb755b1"
+    },
+    {
+      "id": "group:material-303615b5ec",
+      "name": "支架",
+      "section": "tools_measurement",
+      "baseId": "material-303615b5ec"
+    },
+    {
+      "id": "group:material-76332cc5fc",
+      "name": "泡沫球",
+      "section": "craft_building"
+    },
+    {
+      "id": "group:material-b79c606b1a",
+      "name": "丙烯颜料",
+      "section": "paper_drawing",
+      "baseId": "material-b79c606b1a"
+    },
+    {
+      "id": "group:material-eb8380a984",
+      "name": "蔬菜",
+      "section": "kitchen_food",
+      "baseId": "material-eb8380a984"
+    },
+    {
+      "id": "group:material-041ed3a18b",
+      "name": "水粉颜料",
+      "section": "paper_drawing",
+      "baseId": "material-041ed3a18b"
+    },
+    {
+      "id": "group:material-7a3a25167c",
+      "name": "菜刀",
+      "section": "kitchen_food",
+      "baseId": "material-7a3a25167c"
+    },
+    {
+      "id": "group:material-bd32da7270",
+      "name": "手指画颜料",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "group:material-8246ab0fc3",
+      "name": "湿巾",
+      "section": "experiment_cleaning",
+      "baseId": "material-8246ab0fc3"
+    },
+    {
+      "id": "group:material-557d9a3a34",
+      "name": "围裙",
+      "section": "containers_household",
+      "baseId": "material-557d9a3a34"
+    },
+    {
+      "id": "group:material-19b82ec55c",
+      "name": "旧衣服",
+      "section": "containers_household",
+      "baseId": "material-19b82ec55c"
+    },
+    {
+      "id": "group:material-79786688a6",
+      "name": "水彩颜料",
+      "section": "paper_drawing",
+      "baseId": "material-79786688a6"
+    },
+    {
+      "id": "group:material-a34ca18806",
+      "name": "竹条",
+      "section": "craft_building",
+      "baseId": "material-a34ca18806"
+    },
+    {
+      "id": "group:material-3d2a7f0811",
+      "name": "风干黏土",
+      "section": "craft_building",
+      "baseId": "material-3d2a7f0811"
+    },
+    {
+      "id": "group:material-45ef600c93",
+      "name": "塑料刮刀",
+      "section": "tools_measurement",
+      "baseId": "material-45ef600c93"
+    },
+    {
+      "id": "group:material-d03c138152",
+      "name": "转盘",
+      "section": "tools_measurement",
+      "baseId": "material-d03c138152"
+    },
+    {
+      "id": "group:material-263658715e",
+      "name": "操作板",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "group:material-2faa419974",
+      "name": "切割垫",
+      "section": "tools_measurement",
+      "baseId": "material-2faa419974"
+    },
+    {
+      "id": "group:material-a30861d04c",
+      "name": "水消笔",
+      "section": "paper_drawing",
+      "baseId": "material-a30861d04c"
+    },
+    {
+      "id": "group:material-cf8ae568a7",
+      "name": "填充工具",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "group:material-6919397f23",
+      "name": "擀面杖",
+      "section": "kitchen_food",
+      "baseId": "material-6919397f23"
+    },
+    {
+      "id": "group:material-895bf06b2d",
+      "name": "饼干模具",
+      "section": "kitchen_food",
+      "baseId": "material-895bf06b2d"
+    },
+    {
+      "id": "group:material-32cc2c329e",
+      "name": "仿真泥土",
+      "section": "craft_building",
+      "baseId": "material-32cc2c329e"
+    },
+    {
+      "id": "group:material-466db587ec",
+      "name": "废纸团",
+      "section": "craft_building",
+      "baseId": "material-466db587ec"
+    },
+    {
+      "id": "group:material-b6f7b7fe61",
+      "name": "超轻黏土",
+      "section": "craft_building",
+      "baseId": "material-b6f7b7fe61"
+    },
+    {
+      "id": "group:material-0ff1214205",
+      "name": "几何模型",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-5027d8ab00",
+      "name": "玩具",
+      "section": "reference_models"
+    },
+    {
+      "id": "group:material-6a43a18448",
+      "name": "松果",
+      "section": "nature_gardening",
+      "baseId": "material-6a43a18448"
+    },
+    {
+      "id": "group:material-fef63ae42f",
+      "name": "向日葵",
+      "section": "nature_gardening",
+      "baseId": "material-fef63ae42f"
+    },
+    {
+      "id": "group:material-68a2c2eada",
+      "name": "笔芯",
+      "section": "paper_drawing",
+      "baseId": "material-68a2c2eada"
+    },
+    {
+      "id": "group:material-6692ad3a4c",
+      "name": "砧板",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "group:material-9561a53c8c",
+      "name": "耐热垫",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "group:material-7e6deeb40c",
+      "name": "纸花",
+      "section": "craft_building"
+    },
+    {
+      "id": "group:material-d27a234ec9",
+      "name": "擦拭用品",
+      "section": "containers_household"
+    },
+    {
+      "id": "group:material-32cdb0c8e8",
+      "name": "透明片",
+      "section": "craft_building",
+      "baseId": "material-32cdb0c8e8"
+    },
+    {
+      "id": "group:material-1a00bbb6fa",
+      "name": "玻璃棒",
+      "section": "tools_measurement",
+      "baseId": "material-1a00bbb6fa"
+    }
+  ],
+  "terms": [
+    {
+      "id": "tissue",
+      "sourceLabel": "纸巾",
+      "name": "纸巾",
+      "groupId": "group:tissue",
+      "section": "containers_household"
+    },
+    {
+      "id": "balloon",
+      "sourceLabel": "气球",
+      "name": "气球",
+      "groupId": "group:balloon",
+      "section": "containers_household"
+    },
+    {
+      "id": "straw",
+      "sourceLabel": "直吸管",
+      "name": "吸管",
+      "groupId": "group:straw",
+      "section": "containers_household",
+      "specification": "直吸管"
+    },
+    {
+      "id": "water",
+      "sourceLabel": "清水",
+      "name": "水",
+      "groupId": "group:water",
+      "section": "experiment_cleaning",
+      "specification": "清水"
+    },
+    {
+      "id": "paper-cup",
+      "sourceLabel": "纸杯",
+      "name": "纸杯",
+      "groupId": "group:paper-cup",
+      "section": "containers_household"
+    },
+    {
+      "id": "watercolor",
+      "sourceLabel": "水溶性彩笔",
+      "name": "彩笔",
+      "groupId": "group:colored-pen",
+      "section": "paper_drawing",
+      "specification": "水溶性彩笔"
+    },
+    {
+      "id": "flashlight",
+      "sourceLabel": "手机手电筒",
+      "name": "手电筒",
+      "groupId": "group:flashlight",
+      "section": "electronics_optics",
+      "specification": "手机手电筒"
+    },
+    {
+      "id": "tray",
+      "sourceLabel": "浅盘",
+      "name": "盘子",
+      "groupId": "group:plate",
+      "section": "containers_household",
+      "specification": "浅盘"
+    },
+    {
+      "id": "clay",
+      "sourceLabel": "橡皮泥",
+      "name": "橡皮泥",
+      "groupId": "group:clay",
+      "section": "craft_building"
+    },
+    {
+      "id": "stickers",
+      "sourceLabel": "贴纸",
+      "name": "贴纸",
+      "groupId": "group:stickers",
+      "section": "craft_building"
+    },
+    {
+      "id": "yarn",
+      "sourceLabel": "毛线",
+      "name": "毛线",
+      "groupId": "group:yarn",
+      "section": "craft_building"
+    },
+    {
+      "id": "needle",
+      "sourceLabel": "针",
+      "name": "针",
+      "groupId": "group:needle",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "scissors",
+      "sourceLabel": "剪刀",
+      "name": "剪刀",
+      "groupId": "group:scissors",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "string",
+      "sourceLabel": "细绳",
+      "name": "绳子",
+      "groupId": "group:string",
+      "section": "craft_building",
+      "specification": "细绳"
+    },
+    {
+      "id": "tape",
+      "sourceLabel": "双面胶",
+      "name": "双面胶",
+      "groupId": "group:tape",
+      "section": "craft_building"
+    },
+    {
+      "id": "bottle",
+      "sourceLabel": "带盖透明瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "带盖透明瓶"
+    },
+    {
+      "id": "milk",
+      "sourceLabel": "牛奶",
+      "name": "牛奶",
+      "groupId": "group:milk",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "cloth",
+      "sourceLabel": "擦水布",
+      "name": "毛巾",
+      "groupId": "group:material-c471aae1a9",
+      "section": "containers_household",
+      "specification": "擦水布"
+    },
+    {
+      "id": "paper",
+      "sourceLabel": "A4白纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "A4白纸"
+    },
+    {
+      "id": "cotton-thread",
+      "sourceLabel": "细棉线",
+      "name": "棉绳",
+      "groupId": "group:cotton-rope",
+      "section": "craft_building",
+      "specification": "细棉线"
+    },
+    {
+      "id": "material-7ccd7b7223",
+      "sourceLabel": "1角硬币",
+      "name": "硬币",
+      "groupId": "group:coin",
+      "section": "reference_models",
+      "specification": "1角硬币"
+    },
+    {
+      "id": "material-d2659cba22",
+      "sourceLabel": "1元硬币",
+      "name": "硬币",
+      "groupId": "group:coin",
+      "section": "reference_models",
+      "specification": "1元硬币"
+    },
+    {
+      "id": "material-0827cdc6fe",
+      "sourceLabel": "2B铅笔",
+      "name": "铅笔",
+      "groupId": "group:pencil",
+      "section": "paper_drawing",
+      "specification": "2B铅笔"
+    },
+    {
+      "id": "material-06c30ed2bf",
+      "sourceLabel": "5角硬币",
+      "name": "硬币",
+      "groupId": "group:coin",
+      "section": "reference_models",
+      "specification": "5角硬币"
+    },
+    {
+      "id": "material-7739a40a40",
+      "sourceLabel": "安全别针",
+      "name": "安全别针",
+      "groupId": "group:material-7739a40a40",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-6738887fcf",
+      "sourceLabel": "白板笔",
+      "name": "白板笔",
+      "groupId": "group:material-6738887fcf",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-4efe95ac94",
+      "sourceLabel": "白醋",
+      "name": "白醋",
+      "groupId": "group:material-4efe95ac94",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-b5ccf349fc",
+      "sourceLabel": "白胶",
+      "name": "胶水",
+      "groupId": "group:material-2932d52b08",
+      "section": "craft_building",
+      "specification": "白胶"
+    },
+    {
+      "id": "material-6a7e7dc0f5",
+      "sourceLabel": "白色卡纸",
+      "name": "卡纸",
+      "groupId": "group:card-paper",
+      "section": "paper_drawing",
+      "specification": "白色"
+    },
+    {
+      "id": "material-bcdc796b7c",
+      "sourceLabel": "白糖",
+      "name": "白糖",
+      "groupId": "group:material-bcdc796b7c",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-fd1cd2eb29",
+      "sourceLabel": "半透明描图纸",
+      "name": "描图纸",
+      "groupId": "group:material-fd1cd2eb29",
+      "section": "paper_drawing",
+      "specification": "半透明"
+    },
+    {
+      "id": "material-3839880457",
+      "sourceLabel": "薄白纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "薄白纸"
+    },
+    {
+      "id": "material-7350cd78c3",
+      "sourceLabel": "保鲜袋",
+      "name": "塑料袋",
+      "groupId": "group:plastic-bag",
+      "section": "containers_household",
+      "specification": "保鲜袋"
+    },
+    {
+      "id": "material-0b53370157",
+      "sourceLabel": "保鲜膜",
+      "name": "保鲜膜",
+      "groupId": "group:material-0b53370157",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-d5de05b3fe",
+      "sourceLabel": "保鲜膜纸芯",
+      "name": "纸筒",
+      "groupId": "group:material-7ae13e57ba",
+      "section": "craft_building",
+      "specification": "保鲜膜纸芯"
+    },
+    {
+      "id": "material-bdd34dcdba",
+      "sourceLabel": "报纸",
+      "name": "报纸",
+      "groupId": "group:material-bdd34dcdba",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-a18b4d203d",
+      "sourceLabel": "杯壁打孔工具（成人用）",
+      "name": "打孔工具",
+      "groupId": "group:material-e72d5a07f2",
+      "section": "tools_measurement",
+      "specification": "杯壁打孔工具（成人用）"
+    },
+    {
+      "id": "material-23ccce1ad5",
+      "sourceLabel": "杯底打孔工具（成人用）",
+      "name": "打孔工具",
+      "groupId": "group:material-e72d5a07f2",
+      "section": "tools_measurement",
+      "specification": "杯底打孔工具（成人用）"
+    },
+    {
+      "id": "material-95f9e8e792",
+      "sourceLabel": "杯子",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-91f4fedbe0",
+      "sourceLabel": "杯子（可容纳塑料瓶）",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "杯子（可容纳塑料瓶）"
+    },
+    {
+      "id": "material-3afda9c1bd",
+      "sourceLabel": "笔",
+      "name": "书写笔",
+      "groupId": "group:writing-pen",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-4457da8582",
+      "sourceLabel": "便签纸",
+      "name": "便签纸",
+      "groupId": "group:material-4457da8582",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-226b062885",
+      "sourceLabel": "标签纸",
+      "name": "标签纸",
+      "groupId": "group:material-226b062885",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-10fa48e819",
+      "sourceLabel": "冰块",
+      "name": "冰块",
+      "groupId": "group:material-10fa48e819",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-1a00bbb6fa",
+      "sourceLabel": "玻璃棒",
+      "name": "玻璃棒",
+      "groupId": "group:material-1a00bbb6fa",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-51e25edb9b",
+      "sourceLabel": "玻璃杯",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "玻璃杯"
+    },
+    {
+      "id": "material-d8e378ce1b",
+      "sourceLabel": "玻璃弹珠",
+      "name": "弹珠",
+      "groupId": "group:material-3f482c0c2d",
+      "section": "reference_models",
+      "specification": "玻璃弹珠"
+    },
+    {
+      "id": "material-05481dd779",
+      "sourceLabel": "玻璃瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "玻璃瓶"
+    },
+    {
+      "id": "material-e491ed069b",
+      "sourceLabel": "玻璃碗",
+      "name": "碗",
+      "groupId": "group:bowl",
+      "section": "containers_household",
+      "specification": "玻璃碗"
+    },
+    {
+      "id": "material-24c570dde7",
+      "sourceLabel": "玻璃纸",
+      "name": "玻璃纸",
+      "groupId": "group:material-24c570dde7",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-7ee1b67f4e",
+      "sourceLabel": "彩虹糖",
+      "name": "糖果",
+      "groupId": "group:material-7ee1b67f4e",
+      "section": "kitchen_food",
+      "specification": "彩虹糖"
+    },
+    {
+      "id": "material-c93769ba51",
+      "sourceLabel": "彩色笔",
+      "name": "彩笔",
+      "groupId": "group:colored-pen",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-5caa16be8f",
+      "sourceLabel": "彩色不织布",
+      "name": "不织布",
+      "groupId": "group:material-5caa16be8f",
+      "section": "craft_building",
+      "specification": "彩色"
+    },
+    {
+      "id": "material-ec75c7f96d",
+      "sourceLabel": "彩色卡纸",
+      "name": "卡纸",
+      "groupId": "group:card-paper",
+      "section": "paper_drawing",
+      "specification": "彩色卡纸"
+    },
+    {
+      "id": "material-7fe8de6841",
+      "sourceLabel": "彩色铅笔",
+      "name": "彩色铅笔",
+      "groupId": "group:material-7fe8de6841",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-f58d27f201",
+      "sourceLabel": "彩色手工纸",
+      "name": "彩纸",
+      "groupId": "group:material-bf2444d0fc",
+      "section": "paper_drawing",
+      "specification": "彩色手工纸"
+    },
+    {
+      "id": "material-bf2444d0fc",
+      "sourceLabel": "彩纸",
+      "name": "彩纸",
+      "groupId": "group:material-bf2444d0fc",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-25f813d1eb",
+      "sourceLabel": "苍耳刺果",
+      "name": "苍耳刺果",
+      "groupId": "group:material-25f813d1eb",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-c2d259d7c6",
+      "sourceLabel": "叉子",
+      "name": "叉子",
+      "groupId": "group:material-c2d259d7c6",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-3854295367",
+      "sourceLabel": "茶蜡",
+      "name": "蜡烛",
+      "groupId": "group:material-7abab69f06",
+      "section": "containers_household",
+      "specification": "茶蜡"
+    },
+    {
+      "id": "material-ceddefdd38",
+      "sourceLabel": "抽屉式火柴盒（含火柴）",
+      "name": "火柴盒",
+      "groupId": "group:material-ceddefdd38",
+      "section": "containers_household",
+      "specification": "抽屉式，含火柴"
+    },
+    {
+      "id": "material-70901613df",
+      "sourceLabel": "触屏手机",
+      "name": "手机",
+      "groupId": "group:phone",
+      "section": "electronics_optics",
+      "specification": "触屏手机"
+    },
+    {
+      "id": "material-9cd8dac6a8",
+      "sourceLabel": "吹风机",
+      "name": "吹风机",
+      "groupId": "group:dryer",
+      "section": "electronics_optics"
+    },
+    {
+      "id": "material-e249843c65",
+      "sourceLabel": "吹风机（冷风）",
+      "name": "吹风机",
+      "groupId": "group:dryer",
+      "section": "electronics_optics",
+      "specification": "吹风机（冷风）"
+    },
+    {
+      "id": "material-6e939a7a9e",
+      "sourceLabel": "纯牛奶",
+      "name": "牛奶",
+      "groupId": "group:milk",
+      "section": "kitchen_food",
+      "specification": "纯牛奶"
+    },
+    {
+      "id": "material-77071b054c",
+      "sourceLabel": "磁铁",
+      "name": "磁铁",
+      "groupId": "group:material-77071b054c",
+      "section": "electronics_optics"
+    },
+    {
+      "id": "material-38c151df87",
+      "sourceLabel": "打火机",
+      "name": "打火机",
+      "groupId": "group:material-38c151df87",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-6da6bf8b24",
+      "sourceLabel": "打气筒",
+      "name": "打气筒",
+      "groupId": "group:material-6da6bf8b24",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-72b068e589",
+      "sourceLabel": "打印地图",
+      "name": "打印地图",
+      "groupId": "group:material-72b068e589",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-ad3ce8a1db",
+      "sourceLabel": "大白菜",
+      "name": "白菜",
+      "groupId": "group:material-ad3ce8a1db",
+      "section": "kitchen_food",
+      "specification": "大白菜"
+    },
+    {
+      "id": "material-e20973ff78",
+      "sourceLabel": "大块肥皂",
+      "name": "肥皂",
+      "groupId": "group:material-e20973ff78",
+      "section": "experiment_cleaning",
+      "specification": "大块"
+    },
+    {
+      "id": "material-9c4b23d6a0",
+      "sourceLabel": "大米",
+      "name": "大米",
+      "groupId": "group:material-9c4b23d6a0",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-36dd3f0195",
+      "sourceLabel": "大盘子",
+      "name": "盘子",
+      "groupId": "group:plate",
+      "section": "containers_household",
+      "specification": "大盘子"
+    },
+    {
+      "id": "material-fa12f06d43",
+      "sourceLabel": "大头针",
+      "name": "大头针",
+      "groupId": "group:material-fa12f06d43",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-aae06b4640",
+      "sourceLabel": "大碗",
+      "name": "碗",
+      "groupId": "group:bowl",
+      "section": "containers_household",
+      "specification": "大碗"
+    },
+    {
+      "id": "material-487996dc12",
+      "sourceLabel": "大张白纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "大张白纸"
+    },
+    {
+      "id": "material-e561002ff3",
+      "sourceLabel": "带笔帽的笔",
+      "name": "书写笔",
+      "groupId": "group:writing-pen",
+      "section": "paper_drawing",
+      "specification": "带笔帽的笔"
+    },
+    {
+      "id": "material-3baf683705",
+      "sourceLabel": "带盖矿泉水瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "带盖矿泉水瓶"
+    },
+    {
+      "id": "material-10b9262eac",
+      "sourceLabel": "带盖塑料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "带盖塑料瓶"
+    },
+    {
+      "id": "material-f57f0abf4b",
+      "sourceLabel": "带盖酸奶玻璃瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "带盖酸奶玻璃瓶"
+    },
+    {
+      "id": "material-9f23695c0a",
+      "sourceLabel": "带盖透明玻璃罐",
+      "name": "玻璃罐",
+      "groupId": "group:material-9f23695c0a",
+      "section": "containers_household",
+      "specification": "带盖透明玻璃罐"
+    },
+    {
+      "id": "material-006329c989",
+      "sourceLabel": "带盖鞋盒",
+      "name": "纸盒",
+      "groupId": "group:shoe-box",
+      "section": "containers_household",
+      "specification": "带盖鞋盒"
+    },
+    {
+      "id": "material-cef398fb9c",
+      "sourceLabel": "带盖饮料塑料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "带盖饮料塑料瓶"
+    },
+    {
+      "id": "material-d571ef53e4",
+      "sourceLabel": "带壳瓜子",
+      "name": "瓜子",
+      "groupId": "group:material-d571ef53e4",
+      "section": "kitchen_food",
+      "specification": "带壳"
+    },
+    {
+      "id": "material-d37cb9cfa4",
+      "sourceLabel": "带拉环易拉罐",
+      "name": "易拉罐",
+      "groupId": "group:material-bbb29a1e0f",
+      "section": "containers_household",
+      "specification": "带拉环易拉罐"
+    },
+    {
+      "id": "material-83cbd4b831",
+      "sourceLabel": "带枝条的鲜花",
+      "name": "鲜花",
+      "groupId": "group:material-b929b9443e",
+      "section": "nature_gardening",
+      "specification": "带枝条的鲜花"
+    },
+    {
+      "id": "material-664446a10a",
+      "sourceLabel": "弹力球",
+      "name": "弹力球",
+      "groupId": "group:material-664446a10a",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-3f482c0c2d",
+      "sourceLabel": "弹珠",
+      "name": "弹珠",
+      "groupId": "group:material-3f482c0c2d",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-218b24fee5",
+      "sourceLabel": "蛋壳",
+      "name": "蛋壳",
+      "groupId": "group:material-218b24fee5",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-181b105a98",
+      "sourceLabel": "倒水杯",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "倒水杯"
+    },
+    {
+      "id": "material-bac9c4c0c9",
+      "sourceLabel": "滴管",
+      "name": "滴管",
+      "groupId": "group:material-bac9c4c0c9",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-3f43d5d5b0",
+      "sourceLabel": "滴口瓶装水溶性色素",
+      "name": "水溶性色素",
+      "groupId": "group:material-92da034878",
+      "section": "experiment_cleaning",
+      "specification": "滴口瓶装水溶性色素"
+    },
+    {
+      "id": "material-2fda1f9fd4",
+      "sourceLabel": "碘伏",
+      "name": "碘伏",
+      "groupId": "group:material-2fda1f9fd4",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-ccb78b9ea3",
+      "sourceLabel": "调色盘",
+      "name": "调色盘",
+      "groupId": "group:material-ccb78b9ea3",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-77850ae87a",
+      "sourceLabel": "碟子",
+      "name": "盘子",
+      "groupId": "group:plate",
+      "section": "containers_household",
+      "specification": "碟子"
+    },
+    {
+      "id": "material-802fed187e",
+      "sourceLabel": "订书机",
+      "name": "订书机",
+      "groupId": "group:material-802fed187e",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-4e4383adce",
+      "sourceLabel": "方便面袋",
+      "name": "方便面袋",
+      "groupId": "group:material-4e4383adce",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-4f9d8c1ef3",
+      "sourceLabel": "方格纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "方格纸"
+    },
+    {
+      "id": "material-2753766d18",
+      "sourceLabel": "方块",
+      "name": "积木",
+      "groupId": "group:material-e6df1df966",
+      "section": "reference_models",
+      "specification": "方块"
+    },
+    {
+      "id": "material-bc75e9d596",
+      "sourceLabel": "方头筷子",
+      "name": "筷子",
+      "groupId": "group:material-399893f69b",
+      "section": "containers_household",
+      "specification": "方头筷子"
+    },
+    {
+      "id": "material-a1f29d646a",
+      "sourceLabel": "放大镜",
+      "name": "放大镜",
+      "groupId": "group:material-a1f29d646a",
+      "section": "electronics_optics"
+    },
+    {
+      "id": "material-c6686b3e8e",
+      "sourceLabel": "废旧书本",
+      "name": "书本",
+      "groupId": "group:material-3d8b66d6a9",
+      "section": "paper_drawing",
+      "specification": "废旧书本"
+    },
+    {
+      "id": "material-b617e5bd71",
+      "sourceLabel": "废纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "废纸"
+    },
+    {
+      "id": "material-aa0d0fdf82",
+      "sourceLabel": "干燥空塑料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "干燥空塑料瓶"
+    },
+    {
+      "id": "material-3819d5e4aa",
+      "sourceLabel": "钢笔",
+      "name": "书写笔",
+      "groupId": "group:writing-pen",
+      "section": "paper_drawing",
+      "specification": "钢笔"
+    },
+    {
+      "id": "material-aef2713ac1",
+      "sourceLabel": "高脚杯",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "高脚杯"
+    },
+    {
+      "id": "material-5f7216d83f",
+      "sourceLabel": "高脚酒杯",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "高脚酒杯"
+    },
+    {
+      "id": "material-00c161e4ee",
+      "sourceLabel": "挂绳",
+      "name": "绳子",
+      "groupId": "group:string",
+      "section": "craft_building",
+      "specification": "挂绳"
+    },
+    {
+      "id": "material-954ce8e5f9",
+      "sourceLabel": "光滑闭合金属圆环",
+      "name": "金属环",
+      "groupId": "group:material-954ce8e5f9",
+      "section": "craft_building",
+      "specification": "光滑闭合金属圆环"
+    },
+    {
+      "id": "material-0cd241f0c8",
+      "sourceLabel": "光滑圆柱筒",
+      "name": "圆柱筒",
+      "groupId": "group:material-0cd241f0c8",
+      "section": "tools_measurement",
+      "specification": "表面光滑，用于在纱布上轻轻滚压纸浆；可与试管二选一"
+    },
+    {
+      "id": "material-88b84527b3",
+      "sourceLabel": "海绵",
+      "name": "海绵",
+      "groupId": "group:material-88b84527b3",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-b49b56fd01",
+      "sourceLabel": "黑色记号笔",
+      "name": "记号笔",
+      "groupId": "group:marker",
+      "section": "paper_drawing",
+      "specification": "黑色记号笔"
+    },
+    {
+      "id": "material-3a155a0b64",
+      "sourceLabel": "黑色颜料",
+      "name": "颜料",
+      "groupId": "group:material-3a155a0b64",
+      "section": "paper_drawing",
+      "specification": "黑色"
+    },
+    {
+      "id": "material-9b8b11c2a6",
+      "sourceLabel": "黑水笔",
+      "name": "书写笔",
+      "groupId": "group:writing-pen",
+      "section": "paper_drawing",
+      "specification": "黑水笔"
+    },
+    {
+      "id": "material-c820a33e7e",
+      "sourceLabel": "黑纸",
+      "name": "彩纸",
+      "groupId": "group:material-bf2444d0fc",
+      "section": "paper_drawing",
+      "specification": "黑纸"
+    },
+    {
+      "id": "material-fa74753f57",
+      "sourceLabel": "红酒杯",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "红酒杯"
+    },
+    {
+      "id": "material-5b78ce9aa2",
+      "sourceLabel": "黑色墨水",
+      "name": "墨水",
+      "groupId": "group:material-5b78ce9aa2",
+      "section": "paper_drawing",
+      "specification": "黑色墨水"
+    },
+    {
+      "id": "material-1852e8b622",
+      "sourceLabel": "红色墨水",
+      "name": "墨水",
+      "groupId": "group:material-5b78ce9aa2",
+      "section": "paper_drawing",
+      "specification": "红色墨水"
+    },
+    {
+      "id": "material-d501c4761e",
+      "sourceLabel": "厚画板",
+      "name": "画板",
+      "groupId": "group:material-d501c4761e",
+      "section": "paper_drawing",
+      "specification": "厚画板"
+    },
+    {
+      "id": "material-3e2cb244bb",
+      "sourceLabel": "厚卡纸",
+      "name": "卡纸",
+      "groupId": "group:card-paper",
+      "section": "paper_drawing",
+      "specification": "厚卡纸"
+    },
+    {
+      "id": "material-11c0dcd757",
+      "sourceLabel": "厚书",
+      "name": "书本",
+      "groupId": "group:material-3d8b66d6a9",
+      "section": "paper_drawing",
+      "specification": "厚书"
+    },
+    {
+      "id": "material-f62c6bdfa8",
+      "sourceLabel": "厚塑料袋",
+      "name": "塑料袋",
+      "groupId": "group:plastic-bag",
+      "section": "containers_household",
+      "specification": "厚塑料袋"
+    },
+    {
+      "id": "material-5b31858495",
+      "sourceLabel": "厚硬纸板",
+      "name": "纸板",
+      "groupId": "group:cardboard",
+      "section": "craft_building",
+      "specification": "厚硬纸板"
+    },
+    {
+      "id": "material-05731b92ad",
+      "sourceLabel": "画笔",
+      "name": "画笔",
+      "groupId": "group:paintbrush",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-fc1f0b1a94",
+      "sourceLabel": "画布板",
+      "name": "画板",
+      "groupId": "group:material-d501c4761e",
+      "section": "paper_drawing",
+      "specification": "画布板"
+    },
+    {
+      "id": "material-23bc7dbe9f",
+      "sourceLabel": "画线笔",
+      "name": "书写笔",
+      "groupId": "group:writing-pen",
+      "section": "paper_drawing",
+      "specification": "画线笔"
+    },
+    {
+      "id": "material-571f79710d",
+      "sourceLabel": "黄豆",
+      "name": "黄豆",
+      "groupId": "group:material-571f79710d",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-e1337e15ca",
+      "sourceLabel": "黄瓜",
+      "name": "黄瓜",
+      "groupId": "group:material-e1337e15ca",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-d52b71a223",
+      "sourceLabel": "回形针",
+      "name": "回形针",
+      "groupId": "group:material-d52b71a223",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-ac15817da3",
+      "sourceLabel": "绘画笔（可直接绘图）",
+      "name": "书写笔",
+      "groupId": "group:writing-pen",
+      "section": "paper_drawing",
+      "specification": "绘画笔（可直接绘图）"
+    },
+    {
+      "id": "material-dada50c4e2",
+      "sourceLabel": "绘画参考图",
+      "name": "绘画参考图",
+      "groupId": "group:material-dada50c4e2",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-f043347097",
+      "sourceLabel": "活动眼睛贴片",
+      "name": "眼睛贴片",
+      "groupId": "group:material-f043347097",
+      "section": "craft_building",
+      "specification": "活动眼睛式"
+    },
+    {
+      "id": "material-e9f5b71a47",
+      "sourceLabel": "鸡蛋",
+      "name": "鸡蛋",
+      "groupId": "group:material-e9f5b71a47",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-e6df1df966",
+      "sourceLabel": "积木",
+      "name": "积木",
+      "groupId": "group:material-e6df1df966",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-1283ddbf69",
+      "sourceLabel": "计算器",
+      "name": "计算器",
+      "groupId": "group:material-1283ddbf69",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-53737b7a7f",
+      "sourceLabel": "记号笔",
+      "name": "记号笔",
+      "groupId": "group:marker",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-ae4b9bfcbf",
+      "sourceLabel": "记录本",
+      "name": "本子",
+      "groupId": "group:material-ae4b9bfcbf",
+      "section": "paper_drawing",
+      "specification": "记录本"
+    },
+    {
+      "id": "material-b36eb31f4b",
+      "sourceLabel": "胶棒",
+      "name": "胶棒",
+      "groupId": "group:material-b36eb31f4b",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-2d225ee850",
+      "sourceLabel": "胶带",
+      "name": "胶带",
+      "groupId": "group:adhesive-tape",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-2932d52b08",
+      "sourceLabel": "胶水",
+      "name": "胶水",
+      "groupId": "group:material-2932d52b08",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-70b957cf9d",
+      "sourceLabel": "搅拌棒",
+      "name": "搅拌工具",
+      "groupId": "group:stirring-stick",
+      "section": "tools_measurement",
+      "specification": "搅拌棒"
+    },
+    {
+      "id": "material-e9fe5780c1",
+      "sourceLabel": "搅拌勺",
+      "name": "勺子",
+      "groupId": "group:material-72407ec665",
+      "section": "containers_household",
+      "specification": "搅拌勺"
+    },
+    {
+      "id": "material-b854fdb970",
+      "sourceLabel": "接水盆",
+      "name": "水盆",
+      "groupId": "group:basin",
+      "section": "containers_household",
+      "specification": "接水盆"
+    },
+    {
+      "id": "material-8656b686ea",
+      "sourceLabel": "解剖盘",
+      "name": "解剖盘",
+      "groupId": "group:material-8656b686ea",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-77b187d6e2",
+      "sourceLabel": "戒指",
+      "name": "戒指",
+      "groupId": "group:material-77b187d6e2",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-e1a4f5479f",
+      "sourceLabel": "镜子",
+      "name": "镜子",
+      "groupId": "group:material-e1a4f5479f",
+      "section": "electronics_optics"
+    },
+    {
+      "id": "material-db9d4b39be",
+      "sourceLabel": "旧光盘",
+      "name": "光盘",
+      "groupId": "group:material-db9d4b39be",
+      "section": "electronics_optics",
+      "specification": "旧光盘，实验后不作资料存储用途"
+    },
+    {
+      "id": "material-511f41ee59",
+      "sourceLabel": "旧杂志",
+      "name": "杂志",
+      "groupId": "group:material-511f41ee59",
+      "section": "paper_drawing",
+      "specification": "旧杂志，可用于剪贴"
+    },
+    {
+      "id": "material-0775a683ad",
+      "sourceLabel": "卷尺",
+      "name": "卷尺",
+      "groupId": "group:material-0775a683ad",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-bde12dd100",
+      "sourceLabel": "卡牌",
+      "name": "卡牌",
+      "groupId": "group:material-bde12dd100",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-d6a5c54c96",
+      "sourceLabel": "卡纸",
+      "name": "卡纸",
+      "groupId": "group:card-paper",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-3f0d012fe7",
+      "sourceLabel": "可挤压一次性杯子",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "可挤压一次性杯子"
+    },
+    {
+      "id": "material-dbe286d922",
+      "sourceLabel": "可乐",
+      "name": "可乐",
+      "groupId": "group:material-dbe286d922",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-0489625c0e",
+      "sourceLabel": "可伸缩洗洁精瓶盖",
+      "name": "瓶盖",
+      "groupId": "group:bottle-cap",
+      "section": "containers_household",
+      "specification": "可伸缩洗洁精瓶盖"
+    },
+    {
+      "id": "material-5da3608ff2",
+      "sourceLabel": "可弯曲长方形硬纸",
+      "name": "纸板",
+      "groupId": "group:cardboard",
+      "section": "craft_building",
+      "specification": "可弯曲长方形硬纸"
+    },
+    {
+      "id": "material-399893f69b",
+      "sourceLabel": "筷子",
+      "name": "筷子",
+      "groupId": "group:material-399893f69b",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-ef12c579ef",
+      "sourceLabel": "矿泉水瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "矿泉水瓶"
+    },
+    {
+      "id": "material-02ef5bf214",
+      "sourceLabel": "蜡笔",
+      "name": "蜡笔",
+      "groupId": "group:material-02ef5bf214",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-7abab69f06",
+      "sourceLabel": "蜡烛",
+      "name": "蜡烛",
+      "groupId": "group:material-7abab69f06",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-0a1b6b290c",
+      "sourceLabel": "冷水",
+      "name": "水",
+      "groupId": "group:water",
+      "section": "experiment_cleaning",
+      "specification": "冷水"
+    },
+    {
+      "id": "material-f23aa0a963",
+      "sourceLabel": "练习本",
+      "name": "本子",
+      "groupId": "group:material-ae4b9bfcbf",
+      "section": "paper_drawing",
+      "specification": "练习本"
+    },
+    {
+      "id": "material-4e98bb5388",
+      "sourceLabel": "量角器",
+      "name": "量角器",
+      "groupId": "group:material-4e98bb5388",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-8959482213",
+      "sourceLabel": "漏斗",
+      "name": "漏斗",
+      "groupId": "group:material-8959482213",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-86fea91e87",
+      "sourceLabel": "铝箔纸",
+      "name": "铝箔纸",
+      "groupId": "group:material-86fea91e87",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-2b7b9856fb",
+      "sourceLabel": "铝丝",
+      "name": "铝丝",
+      "groupId": "group:material-2b7b9856fb",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-fae4b84bf0",
+      "sourceLabel": "滤纸",
+      "name": "滤纸",
+      "groupId": "group:material-fae4b84bf0",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-d81dfd3448",
+      "sourceLabel": "麻绳",
+      "name": "绳子",
+      "groupId": "group:string",
+      "section": "craft_building",
+      "specification": "麻绳"
+    },
+    {
+      "id": "material-d48df092c4",
+      "sourceLabel": "马克笔",
+      "name": "记号笔",
+      "groupId": "group:marker",
+      "section": "paper_drawing",
+      "specification": "马克笔"
+    },
+    {
+      "id": "material-ca0eb43914",
+      "sourceLabel": "毛根",
+      "name": "毛根",
+      "groupId": "group:material-ca0eb43914",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-c471aae1a9",
+      "sourceLabel": "毛巾",
+      "name": "毛巾",
+      "groupId": "group:material-c471aae1a9",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-4db0b8f384",
+      "sourceLabel": "毛衣",
+      "name": "毛衣",
+      "groupId": "group:material-4db0b8f384",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-a46cb557ef",
+      "sourceLabel": "美工刀",
+      "name": "小刀",
+      "groupId": "group:material-047a16fd08",
+      "section": "tools_measurement",
+      "specification": "美工刀"
+    },
+    {
+      "id": "material-cfd47e02b4",
+      "sourceLabel": "棉签",
+      "name": "棉签",
+      "groupId": "group:material-cfd47e02b4",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-8d36947089",
+      "sourceLabel": "棉绳",
+      "name": "棉绳",
+      "groupId": "group:cotton-rope",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-c2193dd830",
+      "sourceLabel": "棉绳（可抽细线）",
+      "name": "棉绳",
+      "groupId": "group:cotton-rope",
+      "section": "craft_building",
+      "specification": "棉绳（可抽细线）"
+    },
+    {
+      "id": "material-8a37dc536c",
+      "sourceLabel": "棉碎布",
+      "name": "布料",
+      "groupId": "group:material-8a37dc536c",
+      "section": "craft_building",
+      "specification": "棉碎布"
+    },
+    {
+      "id": "material-21eaff4331",
+      "sourceLabel": "面粉",
+      "name": "面粉",
+      "groupId": "group:material-21eaff4331",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-246771cdc3",
+      "sourceLabel": "名画参考图",
+      "name": "名画参考图",
+      "groupId": "group:material-246771cdc3",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-a9c6daa956",
+      "sourceLabel": "鸣笛长气球",
+      "name": "气球",
+      "groupId": "group:balloon",
+      "section": "containers_household",
+      "specification": "鸣笛长气球"
+    },
+    {
+      "id": "material-5bd56b437a",
+      "sourceLabel": "木板",
+      "name": "木板",
+      "groupId": "group:material-5bd56b437a",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-edaf450ceb",
+      "sourceLabel": "木刻刀",
+      "name": "木刻刀",
+      "groupId": "group:material-edaf450ceb",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-3594f9e351",
+      "sourceLabel": "木头切片",
+      "name": "树木横切面",
+      "groupId": "group:material-3594f9e351",
+      "section": "nature_gardening",
+      "specification": "现成木片横切面，年轮清晰，尽量保留髓心到近树皮的完整木质部，并核对树种或样本说明"
+    },
+    {
+      "id": "material-8efc044150",
+      "sourceLabel": "耐热金属夹子",
+      "name": "夹子",
+      "groupId": "group:clip",
+      "section": "tools_measurement",
+      "specification": "耐热金属夹子"
+    },
+    {
+      "id": "material-5c406dd6af",
+      "sourceLabel": "耐热金属镊子",
+      "name": "镊子",
+      "groupId": "group:material-e029db5c69",
+      "section": "tools_measurement",
+      "specification": "耐热金属镊子"
+    },
+    {
+      "id": "material-67a08a1b11",
+      "sourceLabel": "耐热托盘",
+      "name": "盘子",
+      "groupId": "group:plate",
+      "section": "containers_household",
+      "specification": "耐热托盘"
+    },
+    {
+      "id": "material-e7383939f6",
+      "sourceLabel": "泥水",
+      "name": "泥水",
+      "groupId": "group:material-e7383939f6",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-a807a4e990",
+      "sourceLabel": "黏土",
+      "name": "黏土",
+      "groupId": "group:material-a807a4e990",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-f10419ca2d",
+      "sourceLabel": "黏土塑形工具",
+      "name": "塑形工具",
+      "groupId": "group:material-a437dcd402",
+      "section": "tools_measurement",
+      "specification": "黏土塑形工具"
+    },
+    {
+      "id": "material-e029db5c69",
+      "sourceLabel": "镊子",
+      "name": "镊子",
+      "groupId": "group:material-e029db5c69",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-2e2eadd9e4",
+      "sourceLabel": "柠檬",
+      "name": "柠檬",
+      "groupId": "group:material-2e2eadd9e4",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-669899a1c4",
+      "sourceLabel": "柠檬酸",
+      "name": "柠檬酸",
+      "groupId": "group:material-669899a1c4",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-6f5578490e",
+      "sourceLabel": "纽扣",
+      "name": "纽扣",
+      "groupId": "group:material-6f5578490e",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-2e3bf4a7ae",
+      "sourceLabel": "泡沫板",
+      "name": "泡沫板",
+      "groupId": "group:material-2e3bf4a7ae",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-633d457aaf",
+      "sourceLabel": "泡腾片",
+      "name": "泡腾片",
+      "groupId": "group:material-633d457aaf",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-99c978837d",
+      "sourceLabel": "配重物",
+      "name": "配重物",
+      "groupId": "group:material-99c978837d",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-6ce042f403",
+      "sourceLabel": "啤酒",
+      "name": "啤酒",
+      "groupId": "group:material-6ce042f403",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-f58a4aba88",
+      "sourceLabel": "乒乓球",
+      "name": "乒乓球",
+      "groupId": "group:material-f58a4aba88",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-fd7cc8f86a",
+      "sourceLabel": "平底盘子",
+      "name": "盘子",
+      "groupId": "group:plate",
+      "section": "containers_household",
+      "specification": "平底盘子"
+    },
+    {
+      "id": "material-137369a96a",
+      "sourceLabel": "瓶盖",
+      "name": "瓶盖",
+      "groupId": "group:bottle-cap",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-b492cc1f2c",
+      "sourceLabel": "瓶装清水",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "瓶装清水"
+    },
+    {
+      "id": "material-912c83d022",
+      "sourceLabel": "瓶子",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-b597151f9e",
+      "sourceLabel": "葡萄干",
+      "name": "葡萄干",
+      "groupId": "group:material-b597151f9e",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-e8c8c0c637",
+      "sourceLabel": "蒲公英绒球",
+      "name": "蒲公英绒球",
+      "groupId": "group:material-e8c8c0c637",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-ebafc5a4d7",
+      "sourceLabel": "棋子",
+      "name": "棋子",
+      "groupId": "group:material-ebafc5a4d7",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-995df4c7f0",
+      "sourceLabel": "气球（可塞入乒乓球）",
+      "name": "气球",
+      "groupId": "group:balloon",
+      "section": "containers_household",
+      "specification": "气球（可塞入乒乓球）"
+    },
+    {
+      "id": "material-f77e30ee1a",
+      "sourceLabel": "铅笔",
+      "name": "铅笔",
+      "groupId": "group:pencil",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-85597e080c",
+      "sourceLabel": "钳子",
+      "name": "钳子",
+      "groupId": "group:material-85597e080c",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-ea44cc30cb",
+      "sourceLabel": "浅色托盘",
+      "name": "盘子",
+      "groupId": "group:plate",
+      "section": "containers_household",
+      "specification": "浅色托盘"
+    },
+    {
+      "id": "material-74e1a54636",
+      "sourceLabel": "轻质金属环",
+      "name": "金属环",
+      "groupId": "group:material-954ce8e5f9",
+      "section": "craft_building",
+      "specification": "轻质金属环"
+    },
+    {
+      "id": "material-6d12c54790",
+      "sourceLabel": "轻质浅盘",
+      "name": "盘子",
+      "groupId": "group:plate",
+      "section": "containers_household",
+      "specification": "轻质浅盘"
+    },
+    {
+      "id": "material-7defbb7529",
+      "sourceLabel": "取样勺",
+      "name": "勺子",
+      "groupId": "group:material-72407ec665",
+      "section": "containers_household",
+      "specification": "取样勺"
+    },
+    {
+      "id": "material-2b911820de",
+      "sourceLabel": "热熔胶",
+      "name": "热熔胶",
+      "groupId": "group:material-2b911820de",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-35ce82d20a",
+      "sourceLabel": "热水",
+      "name": "水",
+      "groupId": "group:water",
+      "section": "experiment_cleaning",
+      "specification": "热水"
+    },
+    {
+      "id": "material-61c203af6c",
+      "sourceLabel": "绒布",
+      "name": "绒布",
+      "groupId": "group:material-61c203af6c",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-f43b1dc61d",
+      "sourceLabel": "软尺",
+      "name": "软尺",
+      "groupId": "group:material-f43b1dc61d",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-7aa61782f2",
+      "sourceLabel": "软管",
+      "name": "软管",
+      "groupId": "group:material-7aa61782f2",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-5664b2c607",
+      "sourceLabel": "三角板",
+      "name": "三角板",
+      "groupId": "group:material-5664b2c607",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-b0f4413889",
+      "sourceLabel": "三角形积木",
+      "name": "积木",
+      "groupId": "group:material-e6df1df966",
+      "section": "reference_models",
+      "specification": "三角形积木"
+    },
+    {
+      "id": "material-3dbd609350",
+      "sourceLabel": "色素",
+      "name": "色素",
+      "groupId": "group:material-3dbd609350",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-f5cea75922",
+      "sourceLabel": "色素瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "装有色素（用于配重）"
+    },
+    {
+      "id": "material-71c7820ea3",
+      "sourceLabel": "沙子",
+      "name": "沙子",
+      "groupId": "group:material-71c7820ea3",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-ab8052bf3d",
+      "sourceLabel": "纱布",
+      "name": "纱布",
+      "groupId": "group:material-ab8052bf3d",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-81c871e7e5",
+      "sourceLabel": "筛网（不同孔径）",
+      "name": "筛网",
+      "groupId": "group:material-81c871e7e5",
+      "section": "tools_measurement",
+      "specification": "筛网（不同孔径）"
+    },
+    {
+      "id": "material-72407ec665",
+      "sourceLabel": "勺子",
+      "name": "勺子",
+      "groupId": "group:material-72407ec665",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-1eda3b3543",
+      "sourceLabel": "深水盆",
+      "name": "水盆",
+      "groupId": "group:basin",
+      "section": "containers_household",
+      "specification": "深水盆"
+    },
+    {
+      "id": "material-42b2838af7",
+      "sourceLabel": "生鸡蛋",
+      "name": "鸡蛋",
+      "groupId": "group:material-e9f5b71a47",
+      "section": "kitchen_food",
+      "specification": "生鸡蛋"
+    },
+    {
+      "id": "material-b1dec78a9d",
+      "sourceLabel": "食盐",
+      "name": "食盐",
+      "groupId": "group:material-b1dec78a9d",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-c8ba8b9b5c",
+      "sourceLabel": "食用油",
+      "name": "食用油",
+      "groupId": "group:material-c8ba8b9b5c",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-4ad7622a7a",
+      "sourceLabel": "试管",
+      "name": "试管",
+      "groupId": "group:material-4ad7622a7a",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-b727ee62fc",
+      "sourceLabel": "手表",
+      "name": "计时工具",
+      "groupId": "group:material-b727ee62fc",
+      "section": "tools_measurement",
+      "specification": "手表"
+    },
+    {
+      "id": "material-c389ea0e76",
+      "sourceLabel": "手电筒",
+      "name": "手电筒",
+      "groupId": "group:flashlight",
+      "section": "electronics_optics"
+    },
+    {
+      "id": "material-2e07333c8c",
+      "sourceLabel": "手机",
+      "name": "手机",
+      "groupId": "group:phone",
+      "section": "electronics_optics"
+    },
+    {
+      "id": "material-e3ecd5bac1",
+      "sourceLabel": "手机（录音播放）",
+      "name": "手机",
+      "groupId": "group:phone",
+      "section": "electronics_optics",
+      "specification": "手机（录音播放）"
+    },
+    {
+      "id": "material-176aa6300e",
+      "sourceLabel": "手机（慢动作录像）",
+      "name": "手机",
+      "groupId": "group:phone",
+      "section": "electronics_optics",
+      "specification": "手机（慢动作录像）"
+    },
+    {
+      "id": "material-3d8b66d6a9",
+      "sourceLabel": "书本",
+      "name": "书本",
+      "groupId": "group:material-3d8b66d6a9",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-e3ff6273ba",
+      "sourceLabel": "熟鸡蛋",
+      "name": "鸡蛋",
+      "groupId": "group:material-e9f5b71a47",
+      "section": "kitchen_food",
+      "specification": "熟鸡蛋"
+    },
+    {
+      "id": "material-168faaea1a",
+      "sourceLabel": "树桩截面",
+      "name": "树木横切面",
+      "groupId": "group:material-3594f9e351",
+      "section": "nature_gardening",
+      "specification": "树桩或木片，保留完整年轮"
+    },
+    {
+      "id": "material-196bf4ec27",
+      "sourceLabel": "水杯",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "水杯"
+    },
+    {
+      "id": "material-f8586e5c37",
+      "sourceLabel": "水果刀",
+      "name": "小刀",
+      "groupId": "group:material-047a16fd08",
+      "section": "tools_measurement",
+      "specification": "水果刀"
+    },
+    {
+      "id": "material-713ee67e85",
+      "sourceLabel": "水盆",
+      "name": "水盆",
+      "groupId": "group:basin",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-92da034878",
+      "sourceLabel": "水溶性色素",
+      "name": "水溶性色素",
+      "groupId": "group:material-92da034878",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-53441a0bba",
+      "sourceLabel": "水温计",
+      "name": "温度计",
+      "groupId": "group:thermometer",
+      "section": "tools_measurement",
+      "specification": "水温计"
+    },
+    {
+      "id": "material-28b9b8e453",
+      "sourceLabel": "水性印台",
+      "name": "水性印台",
+      "groupId": "group:material-28b9b8e453",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-deae9ce751",
+      "sourceLabel": "丝带",
+      "name": "丝带",
+      "groupId": "group:material-deae9ce751",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-699e69e87a",
+      "sourceLabel": "素描纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "素描纸"
+    },
+    {
+      "id": "material-180ced5504",
+      "sourceLabel": "塑料袋",
+      "name": "塑料袋",
+      "groupId": "group:plastic-bag",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-4e50a7b616",
+      "sourceLabel": "塑料刀",
+      "name": "塑料刀",
+      "groupId": "group:material-4e50a7b616",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-eddc9db8f6",
+      "sourceLabel": "塑料卡片",
+      "name": "卡片",
+      "groupId": "group:material-fb5640f8e1",
+      "section": "paper_drawing",
+      "specification": "塑料卡片"
+    },
+    {
+      "id": "material-de791b58a9",
+      "sourceLabel": "塑料垃圾袋",
+      "name": "塑料袋",
+      "groupId": "group:plastic-bag",
+      "section": "containers_household",
+      "specification": "塑料垃圾袋"
+    },
+    {
+      "id": "material-665c847272",
+      "sourceLabel": "塑料盘子",
+      "name": "盘子",
+      "groupId": "group:plate",
+      "section": "containers_household",
+      "specification": "塑料盘子"
+    },
+    {
+      "id": "material-5d4c5c4e5a",
+      "sourceLabel": "塑料盆",
+      "name": "水盆",
+      "groupId": "group:basin",
+      "section": "containers_household",
+      "specification": "塑料盆"
+    },
+    {
+      "id": "material-d5f435cd8d",
+      "sourceLabel": "塑料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "塑料瓶"
+    },
+    {
+      "id": "material-bb734f1664",
+      "sourceLabel": "塑料瓶（宽口，可放乒乓球）",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "塑料瓶（宽口，可放乒乓球）"
+    },
+    {
+      "id": "material-9d7b99979b",
+      "sourceLabel": "塑料瓶（瓶口可托住乒乓球）",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "塑料瓶（瓶口可托住乒乓球）"
+    },
+    {
+      "id": "material-80a8b9f670",
+      "sourceLabel": "塑料瓶盖（可载磁铁漂浮）",
+      "name": "瓶盖",
+      "groupId": "group:bottle-cap",
+      "section": "containers_household",
+      "specification": "塑料瓶盖（可载磁铁漂浮）"
+    },
+    {
+      "id": "material-0134aaf747",
+      "sourceLabel": "塑料吸管",
+      "name": "吸管",
+      "groupId": "group:straw",
+      "section": "containers_household",
+      "specification": "塑料吸管"
+    },
+    {
+      "id": "material-e21457b697",
+      "sourceLabel": "塑料吸管（可剪）",
+      "name": "吸管",
+      "groupId": "group:straw",
+      "section": "containers_household",
+      "specification": "塑料吸管（可剪）"
+    },
+    {
+      "id": "material-577ac499fd",
+      "sourceLabel": "塑料饮料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "塑料饮料瓶"
+    },
+    {
+      "id": "material-cbccace151",
+      "sourceLabel": "塑料直尺",
+      "name": "直尺",
+      "groupId": "group:ruler",
+      "section": "tools_measurement",
+      "specification": "塑料直尺"
+    },
+    {
+      "id": "material-1013a213e6",
+      "sourceLabel": "塑料纸",
+      "name": "塑料片",
+      "groupId": "group:material-1013a213e6",
+      "section": "craft_building",
+      "specification": "塑料纸"
+    },
+    {
+      "id": "material-4e606b9698",
+      "sourceLabel": "碎布",
+      "name": "布料",
+      "groupId": "group:material-8a37dc536c",
+      "section": "craft_building",
+      "specification": "碎布"
+    },
+    {
+      "id": "material-510d5f75a0",
+      "sourceLabel": "碎纸屑",
+      "name": "碎纸屑",
+      "groupId": "group:material-510d5f75a0",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-7997dc4c6e",
+      "sourceLabel": "填充棉",
+      "name": "填充棉",
+      "groupId": "group:material-7997dc4c6e",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-dbf0c45bca",
+      "sourceLabel": "铁环",
+      "name": "金属环",
+      "groupId": "group:material-954ce8e5f9",
+      "section": "craft_building",
+      "specification": "铁环"
+    },
+    {
+      "id": "material-b974db7842",
+      "sourceLabel": "铁丝",
+      "name": "铁丝",
+      "groupId": "group:material-b974db7842",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-7e2c66c760",
+      "sourceLabel": "骰子",
+      "name": "骰子",
+      "groupId": "group:material-7e2c66c760",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-c5a0dd7d56",
+      "sourceLabel": "透明杯",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "透明杯"
+    },
+    {
+      "id": "material-f93b4980ee",
+      "sourceLabel": "透明胶带",
+      "name": "胶带",
+      "groupId": "group:adhesive-tape",
+      "section": "craft_building",
+      "specification": "透明胶带"
+    },
+    {
+      "id": "material-a28c106668",
+      "sourceLabel": "透明胶纸筒",
+      "name": "纸筒",
+      "groupId": "group:material-7ae13e57ba",
+      "section": "craft_building",
+      "specification": "透明胶纸筒"
+    },
+    {
+      "id": "material-be3840c5d1",
+      "sourceLabel": "透明量杯",
+      "name": "量杯",
+      "groupId": "group:measuring-cup",
+      "section": "tools_measurement",
+      "specification": "透明量杯"
+    },
+    {
+      "id": "material-415827d4c0",
+      "sourceLabel": "透明耐热杯",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "透明耐热杯"
+    },
+    {
+      "id": "material-32cdb0c8e8",
+      "sourceLabel": "透明片",
+      "name": "透明片",
+      "groupId": "group:material-32cdb0c8e8",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-a2248b9d04",
+      "sourceLabel": "透明瓶子",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "透明瓶子"
+    },
+    {
+      "id": "material-37c325e5ae",
+      "sourceLabel": "透明塑料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "透明塑料瓶"
+    },
+    {
+      "id": "material-a8d7e2e688",
+      "sourceLabel": "透明塑料瓶（宽口，可放粘糖棒）",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "透明塑料瓶（宽口，可放粘糖棒）"
+    },
+    {
+      "id": "material-9b4f57e5b0",
+      "sourceLabel": "透明塑料纸",
+      "name": "塑料片",
+      "groupId": "group:material-1013a213e6",
+      "section": "craft_building",
+      "specification": "透明塑料纸"
+    },
+    {
+      "id": "material-41ac5e1b7c",
+      "sourceLabel": "图钉",
+      "name": "图钉",
+      "groupId": "group:material-41ac5e1b7c",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-352ccdf6fa",
+      "sourceLabel": "图片纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "图片纸"
+    },
+    {
+      "id": "material-a64a92c865",
+      "sourceLabel": "土豆",
+      "name": "土豆",
+      "groupId": "group:material-a64a92c865",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-610fd6b152",
+      "sourceLabel": "土壤",
+      "name": "土壤",
+      "groupId": "group:material-610fd6b152",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-f2bcfbb4c9",
+      "sourceLabel": "托盘",
+      "name": "盘子",
+      "groupId": "group:plate",
+      "section": "containers_household",
+      "specification": "托盘"
+    },
+    {
+      "id": "material-4821c80125",
+      "sourceLabel": "娃哈哈吸管",
+      "name": "吸管",
+      "groupId": "group:straw",
+      "section": "containers_household",
+      "specification": "娃哈哈吸管"
+    },
+    {
+      "id": "material-1ec985f428",
+      "sourceLabel": "瓦楞纸板",
+      "name": "瓦楞纸板",
+      "groupId": "group:corrugated-cardboard",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-80155be9f0",
+      "sourceLabel": "弯头塑料吸管（可剪）",
+      "name": "吸管",
+      "groupId": "group:straw",
+      "section": "containers_household",
+      "specification": "弯头塑料吸管（可剪）"
+    },
+    {
+      "id": "material-fb1fa04982",
+      "sourceLabel": "豌豆荚",
+      "name": "豌豆荚",
+      "groupId": "group:material-fb1fa04982",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-0c116a8a46",
+      "sourceLabel": "完整平面镜片",
+      "name": "镜子",
+      "groupId": "group:material-e1a4f5479f",
+      "section": "electronics_optics",
+      "specification": "完整平面镜片"
+    },
+    {
+      "id": "material-41bb76350c",
+      "sourceLabel": "碗",
+      "name": "碗",
+      "groupId": "group:bowl",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-324b8091c4",
+      "sourceLabel": "网球",
+      "name": "网球",
+      "groupId": "group:material-324b8091c4",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-7574ace5ce",
+      "sourceLabel": "维生素C片",
+      "name": "维生素C片",
+      "groupId": "group:material-7574ace5ce",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-25a1b9368b",
+      "sourceLabel": "温水",
+      "name": "水",
+      "groupId": "group:water",
+      "section": "experiment_cleaning",
+      "specification": "温水"
+    },
+    {
+      "id": "material-6325ecb993",
+      "sourceLabel": "稳定小物体",
+      "name": "桌面小物件",
+      "groupId": "group:material-6325ecb993",
+      "section": "reference_models",
+      "specification": "能稳放桌面的观察物，用于平面镜成像，可替代未点燃的蜡烛"
+    },
+    {
+      "id": "material-3ff81231c4",
+      "sourceLabel": "无锐边闭合细链",
+      "name": "链条",
+      "groupId": "group:material-3ff81231c4",
+      "section": "craft_building",
+      "specification": "细链、闭合、无锐边"
+    },
+    {
+      "id": "material-edf001fccd",
+      "sourceLabel": "洗洁精",
+      "name": "洗洁精",
+      "groupId": "group:material-edf001fccd",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-09850ac98d",
+      "sourceLabel": "洗衣粉",
+      "name": "洗衣粉",
+      "groupId": "group:material-09850ac98d",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-f6aa92315a",
+      "sourceLabel": "鲜牛奶",
+      "name": "牛奶",
+      "groupId": "group:milk",
+      "section": "kitchen_food",
+      "specification": "鲜牛奶"
+    },
+    {
+      "id": "material-f944651ed8",
+      "sourceLabel": "橡胶手套",
+      "name": "防护手套",
+      "groupId": "group:insulating-gloves",
+      "section": "tools_measurement",
+      "specification": "橡胶手套"
+    },
+    {
+      "id": "material-b38d7276de",
+      "sourceLabel": "橡皮",
+      "name": "橡皮",
+      "groupId": "group:material-b38d7276de",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-b68c151289",
+      "sourceLabel": "橡皮筋",
+      "name": "橡皮筋",
+      "groupId": "group:material-b68c151289",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-047a16fd08",
+      "sourceLabel": "小刀",
+      "name": "小刀",
+      "groupId": "group:material-047a16fd08",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-8db870a820",
+      "sourceLabel": "小电筒",
+      "name": "手电筒",
+      "groupId": "group:flashlight",
+      "section": "electronics_optics",
+      "specification": "小电筒"
+    },
+    {
+      "id": "material-84bdd7004e",
+      "sourceLabel": "小果篮",
+      "name": "果篮",
+      "groupId": "group:material-84bdd7004e",
+      "section": "containers_household",
+      "specification": "小果篮"
+    },
+    {
+      "id": "material-82fef3d1a4",
+      "sourceLabel": "小橘子",
+      "name": "橘子",
+      "groupId": "group:material-82fef3d1a4",
+      "section": "kitchen_food",
+      "specification": "小个"
+    },
+    {
+      "id": "material-75877709d1",
+      "sourceLabel": "小木棍",
+      "name": "木棍",
+      "groupId": "group:wooden-stick",
+      "section": "craft_building",
+      "specification": "小木棍"
+    },
+    {
+      "id": "material-962df584b5",
+      "sourceLabel": "小木片",
+      "name": "木板",
+      "groupId": "group:material-5bd56b437a",
+      "section": "craft_building",
+      "specification": "小木片"
+    },
+    {
+      "id": "material-5a28849b09",
+      "sourceLabel": "小球",
+      "name": "小球",
+      "groupId": "group:material-5a28849b09",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-744ac4a531",
+      "sourceLabel": "小石头",
+      "name": "石头",
+      "groupId": "group:material-744ac4a531",
+      "section": "nature_gardening",
+      "specification": "小石头"
+    },
+    {
+      "id": "material-1f7f099417",
+      "sourceLabel": "小苏打",
+      "name": "小苏打",
+      "groupId": "group:material-1f7f099417",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-6dcec08145",
+      "sourceLabel": "小桶",
+      "name": "桶",
+      "groupId": "group:material-6dcec08145",
+      "section": "containers_household",
+      "specification": "小桶"
+    },
+    {
+      "id": "material-06f52f8b53",
+      "sourceLabel": "小圆片磁铁",
+      "name": "磁铁",
+      "groupId": "group:material-77071b054c",
+      "section": "electronics_optics",
+      "specification": "小圆片磁铁"
+    },
+    {
+      "id": "material-c76877ce38",
+      "sourceLabel": "小纸盒",
+      "name": "纸盒",
+      "groupId": "group:shoe-box",
+      "section": "containers_household",
+      "specification": "小纸盒"
+    },
+    {
+      "id": "material-1c67d20326",
+      "sourceLabel": "新鲜花朵",
+      "name": "鲜花",
+      "groupId": "group:material-b929b9443e",
+      "section": "nature_gardening",
+      "specification": "新鲜花朵"
+    },
+    {
+      "id": "material-0d359251f3",
+      "sourceLabel": "新鲜树叶",
+      "name": "树叶",
+      "groupId": "group:material-0d359251f3",
+      "section": "nature_gardening",
+      "specification": "新鲜树叶"
+    },
+    {
+      "id": "material-f79f7d6d06",
+      "sourceLabel": "新鲜完整鱼",
+      "name": "鱼",
+      "groupId": "group:material-f79f7d6d06",
+      "section": "kitchen_food",
+      "specification": "新鲜完整"
+    },
+    {
+      "id": "material-cda5d02b7c",
+      "sourceLabel": "绣线",
+      "name": "缝纫线",
+      "groupId": "group:material-66cb283b50",
+      "section": "craft_building",
+      "specification": "绣线"
+    },
+    {
+      "id": "material-3e2515ddd3",
+      "sourceLabel": "雪碧",
+      "name": "雪碧",
+      "groupId": "group:material-3e2515ddd3",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-d0173adea0",
+      "sourceLabel": "雪糕棒",
+      "name": "雪糕棒",
+      "groupId": "group:material-d0173adea0",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-ea1de1cdb8",
+      "sourceLabel": "牙签",
+      "name": "牙签",
+      "groupId": "group:material-ea1de1cdb8",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-aeb4c474be",
+      "sourceLabel": "牙刷",
+      "name": "牙刷",
+      "groupId": "group:material-aeb4c474be",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-6d132744a9",
+      "sourceLabel": "钥匙",
+      "name": "钥匙",
+      "groupId": "group:material-6d132744a9",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-04cd061d58",
+      "sourceLabel": "钥匙扣配件",
+      "name": "钥匙扣配件",
+      "groupId": "group:material-04cd061d58",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-c5c07c1755",
+      "sourceLabel": "一次性杯子",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "一次性杯子"
+    },
+    {
+      "id": "material-b971e20fcc",
+      "sourceLabel": "一次性筷子",
+      "name": "筷子",
+      "groupId": "group:material-399893f69b",
+      "section": "containers_household",
+      "specification": "一次性筷子"
+    },
+    {
+      "id": "material-00e7a68cd5",
+      "sourceLabel": "一次性手套",
+      "name": "防护手套",
+      "groupId": "group:insulating-gloves",
+      "section": "tools_measurement",
+      "specification": "一次性手套"
+    },
+    {
+      "id": "material-972578f78f",
+      "sourceLabel": "一次性塑料杯",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "一次性塑料杯"
+    },
+    {
+      "id": "material-bbb29a1e0f",
+      "sourceLabel": "易拉罐",
+      "name": "易拉罐",
+      "groupId": "group:material-bbb29a1e0f",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-4d4e3974ec",
+      "sourceLabel": "易拉罐饮料",
+      "name": "饮料",
+      "groupId": "group:material-4d4e3974ec",
+      "section": "kitchen_food",
+      "specification": "易拉罐装"
+    },
+    {
+      "id": "material-8b01820489",
+      "sourceLabel": "饮料瓶盖（中间有孔）",
+      "name": "瓶盖",
+      "groupId": "group:bottle-cap",
+      "section": "containers_household",
+      "specification": "饮料瓶盖（中间有孔）"
+    },
+    {
+      "id": "material-384f546fc9",
+      "sourceLabel": "印泥",
+      "name": "印泥",
+      "groupId": "group:material-384f546fc9",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-a99d542306",
+      "sourceLabel": "印刷文字废纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "印刷文字废纸"
+    },
+    {
+      "id": "material-e8031d14f2",
+      "sourceLabel": "硬币",
+      "name": "硬币",
+      "groupId": "group:coin",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-a84337e080",
+      "sourceLabel": "硬卡纸",
+      "name": "卡纸",
+      "groupId": "group:card-paper",
+      "section": "paper_drawing",
+      "specification": "硬卡纸"
+    },
+    {
+      "id": "material-d423a6b172",
+      "sourceLabel": "硬纸板",
+      "name": "纸板",
+      "groupId": "group:cardboard",
+      "section": "craft_building",
+      "specification": "硬纸板"
+    },
+    {
+      "id": "material-e755d83db4",
+      "sourceLabel": "硬纸片",
+      "name": "纸板",
+      "groupId": "group:cardboard",
+      "section": "craft_building",
+      "specification": "硬纸片"
+    },
+    {
+      "id": "material-1e48307037",
+      "sourceLabel": "有弹性的塑料吸管",
+      "name": "吸管",
+      "groupId": "group:straw",
+      "section": "containers_household",
+      "specification": "有弹性的塑料吸管"
+    },
+    {
+      "id": "material-3ea653ce9e",
+      "sourceLabel": "玉米粒",
+      "name": "玉米粒",
+      "groupId": "group:material-3ea653ce9e",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-bcb07928ea",
+      "sourceLabel": "圆杆",
+      "name": "圆杆",
+      "groupId": "group:material-bcb07928ea",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-848077d583",
+      "sourceLabel": "圆规",
+      "name": "圆规",
+      "groupId": "group:material-848077d583",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-67ecdd6de1",
+      "sourceLabel": "圆滑铁环",
+      "name": "金属环",
+      "groupId": "group:material-954ce8e5f9",
+      "section": "craft_building",
+      "specification": "圆滑铁环"
+    },
+    {
+      "id": "material-1f9f75d21e",
+      "sourceLabel": "圆滑小球",
+      "name": "小球",
+      "groupId": "group:material-5a28849b09",
+      "section": "reference_models",
+      "specification": "圆滑小球"
+    },
+    {
+      "id": "material-309fc69ef1",
+      "sourceLabel": "圆片磁铁",
+      "name": "磁铁",
+      "groupId": "group:material-77071b054c",
+      "section": "electronics_optics",
+      "specification": "圆片磁铁"
+    },
+    {
+      "id": "material-d1277e263b",
+      "sourceLabel": "圆头画笔",
+      "name": "画笔",
+      "groupId": "group:paintbrush",
+      "section": "paper_drawing",
+      "specification": "圆头画笔"
+    },
+    {
+      "id": "material-db97b1823e",
+      "sourceLabel": "圆形盘子",
+      "name": "盘子",
+      "groupId": "group:plate",
+      "section": "containers_household",
+      "specification": "圆形盘子"
+    },
+    {
+      "id": "material-ff5b37f058",
+      "sourceLabel": "圆形日用品",
+      "name": "圆形物品",
+      "groupId": "group:material-ff5b37f058",
+      "section": "containers_household",
+      "specification": "圆形日用品"
+    },
+    {
+      "id": "material-f9aaa17309",
+      "sourceLabel": "圆柱形电池",
+      "name": "电池",
+      "groupId": "group:material-f9aaa17309",
+      "section": "electronics_optics",
+      "specification": "圆柱形，具体型号以项目要求为准"
+    },
+    {
+      "id": "material-4f376ac7c3",
+      "sourceLabel": "窄口轻质空塑料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "窄口轻质空塑料瓶"
+    },
+    {
+      "id": "material-4ee7f8b470",
+      "sourceLabel": "长搅拌棒",
+      "name": "搅拌工具",
+      "groupId": "group:stirring-stick",
+      "section": "tools_measurement",
+      "specification": "长搅拌棒"
+    },
+    {
+      "id": "material-061d0ff4cd",
+      "sourceLabel": "长形塑料保鲜盒",
+      "name": "塑料盒",
+      "groupId": "group:plastic-box",
+      "section": "containers_household",
+      "specification": "长形塑料保鲜盒"
+    },
+    {
+      "id": "material-f0491879be",
+      "sourceLabel": "长直尺",
+      "name": "直尺",
+      "groupId": "group:ruler",
+      "section": "tools_measurement",
+      "specification": "长直尺"
+    },
+    {
+      "id": "material-3b73befb84",
+      "sourceLabel": "长纸条",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "长纸条"
+    },
+    {
+      "id": "material-7ed7093f3a",
+      "sourceLabel": "真实水果",
+      "name": "水果",
+      "groupId": "group:material-27c180751a",
+      "section": "kitchen_food",
+      "specification": "真实水果"
+    },
+    {
+      "id": "material-55ed233e79",
+      "sourceLabel": "正方形纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "正方形纸"
+    },
+    {
+      "id": "material-7fb418fe69",
+      "sourceLabel": "直尺",
+      "name": "直尺",
+      "groupId": "group:ruler",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-4352741bf1",
+      "sourceLabel": "直尺（30厘米）",
+      "name": "直尺",
+      "groupId": "group:ruler",
+      "section": "tools_measurement",
+      "specification": "直尺（30厘米）"
+    },
+    {
+      "id": "material-1f34c2dc52",
+      "sourceLabel": "直身瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "直身瓶"
+    },
+    {
+      "id": "material-ae007e1b84",
+      "sourceLabel": "直身塑料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "直身塑料瓶"
+    },
+    {
+      "id": "material-e9fb086422",
+      "sourceLabel": "塑料直吸管",
+      "name": "吸管",
+      "groupId": "group:straw",
+      "section": "containers_household",
+      "specification": "塑料直吸管"
+    },
+    {
+      "id": "material-27e8bfc921",
+      "sourceLabel": "纸板",
+      "name": "纸板",
+      "groupId": "group:cardboard",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-4b074a4898",
+      "sourceLabel": "纸包装吸管",
+      "name": "吸管",
+      "groupId": "group:straw",
+      "section": "containers_household",
+      "specification": "纸包装吸管"
+    },
+    {
+      "id": "material-c56a8af1cb",
+      "sourceLabel": "纸包装吸管（可剪）",
+      "name": "吸管",
+      "groupId": "group:straw",
+      "section": "containers_household",
+      "specification": "纸包装吸管（可剪）"
+    },
+    {
+      "id": "material-8be28d7c5f",
+      "sourceLabel": "纸币",
+      "name": "纸币",
+      "groupId": "group:material-8be28d7c5f",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-8b17020275",
+      "sourceLabel": "纸巾筒",
+      "name": "纸筒",
+      "groupId": "group:material-7ae13e57ba",
+      "section": "craft_building",
+      "specification": "纸巾筒"
+    },
+    {
+      "id": "material-c0ddaac9aa",
+      "sourceLabel": "纸卡片",
+      "name": "卡片",
+      "groupId": "group:material-fb5640f8e1",
+      "section": "paper_drawing",
+      "specification": "纸卡片"
+    },
+    {
+      "id": "material-c938a839d0",
+      "sourceLabel": "纸盘",
+      "name": "纸盘",
+      "groupId": "group:material-c938a839d0",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-59ec2f5152",
+      "sourceLabel": "纸条",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "纸条"
+    },
+    {
+      "id": "material-7ae13e57ba",
+      "sourceLabel": "纸筒（轻且弹性好）",
+      "name": "纸筒",
+      "groupId": "group:material-7ae13e57ba",
+      "section": "craft_building",
+      "specification": "纸筒（轻且弹性好）"
+    },
+    {
+      "id": "material-8362011f8e",
+      "sourceLabel": "纸张",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-fb735e3bd2",
+      "sourceLabel": "指南针",
+      "name": "指南针",
+      "groupId": "group:material-fb735e3bd2",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-d3533c793a",
+      "sourceLabel": "珠子",
+      "name": "珠子",
+      "groupId": "group:material-d3533c793a",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-418ffbdb61",
+      "sourceLabel": "竹签",
+      "name": "竹签",
+      "groupId": "group:material-418ffbdb61",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-fa01390e57",
+      "sourceLabel": "桌面软垫",
+      "name": "软垫",
+      "groupId": "group:material-fa01390e57",
+      "section": "tools_measurement",
+      "specification": "桌面用"
+    },
+    {
+      "id": "material-22cba8330a",
+      "sourceLabel": "字母表对照卡",
+      "name": "字母表对照卡",
+      "groupId": "group:material-22cba8330a",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-7640cdcfab",
+      "sourceLabel": "自然螺旋参考图",
+      "name": "自然螺旋参考图",
+      "groupId": "group:material-7640cdcfab",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-e534923a31",
+      "sourceLabel": "钻孔工具",
+      "name": "打孔工具",
+      "groupId": "group:material-e72d5a07f2",
+      "section": "tools_measurement",
+      "specification": "钻孔工具"
+    },
+    {
+      "id": "material-9d8696b3db",
+      "sourceLabel": "HB铅笔",
+      "name": "铅笔",
+      "groupId": "group:pencil",
+      "section": "paper_drawing",
+      "specification": "HB铅笔"
+    },
+    {
+      "id": "material-7363d7546a",
+      "sourceLabel": "细棉绳",
+      "name": "棉绳",
+      "groupId": "group:cotton-rope",
+      "section": "craft_building",
+      "specification": "细棉绳"
+    },
+    {
+      "id": "material-0d12b78581",
+      "sourceLabel": "小镜子",
+      "name": "镜子",
+      "groupId": "group:material-e1a4f5479f",
+      "section": "electronics_optics",
+      "specification": "小镜子"
+    },
+    {
+      "id": "material-84f1945488",
+      "sourceLabel": "白色纸板",
+      "name": "纸板",
+      "groupId": "group:cardboard",
+      "section": "craft_building",
+      "specification": "白色纸板"
+    },
+    {
+      "id": "material-3943b7ebfa",
+      "sourceLabel": "鞋盒",
+      "name": "纸盒",
+      "groupId": "group:shoe-box",
+      "section": "containers_household",
+      "specification": "鞋盒"
+    },
+    {
+      "id": "material-bb247e6849",
+      "sourceLabel": "纸箱",
+      "name": "纸盒",
+      "groupId": "group:shoe-box",
+      "section": "containers_household",
+      "specification": "纸箱"
+    },
+    {
+      "id": "material-aeab5dda32",
+      "sourceLabel": "不透明碗",
+      "name": "碗",
+      "groupId": "group:bowl",
+      "section": "containers_household",
+      "specification": "不透明碗"
+    },
+    {
+      "id": "material-ed52a121f7",
+      "sourceLabel": "水壶",
+      "name": "水壶",
+      "groupId": "group:material-ed52a121f7",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-23443a1252",
+      "sourceLabel": "硬纸筒",
+      "name": "纸筒",
+      "groupId": "group:material-7ae13e57ba",
+      "section": "craft_building",
+      "specification": "硬纸筒"
+    },
+    {
+      "id": "material-ac907c4670",
+      "sourceLabel": "镜面卡纸",
+      "name": "镜面卡纸",
+      "groupId": "group:material-ac907c4670",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-8cca0fd324",
+      "sourceLabel": "透明塑料片",
+      "name": "塑料片",
+      "groupId": "group:material-1013a213e6",
+      "section": "craft_building",
+      "specification": "透明塑料片"
+    },
+    {
+      "id": "material-5bd397e2c5",
+      "sourceLabel": "亮片",
+      "name": "亮片",
+      "groupId": "group:material-5bd397e2c5",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-7159a0d414",
+      "sourceLabel": "长木板",
+      "name": "木板",
+      "groupId": "group:material-5bd56b437a",
+      "section": "craft_building",
+      "specification": "长木板"
+    },
+    {
+      "id": "material-18cf6b6115",
+      "sourceLabel": "砂纸",
+      "name": "砂纸",
+      "groupId": "group:material-18cf6b6115",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-c4e9e538be",
+      "sourceLabel": "光滑塑料纸",
+      "name": "塑料片",
+      "groupId": "group:material-1013a213e6",
+      "section": "craft_building",
+      "specification": "光滑塑料纸"
+    },
+    {
+      "id": "material-fbd46b7864",
+      "sourceLabel": "毛巾布",
+      "name": "布料",
+      "groupId": "group:material-8a37dc536c",
+      "section": "craft_building",
+      "specification": "毛巾布"
+    },
+    {
+      "id": "material-c36c54eec1",
+      "sourceLabel": "玩具车",
+      "name": "玩具车",
+      "groupId": "group:material-c36c54eec1",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-3841b8bdb6",
+      "sourceLabel": "秒表",
+      "name": "计时工具",
+      "groupId": "group:material-b727ee62fc",
+      "section": "tools_measurement",
+      "specification": "秒表"
+    },
+    {
+      "id": "material-c702ebf52f",
+      "sourceLabel": "黑色胶带",
+      "name": "胶带",
+      "groupId": "group:adhesive-tape",
+      "section": "craft_building",
+      "specification": "黑色胶带"
+    },
+    {
+      "id": "material-79c5fbd7d4",
+      "sourceLabel": "黑色卡纸",
+      "name": "卡纸",
+      "groupId": "group:card-paper",
+      "section": "paper_drawing",
+      "specification": "黑色卡纸"
+    },
+    {
+      "id": "material-913aa33fa9",
+      "sourceLabel": "白炽灯",
+      "name": "灯具",
+      "groupId": "group:material-913aa33fa9",
+      "section": "electronics_optics",
+      "specification": "白炽灯"
+    },
+    {
+      "id": "material-98a237dec9",
+      "sourceLabel": "日光灯",
+      "name": "灯具",
+      "groupId": "group:material-913aa33fa9",
+      "section": "electronics_optics",
+      "specification": "日光灯"
+    },
+    {
+      "id": "material-1b62ce5c34",
+      "sourceLabel": "LED灯",
+      "name": "灯具",
+      "groupId": "group:material-913aa33fa9",
+      "section": "electronics_optics",
+      "specification": "LED灯"
+    },
+    {
+      "id": "material-2eb369d784",
+      "sourceLabel": "手机屏幕",
+      "name": "手机",
+      "groupId": "group:phone",
+      "section": "electronics_optics",
+      "specification": "手机屏幕"
+    },
+    {
+      "id": "material-34fb1a8214",
+      "sourceLabel": "甘油",
+      "name": "甘油",
+      "groupId": "group:material-34fb1a8214",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-2c3a6e82eb",
+      "sourceLabel": "铁丝环",
+      "name": "金属环",
+      "groupId": "group:material-954ce8e5f9",
+      "section": "craft_building",
+      "specification": "铁丝环"
+    },
+    {
+      "id": "material-b3417036fa",
+      "sourceLabel": "小杯子",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "小杯子"
+    },
+    {
+      "id": "material-b1b8e9ca9f",
+      "sourceLabel": "量杯",
+      "name": "量杯",
+      "groupId": "group:measuring-cup",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-7f1be944f5",
+      "sourceLabel": "大透明玻璃瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "大透明玻璃瓶"
+    },
+    {
+      "id": "material-c1e50efcff",
+      "sourceLabel": "大透明塑料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "大透明塑料瓶"
+    },
+    {
+      "id": "material-6027f957b9",
+      "sourceLabel": "细沙",
+      "name": "沙子",
+      "groupId": "group:material-71c7820ea3",
+      "section": "experiment_cleaning",
+      "specification": "细沙"
+    },
+    {
+      "id": "material-6dcb74e54f",
+      "sourceLabel": "落叶碎片",
+      "name": "落叶",
+      "groupId": "group:material-6dcb74e54f",
+      "section": "nature_gardening",
+      "specification": "碎片"
+    },
+    {
+      "id": "material-d0073727cc",
+      "sourceLabel": "蚯蚓",
+      "name": "蚯蚓",
+      "groupId": "group:material-d0073727cc",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-b83883c480",
+      "sourceLabel": "喷水壶",
+      "name": "喷水壶",
+      "groupId": "group:material-b83883c480",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-6443619267",
+      "sourceLabel": "深色纸",
+      "name": "彩纸",
+      "groupId": "group:material-bf2444d0fc",
+      "section": "paper_drawing",
+      "specification": "深色纸"
+    },
+    {
+      "id": "material-557e69ad7a",
+      "sourceLabel": "贝壳",
+      "name": "贝壳",
+      "groupId": "group:material-557e69ad7a",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-85f86c68b8",
+      "sourceLabel": "分类盒",
+      "name": "分类盒",
+      "groupId": "group:material-85f86c68b8",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-273fcb3549",
+      "sourceLabel": "贝类图鉴",
+      "name": "贝类图鉴",
+      "groupId": "group:material-273fcb3549",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-52700bae20",
+      "sourceLabel": "展示板",
+      "name": "展示板",
+      "groupId": "group:material-52700bae20",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-0a28444af6",
+      "sourceLabel": "自然死亡昆虫（可直接调整肢体）",
+      "name": "昆虫标本",
+      "groupId": "group:insect-specimen",
+      "section": "nature_gardening",
+      "specification": "自然死亡，可直接调整肢体"
+    },
+    {
+      "id": "material-9ad1194e9b",
+      "sourceLabel": "自然死亡昆虫（需软化）",
+      "name": "昆虫标本",
+      "groupId": "group:insect-specimen",
+      "section": "nature_gardening",
+      "specification": "自然死亡，需软化"
+    },
+    {
+      "id": "material-d9a50a3dff",
+      "sourceLabel": "密封盒",
+      "name": "盒子",
+      "groupId": "group:material-36db94ca75",
+      "section": "containers_household",
+      "specification": "密封盒"
+    },
+    {
+      "id": "material-deb33881b8",
+      "sourceLabel": "软木板",
+      "name": "软木板",
+      "groupId": "group:material-deb33881b8",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-641c4e614f",
+      "sourceLabel": "昆虫针",
+      "name": "昆虫针",
+      "groupId": "group:material-641c4e614f",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-d199c88c33",
+      "sourceLabel": "标本盒",
+      "name": "标本盒",
+      "groupId": "group:material-d199c88c33",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-0a20942cfb",
+      "sourceLabel": "绿豆",
+      "name": "种子",
+      "groupId": "group:material-0a20942cfb",
+      "section": "nature_gardening",
+      "specification": "绿豆"
+    },
+    {
+      "id": "material-6b3d8624d7",
+      "sourceLabel": "透明塑料杯",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "透明塑料杯"
+    },
+    {
+      "id": "material-9ee1b8672f",
+      "sourceLabel": "棉花",
+      "name": "棉花",
+      "groupId": "group:material-9ee1b8672f",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-0619551f1a",
+      "sourceLabel": "大葱根部",
+      "name": "大葱",
+      "groupId": "group:material-0619551f1a",
+      "section": "kitchen_food",
+      "specification": "大葱根部"
+    },
+    {
+      "id": "material-e78761f58d",
+      "sourceLabel": "白菜根",
+      "name": "白菜",
+      "groupId": "group:material-ad3ce8a1db",
+      "section": "kitchen_food",
+      "specification": "白菜根"
+    },
+    {
+      "id": "material-e9f89a08c5",
+      "sourceLabel": "胡萝卜头（带叶芽）",
+      "name": "胡萝卜",
+      "groupId": "group:material-dd1a68cb2c",
+      "section": "kitchen_food",
+      "specification": "胡萝卜头（带叶芽）"
+    },
+    {
+      "id": "material-4772969bdf",
+      "sourceLabel": "白色花朵",
+      "name": "鲜花",
+      "groupId": "group:material-b929b9443e",
+      "section": "nature_gardening",
+      "specification": "白色花朵"
+    },
+    {
+      "id": "material-6c81d4829a",
+      "sourceLabel": "搅拌用具",
+      "name": "搅拌工具",
+      "groupId": "group:stirring-stick",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-02a1917823",
+      "sourceLabel": "发芽豆苗",
+      "name": "发芽豆苗",
+      "groupId": "group:material-02a1917823",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-214c8de01d",
+      "sourceLabel": "小盆栽",
+      "name": "植物",
+      "groupId": "group:material-a745bfdf30",
+      "section": "nature_gardening",
+      "specification": "小盆栽"
+    },
+    {
+      "id": "material-50537dab76",
+      "sourceLabel": "苹果",
+      "name": "苹果",
+      "groupId": "group:material-50537dab76",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-0f483f3a70",
+      "sourceLabel": "柠檬汁",
+      "name": "柠檬汁",
+      "groupId": "group:material-0f483f3a70",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-f311d0c0d3",
+      "sourceLabel": "盐水",
+      "name": "盐水",
+      "groupId": "group:material-f311d0c0d3",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-a27e206eb6",
+      "sourceLabel": "计时器",
+      "name": "计时工具",
+      "groupId": "group:material-b727ee62fc",
+      "section": "tools_measurement",
+      "specification": "计时器"
+    },
+    {
+      "id": "material-a1a89e50b2",
+      "sourceLabel": "刀具",
+      "name": "小刀",
+      "groupId": "group:material-047a16fd08",
+      "section": "tools_measurement",
+      "specification": "刀具"
+    },
+    {
+      "id": "material-f8781a5f97",
+      "sourceLabel": "冰箱",
+      "name": "冰箱",
+      "groupId": "group:fridge",
+      "section": "electronics_optics"
+    },
+    {
+      "id": "material-4f4c8caee7",
+      "sourceLabel": "碎石",
+      "name": "石头",
+      "groupId": "group:material-744ac4a531",
+      "section": "nature_gardening",
+      "specification": "碎石"
+    },
+    {
+      "id": "material-ac5d46025b",
+      "sourceLabel": "活性炭",
+      "name": "活性炭",
+      "groupId": "group:material-ac5d46025b",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-1aaea8f9ba",
+      "sourceLabel": "营养土",
+      "name": "土壤",
+      "groupId": "group:material-610fd6b152",
+      "section": "nature_gardening",
+      "specification": "营养土"
+    },
+    {
+      "id": "material-83e87c9a97",
+      "sourceLabel": "新鲜苔藓",
+      "name": "苔藓",
+      "groupId": "group:material-83e87c9a97",
+      "section": "nature_gardening",
+      "specification": "新鲜"
+    },
+    {
+      "id": "material-f64959d3b3",
+      "sourceLabel": "装饰物",
+      "name": "装饰摆件",
+      "groupId": "group:material-f64959d3b3",
+      "section": "craft_building",
+      "specification": "用于苔藓微景观造景，如小石头或小木屋模型"
+    },
+    {
+      "id": "material-aa9e00d571",
+      "sourceLabel": "植物营养液",
+      "name": "植物营养液",
+      "groupId": "group:material-aa9e00d571",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-829d27afc1",
+      "sourceLabel": "生菜种子",
+      "name": "种子",
+      "groupId": "group:material-0a20942cfb",
+      "section": "nature_gardening",
+      "specification": "生菜种子"
+    },
+    {
+      "id": "material-c63efaf349",
+      "sourceLabel": "小白菜种子",
+      "name": "种子",
+      "groupId": "group:material-0a20942cfb",
+      "section": "nature_gardening",
+      "specification": "小白菜种子"
+    },
+    {
+      "id": "material-bd723dd29b",
+      "sourceLabel": "花盆",
+      "name": "花盆",
+      "groupId": "group:material-bd723dd29b",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-7292a6b226",
+      "sourceLabel": "多肉母株（带完整叶片和带根侧芽）",
+      "name": "多肉植物",
+      "groupId": "group:material-7292a6b226",
+      "section": "nature_gardening",
+      "specification": "母株，带完整叶片和带根侧芽"
+    },
+    {
+      "id": "material-c3fce4b0fd",
+      "sourceLabel": "多肉颗粒土",
+      "name": "土壤",
+      "groupId": "group:material-610fd6b152",
+      "section": "nature_gardening",
+      "specification": "多肉颗粒土"
+    },
+    {
+      "id": "material-4d26d3b6d0",
+      "sourceLabel": "育苗盒",
+      "name": "育苗盒",
+      "groupId": "group:material-4d26d3b6d0",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-b8c896b467",
+      "sourceLabel": "同种同大小盆栽植物",
+      "name": "植物",
+      "groupId": "group:material-a745bfdf30",
+      "section": "nature_gardening",
+      "specification": "同种、同大小"
+    },
+    {
+      "id": "material-2500a94281",
+      "sourceLabel": "遮光纸板",
+      "name": "纸板",
+      "groupId": "group:cardboard",
+      "section": "craft_building",
+      "specification": "遮光纸板"
+    },
+    {
+      "id": "material-3897418adf",
+      "sourceLabel": "黑色塑料袋",
+      "name": "塑料袋",
+      "groupId": "group:plastic-bag",
+      "section": "containers_household",
+      "specification": "黑色塑料袋"
+    },
+    {
+      "id": "material-08605afcc5",
+      "sourceLabel": "半透明纱布",
+      "name": "纱布",
+      "groupId": "group:material-ab8052bf3d",
+      "section": "experiment_cleaning",
+      "specification": "半透明纱布"
+    },
+    {
+      "id": "material-596482e76c",
+      "sourceLabel": "电子秤",
+      "name": "电子秤",
+      "groupId": "group:material-596482e76c",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-e9a265b4ac",
+      "sourceLabel": "记录表",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "记录表"
+    },
+    {
+      "id": "material-dacf070260",
+      "sourceLabel": "相机",
+      "name": "相机",
+      "groupId": "group:material-dacf070260",
+      "section": "electronics_optics"
+    },
+    {
+      "id": "material-27e0cda0fb",
+      "sourceLabel": "橡皮头铅笔",
+      "name": "铅笔",
+      "groupId": "group:pencil",
+      "section": "paper_drawing",
+      "specification": "橡皮头铅笔"
+    },
+    {
+      "id": "material-aa0697f23f",
+      "sourceLabel": "稳固底座",
+      "name": "底座",
+      "groupId": "group:material-aa0697f23f",
+      "section": "craft_building",
+      "specification": "能用黏土将铅笔竖直固定，保持风向标平稳，并标注四个方位"
+    },
+    {
+      "id": "material-845072288c",
+      "sourceLabel": "收集袋",
+      "name": "袋子",
+      "groupId": "group:material-845072288c",
+      "section": "containers_household",
+      "specification": "用于收集和装放8—10块岩石，可用小盒子替代；未限定塑料材质"
+    },
+    {
+      "id": "material-36db94ca75",
+      "sourceLabel": "小盒子",
+      "name": "盒子",
+      "groupId": "group:material-36db94ca75",
+      "section": "containers_household",
+      "specification": "小型，用于收集和装放岩石，可用收集袋替代；材质未指定"
+    },
+    {
+      "id": "material-5f83c726cb",
+      "sourceLabel": "岩石分类图",
+      "name": "岩石分类图",
+      "groupId": "group:material-5f83c726cb",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-9074f39438",
+      "sourceLabel": "岩石",
+      "name": "石头",
+      "groupId": "group:material-744ac4a531",
+      "section": "nature_gardening",
+      "specification": "岩石"
+    },
+    {
+      "id": "material-acc4096866",
+      "sourceLabel": "标本卡纸",
+      "name": "卡纸",
+      "groupId": "group:card-paper",
+      "section": "paper_drawing",
+      "specification": "标本卡纸"
+    },
+    {
+      "id": "material-7e94395dc4",
+      "sourceLabel": "花园水管",
+      "name": "水管",
+      "groupId": "group:material-fdd8a64bc5",
+      "section": "containers_household",
+      "specification": "花园水管"
+    },
+    {
+      "id": "material-03347d0cf4",
+      "sourceLabel": "大透明塑料盒（带盖）",
+      "name": "塑料盒",
+      "groupId": "group:plastic-box",
+      "section": "containers_household",
+      "specification": "大透明塑料盒（带盖）"
+    },
+    {
+      "id": "material-479675f984",
+      "sourceLabel": "大透明塑料盒",
+      "name": "塑料盒",
+      "groupId": "group:plastic-box",
+      "section": "containers_household",
+      "specification": "大透明塑料盒"
+    },
+    {
+      "id": "material-63debd2803",
+      "sourceLabel": "小碗",
+      "name": "碗",
+      "groupId": "group:bowl",
+      "section": "containers_household",
+      "specification": "小碗"
+    },
+    {
+      "id": "material-2adc6c754a",
+      "sourceLabel": "大铝箔烤盘",
+      "name": "烤盘",
+      "groupId": "group:material-bde7045a39",
+      "section": "tools_measurement",
+      "specification": "大铝箔烤盘"
+    },
+    {
+      "id": "material-4701adfe18",
+      "sourceLabel": "塑料浅盆",
+      "name": "水盆",
+      "groupId": "group:basin",
+      "section": "containers_household",
+      "specification": "塑料浅盆"
+    },
+    {
+      "id": "material-361e5aadf8",
+      "sourceLabel": "浇水壶",
+      "name": "浇水壶",
+      "groupId": "group:material-361e5aadf8",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-f2f707c179",
+      "sourceLabel": "小旗子",
+      "name": "旗子",
+      "groupId": "group:material-f2f707c179",
+      "section": "containers_household",
+      "specification": "小型"
+    },
+    {
+      "id": "material-c93b2d1459",
+      "sourceLabel": "透明塑料膜",
+      "name": "塑料膜",
+      "groupId": "group:material-c93b2d1459",
+      "section": "containers_household",
+      "specification": "透明"
+    },
+    {
+      "id": "material-d866b140f8",
+      "sourceLabel": "文字纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "文字纸"
+    },
+    {
+      "id": "material-37af0e92e0",
+      "sourceLabel": "图画纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "图画纸"
+    },
+    {
+      "id": "material-4097317da4",
+      "sourceLabel": "大容量塑料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "大容量塑料瓶"
+    },
+    {
+      "id": "material-d27a234ec9",
+      "sourceLabel": "擦干用品",
+      "name": "擦拭用品",
+      "groupId": "group:material-d27a234ec9",
+      "section": "containers_household",
+      "specification": "擦干用"
+    },
+    {
+      "id": "material-aae4f38a62",
+      "sourceLabel": "盛水容器（可浸入倒扣杯）",
+      "name": "盛水容器",
+      "groupId": "group:material-aae4f38a62",
+      "section": "containers_household",
+      "specification": "能容纳倒扣水杯，水位可超过杯内纸团位置，并留有防溢空间；可用符合条件的碗或盆"
+    },
+    {
+      "id": "material-8d8e1f2c17",
+      "sourceLabel": "白色硬纸片",
+      "name": "纸板",
+      "groupId": "group:cardboard",
+      "section": "craft_building",
+      "specification": "白色硬纸片"
+    },
+    {
+      "id": "material-969ea6ef04",
+      "sourceLabel": "带壳熟鸡蛋",
+      "name": "鸡蛋",
+      "groupId": "group:material-e9f5b71a47",
+      "section": "kitchen_food",
+      "specification": "带壳熟鸡蛋"
+    },
+    {
+      "id": "material-d9bd29947d",
+      "sourceLabel": "胡椒粉",
+      "name": "胡椒粉",
+      "groupId": "group:material-d9bd29947d",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-f6e40520cd",
+      "sourceLabel": "大杯子",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "大杯子"
+    },
+    {
+      "id": "material-768cf9feb2",
+      "sourceLabel": "鹅卵石",
+      "name": "石头",
+      "groupId": "group:material-744ac4a531",
+      "section": "nature_gardening",
+      "specification": "鹅卵石"
+    },
+    {
+      "id": "material-9a10039640",
+      "sourceLabel": "塑料瓶盖",
+      "name": "瓶盖",
+      "groupId": "group:bottle-cap",
+      "section": "containers_household",
+      "specification": "塑料瓶盖"
+    },
+    {
+      "id": "material-23a635f2f0",
+      "sourceLabel": "冰箱（冷冻室）",
+      "name": "冰箱",
+      "groupId": "group:fridge",
+      "section": "electronics_optics",
+      "specification": "冰箱（冷冻室）"
+    },
+    {
+      "id": "material-7172364c67",
+      "sourceLabel": "木棍",
+      "name": "木棍",
+      "groupId": "group:wooden-stick",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-7a89e9844e",
+      "sourceLabel": "透明卡片",
+      "name": "卡片",
+      "groupId": "group:material-fb5640f8e1",
+      "section": "paper_drawing",
+      "specification": "透明卡片"
+    },
+    {
+      "id": "material-75a6ceb41b",
+      "sourceLabel": "防水硬卡片",
+      "name": "卡片",
+      "groupId": "group:material-fb5640f8e1",
+      "section": "paper_drawing",
+      "specification": "防水硬卡片"
+    },
+    {
+      "id": "material-95027360d5",
+      "sourceLabel": "手机（播放音乐）",
+      "name": "手机",
+      "groupId": "group:phone",
+      "section": "electronics_optics",
+      "specification": "手机（播放音乐）"
+    },
+    {
+      "id": "material-dd1a68cb2c",
+      "sourceLabel": "胡萝卜",
+      "name": "胡萝卜",
+      "groupId": "group:material-dd1a68cb2c",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-182c902d0e",
+      "sourceLabel": "纱网",
+      "name": "纱网",
+      "groupId": "group:material-182c902d0e",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-30443a283c",
+      "sourceLabel": "罐装可乐",
+      "name": "可乐",
+      "groupId": "group:material-dbe286d922",
+      "section": "kitchen_food",
+      "specification": "罐装可乐"
+    },
+    {
+      "id": "material-e742e84b16",
+      "sourceLabel": "瓶装可乐",
+      "name": "可乐",
+      "groupId": "group:material-dbe286d922",
+      "section": "kitchen_food",
+      "specification": "瓶装可乐"
+    },
+    {
+      "id": "material-5a358f47fa",
+      "sourceLabel": "衣物色母片",
+      "name": "衣物色母片",
+      "groupId": "group:material-5a358f47fa",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-9fd9da4417",
+      "sourceLabel": "剃须泡沫",
+      "name": "剃须泡沫",
+      "groupId": "group:material-9fd9da4417",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-d191cce50f",
+      "sourceLabel": "正方形白纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "正方形白纸"
+    },
+    {
+      "id": "material-d41c21214c",
+      "sourceLabel": "糖果粒",
+      "name": "糖果",
+      "groupId": "group:material-7ee1b67f4e",
+      "section": "kitchen_food",
+      "specification": "糖果粒"
+    },
+    {
+      "id": "material-cb4fa29a17",
+      "sourceLabel": "带盖饮料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "带盖饮料瓶"
+    },
+    {
+      "id": "material-4a345a81d9",
+      "sourceLabel": "白纸圆片",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "白纸圆片"
+    },
+    {
+      "id": "material-522d3edeb6",
+      "sourceLabel": "小米",
+      "name": "小米",
+      "groupId": "group:material-522d3edeb6",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-9feac40ba6",
+      "sourceLabel": "弯头塑料吸管（短端可剪并套接）",
+      "name": "吸管",
+      "groupId": "group:straw",
+      "section": "containers_household",
+      "specification": "弯头塑料吸管（短端可剪并套接）"
+    },
+    {
+      "id": "material-f29f4c87be",
+      "sourceLabel": "小麦种子",
+      "name": "种子",
+      "groupId": "group:material-0a20942cfb",
+      "section": "nature_gardening",
+      "specification": "小麦种子"
+    },
+    {
+      "id": "material-fca0dc99cc",
+      "sourceLabel": "玉米种子",
+      "name": "种子",
+      "groupId": "group:material-0a20942cfb",
+      "section": "nature_gardening",
+      "specification": "玉米种子"
+    },
+    {
+      "id": "material-d4da35f0de",
+      "sourceLabel": "大豆种子",
+      "name": "种子",
+      "groupId": "group:material-0a20942cfb",
+      "section": "nature_gardening",
+      "specification": "大豆种子"
+    },
+    {
+      "id": "material-74152a313b",
+      "sourceLabel": "带孔磁铁（可穿橡皮筋）",
+      "name": "磁铁",
+      "groupId": "group:material-77071b054c",
+      "section": "electronics_optics",
+      "specification": "带孔磁铁（可穿橡皮筋）"
+    },
+    {
+      "id": "material-e4ba1dfcb2",
+      "sourceLabel": "粘有口香糖的毛巾",
+      "name": "毛巾",
+      "groupId": "group:material-c471aae1a9",
+      "section": "containers_household",
+      "specification": "粘有口香糖，作为清洁实验样本"
+    },
+    {
+      "id": "material-c1864d71a7",
+      "sourceLabel": "PVC管",
+      "name": "塑料管",
+      "groupId": "group:material-c1864d71a7",
+      "section": "containers_household",
+      "specification": "PVC材质"
+    },
+    {
+      "id": "material-c02f7625a8",
+      "sourceLabel": "冰水",
+      "name": "水",
+      "groupId": "group:water",
+      "section": "experiment_cleaning",
+      "specification": "冰水"
+    },
+    {
+      "id": "material-120458bda7",
+      "sourceLabel": "饮料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "饮料瓶"
+    },
+    {
+      "id": "material-4caa308bce",
+      "sourceLabel": "工字钉",
+      "name": "工字钉",
+      "groupId": "group:material-4caa308bce",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-966e833306",
+      "sourceLabel": "带盖瓶子",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "带盖瓶子"
+    },
+    {
+      "id": "material-75e72c68cc",
+      "sourceLabel": "热熔胶枪",
+      "name": "热熔胶枪",
+      "groupId": "group:material-75e72c68cc",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-6c34455e9b",
+      "sourceLabel": "热熔胶棒",
+      "name": "热熔胶",
+      "groupId": "group:material-2b911820de",
+      "section": "craft_building",
+      "specification": "棒状"
+    },
+    {
+      "id": "material-b645561141",
+      "sourceLabel": "小绒球",
+      "name": "绒球",
+      "groupId": "group:material-b645561141",
+      "section": "craft_building",
+      "specification": "小绒球"
+    },
+    {
+      "id": "material-1ad12b6c59",
+      "sourceLabel": "粗橡皮筋",
+      "name": "橡皮筋",
+      "groupId": "group:material-b68c151289",
+      "section": "craft_building",
+      "specification": "粗橡皮筋"
+    },
+    {
+      "id": "material-e72d5a07f2",
+      "sourceLabel": "打孔工具",
+      "name": "打孔工具",
+      "groupId": "group:material-e72d5a07f2",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-3d4f364ed4",
+      "sourceLabel": "厚瓦楞纸板",
+      "name": "瓦楞纸板",
+      "groupId": "group:corrugated-cardboard",
+      "section": "craft_building",
+      "specification": "厚瓦楞纸板"
+    },
+    {
+      "id": "material-89bc9d96f7",
+      "sourceLabel": "泡沫保温管",
+      "name": "泡沫管",
+      "groupId": "group:material-89bc9d96f7",
+      "section": "containers_household",
+      "specification": "保温管"
+    },
+    {
+      "id": "material-b410791230",
+      "sourceLabel": "塑料杯",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "塑料杯"
+    },
+    {
+      "id": "material-d81a348e0a",
+      "sourceLabel": "酸奶盒",
+      "name": "盒子",
+      "groupId": "group:material-36db94ca75",
+      "section": "containers_household",
+      "specification": "酸奶盒"
+    },
+    {
+      "id": "material-30cbefbcb3",
+      "sourceLabel": "圆形硬纸板",
+      "name": "纸板",
+      "groupId": "group:cardboard",
+      "section": "craft_building",
+      "specification": "圆形硬纸板"
+    },
+    {
+      "id": "material-dd5dcd84ae",
+      "sourceLabel": "木块",
+      "name": "木块",
+      "groupId": "group:material-dd5dcd84ae",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-04ce447e04",
+      "sourceLabel": "木条",
+      "name": "木条",
+      "groupId": "group:material-04ce447e04",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-2f16435542",
+      "sourceLabel": "塑料勺子",
+      "name": "勺子",
+      "groupId": "group:material-72407ec665",
+      "section": "containers_household",
+      "specification": "塑料勺子"
+    },
+    {
+      "id": "material-fdd8a64bc5",
+      "sourceLabel": "水管",
+      "name": "水管",
+      "groupId": "group:material-fdd8a64bc5",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-6f5cb1dc2c",
+      "sourceLabel": "带刻度无针注射器",
+      "name": "注射器",
+      "groupId": "group:material-6f5cb1dc2c",
+      "section": "tools_measurement",
+      "specification": "无针，带刻度"
+    },
+    {
+      "id": "material-673574f5ab",
+      "sourceLabel": "细软管",
+      "name": "软管",
+      "groupId": "group:material-7aa61782f2",
+      "section": "containers_household",
+      "specification": "细软管"
+    },
+    {
+      "id": "material-9aa0ddc8d4",
+      "sourceLabel": "防水胶带",
+      "name": "胶带",
+      "groupId": "group:adhesive-tape",
+      "section": "craft_building",
+      "specification": "防水胶带"
+    },
+    {
+      "id": "material-335eb755b1",
+      "sourceLabel": "食用色素",
+      "name": "食用色素",
+      "groupId": "group:material-335eb755b1",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-83db9c56f0",
+      "sourceLabel": "大号塑料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "大号塑料瓶"
+    },
+    {
+      "id": "material-a745bfdf30",
+      "sourceLabel": "植物",
+      "name": "植物",
+      "groupId": "group:material-a745bfdf30",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-2fd8e4b9bd",
+      "sourceLabel": "小夹子",
+      "name": "夹子",
+      "groupId": "group:clip",
+      "section": "tools_measurement",
+      "specification": "小夹子"
+    },
+    {
+      "id": "material-303615b5ec",
+      "sourceLabel": "支架",
+      "name": "支架",
+      "groupId": "group:material-303615b5ec",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-76332cc5fc",
+      "sourceLabel": "泡沫球（多尺寸）",
+      "name": "泡沫球",
+      "groupId": "group:material-76332cc5fc",
+      "section": "craft_building",
+      "specification": "多尺寸"
+    },
+    {
+      "id": "material-034b10c9ab",
+      "sourceLabel": "人体解剖参考图",
+      "name": "人体解剖参考图",
+      "groupId": "group:material-034b10c9ab",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-a437dcd402",
+      "sourceLabel": "塑形工具",
+      "name": "塑形工具",
+      "groupId": "group:material-a437dcd402",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-4af1cca69c",
+      "sourceLabel": "细铁丝",
+      "name": "铁丝",
+      "groupId": "group:material-b974db7842",
+      "section": "craft_building",
+      "specification": "细铁丝"
+    },
+    {
+      "id": "material-b79c606b1a",
+      "sourceLabel": "丙烯颜料",
+      "name": "丙烯颜料",
+      "groupId": "group:material-b79c606b1a",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-eb8380a984",
+      "sourceLabel": "蔬菜",
+      "name": "蔬菜",
+      "groupId": "group:material-eb8380a984",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-041ed3a18b",
+      "sourceLabel": "水粉颜料",
+      "name": "水粉颜料",
+      "groupId": "group:material-041ed3a18b",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-7a3a25167c",
+      "sourceLabel": "菜刀",
+      "name": "菜刀",
+      "groupId": "group:material-7a3a25167c",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-bd32da7270",
+      "sourceLabel": "儿童安全手指画颜料（红黄蓝）",
+      "name": "手指画颜料",
+      "groupId": "group:material-bd32da7270",
+      "section": "paper_drawing",
+      "specification": "儿童适用，红黄蓝"
+    },
+    {
+      "id": "material-5d47acdcd9",
+      "sourceLabel": "水彩纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "水彩纸"
+    },
+    {
+      "id": "material-8246ab0fc3",
+      "sourceLabel": "湿巾",
+      "name": "湿巾",
+      "groupId": "group:material-8246ab0fc3",
+      "section": "experiment_cleaning"
+    },
+    {
+      "id": "material-8e94a1a0b1",
+      "sourceLabel": "湿毛巾",
+      "name": "毛巾",
+      "groupId": "group:material-c471aae1a9",
+      "section": "containers_household",
+      "specification": "湿毛巾"
+    },
+    {
+      "id": "material-557d9a3a34",
+      "sourceLabel": "围裙",
+      "name": "围裙",
+      "groupId": "group:material-557d9a3a34",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-19b82ec55c",
+      "sourceLabel": "旧衣服",
+      "name": "旧衣服",
+      "groupId": "group:material-19b82ec55c",
+      "section": "containers_household"
+    },
+    {
+      "id": "material-cbb0037f2d",
+      "sourceLabel": "小勺",
+      "name": "勺子",
+      "groupId": "group:material-72407ec665",
+      "section": "containers_household",
+      "specification": "小勺"
+    },
+    {
+      "id": "material-46c577910b",
+      "sourceLabel": "细画笔",
+      "name": "画笔",
+      "groupId": "group:paintbrush",
+      "section": "paper_drawing",
+      "specification": "细画笔"
+    },
+    {
+      "id": "material-79786688a6",
+      "sourceLabel": "水彩颜料",
+      "name": "水彩颜料",
+      "groupId": "group:material-79786688a6",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-6e2246ffea",
+      "sourceLabel": "圆头水彩画笔（大中小）",
+      "name": "画笔",
+      "groupId": "group:paintbrush",
+      "section": "paper_drawing",
+      "specification": "圆头水彩画笔（大中小）"
+    },
+    {
+      "id": "material-04149dca53",
+      "sourceLabel": "盆栽植物",
+      "name": "植物",
+      "groupId": "group:material-a745bfdf30",
+      "section": "nature_gardening",
+      "specification": "盆栽"
+    },
+    {
+      "id": "material-b929b9443e",
+      "sourceLabel": "鲜花",
+      "name": "鲜花",
+      "groupId": "group:material-b929b9443e",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-9b1a87a917",
+      "sourceLabel": "色轮图",
+      "name": "色轮图",
+      "groupId": "group:material-9b1a87a917",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-c9044107a7",
+      "sourceLabel": "白色纸盘",
+      "name": "纸盘",
+      "groupId": "group:material-c938a839d0",
+      "section": "containers_household",
+      "specification": "白色纸盘"
+    },
+    {
+      "id": "material-e38e3e0b98",
+      "sourceLabel": "竹筷",
+      "name": "筷子",
+      "groupId": "group:material-399893f69b",
+      "section": "containers_household",
+      "specification": "竹筷"
+    },
+    {
+      "id": "material-36a69cd309",
+      "sourceLabel": "打孔器",
+      "name": "打孔工具",
+      "groupId": "group:material-e72d5a07f2",
+      "section": "tools_measurement",
+      "specification": "打孔器"
+    },
+    {
+      "id": "material-a34ca18806",
+      "sourceLabel": "竹条",
+      "name": "竹条",
+      "groupId": "group:material-a34ca18806",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-71fe527279",
+      "sourceLabel": "细木条",
+      "name": "木条",
+      "groupId": "group:material-04ce447e04",
+      "section": "craft_building",
+      "specification": "细木条"
+    },
+    {
+      "id": "material-cf09518b86",
+      "sourceLabel": "轻薄纸张",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "轻薄纸张"
+    },
+    {
+      "id": "material-768f39ad14",
+      "sourceLabel": "风筝线",
+      "name": "绳子",
+      "groupId": "group:string",
+      "section": "craft_building",
+      "specification": "风筝线"
+    },
+    {
+      "id": "material-78869299ff",
+      "sourceLabel": "彩色颜料",
+      "name": "颜料",
+      "groupId": "group:material-3a155a0b64",
+      "section": "paper_drawing",
+      "specification": "彩色"
+    },
+    {
+      "id": "material-745b0d5db4",
+      "sourceLabel": "轻薄布条",
+      "name": "布料",
+      "groupId": "group:material-8a37dc536c",
+      "section": "craft_building",
+      "specification": "轻薄布条"
+    },
+    {
+      "id": "material-3d2a7f0811",
+      "sourceLabel": "风干黏土",
+      "name": "风干黏土",
+      "groupId": "group:material-3d2a7f0811",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-a2e31f6e3e",
+      "sourceLabel": "小盆",
+      "name": "水盆",
+      "groupId": "group:basin",
+      "section": "containers_household",
+      "specification": "小盆"
+    },
+    {
+      "id": "material-45ef600c93",
+      "sourceLabel": "塑料刮刀",
+      "name": "塑料刮刀",
+      "groupId": "group:material-45ef600c93",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-d03c138152",
+      "sourceLabel": "转盘",
+      "name": "转盘",
+      "groupId": "group:material-d03c138152",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-263658715e",
+      "sourceLabel": "光滑板面",
+      "name": "操作板",
+      "groupId": "group:material-263658715e",
+      "section": "tools_measurement",
+      "specification": "表面光滑，用于黏土捏塑，可与转盘二选一"
+    },
+    {
+      "id": "material-5aecf607a5",
+      "sourceLabel": "竹篾条",
+      "name": "竹条",
+      "groupId": "group:material-a34ca18806",
+      "section": "craft_building",
+      "specification": "竹篾条"
+    },
+    {
+      "id": "material-65d8ad7ed0",
+      "sourceLabel": "手工刀",
+      "name": "小刀",
+      "groupId": "group:material-047a16fd08",
+      "section": "tools_measurement",
+      "specification": "手工刀"
+    },
+    {
+      "id": "material-087d05946b",
+      "sourceLabel": "夹子",
+      "name": "夹子",
+      "groupId": "group:clip",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-20ab14508a",
+      "sourceLabel": "厚卡纸板",
+      "name": "纸板",
+      "groupId": "group:cardboard",
+      "section": "craft_building",
+      "specification": "厚卡纸板"
+    },
+    {
+      "id": "material-2faa419974",
+      "sourceLabel": "切割垫",
+      "name": "切割垫",
+      "groupId": "group:material-2faa419974",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-dd2d630e60",
+      "sourceLabel": "小珠子",
+      "name": "珠子",
+      "groupId": "group:material-d3533c793a",
+      "section": "craft_building",
+      "specification": "小珠子"
+    },
+    {
+      "id": "material-168cf2970b",
+      "sourceLabel": "棉布（多色）",
+      "name": "布料",
+      "groupId": "group:material-8a37dc536c",
+      "section": "craft_building",
+      "specification": "棉布（多色）"
+    },
+    {
+      "id": "material-66cb283b50",
+      "sourceLabel": "缝纫线（多色）",
+      "name": "缝纫线",
+      "groupId": "group:material-66cb283b50",
+      "section": "craft_building",
+      "specification": "缝纫线（多色）"
+    },
+    {
+      "id": "material-0c5626b514",
+      "sourceLabel": "纸样模板纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "纸样模板纸"
+    },
+    {
+      "id": "material-a30861d04c",
+      "sourceLabel": "水消笔",
+      "name": "水消笔",
+      "groupId": "group:material-a30861d04c",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-cf8ae568a7",
+      "sourceLabel": "填充棒",
+      "name": "填充工具",
+      "groupId": "group:material-cf8ae568a7",
+      "section": "tools_measurement",
+      "specification": "棒状，用于塞入填充棉"
+    },
+    {
+      "id": "material-5b972ba2cb",
+      "sourceLabel": "模具工具",
+      "name": "塑形工具",
+      "groupId": "group:material-a437dcd402",
+      "section": "tools_measurement",
+      "specification": "模具工具"
+    },
+    {
+      "id": "material-f40b603301",
+      "sourceLabel": "动物参考图",
+      "name": "动物参考图",
+      "groupId": "group:material-f40b603301",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-6919397f23",
+      "sourceLabel": "擀面杖",
+      "name": "擀面杖",
+      "groupId": "group:material-6919397f23",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-895bf06b2d",
+      "sourceLabel": "饼干模具",
+      "name": "饼干模具",
+      "groupId": "group:material-895bf06b2d",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-bde7045a39",
+      "sourceLabel": "烤盘",
+      "name": "烤盘",
+      "groupId": "group:material-bde7045a39",
+      "section": "tools_measurement"
+    },
+    {
+      "id": "material-676018b62d",
+      "sourceLabel": "草稿纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "草稿纸"
+    },
+    {
+      "id": "material-575d10df2e",
+      "sourceLabel": "小花盆",
+      "name": "花盆",
+      "groupId": "group:material-bd723dd29b",
+      "section": "nature_gardening",
+      "specification": "小花盆"
+    },
+    {
+      "id": "material-32cc2c329e",
+      "sourceLabel": "仿真泥土",
+      "name": "仿真泥土",
+      "groupId": "group:material-32cc2c329e",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-636808b78b",
+      "sourceLabel": "多肉植物参考图",
+      "name": "多肉植物参考图",
+      "groupId": "group:material-636808b78b",
+      "section": "reference_models"
+    },
+    {
+      "id": "material-466db587ec",
+      "sourceLabel": "废纸团",
+      "name": "废纸团",
+      "groupId": "group:material-466db587ec",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-b6f7b7fe61",
+      "sourceLabel": "超轻黏土",
+      "name": "超轻黏土",
+      "groupId": "group:material-b6f7b7fe61",
+      "section": "craft_building"
+    },
+    {
+      "id": "material-b517b50c0e",
+      "sourceLabel": "雕塑工具",
+      "name": "塑形工具",
+      "groupId": "group:material-a437dcd402",
+      "section": "tools_measurement",
+      "specification": "雕塑工具"
+    },
+    {
+      "id": "material-0a60867abb",
+      "sourceLabel": "彩色正方形纸",
+      "name": "彩纸",
+      "groupId": "group:material-bf2444d0fc",
+      "section": "paper_drawing",
+      "specification": "彩色正方形纸"
+    },
+    {
+      "id": "material-0ff1214205",
+      "sourceLabel": "正方体模型",
+      "name": "几何模型",
+      "groupId": "group:material-0ff1214205",
+      "section": "reference_models",
+      "specification": "正方体模型"
+    },
+    {
+      "id": "material-2f228afc26",
+      "sourceLabel": "球体模型",
+      "name": "几何模型",
+      "groupId": "group:material-0ff1214205",
+      "section": "reference_models",
+      "specification": "球体，用于观察投影并与正方体、圆柱、圆锥比较"
+    },
+    {
+      "id": "material-513742e207",
+      "sourceLabel": "圆柱模型",
+      "name": "几何模型",
+      "groupId": "group:material-0ff1214205",
+      "section": "reference_models",
+      "specification": "圆柱模型"
+    },
+    {
+      "id": "material-5bc8c56d46",
+      "sourceLabel": "圆锥模型",
+      "name": "几何模型",
+      "groupId": "group:material-0ff1214205",
+      "section": "reference_models",
+      "specification": "圆锥模型"
+    },
+    {
+      "id": "material-cc854a9011",
+      "sourceLabel": "厨房电子秤",
+      "name": "电子秤",
+      "groupId": "group:material-596482e76c",
+      "section": "tools_measurement",
+      "specification": "厨房电子秤"
+    },
+    {
+      "id": "material-27c180751a",
+      "sourceLabel": "水果",
+      "name": "水果",
+      "groupId": "group:material-27c180751a",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-5027d8ab00",
+      "sourceLabel": "小玩具",
+      "name": "玩具",
+      "groupId": "group:material-5027d8ab00",
+      "section": "reference_models",
+      "specification": "小玩具"
+    },
+    {
+      "id": "material-6a43a18448",
+      "sourceLabel": "松果",
+      "name": "松果",
+      "groupId": "group:material-6a43a18448",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-fef63ae42f",
+      "sourceLabel": "向日葵",
+      "name": "向日葵",
+      "groupId": "group:material-fef63ae42f",
+      "section": "nature_gardening"
+    },
+    {
+      "id": "material-17cc128d5a",
+      "sourceLabel": "空白卡片",
+      "name": "卡片",
+      "groupId": "group:material-fb5640f8e1",
+      "section": "paper_drawing",
+      "specification": "空白卡片"
+    },
+    {
+      "id": "material-fb5640f8e1",
+      "sourceLabel": "卡片",
+      "name": "卡片",
+      "groupId": "group:material-fb5640f8e1",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-a603f3a450",
+      "sourceLabel": "不透明杯子",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "不透明杯子"
+    },
+    {
+      "id": "material-f72d30d429",
+      "sourceLabel": "记录纸",
+      "name": "纸张",
+      "groupId": "group:paper",
+      "section": "paper_drawing",
+      "specification": "记录纸"
+    },
+    {
+      "id": "material-c48f4619fd",
+      "sourceLabel": "大吸管",
+      "name": "吸管",
+      "groupId": "group:straw",
+      "section": "containers_household",
+      "specification": "大吸管"
+    },
+    {
+      "id": "material-8dcd6fc3ee",
+      "sourceLabel": "卫生纸",
+      "name": "纸巾",
+      "groupId": "group:tissue",
+      "section": "containers_household",
+      "specification": "卫生纸"
+    },
+    {
+      "id": "material-7030e52347",
+      "sourceLabel": "水笔",
+      "name": "书写笔",
+      "groupId": "group:writing-pen",
+      "section": "paper_drawing",
+      "specification": "水笔"
+    },
+    {
+      "id": "material-68a2c2eada",
+      "sourceLabel": "笔芯",
+      "name": "笔芯",
+      "groupId": "group:material-68a2c2eada",
+      "section": "paper_drawing"
+    },
+    {
+      "id": "material-db3fbe1314",
+      "sourceLabel": "隔冷手套",
+      "name": "防护手套",
+      "groupId": "group:insulating-gloves",
+      "section": "tools_measurement",
+      "specification": "隔冷手套"
+    },
+    {
+      "id": "material-6692ad3a4c",
+      "sourceLabel": "砧板",
+      "name": "砧板",
+      "groupId": "group:material-6692ad3a4c",
+      "section": "kitchen_food"
+    },
+    {
+      "id": "material-9561a53c8c",
+      "sourceLabel": "耐热工作垫",
+      "name": "耐热垫",
+      "groupId": "group:material-9561a53c8c",
+      "section": "tools_measurement",
+      "specification": "按热熔胶枪说明选择"
+    },
+    {
+      "id": "material-7e6deeb40c",
+      "sourceLabel": "预裁纸花（可轻折花瓣）",
+      "name": "纸花",
+      "groupId": "group:material-7e6deeb40c",
+      "section": "craft_building",
+      "specification": "已预裁、完整，可轻折花瓣"
+    },
+    {
+      "id": "material-472db9d4e1",
+      "sourceLabel": "夹冰工具",
+      "name": "夹子",
+      "groupId": "group:clip",
+      "section": "tools_measurement",
+      "specification": "夹冰工具"
+    },
+    {
+      "id": "material-efb4d34ac2",
+      "sourceLabel": "温度计（可测水温和室温）",
+      "name": "温度计",
+      "groupId": "group:thermometer",
+      "section": "tools_measurement",
+      "specification": "温度计（可测水温和室温）"
+    },
+    {
+      "id": "material-7a7cf15aa1",
+      "sourceLabel": "室温计",
+      "name": "温度计",
+      "groupId": "group:thermometer",
+      "section": "tools_measurement",
+      "specification": "室温计"
+    },
+    {
+      "id": "material-0768d9f022",
+      "sourceLabel": "轻质空塑料瓶",
+      "name": "瓶子",
+      "groupId": "group:bottle",
+      "section": "containers_household",
+      "specification": "轻质空塑料瓶"
+    },
+    {
+      "id": "material-80c1d08307",
+      "sourceLabel": "不易碎杯（可容纳轻空塑料瓶）",
+      "name": "杯子",
+      "groupId": "group:cup",
+      "section": "containers_household",
+      "specification": "不易碎杯（可容纳轻空塑料瓶）"
+    },
+    {
+      "id": "material-9f2b92ecfc",
+      "sourceLabel": "带帽水彩笔",
+      "name": "彩笔",
+      "groupId": "group:colored-pen",
+      "section": "paper_drawing",
+      "specification": "带笔帽的水彩笔"
+    }
+  ],
+  "aliases": [
+    {
+      "id": "material-f64dc22f12",
+      "sourceLabel": "丙烯颜料（多色）",
+      "targetId": "material-b79c606b1a",
+      "specification": "多色"
+    },
+    {
+      "id": "material-d033877321",
+      "sourceLabel": "彩色笔（多色）",
+      "targetId": "material-c93769ba51",
+      "specification": "多色"
+    },
+    {
+      "id": "material-a010b44888",
+      "sourceLabel": "彩色笔（黑红橙）",
+      "targetId": "material-c93769ba51",
+      "specification": "黑红橙"
+    },
+    {
+      "id": "material-c5a71a9803",
+      "sourceLabel": "彩色笔（绿橙黑）",
+      "targetId": "material-c93769ba51",
+      "specification": "绿橙黑"
+    },
+    {
+      "id": "material-e66df6aa0a",
+      "sourceLabel": "彩色笔（四种颜色）",
+      "targetId": "material-c93769ba51",
+      "specification": "四种颜色"
+    },
+    {
+      "id": "material-3914a0f1e5",
+      "sourceLabel": "彩色马克笔",
+      "targetId": "material-d48df092c4",
+      "specification": "彩色马克笔"
+    },
+    {
+      "id": "material-ec5131afee",
+      "sourceLabel": "彩色毛根",
+      "targetId": "material-ca0eb43914",
+      "specification": "彩色毛根"
+    },
+    {
+      "id": "material-2d6bee47b4",
+      "sourceLabel": "彩色水笔",
+      "targetId": "material-7030e52347",
+      "specification": "彩色水笔"
+    },
+    {
+      "id": "material-2cabaaa9a2",
+      "sourceLabel": "超轻黏土（多色）",
+      "targetId": "material-b6f7b7fe61",
+      "specification": "多色"
+    },
+    {
+      "id": "material-5829793ff4",
+      "sourceLabel": "蜡笔（蓝黄）",
+      "targetId": "material-02ef5bf214",
+      "specification": "蓝黄"
+    },
+    {
+      "id": "material-1c0ef16a52",
+      "sourceLabel": "蓝色色素",
+      "targetId": "material-3dbd609350",
+      "specification": "蓝色色素"
+    },
+    {
+      "id": "material-656019e817",
+      "sourceLabel": "色素（多色）",
+      "targetId": "material-3dbd609350",
+      "specification": "多色"
+    },
+    {
+      "id": "material-f80c46b4da",
+      "sourceLabel": "色素（红黄蓝）",
+      "targetId": "material-3dbd609350",
+      "specification": "红黄蓝"
+    },
+    {
+      "id": "material-0cac004a3b",
+      "sourceLabel": "色素（红黄紫蓝）",
+      "targetId": "material-3dbd609350",
+      "specification": "红黄紫蓝"
+    },
+    {
+      "id": "material-d6020b2ea0",
+      "sourceLabel": "水彩颜料（多色）",
+      "targetId": "material-79786688a6",
+      "specification": "多色"
+    },
+    {
+      "id": "material-2b69c2454a",
+      "sourceLabel": "水粉颜料（多色）",
+      "targetId": "material-041ed3a18b",
+      "specification": "多色"
+    },
+    {
+      "id": "material-8be52f95c0",
+      "sourceLabel": "水溶性色素（多色）",
+      "targetId": "material-92da034878",
+      "specification": "多色"
+    },
+    {
+      "id": "material-53c5568981",
+      "sourceLabel": "水溶性色素（红黄蓝）",
+      "targetId": "material-92da034878",
+      "specification": "红黄蓝"
+    },
+    {
+      "id": "material-a442c94882",
+      "sourceLabel": "水溶性色素（两种颜色）",
+      "targetId": "material-92da034878",
+      "specification": "两种颜色"
+    },
+    {
+      "id": "material-608540894d",
+      "sourceLabel": "橡皮泥（红黄绿橙紫）",
+      "targetId": "clay",
+      "specification": "红黄绿橙紫"
+    },
+    {
+      "id": "material-a056cca856",
+      "sourceLabel": "绣线（多色）",
+      "targetId": "material-cda5d02b7c",
+      "specification": "绣线、多色"
+    },
+    {
+      "id": "material-33adbcbc48",
+      "sourceLabel": "彩色珠子",
+      "targetId": "material-d3533c793a",
+      "specification": "彩色珠子"
+    },
+    {
+      "id": "material-1f9b2ce9db",
+      "sourceLabel": "彩色碎纸",
+      "targetId": "material-510d5f75a0",
+      "specification": "彩色碎纸"
+    },
+    {
+      "id": "material-7259af92fe",
+      "sourceLabel": "积木块",
+      "targetId": "material-e6df1df966"
+    },
+    {
+      "id": "material-f0db712685",
+      "sourceLabel": "食用色素（多色）",
+      "targetId": "material-335eb755b1",
+      "specification": "多色"
+    },
+    {
+      "id": "material-9b27accd13",
+      "sourceLabel": "食用色素（红蓝绿）",
+      "targetId": "material-335eb755b1",
+      "specification": "红蓝绿"
+    },
+    {
+      "id": "material-501e83764b",
+      "sourceLabel": "绿色色素",
+      "targetId": "material-3dbd609350",
+      "specification": "绿色色素"
+    },
+    {
+      "id": "material-0c79e1c44a",
+      "sourceLabel": "纸皮",
+      "targetId": "material-27e8bfc921"
+    },
+    {
+      "id": "material-4102a1cf71",
+      "sourceLabel": "水溶性色素（红蓝）",
+      "targetId": "material-92da034878",
+      "specification": "红蓝"
+    },
+    {
+      "id": "material-828358c515",
+      "sourceLabel": "硬纸皮",
+      "targetId": "material-d423a6b172"
+    },
+    {
+      "id": "material-fc6785694c",
+      "sourceLabel": "色素（三色）",
+      "targetId": "material-3dbd609350",
+      "specification": "三色"
+    },
+    {
+      "id": "material-755c8c25d2",
+      "sourceLabel": "红色黏土",
+      "targetId": "material-a807a4e990",
+      "specification": "红色黏土"
+    },
+    {
+      "id": "material-560e53a5d9",
+      "sourceLabel": "蓝色黏土",
+      "targetId": "material-a807a4e990",
+      "specification": "蓝色黏土"
+    },
+    {
+      "id": "material-59031f1647",
+      "sourceLabel": "铝箔纸（15×15厘米）",
+      "targetId": "material-86fea91e87",
+      "specification": "15×15厘米"
+    },
+    {
+      "id": "material-3a7d7ad66b",
+      "sourceLabel": "木棒",
+      "targetId": "material-7172364c67"
+    },
+    {
+      "id": "material-47b40b7c15",
+      "sourceLabel": "纸板箱",
+      "targetId": "material-bb247e6849"
+    },
+    {
+      "id": "material-c33456e442",
+      "sourceLabel": "超轻黏土（红粉黄棕）",
+      "targetId": "material-b6f7b7fe61",
+      "specification": "红粉黄棕"
+    },
+    {
+      "id": "material-84c8b18879",
+      "sourceLabel": "丙烯颜料（黄橙粉蓝绿）",
+      "targetId": "material-b79c606b1a",
+      "specification": "黄橙粉蓝绿"
+    },
+    {
+      "id": "material-8eb9dbd7b6",
+      "sourceLabel": "水粉颜料（黄橙粉蓝绿）",
+      "targetId": "material-041ed3a18b",
+      "specification": "黄橙粉蓝绿"
+    },
+    {
+      "id": "material-afaa66b229",
+      "sourceLabel": "绒布（多色）",
+      "targetId": "material-61c203af6c",
+      "specification": "多色"
+    },
+    {
+      "id": "material-638dfe4f65",
+      "sourceLabel": "塑料刀具",
+      "targetId": "material-4e50a7b616"
+    },
+    {
+      "id": "material-7eef46b333",
+      "sourceLabel": "废报纸",
+      "targetId": "material-bdd34dcdba"
+    },
+    {
+      "id": "material-28c7367848",
+      "sourceLabel": "超轻黏土（绿粉紫棕）",
+      "targetId": "material-b6f7b7fe61",
+      "specification": "绿粉紫棕"
+    },
+    {
+      "id": "material-11e6f66122",
+      "sourceLabel": "棕色碎纸",
+      "targetId": "material-510d5f75a0",
+      "specification": "棕色碎纸"
+    },
+    {
+      "id": "material-db8b1f5249",
+      "sourceLabel": "绿色滴口瓶装水溶性色素",
+      "targetId": "material-3f43d5d5b0",
+      "specification": "绿色滴口瓶装水溶性色素"
+    },
+    {
+      "sourceLabel": "彩笔",
+      "targetId": "material-c93769ba51"
+    },
+    {
+      "sourceLabel": "水溶性水彩笔",
+      "targetId": "watercolor"
+    },
+    {
+      "sourceLabel": "白纸",
+      "groupId": "group:paper",
+      "specification": "白纸"
+    },
+    {
+      "sourceLabel": "A4纸",
+      "groupId": "group:paper",
+      "specification": "A4纸"
+    },
+    {
+      "sourceLabel": "棉线",
+      "groupId": "group:cotton-rope",
+      "specification": "棉线"
+    },
+    {
+      "sourceLabel": "接水盘",
+      "groupId": "group:plate",
+      "specification": "接水用"
+    },
+    {
+      "sourceLabel": "记录用纸",
+      "groupId": "group:paper",
+      "specification": "记录用"
+    },
+    {
+      "sourceLabel": "纸",
+      "groupId": "group:paper"
+    },
+    {
+      "sourceLabel": "透明玻璃杯",
+      "groupId": "group:cup",
+      "specification": "透明玻璃杯"
+    },
+    {
+      "sourceLabel": "白乳胶",
+      "groupId": "group:material-2932d52b08",
+      "specification": "白乳胶"
+    },
+    {
+      "sourceLabel": "冰箱冷冻室",
+      "groupId": "group:fridge",
+      "specification": "冷冻室"
+    },
+    {
+      "sourceLabel": "皮筋",
+      "groupId": "group:material-b68c151289"
+    },
+    {
+      "sourceLabel": "凉水",
+      "groupId": "group:water",
+      "specification": "凉水"
+    },
+    {
+      "sourceLabel": "旧报纸",
+      "groupId": "group:material-bdd34dcdba",
+      "specification": "旧报纸"
+    },
+    {
+      "sourceLabel": "小石子",
+      "groupId": "group:material-744ac4a531",
+      "specification": "小石子"
+    },
+    {
+      "sourceLabel": "塑料瓶带盖",
+      "groupId": "group:bottle",
+      "specification": "带盖塑料瓶"
+    },
+    {
+      "sourceLabel": "一元硬币",
+      "groupId": "group:coin",
+      "specification": "1元硬币"
+    },
+    {
+      "sourceLabel": "玻璃珠",
+      "groupId": "group:material-d3533c793a",
+      "specification": "玻璃珠"
+    }
+  ],
+  "groupAliases": {}
+}

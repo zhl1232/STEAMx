@@ -126,7 +126,7 @@ describe("ProjectCard compact vertical variant", () => {
 })
 
 describe("ProjectCard explore variant", () => {
-  it("keeps zero likes visible alongside works without coin stats", () => {
+  it("shows works without zero likes or coin stats", () => {
     render(
       <ProjectCard
         project={{ ...classifiedProject, likes: 0, completions_count: 2, coins_count: 8 }}
@@ -140,15 +140,31 @@ describe("ProjectCard explore variant", () => {
     )
     expect(screen.queryByText("入门")).not.toBeInTheDocument()
     expect(screen.getByText("2 作品")).toBeInTheDocument()
-    expect(screen.getByText("0 点赞")).toBeInTheDocument()
+    expect(screen.queryByText("0 点赞")).not.toBeInTheDocument()
     expect(screen.queryByText("0 投币")).not.toBeInTheDocument()
-    expect(screen.getByTitle("点赞数")).toBeInTheDocument()
+    expect(screen.queryByTitle("点赞数")).not.toBeInTheDocument()
     expect(screen.queryByTitle("投币数")).not.toBeInTheDocument()
   })
 
-  it("keeps both stats when all values are zero", () => {
+  it("omits the stats footer when all values are zero", () => {
     render(<ProjectCard project={{ ...classifiedProject, likes: 0, completions_count: 0, coins_count: 0 }} variant="explore" />)
-    expect(screen.getByTestId("explore-project-stats")).toHaveTextContent("0 点赞0 作品")
+    expect(screen.queryByTestId("explore-project-stats")).not.toBeInTheDocument()
+    expect(screen.queryByTitle("点赞数")).not.toBeInTheDocument()
+    expect(screen.queryByTitle("作品数")).not.toBeInTheDocument()
+  })
+
+  it("shows likes without zero works", () => {
+    render(<ProjectCard project={{ ...classifiedProject, likes: 3, completions_count: 0 }} variant="explore" />)
+
+    expect(screen.getByLabelText("3 点赞")).toBeInTheDocument()
+    expect(screen.queryByTitle("作品数")).not.toBeInTheDocument()
+  })
+
+  it("keeps zero counts on other card variants", () => {
+    render(<ProjectCard project={{ ...classifiedProject, likes: 0, completions_count: 0 }} variant="compact" />)
+
+    expect(screen.getByTitle("点赞数")).toHaveTextContent("0")
+    expect(screen.getByTitle("作品数")).toHaveTextContent("0")
   })
 })
 
@@ -158,7 +174,7 @@ describe("ProjectCard material matching", () => {
   it("introduces the material count before a selection", () => {
     render(<ProjectCard project={classifiedProject} variant="explore" materialMatch={{ ...match, hasSelection: false }} />)
 
-    expect(screen.getByText("4 样材料")).toBeInTheDocument()
+    expect(screen.getByText("需要 4 样材料")).toBeInTheDocument()
     expect(screen.queryByText("点选上方材料来匹配")).not.toBeInTheDocument()
     expect(screen.queryByText(classifiedProject.description!)).not.toBeInTheDocument()
   })
@@ -173,8 +189,24 @@ describe("ProjectCard material matching", () => {
     expect(screen.getByLabelText("3 点赞")).toBeInTheDocument()
     expect(screen.getByLabelText("5 作品")).toBeInTheDocument()
     expect(screen.getByText("艺术 · 雕塑")).toBeInTheDocument()
-    expect(screen.queryByLabelText("适龄 6 岁起，建议成人陪同")).not.toBeInTheDocument()
+    expect(screen.getByLabelText("适龄 6 岁起，建议成人陪同")).toBeInTheDocument()
     expect(screen.queryByRole("button")).not.toBeInTheDocument()
+  })
+
+  it("keeps classification before material details and statistics", () => {
+    render(<ProjectCard project={classifiedProject} variant="explore" materialMatch={match} />)
+
+    const orderedContent = [
+      screen.getByRole("heading", { name: `查看项目：${classifiedProject.title}` }),
+      screen.getByText("艺术 · 雕塑"),
+      screen.getByLabelText("适龄 6 岁起，建议成人陪同"),
+      screen.getByText("需要 4 样，你有 2 样"),
+      screen.getByText("还差：浅盘、纸杯"),
+      screen.getByTestId("explore-project-stats"),
+    ]
+    for (let index = 1; index < orderedContent.length; index += 1) {
+      expect(orderedContent[index - 1].compareDocumentPosition(orderedContent[index]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    }
   })
 
   it("retains a long missing label for access while truncating its displayed line", () => {
@@ -202,6 +234,19 @@ describe("ProjectCard material matching", () => {
     expect(line.querySelector('svg[aria-hidden="true"]')).toBeInTheDocument()
   })
 
+  it("does not mark a category selection complete before its specification is confirmed", () => {
+    render(<ProjectCard project={project} variant="explore" materialMatch={{ ...match, ownedCount: 4, missingLabels: [], pendingLabels: ["透明塑料瓶"] }} />)
+
+    expect(screen.getByText("已有材料，需核对规格")).toBeInTheDocument()
+    expect(screen.queryByText("材料已匹配")).not.toBeInTheDocument()
+    expect(screen.getByText("已有材料，需核对规格").parentElement).not.toHaveClass("text-[hsl(var(--status-success))]")
+  })
+
+  it("keeps unconfirmed specifications visible alongside missing categories", () => {
+    render(<ProjectCard project={project} variant="explore" materialMatch={{ ...match, pendingLabels: ["瓶子"] }} />)
+    expect(screen.getByText("还差：浅盘、纸杯 · 1 样需核对规格")).toBeInTheDocument()
+  })
+
   it("uses an honest fallback for unknown material information", () => {
     render(<ProjectCard project={project} variant="explore" materialMatch={null} />)
 
@@ -210,19 +255,20 @@ describe("ProjectCard material matching", () => {
     expect(screen.queryByText(/^0 样材料$/)).not.toBeInTheDocument()
   })
 
-  it("keeps bounded matching slots but restores natural ordinary card content when matching switches off", () => {
+  it("restores ordinary card content when matching switches off", () => {
     const { container, rerender } = render(<ProjectCard project={classifiedProject} variant="explore" materialMatch={match} />)
     const surface = container.querySelector(".surface-card")!
     expect(surface).toHaveClass("h-full", "flex", "flex-col", "p-0")
     expect(surface).not.toHaveClass("grid")
     expect(container.querySelector(".aspect-16\\/10")).toHaveClass("md:aspect-video")
-    expect(screen.getByText("需要 4 样，你有 2 样").parentElement).toHaveClass("h-11", "leading-5")
-    expect(screen.getByRole("heading", { name: `查看项目：${classifiedProject.title}` })).toHaveClass("h-12")
+    expect(screen.getByText("需要 4 样，你有 2 样")).toBeInTheDocument()
+    expect(screen.getByText("还差：浅盘、纸杯")).toBeInTheDocument()
     const matchingGeometry = surface.className
 
     rerender(<ProjectCard project={classifiedProject} variant="explore" />)
 
     expect(screen.queryByText(/需要 4 样/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/还差：/)).not.toBeInTheDocument()
     expect(screen.queryByText(classifiedProject.description!)).not.toBeInTheDocument()
     expect(screen.getByText("艺术 · 雕塑").parentElement).not.toHaveClass("h-11", "justify-between")
     expect(screen.getByLabelText("适龄 6 岁起，建议成人陪同")).toBeInTheDocument()

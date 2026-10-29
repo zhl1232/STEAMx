@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Flag, Loader2 } from "lucide-react"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { Button } from "@/components/ui/button"
 import { ReportDialog } from "@/components/ui/report-dialog"
@@ -56,18 +56,27 @@ export function CompletionRecordComments({
     })
   }, [])
 
-  const { data: comments = [], isLoading } = useQuery({
-    queryKey: ["completion_comments", completionId, "thread", user?.id],
-    queryFn: async () => {
-      const response = await fetch(`/api/completions/${completionId}/comments?limit=200`)
-      if (!response.ok) throw new Error(await response.text())
-      const payload = await response.json()
-      return (payload?.comments as Comment[]) || []
+  const {
+    data, isLoading, isError, isFetchingNextPage, isFetchNextPageError,
+    hasNextPage, fetchNextPage, refetch,
+  } = useInfiniteQuery({
+    queryKey: ["completion_comments", completionId, "thread", "cursor", user?.id],
+    initialPageParam: null as number | null,
+    queryFn: async ({ pageParam, signal }) => {
+      const params = new URLSearchParams({ pagination: "cursor", limit: "10" })
+      if (pageParam !== null) params.set("after", String(pageParam))
+      const response = await fetch(`/api/completions/${completionId}/comments?${params}`, { signal })
+      if (!response.ok) throw new Error("留言加载失败，请重试")
+      return response.json() as Promise<{ comments: Comment[]; nextCursor: number | null }>
     },
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     enabled,
     refetchInterval: () => submitted && Date.now()-submitted.at<60_000 ? 5000 : false,
     staleTime: 30_000,
   })
+  const comments = [...new Map((data?.pages.flatMap(page => page.comments) ?? [])
+    .map(comment => [String(comment.id), comment])).values()]
+
 
   const feedback = useExchangeFeedback('comment', comments.map(c=>Number(c.id)).concat(submitted?[submitted.id]:[]), submitted)
 
@@ -125,6 +134,11 @@ export function CompletionRecordComments({
             <Skeleton className="h-16 rounded-md" />
             <Skeleton className="h-16 rounded-md" />
           </div>
+        ) : isError && comments.length === 0 ? (
+          <div className="py-4 text-sm text-muted-foreground" role="alert">
+            <p>留言加载失败，请重试。</p>
+            <Button variant="ghost" className="mt-1 min-h-11" onClick={() => refetch()}>重新加载</Button>
+          </div>
         ) : comments.length === 0 ? (
           <div className="rounded-lg border border-dashed border-border/80 p-6 text-center">
             <p className="text-sm text-muted-foreground">还没有留言，来说说对这个作品的想法或提出你的问题吧。</p>
@@ -149,6 +163,25 @@ export function CompletionRecordComments({
         )}
       </div>
 
+      {comments.length > 0 && (hasNextPage || (data?.pages.length ?? 0) > 1 || isError) ? (
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+          <p className="text-xs text-muted-foreground" role="status">已加载 {comments.length} 条留言与回复</p>
+          {hasNextPage ? (
+            <Button
+              variant="ghost"
+              className="min-h-11"
+              disabled={isFetchingNextPage}
+              onClick={() => fetchNextPage()}
+            >
+              {isFetchingNextPage ? "加载中…" : isFetchNextPageError ? "加载失败，重试" : "加载更多"}
+            </Button>
+          ) : null}
+          {isError && !isFetchNextPageError ? (
+            <Button variant="ghost" className="min-h-11" onClick={() => refetch()}>刷新失败，重试</Button>
+          ) : null}
+        </div>
+      ) : null}
+
       <div className="mt-6 shrink-0 space-y-2.5 border-t border-border/70 pt-4">
         {replyTo ? (
           <div className="flex items-center justify-between rounded-sm bg-muted/60 px-3 py-1.5 text-xs text-muted-foreground">
@@ -158,7 +191,7 @@ export function CompletionRecordComments({
             <button
               type="button"
               onClick={() => {setReplyTo(null);persist(content,null)}}
-              className="text-xs text-[hsl(var(--brand-green))] hover:underline"
+              className="min-h-11 px-2 text-xs text-[hsl(var(--brand-green))] hover:underline"
             >
               取消回复
             </button>
@@ -173,11 +206,15 @@ export function CompletionRecordComments({
           rows={3}
           className="resize-none"
         />
+        {submitted && !comments.some(comment => Number(comment.id) === submitted.id) ? (
+          <p className="text-sm text-muted-foreground" role="status">留言已提交，审核通过后会公开显示。</p>
+        ) : null}
         <ExchangeRewardHint />
         <div className="flex justify-end">
           <Button
             type="button"
             size="sm"
+            className="min-h-11 px-4"
             onClick={handleSubmit}
             disabled={commentMutation.isPending || !content.trim()}
           >
@@ -214,7 +251,7 @@ function CompletionCommentThread({
   const canReport = Boolean(viewerId && comment.userId && viewerId !== comment.userId)
 
   return (
-    <div className="py-4.5 first:pt-1 last:pb-2 sm:py-5">
+    <div className="pt-3 pb-0 first:pt-1 last:pb-0">
       <div className="flex items-start gap-3">
         <UserAvatar
           userId={comment.userId}
@@ -233,13 +270,13 @@ function CompletionCommentThread({
             {comment.content}
           </p>
 
-          <div className="mt-2.5 flex items-center gap-2 text-xs text-muted-foreground">
+          <div className="mt-0 flex items-center gap-2 text-xs text-muted-foreground">
             <span className="leading-none">{comment.date || "刚刚"}</span>
             <span className="leading-none text-muted-foreground/40" aria-hidden="true">·</span>
             <button
               type="button"
               onClick={() => onReply(Number(comment.id), displayName)}
-              className="inline-flex items-center leading-none font-medium text-muted-foreground hover:text-[hsl(var(--brand-green))] transition-colors"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center leading-none font-medium text-muted-foreground hover:text-[hsl(var(--brand-green))] transition-colors"
             >
               回复
             </button>
@@ -251,7 +288,7 @@ function CompletionCommentThread({
                     type="button"
                     aria-label={`举报 ${displayName} 的评论`}
                     title="举报"
-                    className="inline-flex items-center gap-1 leading-none text-muted-foreground/60 hover:text-destructive transition-colors focus-visible:outline-hidden"
+                    className="inline-flex min-h-11 min-w-11 items-center justify-center gap-1 leading-none text-muted-foreground/60 hover:text-destructive transition-colors focus-visible:outline-hidden"
                   >
                     <Flag className="h-3 w-3 shrink-0" aria-hidden="true" />
                     <span>举报</span>
@@ -296,13 +333,13 @@ function CompletionCommentThread({
                     <span className="text-foreground/90 whitespace-pre-wrap break-words">{reply.content}</span>
                   </p>
 
-                  <div className="mt-1.5 flex items-center gap-2 text-[11px] text-muted-foreground/80">
+                  <div className="mt-0 flex items-center gap-2 text-[11px] text-muted-foreground/80">
                     <span className="leading-none">{reply.date || "刚刚"}</span>
                     <span className="leading-none text-muted-foreground/40" aria-hidden="true">·</span>
                     <button
                       type="button"
                       onClick={() => onReply(Number(reply.id), replyDisplayName)}
-                      className="inline-flex items-center leading-none font-medium hover:text-[hsl(var(--brand-green))] transition-colors"
+                      className="inline-flex min-h-11 min-w-11 items-center justify-center leading-none font-medium hover:text-[hsl(var(--brand-green))] transition-colors"
                     >
                       回复
                     </button>
@@ -314,7 +351,7 @@ function CompletionCommentThread({
                             type="button"
                             aria-label={`举报 ${replyDisplayName} 的回复`}
                             title="举报"
-                            className="inline-flex items-center gap-1 leading-none text-muted-foreground/60 hover:text-destructive transition-colors focus-visible:outline-hidden"
+                            className="inline-flex min-h-11 min-w-11 items-center justify-center gap-1 leading-none text-muted-foreground/60 hover:text-destructive transition-colors focus-visible:outline-hidden"
                           >
                             <Flag className="h-3 w-3 shrink-0" aria-hidden="true" />
                             <span>举报</span>
@@ -327,7 +364,7 @@ function CompletionCommentThread({
               </div>
             )
           })}
-          {replies.length>2 && <button type="button" onClick={()=>setExpanded(!expanded)}>{expanded?'收起回复':`展开其余 ${replies.length-2} 条回复`}</button>}
+          {replies.length>2 && <button type="button" className="min-h-11 px-2" onClick={()=>setExpanded(!expanded)}>{expanded?'收起回复':`展开其余 ${replies.length-2} 条回复`}</button>}
         </div>
       ) : null}
     </div>

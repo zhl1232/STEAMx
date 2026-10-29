@@ -28,6 +28,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN pnpm exec next build
 RUN node scripts/prepare-feishu-runtime.mjs
+RUN node scripts/prepare-playground-runtime.mjs
 
 # Keep the Scratch output in its own runtime copy layer. It is excluded from the
 # application build context, so the public directory below does not duplicate it.
@@ -48,9 +49,11 @@ COPY --from=scratch-runtime /app/public/scratch ./public/scratch
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/.next/playground-runtime ./.next/playground-runtime
 COPY --from=builder --chown=nextjs:nodejs /app/deploy/auto-interactions-worker.mjs ./auto-interactions-worker.mjs
 COPY --from=builder --chown=nextjs:nodejs /app/deploy/communications-worker.mjs ./communications-worker.mjs
 COPY --from=builder --chown=nextjs:nodejs /app/deploy/commerce-worker.mjs ./commerce-worker.mjs
+COPY --from=builder --chown=nextjs:nodejs /app/deploy/playground-worker.mjs ./playground-worker.mjs
 COPY --from=builder --chown=nextjs:nodejs /app/deploy/feishu-bridge.mjs ./feishu-bridge.mjs
 
 USER nextjs

@@ -89,3 +89,18 @@ services:
     mem_limit: "${COMMERCE_WORKER_MEMORY_LIMIT:-128m}"
     memswap_limit: "${COMMERCE_WORKER_MEMORY_LIMIT:-128m}"
     command: ["node", "commerce-worker.mjs"]
+
+  playground-worker:
+    image: "${STEAM_APP_IMAGE:-steam-app:latest}"
+    restart: unless-stopped
+    depends_on:
+      steam-app:
+        condition: service_healthy
+    env_file:
+      - .env.production
+    environment:
+      PLAYGROUND_WORKER_BASE_URL: http://steam-app:3000
+      NODE_OPTIONS: "${PLAYGROUND_WORKER_NODE_OPTIONS:---max-old-space-size=96}"
+    mem_limit: "${PLAYGROUND_WORKER_MEMORY_LIMIT:-128m}"
+    memswap_limit: "${PLAYGROUND_WORKER_MEMORY_LIMIT:-128m}"
+    command: ["node", "playground-worker.mjs"]

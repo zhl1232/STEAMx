@@ -68,8 +68,8 @@ export function AnnouncementList() {
   };
   useEffect(load, []);
   return (
-    <div className="page-shell py-8">
-      <div className="mx-auto max-w-3xl">
+    <div className="app-shell-narrow py-8">
+      <div className="min-w-0">
         <p className="section-kicker">创探空间</p>
         <h1 className="mt-3 text-3xl font-semibold tracking-tight">公告</h1>
         <p className="mt-3 text-sm leading-7 text-muted-foreground">
@@ -134,8 +134,8 @@ export function AnnouncementDetail({
     };
   }, [announcement.id, user, withdrawn, refreshUnreadCount]);
   return (
-    <div className="page-shell py-8">
-      <article className="surface-panel mx-auto max-w-3xl p-6 sm:p-10">
+    <div className="app-shell-narrow py-8">
+      <article className="surface-panel p-6 sm:p-10">
         <Link
           href="/announcements"
           className="text-sm text-muted-foreground hover:text-foreground"

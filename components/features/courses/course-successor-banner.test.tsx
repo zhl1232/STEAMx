@@ -21,7 +21,7 @@ describe("CourseSuccessorBanner", () => {
     render(<CourseSuccessorBanner successor={successor} variant={variant} />);
 
     const link = screen.getByRole("link", { name: label });
-    expect(link).toHaveAttribute("href", "/courses/8");
+    expect(link).toHaveAttribute("href", "/courses?course=8");
     expect(link).toHaveTextContent("新版课程");
   });
 

@@ -147,6 +147,8 @@ describe("page entity JSON-LD", () => {
     expect(data["@graph"][0]).toMatchObject({
       "@type": "Course",
       name: "五子棋入门",
+      url: "https://steam.bj.cn/courses?course=7",
+      "@id": "https://steam.bj.cn/courses?course=7#course",
       hasPart: [
         {
           "@type": "LearningResource",
@@ -219,6 +221,10 @@ describe("page entity JSON-LD", () => {
     expect(lesson).toMatchObject({
       "@type": "LearningResource",
       url: "https://steam.bj.cn/courses/7/lessons/21",
+      isPartOf: {
+        url: "https://steam.bj.cn/courses?course=7",
+        "@id": "https://steam.bj.cn/courses?course=7#course",
+      },
       hasPart: [{ "@type": "HowToStep", name: "观察棋盘" }],
     });
     expect(species["@graph"][1]).toMatchObject({

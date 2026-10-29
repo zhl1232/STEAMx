@@ -1,19 +1,39 @@
 import materialCatalog from './household-materials.data.json'
+import { getMaterialGroupId, MATERIAL_GROUPS_BY_ID } from './material-groups'
+export { HOUSEHOLD_MATERIAL_GROUPS, getMaterialGroupId, getMaterialSelectionCount } from './material-groups'
 
-/** Lightweight catalog shared with the picker; project profiles stay on the server. */
-export const HOUSEHOLD_MATERIALS: readonly {
+type HouseholdMaterial = {
   id: string
   label: string
   common?: boolean
   description?: string
   category?: string
-}[] = materialCatalog
+  aliases?: string[]
+}
+
+// Explicitly reviewed identities only. Color/quantity requirements stay in the
+// project checklist; functional specifications remain distinct catalog entries.
+const catalog: readonly (HouseholdMaterial & { canonicalId?: string })[] = materialCatalog
+const canonicalIds = new Map(catalog.map(({ id, canonicalId }) => [id, canonicalId ?? id]))
+const catalogById = new Map(catalog.map((material) => [material.id, material]))
+const materialsById = new Map<string, HouseholdMaterial>()
+for (const material of catalog) {
+  const id = canonicalIds.get(material.id)!
+  const canonical = catalogById.get(id)!
+  const merged = materialsById.get(id) ?? { ...canonical, aliases: [] }
+  if (material.label !== canonical.label) merged.aliases!.push(material.label)
+  materialsById.set(id, merged)
+}
+
+/** Lightweight catalog shared with the picker; project profiles stay on the server. */
+export const HOUSEHOLD_MATERIALS: readonly HouseholdMaterial[] = [...materialsById.values()]
 
 export type MaterialMatch = {
   requiredCount: number
   ownedCount: number
   missingLabels: string[]
   hasSelection: boolean
+  pendingLabels?: string[]
 }
 
 // Only reviewed source rows are accepted. Do not remove specifications or infer
@@ -54,7 +74,6 @@ const OPTIONAL_SOURCE_ROWS = new Set(['打气筒（建议使用）'])
 const PREPARATION_SOURCE_ROWS = new Map([
   ['两处稳固的绳端固定点', '请成人把细绳两端系在两个稳固的位置，例如两把稳固椅子的椅背上。确认系牢，再把绳子拉直、保持接近水平。'],
 ])
-const MATERIAL_LABELS = new Map(HOUSEHOLD_MATERIALS.map(({ id, label }) => [id, label]))
 
 /** Keep setup instructions separate from the material checklist. */
 export function splitMaterialPreparation(sourceRows: readonly string[]): { materials: string[]; preparationNotes: string[] } {
@@ -71,8 +90,11 @@ export function splitMaterialPreparation(sourceRows: readonly string[]): { mater
 /** Validate a parsed storage value and restore catalog order. */
 export function normalizeOwnedMaterialIds(value: unknown): string[] {
   if (!Array.isArray(value)) return []
-  const selected = new Set(value.filter((id): id is string => typeof id === 'string'))
-  return HOUSEHOLD_MATERIALS.filter(({ id }) => selected.has(id)).map(({ id }) => id)
+  const selected = new Set(value.filter((id): id is string => typeof id === 'string').map((id) => id.startsWith('group:') ? getMaterialGroupId(id) : canonicalIds.get(id)))
+  return [
+    ...HOUSEHOLD_MATERIALS.filter(({ id }) => selected.has(id)).map(({ id }) => id),
+    ...[...MATERIAL_GROUPS_BY_ID.keys()].filter((id) => selected.has(id)),
+  ]
 }
 
 const MATERIAL_ORDER = new Map(HOUSEHOLD_MATERIALS.map(({ id }, index) => [id, index]))
@@ -83,8 +105,8 @@ export function validateMaterialRequirements(value: unknown): string[][] | null 
   const unique = new Map<string, string[]>()
   for (const group of value) {
     if (!Array.isArray(group) || group.length === 0) return null
-    if (group.some((id) => typeof id !== 'string' || !MATERIAL_ORDER.has(id))) return null
-    const ids = [...new Set(group as string[])].sort((left, right) => MATERIAL_ORDER.get(left)! - MATERIAL_ORDER.get(right)!)
+    if (group.some((id) => typeof id !== 'string' || !canonicalIds.has(id))) return null
+    const ids = [...new Set((group as string[]).map((id) => canonicalIds.get(id)!))].sort((left, right) => MATERIAL_ORDER.get(left)! - MATERIAL_ORDER.get(right)!)
     unique.set(ids.join('\0'), ids)
   }
   const groups = [...unique.values()]
@@ -100,20 +122,49 @@ function compareMaterialSets(left: readonly string[], right: readonly string[]):
   return left.length - right.length
 }
 
-/** Exact minimum hitting set, split into independent components of shared alternatives. */
+type MaterialAvailability = 0 | 1 | 2 // confirmed, specification pending, missing
+
+function materialAvailability(owned: ReadonlySet<string>): (id: string) => MaterialAvailability {
+  const families = new Set([...owned].map(getMaterialGroupId))
+  return (id) => {
+    if (owned.has(id)) return 0
+    const groupId = getMaterialGroupId(id)!
+    const group = MATERIAL_GROUPS_BY_ID.get(groupId)!
+    if (!families.has(groupId)) return 2
+    // A checked specific member also establishes ownership of its generic family.
+    return group.baseId === id ? 0 : 1
+  }
+}
+
+function selectionScore(ids: readonly string[], availability: (id: string) => MaterialAvailability): number[] {
+  const families = new Map<string, MaterialAvailability>()
+  for (const id of ids) {
+    const groupId = getMaterialGroupId(id)!
+    families.set(groupId, Math.max(families.get(groupId) ?? 0, availability(id)) as MaterialAvailability)
+  }
+  const states = [...families.values()]
+  return [states.filter((state) => state === 2).length, states.filter((state) => state === 1).length, families.size, ids.length]
+}
+
+function compareScores(left: readonly number[], right: readonly number[]): number {
+  for (let index = 0; index < left.length; index++) if (left[index] !== right[index]) return left[index] - right[index]
+  return 0
+}
+
+/** Exact AND/OR hitting set; category ownership never erases specific clauses. */
 function chooseRequiredMaterials(groups: string[][], owned: ReadonlySet<string>): string[] {
+  const availability = materialAvailability(owned)
+  // Shared families also connect components: their counting and pending state interact.
   const parent = groups.map((_, index) => index)
   function root(index: number): number {
-    while (parent[index] !== index) {
-      parent[index] = parent[parent[index]]
-      index = parent[index]
-    }
+    while (parent[index] !== index) { parent[index] = parent[parent[index]]; index = parent[index] }
     return index
   }
   const firstGroup = new Map<string, number>()
   groups.forEach((group, index) => group.forEach((id) => {
-    const previous = firstGroup.get(id)
-    if (previous === undefined) firstGroup.set(id, index)
+    const family = getMaterialGroupId(id)!
+    const previous = firstGroup.get(family)
+    if (previous === undefined) firstGroup.set(family, index)
     else parent[root(index)] = root(previous)
   }))
   const components = new Map<number, string[][]>()
@@ -123,53 +174,61 @@ function chooseRequiredMaterials(groups: string[][], owned: ReadonlySet<string>)
     component.push(group)
     components.set(key, component)
   })
-
   const required: string[] = []
   for (const component of components.values()) {
-    const coverage = new Map<string, number[]>()
-    component.forEach((group, index) => group.forEach((id) => {
-      const indices = coverage.get(id) ?? []
-      indices.push(index)
-      coverage.set(id, indices)
-    }))
     let best: string[] | null = null
-    let bestMissing = Infinity
+    let bestScore: number[] | null = null
     const selected = new Set<string>()
-    const covered = component.map(() => false)
-    const seen = new Map<string, { missing: number; ids: string[] }>()
-    function search(remaining: number, missing: number) {
-      if (missing > bestMissing || (missing === bestMissing && best !== null && selected.size > best.length)) return
-      const ids = [...selected].sort((left, right) => MATERIAL_ORDER.get(left)! - MATERIAL_ORDER.get(right)!)
-      if (remaining === 0) {
-        if (missing < bestMissing || best === null || ids.length < best.length || (ids.length === best.length && compareMaterialSets(ids, best) < 0)) {
+    const seen = new Set<string>()
+    function search() {
+      const ids = [...selected].sort((a, b) => MATERIAL_ORDER.get(a)! - MATERIAL_ORDER.get(b)!)
+      const key = ids.join('\0')
+      if (seen.has(key)) return
+      seen.add(key)
+      const score = selectionScore(ids, availability)
+      if (bestScore && compareScores(score, bestScore) > 0) return
+      const uncovered = component.filter((group) => !group.some((id) => selected.has(id)))
+      if (uncovered.length === 0) {
+        if (!bestScore || compareScores(score, bestScore) < 0 || (compareScores(score, bestScore) === 0 && compareMaterialSets(ids, best!) < 0)) {
           best = ids
-          bestMissing = missing
+          bestScore = score
         }
         return
       }
-      const key = covered.map((value) => value ? '1' : '0').join('')
-      const prior = seen.get(key)
-      if (prior && (prior.missing < missing || (prior.missing === missing && (prior.ids.length < ids.length || (prior.ids.length === ids.length && compareMaterialSets(prior.ids, ids) <= 0))))) return
-      seen.set(key, { missing, ids })
-      // Branch on the tightest uncovered clause; prefer existing materials, then catalog order.
-      let next = -1
-      for (let index = 0; index < component.length; index++) {
-        if (!covered[index] && (next < 0 || component[index].length < component[next].length)) next = index
-      }
-      const alternatives = [...component[next]].sort((left, right) => Number(owned.has(right)) - Number(owned.has(left)) || MATERIAL_ORDER.get(left)! - MATERIAL_ORDER.get(right)!)
-      for (const id of alternatives) {
+      const next = uncovered.reduce((left, right) => left.length <= right.length ? left : right)
+      for (const id of [...next].sort((a, b) => availability(a) - availability(b) || MATERIAL_ORDER.get(a)! - MATERIAL_ORDER.get(b)!)) {
         selected.add(id)
-        const changed = coverage.get(id)!.filter((index) => !covered[index])
-        for (const index of changed) covered[index] = true
-        search(remaining - changed.length, missing + (owned.has(id) ? 0 : 1))
-        for (const index of changed) covered[index] = false
+        search()
         selected.delete(id)
       }
     }
-    search(component.length, 0)
+    search()
     required.push(...(best ?? []))
   }
-  return required.sort((left, right) => MATERIAL_ORDER.get(left)! - MATERIAL_ORDER.get(right)!)
+  return required.sort((a, b) => MATERIAL_ORDER.get(a)! - MATERIAL_ORDER.get(b)!)
+}
+
+function describeMaterialMatch(required: readonly string[], owned: ReadonlySet<string>): MaterialMatch {
+  const availability = materialAvailability(owned)
+  const families = new Map<string, { state: MaterialAvailability; label: string }>()
+  for (const id of required) {
+    const groupId = getMaterialGroupId(id)!
+    const previous = families.get(groupId)
+    const group = MATERIAL_GROUPS_BY_ID.get(groupId)!
+    families.set(groupId, {
+      state: Math.max(previous?.state ?? 0, availability(id)) as MaterialAvailability,
+      label: group.label,
+    })
+  }
+  const missingLabels = [...families.values()].filter(({ state }) => state === 2).map(({ label }) => label)
+  const pendingLabels = [...families.values()].filter(({ state }) => state === 1).map(({ label }) => label)
+  return {
+    requiredCount: families.size,
+    ownedCount: families.size - missingLabels.length,
+    missingLabels,
+    hasSelection: owned.size > 0,
+    ...(pendingLabels.length ? { pendingLabels } : {}),
+  }
 }
 
 export function matchProjectMaterials(
@@ -182,13 +241,7 @@ export function matchProjectMaterials(
     if (!groups) return null
     const owned = new Set(normalizeOwnedMaterialIds(ownedIds))
     const required = chooseRequiredMaterials(groups, owned)
-    const missing = required.filter((id) => !owned.has(id))
-    return {
-      requiredCount: required.length,
-      ownedCount: required.length - missing.length,
-      missingLabels: missing.map((id) => MATERIAL_LABELS.get(id)!),
-      hasSelection: owned.size > 0,
-    }
+    return describeMaterialMatch(required, owned)
   }
   if (!Array.isArray(materials) || materials.length === 0) return null
 
@@ -202,13 +255,7 @@ export function matchProjectMaterials(
   if (required.size === 0) return null
 
   const owned = new Set(normalizeOwnedMaterialIds(ownedIds))
-  const missing = [...required].filter((id) => !owned.has(id))
-  return {
-    requiredCount: required.size,
-    ownedCount: required.size - missing.length,
-    missingLabels: missing.map((id) => MATERIAL_LABELS.get(id)!),
-    hasSelection: owned.size > 0,
-  }
+  return describeMaterialMatch([...required], owned)
 }
 
 export function sortProjectsByMaterials<T extends { materials?: string[]; householdRequirements?: string[][] }>(
@@ -226,6 +273,8 @@ export function sortProjectsByMaterials<T extends { materials?: string[]; househ
       if (a.match.hasSelection) {
         const missingOrder = a.match.missingLabels.length - b.match.missingLabels.length
         if (missingOrder) return missingOrder
+        const pendingOrder = (a.match.pendingLabels?.length ?? 0) - (b.match.pendingLabels?.length ?? 0)
+        if (pendingOrder) return pendingOrder
         const ownedOrder = b.match.ownedCount - a.match.ownedCount
         if (ownedOrder) return ownedOrder
       }

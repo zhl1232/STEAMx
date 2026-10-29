@@ -1,18 +1,14 @@
 "use client"
 
+import filterMotion from './explore-filter-motion.module.css'
 import { ExploreSearchOverlay } from '@/components/explore/explore-search-overlay'
-import { Fragment, useState, useRef, useCallback, useEffect, useLayoutEffect, useMemo, type FormEvent, type MouseEvent } from 'react'
-import Link from 'next/link'
+import { useState, useRef, useCallback, useEffect, useLayoutEffect, useMemo, memo, type FormEvent, type MouseEvent, type ComponentProps } from 'react'
 import { buildExplorePageHref } from '@/lib/seo/explore-pagination'
 import { useSearchParams } from 'next/navigation'
 import {
-    ArrowLeft,
-    ChevronRight,
     Filter,
-    Lightbulb,
     Search,
     Sparkles,
-    Target,
     X,
 } from 'lucide-react'
 import {
@@ -26,8 +22,8 @@ import { ProjectCardSkeleton } from '@/components/ui/loading-skeleton'
 import { Button } from '@/components/ui/button'
 import { FilterChip } from '@/components/ui/filter-chip'
 import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { MobileGlobalHeader } from '@/components/layout/mobile-global-header'
-import { Surface } from '@/components/ui/surface'
 import {
     Sheet,
     SheetContent,
@@ -37,7 +33,6 @@ import {
 import { cn } from '@/lib/utils'
 import type { Project } from '@/lib/mappers/types'
 import type { ExploreTagScope } from '@/lib/api/explore-data'
-import { sanitizeProjectTagsParam } from '@/lib/project/tags'
 import { normalizeDifficultyParam, parseAgeParam } from '@/lib/content-classification/validation'
 import { logger } from '@/lib/logger'
 import { useToast } from '@/hooks/use-toast'
@@ -50,19 +45,32 @@ import {
 } from '@/lib/explore-scroll-restore'
 import { buildExploreProjectContext, saveExploreProjectContext } from '@/lib/explore/project-navigation-context'
 import {
-    EXPLORE_PRESETS,
+    EXPLORE_TOPICS,
     EVERYDAY_MATERIALS_TAG,
     EXPLORE_RESULTS_SORT_OPTIONS,
-    detectActivePreset,
-    isExploreListTabPreset,
+    normalizeExploreThemeTags,
+    toggleExploreTopicTag,
     isExploreResultsMode,
     parseExploreSortBy,
     serializeExploreFilterParams,
-    type ExplorePresetId,
     type SortBy,
 } from '@/lib/explore/presets'
 
+// Opening filters should not rerender unchanged project cards behind the dialog.
+const ExploreProjectCard = memo(ProjectCard)
+
 const EXPLORE_LOAD_MORE_PLACEHOLDER_COUNT = 12
+
+/** Keep a 44px hit target around a lighter, compact condition label. */
+function ExploreConditionChip({ children, className, ...props }: ComponentProps<typeof FilterChip>) {
+    return (
+        <FilterChip {...props} className={cn('min-h-11 border-transparent! bg-transparent! px-0 py-2 font-normal shadow-none!', className)}>
+            <span className="inline-flex min-h-7 min-w-0 items-center gap-1 rounded-full bg-[hsl(var(--brand-blue)/0.06)] px-2.5 py-1 text-xs font-normal leading-5 text-[hsl(var(--brand-blue))]">
+                {children}
+            </span>
+        </FilterChip>
+    )
+}
 
 function mergeUniqueProjectsById(existing: Project[], incoming: Project[]): Project[] {
     if (incoming.length === 0) {
@@ -105,14 +113,6 @@ const DIFFICULTY_OPTIONS = [
 ]
 
 const defaultCategories = ["全部", "科学", "技术", "工程", "艺术", "数学", "其他"]
-const SHEET_HOT_TAGS_LIMIT = 20
-const EMPTY_TAGS: string[] = []
-const EMPTY_TAG_SCOPE: ExploreTagScope = {
-    all: [],
-    byCategory: {},
-    bySubCategory: {},
-}
-
 function normalizeSortBy(value: string | null | undefined): SortBy {
     return parseExploreSortBy(value)
 }
@@ -123,10 +123,6 @@ function sortFromSearchParam(raw: string | null): SortBy {
     return normalizeSortBy(raw)
 }
 
-function normalizeTagList(tags: string | null) {
-    return sanitizeProjectTagsParam(tags)
-}
-
 interface ExploreClientProps {
     initialProjects: Project[]
     initialHasMore: boolean
@@ -134,7 +130,6 @@ interface ExploreClientProps {
     initialPage?: number
     categories?: string[]
     availableTags?: string[]
-    /** 服务端按标签在项目中的出现次数排序；为空时侧栏回退为 `availableTags` 前若干项 */
     popularTags?: string[]
     tagScope?: ExploreTagScope
     initialFiltersKey?: string
@@ -146,9 +141,6 @@ export function ExploreClient({
     initialTotal = 0,
     initialPage = 0,
     categories: propCategories,
-    availableTags,
-    popularTags: popularTagsProp,
-    tagScope,
     initialFiltersKey,
 }: ExploreClientProps) {
     const searchParams = useSearchParams()
@@ -156,15 +148,6 @@ export function ExploreClient({
     const { clearLikesDeltaForProjects } = useProjects()
 
     const displayCategories = propCategories || defaultCategories
-    const resolvedAvailableTags = availableTags || EMPTY_TAGS
-    const resolvedPopularTags = popularTagsProp ?? EMPTY_TAGS
-    const resolvedTagScope = tagScope || EMPTY_TAG_SCOPE
-
-    const hotTags = useMemo(() => {
-        const ranked =
-            resolvedPopularTags.length > 0 ? resolvedPopularTags : resolvedAvailableTags
-        return ranked.slice(0, 10)
-    }, [resolvedPopularTags, resolvedAvailableTags])
 
     // 从 URL 初始化状态
     const initialQuery = searchParams.get("q") || ""
@@ -172,7 +155,7 @@ export function ExploreClient({
     const initialSubCategory = searchParams.get("subCategory") || ""
     const initialDifficulty = normalizeDifficultyParam(searchParams.get("difficulty")) || "all"
     const initialAge = parseAgeParam(searchParams.get("age"))
-    const initialTags = normalizeTagList(searchParams.get("tags"))
+    const initialTags = normalizeExploreThemeTags(searchParams.get("tags"))
     const initialSort = sortFromSearchParam(searchParams.get("sortBy"))
 
     const [projects, setProjects] = useState<Project[]>(initialProjects)
@@ -214,6 +197,7 @@ export function ExploreClient({
     const searchDraftDirtyRef = useRef(false)
     const internalUrlFiltersKeyRef = useRef<string | null>(null)
     const sheetTriggerRef = useRef<HTMLElement | null>(null)
+    const filterPanelRef = useRef<HTMLDivElement | null>(null)
     const [selectedSortBy, setSelectedSortBy] = useState<SortBy>(initialSort)
     const [ownedMaterialIds, setOwnedMaterialIds] = useState<string[]>([])
     const showMaterials = selectedTags.includes(EVERYDAY_MATERIALS_TAG)
@@ -223,7 +207,7 @@ export function ExploreClient({
     )
     const matchedProjectCount = showMaterials ? displayedProjects.filter((project) => {
         const match = matchProjectMaterials(project.materials, ownedMaterialIds, project.householdRequirements)
-        return match?.hasSelection && match.missingLabels.length === 0
+        return match?.hasSelection && match.missingLabels.length === 0 && !match.pendingLabels?.length
     }).length : 0
 
     useLayoutEffect(() => {
@@ -246,13 +230,9 @@ export function ExploreClient({
 
     // Sheet 状态
     const [sheetOpen, setSheetOpen] = useState(false)
-    const [draftCategory, setDraftCategory] = useState(selectedCategory)
     const [draftSubCategory, setDraftSubCategory] = useState(selectedSubCategory)
     const [draftDifficulty, setDraftDifficulty] = useState(selectedDifficulty)
     const [draftAge, setDraftAge] = useState<number | null>(selectedAge)
-    const [draftTags, setDraftTags] = useState<string[]>(selectedTags)
-    const [sheetView, setSheetView] = useState<'filters' | 'tags'>('filters')
-    const [tagSearchQuery, setTagSearchQuery] = useState('')
 
     useEffect(() => {
         pageRef.current = page
@@ -276,7 +256,7 @@ export function ExploreClient({
         const nextSubCategory = searchParams.get("subCategory") || ""
         const nextDifficulty = normalizeDifficultyParam(searchParams.get("difficulty")) || "all"
         const nextAge = parseAgeParam(searchParams.get("age"))
-        const nextTags = normalizeTagList(searchParams.get("tags"))
+        const nextTags = normalizeExploreThemeTags(searchParams.get("tags"))
         const nextSortBy = sortFromSearchParam(searchParams.get("sortBy"))
 
         const nextFiltersKey = serializeExploreFilterParams(new URLSearchParams(searchParams.toString()))
@@ -311,56 +291,10 @@ export function ExploreClient({
     }, [])
 
     const sheetSubCategories = useMemo(() => (
-        draftCategory === "全部"
-            ? Object.values(CATEGORY_CONFIG).flat()
-            : CATEGORY_CONFIG[draftCategory] || []
-    ), [draftCategory])
-
-    const scopedAvailableTags = useMemo(() => {
-        if (draftSubCategory && resolvedTagScope.bySubCategory[draftSubCategory]) {
-            return resolvedTagScope.bySubCategory[draftSubCategory]
-        }
-
-        if (draftCategory !== "全部" && resolvedTagScope.byCategory[draftCategory]) {
-            return resolvedTagScope.byCategory[draftCategory]
-        }
-
-        return resolvedTagScope.all.length > 0 ? resolvedTagScope.all : resolvedAvailableTags
-    }, [draftSubCategory, resolvedAvailableTags, resolvedTagScope, draftCategory])
-
-    const sheetHotTags = useMemo(() => {
-        const scopedSet = new Set(scopedAvailableTags)
-        const ranked =
-            resolvedPopularTags.length > 0 ? resolvedPopularTags : resolvedAvailableTags
-        const popularInScope = ranked.filter((tag) => scopedSet.has(tag))
-        const selectedInScope = draftTags.filter(
-            (tag) => scopedSet.has(tag) && !popularInScope.includes(tag)
-        )
-
-        const merged: string[] = []
-        const seen = new Set<string>()
-        for (const tag of [...selectedInScope, ...popularInScope, ...scopedAvailableTags]) {
-            if (seen.has(tag)) continue
-            seen.add(tag)
-            merged.push(tag)
-            if (merged.length >= SHEET_HOT_TAGS_LIMIT) break
-        }
-
-        return merged
-    }, [draftTags, resolvedAvailableTags, resolvedPopularTags, scopedAvailableTags])
-
-    const pickerTags = useMemo(() => {
-        const query = tagSearchQuery.trim().toLowerCase()
-        const sorted = [...scopedAvailableTags].sort((left, right) => {
-            const leftSelected = draftTags.includes(left)
-            const rightSelected = draftTags.includes(right)
-            if (leftSelected !== rightSelected) return leftSelected ? -1 : 1
-            return left.localeCompare(right, 'zh-Hans-CN', { sensitivity: 'base' })
-        })
-
-        if (!query) return sorted
-        return sorted.filter((tag) => tag.toLowerCase().includes(query))
-    }, [draftTags, scopedAvailableTags, tagSearchQuery])
+        selectedCategory === "全部"
+            ? []
+            : CATEGORY_CONFIG[selectedCategory] || []
+    ), [selectedCategory])
 
     const getFilterState = useCallback(() => ({
         category: selectedCategory,
@@ -371,11 +305,6 @@ export function ExploreClient({
         searchQuery,
         sortBy: selectedSortBy,
     }), [selectedCategory, selectedSubCategory, selectedDifficulty, selectedAge, selectedTags, searchQuery, selectedSortBy])
-
-    useEffect(() => {
-        const scopedTagSet = new Set(scopedAvailableTags)
-        setDraftTags(prev => prev.filter(tag => scopedTagSet.has(tag)))
-    }, [scopedAvailableTags])
 
     const buildSearchParams = useCallback((overrides: {
         query?: string
@@ -832,16 +761,6 @@ export function ExploreClient({
         void submitSearch(searchDraft)
     }
 
-    const handleTagClick = (tag: string) => {
-        const nextTags = selectedTags.includes(tag)
-            ? selectedTags.filter((selectedTag) => selectedTag !== tag)
-            : [...selectedTags, tag]
-        setSelectedTags(nextTags)
-        setDraftTags(nextTags)
-        const params = buildSearchParams({ tags: nextTags })
-        executeFilter(params)
-    }
-
     const handleClearFilters = () => {
         setSearchQuery("")
         setSearchDraft("")
@@ -855,7 +774,6 @@ export function ExploreClient({
         setDraftSubCategory("")
         setDraftDifficulty("all")
         setDraftAge(null)
-        setDraftTags([])
         setResultTotal(0)
         void executeFilter(new URLSearchParams())
     }
@@ -866,31 +784,10 @@ export function ExploreClient({
         executeFilter(buildSearchParams({ sortBy }))
     }
 
-    const handlePresetClick = (requestedId: ExplorePresetId) => {
-        // 主题只看标签，与排序无关：再点已选中的主题 = 取消主题；切主题保留当前排序。
-        const isToggleOff = requestedId !== 'browse' && activeTopicId === requestedId
-        const presetId: ExplorePresetId = isToggleOff ? 'browse' : requestedId
-        const preset = EXPLORE_PRESETS.find((item) => item.id === presetId)
-        if (!preset) return
-
-        const nextSortBy = requestedId === 'browse' ? preset.sortBy : selectedSortBy
-        const presetTags = preset.tags ?? []
-        const params = buildSearchParams({
-            difficulty: preset.difficulty,
-            sortBy: nextSortBy,
-            tags: presetTags,
-        })
-        if (serializeExploreFilterParams(params) === activeFiltersKeyRef.current) {
-            return
-        }
-
-        setSelectedDifficulty(preset.difficulty)
-        setSelectedSortBy(nextSortBy)
-        setDraftDifficulty(preset.difficulty)
-        setSelectedTags(presetTags)
-        setDraftTags(presetTags)
-
-        executeFilter(params)
+    const handleTopicClick = (tag: string) => {
+        const nextTags = toggleExploreTopicTag(selectedTags, tag)
+        setSelectedTags(nextTags)
+        executeFilter(buildSearchParams({ tags: nextTags }))
     }
 
     const handleRemoveSubCategory = () => {
@@ -913,49 +810,43 @@ export function ExploreClient({
         executeFilter(params)
     }
 
-    const handleRemoveTag = (tag: string) => {
-        const newTags = selectedTags.filter(t => t !== tag)
-        setSelectedTags(newTags)
-        const params = buildSearchParams({ tags: newTags })
-        executeFilter(params)
-    }
+    // Animate the surface from the trigger while controls keep their natural size.
+    const updateFilterMotionOrigin = useCallback(() => {
+        const panel = filterPanelRef.current
+        const trigger = sheetTriggerRef.current
+        if (!panel || !trigger || !window.matchMedia('(max-width: 767px)').matches) return
+        const bounds = panel.getBoundingClientRect()
+        const origin = trigger.getBoundingClientRect()
+        if (!bounds.width || !bounds.height) return
+        panel.style.setProperty('--filter-origin-x', `${origin.left - bounds.left}px`)
+        panel.style.setProperty('--filter-origin-y', `${origin.top - bounds.top}px`)
+        panel.style.setProperty('--filter-origin-scale-x', `${origin.width / bounds.width}`)
+        panel.style.setProperty('--filter-origin-scale-y', `${origin.height / bounds.height}`)
+    }, [])
+
+    const setFilterPanelRef = useCallback((panel: HTMLDivElement | null) => {
+        filterPanelRef.current = panel
+        if (panel) updateFilterMotionOrigin()
+    }, [updateFilterMotionOrigin])
+
+    useLayoutEffect(() => {
+        if (!sheetOpen) return
+        updateFilterMotionOrigin()
+        window.addEventListener('resize', updateFilterMotionOrigin)
+        window.visualViewport?.addEventListener('resize', updateFilterMotionOrigin)
+        return () => {
+            window.removeEventListener('resize', updateFilterMotionOrigin)
+            window.visualViewport?.removeEventListener('resize', updateFilterMotionOrigin)
+        }
+    }, [sheetOpen, updateFilterMotionOrigin])
 
     // Sheet 逻辑
     const openSheet = (event?: MouseEvent<HTMLButtonElement>) => {
         if (event?.currentTarget) sheetTriggerRef.current = event.currentTarget
-        setDraftCategory(selectedCategory)
         setDraftSubCategory(selectedSubCategory)
         setDraftDifficulty(selectedDifficulty)
         setDraftAge(selectedAge)
-        setDraftTags([...selectedTags])
-        setSheetView('filters')
-        setTagSearchQuery('')
         setSheetOpen(true)
-    }
-
-    const openTagPicker = () => {
-        setTagSearchQuery('')
-        setSheetView('tags')
-    }
-
-    const handleDraftCategoryClick = (category: string) => {
-        setDraftCategory(category)
-        
-        // 联动清空不属于该大类的子分类草稿
-        const validSubs = category === "全部"
-            ? Object.values(CATEGORY_CONFIG).flat()
-            : CATEGORY_CONFIG[category] || []
-        if (draftSubCategory && !validSubs.includes(draftSubCategory)) {
-            setDraftSubCategory("")
-        }
-
-        // 联动清空不适用于该大类的标签草稿
-        const scopedSet = new Set(
-            category === "全部"
-                ? resolvedTagScope.all
-                : resolvedTagScope.byCategory[category] || []
-        )
-        setDraftTags(prev => prev.filter(tag => scopedSet.has(tag)))
     }
 
     const handleDraftSubCategoryClick = (sub: string) => {
@@ -966,116 +857,86 @@ export function ExploreClient({
         setDraftDifficulty(value)
     }
 
-    const handleDraftTagClick = (tag: string) => {
-        setDraftTags(prev =>
-            prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
-        )
-    }
-
     const handleDraftClearAll = () => {
-        setDraftCategory("全部")
         setDraftSubCategory("")
         setDraftDifficulty("all")
         setDraftAge(null)
-        setDraftTags([])
     }
 
     const handleFilterSheetOpenChange = (open: boolean) => {
         setSheetOpen(open)
-        if (!open) {
-            setSheetView('filters')
-            setTagSearchQuery('')
-        }
     }
 
     const handleConfirmFilters = () => {
-        setSelectedCategory(draftCategory)
         setSelectedSubCategory(draftSubCategory)
         setSelectedDifficulty(draftDifficulty)
         setSelectedAge(draftAge)
-        setSelectedTags(draftTags)
-        setSheetView('filters')
-        setTagSearchQuery('')
         setSheetOpen(false)
 
         const params = buildSearchParams({
-            category: draftCategory,
             subCategory: draftSubCategory,
             difficulty: draftDifficulty,
             age: draftAge,
-            tags: draftTags,
         })
         executeFilter(params)
     }
 
-    const activePresetId = detectActivePreset(getFilterState())
-    const [isMobileLayout, setIsMobileLayout] = useState(false)
-    useEffect(() => {
-        const mq = window.matchMedia('(max-width: 767px)')
-        const update = () => setIsMobileLayout(mq.matches)
-        update()
-        mq.addEventListener('change', update)
-        return () => mq.removeEventListener('change', update)
-    }, [])
-    const activeListTabId = isExploreListTabPreset(activePresetId) ? activePresetId : null
-    // 主题高亮只按标签判断（与排序无关），切到「最新」也保持高亮。
-    const activeTopicId: ExplorePresetId | null = EXPLORE_PRESETS.find((item) => {
-        const tags = item.tags ?? []
-        return tags.length > 0 && tags.length === selectedTags.length && tags.every((t) => selectedTags.includes(t))
-    })?.id ?? null
-    const topicRow = (
-<div className="mb-3 flex items-center justify-between gap-3 max-md:mb-0">
-                                        <div className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto px-1 py-0.5 max-md:gap-2">
-                                            <span className="mr-1 shrink-0 text-[14px] font-medium text-foreground md:hidden">主题</span>
-                                            {EXPLORE_PRESETS.map((preset) => {
-                                                const isActive = preset.id === 'browse' ? activeListTabId === 'browse' : activeTopicId === preset.id
-
-                                                return (
-                                                    <FilterChip
-                                                        key={preset.id}
-                                                        onClick={() => handlePresetClick(preset.id)}
-                                                        disabled={isFiltering}
-                                                        aria-pressed={isActive}
-                                                        active={isActive}
-                                                        tone="primary"
-                                                        shape="pill"
-                                                        size="md"
-                                                        className={cn(
-                                                            preset.id === 'browse' && "max-md:hidden!", "h-11 min-w-[78px] px-3.5 text-[12px] font-semibold max-md:h-8 max-md:min-w-0 max-md:rounded-full max-md:border max-md:px-3.5 max-md:shadow-none! md:h-10 md:min-w-[96px] md:text-sm",
-                                                            isActive ? "max-md:border-[hsl(var(--brand-blue))]! max-md:bg-[hsl(var(--brand-blue)/0.1)]! max-md:text-[hsl(var(--brand-blue))]! dark:max-md:bg-[hsl(var(--brand-blue)/0.22)]!" : "max-md:border-[#e1e6ec]! max-md:bg-transparent! max-md:text-foreground! dark:max-md:border-white/25!",
-                                                            isActive
-                                                                ? "border-[hsl(var(--brand-blue)/0.42)] dark:border-[hsl(var(--brand-blue)/0.6)] bg-[hsl(var(--brand-blue)/0.1)] dark:bg-[hsl(var(--brand-blue)/0.18)] shadow-[0_8px_18px_-16px_hsl(var(--brand-blue)/0.5)] dark:shadow-[0_8px_20px_-12px_hsl(var(--brand-blue)/0.66)]"
-                                                                : "border-transparent bg-[hsl(var(--surface-raised)/0.66)] text-foreground/68 shadow-none md:bg-[hsl(var(--surface-muted)/0.58)]",
-                                                        )}
-                                                    >
-                                                        <span
-                                                            className={cn(
-                                                                "contents max-md:inline-flex max-md:items-center max-md:justify-center max-md:text-[14px] max-md:leading-none",
-                                                                isActive
-                                                                    ? "max-md:font-semibold max-md:text-[hsl(var(--brand-blue))]"
-                                                                    : "max-md:font-medium max-md:text-foreground",
-                                                            )}
-                                                        >
-                                                            {preset.label}
-                                                        </span>
-                                                    </FilterChip>
-                                                )
-                                            })}
-                                        </div>
-                                    </div>
-    )
-    const activeListPreset = activeListTabId
-        ? EXPLORE_PRESETS.find((item) => item.id === activeListTabId)
-        : undefined
-    const difficultyBelongsToListTab = false
-    const tagsBelongToListTab = !!activeListPreset?.tags?.length
-        && selectedTags.length === activeListPreset.tags.length
-        && activeListPreset.tags.every((tag) => selectedTags.includes(tag))
-    const hasActiveAdvancedFilters = !!selectedSubCategory || (!difficultyBelongsToListTab && selectedDifficulty !== "all") || selectedAge !== null || (!tagsBelongToListTab && selectedTags.length > 0)
-    const advancedFilterCount = (selectedSubCategory ? 1 : 0) + (!difficultyBelongsToListTab && selectedDifficulty !== "all" ? 1 : 0) + (selectedAge !== null ? 1 : 0) + (tagsBelongToListTab ? 0 : selectedTags.length)
+    const advancedFilterCount = (selectedSubCategory ? 1 : 0) + (selectedDifficulty !== "all" ? 1 : 0) + (selectedAge !== null ? 1 : 0)
     const isResultsMode = isExploreResultsMode(getFilterState())
-    const hasDraftFilters = draftCategory !== selectedCategory || !!draftSubCategory || draftDifficulty !== "all" || draftAge !== null || draftTags.length > 0
-    const draftFilterCount = (draftSubCategory ? 1 : 0) + (draftDifficulty !== "all" ? 1 : 0) + (draftAge !== null ? 1 : 0) + draftTags.length
+    const hasSummaryFilters = !!searchQuery || !!selectedSubCategory || selectedDifficulty !== 'all'
+        || selectedAge !== null
+    const hasDraftFilters = !!draftSubCategory || draftDifficulty !== "all" || draftAge !== null
+    const draftFilterCount = (draftSubCategory ? 1 : 0) + (draftDifficulty !== "all" ? 1 : 0) + (draftAge !== null ? 1 : 0)
+    const topicRow = (
+        <div className="flex min-w-0 items-center justify-between gap-2 md:gap-4">
+            <div role="group" aria-label="快捷主题" className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-2 overflow-x-auto px-1 py-0.5">
+                {EXPLORE_TOPICS.map((topic) => {
+                    const tag = topic.tags[0]
+                    const isActive = selectedTags.includes(tag)
+                    return (
+                        <button
+                            key={topic.id}
+                            type="button"
+                            onClick={() => handleTopicClick(tag)}
+                            disabled={isFiltering}
+                            aria-pressed={isActive}
+                            className="inline-flex h-11 shrink-0 items-center rounded-full font-normal focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
+                        >
+                            <span className={cn(
+                                "inline-flex h-8 items-center justify-center rounded-full border px-3 text-sm font-normal leading-none",
+                                isActive
+                                    ? "border-[hsl(var(--brand-blue)/0.4)] bg-[hsl(var(--brand-blue)/0.08)] text-[hsl(var(--brand-blue))]"
+                                    : "border-[hsl(var(--surface-border))] text-foreground",
+                            )}>
+                                {topic.label}
+                            </span>
+                        </button>
+                    )
+                })}
+            </div>
+            {!showMaterials ? (
+                <Select
+                    value={selectedSortBy}
+                    onValueChange={(value) => handleSortChange(parseExploreSortBy(value))}
+                    disabled={isFiltering}
+                >
+                    <SelectTrigger
+                        aria-label="项目排序"
+                        className="h-11 w-auto min-w-11 shrink-0 gap-1 border-0 bg-transparent px-2 font-normal text-muted-foreground shadow-none hover:text-foreground focus:shadow-none! focus-visible:outline-none focus-visible:underline focus-visible:underline-offset-4"
+                    >
+                        <SelectValue>{selectedSortBy === 'latest' ? '最新' : '推荐'}</SelectValue>
+                    </SelectTrigger>
+                    <SelectContent align="end" sideOffset={4} className="min-w-36">
+                        {EXPLORE_RESULTS_SORT_OPTIONS.map(option => (
+                            <SelectItem key={option.value} value={option.value} className="min-h-11 whitespace-nowrap font-normal">
+                                {option.label}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            ) : null}
+        </div>
+    )
     const getDifficultyLabel = (value: string) => DIFFICULTY_OPTIONS.find(o => o.value === value)?.label || value
 
 
@@ -1085,7 +946,7 @@ export function ExploreClient({
                 variant="search"
                 showNotification={false}
                 showUserButton={false}
-                className="bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--app-canvas)/0.92)_100%)] md:bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.88)_0%,hsl(var(--app-canvas)/0.72)_100%)] md:backdrop-blur-xl"
+                className="[&_[data-testid=mobile-search-entry]]:h-11 bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.96)_0%,hsl(var(--app-canvas)/0.92)_100%)] md:bg-[linear-gradient(180deg,hsl(var(--surface-raised)/0.88)_0%,hsl(var(--app-canvas)/0.72)_100%)] md:backdrop-blur-xl"
                 searchValue={searchDraft}
                 searchPlaceholder="搜索项目"
                 onSearchChange={(value) => {
@@ -1096,6 +957,19 @@ export function ExploreClient({
                 onSearchSubmit={(value) => void submitSearch(value)}
                 onSearchClear={clearSearch}
                 onSearchEntryClick={() => setSearchOverlayOpen(true)}
+                rightSlot={
+                    <button
+                        type="button"
+                        onClick={openSheet}
+                        data-testid="explore-mobile-filters"
+                        aria-label={advancedFilterCount > 0 ? `筛选，已选 ${advancedFilterCount} 项` : '筛选'}
+                        className="-mr-2 inline-flex min-h-11 items-center gap-1 rounded-sm px-2 text-sm font-normal text-muted-foreground hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                        <Filter className="h-4 w-4" aria-hidden="true" />
+                        筛选
+                        {advancedFilterCount > 0 ? <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-1 text-xs text-[hsl(var(--brand-blue))]">{advancedFilterCount}</span> : null}
+                    </button>
+                }
             />
             <ExploreSearchOverlay
                 open={searchOverlayOpen}
@@ -1122,9 +996,10 @@ export function ExploreClient({
                     backgroundImage: "url('/assets/explore-page-bg-light.webp')",
                     backgroundPosition: 'right top',
                     backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'max(100%, 1840px) auto',
-                    maskImage: 'linear-gradient(180deg, black 0%, black 72%, transparent 100%)',
-                    WebkitMaskImage: 'linear-gradient(180deg, black 0%, black 72%, transparent 100%)',
+                    backgroundSize: 'auto 440px',
+                    maskImage: 'linear-gradient(to right, transparent 20%, black 80%), linear-gradient(to bottom, black 35%, transparent 78%)',
+                    WebkitMaskImage: 'linear-gradient(to right, transparent 20%, black 80%), linear-gradient(to bottom, black 35%, transparent 78%)',
+                    maskComposite: 'intersect',
                 }}
             />
             <div
@@ -1134,9 +1009,10 @@ export function ExploreClient({
                     backgroundImage: "url('/assets/explore-page-bg-dark.webp')",
                     backgroundPosition: 'right top',
                     backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'max(100%, 1840px) auto',
-                    maskImage: 'linear-gradient(180deg, black 0%, black 72%, transparent 100%)',
-                    WebkitMaskImage: 'linear-gradient(180deg, black 0%, black 72%, transparent 100%)',
+                    backgroundSize: 'auto 440px',
+                    maskImage: 'linear-gradient(to right, transparent 20%, black 80%), linear-gradient(to bottom, black 35%, transparent 78%)',
+                    WebkitMaskImage: 'linear-gradient(to right, transparent 20%, black 80%), linear-gradient(to bottom, black 35%, transparent 78%)',
+                    maskComposite: 'intersect',
                 }}
             />
             <div
@@ -1145,8 +1021,8 @@ export function ExploreClient({
             />
             <div className="relative z-10" aria-hidden={sheetOpen}>
                 <div className="app-shell-wide min-w-0 pt-1 md:px-8 md:pt-5">
-                    <div className={cn("grid items-stretch gap-5", !isResultsMode && "xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]")}>
-                        <main className={cn(
+                    <div className="min-w-0">
+                        <div className={cn(
                             "relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg",
                             isResultsMode && "md:border-[hsl(var(--surface-border))]",
                         )}>
@@ -1182,40 +1058,18 @@ export function ExploreClient({
                                     disabled={isFiltering}
                                     onSelect={handleCategoryClick}
                                 />
-                                {/* 手机：主题紧跟分类条，可与分类叠加（搜索时不显示）。 */}
-                                {isMobileLayout && !searchQuery ? <div className="pb-3.5">{topicRow}</div> : null}
+                                {topicRow}
                             </div>
                             <div className={cn(
                                 "bg-transparent",
                                 isResultsMode && "pb-2 pt-0 md:p-5 md:border-b md:border-[hsl(var(--surface-border))]",
                             )}>
                                 {isResultsMode ? (
-                                    <div className="space-y-3">
-                                        <div className="flex items-center justify-between gap-3 overflow-visible pr-0.5">
-                                            <button
-                                                type="button"
-                                                onClick={handleClearFilters}
-                                                className="inline-flex min-h-11 items-center gap-1.5 text-[13px] font-semibold text-[hsl(var(--brand-blue))] md:text-sm"
-                                            >
-                                                <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden />
-                                                返回探索
-                                            </button>
-                                        </div>
-
-                                        <div className="flex flex-wrap items-center gap-2">
-                                            {selectedCategory !== "全部" && (
-                                                <FilterChip
-                                                    onClick={() => handleCategoryClick("全部")}
-                                                    active
-                                                    shape="pill"
-                                                    className="max-md:hidden"
-                                                >
-                                                    {selectedCategory}
-                                                    <X className="h-3 w-3" />
-                                                </FilterChip>
-                                            )}
+                                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                                        {hasSummaryFilters ? <div data-testid="explore-filter-summary" className="flex w-full min-w-0 items-center gap-3 md:flex-1">
+                                        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1 [&_button]:min-h-11 [&_button]:max-w-full [&_button]:whitespace-normal [&_button]:break-all">
                                             {searchQuery && (
-                                                <FilterChip
+                                                <ExploreConditionChip
                                                     onClick={() => {
                                                         clearSearch()
                                                     }}
@@ -1224,91 +1078,45 @@ export function ExploreClient({
                                                 >
                                                     {searchQuery}
                                                     <X className="h-3 w-3" />
-                                                </FilterChip>
+                                                </ExploreConditionChip>
                                             )}
                                             {selectedSubCategory && (
-                                                <FilterChip
+                                                <ExploreConditionChip
                                                     onClick={handleRemoveSubCategory}
                                                     active
                                                     shape="pill"
                                                 >
                                                     {selectedSubCategory}
                                                     <X className="h-3 w-3" />
-                                                </FilterChip>
+                                                </ExploreConditionChip>
                                             )}
-                                            {selectedDifficulty !== "all" && !difficultyBelongsToListTab && (
-                                                <FilterChip
+                                            {selectedDifficulty !== "all" && (
+                                                <ExploreConditionChip
                                                     onClick={handleRemoveDifficulty}
                                                     active
                                                     shape="pill"
                                                 >
                                                     {getDifficultyLabel(selectedDifficulty)}
                                                     <X className="h-3 w-3" />
-                                                </FilterChip>
+                                                </ExploreConditionChip>
                                             )}
                                             {selectedAge !== null && (
-                                                <FilterChip
+                                                <ExploreConditionChip
                                                     onClick={handleRemoveAge}
                                                     active
                                                     shape="pill"
                                                 >
-                                                    适合 {selectedAge} 岁
+                                                    优先 {selectedAge} 岁
                                                     <X className="h-3 w-3" />
-                                                </FilterChip>
+                                                </ExploreConditionChip>
                                             )}
-                                            {selectedTags.map(tag => (
-                                                <FilterChip
-                                                    key={tag}
-                                                    onClick={() => handleRemoveTag(tag)}
-                                                    active
-                                                    shape="pill"
-                                                    className={cn(activeTopicId && selectedTags.includes(tag) && "max-md:hidden")}
-                                                >
-                                                    {tag}
-                                                    <X className="h-3 w-3" />
-                                                </FilterChip>
-                                            ))}
+
                                         </div>
 
-                                        <div className="flex flex-wrap items-center justify-between gap-3">
-                                            <p className="text-[13px] font-semibold text-foreground md:text-sm">
-                                                {isFiltering
-                                                    ? '正在查找项目…'
-                                                    : `共找到 ${resultTotal} 个项目`}
+                                            <p aria-live="polite" className="shrink-0 text-xs font-normal text-muted-foreground">
+                                                {isFiltering ? '正在查找…' : `${resultTotal} 个项目`}
                                             </p>
-                                            <div className="flex items-center gap-1.5">
-                                                {!showMaterials && EXPLORE_RESULTS_SORT_OPTIONS.map((option) => (
-                                                    <FilterChip
-                                                        key={option.value}
-                                                        onClick={() => handleSortChange(option.value)}
-                                                        disabled={isFiltering}
-                                                        aria-pressed={selectedSortBy === option.value}
-                                                        active={selectedSortBy === option.value}
-                                                        tone="primary"
-                                                        shape="pill"
-                                                        className="px-3.5 font-semibold"
-                                                    >
-                                                        {option.label}
-                                                    </FilterChip>
-                                                ))}
-                                                <button
-                                                    type="button"
-                                                    onClick={openSheet}
-                                                    data-testid="explore-more-filters"
-                                                    aria-label="筛选条件"
-                                                    className={cn(
-                                                        "relative ml-1 inline-flex h-9 items-center gap-1.5 rounded-full border border-[#d5dbe3] px-3.5 text-[14px] font-semibold text-foreground dark:border-white/25 md:hidden",
-                                                        hasActiveAdvancedFilters && "border-[hsl(var(--brand-blue))]! bg-[hsl(var(--brand-blue)/0.1)] text-[hsl(var(--brand-blue))]",
-                                                    )}
-                                                >
-                                                    <Filter className="h-4 w-4" strokeWidth={2.2} />
-                                                    筛选
-                                                    {advancedFilterCount > 0 ? (
-                                                        <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[hsl(var(--brand-blue))] px-1 text-[11px] font-bold leading-none text-[hsl(var(--brand-blue-foreground))]">{advancedFilterCount}</span>
-                                                    ) : null}
-                                                </button>
-                                            </div>
-                                        </div>
+                                        </div> : null}
                                     </div>
                                 ) : (
                                     <>
@@ -1333,107 +1141,39 @@ export function ExploreClient({
                                         </div>
                                     )}
 
-                                    {!isResultsMode && !isMobileLayout ? topicRow : null}
-
                                     {showMaterials ? (
                                         <HouseholdMaterialPicker selectedIds={ownedMaterialIds} onChange={updateOwnedMaterials} matchedCount={matchedProjectCount} />
                                     ) : null}
 
-                                    {(() => {
-                                        const renderProject = (project: Project, index: number) => {
-                                            const isPriority = index < 2
-                                            const detailHref = buildProjectDetailHref(project.id)
-                                            const card = (
-                                                <div data-explore-project-id={String(project.id)} className="h-full">
-                                                    <ProjectCard
-                                                        project={project}
-                                                        searchQuery={searchQuery}
-                                                        priority={isPriority}
-                                                        href={detailHref}
-                                                        scroll={false}
-                                                        variant="explore"
-                                                        materialMatch={showMaterials ? matchProjectMaterials(project.materials, ownedMaterialIds, project.householdRequirements) : undefined}
-                                                        className={EXPLORE_PROJECT_CARD_CLASS}
-                                                    />
-                                                </div>
-                                            )
-                                            const projectNode = displayedProjects.length === index + 1 ? (
-                                                <div ref={lastProjectElementRef} className="h-full">
-                                                    {card}
-                                                </div>
-                                            ) : (
-                                                <div className="h-full">
-                                                    {card}
-                                                </div>
-                                            )
-
-                                            return (
-                                                <Fragment key={project.id}>
-                                                    {projectNode}
-                                                </Fragment>
-                                            )
-                                        }
-                                        if (!isMobileLayout || showMaterials || displayedProjects.length === 0) {
-                                            return (
                                     <div
                                         data-testid="explore-project-grid"
                                         className={cn(
                                             EXPLORE_PROJECT_GRID_CLASS,
-                                            "transition-opacity duration-300",
-                                            isFiltering && "opacity-40 pointer-events-none"
+                                            "auto-rows-auto transition-opacity duration-300 max-md:[&_.explore-card>div]:border-transparent max-md:[&_.explore-card>div]:bg-white max-md:dark:[&_.explore-card>div]:bg-white/[0.05]",
+                                            isFiltering && "opacity-40 pointer-events-none",
                                         )}
                                         onClickCapture={handleExploreProjectLinkClick}
                                     >
-                                        {displayedProjects.map((project, index) => renderProject(project, index))}
-
-                                    </div>
-
-                                            )
-                                        }
-                                        // 手机端：按项目已有分类分段；已选分类或搜索结果时只有一段。
-                                        const single = isResultsMode || selectedCategory !== '全部'
-                                        const groups: Array<{ key: string; items: Array<{ project: Project; index: number }> }> = []
-                                        displayedProjects.forEach((project, index) => {
-                                            const key = single ? '__single' : (project.category || '其他')
-                                            let group = groups.find(g => g.key === key)
-                                            if (!group) { group = { key, items: [] }; groups.push(group) }
-                                            group.items.push({ project, index })
-                                        })
-                                        const singleTitle = isResultsMode
-                                            ? (selectedCategory !== '全部' ? selectedCategory : '搜索结果')
-                                            : (activeListPreset?.label ?? selectedCategory)
-                                        return (
+                                        {displayedProjects.map((project, index) => (
                                             <div
-                                                data-testid="explore-project-grid"
-                                                className={cn("space-y-5 transition-opacity duration-300", isFiltering && "pointer-events-none opacity-40")}
-                                                onClickCapture={handleExploreProjectLinkClick}
+                                                key={project.id}
+                                                ref={displayedProjects.length === index + 1 ? lastProjectElementRef : undefined}
+                                                data-explore-project-id={String(project.id)}
+                                                className="h-full"
                                             >
-                                                {groups.map(group => {
-                                                    const title = group.key === '__single' ? singleTitle : group.key
-                                                    const canLinkAll = group.key !== '__single' && displayCategories.includes(group.key)
-                                                    return (
-                                                        <section key={group.key} aria-label={title} className="explore-group border-t border-[hsl(var(--surface-border))] pt-5 first:border-t-0 first:pt-0">
-                                                            <div className="mb-3 flex items-center justify-between gap-3">
-                                                                <h2 className="font-heading text-[18px] font-bold leading-6 tracking-[0.01em] text-foreground">{title}</h2>
-                                                                {canLinkAll && !isMobileLayout ? (
-                                                                    <a
-                                                                        href={`/explore?category=${encodeURIComponent(group.key)}`}
-                                                                        onClick={(event) => { event.preventDefault(); handleCategoryClick(group.key) }}
-                                                                        className="shrink-0 text-[14px] font-semibold text-[hsl(var(--brand-blue))]"
-                                                                    >
-                                                                        全部 ›
-                                                                    </a>
-                                                                ) : null}
-                                                            </div>
-                                                            <div className="grid grid-cols-2 items-stretch gap-2 [&_.explore-card>div]:border-transparent! [&_.explore-card>div]:bg-white dark:[&_.explore-card>div]:bg-white/[0.05]">
-                                                                {group.items.map(({ project, index }) => renderProject(project, index))}
-                                                            </div>
-                                                        </section>
-                                                    )
-                                                })}
+                                                <ExploreProjectCard
+                                                    project={project}
+                                                    searchQuery={searchQuery}
+                                                    priority={index < 2}
+                                                    href={buildProjectDetailHref(project.id)}
+                                                    scroll={false}
+                                                    variant="explore"
+                                                    materialMatch={showMaterials ? matchProjectMaterials(project.materials, ownedMaterialIds, project.householdRequirements) : undefined}
+                                                    className={EXPLORE_PROJECT_CARD_CLASS}
+                                                />
                                             </div>
-                                        )
-                                    })()}
+                                        ))}
+                                    </div>
 
                                     {restoreError && (
                                         <div role="alert" className="mt-4 flex items-center justify-center gap-3 text-sm">
@@ -1488,14 +1228,6 @@ export function ExploreClient({
                                                 换个关键词、类别或减少筛选条件再试试看。
                                             </p>
                                             <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-                                                {!isResultsMode && activeListTabId !== 'fun-science' ? (
-                                                    <Button
-                                                        variant="outline"
-                                                        onClick={() => handlePresetClick('fun-science')}
-                                                    >
-                                                        试试趣味实验
-                                                    </Button>
-                                                ) : null}
                                                 <Button
                                                     variant="outline"
                                                     onClick={handleClearFilters}
@@ -1507,85 +1239,20 @@ export function ExploreClient({
                                     )}
                                 </div>
                             </div>
-                        </main>
+                        </div>
 
-                        {!isResultsMode ? <aside className="hidden min-w-0 xl:block">
-                            <div className="sticky top-24 flex h-full min-h-0 flex-col gap-4">
-                                <Surface className="p-4">
-                                    <div className="mb-3 flex items-center justify-between gap-2">
-                                        <h2 className="text-base font-bold text-foreground">热门标签</h2>
-                                        <button
-                                            type="button"
-                                            onClick={openSheet}
-                                            className="shrink-0 text-xs font-semibold text-[hsl(var(--brand-blue))] underline-offset-2 hover:underline"
-                                        >
-                                            查看全部
-                                        </button>
-                                    </div>
-                                    {hotTags.length === 0 ? (
-                                        <p className="text-xs leading-5 text-muted-foreground">
-                                            暂无标签数据（项目通过审核并填写标签后会显示在这里）
-                                        </p>
-                                    ) : (
-                                        <div className="flex flex-wrap gap-2">
-                                            {hotTags.map((tag) => (
-                                                <button
-                                                    key={tag}
-                                                    type="button"
-                                                    onClick={() => handleTagClick(tag)}
-                                                    disabled={isFiltering}
-                                                    className={cn(
-                                                        "rounded-xs px-3 py-1.5 text-left text-xs font-semibold transition disabled:opacity-60",
-                                                        selectedTags.includes(tag)
-                                                            ? "filter-chip-active"
-                                                            : "bg-[hsl(var(--surface-muted))] text-muted-foreground hover:bg-[hsl(var(--surface-border))] hover:text-foreground",
-                                                    )}
-                                                >
-                                                    {tag}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                </Surface>
-
-                                <Surface className="p-4">
-                                    <div className="mb-3 flex items-center justify-between">
-                                        <h2 className="text-base font-bold text-foreground">探索小贴士</h2>
-                                        <Lightbulb className="h-5 w-5 text-[hsl(var(--brand-amber))]" />
-                                    </div>
-                                    <div className="space-y-3 text-xs leading-5 text-muted-foreground">
-                                        <p className="flex gap-2">
-                                            <Target className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[hsl(var(--brand-blue))]" />
-                                            先从入门项目开始，循序渐进。
-                                        </p>
-                                        <p className="flex gap-2">
-                                            <Target className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[hsl(var(--brand-blue))]" />
-                                            查看项目所需材料和安全提示。
-                                        </p>
-                                        <p className="flex gap-2">
-                                            <Target className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[hsl(var(--brand-blue))]" />
-                                            动手实践后记录并分享你的成果。
-                                        </p>
-                                    </div>
-                                    <Link href="/courses" className="mt-4 inline-flex text-xs font-bold text-[hsl(var(--brand-blue))]">
-                                        了解更多使用指南 →
-                                    </Link>
-                                </Surface>
-                            </div>
-                        </aside> : null}
                     </div>
                 </div>
             </div>
 
-            {/* 筛选 Bottom Sheet（含标签二级视图） */}
+            {/* 更多筛选 */}
             <Sheet open={sheetOpen} onOpenChange={handleFilterSheetOpenChange}>
                 <SheetContent
                     side="right"
                     showClose={false}
-                    className={cn(
-                        "flex flex-col gap-0 rounded-l-md p-0 md:h-[100dvh] md:max-h-none md:w-[440px] md:max-w-[440px] max-md:inset-x-0 max-md:inset-y-auto max-md:bottom-0 max-md:top-auto max-md:max-h-[85dvh] max-md:w-full max-md:max-w-none max-md:rounded-t-md max-md:rounded-l-none max-md:border-l-0 max-md:border-t max-md:data-[state=open]:slide-in-from-bottom max-md:data-[state=closed]:slide-out-to-bottom",
-                        sheetView === 'tags' ? "max-h-[85vh]" : "max-h-[70vh]"
-                    )}
+                    ref={setFilterPanelRef}
+                    overlayClassName={filterMotion.overlay}
+                    className={cn("flex max-h-[70vh] flex-col gap-0 rounded-l-md p-0 md:h-[100dvh] md:max-h-none md:w-[440px] md:max-w-[440px]", filterMotion.panel)}
                     onCloseAutoFocus={(event) => {
                         event.preventDefault()
                         const trigger = sheetTriggerRef.current
@@ -1594,268 +1261,135 @@ export function ExploreClient({
                         }
                     }}
                 >
-                    {sheetView === 'filters' ? (
-                        <>
-                            <SheetHeader className="shrink-0 space-y-0 px-5 pb-4 pt-6 sm:px-6">
-                                <SheetTitle className="sr-only">项目筛选</SheetTitle>
-                                <div className="flex items-center justify-between">
-                                    <div className="text-xs text-muted-foreground">
-                                        {hasDraftFilters ? `已选 ${draftFilterCount} 项` : '更多筛选'}
-                                    </div>
-                                    <button
-                                        type="button"
-                                        onClick={handleDraftClearAll}
-                                        className={cn(
-                                            "text-sm text-muted-foreground hover:text-foreground",
-                                            !hasDraftFilters && "invisible"
-                                        )}
-                                    >
-                                        重置
-                                    </button>
-                                </div>
-                            </SheetHeader>
-
-                            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 sm:px-6">
-                                <div className="space-y-6 pb-4">
-                                    <div className="space-y-3">
-                                        <span className="text-sm font-medium">分类</span>
-                                        <div className="flex flex-wrap gap-2">
-                                            {displayCategories.map((category) => (
-                                                <FilterChip
-                                                    key={category}
-                                                    onClick={() => handleDraftCategoryClick(category)}
-                                                    active={draftCategory === category}
-                                                    aria-pressed={draftCategory === category}
-                                                    shape="pill"
-                                                    size="md"
-                                                    className="min-h-11 px-3.5 py-2 text-sm font-medium"
-                                                >
-                                                    {category}
-                                                </FilterChip>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {sheetSubCategories.length > 0 && (
-                                        <div className="space-y-3">
-                                            <span className="text-sm font-medium">子分类</span>
-                                            <div className="flex flex-wrap gap-2">
-                                                {sheetSubCategories.map((sub) => (
-                                                    <FilterChip
-                                                        key={sub}
-                                                        onClick={() => handleDraftSubCategoryClick(sub)}
-                                                        active={draftSubCategory === sub}
-                                                        aria-pressed={draftSubCategory === sub}
-                                                        shape="pill"
-                                                        size="md"
-                                                        className="min-h-11 px-3.5 py-2 text-sm font-medium"
-                                                    >
-                                                        {sub}
-                                                    </FilterChip>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    <div className="space-y-3">
-                                        <span className="text-sm font-medium">难度等级</span>
-                                        <div className="flex flex-wrap gap-2">
-                                            {DIFFICULTY_OPTIONS.map((option) => (
-                                                <FilterChip
-                                                    key={option.value}
-                                                    onClick={() => handleDraftDifficultyClick(option.value)}
-                                                    active={draftDifficulty === option.value}
-                                                    aria-pressed={draftDifficulty === option.value}
-                                                    shape="pill"
-                                                    size="md"
-                                                    className="min-h-11 px-3.5 py-2 text-sm font-medium"
-                                                >
-                                                    {option.label}
-                                                </FilterChip>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-3">
-                                        <div className="flex items-center justify-between gap-3">
-                                            <span className="text-sm font-medium">适合年龄</span>
-                                            <span className="text-xs text-muted-foreground">只改变排序，不排除其它项目</span>
-                                        </div>
-                                        <div className="flex items-center gap-3">
-                                            <Input
-                                                type="number"
-                                                inputMode="numeric"
-                                                min={3}
-                                                max={16}
-                                                step={1}
-                                                value={draftAge ?? ''}
-                                                onChange={(event) => setDraftAge(parseAgeParam(event.target.value))}
-                                                placeholder="3–16"
-                                                aria-label="适合年龄"
-                                                className="h-11 w-32 rounded-sm"
-                                            />
-                                            <span className="text-sm text-muted-foreground">岁</span>
-                                            {draftAge !== null ? (
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setDraftAge(null)}
-                                                    className="min-h-11 px-2 text-sm font-medium text-[hsl(var(--brand-blue))]"
-                                                >
-                                                    清除
-                                                </button>
-                                            ) : null}
-                                        </div>
-                                    </div>
-
-                                    {scopedAvailableTags.length > 0 && (
-                                        <div className="space-y-3">
-                                            <div className="flex items-start justify-between gap-3">
-                                                <div>
-                                                    <span className="text-sm font-medium">标签</span>
-                                                </div>
-                                                <span className="shrink-0 text-xs text-muted-foreground">
-                                                    已选 {draftTags.length} 个
-                                                </span>
-                                            </div>
-
-                                            {sheetHotTags.length > 0 && (
-                                                <div className="flex flex-wrap gap-2">
-                                                    {sheetHotTags.map((tag) => (
-                                                        <FilterChip
-                                                            key={tag}
-                                                            onClick={() => handleDraftTagClick(tag)}
-                                                            active={draftTags.includes(tag)}
-                                                            aria-pressed={draftTags.includes(tag)}
-                                                            shape="pill"
-                                                            size="md"
-                                                            className="min-h-11 px-3.5 py-2 text-sm font-medium"
-                                                        >
-                                                            {tag}
-                                                        </FilterChip>
-                                                    ))}
-                                                </div>
-                                            )}
-
-                                            {scopedAvailableTags.length > sheetHotTags.length && (
-                                                <button
-                                                    type="button"
-                                                    data-testid="explore-more-tags"
-                                                    onClick={openTagPicker}
-                                                    className="flex min-h-11 w-full items-center justify-between py-2 text-sm font-medium text-[hsl(var(--brand-blue))]"
-                                                >
-                                                    <span>查看更多标签</span>
-                                                    <ChevronRight className="h-4 w-4 shrink-0" aria-hidden />
-                                                </button>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
+                    <SheetHeader className="shrink-0 space-y-0 px-5 pb-4 pt-6 sm:px-6">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-baseline gap-3">
+                                <SheetTitle className="text-lg font-semibold">筛选项目</SheetTitle>
+                                {hasDraftFilters ? <span className="text-xs text-muted-foreground">已选 {draftFilterCount} 项</span> : null}
                             </div>
+                            <button
+                                type="button"
+                                onClick={handleDraftClearAll}
+                                className={cn(
+                                    "hidden min-h-11 px-2 text-sm text-muted-foreground hover:text-foreground md:inline-flex md:items-center",
+                                    !hasDraftFilters && "invisible"
+                                )}
+                            >
+                                重置
+                            </button>
+                            <button
+                                type="button"
+                                aria-label="关闭筛选"
+                                onClick={() => handleFilterSheetOpenChange(false)}
+                                className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-sm text-muted-foreground hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring md:hidden"
+                            >
+                                <X className="h-5 w-5" aria-hidden="true" />
+                            </button>
+                        </div>
+                    </SheetHeader>
 
-                            <div className="shrink-0 border-t border-[hsl(var(--surface-border))] bg-background px-5 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:px-6">
-                                <div className="flex gap-3">
-                                    <Button
-                                        variant="outline"
-                                        className="h-11 flex-1"
-                                        onClick={() => handleFilterSheetOpenChange(false)}
-                                    >
-                                        取消
-                                    </Button>
-                                    <Button
-                                        className="h-11 flex-1"
-                                        onClick={handleConfirmFilters}
-                                    >
-                                        查看结果
-                                    </Button>
-                                </div>
-                            </div>
-                        </>
-                    ) : (
-                        <div data-testid="explore-tag-picker" className="flex min-h-0 flex-1 flex-col">
-                            <SheetHeader className="shrink-0 space-y-3 px-5 pb-3 pt-6 sm:px-6">
-                                <SheetTitle className="sr-only">选择标签</SheetTitle>
-                                <button
-                                    type="button"
-                                    onClick={() => setSheetView('filters')}
-                                    className="inline-flex items-center gap-0.5 text-sm font-medium text-muted-foreground hover:text-foreground"
-                                    aria-label="返回筛选"
-                                >
-                                    <ArrowLeft className="h-4 w-4" aria-hidden />
-                                    返回
-                                </button>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-base font-semibold text-foreground">选择标签</span>
-                                    <span className="text-xs text-muted-foreground">
-                                        已选 {draftTags.length} 个
-                                    </span>
-                                </div>
-                                <div className="relative">
-                                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                                    <Input
-                                        value={tagSearchQuery}
-                                        onChange={(event) => setTagSearchQuery(event.target.value)}
-                                        placeholder="搜索标签"
-                                        aria-label="搜索标签"
-                                        className="h-10 rounded-sm pl-9"
-                                    />
-                                </div>
-                            </SheetHeader>
-
-                            {draftTags.length > 0 && (
-                                <div className="shrink-0 border-b border-[hsl(var(--surface-border))] px-5 pb-3 sm:px-6">
-                                    <p className="mb-2 text-xs font-medium text-muted-foreground">已选标签</p>
+                    <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 sm:px-6">
+                        <div className="space-y-6 pb-4">
+                            {sheetSubCategories.length > 0 && (
+                                <div className="space-y-3">
+                                    <span className="text-sm font-medium">子分类</span>
                                     <div className="flex flex-wrap gap-2">
-                                        {draftTags.map((tag) => (
+                                        {sheetSubCategories.map((sub) => (
                                             <FilterChip
-                                                key={`selected-${tag}`}
-                                                onClick={() => handleDraftTagClick(tag)}
-                                                active
-                                                aria-pressed
+                                                key={sub}
+                                                onClick={() => handleDraftSubCategoryClick(sub)}
+                                                active={draftSubCategory === sub}
+                                                aria-pressed={draftSubCategory === sub}
                                                 shape="pill"
                                                 size="md"
                                                 className="min-h-11 px-3.5 py-2 text-sm font-medium"
                                             >
-                                                {tag}
+                                                {sub}
                                             </FilterChip>
                                         ))}
                                     </div>
                                 </div>
                             )}
 
-                            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-4 sm:px-6">
-                                {pickerTags.length === 0 ? (
-                                    <p className="py-8 text-center text-sm text-muted-foreground">
-                                        没有匹配的标签
-                                    </p>
-                                ) : (
-                                    <div className="flex flex-wrap gap-2 py-2">
-                                        {pickerTags.map((tag) => (
-                                            <FilterChip
-                                                key={tag}
-                                                onClick={() => handleDraftTagClick(tag)}
-                                                active={draftTags.includes(tag)}
-                                                aria-pressed={draftTags.includes(tag)}
-                                                shape="pill"
-                                                size="md"
-                                                className="min-h-11 px-3.5 py-2 text-sm font-medium"
-                                            >
-                                                {tag}
-                                            </FilterChip>
-                                        ))}
-                                    </div>
-                                )}
+                            <div className="space-y-3">
+                                <span className="text-sm font-medium">难度等级</span>
+                                <div className="flex flex-wrap gap-2">
+                                    {DIFFICULTY_OPTIONS.map((option) => (
+                                        <FilterChip
+                                            key={option.value}
+                                            onClick={() => handleDraftDifficultyClick(option.value)}
+                                            active={draftDifficulty === option.value}
+                                            aria-pressed={draftDifficulty === option.value}
+                                            shape="pill"
+                                            size="md"
+                                            className="min-h-11 px-3.5 py-2 text-sm font-medium"
+                                        >
+                                            {option.label}
+                                        </FilterChip>
+                                    ))}
+                                </div>
                             </div>
 
-                            <div className="shrink-0 border-t border-[hsl(var(--surface-border))] bg-background px-5 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:px-6">
-                                <Button
-                                    className="h-11 w-full"
-                                    onClick={() => setSheetView('filters')}
-                                >
-                                    完成
-                                </Button>
+                            <div className="space-y-3">
+                                <div className="space-y-1">
+                                    <label htmlFor="explore-child-age" className="text-sm font-medium">孩子年龄</label>
+                                    <p id="explore-child-age-hint" className="text-xs leading-5 text-muted-foreground">优先显示适合该年龄的项目，不排除其他项目</p>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <Input
+                                        type="number"
+                                        inputMode="numeric"
+                                        min={3}
+                                        max={16}
+                                        step={1}
+                                        value={draftAge ?? ''}
+                                        onChange={(event) => setDraftAge(parseAgeParam(event.target.value))}
+                                        placeholder="3–16"
+                                        id="explore-child-age"
+                                        aria-describedby="explore-child-age-hint"
+                                        className="h-11 w-32 rounded-sm"
+                                    />
+                                    <span className="text-sm text-muted-foreground">岁</span>
+                                    {draftAge !== null ? (
+                                        <button
+                                            type="button"
+                                            onClick={() => setDraftAge(null)}
+                                            className="min-h-11 px-2 text-sm font-medium text-[hsl(var(--brand-blue))]"
+                                        >
+                                            清除
+                                        </button>
+                                    ) : null}
+                                </div>
                             </div>
+
                         </div>
-                    )}
+                    </div>
+
+                    <div className="shrink-0 border-t border-[hsl(var(--surface-border))] bg-background px-5 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:px-6">
+                        <div className="flex gap-3">
+                            <Button
+                                variant="outline"
+                                className="hidden h-11 flex-1 md:inline-flex"
+                                onClick={() => handleFilterSheetOpenChange(false)}
+                            >
+                                取消
+                            </Button>
+                            <Button
+                                variant="outline"
+                                className="h-11 flex-1 md:hidden"
+                                onClick={handleDraftClearAll}
+                                disabled={!hasDraftFilters}
+                            >
+                                重置
+                            </Button>
+                            <Button
+                                className="h-11 flex-1"
+                                onClick={handleConfirmFilters}
+                            >
+                                查看结果
+                            </Button>
+                        </div>
+                    </div>
                 </SheetContent>
             </Sheet>
         </div>

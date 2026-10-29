@@ -34,6 +34,7 @@ export default async function NatureMapPage() {
 
   return (
     <NatureShell
+      variant="wide"
       title="观察地图"
       description="基于公开自然观察记录中的真实经纬度，查看当前社区的观察热点。"
       fallbackHref="/nature"

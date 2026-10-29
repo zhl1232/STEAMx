@@ -1,5 +1,6 @@
 "use client"
 
+import { Skeleton } from "@/components/ui/skeleton"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import { useMinesweeper, DIFFICULTIES } from "@/hooks/playground/use-minesweeper"
@@ -685,7 +686,7 @@ export default function MinesweeperPage() {
 
                                 {leaderboardQuery.isPending ? (
                                     <div className="space-y-2" aria-label="排行榜加载中">
-                                        {[0, 1, 2].map((item) => <div key={item} className="h-12 animate-pulse rounded-sm bg-muted/60" />)}
+                                        {[0, 1, 2].map((item) => <Skeleton key={item} className="h-12 rounded-sm" />)}
                                     </div>
                                 ) : leaderboardQuery.isError ? (
                                     <button

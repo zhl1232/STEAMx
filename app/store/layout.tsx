@@ -6,7 +6,7 @@ import { isStoreCatalogVisible } from '@/lib/store/config'
 
 export function generateMetadata(): Metadata {
   return {
-    title: buildSegmentTitle(isStoreCatalogVisible() ? '材料包商城' : '页面未找到'),
+    title: buildSegmentTitle(isStoreCatalogVisible() ? '材料商城' : '页面未找到'),
     robots: { index: false, follow: false },
   }
 }

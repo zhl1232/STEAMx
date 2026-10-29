@@ -11,7 +11,7 @@ const mocks = vi.hoisted(() => ({
   dialog: null as null | { onSuccess: (result?: { isNewUser?: boolean }) => void; onOpenChange: (v: boolean) => void },
   path: '/project/7', push: vi.fn(), callback: vi.fn(),
 }))
-vi.mock('next/navigation', () => ({ usePathname: () => mocks.path, useRouter: () => ({ push: mocks.push }) }))
+vi.mock('next/navigation', () => ({ usePathname: () => mocks.path, useSearchParams: () => new URLSearchParams(), useRouter: () => ({ push: mocks.push }) }))
 vi.mock('@/lib/auth/visit-prompt', async importOriginal => ({
   ...await importOriginal<typeof import('@/lib/auth/visit-prompt')>(),
   hasVisitedPrompt: () => sessionStorage.getItem('visited') === '1',

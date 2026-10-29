@@ -3,7 +3,6 @@ import { ArrowLeft } from "lucide-react"
 import { MobilePageHeader } from "@/components/ui/mobile-page-header"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Surface } from "@/components/ui/surface"
 import { EXPLORE_PROJECT_GRID_CLASS, EXPLORE_PROJECT_CARD_CLASS } from "@/components/features/compact-project-grid-styles"
 import { cn } from "@/lib/utils"
 
@@ -173,11 +172,10 @@ export function ExploreRecommendationCardSkeleton() {
 }
 
 /**
- * 与 `ExploreClient` 主面板顶部一致：移动端仅分类条；桌面搜索 / 更多筛选。
+ * 与 `ExploreClient` 主面板顶部一致：分类、主题和排序；桌面含搜索 / 更多筛选。
  * 移动端搜索在 `MobileGlobalHeader`（见 `ExploreMobileSearchHeaderSkeleton`）。
  */
 export function ExploreToolbarSkeleton() {
-  const categoryWidths = ["w-[64px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]", "w-[76px]"]
 
   return (
     <div className="bg-transparent md:p-5 md:pb-0">
@@ -185,18 +183,19 @@ export function ExploreToolbarSkeleton() {
         <Skeleton className="h-11 w-full rounded-sm" />
         <Skeleton className="h-11 w-[100px] shrink-0 rounded-sm" />
       </div>
-      <div className="space-y-2.5 pt-3 md:pt-4">
+      <div className="space-y-2.5 pt-1 max-md:space-y-3 max-md:pt-0 md:pt-4">
         <Skeleton className="hidden h-4 w-8 rounded-full md:block" />
-        <div className="no-scrollbar overflow-x-auto">
-          <div className="flex min-h-11 min-w-max items-center gap-1.5 pb-0.5 md:min-h-0 md:min-w-0 md:flex-wrap md:gap-3">
-            {categoryWidths.map((width, index) => (
-              <Skeleton
-                key={index}
-                className={`h-8 shrink-0 rounded-full md:h-10 md:rounded-sm ${width}`}
-              />
+        <div className="@container -mx-2 -my-1 overflow-hidden md:mx-0 md:my-0">
+          <div className="flex min-w-max items-start gap-2 px-2 pb-2 pt-2 md:min-w-0 md:flex-wrap md:gap-3 md:px-1 md:py-1">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div key={index} className="flex w-[clamp(52px,calc((100cqw-52px)/5.2),64px)] shrink-0 flex-col items-center gap-2.5 md:w-[84px]">
+                <Skeleton className="aspect-square w-full rounded-md md:h-10 md:rounded-sm" />
+                <Skeleton className="h-3.5 w-7 rounded-full md:hidden" />
+              </div>
             ))}
           </div>
         </div>
+        <ExploreListTabsSkeleton />
       </div>
     </div>
   )
@@ -204,55 +203,15 @@ export function ExploreToolbarSkeleton() {
 
 function ExploreListTabsSkeleton() {
   return (
-    <div className="mb-3 flex items-center justify-between gap-3">
-      <div className="flex min-w-0 flex-1 items-center gap-1.5">
-        <Skeleton className="h-8 min-w-[78px] rounded-full md:h-10 md:min-w-[96px]" />
-        <Skeleton className="h-8 min-w-[78px] rounded-full md:h-10 md:min-w-[96px]" />
-        <Skeleton className="h-8 min-w-[78px] rounded-full md:h-10 md:min-w-[96px]" />
+    <div className="flex min-w-0 items-center justify-between gap-2 md:gap-4">
+      <div className="flex min-h-12 min-w-0 flex-1 items-center gap-2 overflow-hidden">
+        {[0, 1, 2].map(index => <Skeleton key={index} className="h-8 w-20 shrink-0 rounded-full" />)}
       </div>
+      <Skeleton className="h-4 w-11 shrink-0 rounded-full" />
     </div>
   )
 }
 
-function ExploreSidebarSkeleton() {
-  return (
-    <aside className="hidden min-w-0 xl:block">
-      <div className="sticky top-24 flex h-full min-h-0 flex-col gap-4">
-        <Surface className="p-4">
-          <div className="mb-3 flex items-center justify-between">
-            <Skeleton className="h-5 w-24 rounded-xs" />
-            <Skeleton className="h-4 w-14 rounded-xs" />
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {Array.from({ length: 10 }).map((_, i) => (
-              <Skeleton key={i} className="h-8 w-18 rounded-xs" />
-            ))}
-          </div>
-        </Surface>
-        <Surface className="p-4">
-          <div className="mb-3 flex items-center justify-between">
-            <Skeleton className="h-5 w-28 rounded-xs" />
-            <Skeleton className="h-4 w-20 rounded-xs" />
-          </div>
-          <div className="grid grid-cols-[92px_minmax(0,1fr)] gap-3">
-            <Skeleton className="min-h-[92px] rounded-sm" />
-            <div className="flex min-w-0 flex-col gap-2 pt-0.5">
-              <Skeleton className="h-4 w-full rounded-xs" />
-              <Skeleton className="h-3 w-full rounded-full" />
-              <Skeleton className="h-3 w-4/5 rounded-full" />
-              <Skeleton className="mt-2 h-8 w-24 rounded-sm" />
-            </div>
-          </div>
-        </Surface>
-      </div>
-    </aside>
-  )
-}
-
-/**
- * 与 `ExploreClient` 内 `MobileGlobalHeader variant="search"` 一致（探索路由在壳层不挂全局移动头）。
- * 仅 `md:hidden`，桌面端由 `ConditionalAppShell` 的顶栏承担。
- */
 function ExploreMobileSearchHeaderSkeleton() {
   return (
     <header
@@ -264,11 +223,10 @@ function ExploreMobileSearchHeaderSkeleton() {
           <Skeleton className="h-[30px] w-[30px] rounded-sm" />
         </div>
         <div className="min-w-0 flex-1">
-          <Skeleton className="h-10 w-full rounded-md" />
+          <Skeleton className="h-11 w-full rounded-md" />
         </div>
         <nav className="ml-2 flex shrink-0 items-center justify-end gap-1.5 min-[390px]:gap-2">
-          <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
-          <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
+          <Skeleton className="h-11 w-16 shrink-0 rounded-sm" />
         </nav>
       </div>
     </header>
@@ -278,7 +236,7 @@ function ExploreMobileSearchHeaderSkeleton() {
 /** 与 ExploreClient 画布、双栏以及按容器宽度显示 2/3/4 列的网格对齐。 */
 export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
   return (
-    <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,3rem))] overflow-hidden pb-3 md:min-h-[calc(100vh-4rem)] md:pb-8">
+    <div className="app-canvas-explore relative min-h-[calc(100vh-var(--mobile-global-header-height,3rem))] overflow-hidden pb-20 md:min-h-[calc(100vh-4rem)] md:pb-8">
       <ExploreMobileSearchHeaderSkeleton />
       <div
         aria-hidden="true"
@@ -295,9 +253,10 @@ export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
           backgroundImage: "url('/assets/explore-page-bg-light.webp')",
           backgroundPosition: "right top",
           backgroundRepeat: "no-repeat",
-          backgroundSize: "max(100%, 1840px) auto",
-          maskImage: "linear-gradient(180deg, black 0%, black 72%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(180deg, black 0%, black 72%, transparent 100%)",
+          backgroundSize: "auto 440px",
+          maskImage: "linear-gradient(to right, transparent 20%, black 80%), linear-gradient(to bottom, black 35%, transparent 78%)",
+          WebkitMaskImage: "linear-gradient(to right, transparent 20%, black 80%), linear-gradient(to bottom, black 35%, transparent 78%)",
+          maskComposite: "intersect",
         }}
       />
       <div
@@ -307,9 +266,10 @@ export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
           backgroundImage: "url('/assets/explore-page-bg-dark.webp')",
           backgroundPosition: "right top",
           backgroundRepeat: "no-repeat",
-          backgroundSize: "max(100%, 1840px) auto",
-          maskImage: "linear-gradient(180deg, black 0%, black 72%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(180deg, black 0%, black 72%, transparent 100%)",
+          backgroundSize: "auto 440px",
+          maskImage: "linear-gradient(to right, transparent 20%, black 80%), linear-gradient(to bottom, black 35%, transparent 78%)",
+          WebkitMaskImage: "linear-gradient(to right, transparent 20%, black 80%), linear-gradient(to bottom, black 35%, transparent 78%)",
+          maskComposite: "intersect",
         }}
       />
       <div
@@ -318,22 +278,20 @@ export function ExplorePageSkeleton({ count = 12 }: { count?: number }) {
       />
 
       <div className="relative z-10">
-        <div className="app-shell-wide min-w-0 pt-6 md:px-8 md:pt-5">
-          <div className="grid items-stretch gap-5 xl:grid-cols-[minmax(0,1fr)_340px] 2xl:grid-cols-[minmax(0,1fr)_360px]">
-            <main className="relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg">
+        <div className="app-shell-wide min-w-0 pt-1 md:px-8 md:pt-5">
+          <div className="min-w-0">
+            <div className="relative min-w-0 overflow-hidden md:surface-panel md:rounded-lg">
               <ExploreToolbarSkeleton />
-              <div className="@container flex flex-col gap-2.5 pb-4 pt-1 md:p-5">
+              <div className="@container flex flex-col gap-2.5 pb-4 pt-0 md:p-5">
                 <div className="relative pb-5 pt-0.5 md:pb-0 md:pt-0">
-                  <ExploreListTabsSkeleton />
-                  <div className={EXPLORE_PROJECT_GRID_CLASS}>
+                  <div className={cn(EXPLORE_PROJECT_GRID_CLASS, "auto-rows-auto")}>
                     {Array.from({ length: count }).map((_, index) => (
                       <ProjectCardSkeleton key={index} variant="explore" className={EXPLORE_PROJECT_CARD_CLASS} />
                     ))}
                   </div>
                 </div>
               </div>
-            </main>
-            <ExploreSidebarSkeleton />
+            </div>
           </div>
         </div>
       </div>
@@ -554,20 +512,24 @@ export function ProjectDetailPageSkeleton() {
 /** 与 `ProjectRecordsClient` / `RecordsPageShell` 一致 */
 export function ProjectRecordsPageSkeleton() {
   return (
-    <div className="relative min-h-dvh bg-[hsl(var(--app-canvas))] pb-12">
+    <div className="relative min-h-dvh bg-[hsl(var(--app-canvas))] pb-24 md:pb-12">
       <MobilePageHeader
         title={<Skeleton className="h-5 w-48 max-w-[70vw] rounded-full" />}
         fallbackHref="/explore"
-        className="sticky top-0 z-30 border-b border-[hsl(var(--surface-border)/0.7)] bg-[hsl(var(--app-canvas)/0.96)] backdrop-blur-md"
-        rightSlot={<Skeleton className="h-8 w-14 rounded-full" />}
+        className="border-b border-[hsl(var(--surface-border)/0.7)] bg-[hsl(var(--app-canvas)/0.96)] backdrop-blur-md"
       />
-      <div className="mx-auto w-full max-w-lg px-4 pt-3 md:max-w-6xl md:pt-8">
-        <div className="mb-3 flex min-h-11 items-center justify-between gap-3 rounded-md bg-[hsl(var(--surface-raised)/0.36)] px-2 py-1">
-          <div className="flex items-center gap-2">
-            <Skeleton className="h-7 w-7 rounded-full" />
-            <Skeleton className="h-3 w-20 rounded-full" />
+      <div className="app-shell-wide pt-3 md:pt-8 md:pb-8">
+        <div className="md:mb-6 md:flex md:items-center md:gap-4">
+          <div className="hidden min-w-0 flex-1 items-center md:flex">
+            <Skeleton className="h-8 w-72 max-w-full rounded-full" />
           </div>
-          <Skeleton className="h-8 w-[116px] shrink-0 rounded-full" />
+          <div className="mb-3 flex min-h-11 items-center justify-between gap-3 rounded-md bg-[hsl(var(--surface-raised)/0.36)] px-2 py-1 md:mb-0 md:shrink-0">
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-7 w-7 rounded-full" />
+              <Skeleton className="h-3 w-20 rounded-full" />
+            </div>
+            <Skeleton className="h-8 w-[116px] shrink-0 rounded-full" />
+          </div>
         </div>
         <section className="mb-4 flex items-center gap-3 rounded-md border border-[hsl(var(--brand-green)/0.22)] bg-[hsl(var(--brand-green)/0.08)] px-3.5 py-3">
           <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
@@ -577,7 +539,7 @@ export function ProjectRecordsPageSkeleton() {
           </div>
           <Skeleton className="h-8 w-20 shrink-0 rounded-full" />
         </section>
-        <div className="space-y-5 md:grid md:grid-cols-2 md:gap-6 md:space-y-0 xl:grid-cols-3">
+        <div className="space-y-5 pb-2 md:grid md:grid-cols-2 md:items-start md:gap-6 md:space-y-0 xl:grid-cols-3">
           <ExplorationRecordGroupCardSkeleton />
           <ExplorationRecordGroupCardSkeleton />
         </div>
@@ -873,11 +835,11 @@ export function CompactCardSkeleton({ className }: { className?: string } = {}) 
   return (
     <div
       className={cn(
-        "relative grid animate-pulse grid-cols-[116px_minmax(0,1fr)] gap-3 overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.62)] bg-[hsl(var(--surface-raised)/0.96)] p-2.5 min-[390px]:grid-cols-[124px_minmax(0,1fr)] min-[420px]:grid-cols-[136px_minmax(0,1fr)] md:min-h-[116px] md:grid-cols-[112px_minmax(0,1fr)] md:gap-4 md:p-3",
+        "relative grid grid-cols-[116px_minmax(0,1fr)] gap-3 overflow-hidden rounded-sm border border-[hsl(var(--surface-border)/0.62)] bg-[hsl(var(--surface-raised)/0.96)] p-2.5 min-[390px]:grid-cols-[124px_minmax(0,1fr)] min-[420px]:grid-cols-[136px_minmax(0,1fr)] md:min-h-[116px] md:grid-cols-[112px_minmax(0,1fr)] md:gap-4 md:p-3",
         className,
       )}
     >
-      <div className="min-h-[96px] overflow-hidden rounded-xs bg-muted/55 min-[390px]:min-h-[100px] min-[420px]:min-h-[104px] md:min-h-[98px]" />
+      <Skeleton className="min-h-[96px] overflow-hidden rounded-xs min-[390px]:min-h-[100px] min-[420px]:min-h-[104px] md:min-h-[98px]" />
       <div className="flex flex-col justify-center gap-2 py-1 pr-1">
         <Skeleton className="h-4 w-[85%] rounded-full" />
         <Skeleton className="h-4 w-[55%] rounded-full" />

@@ -15,12 +15,15 @@ async function selectCommon(page: Page, names: string[]) {
 async function selectMore(page: Page, names: string[]) {
   await page.getByRole('button', { name: '更多材料', exact: true }).click()
   const sheet = page.getByRole('dialog', { name: '选择家里已有的材料' })
-  for (const name of names) await sheet.getByRole('button', { name, exact: true }).click()
+  for (const name of names) {
+    await sheet.getByRole('textbox', { name: '搜索材料' }).fill(name)
+    await sheet.getByRole('group', { name: '搜索结果' }).getByRole('button', { name, exact: true }).click()
+  }
   await sheet.getByRole('button', { name: '选好了，查看项目' }).click()
   await expect(sheet).not.toBeVisible()
 }
 
-test('默认按材料从少到多排列，材料卡片等高且与其他分组共用列宽', async ({ page }) => {
+test('默认按材料从少到多排列，材料卡片同行等高、摘要位于适龄信息之后且与普通卡片共用列宽', async ({ page }) => {
   await page.goto('/explore')
   await expect(cards(page)).toHaveCount(3)
   const ordinarySize = await cards(page).first().boundingBox()
@@ -33,27 +36,49 @@ test('默认按材料从少到多排列，材料卡片等高且与其他分组�
   await expect(page.getByRole('list', { name: '所需材料' })).toHaveCount(0)
   const materialSize = await cards(page).first().boundingBox()
   expect(Math.abs(materialSize!.width - ordinarySize!.width)).toBeLessThanOrEqual(1)
-  const heights = await cards(page).evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().height))
-  expect(Math.max(...heights) - Math.min(...heights)).toBeLessThanOrEqual(1)
-  await page.getByRole('button', { name: '热门推荐', exact: true }).click()
+  const bounds = await cards(page).evaluateAll((nodes) => nodes.map((node) => {
+    const { top, height } = node.getBoundingClientRect()
+    return { top, height }
+  }))
+  for (const card of bounds) {
+    const row = bounds.filter((other) => Math.abs(other.top - card.top) <= 1)
+    expect(Math.max(...row.map(({ height }) => height)) - Math.min(...row.map(({ height }) => height))).toBeLessThanOrEqual(1)
+  }
+  for (const card of await cards(page).all()) {
+    const title = await card.getByRole('heading', { level: 3 }).boundingBox()
+    const summary = await card.getByText(/^(?:需要 \d+ 样材料|材料信息待核对)$/).boundingBox()
+    expect(title).not.toBeNull()
+    expect(summary).not.toBeNull()
+    const gap = summary!.y - (title!.y + title!.height)
+    expect(gap).toBeGreaterThanOrEqual(0)
+    const classification = card.locator('[aria-label^="适龄"]')
+    if (await classification.count()) {
+      const classificationBox = (await classification.boundingBox())!
+      expect(summary!.y).toBeGreaterThanOrEqual(classificationBox.y + classificationBox.height)
+      expect(summary!.y - (classificationBox.y + classificationBox.height)).toBeLessThanOrEqual(12)
+    }
+  }
+  await page.getByRole('button', { name: '日常材料', exact: true }).click()
   await expect(cards(page)).toHaveCount(3)
   await expect(page.getByTestId('household-material-picker')).toHaveCount(0)
-  await expect(page.getByText(/^\d+ 样材料$/)).toHaveCount(0)
+  await expect(page.getByText(/^需要 \d+ 样材料$/)).toHaveCount(0)
 })
 
-test('点选后优先展示最接近的项目，更多材料可配齐并支持取消、清空', async ({ page }) => {
+test('点选后优先展示最接近的项目，材料类别齐全仍提示核对规格并支持取消、清空', async ({ page }) => {
   await page.goto(materialsHref)
-  await selectCommon(page, ['纸巾', '清水', '水溶性彩笔'])
+  await selectCommon(page, ['纸巾', '水'])
+  await selectMore(page, ['彩笔'])
   const rainbow = page.locator('[data-explore-project-id="738"]')
   await expect(cards(page).first()).toHaveAttribute('data-explore-project-id', '738')
   await expect(rainbow).toContainText('需要 4 样，你有 3 样')
-  await expect(rainbow).toContainText('还差：浅盘')
+  await expect(rainbow).toContainText('还差：盘子')
   await expect(page.locator('[data-explore-project-id="586"]')).toContainText('还差 5 样')
-  await selectMore(page, ['浅盘'])
-  await expect(rainbow).toContainText('材料已匹配')
-  await expect(page.getByTestId('household-material-picker')).toContainText('1 个项目材料已匹配')
-  await page.getByRole('button', { name: '移除浅盘' }).click()
-  await expect(rainbow).toContainText('还差：浅盘')
+  await selectMore(page, ['盘子'])
+  await expect(rainbow).toContainText('已有材料，需核对规格')
+  await expect(rainbow.getByText('材料已匹配', { exact: true })).toHaveCount(0)
+  await expect(page.getByTestId('household-material-picker')).toContainText('已按已有材料排序')
+  await page.getByRole('button', { name: '移除盘子' }).click()
+  await expect(rainbow).toContainText('还差：盘子')
   await page.getByRole('button', { name: '清空已选材料' }).click()
   expect(await order(page)).toEqual(['102', '103', '738', '586', '1157'])
   await expect(page.getByRole('group', { name: '常见材料' }).getByRole('button', { pressed: true })).toHaveCount(0)
@@ -61,14 +86,15 @@ test('点选后优先展示最接近的项目，更多材料可配齐并支持�
 
 test('匹配只计材料，绳子如何系牢放在详情准备要求里', async ({ page }) => {
   await page.goto(materialsHref)
-  await selectCommon(page, ['气球', '直吸管'])
+  await selectCommon(page, ['气球', '吸管'])
   await selectMore(page, ['细绳', '双面胶'])
   const balloon = page.locator('[data-explore-project-id="586"]')
   await expect(balloon).toContainText('需要 5 样，你有 4 样')
   await expect(balloon).toContainText('还差：剪刀')
   await selectMore(page, ['剪刀'])
   await expect(cards(page).first()).toHaveAttribute('data-explore-project-id', '586')
-  await expect(balloon).toContainText('材料已匹配')
+  await expect(balloon).toContainText('已有材料，需核对规格')
+  await expect(balloon.getByText('材料已匹配', { exact: true })).toHaveCount(0)
   await balloon.getByRole('link', { name: '查看项目：气球缆车' }).click()
   const desktopMaterials = page.locator('#project-materials')
   await expect(desktopMaterials.getByRole('heading', { name: '准备要求' })).toBeVisible()
@@ -84,35 +110,32 @@ test('匹配只计材料，绳子如何系牢放在详情准备要求里', async
 test.describe('手机材料匹配', () => {
   test.use({ viewport: { width: 390, height: 844 } })
 
-  test('双列卡片、材料横滑，详情返回和刷新保留选择与排序', async ({ page }) => {
+  test('双列卡片、五项材料完整展示，详情返回和刷新保留选择与排序', async ({ page }) => {
     await page.goto(materialsHref)
     await expect(cards(page)).toHaveCount(5)
     const grid = page.getByTestId('explore-project-grid')
     expect(await grid.evaluate((node) => getComputedStyle(node).gridTemplateColumns.split(' ').length)).toBe(2)
     const strip = page.getByTestId('common-materials-strip')
-    expect(await strip.evaluate((node) => node.scrollWidth > node.clientWidth)).toBe(true)
+    expect(await strip.evaluate((node) => node.scrollWidth > node.clientWidth)).toBe(false)
     const stripBounds = (await strip.boundingBox())!
     const moreBounds = (await page.getByRole('button', { name: '更多材料', exact: true }).boundingBox())!
     const pickerBounds = (await page.getByTestId('household-material-picker').boundingBox())!
     expect(moreBounds.y + moreBounds.height).toBeLessThanOrEqual(stripBounds.y)
     expect(Math.abs(stripBounds.width - pickerBounds.width)).toBeLessThanOrEqual(1)
-    await page.mouse.move(stripBounds.x + stripBounds.width / 2, stripBounds.y + stripBounds.height / 2)
-    await page.mouse.wheel(900, 0)
-    await expect.poll(() => strip.evaluate((node) => node.scrollLeft)).toBeGreaterThan(0)
-    const flashlight = strip.getByRole('button', { name: '手机手电筒', exact: true })
-    await flashlight.click()
-    await expect(flashlight).toHaveAttribute('aria-pressed', 'true')
-    await expect(page.getByRole('dialog')).toHaveCount(0)
-    await flashlight.click()
-    await selectCommon(page, ['纸巾', '清水', '水溶性彩笔'])
-    await selectMore(page, ['浅盘'])
+    await expect(strip.getByRole('button')).toHaveCount(5)
+    await selectMore(page, ['手电筒'])
+    await page.getByRole('button', { name: '移除手电筒', exact: true }).click()
+    await selectCommon(page, ['纸巾', '水'])
+    await selectMore(page, ['彩笔'])
+    await selectMore(page, ['盘子'])
     const rainbow = page.locator('[data-explore-project-id="738"]')
     await rainbow.getByRole('link', { name: '查看项目：彩虹爬爬爬' }).click()
     await expect(page).toHaveURL(/\/project\/738$/)
     await expect(page.locator('#project-materials-mobile')).toContainText('浅盘')
+    await expect(page.locator('#project-materials-mobile')).toContainText('水溶性')
     await page.goBack()
     await expect(cards(page).first()).toHaveAttribute('data-explore-project-id', '738')
-    await expect(rainbow).toContainText('材料已匹配')
+    await expect(rainbow).toContainText('已有材料，需核对规格')
     await page.reload()
     await expect(rainbow).toContainText('需要 4 样，你有 4 样')
     await expect(page.getByRole('group', { name: '常见材料' }).getByRole('button', { name: '纸巾', exact: true })).toHaveAttribute('aria-pressed', 'true')
@@ -143,7 +166,15 @@ test.describe('手机材料匹配', () => {
     await expect(cards(page).getByText('材料已匹配', { exact: true })).toHaveCount(0)
     await page.getByRole('button', { name: '更多材料', exact: true }).click()
     const sheet = page.getByRole('dialog')
-    await expect(sheet.getByRole('button', { name: '带盖透明瓶', exact: true })).toHaveAccessibleDescription('透明塑料材质')
+    const allMaterials = sheet.getByRole('group', { name: '全部材料' })
+    await allMaterials.getByRole('button', { name: '瓶子', exact: true }).click()
+    await expect(allMaterials.getByRole('button', { name: '瓶子', exact: true })).toHaveCount(1)
+    await expect(sheet.getByRole('checkbox')).toHaveCount(0)
+    await expect(sheet.getByText('核对已选材料规格', { exact: true })).toHaveCount(0)
+    await expect(sheet.locator('details[open]')).toHaveCount(0)
+    expect(await allMaterials.getByRole('button').count()).toBeLessThanOrEqual(30)
+    await sheet.locator('summary').filter({ hasText: '容器与日用品' }).click()
+    await expect(sheet.getByRole('group', { name: '容器与日用品' }).getByRole('button', { name: '瓶子', exact: true })).toHaveAttribute('aria-pressed', 'true')
     await expect(sheet.getByRole('button', { name: '固定点', exact: true })).toHaveCount(0)
     expect(await sheet.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true)
     await page.keyboard.press('Escape')

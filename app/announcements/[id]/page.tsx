@@ -36,13 +36,13 @@ export default function AnnouncementPage({
   }, [id]);
   if (loading)
     return (
-      <div className="page-shell py-20 text-center text-muted-foreground">
+      <div className="app-shell-narrow py-20 text-center text-muted-foreground">
         公告加载中…
       </div>
     );
   if (error || !announcement)
     return (
-      <div className="page-shell py-20 text-center">
+      <div className="app-shell-narrow py-20 text-center">
         <p className="text-muted-foreground">公告不存在或已下线。</p>
         <Link
           className="mt-4 inline-block text-primary underline"

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { History } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import { readLastLessonVisit, type LastLessonVisit } from "@/lib/courses/lesson-step-memory";
 
@@ -13,9 +13,11 @@ import { readLastLessonVisit, type LastLessonVisit } from "@/lib/courses/lesson-
 export function ContinueLastLesson({
     courseId,
     lessonIds,
+    fallback = null,
 }: {
     courseId: number;
     lessonIds: number[];
+    fallback?: ReactNode;
 }) {
     const [visit, setVisit] = useState<LastLessonVisit | null>(null);
     const lessonKey = lessonIds.join(",");
@@ -26,7 +28,7 @@ export function ContinueLastLesson({
         setVisit(last && last.stepIndex > 0 && ids.includes(last.lessonId) ? last : null);
     }, [courseId, lessonKey]);
 
-    if (!visit) return null;
+    if (!visit) return fallback;
     const lessonNumber = lessonIds.indexOf(visit.lessonId) + 1;
 
     return (
@@ -34,7 +36,7 @@ export function ContinueLastLesson({
             href={`/courses/${courseId}/lessons/${visit.lessonId}?step=${visit.stepIndex + 1}`}
             prefetch={false}
             data-testid="continue-last-lesson"
-            className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border bg-card px-4 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+            className="inline-flex min-h-9 items-center gap-1.5 rounded-full px-2 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
         >
             <History className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
             继续上次：第 {lessonNumber} 课第 {visit.stepIndex + 1} 页

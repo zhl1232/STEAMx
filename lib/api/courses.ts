@@ -1,3 +1,4 @@
+import { lessonPreviewImage, LESSON_PREVIEW_PROJECTION, type LessonPreviewSource } from '@/lib/courses/lesson-preview-image'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 import type { Database } from '@/lib/supabase/types'
@@ -222,18 +223,18 @@ export async function listApprovedCourses(
   if (wanted.size === 0) return items
   const { data: previewRows, error: previewError } = await supabase
     .from('course_lessons')
-    .select('id, course_id, title, finished_image_url:content->building3d->>finishedImageUrl')
+    .select(`id, course_id, title, ${LESSON_PREVIEW_PROJECTION}`)
     .in('id', [...wanted])
   if (previewError) throw previewError
 
   const previewById = new Map<number, CoursePreviewLesson>()
-  for (const raw of (previewRows ?? []) as Array<{ id: number; course_id: number; title: string; finished_image_url: string | null }>) {
+  for (const raw of (previewRows ?? []) as unknown as Array<LessonPreviewSource & { id: number; course_id: number }>) {
     const completed = progressByCourse.get(raw.course_id)?.has(raw.id) ?? false
     previewById.set(raw.id, {
       id: raw.id,
       number: numberById.get(raw.id) ?? 0,
       title: raw.title,
-      image_url: raw.finished_image_url?.trim() || null,
+      image_url: lessonPreviewImage(raw),
       is_completed: completed,
     })
   }
@@ -327,7 +328,7 @@ export async function getCourseOverview(
   const { data: lessons, error: lessonsError } = await supabase
     .from('course_lessons')
     .select(
-      'id, course_id, title, lesson_type, sort_order, duration_minutes, track:content->>track, level_label:content->>levelLabel, summary:content->>summary, stage_index:content->scratch->>stageIndex, stage_title:content->scratch->>stageTitle, ldraw_model_url:content->building3d->>ldrawModelUrl, finished_image_url:content->building3d->>finishedImageUrl',
+      `id, course_id, title, sort_order, duration_minutes, track:content->>track, level_label:content->>levelLabel, summary:content->>summary, stage_index:content->scratch->>stageIndex, stage_title:content->scratch->>stageTitle, ldraw_model_url:content->building3d->>ldrawModelUrl, ${LESSON_PREVIEW_PROJECTION}`,
     )
     .eq('course_id', courseId)
     .order('sort_order', { ascending: true })
@@ -335,13 +336,17 @@ export async function getCourseOverview(
 
   if (lessonsError) throw lessonsError
 
-  const summaryRows = ((lessons ?? []) as Array<
+  const summaryRows = ((lessons ?? []) as unknown as Array<
     Omit<CourseLessonSummary, 'has_model' | 'is_completed' | 'completed_at'> & {
       ldraw_model_url?: string | null
+      scratch_curriculum_key?: string | null
+      scratch_lesson_key?: string | null
+      playground_game_key?: string | null
     }
   >).map(({ ldraw_model_url, ...lesson }) => ({
     ...lesson,
     has_model: Boolean(ldraw_model_url),
+    catalog_image_url: lessonPreviewImage(lesson),
   }))
   const lessonRows = summaryRows.map((lesson) => ({
     id: lesson.id,

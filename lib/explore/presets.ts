@@ -1,4 +1,3 @@
-import { sanitizeProjectTagsParam } from '@/lib/project/tags'
 import { normalizeDifficultyParam } from '@/lib/content-classification/validation'
 
 export type SortBy = 'latest' | 'popular'
@@ -18,13 +17,35 @@ export type ExplorePreset = {
     tags?: string[]
 }
 
-/** 探索页公开的主题入口。 */
+/** 兼容已有链接的预设；公开主题入口使用 EXPLORE_TOPICS。 */
 export const EXPLORE_PRESETS: ExplorePreset[] = [
     { id: 'browse', label: '热门推荐', sortBy: 'popular', difficulty: 'all' },
     { id: 'everyday-materials', label: EVERYDAY_MATERIALS_TAG, sortBy: 'popular', difficulty: 'all', tags: [EVERYDAY_MATERIALS_TAG] },
     { id: 'fun-science', label: '趣味实验', sortBy: 'popular', difficulty: 'all', tags: ['趣味实验'] },
     { id: 'science-edu', label: '科教版', sortBy: 'popular', difficulty: 'all', tags: ['科教版'] },
 ]
+
+/** 快捷主题与同名标签共用筛选状态，不包含排序入口。 */
+export const EXPLORE_TOPICS = EXPLORE_PRESETS.filter(
+    (preset): preset is ExplorePreset & { tags: string[] } => !!preset.tags?.length,
+)
+export const EXPLORE_TOPIC_TAGS: readonly string[] = EXPLORE_TOPICS.flatMap((preset) => preset.tags)
+const topicTagSet = new Set(EXPLORE_TOPIC_TAGS)
+
+export function isExploreTopicTag(tag: string): boolean {
+    return topicTagSet.has(tag)
+}
+
+/** 探索页 URL 只接受三个快捷主题，不再支持任意标签筛选。 */
+export function normalizeExploreThemeTags(raw: string | null | undefined): string[] {
+    const tags = raw?.split(',').map(tag => tag.trim()) ?? []
+    return [...new Set(tags.filter(isExploreTopicTag))]
+}
+
+/** 只切换指定主题标签，保留其他筛选标签及其顺序。 */
+export function toggleExploreTopicTag(tags: string[], tag: string): string[] {
+    return tags.includes(tag) ? tags.filter((item) => item !== tag) : [...tags, tag]
+}
 
 export type ExploreFilterState = {
     category: string
@@ -42,8 +63,8 @@ export function parseExploreSortBy(raw: string | null | undefined): SortBy {
 }
 
 export const EXPLORE_RESULTS_SORT_OPTIONS = [
-    { value: 'popular' as const, label: '推荐' },
-    { value: 'latest' as const, label: '最新' },
+    { value: 'popular' as const, label: '热门推荐' },
+    { value: 'latest' as const, label: '最新发布' },
 ] as const
 
 function sameTagSet(a: string[], b: string[]): boolean {
@@ -63,22 +84,10 @@ export function isExploreListTabPreset(id: ExplorePresetId | null): id is Explor
 
 /** 用户主动筛选/搜索后进入「结果模式」，与默认「探索逛」分离。 */
 export function isExploreResultsMode(state: ExploreFilterState): boolean {
-    const activePresetId = detectActivePreset(state)
-    const activeListTabId = isExploreListTabPreset(activePresetId) ? activePresetId : null
-    const activePreset = activeListTabId
-        ? EXPLORE_PRESETS.find((item) => item.id === activeListTabId)
-        : undefined
-    const difficultyBelongsToListTab = false
-    const tagsBelongToListTab = !!activePreset
-        && presetTags(activePreset).length > 0
-        && sameTagSet(state.tags, presetTags(activePreset))
-    const hasActiveAdvancedFilters = !!state.subCategory
-        || (!difficultyBelongsToListTab && state.difficulty !== 'all')
-        || state.age !== null
-        || (!tagsBelongToListTab && state.tags.length > 0)
-
     return state.category !== '全部'
-        || hasActiveAdvancedFilters
+        || !!state.subCategory
+        || state.difficulty !== 'all'
+        || state.age !== null
         || !!state.searchQuery.trim()
 }
 
@@ -166,7 +175,7 @@ export function buildPresetSearchParams(preset: ExplorePreset): URLSearchParams 
 
 export function serializeExploreFilterParams(params: URLSearchParams): string {
     const normalized = new URLSearchParams(params)
-    const tags = sanitizeProjectTagsParam(normalized.get('tags'))
+    const tags = normalizeExploreThemeTags(normalized.get('tags'))
     if (tags.length) normalized.set('tags', tags.join(','))
     else normalized.delete('tags')
     const entries = Array.from(normalized.entries()).sort(([a], [b]) => a.localeCompare(b))

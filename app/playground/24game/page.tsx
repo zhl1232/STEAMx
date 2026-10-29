@@ -1,8 +1,10 @@
 "use client"
 
+import { Skeleton } from "@/components/ui/skeleton"
 import { useEffect, useRef, useState } from "react"
 import { use24Game, type Card24 } from "@/hooks/playground/use-24-game"
 import { GAME24_LEVELS } from "@/lib/playground/game24-levels"
+import { useRaceRound } from "@/hooks/playground/use-race-round"
 import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
@@ -140,6 +142,7 @@ export default function Game24Page() {
     newGame,
     dealNewRound,
     loadRoundFromValues,
+    suspendRound,
   } = use24Game()
   const race = useRaceOnline("game24", {
     durationSeconds: 60,
@@ -159,7 +162,6 @@ export default function Game24Page() {
   const [expression, setExpression] = useState("")
   const [error, setError] = useState("")
   const [isMounted, setIsMounted] = useState(false)
-  const appliedRaceRoundRef = useRef<string | null>(null)
   const prevStatusRef = useRef(status)
 
   useEffect(() => {
@@ -173,14 +175,16 @@ export default function Game24Page() {
     }
   }, [status, round])
 
-  useEffect(() => {
-    const cardValues = race.settings.cardValues
-    if (!raceIsPlaying || !race.matchId || !cardValues) return
-    const key = `${race.matchId}:${cardValues.join(",")}`
-    if (appliedRaceRoundRef.current === key) return
-    appliedRaceRoundRef.current = key
-    loadRoundFromValues(cardValues)
-  }, [loadRoundFromValues, race.matchId, race.settings.cardValues, raceIsPlaying])
+  const raceRound = useRaceRound(race, () => {
+    setExpression("")
+    setError("")
+    if (raceIsWaiting) suspendRound()
+    else if (race.settings.cardValues) loadRoundFromValues(race.settings.cardValues)
+  })
+  const roomCards = race.settings.cardValues
+  const cardsMatchRoom = Boolean(roomCards) && [...cards.map((card) => card.value)].sort((a, b) => a - b).join(",") === [...(roomCards ?? [])].sort((a, b) => a - b).join(",")
+  const raceActive = raceRound.active
+  const canPlay = raceRound.canPlay && (!raceIsPlaying || cardsMatchRoom)
 
   useEffect(() => {
     if (status !== "solved") return
@@ -203,9 +207,9 @@ export default function Game24Page() {
   useEffect(() => {
     const justEnded = prevStatusRef.current === "playing" && status !== "playing"
     prevStatusRef.current = status
-    if (!justEnded || !raceIsPlaying || raceHasSubmitted) return
+    if (!justEnded || !raceRound.canSubmit || !cardsMatchRoom || raceHasSubmitted) return
 
-    const cardValues = race.settings.cardValues ?? cards.map((card) => card.value)
+    const cardValues = cards.map((card) => card.value)
     if (status === "solved") {
       void submitRaceResult({
         cardValues,
@@ -227,14 +231,15 @@ export default function Game24Page() {
     cards,
     race.settings.cardValues,
     raceHasSubmitted,
-    raceIsPlaying,
+    raceRound.canSubmit,
+    cardsMatchRoom,
     status,
     submitRaceResult,
     timeLeft,
   ])
 
   const handleSubmit = () => {
-    if (raceIsWaiting) return
+    if (!canPlay) return
     const trimmed = expression.trim()
     if (!trimmed) return
     const result = submitExpression(trimmed)
@@ -254,6 +259,7 @@ export default function Game24Page() {
   }
 
   const appendToken = (token: string) => {
+    if (!canPlay) return
     setExpression((prev) => `${prev}${token}`)
     if (error) setError("")
   }
@@ -268,15 +274,15 @@ export default function Game24Page() {
       <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center p-6">
         <div className="w-full max-w-2xl rounded-lg border border-border bg-[hsl(var(--surface-raised)/0.9)] p-6 shadow-[0_24px_68px_-48px_hsl(var(--surface-shadow)/0.54)] backdrop-blur-sm">
           <div className="mb-5 flex items-center gap-3">
-            <div className="h-10 w-10 animate-pulse rounded-md bg-primary/15" />
-            <div className="space-y-2">
-              <div className="h-5 w-44 animate-pulse rounded-full bg-muted" />
-              <div className="h-3 w-64 animate-pulse rounded-full bg-muted/70" />
+            <Skeleton className="h-10 w-10 shrink-0 rounded-md" />
+            <div className="min-w-0 flex-1 space-y-2">
+              <Skeleton className="h-5 w-44 max-w-full rounded-full" />
+              <Skeleton className="h-3 w-64 max-w-full rounded-full" />
             </div>
           </div>
           <div className="flex justify-center gap-2 sm:gap-4">
             {Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="h-[132px] w-[96px] animate-pulse rounded-xl bg-muted sm:h-[180px] sm:w-[130px] md:h-[210px] md:w-[150px]" />
+              <Skeleton key={index} className="h-[132px] w-[96px] rounded-xl sm:h-[180px] sm:w-[130px] md:h-[210px] md:w-[150px]" />
             ))}
           </div>
         </div>
@@ -452,7 +458,7 @@ export default function Game24Page() {
                     if (error) setError("")
                   }}
                   onKeyDown={handleKeyDown}
-                  disabled={raceIsWaiting}
+                  disabled={!canPlay}
                   placeholder={level.ops.length === 2 ? `用 + - 组出 ${level.target}` : `用 + - * / 和括号组出 ${level.target}`}
                   className={cn(
                     "flex-1 h-11 sm:h-12 rounded-sm border bg-background px-4 text-sm sm:text-base",
@@ -468,7 +474,7 @@ export default function Game24Page() {
                   size="lg"
                   className="rounded-sm h-11 sm:h-12 px-4 sm:px-6 gap-2"
                   onClick={handleSubmit}
-                  disabled={raceIsWaiting || !expression.trim()}
+                  disabled={!canPlay || !expression.trim()}
                 >
                   <Send className="w-4 h-4" />
                   <span className="hidden sm:inline">提交</span>
@@ -482,7 +488,7 @@ export default function Game24Page() {
                       key={`${card.suit}-${card.value}-${index}-quick`}
                       type="button"
                       onClick={() => appendToken(card.label)}
-                      disabled={raceIsWaiting}
+                      disabled={!canPlay}
                       className="min-h-12 rounded-xl border border-border/70 bg-muted shadow-sm text-lg font-black active:scale-95 active:shadow-none transition-transform disabled:opacity-50 text-foreground"
                       aria-label={`输入 ${card.label}`}
                     >
@@ -496,7 +502,7 @@ export default function Game24Page() {
                       key={token}
                       type="button"
                       onClick={() => appendToken(token)}
-                      disabled={raceIsWaiting}
+                      disabled={!canPlay}
                       className="min-h-12 rounded-xl border border-primary/25 bg-primary/12 shadow-sm text-lg font-black text-primary active:scale-95 active:shadow-none transition-transform disabled:opacity-50"
                       aria-label={`输入 ${token}`}
                     >
@@ -508,7 +514,7 @@ export default function Game24Page() {
                   <button
                     type="button"
                     onClick={deleteToken}
-                    disabled={raceIsWaiting}
+                    disabled={!canPlay}
                     className="min-h-12 rounded-xl border border-border/70 bg-muted shadow-sm text-lg font-black active:scale-95 active:shadow-none transition-transform disabled:opacity-50 text-foreground"
                   >
                     删除
@@ -519,7 +525,7 @@ export default function Game24Page() {
                       setExpression("")
                       if (error) setError("")
                     }}
-                    disabled={raceIsWaiting}
+                    disabled={!canPlay}
                     className="min-h-12 rounded-xl border border-destructive/25 bg-destructive/10 text-lg font-black text-destructive active:scale-95 transition-transform disabled:opacity-50"
                   >
                     清空
@@ -532,7 +538,7 @@ export default function Game24Page() {
             </div>
           )}
 
-          {status === "playing" && hintLevel > 0 && getHintText() && (
+          {!raceIsWaiting && status === "playing" && hintLevel > 0 && getHintText() && (
             <div className="rounded-2xl bg-muted/50 px-4 py-3 text-[15px] font-semibold text-foreground">
               {getHintText()}
             </div>
@@ -541,31 +547,31 @@ export default function Game24Page() {
           {/* Action buttons */}
           <div className="grid grid-cols-3 gap-2">
             {status === "playing" && (
-              <Button variant="outline" size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={requestHint} disabled={raceIsWaiting || hintLevel >= 3}>
+              <Button variant="outline" size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={requestHint} disabled={raceActive || hintLevel >= 3}>
                 <Lightbulb className="w-4 h-4" />
                 {hintLevel === 0 ? "提示" : hintLevel >= 3 ? "已看完提示" : "再提示一下"}
               </Button>
             )}
             {status === "playing" && (
-              <Button variant="outline" size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={skipRound} disabled={raceIsWaiting}>
+              <Button variant="outline" size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={skipRound} disabled={!canPlay}>
                 <SkipForward className="w-3.5 h-3.5" />
                 跳过
               </Button>
             )}
             {(status === "solved" || status === "skipped" || status === "timeout") && (
-              <Button size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={dealNewRound} disabled={raceIsWaiting}>
+              <Button size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={dealNewRound} disabled={raceActive}>
                 <Zap className="w-3.5 h-3.5" />
                 下一轮
               </Button>
             )}
-            <Button variant="outline" size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={newGame} disabled={raceIsWaiting}>
+            <Button variant="outline" size="sm" className="min-h-12 gap-1.5 rounded-xl text-base font-bold" onClick={newGame} disabled={raceActive}>
               <RefreshCw className="w-3.5 h-3.5" />
               新游戏
             </Button>
           </div>
 
           {/* Solutions panel */}
-          {(status === "solved" || status === "skipped" || status === "timeout") && solutions.length > 0 && (
+          {!raceIsWaiting && (status === "solved" || status === "skipped" || status === "timeout") && solutions.length > 0 && (
             <Card className="playground-info-panel space-y-3 p-4">
               <div className="flex items-center gap-2">
                 <Eye className="w-4 h-4 text-primary" />

@@ -428,7 +428,7 @@ describe('production everyday materials cohort', () => {
     const detail = await getProjectById(738)
     expect(detail).not.toBeNull()
     expect(card.materials).toEqual(resolveProjectMaterials(detail!).materials)
-    expect(card.materials).toContain('浅盘1个')
+    expect(card.materials).toContain('盘子1个（浅盘）')
     expect(card.materials).not.toContain('数据库过期材料')
     expect(card).not.toHaveProperty('steps')
     expect(card).not.toHaveProperty('reflection')

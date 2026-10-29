@@ -374,11 +374,11 @@ describe('LessonPageClient', () => {
       expect(screen.getByText('workspace step 3')).toBeInTheDocument()
     })
 
-    window.history.replaceState({}, '', '/courses/7')
+    window.history.replaceState({}, '', '/courses?course=7')
     window.dispatchEvent(new PopStateEvent('popstate'))
 
-    expect(window.location.pathname).toBe('/courses/7')
-    expect(window.location.search).toBe('')
+    expect(window.location.pathname).toBe('/courses')
+    expect(window.location.search).toBe('?course=7')
   })
 
   it('keeps the phone scroll position between build steps and resets it when changing page kinds', () => {

@@ -1,42 +1,27 @@
 "use client"
 
-import { useEffect, useId, useRef, useState, type MouseEventHandler } from "react"
+import { useEffect, useId, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import {
     ArrowRight,
-    Award,
-    Beaker,
-    BookOpen,
+    ChevronDown,
     Bomb,
     Bot,
     Brain,
     Calculator,
-    ChevronRight,
-    Code2,
-    Cog,
     Compass,
     Crosshair,
     Crown,
     Dna,
-    Gamepad2,
-    Grid3X3,
     Hash,
     Layers,
-    Palette,
-    Search,
     Scale,
-    Sigma,
-    Star,
     TableCellsSplit,
-    Trophy,
     type LucideIcon,
 } from "lucide-react"
 
-import { BadgeIcon } from "@/components/features/gamification/badge-icon"
-import { Button } from "@/components/ui/button"
-import { PLAYGROUND_DISCOVERY, PLAYGROUND_GROUPS, type PlaygroundDiscovery } from "@/lib/playground/catalog"
-import { BADGES, PLAYGROUND_BADGE_COUNT } from "@/lib/gamification/badges"
+import { PLAYGROUND_DISCOVERY } from "@/lib/playground/catalog"
 import { getPlaygroundItem, PLAYGROUND_CHANGE_EVENT } from "@/lib/playground/storage"
 import { readMergedMinesweeperStats } from "@/lib/playground/minesweeper-stats"
 import { cn } from "@/lib/utils"
@@ -160,7 +145,7 @@ const GAMES: GameCard[] = [
         color: "text-fuchsia-600 dark:text-fuchsia-300",
         visual: "memory",
         tags: ["Science", "Arts"],
-        description: "轮流翻牌，寻找相同图案的位置。",
+        description: "翻开名词和解释，找出对应的一对。",
         statsKey: "memory_match_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => safeNum(raw, "wins"),
@@ -173,7 +158,7 @@ const GAMES: GameCard[] = [
         color: "text-lime-600 dark:text-lime-300",
         visual: "maze",
         tags: ["Technology", "Science"],
-        description: "走出迷宫，再看看不同算法怎样寻找路线。",
+        description: "走出迷宫，看看算法怎样找路。",
         statsKey: "maze_runner_stats",
         getPlayed: (raw) => safeNum(raw, "totalGames"),
         getWins: (raw) => safeNum(raw, "wins"),
@@ -219,56 +204,19 @@ const GAMES: GameCard[] = [
     },
 ]
 
-const STEAM_DIMS: { key: SteamTag; label: string; name: string; icon: LucideIcon; color: string; bg: string }[] = [
-    { key: "Science", label: "科学", name: "Science", icon: Beaker, color: "text-emerald-600 dark:text-emerald-300", bg: "bg-emerald-100 dark:bg-emerald-400/10" },
-    { key: "Technology", label: "技术", name: "Technology", icon: Code2, color: "text-primary", bg: "bg-blue-100 dark:bg-blue-400/10" },
-    { key: "Engineering", label: "工程", name: "Engineering", icon: Cog, color: "text-orange-600 dark:text-orange-300", bg: "bg-orange-100 dark:bg-orange-400/10" },
-    { key: "Arts", label: "艺术", name: "Arts", icon: Palette, color: "text-violet-600 dark:text-violet-300", bg: "bg-violet-100 dark:bg-violet-400/10" },
-    { key: "Math", label: "数学", name: "Math", icon: Sigma, color: "text-cyan-600 dark:text-cyan-300", bg: "bg-cyan-100 dark:bg-cyan-400/10" },
-]
-
-const BADGE_COUNT = PLAYGROUND_BADGE_COUNT
-const BADGE_PREVIEW_IDS = [
-    "playground_explorer_bronze",
-    "playground_victories_bronze",
-    "minesweeper_speedster",
-    "game24_speed",
-    "hanoi_perfect",
-    "life_challenge_all",
-    "function_wars_all",
-    "function_wars_challenge_all",
-] as const
-const BADGE_PREVIEW_BADGES = BADGE_PREVIEW_IDS.flatMap((id) => {
-    const badge = BADGES.find((item) => item.id === id)
-    return badge ? [badge] : []
-})
-
-const IMAGE_ARTWORKS: Partial<Record<GameVisual, { light: string; dark: string }>> = {
-    mines: {
-        light: "/assets/playground-art/minesweeper-transparent-light.png",
-        dark: "/assets/playground-art/minesweeper-transparent-dark.png",
-    },
-    gomoku: {
-        light: "/assets/playground-art/gomoku-transparent-light.png",
-        dark: "/assets/playground-art/gomoku-transparent-dark.png",
-    },
-    hanoi: {
-        light: "/assets/playground-art/hanoi-transparent-light.png",
-        dark: "/assets/playground-art/hanoi-transparent-dark.png",
-    },
-
-    sudoku: {
-        light: "/assets/playground-art/sudoku-transparent-light.png",
-        dark: "/assets/playground-art/sudoku-transparent-dark.png",
-    },
-    nqueens: {
-        light: "/assets/playground-art/nqueens-transparent-light.png",
-        dark: "/assets/playground-art/nqueens-transparent-dark.png",
-    },
-    functionwars: {
-        light: "/assets/playground-art/functionwars-transparent-light.webp",
-        dark: "/assets/playground-art/functionwars-transparent-dark.webp",
-    },
+const IMAGE_ARTWORKS: Partial<Record<GameVisual, string>> = {
+    balance: "/assets/playground-art/balance-v2.webp",
+    nonogram: "/assets/playground-art/nonogram-v2.webp",
+    memory: "/assets/playground-art/memory-v2.webp",
+    functionwars: "/assets/playground-art/functionwars-v2.webp",
+    maze: "/assets/playground-art/maze-v2.webp",
+    life: "/assets/playground-art/life-v2.webp",
+    "24": "/assets/playground-art/24-v2.webp",
+    mines: "/assets/playground-art/mines-v2.webp",
+    gomoku: "/assets/playground-art/gomoku-v2.webp",
+    hanoi: "/assets/playground-art/hanoi-v2.webp",
+    sudoku: "/assets/playground-art/sudoku-v2.webp",
+    nqueens: "/assets/playground-art/nqueens-v2.webp",
 }
 
 function safeNum(raw: unknown, key: string): number {
@@ -367,27 +315,13 @@ const DIRECTORY_GAMES = PLAYGROUND_DISCOVERY.flatMap((discovery) => {
     return game ? [{ game, discovery }] : []
 })
 
+const SCIENCE_ENTRIES = [
+    { name: "物理实验室", hint: "电路、光、声、热、磁、力，动手调参数", href: "/playground/physics-lab", image: "/assets/playground-art/physics-lab-v2.webp" },
+    { name: "3D 物理课本", hint: "按章节互动学，观察物理现象", href: "/textbook", image: "/assets/playground-art/textbook-v2.webp" },
+]
+
 export default function PlaygroundPage() {
     const [stats, setStats] = useState<AggStats | null>(null)
-    const [query, setQuery] = useState("")
-    const [moreOpen, setMoreOpen] = useState(false)
-    const [moreNavigation, setMoreNavigation] = useState(0)
-    const moreRef = useRef<HTMLDetailsElement>(null)
-
-    const openMore: MouseEventHandler<HTMLAnchorElement> = (event) => {
-        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
-        event.preventDefault()
-        setQuery("")
-        setMoreOpen(true)
-        setMoreNavigation((request) => request + 1)
-    }
-
-    useEffect(() => {
-        if (moreNavigation === 0) return
-        window.location.hash = "playground-more"
-        moreRef.current?.scrollIntoView()
-    }, [moreNavigation])
-
     useEffect(() => {
         const refreshStats = () => setStats(aggregateStats())
         refreshStats()
@@ -396,212 +330,112 @@ export default function PlaygroundPage() {
     }, [])
 
     const displayStats = stats ?? EMPTY_STATS
-    const search = query.trim().toLocaleLowerCase().replace(/\s+/g, "")
-    const matches = DIRECTORY_GAMES.filter(({ game }) =>
-        `${game.name} ${game.subtitle} ${game.description}`.toLocaleLowerCase().replace(/\s+/g, "").includes(search),
-    )
+    const featuredGames = DIRECTORY_GAMES.filter(({ discovery }) => discovery.featured)
+    const otherGames = DIRECTORY_GAMES.filter(({ discovery }) => !discovery.featured)
     const renderGames = (entries: typeof DIRECTORY_GAMES) => (
-        <div className="grid grid-cols-2 gap-3 group-open:mt-4 lg:grid-cols-3 lg:gap-4 xl:grid-cols-4 max-lg:[&>*:last-child:nth-child(odd)]:col-span-2">
-            {entries.map(({ game, discovery }) => (
-                <GameTile key={game.href} game={game} discovery={discovery} played={displayStats.perGame.get(game.href)?.played ?? 0} />
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 lg:gap-4">
+            {entries.map(({ game }) => (
+                <GameTile key={game.href} game={game} played={displayStats.perGame.get(game.href)?.played ?? 0} />
             ))}
         </div>
     )
 
     return (
-        <div className="w-full space-y-6 px-4 py-4 sm:py-5 lg:space-y-8 lg:px-8 lg:py-8">
-            <div className="flex flex-col gap-6">
-                <div className="order-2 flex items-center justify-between gap-4 lg:order-1">
-                    <h1 className="hidden text-page-title lg:block">游乐场</h1>
-                    <SearchBox query={query} onChange={setQuery} className="w-full lg:w-72" />
+        <div className="w-full space-y-5 px-4 py-4 md:px-0 lg:space-y-6 lg:py-6">
+            <h1 className="sr-only hidden lg:block">游乐场</h1>
+            <ScienceEntries />
+            <section aria-label="全部玩法" className="space-y-5 lg:space-y-7">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:gap-4">
+                    {featuredGames.map(({ game }) => <FeaturedGame key={game.href} game={game} played={displayStats.perGame.get(game.href)?.played ?? 0} />)}
                 </div>
-                <div className="order-1 lg:order-2">
-                    <MobileQuickEntries onOpenMore={openMore} />
-                    <DesktopFeatureEntries />
-                </div>
-            </div>
-            {search ? (
-                <section aria-labelledby="playground-search-heading" className="space-y-3">
-                    <h2 id="playground-search-heading" className="text-panel-title">搜索结果 · {matches.length} 个玩法</h2>
-                    {matches.length ? renderGames(matches) : <p className="py-8 text-sm text-muted-foreground">没找到这个玩法，试试其他名字。</p>}
-                    <Button variant="ghost" onClick={() => setQuery("")}>返回分类浏览</Button>
-                </section>
-            ) : PLAYGROUND_GROUPS.map((group) => {
-                const entries = DIRECTORY_GAMES.filter(({ discovery }) => discovery.group === group.id)
-                return group.id === "more" ? (
-                    <details key={group.id} ref={moreRef} id={`playground-${group.id}`} open={moreOpen}
-                        onToggle={(event) => setMoreOpen(event.currentTarget.open)} className="group scroll-mt-24 border-y border-border py-4">
-                        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
-                            <h2 className="text-panel-title">{group.title} <span className="text-base font-normal text-foreground/70">· {entries.length} 个玩法</span></h2>
-                            <ChevronRight aria-hidden className="h-4 w-4 shrink-0 transition-transform group-open:rotate-90" />
-                        </summary>
-                        {renderGames(entries)}
-                    </details>
-                ) : (
-                    <section key={group.id} id={`playground-${group.id}`} aria-labelledby={`heading-${group.id}`} className="scroll-mt-24 space-y-4">
-                        <h2 id={`heading-${group.id}`} className="text-panel-title">{group.title}</h2>
-                        {renderGames(entries)}
-                    </section>
-                )
-            })}
-            <details className="surface-panel p-4 sm:p-5">
-                <summary className="min-h-11 cursor-pointer text-base font-semibold">我的探索记录</summary>
+                {renderGames(otherGames)}
+            </section>
+            <details className="group/records border-t border-border">
+                <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-3 py-3 [&::-webkit-details-marker]:hidden">
+                    <span className="font-semibold">我的探索记录</span>
+                    <span className="flex items-center gap-3 text-sm text-muted-foreground">
+                        <span>{displayStats.gamesExplored ? `已体验 ${displayStats.gamesExplored} 款 · ${displayStats.totalPlayed} 次记录` : "还没有游玩记录"}</span>
+                        <ChevronDown aria-hidden className="h-4 w-4 shrink-0 transition-transform group-open/records:rotate-180" />
+                    </span>
+                </summary>
                 <ExplorationRecords stats={displayStats} />
-                <BadgePanel />
             </details>
         </div>
     )
 }
 
-function StatsGrid({ stats }: { stats: AggStats }) {
+function ScienceEntries() {
     return (
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            <StatCard
-                icon={Gamepad2}
-                iconClassName="bg-primary/10 text-primary"
-                label="累计游玩记录"
-                value={stats.totalPlayed}
-            />
-            <StatCard
-                icon={Trophy}
-                iconClassName="bg-[hsl(var(--tone-science-soft))] text-[hsl(var(--tone-science))]"
-                label="胜利 / 解题记录"
-                value={stats.totalWins}
-            />
-            <StatCard
-                icon={Award}
-                iconClassName="bg-[hsl(var(--tone-engineering-soft))] text-[hsl(var(--tone-engineering))]"
-                label="已体验游戏"
-                value={`${stats.gamesExplored} / ${GAMES.length}`}
-            />
-            <StatCard
-                icon={Star}
-                iconClassName="bg-[hsl(var(--tone-tech-soft))] text-[hsl(var(--tone-tech))]"
-                label="接触过的主题"
-                value={`${Object.values(stats.steamPlayed).filter((value) => value > 0).length} / 5`}
-            />
-        </div>
-    )
-}
-
-/** 手机端首屏四个入口，桌面使用独立的精选入口。 */
-function MobileQuickEntries({ onOpenMore }: { onOpenMore: MouseEventHandler<HTMLAnchorElement> }) {
-    const entries = [
-        { name: "物理实验室", hint: "电路 · 光 · 声", href: "/playground/physics-lab", icon: Beaker, tone: "bg-primary/10 text-primary" },
-        { name: "3D 物理课本", hint: "按章节互动学", href: "/textbook", icon: BookOpen, tone: "bg-[hsl(var(--tone-science-soft))] text-[hsl(var(--tone-science))]" },
-        { name: "迷宫探险", hint: "从这里开始", href: "/playground/maze", icon: Compass, tone: "bg-[hsl(var(--tone-tech-soft))] text-[hsl(var(--tone-tech))]" },
-        { name: "更多玩法", hint: "逻辑挑战", href: "#playground-more", icon: Grid3X3, tone: "bg-muted text-foreground" },
-    ]
-    return (
-        <nav aria-label="游乐场主要入口" className="grid grid-cols-2 gap-3 lg:hidden">
-            {entries.map(({ name, hint, href, icon: Icon, tone }) => (
-                <Link key={href} href={href} onClick={href === "#playground-more" ? onOpenMore : undefined} className="surface-card flex min-h-[104px] flex-col justify-between gap-2.5 p-4 active:bg-muted/60">
-                    <span className={cn("grid h-10 w-10 place-items-center rounded-md", tone)}><Icon className="h-5 w-5" aria-hidden /></span>
-                    <span>
-                        <span className="block text-base font-black leading-6 text-foreground">{name}</span>
-                        <span className="block truncate text-[15px] leading-5 text-foreground/75">{hint}</span>
+        <nav aria-label="游乐场科学入口" className="grid grid-cols-2 gap-3 lg:gap-5">
+            {SCIENCE_ENTRIES.map(({ name, hint, href, image }) => (
+                <Link key={href} href={href} className="group relative flex min-h-44 flex-col overflow-hidden rounded-lg border border-border bg-background/70 p-4 hover:bg-background focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary lg:min-h-64 lg:justify-center lg:p-7">
+                    <span className="relative z-10 lg:w-[52%]">
+                        <span className="block font-sans text-base font-bold text-foreground group-hover:text-primary lg:text-3xl">{name}</span>
+                        <span className="mt-3 hidden text-sm leading-6 text-foreground/75 lg:block">{hint}</span>
+                        <ArrowRight className="mt-5 hidden h-5 w-5 text-primary lg:block" aria-hidden />
                     </span>
+                    <Image src={image} alt="" width={640} height={640} sizes="(min-width: 1024px) 320px, 150px" className="pointer-events-none mt-2 h-28 w-full object-contain lg:absolute lg:right-2 lg:top-1/2 lg:mt-0 lg:h-60 lg:w-[46%] lg:-translate-y-1/2" />
                 </Link>
             ))}
         </nav>
-    )
-}
-
-function SearchBox({ query, onChange, className }: { query: string; onChange: (value: string) => void; className?: string }) {
-    return (
-        <div className={cn("relative", className)}>
-            <Search aria-hidden className="pointer-events-none absolute left-3 top-3.5 h-5 w-5 text-muted-foreground" />
-            <input aria-label="搜索游乐场玩法" type="search" value={query} onChange={(event) => onChange(event.target.value)}
-                placeholder="搜索玩法" className="control-field min-h-12 w-full pl-10 pr-3 text-base" />
-        </div>
-    )
-}
-
-/** 桌面端两大科学入口：横排大卡，替代原首屏长文案与实验室横条。 */
-function DesktopFeatureEntries() {
-    const entries = [
-        { name: "物理实验室", hint: "66 个可调参数的实验：电路、光、声、热、磁、力", href: "/playground/physics-lab", icon: Beaker, tone: "bg-primary/10 text-primary" },
-        { name: "3D 物理课本", hint: "按章节互动学，小学到高中都会陆续加入", href: "/textbook", icon: BookOpen, tone: "bg-[hsl(var(--tone-science-soft))] text-[hsl(var(--tone-science))]" },
-    ]
-    return (
-        <nav aria-label="游乐场科学入口" className="hidden gap-4 lg:grid lg:grid-cols-2">
-            {entries.map(({ name, hint, href, icon: Icon, tone }) => (
-                <Link key={href} href={href} className="surface-card group flex min-h-[112px] items-center gap-5 p-5 transition-colors hover:bg-muted/50">
-                    <span className={cn("grid h-16 w-16 shrink-0 place-items-center rounded-md", tone)}><Icon className="h-8 w-8" aria-hidden /></span>
-                    <span className="min-w-0 flex-1">
-                        <span className="block text-xl font-black text-foreground group-hover:text-primary">{name}</span>
-                        <span className="mt-1 block text-base text-foreground/80">{hint}</span>
-                    </span>
-                    <ArrowRight className="h-6 w-6 shrink-0 text-foreground/70 group-hover:text-primary" aria-hidden />
-                </Link>
-            ))}
-        </nav>
-    )
-}
-
-function StatCard({
-    icon: Icon,
-    iconClassName,
-    value,
-    label,
-}: {
-    icon: LucideIcon
-    iconClassName: string
-    value: number | string
-    label: string
-}) {
-    return (
-        <div className="surface-card flex min-h-[86px] items-center gap-4 px-4 py-3.5">
-            <div className={cn("grid h-12 w-12 shrink-0 place-items-center rounded-md", iconClassName)}>
-                <Icon className="h-6 w-6" />
-            </div>
-            <div className="min-w-0">
-                <div className="text-2xl font-black leading-none tracking-tight text-foreground">{value}</div>
-                <div className="mt-1.5 truncate text-sm font-semibold text-foreground/75">{label}</div>
-            </div>
-        </div>
     )
 }
 
 function ExplorationRecords({ stats }: { stats: AggStats }) {
     return (
-        <div className="space-y-4 pb-5">
-            <p className="text-[15px] leading-6 text-foreground/75">按当前玩法的已有游玩记录汇总。胜利、解题和已完成关卡沿用各玩法口径；旧版仅存最佳成绩时按成绩条目计数，记录不一定覆盖每一局。</p>
-            <StatsGrid stats={stats} />
-            <div>
-                <h2 className="text-sm font-semibold">探索过的 STEAM 主题</h2>
-                <p className="mt-1 text-[15px] leading-6 text-foreground/75">这里只记录玩过什么、记录了多少次，不代表能力测评或学习效果。同一玩法可属于多个主题。</p>
-                <ul className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-                    {STEAM_DIMS.map((dim) => {
-                        const playedInDim = GAMES.filter((game) => game.tags.includes(dim.key) && (stats.perGame.get(game.href)?.played ?? 0) > 0).length
-                        const Icon = dim.icon
-                        return (
-                            <li key={dim.key} className="flex items-center gap-3 py-2">
-                                <Icon aria-hidden className={cn("h-5 w-5 shrink-0", dim.color)} />
-                                <div>
-                                    <p className="text-sm font-semibold">{dim.label}</p>
-                                    <p className="mt-1 text-sm text-foreground/75">{playedInDim} 款 · {stats.steamPlayed[dim.key]} 次记录</p>
-                                </div>
-                            </li>
-                        )
-                    })}
-                </ul>
+        <div className="pb-4">
+            <dl className="grid grid-cols-3 divide-x divide-border py-3">
+                {[
+                    { label: "累计游玩记录", value: stats.totalPlayed },
+                    { label: "胜利 / 解题记录", value: stats.totalWins },
+                    { label: "已体验游戏", value: `${stats.gamesExplored} / ${GAMES.length}` },
+                ].map(({ label, value }) => (
+                    <div key={label} className="px-3 first:pl-0 sm:px-6">
+                        <dd className="text-xl font-semibold tabular-nums sm:text-2xl">{value}</dd>
+                        <dt className="mt-1 text-xs text-muted-foreground sm:text-sm">{label}</dt>
+                    </div>
+                ))}
+            </dl>
+            <div className="mt-3 flex items-start justify-between gap-4">
+                <details className="min-w-0 flex-1 text-sm text-muted-foreground">
+                    <summary className="flex min-h-11 w-fit cursor-pointer items-center">记录说明</summary>
+                    <p className="max-w-prose pb-2 leading-6">按已有游玩、胜利和解题记录汇总，旧版最佳成绩按条目计数，可能不覆盖每一局；不代表能力测评或学习效果。</p>
+                </details>
+                <Link href="/profile#profile-badges-anchor" className="inline-flex min-h-11 shrink-0 items-center gap-2 text-sm font-semibold text-primary">查看我的徽章<ArrowRight className="h-4 w-4" aria-hidden /></Link>
             </div>
         </div>
     )
 }
 
-function GameTile({ game, played }: { game: GameCard; discovery: PlaygroundDiscovery; played: number }) {
+function FeaturedGame({ game, played }: { game: GameCard; played: number }) {
+    const tone = game.visual === "functionwars" ? "bg-emerald-950 text-emerald-50" : game.visual === "balance" ? "bg-teal-100 text-teal-950 dark:bg-teal-900 dark:text-teal-50" : "bg-lime-100 text-lime-950 dark:bg-lime-950 dark:text-lime-50"
     return (
-        <article className="surface-card flex flex-col p-3.5 lg:p-0">
-            <Link href={game.href} prefetch={false} className="group flex min-h-[132px] flex-1 flex-col gap-2.5 rounded-sm focus-visible:outline-2 focus-visible:outline-primary lg:min-h-0 lg:gap-0">
-                <span className="lg:hidden"><GameArtwork game={game} compact /></span>
-                <span className="hidden lg:block"><GameArtwork game={game} wide /></span>
-                <div className="min-w-0 flex-1 lg:p-4">
-                    <h3 className="text-base font-black leading-6 group-hover:text-primary lg:text-lg">{game.name}</h3>
-                    <p className="mt-0.5 line-clamp-2 text-[15px] leading-[22px] text-foreground/80 lg:line-clamp-none lg:mt-1 lg:text-sm lg:leading-6">{game.description}</p>
-                    <p className="mt-2 hidden items-center gap-2 text-sm font-semibold text-primary lg:flex">{played > 0 ? `已玩 ${played} · 继续探索` : "开始探索"}<ArrowRight aria-hidden className="h-4 w-4" /></p>
-                    {played > 0 ? <p className="mt-1 text-sm font-semibold text-primary lg:hidden">已玩 {played} 次</p> : null}
+        <article className={cn("overflow-hidden rounded-lg", tone)}>
+            <Link href={game.href} prefetch={false} className="group relative flex h-full min-h-40 flex-col justify-between gap-4 p-5 focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-current lg:min-h-44 lg:p-6">
+                <div className="relative z-10 max-w-[65%] sm:max-w-full lg:max-w-[64%]">
+                    <h2 className="font-sans text-xl font-bold tracking-tight lg:text-2xl">{game.name}</h2>
+                    <p className="mt-2 text-sm leading-6 opacity-80">{game.description}</p>
+                </div>
+                <div aria-hidden className="pointer-events-none absolute right-4 top-6 [&>div]:!h-20 [&>div]:!w-20 [&>div]:border-0 [&>div]:bg-transparent [&>div]:shadow-none sm:static sm:self-end lg:absolute lg:right-4 lg:top-7 lg:[&>div]:!h-28 lg:[&>div]:!w-28">
+                    <GameArtwork game={game} />
+                </div>
+                <span className="relative z-10 inline-flex w-fit items-center gap-2 text-sm font-semibold">
+                    {played > 0 ? `已玩 ${played} · 继续探索` : "开始探索"}<ArrowRight className="h-4 w-4" aria-hidden />
+                </span>
+            </Link>
+        </article>
+    )
+}
+
+function GameTile({ game, played }: { game: GameCard; played: number }) {
+    return (
+        <article className="rounded-lg border border-border bg-background/80 transition-colors hover:bg-background">
+            <Link href={game.href} prefetch={false} className="group flex h-full items-center gap-4 rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary lg:p-5">
+                <span className="shrink-0 [&>div]:!h-16 [&>div]:!w-16 [&>div]:border-0 [&>div]:shadow-none"><GameArtwork game={game} /></span>
+                <div className="min-w-0 flex-1">
+                    <h3 className="font-sans text-base font-semibold leading-6 group-hover:text-primary lg:text-lg">{game.name}</h3>
+                    <p className="mt-1 text-sm leading-6 text-foreground/75">{game.description}</p>
+                    <p className="mt-2 flex items-center gap-2 text-sm font-semibold text-primary">{played > 0 ? `已玩 ${played} · 继续探索` : "开始探索"}<ArrowRight aria-hidden className="h-4 w-4" /></p>
                 </div>
             </Link>
         </article>
@@ -614,29 +448,12 @@ function GameArtwork({ game, compact = false, wide = false }: { game: GameCard; 
     return (
         <div
             className={cn(
-                "surface-subtle relative shrink-0 overflow-hidden",
+                "relative shrink-0 overflow-hidden",
                 wide ? "flex h-32 w-full items-center justify-center rounded-b-none [&>*]:!h-28 [&>*]:!w-28 [&>svg]:!h-28" : compact ? "h-11 w-11 rounded-sm" : "h-[80px] w-[80px] sm:h-[92px] sm:w-[92px]",
             )}
         >
             {imageArtwork ? (
-                <>
-                    <Image
-                        src={imageArtwork.light}
-                        alt=""
-                        width={92}
-                        height={92}
-                        className="h-full w-full object-contain dark:hidden"
-                        aria-hidden="true"
-                    />
-                    <Image
-                        src={imageArtwork.dark}
-                        alt=""
-                        width={92}
-                        height={92}
-                        className="hidden h-full w-full object-contain dark:block"
-                        aria-hidden="true"
-                    />
-                </>
+                <Image src={imageArtwork} alt="" width={256} height={256} sizes="128px" className="h-full w-full object-contain" aria-hidden="true" />
             ) : (
                 <>
                     {game.visual === "mines" ? <MinesArtwork /> : null}
@@ -930,34 +747,5 @@ function FunctionWarsArtwork() {
                 <circle cx="8" cy="5" r="1.3" className="fill-white" />
             </g>
         </svg>
-    )
-}
-
-function BadgePanel() {
-    return (
-        <section className="border-t border-border pt-4">
-            <div className="mb-4 flex items-center justify-between gap-3">
-                <div>
-                    <h2 className="font-sans font-black">游乐场共 {BADGE_COUNT} 枚可解锁徽章</h2>
-                    <p className="mt-1 text-xs text-muted-foreground">通关、破纪录、连续挑战都会点亮徽章。</p>
-                </div>
-                <Link href="/profile#profile-badges-anchor" className="shrink-0 text-xs font-bold text-primary hover:text-primary/80">
-                    查看全部
-                </Link>
-            </div>
-            <div className="grid grid-cols-4 gap-3">
-                {BADGE_PREVIEW_BADGES.map((badge) => (
-                    <div key={badge.id} className="text-center">
-                        <div className="group mx-auto w-fit">
-                            <BadgeIcon icon={badge.icon} tier={badge.tier} seriesKey={badge.seriesKey} size="sm" showGlow />
-                        </div>
-                        <p className="mt-1 line-clamp-2 text-xs font-semibold leading-tight text-muted-foreground">{badge.name}</p>
-                    </div>
-                ))}
-            </div>
-            <div className="mt-4 rounded-sm bg-muted/35 px-3 py-2 text-xs font-medium leading-relaxed text-muted-foreground">
-                覆盖跨游戏探索、累计胜利和高难度彩蛋三类目标。
-            </div>
-        </section>
     )
 }

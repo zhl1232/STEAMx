@@ -6,6 +6,7 @@
 - `docs/archive/` 是历史证据，不参与默认检索；只有任务明确要求追溯，或核验当前版本确实需要时，才定点读取。旧记录不得覆盖现行规则。大型 JSON/模型元数据按实际 ID 或键查询，不整文件阅读。
 - 旧全文、执行日志和检查截图优先由 Git 历史或原 PR 留存，不在当前代码树另存副本或新建清理报告。删除前迁出仍有效的约束和未完成项；脚本依赖的清单、迁移、模型确认与有效证据不得按“历史文件”批量删除。
 - 局部代码修复遵守既有设计规范，不自动扩展成整体设计或多技能流程；专项技能仅在任务确实需要时读取。
+- Avoid unnecessary secondary labels and descriptions. Let the layout do the explaining.
 - This project uses Next.js 16. Use root-level `proxy.ts` with an exported `proxy` function for request interception. Do not create or restore the deprecated `middleware.ts` convention.
 - For database migrations, follow `docs/database-psql.md` and use `pnpm db:push`, not `supabase db push`.
 

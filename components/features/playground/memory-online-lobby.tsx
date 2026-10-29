@@ -11,17 +11,17 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import {
-    MEMORY_THEMES,
     type MemoryDifficulty,
-    type MemoryTheme,
 } from "@/lib/playground/memory-online";
+
+import { MEMORY_LEVEL_THEMES, type MemoryLevelThemeId } from "@/lib/playground/memory-levels";
 
 type OnlineApi = ReturnType<typeof useMemoryOnline>;
 
 const DIFFICULTIES: Array<{ key: MemoryDifficulty; label: string }> = [
-    { key: "easy", label: "4×4" },
-    { key: "normal", label: "4×5" },
-    { key: "hard", label: "6×6" },
+    { key: "easy", label: "4 对" },
+    { key: "normal", label: "6 对" },
+    { key: "hard", label: "8 对" },
 ];
 
 function shareUrlFromCode(code: string): string {
@@ -45,7 +45,7 @@ export function MemoryOnlineLobby({
     const { user } = useAuth();
     const [joinCode, setJoinCode] = useState("");
     const [copied, setCopied] = useState(false);
-    const [theme, setTheme] = useState<MemoryTheme>("animals");
+    const [theme, setTheme] = useState<MemoryLevelThemeId>("optics");
     const [difficulty, setDifficulty] = useState<MemoryDifficulty>("easy");
 
     const handleCreate = useCallback(() => {
@@ -145,27 +145,27 @@ export function MemoryOnlineLobby({
                     在线对战
                 </h3>
                 <p className="text-xs text-muted-foreground">
-                    创建房间邀请好友，或输入房间码加入对局。配对成功可以继续翻，对子多者获胜。
+                    轮流翻开名词和解释，配对成功继续翻，配对多者获胜。
                 </p>
             </div>
 
             {/* 创建房间：选主题 */}
             <div className="space-y-3">
                 <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs text-muted-foreground">图案</span>
-                    <div className="flex flex-wrap items-center gap-1 rounded-full border border-border/60 bg-muted/40 p-0.5">
-                        {MEMORY_THEMES.map((item) => (
+                    <span className="text-xs text-muted-foreground">主题</span>
+                    <div className="flex flex-wrap items-center gap-1 rounded-2xl border border-border/60 bg-muted/40 p-0.5">
+                        {MEMORY_LEVEL_THEMES.map((item) => (
                             <button
-                                key={item.key}
+                                key={item.id}
                                 type="button"
-                                onClick={() => setTheme(item.key)}
+                                onClick={() => setTheme(item.id)}
                                 className={cn(
                                     "rounded-full px-3 py-1 text-xs font-medium transition-colors",
-                                    theme === item.key
+                                    theme === item.id
                                         ? "bg-primary text-primary-foreground shadow-xs"
                                         : "text-muted-foreground hover:text-foreground",
                                 )}
-                                aria-pressed={theme === item.key}
+                                aria-pressed={theme === item.id}
                             >
                                 {item.label}
                             </button>
@@ -174,7 +174,7 @@ export function MemoryOnlineLobby({
                 </div>
                 <div className="flex items-center gap-2">
                     <span className="text-xs text-muted-foreground">难度</span>
-                    <div className="flex items-center gap-1 rounded-full border border-border/60 bg-muted/40 p-0.5">
+                    <div className="flex items-center gap-1 rounded-2xl border border-border/60 bg-muted/40 p-0.5">
                         {DIFFICULTIES.map((item) => (
                             <button
                                 key={item.key}

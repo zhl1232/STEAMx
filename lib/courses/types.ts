@@ -299,6 +299,8 @@ export interface CourseLessonSummary {
   has_model: boolean
   /** 积木课成品参考图；目录只投影这一张图，不读取完整课时 content */
   finished_image_url: string | null
+  /** Static catalog preview, including real Scratch stages and lesson board diagrams. */
+  catalog_image_url?: string | null
   is_completed: boolean
   completed_at?: string | null
 }

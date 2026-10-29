@@ -36,7 +36,7 @@ export function AppStandardShell({ as: Comp = "div", className, children, ...pro
   )
 }
 
-/** 设置、帮助、法律等阅读型页面 */
+/** 设置、账号中心与个人订单等阅读型页面；帮助、法律使用 narrow */
 export function AppReadingShell({ as: Comp = "div", className, children, ...props }: AppShellProps & { as?: ElementType }) {
   return (
     <Comp className={cn(shellClass.reading, className)} {...props}>

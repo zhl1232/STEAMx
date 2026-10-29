@@ -12,10 +12,12 @@ const mocks = vi.hoisted(() => ({
 }));
 
 let pathname = "/";
+let search = "";
 let user: { id: string } | null = null;
 
 vi.mock("next/navigation", () => ({
     usePathname: () => pathname,
+    useSearchParams: () => new URLSearchParams(search),
 }));
 
 vi.mock("@tanstack/react-query", () => ({
@@ -48,6 +50,7 @@ describe("GlobalTutorMount", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         pathname = "/";
+        search = "";
         user = null;
         Object.defineProperty(window, "requestIdleCallback", {
             configurable: true,
@@ -108,4 +111,12 @@ describe("GlobalTutorMount", () => {
     expect(mocks.clearPendingDraft).toHaveBeenCalledTimes(3);
     user = null; rerender(<GlobalTutorMount />);
     expect(mocks.clearPendingDraft).toHaveBeenCalledTimes(4);
+ });
+
+ it("clears the course draft when only the catalog selection changes", () => {
+    pathname = "/courses"; search = "course=5";
+    const { rerender } = render(<GlobalTutorMount />);
+    mocks.clearPendingDraft.mockClear();
+    search = "course=8"; rerender(<GlobalTutorMount />);
+    expect(mocks.clearPendingDraft).toHaveBeenCalledTimes(1);
  });

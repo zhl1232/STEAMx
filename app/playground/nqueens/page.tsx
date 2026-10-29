@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useNQueens, type NQueensMode, type NQueensSpeed, type CellState } from "@/hooks/playground/use-nqueens"
+import { useRaceRound } from "@/hooks/playground/use-race-round"
 import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
@@ -127,8 +128,6 @@ export default function NQueensPage() {
     } = useNQueens()
 
     const race = useRaceOnline("nqueens", { n })
-    const raceIsWaiting = race.isWaiting
-    const raceIsPlaying = race.isPlaying
     const raceHasSubmitted = race.hasSubmitted
     const submitRaceResult = race.submitResult
     const { checkBadges } = useGamification()
@@ -182,29 +181,29 @@ export default function NQueensPage() {
     }, [status, mode])
 
     const raceN = typeof race.settings.n === "number" ? race.settings.n : null
-    const raceActive = raceIsWaiting || raceIsPlaying
-
-    useEffect(() => {
-        if (!raceActive) return
-        if (raceN && raceN !== n) setN(raceN)
-        if (mode !== "manual" && status !== "visualizing") setMode("manual")
-    }, [mode, n, raceActive, raceN, setMode, setN, status])
+    const raceRound = useRaceRound(race, () => {
+        // reset cancels any visualization before switching to manual mode.
+        reset()
+        setMode("manual")
+        if (raceN) setN(raceN)
+    })
+    const raceActive = raceRound.active
 
     useEffect(() => {
         const justSolvedManual = prevStatusRef.current === "playing" && status === "solved" && mode === "manual"
         prevStatusRef.current = status
-        if (!justSolvedManual || !raceIsPlaying || raceHasSubmitted) return
+        if (!justSolvedManual || !raceRound.canSubmit || raceHasSubmitted) return
         void submitRaceResult({
             n,
             timeSeconds: time,
         })
-    }, [mode, n, raceHasSubmitted, raceIsPlaying, status, submitRaceResult, time])
+    }, [mode, n, raceHasSubmitted, raceRound.canSubmit, status, submitRaceResult, time])
 
     const cellSize = useMemo(() => cellSizeForN(n, isMobile, viewportWidth), [n, isMobile, viewportWidth])
     const boardSize = cellSize * n
 
     const isVisualizing = status === "visualizing"
-    const canInteract = mode === "manual" && status !== "solved"
+    const canInteract = raceRound.canPlay && mode === "manual" && status !== "solved"
 
     return (
         <div className="playground-game-page">
@@ -230,7 +229,7 @@ export default function NQueensPage() {
                             size="icon"
                             variant="outline"
                             className="rounded-full h-8 w-8"
-                            onClick={reset}
+                            onClick={reset} disabled={raceActive}
                             aria-label="重置棋盘"
                             title="重置"
                         >
@@ -244,7 +243,7 @@ export default function NQueensPage() {
                             size="icon"
                             variant="outline"
                             className="h-11 w-11 rounded-xs sm:hidden"
-                            onClick={reset}
+                            onClick={reset} disabled={raceActive}
                             aria-label="重置棋盘"
                             title="重置"
                         >
@@ -355,7 +354,7 @@ export default function NQueensPage() {
                                         variant="outline"
                                         size="sm"
                                         className="min-h-11 rounded-xs text-xs gap-1 px-3 sm:h-7 sm:min-h-0 sm:px-2.5"
-                                        onClick={isVisualizationPaused ? resumeVisualization : pauseVisualization}
+                                        onClick={isVisualizationPaused ? resumeVisualization : pauseVisualization} disabled={raceActive}
                                     >
                                         {isVisualizationPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
                                         {isVisualizationPaused ? "继续" : "暂停"}
@@ -496,7 +495,7 @@ export default function NQueensPage() {
                                                 用时: <span className="text-foreground font-bold">{formatTime(time)}</span>
                                             </div>
                                         </div>
-                                        <Button onClick={reset} className="mt-2 gap-2">
+                                        <Button onClick={reset} disabled={raceActive} className="mt-2 gap-2">
                                             <RotateCcw className="w-4 h-4" />
                                             再来一局
                                         </Button>
@@ -523,7 +522,7 @@ export default function NQueensPage() {
                                                 回溯 <span className="font-mono">{backtracks}</span> 次
                                             </span>
                                         </div>
-                                        <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={reset}>
+                                        <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={reset} disabled={raceActive}>
                                             <RotateCcw className="w-3 h-3" />
                                             重置
                                         </Button>

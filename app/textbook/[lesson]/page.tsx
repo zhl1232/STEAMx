@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import { buildPageMetadata } from "@/lib/seo/metadata"
-import { getTextbook3dLesson, listTextbook3dLessons, textbook3dSrc } from "@/lib/textbook3d/registry"
+import { getTextbook3dLesson, listTextbook3dLessons, textbook3dSrc, TEXTBOOK3D_VOLUMES } from "@/lib/textbook3d/registry"
 import TextbookFrame from "@/components/features/textbook3d/textbook-frame"
 
 export const dynamicParams = false
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lesson: s
   const lesson = getTextbook3dLesson((await params).lesson)
   if (!lesson) return {}
   return buildPageMetadata({
-    title: `${lesson.title} · 3D 物理课本`,
+    title: `${lesson.title} · 3D 互动课本`,
     description: `${lesson.chapter.volume}${lesson.chapter.title}「${lesson.title}」的 3D 互动课本，边读边转动场景、动手做小实验。`,
     path: `/textbook/${lesson.id}`,
   })
@@ -27,17 +27,19 @@ const navLink = "inline-flex min-h-11 items-center gap-1.5 rounded-md px-3 text-
 export default async function TextbookLessonPage({ params }: { params: Promise<{ lesson: string }> }) {
   const lesson = getTextbook3dLesson((await params).lesson)
   if (!lesson) notFound()
+  const volume = TEXTBOOK3D_VOLUMES.find((volume) => volume.chapters.some((chapter) => chapter.id === lesson.chapter.id))
   return (
-    <div className="mx-auto w-full max-w-6xl pt-4 pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:px-6 md:py-6">
+    <div className="app-shell-wide pt-4 pb-[calc(5.5rem+env(safe-area-inset-bottom))] max-md:px-0 md:py-6">
       <header className="px-4 md:px-0">
-        <Link href="/textbook" className={`${navLink} -ml-3 text-muted-foreground`}>
+        <Link href={volume ? `/textbook?volume=${volume.id}` : "/textbook"} className={`${navLink} -ml-3 text-muted-foreground`}>
           <ArrowLeft aria-hidden className="h-5 w-5" />
-          3D 物理课本
+          课本目录
         </Link>
         <p className="mt-2 text-sm font-semibold text-muted-foreground">
-          {lesson.chapter.volume} · {lesson.chapter.title} · 第 {lesson.number} 节
+          {volume ? `${volume.edition}${volume.subject} · ` : ""}{lesson.chapter.volume} · {lesson.chapter.title} · 第 {lesson.number} 节
         </p>
         <h1 className="mt-1 text-page-title font-sans">{lesson.title}</h1>
+        {volume ? <p className="mt-2 text-sm text-muted-foreground">{volume.publisher}</p> : null}
       </header>
       <div className="mt-4">
         <TextbookFrame key={lesson.id} lessonId={lesson.id} src={textbook3dSrc(lesson.id)} title={`3D 课本：${lesson.title}`} />

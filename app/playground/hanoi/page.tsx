@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { useHanoi, type HanoiPeg, type HanoiSpeed } from "@/hooks/playground/use-hanoi"
+import { useRaceRound } from "@/hooks/playground/use-race-round"
 import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from '@/lib/context/gamification-context'
 import { cn } from "@/lib/utils"
@@ -164,8 +165,6 @@ export default function HanoiPage() {
     } = useHanoi()
 
     const race = useRaceOnline("hanoi", { diskCount })
-    const raceIsWaiting = race.isWaiting
-    const raceIsPlaying = race.isPlaying
     const raceHasSubmitted = race.hasSubmitted
     const submitRaceResult = race.submitResult
     const { checkBadges } = useGamification()
@@ -209,17 +208,16 @@ export default function HanoiPage() {
     }, [status])
 
     const raceDiskCount = typeof race.settings.diskCount === "number" ? race.settings.diskCount : null
-    const raceActive = raceIsWaiting || raceIsPlaying
-
-    useEffect(() => {
-        if (!raceActive || !raceDiskCount || raceDiskCount === diskCount) return
-        setDiskCount(raceDiskCount)
-    }, [diskCount, raceActive, raceDiskCount, setDiskCount])
+    const raceRound = useRaceRound(race, () => {
+        if (raceDiskCount) setDiskCount(raceDiskCount)
+        else resetGame()
+    })
+    const raceActive = raceRound.active
 
     useEffect(() => {
         const justWonByPlaying = prevStatusRef.current === "playing" && status === "won"
         prevStatusRef.current = status
-        if (!justWonByPlaying || !raceIsPlaying || raceHasSubmitted) return
+        if (!justWonByPlaying || !raceRound.canSubmit || raceHasSubmitted) return
         void submitRaceResult({
             diskCount,
             moves,
@@ -229,7 +227,7 @@ export default function HanoiPage() {
         diskCount,
         moves,
         raceHasSubmitted,
-        raceIsPlaying,
+        raceRound.canSubmit,
         status,
         submitRaceResult,
         time,
@@ -237,6 +235,7 @@ export default function HanoiPage() {
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
+            if (!raceRound.canPlay) return
             if (event.metaKey || event.ctrlKey || event.altKey) return
 
             const target = event.target
@@ -268,7 +267,7 @@ export default function HanoiPage() {
 
         window.addEventListener("keydown", handleKeyDown)
         return () => window.removeEventListener("keydown", handleKeyDown)
-    }, [selectPeg])
+    }, [selectPeg, raceRound.canPlay])
 
     const isAutoSolving = status === "auto_solving"
 
@@ -296,7 +295,7 @@ export default function HanoiPage() {
                             size="icon"
                             variant="outline"
                             className="rounded-full h-8 w-8"
-                            onClick={resetGame}
+                            onClick={resetGame} disabled={raceActive}
                             aria-label="重置游戏"
                             title="重置"
                         >
@@ -310,7 +309,7 @@ export default function HanoiPage() {
                             size="icon"
                             variant="outline"
                             className="h-11 w-11 rounded-xs sm:hidden"
-                            onClick={resetGame}
+                            onClick={resetGame} disabled={raceActive}
                             aria-label="重置游戏"
                             title="重置"
                         >
@@ -387,7 +386,7 @@ export default function HanoiPage() {
                                     variant="outline"
                                     size="sm"
                                     className="h-7 rounded-xs text-xs gap-1 px-2.5"
-                                    onClick={autoSolvePaused ? resumeAutoSolve : pauseAutoSolve}
+                                    onClick={autoSolvePaused ? resumeAutoSolve : pauseAutoSolve} disabled={raceActive}
                                 >
                                     {autoSolvePaused ? (
                                         <Play className="w-3 h-3" />
@@ -440,8 +439,8 @@ export default function HanoiPage() {
                                     disks={pegs[peg]}
                                     diskCount={diskCount}
                                     isSelected={selectedPeg === peg}
-                                    isAutoSolving={isAutoSolving}
-                                    onClick={() => selectPeg(peg)}
+                                    isAutoSolving={isAutoSolving || !raceRound.canPlay}
+                                    onClick={() => { if (raceRound.canPlay) selectPeg(peg) }}
                                 />
                             ))}
                         </div>
@@ -481,7 +480,7 @@ export default function HanoiPage() {
                                                 用时: <span className="text-foreground font-bold">{formatTime(time)}</span>
                                             </div>
                                         </div>
-                                        <Button onClick={resetGame} className="mt-2 gap-2">
+                                        <Button onClick={resetGame} disabled={raceActive} className="mt-2 gap-2">
                                             <RotateCcw className="w-4 h-4" />
                                             再来一局
                                         </Button>

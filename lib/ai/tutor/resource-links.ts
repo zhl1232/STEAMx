@@ -1,3 +1,4 @@
+import { courseCatalogHref, parseCourseSelection } from '@/lib/courses/catalog-url'
 import { TUTOR_PLAYGROUND_GAME_KEYS } from '@/lib/ai/tutor/types'
 
 export type TutorResourceKind = 'lesson' | 'challenge' | 'resource' | 'species' | 'game' | 'project' | 'course'
@@ -55,7 +56,8 @@ export function tutorResourceHref(kind: TutorResourceKind, value: string) {
     const [course, lesson] = id.split(':')
     return `/courses/${course}/lessons/${lesson}`
   }
-  const base = { challenge: '/pbl', resource: '/resources', species: '/nature/species', game: '/playground', project: '/project', course: '/courses' }
+  if (kind === 'course') return courseCatalogHref(id)
+  const base = { challenge: '/pbl', resource: '/resources', species: '/nature/species', game: '/playground', project: '/project' }
   return `${base[kind]}/${id}`
 }
 
@@ -108,10 +110,15 @@ export function validateTutorResourceTags(text: string, sources: string[]) {
 export function isTutorResourceHref(href: string) {
   let path: string
   try { path = decodeURIComponent(href) } catch { return false }
+  if (path.startsWith('/courses?')) {
+    const query = new URLSearchParams(path.slice('/courses?'.length))
+    const values = query.getAll('course')
+    return Array.from(query.keys()).length === 1 && parseCourseSelection(values.length === 1 ? values[0] : values) !== null
+  }
   const lesson = path.match(/^\/courses\/([^/]+)\/lessons\/([^/]+)$/)
   if (lesson) return normalizeId('lesson', `${lesson[1]}:${lesson[2]}`) !== null
-  const match = path.match(/^\/(project|courses|pbl|resources|nature\/species|playground)\/([^/]+)$/)
+  const match = path.match(/^\/(project|pbl|resources|nature\/species|playground)\/([^/]+)$/)
   if (!match) return false
-  const kinds: Record<string, TutorResourceKind> = { project: 'project', courses: 'course', pbl: 'challenge', resources: 'resource', 'nature/species': 'species', playground: 'game' }
+  const kinds: Record<string, TutorResourceKind> = { project: 'project', pbl: 'challenge', resources: 'resource', 'nature/species': 'species', playground: 'game' }
   return normalizeId(kinds[match[1]], match[2]) !== null
 }

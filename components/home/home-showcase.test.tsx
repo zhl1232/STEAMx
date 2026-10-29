@@ -3,7 +3,6 @@ import { describe, expect, it, vi } from "vitest";
 
 import {
   BRAND_FULL_NAME,
-  BRAND_HERO_SUBTITLE,
   BRAND_HERO_TITLE,
   BRAND_HOME_HERO_GUIDE,
   BRAND_HOME_HERO_TITLE,
@@ -18,15 +17,6 @@ vi.mock("next/link", () => ({
   ),
 }));
 
-const emptyCategoryCounts = {
-  科学: 0,
-  技术: 0,
-  工程: 0,
-  艺术: 0,
-  数学: 0,
-  playgroundGames: 0,
-};
-
 function renderHome(observations: ObservationEvent[] = []) {
   render(
     <HomeShowcase
@@ -35,7 +25,6 @@ function renderHome(observations: ObservationEvent[] = []) {
       worksHasMore={false}
       recentNatureObservations={observations}
       communityFeed={[]}
-      categoryTileCounts={emptyCategoryCounts}
       featuredChallenge={null}
     />,
   );
@@ -59,9 +48,9 @@ describe("HomeShowcase hero", () => {
     const desktopTitle = heading.querySelector("span.hidden");
     expect(desktopTitle).toHaveClass("md:block");
     expect(desktopTitle).toHaveTextContent(BRAND_HOME_HERO_TITLE);
-    const mobileSubtitle = hero.getByRole("link", { name: "搭积木" }).closest("span.md\\:hidden");
-    expect(mobileSubtitle).toHaveTextContent("搭积木 · 做实验 · 学编程 · 观察自然");
-    expect(hero.getByText(BRAND_HERO_SUBTITLE)).toHaveClass("hidden", "md:inline");
+    const subtitle = hero.getByRole("link", { name: "搭积木" }).closest("p");
+    expect(subtitle).toHaveTextContent("搭积木 · 做实验 · 学编程 · 观察自然");
+    expect(subtitle?.querySelector(".hidden, .md\\:hidden")).toBeNull();
     expect(hero.queryByText(BRAND_HOME_HERO_GUIDE)).not.toBeInTheDocument();
     expect(screen.queryByText("把好奇心做成作品")).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "了解我们的理念" })).not.toBeInTheDocument();
@@ -69,7 +58,7 @@ describe("HomeShowcase hero", () => {
     expect(screen.queryByText(/科创/)).not.toBeInTheDocument();
   });
 
-  it("turns the mobile subtitle words into text links and drops the guide", () => {
+  it("turns the shared subtitle words into text links and drops the guide", () => {
     const { hero } = renderHome();
     const expected = [
       ["搭积木", "/courses"],
@@ -135,7 +124,7 @@ describe("HomeShowcase content hierarchy", () => {
   });
 
   it("shows real observation records directly with one all-observations entry", () => {
-    renderHome([1, 2, 3, 4].map(makeObservation));
+    renderHome([1, 2, 3, 4, 5, 6].map(makeObservation));
     const section = screen.getByRole("region", { name: "自然观察" });
     const nature = within(section);
     expect(nature.getByRole("link", { name: "全部观察" })).toHaveAttribute("href", "/nature/observations");
@@ -144,6 +133,8 @@ describe("HomeShowcase content hierarchy", () => {
       "/nature/observations/1",
       "/nature/observations/2",
       "/nature/observations/3",
+      "/nature/observations/4",
+      "/nature/observations/5",
     ]);
     expect(nature.queryByText("自然观察频道")).not.toBeInTheDocument();
     expect(nature.queryByText("立即进入")).not.toBeInTheDocument();

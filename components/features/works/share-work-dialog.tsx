@@ -1,5 +1,6 @@
 "use client"
 
+import { courseCatalogHref } from '@/lib/courses/catalog-url'
 import { useCallback, useEffect, useRef, useState } from "react"
 import type { RefObject } from "react"
 import { Check, Copy, Download, Loader2, Share2 } from "lucide-react"
@@ -139,8 +140,8 @@ function createCourseShareContent(course: ShareCourseData): ShareCardContent {
     sourceLabel: "技能课程",
     badgeLabel: "免费技能课程",
     metaLabel: `共 ${course.lessonCount} 节 · 免登录可看`,
-    sharePath: `/courses/${course.id}`,
-    fallbackPath: `courses/${course.id}`,
+    sharePath: courseCatalogHref(course.id),
+    fallbackPath: courseCatalogHref(course.id).slice(1),
     fileName: `STEAM-课程-${course.id}.png`,
     qrTitle: "课程链接二维码",
     dialogTitle: "分享这门课程",
@@ -164,8 +165,8 @@ function createCertificateShareContent(certificate: ShareCertificateData): Share
     badgeLabel: `${certificate.learnerName} 学完了这门课`,
     metaLabel: `${certificate.completedAt} · 完成 ${certificate.lessonCount} 节`,
     // 二维码指向课程本身：凭证是本人可见的，转发出去要让别人能打开的是这门课
-    sharePath: `/courses/${certificate.courseId}`,
-    fallbackPath: `courses/${certificate.courseId}`,
+    sharePath: courseCatalogHref(certificate.courseId),
+    fallbackPath: courseCatalogHref(certificate.courseId).slice(1),
     fileName: `STEAM-结课凭证-${certificate.courseId}.png`,
     qrTitle: "课程链接二维码",
     dialogTitle: "分享结课凭证",

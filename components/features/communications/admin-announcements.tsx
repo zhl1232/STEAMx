@@ -144,7 +144,7 @@ export function AdminAnnouncements() {
   };
   return (
     <div className="page-shell py-8">
-      <div className="mx-auto max-w-5xl">
+      <div className="min-w-0">
         <h1 className="text-3xl font-semibold">公告与欢迎语</h1>
         {error && (
           <div className="mt-4 flex justify-between rounded bg-destructive/10 p-3 text-sm text-destructive">

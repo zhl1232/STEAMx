@@ -54,14 +54,15 @@ interface SheetContentProps
     VariantProps<typeof sheetVariants> {
   showClose?: boolean
   container?: HTMLElement
+  overlayClassName?: string
 }
 
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
   SheetContentProps
->(({ side = "right", className, children, showClose = true, container, ...props }, ref) => (
+>(({ side = "right", className, children, showClose = true, container, overlayClassName, ...props }, ref) => (
   <SheetPortal container={container}>
-    <SheetOverlay />
+    <SheetOverlay className={overlayClassName} />
     <SheetPrimitive.Content
       ref={ref}
       className={cn(sheetVariants({ side }), className)}

@@ -38,7 +38,6 @@ export default async function ObservationSubmitPage({ searchParams }: Observatio
       fallbackHref={fallbackHref}
       variant="wide"
       className="app-canvas max-w-none text-foreground"
-      contentClassName="max-w-[1500px]"
       mainClassName="space-y-0"
       mobileHeaderSticky={false}
     >

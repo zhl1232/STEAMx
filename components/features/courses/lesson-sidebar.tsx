@@ -1,5 +1,6 @@
 "use client";
 
+import { courseCatalogHref } from '@/lib/courses/catalog-url'
 import Link from "next/link";
 import { lessonTeachingResources } from "@/lib/courses/teaching-resources";
 import Image from "next/image";
@@ -53,7 +54,7 @@ export function LessonSidebar({
                 </div>
             ) : <div className="shrink-0 border-b border-border px-4 py-3">
                 <Link
-                    href={`/courses/${courseId}`}
+                    href={courseCatalogHref(courseId)}
                     className="mb-2 hidden items-center gap-1 text-xs font-medium text-muted-foreground transition hover:text-foreground lg:inline-flex"
                 >
                     <ArrowLeft className="h-3.5 w-3.5" />

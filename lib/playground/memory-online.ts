@@ -2,11 +2,19 @@
 // 在线对战服务端权威规则（翻牌、配对、计分、终局）在 SQL RPC memory_flip_card 内完成，
 // 这里保留主题符号表、难度对数、房间行类型与服务端建牌（洗牌）。
 
+import { MEMORY_LEVEL_THEMES, getMemoryLevelTheme, type MemoryLevelThemeId } from "@/lib/playground/memory-levels"
 import { generateRoomCode, type BaseMatchRow } from "@/lib/playground/online-room"
 
 export { generateRoomCode }
 
 export type MemoryTheme = "animals" | "nature" | "space" | "food" | "stem"
+export type MemoryOnlineTheme = MemoryTheme | MemoryLevelThemeId
+export const MEMORY_ONLINE_PAIR_COUNTS = { easy: 4, normal: 6, hard: 8 } as const
+
+export function isMemoryOnlineTheme(value: unknown): value is MemoryLevelThemeId {
+    return MEMORY_LEVEL_THEMES.some((theme) => theme.id === value)
+}
+
 export type MemoryDifficulty = "easy" | "normal" | "hard"
 
 export type MemoryThemeOption = {
@@ -126,7 +134,7 @@ export function getMemoryThemeSymbols(theme: MemoryTheme): string[] {
 }
 
 export function isMemoryTheme(value: unknown): value is MemoryTheme {
-    return typeof value === "string" && value in THEME_SYMBOLS
+    return typeof value === "string" && Object.hasOwn(THEME_SYMBOLS, value)
 }
 
 export function isMemoryDifficulty(value: unknown): value is MemoryDifficulty {
@@ -143,6 +151,9 @@ export type MemoryRole = "host" | "guest"
 export type MemoryDeckCard = {
     id: string
     symbol: string
+    /** Display text is separate from the RPC pairing key; absent on legacy picture decks. */
+    label?: string
+    face?: MemoryConceptFace
     matched: MemoryRole | null
 }
 
@@ -159,7 +170,7 @@ export type MemoryLastResult = {
 export type MemoryScores = { host: number; guest: number }
 
 export type MemoryMatchRow = BaseMatchRow & {
-    theme: MemoryTheme
+    theme: MemoryOnlineTheme
     difficulty: MemoryDifficulty
     deck: MemoryDeckCard[]
     current_turn: MemoryRole
@@ -174,15 +185,27 @@ export type MemoryMatchRow = BaseMatchRow & {
 export type MemoryFlipResult = { ok: boolean; reason: string }
 
 /**
- * 服务端建牌：每个符号两张，Fisher–Yates 洗牌，matched 初始为 null。
- * id 形如 `${theme}-${pairIndex}-a|b`，与单机 createMemoryDeck 命名一致。
+ * 新房间复用单机概念题库：一张名词、一张解释共享 symbol 配对键，RPC 继续权威判定。
+ * label/face 仅供显示；旧图案房间沿用每个符号两张。统一 Fisher–Yates 洗牌。
  */
-export function buildOnlineDeck(theme: MemoryTheme, difficulty: MemoryDifficulty): MemoryDeckCard[] {
+export function buildOnlineDeck(theme: MemoryOnlineTheme, difficulty: MemoryDifficulty): MemoryDeckCard[] {
+    if (isMemoryOnlineTheme(theme)) {
+        const pairs = getMemoryLevelTheme(theme).pairs.slice(0, MEMORY_ONLINE_PAIR_COUNTS[difficulty])
+        const cards: MemoryDeckCard[] = pairs.flatMap((pair, index) => [
+            { id: `${theme}-${index}-a`, symbol: `${theme}:${pair.key}`, label: pair.term, face: "term", matched: null },
+            { id: `${theme}-${index}-b`, symbol: `${theme}:${pair.key}`, label: pair.def, face: "def", matched: null },
+        ])
+        return shuffleOnlineDeck(cards)
+    }
     const symbols = memorySymbolsFor(theme, difficulty)
     const cards: MemoryDeckCard[] = symbols.flatMap((symbol, pairIndex) => [
         { id: `${theme}-${pairIndex}-a`, symbol, matched: null },
         { id: `${theme}-${pairIndex}-b`, symbol, matched: null },
     ])
+    return shuffleOnlineDeck(cards)
+}
+
+function shuffleOnlineDeck(cards: MemoryDeckCard[]): MemoryDeckCard[] {
     for (let i = cards.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
         ;[cards[i], cards[j]] = [cards[j], cards[i]]
@@ -192,4 +215,13 @@ export function buildOnlineDeck(theme: MemoryTheme, difficulty: MemoryDifficulty
 
 export function opponentRole(role: MemoryRole): MemoryRole {
     return role === "host" ? "guest" : "host"
+}
+
+/** Keep old picture rooms readable while new concept cards use at most four columns. */
+export function getMemoryOnlineColumns(theme: MemoryOnlineTheme, difficulty: MemoryDifficulty): number {
+    return isMemoryOnlineTheme(theme) ? 4 : getMemoryColumns(difficulty)
+}
+
+export function memoryCardLabel(card: MemoryDeckCard): string {
+    return card.label ?? card.symbol
 }

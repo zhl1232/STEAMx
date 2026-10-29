@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { MemoryOnlineView } from "@/components/features/playground/memory-online-view"
+import { ChallengeOnlineView } from "@/components/features/playground/challenge-online-view"
 
 type PageMode = "single" | "online"
 
@@ -48,6 +49,7 @@ function MemoryPageInner() {
     const searchParams = useSearchParams()
     const initialRoomCode = searchParams.get("room")
     const [mode, setMode] = useState<PageMode>(initialRoomCode ? "online" : "single")
+    const [legacyOnline, setLegacyOnline] = useState(false)
     const [themeOpen, setThemeOpen] = useState(false)
     const game = useMemoryMatch()
     const currentTheme = getMemoryLevelTheme(game.level.themeId)
@@ -88,7 +90,7 @@ function MemoryPageInner() {
                             </div>
                             <div>
                                 <h1 className="text-xl font-black">记忆翻牌</h1>
-                                <p className="text-[15px] text-muted-foreground">选主题闯关，把名词和解释配对。</p>
+                                <p className="text-[15px] text-muted-foreground">{mode === "online" ? "同时翻自己的牌，先配完者获胜。" : "选主题闯关，把名词和解释配对。"}</p>
                             </div>
                         </div>
                         {mode === "single" ? (
@@ -126,7 +128,7 @@ function MemoryPageInner() {
                         ) : null}
                     </div>
 
-                    {mode === "online" ? <MemoryOnlineView initialRoomCode={initialRoomCode} /> : null}
+                    {mode === "online" ? legacyOnline ? <MemoryOnlineView initialRoomCode={initialRoomCode} /> : <ChallengeOnlineView game="memory" initialRoomCode={initialRoomCode} onLegacyRoom={() => setLegacyOnline(true)} /> : null}
 
                     <div className={cn("mb-4 flex flex-wrap items-center justify-between gap-x-3 gap-y-1", mode === "online" && "hidden")}>
                         <button
@@ -229,7 +231,7 @@ function MemoryPageInner() {
                 </div>
             </div>
 
-            <aside className="w-full border-t border-border bg-card/50 p-6 xl:w-96 xl:border-l xl:border-t-0">
+            <aside className={cn("w-full border-t border-border bg-card/50 p-6 xl:w-96 xl:border-l xl:border-t-0", mode === "online" && "hidden")}>
                 <div className="space-y-5">
                     <section>
                         <h2 className="mb-2 flex items-center gap-2 font-bold">

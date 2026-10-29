@@ -35,6 +35,12 @@ describe('playground navigation', () => {
         },
     )
 
+    it('leaves the homepage directory to the page without a duplicate sidebar', () => {
+        render(<PlaygroundShell><p>首页玩法目录</p></PlaygroundShell>)
+        expect(screen.queryByRole('navigation', { name: '游乐场游戏导航' })).not.toBeInTheDocument()
+        expect(screen.getByText('首页玩法目录')).toBeInTheDocument()
+    })
+
     it('preserves the game title, help and playground return alongside main-site navigation', () => {
         navigation.pathname = '/playground/24game'
         render(<PlaygroundShell><p>游戏内容</p></PlaygroundShell>)
@@ -73,6 +79,7 @@ describe('playground navigation', () => {
     })
 
     it('omits retired directory entries and collapses secondary games', () => {
+        navigation.pathname = '/playground/24game'
         const { container } = render(<PlaygroundShell><p>页面内容</p></PlaygroundShell>)
         for (const slug of ['2048', 'fifteen', 'quickmath']) {
             expect(container.querySelector(`a[href="/playground/${slug}"]`)).toBeNull()

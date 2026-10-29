@@ -774,8 +774,8 @@ export function useNonogram() {
     )
 
     const startLevel = useCallback(
-        (index: number) => {
-            const maxIndex = Math.max(0, unlockedCount - 1)
+        (index: number, options?: { race?: boolean }) => {
+            const maxIndex = options?.race ? NONOGRAM_LEVELS.length - 1 : Math.max(0, unlockedCount - 1)
             const nextIndex = Math.max(0, Math.min(maxIndex, Math.min(NONOGRAM_LEVELS.length - 1, index)))
             solvedRecordedRef.current = false
             failedRecordedRef.current = false

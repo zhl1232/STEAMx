@@ -109,14 +109,14 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
         datePublished: resource.createdAt,
         dateModified: resource.updatedAt,
       })} />
-      <div className="page-shell pt-0 pb-24 md:pt-6 md:pb-10">
+      <div className="app-shell-narrow pt-0 pb-24 md:pt-6 md:pb-10">
       <MobilePageHeader
         title={resource.title}
         fallbackHref="/explore"
         className="md:hidden"
       />
 
-      <div className="mx-auto max-w-3xl pt-5 md:pt-0">
+      <div className="pt-5 md:pt-0">
         <article className="surface-panel overflow-hidden">
           <header className="border-b border-border/60 bg-[hsl(var(--surface-muted)/0.56)] px-5 py-5 sm:px-6 sm:py-6">
             <p className="section-kicker">资料卡 · {categoryLabel}</p>

@@ -8,7 +8,7 @@ import inventories from './ldraw-kit-inventories.json'
 export interface PartFlags {
   /** 已知的自备材料，无 LEGO 目录编号，不参与套装库存分配。 */
   externalMaterial?: boolean
-  /** 模型配色仅为示意，以实际分配的套装颜色为准。 */
+  /** 已核对的机械件别名；跨编号不算形状差异，换色仍须按实际库存标为替代。 */
   kitColor?: boolean
   colorFlexible?: boolean
   printedFlexible?: boolean

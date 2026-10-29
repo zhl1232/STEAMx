@@ -1,5 +1,6 @@
 'use client'
 
+import { useStoreEntryVisible } from '@/lib/context/store-availability-context'
 import { useAuth } from '@/lib/context/auth-context'
 import { Button } from '@/components/ui/button'
 import {
@@ -9,7 +10,7 @@ import {
   LayoutDashboard,
   WalletCards,
   Compass,
-  Package,
+  ShoppingBag,
 } from 'lucide-react'
 import Link from 'next/link'
 import {
@@ -43,6 +44,7 @@ function formatMembershipExpiry(value: string | null) {
 export function UserButton({ compact = false }: UserButtonProps) {
   const { user, profile, loading, signOut, canReview } = useAuth()
   const { promptLogin } = useLoginPrompt()
+  const storeEntryVisible = useStoreEntryVisible()
 
   if (loading) {
     return (
@@ -137,17 +139,14 @@ export function UserButton({ compact = false }: UserButtonProps) {
           <DropdownMenuItem asChild>
             <Link href="/coins" className="cursor-pointer">
               <WalletCards className="mr-2 h-4 w-4" />
-              <span>我的钱包</span>
+              <span>我的硬币</span>
             </Link>
           </DropdownMenuItem>
         )}
 
-        {!compact ? <>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <Link href="/store/orders" className="cursor-pointer"><Package className="mr-2 h-4 w-4" /><span>我的订单</span></Link>
-          </DropdownMenuItem>
-        </> : null}
+        {storeEntryVisible ? <DropdownMenuItem asChild>
+          <Link href="/store" className="cursor-pointer"><ShoppingBag className="mr-2 h-4 w-4" /><span>材料商城</span></Link>
+        </DropdownMenuItem> : null}
 
         {canReview ? (
           <DropdownMenuItem asChild>

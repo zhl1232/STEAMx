@@ -1,3 +1,4 @@
+import { parseCourseSelection } from '@/lib/courses/catalog-url'
 import {
   TUTOR_PLAYGROUND_GAME_KEYS,
   type TutorContextType,
@@ -17,7 +18,7 @@ export type ResolvedTutorContext = {
   playgroundGameKey?: TutorPlaygroundGameKey
 }
 
-export function resolveTutorContextFromPath(pathname: string): ResolvedTutorContext | null {
+export function resolveTutorContextFromPath(pathname: string, search = ''): ResolvedTutorContext | null {
   if (
     pathname === '/login' ||
     pathname.startsWith('/admin') ||
@@ -57,7 +58,13 @@ export function resolveTutorContextFromPath(pathname: string): ResolvedTutorCont
     }
   }
 
-  const courseMatch = pathname.match(/^\/courses\/(\d+)/)
+  if (pathname === '/courses') {
+    const values = new URLSearchParams(search).getAll('course')
+    const courseId = parseCourseSelection(values.length === 1 ? values[0] : values)
+    if (courseId !== null) return { contextType: 'course', contextId: String(courseId) }
+  }
+
+  const courseMatch = pathname.match(/^\/courses\/(\d+)\/certificate$/)
   if (courseMatch) {
     return { contextType: 'course', contextId: courseMatch[1] }
   }

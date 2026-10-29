@@ -8,7 +8,7 @@ import { moderateUserContent, assertUsersNotBlocked } from '@/lib/safety/server'
 import { getContentClassificationSettings } from '@/lib/content-classification'
 import { scheduleGrowthReview } from '@/lib/growth/schedule'
 
-const SELECT = 'id,project_id,author_id,content,parent_id,reply_to_user_id,reply_to_username,image_url,created_at,moderation_state,question_root_id,question_context,profiles:author_id(display_name,avatar_url)'
+const SELECT = 'is_project_question,id,project_id,author_id,content,parent_id,reply_to_user_id,reply_to_username,image_url,created_at,moderation_state,question_root_id,question_context,profiles:author_id(display_name,avatar_url)'
 async function loadProject(client: Awaited<ReturnType<typeof createClient>>, id: number) {
   const { data, error } = await client.from('projects').select('id,author_id,status,moderation_state,classification_status').eq('id', id).maybeSingle()
   if (error) throw error
@@ -22,14 +22,54 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const id = validateNumber((await params).id, 'project id', { min: 1, integer: true })
     if (!await loadProject(client, id)) return NextResponse.json({ error: 'Project not found' }, { status: 404 })
     const before = request.nextUrl.searchParams.get('before')
-    let query = client.from('comments').select(SELECT).eq('project_id', id).eq('is_project_question', true).is('parent_id', null).order('id', { ascending: false }).limit(21)
+    const includeLegacy = request.nextUrl.searchParams.get('includeLegacy') === '1'
+    let query = client.from('comments').select(SELECT).eq('project_id', id).is('parent_id', null).order('id', { ascending: false }).limit(21)
+    // Question visibility continues to use RLS; legacy discussions are public only after approval.
+    query = includeLegacy
+      ? query.or('is_project_question.eq.true,moderation_state.eq.approved')
+      : query.eq('is_project_question', true)
     if (before) query = query.lt('id', validateNumber(before, 'before', { min: 1, integer: true }))
     const { data, error } = await query
     if (error) throw error
     const roots = (data || []).slice(0, 20)
-    const { data: replies, error: replyError } = roots.length ? await client.from('comments').select(SELECT).eq('project_id', id).eq('is_project_question', true).in('question_root_id', roots.map(r => r.id)).not('parent_id', 'is', null).order('id').limit(201) : {data: [], error: null}
+    const questionRoots = includeLegacy ? roots.filter(root => root.is_project_question) : roots
+    const { data: replies, error: replyError } = questionRoots.length ? await client.from('comments').select(SELECT).eq('project_id', id).eq('is_project_question', true).in('question_root_id', questionRoots.map(r => r.id)).not('parent_id', 'is', null).order('id').limit(201) : {data: [], error: null}
     if (replyError) throw replyError
-    return NextResponse.json({ questions: [...roots, ...(replies || []).slice(0,200)], repliesTruncated: (replies?.length || 0) > 200, nextBefore: (data?.length || 0) > 20 ? roots.at(-1)?.id : null }, { headers: { 'Cache-Control': 'private, no-store' } })
+    const allReplies = [...(replies || [])]
+    // Legacy replies predate question_root_id. Follow only visible parents, preserving
+    // their stored identity while supplying a display root and reply attribution.
+    let frontier = includeLegacy ? roots.filter(root => !root.is_project_question) : []
+    const legacyRootIds = new Map(frontier.map(root => [root.id, root.id]))
+    const visited = new Set(roots.map(root => root.id))
+    let depth = 0
+    while (frontier.length && allReplies.length <= 200 && depth < 20) {
+      const parents = new Map(frontier.map(parent => [parent.id, parent]))
+      const { data: children, error: childrenError } = await client.from('comments')
+        .select(SELECT).eq('project_id', id).eq('is_project_question', false)
+        .eq('moderation_state', 'approved').in('parent_id', frontier.map(parent => parent.id))
+        .order('id').limit(201 - allReplies.length)
+      if (childrenError) throw childrenError
+      frontier = []
+      for (const child of children || []) {
+        if (visited.has(child.id) || child.parent_id == null) continue
+        const parent = parents.get(child.parent_id)
+        const rootId = legacyRootIds.get(child.parent_id)
+        if (!parent || rootId == null) continue
+        visited.add(child.id)
+        legacyRootIds.set(child.id, rootId)
+        const normalized = {
+          ...child,
+          parent_id: child.parent_id,
+          question_root_id: rootId,
+          reply_to_username: child.reply_to_username || parent.profiles?.display_name || null,
+        }
+        allReplies.push(normalized)
+        frontier.push(normalized)
+      }
+      depth++
+    }
+    const repliesTruncated = allReplies.length > 200 || frontier.length > 0
+    return NextResponse.json({ questions: [...roots, ...allReplies.slice(0,200)], repliesTruncated, nextBefore: (data?.length || 0) > 20 ? roots.at(-1)?.id : null }, { headers: { 'Cache-Control': 'private, no-store' } })
   } catch (error) { return handleApiError(error) }
 }
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {

@@ -23,7 +23,7 @@ import { LoginPromptProvider } from '@/lib/context/login-prompt-context'
 import { NotificationProvider } from '@/lib/context/notification-context'
 import { isPlaywrightSmokeClient } from '@/lib/testing/playwright-smoke'
 import { cn } from '@/lib/utils'
-import { BRAND_FULL_NAME, BRAND_NAME } from '@/lib/brand'
+import { BRAND_NAME } from '@/lib/brand'
 
 const pageOwnedMobileHeaderRoots = [
   '/courses',
@@ -34,6 +34,7 @@ const pageOwnedMobileHeaderRoots = [
   '/project',
   '/works',
   '/shop',
+  '/store',
   '/coins',
   '/nature',
   '/legal',
@@ -102,8 +103,10 @@ export function ConditionalAppShell({
   const isAuthPage = pathname === '/login'
 
   const isProfilePage = pathname.startsWith('/profile')
+  const isStoreRoute = isPathOrDescendant(pathname, '/store')
   const isCourseLessonPage = /^\/courses\/\d+\/lessons\/\d+/.test(pathname)
   const hideMobileBottomNav =
+    isStoreRoute ||
     pathname === '/project' ||
     pathname.startsWith('/share') ||
     pathname.startsWith('/pbl/') ||
@@ -146,7 +149,7 @@ export function ConditionalAppShell({
         <a href="#main-content" className="skip-link">
           跳到主内容
         </a>
-        <div className="flex min-h-screen flex-col bg-background">
+        <div className={cn('flex min-h-screen flex-col bg-background', isStoreRoute && 'pt-[env(safe-area-inset-top)] md:pt-0')}>
           <main
             id="main-content"
             className={cn('flex-1', hideMobileBottomNav ? 'pb-0' : 'pb-20', 'md:pb-0')}
@@ -167,7 +170,7 @@ export function ConditionalAppShell({
         跳到主内容
       </a>
       <div
-        className="flex min-h-screen flex-col bg-background"
+        className={cn('flex min-h-screen flex-col bg-background', isStoreRoute && 'pt-[env(safe-area-inset-top)] md:pt-0')}
         style={{ ['--mobile-global-header-height' as string]: showMobileGlobalHeader ? '3rem' : '0rem' }}
       >
         {/* 移动端统一 Header */}
@@ -189,7 +192,7 @@ export function ConditionalAppShell({
                 <SteamLogo className="h-8 w-8" />
                 <span className="nav-logo-text hidden whitespace-nowrap text-[20px] lg:inline-block xl:text-[24px]">{BRAND_NAME}</span>
               </Link>
-              <MainNav />
+              {isStoreRoute ? <Link href="/" className="inline-flex min-h-11 items-center text-sm text-muted-foreground hover:text-foreground">返回主站</Link> : <MainNav />}
             </div>
             <div className="flex min-h-9 flex-1 items-center justify-end gap-2">
               <nav className="flex shrink-0 items-center gap-2">
@@ -217,7 +220,7 @@ export function ConditionalAppShell({
           {pageContent}
         </main>
         {showSiteFooter ? (
-          <div className={hideMobileBottomNav ? undefined : 'pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0'}>
+          <div className={isStoreRoute ? 'hidden md:block' : hideMobileBottomNav ? undefined : 'pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0'}>
             {footer}
           </div>
         ) : null}

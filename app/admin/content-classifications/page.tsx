@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function ContentClassificationsPage() {
   return (
-    <div className="page-shell pt-6 pb-24 md:py-8">
+    <div className="app-shell-wide pt-6 pb-24 md:py-8">
       <div className="md:hidden">
         <MobilePageHeader title="内容分级审核" fallbackHref="/admin" />
       </div>

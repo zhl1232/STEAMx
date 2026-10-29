@@ -4,6 +4,7 @@ import Link from "next/link";
 import { PartyPopper } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { useCourseReturnHref } from "@/components/features/courses/use-course-return-href";
 import {
     Dialog,
     DialogContent,
@@ -38,6 +39,7 @@ export function LessonCompletionDialog({
     /** 本课支持上传作品时给出「上传我的作品」 */
     uploadWorkHref?: string | null;
 }) {
+    const courseReturnHref = useCourseReturnHref(courseId);
     const progress = result?.courseProgress ?? null;
     const courseDone = result?.courseCompletionState === "created";
     const nextLessonId = progress?.nextLessonId ?? null;
@@ -73,7 +75,7 @@ export function LessonCompletionDialog({
                         </Button>
                     ) : null}
                     <Button asChild variant="ghost" className="h-11 w-full">
-                        <Link href={`/courses/${courseId}`} prefetch={false}>回到课程</Link>
+                        <Link href={courseReturnHref} prefetch={false}>回到课程</Link>
                     </Button>
                 </DialogFooter>
             </DialogContent>

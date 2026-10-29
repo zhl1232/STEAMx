@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { Project } from '@/lib/mappers/types'
 import * as scienceSamples from '@/lib/project/science-samples'
-import { HOUSEHOLD_MATERIALS, matchProjectMaterials, validateMaterialRequirements } from './material-matching'
+import { HOUSEHOLD_MATERIALS, getMaterialGroupId, matchProjectMaterials, validateMaterialRequirements } from './material-matching'
 import { HOUSEHOLD_PROJECT_IDS, prepareHouseholdProject } from './household-projects'
 import profilesData from './household-projects.data.json'
 import * as householdProfile from '@/lib/project/household-profile'
@@ -107,7 +107,7 @@ describe('prepareHouseholdProject', () => {
 
   it('requires a measuring spoon for the bubble recipe even when every other material is owned', () => {
     const recipe = profilesData.find((profile) => profile.id === 39)!
-    const owned = HOUSEHOLD_MATERIALS.filter((material) => !['勺子', '取样勺'].includes(material.label)).map((material) => material.id)
+    const owned = HOUSEHOLD_MATERIALS.filter((material) => getMaterialGroupId(material.id) !== getMaterialGroupId(HOUSEHOLD_MATERIALS.find(({ label }) => label === '勺子')!.id)).map((material) => material.id)
     const match = matchProjectMaterials([], owned, recipe.required)!
     expect(match.missingLabels).toHaveLength(1)
     expect(['勺子', '取样勺']).toContain(match.missingLabels[0])
@@ -116,12 +116,12 @@ describe('prepareHouseholdProject', () => {
   it('requires a cup for the dough ratio and cotton rope for the paper hand', () => {
     const dough = profilesData.find((profile) => profile.id === 332)!
     const cupLabels = ['杯子', '纸杯', '量杯', '透明量杯']
-    const withoutCups = HOUSEHOLD_MATERIALS.filter((material) => !cupLabels.includes(material.label)).map((material) => material.id)
+    const withoutCups = HOUSEHOLD_MATERIALS.filter((material) => !['group:cup', 'group:measuring-cup', 'group:paper-cup'].includes(getMaterialGroupId(material.id)!) && material.label !== '纸杯').map((material) => material.id)
     const doughMatch = matchProjectMaterials([], withoutCups, dough.required)!
     expect(doughMatch.missingLabels).toHaveLength(1)
     expect(cupLabels).toContain(doughMatch.missingLabels[0])
     const hand = profilesData.find((profile) => profile.id === 784)!
-    const withoutRope = HOUSEHOLD_MATERIALS.filter((material) => material.label !== '棉绳').map((material) => material.id)
+    const withoutRope = HOUSEHOLD_MATERIALS.filter((material) => getMaterialGroupId(material.id) !== 'group:cotton-rope').map((material) => material.id)
     expect(matchProjectMaterials([], withoutRope, hand.required)?.missingLabels).toEqual(['棉绳'])
   })
   it('keeps every enrolled profile valid against the shared catalog', () => {
@@ -137,9 +137,13 @@ describe('prepareHouseholdProject', () => {
     }
   })
   it.each(crossCategoryProjects)('enrolls the authentic $category project $id with unchanged complete materials', (input) => {
+    const originalMaterials = [...input.materials!]
     const prepared = prepareHouseholdProject(input)!
     expect(prepared).not.toBeNull()
-    expect(prepared.materials).toEqual(input.materials)
+    expect(prepared.materials).toEqual(input.id === 291
+      ? ['各种形状的新鲜树叶', '水粉颜料或丙烯颜料', '小刷子或海绵', '卡纸（白色）', '报纸（旧报纸）']
+      : ['本子（记录本）', '彩色铅笔', '手机或相机（可选）'])
+    expect(input.materials).toEqual(originalMaterials)
     expect(prepared.householdRequirements).not.toHaveLength(0)
     expect(matchProjectMaterials(prepared.materials, [], prepared.householdRequirements)).not.toBeNull()
     expect(householdProfile.hashHouseholdProjectContent(input)).toBe(profilesData.find((profile) => profile.id === input.id)!.contentHash)

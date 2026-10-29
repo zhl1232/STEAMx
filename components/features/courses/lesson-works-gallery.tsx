@@ -45,17 +45,13 @@ export function LessonWorksGallery({
 
     return (
         <div className="flex flex-1 flex-col bg-[hsl(var(--background))] lg:min-h-0">
-            <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-border bg-card px-4 py-3">
+            <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border bg-card px-4 py-3">
                 <div className="min-w-0">
-                    <h3 className="flex items-center gap-1.5 text-sm font-bold text-foreground">
-                        <Sparkles className="h-4 w-4 text-[hsl(var(--brand-blue))]" />
-                        这一课的作品
+                    <h3 className="text-sm font-semibold text-foreground">
+                        本课作品
                     </h3>
-                    <p className="mt-0.5 text-xs text-muted-foreground">
-                        搭好后拍照上传，作品通过审核后会展示在这里
-                    </p>
                 </div>
-                <div className="w-full shrink-0 sm:w-44 [&_button]:min-h-11">
+                <div className="shrink-0 [&_button]:min-h-11 [&_button]:px-3">
                     <LessonWorkUpload
                         courseId={courseId}
                         lessonId={lessonId}
@@ -67,30 +63,32 @@ export function LessonWorksGallery({
 
             <div className="min-h-[16rem] flex-1 p-4 lg:min-h-0 lg:overflow-y-auto">
                 {items === null && !error ? (
-                    <div className="grid min-h-[12rem] place-items-center">
+                    <div role="status" className="grid min-h-[16rem] place-items-center sm:min-h-[20rem]">
                         <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
                             <Loader2 className="h-4 w-4 animate-spin" />
                             正在加载作品
                         </span>
                     </div>
                 ) : items && items.length > 0 ? (
-                    <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                    <ul className={items.length === 1
+                        ? "grid grid-cols-[minmax(0,min(100%,25rem))] items-start gap-4"
+                        : "grid grid-cols-1 items-start gap-4 min-[480px]:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"}>
                         {items.map((item) => {
                             const cover = item.proofImages?.[0];
                             return (
                                 <li key={item.id}>
-                                  <Link href={`/works/${item.id}`} className="group block overflow-hidden rounded-sm border border-border bg-card transition hover:border-[hsl(var(--surface-border-strong))]">
-                                    <div className="relative aspect-square bg-muted">
+                                  <Link href={`/works/${item.id}`} className="block overflow-hidden rounded-sm border border-border bg-card transition hover:border-[hsl(var(--surface-border-strong))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--brand-blue))]">
+                                    <div className="relative bg-muted">
                                         {cover ? (
                                             /* eslint-disable-next-line @next/next/no-img-element */
                                             <img
                                                 src={cover}
                                                 alt={`${item.author} 的作品`}
                                                 loading="lazy"
-                                                className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                                                className="max-h-[32rem] w-full object-contain"
                                             />
                                         ) : (
-                                            <div className="grid h-full place-items-center text-muted-foreground">
+                                            <div className="grid aspect-[3/4] place-items-center text-muted-foreground">
                                                 <ImageOff className="h-6 w-6" />
                                             </div>
                                         )}
@@ -101,12 +99,12 @@ export function LessonWorksGallery({
                                             </span>
                                         ) : null}
                                     </div>
-                                    <div className="px-2 py-1.5">
-                                        <p className="truncate text-xs font-semibold text-foreground">
+                                    <div className="px-3 py-2.5">
+                                        <p className="truncate text-sm font-semibold text-foreground">
                                             {item.author}
                                         </p>
                                         {item.notes ? (
-                                            <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-muted-foreground">
+                                            <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
                                                 {item.notes}
                                             </p>
                                         ) : null}
@@ -117,15 +115,17 @@ export function LessonWorksGallery({
                         })}
                     </ul>
                 ) : (
-                    <div className="grid min-h-[12rem] place-items-center">
-                        <div className="max-w-xs rounded-sm border border-dashed border-border bg-card px-6 py-8 text-center">
+                    <div role="status" className="grid min-h-[16rem] place-items-center sm:min-h-[20rem]">
+                        <div className="px-4 py-8 text-center">
                             <Sparkles className="mx-auto h-8 w-8 text-muted-foreground/50" />
                             <p className="mt-2 text-sm font-semibold text-foreground">
                                 {error ? "作品加载失败" : "还没有作品"}
                             </p>
-                            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                                {error ? "作品暂时无法加载，请稍后重试。" : "搭好你的作品，拍照上传，做这一课的第一个分享者吧！"}
-                            </p>
+                            {error ? (
+                                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                                    请稍后重试
+                                </p>
+                            ) : null}
                             {error ? (
                                 <Button type="button" variant="outline" size="sm" className="mt-4 min-h-11" onClick={() => void load()}>
                                     <RefreshCw className="mr-1.5 h-3.5 w-3.5" />

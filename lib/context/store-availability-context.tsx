@@ -27,3 +27,9 @@ export function StoreAvailabilityProvider({ children }: { children: ReactNode })
 export function useStoreCatalogVisible() {
   return useContext(StoreAvailabilityContext)
 }
+
+/** Catalog entry points are available only in local development during rollout. */
+export function useStoreEntryVisible() {
+  const catalogVisible = useStoreCatalogVisible()
+  return process.env.NODE_ENV === 'development' && catalogVisible
+}

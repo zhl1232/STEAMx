@@ -70,7 +70,7 @@ describe('explore page initial client props', () => {
         category: '全部',
         difficulty: 'beginner',
         age: '8',
-        tags: '标签二,标签一',
+        tags: '磁力,趣味实验,科教版',
         sortBy: 'latest',
       }),
     });
@@ -78,14 +78,15 @@ describe('explore page initial client props', () => {
     const children = (page as ReactElement<{ children: ReactElement<Record<string, unknown>>[] }>).props.children;
     const clientProps = children[1].props;
     expect(clientProps).toEqual(expect.objectContaining({
-      initialFiltersKey: 'difficulty=beginner&age=8&tags=%E6%A0%87%E7%AD%BE%E4%BA%8C%2C%E6%A0%87%E7%AD%BE%E4%B8%80&sortBy=latest',
+      initialFiltersKey: 'difficulty=beginner&age=8&tags=%E8%B6%A3%E5%91%B3%E5%AE%9E%E9%AA%8C%2C%E7%A7%91%E6%95%99%E7%89%88&sortBy=latest',
     }));
   });
 });
 
-describe('legacy explore grade parameters', () => {
-  it.each([['初中', []], ['科教版,初中', ['科教版']], ['kejiao16a-src:1,二年级', []]])(
+describe('supported explore theme parameters', () => {
+  it.each([['磁力,初中', []], ['科教版,磁力,初中', ['科教版']], ['kejiao16a-src:1,二年级', []], ['趣味实验,科教版,趣味实验', ['趣味实验', '科教版']]])(
     'loads %s with matching sanitized server and client filters', async (tags, expected) => {
+      vi.stubEnv('NODE_ENV', 'production');
       vi.mocked(getExploreFilterOptions).mockResolvedValue({ categories: [], availableTags: [], popularTags: [], tagScope: { all: [], byCategory: {}, bySubCategory: {} } });
       vi.mocked(getProjects).mockResolvedValueOnce({ projects: [], total: 0, hasMore: false });
       const page = await ExplorePage({ searchParams: Promise.resolve({ tags }) });
@@ -93,7 +94,9 @@ describe('legacy explore grade parameters', () => {
       const children = (page as ReactElement<{ children: ReactElement<Record<string, unknown>>[] }>).props.children;
       const key = expected.length ? new URLSearchParams({ tags: expected.join(',') }).toString() : '';
       expect(children[1].props.initialFiltersKey).toBe(key);
-      expect((await generateMetadata({ searchParams: Promise.resolve({ tags }) })).robots).toEqual({ index: false, follow: true });
+      const metadata = await generateMetadata({ searchParams: Promise.resolve({ tags }) });
+      expect(metadata.robots).toEqual(expected.length ? { index: false, follow: true } : undefined);
+      expect(metadata.alternates?.canonical).toBe(`https://steam.bj.cn/explore${key ? `?${key}` : ''}`);
     },
   );
 });

@@ -22,6 +22,9 @@ describe("buildLlmsTxt", () => {
     expect(text).toContain("helps parents find hands-on activities to do with their children");
     expect(text).toContain("https://steam.bj.cn/explore");
     expect(text).toContain("https://steam.bj.cn/sitemap.xml");
+    expect(text).toContain("/courses?course=<课程ID>");
+    expect(text).toContain("/courses/<课程ID>/lessons/<课时ID>");
+    expect(text).toContain("未列出的历史课程不作为推荐入口");
     expect(text).toContain("/api/");
     expect(text).toContain("/admin/");
     expect(text).toContain("/login");

@@ -22,6 +22,7 @@ type Continuation = (user: User) => void | Promise<unknown>
 type PromptOptions = { title?: string; description?: string; source?: LoginPromptSource }
 interface LoginPromptContextType {
   promptLogin: (callback?: Continuation, options?: PromptOptions) => void
+  isOpen: boolean
 }
 type Request = PromptOptions & {
   id: number
@@ -103,7 +104,7 @@ export function LoginPromptProvider({ children }: { children: React.ReactNode })
   }, [request, loading, user, router, cancel])
 
   return (
-    <LoginPromptContext.Provider value={{ promptLogin }}>
+    <LoginPromptContext.Provider value={{ promptLogin, isOpen: Boolean(request) }}>
       {children}
       {request ? <LoginDialog
         key={request.id}

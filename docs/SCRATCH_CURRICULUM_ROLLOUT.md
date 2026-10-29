@@ -40,6 +40,6 @@
 
 ## 当前旧课访问与替代入口（2026-10-04 起）
 
-- `lib/courses/successors.ts` 的 `COURSE_SUCCESSORS`（`{ 1: 8 }`）声明替代关系，不改数据库。旧课详情页与课时页通过 `getCourseSuccessor()` 读取新课标题（与课程目录相同的 `approved` + `is_listed=true` 过滤），在页面顶部显示「本课程已更新，前往新版课程：<新课标题>」；新课不存在或未上架时不显示。
-- 未上架课程及其课时页输出 `noindex, follow`（`buildPageMetadata({ noIndex, noIndexFollow })`），既不进入搜索结果，也让爬虫沿入口发现新课；课程不存在等情况仍为 `noindex, nofollow`。sitemap 与 `/courses` 列表继续只收录已上架课程。旧课保持 200，不做 301，学习记录不变。
+- `lib/courses/successors.ts` 的 `COURSE_SUCCESSORS`（`{ 1: 8 }`）声明替代关系，不改数据库。旧课显式目录 `/courses?course=1` 与课时页通过 `getCourseSuccessor()` 读取新课标题（与课程目录相同的 `approved` + `is_listed=true` 过滤），在页面顶部显示「本课程已更新，前往新版课程：<新课标题>」；新课不存在或未上架时不显示。
+- 未上架课程及其课时页输出 `noindex, follow`（`buildPageMetadata({ noIndex, noIndexFollow })`），既不进入搜索结果，也让爬虫沿入口发现新课；课程不存在等情况仍为 `noindex, nofollow`。sitemap 与普通 `/courses` 列表继续只收录已上架课程。旧课显式目录与课时保持可访问，不做 301，学习记录不变；课程中间页 `/courses/1` 与其他 `/courses/[courseId]` 一并退役并返回 404，不再作为旧课入口。
 

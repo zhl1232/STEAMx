@@ -26,7 +26,8 @@ async function fixture(options = {}) {
       return response.end(`${rules}\nSitemap: ${origin}/sitemap.xml\n`);
     }
     if (request.url === "/sitemap.xml") {
-      const paths = options.missingDynamic ? ["/", "/courses", "/learn/blocks", "/learn/scratch", "/learn/science"] : ["/", "/courses", "/learn/blocks", "/learn/scratch", "/learn/science", "/project/p1", "/courses/c1", "/courses/c1/lessons/l1"];
+      const paths = options.missingDynamic ? ["/", "/courses", "/learn/blocks", "/learn/scratch", "/learn/science"] : ["/", "/courses", "/learn/blocks", "/learn/scratch", "/learn/science", "/project/p1", "/courses?course=1", "/courses/1/lessons/l1"];
+      paths.push(...(options.extraSitemapPaths ?? []));
       if (options.largeSitemap) paths.unshift(...Array.from({ length: 2100 }, (_, index) => `/species/${index}`));
       response.setHeader("content-type", "application/xml"); return response.end(`<urlset>${paths.map((path) => `<url><loc>${origin}${path}</loc></url>`).join("")}</urlset>`);
     }
@@ -51,6 +52,13 @@ describe("check-seo", () => {
     assert.equal(report.errors.length, 0, JSON.stringify(report.errors));
     assert.equal(report.counters.sitemapUrls, 8);
     assert.equal(report.counters.imageUrls, 1);
+  });
+
+  it("rejects arbitrary queries, duplicate selections, malformed IDs, fragments and retired overview URLs", async () => {
+    const invalidPaths = ["/courses?course=0", "/courses?course=01", "/courses?course=1&course=2", "/courses?course=1&utm_source=test", "/courses?course=9007199254740992", "/courses?course=1#lessons", "/explore?q=blocks", "/courses/1"];
+    const baseUrl = await fixture({ extraSitemapPaths: invalidPaths });
+    const report = await runSeoChecks({ baseUrl, timeoutMs: 200, retries: 0 });
+    for (const path of invalidPaths) assert.ok(report.errors.some((item) => item.url === `${baseUrl}${path}`), path);
   });
 
   it("catches noindex, missing dynamic sitemap URLs, blocked image, and malformed JSON-LD", async () => {

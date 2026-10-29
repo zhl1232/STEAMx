@@ -5,7 +5,7 @@ import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { ArrowLeft, BookOpen, Coins, Flag, Heart, MessageCircle, Share2, Wrench } from "lucide-react"
+import { ArrowLeft, ChevronRight, BookOpen, Coins, Flag, Heart, MessageCircle, Share2, Wrench } from "lucide-react"
 
 import { CompletionRecordComments } from "@/components/features/project/completion-record-comments"
 import { TipProjectDialog } from "@/components/features/project/tip-project-dialog"
@@ -165,21 +165,11 @@ export function WorkDetail({
   )
   const effectiveJourneyTotal = Math.max(journeyTotal ?? 0, chronologicalJourney.length)
   const journeyHasFinal = chronologicalJourney.some((record) => record.recordKind === "final")
-  const sourceLabel = source?.type === "course_lesson"
-    ? "课程作品"
-    : journeyHasFinal
-      ? "项目作品"
-      : "项目探索"
   const sourceBackLabel = source?.type === "project"
     ? "返回探索记录"
     : source?.type === "course_lesson"
       ? "返回课程课时"
       : "返回探索"
-  const sourceContextLabel = source?.type === "course_lesson"
-    ? "课程课时"
-    : source?.type === "project"
-      ? "项目"
-      : "探索"
   const sourceActionLabel = source?.type === "project"
     ? "查看探索记录"
     : source?.type === "course_lesson"
@@ -205,40 +195,26 @@ export function WorkDetail({
         />
       </div>
 
-      <div className="page-shell pb-24 pt-4 md:py-8">
-        <nav className="mb-5 hidden items-center justify-between gap-3 md:flex" aria-label="作品路径">
+      <div className="app-shell-wide pb-24 pt-4 md:py-5">
+        <nav className="mb-2 hidden items-center gap-3 md:flex" aria-label="作品路径">
           <Button variant="ghost" asChild className="-ml-3 min-h-11 px-3">
             <Link href={source?.href || "/explore"}>
               <ArrowLeft className="mr-2 h-4 w-4" />
               {sourceBackLabel}
             </Link>
           </Button>
-          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground">
-            <SourceIcon className="h-4 w-4" />
-            {source ? `来自${sourceContextLabel}` : sourceLabel}
-          </span>
         </nav>
 
-        <header className="mb-0 max-w-3xl md:mb-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="hidden items-center rounded-full bg-[hsl(var(--brand-blue)/0.1)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-blue))] md:inline-flex">
-              作品详情
-            </span>
-            <span className="hidden items-center rounded-full bg-[hsl(var(--brand-green)/0.1)] px-2.5 py-1 text-xs font-semibold text-[hsl(var(--brand-green))] md:inline-flex">
-              {journeyHasFinal ? "已完成探索" : "探索进行中"}
-            </span>
-          </div>
-          <h1 className="sr-only font-bold tracking-tight text-foreground md:not-sr-only md:mt-3 md:text-3xl">
+        <header className="mb-0 md:mb-4 md:flex md:items-center md:gap-3">
+          <h1 className="sr-only font-bold tracking-tight text-foreground md:not-sr-only md:text-3xl">
             {source?.title || "作品详情"}
           </h1>
-          <p className="mt-2 hidden text-sm leading-6 text-muted-foreground md:block">
-            {work.recordKind === "final"
-              ? "把这次探索的成果留给下一次尝试。"
-              : "沿着每一步记录，看看作品如何逐渐成形。"}
-          </p>
+          <span className="hidden text-xs font-semibold text-[hsl(var(--brand-green))] md:inline-flex">
+            {journeyHasFinal ? "已完成探索" : "探索进行中"}
+          </span>
         </header>
 
-      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.55fr)_minmax(20rem,0.8fr)] lg:gap-8 xl:gap-10">
+      <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)] lg:gap-6 xl:gap-8">
         {showJourney ? (
           <WorkJourneyTimeline
             className="min-w-0 lg:col-start-1 lg:row-start-1"
@@ -259,7 +235,6 @@ export function WorkDetail({
                 captions={work.proofCaptions}
                 alt={`${work.author} 的作品`}
                 priority
-                badge={work.proofImages.length > 0 ? "作品主图" : undefined}
               />
 
               {work.proofVideoUrl ? (
@@ -275,14 +250,10 @@ export function WorkDetail({
         )}
 
         <aside
-          className={cn(
-            "surface-panel space-y-4 p-4 sm:space-y-5 sm:p-5 lg:sticky lg:top-24 lg:col-start-2 lg:row-start-1",
-            showJourney ? "lg:row-span-1" : "lg:row-span-2",
-          )}
+          className="surface-panel space-y-4 p-4 sm:p-5 lg:col-start-2 lg:row-start-1 lg:row-span-2"
           aria-label="作品信息"
         >
-          <div className="border-b border-border pb-5">
-            <p className="mb-3 text-xs font-semibold tracking-[0.18em] text-muted-foreground">作者与支持</p>
+          <div className="border-b border-border pb-3">
             <div className="flex items-center gap-3">
               <UserAvatar
                 userId={work.userId}
@@ -299,7 +270,8 @@ export function WorkDetail({
                 </Link>
                 <p className="mt-1 text-sm text-muted-foreground">{work.completedAt}</p>
               </div>
-              <div className="ml-auto flex shrink-0 items-center gap-0.5" role="group" aria-label="作品支持操作">
+            </div>
+            <div className="mt-3 flex flex-wrap items-center gap-0.5" role="group" aria-label="作品支持操作">
                 <Button
                   type="button"
                   variant="ghost"
@@ -309,6 +281,7 @@ export function WorkDetail({
                   aria-label={likeMeta.isLiked ? `取消点赞，当前 ${likeMeta.count} 个赞` : `点赞，当前 ${likeMeta.count} 个赞`}
                 >
                   <Heart className={cn("mr-1.5 h-4 w-4", likeMeta.isLiked && "fill-current")} />
+                  <span className="mr-1">{likeMeta.isLiked ? "已赞" : "点赞"}</span>
                   <span className="tabular-nums">{likeMeta.count}</span>
                 </Button>
                 <Button
@@ -333,7 +306,14 @@ export function WorkDetail({
                   }
                 >
                   <Coins className="mr-1.5 h-4 w-4" />
+                  <span className="mr-1">投币</span>
                   <span className="tabular-nums">{work.coins}</span>
+                </Button>
+                <Button variant="ghost" asChild className="h-11 px-2">
+                  <a href="#comments">
+                    <MessageCircle className="mr-1.5 h-4 w-4" />
+                    留言
+                  </a>
                 </Button>
                 {canShare ? (
                   <Button
@@ -347,32 +327,29 @@ export function WorkDetail({
                     <Share2 className="h-4 w-4" />
                   </Button>
                 ) : null}
-              </div>
             </div>
           </div>
 
           {source ? (
             <Link
               href={source.href}
-              className="group grid grid-cols-[64px_minmax(0,1fr)] items-center gap-3 rounded-lg border border-border bg-[hsl(var(--surface-muted)/0.5)] p-3 transition duration-200 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))] hover:shadow-sm"
+              aria-label={`${sourceActionLabel}：${source.title}`}
+              className="group grid grid-cols-[44px_minmax(0,1fr)_auto] items-center gap-3 rounded-lg border border-border bg-[hsl(var(--surface-muted)/0.5)] p-3 transition duration-200 hover:-translate-y-0.5 hover:border-[hsl(var(--surface-border-strong))] hover:shadow-sm"
             >
-              <div className="relative h-16 overflow-hidden rounded-md bg-muted">
+              <div className="relative h-11 overflow-hidden rounded-md bg-muted">
                 {source.image ? (
                   <OptimizedImage src={source.image} alt="" fill variant="thumbnail" className="object-cover" />
                 ) : (
                   <SourceIcon className="absolute inset-0 m-auto h-6 w-6 text-muted-foreground" aria-hidden="true" />
                 )}
               </div>
-              <div className="min-w-0 py-0.5">
-                <p className="text-xs font-semibold text-muted-foreground">来自{sourceContextLabel}</p>
-                <p className="mt-1 line-clamp-2 text-base font-bold leading-5 text-foreground group-hover:underline">
-                  {source.title}
-                </p>
-                {source.type === "course_lesson" ? (
-                  <p className="mt-1 truncate text-xs text-muted-foreground">{source.courseTitle}</p>
-                ) : null}
-                <p className="mt-1 text-xs font-semibold text-[hsl(var(--brand-blue))]">{sourceActionLabel} →</p>
-              </div>
+              <p className="min-w-0 line-clamp-2 text-sm font-semibold leading-5 text-foreground">
+                {source.title}
+              </p>
+              <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-xs font-semibold text-[hsl(var(--brand-blue))] group-hover:underline">
+                做同款
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              </span>
             </Link>
           ) : null}
 
@@ -394,9 +371,9 @@ export function WorkDetail({
           ) : null}
         </aside>
 
-        <section className="min-w-0 lg:col-start-1 lg:row-start-2">
+        <div className="min-w-0 space-y-4 lg:col-start-1 lg:row-start-2">
           {work.notes?.trim() && !showJourney ? (
-            <section className="surface-subtle mt-8 p-4 sm:p-5">
+            <section className="surface-subtle min-w-0 p-4 sm:p-5">
               <h2 className="text-xl font-bold text-foreground">创作记录</h2>
               <p className="mt-3 max-w-[70ch] whitespace-pre-wrap text-base leading-7 text-foreground/82">
                 {work.notes}
@@ -404,14 +381,14 @@ export function WorkDetail({
             </section>
           ) : null}
 
-          <section className="surface-panel mt-8 p-4 sm:p-5" id="comments">
+          <section className="surface-panel min-w-0 scroll-mt-20 p-4 sm:p-5 md:scroll-mt-24" id="comments">
             <div className="mb-4 flex items-center gap-2 border-b border-border/70 pb-4">
               <MessageCircle className="h-5 w-5 text-[hsl(var(--brand-green))]" />
               <h2 className="text-xl font-bold text-foreground">留言与提问</h2>
             </div>
             <CompletionRecordComments completionId={work.id} />
           </section>
-        </section>
+        </div>
       </div>
 
       <TipProjectDialog

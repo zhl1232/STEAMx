@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "ops:check-profiles": "node scripts/check-missing-profiles.mjs",
-    "dev": "next dev --turbo",
-    "dev:turbo": "next dev --turbo",
-    "dev:webpack": "next dev --webpack",
+    "dev": "pnpm run prepare:playground && next dev --turbo",
+    "dev:turbo": "pnpm run prepare:playground && next dev --turbo",
+    "dev:webpack": "pnpm run prepare:playground && next dev --webpack",
     "dev:clean": "rm -rf .next/dev && next dev --turbo",
     "build:scratch": "pnpm --filter scratch-host build && pnpm --filter scratch-host run copy-to-public",
     "dev:scratch": "pnpm --filter scratch-host dev",
-    "build": "pnpm run build:scratch && next build",
+    "build": "pnpm run build:scratch && next build && pnpm run prepare:playground",
     "start": "next start",
     "lint": "oxlint --react-plugin --nextjs-plugin app components hooks lib packages/scratch-host/src *.config.* *.ts *.tsx",
     "lint:fix": "oxlint --fix --react-plugin --nextjs-plugin app components hooks lib packages/scratch-host/src *.config.* *.ts *.tsx",
@@ -44,7 +44,8 @@
     "course:audit": "node scripts/course-closure-audit.mjs",
     "content-classification:public": "node scripts/set-content-classification-public-v1.mjs",
     "seo:baidu-push": "node scripts/submit-baidu-urls.mjs",
-    "seo:check": "node scripts/check-seo.mjs"
+    "seo:check": "node scripts/check-seo.mjs",
+    "prepare:playground": "node scripts/prepare-playground-runtime.mjs"
   },
   "dependencies": {
     "@alicloud/dysmsapi20170525": "4.6.0",

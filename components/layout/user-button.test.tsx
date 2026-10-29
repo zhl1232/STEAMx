@@ -34,11 +34,11 @@ it('limits desktop entries while retaining identity and sign out', async () => {
   expect(screen.getByText('member@example.com')).toBeInTheDocument()
   expect(screen.getByText(/创始会员/)).toBeInTheDocument()
   expect(screen.getAllByRole('menuitem').map(item => item.textContent)).toEqual([
-    '个人中心', '我的钱包', '我的订单', '申请成为审核员', '退出登录',
+    '个人中心', '我的硬币', '申请成为审核员', '退出登录',
   ])
   expect(screen.getByRole('menuitem', { name: '个人中心' })).toHaveAttribute('href', '/profile')
-  expect(screen.getByRole('menuitem', { name: '我的钱包' })).toHaveAttribute('href', '/coins')
-  expect(screen.getByRole('menuitem', { name: '我的订单' })).toHaveAttribute('href', '/store/orders')
+  expect(screen.getByRole('menuitem', { name: '我的硬币' })).toHaveAttribute('href', '/coins')
+  expect(screen.queryByRole('menuitem', { name: '我的订单' })).not.toBeInTheDocument()
   expect(screen.queryByRole('menuitem', { name: '平台帮助' })).not.toBeInTheDocument()
   expect(screen.queryByRole('menuitem', { name: '商城客服' })).not.toBeInTheDocument()
   expect(screen.queryByRole('menuitem', { name: '实物商城' })).not.toBeInTheDocument()

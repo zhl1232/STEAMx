@@ -1,10 +1,14 @@
 import { describe, expect, it } from 'vitest'
+import materialCatalog from './household-materials.data.json'
 import {
   HOUSEHOLD_MATERIALS,
   matchProjectMaterials,
   normalizeOwnedMaterialIds,
+  getMaterialGroupId,
+  HOUSEHOLD_MATERIAL_GROUPS,
   sortProjectsByMaterials,
   splitMaterialPreparation,
+  validateMaterialRequirements,
 } from './material-matching'
 
 const projects = [
@@ -23,9 +27,61 @@ describe('normalizeOwnedMaterialIds', () => {
   it('keeps known unique IDs in catalog order without coercing values', () => {
     expect(normalizeOwnedMaterialIds(['milk', 'water', 'water', 'anchors', 'unknown', 1, null, 'Water', ' water'])).toEqual(['water', 'milk'])
   })
+
+  it('restores old color selections as one material and preserves their searchable names', () => {
+    const oldPens = materialCatalog.filter(({ label }) => /^彩色笔/u.test(label))
+    const pen = HOUSEHOLD_MATERIALS.find(({ label }) => label === '彩色笔')!
+    expect(normalizeOwnedMaterialIds(oldPens.map(({ id }) => id))).toEqual([pen.id])
+    expect(HOUSEHOLD_MATERIALS.filter(({ label }) => /^彩色笔/u.test(label))).toEqual([pen])
+    expect(pen.aliases).toContain('彩色笔（黑红橙）')
+  })
+
+  it('retains every reviewed old ID without dangling aliases or alias chains', () => {
+    for (const material of materialCatalog) {
+      const normalized = normalizeOwnedMaterialIds([material.id])
+      expect(normalized, material.label).toHaveLength(1)
+      expect(normalizeOwnedMaterialIds(normalized)).toEqual(normalized)
+      expect(validateMaterialRequirements([[material.id]])).toEqual([normalized])
+    }
+  })
 })
 
 describe('matchProjectMaterials', () => {
+  it.each([
+    ['彩色笔', '彩色笔（多色）', '彩色笔（四种颜色）'],
+    ['超轻黏土', '超轻黏土（红粉黄棕）', '超轻黏土（绿粉紫棕）'],
+    ['水溶性色素', '水溶性色素（多色）', '水溶性色素（红蓝）'],
+    ['丙烯颜料', '丙烯颜料（多色）', '丙烯颜料（黄橙粉蓝绿）'],
+    ['木棍', '木棒'],
+    ['积木', '积木块'],
+  ])('counts reviewed variants of %s once in old project requirements', (...labels) => {
+    const ids = labels.map((label) => materialCatalog.find((material) => material.label === label)!.id)
+    expect(matchProjectMaterials([], [ids[1]], ids.map((id) => [id]))).toEqual({
+      requiredCount: 1, ownedCount: 1, missingLabels: [], hasSelection: true,
+    })
+    expect(matchProjectMaterials([], [], ids.map((id) => [id]))?.missingLabels).toEqual([HOUSEHOLD_MATERIAL_GROUPS.find(({ id }) => id === getMaterialGroupId(ids[0]))!.label])
+  })
+
+  it.each([
+    ['彩色笔', '水溶性彩笔'],
+    ['色素', '水溶性色素'],
+    ['食用色素', '水溶性色素'],
+    ['橡皮泥', '超轻黏土'],
+    ['黏土', '风干黏土'],
+    ['吹风机', '吹风机（冷风）'],
+    ['塑料瓶', '塑料瓶（宽口，可放乒乓球）'],
+    ['直尺', '直尺（30厘米）'],
+  ])('keeps functional specifications separate: %s / %s', (ownedLabel, requiredLabel) => {
+    const owned = materialCatalog.find(({ label }) => label === ownedLabel)!.id
+    const required = materialCatalog.find(({ label }) => label === requiredLabel)!.id
+    const sameFamily = getMaterialGroupId(owned) === getMaterialGroupId(required)
+    expect(matchProjectMaterials([], [owned], [[required]])).toEqual(sameFamily ? {
+      requiredCount: 1, ownedCount: 1, missingLabels: [], pendingLabels: [HOUSEHOLD_MATERIAL_GROUPS.find(({ id }) => id === getMaterialGroupId(required))!.label], hasSelection: true,
+    } : {
+      requiredCount: 1, ownedCount: 0, missingLabels: [HOUSEHOLD_MATERIAL_GROUPS.find(({ id }) => id === getMaterialGroupId(required))!.label], hasSelection: true,
+    })
+  })
+
   it('matches all reviewed source lists including quantity-bearing rows', () => {
     const allIds = HOUSEHOLD_MATERIALS.map(({ id }) => id)
     expect(projects.map(({ materials }) => matchProjectMaterials(materials, allIds))).toEqual(
@@ -51,13 +107,13 @@ describe('matchProjectMaterials', () => {
 
   it('deduplicates multiple reviewed rows for the same type', () => {
     expect(matchProjectMaterials(['剪刀', '剪刀（成人使用）', '剪刀', '清水'], ['scissors', 'scissors'])).toEqual({
-      requiredCount: 2, ownedCount: 1, missingLabels: ['清水'], hasSelection: true,
+      requiredCount: 2, ownedCount: 1, missingLabels: ['水'], hasSelection: true,
     })
   })
 
   it('matches only the vetted paper and cotton-thread aliases without treating string as cotton thread', () => {
     expect(matchProjectMaterials(['A4纸1张', '白纸1张', '正方形纸1张（可由A4纸裁成）', '细棉线1根'], ['paper', 'string'])).toEqual({
-      requiredCount: 2, ownedCount: 1, missingLabels: ['细棉线'], hasSelection: true,
+      requiredCount: 2, ownedCount: 1, missingLabels: ['棉绳'], hasSelection: true,
     })
     expect(matchProjectMaterials(['细棉线1根'], ['cotton-thread'])?.missingLabels).toEqual([])
     expect(matchProjectMaterials(['弹性塑料吸管1根'], ['straw'])).toBeNull()
@@ -71,7 +127,7 @@ describe('matchProjectMaterials', () => {
 
   it('ignores invalid owned IDs and leaves the selection empty', () => {
     expect(matchProjectMaterials(['清水'], ['unknown'])).toEqual({
-      requiredCount: 1, ownedCount: 0, missingLabels: ['清水'], hasSelection: false,
+      requiredCount: 1, ownedCount: 0, missingLabels: ['水'], hasSelection: false,
     })
   })
 
@@ -111,7 +167,7 @@ describe('explicit AND/OR household requirements', () => {
   it('counts AND items individually and alternative items only once', () => {
     const groups = [['paper'], ['tape', 'scissors']]
     expect(matchProjectMaterials(['未映射的原始完整材料'], [], groups)).toEqual({
-      requiredCount: 2, ownedCount: 0, missingLabels: ['剪刀', 'A4白纸'], hasSelection: false,
+      requiredCount: 2, ownedCount: 0, missingLabels: ['剪刀', '纸张'], hasSelection: false,
     })
     expect(matchProjectMaterials([], ['paper', 'tape'], groups)).toEqual({
       requiredCount: 2, ownedCount: 2, missingLabels: [], hasSelection: true,
@@ -144,7 +200,7 @@ describe('explicit AND/OR household requirements', () => {
   it('preserves catalog order when alternative sets tie and removes duplicate clauses', () => {
     const groups = [['paper', 'water', 'water'], ['water', 'paper']]
     expect(matchProjectMaterials([], [], groups)).toEqual({
-      requiredCount: 1, ownedCount: 0, missingLabels: ['清水'], hasSelection: false,
+      requiredCount: 1, ownedCount: 0, missingLabels: ['水'], hasSelection: false,
     })
   })
 
@@ -155,13 +211,13 @@ describe('explicit AND/OR household requirements', () => {
   it('combines independent components and retains every condition', () => {
     const groups = [['paper', 'water'], ['paper', 'tape'], ['scissors'], ['milk', 'tissue'], ['milk', 'balloon']]
     expect(matchProjectMaterials([], [], groups)).toMatchObject({
-      requiredCount: 3, missingLabels: ['剪刀', '牛奶', 'A4白纸'],
+      requiredCount: 3, missingLabels: ['剪刀', '牛奶', '纸张'],
     })
   })
 
   it('agrees with exhaustive minimum-set solutions across owned states and overlapping clauses', () => {
     const ids = HOUSEHOLD_MATERIALS.filter(({ id }) => ['water', 'paper', 'tape', 'scissors'].includes(id)).map(({ id }) => id)
-    const labels = new Map(HOUSEHOLD_MATERIALS.map(({ id, label }) => [id, label]))
+    const labels = new Map(HOUSEHOLD_MATERIALS.map(({ id }) => [id, HOUSEHOLD_MATERIAL_GROUPS.find((group) => group.id === getMaterialGroupId(id))!.label]))
     const allSets = Array.from({ length: 16 }, (_, mask) => ids.filter((_, index) => mask & (1 << index)))
     for (let seed = 1; seed <= 24; seed++) {
       const groups = [seed % 15 + 1, (seed * 3) % 15 + 1, (seed * 7) % 15 + 1].map((mask) => allSets[mask])

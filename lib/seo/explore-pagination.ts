@@ -1,3 +1,5 @@
+import { normalizeExploreThemeTags } from '@/lib/explore/presets';
+
 /** Query URLs used by both server metadata and crawlable list navigation. */
 export function parseExplorePage(value: string | undefined): number {
   if (!value || !/^\d+$/.test(value)) return 0;
@@ -8,7 +10,9 @@ export function parseExplorePage(value: string | undefined): number {
 export function buildExplorePageHref(params: URLSearchParams, page: number): string {
   const query = new URLSearchParams();
   for (const key of ['q', 'category', 'subCategory', 'difficulty', 'age', 'tags', 'sortBy']) {
-    const value = params.get(key);
+    const value = key === 'tags'
+      ? normalizeExploreThemeTags(params.get(key)).join(',')
+      : params.get(key);
     if (value) query.set(key, value);
   }
   if (page > 0) query.set('page', String(page));

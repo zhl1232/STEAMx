@@ -25,6 +25,14 @@ describe('store checkout', () => {
       return response({ order: { id: 'o1' } })
     }))
   })
+  it('requires fresh confirmation when a legacy coin intent has no existing order', async () => {
+    sessionStorage.setItem('store-intent-v2:u1:p1:v1:1:legacy', JSON.stringify({ key: 'old-key', pending: { province: '北京市', discount: 'coins' } }))
+    render(<StoreCheckout userId="u1" productId="p1" variantId="v1" quantity={1} intentId="legacy" />)
+    expect(await screen.findByText(/硬币抵扣已调整为兑换优惠券/)).toBeInTheDocument()
+    expect(screen.getByRole('radio', { name: '不使用优惠券' })).toBeChecked()
+    expect(vi.mocked(fetch).mock.calls.filter(c => String(c[0]).endsWith('/orders'))).toHaveLength(0)
+    expect(JSON.parse(sessionStorage.getItem('store-intent-v2:u1:p1:v1:1:legacy')!)).toEqual({ key: 'old-key' })
+  })
   it('preserves the same intent and expected server quote after an uncertain order response', async () => {
     const user = userEvent.setup()
     let attempts = 0
@@ -147,12 +155,12 @@ describe('store checkout', () => {
     expired = true
     render(<StoreCheckout userId="u1" productId="p1" variantId="v1" quantity={1} intentId="expired-coupon" />)
     await screen.findByText('优惠券已过期')
-    expect(screen.getByRole('radio', { name: '不使用硬币或优惠券' })).toBeDisabled()
+    expect(screen.getByRole('radio', { name: '不使用优惠券' })).toBeDisabled()
     const lookupsBefore = vi.mocked(fetch).mock.calls.filter(c => String(c[0]).includes('/orders?intent='))
     expect(lookupsBefore).toHaveLength(1)
     await user.click(screen.getByRole('button', { name: '重新核查并选择优惠' }))
-    await waitFor(() => expect(screen.getByRole('radio', { name: '不使用硬币或优惠券' })).toBeEnabled())
-    expect(screen.getByRole('radio', { name: '不使用硬币或优惠券' })).toBeChecked()
+    await waitFor(() => expect(screen.getByRole('radio', { name: '不使用优惠券' })).toBeEnabled())
+    expect(screen.getByRole('radio', { name: '不使用优惠券' })).toBeChecked()
     expect(vi.mocked(fetch).mock.calls.filter(c => String(c[0]).includes('/orders?intent='))).toHaveLength(2)
     expect(vi.mocked(fetch).mock.calls.filter(c => String(c[0]).endsWith('/orders'))).toHaveLength(1)
     await fill(); unknown = false
@@ -205,15 +213,14 @@ describe('store checkout', () => {
     await waitFor(() => expect(screen.getByRole('button', { name: '确认并生成订单' })).toBeEnabled())
     expect(vi.mocked(fetch).mock.calls.filter(c => String(c[0]).endsWith('/orders'))).toHaveLength(1)
   })
-  it('requires an explicit mutually exclusive coin or coupon choice and waits for its quote', async () => {
+  it('offers coupons without direct coin spending and waits for the quote', async () => {
     const user = userEvent.setup()
     render(<StoreCheckout userId="u1" productId="p1" variantId="v1" quantity={1} />)
     await fill()
-    expect(screen.getByRole('radio', { name: '不使用硬币或优惠券' })).toBeChecked()
-    await user.click(screen.getByRole('radio', { name: /使用硬币抵扣/ }))
-    await waitFor(() => expect(JSON.parse(String(vi.mocked(fetch).mock.calls.filter(c => String(c[0]).endsWith('/quote')).at(-1)?.[1]?.body))).toMatchObject({ useCoins: true, couponId: null }))
+    expect(screen.getByRole('radio', { name: '不使用优惠券' })).toBeChecked()
+    expect(screen.queryByRole('radio', { name: /使用硬币抵扣/ })).not.toBeInTheDocument()
     await user.click(screen.getByRole('radio', { name: /材料券/ }))
-    expect(screen.getByRole('radio', { name: /使用硬币抵扣/ })).not.toBeChecked()
+    expect(screen.queryByRole('radio', { name: /使用硬币抵扣/ })).not.toBeInTheDocument()
     await waitFor(() => expect(JSON.parse(String(vi.mocked(fetch).mock.calls.filter(c => String(c[0]).endsWith('/quote')).at(-1)?.[1]?.body))).toMatchObject({ useCoins: false, couponId: 'c1' }))
   })
   it('creates the order and opens the selected payment automatically without visiting order details', async () => {

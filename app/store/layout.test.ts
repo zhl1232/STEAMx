@@ -9,7 +9,7 @@ afterEach(() => { vi.unstubAllEnvs(); vi.resetAllMocks() })
 it.each(['false', 'true'])('keeps order titles and authentication independent of catalog=%s', async (enabled) => {
   vi.stubEnv('STORE_CATALOG_ENABLED', enabled)
   expect(generateMetadata()).toMatchObject({
-    title: { absolute: `${enabled === 'true' ? '材料包商城' : '页面未找到'} | 创探空间` },
+    title: { absolute: `${enabled === 'true' ? '材料商城' : '页面未找到'} | 创探空间` },
     robots: { index: false, follow: false },
   })
   expect(ordersMetadata.title).toMatchObject({ absolute: '本站材料包订单 | 创探空间' })

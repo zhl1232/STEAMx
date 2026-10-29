@@ -66,7 +66,7 @@ export function WorkImageGallery({
               "w-full overflow-hidden",
               isFeed
                 ? "aspect-[3/4] rounded-md bg-black/[0.04] dark:bg-white/[0.04]"
-                : "aspect-4/3 min-h-[220px] rounded-lg bg-[hsl(var(--surface-muted))]",
+                : "aspect-[3/4] min-h-[220px] rounded-lg bg-[hsl(var(--surface-muted))] md:aspect-auto md:h-[min(65dvh,40rem)]",
             )}
             sizes={isFeed ? "(max-width: 1024px) 92vw, 416px" : "(max-width: 1024px) 92vw, 720px"}
           />

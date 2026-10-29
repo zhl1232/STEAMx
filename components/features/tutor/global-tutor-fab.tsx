@@ -145,7 +145,7 @@ export function GlobalTutorFab({
   fabBottomInset = 0,
 }: TutorPanelProps) {
   const { user } = useAuth()
-  const { promptLogin } = useLoginPrompt()
+  const { promptLogin, isOpen: loginPromptOpen } = useLoginPrompt()
   const { toast } = useToast()
   const tutorCtx = useOptionalTutorContext()
   const queryClient = useQueryClient()
@@ -271,6 +271,26 @@ export function GlobalTutorFab({
     onLongPressTranscript: handleLongPressTranscript,
   })
   const stopSpeechPlayback = voice.stopSpeechPlayback
+  const [showCourseHint, setShowCourseHint] = useState(false)
+  useEffect(() => {
+    setShowCourseHint(false)
+    if (!mounted || open || loginPromptOpen || hideOnMobile || context.surface !== 'courses'
+      || voice.voiceFeedback || voice.showVoiceHint || !window.matchMedia('(max-width: 767px)').matches) return
+    const key = 'tutor:courses-hint:v1'
+    try {
+      if (sessionStorage.getItem(key)) return
+    } catch { /* The hint also works when browser storage is unavailable. */ }
+    let hideTimer: ReturnType<typeof setTimeout> | undefined
+    const showTimer = setTimeout(() => {
+      try { sessionStorage.setItem(key, '1') } catch { /* Storage is optional. */ }
+      setShowCourseHint(true)
+      hideTimer = setTimeout(() => setShowCourseHint(false), 8_000)
+    }, 800)
+    return () => {
+      clearTimeout(showTimer)
+      clearTimeout(hideTimer)
+    }
+  }, [mounted, open, loginPromptOpen, hideOnMobile, context.surface, voice.voiceFeedback, voice.showVoiceHint])
 
   // ---- 流式对话控制器 ----
   const handleBeforeSend = useCallback(() => {
@@ -793,7 +813,23 @@ export function GlobalTutorFab({
         </div>
       )}
 
-      {!open && !voice.voiceFeedback && voice.showVoiceHint && voice.voicePreferences.mobileLongPressInput && (
+      {!open && !voice.voiceFeedback && showCourseHint && (
+        <button
+          data-tutor-ui
+          type="button"
+          onClick={() => { setShowCourseHint(false); onToggle() }}
+          className={cn(
+            'fixed right-3 z-50 min-h-11 rounded-sm border border-[hsl(var(--brand-blue)/0.22)] bg-[hsl(var(--surface-raised))] px-3 py-2 text-xs font-medium leading-5 text-foreground shadow-sm md:hidden focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring',
+            hideOnMobile && 'hidden',
+            !drag.useCustomFabPosition && 'bottom-[calc(13.85rem+env(safe-area-inset-bottom))]',
+          )}
+          style={drag.fabBubbleStyle}
+        >
+          想找哪节课？问我。
+        </button>
+      )}
+
+      {!open && !voice.voiceFeedback && !showCourseHint && voice.showVoiceHint && voice.voicePreferences.mobileLongPressInput && (
         <div
           data-tutor-ui
           role="status"

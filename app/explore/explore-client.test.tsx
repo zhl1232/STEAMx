@@ -6,6 +6,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { ExploreClient } from './explore-client'
 import type { Project } from '@/lib/mappers/types'
+import { HOUSEHOLD_MATERIAL_GROUPS } from '@/lib/explore/material-matching'
 
 const clearLikesDeltaForProjects = vi.fn()
 const toast = vi.fn()
@@ -160,25 +161,54 @@ describe('ExploreClient', () => {
         )
     })
 
+    it('shows subcategories for the category chosen above and does not repeat category controls in filters', async () => {
+        currentSearchParams = new URLSearchParams({ category: '科学' })
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[]} initialHasMore={false} categories={['全部', '科学']} />)
+        await user.click(screen.getByTestId('explore-mobile-filters'))
+        const sheet = within(screen.getByTestId('sheet'))
+        expect(sheet.getByRole('spinbutton', { name: '孩子年龄' })).toBeInTheDocument()
+        expect(sheet.getByRole('button', { name: '物理' })).toBeInTheDocument()
+        expect(sheet.queryByRole('button', { name: '科学' })).not.toBeInTheDocument()
+        await user.click(sheet.getByRole('button', { name: '取消' }))
+        await user.click(screen.getByTestId('explore-category-strip').querySelector('button')!)
+        await user.click(screen.getByTestId('explore-mobile-filters'))
+        expect(within(screen.getByTestId('sheet')).queryByText('子分类')).not.toBeInTheDocument()
+    })
+
+    it('ignores unsupported URL tags without showing hidden conditions or chips', async () => {
+        currentSearchParams = new URLSearchParams({ tags: '磁力,八' })
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[]} initialHasMore={false} availableTags={['磁力', '八']} />)
+        expect(screen.queryByTestId('explore-filter-summary')).not.toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'false')
+        await user.click(screen.getByTestId('explore-mobile-filters'))
+        const sheet = within(screen.getByTestId('sheet'))
+        expect(sheet.queryByText('标签')).not.toBeInTheDocument()
+        expect(sheet.queryByRole('button', { name: '八' })).not.toBeInTheDocument()
+        expect(sheet.queryByTestId('explore-more-tags')).not.toBeInTheDocument()
+        expect(fetch).not.toHaveBeenCalled()
+    })
+
     it('ignores grade-only URLs on initial render and later URL navigation', async () => {
         currentSearchParams = new URLSearchParams({ tags: '初中' })
         const props = { initialProjects: [makeProject(1, '未筛选项目')], initialHasMore: false,
             initialFiltersKey: '', categories: ['全部', '科学'] }
         const { rerender } = render(<ExploreClient {...props} />)
-        expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.getByRole('combobox', { name: '项目排序' })).toHaveTextContent('推荐')
         expect(screen.getByText('未筛选项目')).toBeInTheDocument()
         currentSearchParams = new URLSearchParams({ tags: '科教版,初中' })
         rerender(<ExploreClient {...props} />)
         await waitFor(() => expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'true'))
         currentSearchParams = new URLSearchParams({ tags: '二年级,高中' })
         rerender(<ExploreClient {...props} />)
-        await waitFor(() => expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'true'))
+        await waitFor(() => expect(screen.getByRole('combobox', { name: '项目排序' })).toHaveTextContent('推荐'))
     })
 
     it('rebuilds page one when the saved filters differ from the SSR payload', async () => {
-        currentSearchParams = new URLSearchParams('tags=已选标签')
+        currentSearchParams = new URLSearchParams('tags=趣味实验')
         sessionStorage.setItem('explore-scroll-restore-v3', JSON.stringify({
-            filtersKey: 'tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE',
+            filtersKey: 'tags=%E8%B6%A3%E5%91%B3%E5%AE%9E%E9%AA%8C',
             scrollY: 240,
             nextPage: 1,
         }))
@@ -203,7 +233,7 @@ describe('ExploreClient', () => {
             <ExploreClient
                 initialProjects={[makeProject(1, '过期 SSR 项目')]}
                 initialHasMore={false}
-                initialFiltersKey="tags=旧标签"
+                initialFiltersKey="tags=科教版"
                 categories={['全部']}
             />,
         )
@@ -214,9 +244,9 @@ describe('ExploreClient', () => {
     })
 
     it('uses matching SSR data without fetching page one again', async () => {
-        currentSearchParams = new URLSearchParams('tags=已选标签')
+        currentSearchParams = new URLSearchParams('tags=趣味实验')
         sessionStorage.setItem('explore-scroll-restore-v3', JSON.stringify({
-            filtersKey: 'tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE',
+            filtersKey: 'tags=%E8%B6%A3%E5%91%B3%E5%AE%9E%E9%AA%8C',
             scrollY: 240,
             nextPage: 1,
         }))
@@ -231,7 +261,7 @@ describe('ExploreClient', () => {
             <ExploreClient
                 initialProjects={[makeProject(1, '匹配的 SSR 项目')]}
                 initialHasMore={false}
-                initialFiltersKey="tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE"
+                initialFiltersKey="tags=%E8%B6%A3%E5%91%B3%E5%AE%9E%E9%AA%8C"
                 categories={['全部']}
             />,
         )
@@ -241,7 +271,7 @@ describe('ExploreClient', () => {
     })
 
     it('repairs stale SSR data even when no scroll checkpoint is available', async () => {
-        currentSearchParams = new URLSearchParams('tags=已选标签')
+        currentSearchParams = new URLSearchParams('tags=趣味实验')
         vi.stubGlobal('scrollTo', vi.fn())
         vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { callback(0); return 0 })
         const fetchMock = vi.mocked(fetch)
@@ -251,7 +281,7 @@ describe('ExploreClient', () => {
             return { ok: true, json: async () => ({ projects: [makeProject(7, '无记录点的新项目')], hasMore: false, total: 1 }) } as Response
         })
 
-        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=旧标签" categories={['全部']} />)
+        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=科教版" categories={['全部']} />)
 
         expect(await screen.findByText('无记录点的新项目')).toBeInTheDocument()
         expect(screen.queryByText('过期 SSR 项目')).not.toBeInTheDocument()
@@ -259,9 +289,9 @@ describe('ExploreClient', () => {
     })
 
     it('restores every missing page from page zero when SSR data is stale', async () => {
-        currentSearchParams = new URLSearchParams('tags=已选标签')
+        currentSearchParams = new URLSearchParams('tags=趣味实验')
         sessionStorage.setItem('explore-scroll-restore-v3', JSON.stringify({
-            filtersKey: 'tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE', scrollY: 240, nextPage: 3,
+            filtersKey: 'tags=%E8%B6%A3%E5%91%B3%E5%AE%9E%E9%AA%8C', scrollY: 240, nextPage: 3,
         }))
         vi.stubGlobal('scrollTo', vi.fn())
         vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { callback(0); return 0 })
@@ -273,7 +303,7 @@ describe('ExploreClient', () => {
             return { ok: true, json: async () => ({ projects: [makeProject(page + 10, `恢复第 ${page} 页`)], hasMore: page < 2, total: 3 }) } as Response
         })
 
-        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=旧标签" categories={['全部']} />)
+        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=科教版" categories={['全部']} />)
 
         expect(await screen.findByText('恢复第 0 页')).toBeInTheDocument()
         expect(screen.getByText('恢复第 1 页')).toBeInTheDocument()
@@ -284,9 +314,9 @@ describe('ExploreClient', () => {
     })
 
     it('shows a retry action when the first restore page fails', async () => {
-        currentSearchParams = new URLSearchParams('tags=已选标签')
+        currentSearchParams = new URLSearchParams('tags=趣味实验')
         sessionStorage.setItem('explore-scroll-restore-v3', JSON.stringify({
-            filtersKey: 'tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE', scrollY: 240, nextPage: 1,
+            filtersKey: 'tags=%E8%B6%A3%E5%91%B3%E5%AE%9E%E9%AA%8C', scrollY: 240, nextPage: 1,
         }))
         vi.stubGlobal('scrollTo', vi.fn())
         vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { callback(0); return 0 })
@@ -300,7 +330,7 @@ describe('ExploreClient', () => {
             return { ok: true, json: async () => ({ projects: [makeProject(8, '重试成功项目')], hasMore: false, total: 1 }) } as Response
         })
 
-        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=旧标签" categories={['全部']} />)
+        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=科教版" categories={['全部']} />)
 
         const retry = await screen.findByRole('button', { name: '重试加载' })
         await waitFor(() => expect(retry).toBeEnabled())
@@ -310,9 +340,9 @@ describe('ExploreClient', () => {
     })
 
     it('retries the first missing page after a partial restore failure', async () => {
-        currentSearchParams = new URLSearchParams('tags=已选标签')
+        currentSearchParams = new URLSearchParams('tags=趣味实验')
         sessionStorage.setItem('explore-scroll-restore-v3', JSON.stringify({
-            filtersKey: 'tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE', scrollY: 240, nextPage: 3,
+            filtersKey: 'tags=%E8%B6%A3%E5%91%B3%E5%AE%9E%E9%AA%8C', scrollY: 240, nextPage: 3,
         }))
         vi.stubGlobal('scrollTo', vi.fn())
         vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { callback(0); return 0 })
@@ -326,7 +356,7 @@ describe('ExploreClient', () => {
             return { ok: true, json: async () => ({ projects: [makeProject(page + 20, `补齐第 ${page} 页`)], hasMore: page < 2, total: 3 }) } as Response
         })
 
-        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=旧标签" categories={['全部']} />)
+        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=科教版" categories={['全部']} />)
 
         const retry = await screen.findByRole('button', { name: '重试加载' })
         expect(await screen.findByText('补齐第 0 页')).toBeInTheDocument()
@@ -337,9 +367,9 @@ describe('ExploreClient', () => {
     })
 
     it('cancels a pending restore when a new filter is applied', async () => {
-        currentSearchParams = new URLSearchParams('tags=已选标签')
+        currentSearchParams = new URLSearchParams('tags=趣味实验')
         sessionStorage.setItem('explore-scroll-restore-v3', JSON.stringify({
-            filtersKey: 'tags=%E5%B7%B2%E9%80%89%E6%A0%87%E7%AD%BE', scrollY: 240, nextPage: 1,
+            filtersKey: 'tags=%E8%B6%A3%E5%91%B3%E5%AE%9E%E9%AA%8C', scrollY: 240, nextPage: 1,
         }))
         vi.stubGlobal('scrollTo', vi.fn())
         vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { callback(0); return 0 })
@@ -354,8 +384,9 @@ describe('ExploreClient', () => {
         })
 
         const user = userEvent.setup()
-        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=旧标签" categories={['全部', '科学']} />)
-        await user.click(screen.getByRole('button', { name: '最新' }))
+        render(<ExploreClient initialProjects={[makeProject(1, '过期 SSR 项目')]} initialHasMore={false} initialFiltersKey="tags=科教版" categories={['全部', '科学']} />)
+        await user.click(screen.getByRole('combobox', { name: '项目排序' }))
+        await user.click(screen.getByRole('option', { name: '最新发布' }))
 
         expect(await screen.findByText('新筛选项目')).toBeInTheDocument()
         expect(screen.queryByText('过期 SSR 项目')).not.toBeInTheDocument()
@@ -513,69 +544,40 @@ describe('ExploreClient', () => {
         expect(screen.queryByTestId('explore-load-more-placeholder')).not.toBeInTheDocument()
     })
 
-    it('scopes tags by category and opens the tag picker for the full list', async () => {
-        const fetchMock = vi.mocked(fetch)
-        fetchMock.mockResolvedValue({
-            ok: true,
-            json: async () => ({
-                projects: [makeProject(2, '科学项目')],
-                hasMore: false,
-                total: 1,
-            }),
-        } as Response)
-
+    it('keeps more filters focused on difficulty, age, and the selected category subcategories', async () => {
+        currentSearchParams = new URLSearchParams({ category: '科学', tags: '趣味实验,磁力' })
         const user = userEvent.setup()
-
-        render(
-            <ExploreClient
-                initialProjects={[makeProject(1, '初始项目')]}
-                initialHasMore={false}
-                categories={['全部', '科学', '艺术']}
-                availableTags={[
-                    '磁力', '观察', '实验', '记录', '动手', '材料', '安全', '流程', '现象', '编织',
-                    '声音', '测量', '光影', '空气', '反应', '能量', '导电', '结构', '温度', '速度',
-                    '轨迹', '对比', '验证', '模型', '工具', '折射',
-                ]}
-                tagScope={{
-                    all: [
-                        '磁力', '观察', '实验', '记录', '动手', '材料', '安全', '流程', '现象', '编织',
-                        '声音', '测量', '光影', '空气', '反应', '能量', '导电', '结构', '温度', '速度',
-                        '轨迹', '对比', '验证', '模型', '工具', '折射',
-                    ],
-                    byCategory: {
-                        科学: [
-                            '磁力', '观察', '实验', '记录', '动手', '材料', '安全', '流程', '现象',
-                            '声音', '测量', '光影', '空气', '反应', '能量', '导电', '结构', '温度', '速度',
-                            '轨迹', '对比', '验证', '模型', '工具', '折射',
-                        ],
-                        艺术: ['编织'],
-                    },
-                    bySubCategory: {
-                        物理: ['磁力', '观察'],
-                    },
-                }}
-            />,
-        )
-
-        await user.click(screen.getByRole('button', { name: '科学' }))
-        await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
-
-        await user.click(screen.getByRole('button', { name: '筛选' }))
-
-        expect(screen.getByRole('button', { name: '入门' })).toBeInTheDocument()
-        expect(screen.queryByRole('button', { name: '编织' })).not.toBeInTheDocument()
-        expect(screen.queryByRole('button', { name: '折射' })).not.toBeInTheDocument()
-
-        expect(screen.queryByText(/还有 \d+ 个/)).not.toBeInTheDocument()
-
-        await user.click(screen.getByTestId('explore-more-tags'))
-
-        expect(screen.getByTestId('explore-tag-picker')).toBeInTheDocument()
-        expect(screen.getByRole('button', { name: '观察' })).toBeInTheDocument()
-        expect(screen.getByRole('button', { name: '折射' })).toBeInTheDocument()
+        render(<ExploreClient initialProjects={[]} initialHasMore={false} categories={['全部', '科学']} availableTags={['磁力', '观察']} />)
+        await user.click(screen.getByTestId('explore-desktop-filters'))
+        const sheet = within(screen.getByTestId('sheet'))
+        expect(sheet.getByRole('button', { name: '入门' })).toBeInTheDocument()
+        expect(sheet.getByRole('button', { name: '物理' })).toBeInTheDocument()
+        expect(sheet.getByRole('spinbutton', { name: '孩子年龄' })).toBeInTheDocument()
+        expect(sheet.queryByRole('button', { name: '科学' })).not.toBeInTheDocument()
+        expect(sheet.queryByText('标签')).not.toBeInTheDocument()
+        expect(sheet.queryByRole('button', { name: '磁力' })).not.toBeInTheDocument()
     })
 
-    it('shows results chrome after category filtering', async () => {
+    it('groups age and result count and removes the summary when only the materials theme remains', async () => {
+        currentSearchParams = new URLSearchParams('tags=日常材料&age=3')
+        vi.mocked(fetch).mockResolvedValue({
+            ok: true,
+            json: async () => ({ projects: [makeProject(1, '材料项目')], hasMore: false, total: 1 }),
+        } as Response)
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[makeProject(1, '材料项目')]} initialHasMore={false} initialTotal={401} />)
+        const summary = within(screen.getByTestId('explore-filter-summary'))
+        expect(summary.getByRole('button', { name: /优先 3 岁/ })).toBeInTheDocument()
+        expect(summary.getByText('401 个项目')).toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '返回探索' })).not.toBeInTheDocument()
+        await user.click(summary.getByRole('button', { name: /优先 3 岁/ }))
+        await waitFor(() => expect(screen.queryByTestId('explore-filter-summary')).not.toBeInTheDocument())
+        const request = new URL(String(vi.mocked(fetch).mock.calls.at(-1)?.[0]), 'http://localhost')
+        expect(request.searchParams.get('age')).toBeNull()
+        expect(request.searchParams.get('tags')).toBe('日常材料')
+    })
+
+    it('keeps themes and independent sorting visible after category filtering', async () => {
         const fetchMock = vi.mocked(fetch)
         fetchMock.mockResolvedValue({
             ok: true,
@@ -597,7 +599,7 @@ describe('ExploreClient', () => {
             />,
         )
 
-        expect(screen.getByRole('button', { name: '热门推荐' })).toBeInTheDocument()
+        expect(screen.getByRole('combobox', { name: '项目排序' })).toHaveTextContent('推荐')
         expect(screen.getByRole('button', { name: '趣味实验' })).toBeInTheDocument()
         expect(screen.getByRole('button', { name: '科教版' })).toBeInTheDocument()
 
@@ -605,12 +607,14 @@ describe('ExploreClient', () => {
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
         expect(screen.queryByRole('button', { name: '热门推荐' })).not.toBeInTheDocument()
-        expect(screen.queryByRole('button', { name: '趣味实验' })).not.toBeInTheDocument()
-        expect(screen.queryByRole('button', { name: '科教版' })).not.toBeInTheDocument()
-        expect(screen.getByRole('button', { name: '返回探索' })).toBeInTheDocument()
-        expect(screen.getByText('共找到 42 个项目')).toBeInTheDocument()
-        expect(screen.getByRole('button', { name: '推荐' })).toBeInTheDocument()
-        expect(screen.getByRole('button', { name: '最新' })).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '趣味实验' })).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: '科教版' })).toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '返回探索' })).not.toBeInTheDocument()
+        expect(screen.queryByTestId('explore-filter-summary')).not.toBeInTheDocument()
+        expect(screen.getByRole('combobox', { name: '项目排序' })).toHaveTextContent('推荐')
+        await user.click(screen.getByRole('combobox', { name: '项目排序' }))
+        expect(screen.getByRole('option', { name: '最新发布' })).toBeInTheDocument()
+        await user.keyboard('{Escape}')
         expect(await screen.findByText('科学项目')).toBeInTheDocument()
     })
 
@@ -626,7 +630,7 @@ describe('ExploreClient', () => {
         expect(screen.queryByRole('button', { name: '本周热门' })).not.toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '最新上架' })).not.toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '新手推荐' })).not.toBeInTheDocument()
-        expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.getByRole('combobox', { name: '项目排序' })).toHaveTextContent('推荐')
         expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'false')
         expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'false')
     })
@@ -654,10 +658,10 @@ describe('ExploreClient', () => {
         )
 
         expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'true')
-        expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'false')
+        expect(screen.queryByRole('button', { name: '热门推荐' })).not.toBeInTheDocument()
         expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'false')
 
-        await user.click(screen.getByRole('button', { name: '热门推荐' }))
+        await user.click(screen.getByRole('button', { name: '趣味实验' }))
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
         const requestUrl = String(fetchMock.mock.calls[0]?.[0] ?? '')
@@ -687,10 +691,10 @@ describe('ExploreClient', () => {
         )
 
         expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'true')
-        expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'false')
+        expect(screen.queryByRole('button', { name: '热门推荐' })).not.toBeInTheDocument()
         expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'false')
 
-        await user.click(screen.getByRole('button', { name: '热门推荐' }))
+        await user.click(screen.getByRole('button', { name: '科教版' }))
 
         await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1))
         const requestUrl = String(fetchMock.mock.calls[0]?.[0] ?? '')
@@ -711,7 +715,7 @@ describe('ExploreClient', () => {
         expect(screen.queryByRole('button', { name: '返回探索' })).not.toBeInTheDocument()
     })
 
-    it('loads the materials tab and removes its picker and summaries when returning to popular', async () => {
+    it('loads the materials theme and removes its picker and summaries when toggled off', async () => {
         const sample = { ...makeProject(738, '彩虹爬爬爬'), materials: ['纸巾1张', '浅盘1个'] }
         vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => ({ projects: [sample], hasMore: false, total: 1 }) } as Response)
         const user = userEvent.setup()
@@ -724,7 +728,7 @@ describe('ExploreClient', () => {
         expect(screen.getByTestId('material-summary')).toHaveTextContent('0/2')
         expect(screen.getByTestId('household-material-picker')).toHaveTextContent('我家有什么')
         expect(screen.queryByRole('button', { name: '返回探索' })).not.toBeInTheDocument()
-        await user.click(screen.getByRole('button', { name: '热门推荐' }))
+        await user.click(screen.getByRole('button', { name: '日常材料' }))
         await waitFor(() => expect(screen.queryByTestId('material-summary')).not.toBeInTheDocument())
         expect(screen.queryByTestId('household-material-picker')).not.toBeInTheDocument()
     })
@@ -742,6 +746,17 @@ describe('ExploreClient', () => {
         expect(screen.getByTestId('material-summary')).toHaveTextContent('1/1')
     })
 
+    it('restores a category selection without counting its unconfirmed specifications as matched', () => {
+        currentSearchParams = new URLSearchParams({ tags: '日常材料' })
+        const bottles = HOUSEHOLD_MATERIAL_GROUPS.find(({ label }) => label === '瓶子')!
+        sessionStorage.setItem('steamx:owned-materials:v1', JSON.stringify([bottles.id]))
+        const sample = { ...makeProject(1157, '瓶子实验'), materials: ['带盖透明塑料瓶1个'], householdRequirements: [['bottle']] }
+        render(<ExploreClient initialProjects={[sample]} initialHasMore={false} />)
+        expect(screen.getByTestId('material-summary')).toHaveTextContent('1/1')
+        expect(screen.getByTestId('household-material-picker')).toHaveTextContent('已按已有材料排序')
+        expect(screen.getByTestId('household-material-picker')).not.toHaveTextContent('1 个项目材料已匹配')
+    })
+
     it('ranks by missing types after selection and restores the fewest-materials order on clear', async () => {
         currentSearchParams = new URLSearchParams({ tags: '日常材料' })
         const user = userEvent.setup()
@@ -753,10 +768,10 @@ describe('ExploreClient', () => {
         const order = () => [...container.querySelectorAll('[data-explore-project-id]')].map((node) => node.getAttribute('data-explore-project-id'))
         expect(order()).toEqual(['102', '738'])
         await user.click(screen.getByRole('button', { name: '纸巾' }))
-        await user.click(screen.getByRole('button', { name: '清水' }))
+        await user.click(screen.getByRole('button', { name: '水' }))
         expect(order()).toEqual(['738', '102'])
         expect(screen.getAllByTestId('material-summary')[0]).toHaveTextContent('2/4')
-        expect(JSON.parse(sessionStorage.getItem('steamx:owned-materials:v1')!)).toEqual(['tissue', 'water'])
+        expect(JSON.parse(sessionStorage.getItem('steamx:owned-materials:v1')!)).toEqual(['纸巾', '水'].map((label) => HOUSEHOLD_MATERIAL_GROUPS.find((group) => group.label === label)!.id))
         expect(fetch).not.toHaveBeenCalled()
         await user.click(screen.getByRole('button', { name: '清空已选材料' }))
         expect(order()).toEqual(['102', '738'])
@@ -810,7 +825,7 @@ describe('ExploreClient', () => {
         const requestUrl = decodeURIComponent(String(fetchMock.mock.calls[0]?.[0] ?? ''))
         expect(requestUrl).toContain('tags=科教版')
         expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'true')
-        expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'false')
+        expect(screen.queryByRole('button', { name: '热门推荐' })).not.toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '返回探索' })).not.toBeInTheDocument()
     })
 
@@ -827,12 +842,12 @@ describe('ExploreClient', () => {
 
         expect(screen.queryByRole('button', { name: '新手推荐' })).not.toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '最新上架' })).not.toBeInTheDocument()
-        // difficulty filter puts explore into results mode (no list-tab pills)
+        // Difficulty remains an advanced condition; the independent theme controls stay available.
         expect(screen.queryByRole('button', { name: '热门推荐' })).not.toBeInTheDocument()
-        expect(screen.getByRole('button', { name: '返回探索' })).toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: '返回探索' })).not.toBeInTheDocument()
     })
 
-    it('ignores legacy latest sort highlight and keeps remaining pills', () => {
+    it('shows explicit latest sorting independently from the theme shortcuts', () => {
         currentSearchParams = new URLSearchParams('sortBy=latest')
 
         render(
@@ -844,7 +859,7 @@ describe('ExploreClient', () => {
         )
 
         expect(screen.queryByRole('button', { name: '最新上架' })).not.toBeInTheDocument()
-        expect(screen.getByRole('button', { name: '热门推荐' })).toHaveAttribute('aria-pressed', 'false')
+        expect(screen.getByRole('combobox', { name: '项目排序' })).toHaveTextContent('最新')
         expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'false')
         expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'false')
     })
@@ -928,4 +943,103 @@ describe('ExploreClient', () => {
         await waitFor(() => expect(screen.getByTestId('explore-project-grid')).toHaveTextContent('慢结果'))
         expect(input).toHaveValue('慢查询新草稿')
     })
+    it('discards difficulty and age draft edits on cancel', async () => {
+        currentSearchParams = new URLSearchParams({ category: '科学', tags: '趣味实验', sortBy: 'latest' })
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[]} initialHasMore={false} />)
+        await user.click(screen.getByTestId('explore-desktop-filters'))
+        let sheet = within(screen.getByTestId('sheet'))
+        await user.click(sheet.getByRole('button', { name: '入门' }))
+        await user.type(sheet.getByRole('spinbutton', { name: '孩子年龄' }), '8')
+        await user.click(sheet.getByRole('button', { name: '取消' }))
+        expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.getByRole('combobox', { name: '项目排序' })).toHaveTextContent('最新')
+        expect(fetch).not.toHaveBeenCalled()
+        await user.click(screen.getByTestId('explore-desktop-filters'))
+        sheet = within(screen.getByTestId('sheet'))
+        expect(sheet.getByRole('button', { name: '入门' })).toHaveAttribute('aria-pressed', 'false')
+        expect(sheet.getByRole('spinbutton', { name: '孩子年龄' })).toHaveValue(null)
+    })
+
+    it.each([0, 1])('resets common filters from reset control %s while preserving category, themes, query, and sorting', async (resetIndex) => {
+        currentSearchParams = new URLSearchParams({ category: '科学', subCategory: '物理', difficulty: 'beginner', age: '8', q: '电池', tags: '趣味实验,科教版', sortBy: 'latest' })
+        vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => ({ projects: [], hasMore: false, total: 0 }) } as Response)
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[]} initialHasMore={false} />)
+        await user.click(screen.getByTestId('explore-desktop-filters'))
+        const sheet = within(screen.getByTestId('sheet'))
+        // The DOM harness does not apply responsive CSS; exercise both reset locations.
+        await user.click(sheet.getAllByRole('button', { name: '重置' })[resetIndex])
+        await user.click(sheet.getByRole('button', { name: '查看结果' }))
+        await waitFor(() => expect(vi.mocked(fetch)).toHaveBeenCalledTimes(1))
+        const request = new URL(String(vi.mocked(fetch).mock.calls[0][0]), 'http://localhost')
+        expect(request.searchParams.get('category')).toBe('科学')
+        expect(request.searchParams.get('tags')).toBe('趣味实验,科教版')
+        expect(request.searchParams.get('q')).toBe('电池')
+        expect(request.searchParams.get('sortBy')).toBe('latest')
+        expect(request.searchParams.get('subCategory')).toBeNull()
+        expect(request.searchParams.get('difficulty')).toBeNull()
+        expect(request.searchParams.get('age')).toBeNull()
+    })
+
+    it('toggles only the requested theme tag while preserving the other active conditions', async () => {
+        currentSearchParams = new URLSearchParams({ category: '科学', subCategory: '物理', difficulty: 'beginner', age: '8', q: '电池', tags: '科教版', sortBy: 'latest' })
+        vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => ({ projects: [], hasMore: false, total: 0 }) } as Response)
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[]} initialHasMore={false} />)
+        expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'true')
+        await user.click(screen.getByRole('button', { name: '趣味实验' }))
+        await waitFor(() => expect(screen.getByRole('button', { name: '趣味实验' })).not.toBeDisabled())
+        let request = new URL(String(vi.mocked(fetch).mock.calls.at(-1)?.[0]), 'http://localhost')
+        expect(new Set(request.searchParams.get('tags')?.split(','))).toEqual(new Set(['科教版', '趣味实验']))
+        expect(Object.fromEntries(['category', 'subCategory', 'difficulty', 'age', 'q', 'sortBy'].map(key => [key, request.searchParams.get(key)]))).toEqual({ category: '科学', subCategory: '物理', difficulty: 'beginner', age: '8', q: '电池', sortBy: 'latest' })
+        expect(screen.getByRole('button', { name: '科教版' })).toHaveAttribute('aria-pressed', 'true')
+        await user.click(screen.getByRole('button', { name: '趣味实验' }))
+        await waitFor(() => expect(screen.getByRole('button', { name: '趣味实验' })).not.toBeDisabled())
+        request = new URL(String(vi.mocked(fetch).mock.calls.at(-1)?.[0]), 'http://localhost')
+        expect(new Set(request.searchParams.get('tags')?.split(','))).toEqual(new Set(['科教版']))
+        expect(request.searchParams.get('difficulty')).toBe('beginner')
+        expect(request.searchParams.get('sortBy')).toBe('latest')
+    })
+
+    it('changes independent sorting without clearing the selected theme', async () => {
+        currentSearchParams = new URLSearchParams({ tags: '趣味实验' })
+        vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => ({ projects: [], hasMore: false, total: 0 }) } as Response)
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[]} initialHasMore={false} />)
+        await user.click(screen.getByRole('combobox', { name: '项目排序' }))
+        await user.click(screen.getByRole('option', { name: '最新发布' }))
+        await waitFor(() => expect(screen.getByRole('combobox', { name: '项目排序' })).not.toBeDisabled())
+        const request = new URL(String(vi.mocked(fetch).mock.calls.at(-1)?.[0]), 'http://localhost')
+        expect(request.searchParams.get('sortBy')).toBe('latest')
+        expect(request.searchParams.get('tags')).toBe('趣味实验')
+        expect(screen.getByRole('button', { name: '趣味实验' })).toHaveAttribute('aria-pressed', 'true')
+        expect(screen.getByRole('combobox', { name: '项目排序' })).toHaveTextContent('最新')
+    })
+
+    it('drops unsupported URL tags from the next category request while retaining supported themes', async () => {
+        currentSearchParams = new URLSearchParams({ tags: '编织,趣味实验' })
+        vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => ({ projects: [], hasMore: false, total: 0 }) } as Response)
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[]} initialHasMore={false} categories={['全部', '科学']} availableTags={['编织', '磁力']} tagScope={{ all: ['编织', '磁力'], byCategory: { 科学: ['磁力'] }, bySubCategory: {} }} />)
+        expect(screen.queryByTestId('explore-filter-summary')).not.toBeInTheDocument()
+        await user.click(screen.getByTestId('explore-category-strip').querySelectorAll('button')[1])
+        await waitFor(() => expect(screen.getByRole('button', { name: '趣味实验' })).not.toBeDisabled())
+        const request = new URL(String(vi.mocked(fetch).mock.calls.at(-1)?.[0]), 'http://localhost')
+        expect(request.searchParams.get('category')).toBe('科学')
+        expect(request.searchParams.get('tags')).toBe('趣味实验')
+        expect(screen.queryByTestId('explore-filter-summary')).not.toBeInTheDocument()
+    })
+
+    it('hides sorting for materials while preserving the selected normal sort for leaving that theme', async () => {
+        currentSearchParams = new URLSearchParams({ tags: '日常材料', sortBy: 'latest' })
+        vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => ({ projects: [], hasMore: false, total: 0 }) } as Response)
+        const user = userEvent.setup()
+        render(<ExploreClient initialProjects={[]} initialHasMore={false} />)
+        expect(screen.queryByText('材料优先')).not.toBeInTheDocument()
+        expect(screen.queryByRole('combobox', { name: '项目排序' })).not.toBeInTheDocument()
+        await user.click(screen.getByRole('button', { name: '日常材料' }))
+        await waitFor(() => expect(screen.getByRole('combobox', { name: '项目排序' })).toHaveTextContent('最新'))
+    })
+
 })

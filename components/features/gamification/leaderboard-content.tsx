@@ -22,6 +22,7 @@ import {
 import { BadgeIcon } from "@/components/features/gamification/badge-icon";
 import { LevelGuideDialog } from "@/components/features/gamification/level-guide-dialog";
 import { LeaderboardItemSkeleton } from "@/components/ui/leaderboard-skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UserAvatar } from "@/components/ui/user-avatar";
 import { useToast } from "@/hooks/use-toast";
@@ -324,9 +325,15 @@ function PodiumCard({
 
 function PodiumSkeleton() {
     return (
-        <div className="grid grid-cols-3 gap-2 md:gap-4 md:items-end">
-            {[1, 2, 3].map((item) => (
-                <div key={item} className="h-[126px] animate-pulse rounded-lg border border-border/60 bg-muted/50 md:h-[190px] md:rounded-lg" />
+        <div className="grid grid-cols-3 gap-2 md:gap-4 md:items-end xl:gap-5">
+            {[2, 1, 3].map((rank) => (
+                <Skeleton
+                    key={rank}
+                    className={cn(
+                        "h-[136px] rounded-lg border border-border/60 md:h-[214px]",
+                        rank === 1 && "md:-translate-y-4 md:h-[232px]",
+                    )}
+                />
             ))}
         </div>
     );
@@ -497,9 +504,9 @@ function LeaderboardGrowthTaskList({
             <div className="space-y-4">
                 {[1, 2, 3].map((item) => (
                     <div key={item} className="space-y-2">
-                        <div className="h-4 w-4/5 animate-pulse rounded bg-muted" />
-                        <div className="h-1.5 animate-pulse rounded-full bg-muted" />
-                        <div className="ml-auto h-3 w-16 animate-pulse rounded bg-muted" />
+                        <Skeleton className="h-4 w-4/5 rounded" />
+                        <Skeleton className="h-1.5 rounded-full" />
+                        <Skeleton className="ml-auto h-3 w-16 rounded" />
                     </div>
                 ))}
             </div>
@@ -897,7 +904,7 @@ export function LeaderboardContent({ compact, className }: LeaderboardContentPro
                             <span className="hidden text-right xl:block">代表表现</span>
                         </div>
                         {isLoading ? (
-                            <div className="space-y-2 p-4">
+                            <div className="space-y-2 py-4">
                                 {[1, 2, 3, 4, 5].map((i) => (
                                     <LeaderboardItemSkeleton key={i} />
                                 ))}

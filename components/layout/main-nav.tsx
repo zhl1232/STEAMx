@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useStoreEntryVisible } from "@/lib/context/store-availability-context";
 import { cn } from "@/lib/utils";
 
 export function MainNav() {
     const pathname = usePathname();
+    const storeEntryVisible = useStoreEntryVisible();
     const routes = [
         {
             href: "/explore",
@@ -33,6 +35,11 @@ export function MainNav() {
             label: "游乐场",
             active: pathname === "/playground" || pathname?.startsWith("/playground/"),
         },
+        ...(storeEntryVisible ? [{
+            href: "/store",
+            label: "材料商城",
+            active: pathname === "/store" || pathname?.startsWith("/store/"),
+        }] : []),
     ];
 
     return (

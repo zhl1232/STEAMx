@@ -82,6 +82,10 @@ function decodeXml(value) {
 
 function decodeHtml(value) { return decodeXml(value).replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code))).replace(/&#x([\da-f]+);/gi, (_, code) => String.fromCodePoint(Number.parseInt(code, 16))); }
 
+function isCanonicalCourseSelection(url) {
+  return url.pathname === "/courses" && /^\?course=[1-9]\d*$/.test(url.search) && Number.isSafeInteger(Number(url.searchParams.get("course")));
+}
+
 function parseSitemap(xml, base, report) {
   if (!/<urlset\b[^>]*[\s>]/i.test(xml) || !/<\/urlset>/i.test(xml)) {
     add(report, "errors", "sitemap is not a complete <urlset>");
@@ -93,21 +97,23 @@ function parseSitemap(xml, base, report) {
   for (const location of locations) {
     try {
       const url = new URL(location);
-      if (url.origin !== base.origin || url.protocol !== base.protocol || url.hash || url.search) {
+      if (url.origin !== base.origin || url.protocol !== base.protocol || url.hash || (url.search && !isCanonicalCourseSelection(url))) {
         add(report, "errors", "sitemap URL is not an absolute canonical same-origin URL", location);
+      } else if (/^\/courses\/[^/]+\/?$/.test(url.pathname)) {
+        add(report, "errors", "sitemap contains a retired course overview URL", location);
       } else uniqueUrls.add(url.href);
     } catch {
       add(report, "errors", "sitemap contains an invalid URL", location);
     }
   }
   const urls = [...uniqueUrls];
-  const paths = new Set(urls.map((value) => new URL(value).pathname));
+  const paths = new Set(urls.map((value) => { const url = new URL(value); return url.pathname + url.search; }));
   for (const path of ["/", "/courses", "/learn/blocks", "/learn/scratch", "/learn/science"]) {
     if (!paths.has(path)) add(report, "errors", `sitemap is missing required topic ${path}`);
   }
   const dynamic = {
     project: urls.filter((value) => /^\/project\/[^/]+\/?$/.test(new URL(value).pathname)),
-    course: urls.filter((value) => /^\/courses\/[^/]+\/?$/.test(new URL(value).pathname)),
+    course: urls.filter((value) => isCanonicalCourseSelection(new URL(value))),
     lesson: urls.filter((value) => /^\/courses\/[^/]+\/lessons\/[^/]+\/?$/.test(new URL(value).pathname)),
   };
   for (const [kind, values] of Object.entries(dynamic)) {

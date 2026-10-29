@@ -480,7 +480,7 @@ function RecordsPageShell({ children }: { children: React.ReactNode }) {
 }
 
 function RecordsPageContent({ children }: { children: React.ReactNode }) {
-  return <div className="mx-auto w-full max-w-lg px-4 pt-3 md:max-w-6xl md:pt-8 md:pb-8">{children}</div>
+  return <div className="app-shell-wide pt-3 md:pt-8 md:pb-8">{children}</div>
 }
 
 function RecordsFilterRow({ children }: { children: React.ReactNode }) {

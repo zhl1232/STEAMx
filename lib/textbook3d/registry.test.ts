@@ -9,12 +9,29 @@ import {
   TEXTBOOK3D_LESSON_ID,
   TEXTBOOK3D_SHARED_BASE,
   TEXTBOOK3D_VERSION,
+  TEXTBOOK3D_VOLUMES,
   textbook3dLessonIdFromUrl,
   textbook3dSrc,
 } from "./registry"
 
 describe("textbook3d registry", () => {
   const lessons = listTextbook3dLessons()
+
+  it("按小学一年级到初中九年级排列完整册次，并标明教材版本", () => {
+    expect(TEXTBOOK3D_VOLUMES.map((volume) => volume.id)).toEqual([
+      "p1a", "p1b", "p2a", "p2b", "p3a", "p3b", "p4a", "p4b",
+      "p5a", "p5b", "p6a", "p6b", "g8a", "g8b", "g9",
+    ])
+    for (const volume of TEXTBOOK3D_VOLUMES) {
+      expect(volume.edition).toBe(volume.id.startsWith("p") ? "教科版" : "人教版")
+      expect(volume.subject).toBe(volume.id.startsWith("p") ? "科学" : "物理")
+      expect(volume.chapters.length).toBeGreaterThan(0)
+    }
+    expect(lessons[0].id).toBe("p1a-1-1")
+    const primaryLast = TEXTBOOK3D_VOLUMES[11].chapters.at(-1)!.lessons.at(-1)!
+    expect(getTextbook3dLesson(primaryLast.id)?.next?.id).toBe("g8a-1-1")
+    expect(getTextbook3dLesson("g8a-1-1")?.prev?.id).toBe(primaryLast.id)
+  })
 
   it("每个登记的课都有唯一合法课号和已复制的静态包", () => {
     expect(new Set(lessons.map((l) => l.id)).size).toBe(lessons.length)

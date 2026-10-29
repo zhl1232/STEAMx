@@ -40,7 +40,6 @@ export default async function Home() {
     worksHasMore,
     recentNatureObservations,
     communityFeed,
-    categoryTileCounts,
     featuredChallenge,
   } = await getHomepageShowcaseData();
 
@@ -55,7 +54,6 @@ export default async function Home() {
         worksHasMore={worksHasMore}
         recentNatureObservations={recentNatureObservations}
         communityFeed={communityFeed}
-        categoryTileCounts={categoryTileCounts}
         featuredChallenge={featuredChallenge}
       />
     </>

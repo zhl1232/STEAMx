@@ -27,12 +27,12 @@ export function SettingsSubpageShell({
   onBack,
 }: SettingsSubpageShellProps) {
   return (
-    <div className={cn("mx-auto flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full max-w-5xl flex-col pb-24", className)}>
+    <div className={cn("flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full min-w-0 flex-col pb-24", className)}>
       <div className="md:hidden">
         <MobilePageHeader title={title} fallbackHref={fallbackHref} onBack={onBack} />
       </div>
 
-      <div className="page-shell flex-1 pt-4 md:pt-8">
+      <div className="app-shell-reading flex-1 pt-4 md:pt-8">
         {(kicker || description) ? (
           <div className="mb-5 px-1 md:hidden">
             {kicker ? <p className="section-kicker">{kicker}</p> : null}
@@ -51,7 +51,7 @@ export function SettingsSubpageShell({
         </div>
 
         <div className={cn("mt-0 grid gap-6 md:mt-8", aside ? "lg:grid-cols-[minmax(0,1.35fr)_320px]" : undefined)}>
-          <section className={cn("surface-panel p-4 sm:p-6", mainClassName)}>{children}</section>
+          <section className={cn("surface-panel min-w-0 p-4 sm:p-6", mainClassName)}>{children}</section>
           {aside ? <aside className="space-y-6">{aside}</aside> : null}
         </div>
       </div>

@@ -182,6 +182,8 @@ Release 与手机号提供商运维共用 `release-production` 并发组，服�
 
 ## 商城与客服任务
 
+游乐场 `playground-worker` 与其他 worker 一样默认限制 128m 内存，`memswap_limit` 与 `mem_limit` 相等以禁用 swap，Node 堆默认 96MB；分别通过 `PLAYGROUND_WORKER_MEMORY_LIMIT` 和 `PLAYGROUND_WORKER_NODE_OPTIONS` 配置。
+
 `commerce-worker` 与应用使用同一镜像，等待应用健康后运行 `deploy/commerce-worker.mjs`。以 `CRON_SECRET` 或 `INTERNAL_API_SECRET` 认证，每分钟独立调用订单对账和客服通知接口；单个任务失败不阻止另一个，下次循环须等本次结束。请求有界超时，退出信号停止新一轮任务；错误日志不打印 webhook 或密钥。
 
 启用飞书应用模式时，同一 worker 还启动 `deploy/feishu-bridge.mjs` 的 SDK 长连接，以及独立的收发队列循环；它们不阻塞原对账任务。收到的群聊文字、图片与富文本只转发白名单字段到内部认证接口，必须先持久入队才确认接收；退出时关闭长连接、心跳和重连计时器。飞书 SDK 的原始事件日志保持关闭。配置与接入权限统一见 [客服专题](customer-support.md#飞书应用机器人与直接回复)。

@@ -107,6 +107,25 @@ it('optional plates become required only by explicit preference or structural wh
   ).toBe(1)
 })
 
+it.each([true, false])('prioritizes required recoloring over optional exact colors when recoloring is %s', (acceptColorSubstitutes) => {
+  const result = compareLessonMaterials(
+    bom(entry('51262.dat', 4), { ...entry('51262.dat', 1), structural: true }),
+    [stock('51262', 4)],
+    { ...prefs, acceptColorSubstitutes },
+  )
+
+  expect(result.entries[0]).toMatchObject({
+    status: acceptColorSubstitutes ? 'optionalMissing' : 'satisfied',
+    missing: acceptColorSubstitutes ? 1 : 0,
+  })
+  expect(result.entries[1]).toMatchObject({
+    status: acceptColorSubstitutes ? 'colorSubstitute' : 'requiredMissing',
+    substituted: acceptColorSubstitutes ? 1 : 0,
+    missing: acceptColorSubstitutes ? 0 : 1,
+  })
+  expect(result.stats.matched).toBe(1)
+})
+
 it('covers a structural 8×8 with two same-color 4×8 plates without mutating inputs', () => {
   const model = bom({ ...entry('51262.dat'), structural: true })
   const inventory = [stock('4672', 4, 2)]
@@ -537,16 +556,57 @@ it.each([[7, 71, '浅灰色', 'Light Bluish Gray'], [8, 72, '深灰色', 'Dark B
   },
 )
 
-it('kit colors follow the majority allocation and retain the model color with no stock', () => {
+it('retains the model color and reports actual Toolo recoloring', () => {
   const model = bom({ ...entry('28331.dat', 7, 4), colorName: '浅灰色' })
   const result = compareLessonMaterials(model, [
     { ...stock('74844', 71, 1), colorName: 'Light Bluish Gray' },
     { ...stock('74844', 72, 3), colorName: 'Dark Bluish Gray' },
-  ], { ...prefs, acceptColorSubstitutes: false })
-  expect(result.entries[0]).toMatchObject({ colorName: '深灰色', colorCode: 72, substituted: 0, missing: 0 })
-  expect(result.colorSubstitutes).toEqual([])
+  ], prefs)
+  expect(result.entries[0]).toMatchObject({ colorName: '浅灰色', colorCode: 7, substituted: 3, missing: 0 })
+  expect(substituteDetail(result.entries[0])).toBe('可以用 深灰色 3 块')
   expect(compareLessonMaterials(model, [], prefs).entries[0].colorName).toBe('浅灰色')
   expect(model.entries[0].colorCode).toBe(7)
+})
+
+it.each([true, false])('reserves exact Toolo colors and accounts for every available brick (recoloring %s)', (acceptColorSubstitutes) => {
+  const model = bom(
+    { ...entry('76057.dat', 7, 4), colorName: '浅灰色' },
+    { ...entry('76057.dat', 14, 4), colorName: '黄色' },
+    { ...entry('76057.dat', 4, 1), colorName: '红色' },
+  )
+  const inventory = mergeKitInventories([{ setNum: '45002-1', copies: 1 }])
+  const inventorySnapshot = structuredClone(inventory)
+  const result = compareLessonMaterials(model, inventory, { ...prefs, acceptColorSubstitutes })
+
+  expect(result.entries.map((row) => [row.colorCode, row.colorName])).toEqual([
+    [7, '浅灰色'], [14, '黄色'], [4, '红色'],
+  ])
+  expect(result.entries[2]).toMatchObject({ status: 'satisfied', matched: 1, substituted: 0, missing: 0 })
+  expect(result.entries[2].allocations).toEqual([
+    expect.objectContaining({ partNum: '31184c01', colorId: 4, quantity: 1, substitute: false }),
+  ])
+  expect(result.entries[1].allocations[0]).toMatchObject({ colorId: 14, quantity: 1, substitute: false })
+  expect(result.stats).toMatchObject({
+    requiredMissing: acceptColorSubstitutes ? 2 : 7,
+    matched: acceptColorSubstitutes ? 7 : 2,
+    substituted: acceptColorSubstitutes ? 5 : 0,
+  })
+  if (acceptColorSubstitutes) {
+    expect(result.entries[0]).toMatchObject({ status: 'colorSubstitute', matched: 4, substituted: 4, missing: 0 })
+    expect(result.entries[1]).toMatchObject({ status: 'requiredMissing', matched: 2, substituted: 1, missing: 2 })
+    expect(substituteDetail(result.entries[0])).toBe('可以用 深灰色 4 块')
+    expect(substituteDetail(result.entries[1])).toBe('可以用 深灰色 1 块')
+  }
+  const allocated = new Map<number, number>()
+  for (const row of result.entries) {
+    for (const allocation of row.allocations) {
+      allocated.set(allocation.colorId, (allocated.get(allocation.colorId) ?? 0) + allocation.quantity)
+    }
+  }
+  expect([...allocated].sort((a, b) => a[0] - b[0])).toEqual(
+    acceptColorSubstitutes ? [[4, 1], [14, 1], [72, 5]] : [[4, 1], [14, 1]],
+  )
+  expect(inventory).toStrictEqual(inventorySnapshot)
 })
 
 it('describes a printed door replaced by a plain door in the same color', () => {

@@ -79,10 +79,16 @@ for (const width of [390, 1440]) {
   })
 }
 
-test('游乐场已删除玩法直达返回 404', { tag: '@smoke-playground' }, async ({ request }) => {
+test('游乐场已删除玩法直达返回 404、noindex 且无 canonical 或重定向', { tag: '@smoke-playground' }, async ({ request }) => {
   for (const game of ['2048', 'fifteen', 'quickmath', 'tangram', 'symmetry', 'ballsort']) {
-    const response = await request.get(`/playground/${game}`)
+    const path = `/playground/${game}`
+    const response = await request.get(path, { maxRedirects: 0 })
     expect(response.status()).toBe(404)
+    expect(response.headers().location).toBeUndefined()
+    expect(new URL(response.url()).pathname).toBe(path)
+    const html = await response.text()
+    expect(html).toMatch(/<meta\b[^>]*name="robots"[^>]*content="[^"]*\bnoindex\b/i)
+    expect(html).not.toMatch(/<link\b[^>]*rel="canonical"/i)
   }
 })
 
@@ -234,6 +240,13 @@ for (const route of [
 }
 
 // Run against the real homepage and responsive CSS in the regular PR smoke job.
+const homeHeroTopics = [
+  ['搭积木', '/courses'],
+  ['做实验', '/learn/science'],
+  ['学编程', '/learn/scratch'],
+  ['观察自然', '/nature'],
+] as const
+
 for (const viewport of [
   { width: 320, height: 740, dark: false },
   { width: 360, height: 800, dark: false },
@@ -242,9 +255,10 @@ for (const viewport of [
   { width: 767, height: 1000, dark: false },
   { width: 390, height: 844, dark: true },
 ]) {
-  test(`手机首页 ${viewport.width}${viewport.dark ? ' 暗色' : ''} 精简首屏且免费课程仍可直达`, { tag: '@smoke-home' }, async ({ page }, testInfo) => {
+  test(`手机首页 ${viewport.width}${viewport.dark ? ' 暗色' : ''} 展示四个文字入口并隐藏快捷轮播`, { tag: '@smoke-home' }, async ({ page }, testInfo) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height })
     await expectHealthyPage(page, '/')
+    await waitForRecordedPageView(page, '/')
     await page.evaluate((dark) => document.documentElement.classList.toggle('dark', dark), viewport.dark)
     const heading = page.getByRole('heading', { level: 1, name: '陪孩子，一起动手做', exact: true })
     await expect(heading).toBeVisible()
@@ -252,22 +266,26 @@ for (const viewport of [
     const hero = page.locator('section').filter({ has: heading })
     await expect(hero.getByText('搭积木 · 做实验 · 学编程 · 观察自然', { exact: true })).toBeVisible()
     await expect(hero.getByText('从孩子想做的开始，跟着指导一步步尝试。', { exact: true })).toBeHidden()
-    await expect(hero.locator('a[href="/courses"]')).toBeHidden()
     await expect(hero.locator('a[href="/explore"]')).toBeHidden()
-    await expect(hero.getByRole('link')).toHaveCount(1)
-    const guide = hero.getByRole('link', { name: '探索指南', exact: true })
-    await expect(guide).toHaveAttribute('href', '/start')
-    await expect(page.getByRole('link', { name: '探索指南', exact: true })).toHaveCount(1)
-    const guideBox = await guide.boundingBox()
-    expect(guideBox).not.toBeNull()
-    expect(guideBox!.height).toBeGreaterThanOrEqual(44)
+    await expect(hero.getByRole('link')).toHaveCount(4)
+    await expect(hero.getByRole('link', { name: '探索指南', exact: true })).toHaveCount(0)
+    for (const [name, href] of homeHeroTopics) {
+      const link = hero.getByRole('link', { name, exact: true })
+      await expect(link).toBeVisible()
+      await expect(link).toHaveAttribute('href', href)
+      const box = await link.boundingBox()
+      expect(box).not.toBeNull()
+      expect(box!.height).toBeGreaterThanOrEqual(44)
+    }
     const heroBox = await hero.boundingBox()
     expect(heroBox).not.toBeNull()
     expect(heroBox!.height).toBeLessThanOrEqual(300)
-    const recommendation = page.getByRole('link', { name: /积木搭建，从这里开始/ })
+    await expect(page.locator('section[aria-label="首页快捷入口"]')).toBeHidden()
+    await expect(page.locator('[aria-label="首页快捷入口分页"]')).toBeHidden()
+    const recommendation = page.getByRole('link', { name: /积木搭建，从这里开始/, includeHidden: true })
     await expect(recommendation).toHaveAttribute('href', '/courses')
     await expect(recommendation).toContainText('免费积木课，跟着 3D 步骤一起搭')
-    await expect(recommendation).toBeInViewport()
+    await expect(recommendation).toBeHidden()
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     await testInfo.attach('home-hero', { body: await hero.screenshot(), contentType: 'image/png' })
   })
@@ -284,6 +302,7 @@ for (const viewport of [
   test(`首页 ${viewport.width}${viewport.dark ? ' 暗色' : ''} 精简横幅且保留兴趣入口`, { tag: '@smoke-home' }, async ({ page }, testInfo) => {
     await page.setViewportSize({ width: viewport.width, height: 1000 })
     await expectHealthyPage(page, '/')
+    await waitForRecordedPageView(page, '/')
     await page.evaluate((dark) => document.documentElement.classList.toggle('dark', dark), viewport.dark)
     const heading = page.getByRole('heading', { level: 1, name: '陪孩子找项目，一起动手做', exact: true })
     await expect(heading).toBeVisible()
@@ -321,19 +340,22 @@ for (const viewport of [
   })
 }
 
-test('手机首页探索指南和免费推荐分别直达对应页面', { tag: '@smoke-home' }, async ({ page }) => {
+test('手机首页四个文字入口分别直达对应页面', { tag: '@smoke-home' }, async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await expectHealthyPage(page, '/')
-  await page.getByRole('link', { name: '探索指南', exact: true }).click()
-  await expect(page).toHaveURL(/\/start$/)
-  await expectHealthyPage(page, '/')
-  await page.getByRole('link', { name: /积木搭建，从这里开始/ }).click()
-  await expect(page).toHaveURL(/\/courses$/)
+  for (const [name, href] of homeHeroTopics) {
+    await expectHealthyPage(page, '/')
+    await waitForRecordedPageView(page, '/')
+    const hero = page.locator('section').filter({ has: page.locator('h1') })
+    await hero.getByRole('link', { name, exact: true }).click()
+    await expect(page).toHaveURL(new RegExp(`${href}$`))
+    await waitForRecordedPageView(page, href)
+  }
 })
 
-test('手机首屏放大文字仍保留完整标题和可点击指南', { tag: '@smoke-home' }, async ({ page }) => {
+test('手机首屏放大文字仍保留完整标题和四个可点击入口', { tag: '@smoke-home' }, async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 740 })
   await expectHealthyPage(page, '/')
+  await waitForRecordedPageView(page, '/')
   const hero = page.locator('section').filter({ has: page.locator('h1') })
   // Enlarge only the affected content to isolate wrapping and clipping in the hero.
   await hero.locator('h1, p, a').evaluateAll((elements) => {
@@ -348,17 +370,23 @@ test('手机首屏放大文字仍保留完整标题和可点击指南', { tag: '
     })
   })
   const heading = hero.getByRole('heading', { level: 1, name: '陪孩子，一起动手做', exact: true })
-  const guide = hero.getByRole('link', { name: '探索指南', exact: true })
   await expect(heading).toBeVisible()
-  await expect(guide).toBeVisible()
+  await expect(page.locator('h1')).toHaveCount(1)
   expect(await hero.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   const heroBox = await hero.boundingBox()
-  const guideBox = await guide.boundingBox()
   expect(heroBox).not.toBeNull()
-  expect(guideBox).not.toBeNull()
-  expect(guideBox!.y + guideBox!.height).toBeLessThan(heroBox!.y + heroBox!.height)
-  await guide.click()
-  await expect(page).toHaveURL(/\/start$/)
+  for (const [name, href] of homeHeroTopics) {
+    const link = hero.getByRole('link', { name, exact: true })
+    await expect(link).toBeVisible()
+    await expect(link).toHaveAttribute('href', href)
+    const box = await link.boundingBox()
+    expect(box).not.toBeNull()
+    expect(box!.height).toBeGreaterThanOrEqual(44)
+    expect(box!.y + box!.height).toBeLessThan(heroBox!.y + heroBox!.height)
+  }
+  await hero.getByRole('link', { name: '搭积木', exact: true }).click()
+  await expect(page).toHaveURL(/\/courses$/)
 })
 
 test('首次访问不自动弹登录层，只显示首页横幅；看到第 2 个页面后轻弹一次，关掉当天不再弹', async ({ page }) => {

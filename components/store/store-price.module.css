@@ -1,0 +1,18 @@
+.price {
+  --store-price-foreground: #c5382a;
+  --store-price-surface: #fff0ec;
+}
+
+:global(.dark) .price {
+  --store-price-foreground: #ff9d8e;
+  --store-price-surface: #40221f;
+}
+
+.amount {
+  color: var(--store-price-foreground);
+}
+
+.badge {
+  color: var(--store-price-foreground);
+  background: var(--store-price-surface);
+}

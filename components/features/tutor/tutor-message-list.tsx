@@ -1,5 +1,6 @@
 'use client'
 
+import { Skeleton } from "@/components/ui/skeleton"
 import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react'
 import { ArrowDown, ChevronRight, Loader2, Sparkles, Trash2, Volume2, VolumeX } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
@@ -139,7 +140,7 @@ export function TutorMessageList({
           {historyLoading ? (
             <div className="space-y-2">
               {[1, 2, 3].map((item) => (
-                <div key={item} className="h-14 animate-pulse rounded-sm bg-muted" />
+                <Skeleton key={item} className="h-14 rounded-sm" />
               ))}
             </div>
           ) : !historyItems || historyItems.length === 0 ? (

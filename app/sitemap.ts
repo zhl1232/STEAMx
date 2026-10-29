@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { courseCatalogHref } from "@/lib/courses/catalog-url";
 import { unstable_cache } from "next/cache";
 
 import { hasLdrawModelFile } from "@/lib/courses/ldraw-bom-source";
@@ -154,7 +155,7 @@ export function buildSitemapEntries(content?: SitemapContentRows): MetadataRoute
   });
 
   content.courses.forEach((course) => {
-    routes.push(sitemapEntry(`/courses/${course.id}`, {
+    routes.push(sitemapEntry(courseCatalogHref(course.id), {
       lastModified: toLastModified(course.updated_at),
       changeFrequency: "weekly",
       priority: 0.8,

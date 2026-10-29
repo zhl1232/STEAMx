@@ -1,3 +1,4 @@
+import { courseCatalogHref } from "@/lib/courses/catalog-url";
 import { isPlaceholderProjectStep } from '@/lib/seo/project-description';
 import { toPublicImageUrl as toAbsoluteMediaUrl } from "@/lib/seo/public-image";
 import { BRAND_ALTERNATE_NAMES, BRAND_POSITIONING, BRAND_SAME_AS, BRAND_TAGLINE } from "@/lib/brand";
@@ -159,7 +160,7 @@ interface CourseJsonLdInput {
 }
 
 export function buildCourseJsonLd(course: CourseJsonLdInput) {
-  const url = buildAbsoluteUrl(`/courses/${course.id}`);
+  const url = buildAbsoluteUrl(courseCatalogHref(course.id));
   const siteUrl = getSiteUrl();
   const description = course.description?.trim() || undefined;
   const classificationFields = buildClassificationJsonLd(course.classification);
@@ -230,7 +231,7 @@ interface LessonJsonLdInput {
 
 export function buildLessonJsonLd(lesson: LessonJsonLdInput) {
   const url = buildAbsoluteUrl(`/courses/${lesson.courseId}/lessons/${lesson.id}`);
-  const courseUrl = buildAbsoluteUrl(`/courses/${lesson.courseId}`);
+  const courseUrl = buildAbsoluteUrl(courseCatalogHref(lesson.courseId));
   const description = lesson.description?.trim() || undefined;
   const classificationFields = buildClassificationJsonLd(lesson.classification);
   const duration =
@@ -264,6 +265,7 @@ export function buildLessonJsonLd(lesson: LessonJsonLdInput) {
     ...(classificationFields ?? {}),
     isPartOf: {
       "@type": "Course",
+      "@id": `${courseUrl}#course`,
       name: lesson.courseTitle,
       url: courseUrl,
     },

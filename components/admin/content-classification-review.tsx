@@ -1,5 +1,6 @@
 'use client'
 
+import { courseCatalogHref } from '@/lib/courses/catalog-url'
 import {
   AlertTriangle,
   ArrowLeft,
@@ -190,7 +191,7 @@ function formatStatus(value: string | null | undefined) {
 }
 
 function publicHref(type: ContentType, id: number) {
-  if (type === 'course') return `/courses/${id}`
+  if (type === 'course') return courseCatalogHref(id)
   if (type === 'challenge') return `/pbl/${id}`
   return `/project/${id}`
 }
@@ -758,7 +759,7 @@ export function ContentClassificationReview() {
         <div className="rounded-(--radius-lg) border border-[hsl(var(--brand-blue)/0.2)] bg-[hsl(var(--brand-blue)/0.06)] px-4 py-3.5"><p className="text-[11px] font-medium text-muted-foreground">排序逻辑</p><p className="mt-1 text-sm font-semibold">已发布 → 风险 → 低置信</p></div>
       </div>
 
-      <div className="grid min-h-[680px] gap-4 xl:grid-cols-[minmax(19rem,0.37fr)_minmax(0,0.63fr)]">
+      <div className="grid min-h-[680px] gap-4 xl:grid-cols-[minmax(19rem,24rem)_minmax(0,1fr)]">
         <aside className="surface-subtle min-w-0 overflow-hidden rounded-(--radius-lg) border p-3 shadow-none sm:p-4">
           <div className="flex items-start justify-between gap-3 px-1 pb-3">
             <div><p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">QUEUE</p><h3 className="mt-1 text-base font-semibold">待处理内容</h3></div>
@@ -801,7 +802,7 @@ export function ContentClassificationReview() {
                   <Button asChild variant="outline" size="sm" className="shrink-0"><a href={publicHref(detail.contentType, detail.id)} target="_blank" rel="noreferrer"><ExternalLink className="mr-2 h-4 w-4" />打开公开页</a></Button>
                 </div>
               </div>
-              <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(19rem,0.72fr)]">
+              <div className="grid gap-4 2xl:grid-cols-[minmax(0,1fr)_minmax(19rem,0.72fr)]">
                 <ContentDossier detail={detail} />
                 <ReviewForm detail={detail} form={form} setForm={setForm} busy={mutationLoading} onSaveCandidate={() => void handleSaveCandidate()} onDecision={(decision) => void handleDecision(decision)} />
               </div>

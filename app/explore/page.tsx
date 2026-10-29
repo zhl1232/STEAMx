@@ -4,10 +4,9 @@ import { buildExplorePageHref, parseExplorePage } from "@/lib/seo/explore-pagina
 
 import { getExploreFilterOptions, getProjects, type ProjectFilters } from '@/lib/api/explore-data'
 import { normalizeDifficultyParam, parseAgeParam } from '@/lib/content-classification/validation'
-import { parseExploreSortBy } from '@/lib/explore/presets'
+import { normalizeExploreThemeTags, parseExploreSortBy } from '@/lib/explore/presets'
 import { buildExploreFiltersKey } from '@/lib/explore-scroll-restore'
 import { getRecommendationViewerKey } from '@/lib/recommendations/viewer'
-import { sanitizeProjectTagsParam } from '@/lib/project/tags'
 import { JsonLd } from "@/components/seo/json-ld";
 import { buildBreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -36,11 +35,14 @@ export async function generateMetadata({ searchParams }: ExplorePageProps): Prom
   }
   if (parseExploreSortBy(query.get('sortBy')) === 'latest') query.set('sortBy', 'latest');
   else query.delete('sortBy');
+  const themeTags = normalizeExploreThemeTags(query.get('tags'));
+  if (themeTags.length > 0) query.set('tags', themeTags.join(','));
+  else query.delete('tags');
   const filtered = ['q', 'category', 'subCategory', 'difficulty', 'age', 'tags']
     .some((key) => Boolean(query.get(key)));
   const metadata = buildPageMetadata({
     title: `STEAM 项目探索${page > 0 ? ` · 第 ${page + 1} 页` : ''}`,
-    description: "在创探空间浏览科学、技术、工程、艺术、数学项目，按关键词、分类、难度和标签筛选真实可做的动手实践内容。",
+    description: "在创探空间浏览科学、技术、工程、艺术、数学项目，按关键词、分类、主题和难度筛选真实可做的动手实践内容。",
     path: buildExplorePageHref(query, page),
     keywords: ["STEAM项目", "科学实验项目", "积木项目"],
   });
@@ -68,7 +70,7 @@ function buildInitialFiltersKey(params: Awaited<ExplorePageProps['searchParams']
   if (subCategory) query.set('subCategory', subCategory)
   if (difficulty) query.set('difficulty', difficulty)
   if (age !== null) query.set('age', String(age))
-  const normalizedTags = sanitizeProjectTagsParam(tags)
+  const normalizedTags = normalizeExploreThemeTags(tags)
   if (normalizedTags.length > 0) query.set('tags', normalizedTags.join(','))
   if (sortBy !== 'popular') query.set('sortBy', sortBy)
   return buildExploreFiltersKey(query)
@@ -84,7 +86,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     subCategory: params.subCategory,
     difficulty: normalizeDifficultyParam(params.difficulty) ?? 'all',
     age: parseAgeParam(params.age) ?? undefined,
-    tags: sanitizeProjectTagsParam(firstParam(params.tags)),
+    tags: normalizeExploreThemeTags(firstParam(params.tags)),
   }
   const sortBy = parseExploreSortBy(firstParam(params.sortBy))
   const viewerKey = await getRecommendationViewerKey()

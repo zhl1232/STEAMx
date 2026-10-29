@@ -147,6 +147,36 @@ describe("Building3DWorkspace", () => {
     beforeEach(() => {
         mocks.toast.mockReset();
         vi.unstubAllGlobals();
+        window.history.replaceState(null, "", "/");
+    });
+
+    it("keeps the works view in the URL and removes the directory toggle until returning to the lesson", () => {
+        window.history.replaceState(null, "", "/courses/7/lessons/42?step=3&view=works");
+        const onViewChange = vi.fn();
+        render(<Building3DWorkspace
+            courseId={7}
+            lesson={{ ...baseLesson, content: { ...baseLesson.content, workSubmission: { enabled: true } } }}
+            activeStepIndex={2}
+            onStepChange={vi.fn()}
+            sidebar={{ collapsed: false, onToggle: vi.fn() }}
+            onViewChange={onViewChange}
+            mobileHeaderSlot={({ view, onBackToLesson }) => view === "works"
+                ? <button onClick={onBackToLesson}>返回课件</button>
+                : <a href="/courses/7">返回课程列表</a>}
+        />);
+        expect(onViewChange).toHaveBeenLastCalledWith("works");
+        expect(screen.queryByRole("button", { name: /^作品$/ })).not.toBeInTheDocument();
+        expect(screen.queryByTestId("sidebar-toggle")).not.toBeInTheDocument();
+        fireEvent.click(screen.getByRole("button", { name: "返回课件" }));
+        expect(screen.getByRole("link", { name: "返回课程列表" })).toHaveAttribute("href", "/courses/7");
+        expect(onViewChange).toHaveBeenLastCalledWith("lesson");
+        expect(screen.getByTestId("sidebar-toggle")).toBeInTheDocument();
+        expect(window.location.search).toBe("?step=3");
+        fireEvent.click(screen.getByRole("button", { name: /^作品$/ }));
+        expect(window.location.search).toBe("?step=3&view=works");
+        window.history.replaceState(null, "", "/courses/7/lessons/42?step=3");
+        act(() => window.dispatchEvent(new PopStateEvent("popstate")));
+        expect(onViewChange).toHaveBeenLastCalledWith("lesson");
     });
 
     it("preloads the next visible slide", () => {
@@ -367,14 +397,17 @@ describe("Building3DWorkspace", () => {
         }
     });
 
-    it("keeps the mic hidden until readiness without moving the reserved slot, and preserves menu entries", () => {
-        const VoiceProbe = ({ onAvailabilityChange }: { onAvailabilityChange?: (ready: boolean) => void }) => (
-            <button data-testid="voice-probe" onClick={() => onAvailabilityChange?.(true)}>ready probe</button>
+    it("uses one voice settings entry until ready, then replaces it with the mic without starting listening", () => {
+        const activated = vi.fn();
+        const VoiceProbe = ({ onAvailabilityChange, onStatusChange }: { onAvailabilityChange?: (ready: boolean) => void; onStatusChange?: (status: string) => void }) => (
+            <div>
+                <button data-testid="voice-probe" onClick={() => onAvailabilityChange?.(true)}>ready probe</button>
+                <button onClick={() => { activated(); onAvailabilityChange?.(false); onStatusChange?.("listening"); }}>start probe</button>
+            </div>
         );
-        const Menu = ({ mobileExtras }: { mobileExtras?: { key: string; label: string; onSelect?: () => void }[] }) => (
-            <div data-testid="menu-probe">{mobileExtras?.map((extra) => <button key={extra.key} type="button" onClick={extra.onSelect}>{extra.label}</button>)}</div>
-        );
-        const lesson = { ...baseLesson, content: { ...baseLesson.content, workSubmission: { enabled: true } } };
+        const Menu = () => <button>目录</button>;
+        const lesson = { ...ldrawLesson(["搭建"]), content: { ...ldrawLesson(["搭建"]).content, workSubmission: { enabled: true } } };
+        stubBomFetch();
         render(
             <Building3DWorkspace
                 courseId={7}
@@ -386,14 +419,61 @@ describe("Building3DWorkspace", () => {
             />,
         );
         const wrapper = screen.getByTestId("voice-probe").closest("[data-voice-slot-wrapper]");
+        const entry = document.querySelector("[data-voice-entry-slot]") as HTMLElement;
         expect(wrapper).toHaveClass("hidden");
+        expect(within(entry).getAllByRole("button")).toHaveLength(1);
         expect(screen.queryByTestId("voice-toggle")).not.toBeInTheDocument();
         fireEvent.click(screen.getByRole("button", { name: "语音设置" }));
-        fireEvent.click(screen.getByTestId("voice-probe"));
         expect(wrapper).not.toHaveClass("hidden");
+        expect(activated).not.toHaveBeenCalled();
+        fireEvent.click(screen.getByTestId("voice-probe"));
+        expect(within(entry).getAllByRole("button")).toHaveLength(1);
+        expect(screen.queryByRole("button", { name: "语音设置" })).not.toBeInTheDocument();
         expect(screen.getByTestId("voice-toggle")).toHaveAttribute("aria-pressed", "true");
-        fireEvent.click(screen.getByRole("button", { name: "看看大家的作品" }));
+        fireEvent.click(screen.getByRole("button", { name: "收起语音搭建" }));
+        expect(wrapper).toHaveClass("hidden");
+        expect(activated).not.toHaveBeenCalled();
+        fireEvent.click(screen.getByRole("button", { name: "语音搭建" }));
+        fireEvent.click(screen.getByRole("button", { name: "start probe" }));
+        expect(activated).toHaveBeenCalledOnce();
+        expect(screen.getByTestId("voice-toggle")).toBeInTheDocument();
+        expect(screen.queryByRole("button", { name: "语音设置" })).not.toBeInTheDocument();
+        fireEvent.click(screen.getByRole("button", { name: /^作品$/ }));
         expect(screen.getByRole("button", { name: /回到课程/ })).toBeInTheDocument();
+        expect(screen.queryByTestId("voice-probe")).not.toBeInTheDocument();
+        fireEvent.click(screen.getByRole("button", { name: /回到课程/ }));
+        expect(screen.getByTestId("voice-probe")).toBeInTheDocument();
+    });
+
+    it("places matching works and parts actions before voice and fullscreen while reserving lesson navigation for desktop", () => {
+        stubBomFetch();
+        const lesson = { ...ldrawLesson(["搭建"]), content: { ...ldrawLesson(["搭建"]).content, workSubmission: { enabled: true } } };
+        render(<Building3DWorkspace courseId={7} lesson={lesson} activeStepIndex={0} onStepChange={vi.fn()} navigationSlot={<button>目录</button>} voiceControlsSlot={<div />} />);
+        const works = screen.getByRole("button", { name: /^作品$/ });
+        expect(works).toHaveClass("h-10", "rounded-full", "px-4");
+        expect(works.parentElement).not.toHaveClass("max-md:hidden");
+        expect(screen.getByRole("button", { name: "课程内容" })).toHaveClass("max-md:hidden");
+        const parts = screen.getByRole("link", { name: "本课零件清单" });
+        expect(parts).toHaveAttribute("href", "/courses/7/lessons/42/parts");
+        expect(parts).toHaveClass("max-md:px-2");
+        expect(parts).not.toHaveClass("max-md:hidden", "bg-foreground/[0.06]");
+        expect(parts).toHaveClass("text-muted-foreground", "hover:bg-foreground/[0.06]");
+        expect(works.compareDocumentPosition(parts) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+        const voice = screen.getByRole("button", { name: "语音设置" });
+        const fullscreen = screen.getByRole("button", { name: "全屏横向展示" });
+        expect(parts.compareDocumentPosition(voice) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+        expect(voice.compareDocumentPosition(fullscreen) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+        expect(parts.parentElement).toBe(works.parentElement?.parentElement);
+        expect(within(parts).getByText("零件")).toHaveClass("md:hidden");
+        expect(screen.getByRole("button", { name: "目录" }).closest("[data-desktop-lesson-navigation]")).toHaveClass("hidden", "md:block");
+        expect(screen.getByRole("button", { name: "全屏横向展示" })).toBeInTheDocument();
+    });
+
+    it("omits unavailable works, parts and voice toolbar actions", () => {
+        renderWorkspace();
+        expect(screen.queryByRole("button", { name: /^作品$/ })).not.toBeInTheDocument();
+        expect(screen.queryByRole("link", { name: "本课零件清单" })).not.toBeInTheDocument();
+        expect(document.querySelector("[data-voice-entry-slot]")).toBeNull();
     });
 
     it("pages with arrow keys and ignores keys typed in inputs", () => {
@@ -569,7 +649,7 @@ describe("Building3DWorkspace", () => {
             fireEvent.click(screen.getByRole("button", { name: /^作品$/ }));
             expect(screen.queryByTestId("voice-controls-slot")).not.toBeInTheDocument();
             expect(onRelease).toHaveBeenCalledOnce();
-            fireEvent.click(screen.getByRole("button", { name: "课程内容" }));
+            fireEvent.click(screen.getByRole("button", { name: "回到课程" }));
             expect(screen.getByRole("button", { name: "开启语音监听" })).toBeInTheDocument();
             expect(onMount).toHaveBeenCalledTimes(2);
         } finally {

@@ -2,6 +2,10 @@ import { describe, expect, it } from 'vitest'
 
 import {
     EXPLORE_PRESETS,
+    EXPLORE_TOPICS,
+    normalizeExploreThemeTags,
+    isExploreTopicTag,
+    toggleExploreTopicTag,
     buildPresetSearchParams,
     detectActivePreset,
     getPresetHintLabel,
@@ -195,13 +199,44 @@ describe('explore presets', () => {
         expect(isExploreResultsMode({
             ...exploreState,
             tags: ['磁力'],
-        })).toBe(true)
+        })).toBe(false)
     })
 })
 
-it('serializes legacy grade URLs as their effective filters without mutating the URL', () => {
-    const params = new URLSearchParams({ tags: '科教版,初中' })
+it('serializes only supported theme tags without mutating the input URL', () => {
+    const params = new URLSearchParams({ tags: '科教版,磁力,初中' })
     expect(serializeExploreFilterParams(params)).toBe(new URLSearchParams({ tags: '科教版' }).toString())
-    expect(params.get('tags')).toBe('科教版,初中')
+    expect(params.get('tags')).toBe('科教版,磁力,初中')
     expect(serializeExploreFilterParams(new URLSearchParams({ tags: '初中' }))).toBe('')
+})
+
+
+describe('independent explore themes', () => {
+    it('exposes only tagged themes and toggles one without discarding other tags', () => {
+        expect(EXPLORE_TOPICS.map(({ label }) => label)).toEqual(['日常材料', '趣味实验', '科教版'])
+        const tags = ['日常材料', '趣味实验']
+        expect(toggleExploreTopicTag(tags, '科教版')).toEqual(['日常材料', '趣味实验', '科教版'])
+        expect(toggleExploreTopicTag(tags, '趣味实验')).toEqual(['日常材料'])
+        expect(tags).toEqual(['日常材料', '趣味实验'])
+        expect(isExploreTopicTag('热门推荐')).toBe(false)
+    })
+
+    it('keeps theme-only browsing independent of sort and counts other filters as results', () => {
+        const state = {
+            category: '全部', subCategory: '', difficulty: 'all', age: null,
+            tags: ['趣味实验', '科教版'], searchQuery: '', sortBy: 'latest' as const,
+        }
+        expect(isExploreResultsMode(state)).toBe(false)
+        expect(isExploreResultsMode({ ...state, tags: [...state.tags, '磁力'] })).toBe(false)
+        expect(isExploreResultsMode({ ...state, difficulty: 'beginner' })).toBe(true)
+        expect(isExploreResultsMode({ ...state, age: 8 })).toBe(true)
+    })
+})
+
+
+it('normalizes explore tags to three supported themes with stable deduplication', () => {
+    expect(normalizeExploreThemeTags('磁力,趣味实验,初中,科教版,趣味实验,日常材料')).toEqual(['趣味实验', '科教版', '日常材料'])
+    expect(normalizeExploreThemeTags('磁力,未知标签')).toEqual([])
+    expect(normalizeExploreThemeTags(null)).toEqual([])
+    expect(normalizeExploreThemeTags(undefined)).toEqual([])
 })

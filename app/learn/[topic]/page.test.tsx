@@ -99,8 +99,8 @@ describe("learning topic pages", () => {
 
     it("links only physical building courses and preserves kit caveats and concepts", async () => {
         const document = await renderTopic("blocks");
-        expect(document.querySelector('a[href="/courses/10"]')).toHaveTextContent("大颗粒结构探索");
-        for (const id of [20, 30, 40, 50]) expect(document.querySelector(`a[href="/courses/${id}"]`)).toBeNull();
+        expect(document.querySelector('a[href="/courses?course=10"]')).toHaveTextContent("大颗粒结构探索");
+        for (const id of [20, 30, 40, 50]) expect(document.querySelector(`a[href="/courses?course=${id}"]`)).toBeNull();
         expect(listApprovedCourses).toHaveBeenCalledWith({ publicOnly: true });
         expect(getProjects).not.toHaveBeenCalled();
         const equipment = document.querySelector("#building-equipment")!.closest("section")!;
@@ -148,14 +148,14 @@ describe("learning topic pages", () => {
             makeCourse(20, "Scratch 小故事", []), makeCourse(40, "互动创作", ["SCRATCH"]), makeCourse(60, "Python 编程", ["编程"]),
         ]);
         const document = await renderTopic("scratch");
-        for (const id of [20, 40]) expect(document.querySelector(`a[href="/courses/${id}"]`)).not.toBeNull();
-        expect(document.querySelector('a[href="/courses/60"]')).toBeNull();
+        for (const id of [20, 40]) expect(document.querySelector(`a[href="/courses?course=${id}"]`)).not.toBeNull();
+        expect(document.querySelector('a[href="/courses?course=60"]')).toBeNull();
     });
 
     it("shows three choices by default and retains the rest in a disclosure", async () => {
         vi.mocked(listApprovedCourses).mockResolvedValue([1, 2, 3, 4, 5, 6].map(id => makeCourse(id, `积木 ${id}`, ["building_3d"])));
         const document = await renderTopic("blocks");
-        const cards = Array.from(document.querySelectorAll('#start-learning a[href^="/courses/"]'));
+        const cards = Array.from(document.querySelectorAll('#start-learning a[href^="/courses?course="]'));
         expect(cards).toHaveLength(6);
         expect(cards.filter(card => !card.closest("details"))).toHaveLength(3);
         expect(cards.slice(3).every(card => card.closest("details") && !card.closest("details")!.hasAttribute("open"))).toBe(true);

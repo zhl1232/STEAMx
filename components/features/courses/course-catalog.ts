@@ -1,3 +1,4 @@
+import { courseCatalogHref } from '@/lib/courses/catalog-url'
 import type { CourseListItem } from '@/lib/courses/types'
 
 export type CourseCategory = 'brick' | 'programming' | 'strategy' | 'other'
@@ -33,12 +34,12 @@ export function isLearningCourse(course: CourseListItem) {
 }
 
 export function getCourseAction(course: CourseListItem) {
-  const overview = `/courses/${course.id}`
+  const overview = courseCatalogHref(course.id)
   if (course.lesson_count === 0) return { label: '查看课程', href: overview }
   if (course.progress?.status === 'completed') return { label: '回顾课程', href: overview }
   if (isLearningCourse(course)) {
     const next = course.progress?.next_lesson_id
-    return { label: '继续学习', href: next && next > 0 ? `${overview}/lessons/${next}` : overview }
+    return { label: '继续学习', href: next && next > 0 ? `/courses/${course.id}/lessons/${next}` : overview }
   }
   return { label: '开始学习', href: overview }
 }

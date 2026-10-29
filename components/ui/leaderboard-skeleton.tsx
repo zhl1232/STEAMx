@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export function LeaderboardItemSkeleton() {
     return (
-        <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-xs border-b border-border/30 px-4 py-3 sm:grid-cols-[64px_minmax(0,1fr)_96px_132px] xl:grid-cols-[72px_minmax(220px,1fr)_112px_150px_minmax(220px,0.72fr)] xl:px-5">
+        <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-xs border-b border-border/30 px-4 py-3.5 sm:grid-cols-[64px_minmax(0,1fr)_96px_132px] xl:grid-cols-[72px_minmax(220px,1fr)_112px_150px_minmax(220px,0.72fr)] xl:px-5">
             <div className="flex items-center justify-center">
                 <Skeleton className="h-8 w-8 rounded-full" />
             </div>

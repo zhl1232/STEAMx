@@ -1,0 +1,108 @@
+@media (width < 768px) {
+  .overlay.overlay {
+    background: hsl(var(--foreground) / 0.28);
+    animation-duration: 220ms;
+    animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .overlay.overlay[data-state='closed'] {
+    animation-duration: 210ms;
+  }
+
+  .panel.panel {
+    inset: auto 12px calc(12px + env(safe-area-inset-bottom));
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: min(72dvh, calc(100dvh - 76px));
+    border: 0;
+    border-radius: 20px;
+    background: transparent;
+    box-shadow: none;
+    isolation: isolate;
+    transition: none;
+    animation: panel-enter-presence 220ms linear both;
+  }
+
+  .panel.panel[data-state='closed'] {
+    animation: panel-exit-presence 210ms linear both;
+  }
+
+  .panel::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border: 1px solid hsl(var(--surface-border));
+    border-radius: inherit;
+    background: hsl(var(--background));
+    box-shadow: 0 16px 48px -16px hsl(var(--surface-shadow) / 0.35);
+    content: '';
+    transform-origin: top left;
+    animation: surface-expand 220ms cubic-bezier(0.25, 1, 0.5, 1) both;
+  }
+
+  .panel[data-state='closed']::before {
+    animation: surface-collapse 210ms cubic-bezier(0.4, 0, 1, 1) both;
+  }
+
+  .panel > * {
+    animation: controls-enter 160ms 30ms cubic-bezier(0.25, 1, 0.5, 1) both;
+  }
+
+  .panel[data-state='closed'] > * {
+    animation: controls-exit 85ms ease-out both;
+  }
+
+  .panel > :last-child {
+    border-radius: 0 0 20px 20px;
+    padding-bottom: 16px;
+  }
+}
+
+/* Keep the dialog mounted through the surface's exit animation. */
+@keyframes panel-enter-presence {
+  from { opacity: 1; }
+  to { opacity: 1; }
+}
+
+@keyframes panel-exit-presence {
+  from { opacity: 1; }
+  to { opacity: 1; }
+}
+
+@keyframes surface-expand {
+  from {
+    opacity: 0.6;
+    transform: translate(var(--filter-origin-x, 0px), var(--filter-origin-y, -100px))
+      scale(var(--filter-origin-scale-x, 0.15), var(--filter-origin-scale-y, 0.1));
+  }
+  to { opacity: 1; transform: translate(0, 0) scale(1); }
+}
+
+@keyframes surface-collapse {
+  from { opacity: 1; transform: translate(0, 0) scale(1); }
+  to {
+    opacity: 0;
+    transform: translate(var(--filter-origin-x, 0px), var(--filter-origin-y, -100px))
+      scale(var(--filter-origin-scale-x, 0.15), var(--filter-origin-scale-y, 0.1));
+  }
+}
+
+@keyframes controls-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes controls-exit {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel.panel,
+  .panel::before,
+  .panel > *,
+  .overlay.overlay {
+    animation: none !important;
+  }
+}

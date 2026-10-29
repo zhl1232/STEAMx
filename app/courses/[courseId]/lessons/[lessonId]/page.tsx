@@ -1,3 +1,4 @@
+import { courseCatalogHref } from "@/lib/courses/catalog-url";
 import { buildBuildingLessonDisplaySteps } from "@/lib/courses/building-lesson-flow";
 import { notFound } from "next/navigation";
 
@@ -96,7 +97,7 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
                 data={buildBreadcrumbJsonLd([
                     { name: "首页", url: "/" },
                     { name: "技能课程", url: "/courses" },
-                    { name: context.course.title, url: `/courses/${context.course.id}` },
+                    { name: context.course.title, url: courseCatalogHref(context.course.id) },
                     {
                         name: context.lesson.title,
                         url: `/courses/${context.course.id}/lessons/${context.lesson.id}`,

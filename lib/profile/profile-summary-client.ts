@@ -20,7 +20,13 @@ export type ProfileSummaryData = {
 const inflightByUserId = new Map<string, Promise<ProfileSummaryData>>()
 
 async function parseJsonResponse(response: Response) {
-  return response.json().catch(() => ({}))
+  const payload = await response.json().catch(() => {
+    throw new Error('个人主页摘要加载失败，请重试')
+  })
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    throw new Error('个人主页摘要加载失败，请重试')
+  }
+  return payload
 }
 
 export const profileSummaryQueryKey = (userId: string | undefined) =>

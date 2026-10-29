@@ -26,6 +26,22 @@ beforeEach(() => {
 })
 
 describe('recent homepage observations', () => {
+  it('shows real public areas and omits missing place names instead of privacy placeholders', async () => {
+    mockDatabase([
+      { id: 1, user_id: 'a', location_name: '大概区域', public_township: '永顺镇', public_district: '通州区' },
+      { id: 2, user_id: 'b', location_name: '大概区域', public_district: '海淀区' },
+      { id: 3, user_id: 'c', location_name: '', public_city: '北京市' },
+      { id: 4, user_id: 'd', location_name: '大概区域' },
+      { id: 5, user_id: 'e', location_name: '玉渊潭公园', public_district: '海淀区' },
+      { id: 6, user_id: 'f', location_name: '私密地址', location_precision: 'hidden', public_township: '永顺镇', latitude: 30, longitude: 120 },
+    ])
+    const observations = await getRecentNatureObservations(6, { strictErrors: true })
+    expect(observations.map(row => row.locationName)).toEqual([
+      '永顺镇附近', '海淀区附近', '北京市', '', '玉渊潭公园', '位置已隐藏',
+    ])
+    expect(observations[5]).toMatchObject({ latitude: null, longitude: null })
+  })
+
   it('uses the explicit smoke fixture without querying the placeholder backend', async () => {
     isPlaywrightSmoke.mockReturnValue(true)
     await expect(getRecentNatureObservations(3, { strictErrors: true })).resolves.toEqual([])

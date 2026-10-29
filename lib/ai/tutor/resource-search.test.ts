@@ -192,7 +192,7 @@ describe('searchTutorResources', () => {
     expect(current?.status).toBe('complete')
     expect(current?.games?.map((game) => game.key)).toEqual(['nonogram'])
 
-    for (const name of ['2048', '数字华容道', '速算闪电战']) {
+    for (const name of ['2048', '数字华容道', '速算闪电战', '七巧板', '像素对称', '球排序']) {
       const result = await searchTutorResources(client as never, { ...plan, queries: [name] })
       // The existing search may broaden a phrase to other games; none may point to a deleted route.
       const keys = result?.games?.map((game) => game.key) ?? []

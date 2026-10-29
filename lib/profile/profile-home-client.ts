@@ -10,7 +10,10 @@ import type { ProfileStudyCheckInSummary } from '@/lib/profile/study-checkin'
 import type { ProfileTimelineEvent } from '@/lib/profile/timeline'
 import type { SteamRadarWithGuidance } from '@/lib/profile/steam-radar'
 
+export type ProfileHomeSection = 'timeline' | 'growthTasks' | 'observations' | 'studyCheckIn' | 'exploringProjects'
+
 export type ProfileHomeData = {
+  failedSections?: ProfileHomeSection[]
   myProjects: Project[]
   myProjectsTotalCount: number
   myWorks: Work[]
@@ -30,10 +33,45 @@ export type ProfileHomeData = {
   studyCheckInSummary: ProfileStudyCheckInSummary | null
 }
 
+/** Retain the last successful values while keeping each failed area's error state. */
+export function mergeProfileHomeData(previous: ProfileHomeData | undefined, next: ProfileHomeData): ProfileHomeData {
+  if (!previous || !next.failedSections?.length) return next
+
+  const merged = { ...next }
+  for (const section of next.failedSections) {
+    switch (section) {
+      case 'timeline':
+        merged.profileTimelineEvents = previous.profileTimelineEvents
+        break
+      case 'growthTasks':
+        merged.growthTasks = previous.growthTasks
+        merged.growthTasksGraduatedAt = previous.growthTasksGraduatedAt
+        break
+      case 'observations':
+        merged.myObservations = previous.myObservations
+        merged.observationsTotal = previous.observationsTotal
+        break
+      case 'studyCheckIn':
+        merged.studyCheckInSummary = previous.studyCheckInSummary
+        break
+      case 'exploringProjects':
+        merged.exploringProjects = previous.exploringProjects
+        merged.exploringLastActivityByProjectId = previous.exploringLastActivityByProjectId
+        break
+    }
+  }
+  return merged
+}
+
 const inflightByUserId = new Map<string, Promise<ProfileHomeData>>()
 
-async function parseJsonResponse(response: Response) {
-  return response.json().catch(() => ({}))
+async function fetchSection<T>(url: string, init?: RequestInit): Promise<T> {
+  const response = await fetch(url, init)
+  const payload = await response.json()
+  if (!response.ok || !payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    throw new Error('个人中心区域加载失败')
+  }
+  return payload as T
 }
 
 export async function fetchProfileHomeData(userId: string): Promise<ProfileHomeData> {
@@ -43,39 +81,29 @@ export async function fetchProfileHomeData(userId: string): Promise<ProfileHomeD
   }
 
   const promise = (async () => {
-    const [summary, timelineRes, growthRes, observationsRes, checkinRes, exploringRes] = await Promise.all([
+    const [summaryResult, timelineResult, growthResult, observationsResult, checkinResult, exploringResult] = await Promise.allSettled([
       fetchProfileSummary(userId),
-      fetch('/api/profile/timeline?limit=5'),
-      fetch('/api/profile/growth-tasks/sync', { method: 'POST' }),
-      fetch('/api/observations/mine?pageSize=6'),
-      fetch('/api/profile/study-checkin'),
-      fetch('/api/profile/projects?type=exploring'),
+      fetchSection<{ events?: ProfileTimelineEvent[] }>('/api/profile/timeline?limit=5'),
+      fetchSection<{ tasks?: ProfileGrowthTask[]; graduatedAt?: string | null }>('/api/profile/growth-tasks/sync', { method: 'POST' }),
+      fetchSection<{ observations?: ObservationEvent[]; total?: number }>('/api/observations/mine?pageSize=6'),
+      fetchSection<ProfileStudyCheckInSummary>('/api/profile/study-checkin'),
+      fetchSection<{ projects?: Project[]; explorations?: ExploringActivityMeta[] }>('/api/profile/projects?type=exploring'),
     ])
 
-    const [timelinePayload, growthPayload, observationsPayload, checkinPayload, exploringPayload] =
-      await Promise.all([
-        parseJsonResponse(timelineRes),
-        parseJsonResponse(growthRes),
-        parseJsonResponse(observationsRes),
-        parseJsonResponse(checkinRes),
-        parseJsonResponse(exploringRes),
-      ])
-
-    if (!timelineRes.ok) {
-      throw new Error(timelinePayload?.error || '探索轨迹加载失败')
+    // Identity and outcome totals must never be replaced with an empty profile.
+    if (summaryResult.status === 'rejected') throw summaryResult.reason
+    const summary = summaryResult.value
+    const failedSections: ProfileHomeSection[] = []
+    function sectionValue<T>(section: ProfileHomeSection, result: PromiseSettledResult<T>): T | null {
+      if (result.status === 'fulfilled') return result.value
+      failedSections.push(section)
+      return null
     }
-    if (!growthRes.ok) {
-      throw new Error(growthPayload?.error || '新手引导加载失败')
-    }
-    if (!observationsRes.ok) {
-      throw new Error(observationsPayload?.error || '观察记录加载失败')
-    }
-    if (!checkinRes.ok) {
-      throw new Error(checkinPayload?.error || '探索打卡加载失败')
-    }
-    if (!exploringRes.ok) {
-      throw new Error(exploringPayload?.error || '探索中项目加载失败')
-    }
+    const timelinePayload = sectionValue('timeline', timelineResult)
+    const growthPayload = sectionValue('growthTasks', growthResult)
+    const observationsPayload = sectionValue('observations', observationsResult)
+    const checkinPayload = sectionValue('studyCheckIn', checkinResult)
+    const exploringPayload = sectionValue('exploringProjects', exploringResult)
 
     const graduatedAt =
       typeof growthPayload?.graduatedAt === 'string' && growthPayload.graduatedAt
@@ -83,6 +111,7 @@ export async function fetchProfileHomeData(userId: string): Promise<ProfileHomeD
         : null
 
     return {
+      failedSections,
       myProjects: summary.myProjects,
       myProjectsTotalCount: summary.myProjectsTotalCount,
       myWorks: summary.myWorks,
@@ -91,17 +120,17 @@ export async function fetchProfileHomeData(userId: string): Promise<ProfileHomeD
       followingCount: summary.followingCount,
       totalLikesReceived: summary.totalLikesReceived,
       steamRadar: summary.steamRadar,
-      exploringProjects: (exploringPayload?.projects as Project[] | undefined) || [],
+      exploringProjects: exploringPayload?.projects ?? [],
       exploringLastActivityByProjectId: buildExploringActivityMap(
-        exploringPayload?.explorations as ExploringActivityMeta[] | undefined,
+        exploringPayload?.explorations,
       ),
-      profileTimelineEvents: (timelinePayload?.events as ProfileTimelineEvent[] | undefined) || [],
-      growthTasks: (growthPayload?.tasks as ProfileGrowthTask[] | undefined) || [],
+      profileTimelineEvents: timelinePayload?.events ?? [],
+      growthTasks: growthPayload?.tasks ?? [],
       growthTasksGraduatedAt: graduatedAt,
-      myObservations: (observationsPayload?.observations as ObservationEvent[] | undefined) || [],
+      myObservations: observationsPayload?.observations ?? [],
       observationsTotal: Number(observationsPayload?.total || 0),
       naturalObservationProgress: summary.naturalObservationProgress,
-      studyCheckInSummary: (checkinPayload as ProfileStudyCheckInSummary | null) ?? null,
+      studyCheckInSummary: checkinPayload,
     }
   })().finally(() => {
     inflightByUserId.delete(userId)

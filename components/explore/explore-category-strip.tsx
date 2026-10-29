@@ -100,7 +100,7 @@ export function ExploreCategoryStrip({
                   active && tone && categoryToneClasses[tone].badge,
                 )}
               >
-                <span className="flex w-[clamp(56px,calc((100cqw-52px)/4.5),78px)] flex-col items-center gap-1.5 md:w-auto md:flex-row md:gap-0">
+                <span className="flex w-[clamp(52px,calc((100cqw-52px)/5.2),64px)] flex-col items-center gap-1.5 md:w-auto md:flex-row md:gap-0">
                   <span
                     aria-hidden="true"
                     className={cn(
@@ -108,7 +108,7 @@ export function ExploreCategoryStrip({
                       !active && 'ring-1 ring-black/[0.06] dark:ring-white/[0.12]',
                     )}
                   >
-                    <Image src={src} alt="" fill sizes="78px" className="object-cover" />
+                    <Image src={src} alt="" fill sizes="64px" className="object-cover" />
                     {/* 选中框画在图片内侧（蓝 3px + 底色 2px 间隙），不会被任何外层 overflow 裁掉。 */}
                     {active ? (
                       <span className="pointer-events-none absolute inset-0 rounded-[16px] shadow-[inset_0_0_0_3px_hsl(var(--brand-blue)),inset_0_0_0_5px_hsl(var(--app-canvas))]" />

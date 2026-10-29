@@ -60,6 +60,9 @@ const HOMEPAGE_OBSERVATION_SELECT = [
   'user_id',
   'observed_at',
   'location_name',
+  'public_township',
+  'public_district',
+  'public_city',
   'latitude',
   'longitude',
   'location_precision',
@@ -84,6 +87,9 @@ const OBSERVATION_DIMENSION_SELECT = [
   'user_id',
   'observed_at',
   'location_name',
+  'public_township',
+  'public_district',
+  'public_city',
   'latitude',
   'longitude',
   'location_precision',
@@ -283,7 +289,7 @@ async function fetchAllPublicObservationDimensionRowsUncached(): Promise<Observa
 
 const fetchAllPublicObservationDimensionRowsCached = unstable_cache(
   async () => fetchAllPublicObservationDimensionRowsUncached(),
-  ['nature-public-observation-dimensions-v2-created-at'],
+  ['nature-public-observation-dimensions-v3-public-area-labels'],
   { revalidate: 300, tags: ['nature-homepage', 'nature-observations'] },
 )
 
@@ -1070,7 +1076,7 @@ const getBirdObservationHomepageDataCached = unstable_cache(
       galleryImages: collectObservationGalleryImages(recentObservations),
     }
   },
-  ['nature-homepage-v6-all-public-observations-created-at-order'],
+  ['nature-homepage-v7-public-area-labels'],
   { revalidate: 300, tags: ['nature-homepage'] },
 )
 

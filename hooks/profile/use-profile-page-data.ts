@@ -3,7 +3,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
 
-import { fetchProfileHomeData, invalidateProfileHomeData } from '@/lib/profile/profile-home-client'
+import { fetchProfileHomeData, invalidateProfileHomeData, mergeProfileHomeData, type ProfileHomeData } from '@/lib/profile/profile-home-client'
 import { invalidateProfileSummary, profileSummaryQueryKey } from '@/lib/profile/profile-summary-client'
 
 export const profileHomeQueryKey = (userId: string | undefined) => ['profile', 'home', userId] as const
@@ -13,7 +13,10 @@ export function useProfilePageData(userId: string | undefined) {
 
   const query = useQuery({
     queryKey: profileHomeQueryKey(userId),
-    queryFn: () => fetchProfileHomeData(userId!),
+    queryFn: async () => {
+      const next = await fetchProfileHomeData(userId!)
+      return mergeProfileHomeData(queryClient.getQueryData<ProfileHomeData>(profileHomeQueryKey(userId)), next)
+    },
     enabled: !!userId,
   })
 

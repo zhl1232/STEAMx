@@ -46,6 +46,22 @@ beforeEach(() => {
 });
 
 describe("NatureHomeMapPair", () => {
+  it("omits missing location icons and separators while retaining the observer", () => {
+    const item = { ...observation(1, "麻雀"), locationName: "" };
+    const { container } = render(<NatureHomeMapPair observations={[item]} mapObservations={[]} />);
+    expect(screen.queryByText("未知地点")).not.toBeInTheDocument();
+    expect(screen.queryByText("大概区域")).not.toBeInTheDocument();
+    expect(container.querySelector(".lucide-map-pin")).toBeNull();
+    expect(screen.queryByText("•")).not.toBeInTheDocument();
+    expect(screen.getAllByText("作者1").length).toBeGreaterThan(0);
+  });
+
+  it("shows the actual approximate area on desktop and mobile", () => {
+    const item = { ...observation(1, "麻雀"), locationName: "永顺镇附近" };
+    render(<NatureHomeMapPair observations={[item]} mapObservations={[]} />);
+    expect(screen.getAllByText("永顺镇附近")).toHaveLength(2);
+  });
+
   it("keeps no-coordinate records in desktop and mobile lists while excluding them from markers", () => {
     const withoutCoordinates = observation(1, "无坐标新记录", undefined);
     const withCoordinates = observation(2, "有坐标记录", { latitude: 31.2, longitude: 121.5 });

@@ -144,7 +144,7 @@ export type MaterialStatus =
   | 'unknown'
 
 export interface MaterialRequirement extends LdrawBomEntry {
-  /** 保留模型行标识，套装实配色不改变 React key 或分步关联。 */
+  /** 保留模型行标识，用于 React key 和分步关联。 */
   modelColorCode?: number
   status: MaterialStatus
   mapping: ResolvedLdrawPart
@@ -283,48 +283,49 @@ function allocateStock(
   stock: KitInventoryPart[],
   prefs: LessonMaterialPreferences,
 ): void {
-  const order = [...entries].sort(
-    (a, b) => Number(isOptional(a, prefs)) - Number(isOptional(b, prefs)),
-  )
+  // 先完整分配必需件，再处理可选件，避免可选同色件占用必需的换色库存。
+  for (const optional of [false, true]) {
+    const order = entries.filter((entry) => isOptional(entry, prefs) === optional)
+    for (const substitutePass of [false, true] as const) {
+      for (const entry of order) {
+        if (isUnknown(entry) || entry.mapping.flags.externalMaterial) continue
+        if (substitutePass && !prefs.acceptColorSubstitutes) continue
 
-  for (const substitutePass of [false, true] as const) {
-    for (const entry of order) {
-      if (isUnknown(entry) || entry.mapping.flags.externalMaterial) continue
-      if (substitutePass && !prefs.acceptColorSubstitutes) continue
+        // 库存里的其它眼睛印刷也参与正常匹配，并排在素色 3437 之前。
+        const partNums = entry.mapping.flags.eyePrintEquivalent
+          ? [...new Set([
+            ...stock.filter((part) => isDuploEyePrint(part.partNum, part.name)).map((part) => part.partNum),
+            ...entry.mapping.partNums,
+          ])]
+          : entry.mapping.partNums
+        for (const partNum of partNums) {
+          for (const part of stock) {
+            if (!entry.missing || part.quantity <= 0 || part.partNum !== partNum) continue
+            // 先为所有需求保留同色库存；Toolo 别名也不能提前占用其它行的同色件。
+            const exact = !!entry.figureFolded || sameDisplayColor(entry, part)
+            if (exact === substitutePass) continue
 
-      // 库存里的其它眼睛印刷也参与正常匹配，并排在素色 3437 之前。
-      const partNums = entry.mapping.flags.eyePrintEquivalent
-        ? [...new Set([
-          ...stock.filter((part) => isDuploEyePrint(part.partNum, part.name)).map((part) => part.partNum),
-          ...entry.mapping.partNums,
-        ])]
-        : entry.mapping.partNums
-      for (const partNum of partNums) {
-        for (const part of stock) {
-          if (!entry.missing || part.quantity <= 0 || part.partNum !== partNum) continue
-          const exact = !!entry.figureFolded || !!entry.mapping.flags.kitColor || sameDisplayColor(entry, part)
-          if (exact === substitutePass) continue
-
-          const quantity = Math.min(entry.missing, part.quantity)
-          part.quantity -= quantity
-          entry.missing -= quantity
-          entry.matched += quantity
-          const partDifference = describePartDifference(entry, part)
-          const substitute = !exact || !!partDifference || !!entry.figureFolded
-          if (substitute) entry.substituted += quantity
-          entry.allocations.push({
-            partNum,
-            colorId: part.colorId,
-            colorName: part.colorName,
-            quantity,
-            substitute,
-            ...(partDifference ? {
-              partDifference,
-              partName: entry.mapping.flags.shapeAlternatives?.[partNum] ??
-                (/[\u3400-\u9fff]/.test(describeLdrawPartName(part.name, partNum))
-                  ? describeLdrawPartName(part.name, partNum) : entry.partName),
-            } : {}),
-          })
+            const quantity = Math.min(entry.missing, part.quantity)
+            part.quantity -= quantity
+            entry.missing -= quantity
+            entry.matched += quantity
+            const partDifference = describePartDifference(entry, part)
+            const substitute = !exact || !!partDifference || !!entry.figureFolded
+            if (substitute) entry.substituted += quantity
+            entry.allocations.push({
+              partNum,
+              colorId: part.colorId,
+              colorName: part.colorName,
+              quantity,
+              substitute,
+              ...(partDifference ? {
+                partDifference,
+                partName: entry.mapping.flags.shapeAlternatives?.[partNum] ??
+                  (/[\u3400-\u9fff]/.test(describeLdrawPartName(part.name, partNum))
+                    ? describeLdrawPartName(part.name, partNum) : entry.partName),
+              } : {}),
+            })
+          }
         }
       }
     }
@@ -437,15 +438,6 @@ export function compareLessonMaterials(
   allocateAreaPlateSubstitutes(remaining, stock, prefs)
 
   for (const entry of remaining) {
-    if (entry.mapping.flags.kitColor && entry.allocations.length) {
-      // 多色库存按分配最多的颜色展示；相同数量保留首次分配颜色。
-      const quantities = new Map<number, number>()
-      for (const a of entry.allocations) quantities.set(a.colorId, (quantities.get(a.colorId) ?? 0) + a.quantity)
-      const primary = [...entry.allocations].sort((a, b) => quantities.get(b.colorId)! - quantities.get(a.colorId)!)[0]
-      entry.colorCode = primary.colorId
-      entry.colorName = describeLdrawColorName(primary.colorName)
-      entry.colorHex = colorInfo(primary.colorId)?.hex ?? entry.colorHex
-    }
     if (isUnknown(entry)) {
       entry.status = 'unknown'
     } else if (entry.missing) {

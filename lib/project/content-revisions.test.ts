@@ -9,6 +9,7 @@ import { applyProjectContentRevision, getProjectRevisionPreparationNotes } from 
 import { hashProjectInstructionContent } from './content-fingerprint'
 import { prepareHouseholdProject } from '@/lib/explore/household-projects'
 import { resolveProjectMaterials } from './materials'
+import { getMaterialMeta } from './material-meta'
 
 const source: Project = sourceData
 
@@ -18,7 +19,7 @@ describe('source-bound content revisions', () => {
     expect(revised.materials).toContain('清水')
     expect(revised.steps).toEqual(source.steps)
     expect(source.materials).not.toContain('清水')
-    expect(resolveProjectMaterials(revised).materials).toContain('清水')
+    expect(resolveProjectMaterials(revised).materials.map(getMaterialMeta)).toContainEqual({ name: '水', amount: '', note: '清水' })
     expect(prepareHouseholdProject(source)).toBeNull()
     expect(applyProjectContentRevision(revised)).toBe(revised)
   })

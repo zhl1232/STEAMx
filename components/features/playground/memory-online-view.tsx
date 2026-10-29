@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import confetti from "canvas-confetti";
-import { LogOut, RefreshCw, Trophy, Users, Loader2 } from "lucide-react";
+import { LogOut, RefreshCw, Trophy, Loader2 } from "lucide-react";
 
 import { useAuth } from "@/lib/context/auth-context";
 import { useGamification } from "@/lib/context/gamification-context";
@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { MemoryOnlineLobby } from "@/components/features/playground/memory-online-lobby";
+
+import { memoryCardLabel } from "@/lib/playground/memory-online";
 
 const ACTIVE_MATCH_KEY = "memory_online_active_match";
 // 配对成功 250ms、翻错 800ms 后收起本轮揭示（与单机 use-memory-match 观感一致）。
@@ -154,7 +156,7 @@ export function MemoryOnlineView({
     return (
         <div className="w-full max-w-4xl flex flex-col gap-4 sm:gap-6">
             {/* 顶部状态条 + 比分 */}
-            <div className="flex items-center justify-between gap-3">
+            {showBoard ? <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                     <span className="text-xs text-muted-foreground">{statusText}</span>
                     {online.myRole ? (
@@ -184,7 +186,7 @@ export function MemoryOnlineView({
                         </span>
                     </div>
                 ) : null}
-            </div>
+            </div> : null}
 
             {showBoard ? (
                 <div
@@ -201,9 +203,10 @@ export function MemoryOnlineView({
                                 type="button"
                                 onClick={() => handleCardClick(card.id)}
                                 disabled={disabled}
-                                aria-label={faceUp ? card.symbol : "未翻开的牌"}
+                                aria-label={faceUp ? `${card.face === "term" ? "名词：" : card.face === "def" ? "解释：" : ""}${memoryCardLabel(card)}` : "未翻开的牌"}
                                 className={cn(
-                                    "aspect-square rounded-lg border flex items-center justify-center text-2xl sm:text-3xl select-none transition-colors",
+                                    "min-h-24 rounded-xl border flex items-center justify-center p-2 text-center select-none transition-colors sm:min-h-28",
+                                    card.label ? "text-xs font-semibold leading-relaxed break-words sm:text-[15px]" : "text-2xl sm:text-3xl",
                                     card.matched === online.myRole
                                         ? "border-primary/50 bg-primary/10"
                                         : card.matched && card.matched !== online.myRole
@@ -214,19 +217,12 @@ export function MemoryOnlineView({
                                     !disabled && "cursor-pointer",
                                 )}
                             >
-                                {faceUp ? card.symbol : ""}
+                                {faceUp ? memoryCardLabel(card) : ""}
                             </button>
                         );
                     })}
                 </div>
-            ) : (
-                <div className="flex flex-col items-center justify-center py-10 text-center">
-                    <Users className="w-10 h-10 text-primary/60 mb-3" />
-                    <p className="text-sm text-muted-foreground">
-                        创建房间或输入房间码，开始在线比拼记忆力。
-                    </p>
-                </div>
-            )}
+            ) : null}
 
             {showLobby ? (
                 <MemoryOnlineLobby online={online} initialRoomCode={initialRoomCode} />

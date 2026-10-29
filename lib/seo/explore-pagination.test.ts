@@ -20,4 +20,14 @@ describe('explore pagination URLs', () => {
     }
     expect(parseExplorePage('2')).toBe(2);
   });
+  it('keeps only supported theme tags in pagination and canonical URLs', () => {
+    const params = new URLSearchParams({ tags: '磁力,趣味实验,初中,科教版,趣味实验', sortBy: 'latest' });
+    const url = new URL(buildExplorePageHref(params, 2), 'https://steam.bj.cn');
+    expect(url.searchParams.get('tags')).toBe('趣味实验,科教版');
+    expect(url.searchParams.get('sortBy')).toBe('latest');
+    expect(url.searchParams.get('page')).toBe('2');
+    expect(params.get('tags')).toBe('磁力,趣味实验,初中,科教版,趣味实验');
+    expect(buildExplorePageHref(new URLSearchParams({ tags: '磁力,初中' }), 0)).toBe('/explore');
+  });
+
 });

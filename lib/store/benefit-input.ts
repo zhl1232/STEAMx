@@ -22,3 +22,6 @@ export const couponTemplateSchema = z.object({
   terms: z.string().trim().max(10000).nullish(), active: z.boolean(),
 }).refine(v => v.discountCents < v.thresholdCents && (!v.active || (!!v.validDays && !!v.terms && v.eligibleProductIds.length > 0)), '请配置有效的门槛、金额、有效期及条款')
 export const couponBatchSchema = z.object({templateId: z.uuid(), batchKey: z.string().trim().min(1).max(180), userIds: z.array(z.uuid()).min(1).max(500)})
+
+export const couponOfferSchema = z.object({id:z.uuid().optional(),templateId:z.uuid(),coinPrice:z.number().int().positive(),totalLimit:z.number().int().positive(),perUserLimit:z.number().int().positive(),active:z.boolean(),expectedVersion:z.number().int().positive().optional()})
+export const couponExchangeSchema = z.object({offerId:z.uuid(),expectedVersion:z.string().min(1).max(100),idempotencyKey:z.string().trim().min(1).max(180)})

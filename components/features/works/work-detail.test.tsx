@@ -236,11 +236,11 @@ describe("WorkDetail content and support actions", () => {
     expect(screen.queryByRole("region", { name: "作品媒体" })).not.toBeInTheDocument()
     expect(timeline.compareDocumentPosition(info) & 4).toBe(4)
     expect(within(timeline).getByText("最终作品")).toBeInTheDocument()
-    expect(screen.getByText("查看探索记录 →")).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "查看探索记录：会跑的小车" })).toHaveAttribute("href", "/project/7")
   })
 
-  it("places only like and coin support actions alongside the author for other viewers", () => {
-    const { container } = render(<WorkDetail work={{ ...work, commentsCount: 2 }} canShare={false} />)
+  it("offers support actions and a comment shortcut below the author for other viewers", () => {
+    render(<WorkDetail work={{ ...work, commentsCount: 2 }} canShare={false} />)
     const media = screen.getByRole("region", { name: "作品媒体" })
     const info = screen.getByRole("complementary", { name: "作品信息" })
     const actions = within(info).getByRole("group", { name: "作品支持操作" })
@@ -249,7 +249,8 @@ describe("WorkDetail content and support actions", () => {
     expect(within(actions).getByRole("button", { name: "投币支持，当前 1 枚" })).toBeInTheDocument()
     expect(within(actions).queryAllByRole("button")).toHaveLength(2)
     expect(within(media).queryByRole("group", { name: "作品支持操作" })).not.toBeInTheDocument()
-    expect(container.querySelector('a[href="#comments"]')).not.toBeInTheDocument()
+    expect(within(actions).getByRole("link", { name: /^留言$/ })).toHaveAttribute("href", "#comments")
+    expect(document.getElementById("comments")).toBeInTheDocument()
   })
 
   it("marks coin support as already tipped when the viewer has tipped this work", () => {

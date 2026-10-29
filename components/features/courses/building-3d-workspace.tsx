@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { cloneElement, isValidElement, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { ReactElement, ReactNode } from "react";
-import type { LessonMenuExtra } from "./lesson-step-guide";
 import {
     Box,
     Check,
@@ -832,6 +831,7 @@ export function Building3DWorkspace({
     voiceControlsSlot,
     mobileHeaderSlot,
     sidebar,
+    onViewChange,
 }: {
     courseId: number;
     lesson: CourseLessonRow;
@@ -842,9 +842,10 @@ export function Building3DWorkspace({
     navigationSlot?: ReactNode;
     voiceControlsSlot?: ReactNode;
     /** 手机顶栏左侧：返回 + 课名（手机上取代页面原来的标题栏） */
-    mobileHeaderSlot?: ReactNode;
+    mobileHeaderSlot?: ReactNode | ((context: { view: "lesson" | "works"; onBackToLesson: () => void }) => ReactNode);
     /** 电脑端左侧目录的收起/展开（≥1280px 才有侧栏） */
     sidebar?: { collapsed: boolean; onToggle: () => void };
+    onViewChange?: (view: "lesson" | "works") => void;
 }) {
     const workspaceRef = useRef<HTMLElement>(null);
     const mountRef = useRef<HTMLDivElement>(null);
@@ -884,6 +885,17 @@ export function Building3DWorkspace({
             : -1;
     const hasWorks = isWorkSubmissionEnabled(lesson);
     const [view, setView] = useState<"lesson" | "works">("lesson");
+    const changeView = (nextView: "lesson" | "works") => {
+        setView(nextView);
+        const url = new URL(window.location.href);
+        if (nextView === "works") url.searchParams.set("view", "works");
+        else url.searchParams.delete("view");
+        window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    };
+
+    useEffect(() => {
+        onViewChange?.(view);
+    }, [onViewChange, view]);
     const [failedSlides, setFailedSlides] = useState<Set<number>>(() => new Set());
     const [failedVideos, setFailedVideos] = useState<Set<string>>(() => new Set());
     const [ldrawEditEnabled, setLdrawEditEnabled] = useState(false);
@@ -1031,9 +1043,14 @@ export function Building3DWorkspace({
     }, [bom, ldrawModelFileName, needsPartList]);
 
     useEffect(() => {
-        const searchParams = new URLSearchParams(window.location.search);
-        setLdrawEditEnabled(searchParams.get("ldrawEdit") === "1");
-        setView(hasWorks && searchParams.get("view") === "works" ? "works" : "lesson");
+        const restoreView = () => {
+            const searchParams = new URLSearchParams(window.location.search);
+            setLdrawEditEnabled(searchParams.get("ldrawEdit") === "1");
+            setView(hasWorks && searchParams.get("view") === "works" ? "works" : "lesson");
+        };
+        restoreView();
+        window.addEventListener("popstate", restoreView);
+        return () => window.removeEventListener("popstate", restoreView);
     }, [hasWorks, lesson.id]);
 
     useEffect(() => {
@@ -1758,11 +1775,6 @@ export function Building3DWorkspace({
     }, [view]);
 
     const isFinalPage = flow.length > 0 && clampedPageIndex === flow.length - 1;
-    // 手机「目录」菜单里的额外入口：作品、零件清单
-    const lessonMenuExtras: LessonMenuExtra[] = [
-        ...(hasWorks ? [{ key: "works", label: "看看大家的作品", icon: "works" as const, onSelect: () => { void exitImmersive(); setView("works"); } }] : []),
-        ...(content.ldrawModelUrl ? [{ key: "parts", label: "本课零件清单", icon: "parts" as const, href: `/courses/${courseId}/lessons/${lesson.id}/parts` }] : []),
-    ];
     const activeVoiceMedia = activePage?.kind === "video" || (activePage?.kind === "slide" && activePage.sourceIndex === videoSlide0)
         ? content.videoUrl : activePage?.kind === "slide" ? activePage.imageUrl : null;
     const voiceCourseReady = view === "lesson" && !bomLoading && !voicePrefetchPending && (
@@ -1949,7 +1961,7 @@ export function Building3DWorkspace({
                 </>
             ) : null}
             <div className={cn("relative z-40 flex h-14 shrink-0 items-center gap-2 border-b border-border/60 bg-background px-3 max-md:px-2", hideChrome && "hidden")}>
-                {sidebar ? (
+                {sidebar && view === "lesson" ? (
                     <button
                         type="button"
                         data-testid="sidebar-toggle"
@@ -1962,74 +1974,72 @@ export function Building3DWorkspace({
                         {sidebar.collapsed ? "展开目录" : "收起目录"}
                     </button>
                 ) : null}
-                {mobileHeaderSlot ? <div className="flex min-w-0 flex-1 items-center md:max-w-[50%] md:flex-none">{mobileHeaderSlot}</div> : null}
-                {hasWorks ? (
-                    <div className="ml-3 flex items-center gap-2 max-md:hidden">
+                {mobileHeaderSlot ? <div className="flex min-w-0 flex-1 items-center md:max-w-[50%] md:flex-none">{typeof mobileHeaderSlot === "function" ? mobileHeaderSlot({ view, onBackToLesson: () => changeView("lesson") }) : mobileHeaderSlot}</div> : null}
+                {hasWorks && view === "lesson" ? (
+                    <div className="ml-3 flex shrink-0 items-center gap-2 max-md:ml-0 max-md:gap-1.5">
                     <button
                         type="button"
-                        onClick={() => setView("lesson")}
-                        className={cn(pill, view === "lesson" ? pillPrimary : "text-muted-foreground hover:bg-foreground/[0.06]")}
-                        aria-pressed={view === "lesson"}
+                        onClick={() => changeView("lesson")}
+                        className={cn(pill, pillPrimary, "max-md:hidden")}
+                        aria-pressed={true}
                     >
                         <Presentation className="h-4 w-4" />
                         课程内容
                     </button>
                     <button
                         type="button"
-                        onClick={() => { void exitImmersive(); setView("works"); }}
-                        className={cn(pill, view === "works" ? pillPrimary : "text-muted-foreground hover:bg-foreground/[0.06]")}
-                        aria-pressed={view === "works"}
+                        onClick={() => { void exitImmersive(); changeView("works"); }}
+                        className={cn(pill, "text-muted-foreground hover:bg-foreground/[0.06]")}
                     >
-                        <Sparkles className="h-4 w-4" />
+                        <Sparkles className="h-4 w-4 max-md:hidden" />
                         作品
                     </button>
                     </div>
                 ) : null}
+                {view === "lesson" && content.ldrawModelUrl ? (
+                    <Link
+                        href={`/courses/${courseId}/lessons/${lesson.id}/parts`}
+                        prefetch={false}
+                        aria-label="本课零件清单"
+                        title="本课零件清单"
+                        className={cn(pill, "max-md:px-2 text-muted-foreground hover:bg-foreground/[0.06]")}
+                    >
+                        <Package className="h-4 w-4 max-md:hidden" /><span className="md:hidden">零件</span><span className="max-md:hidden">零件清单</span>
+                    </Link>
+                ) : null}
                 <div className="ml-auto flex shrink-0 items-center gap-2 max-md:gap-1.5">
                     {view === "works" ? (
-                        <button type="button" className={cn(pill, pillQuiet, "md:hidden")} onClick={() => setView("lesson")}>
+                        <button type="button" className={cn(pill, pillQuiet)} onClick={() => changeView("lesson")}>
                             <Presentation className="h-4 w-4" />回到课程
                         </button>
                     ) : null}
                     {view === "lesson" && voiceControlsSlot ? (
                         <span className="inline-flex h-10 w-[76px] shrink-0 max-md:w-10" data-voice-entry-slot>
-                        {(voiceReady || voiceActive) ? <button
-                            type="button"
-                            data-testid="voice-toggle"
-                            aria-label={voiceExpanded ? "收起语音搭建" : "语音搭建"}
-                            aria-pressed={voiceExpanded}
-                            className={cn(pill, "relative px-3 max-md:w-10 max-md:px-0", voiceActive ? pillPrimary : pillQuiet, voiceExpanded && !voiceActive && "bg-foreground/15 ring-1 ring-foreground/20")}
-                            onClick={() => setVoiceExpanded((open) => !open)}
-                        >
-                            <Mic className="h-4 w-4" />
-                            <span className="max-md:hidden">语音</span>
-                            {voiceActive ? <span aria-hidden className="absolute right-1.5 top-1.5 h-2 w-2 animate-pulse rounded-full bg-emerald-400 ring-2 ring-background" /> : null}
-                        </button> : null}
+                            <button
+                                type="button"
+                                data-testid={voiceReady || voiceActive ? "voice-toggle" : undefined}
+                                aria-label={voiceReady || voiceActive ? (voiceExpanded ? "收起语音搭建" : "语音搭建") : "语音设置"}
+                                title={voiceReady || voiceActive ? "语音搭建" : "语音设置"}
+                                aria-pressed={voiceExpanded}
+                                className={cn(pill, "relative w-full px-3 max-md:px-0", voiceActive ? pillPrimary : pillQuiet, voiceExpanded && !voiceActive && "bg-foreground/15 ring-1 ring-foreground/20")}
+                                onClick={() => setVoiceExpanded((open) => !open)}
+                            >
+                                {voiceReady || voiceActive ? <Mic className="h-4 w-4" /> : <Settings2 className="h-4 w-4" aria-hidden="true" />}
+                                <span className="max-md:hidden">语音</span>
+                                {voiceActive ? <span aria-hidden className="absolute right-1.5 top-1.5 h-2 w-2 animate-pulse rounded-full bg-emerald-400 ring-2 ring-background" /> : null}
+                            </button>
                         </span>
                     ) : null}
-                    {view === "lesson" && voiceControlsSlot ? (
-                        <button type="button" className={cn(pill, pillQuiet, circle)} aria-label="语音设置" title="语音设置" onClick={() => setVoiceExpanded(open => !open)}>
-                            <Settings2 className="h-4 w-4" aria-hidden="true" />
-                        </button>
+                    {view === "lesson" && navigationSlot ? (
+                        <div className="hidden md:block" data-desktop-lesson-navigation>
+                            {isValidElement(navigationSlot)
+                                ? cloneElement(navigationSlot as ReactElement<{ className?: string }>, {
+                                    // 电脑端左侧目录展开时，顶栏的「目录」按钮重复了，藏起来
+                                    className: sidebar && !sidebar.collapsed ? "xl:hidden" : undefined,
+                                })
+                                : navigationSlot}
+                        </div>
                     ) : null}
-                    {view === "lesson" && content.ldrawModelUrl ? (
-                        <Link
-                            href={`/courses/${courseId}/lessons/${lesson.id}/parts`}
-                            prefetch={false}
-                            aria-label="本课零件清单"
-                            title="本课零件清单"
-                            className={cn(pill, pillQuiet, "px-3 max-md:hidden")}
-                        >
-                            <Package className="h-4 w-4" />零件清单
-                        </Link>
-                    ) : null}
-                    {view === "lesson" ? (isValidElement(navigationSlot)
-                        ? cloneElement(navigationSlot as ReactElement<{ mobileExtras?: LessonMenuExtra[]; className?: string }>, {
-                            mobileExtras: lessonMenuExtras,
-                            // 电脑端左侧目录展开时，顶栏的「目录」按钮重复了，藏起来
-                            className: sidebar && !sidebar.collapsed ? "xl:hidden" : undefined,
-                        })
-                        : navigationSlot) : null}
                     {view === "lesson" ? (
                         <button
                             type="button"

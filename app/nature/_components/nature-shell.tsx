@@ -36,7 +36,6 @@ export function NatureShell({
     <div
       className={cn(
         "mx-auto flex min-h-[calc(100dvh-var(--mobile-global-header-height,0rem))] w-full flex-col pb-24",
-        variant === "wide" ? "max-w-none" : "max-w-6xl",
         className,
       )}
     >

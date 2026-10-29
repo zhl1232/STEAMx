@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { AlertCircle, ArrowLeftRight, Check, ChevronLeft, ChevronRight, Clock, Coins, RotateCcw, Scale, Sparkles, Trophy } from "lucide-react"
 import { useTutorContext } from "@/components/features/tutor/tutor-context"
 import { BALANCE_LEVELS, useBalance, type WeighResult } from "@/hooks/playground/use-balance"
+import { useRaceRound } from "@/hooks/playground/use-race-round"
 import { useRaceOnline } from "@/hooks/playground/use-race-online"
 import { useGamification } from "@/lib/context/gamification-context"
 import { Button } from "@/components/ui/button"
@@ -191,11 +192,9 @@ function PanTray({
     )
 }
 
-function CoinMode({ modeTabs }: { modeTabs: React.ReactNode }) {
+function CoinMode({ modeTabs, onRaceActiveChange }: { modeTabs: React.ReactNode; onRaceActiveChange: (active: boolean) => void }) {
     const game = useBalance()
     const race = useRaceOnline("balance", { levelId: game.level.id, levelIndex: game.levelIndex })
-    const raceIsWaiting = race.isWaiting
-    const raceIsPlaying = race.isPlaying
     const raceHasSubmitted = race.hasSubmitted
     const raceLevelId = race.settings.levelId
     const submitRaceResult = race.submitResult
@@ -219,7 +218,7 @@ function CoinMode({ modeTabs }: { modeTabs: React.ReactNode }) {
               ? "本局结束，答案已揭晓"
               : game.message || (game.lastResult ? `本次结果：${formatResult(game.lastResult)}` : panStatusText)
     const showIssue = game.status === "playing" && Boolean(game.message)
-    const canPlay = game.status === "playing"
+    const gameIsPlaying = game.status === "playing"
 
     useEffect(() => {
         setTutorOverride({
@@ -249,17 +248,18 @@ function CoinMode({ modeTabs }: { modeTabs: React.ReactNode }) {
     }, [checkBadges, game.stats.solvedLevels.length, game.status])
 
     const raceLevelIndex = typeof race.settings.levelIndex === "number" ? race.settings.levelIndex : null
-    const raceActive = raceIsWaiting || raceIsPlaying
+    const raceRound = useRaceRound(race, () => {
+        if (raceLevelIndex !== null) game.startLevel(raceLevelIndex)
+    })
+    const raceActive = raceRound.active
+    const canPlay = gameIsPlaying && raceRound.canPlay
 
-    useEffect(() => {
-        if (!raceActive || raceLevelIndex === null || raceLevelIndex === game.levelIndex) return
-        game.startLevel(raceLevelIndex)
-    }, [game, raceActive, raceLevelIndex])
+    useEffect(() => { onRaceActiveChange(raceActive) }, [onRaceActiveChange, raceActive])
 
     useEffect(() => {
         const justSolved = prevStatusRef.current === "playing" && game.status === "solved"
         prevStatusRef.current = game.status
-        if (!justSolved || !raceIsPlaying || raceHasSubmitted) return
+        if (!justSolved || !raceRound.canSubmit || raceHasSubmitted) return
         if (raceLevelId !== game.level.id) return
         void submitRaceResult({
             levelId: game.level.id,
@@ -274,7 +274,7 @@ function CoinMode({ modeTabs }: { modeTabs: React.ReactNode }) {
         game.time,
         game.weighings,
         raceHasSubmitted,
-        raceIsPlaying,
+        raceRound.canSubmit,
         raceLevelId,
         submitRaceResult,
     ])
@@ -309,7 +309,7 @@ function CoinMode({ modeTabs }: { modeTabs: React.ReactNode }) {
                                 <Trophy className="h-4 w-4 text-primary" />
                                 {currentBestWeighing != null ? `${currentBestWeighing} 次` : "暂无"}
                             </span>
-                            <Button variant="outline" size="icon" className="h-11 w-11 rounded-full" onClick={() => game.startLevel(game.levelIndex)} aria-label="重开">
+                            <Button variant="outline" size="icon" className="h-11 w-11 rounded-full" disabled={raceActive} onClick={() => game.startLevel(game.levelIndex)} aria-label="重开">
                                 <RotateCcw className="h-4 w-4" />
                             </Button>
                         </div>
@@ -515,9 +515,9 @@ function CoinMode({ modeTabs }: { modeTabs: React.ReactNode }) {
                             <p className="mb-3 text-[15px] text-muted-foreground">{game.weighings} 次称量 · {formatTime(game.time)}</p>
                             <div className="flex flex-wrap justify-center gap-2">
                                 {game.status === "solved" && game.levelIndex < game.levelCount - 1 ? (
-                                    <Button className="min-h-11 rounded-full" onClick={() => game.startLevel(game.levelIndex + 1)}>下一关</Button>
+                                    <Button className="min-h-11 rounded-full" disabled={raceActive} onClick={() => game.startLevel(game.levelIndex + 1)}>下一关</Button>
                                 ) : (
-                                    <Button className="min-h-11 rounded-full" variant="outline" onClick={() => game.startLevel(game.levelIndex)}>再来一局</Button>
+                                    <Button className="min-h-11 rounded-full" variant="outline" disabled={raceActive} onClick={() => game.startLevel(game.levelIndex)}>再来一局</Button>
                                 )}
                             </div>
                         </div>
@@ -598,6 +598,7 @@ const BALANCE_MODES: Array<{ key: BalanceMode; label: string; desc: string }> = 
 
 export default function BalancePage() {
     const [mode, setMode] = useState<BalanceMode>("coin")
+    const [raceActive, setRaceActive] = useState(false)
     const { setOverride: setTutorOverride, clearOverride: clearTutorOverride } = useTutorContext()
     useEffect(() => {
         if (mode === "coin") return
@@ -612,7 +613,8 @@ export default function BalancePage() {
                     type="button"
                     role="tab"
                     aria-selected={mode === m.key}
-                    onClick={() => setMode(m.key)}
+                    disabled={raceActive}
+                    onClick={() => { if (!raceActive) setMode(m.key) }}
                     title={m.desc}
                     className={cn(
                         "flex min-h-11 items-center justify-center rounded-full px-2 text-[15px] font-black transition-colors",
@@ -624,7 +626,7 @@ export default function BalancePage() {
             ))}
         </div>
     )
-    if (mode === "coin") return <CoinMode modeTabs={tabs} />
+    if (mode === "coin") return <CoinMode modeTabs={tabs} onRaceActiveChange={setRaceActive} />
     return (
         <div className="playground-game-page">
             <div className="playground-game-main justify-start pb-44 py-3 sm:py-6 xl:py-8">
