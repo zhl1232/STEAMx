@@ -6,7 +6,7 @@
 - 课程课时：课时类型 `textbook_3d`，`content.textbook3d.lessonId` 填课号（见下文）。
 - 项目页：`projects.interactive_url` 填 `/textbook3d/v1/<课号>/`（见下文，需要先跑迁移）。
 
-当前目录包含八年级上册第一至六章、下册第七至十二章；压强、浮力、功和机械能、简单机械均从同一登记表生成目录与前后节导航。具体课号和展示顺序以 `lib/textbook3d/registry.ts` 为准。新增课使用共享运行时、字体及滑轮模块，保留旧共享文件以兼容缓存中的课时 HTML。
+当前目录包含小学一至六年级科学上下册、八年级物理上下册和九年级物理全一册，均从同一登记表生成目录与前后节导航。具体课号和展示顺序以 `lib/textbook3d/registry.ts` 为准。课时使用共享运行时、字体及场景模块，旧共享文件默认保留以兼容缓存中的课时 HTML。
 
 ## 文件放哪里
 ```
@@ -22,7 +22,7 @@ public/textbook3d/v1/
   - 共享文件 `/textbook3d/:version/shared/:path*`：`max-age=31536000, immutable`。文件名带内容哈希，内容变了文件名就变，所以可以永久缓存。
 - 登记表 `lib/textbook3d/registry.ts`：页面、sitemap、课时、项目、测试都只认这里登记的课号，不接受外部 URL。
 
-为什么拆共享文件：原来每课是 1.35–1.49MB 的单文件（Three.js、模板和 base64 字体全部内联），36 课约 51MB，每打开一课都要重新下载一遍。拆开后 36 课合计约 2.7MB，学生第一次打开约 1.9MB（运行时 + 字体），之后每节新课只多下载约 20KB。
+拆共享文件后，Three.js、课本模板和字体可以跨课缓存；打开后续课时只需下载该课的 HTML、场景和文字。实际资源大小以当前构建产物为准。
 
 ## 加一节新课 / 修正已有课
 1. 在课本源码目录（`/workspace/3d-textbook/textbook`）构建：`python3 tools/build_split.py <要发布的全部课号…>`，产物在 `dist-split/`。共享 chunk 由全部入口一起拆出，所以每次要带上全部要发布的课号，不要只构建一节。（旧的 `tools/build.py` 仍然输出内联单文件，只用于课本源码目录本地预览。）
@@ -54,3 +54,10 @@ public/textbook3d/v1/
 
 ## 限制
 - 同一页面只放一个 3D 课本（iOS Safari 的 WebGL 内存有限）。
+
+## UX v2（音效 / 合册 / 翻页 / 3D 交互样板）
+- 共享运行时已含 Web Audio 合成音效（`sfx`）：翻页、按钮、滑块、翻卡、对错、盖章；实验/运动主题音；右上角静音（localStorage）；首次点击解锁；`?embed=1` 可用。
+- 翻页：盖章不再自动跳页；仅左右箭头 / 合册书角可翻页。合册模式 `?book=1`：课末/课首向父页发 `prev-lesson`/`next-lesson`，并接受 `steamx-textbook-jump`。
+- 3D 交互样板：`g8b-11-4`（拖小球上坡 + 点摩擦垫）、`p4b-2-2`（拖导线接灯泡）。逻辑在课本源码 `core/interact.js`，经场景 import 打进共享 chunk。
+- 合册：`public/textbook3d/v1/book-{p1a…p6b,g8a,g8b,g9}.html` 与课目录同级（iframe 相对路径 `课号/index.html?book=1`）；目录、单元分隔、只保活 cur±1。源码 `tools/book.py` → `dist/book-*.html`。
+- 课本源码目录：`/workspace/3d-textbook/textbook`（`core/`、`lessons/`、`tools/build_split.py`、`tools/book.py`）。

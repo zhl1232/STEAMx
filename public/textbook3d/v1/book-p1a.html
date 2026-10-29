@@ -1,0 +1,30 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>一年级上册 · 科学 · 创探空间 3D 合册</title>
+<style>html,body{margin:0;height:100%;overflow:hidden;background:#5e4430;font-family:"Noto Serif SC","Songti SC",serif}
+#frames{position:fixed;inset:0}#frames iframe{position:absolute;inset:0;width:100%;height:100%;border:0;visibility:hidden}#frames iframe.cur{visibility:visible}
+#tocbtn{position:fixed;top:10px;left:10px;z-index:20;border:0;border-radius:18px;padding:7px 14px;background:rgba(255,250,240,.92);color:#233052;font:600 14px serif;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+#toc{position:fixed;top:0;left:0;bottom:0;width:320px;max-width:86vw;z-index:30;background:#f6efdf;color:#233052;overflow:auto;transform:translateX(-105%);transition:transform .3s;box-shadow:4px 0 20px rgba(0,0,0,.3);padding:18px 18px 40px;box-sizing:border-box}
+body.tocon #toc{transform:none}#toc h1{font-size:20px;margin:4px 0 12px}#toc h2{font-size:14px;color:#a23a28;margin:16px 0 6px;letter-spacing:.05em}#toc a{display:block;padding:5px 8px;border-radius:6px;color:#233052;text-decoration:none;font-size:15px}#toc a:hover{background:#ecdcb8}#toc a.on{background:#233052;color:#fff}
+#unit{position:fixed;inset:0;z-index:15;display:none;align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(#f6efdf,#e2d2ad);color:#233052}#unit.on{display:flex}#unit small{letter-spacing:.4em;color:#a23a28}#unit b{font-size:40px;margin:14px 0 30px}#unit button{border:0;border-radius:20px;padding:9px 22px;margin:0 6px;background:#233052;color:#fff;font:15px serif;cursor:pointer}
+</style>
+<button id="tocbtn">☰ 目录</button><nav id="toc"><h1>一年级上册 · 科学</h1><div id="list"></div></nav>
+<div id="frames"></div><div id="unit"><small>单元</small><b id="ut"></b><div><button id="ub">← 上一课</button><button id="uf">开始本单元 →</button></div></div>
+<script>
+const LS=[{"id": "p1a-1-1", "title": "我们知道的植物", "num": "1", "ch": "第一单元　周围的植物", "book": "一年级上册 · 科学"}, {"id": "p1a-1-2", "title": "观察植物", "num": "2", "ch": "第一单元　周围的植物", "book": "一年级上册 · 科学"}, {"id": "p1a-1-3", "title": "植物长在哪里", "num": "3", "ch": "第一单元　周围的植物", "book": "一年级上册 · 科学"}, {"id": "p1a-1-4", "title": "给植物画张\"像\"", "num": "4", "ch": "第一单元　周围的植物", "book": "一年级上册 · 科学"}, {"id": "p1a-1-5", "title": "植物的变化", "num": "5", "ch": "第一单元　周围的植物", "book": "一年级上册 · 科学"}, {"id": "p1a-1-6", "title": "校园里的植物", "num": "6", "ch": "第一单元　周围的植物", "book": "一年级上册 · 科学"}, {"id": "p1a-2-1", "title": "我们的身体", "num": "1", "ch": "第二单元　我们自己", "book": "一年级上册 · 科学"}, {"id": "p1a-2-2", "title": "发现生长", "num": "2", "ch": "第二单元　我们自己", "book": "一年级上册 · 科学"}, {"id": "p1a-2-3", "title": "游戏中的观察", "num": "3", "ch": "第二单元　我们自己", "book": "一年级上册 · 科学"}, {"id": "p1a-2-4", "title": "气味告诉我们", "num": "4", "ch": "第二单元　我们自己", "book": "一年级上册 · 科学"}, {"id": "p1a-2-5", "title": "通过感官来发现", "num": "5", "ch": "第二单元　我们自己", "book": "一年级上册 · 科学"}, {"id": "p1a-2-6", "title": "观察与比较", "num": "6", "ch": "第二单元　我们自己", "book": "一年级上册 · 科学"}, {"id": "p1a-2-7", "title": "做个\"时间胶囊\"", "num": "7", "ch": "第二单元　我们自己", "book": "一年级上册 · 科学"}]; const $=s=>document.querySelector(s); const F={}; let cur=-1;
+const units=[]; LS.forEach((l,i)=>{ if(!units.length||units[units.length-1].ch!==l.ch) units.push({ch:l.ch,first:i}); });
+$('#list').innerHTML=units.map(u=>`<h2>${u.ch}</h2>`+LS.filter(l=>l.ch===u.ch).map(l=>`<a href="#${l.id}" data-i="${LS.indexOf(l)}">${l.num} ${l.title}</a>`).join('')).join('');
+$('#list').onclick=e=>{const a=e.target.closest('a'); if(!a)return; e.preventDefault(); document.body.classList.remove('tocon'); open(+a.dataset.i,0,true);};
+$('#tocbtn').onclick=()=>document.body.classList.toggle('tocon');
+function frame(i){ if(F[i]) return F[i]; const f=document.createElement('iframe'); f.src=LS[i].id+'/index.html?book=1'; f.dataset.i=i; f.allow='autoplay'; $('#frames').append(f); F[i]=f; return f; }
+function prune(){ for(const k of Object.keys(F)) if(Math.abs(k-cur)>1){ F[k].src='about:blank'; F[k].remove(); delete F[k]; } } // 只保留当前±1课（WebGL 上下文上限）
+function isUnitStart(i){ return units.some(u=>u.first===i); }
+let pendingUnit=null;
+function open(i,page,skipUnit){ if(i<0||i>=LS.length) return; if(!skipUnit && isUnitStart(i) && i!==cur){ pendingUnit=[i,page]; $('#ut').textContent=LS[i].ch; $('#ub').style.display=i?'':'none'; $('#unit').classList.add('on'); return; }
+  $('#unit').classList.remove('on'); cur=i; const f=frame(i); Object.values(F).forEach(x=>x.classList.toggle('cur',x===f));
+  const go=()=>f.contentWindow?.postMessage({type:'steamx-textbook-jump',page},'*'); if(f.dataset.ready) go(); else f.onload=()=>{f.dataset.ready=1; setTimeout(go,50);};
+  if(i>0) frame(i-1); if(i<LS.length-1) frame(i+1); prune(); location.hash=LS[i].id;
+  document.querySelectorAll('#toc a').forEach(a=>a.classList.toggle('on',+a.dataset.i===i)); document.title=LS[i].title+' · 一年级上册 · 科学'; }
+$('#uf').onclick=()=>open(pendingUnit[0],pendingUnit[1],true); $('#ub').onclick=()=>{ $('#unit').classList.remove('on'); open(pendingUnit[0]-1,-1,true); };
+addEventListener('message',e=>{ const d=e.data||{}; const f=F[cur]; if(!f||e.source!==f.contentWindow) return;
+  if(d.type==='steamx-textbook-next-lesson') open(cur+1,0); if(d.type==='steamx-textbook-prev-lesson') open(cur-1,-1,true); });
+const h=location.hash.slice(1); open(Math.max(0,LS.findIndex(l=>l.id===h)),0,true);
+</script></html>
