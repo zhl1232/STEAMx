@@ -80,21 +80,17 @@ for (const width of [390, 1440]) {
     await expect(page.getByRole('searchbox')).toHaveCount(0)
 
     const records = page.locator('details').filter({ has: page.getByText('我的探索记录', { exact: true }) })
+    await expect(records).toHaveCount(1)
     await expect(records).toHaveJSProperty('open', false)
     await expect(records.getByText('累计游玩记录')).toBeHidden()
-    await records.locator('summary').click()
+    // Nested 「记录说明」 details also has a summary; only open the outer one.
+    await records.locator(':scope > summary').click()
     await expect(records).toHaveJSProperty('open', true)
     await expect(records.getByText('累计游玩记录')).toBeVisible()
     await expect(records.getByRole('link', { name: '查看我的徽章' })).toHaveAttribute('href', '/profile#profile-badges-anchor')
 
-    if (width >= 1024) {
-      const sidebar = page.getByRole('navigation', { name: '游乐场游戏导航' })
-      await expect(sidebar.getByText('一起拼与创造', { exact: true })).toBeVisible()
-      await expect(sidebar.locator('a[href="/playground/nonogram"]')).toBeVisible()
-      await expect(sidebar.locator('a[href="/playground/sudoku"]')).not.toBeVisible()
-      await sidebar.locator('summary').filter({ hasText: '更多逻辑游戏' }).click()
-      await expect(sidebar.locator('a[href="/playground/sudoku"]')).toBeVisible()
-    }
+    // Game sidebar lives in playground-shell on individual games, not the hub.
+    await expect(page.getByRole('navigation', { name: '游乐场游戏导航' })).toHaveCount(0)
 
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   })
