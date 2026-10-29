@@ -192,6 +192,8 @@ Release 与手机号提供商运维共用 `release-production` 并发组，服�
 
 飞书 SDK 由 worker 在 Next 服务入口之外加载。Docker 构建完成后执行 `scripts/prepare-feishu-runtime.mjs`，使用项目固定版本 Next 自带的文件追踪器，将 SDK 及其依赖补入 standalone 目录并验证可加载；不能只复制 SDK 单个包而遗漏传递依赖。
 
+游乐场运行时由 `scripts/prepare-playground-runtime.mjs` 在 Next 构建后生成，输出 `.next/playground-runtime` 并复制进生产镜像。该脚本与飞书准备脚本均须在 `.dockerignore` 中逐文件放行；其输入为 `lib/playground/` 下的挑战引擎、电脑策略、五子棋引擎和记忆主题模块。
+
 客服通知缺少配置时保留队列但不外发，变量见 [站内官方客服](customer-support.md)；订单查单仍可处理历史交易，不以新购开关关闭为依据丢弃在途交易。worker 的 Compose/Docker 配置已在本地实现，未启动生产任务或发送真实提醒。发布前需把获批准的商城、客服、报价及草稿迁移与其他待执行迁移一同核对允许名单，不能只更新容器而遗漏数据库。
 
 ## 部署后的独立检查

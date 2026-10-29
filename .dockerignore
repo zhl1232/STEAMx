@@ -55,3 +55,4 @@ scripts
 # Required by the server-side LDraw confirmation guard.
 !scripts/ldraw-production-protected.json
 !scripts/prepare-feishu-runtime.mjs
+!scripts/prepare-playground-runtime.mjs
