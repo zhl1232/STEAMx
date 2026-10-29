@@ -106,3 +106,17 @@ test('fingerprint permits literal copy/style edits but rejects markup, links and
   assert.equal(hasReviewedDependencies(home, source.replace('href="/leaderboard"', 'href="/new-route"')), false);
   assert.equal(hasReviewedDependencies(home, source.replace('<section', '<div')), false);
 });
+
+test('reviewed shared hero topics still pin imports, destinations and rendering logic', () => {
+  const source = sources.get(home);
+  for (const [original, replacement] of [
+    ['@/lib/product/mainline', '@/lib/product/other-entry'],
+    ['href: MAINLINE_ENTRY_HREF', 'href: "/courses"'],
+    ['href: "/learn/science"', 'href: "/explore"'],
+    ['index > 0', 'index > 1'],
+    ['fetchPriority="high"', 'fetchPriority="low"'],
+  ]) {
+    assert(source.includes(original), `mutation target must exist: ${original}`);
+    assert.equal(hasReviewedDependencies(home, source.replace(original, replacement)), false, original);
+  }
+});

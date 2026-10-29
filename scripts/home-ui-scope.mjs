@@ -4,8 +4,9 @@ import { createHash } from 'node:crypto';
 // merely compared to each other: a previously changed graph cannot silently qualify.
 const HOME_SOURCES = new Map([
   ['components/home/home-showcase.tsx', {
-    // Re-reviewed after removing category counts and reusing the original hero image; still homepage-only.
-    shape: 'ee7f87152dc66d53211f71a96715a1ff1519653c37613d8136a5c926ccc2ce6d', boundary: 'const heroImage =', prefix: 'a02e8a4e2288362fad0735ac4b5e93995f4a526c81ce15084fe03ba017377561',
+    // Reviewed source: 30b30fa3. Category counts removed, original hero image reused,
+    // and desktop/mobile topic links shared; still a homepage-only consumer.
+    shape: '97605df860a9e035035fadd1eeafa51bb41898e5dc7223dbcb6274a49f7bbd13', boundary: 'const heroImage =', prefix: 'fa2c592a9e0e89c6aeb2883a7fdec850d50be1d070757034ca3ff9142b5a460f',
   }],
   ['components/home/mobile-shortcut-carousel.tsx', {
     shape: '81dae3bcb7a9ae4b4f9d118504544405cc838cf39e1e60a3a3ea559c8095b941', boundary: 'interface MobileShortcutCarouselProps', prefix: '12809eb3fd7fe3afb4c39d6d2cf012cb859cbfc98ea5893595572a4bbe7cc8d9',
