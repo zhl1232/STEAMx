@@ -16,7 +16,7 @@ test('all current supplier originals retain their recorded checksum and exact SK
     assert.ok(!v.slug.includes(v.supplierSkuId))
     if (v.kind === 'material_pack') assert.equal(v.catalog.length, 16)
   }
-  for (const detail of source.detailImages) {
+  for (const detail of [...source.detailImages, ...(source.overviewImages ?? [])]) {
     assert.equal(createHash('sha256').update(readFileSync(new URL(detail.path.slice(1), publicRoot))).digest('hex'), detail.sha256)
   }
 })

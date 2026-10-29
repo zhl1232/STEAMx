@@ -1,11 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import { beforeEach, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { StoreProductDetail } from './store-product-detail'
 
 vi.mock('@/lib/context/auth-context', () => ({ useAuth: () => ({ profile: null }) }))
 const { push } = vi.hoisted(() => ({ push: vi.fn() }))
 vi.mock('next/navigation', () => ({ useRouter: () => ({ push }) }))
 beforeEach(() => { push.mockClear() })
+afterEach(() => { vi.unstubAllGlobals() })
 
 it('shows saved draft readiness and paused specifications without offering a purchase', () => {
   render(<StoreProductDetail checkoutEnabled preview={{ status: 'draft' }} product={{
@@ -24,7 +25,7 @@ it('shows saved draft readiness and paused specifications without offering a pur
   expect(screen.getByRole('link', { name: '联系商城客服' })).toHaveAttribute('href', '/store/support')
   expect(screen.getByRole('link', { name: '← 返回编辑商品' })).toHaveAttribute('href', '/admin/store?product=draft-1')
   fireEvent.click(screen.getByRole('button', { name: '保存的蓝色套装（已暂停）' }))
-  expect(screen.getByText('库存待确认 · 1 件起订')).toBeInTheDocument()
+  expect(screen.getByText('库存待确认')).toBeInTheDocument()
 })
 
 const product = {
@@ -35,6 +36,8 @@ const product = {
 it('shows a single specification as text and forwards the chosen quantity to checkout', () => {
   render(<StoreProductDetail product={product} checkoutEnabled />)
   expect(screen.getByText('标准套装')).toBeInTheDocument()
+  expect(screen.getByText('可售 5 件')).toBeInTheDocument()
+  expect(screen.queryByText(/1 件起订/)).not.toBeInTheDocument()
   expect(screen.queryByRole('button', { name: '标准套装' })).not.toBeInTheDocument()
   fireEvent.click(screen.getByRole('button', { name: '增加数量' }))
   fireEvent.click(screen.getByRole('button', { name: '立即购买' }))
@@ -87,24 +90,58 @@ it('does not silently purchase a different variant when the linked variant is un
   expect(push).not.toHaveBeenCalled()
 })
 
-it('shows the actual remote-region charges instead of unconditional free delivery', () => {
-  render(<StoreProductDetail product={{ ...product, shipping_province_overrides: { '新疆维吾尔自治区': 3200, '西藏自治区': 3200 } }} checkoutEnabled />)
-  expect(screen.getByText(/新疆维吾尔自治区每单¥32.00/)).toHaveTextContent('其他大陆地区包邮')
+it('summarizes remote-region delivery and dispatch without repeating freight details', () => {
+  render(<StoreProductDetail product={{ ...product, fulfillment_description: '付款后48小时内发货。中国大陆除新疆、西藏外包邮；新疆、西藏每单运费32元，不随购买数量增加。', shipping_province_overrides: { '新疆维吾尔自治区': 3200, '西藏自治区': 3200 } }} checkoutEnabled />)
+  expect(screen.getByText('非偏远地区包邮')).toBeInTheDocument()
+  expect(screen.getByText('付款后48小时内发货。')).toBeInTheDocument()
+  expect(screen.queryByText(/每单运费32元/)).not.toBeInTheDocument()
   expect(screen.queryByText('免运费')).not.toBeInTheDocument()
 })
 
-it('changes the exact kit images, material list and project link with the chosen specification', () => {
+it('changes kit images and project links without repeating the illustrated material list', async () => {
+  vi.stubGlobal('fetch', vi.fn(async (url: string) => ({ ok: true, json: async () => ({ projects: [{ project: { id: url.includes('/small/') ? 1 : 2, title: url.includes('/small/') ? '土电话教程' : '液压机械手教程' }, confirmed: false, preparationStatus: 'unknown', extras: [] }], hasMore: false }) })))
   const kit = { id: 'k1', slug: 'small', name: '小班材料', kind: 'material_pack' as const, revision: 1, status: 'published' as const, cover_url: '/small.jpg', gallery_urls: ['/small-detail.jpg'], materials: ['小班配件'], catalog: ['土电话'], preparation_note: '纸杯需按说明准备' }
-  render(<StoreProductDetail product={{ ...product, variants: [
+  render(<StoreProductDetail product={{ ...product, gallery_urls: ['/usage.jpg'], variants: [
     { ...product.variants[0], kit },
     { ...product.variants[0], id: 'v2', name: '中班规格', kit: { ...kit, id: 'k2', slug: 'middle', name: '中班材料', cover_url: '/middle.jpg', gallery_urls: ['/middle-detail.jpg'], materials: ['中班配件'], catalog: ['液压机械手'] } },
   ] }} checkoutEnabled />)
-  expect(screen.getByRole('link', { name: '查看对应探索项目' })).toHaveAttribute('href', '/kits/small')
+  expect(screen.queryByRole('button', { name: '查看商品图片 3' })).not.toBeInTheDocument()
+  expect(await screen.findByRole('link', { name: '土电话教程' })).toHaveAttribute('href', '/project/1?kit=small')
   fireEvent.click(screen.getByRole('button', { name: '查看商品图片 2' }))
   fireEvent.click(screen.getByRole('button', { name: '中班规格' }))
   expect(screen.queryByText('小班配件')).not.toBeInTheDocument()
-  expect(screen.getByText('中班配件')).toBeInTheDocument()
-  expect(screen.getByRole('link', { name: '查看对应探索项目' })).toHaveAttribute('href', '/kits/middle')
+  expect(screen.queryByText('中班配件')).not.toBeInTheDocument()
+  expect(screen.queryByText('盒内实验目录', { exact: false })).not.toBeInTheDocument()
+  expect(screen.queryByRole('link', { name: '土电话教程' })).not.toBeInTheDocument()
+  expect(await screen.findByRole('link', { name: '液压机械手教程' })).toHaveAttribute('href', '/project/2?kit=middle')
+  expect(screen.queryByText(/盒内材料是否覆盖教程所需尚未逐项确认/)).not.toBeInTheDocument()
+  expect(screen.queryByText('纸杯需按说明准备。')).not.toBeInTheDocument()
+  expect(screen.queryByText('材料待核对')).not.toBeInTheDocument()
   expect(screen.getByRole('button', { name: '查看商品图片 1' })).toHaveAttribute('aria-pressed', 'true')
   expect(screen.getByAltText('中班材料供应商详情')).toHaveAttribute('src', '/middle-detail.jpg')
+})
+
+
+it('shows general materials without fetching or linking project tutorials', () => {
+  const fetch = vi.fn()
+  vi.stubGlobal('fetch', fetch)
+  const kit = { id: 'general', slug: 'general', name: '启蒙款', kind: 'general_materials' as const, revision: 1, status: 'published' as const, cover_url: '/general.jpg', gallery_urls: [], materials: ['量杯'], catalog: ['调色大师'], preparation_note: '' }
+  render(<StoreProductDetail checkoutEnabled product={{ ...product, variants: [{ ...product.variants[0], kit }] }} />)
+  expect(screen.getByText('量杯')).toBeInTheDocument()
+  expect(screen.getByText('调色大师')).toBeInTheDocument()
+  expect(screen.queryByText('站内实验教程')).not.toBeInTheDocument()
+  expect(fetch).not.toHaveBeenCalled()
+})
+
+
+it('keeps unique product details while removing duplicate prose and visible gallery captions', () => {
+  const kit = { id: 'g', slug: 'g', name: '启蒙款', kind: 'general_materials' as const, revision: 1, status: 'published' as const, cover_url: '/cover.jpg', gallery_urls: ['/materials.jpg'], materials: [], catalog: [], preparation_note: '器材可重复使用。耗材需补充。' }
+  const props = { ...product, description: '器材可重复使用。', detail_content: '器材可重复使用。', gallery_urls: ['/usage.jpg'], variants: [{ ...product.variants[0], kit }] }
+  const { rerender } = render(<StoreProductDetail checkoutEnabled product={props} />)
+  expect(screen.getAllByText('器材可重复使用。')).toHaveLength(1)
+  expect(screen.queryByRole('heading', { name: '商品详情' })).not.toBeInTheDocument()
+  expect(screen.queryByText('使用展示')).not.toBeInTheDocument()
+  expect(screen.getByAltText('启蒙款供应商详情')).toHaveAttribute('src', '/materials.jpg')
+  rerender(<StoreProductDetail checkoutEnabled product={{ ...props, detail_content: '独立的产品说明。' }} />)
+  expect(screen.getByText('独立的产品说明。')).toBeInTheDocument()
 })

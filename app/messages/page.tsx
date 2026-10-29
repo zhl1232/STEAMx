@@ -102,7 +102,7 @@ function MessagePageSkeleton() {
         </div>
       </div>
 
-      <div className="app-shell-narrow flex-1 md:pt-8">
+      <div className="app-shell-wide flex-1 md:pt-8">
       <div className="surface-panel overflow-hidden">
         <div className="hidden border-b border-border/60 px-4 py-4 sm:px-6 sm:py-5 md:block">
           <Skeleton className="h-3 w-16 rounded-full" />
@@ -240,32 +240,31 @@ function MessagesContent() {
         </div>
       </div>
 
-      <div className="app-shell-narrow flex-1 md:pt-8">
+      <div className="app-shell-wide flex-1 md:pt-8">
       <section className="surface-panel overflow-hidden max-md:rounded-none max-md:border-0 max-md:bg-transparent max-md:shadow-none max-md:backdrop-blur-0">
         <div className="hidden border-b border-border/60 px-6 py-6 md:block">
           <div className="flex items-start justify-between gap-6">
             <div>
-              <p className="section-kicker">消息中心</p>
-              <h1 className="mt-3 text-3xl font-semibold tracking-tight">消息中心</h1>
+              <h1 className="text-3xl font-semibold tracking-tight">消息中心</h1>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
                 查看互动、私信、服务回复和系统通知。
               </p>
             </div>
             {canMarkAllNotificationsRead ? (
-              <Button variant="outline" size="sm" className="gap-2" onClick={() => markAllAsRead()}>
+              <Button variant="outline" size="sm" className="shrink-0 gap-2" onClick={() => markAllAsRead()}>
                 <CheckCheck className="h-4 w-4" />
                 全部标为已读
               </Button>
             ) : null}
           </div>
 
-          <div className="mt-6 segmented-control">
+          <div className="mt-6 grid grid-cols-3 gap-1 rounded-lg border border-border bg-muted/60 p-1 lg:grid-cols-6">
             {TABS.map(({ key, label, icon: Icon }) => (
               <button
                 key={key}
                 type="button"
                 onClick={() => setTab(key)}
-                className={cn("segmented-option gap-2", tab === key && "segmented-option-active")}
+                className={cn("segmented-option min-w-0 gap-2 whitespace-nowrap", tab === key && "segmented-option-active")}
               >
                 <span className="relative inline-flex items-center">
                   <Icon className="h-4 w-4" />

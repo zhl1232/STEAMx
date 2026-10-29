@@ -37,6 +37,7 @@
         "彩盒"
       ],
       "galleryUrls": [
+        "/store/science-kits/display-starter-245.jpg",
         "/store/science-kits/detail-33.jpg",
         "/store/science-kits/detail-34.jpg",
         "/store/science-kits/detail-35.jpg"
@@ -86,6 +87,12 @@
           "/store/science-kits/detail-34.jpg",
           "/store/science-kits/detail-35.jpg"
         ]
+      },
+      "presentationEvidence": {
+        "url": "https://cbu01.alicdn.com/img/ibank/O1CN01lrtbT41DNwH5c2DWW_!!3247950205-0-cib.jpg",
+        "path": "/store/science-kits/display-starter-245.jpg",
+        "scope": "supplier_labeled_tier_and_matching_packaging",
+        "observedAt": "2026-10-29"
       }
     },
     {
@@ -130,6 +137,7 @@
         "彩盒"
       ],
       "galleryUrls": [
+        "/store/science-kits/display-junior-368.jpg",
         "/store/science-kits/detail-31.jpg"
       ],
       "preparationNote": "器材可重复使用，耗材用完后需补充。实验目录列出适用实验，不表示一套材料能将全部实验各完成一次。请按单次用量取用并妥善保存，水、鸡蛋、盐等日常材料按项目清单自备。以下为供应商进阶档位参考清单；不同包装的具体差异待核对。",
@@ -138,6 +146,12 @@
         "tier": "进阶",
         "image": "/store/science-kits/detail-31.jpg",
         "packagingVerified": false
+      },
+      "presentationEvidence": {
+        "url": "https://cbu01.alicdn.com/img/ibank/O1CN01rwnSuJ1DNwH5cC9QX_!!3247950205-0-cib.jpg",
+        "path": "/store/science-kits/display-junior-368.jpg",
+        "scope": "supplier_labeled_tier_and_matching_packaging",
+        "observedAt": "2026-10-29"
       }
     },
     {
@@ -196,6 +210,7 @@
         "纸皮弯吸管2根"
       ],
       "galleryUrls": [
+        "/store/science-kits/display-deluxe-485.jpg",
         "/store/science-kits/detail-26.jpg",
         "/store/science-kits/detail-27.jpg",
         "/store/science-kits/detail-28.jpg",
@@ -247,6 +262,12 @@
           "/store/science-kits/detail-28.jpg",
           "/store/science-kits/detail-29.jpg"
         ]
+      },
+      "presentationEvidence": {
+        "url": "https://cbu01.alicdn.com/img/ibank/O1CN01Q15xqc1DNwGqfzVBy_!!3247950205-0-cib.jpg",
+        "path": "/store/science-kits/display-deluxe-485.jpg",
+        "scope": "supplier_labeled_tier_and_matching_packaging",
+        "observedAt": "2026-10-29"
       }
     },
     {
@@ -971,6 +992,7 @@
         "鸣笛气球"
       ],
       "galleryUrls": [
+        "/store/science-kits/detail-flagship-storage-688.jpg",
         "/store/science-kits/detail-17.jpg",
         "/store/science-kits/detail-18.jpg",
         "/store/science-kits/detail-19.jpg",
@@ -1022,12 +1044,18 @@
           "/store/science-kits/detail-19.jpg",
           "/store/science-kits/detail-20.jpg"
         ]
+      },
+      "presentationEvidence": {
+        "url": "https://cbu01.alicdn.com/img/ibank/O1CN01jrBSQy1DNwGnl9OxR_!!3247950205-0-cib.jpg",
+        "path": "/store/science-kits/detail-flagship-storage-688.jpg",
+        "scope": "supplier_labeled_tier_and_matching_packaging",
+        "observedAt": "2026-10-29"
       }
     },
     {
       "kitId": "166a8842-e66d-566b-963c-849bb654ef0b",
       "slug": "pack-kindergarten-small-2026",
-      "name": "2026幼儿园小班16件套+说明书+视频+PPT",
+      "name": "2026幼儿园小班16件套+说明书",
       "kind": "material_pack",
       "supplierSkuId": "6001941916336",
       "specId": "56483ac9b2368dac780d87a638122946",
@@ -1061,12 +1089,13 @@
       "galleryUrls": [
         "/store/science-kits/pack-kindergarten-small-2026.jpg"
       ],
-      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。"
+      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。",
+      "supplierName": "2026幼儿园小班16件套+说明书+视频+PPT"
     },
     {
       "kitId": "e9f5b164-86cf-56cb-bced-45d650e569db",
       "slug": "pack-kindergarten-middle-2026",
-      "name": "2026幼儿园中班16件套+说明书+视频+PPT",
+      "name": "2026幼儿园中班16件套+说明书",
       "kind": "material_pack",
       "supplierSkuId": "6001941916337",
       "specId": "6ec92269f09c706224aa5b5f92706f6f",
@@ -1100,12 +1129,13 @@
       "galleryUrls": [
         "/store/science-kits/pack-kindergarten-middle-2026.jpg"
       ],
-      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。"
+      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。",
+      "supplierName": "2026幼儿园中班16件套+说明书+视频+PPT"
     },
     {
       "kitId": "362a4ac3-6c37-52c4-beab-bb6745e8b428",
       "slug": "pack-kindergarten-senior-2026",
-      "name": "2026幼儿园大班16件套+说明书+视频+PPT",
+      "name": "2026幼儿园大班16件套+说明书",
       "kind": "material_pack",
       "supplierSkuId": "6001941916338",
       "specId": "a9d382238b85690bb086dee4c5c24da8",
@@ -1139,12 +1169,13 @@
       "galleryUrls": [
         "/store/science-kits/pack-kindergarten-senior-2026.jpg"
       ],
-      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。"
+      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。",
+      "supplierName": "2026幼儿园大班16件套+说明书+视频+PPT"
     },
     {
       "kitId": "dff7923f-63cf-5af7-99e6-5cbfd20801bd",
       "slug": "pack-grade-1-2026",
-      "name": "2026一年级16件套+说明书+视频+PPT",
+      "name": "2026一年级16件套+说明书",
       "kind": "material_pack",
       "supplierSkuId": "6001941916339",
       "specId": "3124c1a063833ec4a80431b591fbc6b7",
@@ -1178,12 +1209,13 @@
       "galleryUrls": [
         "/store/science-kits/pack-grade-1-2026.jpg"
       ],
-      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。"
+      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。",
+      "supplierName": "2026一年级16件套+说明书+视频+PPT"
     },
     {
       "kitId": "522ae6c0-77ff-582b-847f-7830c455956b",
       "slug": "pack-grade-2-2026",
-      "name": "2026二年级16件套+说明书+视频+PPT",
+      "name": "2026二年级16件套+说明书",
       "kind": "material_pack",
       "supplierSkuId": "6001941916340",
       "specId": "ebe11b2e863029234b5777618ae38506",
@@ -1217,12 +1249,13 @@
       "galleryUrls": [
         "/store/science-kits/pack-grade-2-2026.jpg"
       ],
-      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。"
+      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。",
+      "supplierName": "2026二年级16件套+说明书+视频+PPT"
     },
     {
       "kitId": "01bf34f7-4d30-59be-a8a2-0e86a332b6e3",
       "slug": "pack-grade-3-2026",
-      "name": "2026三年级16件套+说明书+视频+PPT",
+      "name": "2026三年级16件套+说明书",
       "kind": "material_pack",
       "supplierSkuId": "6001941916341",
       "specId": "0eb05a1e013a602fe6f2e8a48372926c",
@@ -1256,12 +1289,13 @@
       "galleryUrls": [
         "/store/science-kits/pack-grade-3-2026.jpg"
       ],
-      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。"
+      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。",
+      "supplierName": "2026三年级16件套+说明书+视频+PPT"
     },
     {
       "kitId": "1cdae286-72fc-5c41-8f43-7922e3587fe4",
       "slug": "pack-grade-4-2026",
-      "name": "2026四年级16件套+说明书+视频+PPT",
+      "name": "2026四年级16件套+说明书",
       "kind": "material_pack",
       "supplierSkuId": "6001941916342",
       "specId": "7c8fc903778820ffdfc9b3831741339d",
@@ -1295,12 +1329,13 @@
       "galleryUrls": [
         "/store/science-kits/pack-grade-4-2026.jpg"
       ],
-      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。"
+      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。",
+      "supplierName": "2026四年级16件套+说明书+视频+PPT"
     },
     {
       "kitId": "2ec5bebf-be3b-5ac4-9e5e-5a507875da22",
       "slug": "pack-grade-5-2026",
-      "name": "2026五年级16件套+说明书+视频+PPT",
+      "name": "2026五年级16件套+说明书",
       "kind": "material_pack",
       "supplierSkuId": "6001941916343",
       "specId": "698e1c85b7ae38f009f107e7c6f31fd1",
@@ -1334,12 +1369,13 @@
       "galleryUrls": [
         "/store/science-kits/pack-grade-5-2026.jpg"
       ],
-      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。"
+      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。",
+      "supplierName": "2026五年级16件套+说明书+视频+PPT"
     },
     {
       "kitId": "1ac69ea5-46b8-5e4c-bc92-a90b70595713",
       "slug": "pack-grade-6-2026",
-      "name": "2026六年级16件套+说明书+视频+PPT",
+      "name": "2026六年级16件套+说明书",
       "kind": "material_pack",
       "supplierSkuId": "6001941916344",
       "specId": "e442b27695072396bb28f75190ae1b23",
@@ -1373,7 +1409,8 @@
       "galleryUrls": [
         "/store/science-kits/pack-grade-6-2026.jpg"
       ],
-      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。"
+      "preparationNote": "按目录内16种实验配套准备材料，具体配件见本规格图片和随附说明。器材可重复使用，耗材用完后需补充；水、鸡蛋、盐等日常材料按实验要求自备。站内项目与本套装的对应关系需逐项核对。",
+      "supplierName": "2026六年级16件套+说明书+视频+PPT"
     }
   ],
   "detailImages": [
@@ -1456,6 +1493,64 @@
       "url": "https://cbu01.alicdn.com/img/ibank/O1CN01kmuD2M1DNw3ZTSIBS_!!3247950205-0-cib.jpg",
       "path": "/store/science-kits/detail-35.jpg",
       "sha256": "d7667d3a2900ebd7b1a64ec93217b55f00a67eec0f55f0cc7f13177def6ce92c"
+    },
+    {
+      "url": "https://cbu01.alicdn.com/img/ibank/O1CN01lrtbT41DNwH5c2DWW_!!3247950205-0-cib.jpg",
+      "path": "/store/science-kits/display-starter-245.jpg",
+      "sha256": "0af334ae46d76aab9485ecde545f708e4dfaf734fb0aec52990b448a98a2f6fb"
+    },
+    {
+      "url": "https://cbu01.alicdn.com/img/ibank/O1CN01rwnSuJ1DNwH5cC9QX_!!3247950205-0-cib.jpg",
+      "path": "/store/science-kits/display-junior-368.jpg",
+      "sha256": "b47e9e382fc280dacba2e0dfbd4feb69927fb0a0f7a8d811f1df6d954bc6a981"
+    },
+    {
+      "url": "https://cbu01.alicdn.com/img/ibank/O1CN01Q15xqc1DNwGqfzVBy_!!3247950205-0-cib.jpg",
+      "path": "/store/science-kits/display-deluxe-485.jpg",
+      "sha256": "adfe76e409d49dde6d238c90d0571b5d9adb6a6897279dcc091ed2effd5645da"
+    },
+    {
+      "url": "https://cbu01.alicdn.com/img/ibank/O1CN01jrBSQy1DNwGnl9OxR_!!3247950205-0-cib.jpg",
+      "path": "/store/science-kits/detail-flagship-storage-688.jpg",
+      "sha256": "e1ade6c3c58aa17d00c9e01da5e88cd5fe5d062ce35b7ec57a9ea8f55a4edd14"
+    }
+  ],
+  "overviewImages": [
+    {
+      "kind": "general_materials",
+      "type": "supplier_demonstration",
+      "url": "https://cbu01.alicdn.com/img/ibank/O1CN01D0Lg8c1DNw3YG6bMe_!!3247950205-0-cib.jpg",
+      "path": "/store/science-kits/experiment-results.jpg",
+      "sha256": "be0d24d43fd31d52996163a92e8041937f34fd9b00c24fd6d220a38ec8e2f4b3",
+      "sourcePage": "https://detail.1688.com/offer/731063650115.html",
+      "observedAt": "2026-10-29"
+    },
+    {
+      "kind": "general_materials",
+      "type": "supplier_buyer_collage",
+      "url": "https://cbu01.alicdn.com/img/ibank/O1CN01v0RpnS1DNw3ZTR9Ib_!!3247950205-0-cib.jpg",
+      "path": "/store/science-kits/supplier-buyer-show.jpg",
+      "sha256": "5d5c2e969d763da4b4b40069f05dce407f6bffeace21136dead6a50b2dad1c3d",
+      "sourcePage": "https://detail.1688.com/offer/731063650115.html",
+      "observedAt": "2026-10-29"
+    },
+    {
+      "kind": "general_materials",
+      "type": "supplier_age_introduction",
+      "url": "https://cbu01.alicdn.com/img/ibank/O1CN012nCJRj1DNw3eM0CUK_!!3247950205-0-cib.jpg",
+      "path": "/store/science-kits/intro-age-stages.jpg",
+      "sha256": "653029f4d74365e3f99322f2d44042ea0879dac9c922ae8d2773756f8d3025d1",
+      "sourcePage": "https://detail.1688.com/offer/731063650115.html",
+      "observedAt": "2026-10-29"
+    },
+    {
+      "kind": "material_pack",
+      "type": "supplier_age_introduction",
+      "url": "https://cbu01.alicdn.com/img/ibank/O1CN012nCJRj1DNw3eM0CUK_!!3247950205-0-cib.jpg",
+      "path": "/store/science-kits/intro-age-stages.jpg",
+      "sha256": "653029f4d74365e3f99322f2d44042ea0879dac9c922ae8d2773756f8d3025d1",
+      "sourcePage": "https://detail.1688.com/offer/731063650115.html",
+      "observedAt": "2026-10-29"
     }
   ]
 }

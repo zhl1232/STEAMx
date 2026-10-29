@@ -18,10 +18,10 @@
 
 | 等级 | CSS 类 / 组件 | 宽度 | 典型页面 |
 |------|----------------|------|----------|
-| 宽版浏览与工作区 | `app-shell-wide` / `<AppWideShell>` | 1840px | 首页、探索、课程与结课凭证、项目/作品详情与探索记录、自然首页/图鉴/观察列表/地图/发布页、本人/他人主页与个人内容库/时间线/关注/粉丝/获赞、商店、排行榜、3D 课本目录与课时 |
+| 宽版浏览与工作区 | `app-shell-wide` / `<AppWideShell>` | 1840px | 首页、探索、课程与结课凭证、项目/作品详情与探索记录、自然首页/图鉴/观察列表/地图/发布页、本人/他人主页与个人内容库/时间线/关注/粉丝/获赞、商店、排行榜、消息中心、3D 课本目录与课时 |
 | 标准 | `app-shell-standard` / `page-shell` / `<AppStandardShell>` | 72rem (6xl) | 普通管理端列表、公告与商城管理、课时材料清单 |
 | 阅读型 | `app-shell-reading` / `<AppReadingShell>` | 64rem (5xl) | 设置、账号中心、个人订单 |
-| 窄阅读 | `app-shell-narrow` | 48rem (3xl) | 法律、帮助、消息列表与会话、公告列表与文章、资源文章、图片来源署名 |
+| 窄阅读 | `app-shell-narrow` | 48rem (3xl) | 法律、帮助、私信会话、公告列表与文章、资源文章、图片来源署名 |
 
 ```tsx
 import { AppWideShell, AppReadingShell } from "@/components/layout/app-shell"
@@ -34,6 +34,8 @@ import { AppWideShell, AppReadingShell } from "@/components/layout/app-shell"
 **禁止**：在页面内写 `max-w-[1840px]`、`max-w-5xl` 等，除非有文档记录的例外。
 
 以上数值是包含左右内边距的最大外框宽度，不是固定宽度；所有 shell 都以 `w-full min-w-0` 随视口收缩。宽版页面桌面内边距统一为 32px，其他档位为 24px，手机默认 16px。同一页面只使用一层限宽 shell，不再套一个不同档位的 `max-w-*`；不得通过单页桌面 padding 覆盖公共边线。
+
+消息中心 `/messages` 使用宽版 shell，加载态保持同档宽度；桌面分类导航在 `md` 断点使用三列两行，`lg` 起使用六列一行，手机保留短标签横排。私信会话 `/messages/[userId]` 保留窄阅读宽度。
 
 替换页面列表或内容的加载态、空态和错误态，使用与成功态相同的 shell 档位和左右内边距；列表骨架行也应与正常行对齐，不额外叠加水平 padding。独立的整页错误、404 等集中状态卡是例外：共用 `PageStatus` 的标准外壳，内部卡片可居中限宽至 42rem，保持提示文字易读，不要求铺满原页面。正文面板自身的内边距不替代页面 shell；不要使用没有定义的 `app-shell` CSS 类。
 

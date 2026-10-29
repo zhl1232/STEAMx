@@ -1,12 +1,13 @@
 [
   {
     "id": "70000000-0000-4000-8000-000000000001",
-    "name": "通用科学实验材料套装",
+    "name": "通用科学实验材料包",
     "description": "本地固定数据预览",
     "cover_url": "/store/science-kits/general-starter-245.jpg",
     "gallery_urls": [
-      "/store/science-kits/general-starter-245.jpg",
-      "/store/science-kits/general-junior-368.jpg"
+      "/store/science-kits/experiment-results.jpg",
+      "/store/science-kits/supplier-buyer-show.jpg",
+      "/store/science-kits/intro-age-stages.jpg"
     ],
     "detail_content": "器材可重复使用，耗材用完后需补充。目录列出适用实验，不表示一套材料能完成全部实验。",
     "category": "科学实验",
@@ -34,6 +35,7 @@
           "status": "published",
           "cover_url": "/store/science-kits/general-starter-245.jpg",
           "gallery_urls": [
+            "/store/science-kits/display-starter-245.jpg",
             "/store/science-kits/detail-33.jpg",
             "/store/science-kits/detail-34.jpg",
             "/store/science-kits/detail-35.jpg"
@@ -107,6 +109,7 @@
           "status": "published",
           "cover_url": "/store/science-kits/general-junior-368.jpg",
           "gallery_urls": [
+            "/store/science-kits/display-junior-368.jpg",
             "/store/science-kits/detail-31.jpg"
           ],
           "materials": [
@@ -155,6 +158,7 @@
           "status": "published",
           "cover_url": "/store/science-kits/general-deluxe-485.jpg",
           "gallery_urls": [
+            "/store/science-kits/display-deluxe-485.jpg",
             "/store/science-kits/detail-26.jpg",
             "/store/science-kits/detail-27.jpg",
             "/store/science-kits/detail-28.jpg",
@@ -819,6 +823,7 @@
           "status": "published",
           "cover_url": "/store/science-kits/general-flagship-storage-688.jpg",
           "gallery_urls": [
+            "/store/science-kits/detail-flagship-storage-688.jpg",
             "/store/science-kits/detail-17.jpg",
             "/store/science-kits/detail-18.jpg",
             "/store/science-kits/detail-19.jpg",
@@ -937,12 +942,13 @@
   },
   {
     "id": "70000000-0000-4000-8000-000000000002",
-    "name": "2026分年级实验材料包",
+    "name": "科学实验套装",
     "description": "本地固定数据预览",
     "cover_url": "/store/science-kits/pack-kindergarten-small-2026.jpg",
     "gallery_urls": [
       "/store/science-kits/pack-kindergarten-small-2026.jpg",
-      "/store/science-kits/pack-kindergarten-middle-2026.jpg"
+      "/store/science-kits/pack-kindergarten-middle-2026.jpg",
+      "/store/science-kits/intro-age-stages.jpg"
     ],
     "detail_content": "器材可重复使用，耗材用完后需补充。目录列出适用实验，不表示一套材料能完成全部实验。",
     "category": "科学实验",
@@ -957,14 +963,14 @@
     "variants": [
       {
         "id": "166a8842-e66d-566b-963c-849bb654ef0b",
-        "name": "2026幼儿园小班16件套+说明书+视频+PPT",
+        "name": "2026幼儿园小班16件套+说明书",
         "price_cents": 7200,
         "stock_quantity": 100,
         "min_quantity": 1,
         "kit": {
           "id": "166a8842-e66d-566b-963c-849bb654ef0b",
           "slug": "pack-kindergarten-small-2026",
-          "name": "2026幼儿园小班16件套+说明书+视频+PPT",
+          "name": "2026幼儿园小班16件套+说明书",
           "kind": "material_pack",
           "revision": 1,
           "status": "published",
@@ -996,14 +1002,14 @@
       },
       {
         "id": "e9f5b164-86cf-56cb-bced-45d650e569db",
-        "name": "2026幼儿园中班16件套+说明书+视频+PPT",
+        "name": "2026幼儿园中班16件套+说明书",
         "price_cents": 9000,
         "stock_quantity": 100,
         "min_quantity": 1,
         "kit": {
           "id": "e9f5b164-86cf-56cb-bced-45d650e569db",
           "slug": "pack-kindergarten-middle-2026",
-          "name": "2026幼儿园中班16件套+说明书+视频+PPT",
+          "name": "2026幼儿园中班16件套+说明书",
           "kind": "material_pack",
           "revision": 1,
           "status": "published",
@@ -1035,14 +1041,14 @@
       },
       {
         "id": "362a4ac3-6c37-52c4-beab-bb6745e8b428",
-        "name": "2026幼儿园大班16件套+说明书+视频+PPT",
+        "name": "2026幼儿园大班16件套+说明书",
         "price_cents": 10200,
         "stock_quantity": 100,
         "min_quantity": 1,
         "kit": {
           "id": "362a4ac3-6c37-52c4-beab-bb6745e8b428",
           "slug": "pack-kindergarten-senior-2026",
-          "name": "2026幼儿园大班16件套+说明书+视频+PPT",
+          "name": "2026幼儿园大班16件套+说明书",
           "kind": "material_pack",
           "revision": 1,
           "status": "published",
@@ -1074,14 +1080,14 @@
       },
       {
         "id": "dff7923f-63cf-5af7-99e6-5cbfd20801bd",
-        "name": "2026一年级16件套+说明书+视频+PPT",
+        "name": "2026一年级16件套+说明书",
         "price_cents": 9980,
         "stock_quantity": 100,
         "min_quantity": 1,
         "kit": {
           "id": "dff7923f-63cf-5af7-99e6-5cbfd20801bd",
           "slug": "pack-grade-1-2026",
-          "name": "2026一年级16件套+说明书+视频+PPT",
+          "name": "2026一年级16件套+说明书",
           "kind": "material_pack",
           "revision": 1,
           "status": "published",
@@ -1113,14 +1119,14 @@
       },
       {
         "id": "522ae6c0-77ff-582b-847f-7830c455956b",
-        "name": "2026二年级16件套+说明书+视频+PPT",
+        "name": "2026二年级16件套+说明书",
         "price_cents": 11200,
         "stock_quantity": 100,
         "min_quantity": 1,
         "kit": {
           "id": "522ae6c0-77ff-582b-847f-7830c455956b",
           "slug": "pack-grade-2-2026",
-          "name": "2026二年级16件套+说明书+视频+PPT",
+          "name": "2026二年级16件套+说明书",
           "kind": "material_pack",
           "revision": 1,
           "status": "published",
@@ -1152,14 +1158,14 @@
       },
       {
         "id": "01bf34f7-4d30-59be-a8a2-0e86a332b6e3",
-        "name": "2026三年级16件套+说明书+视频+PPT",
+        "name": "2026三年级16件套+说明书",
         "price_cents": 13000,
         "stock_quantity": 100,
         "min_quantity": 1,
         "kit": {
           "id": "01bf34f7-4d30-59be-a8a2-0e86a332b6e3",
           "slug": "pack-grade-3-2026",
-          "name": "2026三年级16件套+说明书+视频+PPT",
+          "name": "2026三年级16件套+说明书",
           "kind": "material_pack",
           "revision": 1,
           "status": "published",
@@ -1191,14 +1197,14 @@
       },
       {
         "id": "1cdae286-72fc-5c41-8f43-7922e3587fe4",
-        "name": "2026四年级16件套+说明书+视频+PPT",
+        "name": "2026四年级16件套+说明书",
         "price_cents": 14400,
         "stock_quantity": 100,
         "min_quantity": 1,
         "kit": {
           "id": "1cdae286-72fc-5c41-8f43-7922e3587fe4",
           "slug": "pack-grade-4-2026",
-          "name": "2026四年级16件套+说明书+视频+PPT",
+          "name": "2026四年级16件套+说明书",
           "kind": "material_pack",
           "revision": 1,
           "status": "published",
@@ -1230,14 +1236,14 @@
       },
       {
         "id": "2ec5bebf-be3b-5ac4-9e5e-5a507875da22",
-        "name": "2026五年级16件套+说明书+视频+PPT",
+        "name": "2026五年级16件套+说明书",
         "price_cents": 15000,
         "stock_quantity": 100,
         "min_quantity": 1,
         "kit": {
           "id": "2ec5bebf-be3b-5ac4-9e5e-5a507875da22",
           "slug": "pack-grade-5-2026",
-          "name": "2026五年级16件套+说明书+视频+PPT",
+          "name": "2026五年级16件套+说明书",
           "kind": "material_pack",
           "revision": 1,
           "status": "published",
@@ -1269,14 +1275,14 @@
       },
       {
         "id": "1ac69ea5-46b8-5e4c-bc92-a90b70595713",
-        "name": "2026六年级16件套+说明书+视频+PPT",
+        "name": "2026六年级16件套+说明书",
         "price_cents": 15600,
         "stock_quantity": 100,
         "min_quantity": 1,
         "kit": {
           "id": "1ac69ea5-46b8-5e4c-bc92-a90b70595713",
           "slug": "pack-grade-6-2026",
-          "name": "2026六年级16件套+说明书+视频+PPT",
+          "name": "2026六年级16件套+说明书",
           "kind": "material_pack",
           "revision": 1,
           "status": "published",

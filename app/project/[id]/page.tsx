@@ -215,7 +215,7 @@ function ProjectCiteTakeaway({
   )
 }
 
-function MaterialsList({ materials, preparationNotes = [] }: { materials: string[]; preparationNotes?: string[] }) {
+function MaterialsList({ materials, preparationNotes = [], kitLinks = [], kitMaterialName }: { materials: string[]; preparationNotes?: string[]; kitLinks?: { name: string; href: string }[]; kitMaterialName?: string }) {
   return (
     <>
       {materials.length === 0 ? (
@@ -229,8 +229,9 @@ function MaterialsList({ materials, preparationNotes = [] }: { materials: string
               <li key={`${material}-${index}`} className="flex min-w-0 items-start gap-3 py-1">
                 <Box className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium leading-6 wrap-anywhere">{meta.name}</p>
-                  {showNote ? <p className="text-sm leading-6 text-muted-foreground wrap-anywhere">{meta.note}</p> : null}
+                  <p className="text-sm font-medium leading-6 wrap-anywhere">{kitLinks.length === 1 && kitMaterialName === meta.name ? <Link href={kitLinks[0].href} className="text-primary underline underline-offset-4">{meta.name}</Link> : meta.name}</p>
+                  {kitLinks.length > 1 && kitMaterialName === meta.name ? <div className="mt-1 flex flex-col gap-1">{kitLinks.map(link => <Link key={link.href} href={link.href} className="text-sm text-primary underline underline-offset-4">{link.name}</Link>)}</div> : null}
+                  {showNote && !(kitLinks.length && kitMaterialName === meta.name) ? <p className="text-sm leading-6 text-muted-foreground wrap-anywhere">{meta.note}</p> : null}
                 </div>
                 {meta.amount ? <span className="shrink-0 pt-0.5 text-sm leading-6 text-muted-foreground">{meta.amount}</span> : null}
               </li>
@@ -532,6 +533,10 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
   ])
 
   const kitMatches = await getProjectKitMatches(project, (await searchParams)?.kit)
+  const materialKitLinks = kitMatches.flatMap(match => match.linkedOffers.map(offer => ({
+    name: match.kit.name,
+    href: `/store/products/${offer.productId}?variant=${offer.id}`,
+  })))
   const videoPilot = getProjectVideoPresentationPilot(project)
   const textbook3d = project.textbook3dLessonId ? getTextbook3dLesson(project.textbook3dLessonId) : null
   const scienceSample = getScienceSampleForProject(project)
@@ -549,7 +554,7 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
   const purchasableKits = contextualStoreProducts.filter((product) => product.external_url)
   const onlyMaterial = materials.length === 1 ? getMaterialMeta(materials[0]) : null
   // Only consolidate the imported placeholder when the linked kit is unambiguous.
-  const showSingleMobileKit = !usesScienceGuideOrAlternative && purchasableKits.length === 1
+  const showSingleMobileKit = !materialKitLinks.length && !usesScienceGuideOrAlternative && purchasableKits.length === 1
     && onlyMaterial?.name === `《${project.title}》对应实验材料包`
     && (!onlyMaterial.note || onlyMaterial.note === '需自行购买')
 
@@ -752,8 +757,8 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
                 <ContextualStoreProducts products={purchasableKits} contextLabel="这个项目的" idSuffix="mobile" embedded materialAmount={onlyMaterial?.amount ?? ''} />
               ) : (
                 <>
-                  <MaterialsList materials={materials} preparationNotes={preparationNotes} />
-                  <ProjectKitMatches matches={kitMatches} />
+                  <MaterialsList materials={materials} preparationNotes={preparationNotes} kitLinks={materialKitLinks} kitMaterialName={`《${project.title}》对应实验材料包`} />
+                  <ProjectKitMatches matches={onlyMaterial?.name === `《${project.title}》对应实验材料包` && materialKitLinks.length ? [] : kitMatches} />
                   {videoPilot ? <p className="mt-3 text-sm leading-6 text-muted-foreground">{videoPilot.materialsNote}</p> : null}
                   {!usesScienceGuideOrAlternative ? <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="mobile" embedded /> : null}
                 </>
@@ -854,8 +859,8 @@ export default async function ProjectDetailPage({ params, searchParams }: Projec
             <div className="min-w-0 space-y-6">
               <div id="project-materials" className="scroll-mt-36">
                 <SectionCard title={materialsTitle}>
-                  <MaterialsList materials={materials} preparationNotes={preparationNotes} />
-                  <ProjectKitMatches matches={kitMatches} />
+                  <MaterialsList materials={materials} preparationNotes={preparationNotes} kitLinks={materialKitLinks} kitMaterialName={`《${project.title}》对应实验材料包`} />
+                  <ProjectKitMatches matches={onlyMaterial?.name === `《${project.title}》对应实验材料包` && materialKitLinks.length ? [] : kitMatches} />
                   {videoPilot ? <p className="mt-3 text-sm leading-6 text-muted-foreground">{videoPilot.materialsNote}</p> : null}
                   {!usesScienceGuideOrAlternative ? <ContextualStoreProducts products={contextualStoreProducts} contextLabel="这个项目的" idSuffix="desktop" embedded /> : null}
                 </SectionCard>

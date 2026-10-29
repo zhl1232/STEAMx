@@ -18,3 +18,29 @@ it('unpublished or inaccessible projects are omitted even with an existing kit r
 
 it('requires administrator access before loading draft kit data',async()=>{mocks.role.mockRejectedValue(new Error('admin required'));await expect(getKitsForVariants(['v1'],{includeDraft:true})).rejects.toThrow('admin required');expect(mocks.from).not.toHaveBeenCalled()})
 it('allows an authorized preview of a verified draft kit while preserving revision checks',async()=>{respond([{variant_id:'v1',kit_id:'k1',kit_revision:2}]);respond([{...kit,status:'draft'}]);expect(await getKitsForVariants(['v1'],{includeDraft:true})).toMatchObject({v1:{status:'draft'}});expect(mocks.role).toHaveBeenCalledWith({},['admin'])})
+
+it('current material pack exposes a SKU link from any project entry without promoting a candidate', async () => {
+  respond([{kit_id:'k1',status:'candidate',kit_revision:2,preparation_status:'unknown'}])
+  respond([{...kit,kind:'material_pack'}])
+  respond([{variant_id:'v4'}])
+  respond([{id:'v4',product_id:'p1',name:'四年级',price_cents:1000}])
+  const [match] = await getProjectKitMatches(project)
+  expect(match.linkedOffers).toEqual([{id:'v4',productId:'p1',name:'四年级',priceCents:1000}])
+  expect(match.offers).toEqual([])
+  expect(match.confirmed).toBe(false)
+})
+it('does not link a selected material pack when its project relation revision is stale', async () => {
+  respond([{kit_id:'k1',status:'candidate',kit_revision:1}])
+  respond([{...kit,kind:'material_pack'}])
+  const [match] = await getProjectKitMatches(project,'one')
+  expect(match.linkedOffers).toEqual([])
+  expect(mocks.from).toHaveBeenCalledTimes(2)
+})
+it('does not expose selected SKU links when the catalog is closed', async () => {
+  mocks.visible = false
+  respond([{kit_id:'k1',status:'candidate',kit_revision:2}])
+  respond([{...kit,kind:'material_pack'}])
+  const [match] = await getProjectKitMatches(project,'one')
+  expect(match.linkedOffers).toEqual([])
+  expect(mocks.from).toHaveBeenCalledTimes(2)
+})

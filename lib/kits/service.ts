@@ -65,8 +65,11 @@ export async function getProjectKitMatches(project: import('@/lib/mappers/types'
     return (await Promise.all((data as KitProjectRelation[]).map(async relation=>{
       const kit=byId.get(relation.kit_id);if(!kit)return null
       const confirmed=isKitRelationConfirmed(kit,relation,project)
-      if(!confirmed&&kit.slug!==selectedSlug)return null
-      return {kit,confirmed,preparationStatus:confirmed?relation.preparation_status:'unknown',extras:confirmed?relation.extras:[],offers:confirmed&&relation.preparation_status!=='unknown'?await getKitOffers(kit):[]}
+      const currentPack = kit.kind === 'material_pack' && relation.kit_revision === kit.revision
+      if(!confirmed&&!currentPack&&kit.slug!==selectedSlug)return null
+      const canRecommend = confirmed && relation.preparation_status !== 'unknown'
+      const availableOffers = canRecommend || currentPack ? await getKitOffers(kit) : []
+      return {linkedOffers: availableOffers,kit,confirmed,preparationStatus:confirmed?relation.preparation_status:'unknown',extras:confirmed?relation.extras:[],offers:canRecommend?availableOffers:[]}
     }))).filter((x):x is NonNullable<typeof x>=>x!==null)
   }catch{return []}
 }
