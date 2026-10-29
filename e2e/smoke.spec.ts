@@ -57,24 +57,45 @@ test('游乐场页 smoke', async ({ page }) => {
 })
 
 for (const width of [390, 1440]) {
-  test(`游乐场分组、折叠目录与搜索 ${width}px`, { tag: '@smoke-playground' }, async ({ page }) => {
+  test(`游乐场目录、探索记录与下架玩法 ${width}px`, { tag: '@smoke-playground' }, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/playground', { waitUntil: 'domcontentloaded' })
     await waitForRecordedPageView(page, '/playground')
-    await expect(page.locator('#playground-create').getByRole('heading', { name: '数织' })).toBeVisible()
-    await expect(page.locator('#playground-more a[href="/playground/sudoku"]')).not.toBeVisible()
-    await page.locator('#playground-more > summary').click()
-    await expect(page.locator('#playground-more a[href="/playground/sudoku"]')).toBeVisible()
+
+    const science = page.getByRole('navigation', { name: '游乐场科学入口' })
+    await expect(science.getByRole('link', { name: '物理实验室' })).toHaveAttribute('href', '/playground/physics-lab')
+    await expect(science.getByRole('link', { name: '3D 物理课本' })).toHaveAttribute('href', '/textbook')
+
+    const directory = page.locator('section[aria-label="全部玩法"]')
+    for (const name of ['天平称重', '记忆翻牌', '函数战争']) {
+      await expect(directory.getByRole('heading', { name, level: 2 })).toBeVisible()
+    }
+    await expect(directory.getByRole('heading', { name: '数织' })).toBeVisible()
+    await expect(directory.getByRole('link', { name: /数独/ })).toHaveAttribute('href', '/playground/sudoku')
+    await expect(directory.getByRole('link', { name: /N 皇后/ })).toHaveAttribute('href', '/playground/nqueens')
+
     for (const game of ['2048', 'fifteen', 'quickmath', 'tangram', 'symmetry', 'ballsort']) {
       await expect(page.locator(`a[href="/playground/${game}"]`)).toHaveCount(0)
     }
-    await page.getByRole('searchbox', { name: '搜索游乐场玩法' }).fill('数独')
-    await expect(page.locator('#main-content').getByRole('link', { name: /数独/ })).toBeVisible()
-    await expect(page.getByRole('heading', { name: '搜索结果 · 1 个玩法' })).toBeVisible()
-    for (const name of ['2048', '数字华容道', '速算', '七巧板', '像素对称', '球排序']) {
-      await page.getByRole('searchbox', { name: '搜索游乐场玩法' }).fill(name)
-      await expect(page.getByText(/没找到这个玩法/)).toBeVisible()
+    await expect(page.getByRole('searchbox')).toHaveCount(0)
+
+    const records = page.locator('details').filter({ has: page.getByText('我的探索记录', { exact: true }) })
+    await expect(records).toHaveJSProperty('open', false)
+    await expect(records.getByText('累计游玩记录')).toBeHidden()
+    await records.locator('summary').click()
+    await expect(records).toHaveJSProperty('open', true)
+    await expect(records.getByText('累计游玩记录')).toBeVisible()
+    await expect(records.getByRole('link', { name: '查看我的徽章' })).toHaveAttribute('href', '/profile#profile-badges-anchor')
+
+    if (width >= 1024) {
+      const sidebar = page.getByRole('navigation', { name: '游乐场游戏导航' })
+      await expect(sidebar.getByText('一起拼与创造', { exact: true })).toBeVisible()
+      await expect(sidebar.locator('a[href="/playground/nonogram"]')).toBeVisible()
+      await expect(sidebar.locator('a[href="/playground/sudoku"]')).not.toBeVisible()
+      await sidebar.locator('summary').filter({ hasText: '更多逻辑游戏' }).click()
+      await expect(sidebar.locator('a[href="/playground/sudoku"]')).toBeVisible()
     }
+
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   })
 }
@@ -311,8 +332,14 @@ for (const viewport of [
     await expect(hero.getByText('陪孩子，一起动手做', { exact: true })).toBeHidden()
     await expect(hero.getByText('创探空间', { exact: true })).toHaveCount(0)
     await expect(hero.getByText('从孩子想做的开始，跟着指导一步步尝试。', { exact: true })).toHaveCount(0)
-    await expect(hero.getByText('搭积木、做实验、学编程、观察自然。', { exact: true })).toBeVisible()
-    await expect(hero.getByRole('link')).toHaveCount(0)
+    await expect(hero.getByText('搭积木、做实验、学编程、观察自然。', { exact: true })).toHaveCount(0)
+    await expect(hero.getByText('搭积木 · 做实验 · 学编程 · 观察自然', { exact: true })).toBeVisible()
+    await expect(hero.getByRole('link')).toHaveCount(4)
+    for (const [name, href] of homeHeroTopics) {
+      const link = hero.getByRole('link', { name, exact: true })
+      await expect(link).toBeVisible()
+      await expect(link).toHaveAttribute('href', href)
+    }
     const titleFits = await heading.evaluate((el) => el.scrollWidth <= el.clientWidth)
     expect(titleFits).toBe(true)
     const categories = page.locator('section[aria-labelledby="home-start-heading"]')
