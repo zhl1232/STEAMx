@@ -1,0 +1,108 @@
+.frame {
+  overflow: hidden;
+  border-block: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 6px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+  min-width: 0;
+}
+
+.fullscreenButton {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  background: var(--muted);
+  color: var(--foreground);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.fullscreenButton:hover {
+  background: var(--accent);
+}
+
+.fullscreenButton:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.viewport {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  background: var(--muted);
+}
+
+.content {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.frame[data-immersive] {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  border: 0;
+  border-radius: 0;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  isolation: isolate;
+}
+
+.frame[data-immersive] .toolbar {
+  flex-shrink: 0;
+}
+
+.frame[data-immersive] .viewport {
+  flex: 1;
+}
+
+.failure {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  overflow: auto;
+  padding: 24px;
+  text-align: center;
+  background: var(--card);
+}
+
+@media (min-width: 768px) {
+  .frame {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+}

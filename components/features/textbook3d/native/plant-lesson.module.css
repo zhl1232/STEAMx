@@ -1,0 +1,110 @@
+.lesson {
+  --plant-ink: #263e30;
+  --plant-muted: #536752;
+  --plant-green: #38664a;
+  --plant-paper: #fffdf6;
+  color: var(--plant-ink);
+  background: var(--plant-paper);
+}
+
+.pageLabel { font-size: 15px; font-weight: 600; }
+.pageLabel > span { color: var(--plant-muted); font-size: 13px; font-weight: 400; }
+.body { display: grid; grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.45fr); min-width: 0; }
+.reading { padding: 32px; min-width: 0; font-size: 16px; line-height: 1.85; }
+.reading h2 { font-size: 26px; line-height: 1.4; font-weight: 650; margin: 8px 0 20px; letter-spacing: -0.02em; }
+.reading h2:focus { outline: none; }
+.reading p { margin-block: 12px; }
+.reading .kicker { color: var(--plant-muted); font-size: 13px; letter-spacing: 0.1em; margin: 0; }
+.reading .lead { font-size: 18px; line-height: 1.85; }
+.readingObservation { display: none; }
+.question { margin: 30px 0 0; padding: 18px 0 0; border: 0; border-top: 1px solid #dfe4d6; }
+.question legend { font-size: 17px; font-weight: 600; padding-right: 8px; }
+.answers { display: flex; gap: 8px; }
+.answers button { flex: 1; min-height: 44px; border: 1px solid #bdcbb7; border-radius: 10px; background: transparent; cursor: pointer; }
+.answers button[aria-pressed="true"] { background: #e5eddc; border-color: var(--plant-green); color: #244731; }
+.reading .feedback { font-size: 14px; color: var(--plant-muted); min-height: 48px; margin-bottom: 0; }
+.sceneColumn { display: flex; flex-direction: column; min-width: 0; background: #eef2e8; border-left: 1px solid #dfe4d6; padding: 16px 24px 24px; }
+.stage { position: relative; flex: 1; min-height: 360px; background: radial-gradient(ellipse at 45% 35%, #fafcf2 0%, #e6eddc 80%); border-radius: 24px; overflow: hidden; }
+.canvasHost { position: absolute; inset: 0; }
+.canvasHost canvas { width: 100%; height: 100%; display: block; touch-action: none; }
+.canvasHost canvas:focus-visible { outline: 2px solid var(--plant-green); outline-offset: -6px; border-radius: 24px; }
+.reset { position: absolute; top: 8px; right: 8px; display: inline-flex; align-items: center; gap: 5px; min-height: 44px; padding: 8px 10px; border-radius: 10px; color: var(--plant-muted); background: #fffdf6e6; font-size: 13px; cursor: pointer; }
+.stageStatus { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; padding: 20px; }
+.muted { color: var(--plant-muted); font-size: 14px; }
+.gesture { text-align: center; color: var(--plant-muted); font-size: 13px; padding: 10px 0 12px; }
+.plantSelector { display: flex; gap: 8px; }
+.plantSelector button { display: flex; flex: 1; align-items: center; justify-content: center; gap: 8px; min-height: 52px; border: 1px solid #bccab4; border-radius: 12px; background: #fffdf6; color: var(--plant-ink); cursor: pointer; font-size: 17px; }
+.plantSelector button[aria-pressed="true"] { border-color: var(--plant-green); background: var(--plant-green); color: #fffdf6; }
+.observation { padding: 20px 0 0; min-height: 142px; }
+.observation h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+.observation h3 span { font-size: 15px; font-weight: 400; color: var(--plant-muted); }
+.observation p { font-size: 15px; line-height: 1.75; }
+.observation .place { color: var(--plant-muted); margin-top: 6px; font-size: 13px; }
+.steps { padding-left: 22px; margin-block: 12px 20px; }
+.steps li { padding-left: 2px; margin-block: 6px; }
+.observations { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
+.observations caption { text-align: left; color: var(--plant-muted); margin-bottom: 8px; font-size: 13px; }
+.observations td, .observations th { padding: 7px 4px; border-bottom: 1px solid #dfe4d6; }
+.observations th { font-weight: 500; }
+.observations th svg { display: inline-block; vertical-align: middle; margin-right: 3px; color: var(--plant-green); }
+.challenge { padding: 16px 0; }
+.challenge h3 { font-size: 18px; font-weight: 600; }
+.challenge p { font-size: 14px; color: var(--plant-muted); margin: 6px 0 0; }
+.primary, .secondary, .record { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 10px 16px; border-radius: 10px; cursor: pointer; font-size: 15px; font-weight: 600; }
+.primary, .record { background: var(--plant-green); color: #fffdf6; }
+.secondary { background: #edf1e6; color: var(--plant-ink); }
+.record { width: 100%; }
+.reading .recordNote { font-size: 12px; color: var(--plant-muted); line-height: 1.6; margin-bottom: 0; }
+.pageNav { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 24px; border-top: 1px solid #dfe4d6; background: var(--plant-paper); }
+.legacyLink { font-size: 13px; min-height: 44px; color: var(--plant-muted); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; padding: 8px; }
+.lesson button:disabled { opacity: 0.45; cursor: default; }
+.lesson button:focus-visible { outline: 2px solid var(--plant-green); outline-offset: 3px; }
+.lesson[data-immersive] .body { flex: 1; min-height: 0; overflow: hidden; }
+.lesson[data-immersive] .reading { overflow-y: auto; overscroll-behavior: contain; }
+.lesson[data-immersive] .sceneColumn { min-height: 0; overflow-y: auto; }
+.lesson[data-immersive] .stage { min-height: 160px; }
+.lesson[data-immersive] .pageNav { flex-shrink: 0; }
+
+@media (max-width: 700px) and (min-height: 501px) {
+  .body { display: flex; flex-direction: column; }
+  .reading { padding: 24px; order: 1; }
+  .reading h2 { font-size: 24px; }
+  .sceneColumn { border-left: 0; padding: 12px 16px 20px; }
+  .stage { flex: none; height: clamp(250px, 37svh, 340px); min-height: 0; border-radius: 18px; }
+  .plantSelector button { min-height: 48px; font-size: 16px; }
+  .observation { padding-top: 16px; min-height: 140px; }
+  .pageNav { padding: 10px 16px; }
+  .pageLabel > span { display: none; }
+  .lesson[data-immersive] .body { display: block; overflow-y: auto; overscroll-behavior: contain; }
+  .lesson[data-immersive] .reading, .lesson[data-immersive] .sceneColumn { overflow: visible; }
+  .lesson[data-immersive] .sceneColumn { display: flex; }
+  .lesson[data-immersive] .body { display: flex; flex-direction: column; }
+  .lesson[data-immersive] .sceneColumn, .lesson[data-immersive] .reading { flex-shrink: 0; }
+}
+
+@media (max-height: 500px) {
+  .body { grid-template-columns: minmax(250px, 0.9fr) minmax(0, 1.2fr); }
+  .reading { padding: 16px 20px; font-size: 15px; }
+  .reading h2 { font-size: 22px; margin: 6px 0 12px; }
+  .reading .lead { font-size: 16px; }
+  .sceneColumn { padding: 8px 12px; }
+  .stage { min-height: 230px; }
+  .lesson[data-immersive] .stage { min-height: 120px; }
+  .gesture { padding: 4px 0; font-size: 12px; }
+  .plantSelector { gap: 6px; }
+  .plantSelector button { min-height: 44px; font-size: 15px; }
+  .observation { padding-top: 10px; min-height: 0; }
+  .observation h3 { font-size: 18px; margin-bottom: 4px; }
+  .observation p { display: none; }
+  .readingObservation { display: block; border-bottom: 1px solid #dfe4d6; padding-bottom: 12px; margin-bottom: 16px; }
+  .readingObservation h3 { font-size: 15px; font-weight: 600; }
+  .readingObservation p { font-size: 14px; margin: 6px 0; }
+  .pageNav { padding: 4px 16px; }
+}
+
+@media (max-width: 550px) and (max-height: 500px) {
+  .body { display: flex; flex-direction: column; }
+  .sceneColumn { order: -1; }
+  .lesson[data-immersive] .body { overflow-y: auto; }
+  .lesson[data-immersive] .reading, .lesson[data-immersive] .sceneColumn { overflow: visible; flex-shrink: 0; }
+}
