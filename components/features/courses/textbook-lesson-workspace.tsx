@@ -74,7 +74,7 @@ export function TextbookLessonWorkspace({
         <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-3 pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:p-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="text-base text-foreground">
-                    {completed ? "本课已完成，可以继续复习。" : "看完演示，完成课本最后的挑战，就会记为完成本课。"}
+                    {completed ? "本课已完成，可以继续复习。" : textbookId === "p1a-1-1" ? "选植物、转一转看；第二页可以记录本次探索。" : "看完演示，完成课本最后的挑战，就会记为完成本课。"}
                 </p>
                 <Link
                     href={`/textbook/${textbookId}`}

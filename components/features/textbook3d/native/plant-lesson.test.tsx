@@ -1,0 +1,53 @@
+import { useEffect } from "react"
+import { fireEvent, render, screen, within } from "@testing-library/react"
+import { describe, expect, it, vi } from "vitest"
+import PlantLesson from "./plant-lesson"
+
+const canvasMount = vi.hoisted(() => vi.fn())
+vi.mock("./plant-canvas", () => ({ PlantCanvas: ({ plant }: { plant: string }) => {
+  useEffect(() => { canvasMount() }, [])
+  return <div data-testid="plant-canvas">{plant}</div>
+} }))
+
+describe("first lesson reader", () => {
+  it("uses two pages and keeps one canvas mounted while changing page and plant", () => {
+    canvasMount.mockClear()
+    render(<PlantLesson title="我们知道的植物" onUseLegacy={vi.fn()} />)
+    expect(screen.getByText(/第 1 \/ 2 页/)).toBeInTheDocument()
+    const selector = screen.getByRole("group", { name: "选择观察的植物" })
+    fireEvent.click(within(selector).getByRole("button", { name: "小草" }))
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
+    expect(screen.getByText(/第 2 \/ 2 页/)).toBeInTheDocument()
+    expect(screen.getByTestId("plant-canvas")).toHaveTextContent("grass")
+    expect(screen.getByText("观察小记录 · 已选过 1 种示例")).toBeInTheDocument()
+    fireEvent.click(screen.getByRole("button", { name: "上一页" }))
+    expect(canvasMount).toHaveBeenCalledTimes(1)
+    expect(screen.queryByRole("button", { name: /演示|播放|摇一摇|静止/ })).toBeNull()
+  })
+
+  it("exploring examples does not automatically pass the five-plant challenge", () => {
+    const onComplete = vi.fn()
+    render(<PlantLesson title="我们知道的植物" onComplete={onComplete} onUseLegacy={vi.fn()} />)
+    const selector = screen.getByRole("group", { name: "选择观察的植物" })
+    for (const name of ["大树", "小草", "花"]) fireEvent.click(within(selector).getByRole("button", { name }))
+    expect(onComplete).not.toHaveBeenCalled()
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
+    expect(screen.getByText("说出 5 种你认识的植物")).toBeInTheDocument()
+    fireEvent.click(screen.getByRole("button", { name: "记录本次探索" }))
+    expect(onComplete).toHaveBeenCalledOnce()
+    expect(screen.getByRole("button", { name: "本次已探索" })).toBeDisabled()
+    expect(screen.getByText("只记录这次探索，不判断你是否已经掌握。")).toBeInTheDocument()
+  })
+
+  it("retains the plant question and offers an explicit legacy fallback", () => {
+    const fallback = vi.fn()
+    render(<PlantLesson title="我们知道的植物" onUseLegacy={fallback} />)
+    const question = screen.getByRole("group", { name: "猜一猜：哪个是植物？" })
+    fireEvent.click(within(question).getByRole("button", { name: "石头" }))
+    expect(screen.getByText("石头不会生长，再找找看。")).toBeInTheDocument()
+    fireEvent.click(within(question).getByRole("button", { name: "小草" }))
+    expect(screen.getByText("对，小草是植物，它会生长。")).toBeInTheDocument()
+    fireEvent.click(screen.getByRole("button", { name: "使用旧版" }))
+    expect(fallback).toHaveBeenCalledOnce()
+  })
+})
