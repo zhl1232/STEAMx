@@ -1,10 +1,11 @@
+import { LEARNING_THEMES, type LearningThemeId } from './learning-themes'
 import { normalizeDifficultyParam } from '@/lib/content-classification/validation'
 
 export type SortBy = 'latest' | 'popular'
 
 /** browse = 兼容旧热门态（无 tab 高亮） */
 /** beginner-friendly / latest 保留为遗留 id，旧 URL 可解析但不在 UI pills 中展示 */
-export type ExplorePresetId = 'browse' | 'beginner-friendly' | 'latest' | 'everyday-materials'
+export type ExplorePresetId = 'browse' | 'beginner-friendly' | 'latest' | 'everyday-materials' | LearningThemeId
 
 export const EVERYDAY_MATERIALS_TAG = '日常材料'
 
@@ -13,7 +14,7 @@ export type ExplorePreset = {
     label: string
     sortBy: SortBy
     difficulty: string
-    /** Optional tag filter applied by the preset (exact set match). */
+    /** Optional virtual theme filter (exact set match). */
     tags?: string[]
 }
 
@@ -21,6 +22,7 @@ export type ExplorePreset = {
 export const EXPLORE_PRESETS: ExplorePreset[] = [
     { id: 'browse', label: '热门推荐', sortBy: 'popular', difficulty: 'all' },
     { id: 'everyday-materials', label: EVERYDAY_MATERIALS_TAG, sortBy: 'popular', difficulty: 'all', tags: [EVERYDAY_MATERIALS_TAG] },
+    ...LEARNING_THEMES.map(theme => ({ ...theme, sortBy: 'popular' as const, difficulty: 'all', tags: [theme.label] })),
 ]
 
 /** 快捷主题与同名标签共用筛选状态，不包含排序入口。 */
@@ -34,7 +36,7 @@ export function isExploreTopicTag(tag: string): boolean {
     return topicTagSet.has(tag)
 }
 
-/** 探索页 URL 只接受日常材料主题，不再支持任意标签筛选。 */
+/** 探索页 URL 只接受日常材料和六个探索主题，不接受任意标签。 */
 export function normalizeExploreThemeTags(raw: string | null | undefined): string[] {
     const tags = raw?.split(',').map(tag => tag.trim()) ?? []
     return [...new Set(tags.filter(isExploreTopicTag))]
@@ -77,7 +79,7 @@ function presetTags(preset: ExplorePreset): string[] {
 
 /** List-tab presets shown in explore mode (not results mode). */
 export function isExploreListTabPreset(id: ExplorePresetId | null): id is ExplorePresetId {
-    return id === 'browse' || id === 'everyday-materials'
+    return EXPLORE_PRESETS.some(preset => preset.id === id)
 }
 
 /** 用户主动筛选/搜索后进入「结果模式」，与默认「探索逛」分离。 */

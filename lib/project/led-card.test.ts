@@ -39,9 +39,9 @@ describe('project 149 public content', () => {
     expect(revised.steps?.[3].description).toContain('铰接在左页')
     expect(revised.steps?.[3].description).toContain('盖条只粘两端')
     expect(revised.steps?.[3].description).toContain('调整条长和盖条松紧')
-    expect(revised.steps?.[0].image_url).toBe('/projects/steps/project-0149-design-blue-20261008.webp')
+    expect(revised.steps?.filter(step => step.image_url).map(step => step.image_url)).toEqual(['/assets/projects/led-card-slider.svg'])
     expect(revised.videoUrl).toBeNull()
-    expect(revised.image).toBe('/projects/generated/project-0149-led-star-cover-20261008.webp')
+    expect(revised.image).toBe('/project-guides/overviews/project-149.svg')
     expect(revised.steps?.some(step => step.image_url === '/old-battery.webp')).toBe(false)
   })
 

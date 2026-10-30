@@ -4,7 +4,8 @@ import { loadObservationSpeciesForEvents } from '@/lib/api/nature-observation-da
 import { getNaturalObservationProgressSummary } from '@/lib/api/nature-observation-progress'
 import type { CourseLessonRow } from '@/lib/courses/types'
 import type { UserStats } from '@/lib/gamification/types'
-import { type DbProject, mapProject } from '@/lib/mappers/project'
+import { type DbProject, mapProject, mapProjectWithDetails } from '@/lib/mappers/project'
+import { applyEffectiveProjectDemonstration } from '@/lib/project/demonstration-content.server'
 import {
   mapDbChallenge,
   mapDbStageProgress,
@@ -46,6 +47,16 @@ type StageProgressRow = Database['public']['Tables']['challenge_stage_progress']
 const PROFILE_WORKS_PAGE_SIZE = 8
 const EXPLORING_PROJECT_LIMIT = 5
 const TIMELINE_SOURCE_LIMIT = 80
+const PROFILE_PROJECT_SELECT = '*, profiles:author_id (display_name), project_materials(material, sort_order), project_steps(title, description, sort_order)'
+
+function mapProfileProject(project: DbProject & { reflection?: string | null }) {
+  const mapped = mapProject(project)
+  if (!project.project_materials || !project.project_steps || !('video_url' in project)) return mapped
+  return applyEffectiveProjectDemonstration(mapped, {
+    ...mapProjectWithDetails(project),
+    reflection: project.reflection ?? undefined,
+  })
+}
 
 function uniqueNumbers(values: Array<number | null | undefined>) {
   return Array.from(new Set(values.filter((value): value is number => typeof value === 'number')))
@@ -73,7 +84,7 @@ async function loadProfileSummarySignals(supabase: DbClient, userId: string) {
   const [projectsResponse, naturalObservationProgress, steamRadar] = await Promise.all([
     supabase
       .from('projects')
-      .select('*, profiles:author_id (display_name)', { count: 'exact' })
+      .select(PROFILE_PROJECT_SELECT, { count: 'exact' })
       .eq('author_id', userId)
       .order('created_at', { ascending: false })
       .range(0, PROFILE_WORKS_PAGE_SIZE - 1),
@@ -84,7 +95,7 @@ async function loadProfileSummarySignals(supabase: DbClient, userId: string) {
   if (projectsResponse.error) throw projectsResponse.error
 
   return {
-    myProjects: ((projectsResponse.data as DbProject[] | null) || []).map((project) => mapProject(project)),
+    myProjects: ((projectsResponse.data as unknown as DbProject[] | null) || []).map(mapProfileProject),
     naturalObservationProgress,
     steamRadar,
   }
@@ -106,19 +117,19 @@ async function loadExploringProjects(supabase: DbClient, userId: string) {
 
   const { data: projectRows, error: projectError } = await supabase
     .from('projects')
-    .select('*, profiles:author_id (display_name)')
+    .select(PROFILE_PROJECT_SELECT)
     .in('id', projectIds)
 
   if (projectError) throw projectError
 
   const projectMap = new Map(
-    (((projectRows as DbProject[] | null) || []).map((project) => [Number(project.id), project] as const)),
+    (((projectRows as unknown as DbProject[] | null) || []).map((project) => [Number(project.id), project] as const)),
   )
 
   return projectIds
     .map((projectId) => projectMap.get(projectId))
     .filter((project): project is DbProject => Boolean(project))
-    .map((project) => mapProject(project))
+    .map(mapProfileProject)
 }
 
 async function loadGrowthTasks(supabase: DbClient, userId: string) {

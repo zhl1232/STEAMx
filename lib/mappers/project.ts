@@ -4,6 +4,8 @@
  */
 
 import type { Project, Comment } from '@/lib/mappers/types'
+import { applyProjectDemonstration, applyProjectImageReview } from '@/lib/project/image-presentation'
+import { applyProjectSourceTutorial } from '@/lib/project/source-tutorials'
 
 function normalizeTagList(tags?: string[] | null): string[] {
   return Array.from(
@@ -29,6 +31,7 @@ export type DbProject = {
   category: string | null
   likes_count: number
   description: string | null
+  video_url?: string | null
   created_at: string
   status?: 'draft' | 'pending' | 'approved' | 'rejected'  // 审核状态
   difficulty?: 'easy' | 'medium' | 'hard'  // 难度
@@ -45,6 +48,7 @@ export type DbProject = {
     title: string
     description: string | null
     sort_order: number
+    image_url?: string | null
   }> | null
   comments?: Array<DbComment> | null
 }
@@ -70,7 +74,7 @@ export type DbComment = {
  * 映射基础项目信息（不包含关联数据）
  */
 export function mapProject(p: DbProject, authorName?: string): Project {
-  return {
+  const mapped = applyProjectImageReview({
     id: p.id,
     title: p.title,
     author: authorName || p.profiles?.display_name || p.profiles?.username || 'Unknown',
@@ -79,18 +83,28 @@ export function mapProject(p: DbProject, authorName?: string): Project {
     category: p.category || '',
     likes: p.likes_count,
     description: p.description || '',
+    videoUrl: p.video_url,
     status: p.status,  // 审核状态
     difficulty: p.difficulty,  // 难度
     tags: normalizeTagList(p.tags)  // 标签
-  }
+  })
+  if (!p.project_materials || !p.project_steps || !('video_url' in p)) return mapped
+  const candidate = applyProjectDemonstration({
+    ...mapped,
+    materials: [...p.project_materials].sort((a, b) => a.sort_order - b.sort_order).map(item => item.material),
+    steps: [...p.project_steps].sort((a, b) => a.sort_order - b.sort_order).map(item => ({ title: item.title, description: item.description ?? '' })),
+  })
+  const sourced = applyProjectSourceTutorial(candidate)
+  if (sourced !== candidate) return sourced
+  return candidate.image !== mapped.image ? { ...mapped, image: candidate.image } : mapped
 }
 
 /**
  * 映射完整项目信息（包含材料、步骤、评论）
  */
 export function mapProjectWithDetails(p: DbProject): Project {
-  return {
-    ...mapProject(p),
+  const reviewed = applyProjectImageReview({
+    ...mapProject({ ...p, project_materials: undefined, project_steps: undefined }),
     materials: p.project_materials
       ?.sort((a, b) => a.sort_order - b.sort_order)
       .map(m => m.material) || [],
@@ -98,10 +112,12 @@ export function mapProjectWithDetails(p: DbProject): Project {
       ?.sort((a, b) => a.sort_order - b.sort_order)
       .map(s => ({
         title: s.title,
-        description: s.description || ''
+        description: s.description || '',
+        image_url: s.image_url || undefined
       })) || [],
     comments: p.comments?.map(mapComment) || []
-  }
+  })
+  return p.project_materials && p.project_steps && 'video_url' in p ? applyProjectSourceTutorial(applyProjectDemonstration(reviewed)) : reviewed
 }
 
 /**

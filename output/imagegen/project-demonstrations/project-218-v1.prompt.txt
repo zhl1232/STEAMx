@@ -1,0 +1,40 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 218.
+Primary request: Create an attractive, precise Chinese educational illustration for “凸轮玩具制作”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “凸轮玩具制作”
+Subtitle: “原理与结构示意”
+Panel headings, in this exact order:
+“1 设计场景”
+“2 制作凸轮”
+“3 安装传动轴”
+“4 制作角色”
+“5 组装测试”
+“6 装饰完善”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 硬纸板
+- 竹签（粗细各若干）
+- 小纸盒（做底座箱体）
+- 胶水和热熔胶
+- 彩色卡纸
+- 剪刀和美工刀
+- 草稿纸和铅笔
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；6格：①画2角色舞台草图，固定选两只升降纸鸡；②剪偏心圆与心形纸板凸轮并标不同轮廓；③同一横竹签上两凸轮分开放置，对齐两个竖直推杆位置，固轴细节用待确认圈；④2只相同角色贴到推杆顶，穿过同盒顶2个导向孔；⑤盒体剖面示轮缘接触推杆与待核对运动，不画嘴啄/花开等未给机构；⑥仅调整两轮相位箭头与背景装饰，不改变轴和角色数量。
+
+Specific limitations to respect:
+- 轴承、轮轴固接和推杆防脱未给；心形轮廓不自动保证快升慢降。
+
+This is a principle/structure illustration, not a claim that an incomplete mechanism has been built or runs. Where the reviewed plan identifies an unconfirmed connection or missing condition, visibly label that exact missing point briefly. Do not draw unsupported successful operation, fabricate measurements, invent a circuit, or silently supply unspecified structural details. Follow the reviewed visual plan when literal source instructions would imply an unsupported result.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+CRITICAL: Show missing axle fixation/support and rod retention as visible EMPTY dotted gaps with brief 待确认 labels. An assembled cutaway is a RELATIONSHIP drawing only, label 连接待核对. No operating success, no running mechanism, no flipping bird, no full dinosaur limb coordination. Loose candidate bars remain beside dinosaur.
+EDIT: Repair this educational sheet. Panel2 red cam hole MUST be visibly off center, shift it clearly to lower-left of red circle. In panels3-6 REMOVE complete assembled cam mechanism drawings and instead use exploded/separated arrangement: empty SAME box, horizontal axle beside box, red off-center circular cam and blue heart cam detached beside axle, TWO SAME white chickens each atop plain vertical rod positioned beside box, NOT inserted into cam. Show TWO guide holes in empty box top. Label missing joints 固轴待确认 / 轴支撑待确认 / 推杆防脱待确认. Panel5 NO rotation arrows, NO operating implication; title can remain but add 结构核对. Panel6 same separated components with decorated empty box; phase adjustment merely dashed arrow between detached cams. Preserve panel1 sketch, title, six numbered headings.
+EDIT: Change ONLY two paper templates below the two cams in panel2: erase crosshair construction lines and centered holes on the templates; leave plain dashed circle and plain dashed heart outlines WITHOUT any holes. In panels3-6 remove the two unexplained little bamboo blocks at ends of detached long axle, replace each with an empty dashed square '?' to show unconfirmed support. Preserve detached parts, same box, two chickens, main title and all other illustrations.

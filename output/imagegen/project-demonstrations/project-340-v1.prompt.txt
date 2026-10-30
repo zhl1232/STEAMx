@@ -1,0 +1,46 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 340.
+Primary request: Create an attractive, precise Chinese educational illustration for “石膏面具制作”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “石膏面具制作”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 制作模具”
+“2 贴敷石膏绷带”
+“3 塑造面部特征”
+“4 脱模与修整”
+“5 彩绘装饰”
+“6 安装佩戴”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 石膏绷带
+- 气球
+- 凡士林
+- 温水盆
+- 剪刀
+- 丙烯颜料和画笔
+- 松紧带
+- 砂纸
+
+Effective written instructions, for alignment:
+1. 制作模具: 将气球吹至脸部大小，在气球表面涂一层薄薄的凡士林方便后续脱模。
+2. 贴敷石膏绷带: 将石膏绷带剪成小条状，逐条浸水后贴在气球的正面（约半球范围），交错叠放3-4层确保厚度均匀。
+3. 塑造面部特征: 在石膏绷带未干时，用手指和工具塑出眉弓、鼻梁、颧骨等面部起伏，增加面具的立体感。
+4. 脱模与修整: 待石膏完全干燥后，戳破气球取出，用剪刀修剪面具边缘，用砂纸打磨粗糙处。
+5. 彩绘装饰: 用丙烯颜料为面具绘制图案，可以参考京剧脸谱、非洲面具或威尼斯面具等不同文化风格。
+6. 安装佩戴: 在面具两侧打孔，穿上松紧带，一副独一无二的艺术面具就完成了。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；6格：①同气球吹脸大薄涂凡士林；②同正面半球交错贴湿绷带3—4层，背半仍气球；③同未干半球塑眉弓鼻梁；④全干后去气球修边砂磨，原鼻梁位置不变；⑤同面具作蓝白抽象彩绘，不擅自冒充特定文化传统纹样；⑥两侧各孔穿同松紧带展示，不在人脸上直接贴石膏。
+
+Specific limitations to respect:
+- 材料未列打孔工具，末格孔操作需成人适当工具；主体必须在气球上制作。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

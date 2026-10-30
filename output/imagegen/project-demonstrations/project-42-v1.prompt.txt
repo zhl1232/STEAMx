@@ -1,0 +1,49 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 42.
+Primary request: Create an attractive, precise Chinese educational illustration for “自制酸碱指示剂”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “自制酸碱指示剂”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 制作指示剂”
+“2 准备测试样品”
+“3 滴入指示剂”
+“4 记录结果”
+“5 归纳总结”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 紫甘蓝 半颗
+- 热水 适量
+- 透明杯子 6-8个
+- 白醋
+- 小苏打水
+- 柠檬汁
+- 肥皂水
+- 滤网或纱布
+- 刀具（切碎甘蓝）
+- 清水（对照组）
+- 记录纸
+- 笔
+
+Effective written instructions, for alignment:
+1. 制作指示剂: 将紫甘蓝切碎，倒入热水浸泡15分钟，用滤网过滤得到紫色的指示剂液体。
+2. 准备测试样品: 在每个透明杯中分别倒入白醋、柠檬汁、小苏打水、肥皂水、清水等不同液体。
+3. 滴入指示剂: 向每个杯子中加入等量的紫甘蓝指示剂，观察颜色变化。
+4. 记录结果: 记录每种液体对应的颜色变化，红色/粉色代表酸性，紫色代表中性，绿色/黄色代表碱性。
+5. 归纳总结: 将测试结果按酸碱性排列，制作一张简单的酸碱对照表，讨论生活中常见物质的酸碱性。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一紫甘蓝、滤网、紫色滤液主杯与五个依次标白醋/柠檬汁/小苏打水/肥皂水/清水的透明杯。五格：①成人切甘蓝、热水浸15分钟后过滤；②五杯分别取样、标签和杯位锁定；③每杯加入等量同批紫液；④只示酸组偏粉/红、清水紫、碱组可能蓝绿的概念范围，旁边空记录框写“按实际颜色记录”；⑤按观察结果整理酸/中/碱三栏，禁止画可读精确pH数值或彩虹渐变八杯。
+
+Specific limitations to respect:
+- 指示剂颜色随浓度和配方变化，不能把颜色直接换算精确pH。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+Edit: Correct ONLY panel4 the five result glasses while preserving all labels and positions. White vinegar pink, lemon juice pink, baking soda water blue/blue-green, soap water green/blue-green, clean water PURPLE. In particular rightmost 清水 must be purple, never yellow. These are illustrative broad color ranges, add tiny “颜色范围示意” if room. Keep blank recorded-results table and all other panels.

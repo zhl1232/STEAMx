@@ -1,0 +1,41 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 251.
+Primary request: Create an attractive, precise Chinese educational illustration for “斜面滚球实验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “斜面滚球实验”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 搭建斜面”
+“2 滚球测试”
+“3 改变角度”
+“4 对比分析”
+“5 生活联想”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 硬纸板或木板（约50cm长）
+- 弹珠或小球
+- 书本若干（垫高斜面用）
+- 直尺或卷尺
+- 记录纸和铅笔
+
+Effective written instructions, for alignment:
+1. 搭建斜面: 将硬纸板一端架在一本书上，另一端放在桌面上，形成一个倾斜面。
+2. 滚球测试: 从斜面顶端释放小球，观察它沿斜面滚下后在桌面上继续滚动的距离，用尺子测量并记录。
+3. 改变角度: 用不同数量的书本改变斜面高度和角度，每次释放小球并测量滚动距离，记录数据。
+4. 对比分析: 比较不同角度下小球的滚动距离和速度，讨论为什么角度越大小球速度越快。
+5. 生活联想: 想一想生活中的斜面应用：滑梯、公路坡道、轮椅坡道，讨论斜面如何让搬运重物变得更省力。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同50cm木板左端架1本书，右端接桌面；②同球从固定起点静止释放，量尺沿桌面测停止距离，留空实测值；③在同一本书下加第2本，保持木板和球、起点不变再测；④并列两次高度与空数据表，不伪造单调结果；⑤旁绘滑梯、坡道的简小示意，同实验装置仍占主画面。
+
+Specific limitations to respect:
+- 固定球、板和释放方式，速度/距离仅作实测比较，不画测得数据。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

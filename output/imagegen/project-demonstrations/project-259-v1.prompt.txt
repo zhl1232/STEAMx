@@ -1,0 +1,44 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 259.
+Primary request: Create an attractive, precise Chinese educational illustration for “注射器提水与手动转移”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “注射器提水与手动转移”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 观察水流对照”
+“2 组装抽水机”
+“3 移管手动转移”
+“4 探索气压”
+“5 应用拓展”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 大号带刻度无针注射器
+- 软管（约50cm）
+- 两个水杯或水盆
+- 防水胶带（采用原材料允许的密封分支）
+- 食用色素（便于观察水流）
+- 清水
+- 记录纸和铅笔
+
+Effective written instructions, for alignment:
+1. 观察水流对照: 将软管装满水后比较水在高低容器之间的流动，观察水从高处容器流向低处容器的过程。
+2. 组装抽水机: 把去针头注射器出口接到软管并密封接口，另一端放入水中，检查连接处不漏气。
+3. 移管手动转移: 将软管一端连接注射器，先把自由端放入水源容器；拉动活塞吸入水后，将自由端移到目标容器，再推动活塞排水，记录每次手动转移的水量。
+4. 探索气压: 记录拉动活塞时筒内压力降低、外界压力推动水进入的过程，并比较活塞行程与转移水量。
+5. 应用拓展: 把水从一个容器分次转移到另一个容器，记录每次操作和转移量，比较活塞行程与水量。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同2透明杯高低摆放，充满水的同软管两端在水中展示虹吸对照；②取消高低差后，同无针刻度注射器接同50cm软管，胶带密封；③同一格用两个时间小窗：自由端先入左杯，拉活塞吸水；随后移到右杯再推活塞排水，严禁同时吸入排出；④放大活塞行程与刻度水量关系，压力箭头只画在拉出状态；⑤同两杯重复分次手动转移，源水降目标水升，记录实际每次刻度。
+
+Specific limitations to respect:
+- 这不是单向阀水泵；必须显示移管动作，不能画两管自动连续泵水。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+EDIT: Repair ONLY panels3,4,5. Panel3 BOTH time windows must show ONE continuous same blue hose permanently ATTACHED syringe NOZZLE and leading to free end in cup. FIRST free end in LEFT source cup and plunger drawn OUT, water arrows from cup through hose into syringe. SECOND move SAME free hose end to RIGHT target cup, plunger pushed IN, water arrows through same attached hose into target cup. NO disconnected hose, NO water exiting bare nozzle. Label 先吸水 / 再移管排水. Panel4 REMOVE all blue arrows drawn inside syringe and pressure arrows on barrel. Keep pulling plunger and only text 拉活塞，筒内压力降低；外界压力推动水进入. Panel5 source cup water level must be LOWER than target cup (after transfers) and loose free hose end resting beside cups, NOT connected through cup wall. Preserve panel1-2 and same syringe, cups and hose.

@@ -1,0 +1,44 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 212.
+Primary request: Create an attractive, precise Chinese educational illustration for “纸板抽签机”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “纸板抽签机”
+Subtitle: “原理与结构示意”
+Panel headings, in this exact order:
+“1 制作盒体”
+“2 制作拨片转轮”
+“3 组装机关”
+“4 装入纸签”
+“5 试玩调试”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 硬纸板（快递盒）
+- 竹签或冰棒棍若干
+- 胶水和胶带
+- 剪刀和美工刀
+- 彩色小纸条（写上内容）
+- 笔（写纸条）
+
+Effective written instructions, for alignment:
+1. 制作盒体: 用硬纸板裁剪并粘合成一个长方体小盒，顶部留一个窄缝作为出签口，侧面留圆孔用于安装手柄。
+2. 制作拨片转轮: 用硬纸板剪一个圆盘，在圆盘边缘粘上几个小凸片作为拨片，将竹签穿过圆心做成转轮。
+3. 组装机关: 将转轮安装在盒子侧面的圆孔中，使拨片能在盒内旋转，每次旋转拨片会推动一根纸签从顶部缝隙中弹出。
+4. 装入纸签: 在小纸条上写好内容，卷起来或折好放入盒中，确保纸签能被拨片顺利推出。
+5. 试玩调试: 旋转手柄测试出签效果，如果卡住可调整缝隙宽度或拨片角度，享受随机抽签的乐趣。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同一牛皮纸长方盒开顶窄缝和侧圆孔；②旁置带4个凸片的纸板圆盘和贯穿圆心竹签；③盒体局部剖开，转轮在侧孔位置示意，签仓、承托和单签出口关系以虚线待核对；④3张写字纸签分列展示平折与卷起分支，仅选平折放到盒旁；⑤慢转转轮的观察箭头止于出签口，不画保证单签弹出。
+
+Specific limitations to respect:
+- 正文无签仓导向、签支撑和转轮推签间隙；卷纸条与纸签出签结构混用。
+
+This is a principle/structure illustration, not a claim that an incomplete mechanism has been built or runs. Where the reviewed plan identifies an unconfirmed connection or missing condition, visibly label that exact missing point briefly. Do not draw unsupported successful operation, fabricate measurements, invent a circuit, or silently supply unspecified structural details. Follow the reviewed visual plan when literal source instructions would imply an unsupported result.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+CRITICAL override: box front is ALWAYS blank and closed. Only ONE slit on TOP and ONE circular SIDE axle hole. Panel 3 missing guide/support must appear as detached components with question marks, NO installed completed machinery. Panel5 show wheel separate beside box, no ticket exiting.
+EDIT: Edit ONLY panel3: REMOVE ALL assembled parts inside the box (all tickets, all internal shelves, supports, axle and wheel). The cutaway box must be COMPLETELY EMPTY. Put the unchanged four-tab wheel outside beside the box. Replace all loose invented guide/support construction pictures by two simple dotted outlines with '?' and labels 导向待确认 / 支撑待确认. Keep every other panel unchanged, especially the SINGLE TOP slit and CLOSED FRONT. In panel4 remove '卷起(也可以)' wording, use '卷起（未核对）'.

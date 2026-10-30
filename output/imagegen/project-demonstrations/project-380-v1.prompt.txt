@@ -1,0 +1,43 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 380.
+Primary request: Create an attractive, precise Chinese educational illustration for “密码学入门：凯撒密码”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “密码学入门：凯撒密码”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 理解加密原理”
+“2 制作密码盘”
+“3 加密信息”
+“4 解密挑战”
+“5 拓展思考”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 纸和铅笔
+- 字母表对照卡
+- 硬纸板和图钉（制作密码转盘）
+- 剪刀和圆规
+- 彩色马克笔
+
+Effective written instructions, for alignment:
+1. 理解加密原理: 凯撒密码的核心思想：将每个字母按固定位数向后偏移。例如偏移3位时，A变成D，B变成E，Z变成C。在纸上写出完整的偏移对照表。
+2. 制作密码盘: 用硬纸板剪出一大一小两个圆盘，边缘分别写上26个字母或拼音，用图钉在圆心固定，旋转小盘即可设定偏移量。
+3. 加密信息: 选择一段文字和一个偏移量，使用密码盘将明文逐字转换为密文，写一封加密信给朋友。
+4. 解密挑战: 收到朋友的密文后，尝试用不同偏移量逐个测试，或者统计字母频率来破解密码。
+5. 拓展思考: 在笔记本上记录你的思考：凯撒密码的弱点——只有25种可能的偏移量，用暴力穷举就能破解。现代密码如何解决这个问题？
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同纸写A→D、B→E、Z→C，全部26字母唯一；②同大/小纸圆盘各26等分、同圆心图钉固定，外A对内D；③固定移3加密HELLO→KHOOR逐字连线；④同盘反移3还原KHOOR→HELLO，明确逆向不再次加3；⑤同纸记录非零偏移25种，移0不计有效加密，盘不换字母顺序。
+
+Specific limitations to respect:
+- 拉丁26字母示例，不采用原文含混的“字母或拼音”26格混配；圆盘字母易生成错需根agent复核。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+EDIT: Repair EVERY password wheel alphabet, which is wrong. In panels2,3,4 replace the full circular alphabet rings with plain blank cardboard concentric discs with a few fine radial guide lines, and add label 字母待填写. Do NOT show any repeated or garbled letters around circle. Keep a SINGLE magnified local arc in panel2 with outer A,B,C and inner D,E,F aligned below them, label 偏移3位（局部）. The full correct alphabet mapping TABLE in panel1 is preserved unchanged. The HELLO→KHOOR mappings in panels3 and4 preserved exactly. Keep nonzero shifts1-25 in panel5, REMOVE all extra modern encryption explanatory paragraphs and decorative padlock, replace by simply 密钥：偏移位数；非零偏移25种. Add small footer 生成演示图. This is a supported local principle diagram and unfinished disc template, never claim full alphabet wheel filled correctly.
+EDIT: Change ONLY these errors. Remove ALL radial sector divider lines on large password discs in panels2-4; leave smooth BLANK concentric cardboard circles with central brass pin and 字母待填写 label, no implied wrong sector count. Panel5 delete ENTIRE blue number list because duplicated11; replace with just a compact exact range '1 ≤ 偏移位数 ≤ 25' under existing 非零偏移25种 statement. Keep panel1 alphabet table, panel2 local ABC/DEF and HELLO/KHOOR exact unchanged.

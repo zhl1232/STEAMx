@@ -1,0 +1,46 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 48.
+Primary request: Create an attractive, precise Chinese educational illustration for “铁锈实验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “铁锈实验”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 安排三组”
+“2 设置观察”
+“3 每日记录”
+“4 比较变化”
+“5 讨论防锈”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 铁钉6根（大小、材质和表面状态尽量相同）
+- 玻璃杯3个
+- 清水
+- 食盐少量
+- 记录本和笔
+- 标签纸
+- 相机或手机（拍照记录）
+- 量杯或其他量水工具（统一并记录水量）
+- 取盐勺
+- 搅拌工具（配制盐水）
+
+Effective written instructions, for alignment:
+1. 安排三组: 选用大小、材质和表面状态尽量相同的6根铁钉，每组2根。给三个杯子贴上“空气放置组”“清水组”“盐水组”标签。
+2. 设置观察: 空气放置组不加水，放入干的空杯；清水组和盐水组使用相同水量，让铁钉以相同程度浸没。盐水用同一种清水配制，用取盐勺加入食盐并搅匀，记录加盐的勺数和水量；勺数只是本次配制记录，不代表准确盐浓度。三组放在同一位置，保持杯口开放。
+3. 每日记录: 连续5—7天，每天同一时间观察每根铁钉的颜色、锈迹位置和范围，拍照记录。不要预先认定哪组一定最先生锈。
+4. 比较变化: 比较清水组和盐水组的锈迹变化，再与空气放置组对照。开放空杯的空气仍可能含水汽，普通水也含溶解氧，因此不能由这三组证明水和氧气各自是否必需。
+5. 讨论防锈: 了解涂漆、镀锌、涂油等防锈方法，讨论它们怎样改变铁与环境的接触。这是知识讨论，本次不另外操作涂油实验。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一六根外观相同铁钉与三只开放透明杯，固定标签空气/清水/盐水，每杯两根。五格：①分组贴签；②空气杯干放，清水和盐水杯等量液体且铁钉同深，旁画盐勺和空配制记录；③同一地点第1至7天小日历与空观察栏，只画待观察钉不提前渲染赢家；④三个杯并排放大可能锈迹位置，用“按每天实测标记”，不编锈斑进度；⑤知识卡涂漆/镀锌/涂油隔离环境的小图标，标“本次只讨论”。
+
+Specific limitations to respect:
+- 不把开放空杯当无水组；不画三组证明水或氧气单独必要。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

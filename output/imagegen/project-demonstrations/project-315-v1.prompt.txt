@@ -1,0 +1,42 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 315.
+Primary request: Create an attractive, precise Chinese educational illustration for “扎染 T 恤”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “扎染 T 恤”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 湿润衣物”
+“2 扎出花样”
+“3 涂染颜料”
+“4 包裹静置”
+“5 拆线冲洗”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 白色纯棉 T 恤一件
+- 织物染料2-3种颜色
+- 橡皮筋若干
+- 塑料挤瓶（装染料用）
+- 一次性手套
+- 保鲜膜和塑料袋
+
+Effective written instructions, for alignment:
+1. 湿润衣物: 将白色 T 恤放入清水中浸透，拧去多余水分保持湿润状态。
+2. 扎出花样: 根据想要的图案，将 T 恤揪起、折叠或卷绕后用橡皮筋扎紧，扎得越紧花纹越清晰。
+3. 涂染颜料: 戴上手套，将不同颜色的染料分别挤在扎好的衣物不同区域，让颜色充分渗透。
+4. 包裹静置: 用保鲜膜包裹染好的 T 恤放入塑料袋，静置6-8小时让颜色充分固定。
+5. 拆线冲洗: 剪掉橡皮筋，先用冷水冲洗掉多余染料，直到水变清澈，展开欣赏独一无二的花纹。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同白纯棉T恤浸水后拧湿；②中心捏起扭螺旋并3根橡皮筋分6扇区；③戴手套向同6区交替挤蓝紫染料；④同团保鲜膜包后放袋，旁显示6—8小时为正文等待示意；⑤去橡皮筋冷水冲洗后展同T恤，螺旋纹对应蓝紫区而非条纹。
+
+Specific limitations to respect:
+- 染料配比/固色时间依产品，不能把原文时间当任何染料的通用保证。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

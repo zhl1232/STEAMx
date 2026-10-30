@@ -3,8 +3,8 @@ import { EXPLORE_PRESETS, EXPLORE_TOPICS, normalizeExploreThemeTags, buildPreset
 
 describe('content browsing after retiring supplier groupings', () => {
   it('offers household materials independently of the kit directory', () => {
-    expect(EXPLORE_PRESETS.map(p => p.id)).toEqual(['browse', 'everyday-materials'])
-    expect(EXPLORE_TOPICS.map(p => p.label)).toEqual(['日常材料'])
+    expect(EXPLORE_PRESETS.map(p => p.id)).toEqual(['browse', 'everyday-materials', 'life-health', 'ecology', 'earth', 'aerospace', 'emerging-industry', 'artificial-intelligence'])
+    expect(EXPLORE_TOPICS.map(p => p.label)).toEqual(['日常材料', '生命健康', '生态环境', '地球奥秘', '航空航天', '新兴产业', '人工智能'])
     expect(buildPresetSearchParams(EXPLORE_TOPICS[0]).get('tags')).toBe('日常材料')
   })
   it('drops retired source filters while preserving household materials', () => {
@@ -24,4 +24,14 @@ describe('content browsing after retiring supplier groupings', () => {
     expect(parseExploreSortBy('unknown')).toBe('popular')
     expect(detectActivePreset({ category: '全部', subCategory: '', difficulty: 'all', age: null, tags: ['日常材料'], searchQuery: '', sortBy: 'popular' })).toBe('everyday-materials')
   })
+})
+
+it('preserves supported themes in shared URLs and toggles only the chosen theme', () => {
+  expect(normalizeExploreThemeTags('航空航天,日常材料,人工智能,航空航天,科教版')).toEqual(['航空航天', '日常材料', '人工智能'])
+  expect(toggleExploreTopicTag(['日常材料'], '航空航天')).toEqual(['日常材料', '航空航天'])
+  expect(toggleExploreTopicTag(['日常材料', '航空航天'], '航空航天')).toEqual(['日常材料'])
+  const params = new URLSearchParams(serializeExploreFilterParams(new URLSearchParams({ tags: '航空航天,日常材料', sortBy: 'latest', age: '8' })))
+  expect(params.get('tags')).toBe('航空航天,日常材料')
+  expect(params.get('sortBy')).toBe('latest')
+  expect(params.get('age')).toBe('8')
 })

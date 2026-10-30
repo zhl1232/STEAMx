@@ -1,0 +1,46 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 39.
+Primary request: Create an attractive, precise Chinese educational illustration for “彩色泡泡实验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “彩色泡泡实验”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 配制泡泡液”
+“2 分装染色”
+“3 吹出彩色泡泡”
+“4 观察泡泡”
+“5 泡泡画创作”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 水 500毫升
+- 洗洁精 3勺
+- 甘油或白糖 1勺
+- 食用色素（多种颜色）
+- 吸管或铁丝环
+- 小杯子 若干
+- 白纸（接泡泡印迹）
+- 笔（记录液膜颜色变化）
+- 勺子（量取和搅拌）
+- 量杯（量取500毫升水）
+
+Effective written instructions, for alignment:
+1. 配制泡泡液: 将水、洗洁精和甘油或白糖混合，静置后观察液体是否容易形成连续薄膜。
+2. 分装染色: 分装泡泡液并分别加入少量染料，记录染料在液膜和纸面上留下的颜色。
+3. 吹出彩色泡泡: 用吸管或环吹出泡泡，观察光线角度和泡泡膜厚度变化时出现的彩色条纹。
+4. 观察泡泡: 记录泡泡圆形和表面彩色变化：前者与表面张力有关，后者主要与薄膜干涉有关。
+5. 泡泡画创作: 让含染料泡泡落在白纸上，比较纸上的彩色印迹与泡泡表面的干涉条纹，明确这是两种不同现象。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定同一量杯、透明主碗、同一铁丝环、三只小杯和一张白纸；五格：①量500毫升水，配3勺洗洁精和1勺甘油/白糖（画甘油单分支、勺不推算毫升），轻搅静置；②分装三杯各少量不同食用色素；③同一铁丝环形成泡膜并向泡泡轻吹，泡泡主体透明，只有薄膜干涉细彩条；④改变观察角度近看透明泡泡，标“膜面彩条：薄膜干涉”；⑤泡泡轻落白纸留下各色印迹，标“纸上颜色：染料”，不画红液必出纯红泡泡。
+
+Specific limitations to respect:
+- 区分染料着色与薄膜干涉；不编静置时间、比例换算或持久泡泡效果。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

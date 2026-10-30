@@ -1,0 +1,46 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 348.
+Primary request: Create an attractive, precise Chinese educational illustration for “动态雕塑（悬挂）”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “动态雕塑（悬挂）”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 设计与裁剪形状”
+“2 制作悬臂”
+“3 单层平衡测试”
+“4 逐层向上搭建”
+“5 微调整体平衡”
+“6 悬挂调试”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 铝丝或细铁丝（多种长度）
+- 彩色卡纸或薄木片
+- 鱼线或细绳
+- 尖嘴钳
+- 剪刀
+- 小坠子或小珠子
+- 挂钩
+- 适合所选金属丝的剪线钳（成人使用）
+
+Effective written instructions, for alignment:
+1. 设计与裁剪形状: 在卡纸上设计并剪出各种有趣的形状，如星形、月牙形、鱼形或抽象图形，大小各异，颜色丰富。
+2. 制作悬臂: 将铝丝剪成不同长度的横杆，在每根横杆的两端弯出小钩用于悬挂部件。
+3. 单层平衡测试: 先从最底层开始，在一根横杆两端分别挂上纸片，找到横杆的平衡点并用鱼线系牢。
+4. 逐层向上搭建: 将已平衡的底层组件挂到上一层横杆的一端，另一端挂上新的纸片或下一组已平衡的组件，再次找到平衡点。
+5. 微调整体平衡: 反复调整每层横杆的悬挂点和各部件的重量分布，确保整个雕塑在静止时保持水平平衡。
+6. 悬挂调试: 在顶部横杆的平衡点系上鱼线，用挂钩挂在天花板或门框上，轻轻吹气观察各层的摆动幅度，必要时微调配重使动态更流畅。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；6格：①同彩卡剪红大圆、蓝小圆、黄月牙、绿星各1；②同2根不同长铝丝端弯钩；③下短杆两端挂红/蓝圆，移动吊点找到水平；④下杆总成挂上长杆一端，另一端挂黄月牙与绿星组合，吊点可偏心；⑤调同2层吊点水平，不凭空改变纸片尺寸；⑥顶层吊线挂同钩，轻风微摆，同4片位置拓扑不变。
+
+Specific limitations to respect:
+- 平衡点依实物质量，不能强制居中；无实测不标等臂等力矩数值。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

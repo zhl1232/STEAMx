@@ -1,0 +1,46 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 21.
+Primary request: Create an attractive, precise Chinese educational illustration for “摩擦力滑道实验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “摩擦力滑道实验”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 搭建斜面”
+“2 铺设不同材质”
+“3 滑行测试”
+“4 记录数据”
+“5 分析结果”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 长木板或硬纸板
+- 砂纸
+- 光滑塑料纸
+- 毛巾布
+- 小玩具车或积木块
+- 书本若干（搭建斜面）
+- 卷尺和秒表
+- 记录本
+- 笔
+
+Effective written instructions, for alignment:
+1. 搭建斜面: 用书本将木板一端垫高，形成一个固定角度的斜面。
+2. 铺设不同材质: 分别在斜面上铺上砂纸、塑料纸和毛巾布三种不同材质的表面。
+3. 滑行测试: 将小车放在斜面顶端同一位置释放，用秒表记录滑到底部的时间，每种材质测三次取平均值。
+4. 记录数据: 将三种材质表面的滑行时间记录在表格中进行对比。
+5. 分析结果: 比较数据得出结论：表面越粗糙摩擦力越大，物体滑行越慢；讨论摩擦力在日常生活中的应用。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定同一木板、一摞三本书垫高、同一红色小玩具车；三种表层只轮换覆盖同一斜面，不换成积木。五格：①书本垫高板端，用淡虚线锁定坡角；②同一板上依次铺砂纸、塑料纸、毛巾布，三个小状态并排；③手在同一顶端释放车而非推车，秒表旁写“各测三次”；④同一空表列三种表面和三次时间、平均值，不写数值；⑤比较摩擦和运动的示意箭头，标“按实测比较”，不为某表面画必然冠军或虚构具体滑行时间。
+
+Specific limitations to respect:
+- 玩具车滚动也受轮轴与表层影响；不把粗糙度与速度画成无例外定量关系。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+Edit: Edit this educational sheet preserving all headings and first four panels. In bottom panel5 remove ALL deterministic claims that rougher surfaces necessarily make this wheeled toy car slower, including large yellow conclusion and three bottom result boxes. Keep same three ramp comparisons but place car at SAME TOP START position in each, no motion streaks, no ranked arrows. Add only short label “滚动表现需实测，轮轴也有影响” and blank comparison fields. Do not add claims or outcomes. Same five-panel layout.

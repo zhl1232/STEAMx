@@ -45,6 +45,16 @@ describe("ReturnHrefTracker / ReturnLink", () => {
     expect(screen.getByRole("link", { name: "← 返回" })).toHaveAttribute("href", "/nature/observations")
   })
 
+  it("records the project and later catalog visits for the same product", () => {
+    window.history.replaceState(null, "", "/project/1239?kit=grade2")
+    render(<><ReturnHrefTracker /><a href="/store/products/pack?variant=grade2" onClick={event => event.preventDefault()}>材料包</a></>)
+    fireEvent.click(screen.getByText("材料包"))
+    expect(JSON.parse(readReturnHrefRaw() ?? "[]")).toEqual([{ path: "/store/products/pack", from: "/project/1239?kit=grade2" }])
+    window.history.replaceState(null, "", "/store?category=science")
+    fireEvent.click(screen.getByText("材料包"))
+    expect(JSON.parse(readReturnHrefRaw() ?? "[]")).toEqual([{ path: "/store/products/pack", from: "/store?category=science" }])
+  })
+
   it("MobilePageHeader falls back to the remembered page when there is no history", () => {
     rememberReturnHref("/nature/species/osmoderma-barnabita", "/nature/insects")
     window.history.replaceState(null, "", "/nature/species/osmoderma-barnabita")

@@ -5,6 +5,7 @@ import {
 } from '@/lib/content-classification'
 import { logger } from '@/lib/logger'
 import { mapDbProject, type Project, type Work } from '@/lib/mappers/types'
+import { applyEffectiveProjectDemonstration } from '@/lib/project/demonstration-content.server'
 import { createClient } from '@/lib/supabase/server'
 import { getUserWorks } from '@/lib/works/data'
 
@@ -50,6 +51,10 @@ const PUBLIC_PROFILE_PROJECT_SELECT = `
   coins_count,
   comments_count,
   description,
+  video_url,
+  reflection,
+  image_materials:project_materials(material,sort_order),
+  image_steps:project_steps(title,description,sort_order),
   difficulty,
   difficulty_stars,
   tags,
@@ -157,7 +162,18 @@ export async function getPublicUserProfile(
   }
 
   const projects = applyPublicClassificationVisibility(
-    ((projectsResult.data || []) as unknown as Parameters<typeof mapDbProject>[0][]).map((row) => mapDbProject(row)),
+    ((projectsResult.data || []) as unknown as (Parameters<typeof mapDbProject>[0] & {
+      image_materials?: { material: string; sort_order: number | null }[]
+      image_steps?: { title: string; description: string | null; sort_order: number | null }[]
+    })[]).map((row) => {
+      const mapped = mapDbProject(row)
+      if (!row.image_materials || !row.image_steps || !('video_url' in row)) return mapped
+      return applyEffectiveProjectDemonstration(mapped, {
+        ...mapped,
+        materials: [...row.image_materials].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0)).map(item => item.material),
+        steps: [...row.image_steps].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0)).map(item => ({ title: item.title, description: item.description ?? '' })),
+      })
+    }),
     classificationSettings,
   )
   const projectsTotalCount = projectsResult.count || projects.length

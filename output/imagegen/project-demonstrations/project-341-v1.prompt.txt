@@ -1,0 +1,47 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 341.
+Primary request: Create an attractive, precise Chinese educational illustration for “纸浆立体雕塑”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “纸浆立体雕塑”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 制作纸浆”
+“2 调配黏合剂”
+“3 搭建骨架”
+“4 层层堆塑”
+“5 干燥打磨”
+“6 上色完成”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 废旧报纸或纸巾
+- 白乳胶
+- 面粉
+- 水盆
+- 气球或纸团（作为内部支撑）
+- 砂纸
+- 丙烯颜料
+- 温水（泡纸，由成人准备）
+- 画笔
+- 铁丝（可选的骨架材料）
+- 透明清漆（可选表面处理）
+
+Effective written instructions, for alignment:
+1. 制作纸浆: 将废纸撕成碎片浸泡在温水中数小时，用手捏碎成糊状，挤去多余水分。
+2. 调配黏合剂: 在纸浆中加入白乳胶和少量面粉搅拌均匀，直到纸浆具有良好的可塑性和黏性。
+3. 搭建骨架: 用气球、纸团或铁丝搭建雕塑的内部骨架结构，确定基本形态和比例。
+4. 层层堆塑: 将纸浆一层层涂抹在骨架表面，逐步塑造出造型的细节，每层之间需要适当晾干。
+5. 干燥打磨: 将作品放在通风处彻底晾干（可能需要1-2天），用砂纸打磨表面至光滑。
+6. 上色完成: 用丙烯颜料为作品上色，可以涂一层清漆保护表面，展示你的纸浆雕塑杰作。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；6格：①同报纸温水泡碎揉浆、挤水；②同浆加入白胶和少量面粉；③选择纸团分支，组成同坐姿企鹅骨架：1身1头2翼；④同浆分层覆纸团，逐层晾干，企鹅形状不变；⑤通风全干后砂磨同模型；⑥同企鹅黑白主体黄喙涂色，可不加清漆，保留原翅膀姿态。
+
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

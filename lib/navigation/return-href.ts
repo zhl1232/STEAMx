@@ -11,8 +11,8 @@ import { isSafeInternalHref } from '@/lib/utils/safe-internal-href'
 export const RETURN_HREF_STORAGE_KEY = 'steamx-return-href-v1'
 const MAX_ENTRIES = 30
 
-/** Sections whose detail pages render a back link that used to rely on `?from=`. */
-export const RETURN_TRACKED_PREFIXES = ['/nature/'] as const
+/** Sections whose detail pages return to the page that opened them. */
+export const RETURN_TRACKED_PREFIXES = ['/nature/', '/store/products/'] as const
 
 type ReturnHrefEntry = { path: string; from: string }
 

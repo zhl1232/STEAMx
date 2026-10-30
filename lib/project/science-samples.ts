@@ -2,6 +2,7 @@ import type { Project } from '@/lib/mappers/types'
 import { effectiveUpdatedAt } from './effective-updated-at'
 import samplesData from './science-samples.data.json'
 import reviewedData from './science-reviewed.data.json'
+import { getProjectSourceTutorial } from './source-tutorials'
 
 export type ScienceSample = Omit<typeof reviewedData[number], 'mode' | 'instructionGap' | 'demonstrationReason' | 'sourceRelation' | 'extensionQuestions'> & { mode?: 'activity' | 'observation' | 'preparation'; instructionGap?: string; demonstrationReason?: string; sourceRelation?: 'alternative'; extensionQuestions?: string[] }
 const samples = samplesData as ScienceSample[]
@@ -23,6 +24,7 @@ export function scienceSampleIds(): number[] {
 }
 
 export function getScienceSampleForProject(project: Project): ScienceSample | null {
+  if (getProjectSourceTutorial(project)) return null
   const sample = getScienceSample(project.id)
   if (!sample || project.title !== sample.title || project.category !== '科学') return null
   // Avoid showing newly released notes over stale or concurrently edited instructions.

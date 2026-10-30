@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+  <title id="title">自制彩色晶体：步骤概览</title>
+  <desc id="desc">1. 制作饱和溶液；2. 添色过滤；3. 悬挂晶种；4. 耐心等待；5. 收获晶体。具体操作见项目正文。</desc>
+  <rect width="960" height="720" fill="#f0f7f2"/>
+  <path d="M768 0H960V720H862C814 527 948 370 804 208Z" fill="#d9ebe0" opacity=".38"/>
+  <g font-family="sans-serif">
+    <text x="80" y="78" font-size="24" font-weight="600" fill="#268565">科学 / 步骤概览</text>
+    <text x="80" y="148" font-size="46" font-weight="700" fill="#185a4b">自制彩色晶体</text>
+    <path d="M80 191H880" stroke="#d9ebe0" stroke-width="2"/>
+    <path d="M104 252V552" stroke="#d9ebe0" stroke-width="7"/>
+    <g>
+      <circle cx="104" cy="252" r="23" fill="#268565"/>
+      <text x="104" y="261" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">1</text>
+      <text x="154" y="262" font-size="33" fill="#185a4b">制作饱和溶液</text>
+    </g>
+<g>
+      <circle cx="104" cy="327" r="23" fill="#268565"/>
+      <text x="104" y="336" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">2</text>
+      <text x="154" y="337" font-size="33" fill="#185a4b">添色过滤</text>
+    </g>
+<g>
+      <circle cx="104" cy="402" r="23" fill="#268565"/>
+      <text x="104" y="411" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">3</text>
+      <text x="154" y="412" font-size="33" fill="#185a4b">悬挂晶种</text>
+    </g>
+<g>
+      <circle cx="104" cy="477" r="23" fill="#268565"/>
+      <text x="104" y="486" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">4</text>
+      <text x="154" y="487" font-size="33" fill="#185a4b">耐心等待</text>
+    </g>
+<g>
+      <circle cx="104" cy="552" r="23" fill="#268565"/>
+      <text x="104" y="561" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">5</text>
+      <text x="154" y="562" font-size="33" fill="#185a4b">收获晶体</text>
+    </g>
+  </g>
+</svg>

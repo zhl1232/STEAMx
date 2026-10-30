@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+  <title id="title">欧拉多面体公式验证：步骤概览</title>
+  <desc id="desc">1. 制作简单多面体；2. 计数V、E、F；3. 验证公式；4. 挑战更多形状；5. 寻找例外；6. 总结规律。具体操作见项目正文。</desc>
+  <rect width="960" height="720" fill="#f5f3fa"/>
+  <path d="M768 0H960V720H862C814 527 948 370 804 208Z" fill="#e5ddf1" opacity=".38"/>
+  <g font-family="sans-serif">
+    <text x="80" y="78" font-size="24" font-weight="600" fill="#8063af">数学 / 步骤概览</text>
+    <text x="80" y="148" font-size="46" font-weight="700" fill="#574781">欧拉多面体公式验证</text>
+    <path d="M80 191H880" stroke="#e5ddf1" stroke-width="2"/>
+    <path d="M104 252V627" stroke="#e5ddf1" stroke-width="7"/>
+    <g>
+      <circle cx="104" cy="252" r="23" fill="#8063af"/>
+      <text x="104" y="261" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">1</text>
+      <text x="154" y="262" font-size="33" fill="#574781">制作简单多面体</text>
+    </g>
+<g>
+      <circle cx="104" cy="327" r="23" fill="#8063af"/>
+      <text x="104" y="336" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">2</text>
+      <text x="154" y="337" font-size="33" fill="#574781">计数V、E、F</text>
+    </g>
+<g>
+      <circle cx="104" cy="402" r="23" fill="#8063af"/>
+      <text x="104" y="411" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">3</text>
+      <text x="154" y="412" font-size="33" fill="#574781">验证公式</text>
+    </g>
+<g>
+      <circle cx="104" cy="477" r="23" fill="#8063af"/>
+      <text x="104" y="486" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">4</text>
+      <text x="154" y="487" font-size="33" fill="#574781">挑战更多形状</text>
+    </g>
+<g>
+      <circle cx="104" cy="552" r="23" fill="#8063af"/>
+      <text x="104" y="561" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">5</text>
+      <text x="154" y="562" font-size="33" fill="#574781">寻找例外</text>
+    </g>
+<g>
+      <circle cx="104" cy="627" r="23" fill="#8063af"/>
+      <text x="104" y="636" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">6</text>
+      <text x="154" y="637" font-size="33" fill="#574781">总结规律</text>
+    </g>
+  </g>
+</svg>

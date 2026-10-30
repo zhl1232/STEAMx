@@ -1,0 +1,41 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 298.
+Primary request: Create an attractive, precise Chinese educational illustration for “自画像创作”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “自画像创作”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 掌握比例关系”
+“2 画出轮廓”
+“3 定位五官”
+“4 刻画特征”
+“5 添加头发与细节”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 素描纸
+- 铅笔（HB和2B）
+- 橡皮
+- 镜子
+- 彩色铅笔（可选）
+
+Effective written instructions, for alignment:
+1. 掌握比例关系: 认识面部基本比例：三庭五眼——脸部纵向三等分，横向约五个眼睛宽度。
+2. 画出轮廓: 用铅笔轻轻画一个鸡蛋形的脸部轮廓，画出横竖中线辅助定位五官。
+3. 定位五官: 对着镜子观察，在辅助线上标出眼睛、鼻子、嘴巴的位置，注意大小和间距。
+4. 刻画特征: 仔细观察自己的特征——眉毛的弧度、鼻子的形状、嘴唇的厚薄，如实画出来。
+5. 添加头发与细节: 画出自己的发型，添加耳朵和脖子，擦掉辅助线，可以用彩色铅笔上色。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同镜中人物脸与纸上比例辅助尺，三庭从发际到下巴、不包括头顶；②同素描纸画蛋形脸与中轴；③对照同镜面五官定位，眼线约头部中高处，避免把“三庭”等分当整个头；④加同眉鼻嘴特征；⑤同发型、耳颈，擦辅助线，人物与五官身份不变。
+
+Specific limitations to respect:
+- 三庭五眼是近似参考，须尊重观察者实际比例。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

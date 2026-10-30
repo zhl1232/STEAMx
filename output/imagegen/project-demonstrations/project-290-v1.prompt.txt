@@ -1,0 +1,40 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 290.
+Primary request: Create an attractive, precise Chinese educational illustration for “手指画创作”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 4 panels, two columns by 2 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “手指画创作”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 准备工作”
+“2 认识色彩”
+“3 混色探索”
+“4 自由创作”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 儿童安全手指画颜料（至少红、黄、蓝三色）
+- 厚卡纸或水彩纸
+- 调色盘
+- 湿巾或湿毛巾
+- 围裙或旧衣服
+- 旧报纸（铺桌面）
+
+Effective written instructions, for alignment:
+1. 准备工作: 穿好围裙，在桌上铺好旧报纸，将颜料分别倒入调色盘中。
+2. 认识色彩: 先用手指分别蘸取红黄蓝三种基本色，在纸上试画，感受颜料的质感。
+3. 混色探索: 将两种颜色用手指直接在纸上混合，观察能调出什么新颜色。
+4. 自由创作: 用手指点画小动物、用手掌印出大树、用指尖画出细节花纹，尽情发挥想象力。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；4格：①同报纸桌、围裙与红黄蓝3颜料盘；②同厚纸上方分别试3个手指色点；③旁边用红黄混橙、黄蓝混绿、红蓝混紫的指印小片，不改变原3色盘；④同纸下方掌印树干冠形加指尖小花，前面的试色区仍在上方。
+
+Specific limitations to respect:
+- 儿童手指颜料分支，不画用普通丙烯直接涂皮肤。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

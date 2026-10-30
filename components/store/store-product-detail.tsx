@@ -12,9 +12,14 @@ import { money, type StoreProduct } from './store-catalog-client'
 import { RecentKit } from '@/components/kits/recent-kit'
 import { StoreHeader } from './store-header'
 import { StorePrice, useStoreMembershipTier } from './store-price'
+import { useReturnHref } from '@/components/navigation/return-href'
 
 export function StoreProductDetail({ product, checkoutEnabled, preview, requestedVariantId }: { product: StoreProduct; checkoutEnabled: boolean; requestedVariantId?: string; preview?: { status: string; publicProductHref?: string } }) {
   const router = useRouter()
+  const returnHref = useReturnHref('/store')
+  const returnLabel = returnHref.startsWith('/project/') ? '返回项目'
+    : /^\/courses(?:[/?]|$)/.test(returnHref) ? '返回课程'
+    : /^\/store(?:[/?]|$)/.test(returnHref) ? '返回商城' : '返回上一页'
   const tier = useStoreMembershipTier()
   const [variantId, setVariantId] = useState(requestedVariantId ?? product.variants[0]?.id ?? '')
   const variant = product.variants.find(v => v.id === variantId)
@@ -57,7 +62,7 @@ export function StoreProductDetail({ product, checkoutEnabled, preview, requeste
   const statusText = preview?.status === 'active' ? '已上架' : preview?.status === 'archived' ? '已归档' : '草稿'
 
   return <AppWideShell className="pb-[calc(7rem+env(safe-area-inset-bottom))] pt-2 md:pb-16 md:pt-5">
-    {kit && !preview ? <RecentKit slug={kit.slug} name={kit.name} /> : null}<StoreHeader back={{ href: preview ? `/admin/store?product=${product.id}` : '/store', label: preview ? '← 返回编辑商品' : '返回商城' }} />
+    {kit && !preview ? <RecentKit slug={kit.slug} name={kit.name} /> : null}<StoreHeader back={{ href: preview ? `/admin/store?product=${product.id}` : returnHref, label: preview ? '← 返回编辑商品' : returnLabel }} />
     <div className="mx-auto w-full max-w-7xl">
     {preview ? <div className="mt-5 rounded-md bg-muted/60 p-4" role="status"><p className="font-semibold">管理员商品预览 · {statusText}</p><p className="mt-2 text-sm leading-6 text-muted-foreground">正在读取已保存的商品资料。库存、运费和发货安排以后台记录为准；请回到商品编辑页补齐待确认项。</p>{preview.publicProductHref ? <Button asChild variant="outline" className="mt-3 h-11"><Link href={preview.publicProductHref}>查看正式商品页面</Link></Button> : null}</div> : null}
 

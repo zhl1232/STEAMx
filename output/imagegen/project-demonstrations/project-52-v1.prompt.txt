@@ -1,0 +1,43 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 52.
+Primary request: Create an attractive, precise Chinese educational illustration for “电解水实验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “电解水实验”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 制作电解装置”
+“2 配制电解液”
+“3 连接电路”
+“4 观察气泡”
+“5 分析观察结果”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 9V电池 1个
+- 导线 2根
+- 铅笔芯（石墨棒）2根
+- 小苏打 少量（增强导电性）
+- 透明玻璃杯
+- 水
+- 纸板（固定电极用）
+
+Effective written instructions, for alignment:
+1. 制作电解装置: 在纸板上固定两根石墨棒作电极，保持间距并让电极浸入液体；检查导线和电池电压，避免短路。
+2. 配制电解液: 在水中加入少量小苏打改善导电性，注明碳酸氢盐和石墨电极可能参与副反应，观察液体变化并避免接触。
+3. 连接电路: 将两电极分别接电池正负极，确认接线、浸入深度和装置稳定后再短时间通电。
+4. 观察气泡: 观察两电极表面气泡出现的位置、多少和大小，把气泡作为定性现象记录，不直接当作气体体积测量。
+5. 分析观察结果: 比较重复观察的差异，说明气泡附着、石墨变化和小苏打副反应会影响结果；若要比较体积，必须另用集气和测量方法。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一透明杯水、小苏打、纸板横架、两根灰黑石墨棒、同一9V电池与两条导线；正负极和电极左右位置锁定。五格：①纸板固定两棒、棒在水中互不触碰；②用少量小苏打配液，搅匀，标“副反应可能影响结果”；③左棒接电池＋右棒接−，接头在水面上，短时通电；④近看两棒表面少量气泡，旁留多少/位置空框，不画集气管或精确2:1；⑤断开电源记录，标“气泡不直接鉴定气体，不点火”。
+
+Specific limitations to respect:
+- 未给电极尺寸、浓度与集气条件；只能定性，不画氢氧体积比或燃烧鉴定。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

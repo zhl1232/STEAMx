@@ -1,0 +1,42 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 13.
+Primary request: Create an attractive, precise Chinese educational illustration for “彩虹制造机”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “彩虹制造机”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 准备水盆”
+“2 布置光源”
+“3 寻找彩虹”
+“4 观察颜色”
+“5 探索变化”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 一盆清水
+- 小镜子一面
+- 白色纸板或白墙
+- 手电筒（或利用阳光）
+- 记录本
+- 笔
+
+Effective written instructions, for alignment:
+1. 准备水盆: 在水盆中倒入清水，将小镜子斜靠在盆底，角度约为45度。
+2. 布置光源: 在阳光充足的窗边放置水盆，或者用手电筒对准水中的镜子照射。
+3. 寻找彩虹: 在镜子反射光线的方向放置白色纸板，缓慢调整镜子角度，直到纸板上出现彩虹。
+4. 观察颜色: 仔细观察彩虹中的颜色顺序：红、橙、黄、绿、蓝、靛、紫，记录下你看到的颜色。
+5. 探索变化: 尝试改变镜子角度和水量，观察彩虹的大小和亮度如何变化，理解光通过水发生折射和色散的原理。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+生成一张横向六格以内连续教学分镜，中文标题准确，格间保留同一器材身份、颜色、尺寸比例与视角；仅画下述有效内容，不加入其他做法。固定同一透明长方形水盆、同一小方镜和同一白纸板，侧面斜俯视，镜子始终在盆中。五格：①盆内加清水，镜面斜靠盆底，标约45°；②同一手电从盆侧照向水中镜面，用细箭头说明入射方向；③在反射方向移动白纸板、微调镜角，纸上仅画淡淡可能色带，标“调角寻找”；④放大纸上色带并标红至紫顺序，标“看实际颜色”；⑤并排小箭头表示只改变镜角或水量，记录栏留空；不画镜子自身发光、激光或凭空横跨盆面的彩虹。
+
+Specific limitations to respect:
+- 色带是否清楚取决于光源、镜面与接收角度，不将鲜艳整齐彩虹画成必然结果。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

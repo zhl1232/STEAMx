@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+  <title id="title">四足行走机器人：步骤概览</title>
+  <desc id="desc">1. 制作曲柄；2. 制作连杆与腿；3. 组装机身；4. 通电测试；5. 调试步态；6. 仿生思考。具体操作见项目正文。</desc>
+  <rect width="960" height="720" fill="#f0f6fa"/>
+  <path d="M768 0H960V720H862C814 527 948 370 804 208Z" fill="#d8e9f3" opacity=".38"/>
+  <g font-family="sans-serif">
+    <text x="80" y="78" font-size="24" font-weight="600" fill="#2b78a2">技术 / 步骤概览</text>
+    <text x="80" y="148" font-size="46" font-weight="700" fill="#194f75">四足行走机器人</text>
+    <path d="M80 191H880" stroke="#d8e9f3" stroke-width="2"/>
+    <path d="M104 252V627" stroke="#d8e9f3" stroke-width="7"/>
+    <g>
+      <circle cx="104" cy="252" r="23" fill="#2b78a2"/>
+      <text x="104" y="261" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">1</text>
+      <text x="154" y="262" font-size="33" fill="#194f75">制作曲柄</text>
+    </g>
+<g>
+      <circle cx="104" cy="327" r="23" fill="#2b78a2"/>
+      <text x="104" y="336" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">2</text>
+      <text x="154" y="337" font-size="33" fill="#194f75">制作连杆与腿</text>
+    </g>
+<g>
+      <circle cx="104" cy="402" r="23" fill="#2b78a2"/>
+      <text x="104" y="411" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">3</text>
+      <text x="154" y="412" font-size="33" fill="#194f75">组装机身</text>
+    </g>
+<g>
+      <circle cx="104" cy="477" r="23" fill="#2b78a2"/>
+      <text x="104" y="486" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">4</text>
+      <text x="154" y="487" font-size="33" fill="#194f75">通电测试</text>
+    </g>
+<g>
+      <circle cx="104" cy="552" r="23" fill="#2b78a2"/>
+      <text x="104" y="561" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">5</text>
+      <text x="154" y="562" font-size="33" fill="#194f75">调试步态</text>
+    </g>
+<g>
+      <circle cx="104" cy="627" r="23" fill="#2b78a2"/>
+      <text x="104" y="636" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">6</text>
+      <text x="154" y="637" font-size="33" fill="#194f75">仿生思考</text>
+    </g>
+  </g>
+</svg>

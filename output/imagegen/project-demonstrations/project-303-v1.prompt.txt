@@ -1,0 +1,45 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 303.
+Primary request: Create an attractive, precise Chinese educational illustration for “色彩搭配与情绪表达”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “色彩搭配与情绪表达”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 认识色轮”
+“2 色彩联想”
+“3 快乐之画”
+“4 平静之画”
+“5 对比欣赏”
+“6 自由表达”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 丙烯颜料或水粉颜料（备黄、橙、亮粉、蓝、绿等步骤使用的颜色）
+- 画布板或厚卡纸（多张）
+- 画笔和调色盘
+- 色轮图（参考）
+- 水杯
+- 铅笔（画色彩日记）
+- 清水
+
+Effective written instructions, for alignment:
+1. 认识色轮: 观察色轮图，认识原色、间色、互补色和类似色的位置关系。
+2. 色彩联想: 闭上眼想象"快乐""平静""愤怒""忧伤"的感觉，思考每种情绪让你联想到什么颜色。
+3. 快乐之画: 选用暖色调的鲜艳色彩（如黄、橙、亮粉），用自由奔放的笔触画一幅抽象画。
+4. 平静之画: 选用蓝绿冷色调的柔和色彩，用平稳流畅的线条画第二幅抽象画。
+5. 对比欣赏: 将不同情绪的画作放在一起对比，观察色彩如何影响画面的情感氛围，用铅笔在每幅画旁标注你感受到的情绪关键词。
+6. 自由表达: 选择今天你最真实的心情，用你认为最合适的色彩搭配创作一幅情绪表达画。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；6格：①同色轮与黄橙粉蓝绿调盘；②同3张空白卡旁写情绪联想词，不规定人人同感；③第1卡黄橙粉奔放抽象；④第2卡蓝绿平缓线条，第一卡仍在左；⑤两卡并排并留个人情绪词空格；⑥第3卡以当天自选2色作画，保留原两幅身份。
+
+Specific limitations to respect:
+- 情绪与色彩不是固定一一对应，不画诊断式结论。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

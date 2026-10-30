@@ -1,0 +1,40 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 331.
+Primary request: Create an attractive, precise Chinese educational illustration for “黏土小动物”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “黏土小动物”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 选择动物造型”
+“2 制作身体主体”
+“3 添加四肢和尾巴”
+“4 制作五官和装饰”
+“5 整体调整与展示”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 彩色超轻黏土（多色套装）
+- 塑料刀具和模具工具
+- 牙签若干
+- 小珠子或纽扣（做眼睛）
+- 硬纸板底座
+- 动物参考图片
+
+Effective written instructions, for alignment:
+1. 选择动物造型: 选定想要制作的小动物，观察参考图片了解动物的基本形态特征。
+2. 制作身体主体: 取适量黏土搓成椭圆形作为身体，再搓一个较小的圆球作为头部，用牙签连接固定。
+3. 添加四肢和尾巴: 搓出四条小圆柱作为四肢，捏出尾巴的形状，逐一粘贴到身体上。
+4. 制作五官和装饰: 用小珠子做眼睛，用黏土捏出耳朵、鼻子等细节，用工具刻画嘴巴和毛发纹理。
+5. 整体调整与展示: 调整各部分比例和姿态，放在硬纸板底座上晾干，完成后可以摆放展示。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①选棕色小狗参考，四足1尾；②同棕泥椭圆身与圆头用1牙签内部连接；③同4短柱腿与1上弯尾贴身；④2珠眼、2垂耳和黑鼻，纹理刻画；⑤同纸板底座晾干，四足落地，牙签不外露。
+
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

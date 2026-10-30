@@ -1,0 +1,40 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 17.
+Primary request: Create an attractive, precise Chinese educational illustration for “水中硬币魔术”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 4 panels, two columns by 2 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “水中硬币魔术”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 放置硬币”
+“2 固定位置”
+“3 观察魔术”
+“4 画出光路图”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 不透明的碗
+- 硬币一枚
+- 水壶（装满水）
+- 记录本
+- 笔
+
+Effective written instructions, for alignment:
+1. 放置硬币: 将硬币放在空碗底部，站在碗前方慢慢后退，直到刚好看不到硬币为止。
+2. 固定位置: 保持你的眼睛位置不变，请家人帮忙往碗里缓慢倒入清水。
+3. 观察魔术: 随着水慢慢升高，你会神奇地看到硬币重新出现在视线中。
+4. 画出光路图: 在记录本上画出光从水中射向空气时的折射路径，标注为什么原本被碗壁挡住的硬币光线能绕过遮挡到达你的眼睛。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+锁定同一个白色不透明碗、底部同一枚铜色硬币、透明水壶；四格始终用固定侧剖视标出同一只眼睛位置。①空碗底有硬币，视线刚好被近侧碗沿挡住，标“固定眼睛”；②家人从远侧缓慢加水，碗和眼睛不移动；③水面升高后从硬币经水面折向眼睛画一条光线，不画穿透碗壁；④在记录本画水面法线与水到空气的折射光路，标“出水后偏离法线”。
+
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+
+EDIT PASS:
+Use case: precise-object-edit. Edit this tutorial sheet with ONE precise scientific correction. Keep all four panels, the title, the boy, bowl, coin, water, text, framing, colors and panel 4 completely unchanged. Only fix the ray ARROWHEADS inside panel 3 “观察魔术” (lower left). The blue bent ray must represent light travelling FROM THE COIN UP TO THE WATER SURFACE, THEN FROM THE WATER SURFACE UP-LEFT TO THE EYE. Remove every blue arrowhead that points down-right toward the coin. Retain the exact same blue path. On the underwater segment put exactly one small arrowhead pointing UP-LEFT away from the coin toward the surface. On the segment in air put exactly one small arrowhead pointing UP-LEFT toward the boy's eye. No bidirectional arrows, no ray emitted by the eye, no arrow pointing into the coin. Do not change the ray's bend location or the physical picture. Panel 4 already has correct coin→surface→eye arrows, preserve it identically. All other pixels and Chinese lettering should be preserved as closely as possible.

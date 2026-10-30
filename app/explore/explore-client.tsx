@@ -1,7 +1,5 @@
 "use client"
 
-import Link from 'next/link'
-
 import filterMotion from './explore-filter-motion.module.css'
 import { ExploreSearchOverlay } from '@/components/explore/explore-search-overlay'
 import { useState, useRef, useCallback, useEffect, useLayoutEffect, useMemo, memo, type FormEvent, type MouseEvent, type ComponentProps } from 'react'
@@ -901,9 +899,8 @@ export function ExploreClient({
     const hasDraftFilters = !!draftSubCategory || draftDifficulty !== "all" || draftAge !== null
     const draftFilterCount = (draftSubCategory ? 1 : 0) + (draftDifficulty !== "all" ? 1 : 0) + (draftAge !== null ? 1 : 0)
     const topicRow = (
-        <div className="flex min-w-0 items-center justify-between gap-2 md:gap-4">
-            <div role="group" aria-label="快捷主题" className="no-scrollbar -mx-1 flex min-w-0 flex-1 items-center gap-2 overflow-x-auto px-1 py-0.5">
-                <Link href="/kits" className="inline-flex h-11 shrink-0 items-center px-2 text-sm text-foreground underline-offset-4 hover:underline">按套装找</Link>
+        <div className="flex min-w-0 items-start justify-between gap-2 md:gap-4">
+            <div role="group" aria-label="快捷主题" className="-mx-1 flex min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-x-auto overscroll-x-contain px-1 py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:overflow-visible">
                 {EXPLORE_TOPICS.map((topic) => {
                     const tag = topic.tags[0]
                     const isActive = selectedTags.includes(tag)

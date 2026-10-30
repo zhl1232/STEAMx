@@ -1,0 +1,43 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 375.
+Primary request: Create an attractive, precise Chinese educational illustration for “概率实验：硬币与骰子”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “概率实验：硬币与骰子”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 硬币实验”
+“2 增加次数”
+“3 骰子实验”
+“4 双骰实验”
+“5 数据分析”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 硬币若干枚
+- 骰子2颗
+- 记录表格纸
+- 铅笔和彩色笔
+- 计算器
+
+Effective written instructions, for alignment:
+1. 硬币实验: 抛掷一枚硬币50次，每次记录正面或反面，统计各出现了多少次，计算频率。
+2. 增加次数: 将实验扩大到100次和200次，观察正面出现的频率是否越来越接近50%。
+3. 骰子实验: 掷一颗骰子60次，记录每个点数出现的次数，画成柱状图进行对比。
+4. 双骰实验: 同时掷两颗骰子50次，记录点数之和，统计哪个和出现次数最多。
+5. 数据分析: 用柱状图展示所有实验结果，讨论为什么两颗骰子之和为7最容易出现（有6种组合），理解概率的计算方法。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同一枚硬币与50格逐次记录表，表格只填可见少数示例不伪称50次结果；②延长为100与200次记录，频率曲线可波动不画必然单调靠近50%；③同骰子6面真实点数，60次空统计柱表；④同红蓝2骰，和7示6个有序对(1,6)(2,5)(3,4)(4,3)(5,2)(6,1)；⑤理论和分布2—12的组合数1,2,3,4,5,6,5,4,3,2,1单独标理论，实测栏不复制理论。
+
+Specific limitations to respect:
+- 独立公平骰子之和7理论1/6；有限实测不保证7次数最多。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+EDIT: Repair all fabricated results and wrong dice dots. Panel1 record table keep only TWO rows 次数 and 结果; headings sample 1,2,3,4,5 then ...; results row EMPTY, no example results. Panel2 100/200 tables remain EMPTY remove any misnumbered headings and use 次数/结果 only. Panel3 chart remove ALL colored bars leaving empty axes labelled 实测待记录; table blank. Panel4 replace ALL twelve tiny dice faces in six ordered pairs by simple red/blue numeral tiles, not dots: exact rows (red1 blue6), (red2 blue5), (red3 blue4), (red4 blue3), (red5 blue2), (red6 blue1). Keep six pair labels correspondingly. Panel5 REMOVE coin-frequency curve and ALL dice experimental bars, leaving empty charts labelled 实测待记录. For right theoretical chart REMOVE all bars and legend, replace by clean two-row exact table: 和 2 3 4 5 6 7 8 9 10 11 12 ; 组合数 1 2 3 4 5 6 5 4 3 2 1. Label 公平独立骰子：理论. No invented experimental outcome.
+EDIT: Remove ONLY decorative 3D dice images which have ambiguous wrong repeated/opposite faces: panel3 replace 3D die by a single flat top-view square with SIX dots in two columns of three. Panel4 top two 3D dice replace by flat top-view red square THREE diagonal dots and blue square FOUR corner dots. Panel5 remove the two decorative dice at top entirely; keep calculator/coins. Preserve six numeral ordered pairs and exact theory table 1,2,3,4,5,6,5,4,3,2,1. All experimental charts remain EMPTY.

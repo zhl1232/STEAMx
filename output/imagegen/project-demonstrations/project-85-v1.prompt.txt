@@ -1,0 +1,44 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 85.
+Primary request: Create an attractive, precise Chinese educational illustration for “花瓣染色实验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “花瓣染色实验”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 配制彩色水”
+“2 修剪花茎”
+“3 插入花朵”
+“4 观察变色”
+“5 画出运输路径”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 白色花朵（如白色康乃馨或白色菊花）3支
+- 食用色素（红、蓝、绿各一种）
+- 透明玻璃杯3个
+- 清水
+- 剪刀
+- 记录本
+- 笔
+- 搅拌用具
+
+Effective written instructions, for alignment:
+1. 配制彩色水: 在三个玻璃杯中各加入半杯清水，分别滴入红、蓝、绿三种食用色素搅拌均匀。
+2. 修剪花茎: 用剪刀将花茎底端斜着剪一刀，使切口更大，方便吸水。
+3. 插入花朵: 将三支白花分别插入三杯彩色水中，放在光线充足的地方。
+4. 观察变色: 每隔几小时观察一次花瓣的颜色变化，记录哪种颜色最先出现。
+5. 画出运输路径: 在记录本上画出水分从茎到花瓣的运输路径示意图，标注毛细作用如何让彩色水上升到花瓣。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定三支同品种白康乃馨、花头和叶片形态一致，三只透明杯红/蓝/绿水不换杯。五格：①三杯各半杯水加相应食用色素搅匀；②成人剪各茎底端斜口；③各插一支同种白花放同位置；④每隔数小时查看，只在花瓣边缘画轻微可能色点并写“是否变色如实记”，不把花变成雏菊；⑤同一茎到花瓣水分路径的简图，标“水随导管运输，速度受花材影响”，不虚构时间读数或整朵饱和染色。
+
+Specific limitations to respect:
+- 原文将运输归为毛细作用过于简化；图只说明导管输水，不画已验证单一驱动机制。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

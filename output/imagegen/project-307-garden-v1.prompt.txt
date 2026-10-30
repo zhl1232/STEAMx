@@ -1,0 +1,31 @@
+Use case: scientific-educational
+Asset type: a single illustrated six-panel craft tutorial sheet for project 307, 综合材料拼贴画, to preview a coherent replacement for mismatched generated project images.
+Primary request: Create one attractive, clear Chinese educational illustration showing SIX successive states of ONE AND THE SAME mixed-media collage, using the exact tutorial below. This is a hands-on demonstration with pictures of the actual evolving craft, NOT a text flowchart or a list of steps.
+
+Layout: a portrait sheet with 2 equal columns × 3 equal rows, read left to right then top to bottom. A modest title at the top, six large pictures and short headings. Generous separation between panels. Every panel uses the exact same overhead orthographic camera, same rectangular landscape card base at the same scale, same neutral warm-white tabletop and soft light. Artwork occupies most of each panel, tools are secondary. Keep all six panels in the frame without cropping. High resolution, legible Chinese text.
+Style: precise, softly shaded educational illustration with tactile paper, cloth, yarn, button and paint textures. It should look like an honest illustrated craft example rather than stock photography or a glossy toy render. Restrained pleasant colors, fine edges, not a cartoon character poster.
+
+Choose exactly ONE composition for all six stages: a simple dream garden on the same rectangular cream card. A yellow sun position near the upper right; a low green cloth hill along the bottom quarter; exactly three flowers with green stems at fixed left, middle and right positions. The stems have fixed leaf shapes and positions. Final flower heads are one coral-red button on the left, one warm-yellow button in the middle, and one pale-blue button on the right. Buttons have visible holes. A plain thin natural hemp-rope border is added only in stage 5. No people, animals, houses or unrelated motifs inside the artwork. This simple composition is an explicit example, not a template that all users must copy.
+
+Text, verbatim:
+Main title: "综合材料拼贴画"
+Subtitle: "梦中花园 · 六步演示"
+Panel headings:
+"1 确定主题"
+"2 绘制背景"
+"3 剪裁拼贴"
+"4 层层粘贴"
+"5 添加立体元素"
+"6 绘画点睛"
+Small footer: "生成演示图"
+Use only these words; no invented captions, no fake logos or watermarks.
+
+The six exact illustrated states:
+1. Bare cream card, with LIGHT PENCIL OUTLINES of this exact final composition: sun, low hill, three stems and circular flower centers. A pencil beside the card. No paint or attached materials yet.
+2. The SAME card now has a pale sky-blue acrylic wash as its background, with the SAME composition lightly visible. A paintbrush and tiny blue paint dish nearby. Do NOT attach the cloth hill, paper leaves, buttons or rope yet.
+3. The card is EXACTLY unchanged from panel 2. Next to it, show the pieces freshly cut and still LOOSE on the tabletop: one wavy green fabric hill, one yellow paper sun disk, three green paper stems and six green fabric/paper leaves. Show source scraps and scissors. Pieces must be clearly outside the card, NOT already attached. Do not replace the board or alter its background.
+4. Attach the IDENTICAL cut pieces from panel 3 to the corresponding positions: the green fabric hill along the bottom quarter, the yellow paper sun at the penciled upper-right location, the three green stems with six leaves. Show a small white-glue bottle beside the board and one small arrow indicating where a last leaf is being placed. NO button flower heads or rope border yet. All pieces are flat enough to stick to the card.
+5. Keep ALL shapes, scales, positions, sun, leaves and background from panel 4 unchanged. Add EXACTLY three button flower heads: coral red left, warm yellow middle, pale blue right. Add the plain thin hemp-rope border along the card perimeter. A small loose button and short rope offcut may lie beside it. No drawn faces. No extra flowers or branches appear.
+6. The SAME completed collage from panel 5, with ALL physical materials and positions unchanged. Add ONLY a few delicate painted white veins on the existing leaves and a few small painted dots in the background, using a fine paintbrush. No new large shapes, no change to flower heads, no sun movement, no new frame. This is the final coherent finished work.
+
+Continuity is the top priority: later panels accumulate the shown actions and never reset, swap materials, change subjects, move existing objects, change camera angle or spontaneously add decorations. A common palette alone is insufficient. The same card must have the same aspect ratio and same objects in exactly corresponding locations across all six panels. Tools may change only as needed for the depicted step. Do not use photos from unrelated projects. Do not make text-only numbered blocks.

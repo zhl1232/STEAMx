@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+  <title id="title">复合齿轮传动装置：步骤概览</title>
+  <desc id="desc">1. 设计齿轮组；2. 精确制齿；3. 组装中间轴；4. 安装到底板；5. 测试传动比；6. 变速实验。具体操作见项目正文。</desc>
+  <rect width="960" height="720" fill="#faf6ee"/>
+  <path d="M768 0H960V720H862C814 527 948 370 804 208Z" fill="#ede0c7" opacity=".38"/>
+  <g font-family="sans-serif">
+    <text x="80" y="78" font-size="24" font-weight="600" fill="#a06a32">工程 / 步骤概览</text>
+    <text x="80" y="148" font-size="46" font-weight="700" fill="#775029">复合齿轮传动装置</text>
+    <path d="M80 191H880" stroke="#ede0c7" stroke-width="2"/>
+    <path d="M104 252V627" stroke="#ede0c7" stroke-width="7"/>
+    <g>
+      <circle cx="104" cy="252" r="23" fill="#a06a32"/>
+      <text x="104" y="261" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">1</text>
+      <text x="154" y="262" font-size="33" fill="#775029">设计齿轮组</text>
+    </g>
+<g>
+      <circle cx="104" cy="327" r="23" fill="#a06a32"/>
+      <text x="104" y="336" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">2</text>
+      <text x="154" y="337" font-size="33" fill="#775029">精确制齿</text>
+    </g>
+<g>
+      <circle cx="104" cy="402" r="23" fill="#a06a32"/>
+      <text x="104" y="411" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">3</text>
+      <text x="154" y="412" font-size="33" fill="#775029">组装中间轴</text>
+    </g>
+<g>
+      <circle cx="104" cy="477" r="23" fill="#a06a32"/>
+      <text x="104" y="486" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">4</text>
+      <text x="154" y="487" font-size="33" fill="#775029">安装到底板</text>
+    </g>
+<g>
+      <circle cx="104" cy="552" r="23" fill="#a06a32"/>
+      <text x="104" y="561" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">5</text>
+      <text x="154" y="562" font-size="33" fill="#775029">测试传动比</text>
+    </g>
+<g>
+      <circle cx="104" cy="627" r="23" fill="#a06a32"/>
+      <text x="104" y="636" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">6</text>
+      <text x="154" y="637" font-size="33" fill="#775029">变速实验</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,50 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 81.
+Primary request: Create an attractive, precise Chinese educational illustration for “绿豆发芽对照实验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “绿豆发芽对照实验”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 准备种子”
+“2 布置发芽环境”
+“3 设置对照组”
+“4 每日观察记录”
+“5 总结发现”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 绿豆或黄豆若干
+- 透明塑料杯3个
+- 纸巾或棉花
+- 喷水壶
+- 观察记录本和彩笔
+- 清水
+
+Effective written instructions, for alignment:
+1. 准备种子: 挑选饱满的绿豆或黄豆，提前用清水浸泡一晚让种皮变软。
+2. 布置发芽环境: 在塑料杯底铺上湿纸巾或棉花，将泡好的种子均匀摆放在上面。
+3. 设置对照组: 一杯放在有光的窗台、一杯放在黑暗的柜子里、一杯不浇水，观察不同条件的影响。
+4. 每日观察记录: 每天用喷壶给需要浇水的杯子保湿，观察种子的变化并画下来或拍照记录。
+5. 总结发现: 一周后对比三杯种子的发芽情况，总结种子发芽需要哪些条件。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定三只同规格透明杯A/B/C、同批绿豆和等量纸巾，杯位和标签始终锁定。五格：①绿豆浸清水一晚；②A/B铺湿纸、C铺干纸，种子相同数量示意；③A有光保湿、B黑暗保湿、C不加水，画小窗/遮光标识，明确C位置固定记录；④每日只给A/B保湿，记录萌发而非预画高低；⑤第7天三个空观察框标“比较实际发芽”，短句“暗处也可能发芽”，不画无光必不发芽。
+
+Specific limitations to respect:
+- 原对照组未完全锁定不浇水杯光照条件，图将条件记录而不编造结论；发芽和后续绿化分开。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+
+EDIT PASS:
+Use case: precise-object-edit. Correct only the following scientific details in the supplied 绿豆发芽对照实验 sheet; preserve the same five panels, titles, cups, layout, colors and all other content.
+1) In EVERY cup labelled A, B or C in panels 2, 3, 4 and 5, show EXACTLY FIVE seeds in each cup. Use the same five positions per cup, two seeds in the front row and three behind. Seeds never multiply. In panel 5 A and B, at most two of these five seeds have short emerging sprouts, while the other three remain intact. Cup C has five unchanged unsprouted seeds.
+2) In panel 5 only, sprouts emerging from cup B (the dark treatment) must be pale ivory/yellow, including cotyledons; do not show green leaves grown in darkness. A's two sprouts may be green. Below cup B add the tiny accurate label “暗处萌发示意”; retain the existing handwritten “暗处也可能发芽”.
+3) The notebook in panel 4 must not invent daily results. Replace its four dated drawings with a blank table headed “日期 / 发芽情况”, with empty rows. No growth drawings and no 第1天/第2天 fixed timing.
+4) Keep cup C dry in all panels. The spray in panel 4 must land only in A and B, with no droplets over or in cup C.
+This is a teaching illustration, not fabricated measurements. Preserve every other panel element and all the correct Chinese wording.

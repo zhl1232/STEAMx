@@ -24,7 +24,13 @@ import { ProjectHeroGallery } from '@/components/features/project/project-hero-g
 import { MobileProjectSteps } from '@/components/features/project/mobile-project-steps'
 import { ProjectExplorationRecordsBlock } from '@/components/features/project/project-exploration-records'
 import { ProjectInteractions } from '@/components/features/project-interactions'
+import { getScienceSample, scienceSampleIds } from '@/lib/project/science-samples'
+import { ScienceProjectNotes } from '@/components/features/project/science-project-notes'
+import { ProjectFaq } from '@/components/features/project/project-faq'
 import { JsonLd } from '@/components/seo/json-ld'
+import fanSource from '@/__tests__/fixtures/project-210.json'
+import { applyProjectContentRevision } from '@/lib/project/content-revisions'
+import { applyProjectImageReview, RUBBER_BAND_FAN_DIAGRAM } from '@/lib/project/image-presentation'
 
 function elements(node: ReactNode): ReactElement<Record<string, unknown>>[] {
   if (Array.isArray(node)) return node.flatMap(elements)
@@ -38,6 +44,45 @@ async function pageFor(project: Project) {
 }
 
 describe('project detail pilot integration', () => {
+  it('shows the no-video fan as structure checks, with consistent media and no HowTo claim', async () => {
+    const project = applyProjectContentRevision(applyProjectImageReview(fanSource as Project))
+    const nodes = await pageFor({ ...project, status: 'approved', moderation_state: 'approved' })
+    const galleries = nodes.filter(node => node.type === ProjectHeroGallery)
+    expect(galleries).toHaveLength(2)
+    for (const gallery of galleries) {
+      expect(gallery.props.images).toEqual([RUBBER_BAND_FAN_DIAGRAM])
+      expect(gallery.props.imageFit).toBe('contain')
+      expect(gallery.props.videoSrc).toBeFalsy()
+      expect(gallery.props.captions).toEqual(['原理示意图，不是装配图。连接结构仍需核对。'])
+    }
+    const mobileSteps = nodes.find(node => node.type === MobileProjectSteps)!
+    expect(mobileSteps.props.title).toBe('结构核对')
+    expect(mobileSteps.props.practicePending).toBe(true)
+    expect(mobileSteps.props.steps).toEqual(project.steps)
+    expect(nodes.some(node => String(node.props.title).startsWith('结构核对（共 4 项）'))).toBe(true)
+    const jsonLd = JSON.stringify(nodes.find(node => node.type === JsonLd)!.props.data)
+    expect(jsonLd).not.toContain('HowTo')
+    expect(jsonLd).not.toContain('step-333')
+    expect(jsonLd).toContain(RUBBER_BAND_FAN_DIAGRAM)
+    expect(nodes.filter(node => node.type === ProjectExplorationRecordsBlock).every(node => node.props.projectId === 210)).toBe(true)
+  })
+
+  it('keeps unrelated no-video instructions and labels only their generated cover', async () => {
+    const project = {
+      ...fixtures[1], id: 503, title: '纸带折叠', videoUrl: null,
+      image: '/projects/generated/project-0503-guide.webp', description: '把纸带来回折叠。',
+      steps: [{ title: '折叠纸带', description: '沿折线来回折叠纸带。', image_url: '/uploads/paper-step.webp' }],
+    } as Project
+    const nodes = await pageFor(project)
+    const galleries = nodes.filter(node => node.type === ProjectHeroGallery)
+    expect(galleries.every(node => node.props.videoSrc == null)).toBe(true)
+    expect(galleries.every(node => (node.props.captions as string[])[0] === '封面为生成示意图，不代表实物验证。')).toBe(true)
+    expect(nodes.find(node => node.type === MobileProjectSteps)?.props.steps).toEqual(project.steps)
+    const jsonLd = JSON.stringify(nodes.find(node => node.type === JsonLd)!.props.data)
+    expect(jsonLd).toContain('HowToStep')
+    expect(jsonLd).toContain('/uploads/paper-step.webp')
+  })
+
   it('places preparation before the tutorial in both layouts and removes only the placeholder shell', async () => {
     const nodes = await pageFor(fixtures[0] as Project)
     expect(nodes.filter(node => node.type === MobileProjectSteps)).toHaveLength(0)
@@ -86,5 +131,46 @@ describe('project detail pilot integration', () => {
     expect(steps).toEqual(project.steps)
     const jsonLd = JSON.stringify(nodes.find(node => node.type === JsonLd)!.props.data)
     if (Number(project.id) !== 502) expect(jsonLd).toContain('HowToStep')
+  })
+})
+
+describe('project FAQ deduplication in both layouts', () => {
+  const sample = getScienceSample(1219)!
+  const project = { ...fixtures[0], ...sample, category: '科学' } as Project
+
+  it('keeps bird-in-cage questions in science notes without a second FAQ section', async () => {
+    const nodes = await pageFor(project)
+    expect(nodes.filter(node => node.type === ScienceProjectNotes)).toHaveLength(2)
+    expect(nodes.filter(node => node.type === ProjectFaq)).toHaveLength(0)
+    expect(nodes.some(node => node.props.title === '常见问题')).toBe(false)
+  })
+
+  it('renders every science sample FAQ only in the notes on both layouts', async () => {
+    for (const id of scienceSampleIds()) {
+      const current = getScienceSample(id)!
+      const nodes = await pageFor({ ...fixtures[0], ...current, category: '科学' } as Project)
+      expect(nodes.filter(node => node.type === ScienceProjectNotes), current.title).toHaveLength(2)
+      expect(nodes.filter(node => node.type === ProjectFaq), current.title).toHaveLength(0)
+    }
+  })
+
+  it('preserves extra questions and different answers, ignoring surrounding whitespace for duplicates', async () => {
+    const extra = { question: '额外的问题', answer: '额外的答案' }
+    const differentAnswer = { ...sample.faq[0], answer: '另一种处理方法' }
+    const nodes = await pageFor({ ...project, faq: [
+      ...sample.faq.map(item => ({ question: ` ${item.question} `, answer: ` ${item.answer} ` })),
+      extra, differentAnswer,
+    ] })
+    const sections = nodes.filter(node => node.type === ProjectFaq)
+    expect(sections).toHaveLength(2)
+    for (const section of sections) expect(section.props.items).toEqual([extra, differentAnswer])
+  })
+
+  it('keeps the FAQ for projects without science notes', async () => {
+    const faq = [{ question: '怎么操作？', answer: '按步骤进行。' }]
+    const nodes = await pageFor({ ...fixtures[1], faq } as Project)
+    const sections = nodes.filter(node => node.type === ProjectFaq)
+    expect(sections).toHaveLength(2)
+    for (const section of sections) expect(section.props.items).toEqual(faq)
   })
 })

@@ -1,0 +1,40 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 210.
+Primary request: Create an attractive, precise Chinese educational illustration for “橡皮筋动力风扇”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 4 panels, two columns by 2 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “橡皮筋动力风扇”
+Subtitle: “原理与结构示意”
+Panel headings, in this exact order:
+“1 核对扇叶与转轴”
+“2 核对转轴支撑”
+“3 核对橡皮筋两端”
+“4 确认后再试转”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 橡皮筋2-3根
+- 纸杯
+- 硬纸板
+- 竹签
+- 剪刀和胶带
+- 铅笔（画扇叶）
+
+Effective written instructions, for alignment:
+1. 核对扇叶与转轴: 确认四片扇叶怎样固定在竹签上，使它们与竹签一起转动、不松脱，且彼此角度一致。目前缺少连接位置和固定方式，不能仅凭原理图确定粘贴方法。
+2. 核对转轴支撑: 竹签需要穿过杯底并能自由旋转，还要有防止它上下滑动或脱出的结构。检查支撑位置和扇叶与杯体的间隙，不要用胶带把需要转动的竹签粘死在杯壁上。目前缺少支撑和防脱的具体做法。
+3. 核对橡皮筋两端: 橡皮筋一端随竹签转动，另一端相对纸杯保持固定，两端都不能滑脱。目前缺少这两处连接的具体做法，不能把橡皮筋随意缠在竹签上就视为完成安装。
+4. 确认后再试转: 先取得同一结构的完整连接说明，再由成人协助核对。连接方式没有确认前，不要拧紧橡皮筋或松手释放。确认后，先在橡皮筋未储能时轻轻手动检查；有卡住、碰擦、松脱或上下滑动时停止。本页尚未提供经过验证的储能试转方法。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；4格：①同一纸杯、竹签与四片硬纸板扇叶分开放，虚线圈出叶片与轴的待确认连接；②杯底孔剖面仅显示轴穿孔关系，防脱与自由转动支撑处留空标问号；③同样2根橡皮筋置旁，一端随轴/另一端固定杯体用关系箭头指示，两处锚点不画成已安装；④保持所有部件未储能，放大检查扇叶间隙、轴向滑脱风险，不画松手旋转。
+
+Specific limitations to respect:
+- 有效正文为结构核对，不是完整制作教程；禁止添加未经支持的固定和储能结构。
+
+This is a principle/structure illustration, not a claim that an incomplete mechanism has been built or runs. Where the reviewed plan identifies an unconfirmed connection or missing condition, visibly label that exact missing point briefly. Do not draw unsupported successful operation, fabricate measurements, invent a circuit, or silently supply unspecified structural details. Follow the reviewed visual plan when literal source instructions would imply an unsupported result.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

@@ -1,5 +1,11 @@
 import { applyScienceSample, getScienceSample } from '@/lib/project/science-samples';
 import { applyProjectContentRevision } from '@/lib/project/content-revisions';
+import { applyProjectImageReview } from '@/lib/project/image-presentation';
+import { applyEffectiveProjectDemonstration } from '@/lib/project/demonstration-content.server';
+import { resolveProjectVideoUrl } from '@/lib/project/video-url';
+import { getProjectSourceTutorial, getSourceTutorialProjectIds } from '@/lib/project/source-tutorials';
+import { isLearningThemeTag } from '@/lib/explore/learning-themes';
+import { getLearningThemeProjectIds, matchesLearningThemes } from '@/lib/explore/learning-theme-projects';
 import { EVERYDAY_MATERIALS_TAG } from '@/lib/explore/presets';
 import { sortProjectsByMaterials } from '@/lib/explore/material-matching';
 import { HOUSEHOLD_PROJECT_IDS, prepareHouseholdProject } from '@/lib/explore/household-projects';
@@ -41,7 +47,22 @@ import {
 } from "@/lib/content-classification";
 
 /** 查询结果行类型（含关联），用于在 Supabase 推断为 SelectQueryError 时做断言 */
-type ProjectRowForMapper = Parameters<typeof mapDbProject>[0];
+type ProjectRowForMapper = Parameters<typeof mapDbProject>[0] & {
+  image_materials?: { material: string; sort_order: number | null }[];
+  image_steps?: { title: string; description: string | null; sort_order: number | null }[];
+};
+
+function mapPublicProject(row: ProjectRowForMapper): Project {
+  const mapped = mapDbProject(row);
+  const materials = row.image_materials ?? row.project_materials;
+  const steps = row.image_steps ?? row.project_steps;
+  if (!materials || !steps || !('video_url' in row)) return mapped;
+  return applyEffectiveProjectDemonstration(mapped, {
+    ...mapped,
+    materials: [...materials].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0)).map(item => item.material),
+    steps: [...steps].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0)).map(item => ({ title: item.title, description: item.description ?? '' })),
+  });
+}
 type CompletionRowForMapper = Omit<Parameters<typeof mapDbCompletion>[0], "profiles">;
 export type ExploreTagScope = {
   all: string[];
@@ -148,7 +169,7 @@ const SMOKE_MATERIALS_PROJECTS: SmokeProject[] = [
   ...([
     [738, '738-a0087853706a94d7.webp'],
     [586, '586-fc501972ec09ebac.webp'],
-    [1157, '1157-678e3e84f59a9209.webp'],
+    [478, '478-a2baed49cf699aca.webp'],
   ] as const).map(([id, cover]): SmokeProject => {
     const sample = getScienceSample(id)
     if (!sample) throw new Error(`Missing reviewed science preview: ${id}`)
@@ -281,6 +302,10 @@ const PROJECT_LIST_BASE_SELECT = [
   "views_count",
   "coins_count",
   "description",
+  "video_url",
+  "reflection",
+  "image_materials:project_materials(material,sort_order)",
+  "image_steps:project_steps(title,description,sort_order)",
   "difficulty",
   "difficulty_stars",
   "tags",
@@ -289,7 +314,7 @@ const PROJECT_LIST_BASE_SELECT = [
   "rejection_reason",
   "challenge_id",
 ].join(",");
-// 列表页只显示卡片，不渲染 steps/materials；它们由详情页 (getProjectById) 单独拉取。
+// Independent full projections validate source tutorials even when material joins are filtered.
 // 仅在 materials 过滤时保留 !inner 用于筛选关联。
 const PROJECT_LIST_MATERIALS_FILTER_SELECT = "project_materials!inner (material)";
 const PROJECT_LIST_SUB_CATEGORIES_SELECT = "sub_categories (name)";
@@ -525,7 +550,7 @@ async function hydrateExploreProjectsByIds(
   const idOrder = new Map(projectIds.map((id, index) => [id, index]));
   let projects = await enrichProjectsWithCompletionCounts(
     supabase,
-    ((rows || []) as unknown as ProjectRowForMapper[]).map((row) => mapDbProject(row)),
+    ((rows || []) as unknown as ProjectRowForMapper[]).map((row) => mapPublicProject(row)),
   );
   projects = projects.sort(
       (left, right) =>
@@ -995,17 +1020,23 @@ export async function getExploreFilterOptions(): Promise<ExploreFilterOptions> {
  * @param pagination - 分页参数
  * @returns 项目列表和总数
  */
-async function fetchHouseholdProjects(
+async function fetchCuratedExploreProjects(
   supabase: Awaited<ReturnType<typeof createClient>>,
   filters: ProjectFilters,
   pagination: PaginationOptions,
   settings: PublicClassificationSettings,
 ): Promise<{ projects: Project[]; total: number; hasMore: boolean }> {
   try {
-    const ordinaryTags = filters.tags?.filter((tag) => tag !== EVERYDAY_MATERIALS_TAG) ?? [];
+    const tags = filters.tags ?? [];
+    const household = tags.includes(EVERYDAY_MATERIALS_TAG);
+    const hasThemes = tags.some(isLearningThemeTag);
+    const ordinaryTags = tags.filter((tag) => tag !== EVERYDAY_MATERIALS_TAG && !isLearningThemeTag(tag));
     const sanitizedSearch = filters.searchQuery ? sanitizeSearch(filters.searchQuery).toLowerCase() : "";
     const starsRange = resolveDifficultyStarsRange(filters.difficulty);
-    const candidateIds = [...new Set(HOUSEHOLD_PROJECT_IDS)].sort((left, right) => left - right);
+    const themeIds = hasThemes ? getLearningThemeProjectIds(tags) : [];
+    const householdIds = new Set(HOUSEHOLD_PROJECT_IDS);
+    const candidateIds = (hasThemes ? themeIds.filter(id => !household || householdIds.has(id)) : [...householdIds])
+      .sort((left, right) => left - right);
     const candidates: Project[] = [];
 
     // Hydrate the entire bounded cohort before material ranking. A separate filter
@@ -1040,8 +1071,12 @@ async function fetchHouseholdProjects(
       if (error) throw new Error("Unable to load explore projects", { cause: error });
       const prepared: Project[] = [];
       for (const row of (data || []) as unknown as ProjectRowForMapper[]) {
-        const project = prepareHouseholdProject(mapDbProject(row));
+        const mapped = mapPublicProject(row);
+        const project = household ? prepareHouseholdProject(mapped)
+          : applyProjectContentRevision(applyScienceSample(applyLedCardContent(mapped)));
+        if (project && !matchesLearningThemes(project, tags)) continue;
         if (!project || (starsRange.legacy && project.difficulty !== starsRange.legacy)) continue;
+        if (filters.materials?.length && getProjectSourceTutorial(project)) continue;
         if (sanitizedSearch && !`${project.title} ${project.description ?? ""}`.toLowerCase().includes(sanitizedSearch)) continue;
         prepared.push(project);
       }
@@ -1055,16 +1090,37 @@ async function fetchHouseholdProjects(
 
     candidates.sort((left, right) => Number(left.id) - Number(right.id));
     const visible = applyPublicClassificationVisibility(candidates, settings);
-    const projects = (pagination.page ?? 0) === 0
-      ? await enrichProjectsWithCompletionCounts(supabase, sortProjectsByMaterials(visible, []), true)
-      : [];
+    let projects: Project[];
+    let hasMore = false;
+    if (household) {
+      projects = (pagination.page ?? 0) === 0
+        ? await enrichProjectsWithCompletionCounts(supabase, sortProjectsByMaterials(visible, []), true)
+        : [];
+    } else {
+      const enriched = await enrichProjectsWithCompletionCounts(supabase, visible, true);
+      // Curated themes use lifetime public engagement; the general feed retains its RPC ranking.
+      const score = (project: Project) => (project.likes ?? 0) + 2 * (project.completions_count ?? 0);
+      enriched.sort((left, right) => {
+        if (pagination.sortBy !== 'latest') {
+          const delta = score(right) - score(left);
+          if (delta) return delta;
+        }
+        const dateDelta = (Date.parse(right.createdAt ?? '') || 0) - (Date.parse(left.createdAt ?? '') || 0);
+        return dateDelta || Number(right.id) - Number(left.id);
+      });
+      const ranked = settings.publicV1Enabled ? sortByAgeMatch(enriched, filters.age ?? null) : enriched;
+      const from = (pagination.page ?? 0) * (pagination.pageSize ?? 12);
+      const to = from + (pagination.pageSize ?? 12);
+      projects = ranked.slice(from, to);
+      hasMore = ranked.length > to;
+    }
     return {
       projects: projects.map(({ steps: _steps, reflection: _reflection, faq: _faq, ...project }) => project),
       total: visible.length,
-      hasMore: false,
+      hasMore,
     };
   } catch (error) {
-    logger.error("Error fetching household projects", { error });
+    logger.error("Error fetching curated explore projects", { error });
     if (pagination.strictErrors) throw error;
     return { projects: [], total: 0, hasMore: false };
   }
@@ -1082,8 +1138,8 @@ export async function getProjects(
   const classificationSettings = await getContentClassificationSettings();
   const includeClassification = classificationSettings.publicV1Enabled || classificationSettings.enforcementEnabled;
 
-  if (filters.tags?.includes(EVERYDAY_MATERIALS_TAG)) {
-    return fetchHouseholdProjects(supabase, filters, pagination, classificationSettings);
+  if (filters.tags?.some(tag => tag === EVERYDAY_MATERIALS_TAG || isLearningThemeTag(tag))) {
+    return fetchCuratedExploreProjects(supabase, filters, pagination, classificationSettings);
   }
 
   const {
@@ -1102,7 +1158,25 @@ export async function getProjects(
   const from = page * pageSize;
   const to = from + pageSize - 1;
 
-  if (sortBy === "weekly") {
+  // Validate the bounded source cohort against complete current copy before
+  // counting/paging material matches. New uploads, edits and videos opt out.
+  let materialExclusions: number[] = [];
+  const sourceIds = materials?.length ? getSourceTutorialProjectIds() : [];
+  if (sourceIds.length) {
+    const { data: sourceRows, error: sourceError } = await supabase.from("projects")
+      .select(PROJECT_LIST_BASE_SELECT).in("id", sourceIds);
+    if (sourceError) {
+      logger.error("Error validating source tutorial material eligibility", { error: sourceError });
+      if (pagination.strictErrors) throw new Error("Unable to load explore projects", { cause: sourceError });
+      return { projects: [], total: 0, hasMore: false };
+    }
+    materialExclusions = ((sourceRows || []) as unknown as ProjectRowForMapper[])
+      .map(mapPublicProject).filter(project => getProjectSourceTutorial(project))
+      .map(project => Number(project.id));
+  }
+
+  // Requests without exclusions retain their original ranking fast paths.
+  if (sortBy === "weekly" && !materialExclusions.length) {
     const result = await fetchWeeklyHotProjects(supabase, filters, pagination, classificationSettings);
     const visibleProjects = applyPublicClassificationVisibility(result.projects, classificationSettings);
     return {
@@ -1113,7 +1187,7 @@ export async function getProjects(
     };
   }
 
-  if (sortBy === "popular") {
+  if (sortBy === "popular" && !materialExclusions.length) {
     const result = await fetchPopularProjects(supabase, filters, pagination, classificationSettings);
     const visibleProjects = applyPublicClassificationVisibility(result.projects, classificationSettings);
     return {
@@ -1130,9 +1204,10 @@ export async function getProjects(
     .from("projects")
     .select(selectStatement, { count: "exact" })
     .eq("status", "approved")
-    .eq("moderation_state", "approved")
-    .order("created_at", { ascending: false })
-    .order("id", { ascending: false });
+    .eq("moderation_state", "approved");
+
+  if (materialExclusions.length) query = query.not("id", "in", `(${materialExclusions.join(',')})`);
+  query = query.order("created_at", { ascending: false }).order("id", { ascending: false });
 
   if (classificationSettings.enforcementEnabled) {
     query = query.eq("classification_status", "reviewed");
@@ -1165,6 +1240,61 @@ export async function getProjects(
     query = query.in("project_materials.material", materials);
   }
 
+  if (sortBy !== 'latest' && materialExclusions.length) {
+    // Popular includes all matching public projects, so the guarded SQL count
+    // is exact. Weekly includes only projects with positive recent interaction;
+    // its total must come from its ranked membership rather than a project count.
+    let total = 0;
+    if (sortBy === 'popular') {
+      const { count, error } = await query.range(0, 0);
+      if (error) {
+        logger.error("Error counting material-filtered projects", { error });
+        if (pagination.strictErrors) throw new Error("Unable to load explore projects", { cause: error });
+        return { projects: [], total: 0, hasMore: false };
+      }
+      total = count ?? 0;
+    }
+    const excluded = new Set(materialExclusions);
+    const eligibleIds: number[] = [];
+    const since = getWeeklySinceIso();
+    const prefixBound = from + pageSize + materialExclusions.length;
+    let offset = 0;
+    let rankedTotal = Infinity;
+    const starsRange = resolveDifficultyStarsRange(difficulty);
+    // Small batches avoid PostgREST's row cap. Weekly scans ids only so sources
+    // at any rank (or without recent events) cannot inflate its final total.
+    while (offset < rankedTotal && (sortBy === 'weekly' || eligibleIds.length < from + pageSize)) {
+      const limit = Math.min(200, sortBy === 'weekly' ? 200 : prefixBound - offset);
+      if (limit <= 0) break;
+      const { rpcArgs } = buildExploreRankingFilterArgs(filters, limit, offset);
+      const { data, error } = sortBy === 'weekly'
+        ? await callRpc(supabase, 'get_weekly_hot_project_rankings', { ...rpcArgs, p_since: since })
+        : await callRpc(supabase, 'get_popular_project_rankings', rpcArgs);
+      if (error) {
+        logger.error("Error fetching material-filtered rankings", { error });
+        if (pagination.strictErrors) throw new Error("Unable to load explore projects", { cause: error });
+        return { projects: [], total: 0, hasMore: false };
+      }
+      const rankings = data ?? [];
+      if (!rankings.length) break;
+      rankedTotal = Number(rankings[0].total_count);
+      eligibleIds.push(...rankings.filter(row => !excluded.has(row.project_id)).map(row => row.project_id));
+      offset += rankings.length;
+    }
+    if (sortBy === 'weekly') total = eligibleIds.length;
+    let projects = await hydrateExploreProjectsByIds(supabase, eligibleIds.slice(from, from + pageSize), filters,
+      starsRange, classificationSettings, pagination.strictErrors);
+    if (sortBy === 'popular' && pagination.shuffleSeed) {
+      projects = applyPopularListShuffle(projects, pagination);
+    }
+    const visible = applyPublicClassificationVisibility(projects, classificationSettings);
+    return {
+      projects: classificationSettings.publicV1Enabled ? sortByAgeMatch(visible, Number.isInteger(age) ? age! : null) : visible,
+      total,
+      hasMore: from + pageSize < total,
+    };
+  }
+
   query = query.range(from, to);
 
   const { data, error, count } = await query;
@@ -1176,7 +1306,7 @@ export async function getProjects(
   }
 
   const rows = (data || []) as unknown as ProjectRowForMapper[];
-  const projects = await enrichProjectsWithCompletionCounts(supabase, rows.map((row) => mapDbProject(row)));
+  const projects = await enrichProjectsWithCompletionCounts(supabase, rows.map((row) => mapPublicProject(row)));
   const total = count || 0;
   const hasMore = total > to + 1;
   const visibleProjects = applyPublicClassificationVisibility(projects, classificationSettings);
@@ -1326,7 +1456,7 @@ export async function getRecommendedProjects(
   let projects: Project[] = rankedProjectIds.flatMap((projectId) => {
     const hydratedRow = rowByProjectId.get(projectId);
     if (hydratedRow) {
-      return [mapDbProject(hydratedRow)];
+      return [mapPublicProject(hydratedRow)];
     }
     return [];
   });
@@ -1391,7 +1521,12 @@ export const getProjectById = cache(async (id: string | number): Promise<Project
     return null;
   }
 
-  const project = applyProjectContentRevision(applyScienceSample(applyLedCardContent(mapDbProject(data as unknown as ProjectRowForMapper))));
+  const mapped = mapDbProject(data as unknown as ProjectRowForMapper);
+  const sourceVideo = mapped.videoUrl?.trim() || resolveProjectVideoUrl(mapped);
+  const corrected = applyProjectImageReview(applyProjectContentRevision(applyScienceSample(applyLedCardContent(mapped))));
+  // An older content override must not erase a newly supplied video for image eligibility.
+  const effective = sourceVideo ? { ...corrected, videoUrl: sourceVideo } : corrected;
+  const project = applyEffectiveProjectDemonstration(effective, { ...effective, image: mapped.image, videoUrl: mapped.videoUrl });
   return classificationSettings.publicV1Enabled ? project : (withoutPublicClassification(project) as Project);
 });
 
@@ -1667,7 +1802,7 @@ export async function getRelatedProjects(
     }
     return enrichProjectsWithCompletionCounts(
       supabase,
-      (data as unknown as ProjectRowForMapper[]).map((row) => mapDbProject(row)),
+      (data as unknown as ProjectRowForMapper[]).map((row) => mapPublicProject(row)),
     );
   };
 

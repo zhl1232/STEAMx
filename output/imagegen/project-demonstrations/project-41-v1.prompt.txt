@@ -1,0 +1,43 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 41.
+Primary request: Create an attractive, precise Chinese educational illustration for “盐画艺术”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 4 panels, two columns by 2 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “盐画艺术”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 绘制胶水图案”
+“2 撒盐覆盖”
+“3 滴入颜色”
+“4 干燥与观察”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 白色卡纸
+- 白胶（手工胶水）
+- 食盐 适量
+- 水彩颜料或食用色素
+- 滴管或小毛笔
+- 托盘（接盐用）
+- 清水（稀释水彩颜料或食用色素）
+- 记录本
+- 笔
+
+Effective written instructions, for alignment:
+1. 绘制胶水图案: 用白胶在卡纸上画出喜欢的图案或文字，线条要饱满连续。
+2. 撒盐覆盖: 趁胶水未干，大量撒上食盐覆盖所有胶水线条，然后轻轻抖落多余的盐。
+3. 滴入颜色: 用滴管吸取稀释的水彩颜料或色素水，沿着盐线轻轻滴下，观察颜色如何沿盐粒扩散。
+4. 干燥与观察: 将作品平放晾干，观察水分蒸发后盐结晶的样子，在记录本上写下溶解和结晶的过程。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定同一白卡纸上五瓣花胶线、透明托盘、白盐、蓝黄两种稀释水彩与滴管。四格：①白胶画连续饱满五瓣花；②趁湿撒盐覆盖胶线，倾纸让多余盐落同一托盘；③滴管沿花瓣盐线各滴一点蓝黄，局部放大颜色在颗粒间扩散，花形不变；④同纸平放干燥，记录纸画湿/干观察框，保留粗糙盐粒而非宝石，不制造新图案。
+
+Specific limitations to respect:
+- 干燥图不宣称观察到了新的宏观结晶生长；保持原盐线。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

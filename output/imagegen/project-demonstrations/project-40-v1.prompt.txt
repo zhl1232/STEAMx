@@ -1,0 +1,51 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 40.
+Primary request: Create an attractive, precise Chinese educational illustration for “观察面团发酵膨胀”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “观察面团发酵膨胀”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 激活酵母”
+“2 揉制面团”
+“3 标记与等待”
+“4 观察膨胀”
+“5 观察内部气孔”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 面粉 200克
+- 干酵母 3克
+- 温水 100毫升
+- 白糖 1勺
+- 透明玻璃碗
+- 保鲜膜
+- 直尺或卷尺
+- 搅拌用具
+- 记号笔
+- 记录本
+- 笔
+- 厨房秤（或使用已按清单预称量的面粉、干酵母）
+- 量杯（量取100毫升温水）
+- 取糖用勺（原清单为1勺，不据此推定克数）
+- 适合测量约35°C温水的温度计
+
+Effective written instructions, for alignment:
+1. 激活酵母: 由成人用温度计确认温水约35°C，再将干酵母和白糖加入水中，轻轻搅拌后静置5分钟，观察水面是否出现小气泡。
+2. 揉制面团: 将酵母水倒入面粉中，揉成面团，放入透明玻璃碗中。
+3. 标记与等待: 用记号笔在碗外侧标记面团的初始高度，盖上保鲜膜，放在温暖处观察30—40分钟。实际膨胀情况会受酵母状态和温度影响。
+4. 观察膨胀: 每10分钟观察并记录面团高度的变化，测量时使用相同的观察方向和位置。
+5. 观察内部气孔: 轻轻按压发酵后的面团，观察和感受里面的气孔，并记录膨胀前后的变化。按压气孔不能用来鉴定里面的气体成分。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定同一透明玻璃碗和同一面团、记号笔基线、透明保鲜膜，禁止气球/瓶子。五格：①成人温度计确认约35°C温水100毫升，加入3克干酵母和1勺糖，搅拌静置5分钟，气泡画少量并标“观察是否出现”；②将酵母水倒入200克面粉揉团并放入同碗；③碗外标初始高度、盖膜，计时标“观察30—40分钟”；④同侧每10分钟记录，虚线显示可能高度而非规定翻倍，空表不填伪数据；⑤轻压面团剖开局部观察气孔，标“气孔不鉴定气体成分”。
+
+Specific limitations to respect:
+- 膨胀程度受温度和酵母状态影响，不能画固定翻倍或把气孔当二氧化碳鉴定结果。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

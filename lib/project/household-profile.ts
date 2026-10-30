@@ -1,6 +1,7 @@
 import type { Project } from '@/lib/mappers/types'
 import profilesData from '@/lib/explore/household-projects.data.json'
 import { hashProjectInstructionContent } from './content-fingerprint'
+import { getProjectSourceTutorial } from './source-tutorials'
 
 export { hashProjectInstructionContent as hashHouseholdProjectContent } from './content-fingerprint'
 
@@ -18,6 +19,7 @@ const profiles = new Map((profilesData as HouseholdProfile[]).map((profile) => [
 
 /** Callers apply existing LED/science overrides first; stale content never inherits a profile. */
 export function getHouseholdProfile(project: Project): HouseholdProfile | null {
+  if (getProjectSourceTutorial(project)) return null
   const profile = profiles.get(Number(project.id))
   if (!profile || project.title !== profile.title || project.category !== profile.category) return null
   return hashProjectInstructionContent(project) === profile.contentHash ? profile : null

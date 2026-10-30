@@ -1,0 +1,44 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 269.
+Primary request: Create an attractive, precise Chinese educational illustration for “纸板小房子”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “纸板小房子”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 设计房子图纸”
+“2 剪裁纸板”
+“3 折叠与粘贴”
+“4 添加门窗”
+“5 装饰美化”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 废旧纸板 2-3张
+- 剪刀
+- 白胶或热熔胶
+- 直尺
+- 铅笔
+- 彩色画笔或贴纸（装饰用）
+
+Effective written instructions, for alignment:
+1. 设计房子图纸: 在纸上画出小房子的正面、侧面和屋顶的展开图，标注好尺寸和折叠线。
+2. 剪裁纸板: 按照图纸在纸板上画线并剪裁出墙壁、屋顶等各部件，注意留出粘贴边。
+3. 折叠与粘贴: 沿折叠线折出立体形状，用白胶将各面粘合在一起，组装成房子的基本结构。
+4. 添加门窗: 在墙壁上用剪刀小心地剪出门和窗户的位置，可以做成能打开的小门。
+5. 装饰美化: 用彩色画笔或贴纸装饰房子外墙，画上砖纹、花草等细节，让小房子更加生动。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同纸板画四墙、两片坡屋顶展开图与粘边；②裁下同组部件，门窗位置固定前墙；③沿线折墙粘成同长方小房、装双坡顶；④成人辅助在前墙剪一扇可开门和两扇窗，不换房型；⑤同屋涂黄墙红顶、画砖纹，保留前门两窗与原折边。
+
+Specific limitations to respect:
+- 第4步后切窗须明确成人协助，不能让窗孔前后换位置。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+EDIT: Repair continuity in panels1-2 ONLY to match actual house panels3-5. Panel1 plan must show FOUR walls: TWO PENTAGONAL gable SIDE walls without openings and TWO RECTANGULAR eave walls, one front rectangle has ONE central door and TWO windows. Roof two rectangles unchanged. Label front rectangular wall 正面, plain pentagonal wall 侧面. Panel2 laid out cut parts must be EXACTLY SIX: two plain pentagonal gable SIDE walls, one rectangular FRONT wall with pencil outlines central door and two windows, one blank rectangular BACK wall, two rectangular ROOF pieces. Do not cut holes yet. Each has glue tabs. Preserve panels3-5 exactly, same eave-front house.
+EDIT: Change ONLY panel2. Current FIVE pieces missing back wall. Draw EXACTLY SIX separate cardboard pieces in TWO rows of THREE, all fully visible with gaps. TOP row: plain pentagonal side wall, plain pentagonal side wall, rectangular front wall with central pencil door and two pencil windows. BOTTOM row: ONE rectangular blank BACK wall labelled 背墙, ONE rectangular roof panel labelled 屋顶左, ONE rectangular roof panel labelled 屋顶右. Count six. No overlap. Keep all other panels unchanged.

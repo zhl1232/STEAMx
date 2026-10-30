@@ -1,12 +1,13 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { StoreProductDetail } from './store-product-detail'
+import { rememberReturnHref } from '@/lib/navigation/return-href'
 
 vi.mock('@/lib/context/auth-context', () => ({ useAuth: () => ({ profile: null }) }))
 const { push } = vi.hoisted(() => ({ push: vi.fn() }))
 vi.mock('next/navigation', () => ({ useRouter: () => ({ push }) }))
-beforeEach(() => { push.mockClear() })
-afterEach(() => { vi.unstubAllGlobals() })
+beforeEach(() => { push.mockClear(); sessionStorage.clear(); window.history.replaceState(null, '', '/') })
+afterEach(() => { vi.unstubAllGlobals(); window.history.replaceState(null, '', '/') })
 
 it('shows saved draft readiness and paused specifications without offering a purchase', () => {
   render(<StoreProductDetail checkoutEnabled preview={{ status: 'draft' }} product={{
@@ -32,6 +33,23 @@ const product = {
   id: 'product-1', name: '材料套装', price_cents: 1200, shipping_cents: 0,
   variants: [{ id: 'v1', name: '标准套装', price_cents: null, stock_quantity: 5, min_quantity: 1 }],
 }
+
+it.each([
+  ['/project/1239?kit=grade2', '返回项目'],
+  ['/courses/5/lessons/12/parts', '返回课程'],
+  ['/store?category=science', '返回商城'],
+])('returns to the page that opened the product: %s', (source, label) => {
+  rememberReturnHref('/store/products/product-1', source)
+  window.history.replaceState(null, '', '/store/products/product-1?variant=v1')
+  render(<StoreProductDetail product={product} checkoutEnabled />)
+  expect(screen.getByRole('link', { name: label })).toHaveAttribute('href', source)
+})
+
+it('falls back to the catalog when no source was recorded', () => {
+  window.history.replaceState(null, '', '/store/products/product-1')
+  render(<StoreProductDetail product={product} checkoutEnabled />)
+  expect(screen.getByRole('link', { name: '返回商城' })).toHaveAttribute('href', '/store')
+})
 
 it('shows a single specification as text and forwards the chosen quantity to checkout', () => {
   render(<StoreProductDetail product={product} checkoutEnabled />)

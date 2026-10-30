@@ -34,8 +34,10 @@ describe('return href (replaces ?from=)', () => {
     expect(resolveReturnHref(readReturnHrefRaw(), '/nature/observations/1', '/nature/observations')).toBe('/nature/observations')
   })
 
-  it('only tracks sections that used from=', () => {
+  it('only tracks sections with source-aware back links', () => {
     expect(isReturnTrackedPath('/nature/observations/1')).toBe(true)
+    expect(isReturnTrackedPath('/store/products/product-1')).toBe(true)
+    expect(isReturnTrackedPath('/store/orders/order-1')).toBe(false)
     expect(isReturnTrackedPath('/project/1')).toBe(false)
   })
 })

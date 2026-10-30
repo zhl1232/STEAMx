@@ -1,0 +1,46 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 314.
+Primary request: Create an attractive, precise Chinese educational illustration for “风筝制作与放飞”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “风筝制作与放飞”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 搭建骨架”
+“2 绷线围边”
+“3 蒙面装饰”
+“4 系提线”
+“5 安装尾巴”
+“6 放飞试验”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 竹条或细木条2根（约50厘米和40厘米）
+- 轻薄纸张（采用原文纸面分支）
+- 棉线或风筝线（至少30米）
+- 胶带和胶水
+- 剪刀
+- 彩色颜料（采用原文上色分支）
+- 轻薄布条约1米（做尾巴）
+- 画笔
+
+Effective written instructions, for alignment:
+1. 搭建骨架: 将两根竹条十字交叉绑扎在一起，长竹条竖放，短竹条横放在上方约三分之一处。
+2. 绷线围边: 沿四个竹条端点用线拉出菱形轮廓，在每个端点上用线缠绕固定。
+3. 蒙面装饰: 将纸张裁剪成比菱形稍大的形状，翻折边缘包住围线并用胶水粘牢，在纸面上画上喜欢的图案。
+4. 系提线: 在竹条交叉点和下端点系上提线，调整长度使风筝倾斜约15-20度角。
+5. 安装尾巴: 在风筝底部系上一条约1米长的布条尾巴，帮助风筝在空中保持平衡。
+6. 放飞试验: 选择空旷有风的场地，逆风奔跑放线让风筝升空，通过收放线控制高度和方向。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；6格：①同50cm竖竹和40cm横竹，横杆在上1/3绑牢；②同四端拉绳成菱形；③同轻纸翻边包绳，画同红蓝图案；④同交叉点与下端两点提线示意，连接飞行线位置标待调，15—20度只作原文参考；⑤同底端系1m布尾；⑥同风筝在空旷场地低高度试放，图案、提线2点和尾不变，不画高压线旁放飞。
+
+Specific limitations to respect:
+- 提线长度与倾角基准未充分定义，不能保证仅按15—20度即可稳定飞行。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

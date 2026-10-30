@@ -1,0 +1,43 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 82.
+Primary request: Create an attractive, precise Chinese educational illustration for “树叶分类标本卡”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “树叶分类标本卡”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 户外采集”
+“2 压制干燥”
+“3 分类整理”
+“4 制作标本卡”
+“5 完成作品展示”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 各种树叶（户外采集）
+- 旧报纸或吸水纸
+- 厚书本若干
+- 白色卡纸
+- 透明胶带或白乳胶
+- 标签贴纸和笔
+- 相机或手机
+
+Effective written instructions, for alignment:
+1. 户外采集: 到公园或校园里采集不同种类的树叶，尽量选择完整、无破损的叶片。
+2. 压制干燥: 将树叶夹在报纸中间，放入厚书本里压紧，等待3-5天让叶片干燥变平。
+3. 分类整理: 取出压好的树叶，按照叶片形状（圆形、椭圆形、掌形等）进行分类。
+4. 制作标本卡: 将分好类的树叶用胶带固定在白色卡纸上，写上树叶名称和采集日期。
+5. 完成作品展示: 把标本卡装订成册，拍照记录你的标本册。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定三片形状可辨且同一叶脉的完整落叶A圆形/B椭圆/C掌形、同一报纸和厚书、三张白卡。五格：①收集完整落叶，不折活枝；②三叶分别夹吸水纸入同一书压3—5天；③取出仍是同三叶，按形状分区；④胶带仅固定叶柄与边缘、标签名称待查/日期实填；⑤将三卡放成相同次序标本册、手机拍照，不生成原清单没有的装订打孔过程。
+
+Specific limitations to respect:
+- 未提供叶种不能凭生成外形填物种名；原文装订材料未列，末格只展示已排好的卡册。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

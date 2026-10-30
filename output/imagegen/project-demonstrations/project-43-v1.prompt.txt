@@ -1,0 +1,47 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 43.
+Primary request: Create an attractive, precise Chinese educational illustration for “水果电池”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “水果电池”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 插入两种电极”
+“2 串联水果电池”
+“3 按极性连接LED”
+“4 观察并排查连接”
+“5 整理观察结果”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 柠檬 3—4个
+- 铜片 3—4片，每个柠檬1片；也可用已确认表面材质为铜的铜币
+- 镀锌铁钉 3—4根，每个柠檬1根，锌层应能与果肉接触
+- 带鳄鱼夹导线：3个柠檬用4根，4个柠檬用5根
+- 小电流红色LED 1只，选未剪短引脚且能辨认正负极的器件
+- 小刀（需要开插口时由成人使用）
+- 垫板或托盘
+- 记录用纸和笔
+
+Effective written instructions, for alignment:
+1. 插入两种电极: 把柠檬放在垫板或托盘上。每个柠檬插入一片铜片和一根镀锌铁钉，使金属接触湿润果肉，并在外面留出可夹持的部分。原方案约间隔2厘米、插入2厘米，可按柠檬和电极大小调整；两种电极在柠檬内不能碰到一起。需要用小刀开插口时由成人完成。
+2. 串联水果电池: 用一根导线把第一个柠檬的铜片接到第二个柠檬的镀锌铁钉，依次连接。3个柠檬之间用2根线，4个之间用3根线。最后留下第一个柠檬的镀锌铁钉和最后一个柠檬的铜片，作为两端。
+3. 按极性连接LED: 再用2根导线，把串联末端的铜片接到LED长脚（正极），另一端的镀锌铁钉接到LED短脚（负极）。夹子要夹住裸露金属，两只LED引脚和夹子不能相碰。引脚剪过或极性不清楚时，先查器件标识，不凭长度猜测。
+4. 观察并排查连接: 观察LED是否发光。若不亮，先断开一端，检查LED极性、每节之间的连接方向、夹子接触，以及铜片和铁钉是否在果肉内相碰，再重新连接。若仍不亮，记录结果；本组电池可能无法提供这只LED需要的电压或电流，不把不亮直接判断为没有产生电压。
+5. 整理观察结果: 画出实际使用的柠檬数量、连接线和LED方向，比较排查前后的现象。实验后断开连接，由成人收好尖锐电极；使用过的柠檬不食用。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定三只同样柠檬编号1/2/3，每只一片铜片Cu与一根镀锌钉Zn、红色LED，共四根绝缘鳄鱼夹线，正俯视锁定。五格：①各柠檬内两电极分离不相碰，约2厘米只是原文参考；②清楚连接Cu1→Zn2、Cu2→Zn3，保留Zn1与Cu3两端；③Cu3→LED长脚＋、LED短脚−→Zn1，两脚夹子不碰，完整回路清楚；④画LED未亮的观察状态，手断开一端检查极性和接触，短句“不亮也不能说明没有电压”；⑤同一接线图旁画实际观察空表，断线收好电极，标“柠檬不食用”。
+
+Specific limitations to respect:
+- 不承诺三柠檬足以点亮该LED；不得增加隐形电池或把各节同极连接。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+Edit: Correct electrode identity throughout ALL FIVE panels without altering wire positions: for EVERY lemon, LEFT electrode must be Zn galvanized NAIL (silver), RIGHT electrode must be Cu COPPER PLATE (flat copper). Swap current Cu/Zn labels and shapes consistently. Thus existing inter-lemon wires must connect Cu1→Zn2 and Cu2→Zn3. Free LEFT Zn1 connects LED SHORT− leg, free RIGHT Cu3 connects LED LONG+ leg. Keep 3 lemons and exactly4 wires. In panel3 make both clips visibly GRIP their correct bare LED legs; panel4 disconnect only short− lead for checking. LED stays unlit with no glow. Update notebook mini schematic same topology. Preserve title/headings and no-eat warning.
+Edit: Repair this image's electrode-label contradictions. Preserve five-panel title/layout and lemons but simplify ALL electrode depictions into consistent clean technical drawings: on every lemon left is SILVER CYLINDRICAL NAIL zinc, right is FLAT COPPER RECTANGLE copper. REMOVE EVERY Cu and Zn text above electrodes (they currently contradict shapes); instead one shared legend near title '银色钉：锌电极　铜色片：铜电极'. Existing links then connect right copper1 to left silver2, right copper2 to left silver3. Free left silver1 -> LED SHORT−, free right copper3 -> LED LONG+. In panel3 make clips visibly clamped ON LED wire legs with metal jaws touching the legs, not hovering. Panel4 only left short lead is detached. LED unlit. Notebook schematic same consistent shapes, NO Cu/Zn letters. Do not retain any mislabeled electrode or metallic nail on right of lemons.
+Edit: Fix only the LED connection in panel3 (middle-left) and its little drawing in panel5. Current crocodile clips float apart from the LED legs. Replace those floating clips and LED with a CLEAR LARGE TECHNICAL CLOSEUP taking the lower third of each relevant drawing: LEFT BLACK lead physically JOINS the short negative LED leg, RIGHT RED lead physically JOINS long positive LED leg. Draw continuous thin black/red wires into metal contact points on respective legs with SOLID CONTACT DOTS, no air gap; avoid crocodile clip detail if it causes ambiguity. The LED is visibly UNLIT, no shine/glow. In panel4 RIGHT RED wire must remain physically connected to long+ leg, while LEFT BLACK lead is disconnected in hand. Keep lemons, electrode shapes, interlinks and all headings unchanged.

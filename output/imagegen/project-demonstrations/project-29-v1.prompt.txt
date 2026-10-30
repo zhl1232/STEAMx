@@ -1,0 +1,42 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 29.
+Primary request: Create an attractive, precise Chinese educational illustration for “杠杆平衡实验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “杠杆平衡实验”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 搭建杠杆”
+“2 等臂实验”
+“3 改变位置”
+“4 记录数据”
+“5 发现规律”
+“6 生活应用”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 30厘米直尺
+- 三角形积木或橡皮（做支点）
+- 硬币若干（重量相同的）
+- 小标签纸
+- 记录本和铅笔
+
+Effective written instructions, for alignment:
+1. 搭建杠杆: 将三角形积木放在桌上作为支点，把直尺平放在支点上，调整使直尺平衡。
+2. 等臂实验: 在尺子两端等距位置各放一枚硬币，确认杠杆保持平衡。
+3. 改变位置: 将一侧的硬币移近支点，观察杠杆失去平衡；在另一侧增减硬币使其重新平衡。
+4. 记录数据: 系统地改变硬币数量和位置，记录每次平衡时两侧"硬币数×距离"的乘积。
+5. 发现规律: 分析数据后发现：平衡时两侧的"力×力臂"总是相等的，这就是杠杆原理。
+6. 生活应用: 找出生活中的杠杆应用实例：剪刀、跷跷板、开瓶器等，判断它们的支点、力点和阻力点。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+锁定同一30厘米直尺、正中三角积木支点、同批硬币，同一侧面。六格：①空尺在支点上调平；②两侧同距离各一币，水平；③只把左币移近支点，尺向右下倾，再示调整右币数量的手；④空表列左右硬币数、到支点距离、乘积；⑤简洁平衡示例只用符号F左×L左=F右×L右，注明“理想平衡示意”；⑥同一角落分别画剪刀、跷跷板、开瓶器并标支点，不把这些物件加入主实验装置。
+
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+Edit: Edit panel3 ONLY: left coin moved closer to central fulcrum makes RIGHT side descend; to rebalance one must reduce right load or move right coins closer, not add right coins. Replace label “增加硬币” with “减少右侧硬币”, show hand LIFTING an existing right coin away, only one right coin remains on ruler, removed coins clearly in hand. Maintain downward-right tilted ruler as before-adjustment demonstration; add small “调整中” label. Other five panels unchanged.

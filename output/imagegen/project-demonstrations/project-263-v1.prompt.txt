@@ -1,0 +1,49 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 263.
+Primary request: Create an attractive, precise Chinese educational illustration for “自动浇水装置”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “自动浇水装置”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 区分毛细与虹吸”
+“2 组装浇水系统”
+“3 控制流量”
+“4 测量出水量”
+“5 实际应用”
+“6 改进方案”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 大号塑料瓶（储水用）
+- 细软管和棉线（分别比较输水效果）
+- 花盆和植物
+- 小夹子（控制流量）
+- 支架或书本（调节高度）
+- 计时器（观察滴水速度）
+- 量杯（测量出水量）
+- 清水
+- 记录纸和铅笔
+
+Effective written instructions, for alignment:
+1. 区分毛细与虹吸: 分别把棉线浸入水中观察毛细输水，并做一条充满水的软管从高处容器通向低处容器的对照，区分两种现象。
+2. 组装浇水系统: 将储水瓶、棉线或软管和花盆摆好；使用软管时先排尽空气，并确认出水端低于水面，分别观察软管和棉线的输水过程。
+3. 控制流量: 用夹子改变软管开度，或调整棉线浸水长度，观察出水是否连续、变慢或停止，记录实际现象。
+4. 测量出水量: 用量杯在若干相同观察时段收集出水量，比较不同高度、管路和夹子设置，记录实际流量。
+5. 实际应用: 把装置放在花盆旁观察土壤湿润范围，检查是否漏水或断流，并记录观察期间的出水变化。
+6. 改进方案: 根据观察改进储水瓶位置、棉线或软管数量和出水端固定方式，并写下装置的适用条件和局限。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；6格：①同瓶水旁并列棉线毛细与充水软管虹吸，软管出口低于瓶水面；②同植物盆置低处，固定只选择软管分支作主连续装置，棉线保留旁侧对照；③同夹子压软管，开度前后小窗示滴流/停止候选；④出口移到同量杯，相同计时段收集，记录真实刻度而不画自动恒流；⑤出口放回同盆、土面只局部湿润，检查水面下降和断流；⑥同支架调瓶高，管端固定待核对，不画长期无人值守结论。
+
+Specific limitations to respect:
+- 虹吸必须水柱连续、出口低于水面；毛细与虹吸不得混画成同种动力。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+EDIT: Correct all bottle drawings in panels1,2,4,5,6: bottle mouth must be OPEN with NO cap, clear blue hose passes OVER rim and descends INSIDE bottle until visibly submerged near bottom. Show continuous water-filled tubing inside AND outside bottle, NEVER end tubing at neck or cap. In panel1 cotton thread likewise goes over OPEN mouth and down into water, external free cotton end shown as capillary comparison. In other panels cotton thread is detached beside apparatus. Panel6 remove second tube entirely; keep only SAME single continuous hose as earlier, remove 多根软管 label. Replace new stool by SAME stack of books with one extra book. Tube outlet fixation just dashed circle 标 待核对, no invented clamp stand. Preserve same plant, pot and open bottle, lower outlet, clip, empty measurement record.
+EDIT: Change ONLY panel1 LEFT cotton-comparison bottle: DELETE blue plastic tube inside that LEFT bottle entirely. Keep ONLY cream cotton cord passing over open rim down to bottom inside bottle and into left small cup. Right siphon bottle and every other panel stay EXACTLY unchanged.

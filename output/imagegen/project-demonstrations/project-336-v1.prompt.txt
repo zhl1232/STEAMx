@@ -1,0 +1,44 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 336.
+Primary request: Create an attractive, precise Chinese educational illustration for “石膏翻模体验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “石膏翻模体验”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 制作原型”
+“2 制作模具”
+“3 调配石膏”
+“4 浇注脱模”
+“5 打磨上色”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 石膏粉
+- 超轻黏土
+- 纸杯或塑料容器
+- 搅拌棒
+- 食用油或凡士林（脱模剂）
+- 砂纸
+- 清水
+- 颜料和画笔（可选上色时另备）
+
+Effective written instructions, for alignment:
+1. 制作原型: 用黏土捏出一个简单的造型，如贝壳、树叶或卡通脸，作为翻模的原始模型。
+2. 制作模具: 将黏土压成厚饼状，把原型按压进去形成凹陷的负模，取出原型后在模具表面涂一层薄薄的食用油作为脱模剂。
+3. 调配石膏: 在纸杯中倒入适量水，缓慢加入石膏粉并搅拌均匀至酸奶状浓稠度，注意避免产生气泡。
+4. 浇注脱模: 将调好的石膏液缓慢倒入黏土模具中，轻轻震动排出气泡，等待约30分钟完全凝固后小心脱模。
+5. 打磨上色: 用砂纸打磨石膏表面的毛刺和瑕疵，可以用颜料为石膏作品上色装饰。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同黏土捏扁平无倒扣贝壳原型；②压入另一块厚黏土形成凹负模，取出原型、薄涂油；③同纸杯水先放后慢加石膏粉，搅拌棒不扬尘；④石膏入同贝壳凹模、轻震气泡，凝固后剥黏土脱出同白贝壳；⑤同贝壳砂纸轻磨，保留白色无需凭空上色。
+
+Specific limitations to respect:
+- 仅示无倒扣浅浮雕翻模；凝固时间依材料，不以30分钟保证任何配比完全固化。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

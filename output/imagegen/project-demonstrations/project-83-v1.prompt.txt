@@ -1,0 +1,44 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 83.
+Primary request: Create an attractive, precise Chinese educational illustration for “制作干花书签”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “制作干花书签”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 采集花朵”
+“2 压花干燥”
+“3 设计构图”
+“4 粘贴固定”
+“5 覆膜保护”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 小花朵和花瓣（如三叶草花、雏菊等）
+- 旧报纸
+- 厚重的书
+- 硬卡纸（裁成书签大小）
+- 白乳胶
+- 透明宽胶带或覆膜纸
+- 丝带
+- 擦干花朵表面水分的用品
+
+Effective written instructions, for alignment:
+1. 采集花朵: 选择小巧扁平的花朵和叶片，采集后轻轻擦干表面水分。
+2. 压花干燥: 将花朵摆放在报纸上，合上书本压紧，等待5-7天完全干燥。
+3. 设计构图: 在卡纸书签上摆放干花，尝试不同的排列方式，选择最喜欢的构图。
+4. 粘贴固定: 用白乳胶小心地将干花粘在卡纸上，轻轻按压使其贴合。
+5. 覆膜保护: 用透明胶带或覆膜纸覆盖书签正面，保护干花不脱落，再穿上丝带装饰。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定同一朵小白雏菊、两片小叶和一张长方形米白书签，花朵数量与排列贯穿。五格：①轻擦表面水分；②花叶平放报纸夹厚书5—7天，压干后仍是同朵雏菊；③卡纸上试摆花上叶下同一构图；④少量白乳胶固定压平，花瓣不变新鲜立体；⑤透明宽胶带覆盖书签表面，丝带放在书签旁作装饰准备，标“穿带孔需先确认”，不凭空加打孔器或现成孔。
+
+Specific limitations to respect:
+- 正文要求穿丝带但未列打孔工具/开孔方式；不补造该操作，可末格仅并列丝带。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

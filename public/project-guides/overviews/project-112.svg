@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+  <title id="title">土壤分层实验：步骤概览</title>
+  <desc id="desc">1. 收集土壤；2. 加水搅拌；3. 静置观察；4. 测量分层；5. 标注和记录。具体操作见项目正文。</desc>
+  <rect width="960" height="720" fill="#f0f7f2"/>
+  <path d="M768 0H960V720H862C814 527 948 370 804 208Z" fill="#d9ebe0" opacity=".38"/>
+  <g font-family="sans-serif">
+    <text x="80" y="78" font-size="24" font-weight="600" fill="#268565">科学 / 步骤概览</text>
+    <text x="80" y="148" font-size="46" font-weight="700" fill="#185a4b">土壤分层实验</text>
+    <path d="M80 191H880" stroke="#d9ebe0" stroke-width="2"/>
+    <path d="M104 252V552" stroke="#d9ebe0" stroke-width="7"/>
+    <g>
+      <circle cx="104" cy="252" r="23" fill="#268565"/>
+      <text x="104" y="261" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">1</text>
+      <text x="154" y="262" font-size="33" fill="#185a4b">收集土壤</text>
+    </g>
+<g>
+      <circle cx="104" cy="327" r="23" fill="#268565"/>
+      <text x="104" y="336" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">2</text>
+      <text x="154" y="337" font-size="33" fill="#185a4b">加水搅拌</text>
+    </g>
+<g>
+      <circle cx="104" cy="402" r="23" fill="#268565"/>
+      <text x="104" y="411" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">3</text>
+      <text x="154" y="412" font-size="33" fill="#185a4b">静置观察</text>
+    </g>
+<g>
+      <circle cx="104" cy="477" r="23" fill="#268565"/>
+      <text x="104" y="486" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">4</text>
+      <text x="154" y="487" font-size="33" fill="#185a4b">测量分层</text>
+    </g>
+<g>
+      <circle cx="104" cy="552" r="23" fill="#268565"/>
+      <text x="104" y="561" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">5</text>
+      <text x="154" y="562" font-size="33" fill="#185a4b">标注和记录</text>
+    </g>
+  </g>
+</svg>

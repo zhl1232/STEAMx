@@ -1,0 +1,46 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 28.
+Primary request: Create an attractive, precise Chinese educational illustration for “自制温度计”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “自制温度计”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 制作彩色液体”
+“2 安装吸管”
+“3 建立液柱并标记”
+“4 温水中观察”
+“5 冷水中比较”
+“6 解释与记录”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 小透明瓶1个（瓶身较硬，能稳定直立）
+- 透明细吸管1根
+- 橡皮泥或黏土（密封瓶口及吸管周围）
+- 食用色素、清水
+- 两个能放稳小瓶的容器，分别装温水和冷水
+- 滴管（从吸管上口逐滴补入色水，不用嘴吸）
+- 笔（标记液柱位置）
+- 搅拌用具
+
+Effective written instructions, for alignment:
+1. 制作彩色液体: 在瓶中装入约四分之三的清水，加入少量食用色素并搅匀，保留瓶内上方的空气。另留一点同样的色水供滴加。
+2. 安装吸管: 让吸管下端浸在水中、不要触底，上端露在瓶外。用橡皮泥密封瓶口和吸管周围，但不要封住吸管的上口；瓶子保持直立，观察时不要挤压瓶身。
+3. 建立液柱并标记: 用滴管从吸管上口逐滴补入色水，让液柱升到瓶外能看清的位置，并在室温下标记。若色水持续流回瓶内、液柱不能保持，先重做密封再尝试；液体较难进入时请成人调整吸管粗细，不用嘴吸。
+4. 温水中观察: 由成人准备温暖而不烫手的水，不用开水。将小瓶平稳放入温水容器，水不要淹到瓶口；等液柱变化趋于稳定后比较它与基准线的位置。
+5. 冷水中比较: 把同一个小瓶移到冷水容器，保持直立、不要挤压，观察液柱是否下降。再放回室温，看看是否向原位置恢复；未出现明显变化时先查密封和液柱，不通过提高水温硬求效果。
+6. 解释与记录: 比较三个环境里的液柱高低，说明本装置同时受瓶内空气、液体以及密封状态影响。刻线只记录相对变化；没有用可靠温度计逐点校准，就不标注摄氏度数，也不用它判断体温。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定同一硬质透明小瓶，约四分之三色水、上方气腔、同一透明细吸管和灰色密封泥，吸管下端浸水但不触底、上端始终敞开。六格：①配色水保留气腔；②泥封瓶口与管周，剖面清楚区分通气上口与密封周边；③滴管从上口逐滴加同色水建立可见液柱、标室温基准，旁写“漏回先修密封”；④成人放瓶进温水，水面低于瓶口，不画摄氏刻度；⑤同瓶换冷水后比较液柱，再返回室温，用示意箭头而非假温度读数；⑥记录三环境相对高低，画短句“仅比较变化，未校准不能读°C”。
+
+Specific limitations to respect:
+- 液柱能否保持与管径、密封和空气体积有关，分镜必须保留失败停查条件。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

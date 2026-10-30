@@ -176,10 +176,10 @@ describe('ExploreClient', () => {
         expect(within(screen.getByTestId('sheet')).queryByText('子分类')).not.toBeInTheDocument()
     })
 
-    it('links to kits and clears retired source conditions while retaining category and sorting', () => {
+    it('omits the kits shortcut and clears retired source conditions while retaining category and sorting', () => {
         currentSearchParams = new URLSearchParams({ tags: '趣味实验,科教版', category: '科学', sortBy: 'latest' })
         render(<ExploreClient initialProjects={[]} initialHasMore={false} />)
-        expect(screen.getByRole('link', { name: '按套装找' })).toHaveAttribute('href', '/kits')
+        expect(screen.queryByRole('link', { name: '按套装找' })).not.toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '趣味实验' })).not.toBeInTheDocument()
         expect(screen.queryByRole('button', { name: '科教版' })).not.toBeInTheDocument()
         const url = new URL(window.location.href)

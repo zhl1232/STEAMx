@@ -1,0 +1,46 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 25.
+Primary request: Create an attractive, precise Chinese educational illustration for “自制针孔相机”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “自制针孔相机”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 涂黑内壁”
+“2 制作针孔”
+“3 安装成像屏”
+“4 观察成像”
+“5 实验改进”
+“6 原理思考”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 鞋盒（带盖）
+- 白色薄纸或半透明描图纸
+- 铝箔纸
+- 大头针或图钉
+- 黑色颜料或黑纸
+- 胶带和剪刀
+
+Effective written instructions, for alignment:
+1. 涂黑内壁: 用黑色颜料或黑纸将鞋盒内壁全部覆盖，减少内部光线反射。
+2. 制作针孔: 在鞋盒一端中央挖一个小方孔，贴上铝箔纸，用大头针在铝箔中心戳一个小而圆的孔。
+3. 安装成像屏: 在鞋盒另一端剪出一个方形窗口，用白色薄纸覆盖作为成像屏幕。
+4. 观察成像: 将针孔对准明亮的窗外或点燃的蜡烛，从成像屏一侧观察，你会看到清晰的倒立影像。
+5. 实验改进: 尝试改变针孔大小，观察影像清晰度和亮度的变化：孔越小影像越清晰但越暗。
+6. 原理思考: 对比分析为什么影像是倒立的：因为光沿直线传播，上方物体发出的光穿过小孔后照到屏幕下方。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+锁定同一带盖棕色鞋盒、黑内壁、左端铝箔针孔、右端半透明描图纸屏；六格均保持光从左向右。①贴黑纸；②成人手在左端铝箔中心扎小圆孔，画局部放大；③右端方窗贴描图纸；④盒盖盖严，左侧明亮窗外同一树形物、右侧从屏后看微弱倒像，室内环境压暗，不画正像；⑤仅比较两种针孔大小，画亮度/模糊程度示意并标“大小需试验”；⑥剖面画树顶与树底两条直光线在针孔交叉到屏下/屏上，明确倒像。不用蜡烛分支。
+
+Specific limitations to respect:
+- 成像亮度与锐度受孔径、盒长及环境光共同影响，不画成明亮高清照片，不把孔越小永远越清晰绝对化。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+Edit: Edit ONLY the optical rays in panel6 of this pinhole camera sheet, preserving other panels. Light arrows must propagate LEFT TO RIGHT: upper point of outside tree -> pinhole -> LOWER point on screen; lower point of tree -> pinhole -> UPPER point on screen. Exactly two straight rays crossing ONLY at pinhole, arrowheads toward right-hand screen (never toward tree). Show same outside upright tree and weak upside-down tree on screen. Remove any outward arrowheads. Keep six panels, title and other drawings.
+Edit: Only correct panel6 bottom-right. Remove ALL arrowheads from both red and blue light rays, leaving exactly two thin straight unidirectional-agnostic lines crossing at the pinhole, with no arrowheads anywhere. Add short text “光从树经针孔到屏”. Preserve entire rest of image unchanged. No arrows pointing to tree. The tree at left upright, image at screen upside-down.

@@ -1,0 +1,44 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 351.
+Primary request: Create an attractive, precise Chinese educational illustration for “对称剪纸图案”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “对称剪纸图案”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 认识对称”
+“2 单轴对称剪纸”
+“3 多轴对称挑战”
+“4 创作窗花”
+“5 展示与标注”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 彩色正方形纸若干
+- 剪刀
+- 铅笔
+- 白纸（用于粘贴展示）
+- 胶棒
+- 彩笔
+- 手机或相机（拍照记录）
+
+Effective written instructions, for alignment:
+1. 认识对称: 拿一张纸对折，沿折线剪出半个爱心，展开后观察得到完整爱心，理解对称轴的含义。
+2. 单轴对称剪纸: 将纸对折一次，用铅笔画出半边图案（如蝴蝶、树叶），沿线剪下再展开，欣赏对称图形。
+3. 多轴对称挑战: 将纸连续对折两次或三次后剪出图案，展开观察出现四重或八重对称的效果。
+4. 创作窗花: 将正方形纸沿对角线和中线反复对折，剪出复杂镂空图案，展开后就是一幅漂亮的窗花。
+5. 展示与标注: 将所有作品粘贴在白纸上，用彩笔画出每个图案的对称轴，标注对称轴数量，拍照记录你的作品集。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同红纸对折剪半心，展开完整心并画1条竖轴；②另张黄纸对折画半叶剪开，展开同叶单轴；③蓝纸连续折2次剪四瓣花，逐层展开保证4瓣；④紫纸8分折剪带连接的窗花，保留同形各8扇区；⑤同4作品粘白底，逐个按实际形标轴：心1、叶1、规则四瓣4、规则八瓣8，不能把折次数直接当任何图案轴数。
+
+Specific limitations to respect:
+- 对称轴数量取决于剪形，旋转四重/八重不自动意味着同数镜轴。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+EDIT: Fix symmetry-axis drawings ONLY, preserve all paper shapes. In panel5 blue regular FOUR-petal flower labelled4条对称轴 must have FOUR full straight dashed axes crossing its center: vertical, horizontal, rising45deg diagonal and falling45deg diagonal. Currently only2, ADD BOTH diagonals. In panel5 purple regular EIGHT-petal flower labelled8条对称轴 must have EIGHT full straight dashed axes equally spaced22.5degrees: 0,22.5,45,67.5,90,112.5,135,157.5 degrees. Each full line extends BOTH directions through center (16 rays total). Clear thin blue dashed lines. Preserve exact8 petals and all other panels.

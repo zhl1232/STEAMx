@@ -17,6 +17,7 @@ export function ProjectHeroGallery({
   sizes = "100vw",
   showGradient = false,
   priority = true,
+  imageFit = "cover",
 }: {
   images: string[]
   captions?: Array<string | undefined | null>
@@ -27,6 +28,7 @@ export function ProjectHeroGallery({
   sizes?: string
   showGradient?: boolean
   priority?: boolean
+  imageFit?: "cover" | "contain"
 }) {
   const [previewOpen, setPreviewOpen] = useState(false)
   const cover = images[0]
@@ -55,7 +57,7 @@ export function ProjectHeroGallery({
               onClick={() => setPreviewOpen(true)}
               className="absolute inset-0 h-full w-full cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
             >
-              <OptimizedImage src={cover} alt={alt} fill priority={priority} sizes={sizes} className="object-cover" />
+              <OptimizedImage src={cover} alt={alt} fill priority={priority} sizes={sizes} className={imageFit === "contain" ? "object-contain" : "object-cover"} />
             </button>
             {showGradient ? (
               <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-black/14" />

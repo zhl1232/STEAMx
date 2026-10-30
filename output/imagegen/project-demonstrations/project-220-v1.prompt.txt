@@ -1,0 +1,38 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 220.
+Primary request: Create an attractive, precise Chinese educational illustration for “连杆机构动物”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “连杆机构动物”
+Subtitle: “原理与结构示意”
+Panel headings, in this exact order:
+“1 设计动物”
+“2 裁剪部件”
+“3 铆接关节”
+“4 制作连杆”
+“5 装饰与测试”
+“6 改进优化”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 厚硬纸板
+- 铆钉或两脚钉若干
+- 竹签
+- 彩色笔和贴纸
+- 剪刀和打孔器
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；6格：①选同一纸板恐龙，草图标四肢关节；②身体及8段上下肢平摆，关节孔一一对应；③用两脚钉连接身体与各肢段，保持活动关节；④纸板条和底操控杆平摆在恐龙旁，参考已保留四杆示意显示局部四杆闭环，不补全全身驱动；⑤同一恐龙上色，单关节活动箭头与连杆候选位置；⑥尺子对局部连杆长度作比较，完整四肢协调运动仍标待核对。
+
+Specific limitations to respect:
+- 正文缺具体关节点坐标、杆长与全身连接拓扑，保留四杆图不等于全身装配证据。
+
+This is a principle/structure illustration, not a claim that an incomplete mechanism has been built or runs. Where the reviewed plan identifies an unconfirmed connection or missing condition, visibly label that exact missing point briefly. Do not draw unsupported successful operation, fabricate measurements, invent a circuit, or silently supply unspecified structural details. Follow the reviewed visual plan when literal source instructions would imply an unsupported result.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+CRITICAL: Show missing axle fixation/support and rod retention as visible EMPTY dotted gaps with brief 待确认 labels. An assembled cutaway is a RELATIONSHIP drawing only, label 连接待核对. No operating success, no running mechanism, no flipping bird, no full dinosaur limb coordination. Loose candidate bars remain beside dinosaur.
+EDIT: Fix exact parts and mathematical geometry. Panel2 replace all limb parts by EXACTLY EIGHT separate flat cardboard strips arranged 2 rows of4: top row FOUR upper-limb parts (two short forelimb upper, two large hindlimb upper); bottom row FOUR matching lower-limb parts with feet/claws. Each upper part has two joint holes, each lower part has one knee hole. Labels 前肢上×2 前肢下×2 后肢上×2 后肢下×2. Panel4 four-bar inset MUST be EXACTLY FOUR straight bars connected as a simple closed quadrilateral with EXACTLY FOUR brass joints at four corners, no fifth bar or joint and no diagonal. Simple parallelogram, bottom bar labelled 固定杆, no dinosaur involved. Panels5-6 REMOVE dashed candidate linkage currently drawn on dinosaur; show loose strips only BESIDE dinosaur and label 全身连接待核对. Preserve same four-limb dinosaur, all six panel titles and colors.
+EDIT: Edit ONLY panel6: add a small plain ruler lying BESIDE the four detached candidate bars, aligned to measure one bar, without invented numeric measurements. Preserve all four detached bars, same dinosaur, the 全身连接待核对 label and every other panel unchanged.

@@ -1,0 +1,58 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 87.
+Primary request: Create an attractive, precise Chinese educational illustration for “一朵花的结构解剖”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “一朵花的结构解剖”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 外部观察”
+“2 分离各部分”
+“3 观察结构”
+“4 制作解剖图”
+“5 查阅并记录功能”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 新鲜花朵（如百合或桃花）2-3朵
+- 镊子
+- 放大镜
+- 白纸
+- 双面胶
+- 彩色铅笔和记录本
+
+Effective written instructions, for alignment:
+1. 外部观察: 先整体观察花朵，数一数花瓣有几片，闻一闻花的气味，用放大镜观察细节。
+2. 分离各部分: 用镊子从外向内依次取下花萼、花瓣、雄蕊和雌蕊，轻放在白纸上。
+3. 观察结构: 用放大镜仔细观察每个部分，注意雄蕊顶端的花粉和雌蕊的形状。
+4. 制作解剖图: 将各部分用双面胶粘在记录本上，旁边画出结构示意图并标注名称。
+5. 查阅并记录功能: 查阅资料了解各部分的功能，思考花朵为什么需要这些结构来完成繁殖。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+锁定同一批两朵桃花示例，其中一朵完整、一朵分解，五瓣粉花形态一致，不换菊花/向日葵。五格：①完整桃花与放大镜，数实际五瓣示意；②镊子从外到内分离绿色萼片、粉花瓣、细雄蕊、中央雌蕊，白纸分类排列；③放大一根雄蕊顶端花药及一枚雌蕊，结构来自同朵桃花，不给雌蕊添花药；④双面胶固定各部分在记录本、同一轮廓标萼/瓣/雄蕊/雌蕊；⑤旁边参考书与功能空表，短句“对照实际花材标注”，不把其他花种器官数照搬。
+
+Specific limitations to respect:
+- 原文可选百合或桃花，分镜锁定桃花一支；具体花材花瓣与雄蕊数按实物，不作通用数量保证。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+
+EDIT PASS:
+Use case: precise-object-edit. Keep this five-panel peach-flower dissection sheet, all headings, colors, objects, layout and panel 3 unchanged. Fix these exact anatomy/count errors:
+A) In panel 4 (制作解剖图) the row of taped pink real petals must contain EXACTLY FIVE petals, matching the five separated petals in panel 2. There are currently only four. Fit all five neatly in the same row. Keep the accompanying little line-drawings secondary; no extra physical petals elsewhere.
+B) The green CALYX sample labelled 花萼 in panel 2 and the matching taped green calyx in panel 4 must show ONLY its green sepals and receptacle, no central yellow anther or stamen poking out. Remove that little yellow central organ; the pistil is already shown separately on the right.
+C) In panel 5, on the OPEN REFERENCE BOOK at lower LEFT ONLY, remove every label and leader line around the illustrated flower (the printed 花萼/雄蕊/雌蕊 lines point to wrong organs). Leave a clean UNLABELLED illustration of the same peach flower on that book. Do not remove the correct labels from panels 2 or 3. Preserve the blank function table in the notebook at lower RIGHT.
+No other changes.
+
+EDIT PASS 2:
+Use case: precise-object-edit. Edit ONLY panel 4, titled “制作解剖图”, in the attached peach-flower tutorial. Leave panels 1, 2, 3, 5 and all page headings absolutely unchanged.
+Inside panel 4, replace the notebook's specimen arrangement with a clean board containing exactly four groups:
+- Upper left: the same green CALYX, labelled 花萼, with green sepals only.
+- Upper right: EXACTLY FIVE separate taped pink petals, not four. Arrange them in a straight horizontal row. Make them slightly smaller to fit. Below them put tiny numerals “1 2 3 4 5”, one numeral beneath each actual petal; all five petals must be visibly separate and fully inside the notebook. Group label 花瓣.
+- Lower left: several actual stamens matching panel 2, group label 雄蕊.
+- Lower right: one actual pistil matching panel 3, group label 雌蕊.
+Remove ALL extra line-art sketches currently interspersed between the physical specimens in panel 4, including the four outline petals and little calyx/pistil drawings. That frees enough space for FIVE actual pink petals. Do not create extra flowers or labels elsewhere. Verify the petal row literally contains 5 pink physical shapes corresponding to numerals 1 through 5 before returning.

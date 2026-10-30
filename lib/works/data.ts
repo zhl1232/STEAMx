@@ -4,6 +4,8 @@ import { loadObservationSpeciesForEvents } from '@/lib/api/nature-observation-ev
 import { getContentClassificationSettings } from '@/lib/content-classification'
 import { logger } from '@/lib/logger'
 import { mapDbCompletion, type Work, type WorkSource } from '@/lib/mappers/types'
+import { applyProjectImageReview } from '@/lib/project/image-presentation'
+import { applyEffectiveProjectDemonstration } from '@/lib/project/demonstration-content.server'
 import { createClient, createPublicClient } from '@/lib/supabase/server'
 import type { Database, Json } from '@/lib/supabase/types'
 import type { WorkJourneyRecord, WorkJourneyResult } from '@/lib/works/types'
@@ -25,6 +27,12 @@ type ProfileRow = {
 type ProjectSourceRow = {
   id: number
   title: string
+  category: string | null
+  description?: string | null
+  video_url?: string | null
+  reflection?: string | null
+  project_materials?: { material: string; sort_order: number | null }[]
+  project_steps?: { title: string; description: string | null; sort_order: number | null }[]
   image_url: string | null
   status?: string | null
   moderation_state?: string | null
@@ -72,7 +80,7 @@ async function hydrateWorks(
   let projectsQuery = projectIds.length
     ? client
         .from('projects')
-        .select('id, title, image_url, status, moderation_state, classification_status')
+        .select('id, title, category, image_url, description, video_url, reflection, project_materials(material, sort_order), project_steps(title, description, sort_order), status, moderation_state, classification_status')
         .eq('status', 'approved')
         .eq('moderation_state', 'approved')
         .in('id', projectIds)
@@ -143,7 +151,18 @@ async function hydrateWorks(
           id: project.id,
           title: project.title,
           href: `/project/${project.id}/records?highlight=${row.id}`,
-          image: project.image_url || undefined,
+          image: applyEffectiveProjectDemonstration(applyProjectImageReview({
+            id: project.id,
+            title: project.title,
+            category: project.category || '',
+            image: project.image_url || '',
+            author: '', author_id: '', likes: 0,
+            description: project.description ?? undefined,
+            videoUrl: project.video_url,
+            reflection: project.reflection ?? undefined,
+            materials: project.project_materials ? [...project.project_materials].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0)).map(item => item.material) : undefined,
+            steps: project.project_steps ? [...project.project_steps].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0)).map(item => ({ title: item.title, description: item.description ?? '' })) : undefined,
+          })).image || undefined,
         }
       }
     } else if (row.course_lesson_id) {

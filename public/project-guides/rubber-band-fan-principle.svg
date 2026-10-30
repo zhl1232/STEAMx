@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+  <title id="title">橡皮筋动力风扇：储能与传动原理</title>
+  <desc id="desc">固定端与转轴分别连接橡皮筋两端；转轴与扇叶一起转动。此图只说明部件关系，不提供纸杯内的装配方式。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1 1 6 4 1 7" fill="none" stroke="#426f64" stroke-width="1.6"/></marker>
+  </defs>
+  <rect width="960" height="720" fill="#f5f7f3"/>
+  <g font-family="sans-serif" fill="#263f38">
+    <text x="64" y="84" font-size="24" fill="#58756b">原理示意 · 非装配图</text>
+    <text x="64" y="140" font-size="38" font-weight="700">橡皮筋怎样带动扇叶？</text>
+    <g stroke-linecap="round" stroke-linejoin="round">
+      <path d="M124 262V422 M106 276l18-14 M106 312l18-14 M106 348l18-14 M106 384l18-14 M106 420l18-14" stroke="#58756b" stroke-width="8"/>
+      <path d="M126 342H188" stroke="#58756b" stroke-width="8"/>
+      <path d="M188 342C220 286 254 398 286 342S352 286 384 342 450 398 482 342" fill="none" stroke="#b47b32" stroke-width="10"/>
+      <path d="M188 342C220 398 254 286 286 342S352 398 384 342 450 286 482 342" fill="none" stroke="#d9aa64" stroke-width="10"/>
+      <path d="M482 342H716" stroke="#426f64" stroke-width="14"/>
+      <circle cx="716" cy="342" r="94" fill="#e1ebe3"/>
+      <path d="M716 342C680 322 651 283 669 265 695 250 723 286 716 342Z M716 342C736 306 775 277 793 295 808 321 772 349 716 342Z M716 342C752 362 781 401 763 419 737 434 709 398 716 342Z M716 342C696 378 657 407 639 389 624 363 660 335 716 342Z" fill="#5b8b72"/>
+      <circle cx="716" cy="342" r="15" fill="#263f38"/>
+      <path d="M822 308C834 344 828 376 809 400" fill="none" stroke="#426f64" stroke-width="5" marker-end="url(#arrow)"/>
+    </g>
+    <g font-size="27" text-anchor="middle">
+      <text x="136" y="474">固定端</text>
+      <text x="332" y="474">橡皮筋</text>
+      <text x="550" y="474">转轴</text>
+      <text x="736" y="474">扇叶</text>
+    </g>
+    <path d="M64 530H896" stroke="#cbd8cf" stroke-width="2"/>
+    <text x="64" y="582" font-size="27">扭转储能 → 回弹带动转轴与扇叶</text>
+    <text x="64" y="634" font-size="23" fill="#58756b">连接点、转轴支撑与防脱方式：见下方结构核对</text>
+  </g>
+</svg>

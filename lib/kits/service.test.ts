@@ -23,9 +23,9 @@ it('current material pack exposes a SKU link from any project entry without prom
   respond([{kit_id:'k1',status:'candidate',kit_revision:2,preparation_status:'unknown'}])
   respond([{...kit,kind:'material_pack'}])
   respond([{variant_id:'v4'}])
-  respond([{id:'v4',product_id:'p1',name:'四年级',price_cents:1000}])
+  respond([{id:'v4',product_id:'p1',name:'四年级',price_cents:1000,product:{name:'科学实验套装'}}])
   const [match] = await getProjectKitMatches(project)
-  expect(match.linkedOffers).toEqual([{id:'v4',productId:'p1',name:'四年级',priceCents:1000}])
+  expect(match.linkedOffers).toEqual([{id:'v4',productId:'p1',name:'四年级',priceCents:1000,productName:'科学实验套装'}])
   expect(match.offers).toEqual([])
   expect(match.confirmed).toBe(false)
 })
@@ -42,5 +42,70 @@ it('does not expose selected SKU links when the catalog is closed', async () => 
   respond([{...kit,kind:'material_pack'}])
   const [match] = await getProjectKitMatches(project,'one')
   expect(match.linkedOffers).toEqual([])
+  expect(mocks.from).toHaveBeenCalledTimes(2)
+})
+
+it('links a current general-materials catalog candidate without claiming preparation coverage', async () => {
+  respond([{kit_id:'k1',status:'candidate',kit_revision:2,preparation_status:'ready'}])
+  respond([{...kit,kind:'general_materials',catalog:['纸杯电话']}])
+  respond([{variant_id:'v1'}])
+  respond([{id:'v1',product_id:'p1',name:'通用包',price_cents:1000}])
+  const [match] = await getProjectKitMatches(project)
+  expect(match.linkedOffers).toHaveLength(1)
+  expect(match.offers).toEqual([])
+  expect(match.confirmed).toBe(false)
+  expect(match.preparationStatus).toBe('unknown')
+})
+it.each([
+  { revision:2,catalog:['纸杯电话升级版'] },
+  { revision:1,catalog:['纸杯电话'] },
+  { revision:2,catalog:[] },
+])('does not link a general candidate without current exact catalog membership: %j', async ({revision,catalog}) => {
+  respond([{kit_id:'k1',status:'candidate',kit_revision:revision}])
+  respond([{...kit,kind:'general_materials',catalog}])
+  expect(await getProjectKitMatches(project)).toEqual([])
+  expect(mocks.from).toHaveBeenCalledTimes(2)
+})
+
+it('preserves an independent current content confirmation when visual evidence is obsolete', async () => {
+  respond([{kit_id:'k1',project_id:7,status:'confirmed',kit_revision:2,project_hash:'current',preparation_status:'ready',extras:[],evidence:{visualMatch:{videoUrl:'old'}}}])
+  respond([{...kit,kind:'material_pack'}])
+  respond([{variant_id:'v1'}])
+  respond([{id:'v1',product_id:'p1',name:'材料包',price_cents:1000}])
+  const [match] = await getProjectKitMatches(project)
+  expect(match.confirmed).toBe(true)
+  expect(match.offers).toHaveLength(1)
+})
+
+it('links a visually reviewed general kit with a different catalog title without promoting preparation', async () => {
+  const reviewedProject = { ...project as object, id: '1215', title: '魔法开花树', videoUrl: 'https://assets.test/tree.mp4' } as never
+  respond([{kit_id:'k1',project_id:1215,status:'candidate',kit_revision:2,preparation_status:'unknown',evidence:{visualMatch:{
+    projectTitle:'魔法开花树',videoUrl:'https://assets.test/tree.mp4',videoSha256:'a'.repeat(64),
+    kitCoverUrl:'/tree.jpg',kitImageSha256:'b'.repeat(64),reviewedAt:'2026-10-30',
+    scope:'matching_core_structure',catalogTitle:'魔法圣诞树',
+  }}}])
+  respond([{...kit,kind:'general_materials',cover_url:'/tree.jpg',catalog:[]}])
+  respond([{variant_id:'v1'}])
+  respond([{id:'v1',product_id:'p1',name:'旗舰688',price_cents:1000}])
+  const [match] = await getProjectKitMatches(reviewedProject)
+  expect(match.visualMatch).toBe(true)
+  expect(match.linkedOffers).toHaveLength(1)
+  expect(match.offers).toEqual([])
+  expect(match.confirmed).toBe(false)
+  expect(match.preparationStatus).toBe('unknown')
+})
+
+it.each([
+  {kind:'material_pack',projectTitle:'魔法开花树',videoUrl:'https://assets.test/old.mp4'},
+  {kind:'material_pack',projectTitle:'原来的标题',videoUrl:'https://assets.test/tree.mp4'},
+  {kind:'general_materials',projectTitle:'魔法开花树',videoUrl:'https://assets.test/old.mp4'},
+])('does not fall back to candidate catalog links after visual evidence expires: %j', async ({kind,projectTitle,videoUrl}) => {
+  const reviewedProject = {id:'1215',title:'魔法开花树',videoUrl:'https://assets.test/tree.mp4'} as never
+  respond([{kit_id:'k1',project_id:1215,status:'candidate',kit_revision:2,evidence:{visualMatch:{
+    projectTitle,videoUrl,videoSha256:'a'.repeat(64),kitCoverUrl:'/tree.jpg',
+    kitImageSha256:'b'.repeat(64),reviewedAt:'2026-10-30',scope:'matching_core_structure',catalogTitle:'魔法圣诞树',
+  }}}])
+  respond([{...kit,kind,cover_url:'/tree.jpg',catalog:['魔法开花树']}])
+  expect(await getProjectKitMatches(reviewedProject,'one')).toEqual([])
   expect(mocks.from).toHaveBeenCalledTimes(2)
 })

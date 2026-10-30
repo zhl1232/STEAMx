@@ -1,0 +1,42 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 15.
+Primary request: Create an attractive, precise Chinese educational illustration for “影子戏剧场”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “影子戏剧场”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 制作幕布”
+“2 制作角色”
+“3 布置灯光”
+“4 表演与观察”
+“5 探索影子大小”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 鞋盒或纸箱
+- 白色薄纸或描图纸
+- 手电筒
+- 卡纸和剪刀
+- 竹签或冰棒棍
+- 胶带
+- 笔
+
+Effective written instructions, for alignment:
+1. 制作幕布: 将鞋盒的一面剪开，用白色薄纸覆盖作为投影幕布，用胶带固定。
+2. 制作角色: 在卡纸上画出小动物或人物的轮廓并剪下，用胶带粘在竹签上制成影子道具。
+3. 布置灯光: 在幕布后方放置手电筒作为光源，关闭房间其他灯光。
+4. 表演与观察: 将剪纸道具放在灯光和幕布之间，观察幕布上投射出的影子。
+5. 探索影子大小: 移动道具靠近或远离光源，观察影子大小的变化，理解光沿直线传播时，物体距光源越近影子越大的规律。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定同一横放鞋盒、白色薄纸幕、黑卡纸小兔和竹签、黑色手电；使用同一侧透视布局，光源→小兔→幕布顺序不变。五格：①在鞋盒一面剪窗并用胶带贴薄纸，成人手协助剪；②同一兔形卡纸固定竹签，胶带接点清楚；③盒后放手电，关掉旁灯；④兔子在灯和幕之间，幕上只有同轮廓的影子；⑤同一兔子沿光轴移向灯，幕上影子变大，原位置淡虚线作对照，灯与幕不移动。
+
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+EDIT REQUIRED: Preserve typography, five-panel layout and rabbit. Correct the shadow-theatre geometry in panels 3–5: use a clearly labelled cutaway side view of the SAME shoebox with its rear open, put the flashlight inside the open rear side of the box, rabbit between flashlight and tracing-paper screen, and viewer outside front. Show light reaching screen through the open interior, not through an opaque cardboard side wall. Panel5 compare two ghosted rabbit positions on the SAME rear light-to-screen axis; moving toward flashlight enlarges SAME rabbit silhouette. No flashlight outside an opaque side wall. One translucent screen, one rabbit, one light.

@@ -1,0 +1,45 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 33.
+Primary request: Create an attractive, precise Chinese educational illustration for “自制望远镜”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “自制望远镜”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 检查镜片并选择目标”
+“2 先试配两片镜片”
+“3 准备能伸缩的镜筒”
+“4 固定物镜和目镜”
+“5 改变镜片间距调焦”
+“6 比较像的方向并收好”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 较长焦距的凸透镜1片（作物镜，外沿能稳固固定在纸筒口）
+- 较短焦距的凸透镜1片（作目镜，外沿能稳固固定在纸筒口）
+- 可相互套入并顺畅伸缩的纸筒2个（长度和移动范围需覆盖实际试配间距）
+- 黑色卡纸
+- 胶带
+- 剪刀（成人协助使用）
+- 直尺（量取试配间距，帮助确定纸筒长度）
+
+Effective written instructions, for alignment:
+1. 检查镜片并选择目标: 由成人检查镜片无裂口、边缘可安全拿持；两片都应为凸透镜，长短焦距按镜片说明确认，不能只凭直径大小判断。站定或坐稳，先选背离太阳方向的远处建筑标记或树木。任何试配阶段都不把镜片或镜筒对准太阳、激光或强光源；太阳镜不能替代专用保护。
+2. 先试配两片镜片: 将短焦距目镜放在靠眼睛的一侧，长焦距物镜放在前方，两片中心尽量对齐。缓慢改变两片镜片之间的距离，寻找远处目标较清晰的位置；不要把伸直手臂当成固定距离。成人协助用直尺量取此时的镜片间距，供选筒参考。始终看不清就停止，先核对镜片及配合条件，不对着更亮的目标试。
+3. 准备能伸缩的镜筒: 按试配间距选择纸筒，确认套合后能够前后移动，并在试配位置附近留有调节余量。需要裁短时由成人协助，先取下镜片再裁剪。将黑色卡纸贴在内壁并压平固定，减少杂散光；卡纸不挡住通光口，也不妨碍内筒伸缩。
+4. 固定物镜和目镜: 把长焦距物镜固定在外筒远端，把短焦距目镜固定在内筒靠眼的一端。胶带只固定外沿，不遮住镜片中央；检查镜片不松脱、两片中心尽量对齐。无法稳固固定或镜片被挤压时停止，不强行塞入不合适的筒口。
+5. 改变镜片间距调焦: 仍对准背离太阳方向的同一个固定目标，从目镜一端观察。缓慢伸缩内筒，在试配位置附近寻找最清晰的像；这里改变的是两片镜片的间距，不是镜片本身的焦距。遇到卡住、镜片松动或明显眼部不适，停下检查，不用力推拉。
+6. 比较像的方向并收好: 口头比较肉眼与镜筒中看到的大小、清晰程度及上下方向。两片凸透镜组成的这种简易望远镜通常呈倒像，倒像本身不代表装错；仍模糊时也如实描述，不承诺特定放大倍数或月面细节。观察结束后盖住或收好镜片，避免留在阳光下聚光。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定同一长焦凸透镜物镜、短焦凸透镜目镜、两根可伸缩棕纸筒与远处树木标记，镜片中心始终同轴；六格：①成人拿镜片外沿检查，图例长焦在前/短焦靠眼、太阳图标划叉；②先徒手同轴试配并用直尺量实际清晰间距，刻度不编数；③按试配间距选择可伸缩纸筒、内贴黑纸且不挡通光；④胶带仅贴镜片外沿，物镜在远端目镜在眼端；⑤朝背离太阳的同一树目标伸缩调焦，标“调间距，不改变焦距”；⑥小圆观察窗只示倒像和“清晰度如实记录”，收好镜片，不画月面或夸张倍率。
+
+Specific limitations to respect:
+- 实际焦距与配合长度未知，不添加标准间距/倍率，不生成看太阳情节。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

@@ -91,6 +91,19 @@ function isRemoteImageUrl(src: string): boolean {
   return /^https?:\/\//i.test(src)
 }
 
+/** Authored project diagrams need their complete bounds, including labels. */
+function isProjectGuideImage(src: string): boolean {
+  try {
+    const pathname = isRemoteImageUrl(src) ? new URL(src).pathname : src.split(/[?#]/, 1)[0]
+    const assetPath = pathname.replace(/^\/api\/assets(?=\/)/, '')
+    return /^\/project-guides\/.*\.svg$/i.test(assetPath)
+      || /^\/project-guides\/(?:demos|sources)\/.*\.(?:png|webp|jpe?g)$/i.test(assetPath)
+      || /^\/projects\/corrections\/20260915-project-378-kaprekar-(?:four|three)-digit\.png$/.test(assetPath)
+  } catch {
+    return false
+  }
+}
+
 function supportsSupabaseRenderTransform(src: string): boolean {
   try {
     const url = new URL(src)
@@ -223,7 +236,8 @@ export function OptimizedImage({
       unoptimized={useUnoptimizedImage}
       placeholder={useBlur ? "blur" : placeholder}
       blurDataURL={useBlur ? (blurDataURL ?? DEFAULT_BLUR_DATA_URL) : blurDataURL}
-      className={cn(className)}
+      className={cn(className, rawSrc !== null && isProjectGuideImage(rawSrc)
+        && "object-contain object-center group-hover:scale-100 hover:scale-100")}
     />
   )
   if (!showSkeleton) return image

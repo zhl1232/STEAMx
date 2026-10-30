@@ -1,0 +1,39 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 292.
+Primary request: Create an attractive, precise Chinese educational illustration for “吹画艺术”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 4 panels, two columns by 2 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “吹画艺术”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 滴墨”
+“2 吹散墨滴”
+“3 叠加色彩”
+“4 联想补画”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 可用清水稀释的儿童水彩颜料（多色，采用原文水彩分支）
+- 吸管
+- 白色卡纸
+- 滴管或小勺
+- 旧报纸（铺桌面）
+- 细画笔（补画）
+- 清水（稀释水彩）
+
+Effective written instructions, for alignment:
+1. 滴墨: 用滴管将用清水稀释的水彩颜料滴在卡纸上，形成几个大小不一的颜料滴。
+2. 吹散墨滴: 用吸管对准颜料滴轻轻吹气，将水彩颜料向不同方向吹散，形成树枝般的纹路。
+3. 叠加色彩: 换用不同颜色的水彩颜料继续滴和吹，让色彩交织叠加产生丰富的效果。
+4. 联想补画: 观察吹画形成的随机图案，联想它像什么，用细笔添加眼睛、花朵等细节完成作品。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；4格：①同白卡左下滴蓝水彩，滴管与清水盘在侧；②同吸管从左下朝右上吹出分叉纹路，口不吸液；③在右下加红水彩并吹开，原蓝枝保留；④同枝纹补小眼睛形成两只抽象小怪物，不能将随机枝纹替换成精确预设图。
+
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

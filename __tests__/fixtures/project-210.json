@@ -1,0 +1,46 @@
+{
+  "id": 210,
+  "title": "橡皮筋动力风扇",
+  "category": "工程",
+  "description": "用橡皮筋的弹性势能驱动一个纸质风扇叶片旋转，感受储能与释放的过程。你将直观地理解弹性势能如何转化为动能，体验简易动力机械的工作方式。",
+  "videoUrl": null,
+  "materials": [
+    "橡皮筋2-3根",
+    "纸杯",
+    "硬纸板",
+    "竹签",
+    "剪刀和胶带"
+  ],
+  "steps": [
+    {
+      "title": "制作扇叶",
+      "description": "在硬纸板上画出四片扇叶形状并剪下，将每片扇叶略微倾斜折弯，模仿风扇叶片的角度。",
+      "image_url": "/projects/steps/step-3329-blades.webp"
+    },
+    {
+      "title": "组装转子",
+      "description": "将四片扇叶均匀粘贴在竹签的一端，形成风扇头部，确保扇叶角度一致。",
+      "image_url": "/projects/steps/step-3330-rotor.webp"
+    },
+    {
+      "title": "搭建底座",
+      "description": "在纸杯底部中心戳一个孔，将竹签穿过纸杯底部，竹签需能自由旋转。",
+      "image_url": "/projects/steps/step-3331-base.webp"
+    },
+    {
+      "title": "安装橡皮筋",
+      "description": "将橡皮筋套在竹签的尾端，另一端固定在纸杯内壁上。旋转竹签拧紧橡皮筋储存弹性势能。",
+      "image_url": "/projects/steps/step-3332-band.webp"
+    },
+    {
+      "title": "释放旋转",
+      "description": "松手释放竹签，观察橡皮筋回弹驱动风扇叶片高速旋转，感受弹性势能转化为动能的过程。",
+      "image_url": "/projects/steps/step-3333-spin.webp"
+    }
+  ],
+  "image": "/projects/generated/project-0210-guide.webp",
+  "author": "",
+  "author_id": "",
+  "likes": 0,
+  "reflection": "拧紧橡皮筋储存弹性势能，松开后回弹转化为动能，带动扇叶旋转。"
+}

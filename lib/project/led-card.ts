@@ -1,5 +1,6 @@
 import type { Project, ProjectFaqItem } from '@/lib/mappers/types'
 import { effectiveUpdatedAt } from './effective-updated-at'
+import { getProjectSourceTutorial } from './source-tutorials'
 
 export const LED_CARD_REFERENCE_NOTE = '开合行程、接触稳定性和亮度尚未实物验证，需按所用材料试装调整。'
 export const LED_CARD_REFERENCES = [
@@ -22,13 +23,14 @@ const faq: ProjectFaqItem[] = [
   },
 ]
 
-/** Project 149 public copy only; retain source identity and use the generated cover. */
+/** Project 149 public copy and verified slider diagram; retain source identity. */
 export function applyLedCardContent(project: Project): Project {
+  if (getProjectSourceTutorial(project)) return project
   if (Number(project.id) !== 149) return project
   return {
     ...project,
     updatedAt: effectiveUpdatedAt(project),
-    image: '/projects/generated/project-0149-led-star-cover-20261008.webp',
+    image: '/project-guides/overviews/project-149.svg',
     description: '用铜箔、LED 和纽扣电池做一张打开会亮、合上会灭的贺卡，把亲手制作的祝福送给家人朋友。',
     videoUrl: null,
     materials: [
@@ -45,18 +47,15 @@ export function applyLedCardContent(project: Project): Project {
     steps: [
       {
         title: '画图案',
-        image_url: '/projects/steps/project-0149-design-blue-20261008.webp',
         description: '把卡纸对折，画好图案，选一个位置让 LED 发光。电路和电池座留在右页，折痕旁留出开关活动的位置。',
       },
       {
         title: '贴电路',
-        image_url: '/projects/steps/project-0149-copper-blue-20261008.webp',
         description: '先不装电池，按下方顺序贴铜箔，线路不要交叉。开关处留两个互不相连的触点 A、B，再给电阻和 LED 各留一个断口。',
         checkpoint: '电池＋ → A → 铜桥 → B → 330 Ω → LED＋ → LED− → 电池−',
       },
       {
         title: '装灯',
-        image_url: '/projects/steps/project-0149-led-blue-20261008.webp',
         description: '把 LED 放到图案的发光位置，长脚接正极（以器件标记为准）。让 LED、电阻和电池座引线分别接到对应铜箔上，金属贴住铜面，再用透明胶带压牢。电阻两端不要另铺铜箔。',
       },
       {
@@ -66,7 +65,6 @@ export function applyLedCardContent(project: Project): Project {
       },
       {
         title: '测试装饰',
-        image_url: '/projects/steps/project-0149-decorate-blue-20261008.webp',
         description: '把电池座固定在右页边缘、遮住裸接头，装电池并锁紧仓盖后测试开合。用装饰纸盖住线路，留出滑道和电池仓螺钉的位置，再试一次。电池由成人保管与装卸，调整前取出；发热立即停用，不叠放或改用可充电电池。',
         checkpoint: '打开：持续亮；合上：熄灭；不用手压。',
       },

@@ -1,0 +1,42 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 20.
+Primary request: Create an attractive, precise Chinese educational illustration for “简易万花筒”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “简易万花筒”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 制作反射镜”
+“2 组装筒身”
+“3 制作彩色仓”
+“4 制作观察孔”
+“5 欣赏万花世界”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 硬纸筒（保鲜膜芯或自制纸筒）
+- 镜面卡纸或铝箔贴在硬纸板上（3条长条）
+- 透明塑料片2片
+- 小彩色珠子、亮片、彩色碎纸
+- 胶带和剪刀
+- 纸板（封住观察端并留孔）
+
+Effective written instructions, for alignment:
+1. 制作反射镜: 将三条等宽的镜面卡纸拼成三棱柱形状，镜面朝内，用胶带固定好。
+2. 组装筒身: 将三棱镜组插入纸筒中，确保它贴合紧密不会滑动。
+3. 制作彩色仓: 在纸筒一端放一片透明塑料片，加入小珠子和亮片，再盖上第二片透明塑料片并密封。
+4. 制作观察孔: 在纸筒另一端用纸板封住，中间留一个小圆孔作为观察孔。
+5. 欣赏万花世界: 对着光源，透过观察孔旋转万花筒，欣赏镜面反复反射形成的对称图案，数一数你能看到多少个重复的图形。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+锁定同一棕色纸筒、三条同宽镜面卡纸、两块透明圆片和同一组彩珠；在每格保持观察孔在左、彩色仓在右。五格：①三条镜面朝内围成等边三角筒并贴外侧胶带；②三角镜组插进同一纸筒，剖开小窗说明内部朝向；③右端先透明片、少量彩珠、再透明片封边，珠子不漏到镜筒；④左端纸板封口留小孔；⑤从左孔朝明亮环境观察并轻转，右下角只画简化三重镜面对称示意，标“图案随珠子改变”，不画照片级不可能花窗。
+
+Specific limitations to respect:
+- 彩色仓需与观察端分开，透明片层次与镜面朝内必须保持。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

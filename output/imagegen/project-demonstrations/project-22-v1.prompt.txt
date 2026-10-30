@@ -1,0 +1,40 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 22.
+Primary request: Create an attractive, precise Chinese educational illustration for “弹力球高度实验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “弹力球高度实验”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 设置测量标尺”
+“2 释放与观察”
+“3 改变高度”
+“4 换球测试”
+“5 数据分析”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 不同材质的球（弹力球、乒乓球、网球）
+- 卷尺
+- 胶带
+- 记录本和铅笔
+- 手机（慢动作录像功能）
+
+Effective written instructions, for alignment:
+1. 设置测量标尺: 用胶带将卷尺固定在墙上，从地面开始向上延伸至少1.5米。
+2. 释放与观察: 将弹力球从50厘米高度释放（不要用力扔），观察并记录反弹的最高点。
+3. 改变高度: 分别从30厘米、50厘米、80厘米、100厘米和120厘米高度释放，每个高度测三次。
+4. 换球测试: 用乒乓球和网球重复实验，记录不同球的反弹表现。
+5. 数据分析: 计算每次反弹高度与释放高度的比值，发现球永远不能弹回原高度，因为部分能量在碰撞中转化为热能和声能。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+锁定同一墙面从地面起的竖直卷尺、同一多色弹力球，后续乒乓球/网球用固定小图例。五格：①把卷尺贴墙至1.5米以上，零点贴地；②同一弹力球从50厘米静止放手，手掌不抛掷，以虚线标释放高和未知反弹顶点；③标30/50/80/100/120厘米释放层次，一次只示一球并写“各三次”；④同墙同高度换乒乓球和网球；⑤空表“释放高度/反弹高度/比值”，旁画声音、热能小箭头，不写假测量值，不画从静止释放后反弹超过起点。
+
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+Edit: Correct this sheet's physics. Preserve headings, same ball/ruler/child and five panels. In panel2 release marker50cm MUST be ABOVE the rebound apex: draw release at upper level, vertical downward dashed drop path to floor then short rise to apex strictly BELOW50cm. No upward flight starting at the child's hand, no throwing, no sideways parabolic trajectory. Label apex “反弹最高点，待记录”. In panel4 same drop height for all three balls and EMPTY dotted observation regions, do NOT pre-rank bouncing heights. Panel5 keep blank measured heights. No rebound ever above its release.

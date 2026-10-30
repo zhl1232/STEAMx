@@ -1,0 +1,46 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 359.
+Primary request: Create an attractive, precise Chinese educational illustration for “黄金比例寻找”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “黄金比例寻找”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 提出测量假设”
+“2 测量身体比例”
+“3 寻找自然中的黄金”
+“4 艺术中的黄金”
+“5 绘制近似螺旋”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 卷尺或直尺
+- 计算器
+- 记录本和铅笔
+- 鹦鹉螺贝壳图片或实物（可选）
+- 名画图片若干（如蒙娜丽莎）
+- 圆规
+
+Effective written instructions, for alignment:
+1. 提出测量假设: 写下黄金比例的定义和约1.618的参考值，并说明它是待测假设，不是所有对象都必须符合的规律。
+2. 测量身体比例: 测量若干身体长度并计算比值，记录对象、测量方法和误差，比较结果与1.618的接近程度。
+3. 寻找自然中的黄金: 观察向日葵、松果或贝壳图片中的排列和曲线，记录哪些地方与斐波那契数列或黄金比例近似，哪些地方不符合。
+4. 艺术中的黄金: 选取名画或建筑图片测量指定边长，报告样本、比值和误差，比较它们与黄金矩形的接近程度。
+5. 绘制近似螺旋: 按斐波那契数列画正方形和四分之一圆弧，标注这是对黄金螺旋的近似构造，再与测量结果比较。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同记录本写φ≈1.618，待测假设；②同尺量同一人两段指定长度，只画A/B待算空格；③同贝壳图和松果图标观察曲线/计数区域，结果可符合或不符；④同名画打印图取明确两边框，尺寸与比值留空，禁止到处套黄金框；⑤同纸按1、1、2、3、5正方形拼接画四分之一圆弧，标近似，不把贝壳曲线重绘成精确黄金螺旋。
+
+Specific limitations to respect:
+- 身体、自然物和艺术不普遍符合黄金比例；无测量不填支持假设的数值。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+EDIT: Edit ONLY panel5 incorrect spiral construction. Replace complex rectangle drawing by THREE exact squares in flat overhead view on square grid: one large2×2 square LEFT, two1×1 squares stacked RIGHT, forming outer3×2 rectangle. Labels2 inside large square,1 inside each small square. Draw ONE quarter-circle arc in each square with radius equal side and center at a corner; use thin red lines. Label '局部构造：1、1、2；继续按3、5扩展（近似）'. No other rectangular regions or misleading5-square. Delete old full golden spiral drawing. All panels1-4 unchanged. Footer生成演示图.
+EDIT: Change ONLY red arcs inside the TWO SMALL1×1 squares panel5, preserve square borders and2×2 arc. Upper small square red quarter arc must START at its TOP-LEFT corner (shared with END of large2-square arc), curve clockwise to its BOTTOM-RIGHT corner. Its circle center is upper small square BOTTOM-LEFT corner. Lower small square red quarter arc must START at its TOP-RIGHT corner (same point as END upper small arc) and curve clockwise to BOTTOM-LEFT corner. Its circle center is lower small square TOP-LEFT corner. Therefore red curve is ONE CONTINUOUS smooth curve through three squares without jumps: large square bottom-left→large top-right→right outer midpoint→right block bottom-left. Keep every other panel and label unchanged.
+EDIT: Edit ONLY bottom-right small1 square red arc. It currently bends the WRONG way and creates a cusp. ERASE its current arc. Draw correct quarter circle centered at TOP-LEFT corner of this bottom-right square: START top-right corner (shared upper arc endpoint) moving DOWN, bow toward BOTTOM-RIGHT, END bottom-left corner moving LEFT. The red curve at center horizontal divider on right edge must have a smooth VERTICAL tangent and continue downward, not abruptly turn left. Preserve large arc and upper small arc exactly. Everything else unchanged.
+EDIT: Panel5 ONLY: ERASE ALL red arcs in BOTH small squares labelled1. KEEP ONLY single red quarter-circle arc inside large square labelled2. Replace adjacent explanation by '局部练习：1、1、2正方形；先画一段四分之一圆弧，后续拼接待完成。' Small squares remain blank except1 labels. Do not draw any connected spiral, no unsupported complete result. Keep main heading and panels1-4 unchanged.

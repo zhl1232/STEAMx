@@ -1,0 +1,52 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 90.
+Primary request: Create an attractive, precise Chinese educational illustration for “水果氧化实验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “水果氧化实验”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 切苹果”
+“2 设置实验组”
+“3 定时观察”
+“4 对比分析”
+“5 查阅并记录原理”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 苹果2个
+- 柠檬汁
+- 盐水
+- 保鲜膜
+- 小盘子5个
+- 计时器
+- 记录本和笔
+- 刀具
+- 冰箱
+
+Effective written instructions, for alignment:
+1. 切苹果: 将苹果切成大小相同的5片，分别放在5个小盘子中编号。
+2. 设置实验组: 1号不做处理，2号涂柠檬汁，3号泡盐水，4号覆盖保鲜膜，5号放入冰箱。
+3. 定时观察: 每隔15分钟观察一次每片苹果的颜色变化，记录变色程度。
+4. 对比分析: 2小时后比较5片苹果的颜色差异，排列出变色速度从快到慢的顺序。
+5. 查阅并记录原理: 查阅资料了解苹果变色的原因（酚类氧化），在记录本上写下哪些方法可以有效防止氧化及其原理。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定同一苹果切成相同大小的五片和五只编号盘1—5；所有后续格保持片号及处理对应。五格：①成人切片编号；②1裸放、2涂柠檬汁、3盐水浸、4保鲜膜覆盖、5入冰箱，五处理小格同尺度；③每15分钟记录颜色，5号从同冰箱取看后放回，不把冷藏变常温永久展示；④2小时后空表记颜色程度，排序位置留空而非预定；⑤简图空气接触/低温/酸性条件旁写“比较实测，不保证固定排名”。
+
+Specific limitations to respect:
+- 盐水浓度与冷藏温度未提供，不能画出确定五种速度或防褐变效果。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+
+EDIT PASS:
+Use case: precise-object-edit. Preserve the five-panel 水果氧化实验 sheet, title/headings, five groups, apple type, colors, viewpoint and all correct chemistry explanation. Correct the experiment-group continuity:
+1) Panel 2 currently duplicates sample 5 on the table AND inside the refrigerator. Remove the rightmost table plate/sample 5 entirely. Keep exactly four table samples 1,2,3,4 and exactly one sample 5 on its plate INSIDE the refrigerator. Place the label 5 放入冰箱 beside that fridge sample. Sample 3 stays in its clear SALTWATER bowl, sample 4 stays tightly covered with transparent plastic wrap.
+2) Panel 3: restore sample 3 to the same clear saltwater bowl and keep sample 4 covered with the same transparent wrap. Place sample 5 in a small refrigerator inset at the right, NOT another sample on the table. Add the short accurate label “观察后放回冰箱” at this inset. Keep the empty data table, clock and group labels 1–5.
+3) Panel 4: show the same five numbered samples, with sample 3 still in the clear saltwater bowl, sample 4 still wrapped, and sample 5 freshly taken out of the fridge for comparison. Make all five apple slices the same neutral pale cream color, since the observed color differences must be filled in by the user. Remove the predetermined strong browning of sample 1. Keep the ranking boxes blank; no invented measured results.
+4) Keep panel 1 and panel 5 unchanged. There must be exactly five experimental apple samples in every experimental panel, and the assigned treatments must not disappear midway.

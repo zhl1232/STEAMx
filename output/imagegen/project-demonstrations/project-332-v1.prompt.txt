@@ -1,0 +1,46 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 332.
+Primary request: Create an attractive, precise Chinese educational illustration for “盐面团挂饰”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “盐面团挂饰”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 制作面团”
+“2 塑形与打孔”
+“3 烘干定型”
+“4 上色装饰”
+“5 穿绳展示”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 面粉（2杯）
+- 食盐（1杯）
+- 温水（适量）
+- 擀面杖
+- 饼干模具或手工刀
+- 吸管（打孔用）
+- 丙烯颜料和画笔
+- 丝带或绳子
+- 烤盘（放置面团作品）
+- 杯子（用同一只量取面粉2杯、盐1杯）
+
+Effective written instructions, for alignment:
+1. 制作面团: 将面粉和食盐混合均匀，缓慢加入温水揉成光滑的面团，静置几分钟。
+2. 塑形与打孔: 将面团擀平至约5毫米厚，用模具或手工刀切出星星、爱心、小动物等造型，用吸管在顶部打一个小孔。
+3. 烘干定型: 将造型放在烤盘上，在通风处自然晾干1-2天，或者放入烤箱低温（100°C）烘烤2小时。
+4. 上色装饰: 面团完全干透后，用丙烯颜料涂上喜欢的颜色和图案，等颜料干透。
+5. 穿绳展示: 将丝带或绳子穿过小孔，打结固定，就可以挂在房间里装饰了。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同量杯量2杯面粉+1杯盐，加水揉团；②同泥团擀5mm，切1星1心，顶部各打1吸管孔；③选自然晾干分支，同2件置烤盘1—2天，不画烘烤混支；④同星黄、心红上色，孔保持畅通；⑤两孔各穿丝带挂起，形状数量不变。
+
+Specific limitations to respect:
+- 这是不可食用盐面团工艺，不画食用或将颜料当食材。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

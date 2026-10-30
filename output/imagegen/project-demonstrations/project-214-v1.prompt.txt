@@ -1,0 +1,43 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 214.
+Primary request: Create an attractive, precise Chinese educational illustration for “纸板齿轮联动”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “纸板齿轮联动”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 绘制齿轮”
+“2 裁剪齿轮”
+“3 安装到底板”
+“4 测试联动”
+“5 探索传动比”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 厚硬纸板
+- 图钉或螺丝钉2个
+- 泡沫板或瓦楞纸板（底板）
+- 圆规和直尺
+- 剪刀和美工刀
+- 铅笔
+
+Effective written instructions, for alignment:
+1. 绘制齿轮: 用圆规在硬纸板上画两个不同大小的圆，沿圆周均匀画出锯齿形的齿，注意两个齿轮的齿距要一致才能咬合。
+2. 裁剪齿轮: 用剪刀或美工刀沿齿形轮廓仔细剪下两个齿轮，齿的形状要规整。
+3. 安装到底板: 在底板上确定两个齿轮的中心位置，使齿刚好咬合，用图钉穿过齿轮中心固定在底板上，保持能自由转动。
+4. 测试联动: 转动大齿轮，观察小齿轮被带动旋转，注意两个齿轮的旋转方向相反。
+5. 探索传动比: 数一数大齿轮和小齿轮各有多少个齿，转动大齿轮一圈时小齿轮转了几圈，理解齿数比决定转速比。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同一厚纸板画大12齿、小6齿轮，齿距一致；②沿外轮廓剪出两轮，保留12/6齿计数；③2枚图钉穿中心固定同一泡沫底板，两轮啮合留自由转动空间；④大轮顺时针，小轮逆时针，齿形与中心不变；⑤大轮标记转一圈，小轮标记转两圈，用小起点标记说明，不能变齿数。
+
+Specific limitations to respect:
+- 12/6齿为明确演示选例；图钉成人操作，实际齿形啮合仍需调试。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+EDIT: Edit ONLY bottom wide panel5. DELETE every existing curved arrow around small gear, both red dots, and ALL curved blue arrows. Draw just one red COUNTERCLOCKWISE curved arrow above small gear (arrow starts near upper-right at 2 o'clock, curves through 12 o'clock and points to upper-left at 10 o'clock). Draw one blue CLOCKWISE curved arrow above large gear (points upper-right). Keep exact tooth counts large12 small6, labels, all other panels unchanged. Do not add additional gears or dots.

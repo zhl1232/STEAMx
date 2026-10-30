@@ -1,0 +1,48 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 86.
+Primary request: Create an attractive, precise Chinese educational illustration for “纸箱植物向光实验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “纸箱植物向光实验”
+Subtitle: “原理与结构示意”
+Panel headings, in this exact order:
+“1 制作光迷宫”
+“2 放入植物”
+“3 日常观察”
+“4 记录数据”
+“5 记录实验结论”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 鞋盒1个
+- 硬纸板2-3块
+- 发芽的豆苗或小盆栽
+- 剪刀和胶带
+- 观察记录本
+- 笔
+- 直尺
+- 量角器
+
+Effective written instructions, for alignment:
+1. 制作光迷宫: 在鞋盒的一端开一个小孔让光线进入，用硬纸板在盒内交替粘贴做成隔板迷宫。
+2. 放入植物: 将发芽的豆苗放在鞋盒内远离小孔的一端，盖上盒盖。
+3. 日常观察: 每天打开盒盖观察豆苗的生长方向，拍照或画图记录变化。
+4. 记录数据: 连续观察一周，记录豆苗每天弯曲的角度和生长的长度。
+5. 记录实验结论: 在记录本上写下豆苗弯曲生长的方向与光源位置的关系，画出向光性示意图。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+所有未确认连接必须拆开放置，不画成装配好并运行的器材，不画成功状态。固定同一鞋盒、两块交替隔板、右上进光孔和左下同一盆豆苗；使用拆盖剖视，所有格保持隔板位置一致。五格：①孔与两隔板分解摆放，标“通道宽度与光路未确认”；②豆苗放远端位置但盖板分开放，不画豆苗已穿越迷宫；③每日开盖看同一苗的方向，空相片框；④尺与量角器旁空记录表，不编弯曲角；⑤光孔方向箭头和可能向光生长概念，写“生长路径需实测，不保证穿越隔板”，禁止画蛇形茎完美绕障。
+
+Specific limitations to respect:
+- 未给盒子尺寸、隔板开口或苗高，不能保证光能到达并引导预设路线。
+
+This is a principle/structure illustration, not a claim that an incomplete mechanism has been built or runs. Where the reviewed plan identifies an unconfirmed connection or missing condition, visibly label that exact missing point briefly. Do not draw unsupported successful operation, fabricate measurements, invent a circuit, or silently supply unspecified structural details. Follow the reviewed visual plan when literal source instructions would imply an unsupported result.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+
+EDIT PASS:
+Use case: precise-object-edit. Make ONE scientific correction to the attached five-panel 纸箱植物向光实验 illustration. Preserve the title, every panel heading, cardboard box, partitions, potted seedling, camera angles, all text, notebook, and open/unknown-path presentation.
+Only fix yellow LIGHT-RAY arrows in panel 5 (bottom). Light originates OUTSIDE the box on the RIGHT and enters LEFTWARD through the hole on the right wall. The existing bright arrowheads inside the box pointing RIGHTWARD toward the hole are WRONG. Remove ALL yellow rays/arrows inside the box entirely, because the interior light path is explicitly unconfirmed. Outside the box on the RIGHT of the hole, keep just ONE short thin yellow arrow pointing LEFTWARD INTO THE HOLE. No beams traveling out of the box. On the notebook sun-and-plant sketch, replace the double-ended yellow ray arrows with simple thin dashed lines WITHOUT arrowheads; it illustrates a relationship rather than measured light paths. Keep the green dotted possible-growth curve and question mark unchanged; keep the exact sentences “生长路径需实测，不保证穿越隔板。” and “通道宽度与光路未确认”. Change nothing else.

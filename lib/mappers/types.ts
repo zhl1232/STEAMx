@@ -1,4 +1,6 @@
 import { textbook3dLessonIdFromUrl } from "@/lib/textbook3d/registry"
+import { applyProjectDemonstration, applyProjectImageReview } from '@/lib/project/image-presentation'
+import { applyProjectSourceTutorial } from '@/lib/project/source-tutorials'
 /**
  * 类型映射工具
  * 从数据库类型 (Database) 转换为前端友好的类型
@@ -718,7 +720,9 @@ export function mapDbProject(
         mapped.difficulty_stars = dbProject.difficulty_stars ?? 3
     }
 
-    return mapped
+    const reviewed = applyProjectImageReview(mapped)
+    return dbProject.project_materials && dbProject.project_steps && 'video_url' in dbProject
+        ? applyProjectSourceTutorial(applyProjectDemonstration(reviewed)) : reviewed
 }
 
 /**

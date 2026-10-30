@@ -1,0 +1,44 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 31.
+Primary request: Create an attractive, precise Chinese educational illustration for “电磁铁制作”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “电磁铁制作”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 绕制线圈”
+“2 刮除漆皮”
+“3 连接电路”
+“4 测试磁力”
+“5 改变强度”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 大铁钉（10厘米左右）
+- 漆包铜线（约1-2米）
+- 1.5V电池和电池盒
+- 回形针若干
+- 开关（可用鳄鱼夹代替）
+- 胶带
+
+Effective written instructions, for alignment:
+1. 绕制线圈: 将漆包线均匀绕在铁钉上并数出匝数，两端留出引线；线圈匝数是后续比较的变量。
+2. 刮除漆皮: 刮掉两端漆皮并确认露出金属导体，避免漆层使电路断路。
+3. 连接电路: 把线圈、开关和电池串成回路，通电时间保持短暂，防止导线和电池发热。
+4. 测试磁力: 闭合开关让铁钉靠近回形针，再断开开关比较吸附与掉落，观察电流产生的磁效应。
+5. 改变强度: 一次只改变线圈匝数或电源条件，记录能吸起的回形针数量，并说明电池电压、接触和通电时间也会影响结果。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定同一约10厘米铁钉、同一铜色漆包线、单节1.5V电池盒和开关、银色回形针；导线连接一直是电池正极→开关→线圈→负极。五格：①绕线并给匝数留空计数框、两端留引线；②放大两端刮漆露铜但线圈绕组绝缘仍在；③完整闭合路径俯视，开关保持断开，标“短时通电”；④开关短暂闭合、钉尖靠回形针，仅示意一两枚吸附，再断开对比，标“以实测为准”；⑤同钉不同匝数空记录表，不增加电池、不画无限吸力，标“发热即断开”。
+
+Specific limitations to respect:
+- 不按正文电源条件分支生成增加电压操作；匝数和接触条件影响结果，数值留空。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+Edit: Correct wiring in panels3,4,5 and scraped ends in panel2. EVERY apparatus must be one SINGLE SERIES LOOP with NO branch/junction: battery positive -> switch -> left COPPER WIRE tail -> coil -> right COPPER WIRE tail -> battery negative. Put battery bottom, coil top, switch on LEFT VERTICAL wire halfway between battery+ and left coil tail; right wire goes directly right coil tail to battery−. Exactly two terminals on battery, no extra wire connecting switch across battery, no bypass. Simplify to clean visible schematic-colored wires if necessary. Panel2 scraping happens on the two free thin COPPER WIRE ends, never on the iron nail itself; show single copper conductor not stranded cable. Preserve five-panel headings, 1.5V only, blank counts and short-power warning.
+Edit: Fix ONLY panel4 RIGHT HALF and panel2. Panel4 right: identical series circuit layout as its LEFT HALF: coil top, battery bottom, switch VERTICAL on LEFT connecting wire, but switch lever open/off. There must be NO switch placed across/behind battery, NO wire connecting positive directly to negative. Same single loop battery+ -> left vertical switch -> coil -> battery−, gap inside open switch. Paperclips resting below. Panel2 replace both circular wire closeups with a SINGLE SOLID COPPER enamel wire end, smoothly shiny stripped tip, no strands/fibers; leader arrows must point to FREE thin wire tails, not iron nail or its head. Preserve all other drawings.

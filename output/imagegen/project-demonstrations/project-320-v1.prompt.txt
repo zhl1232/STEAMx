@@ -1,0 +1,42 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 320.
+Primary request: Create an attractive, precise Chinese educational illustration for “黏土装饰杯”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “黏土装饰杯”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 准备风干黏土”
+“2 捏制杯身”
+“3 安装杯把”
+“4 修整表面”
+“5 装饰上色”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 风干黏土 约200克
+- 小盆水（润手用）
+- 塑料刮刀和小木棍
+- 转盘或光滑板面
+- 丙烯颜料（装饰用）
+- 画笔
+
+Effective written instructions, for alignment:
+1. 准备风干黏土: 取适量风干黏土揉匀，用少量水润湿手指和接缝，使泥土均匀柔软。
+2. 捏制杯身: 取泥团从中心向外均匀推薄，捏出杯形并保持底部和杯壁厚度尽量一致；成品仅作装饰。
+3. 安装杯把: 用同种黏土连接杯把并抹平接缝，确认连接牢固；不把它作为承重或盛液结构。
+4. 修整表面: 修整杯口、杯壁和底部，使装饰杯能平稳放置；检查是否有裂缝或尖锐边缘。
+5. 装饰上色: 风干完成后按材料说明装饰上色；作品仅供展示，不可盛放食物或饮料。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同200g风干泥揉匀、指尖蘸少水；②同泥球从中央捏出一小杯、壁底均匀；③同泥接一C形把并抹缝；④同杯修口与底，空置平板检查裂纹；⑤干燥后同杯蓝色装饰，保持空杯、仅展示，禁止加饮料或食物。
+
+Specific limitations to respect:
+- 风干黏土不可画盛水、饮用或当食品容器。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

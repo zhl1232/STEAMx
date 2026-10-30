@@ -1,0 +1,40 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 295.
+Primary request: Create an attractive, precise Chinese educational illustration for “点彩水果画”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “点彩水果画”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 铅笔起稿”
+“2 点彩练习”
+“3 逐区填色”
+“4 色彩混合”
+“5 完成与欣赏”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 棉签或圆头画笔
+- 丙烯颜料或水粉颜料
+- 厚卡纸或画布板
+- 调色盘
+- 铅笔
+- 参考图片（简单水果或风景）
+
+Effective written instructions, for alignment:
+1. 铅笔起稿: 用铅笔在画纸上轻轻勾出简单的轮廓，比如一个苹果或一棵树。
+2. 点彩练习: 用棉签蘸取颜料在纸的空白处练习点画，体会用圆点铺色的节奏。
+3. 逐区填色: 从画面一个区域开始，用相近颜色的小圆点密集排列填满，点与点之间留有微小间隙。
+4. 色彩混合: 在两种颜色的交界处穿插点上两种色的圆点，退后观看会发现它们自然融合成了新的色调。
+5. 完成与欣赏: 完成全部填色后退后两三步观看整体效果，感受色点在视觉中融合的奇妙。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同卡纸中部一苹果铅笔轮廓、左上叶；②纸边棉签试红黄小点；③苹果右侧红点、亮部黄橙点逐区铺，保留细间隙；④交界红黄点交错仍为独立圆点，不涂成平涂面；⑤同苹果完整点彩与退远观看示意，茎叶位置不变。
+
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

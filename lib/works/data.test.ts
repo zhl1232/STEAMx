@@ -19,8 +19,12 @@ vi.mock('@/lib/api/nature-observation-events', () => ({
 }))
 
 import { getUserWorks } from './data'
+import imageReviews from '@/lib/project/image-reviews.data.json'
+import demonstrations from '@/lib/project/demonstration-images.data.json'
+import sourceTutorials from '@/lib/project/source-tutorials.data.json'
 
 type Rows = {
+  projects?: Record<string, unknown>[]
   completions?: Record<string, unknown>[]
   submissions?: Record<string, unknown>[]
   observations?: Record<string, unknown>[]
@@ -47,7 +51,7 @@ function queryFor(
   })
 }
 
-function mockClient({ completions = [], submissions = [], observations = [] }: Rows) {
+function mockClient({ completions = [], submissions = [], observations = [], projects = [{ id: 3, title: '纸桥承重', category: '工程', image_url: null }] }: Rows) {
   const from = vi.fn((table: string) => {
     switch (table) {
       case 'completed_projects':
@@ -63,7 +67,7 @@ function mockClient({ completions = [], submissions = [], observations = [] }: R
         return queryFor({ data: [profile], error: null }, { data: profile, error: null })
       }
       case 'projects':
-        return queryFor({ data: [{ id: 3, title: '纸桥承重', image_url: null }], error: null })
+        return queryFor({ data: projects, error: null })
       default:
         return queryFor({ data: [], error: null, count: 0 })
     }
@@ -130,6 +134,63 @@ describe('getUserWorks', () => {
 
     expect(total).toBe(3)
     expect(works.map((work) => work.source?.type)).toEqual(['challenge', 'observation', 'project'])
+  })
+
+  it('reviews project source covers without changing work result photos', async () => {
+    const review = imageReviews.find(entry => entry.id === 210)!
+    mockClient({
+      completions: [{ ...completion(1, '2026-08-01T00:00:00.000Z'), project_id: review.id }],
+      projects: [{ id: review.id, title: review.title, category: review.category, image_url: review.covers[0] }],
+    })
+    const { works } = await getUserWorks({ userId: USER_ID })
+    expect(works[0].source?.image).toBe(review.replacementCover)
+    expect(works[0].proofImages).toEqual(['/work-1.jpg'])
+  })
+
+  it('matches a generated source cover from full copy without changing the work photo', async () => {
+    const demo = demonstrations.find(entry => entry.id === 31)!
+    const project = {
+      id: demo.id, title: demo.title, category: demo.category, description: demo.description,
+      video_url: null, image_url: demo.sourceImage,
+      project_materials: demo.materials.map((material, sort_order) => ({ material, sort_order })),
+      project_steps: demo.steps.map((step, sort_order) => ({ ...step, sort_order })),
+    }
+    mockClient({ completions: [{ ...completion(1, '2026-08-01T00:00:00.000Z'), project_id: demo.id }], projects: [project] })
+    const { works } = await getUserWorks({ userId: USER_ID })
+    expect(works[0].source?.image).toBe(demo.image)
+    expect(works[0].proofImages).toEqual(['/work-1.jpg'])
+
+    mockClient({ completions: [{ ...completion(1, '2026-08-01T00:00:00.000Z'), project_id: demo.id }], projects: [{ ...project, description: '新正文' }] })
+    expect((await getUserWorks({ userId: USER_ID })).works[0].source?.image).toBe(demo.sourceImage)
+  })
+
+  it('prefers the current source tutorial cover over superseded generated art', async () => {
+    const tutorial = sourceTutorials.find(entry => entry.id === 307)!
+    mockClient({
+      completions: [{ ...completion(1, '2026-08-01T00:00:00.000Z'), project_id: tutorial.id }],
+      projects: [{
+        id: tutorial.id, title: tutorial.title, category: tutorial.category,
+        description: tutorial.baseline.description, video_url: null, image_url: tutorial.baseline.covers[0],
+        project_materials: tutorial.baseline.materials.map((material, sort_order) => ({ material, sort_order })),
+        project_steps: tutorial.baseline.steps.map((step, sort_order) => ({ ...step, sort_order })),
+      }],
+    })
+    const { works } = await getUserWorks({ userId: USER_ID })
+    expect(works[0].source?.image).toBe(tutorial.replacement.image)
+    expect(works[0].proofImages).toEqual(['/work-1.jpg'])
+  })
+
+  it.each([
+    { title: '新标题' },
+    { category: '新分类' },
+    { image_url: '/uploads/new-project.jpg' },
+  ])('preserves edited project source metadata: %j', async patch => {
+    const review = imageReviews.find(entry => entry.id === 210)!
+    const project = { id: review.id, title: review.title, category: review.category, image_url: review.covers[0], ...patch }
+    mockClient({ completions: [{ ...completion(1, '2026-08-01T00:00:00.000Z'), project_id: review.id }], projects: [project] })
+    const { works } = await getUserWorks({ userId: USER_ID })
+    expect(works[0].source?.image).toBe(project.image_url)
+    expect(works[0].proofImages).toEqual(['/work-1.jpg'])
   })
 
   it('links challenge and observation cards to their own detail pages', async () => {

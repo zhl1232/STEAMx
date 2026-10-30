@@ -1,0 +1,48 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 213.
+Primary request: Create an attractive, precise Chinese educational illustration for “橡皮筋动力车”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “橡皮筋动力车”
+Subtitle: “原理与结构示意”
+Panel headings, in this exact order:
+“1 制作底盘”
+“2 安装车轮”
+“3 安装动力”
+“4 发射测试”
+“5 优化改进”
+“6 原理总结”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 硬纸板
+- 橡皮筋2-3根
+- 瓶盖4个（做车轮）
+- 竹签2根（做车轴）
+- 吸管2段（做轴承）
+- 胶带和胶水
+- 剪刀
+- 适合车轮材料的打孔工具（成人使用）
+
+Effective written instructions, for alignment:
+1. 制作底盘: 剪一块约15厘米×8厘米的硬纸板作为底盘，在前后两端各用胶带固定一段吸管作为轴承。
+2. 安装车轮: 将竹签穿过吸管，竹签两端各插上一个瓶盖做车轮，确保车轮转动顺畅。
+3. 安装动力: 将橡皮筋一端挂在前轴上，另一端挂在后轴的竹签上。旋转后轴让橡皮筋拧紧储能。
+4. 发射测试: 将车放在平地上松手释放，橡皮筋回弹带动车轴旋转推动小车前进。
+5. 优化改进: 尝试不同粗细和数量的橡皮筋，调整拧紧圈数，记录行驶距离，找出最佳组合。
+6. 原理总结: 弹性势能通过橡皮筋回弹转化为车轴的旋转动能，再通过车轮与地面的摩擦力转化为前进的动力。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；6格：①15×8cm牛皮纸底盘前后各固定1段吸管；②2根竹签分别穿管，4个同款瓶盖装在两端；③原文前后两轴之间放同一橡皮筋，放大两端待确认固定/绕轴关系，禁止补画前端车身锚点；④小车仍静止，后轮转向与待确认回弹关系仅箭头示意；⑤旁列同2根与3根橡皮筋作比较计划，记录表空白；⑥弹性势能到轴转动再到地面摩擦的原理箭头，不画实测跑远。
+
+Specific limitations to respect:
+- 前后轴均可转，原文未给可靠固定端、缠绕与防滑结构；不能证明现有连接可驱动车。
+
+This is a principle/structure illustration, not a claim that an incomplete mechanism has been built or runs. Where the reviewed plan identifies an unconfirmed connection or missing condition, visibly label that exact missing point briefly. Do not draw unsupported successful operation, fabricate measurements, invent a circuit, or silently supply unspecified structural details. Follow the reviewed visual plan when literal source instructions would imply an unsupported result.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+CRITICAL override: ALL rubber bands remain LOOSE, detached next to stationary chassis in panels3-6. NO connected/wound/twisted rubber band, NO storage of energy in this unverified car, NO driving trail. Panel3 two separated enlarged axle ends and loose band with labels 固定/绕轴待确认. Panel4 stationary bare chassis and detached band only.
+EDIT: Edit ONLY bottom-right panel6. DELETE the blue forward arrow, ALL wheel rotation arrows and ALL dotted driving tracks. Keep the car entirely motionless. Remove all arrows between bands and car. Replace the whole top text with short clear label '原理关系，连接待确认'. Add a small abstract text chain above the motionless car '弹性势能 → 转动 → 摩擦力' clearly labelled '原理'. Do not imply this unconnected car works. Keep panels1-5 exactly unchanged.

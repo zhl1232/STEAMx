@@ -1,0 +1,41 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 215.
+Primary request: Create an attractive, precise Chinese educational illustration for “双坡弹珠轨道搭建”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “双坡弹珠轨道搭建”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 制作轨道段”
+“2 设计路线”
+“3 固定轨道”
+“4 测试滚动”
+“5 增加趣味”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 硬纸板、纸巾筒或保鲜膜芯（三选一，制作轨道）
+- 弹珠
+- 胶带
+- 剪刀
+
+Effective written instructions, for alignment:
+1. 制作轨道段: 将纸板裁成长条，沿中线对折形成V形槽道，或将纸巾筒纵向切开一半作为半管轨道。
+2. 设计路线: 在纸箱侧面或墙面上规划弹珠从高到低的路线，每段轨道略微向下倾斜，确保弹珠能持续滚动。
+3. 固定轨道: 用胶带将各段轨道逐段固定到墙面或纸箱上，注意轨道之间的衔接要平滑，弹珠不会飞出。
+4. 测试滚动: 从最高点释放弹珠，观察它沿轨道滚下。如果某处卡住，调整该段的倾斜角度。
+5. 增加趣味: 在轨道中加入弯道、漏斗或跳台等元素，让弹珠轨迹更有趣。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①选择硬纸板分支，折出2条相同V槽，不切换纸筒；②同一纸箱侧面画上下两段反向斜坡；③胶带固定两槽，交接处放大末端低落到下一段入口的衔接；④同一玻璃弹珠从上段高端沿槽到下段，仅用分时位置圆点；⑤另裁同材质宽弯槽示意候选改动，保留原2槽与箱体，不额外凭空加入漏斗。
+
+Specific limitations to respect:
+- 后加弯道/漏斗/跳台未给具体连接；末格示待调试改动，不保证弹珠通过。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+EDIT: Change ONLY panel2 route design. Erase the spurious THIRD bottom diagonal arrow/path and the existing bottom-right 终点. Keep exactly TWO diagonal descending tracks: first upper-left to upper-right downhill, then a short vertical drop, second upper-right to lower-left downhill. Put 终点 at the LEFT end of SECOND track. Keep all other panels unchanged. In panel4 add tiny label 分时位置 so repeated translucent marble positions cannot be mistaken as multiple marbles. In panel5 add tiny label 候选弯槽，待调试 beside detached curved track.

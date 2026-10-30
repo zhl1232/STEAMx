@@ -1,0 +1,43 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 374.
+Primary request: Create an attractive, precise Chinese educational illustration for “测量身边的物品”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “测量身边的物品”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 长度测量”
+“2 重量测量”
+“3 容积测量”
+“4 估测练习”
+“5 制作测量报告”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 直尺和卷尺
+- 厨房电子秤
+- 量杯
+- 记录本和铅笔
+- 家中各种物品（书本、水果、玩具等）
+- 清水（量取容积）
+- 待测杯子、碗或瓶子
+
+Effective written instructions, for alignment:
+1. 长度测量: 用直尺测量铅笔、手机、书本等物品的长度，记录在表格中，学会正确读数到毫米。
+2. 重量测量: 用电子秤称量苹果、鸡蛋、玩具等物品的重量，感受100克、500克、1千克分别是多重。
+3. 容积测量: 用量杯测量不同杯子、碗和瓶子能装多少水，理解毫升和升的关系。
+4. 估测练习: 先凭感觉估计一个物品的尺寸或重量，再实际测量，看看估计值和实际值相差多少。
+5. 制作测量报告: 将所有测量数据整理成图表，找出家中最长、最重、容积最大的物品，分享你的发现。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；5格：①同尺0刻度对同铅笔端、读mm；②同电子秤分别放同苹果与玩具，示屏留实际读数空格，不编100/500g；③同量杯向同待测杯/碗/瓶加水测容量，1L=1000mL为单位示意；④同书先估长再尺量，两栏空表；⑤同批物品长度/质量/容量分列不同单位图表，不把体积与重量混排序。
+
+Specific limitations to respect:
+- 无真实测量数据，不应画秤屏、刻度已验证数值。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

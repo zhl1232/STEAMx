@@ -6,14 +6,16 @@ import { ChevronDown, ChevronRight } from "lucide-react"
 import { OptimizedImage } from "@/components/ui/optimized-image"
 import { ProjectStepCopy } from "@/components/features/project/project-step-copy"
 import { ProjectStepImage } from "@/components/features/project/project-step-image"
+import { ProjectDemonstration } from "./project-demonstration"
 import type { ProjectStep } from "@/lib/mappers/types"
+import { getSourceTutorialAsset } from '@/lib/project/source-tutorials'
 
 const SUMMARY_GRID_WITH_THUMB =
   "grid min-h-[54px] cursor-pointer list-none grid-cols-[30px_minmax(0,1fr)_72px_20px] items-center gap-2.5 px-2.5 py-2 group-open/details:grid-cols-[30px_minmax(0,1fr)_20px] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden"
 const SUMMARY_GRID_NO_THUMB =
   "grid min-h-[54px] cursor-pointer list-none grid-cols-[30px_minmax(0,1fr)_20px] items-center gap-2.5 px-2.5 py-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden"
 
-export function MobileProjectSteps({ steps, observationOnly = false }: { projectId?: string | number; steps: ProjectStep[]; observationOnly?: boolean; practicePending?: boolean }) {
+export function MobileProjectSteps({ steps, observationOnly = false, title, notice, demonstration }: { projectId?: string | number; steps: ProjectStep[]; observationOnly?: boolean; practicePending?: boolean; title?: string; notice?: string; demonstration?: { image: string; title: string; notice: string } }) {
   const [openStates, setOpenStates] = useState<boolean[]>(() => steps.map((_, index) => index === 0))
   const allExpanded = steps.length > 0 && openStates.length === steps.length && openStates.every(Boolean)
   const toggleExpandAll = () => {
@@ -27,7 +29,7 @@ export function MobileProjectSteps({ steps, observationOnly = false }: { project
     >
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="font-sans text-base font-bold tracking-tight text-foreground">
-          {`${observationOnly ? "观看要点" : "探索步骤"}${steps.length > 0 ? `（共 ${steps.length} ${observationOnly ? "项" : "步"}）` : ""}`}
+          {`${title || (observationOnly ? "观看要点" : "探索步骤")}${steps.length > 0 ? `（共 ${steps.length} ${title || observationOnly ? "项" : "步"}）` : ""}`}
         </h2>
         {steps.length > 0 ? (
           <button
@@ -40,6 +42,8 @@ export function MobileProjectSteps({ steps, observationOnly = false }: { project
           </button>
         ) : null}
       </div>
+      {notice ? <p className="mb-4 text-sm leading-6 text-muted-foreground">{notice}</p> : null}
+      {demonstration ? <ProjectDemonstration {...demonstration} /> : null}
       {steps.length > 0 ? (
         <ol className="space-y-2">
           {steps.map((step, index) => {
@@ -80,7 +84,7 @@ export function MobileProjectSteps({ steps, observationOnly = false }: { project
                           alt={stepTitle}
                           fill
                           variant="thumbnail"
-                          className="object-cover"
+                          className={getSourceTutorialAsset(imageUrl) ? "object-contain" : "object-cover"}
                         />
                       </div>
                     ) : null}

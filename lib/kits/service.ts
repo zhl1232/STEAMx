@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase/admin'
 import { getProjectById } from '@/lib/api/explore-data'
 import { isStoreCatalogVisible } from '@/lib/store/config'
 import { isKitRelationConfirmed } from './review'
+import { hasKitVisualMatch, hasVisualMatchEvidence } from './visual-match'
 import type { ExperimentKit, KitProjectRelation } from './types'
 // Dedicated tables are accessed only through server services with field whitelists.
 export function kitDatabase(): SupabaseClient { if (!supabaseAdmin) throw new Error('套装服务暂不可用'); return supabaseAdmin as unknown as SupabaseClient }
@@ -42,7 +43,10 @@ export async function getKitOffers(kit: ExperimentKit) {
   if(!data.length) return []
   const {data: variants,error: variantError}=await kitDatabase().from('store_product_variants').select('id,product_id,name,price_cents,product:store_products!inner(id,name,status,checkout_mode,shipping_cents)').in('id',data.map(x=>x.variant_id)).eq('status','active').eq('product.status','active').eq('product.checkout_mode','internal').not('product.shipping_cents','is',null)
   if(variantError) throw variantError
-  return (variants??[]).map(v=>({id:v.id,productId:v.product_id,name:v.name,priceCents:v.price_cents}))
+  return (variants??[]).map(v=>{
+    const product = Array.isArray(v.product) ? v.product[0] : v.product
+    return {id:v.id,productId:v.product_id,name:v.name,priceCents:v.price_cents,productName:product?.name as string | undefined}
+  })
 }
 export async function getKitsForVariants(variantIds: string[], options: {includeDraft?: boolean} = {}): Promise<Record<string,ExperimentKit>> {
   if(options.includeDraft) {
@@ -59,17 +63,21 @@ export async function getKitsForVariants(variantIds: string[], options: {include
 }
 export async function getProjectKitMatches(project: import('@/lib/mappers/types').Project, selectedSlug?: string) {
   try {
-    const {data,error}=await kitDatabase().from('experiment_kit_projects').select('kit_id,project_id,status,preparation_status,extras,project_hash,kit_revision,sort_order').eq('project_id',Number(project.id)).neq('status','excluded')
+    const {data,error}=await kitDatabase().from('experiment_kit_projects').select('kit_id,project_id,status,preparation_status,extras,project_hash,kit_revision,sort_order,evidence').eq('project_id',Number(project.id)).neq('status','excluded')
     if(error)throw error
     const kits=await listKits();const byId=new Map(kits.map(k=>[k.id,k]))
     return (await Promise.all((data as KitProjectRelation[]).map(async relation=>{
       const kit=byId.get(relation.kit_id);if(!kit)return null
       const confirmed=isKitRelationConfirmed(kit,relation,project)
+      const visualMatch=hasKitVisualMatch(kit,relation,project)
+      if(hasVisualMatchEvidence(relation)&&!visualMatch&&!confirmed)return null
       const currentPack = kit.kind === 'material_pack' && relation.kit_revision === kit.revision
-      if(!confirmed&&!currentPack&&kit.slug!==selectedSlug)return null
+      const currentGeneral = kit.kind === 'general_materials' && relation.kit_revision === kit.revision
+        && Boolean(project.title.trim()) && kit.catalog.includes(project.title.trim())
+      if(!confirmed&&!currentPack&&!currentGeneral&&!visualMatch&&kit.slug!==selectedSlug)return null
       const canRecommend = confirmed && relation.preparation_status !== 'unknown'
-      const availableOffers = canRecommend || currentPack ? await getKitOffers(kit) : []
-      return {linkedOffers: availableOffers,kit,confirmed,preparationStatus:confirmed?relation.preparation_status:'unknown',extras:confirmed?relation.extras:[],offers:canRecommend?availableOffers:[]}
+      const availableOffers = canRecommend || currentPack || currentGeneral || visualMatch ? await getKitOffers(kit) : []
+      return {linkedOffers: availableOffers,kit,confirmed,...(visualMatch ? {visualMatch:true} : {}),preparationStatus:confirmed?relation.preparation_status:'unknown',extras:confirmed?relation.extras:[],offers:canRecommend?availableOffers:[]}
     }))).filter((x):x is NonNullable<typeof x>=>x!==null)
   }catch{return []}
 }

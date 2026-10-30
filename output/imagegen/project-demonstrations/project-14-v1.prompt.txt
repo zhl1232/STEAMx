@@ -1,0 +1,43 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 14.
+Primary request: Create an attractive, precise Chinese educational illustration for “纸飞机飞行实验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “纸飞机飞行实验”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 折叠飞机”
+“2 标记起飞线”
+“3 飞行测试”
+“4 改装实验”
+“5 记录与分析”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- A4纸若干张
+- 卷尺或直尺
+- 秒表或手机计时器
+- 记录本和铅笔
+- 回形针若干
+- 胶带
+
+Effective written instructions, for alignment:
+1. 折叠飞机: 用相同大小的纸分别折叠三种不同造型的纸飞机：经典飞镖型、宽翼型和细长型。
+2. 标记起飞线: 在地面用胶带标记一条起飞线，确保每次从同一位置以相同力度投掷。
+3. 飞行测试: 每种纸飞机各飞行三次，用卷尺测量飞行距离，用秒表记录滞空时间。
+4. 改装实验: 在飞机头部夹上回形针改变重心位置，观察飞行表现的变化。
+5. 记录与分析: 将所有数据记录在表格中，比较不同造型和配重的飞机表现，在记录本上写下机翼形状和重心位置如何影响飞行。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+生成一张横向六格以内连续教学分镜，中文标题准确，格间保留同一器材身份、颜色、尺寸比例与视角；仅画下述有效内容，不加入其他做法。固定同一A4白纸折出的飞镖型、宽翼型、细长型三架飞机，用A/B/C小记号贯穿同一室内空地、同一蓝色胶带起飞线。五格：①三架完成折型并排，角落示折纸动作而非虚构完整折法；②贴同一条起飞线；③一只手从线后释放A，卷尺从线量至落点，计时器不写假读数，旁列每型三次空表；④仅A机头夹一个回形针，B/C不变；⑤原型与配重型放回空表旁，画比较箭头不画冠军。
+
+Specific limitations to respect:
+- 正文没有三种飞机的完整折纸折线；图不冒充逐折装配教程。
+- 同力度为控制目标，不能画成已精确控制或给出虚构飞行数据。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

@@ -1,5 +1,8 @@
 import { afterEach, describe, expect, it } from 'vitest'
+import { createElement } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
 import {
+  OptimizedImage,
   getOptimizedImageSrc,
   shouldUseUnoptimizedImage,
   withGeneratedProjectImageCacheVersion,
@@ -19,6 +22,47 @@ function restoreEnv(key: string, value: string | undefined) {
 
 afterEach(() => {
   restoreEnv(ASSETS_BASE_ENV_KEY, originalAssetsBaseUrl)
+})
+
+describe('project guide image presentation', () => {
+  function renderedClasses(src: string) {
+    const markup = renderToStaticMarkup(createElement(OptimizedImage, {
+      src, alt: '项目图片', width: 640, height: 360, unoptimized: true,
+      className: 'object-cover object-top transition-transform group-hover:scale-105 hover:scale-110',
+    }))
+    return markup.match(/class="([^"]*)"/)?.[1].split(' ') ?? []
+  }
+
+  it.each([
+    '/project-guides/overviews/project-13.svg',
+    '/project-guides/demos/project-307-garden-v1.png',
+    '/project-guides/demos/project-13-v1.webp?v=1',
+    '/project-guides/sources/project-210/image-1-v1.webp',
+    '/api/assets/project-guides/sources/project-210/image-1-v1.webp?v=1',
+    'https://assets.example.com/project-guides/sources/project-210/image-1-v1.webp',
+    'https://steam.bj.cn/project-guides/demos/project-13-v1.webp?v=2',
+    '/project-guides/rubber-band-fan-principle.svg?v=2#diagram',
+    'https://steam.bj.cn/project-guides/overviews/project-13.svg?v=2',
+    'http://localhost:3000/project-guides/overviews/project-13.svg#diagram',
+    '/projects/corrections/20260915-project-378-kaprekar-four-digit.png',
+    '/api/assets/projects/corrections/20260915-project-378-kaprekar-four-digit.png',
+  ])('keeps the entire authored guide visible without hover zoom: %s', src => {
+    const classes = renderedClasses(src)
+    expect(classes).toEqual(expect.arrayContaining(['object-contain', 'object-center', 'group-hover:scale-100', 'hover:scale-100', 'transition-transform']))
+    expect(classes).not.toEqual(expect.arrayContaining(['object-cover']))
+    expect(classes).not.toEqual(expect.arrayContaining(['object-top']))
+    expect(classes).not.toEqual(expect.arrayContaining(['group-hover:scale-105']))
+    expect(classes).not.toEqual(expect.arrayContaining(['hover:scale-110']))
+  })
+
+  it.each([
+    '/uploads/photo.jpg',
+    '/assets/other-diagram.svg',
+    '/project-guides/photo.png',
+    'https://example.com/uploads/diagram.svg',
+  ])('preserves caller crop and hover styles for other images: %s', src => {
+    expect(renderedClasses(src)).toEqual(['object-cover', 'object-top', 'transition-transform', 'group-hover:scale-105', 'hover:scale-110'])
+  })
 })
 
 describe('getOptimizedImageSrc', () => {

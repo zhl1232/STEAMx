@@ -1,0 +1,40 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 272.
+Primary request: Create an attractive, precise Chinese educational illustration for “折纸小船”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 4 panels, two columns by 2 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “折纸小船”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 折叠基础小船”
+“2 防水处理”
+“3 浮力测试”
+“4 改进设计”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- A4纸 若干张
+- 防水蜡笔或蜡烛
+- 大盆或水槽
+- 小硬币（测试载重）
+- 毛巾（擦水用）
+
+Effective written instructions, for alignment:
+1. 折叠基础小船: 按照传统折纸方法折出一只经典纸船，确保折痕整齐对称。
+2. 防水处理: 用蜡笔或蜡烛在纸船底部涂上一层薄蜡，增强防水性能延长漂浮时间。
+3. 浮力测试: 将纸船放入水中，逐个放入小硬币测试载重能力，记录每艘船能承载多少枚硬币。
+4. 改进设计: 观察沉没的原因，尝试改变船体形状或大小来提高载重能力，反复测试找到最优设计。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；4格：①同A4纸依次对折、折顶角、翻折底边、撑开成菱形、再次折起撑开成船，用嵌入子序列保证同纸连续；②同船底用蜡笔轻涂，不画明火；③同水盆里同船逐枚加入同款硬币，留实际计数空格；④旁列下一艘更宽船为改设计对照，原船仍保留，不把纸材变塑料。
+
+Specific limitations to respect:
+- 一格包含多个传统折船子动作，生成时需防止折法跳步；载重不预设成功枚数。
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+EDIT: Edit ONLY panel4: remove ALL coins from both boats, so both are EMPTY design candidates without fabricated capacity outcome. Keep same basin and original small white boat with red wax edge; larger wider candidate beside it also EMPTY. Rename label 改进设计 below large boat to 候选设计（待测）. Keep empty count boxes and all panels1-3 unchanged. Add small footer 生成演示图 if room, without cropping.

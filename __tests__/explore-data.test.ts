@@ -1,3 +1,4 @@
+import windVane from './fixtures/learning-theme-wind-vane.json'
 /** @vitest-environment node */
 
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from 'vitest'
@@ -419,6 +420,54 @@ describe('production everyday materials cohort', () => {
 
   afterEach(() => {
     vi.mocked(getContentClassificationSettings).mockResolvedValue({ publicV1Enabled: false, enforcementEnabled: false })
+  })
+
+  it('filters curated themes by reviewed identity before pagination without database theme tags', async () => {
+    rows = [projectRow(1218), projectRow(1228), projectRow(1232)]
+    const first = await getProjects({ tags: ['地球奥秘'] }, { pageSize: 1, sortBy: 'latest' })
+    expect(first.projects.map(project => project.id)).toEqual([1228])
+    expect(first.total).toBe(2)
+    expect(first.hasMore).toBe(true)
+    expect((await getProjects({ tags: ['地球奥秘'], searchQuery: '数据库简略内容' })).total).toBe(0)
+    const second = await getProjects({ tags: ['地球奥秘'] }, { page: 1, pageSize: 1, sortBy: 'latest' })
+    expect(second.projects.map(project => project.id)).toEqual([1218])
+    expect(second.hasMore).toBe(false)
+    expect(callRpc).not.toHaveBeenCalled()
+    expect(queries.flatMap(query => query.operations).some(([operation, column]) => operation === 'contains' && column === 'tags')).toBe(false)
+    rows[0].title = '已替换的其他内容'
+    expect((await getProjects({ tags: ['地球奥秘'] })).total).toBe(1)
+  })
+
+  it('ranks theme popularity and age preference across the cohort before slicing pages', async () => {
+    rows = [projectRow(1218), projectRow(1228)]
+    rows[0].likes_count = 10
+    expect((await getProjects({ tags: ['地球奥秘'] }, { pageSize: 1, sortBy: 'popular' })).projects.map(project => project.id)).toEqual([1218])
+    vi.mocked(getContentClassificationSettings).mockResolvedValue({ publicV1Enabled: true, enforcementEnabled: false })
+    rows[1].recommended_min_age = 14
+    rows[1].recommended_max_age = 16
+    expect((await getProjects({ tags: ['地球奥秘'], age: 15 }, { pageSize: 1, sortBy: 'popular' })).projects.map(project => project.id)).toEqual([1228])
+  })
+
+  it('combines reviewed themes with household qualification and retains other filters', async () => {
+    rows.push({
+      ...projectRow(1218), ...windVane,
+      project_materials: windVane.materials.map((material, sort_order) => ({ material, sort_order })),
+      project_steps: windVane.steps.map((step, sort_order) => ({ ...step, sort_order })),
+    })
+    const household = await getProjects({ tags: ['日常材料'] })
+    const earthIds = new Set([18, 107, 109, 110, 112, 113, 116, 119, 120, 273, 513, 828, 914, 1083, 1218, 1228])
+    const result = await getProjects({ tags: ['日常材料', '地球奥秘'] }, { pageSize: 1 })
+    expect(result.projects.map(project => project.id)).toEqual(household.projects.filter(project => earthIds.has(Number(project.id))).map(project => project.id))
+    expect(result.total).toBeGreaterThan(0)
+    expect(result.hasMore).toBe(false)
+    expect((await getProjects({ tags: ['地球奥秘', '缺失标签'] })).total).toBe(0)
+    expect((await getProjects({ tags: ['地球奥秘'], category: '艺术' })).total).toBe(0)
+  })
+
+  it('keeps unpopulated themes empty and propagates curated query failures', async () => {
+    expect(await getProjects({ tags: ['人工智能'] })).toEqual({ projects: [], total: 0, hasMore: false })
+    queryError = new Error('offline')
+    await expect(getProjects({ tags: ['航空航天'] }, { strictErrors: true })).rejects.toThrow('Unable to load explore projects')
   })
 
   it('uses the effective detail materials despite stale compact DB rows and returns compact cards', async () => {

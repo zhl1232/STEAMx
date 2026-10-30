@@ -1,0 +1,41 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 84.
+Primary request: Create an attractive, precise Chinese educational illustration for “蔬菜水培实验”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly FIVE panels: two columns for the first four panels, then a wide fifth panel across the bottom. Do not invent a sixth step. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “蔬菜水培实验”
+Subtitle: “连续演示”
+Panel headings, in this exact order:
+“1 准备蔬菜”
+“2 放入水中”
+“3 日常养护”
+“4 观察记录”
+“5 总结对比”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 大葱根部或白菜根
+- 胡萝卜头（带叶芽部分）
+- 透明玻璃杯或碗
+- 清水
+- 尺子
+- 观察记录本
+- 笔
+
+Effective written instructions, for alignment:
+1. 准备蔬菜: 从厨房取一根大葱的根部（约5厘米）和一个胡萝卜头，保留有芽眼的部分。
+2. 放入水中: 将蔬菜根部放入装有少量清水的透明杯中，水位刚好没过根部底端即可。
+3. 日常养护: 每天换一次清水，放在有阳光的窗台上，保持水位稳定。
+4. 观察记录: 每天用尺子量一量新长出的部分有多长，把数据记录在本子上。
+5. 总结对比: 一周后对比不同蔬菜的生长速度，思考为什么有些蔬菜长得更快。
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+固定同一根保留约5厘米葱白及根须的大葱根、同一个带芽眼胡萝卜头、两只浅透明杯A/B；全程不换白菜或栽土。五格：①并列标识葱根/胡萝卜头芽眼；②每杯少量清水刚接触底端，芽部不全淹；③窗台同位置每天换清水，水位虚线锁定；④同直尺量新芽部分，空表记每天长度；⑤同一两样蔬菜的一周观察框，标“比较再生叶芽，不表示长出新胡萝卜”，不预设谁更快。
+
+
+Show the evolving state cumulatively: later panels preserve all earlier construction and only add the stated action. Distinguish loose parts from attached parts, before from after, observations from conclusions. For trials or comparisons, keep controlled conditions visibly identical and leave recording fields blank rather than inventing experimental results.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.

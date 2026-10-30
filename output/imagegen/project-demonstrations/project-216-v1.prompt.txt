@@ -1,0 +1,39 @@
+Use case: scientific-educational
+Asset type: a complete illustrated project demonstration sheet, project 216.
+Primary request: Create an attractive, precise Chinese educational illustration for “翻转木偶机关”, showing one coherent project across the panels. Draw the actual materials, arrangements, actions, or supported principles. This must be a pictorial demonstration, never a text-only flowchart, checklist, collection of stock photos, or unrelated example images.
+
+Layout: portrait sheet, Exactly 6 panels, two columns by 3 rows, reading left-to-right then top-to-bottom. Short Chinese headings above large pictures. Keep generous gutters and every panel completely in-frame. Use the same camera angle, scale, base, background, objects, and color identity across the sequence; allow an explicitly labelled close-up only when necessary to explain a connection. Drawings occupy at least 80% of the area. Readable Chinese headings. Avoid excessive prose or decorative icons.
+Style: warm, precise educational illustration with tangible paper/wood/fabric/glass/metal textures as appropriate to this project, softly shaded, restrained colors, clear construction edges. Friendly to families; coherent with a high-quality illustrated craft manual. No fake photographic claims, glossy impossible toy renders, magical effects, stock-photo collages, or decorative nonsense. Mathematical/circuit diagrams should use clean crisp lines and exact topology, not painterly ambiguity.
+
+Text, verbatim:
+Main title: “翻转木偶机关”
+Subtitle: “原理与结构示意”
+Panel headings, in this exact order:
+“1 制作凸轮”
+“2 制作推杆”
+“3 制作木偶”
+“4 安装到底座”
+“5 表演测试”
+“6 改变运动”
+Small footer: “生成演示图”
+Use only these headings plus indispensable short labels explicitly required by the scene plan below. No invented brands, claims, measurements, test data, or extra instructions.
+
+Project materials (source constraints, do not introduce a different apparatus):
+- 硬纸板
+- 竹签
+- 小纸盒（做底座）
+- 胶水和胶带
+- 彩色笔和贴纸
+- 剪刀
+
+REVIEWED VISUAL PLAN — apply this concrete plan to the drawings:
+同一浅色桌面、固定俯视或固定三分之二视角，连续编号分格；6格：①同一偏心椭圆纸板轮与竹签轴；②竖直推杆与顶部导孔、接触凸轮边缘关系放大；③剪一只黄色纸板小鸟装推杆顶；④同一小盒剖面放入横轴和凸轮，导向孔位置不变；⑤只画凸轮两角位置与推杆高低关系示意，不声称木偶翻转；⑥旁列心形与三角形轮比较轮廓，待换轮后观察。
+
+Specific limitations to respect:
+- 正文只实现升降而非标题翻转；凸轮固轴、轴支撑和推杆防脱未明。
+
+This is a principle/structure illustration, not a claim that an incomplete mechanism has been built or runs. Where the reviewed plan identifies an unconfirmed connection or missing condition, visibly label that exact missing point briefly. Do not draw unsupported successful operation, fabricate measurements, invent a circuit, or silently supply unspecified structural details. Follow the reviewed visual plan when literal source instructions would imply an unsupported result.
+CONTINUITY IS THE TOP PRIORITY: one actual object or clearly labelled controlled comparison, same number and kind of parts, same connections, same material identities, same composition. Later states never turn into a different craft, species, apparatus, circuit or geometry. A common visual style alone is insufficient. No spontaneous components, missing supports, disconnected powered devices, impossible knots, incorrect arithmetic, or fabricated observations. Verify the panel count, order, Chinese titles and logic before rendering.
+CRITICAL: Show missing axle fixation/support and rod retention as visible EMPTY dotted gaps with brief 待确认 labels. An assembled cutaway is a RELATIONSHIP drawing only, label 连接待核对. No operating success, no running mechanism, no flipping bird, no full dinosaur limb coordination. Loose candidate bars remain beside dinosaur.
+EDIT: Repair this educational sheet conservatively. KEEP main title, six panel numbers and same yellow bird design. Panel1 cam MUST be ellipse with visibly OFF CENTER axle hole, not center. REMOVE all extra scraps. Panel2 show ONLY one plain vertical bamboo rod passing loosely through ONE thin cardboard top with guide hole, below place ellipse cam SEPARATED by a small visible gap labelled 接触关系待核对; NO blocks or extra foot plates. Panel3 same yellow bird facing LEFT attached to TOP of plain rod; NO base blocks. Panel4 show EMPTY open cardboard box, ellipse cam and horizontal axle DETACHED BESIDE BOX, bird on rod also detached beside box. Label 轴支撑/固轴/防脱待确认. NO invented bearing towers. Panel5 remove both assembled mechanisms; instead show ONLY two separate ellipse-cam and vertical plain-rod 2D contact diagrams labelled 轮缘低处 / 轮缘高处, each rod END touches cam OUTER EDGE from ABOVE, NEVER piercing cam. Label 原理关系. SAME bird facing LEFT atop each. Panel6 keep ONLY ellipse, heart, triangular replacement outlines and SAME yellow bird facing LEFT; REMOVE all blocks and extra scraps. No completed working model.
+EDIT: Change ONLY panel5. Remove all existing birds/rods/cams/arrows/text inside panel5 except heading 5 表演测试. Replace with SAME empty box, SAME bird facing LEFT on detached rod, SAME elliptical cam and detached axle laid separately. Label 不试转：先核对连接. No height comparison, no motion arrows. Keep all other panels exactly unchanged.

@@ -29,7 +29,7 @@ test('默认按材料从少到多排列，材料卡片同行等高、摘要位�
   const ordinarySize = await cards(page).first().boundingBox()
   await page.getByRole('button', { name: '日常材料', exact: true }).click()
   await expect(cards(page)).toHaveCount(5)
-  expect(await order(page)).toEqual(['102', '103', '738', '586', '1157'])
+  expect(await order(page)).toEqual(['102', '103', '738', '586', '478'])
   await expect(cards(page).first()).toContainText('3 样材料')
   await expect(page.getByText('先从材料少的开始，也可以点选上方材料')).toHaveCount(0)
   await expect(page.getByText('点选上方材料来匹配')).toHaveCount(0)
@@ -80,7 +80,7 @@ test('点选后优先展示最接近的项目，材料类别齐全仍提示核�
   await page.getByRole('button', { name: '移除盘子' }).click()
   await expect(rainbow).toContainText('还差：盘子')
   await page.getByRole('button', { name: '清空已选材料' }).click()
-  expect(await order(page)).toEqual(['102', '103', '738', '586', '1157'])
+  expect(await order(page)).toEqual(['102', '103', '738', '586', '478'])
   await expect(page.getByRole('group', { name: '常见材料' }).getByRole('button', { pressed: true })).toHaveCount(0)
 })
 
