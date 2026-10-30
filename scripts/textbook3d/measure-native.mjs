@@ -73,6 +73,17 @@ try {
       assert.equal(await page.locator('[data-render-state] canvas').count(), 1)
       trend.push({ ...current, usedJSHeapSize: await page.evaluate(() => performance.memory?.usedJSHeapSize ?? null) })
     }
+    // Rotation while the sheet is moving must settle safely on the requested
+    // page, preserving the canvas and leaving the next navigation usable.
+    await page.getByRole('button', { name: '下一页', exact: true }).click()
+    await page.setViewportSize({ width: viewport.height, height: viewport.width })
+    await settle()
+    assert.equal((await stats()).turning, false)
+    assert.equal((await stats()).page, 1)
+    assert.equal(await page.locator('[data-render-state] canvas').count(), 1)
+    await page.setViewportSize({ width: viewport.width, height: viewport.height })
+    await page.getByRole('button', { name: '上一页', exact: true }).click()
+    await settle()
     const idleBefore = await stats()
     await page.waitForTimeout(600)
     assert.equal((await stats()).renders, idleBefore.renders)
@@ -94,6 +105,14 @@ try {
     results.viewports.push({ ...viewport, initial, drag, warmed, trend, routeTrend })
     await context.close()
   }
+  const reducedContext = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' })
+  const reducedPage = await reducedContext.newPage()
+  await reducedPage.goto(`${baseURL}/textbook/p1a-1-1`)
+  await reducedPage.locator('[data-render-state="ready"]').waitFor()
+  await reducedPage.getByRole('button', { name: '下一页', exact: true }).click()
+  await reducedPage.waitForFunction(() => document.querySelector('[data-render-state] canvas')?.textbookDiagnostics?.().page === 1)
+  assert.equal(await reducedPage.locator('[data-render-state] canvas').evaluate((canvas) => canvas.textbookDiagnostics().turning), false)
+  await reducedContext.close()
   // Verify readable content/retry remain available without WebGL.
   const fallbackContext = await browser.newContext({ viewport: { width: 390, height: 844 } })
   await fallbackContext.addInitScript(() => {

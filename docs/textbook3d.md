@@ -55,20 +55,24 @@ public/textbook3d/v1/
 **可维护入口**：
 - `components/features/textbook3d/textbook-frame.tsx`：按课选择新版或旧 iframe，第一课的 React 界面动态导入。
 - `components/features/textbook3d/native/plant-lesson.tsx`、`plant-canvas.tsx`：两页文字、题目、探索记录、模型加载与重试；切页保留同一画布。
-- `lib/textbook3d/native/plants.ts`：观察内容与像素预算；`plant-models.ts`：树、小草、花的程序化几何和材质；`plant-stage.ts`：Three.js 场景、灯光、相机及诊断；`demand-renderer.ts`：按需绘制。
+- `lib/textbook3d/native/plants.ts`：观察内容与像素预算；`plant-models.ts`：树、小草、花的程序化几何和材质；`book-model.ts`：硬封、书脊、页叠与翻页轴；`book-garden.ts`：植物在书页上的折叠节点、灯光和相机；`book-motion.ts`：有限翻页时间线；`plant-stage.ts`：Three.js 渲染、点击选择、生命周期及诊断；`demand-renderer.ts`：按需绘制。
 - `components/features/textbook3d/use-textbook-immersive.ts`：新旧阅读器共用全屏与退出清理。
 
 这部分直接由当前仓库的 Next.js 构建：本地 `pnpm dev` 打开 `/textbook/p1a-1-1`，应用构建入口仍为 `pnpm build`，不需要旧 `build_split.py` 或额外同步步骤。旧课仍遵循上节的构建流程。
 
-**交互语义**：仍是两页。保留“植物就在身边”“大树/小草/花”“哪个是植物”“说出五种植物”内容；将滑块、播放、灰点、摇动操作替换为明确的三种植物选择与拖动观察。视角操作也支持方向键、加减键和 Home。没有自动播放或持续摆动，因此没有孤立的“静止”按钮。第二页「记录本次探索」是用户主动记录，选择示例或答对题不会自动完成，不评判五种植物目标或知识掌握。
+**交互语义**：仍是两页。保留“植物就在身边”“大树/小草/花”“哪个是植物”“说出五种植物”内容；将滑块、播放、灰点、摇动操作替换为明确的三种植物选择与拖动观察。视角操作也支持方向键、加减键和 Home。没有自动播放或持续摆动，因此没有孤立的“静止”按钮。植物共同立在实际 Three.js 书页上，可直接点选，也可使用书页边缘的大树/小草/花标签。实体书包含硬封、书脊、可见页叠与布书签；页上标题是按相机位置投影的 DOM 短标签，详细课文、题目和记录仍使用正向、可访问的纸页阅读区，不烘焙成难读纹理。第二页「记录本次探索」是用户主动记录，选择示例或答对题不会自动完成，不评判五种植物目标或知识掌握。
+
+**翻页与手机布局**：两页仍是原来的两个学习内容状态，不新增课时。820 毫秒的一次性时间线依次收起书页上的植物、绕书脊翻动纸页、展开植物；相机在纸页升起时短暂后移，避免裁掉页顶。翻页期间忽略重复翻页并暂时禁用植物选择，退出全屏和旧版回退始终可用。「恢复视角」会先结束当前翻页并落到请求的目标页，再恢复相机，后续帧不会被旧翻页视角覆盖。视口尺寸变化、离开视口、页面隐藏、渲染错误或 context lost 都立即落到请求的目标页；卸载取消后续工作。`prefers-reduced-motion` 下直接切换，偏好在动画途中改变也会立即结束。桌面阅读区以中央折缝分栏，手机为正向单列纸页；模型区与阅读区共用一处可滚动容器，全屏退出按钮和翻页栏保持在容器外。
 
 **资源与性能边界**：
-- 只有当前可见课本加载 Three.js，单个阅读器拥有一个 renderer、一个 canvas，三种模型在该实例内复用；切页不重建，切课、旧版回退、卸载均释放。没有模块级 GPU 资源缓存；模块代码可由浏览器缓存，几何/材质/实例缓冲区由场景独占。
-- DPR 上限 1.5，并同时限制绘制缓冲区约 150 万像素；一盏 512×512 阴影灯，阴影只在植物变化时更新，无后处理。源网格预算：大树 23 个网格/7,328 三角形，小草 6/2,772，花 18/14,112；阴影等额外 pass 不计入这些源数据，实际 draw calls 以运行时采样为准。
-- 静态时不排 RAF；拖动、选择、恢复视角、尺寸变化才绘制。离开视口或页面隐藏时暂停；过期动态 import 不创建 renderer。所有监听器、Observer、RAF、几何、材质、实例缓冲区、阴影资源和 renderer 在所有权结束时释放。
+- 只有当前可见课本加载 Three.js，单个阅读器拥有一个 renderer、一个 canvas，书体与三种模型在该实例内复用；切页不重建，切课、旧版回退、卸载均释放。没有模块级 GPU 资源缓存；模块代码可由浏览器缓存，几何/材质/实例缓冲区由场景独占。
+- DPR 上限 1.5，并同时限制绘制缓冲区约 150 万像素；一盏 512×512 阴影灯，无后处理。阴影在选择植物、翻页改变几何状态时更新，空闲不更新；源码几何预算测试限制整本当前场景少于 45,000 三角形、135 个网格，实际 draw calls（包含阴影 pass）以真实运行时采样为准。
+- 静态时不排 RAF；拖动、选择、恢复视角、尺寸变化或有限翻页动画才绘制。翻页与交互复用同一个按需 RAF，没有额外动画循环。离开视口或页面隐藏时暂停；过期动态 import 不创建 renderer。所有监听器、Observer、RAF、几何、材质、实例缓冲区、阴影资源和 renderer 在所有权结束时释放。
 - `renderer.info` 的资源数与绘制计数、首帧等待时间、绘制 CPU 时间和拖动帧间隔，只在开发模式通过 canvas 的 `textbookDiagnostics()` 提供，不在产品界面显示。CPU 时间不等于 GPU 时间；首帧等待也不等于正式 Web Vitals TTI。
 
-**本地验收**：相关 Vitest 覆盖两页/单画布、显式探索记录、旧版分流、按需调度、隐藏暂停、资源释放与全屏清理。`app/project/[id]/textbook-immersive.test.tsx` 保留实际项目页输出的两套课本及断点祖先，使用 happy-dom 的媒体查询验证 390×844 ↔ 844×390、原生全屏拒绝后的回退、双实例竞争和滚动/焦点/卸载恢复；省略无关项目部件，3D 和 iframe 网络为测试边界替身，不等于真实浏览器布局或 WebGL 验收。`node scripts/textbook3d/measure-native.mjs` 在已启动的开发服务上检查 390×844、844×390、1440×1000，保存截图和初次渲染/拖动/反复切页切课全屏后的资源与 JS 堆趋势到 `/tmp/textbook-native-evidence`。可用 `TEXTBOOK_PREVIEW_URL`、`TEXTBOOK_BROWSER_EXECUTABLE`、`TEXTBOOK_EVIDENCE_DIR` 指定环境；浏览器必须支持正常沙箱，脚本不会关闭沙箱重试。不自动触发远端 CI。
+**本地验收**：相关 Vitest 覆盖两页/单画布、显式探索记录、旧版分流、按需调度、翻页结束/拒绝连点/减少动态效果/尺寸变化中断、页顶投影边界、实体植物点击、隐藏暂停、资源释放与全屏清理。`app/project/[id]/textbook-immersive.test.tsx` 保留实际项目页输出的两套课本及断点祖先，使用 happy-dom 的媒体查询验证 390×844 ↔ 844×390、原生全屏拒绝后的回退、双实例竞争、翻页 UI 忙碌时跨断点退出和滚动/焦点/卸载恢复；省略无关项目部件，3D 和 iframe 网络为测试边界替身，不等于真实浏览器布局或 WebGL 验收。`node scripts/textbook3d/measure-native.mjs` 在已启动的开发服务上检查 390×844、844×390、1440×1000，保存截图和初次渲染/拖动/反复切页切课全屏后的资源与 JS 堆趋势到 `/tmp/textbook-native-evidence`。可用 `TEXTBOOK_PREVIEW_URL`、`TEXTBOOK_BROWSER_EXECUTABLE`、`TEXTBOOK_EVIDENCE_DIR` 指定环境；浏览器必须支持正常沙箱，脚本不会关闭沙箱重试。不自动触发远端 CI。
+
+`scripts/textbook3d/preview-book-geometry.ts` 可从与应用相同的 `book-garden.ts` 源码导出打开/翻页/手机构图的 CPU 几何投影。使用本地已安装的 tsx 运行该脚本（当前环境为 `node node_modules/.pnpm/tsx@4.20.4/node_modules/tsx/dist/cli.mjs scripts/textbook3d/preview-book-geometry.ts`），输出默认 `/tmp/textbook-book-geometry`。SVGRenderer 不支持真实 WebGL 阴影、PBR 与深度缓冲，脚本仅在 CPU 导出时展开实例矩阵、隐藏桌面并近似光照；输出明确标记为源码几何预览，不能当作应用截图、DOM 布局验收或概念图。
 
 模型预算和 mock WebGL 的生命周期测试不代表真机帧率、GPU 内存或视觉验收。浏览器无法运行时必须保留这些验收项为未完成；只有在同设备、同画质与可比场景下采样后才能比较新旧性能。第一课试点不能据此宣称全册性能已改善。
 

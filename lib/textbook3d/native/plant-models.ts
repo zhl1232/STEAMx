@@ -14,7 +14,6 @@ export function createPlantModels() {
   const sphere = geometry(new THREE.SphereGeometry(1, 18, 12))
   const greens = [material("#396d46"), material("#56824c"), material("#72944f"), material("#8da35e")]
   const bark = material("#8e6346")
-  const earth = material("#d5c3a0")
   const moss = material("#9cac70")
   const pebble = material("#bfb9a8")
   const petal = material("#fff1d3")
@@ -35,8 +34,8 @@ export function createPlantModels() {
   }
   function base() {
     const group = new THREE.Group()
-    mesh(group, geometry(new THREE.CylinderGeometry(1.35, 1.28, 0.18, 48)), earth, [0, 0, 0])
-    mesh(group, geometry(new THREE.CylinderGeometry(1.31, 1.35, 0.07, 48)), moss, [0, 0.11, 0])
+    // A thin grassy paper shape rests directly on the book, with no model pedestal.
+    mesh(group, sphere, moss, [0, 0.03, 0], [1.28, 0.045, 1.0])
     for (const [x, z, size] of [[-0.9, 0.7, 0.15], [0.9, 0.35, 0.11], [0.6, -0.9, 0.13]]) {
       mesh(group, sphere, pebble, [x, 0.19, z], [size, size * 0.55, size * 0.75])
     }

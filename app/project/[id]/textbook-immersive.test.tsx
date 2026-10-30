@@ -21,7 +21,7 @@ vi.mock("next/dynamic", async () => {
   const { default: PlantLesson } = await import("@/components/features/textbook3d/native/plant-lesson")
   return { default: () => PlantLesson }
 })
-vi.mock("@/components/features/textbook3d/native/plant-canvas", () => ({ PlantCanvas: () => <div aria-label="植物画布" /> }))
+vi.mock("@/components/features/textbook3d/native/plant-canvas", () => ({ PlantCanvas: ({ onTurningChange }: { onTurningChange?: (value: boolean) => void }) => <div aria-label="植物画布"><button type="button" onClick={() => onTurningChange?.(true)}>模拟翻页中</button></div> }))
 
 import ProjectDetailPage from "./page"
 import TextbookFrame from "@/components/features/textbook3d/textbook-frame"
@@ -44,6 +44,10 @@ function readerBranches(node: ReactNode): ReactNode {
 function viewport(width: number, height: number) {
   // happy-dom evaluates CSS media queries but has no layout/WebGL engine.
   (window as unknown as HappyWindow).happyDOM.setViewport({ width, height })
+  // happy-dom caches computed media styles across viewport changes. Force the
+  // stylesheet invalidation a real browser performs before its resize event.
+  const stylesheet = document.getElementById("project-responsive-test-css")
+  if (stylesheet) stylesheet.textContent += " "
   window.dispatchEvent(new Event("resize"))
 }
 
@@ -163,4 +167,21 @@ describe("project textbook dual-layout fullscreen", () => {
     leave(desktop)
     expectUnlocked()
   })
+
+  it("releases the hidden mobile fullscreen owner even while its page-turn UI is busy", async () => {
+    const { mobile, desktop } = await projectReaders()
+    enter(mobile)
+    fireEvent.click(within(mobile).getByRole("button", { name: "下一页" }))
+    fireEvent.click(within(mobile).getByRole("button", { name: "模拟翻页中" }))
+    expect(within(mobile).getByRole("button", { name: "上一页" })).toBeDisabled()
+    expect(within(mobile).getByRole("button", { name: "退出全屏" })).toBeEnabled()
+    act(() => viewport(844, 390))
+    expectUnlocked()
+    enter(desktop)
+    leave(desktop)
+    expectUnlocked()
+    act(() => viewport(390, 844))
+    expectUnlocked()
+  })
+
 })
