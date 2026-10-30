@@ -1,10 +1,12 @@
 import { useEffect } from "react"
-import { fireEvent, render, screen, within } from "@testing-library/react"
+import { act, fireEvent, render, screen, within } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 import PlantLesson from "./plant-lesson"
 
 const canvasMount = vi.hoisted(() => vi.fn())
-vi.mock("./plant-canvas", () => ({ PlantCanvas: ({ plant }: { plant: string }) => {
+const canvasBoundary = vi.hoisted(() => ({ turn: undefined as ((busy: boolean) => void) | undefined }))
+vi.mock("./plant-canvas", () => ({ PlantCanvas: ({ plant, onTurningChange }: { plant: string; onTurningChange?: (busy: boolean) => void }) => {
+  useEffect(() => { canvasBoundary.turn = onTurningChange }, [onTurningChange])
   useEffect(() => { canvasMount() }, [])
   return <div data-testid="plant-canvas">{plant}</div>
 } }))
@@ -50,4 +52,19 @@ describe("first lesson reader", () => {
     fireEvent.click(screen.getByRole("button", { name: "使用旧版" }))
     expect(fallback).toHaveBeenCalledOnce()
   })
+
+  it("blocks competing page/plant changes during a turn while keeping fullscreen exit available", () => {
+    render(<PlantLesson title="我们知道的植物" onUseLegacy={vi.fn()} />)
+    fireEvent.click(screen.getByRole("button", { name: "全屏阅读" }))
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
+    act(() => canvasBoundary.turn?.(true))
+    expect(screen.getByRole("button", { name: "上一页" })).toBeDisabled()
+    expect(within(screen.getByRole("group", { name: "选择观察的植物" })).getByRole("button", { name: "花" })).toBeDisabled()
+    fireEvent.click(screen.getByRole("button", { name: "退出全屏" }))
+    expect(screen.getByRole("button", { name: "全屏阅读" })).toBeEnabled()
+    act(() => canvasBoundary.turn?.(false))
+    fireEvent.click(screen.getByRole("button", { name: "上一页" }))
+    expect(screen.getByText(/第 1 \/ 2 页/)).toBeInTheDocument()
+  })
+
 })

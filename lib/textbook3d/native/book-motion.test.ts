@@ -1,0 +1,55 @@
+import { describe, expect, it, vi } from "vitest"
+import { BOOK_TURN_MS, createBookMotion, type BookPose } from "./book-motion"
+
+describe("finite pop-up book transition", () => {
+  it("folds the garden before the sheet rises and unfolds only after the turn", () => {
+    const poses: BookPose[] = []
+    const busy = vi.fn()
+    const motion = createBookMotion(0, (pose) => poses.push(pose), busy)
+    expect(motion.turnTo(1, 100, false)).toBe(true)
+    motion.update(100 + BOOK_TURN_MS * 0.2)
+    expect(poses.at(-1)).toMatchObject({ fold: 0, turning: true, page: 0 })
+    motion.update(100 + BOOK_TURN_MS * 0.55)
+    expect(poses.at(-1)?.leafAngle).toBeGreaterThan(Math.PI / 2)
+    expect(poses.at(-1)?.page).toBe(1)
+    expect(motion.update(100 + BOOK_TURN_MS)).toBe(false)
+    expect(poses.at(-1)).toEqual({ fold: 1, leafAngle: 0, turning: false, page: 1 })
+    expect(busy.mock.calls).toEqual([[true], [false]])
+    expect(motion.update(9999)).toBe(false)
+    expect(motion.busy).toBe(false)
+  })
+
+  it("rejects overlapping turns and supports reverse turns after settling", () => {
+    const apply = vi.fn()
+    const motion = createBookMotion(0, apply, vi.fn())
+    motion.turnTo(1, 0, false)
+    expect(motion.turnTo(0, 20, false)).toBe(false)
+    expect(motion.turnTo(1, 20, false)).toBe(false)
+    motion.finish()
+    expect(motion.page).toBe(1)
+    expect(motion.turnTo(0, 1000, false)).toBe(true)
+    motion.update(1000 + BOOK_TURN_MS * 0.2)
+    expect(apply.mock.lastCall?.[0].leafAngle).toBeGreaterThan(Math.PI * 0.9)
+    motion.finish()
+    expect(motion.page).toBe(0)
+  })
+
+  it("settles immediately for reduced motion and never emits work after disposal", () => {
+    const apply = vi.fn()
+    const busy = vi.fn()
+    const motion = createBookMotion(0, apply, busy)
+    motion.turnTo(1, 0, true)
+    expect(motion.busy).toBe(false)
+    expect(busy).not.toHaveBeenCalledWith(true)
+    expect(apply.mock.lastCall?.[0]).toMatchObject({ page: 1, fold: 1, turning: false })
+    motion.turnTo(0, 100, false)
+    motion.dispose()
+    apply.mockClear()
+    busy.mockClear()
+    expect(motion.update(900)).toBe(false)
+    expect(motion.turnTo(1, 900, false)).toBe(false)
+    motion.finish()
+    expect(apply).not.toHaveBeenCalled()
+    expect(busy).not.toHaveBeenCalled()
+  })
+})
