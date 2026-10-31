@@ -119,8 +119,8 @@ export function createBookModel() {
   mesh(creaseShape, creaseSurface, [0, 0, 0], [1, 1, 1]).name = "paper-gutter"
   // A cloth bookmark extends beyond the lower edge, making the book silhouette legible.
   const bookmark = new THREE.Shape()
-  bookmark.moveTo(-0.12, 0); bookmark.lineTo(0.12, 0); bookmark.lineTo(0.12, 0.75)
-  bookmark.lineTo(0, 0.64); bookmark.lineTo(-0.12, 0.75); bookmark.closePath()
+  bookmark.moveTo(-0.12, 0); bookmark.lineTo(0.12, 0); bookmark.lineTo(0.12, 0.45)
+  bookmark.lineTo(0, 0.34); bookmark.lineTo(-0.12, 0.45); bookmark.closePath()
   const bookmarkGeometry = geometry(new THREE.ShapeGeometry(bookmark))
   bookmarkGeometry.rotateX(Math.PI / 2)
   mesh(bookmarkGeometry, ribbon, [-0.18, -0.08, 2.08], [1, 1, 1]).material.side = THREE.DoubleSide

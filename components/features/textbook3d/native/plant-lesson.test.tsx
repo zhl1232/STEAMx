@@ -87,6 +87,38 @@ describe("first lesson reader", () => {
     expect(fallback).toHaveBeenCalledOnce()
   })
 
+  it("labels all three parts on a single tree click, with no sequence or extra completion", () => {
+    const completed = vi.fn()
+    render(<PlantLesson title="我们知道的植物" onComplete={completed} onUseLegacy={vi.fn()} />)
+    const selector = screen.getByRole("group", { name: "选择观察的植物" })
+    fireEvent.click(within(selector).getByRole("button", { name: "大树" }))
+    expect(screen.getByText("大树上标出了树根、树干、树叶。再点大树可收起。")).toBeInTheDocument()
+    expect(document.querySelectorAll("[data-tree-bubble]")).toHaveLength(3)
+    expect(screen.queryByRole("button", { name: "树根" })).toBeNull()
+    fireEvent.click(within(selector).getByRole("button", { name: "大树" }))
+    expect(screen.queryByText("大树上标出了树根、树干、树叶。再点大树可收起。")).toBeNull()
+    expect(completed).not.toHaveBeenCalled()
+  })
+
+  it("ignores an edge drag or cancelled multi-touch while allowing a tap and keyboard flip", () => {
+    render(<PlantLesson title="我们知道的植物" onUseLegacy={vi.fn()} />)
+    const next = screen.getByRole("button", { name: "下一页" })
+    fireEvent.pointerDown(next, { clientX: 200, clientY: 150, button: 0, isPrimary: true })
+    fireEvent.pointerMove(next, { clientX: 220, clientY: 150 })
+    fireEvent.click(next, { detail: 1 })
+    expect(screen.getByText(/第 1 \/ 2 页/)).toBeInTheDocument()
+    fireEvent.pointerDown(next, { clientX: 200, clientY: 150, button: 0, isPrimary: true })
+    fireEvent.pointerDown(next, { clientX: 230, clientY: 150, button: 0, isPrimary: false })
+    fireEvent.click(next, { detail: 1 })
+    expect(screen.getByText(/第 1 \/ 2 页/)).toBeInTheDocument()
+    fireEvent.pointerDown(next, { clientX: 200, clientY: 150, button: 0, isPrimary: true })
+    fireEvent.pointerUp(next, { clientX: 202, clientY: 150 })
+    fireEvent.click(next, { detail: 1 })
+    expect(screen.getByText(/第 2 \/ 2 页/)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole("button", { name: "上一页" }), { detail: 0 })
+    expect(screen.getByText(/第 1 \/ 2 页/)).toBeInTheDocument()
+  })
+
   it("blocks competing page/plant changes during a turn while keeping fullscreen exit available", () => {
     render(<PlantLesson title="我们知道的植物" onUseLegacy={vi.fn()} />)
     fireEvent.click(screen.getByRole("button", { name: "全屏阅读" }))

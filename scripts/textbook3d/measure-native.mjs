@@ -15,6 +15,7 @@ try {
   for (const viewport of [
     { name: 'phone-portrait', width: 390, height: 844, mobile: true },
     { name: 'phone-landscape', width: 844, height: 390, mobile: true },
+    { name: 'reference-landscape', width: 873, height: 412, mobile: true },
     { name: 'desktop', width: 1440, height: 1000, mobile: false },
   ]) {
     const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height }, isMobile: viewport.mobile, hasTouch: viewport.mobile, deviceScaleFactor: viewport.mobile ? 3 : 1 })
@@ -54,6 +55,7 @@ try {
     }
     await open()
     await settle()
+    assert.equal(await page.getByRole('button', { name: '开启声音', exact: true }).getAttribute('aria-pressed'), 'false')
     await verifyPrint()
     const initial = await stats()
     assert.ok(initial.pixels <= 1_500_001)
@@ -68,14 +70,24 @@ try {
     await page.screenshot({ path: `${output}/${viewport.name}-fullscreen.png` })
     const stageBounds = await page.locator('[data-render-state] canvas').boundingBox()
     for (let i = 0; i < 4; i++) {
-      await page.mouse.move(stageBounds.x + stageBounds.width * 0.35, stageBounds.y + stageBounds.height * 0.5)
+      await page.mouse.move(stageBounds.x + stageBounds.width * 0.65, stageBounds.y + stageBounds.height * 0.3)
       await page.mouse.down()
-      await page.mouse.move(stageBounds.x + stageBounds.width * 0.65, stageBounds.y + stageBounds.height * 0.5, { steps: 30 })
+      await page.mouse.move(stageBounds.x + stageBounds.width * 0.78, stageBounds.y + stageBounds.height * 0.3, { steps: 30 })
       await page.mouse.up()
     }
     await settle()
     const drag = await stats()
-    for (const name of ['大树', '小草', '花', '大树']) await choose(name)
+    await choose('大树')
+    assert.equal(await page.locator('[data-tree-callout]').isVisible(), true)
+    assert.equal(await page.locator('[data-tree-bubble]').count(), 3)
+    const labels = await page.locator('[data-tree-bubble]').evaluateAll(elements => elements.map(element => {
+      const rect = element.getBoundingClientRect(); return { top: rect.top, bottom: rect.bottom }
+    }).sort((a, b) => a.top - b.top))
+    assert.ok(labels[1].top >= labels[0].bottom && labels[2].top >= labels[1].bottom)
+    await page.screenshot({ path: `${output}/${viewport.name}-tree-labels.png` })
+    await choose('大树')
+    assert.equal(await page.locator('[data-tree-callout]').isVisible(), false)
+    for (const name of ['小草', '花', '大树']) await choose(name)
     const warmed = await stats()
     const trend = []
     for (let i = 0; i < 10; i++) {

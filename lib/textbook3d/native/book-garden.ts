@@ -17,6 +17,14 @@ export function createBookGarden() {
   const root = new THREE.Group()
   root.name = "book-and-popups"
   root.add(book.root)
+  // Tiny vertex-alpha contact patches soften the roots' contact with the paper.
+  // These supplement the existing directional shadows; no texture or extra pass.
+  const contactShape = new THREE.CircleGeometry(1, 24)
+  contactShape.rotateX(-Math.PI / 2)
+  const contactColors: number[] = []
+  for (let i = 0; i < contactShape.attributes.position.count; i++) contactColors.push(0.24, 0.26, 0.19, i === 0 ? 0.22 : 0)
+  contactShape.setAttribute("color", new THREE.Float32BufferAttribute(contactColors, 4))
+  const contactMaterial = new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, depthWrite: false })
   const folds = Object.fromEntries(PLANT_IDS.map((id) => {
     const hinge = new THREE.Group()
     hinge.name = `${id}-paper-hinge`
@@ -26,6 +34,11 @@ export function createBookGarden() {
     plant.userData.plantId = id
     plant.scale.setScalar(sizes[id])
     hinge.add(plant)
+    const contact = new THREE.Mesh(contactShape, contactMaterial)
+    contact.name = `${id}-contact-shadow`
+    contact.position.y = 0.018
+    contact.scale.setScalar(id === "tree" ? 0.55 : 0.42)
+    hinge.add(contact)
     root.add(hinge)
     return [id, hinge]
   })) as Record<PlantId, THREE.Group>
@@ -43,12 +56,12 @@ export function createBookGarden() {
     setLayout(layout: BookLayout) {
       root.rotation.y = layout === "portrait" ? Math.PI / 2 : 0
       // Reflow the sheets, never stretch the approved plant meshes.
-      const x = layout === "portrait" ? 1.25 : layout === "landscape" ? 1.6 : 1
-      const z = layout === "landscape" ? 0.62 : 1
+      const x = layout === "portrait" ? 1.25 : layout === "landscape" ? 1.1 : 1
+      const z = 1
       book.root.scale.set(x, 1, z)
       for (const id of PLANT_IDS) {
         const [px, py, pz] = BOOK_PLANT_ANCHORS[id]
-        folds[id].position.set(px * x, py, (pz - (layout === "landscape" && id !== "tree" ? 0.6 : 0)) * z)
+        folds[id].position.set(px * x, py, pz * z)
       }
       root.updateMatrixWorld(true)
     },
@@ -68,6 +81,8 @@ export function createBookGarden() {
       root.removeFromParent()
       book.dispose()
       plants.dispose()
+      contactShape.dispose()
+      contactMaterial.dispose()
     },
   }
 }
@@ -106,7 +121,7 @@ export function fitBookCamera(camera: THREE.PerspectiveCamera, book?: THREE.Obje
   const center = new THREE.Vector3(0, 0.5, 0.12)
   const halfVertical = THREE.MathUtils.degToRad(camera.fov / 2)
   const halfHorizontal = Math.atan(Math.tan(halfVertical) * camera.aspect)
-  const angle = layout === "landscape" ? 0.08 : 0.38
+  const angle = layout === "landscape" ? 0.24 : 0.38
   const direction = new THREE.Vector3(0, Math.cos(angle), Math.sin(angle))
   const up = new THREE.Vector3(0, direction.z, -direction.y)
   // Fit the book and the raised plants, including their depth toward the lens.

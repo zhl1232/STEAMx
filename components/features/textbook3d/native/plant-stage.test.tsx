@@ -4,6 +4,7 @@ import { useLayoutEffect, useRef } from "react"
 import { act, render, waitFor } from "@testing-library/react"
 import { createPlantStage } from "@/lib/textbook3d/native/plant-stage"
 import { PlantCanvas } from "./plant-canvas"
+import { TREE_PARTS } from "@/lib/textbook3d/native/tree-parts"
 
 const boundary = vi.hoisted(() => ({ render: vi.fn(), dispose: vi.fn(), loseContext: vi.fn() }))
 vi.mock("three", async (importOriginal) => {
@@ -211,6 +212,58 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
       expect(stage.diagnostics()).toMatchObject({ visible: false, turning: false, pendingFrame: false })
     }
     expect(boundary.render).toHaveBeenCalledTimes(renders)
+    stage.dispose()
+  })
+
+  it("anchors three non-overlapping labels to the same-frame tree and clears them on turn, hide and failure", () => {
+    host.dataset.bookSpread = ""
+    const callout = document.createElement("div")
+    callout.dataset.treeCallout = ""
+    callout.innerHTML = `<svg>${TREE_PARTS.map(part => `<line data-tree-line="${part.id}"/><circle data-tree-pin="${part.id}"/>`).join("")}</svg>${TREE_PARTS.map(part => `<span data-tree-bubble="${part.id}">${part.name}</span>`).join("")}`
+    host.append(callout)
+    const dismissed = vi.fn()
+    rect = new DOMRect(0, 0, 873, 412)
+    const stage = createPlantStage(host, { plant: "tree", startedAt: 0, onReady: vi.fn(), onError: vi.fn(), onLabelsDismiss: dismissed })
+    flush()
+    expect(callout.hidden).toBe(true)
+    const beforeLabels = (boundary.render.mock.calls.at(-1)![1] as PerspectiveCamera).position.clone()
+    stage.setLabels(true)
+    expect((boundary.render.mock.calls.at(-1)![1] as PerspectiveCamera).position.equals(beforeLabels)).toBe(true)
+    const verify = (scene: Scene, camera: PerspectiveCamera) => {
+      camera.updateMatrixWorld(true)
+      const tree = scene.getObjectByName("plant-tree")!
+      const ys: number[] = []
+      for (const part of TREE_PARTS) {
+        const expected = new Vector3(...part.anchor).applyMatrix4(tree.matrixWorld).project(camera)
+        const line = callout.querySelector(`[data-tree-line="${part.id}"]`)!
+        expect(Number(line.getAttribute("x1"))).toBeCloseTo((expected.x + 1) * rect.width / 2, 5)
+        expect(Number(line.getAttribute("y1"))).toBeCloseTo((1 - expected.y) * rect.height / 2, 5)
+        ys.push(Number(line.getAttribute("y2")))
+      }
+      ys.sort((a, b) => a - b)
+      expect(ys[1] - ys[0]).toBeGreaterThanOrEqual(40)
+      expect(ys[2] - ys[1]).toBeGreaterThanOrEqual(40)
+    }
+    boundary.render.mockImplementation(verify)
+    flush()
+    expect(callout.hidden).toBe(false)
+    host.querySelector("canvas")!.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" })); flush()
+    rect = new DOMRect(0, 0, 390, 844); resize(); flush()
+    expect(stage.diagnostics().pendingFrame).toBe(false)
+    boundary.render.mockReset()
+    stage.setPage(1)
+    expect(callout.hidden).toBe(true)
+    expect(dismissed).toHaveBeenCalledOnce()
+    time = 900; flush()
+    stage.setLabels(true); flush(); stage.setVisible(false)
+    expect(callout.hidden).toBe(true)
+    stage.setVisible(true); flush()
+    expect(callout.hidden).toBe(true)
+    stage.setLabels(true); flush(); stage.setPlant("grass"); flush()
+    expect(callout.hidden).toBe(true)
+    stage.setPlant("tree"); stage.setLabels(true); flush()
+    host.querySelector("canvas")!.dispatchEvent(new Event("webglcontextlost", { cancelable: true }))
+    expect(callout.hidden).toBe(true)
     stage.dispose()
   })
 

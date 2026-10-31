@@ -6,6 +6,7 @@ import { bookLayoutFor, projectReadingPage, type BookLayout } from "./book-page-
 import { bookTurnCameraScale, createBookGarden, fitBookCamera, lightBookScene } from "./book-garden"
 import { createBookMotion, type BookPage } from "./book-motion"
 import { plantPixelRatio, type PlantId } from "./plants"
+import { TREE_PARTS, placeTreeLabels } from "./tree-parts"
 
 export type PlantStage = ReturnType<typeof createPlantStage>
 
@@ -14,6 +15,8 @@ export function createPlantStage(host: HTMLElement, options: {
   page?: BookPage
   onSelect?: (plant: PlantId) => void
   onTurningChange?: (turning: boolean) => void
+  showTreeLabels?: boolean
+  onLabelsDismiss?: () => void
   startedAt: number
   onReady: () => void
   onError: () => void
@@ -32,7 +35,7 @@ export function createPlantStage(host: HTMLElement, options: {
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.toneMappingExposure = 1.05
     renderer.shadowMap.enabled = true
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    renderer.shadowMap.type = THREE.PCFShadowMap
     renderer.shadowMap.autoUpdate = false
     const canvas = renderer.domElement
     canvas.setAttribute("aria-label", "植物立体书。点选书上的植物；拖动转动书本，双指缩放；也可用方向键和加减键。")
@@ -64,8 +67,16 @@ export function createPlantStage(host: HTMLElement, options: {
     const spread = host.closest<HTMLElement>("[data-book-spread]")
     const reading = spread?.querySelector<HTMLElement>("[data-book-reading]")
     const plantControls = spread?.querySelector<HTMLElement>("[data-book-controls]")
+    const edges = [...(spread?.querySelectorAll<HTMLElement>("[data-book-edge]") ?? [])]
+    const callout = spread?.querySelector<HTMLElement>("[data-tree-callout]")
+    let showTreeLabels = options.showTreeLabels ?? false
+    const dismissLabels = () => {
+      if (callout) callout.hidden = true
+      if (showTreeLabels) { showTreeLabels = false; options.onLabelsDismiss?.() }
+    }
+    const inkSurfaces = [reading, plantControls, ...edges]
     const setPrintResizing = (resizing: boolean) => {
-      for (const surface of [reading, plantControls]) {
+      for (const surface of inkSurfaces) {
         if (resizing) surface?.style.setProperty("visibility", "hidden")
         else surface?.style.removeProperty("visibility")
       }
@@ -83,10 +94,14 @@ export function createPlantStage(host: HTMLElement, options: {
       }
       if (plantControls) { plantControls.style.opacity = "1"; plantControls.inert = false }
       clearControlsPosition()
+      dismissLabels()
+      for (const edge of edges) { edge.removeAttribute("style"); edge.inert = false }
     }
     cleanup.push(() => {
       setPrintResizing(false)
       if (spread) delete spread.dataset.bookLayout
+      dismissLabels()
+      for (const edge of edges) { edge.removeAttribute("style"); edge.inert = false }
       reading?.style.removeProperty("transform")
       reading?.style.removeProperty("opacity")
       if (reading) reading.inert = false
@@ -104,6 +119,8 @@ export function createPlantStage(host: HTMLElement, options: {
       renderer.shadowMap.needsUpdate = true
     }, (turning) => {
       controls.enabled = !turning
+      if (turning) dismissLabels()
+      for (const edge of edges) { edge.inert = turning; edge.style.opacity = turning ? "0" : "1" }
       if (!turning) turnView = null
       if (reading) {
         // Cover the whole transition, including the initial fold and final unfold.
@@ -144,6 +161,40 @@ export function createPlantStage(host: HTMLElement, options: {
           plantControls.style.transform = projectReadingPage(camera, width, height, garden.paper, layout, true).transform
         }
       }
+      const project = (x: number, y: number, z: number, object = garden.paper) => {
+        const p = new THREE.Vector3(x, y, z).applyMatrix4(object.matrixWorld).project(camera)
+        return { x: (p.x + 1) * width / 2, y: (1 - p.y) * height / 2 }
+      }
+      for (const edge of edges) {
+        const x = edge.dataset.bookEdge === "previous" ? -3.57 : 3.57
+        const a = project(x, 0.15, -1.9), b = project(x, 0.15, 1.9)
+        const length = Math.hypot(b.x - a.x, b.y - a.y)
+        const center = project(0, .15, 0)
+        const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }
+        const radius = Math.hypot(mid.x - center.x, mid.y - center.y) || 1
+        mid.x += (mid.x - center.x) / radius * 18
+        mid.y += (mid.y - center.y) / radius * 18
+        edge.style.height = `${length}px`
+        edge.style.transform = `translate(${mid.x - 22}px,${mid.y - length / 2}px) rotate(${Math.atan2(b.y - a.y, b.x - a.x) - Math.PI / 2}rad)`
+      }
+      if (callout) {
+        callout.hidden = !showTreeLabels || selected !== "tree" || motion.busy || !intersecting || document.hidden
+        if (!callout.hidden) {
+          const anchors = TREE_PARTS.map(part => project(part.anchor[0], part.anchor[1], part.anchor[2], garden.plants.tree))
+          const corners = [[.16, -2.04], [3.5, -2.04], [3.5, 1.2], [.16, 1.2]].map(([x, z]) => project(x, .15, z))
+          const area = { left: Math.max(8, Math.min(...corners.map(p => p.x))), right: Math.min(width - 8, Math.max(...corners.map(p => p.x))), top: Math.max(8, Math.min(...corners.map(p => p.y))), bottom: Math.min(height - 8, Math.max(...corners.map(p => p.y))) }
+          if (layout !== "portrait") area.left = Math.max(corners[0].x, corners[3].x) + 12
+          const labels = placeTreeLabels(anchors, area)
+          TREE_PARTS.forEach((part, index) => {
+            const bubble = callout.querySelector<HTMLElement>(`[data-tree-bubble="${part.id}"]`)!
+            const line = callout.querySelector(`[data-tree-line="${part.id}"]`)!, pin = callout.querySelector(`[data-tree-pin="${part.id}"]`)!
+            const anchor = anchors[index], label = labels[index]
+            bubble.style.transform = `translate(${label.x}px,${label.y}px)`
+            for (const [key, value] of Object.entries({ x1: anchor.x, y1: anchor.y, x2: label.endX, y2: label.endY })) line.setAttribute(key, String(value))
+            pin.setAttribute("cx", String(anchor.x)); pin.setAttribute("cy", String(anchor.y))
+          })
+        }
+      }
       try {
         renderer.render(scene, camera)
         setPrintResizing(false)
@@ -169,6 +220,7 @@ export function createPlantStage(host: HTMLElement, options: {
     const updateVisibility = () => {
       const visible = intersecting && !document.hidden && !contextLost && !renderFailed && width > 0 && height > 0
       scheduler.setVisible(visible)
+      if (!visible) dismissLabels()
       if (!visible && motion.busy) { motion.finish(); scheduler.invalidate() }
     }
     const resetView = () => {
@@ -188,7 +240,13 @@ export function createPlantStage(host: HTMLElement, options: {
       if (disposed) return
       selected = id
       garden.setSelected(id)
+      if (id !== "tree") dismissLabels()
       renderer.shadowMap.needsUpdate = true
+      scheduler.invalidate()
+    }
+    const setLabels = (visible: boolean) => {
+      if (disposed || contextLost || renderFailed) return
+      showTreeLabels = visible
       scheduler.invalidate()
     }
     const setPage = (page: BookPage) => {
@@ -285,6 +343,7 @@ export function createPlantStage(host: HTMLElement, options: {
       let object: THREE.Object3D | null = hit?.object ?? null
       while (object && !object.userData.plantId) object = object.parent
       if (object?.userData.plantId) options.onSelect?.(object.userData.plantId as PlantId)
+      else dismissLabels()
     }
     canvas.addEventListener("pointerdown", onPointerDown)
     canvas.addEventListener("pointerup", onPointerUp)
@@ -324,7 +383,7 @@ export function createPlantStage(host: HTMLElement, options: {
     resize()
     updateVisibility()
     return {
-      setPlant, setPage, resetView, dispose, diagnostics,
+      setPlant, setPage, setLabels, resetView, dispose, diagnostics,
       setVisible(value: boolean) { if (!disposed) { intersecting = value; updateVisibility() } },
     }
   } catch (error) {

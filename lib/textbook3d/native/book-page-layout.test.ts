@@ -5,7 +5,7 @@ import { bookLayoutFor, projectReadingPage, readingPageSize } from "./book-page-
 
 describe("readable text on the physical book", () => {
   it("maps every DOM corner to its paper corner after camera and viewport changes", () => {
-    for (const [width, height] of [[1440, 760], [900, 580], [390, 730], [844, 278]]) {
+    for (const [width, height] of [[1440, 760], [900, 580], [390, 730], [844, 390], [873, 412]]) {
       const garden = createBookGarden()
       const layout = bookLayoutFor(width, height)
       garden.setLayout(layout)
@@ -30,13 +30,21 @@ describe("readable text on the physical book", () => {
   it("uses the phone's page width without stretching the approved plant meshes", () => {
     const garden = createBookGarden()
     const plantScales = Object.values(garden.plants).map((plant) => plant.scale.clone())
-    for (const [width, height] of [[390, 730], [844, 278]]) {
+    for (const [width, height] of [[390, 730], [844, 390], [873, 412]]) {
       const layout = bookLayoutFor(width, height)
       garden.setLayout(layout)
       const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100)
       fitBookCamera(camera, garden.root, layout)
       const { points } = projectReadingPage(camera, width, height, garden.paper, layout)
-      expect(points[1].x - points[0].x).toBeGreaterThan(width === 390 ? 280 : 340)
+      const printWidth = points[1].x - points[0].x
+      const printHeight = points[3].y - points[0].y
+      // With the fixed bars gone, a normal landscape sheet must fill height,
+      // not gain width by flattening the book into the previous 200px ribbon.
+      expect(printWidth / readingPageSize(layout).width * 17).toBeGreaterThan(14)
+      if (layout === "landscape") {
+        expect(printHeight).toBeGreaterThan(height * .73)
+        expect(printWidth / printHeight).toBeLessThan(1)
+      }
       for (const point of points) {
         expect(point.x).toBeGreaterThan(0); expect(point.x).toBeLessThan(width)
         expect(point.y).toBeGreaterThan(0); expect(point.y).toBeLessThan(height)

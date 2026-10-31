@@ -8,22 +8,28 @@ import type { BookPage } from "@/lib/textbook3d/native/book-motion"
 import type { PlantStage } from "@/lib/textbook3d/native/plant-stage"
 import styles from "./plant-lesson.module.css"
 
-export function PlantCanvas({ plant, page = 0, onSelect, onTurningChange }: {
+export function PlantCanvas({ plant, page = 0, onSelect, onTurningChange, showTreeLabels = false, onLabelsDismiss, onVisibleChange }: {
   plant: PlantId
   page?: BookPage
   onSelect?: (plant: PlantId) => void
   onTurningChange?: (turning: boolean) => void
+  showTreeLabels?: boolean
+  onLabelsDismiss?: () => void
+  onVisibleChange?: (visible: boolean) => void
 }) {
   const host = useRef<HTMLDivElement>(null)
   const stage = useRef<PlantStage | null>(null)
   const currentPlant = useRef(plant)
   const currentPage = useRef(page)
-  const callbacks = useRef({ onSelect, onTurningChange })
-  useEffect(() => { callbacks.current = { onSelect, onTurningChange } }, [onSelect, onTurningChange])
+  const callbacks = useRef({ onSelect, onTurningChange, onLabelsDismiss, onVisibleChange })
+  const currentLabels = useRef(showTreeLabels)
+  useEffect(() => { callbacks.current = { onSelect, onTurningChange, onLabelsDismiss, onVisibleChange } }, [onSelect, onTurningChange, onLabelsDismiss, onVisibleChange])
   // Start the turn/conceal text before the newly requested page can paint.
   useLayoutEffect(() => { currentPage.current = page; stage.current?.setPage(page) }, [page])
   const [attempt, setAttempt] = useState(0)
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading")
+
+  useEffect(() => { currentLabels.current = showTreeLabels; stage.current?.setLabels(showTreeLabels) }, [showTreeLabels])
 
   useEffect(() => {
     currentPlant.current = plant
@@ -46,6 +52,8 @@ export function PlantCanvas({ plant, page = 0, onSelect, onTurningChange }: {
         stage.current = createPlantStage(element, {
           plant: currentPlant.current,
           page: currentPage.current,
+          showTreeLabels: currentLabels.current,
+          onLabelsDismiss: () => { if (!cancelled) callbacks.current.onLabelsDismiss?.() },
           onSelect: (id) => { if (!cancelled) callbacks.current.onSelect?.(id) },
           onTurningChange: (turning) => { if (!cancelled) callbacks.current.onTurningChange?.(turning) },
           startedAt,
@@ -74,6 +82,7 @@ export function PlantCanvas({ plant, page = 0, onSelect, onTurningChange }: {
     const updateVisibility = (next: boolean) => {
       if (cancelled) return
       visible = next
+      callbacks.current.onVisibleChange?.(next)
       stage.current?.setVisible(next)
       if (next) void initialize()
       else if (element.getBoundingClientRect().width === 0 && stage.current) {
@@ -96,8 +105,8 @@ export function PlantCanvas({ plant, page = 0, onSelect, onTurningChange }: {
   return (
     <div className={styles.stage} data-render-state={status}>
       <div ref={host} className={styles.canvasHost} />
-      {status === "ready" && <button type="button" className={styles.reset} onClick={() => stage.current?.resetView()}>
-        <RotateCcw size={16} aria-hidden />恢复视角
+      {status === "ready" && <button type="button" className={styles.reset} aria-label="恢复视角" title="恢复视角" onClick={() => stage.current?.resetView()}>
+        <RotateCcw size={18} aria-hidden />
       </button>}
       {status !== "ready" && <div className={styles.stageStatus} role={status === "error" ? "alert" : "status"}>
         <p>{status === "error" ? "3D 画面暂时打不开" : "正在打开立体书…"}</p>

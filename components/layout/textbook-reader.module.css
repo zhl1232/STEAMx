@@ -3,8 +3,6 @@
   .chrome { display: none; }
   .page { position: relative; padding-top: env(safe-area-inset-top); padding-bottom: 0; padding-inline: 0; }
   .page > header { position: absolute; top: calc(6px + env(safe-area-inset-top)); left: 14px; z-index: 2; padding: 0; }
-  .page [data-page-counter] { visibility: hidden; }
-  .page [data-immersive] [data-page-counter] { visibility: visible; }
   .page > header > p, .page > nav { display: none; }
   .page > header > h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   .page > header > a { min-height: 40px; padding-block: 4px; font-size: 14px; }

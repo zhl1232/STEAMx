@@ -197,7 +197,7 @@ import { Surface } from "@/components/ui/surface"
 - **表单**：`control-field`
 - **移动端子导航**：`mobile-subnav`（与 `MobilePageHeader` / `MobileGlobalHeader` 配合）
 
-新增路由若自管移动 Header，需加入 `conditional-app-shell.tsx` 的 `pageOwnedMobileHeaderRoots` 并注明原因。第一课 `/textbook/p1a-1-1` 使用精确路径判断：手机和低矮横屏由阅读器与目录返回共用一行导航，收起站点页头、页脚及底栏；其他课本路由不受影响，离开即恢复。
+新增路由若自管移动 Header，需加入 `conditional-app-shell.tsx` 的 `pageOwnedMobileHeaderRoots` 并注明原因。第一课 `/textbook/p1a-1-1` 使用精确路径判断：手机和低矮横屏由阅读器接管可用高度，目录返回及必要阅读工具置于边角，不保留固定上下翻页栏，收起站点页头、页脚及底栏；其他课本路由不受影响，离开即恢复。
 
 ---
 
