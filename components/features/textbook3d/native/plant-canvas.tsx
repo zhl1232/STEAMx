@@ -50,11 +50,21 @@ export function PlantCanvas({ plant, page = 0, onSelect, onTurningChange }: {
           onTurningChange: (turning) => { if (!cancelled) callbacks.current.onTurningChange?.(turning) },
           startedAt,
           onReady: () => { if (!cancelled) setStatus("ready") },
-          onError: () => { if (!cancelled) setStatus("error") },
+          onError: () => {
+            if (!cancelled) {
+              const spread = element.closest<HTMLElement>("[data-book-spread]")
+              if (spread) spread.dataset.bookLayout = "compact"
+              setStatus("error")
+            }
+          },
         })
         stage.current.setVisible(visible)
       } catch {
-        if (!cancelled) setStatus("error")
+        if (!cancelled) {
+          const spread = element.closest<HTMLElement>("[data-book-spread]")
+          if (spread) spread.dataset.bookLayout = "compact"
+          setStatus("error")
+        }
       } finally {
         loading = false
       }

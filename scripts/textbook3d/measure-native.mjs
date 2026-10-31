@@ -24,6 +24,7 @@ try {
     const open = async () => {
       await page.goto(`${baseURL}/textbook/p1a-1-1`, { waitUntil: 'domcontentloaded' })
       await page.locator('[data-render-state="ready"]').waitFor({ timeout: 30_000 })
+      await page.evaluate(() => document.fonts.ready)
       assert.equal(await page.locator('[data-render-state] canvas').count(), 1)
       assert.equal(await page.locator('iframe').count(), 0)
     }
@@ -32,11 +33,28 @@ try {
       return canvas.textbookDiagnostics()
     })
     const settle = async () => { await page.waitForFunction(() => !document.querySelector('[data-render-state] canvas')?.textbookDiagnostics?.().pendingFrame) }
+    const verifyPrint = async () => {
+      const reading = await page.locator('[data-book-reading]').evaluate((element) => ({
+        layout: element.closest('[data-book-spread]').dataset.bookLayout,
+        contentHeight: element.scrollHeight, height: element.clientHeight,
+        contentWidth: element.scrollWidth, width: element.clientWidth,
+        overflowY: getComputedStyle(element).overflowY,
+        transform: getComputedStyle(element).transform,
+      }))
+      assert.notEqual(reading.layout, 'compact', 'A working phone must print on the paper')
+      assert.ok(reading.transform.startsWith('matrix3d('))
+      assert.ok(reading.contentHeight <= reading.height + 1, 'All lesson text must fit its printed page')
+      assert.ok(reading.contentWidth <= reading.width + 1, 'Print must not spill past the paper')
+      assert.ok(!['auto', 'scroll', 'hidden', 'clip'].includes(reading.overflowY), 'No scrollbars or clipped lesson text')
+      return reading
+    }
     const choose = async (name) => {
       await page.getByRole('group', { name: '选择观察的植物' }).getByRole('button', { name, exact: true }).click()
       await settle()
     }
     await open()
+    await settle()
+    await verifyPrint()
     const initial = await stats()
     assert.ok(initial.pixels <= 1_500_001)
     assert.ok(initial.dpr <= 1.5)
@@ -67,6 +85,7 @@ try {
       await page.getByRole('button', { name: '退出全屏', exact: true }).click()
       await page.getByRole('button', { name: '全屏阅读', exact: true }).click()
       await settle()
+      await verifyPrint()
       const current = await stats()
       assert.equal(current.geometries, warmed.geometries)
       assert.equal(current.textures, warmed.textures)
@@ -88,16 +107,18 @@ try {
     await page.waitForTimeout(600)
     assert.equal((await stats()).renders, idleBefore.renders)
     await page.getByRole('button', { name: '下一页', exact: true }).click()
-    await page.getByRole('heading', { name: '带着发现，去找一找' }).scrollIntoViewIfNeeded()
+    await settle()
+    await verifyPrint()
+    await page.getByRole('heading', { name: '带着发现去找一找' }).waitFor()
     await page.screenshot({ path: `${output}/${viewport.name}-page2.png`, fullPage: true })
     await page.getByRole('button', { name: '退出全屏', exact: true }).click()
     assert.notEqual(await page.evaluate(() => document.body.style.overflow), 'hidden')
     const routeTrend = []
     for (let i = 0; i < 3; i++) {
-      await page.getByRole('link', { name: /^下一节：/ }).click()
+      await page.goto(`${baseURL}/textbook/p1a-1-2`)
       await page.locator('iframe').waitFor()
       assert.equal(await page.locator('[data-render-state] canvas').count(), 0)
-      await page.getByRole('link', { name: /^上一节：/ }).click()
+      await page.goto(`${baseURL}/textbook/p1a-1-1`)
       await page.locator('[data-render-state="ready"]').waitFor()
       routeTrend.push(await stats())
     }

@@ -2,7 +2,7 @@ import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 
 import { createDemandRenderer } from "./demand-renderer"
-import { projectReadingPage } from "./book-page-layout"
+import { bookLayoutFor, projectReadingPage, type BookLayout } from "./book-page-layout"
 import { bookTurnCameraScale, createBookGarden, fitBookCamera, lightBookScene } from "./book-garden"
 import { createBookMotion, type BookPage } from "./book-motion"
 import { plantPixelRatio, type PlantId } from "./plants"
@@ -42,14 +42,14 @@ export function createPlantStage(host: HTMLElement, options: {
     cleanup.push(() => canvas.remove())
 
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 50)
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100)
     const controls = new OrbitControls(camera, canvas)
     controls.enableDamping = false
     controls.enablePan = false
-    controls.minPolarAngle = 0.45
-    controls.maxPolarAngle = 1.12
-    controls.minAzimuthAngle = -0.55
-    controls.maxAzimuthAngle = 0.65
+    controls.minPolarAngle = 0.04
+    controls.maxPolarAngle = 0.78
+    controls.minAzimuthAngle = -0.45
+    controls.maxAzimuthAngle = 0.45
     controls.rotateSpeed = 0.65
     controls.zoomSpeed = 0.7
     cleanup.push(() => controls.dispose())
@@ -60,27 +60,39 @@ export function createPlantStage(host: HTMLElement, options: {
     cleanup.push(lightBookScene(scene))
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")
     let turnView: THREE.Vector3 | null = null
+    let layout: BookLayout = "spread"
     const spread = host.closest<HTMLElement>("[data-book-spread]")
     const reading = spread?.querySelector<HTMLElement>("[data-book-reading]")
     const plantControls = spread?.querySelector<HTMLElement>("[data-book-controls]")
+    const setPrintResizing = (resizing: boolean) => {
+      for (const surface of [reading, plantControls]) {
+        if (resizing) surface?.style.setProperty("visibility", "hidden")
+        else surface?.style.removeProperty("visibility")
+      }
+    }
     const clearControlsPosition = () => {
       for (const property of ["left", "top", "right", "bottom", "transform"]) plantControls?.style.removeProperty(property)
     }
     const restoreUprightReading = () => {
+      setPrintResizing(false)
       if (spread) spread.dataset.bookLayout = "compact"
       if (reading) {
         reading.style.removeProperty("transform")
         reading.style.opacity = "1"
         reading.inert = false
       }
+      if (plantControls) { plantControls.style.opacity = "1"; plantControls.inert = false }
       clearControlsPosition()
     }
     cleanup.push(() => {
+      setPrintResizing(false)
       if (spread) delete spread.dataset.bookLayout
       reading?.style.removeProperty("transform")
       reading?.style.removeProperty("opacity")
       if (reading) reading.inert = false
       clearControlsPosition()
+      plantControls?.style.removeProperty("opacity")
+      if (plantControls) plantControls.inert = false
     })
     const motion = createBookMotion(options.page ?? 0, (pose) => {
       garden.setPose(pose)
@@ -98,6 +110,7 @@ export function createPlantStage(host: HTMLElement, options: {
         reading.style.opacity = turning ? "0" : "1"
         reading.inert = turning
       }
+      if (plantControls) { plantControls.style.opacity = turning ? "0" : "1"; plantControls.inert = turning }
       options.onTurningChange?.(turning)
     })
     motion.finish()
@@ -121,19 +134,19 @@ export function createPlantStage(host: HTMLElement, options: {
       if (disposed || contextLost || renderFailed) return
       const started = performance.now()
       const animating = motion.update(started)
-      if (reading && spread?.dataset.bookLayout === "spread") {
-        reading.style.transform = projectReadingPage(camera, width, height).transform
+      // OrbitControls changes the pose before renderer.render updates matrixWorld.
+      // Commit it first so DOM print and WebGL see exactly the same frame.
+      camera.updateMatrixWorld(true)
+      garden.root.updateMatrixWorld(true)
+      if (reading && spread?.dataset.bookLayout !== "compact") {
+        reading.style.transform = projectReadingPage(camera, width, height, garden.paper, layout).transform
         if (plantControls) {
-          const anchor = new THREE.Vector3(1.86, 0.15, 1.82).project(camera)
-          plantControls.style.left = `${(anchor.x + 1) * width / 2}px`
-          plantControls.style.top = `${(1 - anchor.y) * height / 2}px`
-          plantControls.style.right = "auto"
-          plantControls.style.bottom = "auto"
-          plantControls.style.transform = "translate(-50%, -50%)"
+          plantControls.style.transform = projectReadingPage(camera, width, height, garden.paper, layout, true).transform
         }
       }
       try {
         renderer.render(scene, camera)
+        setPrintResizing(false)
       } catch {
         renderFailed = true
         motion.finish()
@@ -163,7 +176,7 @@ export function createPlantStage(host: HTMLElement, options: {
       // End the camera-owning turn before resetting; its next frame must not
       // restore the old turnView over the user's requested view.
       if (motion.busy) motion.finish()
-      const fit = fitBookCamera(camera, garden.root)
+      const fit = fitBookCamera(camera, garden.root, layout)
       fitDistance = fit.distance
       controls.target.copy(fit.center)
       controls.minDistance = fitDistance * 0.8
@@ -203,11 +216,13 @@ export function createPlantStage(host: HTMLElement, options: {
         updateVisibility()
         return
       }
-      if (spread) spread.dataset.bookLayout = width >= 760 && height >= 480 ? "spread" : "compact"
-      if (spread?.dataset.bookLayout !== "spread") {
-        reading?.style.removeProperty("transform")
-        clearControlsPosition()
-      }
+      layout = bookLayoutFor(width, height)
+      // setSize clears the framebuffer. Do not expose an old DOM projection over
+      // that empty frame; reveal both surfaces after the next atomic draw.
+      setPrintResizing(true)
+      garden.setLayout(layout)
+      renderer.shadowMap.needsUpdate = true
+      if (spread) spread.dataset.bookLayout = layout
       updateVisibility()
       if (!width || !height) return
       renderer.setPixelRatio(plantPixelRatio(width, height, window.devicePixelRatio))
@@ -251,12 +266,15 @@ export function createPlantStage(host: HTMLElement, options: {
     }
     const raycaster = new THREE.Raycaster()
     let pointerStart: { x: number; y: number; id: number } | null = null
+    const pointers = new Set<number>()
     const onPointerDown = (event: PointerEvent) => {
-      pointerStart = event.isPrimary !== false && event.button === 0 ? { x: event.clientX, y: event.clientY, id: event.pointerId } : null
+      pointers.add(event.pointerId)
+      pointerStart = pointers.size === 1 && event.isPrimary !== false && event.button === 0 ? { x: event.clientX, y: event.clientY, id: event.pointerId } : null
     }
-    const onPointerCancel = () => { pointerStart = null }
+    const onPointerCancel = (event: PointerEvent) => { pointers.delete(event.pointerId); pointerStart = null }
     const onPointerUp = (event: PointerEvent) => {
       const start = pointerStart
+      pointers.delete(event.pointerId)
       pointerStart = null
       if (!start || start.id !== event.pointerId || motion.busy || Math.hypot(event.clientX - start.x, event.clientY - start.y) > 6) return
       const rect = canvas.getBoundingClientRect()

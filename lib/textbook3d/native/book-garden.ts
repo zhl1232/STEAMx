@@ -3,6 +3,7 @@ import { createBookModel } from "./book-model"
 import { createPlantModels } from "./plant-models"
 import type { BookPose } from "./book-motion"
 import { PLANT_IDS, type PlantId } from "./plants"
+import type { BookLayout } from "./book-page-layout"
 
 export const BOOK_PLANT_ANCHORS: Record<PlantId, [number, number, number]> = {
   tree: [1.65, 0.16, -0.62], grass: [0.88, 0.16, 1.12], flower: [2.73, 0.16, 0.92],
@@ -37,8 +38,20 @@ export function createBookGarden() {
   setSelected(selected)
   let disposed = false
   return {
-    root, plants: plants.models,
+    root, paper: book.root, plants: plants.models,
     setSelected,
+    setLayout(layout: BookLayout) {
+      root.rotation.y = layout === "portrait" ? Math.PI / 2 : 0
+      // Reflow the sheets, never stretch the approved plant meshes.
+      const x = layout === "portrait" ? 1.25 : layout === "landscape" ? 1.6 : 1
+      const z = layout === "landscape" ? 0.62 : 1
+      book.root.scale.set(x, 1, z)
+      for (const id of PLANT_IDS) {
+        const [px, py, pz] = BOOK_PLANT_ANCHORS[id]
+        folds[id].position.set(px * x, py, (pz - (layout === "landscape" && id !== "tree" ? 0.6 : 0)) * z)
+      }
+      root.updateMatrixWorld(true)
+    },
     setPose(pose: BookPose) {
       book.setPose(pose)
       folded = pose.fold < 0.02
@@ -86,11 +99,15 @@ export function lightBookScene(scene: THREE.Scene) {
 
 export const bookTurnCameraScale = (angle: number) => 1 + Math.sin(angle) * 0.55
 
-export function fitBookCamera(camera: THREE.PerspectiveCamera, book?: THREE.Object3D) {
+export function fitBookCamera(camera: THREE.PerspectiveCamera, book?: THREE.Object3D, layout: BookLayout = "spread") {
+  // A longer focal length avoids a close crown forcing the phone's paper tiny.
+  camera.fov = layout === "spread" ? 38 : 16
+  camera.updateProjectionMatrix()
   const center = new THREE.Vector3(0, 0.5, 0.12)
   const halfVertical = THREE.MathUtils.degToRad(camera.fov / 2)
   const halfHorizontal = Math.atan(Math.tan(halfVertical) * camera.aspect)
-  const direction = new THREE.Vector3(0, Math.cos(0.51), Math.sin(0.51))
+  const angle = layout === "landscape" ? 0.08 : 0.38
+  const direction = new THREE.Vector3(0, Math.cos(angle), Math.sin(angle))
   const up = new THREE.Vector3(0, direction.z, -direction.y)
   // Fit the book and the raised plants, including their depth toward the lens.
   // Using only the flat page dimensions cuts off the crown in a close view.
@@ -119,11 +136,18 @@ export function fitBookCamera(camera: THREE.PerspectiveCamera, book?: THREE.Obje
       points.push(new THREE.Vector3(x, y, z))
     }
   }
+  // Center the actual projected bounds, rather than leaving room for an assumed crown.
+  if (book) {
+    const xs = points.map((p) => p.x - center.x)
+    const ys = points.map((p) => p.clone().sub(center).dot(up))
+    center.x += (Math.min(...xs) + Math.max(...xs)) / 2
+    center.addScaledVector(up, (Math.min(...ys) + Math.max(...ys)) / 2)
+  }
   for (const point of points) {
     const relative = point.clone().sub(center)
     distance = Math.max(distance, relative.dot(direction) + Math.max(Math.abs(relative.x) / Math.tan(halfHorizontal), Math.abs(relative.dot(up)) / Math.tan(halfVertical)))
   }
-  distance *= 1.055
+  distance *= 1.025
   camera.position.copy(direction).multiplyScalar(distance).add(center)
   camera.lookAt(center)
   camera.updateMatrixWorld()

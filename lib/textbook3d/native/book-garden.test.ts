@@ -2,6 +2,7 @@ import * as THREE from "three"
 import { describe, expect, it, vi } from "vitest"
 import { bookTurnCameraScale, createBookGarden, fitBookCamera } from "./book-garden"
 import { PLANT_IDS } from "./plants"
+import { bookLayoutFor } from "./book-page-layout"
 
 describe("physical book garden", () => {
   it("places all plants on dimensional pages and folds them clear of the turning leaf", () => {
@@ -63,10 +64,12 @@ describe("physical book garden", () => {
   it("keeps the rising paper inside the default portrait, landscape and desktop frame", () => {
     const garden = createBookGarden()
     const sheet = garden.root.getObjectByName("hinged-turning-leaf")!
-    for (const [width, height] of [[390, 300], [844, 250], [1440, 500]]) {
+    for (const [width, height] of [[390, 690], [844, 250], [1440, 760]]) {
+      const layout = bookLayoutFor(width, height)
+      garden.setLayout(layout)
       garden.setPose({ page: 0, fold: 1, leafAngle: 0, turning: false })
       const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100)
-      const fit = fitBookCamera(camera, garden.root)
+      const fit = fitBookCamera(camera, garden.root, layout)
       const initialPosition = camera.position.clone()
       for (const angle of [Math.PI * 0.25, Math.PI * 0.5, Math.PI * 0.75]) {
         garden.setPose({ page: 1, fold: 0, leafAngle: angle, turning: true })
@@ -87,9 +90,11 @@ describe("physical book garden", () => {
   it("fits the raised plants as well as the flat book into the default view", () => {
     const garden = createBookGarden()
     garden.setPose({ page: 0, fold: 1, leafAngle: 0, turning: false })
-    for (const [width, height] of [[390, 310], [844, 280], [1200, 760]]) {
+    for (const [width, height] of [[390, 690], [844, 240], [1200, 760]]) {
+      const layout = bookLayoutFor(width, height)
+      garden.setLayout(layout)
       const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100)
-      fitBookCamera(camera, garden.root)
+      fitBookCamera(camera, garden.root, layout)
       garden.root.updateMatrixWorld(true)
       garden.root.traverseVisible((object) => {
         if (!(object instanceof THREE.Mesh)) return

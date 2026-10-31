@@ -24,6 +24,7 @@ import { NotificationProvider } from '@/lib/context/notification-context'
 import { isPlaywrightSmokeClient } from '@/lib/testing/playwright-smoke'
 import { cn } from '@/lib/utils'
 import { BRAND_NAME } from '@/lib/brand'
+import textbookStyles from './textbook-reader.module.css'
 
 const pageOwnedMobileHeaderRoots = [
   '/courses',
@@ -56,6 +57,7 @@ function isPathOrDescendant(pathname: string, root: string) {
 const MOBILE_LIST_PATHS = new Set(['/explore', '/nature', '/nature/observations', '/courses', '/playground'])
 
 export function hasPageOwnedMobileHeader(pathname: string) {
+  if (pathname === '/textbook/p1a-1-1') return true
   if (isPathOrDescendant(pathname, '/playground/physics-lab')) return false
   return (
     pathname === '/explore' ||
@@ -105,7 +107,9 @@ export function ConditionalAppShell({
   const isProfilePage = pathname.startsWith('/profile')
   const isStoreRoute = isPathOrDescendant(pathname, '/store')
   const isCourseLessonPage = /^\/courses\/\d+\/lessons\/\d+/.test(pathname)
+  const isNativeTextbook = pathname === '/textbook/p1a-1-1'
   const hideMobileBottomNav =
+    isNativeTextbook ||
     isStoreRoute ||
     pathname === '/project' ||
     pathname.startsWith('/share') ||
@@ -181,6 +185,7 @@ export function ConditionalAppShell({
         <header className={cn(
           "app-desktop-header",
           hideGlobalHeader && "hidden",
+          isNativeTextbook && textbookStyles.chrome,
           "hidden md:block",
           isProfilePage
             ? "md:border-white/10 md:bg-background/66"
@@ -220,7 +225,7 @@ export function ConditionalAppShell({
           {pageContent}
         </main>
         {showSiteFooter ? (
-          <div className={isStoreRoute ? 'hidden md:block' : hideMobileBottomNav ? undefined : 'pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0'}>
+          <div className={cn(isStoreRoute ? 'hidden md:block' : hideMobileBottomNav ? undefined : 'pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0', isNativeTextbook && textbookStyles.chrome)}>
             {footer}
           </div>
         ) : null}

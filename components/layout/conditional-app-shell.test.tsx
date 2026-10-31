@@ -5,6 +5,9 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { ConditionalAppShell, shouldShowSiteFooter } from './conditional-app-shell'
 import { SiteFooter } from './site-footer'
+import readerStyles from './textbook-reader.module.css'
+import { readFileSync } from 'node:fs'
+import type { Window as HappyWindow } from 'happy-dom'
 
 const { mockUseAuth, mockUsePathname } = vi.hoisted(() => ({
   mockUseAuth: vi.fn(),
@@ -107,6 +110,40 @@ describe('ConditionalAppShell mobile header policy', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockUseAuth.mockReturnValue({ user: null })
+  })
+
+  it('reclaims first-lesson chrome in portrait and landscape and restores it when leaving', () => {
+    const style = document.createElement('style')
+    const css = readFileSync('components/layout/textbook-reader.module.css', 'utf8')
+      .replaceAll('.chrome', `.${readerStyles.chrome}`).replaceAll('.page', `.${readerStyles.page}`)
+    // happy-dom treats comma-separated queries as AND. Two equivalent rules
+    // retain browser OR semantics while exercising the actual scoped stylesheet.
+    style.textContent = css.replace('(max-width: 767px), (max-height: 500px)', '(max-width: 767px)')
+      + css.replace('(max-width: 767px), (max-height: 500px)', '(max-height: 500px)')
+    document.head.append(style)
+    const footer = <footer data-testid="site-footer">页脚</footer>
+    mockUsePathname.mockReturnValue('/textbook/p1a-1-1')
+    const view = render(<ConditionalAppShell footer={footer}><div>课本</div></ConditionalAppShell>)
+    try {
+      for (const [width, height] of [[390, 844], [844, 390], [390, 844]]) {
+        (window as unknown as HappyWindow).happyDOM.setViewport({ width, height })
+        style.textContent += ' '
+        expect(screen.queryByTestId('shell-mobile-global-header')).toBeNull()
+        expect(screen.queryByTestId('bottom-nav')).toBeNull()
+        expect(getComputedStyle(screen.getByTestId('site-footer').parentElement!).display).toBe('none')
+        expect(getComputedStyle(view.container.querySelector('.app-desktop-header')!).display).toBe('none')
+      }
+      for (const route of ['/textbook', '/textbook/p1a-1-2', '/']) {
+        mockUsePathname.mockReturnValue(route)
+        view.rerender(<ConditionalAppShell footer={footer}><div>其他页面</div></ConditionalAppShell>)
+        expect(screen.getByTestId('shell-mobile-global-header')).toBeInTheDocument()
+        expect(screen.getByTestId('bottom-nav')).toBeInTheDocument()
+        expect(screen.getByTestId('site-footer').parentElement).not.toHaveClass(readerStyles.chrome)
+      }
+    } finally {
+      style.remove()
+      ;(window as unknown as HappyWindow).happyDOM.setViewport({ width: 1024, height: 768 })
+    }
   })
 
   it.each(['/leaderboard', '/admin', '/admin/projects/1', '/moderator/apply', '/playground', '/works/18'])(

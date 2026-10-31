@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
-import { PerspectiveCamera, Vector3, type Scene } from "three"
+import { PerspectiveCamera, Vector3, type Scene, type Object3D } from "three"
 import { useLayoutEffect, useRef } from "react"
 import { act, render, waitFor } from "@testing-library/react"
 import { createPlantStage } from "@/lib/textbook3d/native/plant-stage"
@@ -33,6 +33,7 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
   const flush = () => { const work = [...callbacks.values()]; callbacks.clear(); work.forEach((callback) => callback(0)) }
   beforeEach(() => {
     vi.clearAllMocks()
+    boundary.render.mockReset()
     callbacks = new Map()
     id = 0
     time = 0
@@ -120,16 +121,21 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
     flush()
     expect(spread.dataset.bookLayout).toBe("spread")
     expect(reading.style.transform).toContain("matrix3d(")
-    expect(controls.style.transform).toBe("translate(-50%, -50%)")
+    expect(controls.style.transform).toContain("matrix3d(")
     stage.setPage(1); time = 400; flush()
     expect(reading.style.opacity).toBe("0")
     expect(reading.inert).toBe(true)
-    rect = new DOMRect(0, 0, 390, 310); resize(); flush()
-    expect(spread.dataset.bookLayout).toBe("compact")
-    expect(reading.style.transform).toBe("")
+    rect = new DOMRect(0, 0, 390, 680); resize()
+    expect(reading.style.visibility).toBe("hidden")
+    expect(controls.style.visibility).toBe("hidden")
+    flush()
+    expect(reading.style.visibility).toBe("")
+    expect(controls.style.visibility).toBe("")
+    expect(spread.dataset.bookLayout).toBe("portrait")
+    expect(reading.style.transform).toContain("matrix3d(")
     expect(reading.style.opacity).toBe("1")
     expect(reading.inert).toBe(false)
-    expect(controls.style.transform).toBe("")
+    expect(controls.style.transform).toContain("matrix3d(")
     rect = new DOMRect(0, 0, 1200, 760); resize(); flush()
     host.querySelector("canvas")!.dispatchEvent(new Event("webglcontextlost", { cancelable: true }))
     expect(spread.dataset.bookLayout).toBe("compact")
@@ -138,6 +144,41 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
     expect(spread.dataset.bookLayout).toBeUndefined()
     expect(callbacks.size).toBe(0)
     spread.remove()
+  })
+
+  it("projects print and all four button corners with the camera used in that same render", () => {
+    host.dataset.bookSpread = ""
+    const reading = document.createElement("section"), buttons = document.createElement("div")
+    reading.dataset.bookReading = ""; buttons.dataset.bookControls = ""
+    host.append(reading, buttons)
+    rect = new DOMRect(0, 0, 1200, 760)
+    const stage = createPlantStage(host, { plant: "tree", startedAt: 0, onReady: vi.fn(), onError: vi.fn() })
+    const verify = (surface: HTMLElement, paper: Object3D, camera: PerspectiveCamera, width: number, height: number, corners: number[][]) => {
+      const m = surface.style.transform.slice(9, -1).split(",").map(Number)
+      for (const [i, [x, y]] of [[0, 0], [width, 0], [width, height], [0, height]].entries()) {
+        const w = m[3] * x + m[7] * y + 1
+        const expected = new Vector3().fromArray(corners[i]).applyMatrix4(paper.matrixWorld).project(camera)
+        expect((m[0] * x + m[4] * y + m[12]) / w).toBeCloseTo((expected.x + 1) * rect.width / 2, 5)
+        expect((m[1] * x + m[5] * y + m[13]) / w).toBeCloseTo((1 - expected.y) * rect.height / 2, 5)
+      }
+    }
+    boundary.render.mockImplementation((scene: Scene, camera: PerspectiveCamera) => {
+      // A real WebGLRenderer updates this before drawing. The DOM must already agree.
+      camera.updateMatrixWorld(true)
+      const paper = scene.getObjectByName("botanical-pop-up-book")!
+      verify(reading, paper, camera, 320, 430, [[-3.48,.145,-2.02],[-.26,.145,-2.02],[-.26,.145,2.02],[-3.48,.145,2.02]])
+      verify(buttons, paper, camera, 320, 52, [[.45,.148,1.5],[3.22,.148,1.5],[3.22,.148,2.18],[.45,.148,2.18]])
+    })
+    flush()
+    const canvas = host.querySelector("canvas")!
+    for (const key of ["ArrowLeft", "ArrowUp", "ArrowRight", "+", "-"]) {
+      canvas.dispatchEvent(new KeyboardEvent("keydown", { key }))
+      flush()
+      expect(stage.diagnostics().pendingFrame).toBe(false)
+    }
+    expect(boundary.render).toHaveBeenCalledTimes(6)
+    stage.dispose()
+    boundary.render.mockReset()
   })
 
   it.each(["context lost", "render exception"])("preserves upright reading after %s through resize and page changes", (failure) => {
@@ -343,6 +384,11 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
     select.mockClear()
     pointer("pointerdown"); pointer("pointerup", 12)
     expect(select).not.toHaveBeenCalled()
+    pointer("pointerdown")
+    canvas.dispatchEvent(new PointerEvent("pointerdown", { pointerId: 2, button: 0, isPrimary: false, clientX: x + 20, clientY: y }))
+    canvas.dispatchEvent(new PointerEvent("pointerup", { pointerId: 2, button: 0, isPrimary: false, clientX: x + 20, clientY: y }))
+    pointer("pointerup")
+    expect(select).not.toHaveBeenCalled() // A pinch must never become an example tap.
     stage.dispose()
   })
 

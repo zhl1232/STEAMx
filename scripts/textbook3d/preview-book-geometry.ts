@@ -6,7 +6,7 @@ import { SVGRenderer } from "three/examples/jsm/renderers/SVGRenderer.js"
 import { Window } from "happy-dom"
 import sharp from "sharp"
 import { bookTurnCameraScale, createBookGarden, fitBookCamera, lightBookScene } from "../../lib/textbook3d/native/book-garden"
-import { projectReadingPage } from "../../lib/textbook3d/native/book-page-layout"
+import { bookLayoutFor, projectReadingPage } from "../../lib/textbook3d/native/book-page-layout"
 
 async function main() {
 const output = process.env.TEXTBOOK_GEOMETRY_PREVIEW_DIR || "/tmp/textbook-book-geometry"
@@ -17,10 +17,13 @@ Object.defineProperty(globalThis, "document", { configurable: true, value: windo
 for (const view of [
   { name: "open-book", width: 1200, height: 760, page: 0, fold: 1, leafAngle: 0, turning: false },
   { name: "turning-page", width: 1200, height: 760, page: 1, fold: 0, leafAngle: Math.PI * 0.58, turning: true },
-  { name: "phone-book", width: 390, height: 300, page: 1, fold: 1, leafAngle: 0, turning: false },
+  { name: "phone-book", width: 390, height: 730, page: 1, fold: 1, leafAngle: 0, turning: false },
+  { name: "landscape-book", width: 844, height: 278, page: 1, fold: 1, leafAngle: 0, turning: false },
 ] as const) {
   const scene = new THREE.Scene()
   const garden = createBookGarden()
+  const layout = bookLayoutFor(view.width, view.height)
+  garden.setLayout(layout)
   garden.setPose(view)
   scene.add(garden.root)
   const releaseLight = lightBookScene(scene)
@@ -56,7 +59,7 @@ for (const view of [
     batch.visible = false
   }
   const camera = new THREE.PerspectiveCamera(38, view.width / view.height, 0.1, 100)
-  const fit = fitBookCamera(camera, view.turning ? undefined : garden.root)
+  const fit = fitBookCamera(camera, view.turning ? undefined : garden.root, layout)
   camera.position.sub(fit.center).multiplyScalar(bookTurnCameraScale(view.leafAngle)).add(fit.center)
   camera.lookAt(fit.center)
   camera.updateMatrixWorld()
@@ -85,7 +88,7 @@ for (const view of [
   if (view.name === "open-book") {
     // An explicitly labelled typesetting proof, NOT a rasterization of React DOM.
     // Lines use the same camera/page projection; browser wrapping still needs acceptance.
-    const { matrix: m } = projectReadingPage(camera, view.width, view.height)
+    const { matrix: m } = projectReadingPage(camera, view.width, view.height, garden.paper, layout)
     const point = (x: number, y: number) => {
       const w = m[3] * x + m[7] * y + 1
       return [(m[0] * x + m[4] * y + m[12]) / w, (m[1] * x + m[5] * y + m[13]) / w]

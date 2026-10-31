@@ -67,7 +67,7 @@ export default function PlantLesson({ title, onComplete, onUseLegacy }: {
   return (
     <div ref={box} className={`${frameStyles.frame} ${styles.lesson}`} data-immersive={immersive || undefined} data-turning={turning || undefined} aria-label={title}>
       <div className={frameStyles.toolbar}>
-        <span className={styles.pageLabel} aria-live="polite">第 {page + 1} / 2 页 <span>· {page === 0 ? "认识植物" : "动手找一找"}</span></span>
+        <span className={styles.pageLabel} data-page-counter aria-live="polite">第 {page + 1} / 2 页 <span>· {page === 0 ? "认识植物" : "动手找一找"}</span></span>
         <button ref={fullscreenButton} type="button" className={frameStyles.fullscreenButton} aria-pressed={immersive} onClick={immersive ? exitImmersive : enterImmersive}>
           {immersive ? <Minimize2 size={18} aria-hidden /> : <Maximize2 size={18} aria-hidden />}{immersive ? "退出全屏" : "全屏阅读"}
         </button>
@@ -86,19 +86,26 @@ export default function PlantLesson({ title, onComplete, onUseLegacy }: {
           </div>
         </section>
         <section ref={reading} className={styles.reading} data-book-reading aria-label="课文与探索任务" aria-busy={turning}>
+          <h2 ref={heading} tabIndex={-1}>{page === 0 ? "我们知道的植物" : "带着发现去找一找"}</h2>
+          {page === 0 && <p className={styles.lead}>大树、小草、花，都是植物。<br />它们都是活的，会生长。</p>}
+          <div className={styles.pageContent}>
           <div className={styles.readingIntro}>
-            <p className={styles.kicker}>{page === 0 ? "看一看 · 认识身边的植物" : "做一做 · 把发现带到生活里"}</p>
-            <h2 ref={heading} tabIndex={-1}>{page === 0 ? "我们知道的植物" : "带着发现去找一找"}</h2>
-            <p className={styles.lead}>{page === 0 ? <>大树、小草、花，都是植物。<br />它们都是活的，会生长。</> : "看过立体书，再看看身边真实的植物。"}</p>
+            {page === 0 ? <>
             <div className={styles.observation} aria-live="polite">
               <h3>{plant.name}<span>{plant.feature}</span></h3>
               <p>{plant.observation}</p>
-              <p className={styles.place}>在哪里见过？{plant.place}。</p>
             </div>
+            </> : <>
+              <p className={styles.steps}>转一转、比一比：在哪里见过它们？</p>
+              <p className={styles.explored}>观察小记录 · 已选过 {explored.length} 种示例</p>
+              <ul className={styles.observations} aria-label="观察小记录">
+                {PLANTS.map((item) => <li key={item.id}>{explored.includes(item.id) && <Check size={14} aria-label="已探索" />}{item.name}</li>)}
+              </ul>
+            </>}
           </div>
           <div className={styles.readingTask}>
             {page === 0 ? <>
-                <fieldset className={styles.question}>
+              <fieldset className={styles.question}>
                 <legend>猜一猜：哪个是植物？</legend>
                 <div className={styles.answers}>
                   {answers.map((item, index) => <button key={item} type="button" aria-pressed={answer === index} onClick={() => setAnswer(index)}>{item}</button>)}
@@ -106,19 +113,9 @@ export default function PlantLesson({ title, onComplete, onUseLegacy }: {
                 <p className={styles.feedback} role="status">{answer === null ? "选一个，说说你的理由。" : feedback[answer]}</p>
               </fieldset>
             </> : <>
-              <ol className={styles.steps}>
-                <li>分别选大树、小草、花，转一转看。</li>
-                <li>说说它们的样子，哪里一样、哪里不一样？</li>
-                <li>想一想：你在哪里见过它们？</li>
-              </ol>
-              <table className={styles.observations}>
-                <caption>观察小记录 · 已选过 {explored.length} 种示例</caption>
-                <thead><tr><th scope="col">植物</th><th scope="col">样子</th></tr></thead>
-                <tbody>{PLANTS.map((item) => <tr key={item.id}><th scope="row">{explored.includes(item.id) && <Check size={14} aria-label="已探索" />}{item.name}</th><td>{item.feature}</td></tr>)}</tbody>
-              </table>
               <div className={styles.challenge}>
                 <h3>说出 5 种你认识的植物</h3>
-                <p>和家人说一说；也可以在校园、公园里找一找，不采摘。</p>
+                <p>和家人说说，再到校园、公园找找，不采摘。</p>
               </div>
               <button type="button" className={styles.record} onClick={recordExploration} disabled={recorded}>
                 {recorded ? <><Check size={18} aria-hidden />本次已探索</> : "记录本次探索"}
@@ -126,7 +123,7 @@ export default function PlantLesson({ title, onComplete, onUseLegacy }: {
               <p className={styles.recordNote}>只记录这次探索，不判断你是否已经掌握。</p>
             </>}
           </div>
-          <span className={styles.folio} aria-hidden="true">{page + 1}</span>
+          </div>
         </section>
       </div>
       <nav className={styles.pageNav} aria-label="课本翻页">
