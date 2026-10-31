@@ -4,7 +4,10 @@ import { useLayoutEffect, useRef } from "react"
 import { act, render, waitFor } from "@testing-library/react"
 import { createPlantStage } from "@/lib/textbook3d/native/plant-stage"
 import { PlantCanvas } from "./plant-canvas"
+import { BOOK_TURN_MS } from "@/lib/textbook3d/native/book-motion"
 import { TREE_PARTS } from "@/lib/textbook3d/native/tree-parts"
+import { createObservationModels } from "@/lib/textbook3d/native/observation-models"
+import { getSceneLabels } from "@/lib/textbook3d/native/scene-labels"
 
 const boundary = vi.hoisted(() => ({ render: vi.fn(), dispose: vi.fn(), loseContext: vi.fn() }))
 vi.mock("three", async (importOriginal) => {
@@ -168,7 +171,7 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
       camera.updateMatrixWorld(true)
       const paper = scene.getObjectByName("botanical-pop-up-book")!
       verify(reading, paper, camera, 320, 430, [[-3.48,.145,-2.02],[-.26,.145,-2.02],[-.26,.145,2.02],[-3.48,.145,2.02]])
-      verify(buttons, paper, camera, 320, 52, [[.45,.148,1.5],[3.22,.148,1.5],[3.22,.148,2.18],[.45,.148,2.18]])
+      verify(buttons, paper, camera, 220, 52, [[.45,.148,1.5],[2.78,.148,1.5],[2.78,.148,2.18],[.45,.148,2.18]])
     })
     flush()
     const canvas = host.querySelector("canvas")!
@@ -254,7 +257,7 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
     stage.setPage(1)
     expect(callout.hidden).toBe(true)
     expect(dismissed).toHaveBeenCalledOnce()
-    time = 900; flush()
+    time = BOOK_TURN_MS + 10; flush()
     stage.setLabels(true); flush(); stage.setVisible(false)
     expect(callout.hidden).toBe(true)
     stage.setVisible(true); flush()
@@ -282,7 +285,7 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
       expect(reading.style.opacity).toBe("0")
       expect(reading.inert).toBe(true)
     }
-    time = 830; flush()
+    time = BOOK_TURN_MS + 10; flush()
     expect(reading.style.opacity).toBe("1")
     expect(reading.inert).toBe(false)
     Object.assign(motionPreference, { matches: true })
@@ -312,7 +315,7 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
     view.rerender(<Harness page={1} />)
     expect(beforePaint).toEqual(["0"])
     expect(view.container.querySelector<HTMLElement>("[data-book-reading]")!.inert).toBe(true)
-    act(() => { time = 830; flush() })
+    act(() => { time = BOOK_TURN_MS + 10; flush() })
     expect(view.container.querySelector<HTMLElement>("[data-book-reading]")!.style.opacity).toBe("1")
     view.unmount()
     expect(callbacks.size).toBe(0)
@@ -326,7 +329,7 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
     stage.setPage(1)
     stage.setPage(0)
     expect(stage.diagnostics()).toMatchObject({ page: 1, turning: true })
-    for (time = 0; time <= 850; time += 50) flush()
+    for (time = 0; time <= BOOK_TURN_MS + 50; time += 50) flush()
     expect(stage.diagnostics()).toMatchObject({ page: 1, turning: false, pendingFrame: false })
     expect(callbacks.size).toBe(0)
     expect(busy.mock.calls).toEqual([[true], [false]])
@@ -343,7 +346,7 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
     stage.setPage(1)
     time = 400
     flush()
-    expect(camera.position.distanceTo(defaultView)).toBeGreaterThan(1)
+    expect(camera.position.equals(defaultView)).toBe(true)
     stage.resetView()
     const restored = camera.position.clone()
     expect(restored.distanceTo(defaultView)).toBeLessThan(0.000001)
@@ -355,6 +358,66 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
     expect(stage.diagnostics().pendingFrame).toBe(false)
     expect(callbacks.size).toBe(0)
     stage.dispose()
+  })
+
+  it("preserves an orbited camera and the whole book through contents and both page turns", () => {
+    const stage = createPlantStage(host, { plant: "tree", page: -1, startedAt: 0, onReady: vi.fn(), onError: vi.fn() })
+    flush()
+    host.querySelector("canvas")!.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" }))
+    flush()
+    const [scene, camera] = boundary.render.mock.calls.at(-1) as [Scene, PerspectiveCamera]
+    const book = scene.getObjectByName("book-and-popups")!, paper = scene.getObjectByName("botanical-pop-up-book")!
+    const cameraMatrix = camera.matrixWorld.clone(), rootMatrix = book.matrixWorld.clone(), paperMatrix = paper.matrixWorld.clone()
+    const sheet = scene.getObjectByName("hinged-turning-leaf")!
+    for (const page of [0, 1, -1] as const) {
+      const start = time
+      stage.setPage(page)
+      for (const fraction of [0, .12, .3, .5, .7, .85, 1]) {
+        time = start + BOOK_TURN_MS * fraction
+        flush()
+        expect(camera.matrixWorld.equals(cameraMatrix)).toBe(true)
+        expect(book.matrixWorld.equals(rootMatrix)).toBe(true)
+        expect(paper.matrixWorld.equals(paperMatrix)).toBe(true)
+        if (fraction === .5) expect(sheet.visible).toBe(true)
+      }
+      expect(stage.diagnostics()).toMatchObject({ page, turning: false, pendingFrame: false })
+    }
+    stage.dispose()
+  })
+
+  it("reuses selection and same-frame labels for the second lesson's actual specimens", () => {
+    const spread = document.createElement("div")
+    spread.dataset.bookSpread = ""
+    host.replaceWith(spread); spread.append(host)
+    const callout = document.createElement("div")
+    callout.dataset.treeCallout = ""
+    spread.append(callout)
+    const stage = createPlantStage(host, { lessonId: "p1a-1-2", createModels: createObservationModels, plant: "leaf", startedAt: 0, onReady: vi.fn(), onError: vi.fn() })
+    flush()
+    const [scene, camera] = boundary.render.mock.calls.at(-1) as [Scene, PerspectiveCamera]
+    expect(scene.getObjectByName("plant-tree")).toBeUndefined()
+    const ring = scene.getObjectByName("selected-plant-ring")!
+    for (const plant of ["leaf", "stem", "flower"] as const) {
+      const labels = getSceneLabels("p1a-1-2", plant)
+      callout.innerHTML = `<svg>${labels.map(part => `<line data-tree-line="${part.id}"/><circle data-tree-pin="${part.id}"/>`).join("")}</svg>${labels.map(part => `<span data-tree-bubble="${part.id}"></span>`).join("")}`
+      stage.setPlant(plant); stage.setLabels(true); flush()
+      expect(callout.hidden).toBe(false)
+      expect(ring.userData.plantId).toBe(plant)
+      expect(scene.getObjectsByProperty("name", "selected-plant-ring")).toHaveLength(1)
+      const model = scene.getObjectByName(`plant-${plant}`)!
+      for (const part of labels) {
+        const anchor = new Vector3(...part.anchor).applyMatrix4(model.matrixWorld).project(camera)
+        const pin = callout.querySelector(`[data-tree-pin="${part.id}"]`)!
+        expect(Number(pin.getAttribute("cx"))).toBeCloseTo((anchor.x + 1) * rect.width / 2, 5)
+        expect(Number(pin.getAttribute("cy"))).toBeCloseTo((1 - anchor.y) * rect.height / 2, 5)
+      }
+      stage.setLabels(false); flush()
+      expect(callout.hidden).toBe(true)
+      expect(ring.userData.plantId).toBe(plant)
+      expect(ring.visible).toBe(true)
+      expect(callbacks.size).toBe(0)
+    }
+    stage.dispose(); spread.remove()
   })
 
   it("settles a turn on resize or hidden state and never leaves the controls busy", () => {
@@ -437,6 +500,8 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
     select.mockClear()
     pointer("pointerdown"); pointer("pointerup", 12)
     expect(select).not.toHaveBeenCalled()
+    pointer("pointerdown"); pointer("pointermove", 15); pointer("pointermove"); pointer("pointerup")
+    expect(select).not.toHaveBeenCalled() // Returning to the start does not turn an orbit into a tap.
     pointer("pointerdown")
     canvas.dispatchEvent(new PointerEvent("pointerdown", { pointerId: 2, button: 0, isPrimary: false, clientX: x + 20, clientY: y }))
     canvas.dispatchEvent(new PointerEvent("pointerup", { pointerId: 2, button: 0, isPrimary: false, clientX: x + 20, clientY: y }))

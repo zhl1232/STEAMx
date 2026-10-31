@@ -1,6 +1,19 @@
 import * as THREE from "three"
 import type { BookPose } from "./book-motion"
 
+/** A constant-length paper strip bending from the spine, not a rigid board. */
+export function turningPaperPoint(distance: number, z: number, angle: number) {
+  const length = 3.61
+  const curl = Math.min(Math.PI - angle, Math.sin(angle) * 1.5)
+  if (curl < 1e-6) return new THREE.Vector3(distance * Math.cos(angle), distance * Math.sin(angle), z)
+  // Bend the inner half continuously; the outer half follows its tangent.
+  // This preserves strip length without raising a whole rigid board into view.
+  const bendLength = length * .5
+  const curved = Math.min(distance, bendLength), straight = Math.max(0, distance - bendLength)
+  const end = angle + curl * curved / bendLength
+  return new THREE.Vector3(bendLength / curl * (Math.sin(end) - Math.sin(angle)) + straight * Math.cos(end), bendLength / curl * (Math.cos(angle) - Math.cos(end)) + straight * Math.sin(end), z)
+}
+
 /** A real, shallow hardback: separate cover, spine, page stacks and hinged leaf. */
 export function createBookModel() {
   const root = new THREE.Group()
@@ -74,7 +87,6 @@ export function createBookModel() {
   }
   const coverShape = slab(3.65, 4.65, 0.12, 0.14)
   const stackShape = slab(3.48, 4.43, 0.16, 0.09)
-  const paperShape = slab(3.49, 4.44, 0.018, 0.09)
   const paperSurface = new THREE.MeshStandardMaterial({ color: "#f6f0de", roughness: 1, vertexColors: true })
   paperSurface.map = paperSurface.bumpMap = paperGrain
   paperSurface.bumpScale = 0.002
@@ -142,7 +154,12 @@ export function createBookModel() {
   const leafSurface = material("#f6f0de")
   leafSurface.map = paperGrain
   leafSurface.side = THREE.DoubleSide
-  mesh(paperShape, leafSurface, [1.86, 0, 0], [1, 1, 1], turnLeaf)
+  const turningShape = geometry(new THREE.PlaneGeometry(3.61, 4.44, 24, 8))
+  turningShape.rotateX(-Math.PI / 2)
+  turningShape.translate(3.61 / 2, 0, 0)
+  const rest = turningShape.attributes.position.array.slice()
+  const turningMesh = mesh(turningShape, leafSurface, [0, 0, 0], [1, 1, 1], turnLeaf)
+  turningMesh.frustumCulled = false // This small dynamic leaf changes bounds only while turning.
   turnLeaf.visible = false
   let disposed = false
   return {
@@ -150,7 +167,15 @@ export function createBookModel() {
     setPose(pose: BookPose) {
       secondPage.visible = pose.page === 1
       turnLeaf.visible = pose.turning
-      turnLeaf.rotation.z = pose.leafAngle
+      if (pose.turning) {
+        const positions = turningShape.attributes.position
+        for (let i = 0; i < positions.count; i++) {
+          const point = turningPaperPoint(rest[i * 3], rest[i * 3 + 2], pose.leafAngle)
+          positions.setXYZ(i, point.x, point.y, point.z)
+        }
+        positions.needsUpdate = true
+        turningShape.computeVertexNormals()
+      }
     },
     dispose() {
       if (disposed) return

@@ -28,6 +28,7 @@ try {
       await page.evaluate(() => document.fonts.ready)
       assert.equal(await page.locator('[data-render-state] canvas').count(), 1)
       assert.equal(await page.locator('iframe').count(), 0)
+      await page.getByRole('button', { name: '下一页', exact: true }).click()
     }
     const stats = async () => page.locator('[data-render-state] canvas').evaluate((canvas) => {
       if (typeof canvas.textbookDiagnostics !== 'function') throw new Error('Run the local development server to enable renderer diagnostics')
@@ -127,13 +128,31 @@ try {
     assert.notEqual(await page.evaluate(() => document.body.style.overflow), 'hidden')
     const routeTrend = []
     for (let i = 0; i < 3; i++) {
-      await page.goto(`${baseURL}/textbook/p1a-1-2`)
+      await page.goto(`${baseURL}/textbook/p1a-1-3`)
       await page.locator('iframe').waitFor()
       assert.equal(await page.locator('[data-render-state] canvas').count(), 0)
       await page.goto(`${baseURL}/textbook/p1a-1-1`)
       await page.locator('[data-render-state="ready"]').waitFor()
       routeTrend.push(await stats())
     }
+    await page.goto(`${baseURL}/textbook/p1a-1-2`)
+    await page.locator('[data-render-state="ready"]').waitFor()
+    await settle()
+    await verifyPrint()
+    await page.getByRole('button', { name: '下一页', exact: true }).click()
+    await settle()
+    await verifyPrint()
+    assert.equal(await page.getByRole('group', { name: '观察植物时，可以用什么？' }).count(), 1)
+    for (const [name, count] of [['叶', 1], ['茎', 3], ['花', 2]]) {
+      await choose(name)
+      assert.equal(await page.locator('[data-tree-callout]').isVisible(), true)
+      assert.equal(await page.locator('[data-tree-bubble]').count(), count)
+    }
+    await page.screenshot({ path: `${output}/${viewport.name}-observation-page1.png`, fullPage: true })
+    await page.getByRole('button', { name: '下一页', exact: true }).click()
+    await settle()
+    await verifyPrint()
+    await page.screenshot({ path: `${output}/${viewport.name}-observation-page2.png`, fullPage: true })
     assert.deepEqual(errors, [])
     results.viewports.push({ ...viewport, initial, drag, warmed, trend, routeTrend })
     await context.close()
@@ -142,7 +161,7 @@ try {
   const reducedPage = await reducedContext.newPage()
   await reducedPage.goto(`${baseURL}/textbook/p1a-1-1`)
   await reducedPage.locator('[data-render-state="ready"]').waitFor()
-  await reducedPage.getByRole('button', { name: '下一页', exact: true }).click()
+  await reducedPage.getByRole('button', { name: '带着发现去找一找 2', exact: true }).click()
   await reducedPage.waitForFunction(() => document.querySelector('[data-render-state] canvas')?.textbookDiagnostics?.().page === 1)
   assert.equal(await reducedPage.locator('[data-render-state] canvas').evaluate((canvas) => canvas.textbookDiagnostics().turning), false)
   await reducedContext.close()
@@ -158,7 +177,7 @@ try {
   const fallbackPage = await fallbackContext.newPage()
   await fallbackPage.goto(`${baseURL}/textbook/p1a-1-1`)
   await fallbackPage.getByRole('button', { name: '重新加载 3D' }).waitFor()
-  await fallbackPage.getByRole('button', { name: '下一页', exact: true }).click()
+  await fallbackPage.getByRole('button', { name: '带着发现去找一找 2', exact: true }).click()
   assert.equal(await fallbackPage.getByText('说出 5 种你认识的植物', { exact: true }).count(), 1)
   await fallbackPage.screenshot({ path: `${output}/webgl-fallback.png`, fullPage: true })
   await fallbackContext.close()
@@ -170,5 +189,5 @@ try {
 } finally {
   await browser?.close()
   await writeFile(`${output}/measurements.json`, JSON.stringify(results, null, 2))
-  console.log(JSON.stringify({ status: results.status, completedViewports: results.viewports.length, evidence: output, error: results.error }))
+  console.info(JSON.stringify({ status: results.status, completedViewports: results.viewports.length, evidence: output, error: results.error }))
 }

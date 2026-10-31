@@ -1,7 +1,7 @@
 import * as THREE from "three"
 import { describe, expect, it } from "vitest"
 import { createBookGarden, fitBookCamera } from "./book-garden"
-import { bookLayoutFor, projectReadingPage, readingPageSize } from "./book-page-layout"
+import { BOOK_CORNER_SIZE, bookCornerCorners, bookLayoutFor, projectBookSurface, projectReadingPage, readingPageSize } from "./book-page-layout"
 
 describe("readable text on the physical book", () => {
   it("maps every DOM corner to its paper corner after camera and viewport changes", () => {
@@ -38,6 +38,10 @@ describe("readable text on the physical book", () => {
       const { points } = projectReadingPage(camera, width, height, garden.paper, layout)
       const printWidth = points[1].x - points[0].x
       const printHeight = points[3].y - points[0].y
+      // Same-source projection heights measured before this framing change;
+      // geometry evidence only, not a browser/typography acceptance claim.
+      const previousHeight = width === 390 ? 292.6 : width === 844 ? 296.98 : 313.73
+      expect(printHeight).toBeGreaterThan(previousHeight)
       // With the fixed bars gone, a normal landscape sheet must fill height,
       // not gain width by flattening the book into the previous 200px ribbon.
       expect(printWidth / readingPageSize(layout).width * 17).toBeGreaterThan(14)
@@ -50,6 +54,32 @@ describe("readable text on the physical book", () => {
         expect(point.y).toBeGreaterThan(0); expect(point.y).toBeLessThan(height)
       }
       Object.values(garden.plants).forEach((plant, index) => expect(plant.scale.equals(plantScales[index])).toBe(true))
+    }
+    garden.dispose()
+  })
+
+  it("keeps corner actions on the paper with usable projected phone targets", () => {
+    const garden = createBookGarden()
+    for (const [width, height] of [[390, 844], [844, 390], [873, 412], [1440, 1000]]) {
+      const layout = bookLayoutFor(width, height)
+      garden.setLayout(layout)
+      const camera = new THREE.PerspectiveCamera(38, width / height, .1, 100)
+      fitBookCamera(camera, garden.root, layout)
+      for (const previous of [true, false]) {
+        const corners = bookCornerCorners(layout, previous)
+        for (const [x, , z] of corners) {
+          expect(Math.abs(x)).toBeLessThanOrEqual(3.61)
+          expect(Math.abs(z)).toBeLessThan(2.22)
+        }
+        const { points } = projectBookSurface(camera, width, height, corners, { width: BOOK_CORNER_SIZE, height: BOOK_CORNER_SIZE }, garden.paper)
+        for (const point of points) {
+          expect(point.x).toBeGreaterThan(0); expect(point.x).toBeLessThan(width)
+          expect(point.y).toBeGreaterThan(0); expect(point.y).toBeLessThan(height)
+        }
+        const distance = (a: number, b: number) => Math.hypot(points[a].x - points[b].x, points[a].y - points[b].y)
+        expect(Math.min(distance(0, 1), distance(2, 3))).toBeGreaterThanOrEqual(44)
+        expect(Math.min(distance(1, 2), distance(3, 0))).toBeGreaterThanOrEqual(44)
+      }
     }
     garden.dispose()
   })

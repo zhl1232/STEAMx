@@ -125,15 +125,17 @@ describe('ConditionalAppShell mobile header policy', () => {
     mockUsePathname.mockReturnValue('/textbook/p1a-1-1')
     const view = render(<ConditionalAppShell footer={footer}><div>课本</div></ConditionalAppShell>)
     try {
-      for (const [width, height] of [[390, 844], [844, 390], [390, 844]]) {
-        (window as unknown as HappyWindow).happyDOM.setViewport({ width, height })
+      for (const route of ['/textbook/p1a-1-1', '/textbook/p1a-1-2']) for (const [width, height] of [[390, 844], [844, 390], [390, 844]]) {
+        mockUsePathname.mockReturnValue(route)
+        view.rerender(<ConditionalAppShell footer={footer}><div>课本</div></ConditionalAppShell>)
+        ;(window as unknown as HappyWindow).happyDOM.setViewport({ width, height })
         style.textContent += ' '
         expect(screen.queryByTestId('shell-mobile-global-header')).toBeNull()
         expect(screen.queryByTestId('bottom-nav')).toBeNull()
         expect(getComputedStyle(screen.getByTestId('site-footer').parentElement!).display).toBe('none')
         expect(getComputedStyle(view.container.querySelector('.app-desktop-header')!).display).toBe('none')
       }
-      for (const route of ['/textbook', '/textbook/p1a-1-2', '/']) {
+      for (const route of ['/textbook', '/textbook/p1a-1-3', '/']) {
         mockUsePathname.mockReturnValue(route)
         view.rerender(<ConditionalAppShell footer={footer}><div>其他页面</div></ConditionalAppShell>)
         expect(screen.getByTestId('shell-mobile-global-header')).toBeInTheDocument()

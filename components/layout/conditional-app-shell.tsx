@@ -2,6 +2,8 @@
 
 
 import Link from 'next/link'
+import { isNativeTextbookPath } from '@/lib/textbook3d/native/native-lessons'
+
 import { usePathname } from 'next/navigation'
 
 
@@ -57,7 +59,7 @@ function isPathOrDescendant(pathname: string, root: string) {
 const MOBILE_LIST_PATHS = new Set(['/explore', '/nature', '/nature/observations', '/courses', '/playground'])
 
 export function hasPageOwnedMobileHeader(pathname: string) {
-  if (pathname === '/textbook/p1a-1-1') return true
+  if (isNativeTextbookPath(pathname)) return true
   if (isPathOrDescendant(pathname, '/playground/physics-lab')) return false
   return (
     pathname === '/explore' ||
@@ -107,7 +109,7 @@ export function ConditionalAppShell({
   const isProfilePage = pathname.startsWith('/profile')
   const isStoreRoute = isPathOrDescendant(pathname, '/store')
   const isCourseLessonPage = /^\/courses\/\d+\/lessons\/\d+/.test(pathname)
-  const isNativeTextbook = pathname === '/textbook/p1a-1-1'
+  const isNativeTextbook = isNativeTextbookPath(pathname)
   const hideMobileBottomNav =
     isNativeTextbook ||
     isStoreRoute ||

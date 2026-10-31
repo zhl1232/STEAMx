@@ -1,8 +1,9 @@
 import * as THREE from "three"
 import { describe, expect, it, vi } from "vitest"
-import { bookTurnCameraScale, createBookGarden, fitBookCamera } from "./book-garden"
+import { createBookGarden, fitBookCamera } from "./book-garden"
 import { PLANT_IDS } from "./plants"
 import { bookLayoutFor } from "./book-page-layout"
+import { createObservationModels } from "./observation-models"
 
 describe("physical book garden", () => {
   it("places all plants on dimensional pages and folds them clear of the turning leaf", () => {
@@ -13,14 +14,14 @@ describe("physical book garden", () => {
       const dimensions = new THREE.Box3().setFromObject(object).getSize(new THREE.Vector3())
       expect(dimensions.y).toBeGreaterThan(0.01)
     }
-    for (const id of PLANT_IDS) expect(garden.plants[id].parent?.parent).toBe(garden.root)
+    for (const id of PLANT_IDS) expect(garden.root.getObjectByName(`${id}-paper-hinge`)).toBeDefined()
     garden.setPose({ page: 1, fold: 0, leafAngle: Math.PI / 2, turning: true })
-    expect(PLANT_IDS.every((id) => !garden.plants[id].parent!.visible)).toBe(true)
+    expect(PLANT_IDS.every((id) => !garden.root.getObjectByName(`${id}-paper-hinge`)!.visible)).toBe(true)
     const sheet = garden.root.getObjectByName("hinged-turning-leaf")!
     expect(sheet.visible).toBe(true)
-    expect(new THREE.Box3().setFromObject(sheet).max.y).toBeGreaterThan(3)
+    expect(new THREE.Box3().setFromObject(sheet).max.y).toBeGreaterThan(1)
     garden.setPose({ page: 1, fold: 1, leafAngle: 0, turning: false })
-    expect(PLANT_IDS.every((id) => garden.plants[id].parent!.visible)).toBe(true)
+    expect(PLANT_IDS.every((id) => garden.root.getObjectByName(`${id}-paper-hinge`)!.visible)).toBe(true)
     expect(sheet.visible).toBe(false)
     garden.dispose()
   })
@@ -73,12 +74,14 @@ describe("physical book garden", () => {
       const initialPosition = camera.position.clone()
       for (const angle of [Math.PI * 0.25, Math.PI * 0.5, Math.PI * 0.75]) {
         garden.setPose({ page: 1, fold: 0, leafAngle: angle, turning: true })
-        camera.position.copy(initialPosition).sub(fit.center).multiplyScalar(bookTurnCameraScale(angle)).add(fit.center)
+        expect(camera.position.equals(initialPosition)).toBe(true)
         camera.lookAt(fit.center)
         camera.updateMatrixWorld()
-        const bounds = new THREE.Box3().setFromObject(sheet)
-        for (const x of [bounds.min.x, bounds.max.x]) for (const y of [bounds.min.y, bounds.max.y]) for (const z of [bounds.min.z, bounds.max.z]) {
-          const projected = new THREE.Vector3(x, y, z).project(camera)
+        garden.root.updateMatrixWorld(true)
+        const mesh = sheet.children[0] as THREE.Mesh
+        const positions = mesh.geometry.attributes.position
+        for (let i = 0; i < positions.count; i++) {
+          const projected = new THREE.Vector3().fromBufferAttribute(positions, i).applyMatrix4(mesh.matrixWorld).project(camera)
           expect(Math.abs(projected.x)).toBeLessThan(1)
           expect(Math.abs(projected.y)).toBeLessThan(1)
         }
@@ -111,6 +114,32 @@ describe("physical book garden", () => {
       })
     }
     garden.dispose()
+  })
+
+  it("folds both lessons within their paper and leaves model scale and selection exclusive", () => {
+    for (const make of [undefined, createObservationModels]) {
+      const garden = createBookGarden(make?.())
+      const scales = Object.values(garden.plants).map(model => model.scale.clone())
+      for (const id of Object.keys(garden.plants)) {
+        garden.setSelected(id as Parameters<typeof garden.setSelected>[0])
+        const rings = garden.root.getObjectsByProperty("name", "selected-plant-ring")
+        expect(rings).toHaveLength(1)
+        expect(rings[0].userData.plantId).toBe(id)
+      }
+      garden.setPose({ page: 0, fold: 0, leafAngle: 0, turning: false })
+      garden.root.updateMatrixWorld(true)
+      for (const [index, model] of Object.values(garden.plants).entries()) {
+        const bounds = new THREE.Box3().setFromObject(model)
+        expect(bounds.min.y).toBeGreaterThanOrEqual(.1599)
+        expect(bounds.max.y).toBeLessThan(.18)
+        expect(bounds.max.z).toBeLessThan(2.23)
+        expect(model.scale.equals(scales[index])).toBe(true)
+      }
+      expect(garden.root.getObjectByName("selected-plant-ring")!.visible).toBe(false)
+      garden.setPose({ page: 1, fold: 1, leafAngle: 0, turning: false })
+      expect(garden.root.getObjectByName("selected-plant-ring")!.visible).toBe(true)
+      garden.dispose()
+    }
   })
 
 })

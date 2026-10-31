@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react"
 import dynamic from "next/dynamic"
 import { CheckCircle2, Loader2, Maximize2, Minimize2, RotateCcw } from "lucide-react"
 
+import { isNativeTextbookLesson } from "@/lib/textbook3d/native/native-lessons"
+
 import styles from "./textbook-frame.module.css"
 import { useTextbookImmersive } from "./use-textbook-immersive"
 
@@ -39,8 +41,8 @@ export default function TextbookFrame(props: Props) {
 
 function TextbookRenderer(props: Props) {
   const [legacy, setLegacy] = useState(false)
-  if (props.lessonId !== "p1a-1-1") return <LegacyTextbookFrame {...props} />
-  if (!legacy) return <PlantLesson title={props.title} onComplete={props.onComplete} onUseLegacy={() => setLegacy(true)} />
+  if (!isNativeTextbookLesson(props.lessonId)) return <LegacyTextbookFrame {...props} />
+  if (!legacy) return <PlantLesson lessonId={props.lessonId} title={props.title} onComplete={props.onComplete} onUseLegacy={() => setLegacy(true)} />
   return <>
     <button type="button" className="min-h-11 px-4 text-sm font-semibold text-primary underline underline-offset-4" onClick={() => setLegacy(false)}>返回新版植物课本</button>
     <LegacyTextbookFrame {...props} />

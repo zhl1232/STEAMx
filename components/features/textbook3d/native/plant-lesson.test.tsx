@@ -21,6 +21,7 @@ describe("first lesson reader", () => {
 
   it("resets the actual reading scroll position in both page directions", () => {
     render(<PlantLesson title="我们知道的植物" onUseLegacy={vi.fn()} />)
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
     const reading = screen.getByRole("region", { name: "课文与探索任务" })
     const body = reading.closest<HTMLElement>("[data-book-spread]")!
     for (const button of ["下一页", "上一页", "下一页"]) {
@@ -34,8 +35,9 @@ describe("first lesson reader", () => {
   })
 
   it("waits until the reading surface is available before moving focus to its new heading", () => {
-    canvasBoundary.animate = true
     render(<PlantLesson title="我们知道的植物" onUseLegacy={vi.fn()} />)
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
+    canvasBoundary.animate = true
     const next = screen.getByRole("button", { name: "下一页" })
     next.focus()
     fireEvent.click(next)
@@ -49,6 +51,7 @@ describe("first lesson reader", () => {
   it("uses two pages and keeps one canvas mounted while changing page and plant", () => {
     canvasMount.mockClear()
     render(<PlantLesson title="我们知道的植物" onUseLegacy={vi.fn()} />)
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
     expect(screen.getByText(/第 1 \/ 2 页/)).toBeInTheDocument()
     const selector = screen.getByRole("group", { name: "选择观察的植物" })
     fireEvent.click(within(selector).getByRole("button", { name: "小草" }))
@@ -64,6 +67,7 @@ describe("first lesson reader", () => {
   it("exploring examples does not automatically pass the five-plant challenge", () => {
     const onComplete = vi.fn()
     render(<PlantLesson title="我们知道的植物" onComplete={onComplete} onUseLegacy={vi.fn()} />)
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
     const selector = screen.getByRole("group", { name: "选择观察的植物" })
     for (const name of ["大树", "小草", "花"]) fireEvent.click(within(selector).getByRole("button", { name }))
     expect(onComplete).not.toHaveBeenCalled()
@@ -78,6 +82,7 @@ describe("first lesson reader", () => {
   it("retains the plant question and offers an explicit legacy fallback", () => {
     const fallback = vi.fn()
     render(<PlantLesson title="我们知道的植物" onUseLegacy={fallback} />)
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
     const question = screen.getByRole("group", { name: "猜一猜：哪个是植物？" })
     fireEvent.click(within(question).getByRole("button", { name: "石头" }))
     expect(screen.getByText("石头不会生长，再找找看。")).toBeInTheDocument()
@@ -90,6 +95,7 @@ describe("first lesson reader", () => {
   it("labels all three parts on a single tree click, with no sequence or extra completion", () => {
     const completed = vi.fn()
     render(<PlantLesson title="我们知道的植物" onComplete={completed} onUseLegacy={vi.fn()} />)
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
     const selector = screen.getByRole("group", { name: "选择观察的植物" })
     fireEvent.click(within(selector).getByRole("button", { name: "大树" }))
     expect(screen.getByText("大树上标出了树根、树干、树叶。再点大树可收起。")).toBeInTheDocument()
@@ -102,6 +108,7 @@ describe("first lesson reader", () => {
 
   it("ignores an edge drag or cancelled multi-touch while allowing a tap and keyboard flip", () => {
     render(<PlantLesson title="我们知道的植物" onUseLegacy={vi.fn()} />)
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
     const next = screen.getByRole("button", { name: "下一页" })
     fireEvent.pointerDown(next, { clientX: 200, clientY: 150, button: 0, isPrimary: true })
     fireEvent.pointerMove(next, { clientX: 220, clientY: 150 })
@@ -121,6 +128,7 @@ describe("first lesson reader", () => {
 
   it("blocks competing page/plant changes during a turn while keeping fullscreen exit available", () => {
     render(<PlantLesson title="我们知道的植物" onUseLegacy={vi.fn()} />)
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
     fireEvent.click(screen.getByRole("button", { name: "全屏阅读" }))
     fireEvent.click(screen.getByRole("button", { name: "下一页" }))
     act(() => canvasBoundary.turn?.(true))

@@ -18,13 +18,13 @@
 .muted { color: var(--plant-muted); font-size: 14px; }
 /* Both DOM surfaces share the paper's full projective transform. No position transitions. */
 .plantSelector { display: flex; justify-content: center; gap: 6px; }
-.plantSelector button { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 6px 12px; border: 1px solid #aab394; border-radius: 3px; background: #f6f0de; color: #425a42; cursor: pointer; font-size: 17px; }
+.plantSelector button { display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 44px; padding: 6px 4px; min-width: 0; white-space: nowrap; border: 1px solid #aab394; border-radius: 3px; background: #f6f0de; color: #425a42; cursor: pointer; font-size: 17px; }
 .plantSelector button[aria-pressed="true"] { background: #365b46; color: #f8f1df; border-color: #365b46; }
 .reading { color: var(--plant-ink); font-family: "Textbook Serif", serif; font-size: 17px; line-height: 1.4; }
 .body:not([data-book-layout="compact"]) .reading,
 .body:not([data-book-layout="compact"]) .plantSelector { position: absolute; left: 0; top: 0; margin: 0; padding: 0; transform-origin: 0 0; transition: none; touch-action: pinch-zoom; }
 .body:not([data-book-layout="compact"]) .reading { width: 320px; height: 430px; overflow: visible; }
-.body:not([data-book-layout="compact"]) .plantSelector { width: 320px; height: 52px; }
+.body:not([data-book-layout="compact"]) .plantSelector { width: 220px; height: 52px; }
 .body:not([data-book-layout="compact"]) .plantSelector button { flex: 1; }
 .body:not([data-book-layout]) .reading, .body:not([data-book-layout]) .plantSelector { visibility: hidden; }
 .reading h2 { color: #2b423a; font-size: 25px; line-height: 1.2; font-weight: 700; margin: 0 0 14px; letter-spacing: .02em; }
@@ -54,7 +54,7 @@
 .record { width: 100%; min-height: 50px; }
 .reading .recordNote { font-size: 12px; color: var(--plant-muted); line-height: 1.35; margin-top: 5px; }
 .pageNav { position: absolute; inset: 0; pointer-events: none; }
-.pageEdge { position: absolute; top: 0; left: 0; width: 44px; display: flex; justify-content: center; align-items: center; pointer-events: auto; cursor: pointer; color: #365b46; background: transparent; border: 0; transform-origin: center; }
+.pageEdge { position: absolute; top: 0; left: 0; width: 52px; height: 52px; display: flex; justify-content: center; align-items: center; pointer-events: auto; cursor: pointer; color: #365b46; background: transparent; border: 0; transform-origin: 0 0; }
 .pageEdge:hover:not(:disabled), .pageEdge:focus-visible { background: #365b4612; }
 .pageEdge svg { padding: 2px; width: 24px; height: 24px; background: #f6f0de; border: 1px solid #bfb7a3; border-radius: 50%; }
 .pageEdge:disabled { pointer-events: none; }
@@ -110,3 +110,27 @@
 .body[data-book-layout="compact"] .pageNav { position: relative; display: flex; justify-content: space-between; padding: 8px 20px; }
 .body[data-book-layout="compact"] .pageEdge { position: static; width: 44px; height: 44px; }
 .body[data-book-layout="compact"] .treeCallout { display: none; }
+
+.contents ol { list-style: none; padding: 0; margin: 24px 0; }
+.contents li + li { border-top: 1px solid #c5bea6; }
+.contents li button { width: 100%; min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; font-size: 18px; cursor: pointer; }
+.contents > p:last-child { font-size: 14px; color: var(--plant-muted); }
+.reading .folio { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.folio button { min-height: 32px; min-width: 44px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.reading .methods { line-height: 1.5; font-size: 15px; }
+.reading .touchNote { margin-top: 4px; font-size: 13px; color: var(--plant-muted); }
+.observationTable { width: 100%; font-size: 13px; border-collapse: collapse; margin: 4px 0; }
+.observationTable th { font-weight: 600; text-align: left; color: #8c593c; }
+.observationTable th, .observationTable td { padding: 2px; border-bottom: 1px solid #c5bea6; }
+.observationTable tr[data-selected] { background: #e5ead9; }
+
+.lesson[data-lesson="p1a-1-2"] .challenge { padding-block: 4px; }
+
+/* The folio and corner tap areas share the reserved lower paper margin. */
+.reading .folio { left: 58px; }
+.body[data-book-layout="compact"] .reading .folio { left: 0; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .reading h2 { margin-bottom: 8px; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .observation { margin-top: 8px; padding-top: 6px; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .question { margin-top: 6px; }
+
+.plantSelector button svg { width: 16px; height: 16px; flex-shrink: 0; }

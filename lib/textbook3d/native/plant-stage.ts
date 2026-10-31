@@ -2,18 +2,22 @@ import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 
 import { createDemandRenderer } from "./demand-renderer"
-import { bookLayoutFor, projectReadingPage, type BookLayout } from "./book-page-layout"
-import { bookTurnCameraScale, createBookGarden, fitBookCamera, lightBookScene } from "./book-garden"
+import { BOOK_CORNER_SIZE, bookCornerCorners, projectBookSurface, bookLayoutFor, projectReadingPage, type BookLayout } from "./book-page-layout"
+import { createBookGarden, fitBookCamera, lightBookScene, type BookModels } from "./book-garden"
 import { createBookMotion, type BookPage } from "./book-motion"
-import { plantPixelRatio, type PlantId } from "./plants"
-import { TREE_PARTS, placeTreeLabels } from "./tree-parts"
+import type { NativeLessonId, SceneItemId } from "./native-lessons"
+import { getSceneLabels } from "./scene-labels"
+import { plantPixelRatio } from "./plants"
+import { placeTreeLabels } from "./tree-parts"
 
 export type PlantStage = ReturnType<typeof createPlantStage>
 
 export function createPlantStage(host: HTMLElement, options: {
-  plant: PlantId
+  plant: SceneItemId
+  lessonId?: NativeLessonId
+  createModels?: () => BookModels
   page?: BookPage
-  onSelect?: (plant: PlantId) => void
+  onSelect?: (plant: SceneItemId) => void
   onTurningChange?: (turning: boolean) => void
   showTreeLabels?: boolean
   onLabelsDismiss?: () => void
@@ -57,12 +61,11 @@ export function createPlantStage(host: HTMLElement, options: {
     controls.zoomSpeed = 0.7
     cleanup.push(() => controls.dispose())
 
-    const garden = createBookGarden()
+    const garden = createBookGarden(options.createModels?.())
     scene.add(garden.root)
     cleanup.push(() => garden.dispose())
     cleanup.push(lightBookScene(scene))
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")
-    let turnView: THREE.Vector3 | null = null
     let layout: BookLayout = "spread"
     const spread = host.closest<HTMLElement>("[data-book-spread]")
     const reading = spread?.querySelector<HTMLElement>("[data-book-reading]")
@@ -111,17 +114,11 @@ export function createPlantStage(host: HTMLElement, options: {
     })
     const motion = createBookMotion(options.page ?? 0, (pose) => {
       garden.setPose(pose)
-      if (turnView) {
-        camera.position.copy(turnView).sub(controls.target).multiplyScalar(bookTurnCameraScale(pose.leafAngle)).add(controls.target)
-        camera.lookAt(controls.target)
-        camera.updateMatrixWorld()
-      }
       renderer.shadowMap.needsUpdate = true
     }, (turning) => {
       controls.enabled = !turning
       if (turning) dismissLabels()
       for (const edge of edges) { edge.inert = turning; edge.style.opacity = turning ? "0" : "1" }
-      if (!turning) turnView = null
       if (reading) {
         // Cover the whole transition, including the initial fold and final unfold.
         reading.style.opacity = turning ? "0" : "1"
@@ -166,28 +163,21 @@ export function createPlantStage(host: HTMLElement, options: {
         return { x: (p.x + 1) * width / 2, y: (1 - p.y) * height / 2 }
       }
       for (const edge of edges) {
-        const x = edge.dataset.bookEdge === "previous" ? -3.57 : 3.57
-        const a = project(x, 0.15, -1.9), b = project(x, 0.15, 1.9)
-        const length = Math.hypot(b.x - a.x, b.y - a.y)
-        const center = project(0, .15, 0)
-        const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }
-        const radius = Math.hypot(mid.x - center.x, mid.y - center.y) || 1
-        mid.x += (mid.x - center.x) / radius * 18
-        mid.y += (mid.y - center.y) / radius * 18
-        edge.style.height = `${length}px`
-        edge.style.transform = `translate(${mid.x - 22}px,${mid.y - length / 2}px) rotate(${Math.atan2(b.y - a.y, b.x - a.x) - Math.PI / 2}rad)`
+        edge.style.transform = projectBookSurface(camera, width, height, bookCornerCorners(layout, edge.dataset.bookEdge === "previous"), { width: BOOK_CORNER_SIZE, height: BOOK_CORNER_SIZE }, garden.paper).transform
       }
       if (callout) {
-        callout.hidden = !showTreeLabels || selected !== "tree" || motion.busy || !intersecting || document.hidden
+        const parts = getSceneLabels(options.lessonId ?? "p1a-1-1", selected)
+        callout.hidden = !showTreeLabels || parts.length === 0 || motion.busy || !intersecting || document.hidden
         if (!callout.hidden) {
-          const anchors = TREE_PARTS.map(part => project(part.anchor[0], part.anchor[1], part.anchor[2], garden.plants.tree))
+          const anchors = parts.map(part => project(part.anchor[0], part.anchor[1], part.anchor[2], garden.plants[selected]))
           const corners = [[.16, -2.04], [3.5, -2.04], [3.5, 1.2], [.16, 1.2]].map(([x, z]) => project(x, .15, z))
           const area = { left: Math.max(8, Math.min(...corners.map(p => p.x))), right: Math.min(width - 8, Math.max(...corners.map(p => p.x))), top: Math.max(8, Math.min(...corners.map(p => p.y))), bottom: Math.min(height - 8, Math.max(...corners.map(p => p.y))) }
           if (layout !== "portrait") area.left = Math.max(corners[0].x, corners[3].x) + 12
           const labels = placeTreeLabels(anchors, area)
-          TREE_PARTS.forEach((part, index) => {
+          parts.forEach((part, index) => {
             const bubble = callout.querySelector<HTMLElement>(`[data-tree-bubble="${part.id}"]`)!
             const line = callout.querySelector(`[data-tree-line="${part.id}"]`)!, pin = callout.querySelector(`[data-tree-pin="${part.id}"]`)!
+            if (!bubble || !line || !pin) return
             const anchor = anchors[index], label = labels[index]
             bubble.style.transform = `translate(${label.x}px,${label.y}px)`
             for (const [key, value] of Object.entries({ x1: anchor.x, y1: anchor.y, x2: label.endX, y2: label.endY })) line.setAttribute(key, String(value))
@@ -225,8 +215,7 @@ export function createPlantStage(host: HTMLElement, options: {
     }
     const resetView = () => {
       if (disposed) return
-      // End the camera-owning turn before resetting; its next frame must not
-      // restore the old turnView over the user's requested view.
+      // Explicit user action; normal page turns never touch the camera.
       if (motion.busy) motion.finish()
       const fit = fitBookCamera(camera, garden.root, layout)
       fitDistance = fit.distance
@@ -236,11 +225,12 @@ export function createPlantStage(host: HTMLElement, options: {
       controls.update()
       scheduler.invalidate()
     }
-    const setPlant = (id: PlantId) => {
+    const setPlant = (id: SceneItemId) => {
       if (disposed) return
+      if (!garden.plants[id]) return
       selected = id
       garden.setSelected(id)
-      if (id !== "tree") dismissLabels()
+      if (!getSceneLabels(options.lessonId ?? "p1a-1-1", id).length) dismissLabels()
       renderer.shadowMap.needsUpdate = true
       scheduler.invalidate()
     }
@@ -251,8 +241,7 @@ export function createPlantStage(host: HTMLElement, options: {
     }
     const setPage = (page: BookPage) => {
       if (disposed) return
-      const started = motion.turnTo(page, performance.now(), Boolean(reducedMotion?.matches) || contextLost || renderFailed || !intersecting || document.hidden || !width || !height)
-      if (started && motion.busy) turnView = camera.position.clone()
+      motion.turnTo(page, performance.now(), Boolean(reducedMotion?.matches) || contextLost || renderFailed || !intersecting || document.hidden || !width || !height)
       scheduler.invalidate()
     }
     const onMotionPreference = () => {
@@ -330,6 +319,9 @@ export function createPlantStage(host: HTMLElement, options: {
       pointerStart = pointers.size === 1 && event.isPrimary !== false && event.button === 0 ? { x: event.clientX, y: event.clientY, id: event.pointerId } : null
     }
     const onPointerCancel = (event: PointerEvent) => { pointers.delete(event.pointerId); pointerStart = null }
+    const onPointerMove = (event: PointerEvent) => {
+      if (pointerStart?.id === event.pointerId && Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y) > 6) pointerStart = null
+    }
     const onPointerUp = (event: PointerEvent) => {
       const start = pointerStart
       pointers.delete(event.pointerId)
@@ -342,14 +334,16 @@ export function createPlantStage(host: HTMLElement, options: {
       const hit = raycaster.intersectObjects(Object.values(garden.plants), true)[0]
       let object: THREE.Object3D | null = hit?.object ?? null
       while (object && !object.userData.plantId) object = object.parent
-      if (object?.userData.plantId) options.onSelect?.(object.userData.plantId as PlantId)
+      if (object?.userData.plantId) options.onSelect?.(object.userData.plantId as SceneItemId)
       else dismissLabels()
     }
     canvas.addEventListener("pointerdown", onPointerDown)
+    canvas.addEventListener("pointermove", onPointerMove)
     canvas.addEventListener("pointerup", onPointerUp)
     canvas.addEventListener("pointercancel", onPointerCancel)
     cleanup.push(() => {
       canvas.removeEventListener("pointerdown", onPointerDown)
+      canvas.removeEventListener("pointermove", onPointerMove)
       canvas.removeEventListener("pointerup", onPointerUp)
       canvas.removeEventListener("pointercancel", onPointerCancel)
     })

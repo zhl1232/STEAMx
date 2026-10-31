@@ -3,15 +3,16 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { RotateCcw } from "lucide-react"
 
-import type { PlantId } from "@/lib/textbook3d/native/plants"
+import type { NativeLessonId, SceneItemId } from "@/lib/textbook3d/native/native-lessons"
 import type { BookPage } from "@/lib/textbook3d/native/book-motion"
 import type { PlantStage } from "@/lib/textbook3d/native/plant-stage"
 import styles from "./plant-lesson.module.css"
 
-export function PlantCanvas({ plant, page = 0, onSelect, onTurningChange, showTreeLabels = false, onLabelsDismiss, onVisibleChange }: {
-  plant: PlantId
+export function PlantCanvas({ lessonId = "p1a-1-1", plant, page = 0, onSelect, onTurningChange, showTreeLabels = false, onLabelsDismiss, onVisibleChange }: {
+  lessonId?: NativeLessonId
+  plant: SceneItemId
   page?: BookPage
-  onSelect?: (plant: PlantId) => void
+  onSelect?: (plant: SceneItemId) => void
   onTurningChange?: (turning: boolean) => void
   showTreeLabels?: boolean
   onLabelsDismiss?: () => void
@@ -29,12 +30,12 @@ export function PlantCanvas({ plant, page = 0, onSelect, onTurningChange, showTr
   const [attempt, setAttempt] = useState(0)
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading")
 
-  useEffect(() => { currentLabels.current = showTreeLabels; stage.current?.setLabels(showTreeLabels) }, [showTreeLabels])
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     currentPlant.current = plant
+    currentLabels.current = showTreeLabels
     stage.current?.setPlant(plant)
-  }, [plant])
+    stage.current?.setLabels(showTreeLabels)
+  }, [plant, showTreeLabels])
 
   useEffect(() => {
     const element = host.current
@@ -48,9 +49,12 @@ export function PlantCanvas({ plant, page = 0, onSelect, onTurningChange, showTr
       loading = true
       try {
         const { createPlantStage } = await import("@/lib/textbook3d/native/plant-stage")
+        const createModels = lessonId === "p1a-1-2" ? (await import("@/lib/textbook3d/native/observation-models")).createObservationModels : undefined
         if (cancelled || !visible) return
         stage.current = createPlantStage(element, {
+          lessonId,
           plant: currentPlant.current,
+          createModels,
           page: currentPage.current,
           showTreeLabels: currentLabels.current,
           onLabelsDismiss: () => { if (!cancelled) callbacks.current.onLabelsDismiss?.() },
@@ -100,7 +104,7 @@ export function PlantCanvas({ plant, page = 0, onSelect, onTurningChange, showTr
       stage.current?.dispose()
       stage.current = null
     }
-  }, [attempt])
+  }, [attempt, lessonId])
 
   return (
     <div className={styles.stage} data-render-state={status}>

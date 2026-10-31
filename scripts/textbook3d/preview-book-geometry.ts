@@ -5,7 +5,7 @@ import * as THREE from "three"
 import { SVGRenderer } from "three/examples/jsm/renderers/SVGRenderer.js"
 import { Window } from "happy-dom"
 import sharp from "sharp"
-import { bookTurnCameraScale, createBookGarden, fitBookCamera, lightBookScene } from "../../lib/textbook3d/native/book-garden"
+import { createBookGarden, fitBookCamera, lightBookScene } from "../../lib/textbook3d/native/book-garden"
 import { bookLayoutFor, projectReadingPage } from "../../lib/textbook3d/native/book-page-layout"
 
 async function main() {
@@ -60,7 +60,6 @@ for (const view of [
   }
   const camera = new THREE.PerspectiveCamera(38, view.width / view.height, 0.1, 100)
   const fit = fitBookCamera(camera, view.turning ? undefined : garden.root, layout)
-  camera.position.sub(fit.center).multiplyScalar(bookTurnCameraScale(view.leafAngle)).add(fit.center)
   camera.lookAt(fit.center)
   camera.updateMatrixWorld()
   const renderer = new SVGRenderer()

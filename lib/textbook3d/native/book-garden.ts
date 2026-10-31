@@ -1,19 +1,23 @@
 import * as THREE from "three"
-import { createBookModel } from "./book-model"
+import { createBookModel, turningPaperPoint } from "./book-model"
+import { createPopupRig } from "./popup-rig"
 import { createPlantModels } from "./plant-models"
 import type { BookPose } from "./book-motion"
-import { PLANT_IDS, type PlantId } from "./plants"
+import type { SceneItemId } from "./native-lessons"
+import { bookCornerCorners } from "./book-page-layout"
 import type { BookLayout } from "./book-page-layout"
 
-export const BOOK_PLANT_ANCHORS: Record<PlantId, [number, number, number]> = {
-  tree: [1.65, 0.16, -0.62], grass: [0.88, 0.16, 1.12], flower: [2.73, 0.16, 0.92],
+export const BOOK_PLANT_ANCHORS: Record<SceneItemId, [number, number, number]> = {
+  tree: [1.65, 0.16, -0.62], grass: [0.88, 0.16, 1.12], flower: [2.73, 0.16, 0.68],
+  leaf: [.9, .16, -.7], stem: [2.55, .16, -.75],
 }
-const sizes = { tree: 0.78, grass: 0.62, flower: 0.67 }
+const sizes = { tree: 0.78, grass: 0.62, flower: 0.67, leaf: .75, stem: .75 }
 
 /** Shared by the actual WebGL scene and the explicitly labelled CPU geometry preview. */
-export function createBookGarden() {
+export type BookModels = { models: Record<string, THREE.Group>; dispose: () => void }
+export function createBookGarden(plants: BookModels = createPlantModels()) {
   const book = createBookModel()
-  const plants = createPlantModels()
+  const ids = Object.keys(plants.models) as SceneItemId[]
   const root = new THREE.Group()
   root.name = "book-and-popups"
   root.add(book.root)
@@ -25,15 +29,17 @@ export function createBookGarden() {
   for (let i = 0; i < contactShape.attributes.position.count; i++) contactColors.push(0.24, 0.26, 0.19, i === 0 ? 0.22 : 0)
   contactShape.setAttribute("color", new THREE.Float32BufferAttribute(contactColors, 4))
   const contactMaterial = new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, depthWrite: false })
-  const folds = Object.fromEntries(PLANT_IDS.map((id) => {
-    const hinge = new THREE.Group()
-    hinge.name = `${id}-paper-hinge`
-    hinge.position.fromArray(BOOK_PLANT_ANCHORS[id])
+  const rigs: Array<ReturnType<typeof createPopupRig>> = []
+  const folds = Object.fromEntries(ids.map((id) => {
     const plant = plants.models[id]
     plant.name = `plant-${id}`
     plant.userData.plantId = id
     plant.scale.setScalar(sizes[id])
-    hinge.add(plant)
+    const rig = createPopupRig(plant)
+    rigs.push(rig)
+    const hinge = rig.root
+    hinge.name = `${id}-paper-hinge`
+    hinge.position.fromArray(BOOK_PLANT_ANCHORS[id])
     const contact = new THREE.Mesh(contactShape, contactMaterial)
     contact.name = `${id}-contact-shadow`
     contact.position.y = 0.018
@@ -41,12 +47,23 @@ export function createBookGarden() {
     hinge.add(contact)
     root.add(hinge)
     return [id, hinge]
-  })) as Record<PlantId, THREE.Group>
-  let selected: PlantId = "tree"
-  let folded = false
-  const setSelected = (id: PlantId) => {
+  })) as Record<SceneItemId, THREE.Group>
+  const ringShape = new THREE.RingGeometry(.48, .53, 48)
+  ringShape.rotateX(-Math.PI / 2)
+  const ringMaterial = new THREE.MeshBasicMaterial({ color: "#5b815a", transparent: true, opacity: .8, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -1 })
+  const selectionRing = new THREE.Mesh(ringShape, ringMaterial)
+  selectionRing.name = "selected-plant-ring"
+  root.add(selectionRing)
+  let selected: SceneItemId = ids[0]
+  const placeRing = () => {
+    selectionRing.position.copy(folds[selected].position)
+    selectionRing.position.y = .19
+    selectionRing.userData.plantId = selected
+  }
+  const setSelected = (id: SceneItemId) => {
+    if (!ids.includes(id)) return
     selected = id
-    for (const plantId of PLANT_IDS) plants.models[plantId].scale.setScalar(sizes[plantId] * (plantId === id ? 1.06 : 1))
+    placeRing()
   }
   setSelected(selected)
   let disposed = false
@@ -59,20 +76,20 @@ export function createBookGarden() {
       const x = layout === "portrait" ? 1.25 : layout === "landscape" ? 1.1 : 1
       const z = 1
       book.root.scale.set(x, 1, z)
-      for (const id of PLANT_IDS) {
+      for (const id of ids) {
         const [px, py, pz] = BOOK_PLANT_ANCHORS[id]
         folds[id].position.set(px * x, py, pz * z)
       }
+      placeRing()
       root.updateMatrixWorld(true)
     },
     setPose(pose: BookPose) {
       book.setPose(pose)
-      folded = pose.fold < 0.02
-      for (const id of PLANT_IDS) {
-        const hinge = folds[id]
-        hinge.visible = !folded
-        hinge.scale.y = Math.max(0.015, pose.fold)
-        hinge.rotation.x = (1 - pose.fold) * -0.32
+      selectionRing.visible = pose.fold === 1 && !pose.turning
+      for (const rig of rigs) {
+        rig.setFold(pose.fold)
+        // Once flat, the turning sheet covers the old popup.
+        rig.root.visible = !pose.turning
       }
     },
     dispose() {
@@ -80,9 +97,12 @@ export function createBookGarden() {
       disposed = true
       root.removeFromParent()
       book.dispose()
+      rigs.forEach(rig => rig.dispose())
       plants.dispose()
       contactShape.dispose()
       contactMaterial.dispose()
+      ringShape.dispose()
+      ringMaterial.dispose()
     },
   }
 }
@@ -112,16 +132,14 @@ export function lightBookScene(scene: THREE.Scene) {
   return () => { key.shadow.dispose(); groundShape.dispose(); groundMaterial.dispose() }
 }
 
-export const bookTurnCameraScale = (angle: number) => 1 + Math.sin(angle) * 0.55
-
 export function fitBookCamera(camera: THREE.PerspectiveCamera, book?: THREE.Object3D, layout: BookLayout = "spread") {
   // A longer focal length avoids a close crown forcing the phone's paper tiny.
-  camera.fov = layout === "spread" ? 38 : 16
+  camera.fov = layout === "spread" ? 24 : layout === "landscape" ? 6 : 12
   camera.updateProjectionMatrix()
   const center = new THREE.Vector3(0, 0.5, 0.12)
   const halfVertical = THREE.MathUtils.degToRad(camera.fov / 2)
   const halfHorizontal = Math.atan(Math.tan(halfVertical) * camera.aspect)
-  const angle = layout === "landscape" ? 0.24 : 0.38
+  const angle = layout === "landscape" ? 0.08 : 0.38
   const direction = new THREE.Vector3(0, Math.cos(angle), Math.sin(angle))
   const up = new THREE.Vector3(0, direction.z, -direction.y)
   // Fit the book and the raised plants, including their depth toward the lens.
@@ -130,6 +148,18 @@ export function fitBookCamera(camera: THREE.PerspectiveCamera, book?: THREE.Obje
   const points: THREE.Vector3[] = []
   if (book) {
     book.updateMatrixWorld(true)
+    const paper = book.getObjectByName("botanical-pop-up-book")
+    if (paper) for (const previous of [true, false]) for (const corner of bookCornerCorners(layout, previous)) points.push(new THREE.Vector3().fromArray(corner).applyMatrix4(paper.matrixWorld))
+    if (paper) {
+      for (let step = 0; step <= 24; step++) {
+        const angle = step / 24 * Math.PI
+        for (let strip = 0; strip <= 24; strip++) for (const z of [-2.23, 2.23]) {
+          const p = turningPaperPoint(3.61 * strip / 24, z, angle)
+          p.y += .2
+          points.push(p.applyMatrix4(paper.matrixWorld))
+        }
+      }
+    }
     book.traverseVisible((object) => {
       if (!(object instanceof THREE.Mesh)) return
       object.geometry.computeBoundingBox()
@@ -151,18 +181,23 @@ export function fitBookCamera(camera: THREE.PerspectiveCamera, book?: THREE.Obje
       points.push(new THREE.Vector3(x, y, z))
     }
   }
-  // Center the actual projected bounds, rather than leaving room for an assumed crown.
-  if (book) {
-    const xs = points.map((p) => p.x - center.x)
-    const ys = points.map((p) => p.clone().sub(center).dot(up))
-    center.x += (Math.min(...xs) + Math.max(...xs)) / 2
-    center.addScaledVector(up, (Math.min(...ys) + Math.max(...ys)) / 2)
-  }
+  // Solve the perspective frustum support intervals, including each point's
+  // depth. A raw 3D bounding-box center wastes space around raised foliage.
+  const tanH = Math.tan(halfHorizontal), tanV = Math.tan(halfVertical)
+  let left = Infinity, right = -Infinity, bottom = Infinity, top = -Infinity
   for (const point of points) {
     const relative = point.clone().sub(center)
-    distance = Math.max(distance, relative.dot(direction) + Math.max(Math.abs(relative.x) / Math.tan(halfHorizontal), Math.abs(relative.dot(up)) / Math.tan(halfVertical)))
+    const depth = relative.dot(direction), vertical = relative.dot(up)
+    left = Math.min(left, relative.x - depth * tanH)
+    right = Math.max(right, relative.x + depth * tanH)
+    bottom = Math.min(bottom, vertical - depth * tanV)
+    top = Math.max(top, vertical + depth * tanV)
   }
-  distance *= 1.025
+  center.x += (left + right) / 2
+  center.addScaledVector(up, (bottom + top) / 2)
+  distance = Math.max((right - left) / (2 * tanH), (top - bottom) / (2 * tanV)) * 1.015
+  camera.far = Math.max(100, distance * 2)
+  camera.updateProjectionMatrix()
   camera.position.copy(direction).multiplyScalar(distance).add(center)
   camera.lookAt(center)
   camera.updateMatrixWorld()

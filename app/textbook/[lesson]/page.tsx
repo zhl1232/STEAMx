@@ -1,3 +1,4 @@
+import { isNativeTextbookLesson } from "@/lib/textbook3d/native/native-lessons"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowLeft, ArrowRight } from "lucide-react"
@@ -30,7 +31,7 @@ export default async function TextbookLessonPage({ params }: { params: Promise<{
   if (!lesson) notFound()
   const volume = TEXTBOOK3D_VOLUMES.find((volume) => volume.chapters.some((chapter) => chapter.id === lesson.chapter.id))
   return (
-    <div className={`app-shell-wide pt-4 pb-[calc(5.5rem+env(safe-area-inset-bottom))] max-md:px-0 md:py-6 ${lesson.id === "p1a-1-1" ? readerStyles.page : ""}`}>
+    <div className={`app-shell-wide pt-4 pb-[calc(5.5rem+env(safe-area-inset-bottom))] max-md:px-0 md:py-6 ${isNativeTextbookLesson(lesson.id) ? readerStyles.page : ""}`}>
       <header className="px-4 md:px-0">
         <Link href={volume ? `/textbook?volume=${volume.id}` : "/textbook"} className={`${navLink} -ml-3 text-muted-foreground`}>
           <ArrowLeft aria-hidden className="h-5 w-5" />

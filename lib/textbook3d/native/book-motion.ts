@@ -1,6 +1,6 @@
-export type BookPage = 0 | 1
+export type BookPage = -1 | 0 | 1
 export type BookPose = { page: BookPage; fold: number; leafAngle: number; turning: boolean }
-export const BOOK_TURN_MS = 820
+export const BOOK_TURN_MS = 1000
 const clamp = (value: number) => Math.min(1, Math.max(0, value))
 const ease = (value: number) => { const t = clamp(value); return t * t * (3 - 2 * t) }
 
@@ -29,12 +29,12 @@ export function createBookMotion(initialPage: BookPage, apply: (pose: BookPose) 
       if (disposed || !transition) return false
       const progress = clamp((now - transition.start) / BOOK_TURN_MS)
       if (progress >= 1) { finish(); return false }
-      const turn = ease((progress - 0.18) / 0.54)
+      const turn = ease((progress - 0.28) / 0.44)
       apply({
         page: progress < 0.5 ? transition.from : transition.to,
-        fold: progress < 0.18 ? 1 - ease(progress / 0.18) : ease((progress - 0.72) / 0.28),
+        fold: progress < 0.28 ? 1 - ease(progress / 0.28) : ease((progress - 0.72) / 0.28),
         leafAngle: (transition.to > transition.from ? turn : 1 - turn) * Math.PI,
-        turning: progress >= 0.18 && progress <= 0.72,
+        turning: progress >= 0.28 && progress <= 0.72,
       })
       return true
     },

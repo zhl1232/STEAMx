@@ -1,7 +1,11 @@
+import { BOOK_MUSIC_BAR_SECONDS, bookMusicBar, createBookMusicSynth } from "./book-music"
+
 /** Original procedural audio. No recordings, downloads, persistent preference or RAF. */
 export type BookSound = "page" | "leaves"
-type Voice = { source: AudioScheduledSourceNode; nodes: AudioNode[] }
+type Voice = { source: AudioScheduledSourceNode; nodes: AudioNode[]; end: number }
 let active: { stop: () => void } | null = null
+const LOOKAHEAD_SECONDS = 0.35
+const MAX_MUSIC_VOICES = 24
 
 export function createBookAudio(onChange: (enabled: boolean, unavailable: boolean) => void, makeContext = () => new AudioContext()) {
   let context: AudioContext | null = null
@@ -12,6 +16,9 @@ export function createBookAudio(onChange: (enabled: boolean, unavailable: boolea
   let timer: ReturnType<typeof setTimeout> | undefined
   let effect: Voice | null = null
   let lastEffect = -Infinity
+  let synth: ReturnType<typeof createBookMusicSynth> | null = null
+  let nextBar = 0
+  let nextBarTime = 0
   const voices = new Set<Voice>()
   const release = (voice: Voice) => {
     if (!voices.delete(voice)) return
@@ -20,8 +27,8 @@ export function createBookAudio(onChange: (enabled: boolean, unavailable: boolea
     voice.nodes.forEach((node) => node.disconnect())
     if (effect === voice) effect = null
   }
-  const own = (source: AudioScheduledSourceNode, nodes: AudioNode[]) => {
-    const voice = { source, nodes }
+  const own = (source: AudioScheduledSourceNode, nodes: AudioNode[], end: number) => {
+    const voice = { source, nodes, end }
     voices.add(voice)
     source.onended = () => release(voice)
     return voice
@@ -38,22 +45,27 @@ export function createBookAudio(onChange: (enabled: boolean, unavailable: boolea
     if (context?.state === "running") void context.suspend().catch(() => {})
     if (!disposed) onChange(false, false)
   }
-  // Sparse pentatonic phrases, scheduled in the audio clock. At most three notes.
-  const phrase = () => {
-    if (!enabled || disposed || !context || document.hidden) return
-    for (const [i, frequency] of [261.63, 329.63, 392].entries()) {
-      const oscillator = context.createOscillator(), gain = context.createGain()
-      oscillator.type = "sine"
-      oscillator.frequency.value = frequency
-      const start = context.currentTime + i * 1.3
-      gain.gain.setValueAtTime(0, start)
-      gain.gain.linearRampToValueAtTime(0.018, start + 0.12)
-      gain.gain.exponentialRampToValueAtTime(0.0001, start + 1.9)
-      oscillator.connect(gain).connect(context.destination)
-      own(oscillator, [oscillator, gain])
-      oscillator.start(start); oscillator.stop(start + 2)
+  // Schedule only one bar ahead, against the audio clock. A delayed task skips
+  // missed bars instead of creating a burst of old notes to catch up.
+  const schedule = () => {
+    if (!enabled || disposed || !context || !synth || document.hidden) return
+    const now = context.currentTime
+    for (const voice of voices) if (voice.end <= now) release(voice)
+    if (nextBarTime < now) {
+      const skipped = Math.ceil((now - nextBarTime) / BOOK_MUSIC_BAR_SECONDS)
+      nextBar += skipped
+      nextBarTime += skipped * BOOK_MUSIC_BAR_SECONDS
     }
-    timer = setTimeout(phrase, 8500)
+    if (nextBarTime <= now + LOOKAHEAD_SECONDS) {
+      for (const note of bookMusicBar(nextBar)) {
+        if (voices.size >= MAX_MUSIC_VOICES) break
+        const voice = synth(note, nextBarTime)
+        own(voice.source, voice.nodes, voice.end)
+      }
+      nextBar++
+      nextBarTime += BOOK_MUSIC_BAR_SECONDS
+    }
+    timer = setTimeout(schedule, Math.max(25, (nextBarTime - context.currentTime - LOOKAHEAD_SECONDS) * 1000))
   }
   const controller = {
     stop,
@@ -67,14 +79,21 @@ export function createBookAudio(onChange: (enabled: boolean, unavailable: boolea
       try {
         context ??= makeContext()
         await context.resume()
+        if (generation === request && document.hidden) {
+          stop()
+          return
+        }
         if (disposed || generation !== request || document.hidden || active !== controller) {
           if (context?.state === "running" && active !== controller) void context.suspend().catch(() => {})
           return
         }
         pending = false
         enabled = true
+        synth ??= createBookMusicSynth(context)
+        nextBar = 0
+        nextBarTime = context.currentTime + 0.04
         onChange(true, false)
-        phrase()
+        schedule()
       } catch {
         if (disposed || generation !== request) return
         stop()
@@ -101,7 +120,7 @@ export function createBookAudio(onChange: (enabled: boolean, unavailable: boolea
       filter.Q.value = 0.6
       gain.gain.value = sound === "page" ? 0.1 : 0.065
       source.connect(filter).connect(gain).connect(context.destination)
-      effect = own(source, [source, filter, gain])
+      effect = own(source, [source, filter, gain], context.currentTime + duration)
       source.start(); source.stop(context.currentTime + duration)
     },
     dispose() {
@@ -111,6 +130,7 @@ export function createBookAudio(onChange: (enabled: boolean, unavailable: boolea
       document.removeEventListener("visibilitychange", onVisibility)
       if (context && context.state !== "closed") void context.close().catch(() => {})
       context = null
+      synth = null
     },
   }
   const onVisibility = () => { if (document.hidden) stop() }

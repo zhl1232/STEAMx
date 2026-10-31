@@ -15,9 +15,22 @@ export const READING_PAGE_CORNERS = [
 export function projectReadingPage(camera: THREE.Camera, width: number, height: number, paper?: THREE.Object3D, layout: BookLayout = "spread", controls = false) {
   // Portrait: the same book opens vertically, with upright print on its lower leaf.
   const corners = controls ? (layout === "portrait"
-    ? [[0.75, 0.148, -1.86], [0.75, 0.148, 1.86], [0.2, 0.148, 1.86], [0.2, 0.148, -1.86]]
-    : [[0.45, 0.148, 1.5], [3.22, 0.148, 1.5], [3.22, 0.148, 2.18], [0.45, 0.148, 2.18]])
+    ? [[0.75, 0.148, -1.35], [0.75, 0.148, 1.35], [0.2, 0.148, 1.35], [0.2, 0.148, -1.35]]
+    : [[0.45, 0.148, 1.5], [2.78, 0.148, 1.5], [2.78, 0.148, 2.18], [0.45, 0.148, 2.18]])
     : layout === "portrait" ? [READING_PAGE_CORNERS[1], READING_PAGE_CORNERS[2], READING_PAGE_CORNERS[3], READING_PAGE_CORNERS[0]] : READING_PAGE_CORNERS
+  return projectBookSurface(camera, width, height, corners, controls ? { width: 220, height: 52 } : readingPageSize(layout), paper)
+}
+
+export const BOOK_CORNER_SIZE = 52
+export function bookCornerCorners(layout: BookLayout, previous: boolean) {
+  if (layout === "portrait") return previous
+    ? [[-2.91,.15,-2.16],[-2.91,.15,-1.5],[-3.57,.15,-1.5],[-3.57,.15,-2.16]]
+    : [[.76,.15,1.5],[.76,.15,2.16],[.1,.15,2.16],[.1,.15,1.5]]
+  const left = previous ? -3.57 : 2.91
+  return [[left,.15,1.5],[left+.66,.15,1.5],[left+.66,.15,2.16],[left,.15,2.16]]
+}
+
+export function projectBookSurface(camera: THREE.Camera, width: number, height: number, corners: readonly (readonly number[])[], size: { width: number; height: number }, paper?: THREE.Object3D) {
   const points = corners.map(([x, y, z]) => {
     const p = new THREE.Vector3(x, y, z)
     if (paper) p.applyMatrix4(paper.matrixWorld)
@@ -30,7 +43,6 @@ export function projectReadingPage(camera: THREE.Camera, width: number, height: 
   const determinant = dx1 * dy2 - dx2 * dy1
   const g = Math.abs(determinant) < 1e-8 ? 0 : (dx3 * dy2 - dx2 * dy3) / determinant
   const h = Math.abs(determinant) < 1e-8 ? 0 : (dx1 * dy3 - dx3 * dy1) / determinant
-  const size = controls ? { width: 320, height: 52 } : readingPageSize(layout)
   const w = size.width, hh = size.height
   const matrix = [
     (b.x - a.x + g * b.x) / w, (b.y - a.y + g * b.y) / w, 0, g / w,
