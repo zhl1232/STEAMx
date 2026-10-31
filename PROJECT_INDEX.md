@@ -40,7 +40,7 @@
 | 欢迎消息与客服入口 | `components/features/communications/welcome-actions.tsx`、`lib/communications/types.ts`、`lib/product/support.ts`、`app/settings/about/` | [产品方向](docs/product-direction.md) |
 | 平台帮助、商城客服与飞书双向接待 | `app/support/`、`app/store/support/`、`app/admin/support/`、`lib/support/`、`deploy/commerce-worker.mjs`、`deploy/feishu-bridge.mjs` | [站内官方客服](docs/customer-support.md) |
 | 私信、通知和自动互动 | `lib/messages/`、`lib/notifications/`、`lib/communications/`、`lib/auto-interactions.ts` | [互动资格](docs/TRUST_AND_INTERACTION_ACCESS.md) |
-| 实物商城、优惠券、供应商和订单 | `app/store/`、`app/admin/store/`、`app/admin/store/products/[id]/preview/`、`lib/store/`、`scripts/import-science-kits.mjs`、`app/api/store/`、`lib/context/store-availability-context.tsx`、`components/profile/profile-services.tsx` | [商城与履约](docs/STORE_CHANNEL_FULFILLMENT_DECISION.md) |
+| 实物商城、优惠券、供应商和订单 | `app/store/`、`app/admin/store/`、`app/admin/store/products/[id]/preview/`、`lib/store/`、`scripts/import-science-kits.mjs`、`scripts/restore-science-grade-projects.mjs`、`scripts/prepare-science-supplier-drafts.mjs`、`app/api/store/`、`lib/context/store-availability-context.tsx`、`components/profile/profile-services.tsx` | [商城与履约](docs/STORE_CHANNEL_FULFILLMENT_DECISION.md) |
 | 我的硬币、装扮与优惠券兑换 | `app/coins/`、`app/shop/`（旧入口跳转）、`app/api/coins/`、`hooks/use-shop-prices.ts` | [商城与会员价格](docs/STORE_CHANNEL_FULFILLMENT_DECISION.md#装扮兑换) |
 | 会员资格与开售准备 | `lib/membership.ts`（`/membership` 页面已下线，301 跳首页） | [开售交接](docs/MEMBERSHIP_PAGE_HANDOFF.md)；额度不在交接页重复维护 |
 
