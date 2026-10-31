@@ -6,6 +6,33 @@ import { bookLayoutFor } from "./book-page-layout"
 import { createObservationModels } from "./observation-models"
 
 describe("physical book garden", () => {
+  it("uses the reference frame's height and width, with complete visible paper rather than a low small platform", () => {
+    const garden = createBookGarden()
+    for (const [width, height] of [[1776, 900], [844, 390], [390, 844]]) {
+      const layout = bookLayoutFor(width, height)
+      garden.setLayout(layout)
+      garden.setPose({ page: 0, fold: 1, leafAngle: 0, turning: false })
+      const camera = new THREE.PerspectiveCamera(38, width / height, .1, 100)
+      fitBookCamera(camera, garden.root, layout)
+      const bounds = new THREE.Box2()
+      garden.paper.traverseVisible(object => {
+        if (!(object instanceof THREE.Mesh)) return
+        const positions = object.geometry.attributes.position
+        for (let i = 0; i < positions.count; i++) {
+          const p = new THREE.Vector3().fromBufferAttribute(positions, i).applyMatrix4(object.matrixWorld).project(camera)
+          bounds.expandByPoint(new THREE.Vector2((p.x + 1) / 2, (1 - p.y) / 2))
+        }
+      })
+      expect(bounds.min.x).toBeGreaterThan(0); expect(bounds.max.x).toBeLessThan(1)
+      expect(bounds.min.y).toBeGreaterThan(0); expect(bounds.max.y).toBeLessThan(1)
+      expect(bounds.min.y).toBeLessThan(.1)
+      const extent = bounds.getSize(new THREE.Vector2())
+      expect(extent.x).toBeGreaterThan(.85)
+      expect(extent.y).toBeGreaterThan(layout === "portrait" ? .84 : .9)
+    }
+    garden.dispose()
+  })
+
   it("places all plants on dimensional pages and folds them clear of the turning leaf", () => {
     const garden = createBookGarden()
     garden.setPose({ page: 0, fold: 1, leafAngle: 0, turning: false })
@@ -19,7 +46,9 @@ describe("physical book garden", () => {
     expect(PLANT_IDS.every((id) => !garden.root.getObjectByName(`${id}-paper-hinge`)!.visible)).toBe(true)
     const sheet = garden.root.getObjectByName("hinged-turning-leaf")!
     expect(sheet.visible).toBe(true)
-    expect(new THREE.Box3().setFromObject(sheet).max.y).toBeGreaterThan(1)
+    const curled = new THREE.Box3().setFromObject(sheet)
+    expect(curled.max.y - curled.min.y).toBeGreaterThan(.4)
+    expect(curled.max.y).toBeLessThan(.7) // A low page curl, not a tall rigid board.
     garden.setPose({ page: 1, fold: 1, leafAngle: 0, turning: false })
     expect(PLANT_IDS.every((id) => garden.root.getObjectByName(`${id}-paper-hinge`)!.visible)).toBe(true)
     expect(sheet.visible).toBe(false)

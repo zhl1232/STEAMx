@@ -1,60 +1,84 @@
 @font-face {
   font-family: "Textbook Serif";
   font-style: normal;
-  font-weight: 400 700;
+  font-weight: 400;
   font-display: swap;
   src: url("/textbook3d/v1/shared/serif-r-c8d8d5f0a2.woff2") format("woff2");
 }
-.lesson { position: relative; --plant-ink: #263d38; --plant-muted: #64715f; --plant-green: #365b46; --plant-paper: #f6f0de; color: var(--plant-ink); background: #e5ddca; }
+@font-face {
+  font-family: "Textbook Serif";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/textbook3d/v1/shared/serif-b-d8084d753b.woff2") format("woff2");
+}
+.lesson { position: relative; --plant-ink: #29241e; --plant-muted: #786850; --plant-green: #365b46; --plant-accent: #9b542f; --plant-paper: #f3e7cd; color: var(--plant-ink); background: #e5ddca; }
 
 .body { position: relative; min-width: 0; background: #e5ddca; }
 .sceneColumn { position: relative; min-width: 0; }
 .stage { position: relative; height: clamp(620px, 80dvh, 900px); overflow: hidden; }
 .canvasHost { position: absolute; inset: 0; }
-.canvasHost canvas { width: 100%; height: 100%; display: block; touch-action: none; }
+.canvasHost canvas { cursor: grab; width: 100%; height: 100%; display: block; touch-action: none; }
 .canvasHost canvas:focus-visible { outline: 2px solid var(--plant-green); outline-offset: -5px; }
 .reset { position: absolute; top: 8px; right: 58px; z-index: 3; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: #425849; background: #f2eddf; border: 1px solid #bfb7a3; border-radius: 4px; cursor: pointer; }
 .stageStatus { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; padding: 20px; }
 .muted { color: var(--plant-muted); font-size: 14px; }
 /* Both DOM surfaces share the paper's full projective transform. No position transitions. */
-.plantSelector { display: flex; justify-content: center; gap: 6px; }
-.plantSelector button { display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 44px; padding: 6px 4px; min-width: 0; white-space: nowrap; border: 1px solid #aab394; border-radius: 3px; background: #f6f0de; color: #425a42; cursor: pointer; font-size: 17px; }
-.plantSelector button[aria-pressed="true"] { background: #365b46; color: #f8f1df; border-color: #365b46; }
-.reading { color: var(--plant-ink); font-family: "Textbook Serif", serif; font-size: 17px; line-height: 1.4; }
+.plantSelector { display: flex; align-items: center; justify-content: center; gap: 6px; font-family: "Textbook Serif", serif; font-synthesis: none; }
+.plantSelector button { display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 44px; padding: 4px 2px; min-width: 0; white-space: nowrap; border: 0; border-bottom: 1px solid transparent; border-radius: 0; background: transparent; color: var(--plant-ink); cursor: pointer; font: inherit; font-size: 17px; }
+.plantSelector button[aria-pressed="true"] { color: #834628; border-bottom-color: #ae8860; font-weight: 700; }
+.selectionMark { display: inline-flex; align-items: center; justify-content: center; width: 12px; height: 12px; border: 1px solid #a19379; flex: 0 0 auto; color: #a34f2d; }
+.selectionMark svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.figureCaption { position: absolute; left: 0; bottom: calc(100% + 3px); color: var(--plant-muted); font-size: 12px; line-height: 1.35; white-space: nowrap; }
+.reading { color: var(--plant-ink); font-family: "Textbook Serif", serif; font-size: 17px; line-height: 1.4; font-synthesis: none; }
 .body:not([data-book-layout="compact"]) .reading,
-.body:not([data-book-layout="compact"]) .plantSelector { position: absolute; left: 0; top: 0; margin: 0; padding: 0; transform-origin: 0 0; transition: none; touch-action: pinch-zoom; }
+.body:not([data-book-layout="compact"]) .plantSelector { position: absolute; left: 0; top: 0; margin: 0; padding: 0; transform-origin: 0 0; transition: none; touch-action: none; }
 .body:not([data-book-layout="compact"]) .reading { width: 320px; height: 430px; overflow: visible; }
 .body:not([data-book-layout="compact"]) .plantSelector { width: 220px; height: 52px; }
 .body:not([data-book-layout="compact"]) .plantSelector button { flex: 1; }
 .body:not([data-book-layout]) .reading, .body:not([data-book-layout]) .plantSelector { visibility: hidden; }
-.reading h2 { color: #2b423a; font-size: 25px; line-height: 1.2; font-weight: 700; margin: 0 0 14px; letter-spacing: .02em; }
+.reading h2 { color: #191714; font-size: 28px; line-height: 1.2; font-weight: 700; margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1px solid #b4a18470; letter-spacing: .015em; }
 .reading h2:focus { outline: none; }
 .reading p { margin: 0; }
-.reading .lead { font-size: 17px; line-height: 1.5; }
-.observation { margin-top: 14px; padding-top: 10px; border-top: 1px solid #c5bea6; }
-.observation h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 8px; margin: 0 0 6px; font-size: 19px; font-weight: 700; }
-.observation h3 span { font-size: 14px; font-weight: 400; color: var(--plant-muted); }
-.observation p { font-size: 17px; line-height: 1.45; }
-.question { margin: 16px 0 0; padding: 0; border: 0; }
-.question legend { color: #8c593c; font-size: 17px; font-weight: 700; margin-bottom: 8px; padding: 0; }
-.answers { display: flex; gap: 6px; }
-.answers button { flex: 1; min-height: 50px; border: 1px solid #baae91; border-radius: 3px; background: transparent; cursor: pointer; font-family: inherit; font-size: 17px; }
-.answers button[aria-pressed="true"] { background: #e5ead9; border-color: var(--plant-green); color: #244731; }
-.reading .feedback { font-size: 14px; line-height: 1.4; color: var(--plant-muted); margin-top: 6px; }
+.reading .lead { font-size: 17px; line-height: 1.45; }
+.observation { margin-top: 10px; }
+.observation h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 8px; margin: 0 0 3px; font-size: 17px; font-weight: 700; }
+.observation h3 span { font-size: 13px; font-weight: 400; color: var(--plant-muted); }
+.sectionLabel, .observation h3 .sectionLabel { color: var(--plant-accent); font-size: 13px; font-weight: 400; letter-spacing: .06em; }
+.observation p { font-size: 15px; line-height: 1.45; }
+.question { min-width: 0; margin: 10px 0 0; padding: 0; border: 0; }
+.question legend { color: var(--plant-ink); font-size: 16px; font-weight: 400; line-height: 1.4; margin-bottom: 4px; padding: 0; }
+.answers { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+.answers button { display: flex; align-items: center; gap: 9px; min-height: 36px; padding: 3px 0; border: 0; border-radius: 0; background: transparent; color: var(--plant-ink); cursor: pointer; font-family: inherit; font-size: 17px; text-align: left; }
+.answers button[aria-pressed="true"] { color: #713d24; }
+.answerBox { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; flex: 0 0 auto; border: 1px solid #7e705a; color: #a34f2d; }
+.answerBox svg { width: 20px; height: 20px; flex: 0 0 auto; stroke-width: 2; }
+.answerLetter { width: 15px; flex: 0 0 auto; font-style: italic; color: #655642; }
+/* The reveal changes only the face of this fixed paper slot, never page height. */
+.answerCard { position: relative; height: 64px; margin-top: 8px; background: #eadcbd80; border: 1px solid #c1ab8170; box-shadow: 2px 2px 0 #8c765c18; }
+.answerCard::after { content: ""; position: absolute; inset: 4px; border: 1px dashed #bca67b90; pointer-events: none; }
+.answerFlip { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; color: inherit; font-family: inherit; text-align: left; cursor: pointer; }
+.answerCover { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 8px 12px; background: #ecdfc380; transform-origin: top; transition: transform 160ms ease, opacity 130ms ease; }
+.answerCover strong { font-size: 18px; line-height: 1.25; font-weight: 700; color: #201a15; }
+.answerCover > span:not(.foldArrow) { font-size: 12px; color: var(--plant-muted); }
+.foldArrow { position: absolute; right: 14px; bottom: 8px; font-size: 28px; line-height: 1; color: var(--plant-accent); }
+.answerCard[data-open] .answerCover { transform: rotateX(88deg); opacity: 0; }
+.reading .feedback { position: absolute; top: 9px; left: 12px; right: 12px; font-size: 14px; line-height: 1.4; color: #513e28; pointer-events: none; }
+.closeAnswer { position: absolute; right: 10px; bottom: 5px; font-size: 11px; line-height: 1.2; color: var(--plant-muted); }
 .reading .steps { margin: 0 0 8px; font-size: 17px; line-height: 1.4; }
-.reading .explored { color: #8c593c; font-size: 13px; line-height: 1.3; }
+.reading .explored { color: var(--plant-accent); font-size: 13px; line-height: 1.3; }
 .observations { display: flex; gap: 24px; list-style: none; padding: 4px 0 5px; margin: 0; border-bottom: 1px solid #c5bea6; font-size: 16px; }
 .observations li { display: flex; align-items: center; gap: 3px; }
 .challenge { padding: 8px 0; }
-.challenge h3 { margin: 0 0 4px; font-size: 18px; font-weight: 700; }
+.challenge h3 { margin: 0 0 4px; font-size: 18px; font-weight: 700; color: #201a15; }
 .challenge p { font-size: 14px; color: var(--plant-muted); line-height: 1.35; }
-.secondary, .record { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 600; }
-.record { background: var(--plant-green); color: #f8f1df; }
+.secondary, .record { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 8px 14px; cursor: pointer; font-size: 14px; font-weight: 700; }
+.record { margin-top: 3px; border: 1px dashed #b29b74; border-radius: 1px; background: #eadcbd45; color: #735031; font-family: inherit; }
 .secondary { background: #eee7d7; color: var(--plant-ink); border: 1px solid #c6bda7; }
-.record { width: 100%; min-height: 50px; }
+.record svg { color: var(--plant-accent); }
 .reading .recordNote { font-size: 12px; color: var(--plant-muted); line-height: 1.35; margin-top: 5px; }
 .pageNav { position: absolute; inset: 0; pointer-events: none; }
-.pageEdge { position: absolute; top: 0; left: 0; width: 52px; height: 52px; display: flex; justify-content: center; align-items: center; pointer-events: auto; cursor: pointer; color: #365b46; background: transparent; border: 0; transform-origin: 0 0; }
+.pageEdge { position: absolute; top: 0; left: 0; width: 52px; height: 52px; display: flex; justify-content: center; align-items: center; pointer-events: auto; cursor: pointer; color: #796044; background: transparent; border: 0; transform-origin: 0 0; }
 .pageEdge:hover:not(:disabled), .pageEdge:focus-visible { background: #365b4612; }
 .pageEdge svg { padding: 2px; width: 24px; height: 24px; background: #f6f0de; border: 1px solid #bfb7a3; border-radius: 50%; }
 .pageEdge:disabled { pointer-events: none; }
@@ -65,20 +89,29 @@
 
 .lesson[data-immersive] .stage { height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)); min-height: 0; }
 .body[data-book-layout="portrait"] .reading { width: 340px; height: 350px; }
-.body[data-book-layout="portrait"] .reading h2 { margin-bottom: 8px; }
-.body[data-book-layout="portrait"] .lead, .body[data-book-layout="portrait"] .observation p { font-size: 18px; }
-.body[data-book-layout="portrait"] .observation { margin-top: 10px; padding-top: 8px; }
-.body[data-book-layout="portrait"] .question { margin-top: 10px; }
 .body[data-book-layout="portrait"] .challenge { padding-block: 6px; }
 /* Landscape uses a normal book silhouette and a single readable column. */
 .body[data-book-layout="landscape"] .reading { width: 300px; height: 350px; }
-.body[data-book-layout="landscape"] .reading h2 { font-size: 24px; margin-bottom: 10px; }
-.body[data-book-layout="landscape"] .observation { margin-top: 12px; padding-top: 8px; }
-.body[data-book-layout="landscape"] .question { margin-top: 12px; }
-.body[data-book-layout="landscape"] .lead, .body[data-book-layout="landscape"] .observation p { font-size: 18px; }
+/* Mobile keeps the complete text and reveal, with one line of printed choices. */
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .reading h2 { font-size: 25px; line-height: 1.15; margin-bottom: 5px; padding-bottom: 4px; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .lead,
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .reading .steps { font-size: 18px; line-height: 1.4; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .observation { margin-top: 6px; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .observation h3 { font-size: 16px; line-height: 1.3; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .observation p { font-size: 18px; line-height: 1.4; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .observation .touchNote { font-size: 15px; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .question { margin-top: 6px; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .question legend { margin-bottom: 3px; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .answers { flex-direction: row; gap: 8px; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .answers button { flex: 1; min-width: 0; min-height: 44px; gap: 3px; font-size: 16px; white-space: nowrap; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .answerBox { width: 12px; height: 12px; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .answerLetter { width: 10px; font-size: 13px; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .answerCard { height: 60px; margin-top: 6px; }
+.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .reading .feedback { font-size: 16px; }
 /* Upright document flow is exclusively an unavailable-WebGL fallback. */
 .body[data-book-layout="compact"] .reading { margin: 0; padding: 24px; background: var(--plant-paper); }
-.body[data-book-layout="compact"] .plantSelector { padding: 12px; }
+.body[data-book-layout="compact"] .plantSelector { position: relative; padding: 24px 12px 12px; }
+.body[data-book-layout="compact"] .figureCaption { top: 4px; bottom: auto; left: 12px; }
 .body[data-book-layout="compact"] .stage { height: 190px; min-height: 0; }
 .lesson[data-immersive] .body[data-book-layout="compact"] { overflow-y: auto; }
 @media (max-width: 767px), (max-height: 500px) {
@@ -87,6 +120,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .lesson *, .lesson *::before, .lesson *::after { scroll-behavior: auto; }
+  .answerCover { transition: none; }
 }
 
 /* The book owns the viewport; tools consume no layout rows. */
@@ -97,7 +131,7 @@
 .more[open] > div { position: absolute; right: 50px; top: 96px; width: 220px; padding: 12px; background: #f6f0de; border: 1px solid #bfb7a3; border-radius: 4px; box-shadow: 0 4px 16px #263d3820; font-size: 13px; line-height: 1.5; }
 .more p { margin: 0; }
 .soundNotice { position: absolute; top: 8px; right: 112px; z-index: 4; margin: 0; max-width: 220px; padding: 8px; background: #f6f0de; font-size: 13px; }
-.reading .folio { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; font-size: 13px; color: #64715f; }
+.reading .folio { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; font-size: 12px; color: var(--plant-muted); }
 .treeCallout { position: absolute; inset: 0; pointer-events: none; }
 .treeCallout[hidden] { display: none; }
 .treeCallout svg { position: absolute; inset: 0; overflow: visible; }
@@ -112,25 +146,23 @@
 .body[data-book-layout="compact"] .treeCallout { display: none; }
 
 .contents ol { list-style: none; padding: 0; margin: 24px 0; }
-.contents li + li { border-top: 1px solid #c5bea6; }
-.contents li button { width: 100%; min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; font-size: 18px; cursor: pointer; }
+.contents li + li { border-top: 1px dotted #bba88a; }
+.contents li button { width: 100%; min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0; border: 0; background: transparent; color: inherit; font-family: inherit; text-align: left; font-size: 18px; cursor: pointer; }
+.contents li button > span:last-child { color: var(--plant-accent); }
 .contents > p:last-child { font-size: 14px; color: var(--plant-muted); }
 .reading .folio { display: flex; align-items: center; justify-content: center; gap: 10px; }
 .folio button { min-height: 32px; min-width: 44px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .reading .methods { line-height: 1.5; font-size: 15px; }
 .reading .touchNote { margin-top: 4px; font-size: 13px; color: var(--plant-muted); }
 .observationTable { width: 100%; font-size: 13px; border-collapse: collapse; margin: 4px 0; }
-.observationTable th { font-weight: 600; text-align: left; color: #8c593c; }
+.observationTable th { font-weight: 700; text-align: left; color: var(--plant-accent); }
 .observationTable th, .observationTable td { padding: 2px; border-bottom: 1px solid #c5bea6; }
-.observationTable tr[data-selected] { background: #e5ead9; }
+.observationTable tr[data-selected] { background: #bca07018; }
 
 .lesson[data-lesson="p1a-1-2"] .challenge { padding-block: 4px; }
 
 /* The folio and corner tap areas share the reserved lower paper margin. */
 .reading .folio { left: 58px; }
 .body[data-book-layout="compact"] .reading .folio { left: 0; }
-.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .reading h2 { margin-bottom: 8px; }
-.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .observation { margin-top: 8px; padding-top: 6px; }
-.body:is([data-book-layout="portrait"], [data-book-layout="landscape"]) .question { margin-top: 6px; }
-
-.plantSelector button svg { width: 16px; height: 16px; flex-shrink: 0; }
+.body:not([data-book-layout="compact"]) .reading { cursor: grab; user-select: none; }
+.canvasHost canvas:active, .body:not([data-book-layout="compact"]) .reading:active { cursor: grabbing; }

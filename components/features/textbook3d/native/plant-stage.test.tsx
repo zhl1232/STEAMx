@@ -8,6 +8,7 @@ import { BOOK_TURN_MS } from "@/lib/textbook3d/native/book-motion"
 import { TREE_PARTS } from "@/lib/textbook3d/native/tree-parts"
 import { createObservationModels } from "@/lib/textbook3d/native/observation-models"
 import { getSceneLabels } from "@/lib/textbook3d/native/scene-labels"
+import { PLANT_RESPONSE_MS } from "@/lib/textbook3d/native/plant-response"
 
 const boundary = vi.hoisted(() => ({ render: vi.fn(), dispose: vi.fn(), loseContext: vi.fn() }))
 vi.mock("three", async (importOriginal) => {
@@ -170,7 +171,7 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
       // A real WebGLRenderer updates this before drawing. The DOM must already agree.
       camera.updateMatrixWorld(true)
       const paper = scene.getObjectByName("botanical-pop-up-book")!
-      verify(reading, paper, camera, 320, 430, [[-3.48,.145,-2.02],[-.26,.145,-2.02],[-.26,.145,2.02],[-3.48,.145,2.02]])
+      verify(reading, paper, camera, 320, 430, [[-3.42,.148,-2.02],[-.45,.148,-2.02],[-.45,.148,2.02],[-3.42,.148,2.02]])
       verify(buttons, paper, camera, 220, 52, [[.45,.148,1.5],[2.78,.148,1.5],[2.78,.148,2.18],[.45,.148,2.18]])
     })
     flush()
@@ -508,6 +509,114 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
     pointer("pointerup")
     expect(select).not.toHaveBeenCalled() // A pinch must never become an example tap.
     stage.dispose()
+  })
+
+  it("allows a genuinely lower view, preserves it on resize, and drags through noninteractive print", () => {
+    host.dataset.bookSpread = ""
+    const reading = document.createElement("section")
+    reading.dataset.bookReading = ""
+    reading.innerHTML = "<p>书上印刷的课文</p><button>回答问题</button>"
+    host.append(reading)
+    const stage = createPlantStage(host, { plant: "tree", startedAt: 0, onReady: vi.fn(), onError: vi.fn() })
+    flush()
+    const camera = boundary.render.mock.calls.at(-1)![1] as PerspectiveCamera
+    const canvas = host.querySelector("canvas")!
+    const polar = () => Math.acos(-camera.getWorldDirection(new Vector3()).y)
+    for (let i = 0; i < 12; i++) canvas.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }))
+    flush()
+    expect(polar()).toBeCloseTo(1.3, 6)
+    const direction = camera.getWorldDirection(new Vector3())
+    for (const [w, h] of [[390, 844], [844, 390], [1200, 760]]) {
+      rect = new DOMRect(0, 0, w, h); resize(); flush()
+      expect(camera.getWorldDirection(new Vector3()).distanceTo(direction)).toBeLessThan(1e-6)
+    }
+    canvas.setPointerCapture = vi.fn(); canvas.releasePointerCapture = vi.fn()
+    Object.defineProperty(canvas, "clientHeight", { configurable: true, value: 760 })
+    const down = () => new PointerEvent("pointerdown", { bubbles: true, cancelable: true, pointerId: 3, pointerType: "mouse", button: 0, buttons: 1, clientX: 300, clientY: 300 })
+    const buttonEvent = down()
+    reading.querySelector("button")!.dispatchEvent(buttonEvent)
+    expect(buttonEvent.defaultPrevented).toBe(false)
+    expect(canvas.setPointerCapture).not.toHaveBeenCalled()
+    reading.querySelector("p")!.dispatchEvent(down())
+    expect(canvas.setPointerCapture).toHaveBeenCalledWith(3)
+    canvas.dispatchEvent(new PointerEvent("pointermove", { bubbles: true, pointerId: 3, pointerType: "mouse", buttons: 1, clientX: 300, clientY: 420 }))
+    canvas.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, pointerId: 3, pointerType: "mouse", button: 0, clientX: 300, clientY: 420 }))
+    flush()
+    expect(polar()).toBeLessThan(1.2)
+    stage.resetView(); flush()
+    expect(polar()).toBeCloseTo(.64, 6)
+    stage.dispose()
+    vi.mocked(canvas.setPointerCapture).mockClear()
+    reading.querySelector("p")!.dispatchEvent(down())
+    expect(canvas.setPointerCapture).not.toHaveBeenCalled()
+    expect(callbacks.size).toBe(0)
+  })
+
+  it("animates repeated selections finitely in both lessons without moving book or camera", () => {
+    for (const second of [false, true]) {
+      const stage = createPlantStage(host, { lessonId: second ? "p1a-1-2" : "p1a-1-1", createModels: second ? createObservationModels : undefined, plant: second ? "leaf" : "tree", startedAt: time, onReady: vi.fn(), onError: vi.fn() })
+      flush()
+      const [scene, camera] = boundary.render.mock.calls.at(-1) as [Scene, PerspectiveCamera]
+      const book = scene.getObjectByName("book-and-popups")!
+      const bookMatrix = book.matrixWorld.clone(), cameraMatrix = camera.matrixWorld.clone()
+      for (const id of second ? ["leaf", "stem", "flower"] as const : ["tree", "grass", "flower"] as const) {
+        stage.setPlant(id); stage.playResponse(id)
+        time += 110; flush()
+        expect(stage.diagnostics()).toMatchObject({ responding: true, pendingFrame: true })
+        stage.playResponse(id) // Restart one response; do not create competing RAFs.
+        expect(callbacks.size).toBe(1)
+        time += 150; flush()
+        expect(book.matrixWorld.equals(bookMatrix)).toBe(true)
+        expect(camera.matrixWorld.equals(cameraMatrix)).toBe(true)
+        expect(scene.getObjectByName("selected-plant-ring")!.userData.plantId).toBe(id)
+        time += PLANT_RESPONSE_MS; flush()
+        expect(stage.diagnostics()).toMatchObject({ responding: false, pendingFrame: false })
+        expect(callbacks.size).toBe(0)
+      }
+      stage.dispose()
+    }
+  })
+
+  it("stops plant responses on visibility, reduced motion, page turns, resize, failure and disposal", () => {
+    const stage = createPlantStage(host, { plant: "tree", startedAt: 0, onReady: vi.fn(), onError: vi.fn() })
+    flush()
+    const play = () => { stage.playResponse("tree"); time += 100; flush(); expect(stage.diagnostics().responding).toBe(true) }
+    play(); stage.setVisible(false)
+    expect(stage.diagnostics()).toMatchObject({ responding: false, pendingFrame: false })
+    stage.setVisible(true); flush()
+    play(); Object.assign(motionPreference, { matches: true }); motionPreference.dispatchEvent(new Event("change")); flush()
+    stage.playResponse("tree")
+    expect(stage.diagnostics()).toMatchObject({ responding: false, pendingFrame: false })
+    Object.assign(motionPreference, { matches: false })
+    play(); stage.setPage(1)
+    stage.playResponse("tree")
+    expect(stage.diagnostics()).toMatchObject({ responding: false, turning: true })
+    time += BOOK_TURN_MS; flush()
+    play(); rect = new DOMRect(0, 0, 844, 390); resize(); flush()
+    expect(stage.diagnostics()).toMatchObject({ responding: false, pendingFrame: false })
+    play(); host.querySelector("canvas")!.dispatchEvent(new Event("webglcontextlost", { cancelable: true }))
+    expect(stage.diagnostics()).toMatchObject({ responding: false, pendingFrame: false })
+    stage.dispose()
+    expect(callbacks.size).toBe(0)
+  })
+
+  it("replays the React interaction signal for repeated taps but not initial or stale loading state", async () => {
+    vi.stubGlobal("IntersectionObserver", undefined)
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(() => rect)
+    const view = render(<PlantCanvas plant="tree" interaction={3} />)
+    await waitFor(() => expect(view.container.querySelector("canvas")).not.toBeNull())
+    act(() => flush())
+    expect(callbacks.size).toBe(0) // No deferred replay from before loading.
+    for (const interaction of [4, 5]) {
+      view.rerender(<PlantCanvas plant="tree" interaction={interaction} />)
+      act(() => { time += 100; flush() })
+      expect(callbacks.size).toBe(1)
+      act(() => { time += PLANT_RESPONSE_MS; flush() })
+      expect(callbacks.size).toBe(0)
+    }
+    view.rerender(<PlantCanvas plant="tree" interaction={6} />)
+    view.unmount()
+    expect(callbacks.size).toBe(0)
   })
 
 })

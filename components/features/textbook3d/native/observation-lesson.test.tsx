@@ -9,16 +9,17 @@ const canvasMount = vi.hoisted(() => vi.fn())
 // WebGL projection and raycasting are the boundary here. Clicking this canvas
 // reports a hit on the selected model, while React owns selection and labels.
 vi.mock("./plant-canvas", () => ({
-  PlantCanvas: ({ lessonId, plant, page, showTreeLabels, onSelect }: {
+  PlantCanvas: ({ lessonId, plant, page, interaction, showTreeLabels, onSelect }: {
     lessonId: NativeLessonId
     plant: SceneItemId
     page: number
+    interaction: number
     showTreeLabels: boolean
     onSelect: (plant: SceneItemId) => void
   }) => {
     useEffect(() => { canvasMount() }, [])
     return <canvas data-testid="lesson-canvas" aria-label="课本模型画布"
-      data-lesson={lessonId} data-plant={plant} data-page={page}
+      data-lesson={lessonId} data-plant={plant} data-page={page} data-interaction={interaction}
       data-labels-open={showTreeLabels} onClick={() => onSelect(plant)} />
   },
 }))
@@ -56,8 +57,11 @@ describe("second lesson observation reader", () => {
     expect(within(reading()).getByRole("heading", { name: "观察植物" })).toBeInTheDocument()
     expect(screen.getByText("第 1 / 2 页")).toBeInTheDocument()
     const question = screen.getByRole("group", { name: "观察植物时，可以用什么？" })
-    expect(within(question).getAllByRole("button").map((button) => button.textContent)).toEqual(["眼睛和手", "嘴巴尝", "不用看"])
+    expect(within(question).getAllByRole("button", { pressed: false }).map((button) => button.getAttribute("aria-label"))).toEqual(["眼睛和手", "嘴巴尝", "不用看"])
+    expect(within(question).getByRole("button", { name: "眼睛和手" })).toHaveTextContent("A眼睛和手")
+    expect(within(question).getByRole("button", { name: "翻开看答案" })).toHaveAttribute("aria-expanded", "false")
     fireEvent.click(within(question).getByRole("button", { name: "嘴巴尝" }))
+    expect(within(question).getByRole("button", { name: "合上答案卡" })).toHaveAttribute("aria-expanded", "true")
     expect(within(question).getByRole("status")).toHaveTextContent("不能随便尝")
     expect(within(question).getByRole("button", { name: "嘴巴尝" })).toHaveAttribute("aria-pressed", "true")
     fireEvent.click(within(question).getByRole("button", { name: "眼睛和手" }))
@@ -66,10 +70,26 @@ describe("second lesson observation reader", () => {
     expect(completed).not.toHaveBeenCalled()
   })
 
+  it("can inspect the observation answer before choosing, without recording a model interaction", () => {
+    const completed = observationLesson()
+    fireEvent.click(contentsEntries()[0])
+    const question = screen.getByRole("group", { name: "观察植物时，可以用什么？" })
+    fireEvent.click(within(question).getByRole("button", { name: "翻开看答案" }))
+    expect(within(question).getByRole("status")).toHaveTextContent("用眼睛看、用手摸，不能随便尝。")
+    expect(within(question).getAllByRole("button", { pressed: false })).toHaveLength(3)
+    fireEvent.click(within(question).getByRole("button", { name: "合上答案卡" }))
+    expect(within(question).queryByRole("status")).toBeNull()
+    expect(screen.getByTestId("lesson-canvas")).toHaveAttribute("data-interaction", "0")
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
+    expect(within(screen.getByRole("table")).getAllByText("点模型看一看")).toHaveLength(3)
+    expect(completed).not.toHaveBeenCalled()
+  })
+
   it("shows the selected model's one, three, or two labels and a second hit closes them without deselecting", () => {
     const completed = observationLesson()
     fireEvent.click(contentsEntries()[0])
     const canvas = screen.getByTestId("lesson-canvas")
+    let interactions = 0
     for (const [id, name, labels] of [
       ["leaf", "叶", ["叶脉"]],
       ["stem", "茎", ["根", "茎", "叶"]],
@@ -77,6 +97,7 @@ describe("second lesson observation reader", () => {
     ] as const) {
       const button = within(selector()).getByRole("button", { name })
       fireEvent.click(button)
+      expect(canvas).toHaveAttribute("data-interaction", String(++interactions))
       expect(button).toHaveAttribute("aria-pressed", "true")
       expect(within(selector()).getAllByRole("button").filter((item) => item.getAttribute("aria-pressed") === "true")).toHaveLength(1)
       expect(canvas).toHaveAttribute("data-plant", id)
@@ -85,6 +106,7 @@ describe("second lesson observation reader", () => {
       const announcement = `${name}上标出了${labels.join("、")}。再点可收起。`
       expect(screen.getByText(announcement)).toHaveAttribute("role", "status")
       fireEvent.click(canvas)
+      expect(canvas).toHaveAttribute("data-interaction", String(++interactions))
       expect(canvas).toHaveAttribute("data-labels-open", "false")
       expect(canvas).toHaveAttribute("data-plant", id)
       expect(button).toHaveAttribute("aria-pressed", "true")
@@ -164,7 +186,7 @@ describe("first lesson contents regression", () => {
     entries = contentsEntries()
     fireEvent.click(entries[0])
     expect(screen.getByText("第 1 / 2 页")).toBeInTheDocument()
-    expect(screen.getByRole("group", { name: "猜一猜：哪个是植物？" })).toBeInTheDocument()
+    expect(screen.getByRole("group", { name: /猜一猜：\s*哪个是植物？/ })).toBeInTheDocument()
     expect(screen.queryByText(/第 \d \/ 3 页/)).toBeNull()
     expect(screen.getByTestId("lesson-canvas")).toBe(canvas)
     expect(canvasMount).toHaveBeenCalledOnce()

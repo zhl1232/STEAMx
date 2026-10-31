@@ -1,7 +1,7 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react"
-import { ArrowLeft, ArrowRight, Check, Flower2, Maximize2, Minimize2, Sprout, TreeDeciduous, Volume2, VolumeX, MoreHorizontal, Leaf } from "lucide-react"
+import { useCallback, useEffect, useId, useRef, useState, type PointerEvent } from "react"
+import { ArrowLeft, ArrowRight, Check, Maximize2, Minimize2, Volume2, VolumeX, MoreHorizontal } from "lucide-react"
 
 import { getSceneLabels } from "@/lib/textbook3d/native/scene-labels"
 import { createBookAudio } from "@/lib/textbook3d/native/book-audio"
@@ -14,7 +14,6 @@ import frameStyles from "../textbook-frame.module.css"
 import styles from "./plant-lesson.module.css"
 import { PlantCanvas } from "./plant-canvas"
 
-const plantIcons = { tree: TreeDeciduous, grass: Sprout, flower: Flower2, leaf: Leaf, stem: Sprout }
 const plantAnswers = ["小草", "石头", "小狗"]
 const plantFeedback = ["对，小草是植物，它会生长。", "石头不会生长，再找找看。", "小狗是动物，再找找植物。"]
 
@@ -31,9 +30,12 @@ export default function PlantLesson({ title, lessonId = "p1a-1-1", onComplete, o
   const answers = isObservation ? OBSERVATION_LESSON.question.options : plantAnswers
   const feedback = isObservation ? [OBSERVATION_LESSON.question.answer, "不能随便尝。用眼睛看、用手摸。", "仔细看，才能发现颜色和形状。"] : plantFeedback
   const [page, setPage] = useState<BookPage>(-1)
+  const [interaction, setInteraction] = useState(0)
   const [selected, setSelected] = useState<SceneItemId>(isObservation ? "leaf" : "tree")
   const [explored, setExplored] = useState<SceneItemId[]>([])
   const [answer, setAnswer] = useState<number | null>(null)
+  const [answerOpen, setAnswerOpen] = useState(false)
+  const answerId = useId()
   const [recorded, setRecorded] = useState(false)
   const [showTreeLabels, setShowTreeLabels] = useState(false)
   const [sound, setSound] = useState(false)
@@ -78,6 +80,7 @@ export default function PlantLesson({ title, lessonId = "p1a-1-1", onComplete, o
   const selectPlant = useCallback((id: SceneItemId) => {
     if (turningNow.current) return
     setSelected(id)
+    setInteraction(value => value + 1)
     setShowTreeLabels((shown) => getSceneLabels(lessonId, id).length > 0 && (id === selected ? !shown : true))
     if (id === "tree" || (isObservation && id !== "flower")) audio.current?.play("leaves")
     setExplored((seen) => seen.includes(id) ? seen : [...seen, id])
@@ -107,7 +110,7 @@ export default function PlantLesson({ title, lessonId = "p1a-1-1", onComplete, o
         </button>
         <details className={styles.more}>
           <summary className={styles.tool} aria-label="更多阅读选项" title="更多阅读选项"><MoreHorizontal size={18} aria-hidden /></summary>
-          <div><p>点书页左下、右下角翻页，拖动转动书本。{isObservation ? "点模型查看课文提到的部位，再点收起。" : "点大树查看部位，再点收起。"}</p><button type="button" className={styles.legacyLink} onClick={onUseLegacy}>使用旧版</button></div>
+          <div><p>点书页左下、右下角翻页，上下拖动倾斜，左右拖动旋转；双指或滚轮放大。{isObservation ? "点模型查看课文提到的部位，再点收起。" : "点大树查看部位，再点收起。"}</p><button type="button" className={styles.legacyLink} onClick={onUseLegacy}>使用旧版</button></div>
         </details>
       </div>
       {soundUnavailable && <p role="status" className={styles.soundNotice}>声音暂时不可用，可以继续无声阅读。</p>}
@@ -116,19 +119,19 @@ export default function PlantLesson({ title, lessonId = "p1a-1-1", onComplete, o
         onPointerUpCapture={(event) => touching.current.delete(event.pointerId)}
         onPointerCancelCapture={(event) => { touching.current.delete(event.pointerId); if (edgeTap.current) edgeTap.current.valid = false }}>
         <section className={styles.sceneColumn} aria-label="观察植物立体书">
-          <PlantCanvas lessonId={lessonId} plant={selected} page={page} onSelect={selectPlant} onTurningChange={onTurningChange} showTreeLabels={showTreeLabels} onLabelsDismiss={dismissLabels} onVisibleChange={onVisibleChange} />
+          <PlantCanvas lessonId={lessonId} plant={selected} interaction={interaction} page={page} onSelect={selectPlant} onTurningChange={onTurningChange} showTreeLabels={showTreeLabels} onLabelsDismiss={dismissLabels} onVisibleChange={onVisibleChange} />
           <div className={styles.treeCallout} data-tree-callout hidden aria-hidden="true">
             <svg width="100%" height="100%">{labels.map(part => <g key={part.id}><line data-tree-line={part.id} /><circle r="4" data-tree-pin={part.id} /></g>)}</svg>
             {labels.map(part => <span key={part.id} data-tree-bubble={part.id}>{part.name}</span>)}
           </div>
           <span className={styles.srOnly} role="status">{showTreeLabels ? (isObservation ? `${plant.name}上标出了${labels.map(part => part.name).join("、")}。再点可收起。` : "大树上标出了树根、树干、树叶。再点大树可收起。") : ""}</span>
           <div className={styles.plantSelector} data-book-controls role="group" aria-label="选择观察的植物">
-            {items.map((item) => {
-              const Icon = plantIcons[item.id]
-              return <button key={item.id} type="button" disabled={turning} aria-pressed={selected === item.id} onClick={() => selectPlant(item.id)}>
-                <Icon size={20} aria-hidden /><span>{item.name}</span>
+            <span className={styles.figureCaption}>{isObservation ? "图 1  叶、茎、花" : "图 1  大树、小草、花"}</span>
+            {items.map((item) => (
+              <button key={item.id} type="button" disabled={turning} aria-pressed={selected === item.id} onClick={() => selectPlant(item.id)}>
+                <span className={styles.selectionMark} aria-hidden>{selected === item.id && <Check size={14} />}</span><span>{item.name}</span>
               </button>
-            })}
+            ))}
           </div>
         </section>
         <section ref={reading} className={styles.reading} data-book-reading aria-label="课文与探索任务" aria-busy={turning}>
@@ -143,7 +146,7 @@ export default function PlantLesson({ title, lessonId = "p1a-1-1", onComplete, o
           <div className={styles.readingIntro}>
             {page === 0 ? <>
             <div className={styles.observation} aria-live="polite">
-              {!isObservation && <h3>{plant.name}<span>{plant.feature}</span></h3>}
+              {!isObservation && <h3><span className={styles.sectionLabel}>看一看</span>{plant.name}<span>{plant.feature}</span></h3>}
               {isObservation ? <><p className={styles.methods}>看颜色形状，摸光滑粗糙，比大小。</p><p className={styles.touchNote}>屏幕里先看；触感要观察真实植物。</p></> : <p>{plant.observation}</p>}
             </div>
             </> : <>
@@ -157,11 +160,23 @@ export default function PlantLesson({ title, lessonId = "p1a-1-1", onComplete, o
           <div className={styles.readingTask}>
             {page === 0 ? <>
               <fieldset className={styles.question}>
-                <legend>{isObservation ? OBSERVATION_LESSON.question.prompt : "猜一猜：哪个是植物？"}</legend>
+                <legend>{isObservation ? OBSERVATION_LESSON.question.prompt : <><span className={styles.sectionLabel}>猜一猜：</span>哪个是植物？</>}</legend>
                 <div className={styles.answers}>
-                  {answers.map((item, index) => <button key={item} type="button" aria-pressed={answer === index} onClick={() => setAnswer(index)}>{item}</button>)}
+                  {answers.map((item, index) => <button key={item} type="button" aria-label={item} disabled={turning} aria-pressed={answer === index} onClick={() => { setAnswer(index); setAnswerOpen(true) }}>
+                    <span className={styles.answerBox} aria-hidden>{answer === index && <Check size={18} />}</span>
+                    <span className={styles.answerLetter} aria-hidden>{String.fromCharCode(65 + index)}</span>
+                    <span>{item}</span>
+                  </button>)}
                 </div>
-                <p className={styles.feedback} role="status">{answer === null ? "选一个，说说你的理由。" : feedback[answer]}</p>
+                <div className={styles.answerCard} data-open={answerOpen || undefined}>
+                  <button type="button" className={styles.answerFlip} disabled={turning} aria-label={answerOpen ? "合上答案卡" : "翻开看答案"} aria-expanded={answerOpen} aria-controls={answerId} onClick={() => setAnswerOpen((open) => !open)}>
+                    <span className={styles.answerCover} aria-hidden={answerOpen}>
+                      <strong>翻开看答案</strong><span>选一个，说说你的理由。</span><span className={styles.foldArrow} aria-hidden>↷</span>
+                    </span>
+                    {answerOpen && <span className={styles.closeAnswer} aria-hidden>合上 ↶</span>}
+                  </button>
+                  <p id={answerId} className={styles.feedback} role="status" hidden={!answerOpen}>{feedback[answer ?? 0]}</p>
+                </div>
               </fieldset>
             </> : <>
               <div className={styles.challenge}>

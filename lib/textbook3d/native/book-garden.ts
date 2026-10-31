@@ -73,12 +73,13 @@ export function createBookGarden(plants: BookModels = createPlantModels()) {
     setLayout(layout: BookLayout) {
       root.rotation.y = layout === "portrait" ? Math.PI / 2 : 0
       // Reflow the sheets, never stretch the approved plant meshes.
-      const x = layout === "portrait" ? 1.25 : layout === "landscape" ? 1.1 : 1
-      const z = 1
+      const x = layout === "portrait" ? 1.35 : layout === "landscape" ? 1.25 : 1.15
+      const z = layout === "portrait" ? 1 : 1.18
       book.root.scale.set(x, 1, z)
       for (const id of ids) {
         const [px, py, pz] = BOOK_PLANT_ANCHORS[id]
-        folds[id].position.set(px * x, py, pz * z)
+        const pageZ = id === "tree" && layout !== "portrait" ? pz + .42 : pz
+        folds[id].position.set(px * x, py, pageZ * z)
       }
       placeRing()
       root.updateMatrixWorld(true)
@@ -132,16 +133,17 @@ export function lightBookScene(scene: THREE.Scene) {
   return () => { key.shadow.dispose(); groundShape.dispose(); groundMaterial.dispose() }
 }
 
-export function fitBookCamera(camera: THREE.PerspectiveCamera, book?: THREE.Object3D, layout: BookLayout = "spread") {
+export function fitBookCamera(camera: THREE.PerspectiveCamera, book?: THREE.Object3D, layout: BookLayout = "spread", view?: { phi: number; theta: number }) {
   // A longer focal length avoids a close crown forcing the phone's paper tiny.
-  camera.fov = layout === "spread" ? 24 : layout === "landscape" ? 6 : 12
+  camera.fov = layout === "portrait" ? 12 : 14
   camera.updateProjectionMatrix()
   const center = new THREE.Vector3(0, 0.5, 0.12)
   const halfVertical = THREE.MathUtils.degToRad(camera.fov / 2)
   const halfHorizontal = Math.atan(Math.tan(halfVertical) * camera.aspect)
-  const angle = layout === "landscape" ? 0.08 : 0.38
-  const direction = new THREE.Vector3(0, Math.cos(angle), Math.sin(angle))
-  const up = new THREE.Vector3(0, direction.z, -direction.y)
+  const angle = layout === "portrait" ? .38 : .64
+  const direction = new THREE.Vector3().setFromSpherical(new THREE.Spherical(1, view?.phi ?? angle, view?.theta ?? (layout === "portrait" ? 0 : -.045)))
+  const rightAxis = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), direction).normalize()
+  const up = new THREE.Vector3().crossVectors(direction, rightAxis)
   // Fit the book and the raised plants, including their depth toward the lens.
   // Using only the flat page dimensions cuts off the crown in a close view.
   let distance = 0
@@ -187,13 +189,13 @@ export function fitBookCamera(camera: THREE.PerspectiveCamera, book?: THREE.Obje
   let left = Infinity, right = -Infinity, bottom = Infinity, top = -Infinity
   for (const point of points) {
     const relative = point.clone().sub(center)
-    const depth = relative.dot(direction), vertical = relative.dot(up)
-    left = Math.min(left, relative.x - depth * tanH)
-    right = Math.max(right, relative.x + depth * tanH)
+    const depth = relative.dot(direction), vertical = relative.dot(up), horizontal = relative.dot(rightAxis)
+    left = Math.min(left, horizontal - depth * tanH)
+    right = Math.max(right, horizontal + depth * tanH)
     bottom = Math.min(bottom, vertical - depth * tanV)
     top = Math.max(top, vertical + depth * tanV)
   }
-  center.x += (left + right) / 2
+  center.addScaledVector(rightAxis, (left + right) / 2)
   center.addScaledVector(up, (bottom + top) / 2)
   distance = Math.max((right - left) / (2 * tanH), (top - bottom) / (2 * tanV)) * 1.015
   camera.far = Math.max(100, distance * 2)

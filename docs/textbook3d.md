@@ -50,7 +50,7 @@ public/textbook3d/v1/
 
 ## 原生立体课本
 
-当前原生范围为 `p1a-1-1`「我们知道的植物」和 `p1a-1-2`「观察植物」，共用同一个站内阅读器和渲染生命周期。每课前置本课目录，再进入两个正文页；目录不增加课时，也不作为学习完成条件。书角翻页、同帧贴页、静态选中环、部位标签、底边收折、完整 A/B 背景乐以及资源和手机验收，统一由 [原生课本实现标准](textbook3d-implementation.md) 维护。
+当前原生范围为 `p1a-1-1`「我们知道的植物」和 `p1a-1-2`「观察植物」，共用同一个站内阅读器和渲染生命周期。每课前置本课目录，再进入两个正文页；目录不增加课时，也不作为学习完成条件。书角翻页、同帧贴页、静态选中环、部位标签、底边收折、点选局部轻摆、完整 A/B 背景乐以及资源和手机验收，统一由 [原生课本实现标准](textbook3d-implementation.md) 维护。
 
 **范围与来源**：原课本工程未在当前仓库及可访问历史中找到。这两课依据已交付静态包的文字与学习目标和用户反馈重新实现，不是原源码恢复。第一课来源为主站 `72c9a909` 中 `public/textbook3d/v1/shared/p1a-1-1-FQNKSPUC.js`；第二课来源为现有 `public/textbook3d/v1/shared/p1a-1-2-RYG7ZYTU.js`。第二课保留“看、摸、比”、叶/茎/花观察、观察记录表及绘画任务，明确屏幕不能验证真实触感。模型是观察示例，不把其颜色或形状泛化为全部植物。
 
@@ -67,6 +67,7 @@ public/textbook3d/v1/
 | `lib/textbook3d/native/plant-models.ts`、`observation-models.ts` | 第一课树/草/花、第二课叶/茎/花的程序几何及资源所有权 |
 | `lib/textbook3d/native/book-model.ts`、`book-garden.ts`、`popup-rig.ts`、`book-motion.ts` | 实体书、纸面锚点、局部收纸与底边铰链、有限翻页时间线 |
 | `lib/textbook3d/native/book-page-layout.ts`、`plant-stage.ts`、`demand-renderer.ts` | 课文/控件/书角的同帧投影，场景拾取、按需绘制、降级与生命周期 |
+| `lib/textbook3d/native/plant-response.ts` | 有限点击动作、根部固定、形变标签锚点、私有几何缓存与恢复释放 |
 | `lib/textbook3d/native/tree-parts.ts` | 部位标签的局部锚点与模型侧避让；各课标签按模型数据扩展 |
 | `lib/textbook3d/native/book-music.ts`、`book-audio.ts` | 原创乐谱与合成、有限前瞻调度、纸声/叶声及独占音频会话 |
 | `components/features/textbook3d/use-textbook-immersive.ts` | 新旧阅读器共用全屏、互斥会话和退出清理 |

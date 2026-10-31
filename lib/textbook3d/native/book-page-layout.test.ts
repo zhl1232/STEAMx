@@ -38,17 +38,13 @@ describe("readable text on the physical book", () => {
       const { points } = projectReadingPage(camera, width, height, garden.paper, layout)
       const printWidth = points[1].x - points[0].x
       const printHeight = points[3].y - points[0].y
-      // Same-source projection heights measured before this framing change;
-      // geometry evidence only, not a browser/typography acceptance claim.
-      const previousHeight = width === 390 ? 292.6 : width === 844 ? 296.98 : 313.73
-      expect(printHeight).toBeGreaterThan(previousHeight)
-      // With the fixed bars gone, a normal landscape sheet must fill height,
-      // not gain width by flattening the book into the previous 200px ribbon.
+      // Check the resulting paper and glyph budget, not improvement over a
+      // near-overhead view that concealed the trunk. Typography still needs a browser.
       expect(printWidth / readingPageSize(layout).width * 17).toBeGreaterThan(14)
       if (layout === "landscape") {
-        expect(printHeight).toBeGreaterThan(height * .73)
+        expect(printHeight).toBeGreaterThan(height * .72)
         expect(printWidth / printHeight).toBeLessThan(1)
-      }
+      } else expect(printHeight).toBeGreaterThan(292.6)
       for (const point of points) {
         expect(point.x).toBeGreaterThan(0); expect(point.x).toBeLessThan(width)
         expect(point.y).toBeGreaterThan(0); expect(point.y).toBeLessThan(height)

@@ -8,9 +8,10 @@ import type { BookPage } from "@/lib/textbook3d/native/book-motion"
 import type { PlantStage } from "@/lib/textbook3d/native/plant-stage"
 import styles from "./plant-lesson.module.css"
 
-export function PlantCanvas({ lessonId = "p1a-1-1", plant, page = 0, onSelect, onTurningChange, showTreeLabels = false, onLabelsDismiss, onVisibleChange }: {
+export function PlantCanvas({ lessonId = "p1a-1-1", plant, interaction = 0, page = 0, onSelect, onTurningChange, showTreeLabels = false, onLabelsDismiss, onVisibleChange }: {
   lessonId?: NativeLessonId
   plant: SceneItemId
+  interaction?: number
   page?: BookPage
   onSelect?: (plant: SceneItemId) => void
   onTurningChange?: (turning: boolean) => void
@@ -36,6 +37,10 @@ export function PlantCanvas({ lessonId = "p1a-1-1", plant, page = 0, onSelect, o
     stage.current?.setPlant(plant)
     stage.current?.setLabels(showTreeLabels)
   }, [plant, showTreeLabels])
+
+  useLayoutEffect(() => {
+    if (interaction > 0) stage.current?.playResponse(currentPlant.current)
+  }, [interaction])
 
   useEffect(() => {
     const element = host.current

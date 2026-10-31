@@ -7,8 +7,8 @@ export const readingPageSize = (layout: BookLayout) => layout === "portrait"
 export const bookLayoutFor = (width: number, height: number): BookLayout =>
   width < 640 && height > width * 1.15 ? "portrait" : height < 440 ? "landscape" : "spread"
 export const READING_PAGE_CORNERS = [
-  [-3.48, 0.145, -2.02], [-0.26, 0.145, -2.02],
-  [-0.26, 0.145, 2.02], [-3.48, 0.145, 2.02],
+  [-3.42, 0.148, -2.02], [-0.45, 0.148, -2.02],
+  [-0.45, 0.148, 2.02], [-3.42, 0.148, 2.02],
 ] as const
 
 /** Map a live DOM page onto the book plane; text and controls remain accessible. */

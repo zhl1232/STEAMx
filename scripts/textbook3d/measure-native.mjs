@@ -52,7 +52,9 @@ try {
     }
     const choose = async (name) => {
       await page.getByRole('group', { name: '选择观察的植物' }).getByRole('button', { name, exact: true }).click()
+      await page.waitForFunction(() => document.querySelector('[data-render-state] canvas')?.textbookDiagnostics?.().responding === true)
       await settle()
+      assert.equal((await stats()).responding, false)
     }
     await open()
     await settle()
@@ -76,8 +78,15 @@ try {
       await page.mouse.move(stageBounds.x + stageBounds.width * 0.78, stageBounds.y + stageBounds.height * 0.3, { steps: 30 })
       await page.mouse.up()
     }
+    // Exercise vertical orbit as well; on-demand rendering must not lock pitch.
+    await page.mouse.move(stageBounds.x + stageBounds.width * .7, stageBounds.y + stageBounds.height * .55)
+    await page.mouse.down()
+    await page.mouse.move(stageBounds.x + stageBounds.width * .7, stageBounds.y + stageBounds.height * .4, { steps: 20 })
+    await page.mouse.up()
     await settle()
     const drag = await stats()
+    await page.getByRole('button', { name: '恢复视角', exact: true }).click()
+    await settle()
     await choose('大树')
     assert.equal(await page.locator('[data-tree-callout]').isVisible(), true)
     assert.equal(await page.locator('[data-tree-bubble]').count(), 3)

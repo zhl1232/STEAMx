@@ -1,6 +1,7 @@
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 
+import { createPlantResponse } from "./plant-response"
 import { createDemandRenderer } from "./demand-renderer"
 import { BOOK_CORNER_SIZE, bookCornerCorners, projectBookSurface, bookLayoutFor, projectReadingPage, type BookLayout } from "./book-page-layout"
 import { createBookGarden, fitBookCamera, lightBookScene, type BookModels } from "./book-garden"
@@ -42,7 +43,7 @@ export function createPlantStage(host: HTMLElement, options: {
     renderer.shadowMap.type = THREE.PCFShadowMap
     renderer.shadowMap.autoUpdate = false
     const canvas = renderer.domElement
-    canvas.setAttribute("aria-label", "植物立体书。点选书上的植物；拖动转动书本，双指缩放；也可用方向键和加减键。")
+    canvas.setAttribute("aria-label", "植物立体书。点选书上的植物；上下拖动倾斜、左右拖动旋转，双指缩放；也可用方向键和加减键。")
     canvas.setAttribute("role", "img")
     canvas.tabIndex = 0
     host.appendChild(canvas)
@@ -53,10 +54,10 @@ export function createPlantStage(host: HTMLElement, options: {
     const controls = new OrbitControls(camera, canvas)
     controls.enableDamping = false
     controls.enablePan = false
-    controls.minPolarAngle = 0.04
-    controls.maxPolarAngle = 0.78
-    controls.minAzimuthAngle = -0.45
-    controls.maxAzimuthAngle = 0.45
+    controls.minPolarAngle = 0.1
+    controls.maxPolarAngle = 1.3
+    controls.minAzimuthAngle = -0.9
+    controls.maxAzimuthAngle = 0.9
     controls.rotateSpeed = 0.65
     controls.zoomSpeed = 0.7
     cleanup.push(() => controls.dispose())
@@ -64,6 +65,8 @@ export function createPlantStage(host: HTMLElement, options: {
     const garden = createBookGarden(options.createModels?.())
     scene.add(garden.root)
     cleanup.push(() => garden.dispose())
+    const response = createPlantResponse(garden.plants)
+    cleanup.push(() => response.dispose())
     cleanup.push(lightBookScene(scene))
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")
     let layout: BookLayout = "spread"
@@ -117,7 +120,7 @@ export function createPlantStage(host: HTMLElement, options: {
       renderer.shadowMap.needsUpdate = true
     }, (turning) => {
       controls.enabled = !turning
-      if (turning) dismissLabels()
+      if (turning) { response.stop(); dismissLabels() }
       for (const edge of edges) { edge.inert = turning; edge.style.opacity = turning ? "0" : "1" }
       if (reading) {
         // Cover the whole transition, including the initial fold and final unfold.
@@ -148,6 +151,9 @@ export function createPlantStage(host: HTMLElement, options: {
       if (disposed || contextLost || renderFailed) return
       const started = performance.now()
       const animating = motion.update(started)
+      const wasResponding = response.active
+      const responding = response.update(started)
+      if (wasResponding || responding) renderer.shadowMap.needsUpdate = true
       // OrbitControls changes the pose before renderer.render updates matrixWorld.
       // Commit it first so DOM print and WebGL see exactly the same frame.
       camera.updateMatrixWorld(true)
@@ -169,7 +175,10 @@ export function createPlantStage(host: HTMLElement, options: {
         const parts = getSceneLabels(options.lessonId ?? "p1a-1-1", selected)
         callout.hidden = !showTreeLabels || parts.length === 0 || motion.busy || !intersecting || document.hidden
         if (!callout.hidden) {
-          const anchors = parts.map(part => project(part.anchor[0], part.anchor[1], part.anchor[2], garden.plants[selected]))
+          const anchors = parts.map(part => {
+            const moved = response.anchor(selected, new THREE.Vector3(...part.anchor))
+            return project(moved.x, moved.y, moved.z, garden.plants[selected])
+          })
           const corners = [[.16, -2.04], [3.5, -2.04], [3.5, 1.2], [.16, 1.2]].map(([x, z]) => project(x, .15, z))
           const area = { left: Math.max(8, Math.min(...corners.map(p => p.x))), right: Math.min(width - 8, Math.max(...corners.map(p => p.x))), top: Math.max(8, Math.min(...corners.map(p => p.y))), bottom: Math.min(height - 8, Math.max(...corners.map(p => p.y))) }
           if (layout !== "portrait") area.left = Math.max(corners[0].x, corners[3].x) + 12
@@ -190,6 +199,7 @@ export function createPlantStage(host: HTMLElement, options: {
         setPrintResizing(false)
       } catch {
         renderFailed = true
+        response.stop()
         motion.finish()
         restoreUprightReading()
         options.onError()
@@ -204,35 +214,55 @@ export function createPlantStage(host: HTMLElement, options: {
         firstRenderMs = performance.now() - options.startedAt
         options.onReady()
       }
-      if (animating) scheduler.invalidate()
+      if (animating || responding) scheduler.invalidate()
     })
     cleanup.push(() => scheduler.dispose())
     const updateVisibility = () => {
       const visible = intersecting && !document.hidden && !contextLost && !renderFailed && width > 0 && height > 0
       scheduler.setVisible(visible)
-      if (!visible) dismissLabels()
+      if (!visible) {
+        dismissLabels()
+        if (response.active) { response.stop(); renderer.shadowMap.needsUpdate = true; scheduler.invalidate() }
+      }
       if (!visible && motion.busy) { motion.finish(); scheduler.invalidate() }
+    }
+    let userView = false
+    let fittingView = false
+    const fitView = (preserve: boolean) => {
+      if (response.active) renderer.shadowMap.needsUpdate = true
+      response.stop()
+      const previous = preserve && fitDistance > 0 ? new THREE.Spherical().setFromVector3(camera.position.clone().sub(controls.target)) : null
+      const zoom = previous ? previous.radius / fitDistance : 1
+      const fit = fitBookCamera(camera, garden.root, layout, previous ? { phi: previous.phi, theta: previous.theta } : undefined)
+      fitDistance = fit.distance
+      controls.target.copy(fit.center)
+      camera.position.sub(fit.center).multiplyScalar(zoom).add(fit.center)
+      controls.minDistance = fitDistance * .65
+      controls.maxDistance = fitDistance * 1.7
+      fittingView = true
+      controls.update()
+      fittingView = false
+      scheduler.invalidate()
     }
     const resetView = () => {
       if (disposed) return
-      // Explicit user action; normal page turns never touch the camera.
       if (motion.busy) motion.finish()
-      const fit = fitBookCamera(camera, garden.root, layout)
-      fitDistance = fit.distance
-      controls.target.copy(fit.center)
-      controls.minDistance = fitDistance * 0.8
-      controls.maxDistance = fitDistance * 1.4
-      controls.update()
-      scheduler.invalidate()
+      userView = false
+      fitView(false)
     }
     const setPlant = (id: SceneItemId) => {
       if (disposed) return
       if (!garden.plants[id]) return
+      if (id !== selected) response.stop()
       selected = id
       garden.setSelected(id)
       if (!getSceneLabels(options.lessonId ?? "p1a-1-1", id).length) dismissLabels()
       renderer.shadowMap.needsUpdate = true
       scheduler.invalidate()
+    }
+    const playResponse = (id: SceneItemId) => {
+      if (disposed || contextLost || renderFailed || motion.busy || reducedMotion?.matches || !intersecting || document.hidden || !width || !height) return
+      if (response.play(id, performance.now())) scheduler.invalidate()
     }
     const setLabels = (visible: boolean) => {
       if (disposed || contextLost || renderFailed) return
@@ -241,10 +271,13 @@ export function createPlantStage(host: HTMLElement, options: {
     }
     const setPage = (page: BookPage) => {
       if (disposed) return
+      response.stop()
+      renderer.shadowMap.needsUpdate = true
       motion.turnTo(page, performance.now(), Boolean(reducedMotion?.matches) || contextLost || renderFailed || !intersecting || document.hidden || !width || !height)
       scheduler.invalidate()
     }
     const onMotionPreference = () => {
+      if (reducedMotion?.matches && response.active) { response.stop(); renderer.shadowMap.needsUpdate = true; scheduler.invalidate() }
       if (reducedMotion?.matches && motion.busy) { motion.finish(); scheduler.invalidate() }
     }
     reducedMotion?.addEventListener("change", onMotionPreference)
@@ -255,6 +288,7 @@ export function createPlantStage(host: HTMLElement, options: {
       const nextWidth = Math.floor(rect.width)
       const nextHeight = Math.floor(rect.height)
       if (nextWidth === width && nextHeight === height) return
+      response.stop()
       if (motion.busy) motion.finish() // A viewport/layout change settles on the requested page.
       width = nextWidth
       height = nextHeight
@@ -276,9 +310,9 @@ export function createPlantStage(host: HTMLElement, options: {
       renderer.setSize(width, height, false)
       camera.aspect = width / height
       camera.updateProjectionMatrix()
-      resetView()
+      fitView(userView)
     }
-    const onChange = () => scheduler.invalidate()
+    const onChange = () => { if (!fittingView) userView = true; scheduler.invalidate() }
     const onStart = () => { interacting = true; previousDragFrame = 0 }
     const onEnd = () => { interacting = false; previousDragFrame = 0 }
     controls.addEventListener("change", onChange)
@@ -311,6 +345,24 @@ export function createPlantStage(host: HTMLElement, options: {
       controls.update()
       scheduler.invalidate()
     }
+    // Printed text must not create a dead half of the book. Start an orbit on
+    // non-interactive print, then let OrbitControls capture the real pointer on
+    // its canvas. Buttons keep their own tap/keyboard semantics.
+    const interactivePrint = (target: EventTarget | null) => target instanceof Element && Boolean(target.closest("button,a,input,textarea,select,summary,[role=button]"))
+    const onPrintPointer = (event: PointerEvent) => {
+      if (reading?.inert || motion.busy || contextLost || renderFailed || interactivePrint(event.target)) return
+      event.preventDefault()
+      canvas.focus({ preventScroll: true })
+      canvas.dispatchEvent(new PointerEvent("pointerdown", { pointerId: event.pointerId, pointerType: event.pointerType, isPrimary: event.isPrimary, button: event.button, buttons: event.buttons, clientX: event.clientX, clientY: event.clientY, bubbles: true, cancelable: true }))
+    }
+    const onPrintWheel = (event: WheelEvent) => {
+      if (reading?.inert || motion.busy || contextLost || renderFailed || interactivePrint(event.target)) return
+      event.preventDefault()
+      canvas.dispatchEvent(new WheelEvent("wheel", { deltaX: event.deltaX, deltaY: event.deltaY, deltaZ: event.deltaZ, deltaMode: event.deltaMode, clientX: event.clientX, clientY: event.clientY, ctrlKey: event.ctrlKey, bubbles: true, cancelable: true }))
+    }
+    reading?.addEventListener("pointerdown", onPrintPointer)
+    reading?.addEventListener("wheel", onPrintWheel, { passive: false })
+    cleanup.push(() => { reading?.removeEventListener("pointerdown", onPrintPointer); reading?.removeEventListener("wheel", onPrintWheel) })
     const raycaster = new THREE.Raycaster()
     let pointerStart: { x: number; y: number; id: number } | null = null
     const pointers = new Set<number>()
@@ -361,7 +413,7 @@ export function createPlantStage(host: HTMLElement, options: {
     cleanup.push(() => observer.disconnect())
     const percentile = (values: number[], p: number) => values.length ? [...values].sort((a, b) => a - b)[Math.floor((values.length - 1) * p)] : null
     const diagnostics = () => ({
-      disposed, selected, page: motion.page, turning: motion.busy, renders, firstRenderMs, pendingFrame: scheduler.pending,
+      disposed, selected, page: motion.page, turning: motion.busy, responding: response.active, renders, firstRenderMs, pendingFrame: scheduler.pending,
       visible: intersecting && !document.hidden && !contextLost && !renderFailed && width > 0 && height > 0,
       drawCalls: renderer.info.render.calls, triangles: renderer.info.render.triangles,
       geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures,
@@ -377,7 +429,7 @@ export function createPlantStage(host: HTMLElement, options: {
     resize()
     updateVisibility()
     return {
-      setPlant, setPage, setLabels, resetView, dispose, diagnostics,
+      setPlant, setPage, setLabels, playResponse, resetView, dispose, diagnostics,
       setVisible(value: boolean) { if (!disposed) { intersecting = value; updateVisibility() } },
     }
   } catch (error) {

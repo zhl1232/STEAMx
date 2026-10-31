@@ -5,7 +5,7 @@ import PlantLesson from "./plant-lesson"
 
 const canvasMount = vi.hoisted(() => vi.fn())
 const canvasBoundary = vi.hoisted(() => ({ turn: undefined as ((busy: boolean) => void) | undefined, animate: false }))
-vi.mock("./plant-canvas", () => ({ PlantCanvas: ({ plant, page, onTurningChange }: { plant: string; page: number; onTurningChange?: (busy: boolean) => void }) => {
+vi.mock("./plant-canvas", () => ({ PlantCanvas: ({ plant, page, interaction, onTurningChange }: { plant: string; page: number; interaction: number; onTurningChange?: (busy: boolean) => void }) => {
   const previousPage = useRef(page)
   useLayoutEffect(() => {
     if (canvasBoundary.animate && previousPage.current !== page) onTurningChange?.(true)
@@ -13,7 +13,7 @@ vi.mock("./plant-canvas", () => ({ PlantCanvas: ({ plant, page, onTurningChange 
   }, [page, onTurningChange])
   useEffect(() => { canvasBoundary.turn = onTurningChange }, [onTurningChange])
   useEffect(() => { canvasMount() }, [])
-  return <div data-testid="plant-canvas">{plant}</div>
+  return <div data-testid="plant-canvas" data-interaction={interaction}>{plant}</div>
 } }))
 
 describe("first lesson reader", () => {
@@ -83,7 +83,7 @@ describe("first lesson reader", () => {
     const fallback = vi.fn()
     render(<PlantLesson title="我们知道的植物" onUseLegacy={fallback} />)
     fireEvent.click(screen.getByRole("button", { name: "下一页" }))
-    const question = screen.getByRole("group", { name: "猜一猜：哪个是植物？" })
+    const question = screen.getByRole("group", { name: /猜一猜：\s*哪个是植物？/ })
     fireEvent.click(within(question).getByRole("button", { name: "石头" }))
     expect(screen.getByText("石头不会生长，再找找看。")).toBeInTheDocument()
     fireEvent.click(within(question).getByRole("button", { name: "小草" }))
@@ -92,16 +92,62 @@ describe("first lesson reader", () => {
     expect(fallback).toHaveBeenCalledOnce()
   })
 
+  it("lets a reader reveal and close the paper answer without selecting or completing a task", () => {
+    const completed = vi.fn()
+    render(<PlantLesson title="我们知道的植物" onComplete={completed} onUseLegacy={vi.fn()} />)
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
+    const question = screen.getByRole("group", { name: /猜一猜：\s*哪个是植物？/ })
+    const flip = within(question).getByRole("button", { name: "翻开看答案" })
+    expect(flip).toHaveAttribute("aria-expanded", "false")
+    expect(within(question).queryByRole("status")).toBeNull()
+    expect(within(question).getAllByRole("button", { pressed: false })).toHaveLength(3)
+    fireEvent.click(flip)
+    const feedback = within(question).getByRole("status")
+    expect(feedback).toHaveTextContent("对，小草是植物，它会生长。")
+    expect(flip).toHaveAttribute("aria-controls", feedback.id)
+    expect(within(question).getByRole("button", { name: "合上答案卡" })).toHaveAttribute("aria-expanded", "true")
+    expect(within(question).getAllByRole("button", { pressed: false })).toHaveLength(3)
+    fireEvent.click(flip)
+    expect(within(question).queryByRole("status")).toBeNull()
+    expect(screen.getByTestId("plant-canvas")).toHaveAttribute("data-interaction", "0")
+    expect(completed).not.toHaveBeenCalled()
+    expect(screen.getByRole("button", { name: "开启声音" })).toHaveAttribute("aria-pressed", "false")
+  })
+
+  it("reveals feedback on a printed choice, updates it, and reopens the same choice after closing", () => {
+    render(<PlantLesson title="我们知道的植物" onUseLegacy={vi.fn()} />)
+    fireEvent.click(screen.getByRole("button", { name: "下一页" }))
+    const question = screen.getByRole("group", { name: /猜一猜：\s*哪个是植物？/ })
+    const stone = within(question).getByRole("button", { name: "石头" })
+    const grass = within(question).getByRole("button", { name: "小草" })
+    expect(stone).toHaveTextContent("B石头")
+    expect(grass).toHaveTextContent("A小草")
+    fireEvent.click(stone)
+    expect(stone).toHaveAttribute("aria-pressed", "true")
+    expect(within(question).getByRole("status")).toHaveTextContent("石头不会生长，再找找看。")
+    fireEvent.click(grass)
+    expect(stone).toHaveAttribute("aria-pressed", "false")
+    expect(within(question).getAllByRole("button", { pressed: true })).toEqual([grass])
+    expect(within(question).getByRole("status")).toHaveTextContent("对，小草是植物，它会生长。")
+    fireEvent.click(within(question).getByRole("button", { name: "合上答案卡" }))
+    expect(within(question).queryByRole("status")).toBeNull()
+    fireEvent.click(grass)
+    expect(within(question).getByRole("button", { name: "合上答案卡" })).toHaveAttribute("aria-expanded", "true")
+    expect(within(question).getByRole("status")).toHaveTextContent("对，小草是植物，它会生长。")
+  })
+
   it("labels all three parts on a single tree click, with no sequence or extra completion", () => {
     const completed = vi.fn()
     render(<PlantLesson title="我们知道的植物" onComplete={completed} onUseLegacy={vi.fn()} />)
     fireEvent.click(screen.getByRole("button", { name: "下一页" }))
     const selector = screen.getByRole("group", { name: "选择观察的植物" })
     fireEvent.click(within(selector).getByRole("button", { name: "大树" }))
+    expect(screen.getByTestId("plant-canvas")).toHaveAttribute("data-interaction", "1")
     expect(screen.getByText("大树上标出了树根、树干、树叶。再点大树可收起。")).toBeInTheDocument()
     expect(document.querySelectorAll("[data-tree-bubble]")).toHaveLength(3)
     expect(screen.queryByRole("button", { name: "树根" })).toBeNull()
     fireEvent.click(within(selector).getByRole("button", { name: "大树" }))
+    expect(screen.getByTestId("plant-canvas")).toHaveAttribute("data-interaction", "2")
     expect(screen.queryByText("大树上标出了树根、树干、树叶。再点大树可收起。")).toBeNull()
     expect(completed).not.toHaveBeenCalled()
   })
