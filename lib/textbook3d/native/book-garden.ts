@@ -5,9 +5,9 @@ import type { BookPose } from "./book-motion"
 import { PLANT_IDS, type PlantId } from "./plants"
 
 export const BOOK_PLANT_ANCHORS: Record<PlantId, [number, number, number]> = {
-  tree: [1.45, 0.16, -0.72], grass: [0.84, 0.16, 1.18], flower: [2.66, 0.16, 0.96],
+  tree: [1.65, 0.16, -0.62], grass: [0.88, 0.16, 1.12], flower: [2.73, 0.16, 0.92],
 }
-const sizes = { tree: 0.68, grass: 0.52, flower: 0.58 }
+const sizes = { tree: 0.78, grass: 0.62, flower: 0.67 }
 
 /** Shared by the actual WebGL scene and the explicitly labelled CPU geometry preview. */
 export function createBookGarden() {
@@ -28,20 +28,11 @@ export function createBookGarden() {
     root.add(hinge)
     return [id, hinge]
   })) as Record<PlantId, THREE.Group>
-  const markerShape = new THREE.RingGeometry(0.48, 0.50, 40)
-  const markerMaterial = new THREE.MeshBasicMaterial({ color: "#a56c39", side: THREE.DoubleSide })
-  const marker = new THREE.Mesh(markerShape, markerMaterial)
-  marker.name = "selected-plant-on-paper"
-  marker.rotation.x = -Math.PI / 2
-  root.add(marker)
   let selected: PlantId = "tree"
   let folded = false
   const setSelected = (id: PlantId) => {
     selected = id
     for (const plantId of PLANT_IDS) plants.models[plantId].scale.setScalar(sizes[plantId] * (plantId === id ? 1.06 : 1))
-    marker.position.fromArray(BOOK_PLANT_ANCHORS[id])
-    marker.position.y = 0.145
-    marker.scale.setScalar(id === "tree" ? 1.65 : 1.4)
   }
   setSelected(selected)
   let disposed = false
@@ -51,7 +42,6 @@ export function createBookGarden() {
     setPose(pose: BookPose) {
       book.setPose(pose)
       folded = pose.fold < 0.02
-      marker.visible = !pose.turning && !folded
       for (const id of PLANT_IDS) {
         const hinge = folds[id]
         hinge.visible = !folded
@@ -65,16 +55,14 @@ export function createBookGarden() {
       root.removeFromParent()
       book.dispose()
       plants.dispose()
-      markerShape.dispose()
-      markerMaterial.dispose()
     },
   }
 }
 
 export function lightBookScene(scene: THREE.Scene) {
-  scene.add(new THREE.HemisphereLight("#fff7e5", "#98a58d", 2.4))
-  const key = new THREE.DirectionalLight("#fff0d5", 3)
-  key.position.set(-3, 8, 4)
+  scene.add(new THREE.HemisphereLight("#fff8ec", "#788779", 1.35))
+  const key = new THREE.DirectionalLight("#fff1d7", 2.4)
+  key.position.set(-5, 9, 2)
   key.castShadow = true
   key.shadow.mapSize.set(512, 512)
   Object.assign(key.shadow.camera, { left: -5.5, right: 5.5, top: 5, bottom: -4, near: 0.5, far: 20 })
@@ -86,7 +74,7 @@ export function lightBookScene(scene: THREE.Scene) {
   fill.position.set(4, 3, -3)
   scene.add(fill)
   const groundShape = new THREE.PlaneGeometry(200, 200)
-  const groundMaterial = new THREE.MeshStandardMaterial({ color: "#e1dac8", roughness: 1 })
+  const groundMaterial = new THREE.MeshStandardMaterial({ color: "#e5ddca", roughness: 1 })
   const ground = new THREE.Mesh(groundShape, groundMaterial)
   ground.name = "reading-desk"
   ground.rotation.x = -Math.PI / 2
@@ -96,16 +84,47 @@ export function lightBookScene(scene: THREE.Scene) {
   return () => { key.shadow.dispose(); groundShape.dispose(); groundMaterial.dispose() }
 }
 
-export const bookTurnCameraScale = (angle: number) => 1 + Math.sin(angle) * 0.38
+export const bookTurnCameraScale = (angle: number) => 1 + Math.sin(angle) * 0.55
 
-export function fitBookCamera(camera: THREE.PerspectiveCamera) {
-  const center = new THREE.Vector3(0, 0.85, 0.05)
+export function fitBookCamera(camera: THREE.PerspectiveCamera, book?: THREE.Object3D) {
+  const center = new THREE.Vector3(0, 0.5, 0.12)
   const halfVertical = THREE.MathUtils.degToRad(camera.fov / 2)
   const halfHorizontal = Math.atan(Math.tan(halfVertical) * camera.aspect)
-  // A stable book-sized frame; changing the observed plant never replaces it
-  // with a model close-up. Reserve space for the turning leaf's high point.
-  const distance = Math.max(4.15 / Math.sin(halfHorizontal), 3.25 / Math.sin(halfVertical))
-  camera.position.set(1.2, 7.8, 8.8).normalize().multiplyScalar(distance).add(center)
+  const direction = new THREE.Vector3(0, Math.cos(0.51), Math.sin(0.51))
+  const up = new THREE.Vector3(0, direction.z, -direction.y)
+  // Fit the book and the raised plants, including their depth toward the lens.
+  // Using only the flat page dimensions cuts off the crown in a close view.
+  let distance = 0
+  const points: THREE.Vector3[] = []
+  if (book) {
+    book.updateMatrixWorld(true)
+    book.traverseVisible((object) => {
+      if (!(object instanceof THREE.Mesh)) return
+      object.geometry.computeBoundingBox()
+      const bounds = object.geometry.boundingBox!
+      const instance = new THREE.Matrix4()
+      for (let i = 0; i < (object instanceof THREE.InstancedMesh ? object.count : 1); i++) {
+        if (object instanceof THREE.InstancedMesh) object.getMatrixAt(i, instance)
+        for (const x of [bounds.min.x, bounds.max.x]) for (const y of [bounds.min.y, bounds.max.y]) for (const z of [bounds.min.z, bounds.max.z]) {
+          points.push(new THREE.Vector3(x, y, z).applyMatrix4(instance).applyMatrix4(object.matrixWorld))
+        }
+      }
+    })
+  } else for (const [min, max] of [
+    [[-3.8, -0.3, -2.4], [3.8, 0.2, 2.9]],
+    [[0.3, 0.15, -1.7], [3.05, 3.4, 0.7]],
+    [[0.05, 0.15, 0.2], [3.7, 1.9, 1.95]],
+  ]) {
+    for (const x of [min[0], max[0]]) for (const y of [min[1], max[1]]) for (const z of [min[2], max[2]]) {
+      points.push(new THREE.Vector3(x, y, z))
+    }
+  }
+  for (const point of points) {
+    const relative = point.clone().sub(center)
+    distance = Math.max(distance, relative.dot(direction) + Math.max(Math.abs(relative.x) / Math.tan(halfHorizontal), Math.abs(relative.dot(up)) / Math.tan(halfVertical)))
+  }
+  distance *= 1.055
+  camera.position.copy(direction).multiplyScalar(distance).add(center)
   camera.lookAt(center)
   camera.updateMatrixWorld()
   return { center, distance }

@@ -28,34 +28,49 @@ describe("physical book garden", () => {
     const garden = createBookGarden()
     const geometries = new Set<THREE.BufferGeometry>()
     const materials = new Set<THREE.Material>()
+    const textures = new Set<THREE.Texture>()
     let triangles = 0
     let meshes = 0
     garden.root.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return
       meshes++
       geometries.add(object.geometry)
-      ;(Array.isArray(object.material) ? object.material : [object.material]).forEach((item) => materials.add(item))
+      ;(Array.isArray(object.material) ? object.material : [object.material]).forEach((item) => {
+        materials.add(item)
+        if (item instanceof THREE.MeshStandardMaterial) {
+          if (item.map) textures.add(item.map)
+          if (item.bumpMap) textures.add(item.bumpMap)
+        }
+      })
       triangles += (object.geometry.index?.count ?? object.geometry.attributes.position.count) / 3 * (object instanceof THREE.InstancedMesh ? object.count : 1)
     })
     expect(triangles).toBeLessThan(45_000)
     expect(meshes).toBeLessThan(135)
-    const disposed = [...geometries, ...materials].map((item) => {
+    expect(textures.size).toBeGreaterThan(0)
+    expect(textures.size).toBeLessThanOrEqual(2)
+    for (const texture of textures) {
+      if (!(texture instanceof THREE.DataTexture)) throw new Error("Book textures must be small generated tiles")
+      expect(texture.image.width * texture.image.height).toBeLessThanOrEqual(64 * 64)
+    }
+    const disposed = [...geometries, ...materials, ...textures].map((item) => {
       const callback = vi.fn(); item.addEventListener("dispose", callback); return callback
     })
     garden.dispose(); garden.dispose()
     disposed.forEach((callback) => expect(callback).toHaveBeenCalledOnce())
-    console.info("Book source budget (not GPU passes):", { triangles, meshes, geometries: geometries.size, materials: materials.size })
+    console.info("Book source budget (not GPU passes):", { triangles, meshes, geometries: geometries.size, materials: materials.size, textures: textures.size })
   })
 
   it("keeps the rising paper inside the default portrait, landscape and desktop frame", () => {
     const garden = createBookGarden()
     const sheet = garden.root.getObjectByName("hinged-turning-leaf")!
     for (const [width, height] of [[390, 300], [844, 250], [1440, 500]]) {
+      garden.setPose({ page: 0, fold: 1, leafAngle: 0, turning: false })
+      const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100)
+      const fit = fitBookCamera(camera, garden.root)
+      const initialPosition = camera.position.clone()
       for (const angle of [Math.PI * 0.25, Math.PI * 0.5, Math.PI * 0.75]) {
         garden.setPose({ page: 1, fold: 0, leafAngle: angle, turning: true })
-        const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100)
-        const fit = fitBookCamera(camera)
-        camera.position.sub(fit.center).multiplyScalar(bookTurnCameraScale(angle)).add(fit.center)
+        camera.position.copy(initialPosition).sub(fit.center).multiplyScalar(bookTurnCameraScale(angle)).add(fit.center)
         camera.lookAt(fit.center)
         camera.updateMatrixWorld()
         const bounds = new THREE.Box3().setFromObject(sheet)
@@ -65,6 +80,30 @@ describe("physical book garden", () => {
           expect(Math.abs(projected.y)).toBeLessThan(1)
         }
       }
+    }
+    garden.dispose()
+  })
+
+  it("fits the raised plants as well as the flat book into the default view", () => {
+    const garden = createBookGarden()
+    garden.setPose({ page: 0, fold: 1, leafAngle: 0, turning: false })
+    for (const [width, height] of [[390, 310], [844, 280], [1200, 760]]) {
+      const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100)
+      fitBookCamera(camera, garden.root)
+      garden.root.updateMatrixWorld(true)
+      garden.root.traverseVisible((object) => {
+        if (!(object instanceof THREE.Mesh)) return
+        const positions = object.geometry.getAttribute("position")
+        const instance = new THREE.Matrix4()
+        for (let index = 0; index < (object instanceof THREE.InstancedMesh ? object.count : 1); index++) {
+          if (object instanceof THREE.InstancedMesh) object.getMatrixAt(index, instance)
+          for (let vertex = 0; vertex < positions.count; vertex++) {
+            const p = new THREE.Vector3().fromBufferAttribute(positions, vertex).applyMatrix4(instance).applyMatrix4(object.matrixWorld).project(camera)
+            expect(Math.abs(p.x)).toBeLessThan(1)
+            expect(Math.abs(p.y)).toBeLessThan(1)
+          }
+        }
+      })
     }
     garden.dispose()
   })

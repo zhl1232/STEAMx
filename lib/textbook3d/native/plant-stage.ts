@@ -2,6 +2,7 @@ import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 
 import { createDemandRenderer } from "./demand-renderer"
+import { projectReadingPage } from "./book-page-layout"
 import { bookTurnCameraScale, createBookGarden, fitBookCamera, lightBookScene } from "./book-garden"
 import { createBookMotion, type BookPage } from "./book-motion"
 import { plantPixelRatio, type PlantId } from "./plants"
@@ -29,7 +30,7 @@ export function createPlantStage(host: HTMLElement, options: {
     cleanup.push(() => { renderer.dispose(); renderer.forceContextLoss() })
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.ACESFilmicToneMapping
-    renderer.toneMappingExposure = 1.2
+    renderer.toneMappingExposure = 1.05
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFSoftShadowMap
     renderer.shadowMap.autoUpdate = false
@@ -59,7 +60,28 @@ export function createPlantStage(host: HTMLElement, options: {
     cleanup.push(lightBookScene(scene))
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")
     let turnView: THREE.Vector3 | null = null
-    const inscription = host.querySelector<HTMLElement>("[data-book-inscription]")
+    const spread = host.closest<HTMLElement>("[data-book-spread]")
+    const reading = spread?.querySelector<HTMLElement>("[data-book-reading]")
+    const plantControls = spread?.querySelector<HTMLElement>("[data-book-controls]")
+    const clearControlsPosition = () => {
+      for (const property of ["left", "top", "right", "bottom", "transform"]) plantControls?.style.removeProperty(property)
+    }
+    const restoreUprightReading = () => {
+      if (spread) spread.dataset.bookLayout = "compact"
+      if (reading) {
+        reading.style.removeProperty("transform")
+        reading.style.opacity = "1"
+        reading.inert = false
+      }
+      clearControlsPosition()
+    }
+    cleanup.push(() => {
+      if (spread) delete spread.dataset.bookLayout
+      reading?.style.removeProperty("transform")
+      reading?.style.removeProperty("opacity")
+      if (reading) reading.inert = false
+      clearControlsPosition()
+    })
     const motion = createBookMotion(options.page ?? 0, (pose) => {
       garden.setPose(pose)
       if (turnView) {
@@ -67,11 +89,15 @@ export function createPlantStage(host: HTMLElement, options: {
         camera.lookAt(controls.target)
         camera.updateMatrixWorld()
       }
-      if (inscription) inscription.style.opacity = pose.turning ? "0" : "1"
       renderer.shadowMap.needsUpdate = true
     }, (turning) => {
       controls.enabled = !turning
       if (!turning) turnView = null
+      if (reading) {
+        // Cover the whole transition, including the initial fold and final unfold.
+        reading.style.opacity = turning ? "0" : "1"
+        reading.inert = turning
+      }
       options.onTurningChange?.(turning)
     })
     motion.finish()
@@ -80,6 +106,7 @@ export function createPlantStage(host: HTMLElement, options: {
     let selected = options.plant
     let intersecting = true
     let contextLost = false
+    let renderFailed = false
     let width = 0
     let height = 0
     let fitDistance = 0
@@ -91,24 +118,26 @@ export function createPlantStage(host: HTMLElement, options: {
     const dragIntervals: number[] = []
     const boundedPush = (values: number[], value: number) => { values.push(value); if (values.length > 240) values.shift() }
     const scheduler = createDemandRenderer(() => {
-      if (disposed || contextLost) return
+      if (disposed || contextLost || renderFailed) return
       const started = performance.now()
       const animating = motion.update(started)
-      if (inscription) {
-        const point = new THREE.Vector3(-2.1, 0.14, -1.52).project(camera)
-        const left = new THREE.Vector3(-3.1, 0.14, -1.52).project(camera)
-        const right = new THREE.Vector3(-1.1, 0.14, -1.52).project(camera)
-        const labelWidth = Math.abs(right.x - left.x) * width / 2
-        inscription.style.left = `${(point.x + 1) * width / 2}px`
-        inscription.style.top = `${(1 - point.y) * height / 2}px`
-        inscription.style.width = `${labelWidth}px`
-        inscription.style.fontSize = `${Math.max(10, Math.min(19, labelWidth / 9))}px`
-        inscription.style.transform = `translate(-50%, -50%) rotate(${Math.atan2((left.y - right.y) * height, (right.x - left.x) * width)}rad)`
+      if (reading && spread?.dataset.bookLayout === "spread") {
+        reading.style.transform = projectReadingPage(camera, width, height).transform
+        if (plantControls) {
+          const anchor = new THREE.Vector3(1.86, 0.15, 1.82).project(camera)
+          plantControls.style.left = `${(anchor.x + 1) * width / 2}px`
+          plantControls.style.top = `${(1 - anchor.y) * height / 2}px`
+          plantControls.style.right = "auto"
+          plantControls.style.bottom = "auto"
+          plantControls.style.transform = "translate(-50%, -50%)"
+        }
       }
       try {
         renderer.render(scene, camera)
       } catch {
+        renderFailed = true
         motion.finish()
+        restoreUprightReading()
         options.onError()
         scheduler.setVisible(false)
         return
@@ -125,7 +154,7 @@ export function createPlantStage(host: HTMLElement, options: {
     })
     cleanup.push(() => scheduler.dispose())
     const updateVisibility = () => {
-      const visible = intersecting && !document.hidden && !contextLost && width > 0 && height > 0
+      const visible = intersecting && !document.hidden && !contextLost && !renderFailed && width > 0 && height > 0
       scheduler.setVisible(visible)
       if (!visible && motion.busy) { motion.finish(); scheduler.invalidate() }
     }
@@ -134,7 +163,7 @@ export function createPlantStage(host: HTMLElement, options: {
       // End the camera-owning turn before resetting; its next frame must not
       // restore the old turnView over the user's requested view.
       if (motion.busy) motion.finish()
-      const fit = fitBookCamera(camera)
+      const fit = fitBookCamera(camera, garden.root)
       fitDistance = fit.distance
       controls.target.copy(fit.center)
       controls.minDistance = fitDistance * 0.8
@@ -151,7 +180,7 @@ export function createPlantStage(host: HTMLElement, options: {
     }
     const setPage = (page: BookPage) => {
       if (disposed) return
-      const started = motion.turnTo(page, performance.now(), Boolean(reducedMotion?.matches) || !intersecting || document.hidden || !width || !height)
+      const started = motion.turnTo(page, performance.now(), Boolean(reducedMotion?.matches) || contextLost || renderFailed || !intersecting || document.hidden || !width || !height)
       if (started && motion.busy) turnView = camera.position.clone()
       scheduler.invalidate()
     }
@@ -169,6 +198,16 @@ export function createPlantStage(host: HTMLElement, options: {
       if (motion.busy) motion.finish() // A viewport/layout change settles on the requested page.
       width = nextWidth
       height = nextHeight
+      if (contextLost || renderFailed) {
+        restoreUprightReading()
+        updateVisibility()
+        return
+      }
+      if (spread) spread.dataset.bookLayout = width >= 760 && height >= 480 ? "spread" : "compact"
+      if (spread?.dataset.bookLayout !== "spread") {
+        reading?.style.removeProperty("transform")
+        clearControlsPosition()
+      }
       updateVisibility()
       if (!width || !height) return
       renderer.setPixelRatio(plantPixelRatio(width, height, window.devicePixelRatio))
@@ -237,7 +276,7 @@ export function createPlantStage(host: HTMLElement, options: {
       canvas.removeEventListener("pointerup", onPointerUp)
       canvas.removeEventListener("pointercancel", onPointerCancel)
     })
-    const onLost = (event: Event) => { event.preventDefault(); contextLost = true; updateVisibility(); options.onError() }
+    const onLost = (event: Event) => { event.preventDefault(); contextLost = true; updateVisibility(); restoreUprightReading(); options.onError() }
     canvas.addEventListener("keydown", onKey)
     canvas.addEventListener("webglcontextlost", onLost)
     document.addEventListener("visibilitychange", updateVisibility)
@@ -252,7 +291,7 @@ export function createPlantStage(host: HTMLElement, options: {
     const percentile = (values: number[], p: number) => values.length ? [...values].sort((a, b) => a - b)[Math.floor((values.length - 1) * p)] : null
     const diagnostics = () => ({
       disposed, selected, page: motion.page, turning: motion.busy, renders, firstRenderMs, pendingFrame: scheduler.pending,
-      visible: intersecting && !document.hidden && !contextLost && width > 0 && height > 0,
+      visible: intersecting && !document.hidden && !contextLost && !renderFailed && width > 0 && height > 0,
       drawCalls: renderer.info.render.calls, triangles: renderer.info.render.triangles,
       geometries: renderer.info.memory.geometries, textures: renderer.info.memory.textures,
       dpr: renderer.getPixelRatio(), pixels: canvas.width * canvas.height,

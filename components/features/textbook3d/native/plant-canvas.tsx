@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { RotateCcw } from "lucide-react"
 
 import type { PlantId } from "@/lib/textbook3d/native/plants"
@@ -20,7 +20,8 @@ export function PlantCanvas({ plant, page = 0, onSelect, onTurningChange }: {
   const currentPage = useRef(page)
   const callbacks = useRef({ onSelect, onTurningChange })
   useEffect(() => { callbacks.current = { onSelect, onTurningChange } }, [onSelect, onTurningChange])
-  useEffect(() => { currentPage.current = page; stage.current?.setPage(page) }, [page])
+  // Start the turn/conceal text before the newly requested page can paint.
+  useLayoutEffect(() => { currentPage.current = page; stage.current?.setPage(page) }, [page])
   const [attempt, setAttempt] = useState(0)
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading")
 
@@ -84,12 +85,7 @@ export function PlantCanvas({ plant, page = 0, onSelect, onTurningChange }: {
 
   return (
     <div className={styles.stage} data-render-state={status}>
-      <div ref={host} className={styles.canvasHost}>
-        <div data-book-inscription className={styles.inscription} aria-hidden="true">
-          <strong>{page === 0 ? "我们知道的植物" : "带着发现去找一找"}</strong>
-          <span>{page === 0 ? "看见 · 观察 · 比较" : "校园里 · 公园里"}</span>
-        </div>
-      </div>
+      <div ref={host} className={styles.canvasHost} />
       {status === "ready" && <button type="button" className={styles.reset} onClick={() => stage.current?.resetView()}>
         <RotateCcw size={16} aria-hidden />恢复视角
       </button>}

@@ -1,17 +1,51 @@
-import { useEffect } from "react"
+import { useEffect, useLayoutEffect, useRef } from "react"
 import { act, fireEvent, render, screen, within } from "@testing-library/react"
-import { describe, expect, it, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import PlantLesson from "./plant-lesson"
 
 const canvasMount = vi.hoisted(() => vi.fn())
-const canvasBoundary = vi.hoisted(() => ({ turn: undefined as ((busy: boolean) => void) | undefined }))
-vi.mock("./plant-canvas", () => ({ PlantCanvas: ({ plant, onTurningChange }: { plant: string; onTurningChange?: (busy: boolean) => void }) => {
+const canvasBoundary = vi.hoisted(() => ({ turn: undefined as ((busy: boolean) => void) | undefined, animate: false }))
+vi.mock("./plant-canvas", () => ({ PlantCanvas: ({ plant, page, onTurningChange }: { plant: string; page: number; onTurningChange?: (busy: boolean) => void }) => {
+  const previousPage = useRef(page)
+  useLayoutEffect(() => {
+    if (canvasBoundary.animate && previousPage.current !== page) onTurningChange?.(true)
+    previousPage.current = page
+  }, [page, onTurningChange])
   useEffect(() => { canvasBoundary.turn = onTurningChange }, [onTurningChange])
   useEffect(() => { canvasMount() }, [])
   return <div data-testid="plant-canvas">{plant}</div>
 } }))
 
 describe("first lesson reader", () => {
+  beforeEach(() => { canvasBoundary.animate = false })
+
+  it("resets the actual reading scroll position in both page directions", () => {
+    render(<PlantLesson title="我们知道的植物" onUseLegacy={vi.fn()} />)
+    const reading = screen.getByRole("region", { name: "课文与探索任务" })
+    const body = reading.closest<HTMLElement>("[data-book-spread]")!
+    for (const button of ["下一页", "上一页", "下一页"]) {
+      reading.scrollTop = 480
+      body.scrollTop = 220
+      fireEvent.click(screen.getByRole("button", { name: button }))
+      expect(reading.scrollTop).toBe(0)
+      expect(body.scrollTop).toBe(0)
+      expect(document.activeElement).toBe(within(reading).getByRole("heading", { level: 2 }))
+    }
+  })
+
+  it("waits until the reading surface is available before moving focus to its new heading", () => {
+    canvasBoundary.animate = true
+    render(<PlantLesson title="我们知道的植物" onUseLegacy={vi.fn()} />)
+    const next = screen.getByRole("button", { name: "下一页" })
+    next.focus()
+    fireEvent.click(next)
+    const heading = screen.getByRole("heading", { name: "带着发现去找一找" })
+    expect(document.activeElement).not.toBe(heading)
+    expect(screen.getByRole("region", { name: "课文与探索任务" })).toHaveAttribute("aria-busy", "true")
+    act(() => canvasBoundary.turn?.(false))
+    expect(document.activeElement).toBe(heading)
+    expect(screen.getByRole("region", { name: "课文与探索任务" })).toHaveAttribute("aria-busy", "false")
+  })
   it("uses two pages and keeps one canvas mounted while changing page and plant", () => {
     canvasMount.mockClear()
     render(<PlantLesson title="我们知道的植物" onUseLegacy={vi.fn()} />)

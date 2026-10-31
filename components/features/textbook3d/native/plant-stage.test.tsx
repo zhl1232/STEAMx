@@ -1,6 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { PerspectiveCamera, Vector3, type Scene } from "three"
+import { useLayoutEffect, useRef } from "react"
+import { act, render, waitFor } from "@testing-library/react"
 import { createPlantStage } from "@/lib/textbook3d/native/plant-stage"
+import { PlantCanvas } from "./plant-canvas"
 
 const boundary = vi.hoisted(() => ({ render: vi.fn(), dispose: vi.fn(), loseContext: vi.fn() }))
 vi.mock("three", async (importOriginal) => {
@@ -99,6 +102,126 @@ describe("plant renderer lifecycle (WebGL boundary mocked)", () => {
     expect(boundary.render).not.toHaveBeenCalled()
     expect(callbacks.size).toBe(0)
     stage.dispose()
+  })
+
+  it("keeps one readable DOM page aligned, settles its hidden state on rotation, and restores fallback", () => {
+    const spread = document.createElement("div")
+    spread.dataset.bookSpread = ""
+    host.replaceWith(spread)
+    spread.appendChild(host)
+    const reading = document.createElement("section")
+    reading.dataset.bookReading = ""
+    reading.innerHTML = '<button>课文中的问题</button>'
+    const controls = document.createElement("div")
+    controls.dataset.bookControls = ""
+    spread.append(reading, controls)
+    rect = new DOMRect(0, 0, 1200, 760)
+    const stage = createPlantStage(host, { plant: "tree", startedAt: 0, onReady: vi.fn(), onError: vi.fn() })
+    flush()
+    expect(spread.dataset.bookLayout).toBe("spread")
+    expect(reading.style.transform).toContain("matrix3d(")
+    expect(controls.style.transform).toBe("translate(-50%, -50%)")
+    stage.setPage(1); time = 400; flush()
+    expect(reading.style.opacity).toBe("0")
+    expect(reading.inert).toBe(true)
+    rect = new DOMRect(0, 0, 390, 310); resize(); flush()
+    expect(spread.dataset.bookLayout).toBe("compact")
+    expect(reading.style.transform).toBe("")
+    expect(reading.style.opacity).toBe("1")
+    expect(reading.inert).toBe(false)
+    expect(controls.style.transform).toBe("")
+    rect = new DOMRect(0, 0, 1200, 760); resize(); flush()
+    host.querySelector("canvas")!.dispatchEvent(new Event("webglcontextlost", { cancelable: true }))
+    expect(spread.dataset.bookLayout).toBe("compact")
+    expect(reading.style.transform).toBe("")
+    stage.dispose()
+    expect(spread.dataset.bookLayout).toBeUndefined()
+    expect(callbacks.size).toBe(0)
+    spread.remove()
+  })
+
+  it.each(["context lost", "render exception"])("preserves upright reading after %s through resize and page changes", (failure) => {
+    host.dataset.bookSpread = ""
+    const reading = document.createElement("section")
+    reading.dataset.bookReading = ""
+    host.appendChild(reading)
+    rect = new DOMRect(0, 0, 1200, 760)
+    const onError = vi.fn()
+    const stage = createPlantStage(host, { plant: "tree", startedAt: 0, onReady: vi.fn(), onError })
+    flush()
+    expect(host.dataset.bookLayout).toBe("spread")
+    if (failure === "context lost") host.querySelector("canvas")!.dispatchEvent(new Event("webglcontextlost", { cancelable: true }))
+    else {
+      boundary.render.mockImplementationOnce(() => { throw new Error("GPU render failed") })
+      stage.setPlant("grass"); flush()
+    }
+    expect(onError).toHaveBeenCalledOnce()
+    const renders = boundary.render.mock.calls.length
+    for (const [width, height] of [[1440, 800], [390, 310], [1200, 760]]) {
+      rect = new DOMRect(0, 0, width, height)
+      resize()
+      stage.setVisible(false); stage.setVisible(true)
+      stage.setPage(stage.diagnostics().page ? 0 : 1)
+      flush()
+      expect(host.dataset.bookLayout).toBe("compact")
+      expect(reading.style.transform).toBe("")
+      expect(reading.style.opacity).toBe("1")
+      expect(reading.inert).toBe(false)
+      expect(stage.diagnostics()).toMatchObject({ visible: false, turning: false, pendingFrame: false })
+    }
+    expect(boundary.render).toHaveBeenCalledTimes(renders)
+    stage.dispose()
+  })
+
+  it("conceals text for the complete turn and keeps reduced-motion reading immediately available", () => {
+    host.dataset.bookSpread = ""
+    const reading = document.createElement("section")
+    reading.dataset.bookReading = ""
+    host.appendChild(reading)
+    const stage = createPlantStage(host, { plant: "tree", startedAt: 0, onReady: vi.fn(), onError: vi.fn() })
+    flush()
+    stage.setPage(1)
+    expect(reading.style.opacity).toBe("0") // Before the first animation frame.
+    expect(reading.inert).toBe(true)
+    for (time of [0, 80, 400, 780]) {
+      flush()
+      expect(reading.style.opacity).toBe("0")
+      expect(reading.inert).toBe(true)
+    }
+    time = 830; flush()
+    expect(reading.style.opacity).toBe("1")
+    expect(reading.inert).toBe(false)
+    Object.assign(motionPreference, { matches: true })
+    stage.setPage(0)
+    expect(stage.diagnostics().turning).toBe(false)
+    expect(reading.style.opacity).toBe("1")
+    expect(reading.inert).toBe(false)
+    stage.dispose()
+  })
+
+  it("starts concealment in the React layout phase before the target page can paint", async () => {
+    vi.stubGlobal("IntersectionObserver", undefined)
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(() => rect)
+    rect = new DOMRect(0, 0, 1200, 760)
+    const beforePaint: string[] = []
+    function Harness({ page }: { page: 0 | 1 }) {
+      const reading = useRef<HTMLElement>(null)
+      useLayoutEffect(() => { if (page === 1) beforePaint.push(reading.current!.style.opacity) }, [page])
+      return <div data-book-spread>
+        <PlantCanvas plant="tree" page={page} />
+        <section ref={reading} data-book-reading>课文第 {page + 1} 页</section>
+      </div>
+    }
+    const view = render(<Harness page={0} />)
+    await waitFor(() => expect(view.container.querySelector("canvas")).not.toBeNull())
+    act(() => flush())
+    view.rerender(<Harness page={1} />)
+    expect(beforePaint).toEqual(["0"])
+    expect(view.container.querySelector<HTMLElement>("[data-book-reading]")!.inert).toBe(true)
+    act(() => { time = 830; flush() })
+    expect(view.container.querySelector<HTMLElement>("[data-book-reading]")!.style.opacity).toBe("1")
+    view.unmount()
+    expect(callbacks.size).toBe(0)
   })
 
   it("finishes one page turn, ignores competing turns, and returns to zero idle RAFs", () => {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { ArrowLeft, ArrowRight, Check, Flower2, Maximize2, Minimize2, Sprout, TreeDeciduous } from "lucide-react"
 
 import { PLANTS, type PlantId } from "@/lib/textbook3d/native/plants"
@@ -30,17 +30,27 @@ export default function PlantLesson({ title, onComplete, onUseLegacy }: {
   const completionSent = useRef(false)
   const heading = useRef<HTMLHeadingElement>(null)
   const body = useRef<HTMLDivElement>(null)
+  const reading = useRef<HTMLElement>(null)
+  const focusAfterTurn = useRef(false)
   const plant = PLANTS.find((item) => item.id === selected)!
   const onTurningChange = useCallback((value: boolean) => {
     turningNow.current = value
     setTurning(value)
   }, [])
+  useEffect(() => {
+    // Focus after React clears aria-busy; loading/fallback has no turn to await.
+    if (focusAfterTurn.current && !turningNow.current) {
+      focusAfterTurn.current = false
+      heading.current?.focus({ preventScroll: true })
+    }
+  }, [page, turning])
 
   function turnPage(next: BookPage) {
     if (turningNow.current || page === next) return
+    focusAfterTurn.current = true
+    if (reading.current) reading.current.scrollTop = 0
+    if (body.current) body.current.scrollTop = 0
     setPage(next)
-    body.current?.scrollTo?.({ top: 0, behavior: "instant" })
-    heading.current?.focus({ preventScroll: true })
   }
   const selectPlant = useCallback((id: PlantId) => {
     if (turningNow.current) return
@@ -62,12 +72,11 @@ export default function PlantLesson({ title, onComplete, onUseLegacy }: {
           {immersive ? <Minimize2 size={18} aria-hidden /> : <Maximize2 size={18} aria-hidden />}{immersive ? "退出全屏" : "全屏阅读"}
         </button>
       </div>
-      <div ref={body} className={styles.body}>
+      <div ref={body} className={styles.body} data-book-spread>
         <section className={styles.sceneColumn} aria-label="观察植物立体书">
-          <div className={styles.bookHeading} aria-hidden="true"><span>周围的植物</span><span>观察手记 · 0{page + 1}</span></div>
           <PlantCanvas plant={selected} page={page} onSelect={selectPlant} onTurningChange={onTurningChange} />
           <p className={styles.gesture}>点选书上的植物 · 拖动转动书本 · 双指放大</p>
-          <div className={styles.plantSelector} role="group" aria-label="选择观察的植物">
+          <div className={styles.plantSelector} data-book-controls role="group" aria-label="选择观察的植物">
             {PLANTS.map((item) => {
               const Icon = plantIcons[item.id]
               return <button key={item.id} type="button" disabled={turning} aria-pressed={selected === item.id} onClick={() => selectPlant(item.id)}>
@@ -76,10 +85,10 @@ export default function PlantLesson({ title, onComplete, onUseLegacy }: {
             })}
           </div>
         </section>
-        <section className={styles.reading} aria-label="课文与探索任务" aria-busy={turning}>
+        <section ref={reading} className={styles.reading} data-book-reading aria-label="课文与探索任务" aria-busy={turning}>
           <div className={styles.readingIntro}>
             <p className={styles.kicker}>{page === 0 ? "看一看 · 认识身边的植物" : "做一做 · 把发现带到生活里"}</p>
-            <h2 ref={heading} tabIndex={-1}>{page === 0 ? "植物就在我们身边" : "带着发现，去找一找"}</h2>
+            <h2 ref={heading} tabIndex={-1}>{page === 0 ? "我们知道的植物" : "带着发现去找一找"}</h2>
             <p className={styles.lead}>{page === 0 ? <>大树、小草、花，都是植物。<br />它们都是活的，会生长。</> : "看过立体书，再看看身边真实的植物。"}</p>
             <div className={styles.observation} aria-live="polite">
               <h3>{plant.name}<span>{plant.feature}</span></h3>
@@ -89,8 +98,7 @@ export default function PlantLesson({ title, onComplete, onUseLegacy }: {
           </div>
           <div className={styles.readingTask}>
             {page === 0 ? <>
-              <p>选一种植物，看看它的样子。<br />转到另一面，还能发现什么？</p>
-              <fieldset className={styles.question}>
+                <fieldset className={styles.question}>
                 <legend>猜一猜：哪个是植物？</legend>
                 <div className={styles.answers}>
                   {answers.map((item, index) => <button key={item} type="button" aria-pressed={answer === index} onClick={() => setAnswer(index)}>{item}</button>)}
